@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.BlacklistUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
+             mc:Ignorable="d" 
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Background="{DynamicResource AccentBaseColorBrush}" >
+                    <Label   VerticalAlignment="Center" Content="{DynamicResource langBlacklistedUsers}" Foreground="White" FontSize="30" FontWeight="Bold"></Label>
+                </Grid>
+                <ListBox x:Name="LinkslistBox" Grid.Row="1" Background="White"/>
+                <Button Name="DeletedSelected" Content="{DynamicResource langRemoveSelectedFromBlacklist}" Foreground="White" Background="#003569"   Height="30"  Grid.Row="3" VerticalAlignment="Center"  >
+                </Button>
+                <CheckBox Name="SelectAll" Grid.Column="0" Height="25" Width="80" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{DynamicResource langSelectAll}"/>
+            </Grid>
+        </Border>
+
+        <Border  BorderBrush="Black" BorderThickness="1" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="178*"/>
+                    <RowDefinition Height="91*"/>
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0" Controls:TextBoxHelper.Watermark="{DynamicResource langUsernameBlacklistTag}"  
+                     TextWrapping="Wrap" AcceptsReturn="True"
+                     ToolTip="{DynamicResource langUsernameBlacklistToolTip}"  Name="txt_username"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="350" Height="230" Background="White" BorderBrush="Black" BorderThickness="2"/>
+                <Button Name="btuAddtoBlacklist" x:FieldModifier="public" Content="{DynamicResource langAddUsersToBlacklist}" Grid.Row="1" VerticalAlignment="Top" Height="30" HorizontalAlignment="Center" Margin="78,5,79,0"  Background="Red" Foreground="White"/>
+                <Button Name="btuRefresh" x:FieldModifier="public" Content="{DynamicResource langRefreshBlacklistedUsersList}" Grid.Row="1" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Margin="78,5,79,0" Width="240" Height="30"   Background="#003569" Foreground="White" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

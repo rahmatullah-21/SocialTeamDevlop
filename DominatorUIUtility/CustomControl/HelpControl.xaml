@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.HelpControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
+             mc:Ignorable="d"  xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" >
+
+    <Grid  Name="MainGrid">
+        
+        <!--Split the Rows-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  Module Description  -->
+        <Grid Grid.Row="0" Background="WhiteSmoke">
+            <TextBlock Grid.Row="0" Name="sliderDescription"
+                                   FontSize="14" Padding="10,10,10,0"
+                                   FontWeight="Light"
+                                   FontFamily="Courier New"
+                                   TextAlignment="Left" Foreground="Black"
+                                   TextWrapping="Wrap" HorizontalAlignment="Left" Text="{Binding ModuleDescription}"/>
+        </Grid>
+
+        <!--  Watch Video Tutorials  -->
+        <Grid Grid.Row="1" Background="#3897F0" >
+
+            <TextBlock Cursor="Help"  FontSize="16"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" >
+                           <Hyperlink  Name="WatchVideolink" Foreground="White" NavigateUri="{Binding VideoTutorial}" RequestNavigate="Hyperlink_RequestNavigate" >                           
+                               <TextBlock Text="{DynamicResource langWatchVideo}" />
+                           </Hyperlink>
+                 </TextBlock>
+
+        </Grid>
+
+        <!--  Contact Support  -->
+        <Grid Grid.Row="2">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.5*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
+                <TextBlock Cursor="Help"  FontSize="16"  HorizontalAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap"  >
+                           <Hyperlink Foreground="White"  Name="TakeHelpFromKnowledgebaseLink" RequestNavigate="Hyperlink_RequestNavigate"
+                                      NavigateUri="{Binding KnowledgeBaseLink}" >
+                             <TextBlock Text="{DynamicResource langTakeHelpFromKnowledgebase}" />  
+                           </Hyperlink>
+                </TextBlock>
+            </Grid>
+            
+            <Grid Grid.Row="1" Background="#717171">
+                <TextBlock Cursor="Help"  FontSize="16"  HorizontalAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" >
+                           <Hyperlink Foreground="White"  Name="HelpLink" NavigateUri="{Binding ContactSupportLink}" RequestNavigate="Hyperlink_RequestNavigate">
+                               <TextBlock Text="{DynamicResource langContactSupport}" />  
+                           </Hyperlink>
+                </TextBlock>
+            </Grid>
+            
+        </Grid>
+        
+    </Grid>
+
+</UserControl>

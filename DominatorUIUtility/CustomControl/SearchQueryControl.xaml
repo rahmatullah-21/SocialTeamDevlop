@@ -1,0 +1,118 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.SearchQueryControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             mc:Ignorable="d" >
+
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    
+    <Grid Name="MainGrid">
+
+        <Expander  FontWeight="Bold" BorderThickness="2" Header="{DynamicResource langSearchQuery}" Foreground="White" IsExpanded="True" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="51*"/>
+                    <RowDefinition Height="82*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Column="0">
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal"    Margin="0,10">
+                            <Label   VerticalAlignment="Top"  Content="{DynamicResource langQueryType}" HorizontalAlignment="Right" Height="25"/>
+                            <ComboBox x:Name="CmbboxQueryTypeLists" ItemsSource="{ Binding ListQueryType}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25" SelectedIndex="0" DropDownClosed="CmbboxQueryTypeLists_OnDropDownClosed" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="30,10,0,0">
+                            <Label VerticalAlignment="Top" Content="{DynamicResource langQuery}" Height="25"/>
+                            <TextBox x:Name="TxtInputQuery" Width="200" TextWrapping="Wrap"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top"  Height="25" />
+                            <StackPanel Orientation="Horizontal">
+                                <Button Name="BtnImportQuery"  Foreground="White"  Background="{DynamicResource AccentBaseColorBrush}"  Height="25" Width="40" VerticalAlignment="Top" Margin="10,0" ToolTip="Import From csv/txt file" Click="BtnImportQuery_OnClick" >
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_page_upload}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </StackPanel>
+                                </Button>
+
+                            </StackPanel>
+
+                            <CheckBox  Content="{DynamicResource langCustomFilters}"  VerticalAlignment="Top"  Name="chkCustomFilters" Height="25" IsChecked="{Binding CurrentQuery.IsCustomFilterSelected}"/>
+
+                            <Button Name="BtnFilter" Click="btnFilter_Click" Margin="10,0,0,0"  VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" Height="25" Width="90" 
+                                    Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Visibility="{Binding CurrentQuery.IsCustomFilterSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Content="{DynamicResource langFilter}"/>
+
+                            <Button Name="BtnAddToList" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25"  VerticalAlignment="Top" Margin="10,0,0,0" ToolTip="Add Queries To The List"                                    
+                                Command="{Binding AddQueryCommand}" CommandParameter="{Binding}">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add_multiple}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1" >
+                    <GroupBox  FontWeight="Bold" BorderThickness="1" Header="{DynamicResource langQueriesList}" Foreground="white">
+
+                        <DataGrid Name="DataGridQueriesList" Width="auto"   Background="White" AutoGenerateColumns="False" SelectionMode="Single" CanUserAddRows="false"
+                                                    IsReadOnly="True"  CanUserDeleteRows="False" SelectionUnit="FullRow"  MaxHeight="150" MinHeight="150" MinWidth="400" MaxWidth="800" ItemsSource="{Binding ListQueryInfo}" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Width="*" FontSize="12" Binding ="{Binding QueryTypeDisplayName}">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="{DynamicResource langType}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Width="*"  FontSize="12"  Binding="{Binding QueryValue}" >
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="{DynamicResource langQuery}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Width="*"  FontSize="12"   Binding="{Binding IsCustomFilterSelected}">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="{DynamicResource langCustomFilters}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource langAction}"></TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Rectangle Width="15" Height="20" Fill="Black" Name="DeleteSingle" MouseDown="DeleteSingle_MouseDown" >
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                </Rectangle.OpacityMask>
+                                                <Rectangle.ContextMenu>
+                                                    <ContextMenu x:Name="btn_Delete_Context">
+                                                        <MenuItem Header="{DynamicResource langDelete}"  Name="menu_DeleteSingle" >
+                                                            <MenuItem.Icon>
+                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                            </MenuItem.Icon>
+                                                        </MenuItem>
+                                                    </ContextMenu>
+                                                </Rectangle.ContextMenu>
+                                            </Rectangle>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </GroupBox>
+                </Grid>
+            </Grid>
+        </Expander>
+    </Grid>
+</UserControl>

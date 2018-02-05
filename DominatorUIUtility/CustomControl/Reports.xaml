@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.Reports"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
+             mc:Ignorable="d" x:Name="ReportsControl" 
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore">
+
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:ListCountVisiblityConverter x:Key="ListCountVisiblityConverter"/>
+    </UserControl.Resources>
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <CheckBox Content="{DynamicResource langFilter}" x:Name="ChkFilter"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
+            <Button HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Background="{DynamicResource AccentColorBrush3}" Margin="10" x:Name="ExportReport" x:FieldModifier="public">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_out}"></VisualBrush>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <TextBlock Text="{DynamicResource langExport}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </Grid>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center"  Visibility="{Binding IsChecked, ElementName=ChkFilter,Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ComboBox VerticalAlignment="Center" x:Name="CmbAccounts" x:FieldModifier="public" Width="130" Margin="10 0 0 5" ItemsSource="{Binding ReportModel.AccountList}" Visibility="{Binding ReportModel.AccountList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource langSelectAccount}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding Content}" Name="AccountCheckBox" IsChecked="{Binding IsContentSelected}"  />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox VerticalAlignment="Center"  x:Name="CmbQueries" x:FieldModifier="public" Width="130" Margin="8 0 0 5" ItemsSource="{Binding ReportModel.QueryList}" Visibility="{Binding ReportModel.QueryList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource langSelectQuery}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding Content}" Name="QueryCheckBox" IsChecked="{Binding IsContentSelected}"  />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <DatePicker VerticalAlignment="Center" Width="130" Margin="8 0 0 5"  controls:TextBoxHelper.Watermark="{DynamicResource langStartDate}"/>
+            <DatePicker VerticalAlignment="Center" Width="130" Margin="8 0 0 5"  controls:TextBoxHelper.Watermark="{DynamicResource langEndDate}"/>
+            <ComboBox VerticalAlignment="Center" x:Name="CmbStatus" x:FieldModifier="public" Width="130" Margin="8 0 10 5" ItemsSource="{Binding ReportModel.StatusList}" Visibility="{Binding ReportModel.StatusList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource langStatus}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding Content}" Name="StatusCheckBox" IsChecked="{Binding IsContentSelected}"  />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+
+        <ListView ItemsSource="{Binding ReportModel.ReportCollection}" Margin="10" Name="ReportsListView" Grid.Row="2">
+            <ListView.View>
+                <GridView utility:GridViewColumns.ColumnHeader="ColumnHeaderText"
+                          utility:GridViewColumns.ColumnBinding="ColumnBindingText" 
+                          utility:GridViewColumns.ColumnValues="{Binding ReportModel.GridViewColumn}"/>
+            </ListView.View>
+        </ListView>
+
+    </Grid>
+    
+</UserControl>

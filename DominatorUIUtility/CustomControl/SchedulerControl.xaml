@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.SchedulerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
+             mc:Ignorable="d"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+          <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                    <Controls:TimePicker VerticalAlignment="Center" Name="StartTimePicker"  IsClockVisible="False"  x:FieldModifier="public" Controls:TextBoxHelper.Watermark="Select start time" HandVisibility="All" PickerVisibility="HourMinute" />
+                    <Label  Content="{DynamicResource langAnd}" VerticalAlignment="Center"/>
+                    <Controls:TimePicker VerticalAlignment="Center" Name="EndTimePicker" IsClockVisible="False"  x:FieldModifier="public" Controls:TextBoxHelper.Watermark="Select end time" HandVisibility="All"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <Button  Content="{DynamicResource langAddInterval}" Height="25" FontSize="12" Name="btnAddInterval" x:FieldModifier="public" Margin="10,0,0,0" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Name="TextBlockWarning"  VerticalAlignment="Top" Text="*The mentioned time already has campaign" Foreground="Red" HorizontalAlignment="Center" FontSize="12"></TextBlock>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+
+</UserControl>
