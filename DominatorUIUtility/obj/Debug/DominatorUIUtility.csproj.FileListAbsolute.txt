@@ -25,7 +25,7 @@ D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\bin\Debug\System.Valu
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\bin\Debug\log4net.xml
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\bin\Debug\System.Data.SQLite.xml
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\DominatorUIUtility.csprojResolveAssemblyReference.cache
-D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\Resources\Icons.baml
+D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\Resources\Languages\GDLanguages\English.baml
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\Resources\IconsNonShared.baml
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\Styles\BaseStyles.baml
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\Themes\PrussianBlue.baml
@@ -70,9 +70,9 @@ D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\CustomContr
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\MainWindow.baml
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\DominatorUIUtility.g.resources
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\DominatorUIUtility.Properties.Resources.resources
+D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\DominatorUIUtility.Resources.Languages.GDLanguages.Language.en.resources
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\DominatorUIUtility.csproj.GenerateResource.Cache
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\en\DominatorUIUtility.resources.dll
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\DominatorUIUtility.exe
 D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\DominatorUIUtility.pdb
-D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\Resources\Languages\GDLanguages\English.baml
-D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\DominatorUIUtility.Resources.Languages.GDLanguages.Language.en.resources
+D:\DominatorHouse\dominatorhouse-social\DominatorUIUtility\obj\Debug\Resources\Icons.baml

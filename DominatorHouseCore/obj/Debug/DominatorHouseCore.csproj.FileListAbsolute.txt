@@ -1,6 +1,3 @@
-D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\obj\Debug\DominatorHouseCore.csprojResolveAssemblyReference.cache
-D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\obj\Debug\DominatorHouseCore.Resources.resources
-D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\obj\Debug\DominatorHouseCore.csproj.GenerateResource.Cache
 D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\bin\Debug\DominatorHouseCore.dll.config
 D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\bin\Debug\DominatorHouseCore.dll
 D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\bin\Debug\DominatorHouseCore.pdb
@@ -27,5 +24,8 @@ D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\bin\Debug\Newtonsoft.
 D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\bin\Debug\protobuf-net.xml
 D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\bin\Debug\System.Data.SQLite.xml
 D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\bin\Debug\System.ValueTuple.xml
+D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\obj\Debug\DominatorHouseCore.csprojResolveAssemblyReference.cache
+D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\obj\Debug\DominatorHouseCore.Resources.resources
+D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\obj\Debug\DominatorHouseCore.csproj.GenerateResource.Cache
 D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\obj\Debug\DominatorHouseCore.dll
 D:\DominatorHouse\dominatorhouse-social\DominatorHouseCore\obj\Debug\DominatorHouseCore.pdb
