@@ -33,6 +33,7 @@
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" >
                 <ComboBoxItem>Instagram</ComboBoxItem>
                 <ComboBoxItem>Twitter</ComboBoxItem>
+                <ComboBoxItem>PinInterest</ComboBoxItem> 
             </ComboBox>
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbLanguage" >
                 <ComboBoxItem>English</ComboBoxItem>
