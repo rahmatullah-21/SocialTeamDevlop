@@ -72,7 +72,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\gramdominator-library\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -156,6 +156,7 @@
     <Compile Include="Settings\RunningTimeSpanModel.cs" />
     <Compile Include="Utility\ActivityDeserialize.cs" />
     <Compile Include="Utility\Constants.cs" />
+    <Compile Include="Utility\ConstantVariable.cs" />
     <Compile Include="Utility\DataBaseHandler.cs" />
     <Compile Include="Utility\DateTimeHelper.cs" />
     <Compile Include="Utility\GridViewColumns.cs" />
@@ -168,7 +169,6 @@
     <Compile Include="Utility\GenderGuesser.cs" />
     <Compile Include="Utility\BaseEnum.cs" />
     <Compile Include="Utility\BindableBase.cs" />
-    <Compile Include="Utility\ConstantVariable.cs" />
     <Compile Include="Utility\DateTimeUtilities.cs" />
     <Compile Include="Utility\DeviceGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

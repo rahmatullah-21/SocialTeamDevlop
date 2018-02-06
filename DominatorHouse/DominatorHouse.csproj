@@ -65,18 +65,18 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
-      <HintPath>..\..\gramdominator-library\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\gramdominator-library\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Management" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\gramdominator-library\packages\MahApps.Metro.1.5.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -153,14 +153,6 @@
     <ProjectReference Include="..\..\gramdominator-library\GramDominatorUI\GramDominatorUI.csproj">
       <Project>{317a142c-6ae2-4cc1-90a7-5752b9ed76f3}</Project>
       <Name>GramDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\pindominator-library\PinDominatorCore\PinDominatorCore.csproj">
-      <Project>{68ef34bf-36c9-4e33-9acd-7b9d7b746f29}</Project>
-      <Name>PinDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\pindominator-library\PinDominator\PinDominatorUI.csproj">
-      <Project>{107cebc6-409b-47ca-a248-4a5e03d86e66}</Project>
-      <Name>PinDominatorUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\twtdominator-library\TwtDominatorCore\TwtDominatorCore.csproj">
       <Project>{e41bf7d2-231f-4d58-ad45-95f7146e1979}</Project>
