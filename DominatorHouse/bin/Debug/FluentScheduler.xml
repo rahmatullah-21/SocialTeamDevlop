@@ -16,6 +16,13 @@
             <param name="unit">The schedule being affected.</param>
             <param name="interval">Interval to wait.</param>
         </member>
+        <member name="M:FluentScheduler.DelayForExtensions.DelayFor(FluentScheduler.MillisecondUnit,System.Int32)">
+            <summary>
+            Delays the job for the given interval.
+            </summary>
+            <param name="unit">The schedule being affected.</param>
+            <param name="interval">Interval to wait.</param>
+        </member>
         <member name="M:FluentScheduler.DelayForExtensions.DelayFor(FluentScheduler.SecondUnit,System.Int32)">
             <summary>
             Delays the job for the given interval.
@@ -118,6 +125,11 @@
             <param name="unit">The schedule being affected</param>
             </summary>
         </member>
+        <member name="T:FluentScheduler.MillisecondUnit">
+            <summary>
+            Unit of time in milliseconds.
+            </summary>
+        </member>
         <member name="T:FluentScheduler.SecondUnit">
             <summary>
             Unit of time in seconds.
@@ -141,6 +153,12 @@
         <member name="T:FluentScheduler.DelayTimeUnit">
             <summary>
             Unit used to represent delay.
+            </summary>
+        </member>
+        <member name="M:FluentScheduler.DelayTimeUnit.Milliseconds">
+            <summary>
+            Sets the interval to milliseconds.
+            The timing may not be accurated when used with very low intervals.
             </summary>
         </member>
         <member name="M:FluentScheduler.DelayTimeUnit.Seconds">
@@ -474,6 +492,12 @@
             Unit of time.
             </summary>
         </member>
+        <member name="M:FluentScheduler.TimeUnit.Milliseconds">
+            <summary>
+            Sets the interval to milliseconds.
+            The timing may not be accurated when used with very low intervals.
+            </summary>
+        </member>
         <member name="M:FluentScheduler.TimeUnit.Seconds">
             <summary>
             Sets the interval to seconds.
@@ -626,6 +650,11 @@
             Removes the schedule of the given name.
             </summary>
             <param name="name">Name of the schedule.</param>
+        </member>
+        <member name="M:FluentScheduler.JobManager.RemoveAllJobs">
+            <summary>
+            Removes all schedules.
+            </summary>
         </member>
         <member name="T:FluentScheduler.Schedule">
             <summary>

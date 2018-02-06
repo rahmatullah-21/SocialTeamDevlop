@@ -6,14 +6,14 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/TwtDominatorCore;component/Languages/TDLanguages/English.xaml" />
-                <ResourceDictionary Source="/DominatorUIUtility;component/Languages/GDLanguages/English.xaml"/>
+                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/GDLanguages/English.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Styles/BaseStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml"/>
-               
+                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
