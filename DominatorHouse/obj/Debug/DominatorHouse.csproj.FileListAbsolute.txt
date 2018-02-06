@@ -58,3 +58,6 @@ D:\DominatorHouse\dominatorhouse-social\DominatorHouse\obj\Debug\DominatorHouse.
 D:\DominatorHouse\dominatorhouse-social\DominatorHouse\obj\Debug\DominatorHouse.csproj.GenerateResource.Cache
 D:\DominatorHouse\dominatorhouse-social\DominatorHouse\obj\Debug\DominatorHouse.exe
 D:\DominatorHouse\dominatorhouse-social\DominatorHouse\obj\Debug\DominatorHouse.pdb
+D:\DominatorHouse\dominatorhouse-social\DominatorHouse\obj\Debug\MainWindowOld.baml
+D:\DominatorHouse\dominatorhouse-social\DominatorHouse\obj\Debug\MainWindowOld.g.cs
+D:\DominatorHouse\dominatorhouse-social\DominatorHouse\obj\Debug\DominatorHouse_MarkupCompile.lref
