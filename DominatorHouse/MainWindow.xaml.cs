@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouseCore.Log4NetHelper;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
@@ -16,13 +16,13 @@ using GramDominatorCore.GDUtility;
 using GramDominatorCore.GDViewModel.Accounts;
 using GramDominatorUI.AccountGrowthMode;
 using GramDominatorUI.TabManager;
-using log4net.Config;
 using MahApps.Metro.Controls;
 using System.Windows.Media;
 using System.ComponentModel;
 using System.Linq;
 using GramDominatorCore.GDModel;
 using DominatorHouseCore.Enums;
+using NLog;
 
 #endregion
 
@@ -31,7 +31,7 @@ namespace DominatorHouse
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : MetroWindow, ILoggableWindow
     {
         public List<TabItemTemplates> TabItems { get; set; }
         // Bring all the performance bottlenecks to here. Actually MainWindow class should 
@@ -42,13 +42,14 @@ namespace DominatorHouse
         private static ManagementObject processor = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
 
         public MainWindow()
-        {
-            XmlConfigurator.Configure();
+        {            
             var account = RandomUtilties.GetRandomTexts(10);
             InitializeComponent();
+
+            GlobusLogHelper.InitializeLogger(this);
             objMainWindowRef = this;
             InitializeTabs();
-            GlobusLogHelper.log.Info("Welcome To Gram Dominator" );
+            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome To Gram Dominator" );
             ActivityDeserialize.GdScheduler += GdScheduler.StartScheduler;
             AccountManagerViewModel accountManagerViewModel = AccountManagerViewModel.GetAccountManagerViewModel();
             NormalModeTab.ItemsSource = TabItems;
@@ -73,6 +74,15 @@ namespace DominatorHouse
 
             Closed += (o, e) => Process.GetCurrentProcess().Kill(); 
         }
+        
+
+        public void LogText(string message, bool error)
+        {
+            if (!error)
+                GlobusLogHelper.LogTextToList(InfoLogger, message);
+            else
+                GlobusLogHelper.LogTextToList(ErrorLogger, message);
+        }        
 
 
         public static MainWindow objMainWindowRef = null;
@@ -90,11 +100,7 @@ namespace DominatorHouse
                     TabItems = twtDominator.InitializeAllTabs();
                     break;
             }
-
-
-
-
-
+            
             NormalModeTab.ItemsSource = TabItems;
             var vv = NormalModeTab.SelectedContent as UserControl;
         }
@@ -309,6 +315,8 @@ namespace DominatorHouse
         }
     }
     #region LogFornetclass
+
+#if ADD_UI_REDIRECTION_FOR_NLOG
     public class GlobusLogAppender : log4net.Appender.AppenderSkeleton
     {
 
@@ -440,7 +448,7 @@ namespace DominatorHouse
 
                         case "ERROR":
 
-                            #region ERROR
+    #region ERROR
                             try
                             {
                                 var messege = loggingEvent.RenderedMessage.Split(new string[] { " at" }, StringSplitOptions.None);
@@ -490,7 +498,7 @@ namespace DominatorHouse
                                 GlobusLogHelper.log.Error(" Error : " + ex.Message);
                             }
 
-                            #endregion
+    #endregion
 
                             break;
                     }
@@ -505,6 +513,8 @@ namespace DominatorHouse
 
 
     }
+#endif
+
     #endregion
 
 }

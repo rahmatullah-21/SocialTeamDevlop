@@ -1,4 +1,4 @@
-﻿using DominatorHouseCore.Log4NetHelper;
+﻿using DominatorHouseCore.LogHelper;
 using System;
 using System.IO;
 using System.Net;
