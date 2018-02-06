@@ -61,3 +61,8 @@ D:\DominatorHouse\dominatorhouse-social\DominatorHouse\obj\Debug\DominatorHouse.
 D:\DominatorHouse\dominatorhouse-social\DominatorHouse\obj\Debug\MainWindowOld.baml
 D:\DominatorHouse\dominatorhouse-social\DominatorHouse\obj\Debug\MainWindowOld.g.cs
 D:\DominatorHouse\dominatorhouse-social\DominatorHouse\obj\Debug\DominatorHouse_MarkupCompile.lref
+D:\DominatorHouse\dominatorhouse-social\DominatorHouse\bin\Debug\PinDominator.exe
+D:\DominatorHouse\dominatorhouse-social\DominatorHouse\bin\Debug\PinDominatorCore.dll
+D:\DominatorHouse\dominatorhouse-social\DominatorHouse\bin\Debug\PinDominatorCore.pdb
+D:\DominatorHouse\dominatorhouse-social\DominatorHouse\bin\Debug\PinDominator.pdb
+D:\DominatorHouse\dominatorhouse-social\DominatorHouse\bin\Debug\en\PinDominatorCore.resources.dll

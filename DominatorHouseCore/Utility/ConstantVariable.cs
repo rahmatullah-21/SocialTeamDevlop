@@ -95,6 +95,7 @@ namespace DominatorHouseCore.Utility
 
         public static string socialConfigurationPath(SocialNetworks SocialNetworkType)
         {
+
            return new SocialNetworkPathFactory(SocialNetworkType).GetSocialNetworkConfigPath();
         }
 

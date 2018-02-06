@@ -299,7 +299,11 @@ namespace DominatorHouse
                     TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
                     break;
-
+                case SocialNetworks.PinInterest:
+                    PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
+                    TabItems = pinDominator.InitializeAllTabs();
+                    this.Title = SocialNetworks.PinInterest.ToString() + " Dominator";
+                    break;
             }
 
             NormalModeTab.ItemsSource = TabItems;

@@ -97,8 +97,7 @@ namespace DataBaseConnection.CommonDatabaseConnection.Tables.Account
         { get; set; }
 
 
-
-
+        [Column(Order = 18)] public int FollowType { get; set; }
 
     }
 }
