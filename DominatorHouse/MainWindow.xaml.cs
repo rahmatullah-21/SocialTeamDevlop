@@ -70,7 +70,8 @@ namespace DominatorHouse
                     ).AndEvery(1).Days());
                
             });
-           
+
+            Closed += (o, e) => Process.GetCurrentProcess().Kill(); 
         }
 
 
