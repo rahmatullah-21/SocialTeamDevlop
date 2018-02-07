@@ -154,6 +154,14 @@
       <Project>{317a142c-6ae2-4cc1-90a7-5752b9ed76f3}</Project>
       <Name>GramDominatorUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\pindominator-library\PinDominatorCore\PinDominatorCore.csproj">
+      <Project>{68ef34bf-36c9-4e33-9acd-7b9d7b746f29}</Project>
+      <Name>PinDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pindominator-library\PinDominator\PinDominatorUI.csproj">
+      <Project>{107cebc6-409b-47ca-a248-4a5e03d86e66}</Project>
+      <Name>PinDominatorUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\twtdominator-library\TwtDominatorCore\TwtDominatorCore.csproj">
       <Project>{e41bf7d2-231f-4d58-ad45-95f7146e1979}</Project>
       <Name>TwtDominatorCore</Name>

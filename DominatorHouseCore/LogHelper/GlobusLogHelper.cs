@@ -36,7 +36,6 @@ namespace DominatorHouseCore.LogHelper
 #endif
 
             LogManager.ReconfigExistingLoggers();
-
             log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString());
         }
 

@@ -134,6 +134,8 @@
     <Compile Include="Models\TabItem.cs" />
     <Compile Include="Models\TimingRange.cs" />
     <Compile Include="Enums\Gender.cs" />
+    <Compile Include="Process\JobProcess.cs" />
+    <Compile Include="Process\JobProcessResult.cs" />
     <Compile Include="Request\FileData.cs" />
     <Compile Include="Request\HttpHelper.cs" />
     <Compile Include="Request\RequestParameters.cs" />
@@ -155,6 +157,7 @@
     <Compile Include="Models\QueryInfo.cs" />
     <Compile Include="Settings\RunningTimeSpanModel.cs" />
     <Compile Include="Utility\ActivityDeserialize.cs" />
+    <Compile Include="Utility\BinFileHelper.cs" />
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="Utility\ConstantVariable.cs" />
     <Compile Include="Utility\DataBaseHandler.cs" />
