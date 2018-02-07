@@ -22,6 +22,7 @@ using System.Linq;
 using GramDominatorCore.GDModel;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
+using DominatorUIUtility.CustomControl;
 using NLog;
 
 #endregion
@@ -42,20 +43,19 @@ namespace DominatorHouse
         private static ManagementObject processor = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
 
         public MainWindow()
-        {            
-            var account = RandomUtilties.GetRandomTexts(10);
+        {
             InitializeComponent();
 
-           // GlobusLogHelper.InitializeLogger(this);
+            // GlobusLogHelper.InitializeLogger(this);
             objMainWindowRef = this;
-            InitializeTabs();
-            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome To Gram Dominator" );
+             InitializeTabs();
+            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome To Gram Dominator");
             ActivityDeserialize.GdScheduler += GdScheduler.StartScheduler;
             AccountManagerViewModel accountManagerViewModel = AccountManagerViewModel.GetAccountManagerViewModel();
             NormalModeTab.ItemsSource = TabItems;
             Global.ChangeTabIndex += ChangeIndex;
 
-            Task performanceTask = new Task(() => StartbindMemory(), 
+            Task performanceTask = new Task(() => StartbindMemory(),
                 TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
 
@@ -69,12 +69,12 @@ namespace DominatorHouse
                     x => x.ToRunOnceAt(new DateTime(NextDayTime.Year, NextDayTime.Month, NextDayTime.Day,
                         0, 0, 1)
                     ).AndEvery(1).Days());
-               
+
             });
 
-            Closed += (o, e) => Process.GetCurrentProcess().Kill(); 
+            Closed += (o, e) => Process.GetCurrentProcess().Kill();
         }
-        
+
 
         public void LogText(string message, bool error)
         {
@@ -82,14 +82,14 @@ namespace DominatorHouse
                 GlobusLogHelper.LogTextToList(InfoLogger, message);
             else
                 GlobusLogHelper.LogTextToList(ErrorLogger, message);
-        }        
+        }
 
 
         public static MainWindow objMainWindowRef = null;
         private void InitializeTabs()
         {
-            SocialNetworks socialNetwork = SocialNetworks.Instagram;
-            switch(socialNetwork)
+            SocialNetworks socialNetwork = SocialNetworks.Social;
+            switch (socialNetwork)
             {
                 case SocialNetworks.Instagram:
                     GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
@@ -99,11 +99,34 @@ namespace DominatorHouse
                     TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
                     TabItems = twtDominator.InitializeAllTabs();
                     break;
+                case SocialNetworks.Social:
+                    TabItems = InitializeAllTabs();
+                    this.Title = "Dominator - All in One";
+                    break;
+                default:
+
+                    break;
             }
-            
+
             NormalModeTab.ItemsSource = TabItems;
             var vv = NormalModeTab.SelectedContent as UserControl;
         }
+
+
+        public List<TabItemTemplates> InitializeAllSocialTabs()
+        {
+            return new List<TabItemTemplates>
+            {
+                new TabItemTemplates
+                {
+                    Title=FindResource("langAccounts").ToString(),
+                    Content=new Lazy<UserControl>(()=>new AccountTab())
+                }
+            };
+        }
+
+
+
         public void ChangeIndex(int TabControlIndex, int TabIndex)
         {
             NormalModeTab.SelectedIndex = TabControlIndex;
@@ -123,7 +146,7 @@ namespace DominatorHouse
                     InstachatTab.GetSingeltonObjectInstachatTab();
                     break;
                 case 4:
-                    var objInstaLikerInstaCommenterTab= InstaLikerInstaCommenterTab.GetSingeltonObjectInstaLikerInstaCommenterTab();
+                    var objInstaLikerInstaCommenterTab = InstaLikerInstaCommenterTab.GetSingeltonObjectInstaLikerInstaCommenterTab();
                     objInstaLikerInstaCommenterTab.setIndex(TabIndex);
                     break;
                 case 5:
@@ -161,7 +184,7 @@ namespace DominatorHouse
                 catch (Exception ex)
                 {
 
-                   Console.WriteLine();
+                    Console.WriteLine();
                 }
 
                 await Task.Delay(100);
@@ -207,7 +230,7 @@ namespace DominatorHouse
         /// <returns></returns>
         private double getMemoryUsage()
         {
-            double memAvailable  = (double)objPerformanceCounter.NextValue();
+            double memAvailable = (double)objPerformanceCounter.NextValue();
             return memAvailable;
         }
 
@@ -227,7 +250,7 @@ namespace DominatorHouse
         public void AccountGrowthMode()
         {
             AccountGrowthModeTab.Children.Clear();
-            AccountGrowthModeTab.Children.Add( AccountGrowth.GetSingletonAccountGrowth());
+            AccountGrowthModeTab.Children.Add(AccountGrowth.GetSingletonAccountGrowth());
             NormalModeTab.Visibility = System.Windows.Visibility.Collapsed;
 
             AccountGrowthModeTab.Visibility = System.Windows.Visibility.Visible;
@@ -252,9 +275,9 @@ namespace DominatorHouse
             //else
             //{
             //    Logger.Visibility = Visibility.Collapsed;
-               
+
             //}
-          
+
         }
 
 
@@ -269,7 +292,7 @@ namespace DominatorHouse
             {
                 if (_infoLoggerCollection != null && value == _infoLoggerCollection)
                     return;
-              
+
             }
         }
 
@@ -284,7 +307,7 @@ namespace DominatorHouse
             {
                 if (_errorLoggerCollection != null && value == _errorLoggerCollection)
                     return;
-               
+
             }
         }
 
@@ -293,15 +316,19 @@ namespace DominatorHouse
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+            this.Title = "Dominator - All in One";
+
             if (NormalModeTab == null)
                 return;
-                SocialNetworks socialNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), (cmbSocialNetwork.SelectedItem as ComboBoxItem).Content.ToString());
+
+            SocialNetworks socialNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), (cmbSocialNetwork.SelectedItem as ComboBoxItem).Content.ToString());
+
             switch (socialNetwork)
             {
                 case SocialNetworks.Instagram:
                     GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
                     TabItems = gramDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Instagram.ToString() +" Dominator";
+                    this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Twitter:
                     TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
@@ -313,11 +340,43 @@ namespace DominatorHouse
                     //TabItems = pinDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.PinInterest.ToString() + " Dominator";
                     break;
+                case SocialNetworks.Social:
+                    TabItems = InitializeAllTabs();
+                    this.Title = "Dominator - All in One";
+                    break;
+
+                default:
+                    this.Title = "Dominator - All in One";
+                    break;
             }
 
             NormalModeTab.ItemsSource = TabItems;
             NormalModeTab.SelectedIndex = 0;
             var vv = NormalModeTab.SelectedContent as UserControl;
+        }
+
+
+        public List<TabItemTemplates> InitializeAllTabs()
+        {
+            return new List<TabItemTemplates>
+            {
+                new TabItemTemplates
+                {
+                    Title=FindResource("langAccounts").ToString(),
+                    Content=new Lazy<UserControl>(()=>new AccountTabCustomControl())
+                }
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("langGrowFollowers﻿").ToString(),
+                //    Content=new Lazy<UserControl>(GrowFollowersTab.GetSingeltonObjectGrowFollowersTab)
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("langInstaPoster﻿").ToString(),
+                //    Content=new Lazy<UserControl>(InstaPosterTab.GetSingeltonObjectInstaPosterTab)
+                //},
+                
+            };
         }
     }
 }

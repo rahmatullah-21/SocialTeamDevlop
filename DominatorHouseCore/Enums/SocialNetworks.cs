@@ -9,7 +9,8 @@
         LinkedIn,
         Reddit,
         Craglist,
-        Backpage
+        Backpage,
+        Social
     }
 
     public enum ActivityType
