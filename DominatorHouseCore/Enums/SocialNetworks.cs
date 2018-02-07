@@ -11,6 +11,7 @@
         Craglist,
         Backpage,
         DominatorHouseSocial
+        Social
     }
 
     public enum ActivityType

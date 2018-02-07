@@ -31,6 +31,7 @@
         <Controls:WindowCommands>
             <Button Content="{DynamicResource langAccountGrowthMode}"  Name="btnAccountGrowthMode" Click="btnAccountGrowthMode_Click"/>
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" >
+                <ComboBoxItem>Social</ComboBoxItem>
                 <ComboBoxItem>Instagram</ComboBoxItem>
                 <ComboBoxItem>Twitter</ComboBoxItem>
                 <ComboBoxItem>PinInterest</ComboBoxItem> 
