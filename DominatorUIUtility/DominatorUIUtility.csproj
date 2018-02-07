@@ -94,6 +94,9 @@
     </ApplicationDefinition>
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
     <Compile Include="Behaviours\UserQueryParameters.cs" />
+    <Compile Include="CustomControl\AccountCustomControl.xaml.cs">
+      <DependentUpon>AccountCustomControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\DayTimerControl.xaml.cs">
       <DependentUpon>DayTimerControl.xaml</DependentUpon>
     </Compile>
@@ -117,6 +120,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Language.en.resx</DependentUpon>
     </Compile>
+    <Page Include="CustomControl\AccountCustomControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomControl\AccountGrowthModeHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

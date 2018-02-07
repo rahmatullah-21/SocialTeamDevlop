@@ -45,6 +45,8 @@ namespace DominatorHouse
             //XmlConfigurator.Configure();
             var account = RandomUtilties.GetRandomTexts(10);
             InitializeComponent();
+
+           // GlobusLogHelper.InitializeLogger(this);
             objMainWindowRef = this;
             InitializeTabs();
             GlobusLogHelper.log.Info("Welcome To Gram Dominator" );
@@ -280,6 +282,8 @@ namespace DominatorHouse
                
             }
         }
+
+
 
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

@@ -63,9 +63,6 @@ namespace DominatorHouseCore.Utility
         private string Resolution { get; set; }
 
 
-
-
-
         public void GenerateDetails()
         {
             var splitDeviceDetails = DeviceGenerator.GetRandomDevice().Split(';');
