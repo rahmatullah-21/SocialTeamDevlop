@@ -38,12 +38,11 @@ namespace DominatorHouseCore.Utility
                         directoryName = ConstantVariable.GetIndexCampaignPath(SocialNetworks.Instagram) + $"\\DB";//GetIndexCampaignPath(SocialNetworks.Instagram)
                         break;
                     case DatabaseType.AccountType:
-                        directoryName = ConstantVariable.GetIndexAccountPath(SocialNetworks.Instagram) + $"\\DB";//GetIndexAccountPath(SocialNetworks.Instagram)
+                        directoryName = ConstantVariable.GetIndexAccountPath() + $"\\DB";//GetIndexAccountPath()
                         break;
                     default:
-                        directoryName = ConstantVariable.GetIndexAccountPath(SocialNetworks.Instagram) + $"\\DB";
+                        directoryName = ConstantVariable.GetIndexAccountPath() + $"\\DB";
                         break;
-
                 }
          
                 DirectoryUtilities.CreateDirectory(directoryName);  

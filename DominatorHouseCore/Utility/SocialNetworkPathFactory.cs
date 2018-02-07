@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System.Reflection;
+using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.Utility
 {
@@ -15,25 +16,16 @@ namespace DominatorHouseCore.Utility
 
         public string GetSocialNetworkConfigPath()
         {
-            var path = string.Empty;
-
-            switch (SocialNetwork)
-            {
-                case SocialNetworks.Instagram:
-                    path = $"{ConstantVariable.GetConfigurationPath(SocialNetworks.Instagram)}";//GetConfigurationPath(SocialNetworks.Instagram)
-                    break;
-                case SocialNetworks.Twitter:
-                    path = $"{ConstantVariable.GetConfigurationPath(SocialNetworks.Twitter)}";//GetConfigurationPath(SocialNetworks.Instagram)
-                    break;
-            }
-
-            return path;
+            return  $"{ConstantVariable.GetConfigurationPath(SocialNetwork)}";
+     
         }
 
 
         public string GetSocialNetworkCampaignPath()
         {
             var path = string.Empty;
+
+           
 
             switch (SocialNetwork)
             {

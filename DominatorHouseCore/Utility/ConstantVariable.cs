@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Documents;
 using DominatorHouseCore.Enums;
+using System.Reflection;
 
 namespace DominatorHouseCore.Utility
 {
@@ -25,25 +26,17 @@ namespace DominatorHouseCore.Utility
 
         public static string Manufacturer { get; } = "DOMINATORHOUSE";
 
-      //  public static string GdPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{Manufacturer}\\GD";
-
+        //  public static string GdPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{Manufacturer}\\GD";
+        public static string GetDominatorBaseDirectory()
+        {
+            return $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{Manufacturer}";
+        }
 
         public static string GetDominatorPath(SocialNetworks SocialNetworkType)
         {
-            string DirectoryName = string.Empty;
-
-            switch (SocialNetworkType)
-            {
-                case SocialNetworks.Instagram:
-                    DirectoryName = "GD";
-                    break;
-                default:
-                        DirectoryName = SocialNetworkType.ToString();
-                        break;
-            }
-
-            return $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{Manufacturer}\\{DirectoryName}" ;
+            return $"{GetDominatorBaseDirectory()}\\{SocialNetworkType}";
         }
+
 
 
      //   public static string GetConfigurationPath(SocialNetworks.Instagram) = $"{GdPath}\\Configurations";
@@ -63,9 +56,9 @@ namespace DominatorHouseCore.Utility
         public const string NoAccountSelected = "No Account Selected";
 
 
-        public static string GetIndexAccountPath(SocialNetworks SocialNetworkType)
+        public static string GetIndexAccountPath()
         {
-            return GetDominatorPath(SocialNetworkType) + "\\Index\\AC";
+            return GetDominatorBaseDirectory()+ ConstantVariable.DominatorPath + "\\Index\\AC";
         }
 
        // public static string GetIndexCampaignPath(SocialNetworks.Instagram) = GdPath + "\\Index\\CP";
@@ -104,6 +97,8 @@ namespace DominatorHouseCore.Utility
         {
             return new SocialNetworkPathFactory(SocialNetworkType).GetSocialNetworkCampaignPath();
         }
+
+        public static string DominatorPath = Assembly.GetExecutingAssembly().FullName;
 
     }
 }

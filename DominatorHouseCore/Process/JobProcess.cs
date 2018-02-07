@@ -13,217 +13,212 @@ using Newtonsoft.Json;
 
 namespace DominatorHouseCore.Process
 {
-    //public abstract class JobProcess
-    //{
-    //    protected int NoOfActionPerformedCurrentJob = 0;
-    //    protected int MaxNoOfActionPerJob = 0;
-    //    protected int NoOfActionPerformedCurrentHour = 0;
-    //    protected int MaxNoOfActionPerHour = 0;
-    //    protected int NoOfActionPerformedCurrentDay = 0;
-    //    protected int MaxNoOfActionPerDay = 0;
-    //    protected int MaxNoOfActionPerWeek = 0;
-    //    protected int NoOfActionPerformedCurrentWeek = 0;
-    //    public DominatorCancellationTokenSource JobCancellationTokenSource { get; set; }
+    public abstract class JobProcess
+    {
+        #region Required Properties
+        protected int NoOfActionPerformedCurrentJob = 0;
+        protected int MaxNoOfActionPerJob = 0;
+        protected int NoOfActionPerformedCurrentHour = 0;
+        protected int MaxNoOfActionPerHour = 0;
+        protected int NoOfActionPerformedCurrentDay = 0;
+        protected int MaxNoOfActionPerDay = 0;
+        protected int MaxNoOfActionPerWeek = 0;
+        protected int NoOfActionPerformedCurrentWeek = 0;
+        public string TemplateId { get; set; }
+        public string campaignId { get; set; }
+        public DominatorAccountModel AccountModel { get; set; }
+        public JobConfiguration JobConfiguration { get; set; }
+        public ActivityType ActivityType { get; set; }
+        public object GdBinFileHelper { get; private set; }
+        public TimingRange CurrentJobTimeRange { get; set; }
+        public DominatorCancellationTokenSource JobCancellationTokenSource { get; set; }
+        public static Dictionary<string, string> DictRunningJobs = new Dictionary<string, string>();
+        protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
+        protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; } 
+        #endregion
 
-    //    public string TemplateId { get; set; }
-    //    public string campaignId { get; set; }
-
-    //    public TimingRange CurrentJobTimeRange { get; set; }
-
-    //    public static Dictionary<string, string> DictRunningJobs = new Dictionary<string, string>();
-
-
-    //    protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
-    //    protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; }
-
-    //    public AccountModel AccountModel { get; set; }
-    //    public ModuleSetting ModuleSetting { get; set; }
-    //    public ActivityType ActivityType { get; set; }
-    //    public object GdBinFileHelper { get; private set; }
-
-    //    public JobProcess(AccountModel AccountModel, ModuleSetting ModuleSetting, ActivityType activityType, TimingRange CurrentJobTimeRange)
-    //    {
-    //        this.AccountModel = AccountModel;
-    //        this.ModuleSetting = ModuleSetting;
-    //        this.ActivityType = activityType;
-    //        this.CurrentJobTimeRange = CurrentJobTimeRange;
-    //    }
+        public JobProcess(DominatorAccountModel AccountModel, JobConfiguration JobConfiguration, ActivityType activityType, TimingRange CurrentJobTimeRange)
+        {
+            this.AccountModel = AccountModel;
+            this.JobConfiguration = JobConfiguration;
+            this.ActivityType = activityType;
+            this.CurrentJobTimeRange = CurrentJobTimeRange;
+        }
 
 
-    //    public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
-    //    {
-    //        this.AccountModel = AccountManagerViewModel.GetAccountManagerViewModel().LstAccountModel.FirstOrDefault(x => x.UserName == account);
-    //        this.CurrentJobTimeRange = CurrentJobTimeRange;
-    //        TemplateModel model = GdBinFileHelper.GetBinFileDetails<TemplateModel>().FirstOrDefault(x => x.Id == template);
-    //        this.ModuleSetting = Newtonsoft.Json.JsonConvert.DeserializeObject<FollowerModel>(model.ActivitySettings);
-    //        var cc = GdBinFileHelper.GetBinFileDetails<CampaignDetails>();
-    //        this.TemplateId = template;
-    //        this.campaignId = GdBinFileHelper.GetBinFileDetails<CampaignDetails>().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
-    //        this.ActivityType = activityType;
-    //        JobCancellationTokenSource = new DominatorCancellationTokenSource(account, template);
-    //        InitializeActivityCount(account);
-    //    }
+        public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
+        {
+            this.AccountModel = BinFileHelper.GetBinFileDetails<DominatorAccountModel>().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
+            this.CurrentJobTimeRange = CurrentJobTimeRange;
+            TemplateModel model = BinFileHelper.GetBinFileDetails<TemplateModel>().FirstOrDefault(x => x.Id == template);
+            this.JobConfiguration = Newtonsoft.Json.JsonConvert.DeserializeObject<JobConfiguration>(model.ActivitySettings);
+            var cc = BinFileHelper.GetBinFileDetails<CampaignDetails>();
+            this.TemplateId = template;
+            this.campaignId = BinFileHelper.GetBinFileDetails<CampaignDetails>().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
+            this.ActivityType = activityType;
+            JobCancellationTokenSource = new DominatorCancellationTokenSource(account, template);
+            InitializeActivityCount(account);
+        }
 
-    //    private void InitializeActivityCount(string account)
-    //    {
-    //        MaxNoOfActionPerJob = ModuleSetting.JobConfiguration.JobsActivityCount.GetRandom();
-    //        MaxNoOfActionPerHour = ModuleSetting.JobConfiguration.HoursActivityCount.GetRandom();
-    //        MaxNoOfActionPerDay = ModuleSetting.JobConfiguration.DaysActivityCount.GetRandom();
-    //        MaxNoOfActionPerWeek = ModuleSetting.JobConfiguration.WeeksActivityCount.GetRandom();
-    //        InitializeDatabseConnection();
-    //    }
-    //    private void InitializeDatabseConnection()
-    //    {
-    //        DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionInstance(campaignId, DatabaseType.CampaignType);
-    //        DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(AccountModel.UserName, DatabaseType.AccountType);
-    //    }
+        private void InitializeActivityCount(string account)
+        {
+            MaxNoOfActionPerJob = this.JobConfiguration.JobsActivityCount.GetRandom();
+            MaxNoOfActionPerHour = JobConfiguration.HoursActivityCount.GetRandom();
+            MaxNoOfActionPerDay = JobConfiguration.DaysActivityCount.GetRandom();
+            MaxNoOfActionPerWeek = JobConfiguration.WeeksActivityCount.GetRandom();
+            InitializeDatabseConnection();
+        }
+        private void InitializeDatabseConnection()
+        {
+            DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionInstance(campaignId, DatabaseType.CampaignType);
+            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(AccountModel.AccountBaseModel.UserName, DatabaseType.AccountType);
+        }
 
-    //    public void StartProcess()
-    //    {
+        public void StartProcess()
+        {
+            try
+            {
+                DictRunningJobs.Add(this.TemplateId, "");
+                if (string.IsNullOrEmpty(this.campaignId))
+                    return;
 
-    //        try
-    //        {
-    //            DictRunningJobs.Add(this.TemplateId, "");
-    //            if (string.IsNullOrEmpty(this.campaignId))
-    //                return;
+                GlobusLogHelper.log.Info("Process started with account => " + AccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+                if (!this.AccountModel.IsUserLoggedIn)
+                {
+                    GlobusLogHelper.log.Info("Logging in with account => " + AccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+                    LogInProcess logInProcess = new LogInProcess();
+                    logInProcess.LoginWithDataBaseCookies(this.AccountModel, true);
+                }
 
-    //            GlobusLogHelper.log.Info("Process started with account => " + AccountModel.UserName + " module => " + ActivityType.ToString());
-    //            if (!this.AccountModel.IsUserLoggedIn)
-    //            {
-    //                GlobusLogHelper.log.Info("Logging in with account => " + AccountModel.UserName + " module => " + ActivityType.ToString());
-    //                LogInProcess logInProcess = new LogInProcess();
-    //                logInProcess.LoginWithDataBaseCookies(this.AccountModel, true);
-    //            }
-
-    //            if (this.AccountModel.IsUserLoggedIn)
-    //            {
-    //                GlobusLogHelper.log.Info("Logged in successfully with account => " + AccountModel.UserName + " module => " + ActivityType.ToString());
-    //                InstagramScraper instragramscraper = new InstagramScraper(this);
-    //                instragramscraper.ScrapeWithQuery();
-    //            }
-    //            try
-    //            {
-    //                DictRunningJobs.Remove(this.TemplateId);
-    //            }
-    //            catch (Exception)
-    //            {
-    //            }
-    //        }
-    //        catch (Exception Ex)
-    //        {
-    //        }
-    //        finally
-    //        {
-    //        }
-    //    }
-
-
-    //    public JobProcessResult FinalProcess(ScrapeResultNew ScrapedResult)
-    //    {
-    //        JobProcessResult jobProcessResult = PostScrapeProcess(ScrapedResult);
-    //        jobProcessResult.IsProcessCompleted = checkJobProcessCompleted();
-    //        if (jobProcessResult.IsProcessCompleted)
-    //        {
-    //            StartOtherConfiguration(ScrapedResult);
-    //            GlobusLogHelper.log.Info("Process completed with account => " + AccountModel.UserName + " module => " + ActivityType.ToString());
-    //        }
-    //        return jobProcessResult;
-    //    }
-
-    //    private bool checkJobProcessCompleted()
-    //    {
-
-    //        if (NoOfActionPerformedCurrentJob > MaxNoOfActionPerJob)
-    //        {
-    //            ScheduleNextJob(DateTime.Now.AddTicks(ModuleSetting.JobConfiguration.JobsDelay.GetRandom()));
-    //            return true;
-    //        }
-    //        int currentTime = DateTimeUtilities.GetEpochTime();
-    //        NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600).Count();
-    //        if (NoOfActionPerformedCurrentHour > MaxNoOfActionPerHour)
-    //        {
-
-    //            ScheduleNextJob(DateTime.Now.AddMinutes(ModuleSetting.JobConfiguration.JobsDelay.GetRandom()));
-    //            return true;
-    //        }
-
-    //        NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24).Count();
-    //        if (NoOfActionPerformedCurrentDay > MaxNoOfActionPerDay)
-    //        {
-    //            TaskAndThreadUtility.StopTask(this.AccountModel.UserName, this.TemplateId);
-    //            return true;
-    //        }
-
-    //        NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24 * 7).Count();
-    //        if (NoOfActionPerformedCurrentWeek > MaxNoOfActionPerWeek)
-    //        {
-    //            TaskAndThreadUtility.StopTask(this.AccountModel.UserName, this.TemplateId);
-    //            return true;
-    //        }
-
-    //        return false;
-    //    }
-
-    //    private void ScheduleNextJob(DateTime dateTime)
-    //    {
-    //        TaskAndThreadUtility.StopTask(this.AccountModel.UserName, this.TemplateId);
-
-    //        List<RunningTimes> lstTimings = ModuleSetting.JobConfiguration.RunningTime;
-
-    //        var today = DateTimeUtilities.GetDayOfWeek();
-    //        var timeScheduleModel = ModuleSetting.JobConfiguration.RunningTime.First((x => x.DayOfWeek == today));
-
-    //        if (!timeScheduleModel.IsEnabled)
-    //            return;
-
-    //        // get the hour and minute of current time
-    //        var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime);//GetTimeSpanForGivenTime
+                if (this.AccountModel.IsUserLoggedIn)
+                {
+                    GlobusLogHelper.log.Info("Logged in successfully with account => " + AccountModel.UserName + " module => " + ActivityType.ToString());
+                    InstagramScraper instragramscraper = new InstagramScraper(this);
+                    instragramscraper.ScrapeWithQuery();
+                }
+                try
+                {
+                    DictRunningJobs.Remove(this.TemplateId);
+                }
+                catch (Exception)
+                {
+                }
+            }
+            catch (Exception Ex)
+            {
+            }
+            finally
+            {
+            }
+        }
 
 
-    //        JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{ActivityType.Follow.ToString()}-{this.TemplateId}");
+        public JobProcessResult FinalProcess(ScrapeResultNew ScrapedResult)
+        {
+            JobProcessResult jobProcessResult = PostScrapeProcess(ScrapedResult);
+            jobProcessResult.IsProcessCompleted = checkJobProcessCompleted();
+            if (jobProcessResult.IsProcessCompleted)
+            {
+                StartOtherConfiguration(ScrapedResult);
+                GlobusLogHelper.log.Info("Process completed with account => " + AccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+            }
+            return jobProcessResult;
+        }
 
-    //        if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
-    //        {
-    //            var TemplateId = AccountModel.ActivityManager.LstModuleConfiguration
-    //                 .FirstOrDefault(x => x.ActivityType == ActivityType.Follow).TemplateId;
-    //            JobManager.AddJob(
-    //                () =>
-    //                {
-    //                    ActivityDeserialize.GdScheduler(AccountModel.UserName, TemplateId, CurrentJobTimeRange,
-    //                        ActivityType.Follow.ToString());
-    //                }, s => s.WithName($"{ActivityType.Follow.ToString()}-{this.TemplateId}").ToRunOnceAt(dateTime));
-    //        }
+        private bool checkJobProcessCompleted()
+        {
 
-    //    }
+            if (NoOfActionPerformedCurrentJob > MaxNoOfActionPerJob)
+            {
+                ScheduleNextJob(DateTime.Now.AddTicks(this.JobConfiguration.JobsDelay.GetRandom()));
+                return true;
+            }
+            int currentTime = DateTimeUtilities.GetEpochTime();
+            NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600).Count();
+            if (NoOfActionPerformedCurrentHour > MaxNoOfActionPerHour)
+            {
+
+                ScheduleNextJob(DateTime.Now.AddMinutes(this.JobConfiguration.JobsDelay.GetRandom()));
+                return true;
+            }
+
+            NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24).Count();
+            if (NoOfActionPerformedCurrentDay > MaxNoOfActionPerDay)
+            {
+                TaskAndThreadUtility.StopTask(this.AccountModel.AccountBaseModel.UserName, this.TemplateId);
+                return true;
+            }
+
+            NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24 * 7).Count();
+            if (NoOfActionPerformedCurrentWeek > MaxNoOfActionPerWeek)
+            {
+                TaskAndThreadUtility.StopTask(this.AccountModel.AccountBaseModel.UserName, this.TemplateId);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void ScheduleNextJob(DateTime dateTime)
+        {
+            TaskAndThreadUtility.StopTask(this.AccountModel.AccountBaseModel.UserName, this.TemplateId);
+
+            List<RunningTimes> lstTimings = this.JobConfiguration.RunningTime;
+
+            var today = DateTimeUtilities.GetDayOfWeek();
+            var timeScheduleModel = this.JobConfiguration.RunningTime.First((x => x.DayOfWeek == today));
+
+            if (!timeScheduleModel.IsEnabled)
+                return;
+
+            // get the hour and minute of current time
+            var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime);//GetTimeSpanForGivenTime
 
 
-    //    public abstract JobProcessResult PostScrapeProcess(ScrapeResultNew scrapeResult);
+            JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{ActivityType.Follow.ToString()}-{this.TemplateId}");
+
+            if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
+            {
+                var TemplateId = AccountModel.ActivityManager.LstModuleConfiguration
+                     .FirstOrDefault(x => x.ActivityType == ActivityType.Follow).TemplateId;
+                JobManager.AddJob(
+                    () =>
+                    {
+                        ActivityDeserialize.GdScheduler(AccountModel.AccountBaseModel.UserName, TemplateId, CurrentJobTimeRange,
+                            ActivityType.Follow.ToString());
+                    }, s => s.WithName($"{ActivityType.Follow.ToString()}-{this.TemplateId}").ToRunOnceAt(dateTime));
+            }
+
+        }
 
 
-    //    public abstract void StartOtherConfiguration(ScrapeResultNew scrapeResult);
-
-    //    public bool checkIfJobCompleted()
-    //    {
-    //        return false;
-    //    }
+        public abstract JobProcessResult PostScrapeProcess(ScrapeResultNew scrapeResult);
 
 
-    //    protected void StopFollow()
-    //    {
-    //        TaskAndThreadUtility.StopTask(this.AccountModel.UserName, TemplateId);
-    //        List<TemplateModel> lstTemplateModel = GdBinFileHelper.GetTemplateDetails();
-    //        lstTemplateModel.ForEach(template =>
-    //        {
-    //            if (template.Id == TemplateId)
-    //            {
-    //                JsonConvert.DeserializeObject<FollowerModel>(template.ActivitySettings).JobConfiguration.RunningTime.Clear();
-    //            }
-    //        });
-    //        GdBinFileHelper.UpdateBinFile(lstTemplateModel);
+        public abstract void StartOtherConfiguration(ScrapeResultNew scrapeResult);
 
-    //    }
+        public bool checkIfJobCompleted()
+        {
+            return false;
+        }
+
+
+        protected void StopFollow()
+        {
+            TaskAndThreadUtility.StopTask(this.AccountModel.AccountBaseModel.UserName, TemplateId);
+            List<TemplateModel> lstTemplateModel = BinFileHelper.GetTemplateDetails();
+            lstTemplateModel.ForEach(template =>
+            {
+                if (template.Id == TemplateId)
+                {
+                    JsonConvert.DeserializeObject<JobConfiguration>(template.ActivitySettings).RunningTime.Clear();
+                }
+            });
+            BinFileHelper.UpdateBinFile(lstTemplateModel);
+
+        }
 
 
 
-    //}
+    }
 }

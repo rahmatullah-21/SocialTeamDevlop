@@ -250,11 +250,11 @@ namespace DominatorHouseCore.ViewModel
         //        Status = ConstantVariable.NotChecked
         //    };
 
-        //    DirectoryUtilities.CreateDirectory(ConstantVariable.GetIndexAccountPath(SocialNetworks.Instagram));
+        //    DirectoryUtilities.CreateDirectory(ConstantVariable.GetIndexAccountPath());
 
         //    //serialize the given account, if its success then add to account model list
         //    if (ProtoBuffBase.SerializeObjects<DominatorAccountModel>(objDominatorAccountModel,
-        //        ConstantVariable.GetIndexAccountPath(SocialNetworks.Instagram) + $"//{ConstantVariable.AccountDetails}"))
+        //        ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}"))
         //    {
         //        LstDominatorAccountModel.Add(objDominatorAccountModel);
         //    }
@@ -429,17 +429,17 @@ namespace DominatorHouseCore.ViewModel
             //if selectedaccount count is zero, it wont delete the bin file
             if (selectAccounts.Count == 0) return true;
 
-            DirectoryUtilities.CreateDirectory(ConstantVariable.GetIndexAccountPath(SocialNetworks.Instagram));
+            DirectoryUtilities.CreateDirectory(ConstantVariable.GetIndexAccountPath());
 
             //delete the account bin file 
-            File.Delete(ConstantVariable.GetIndexAccountPath(SocialNetworks.Instagram) + $"//{ConstantVariable.AccountDetails}");
+            File.Delete(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
 
             //remove the selected accounts from account model
             selectAccounts.ForEach(item => LstDominatorAccountModel.Remove(item));
 
             //after removed serialize the remaining accounts 
             ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
-                ConstantVariable.GetIndexAccountPath(SocialNetworks.Instagram) + $"//{ConstantVariable.AccountDetails}");
+                ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
             return false;
         }
 
@@ -627,10 +627,10 @@ namespace DominatorHouseCore.ViewModel
             //    selectedAccount.AccountProxy.ProxyUsername = objSingleDominatorAccountModel.AccountProxy.ProxyUsername;
             //    selectedAccount.AccountProxy.ProxyPassword = objSingleDominatorAccountModel.AccountProxy.ProxyPassword;
 
-            //    File.Delete(ConstantVariable.GetIndexAccountPath(SocialNetworks.Instagram) + $"//{ConstantVariable.AccountDetails}");
+            //    File.Delete(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
 
             //    ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
-            //        ConstantVariable.GetIndexAccountPath(SocialNetworks.Instagram) + $"//{ConstantVariable.AccountDetails}");
+            //        ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
 
             //    dialogWindow.Close();
 

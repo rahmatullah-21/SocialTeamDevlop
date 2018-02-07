@@ -9,7 +9,8 @@
         LinkedIn,
         Reddit,
         Craglist,
-        Backpage
+        Backpage,
+        DominatorHouseSocial
     }
 
     public enum ActivityType

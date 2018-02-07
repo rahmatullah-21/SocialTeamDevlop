@@ -11,7 +11,6 @@ namespace DominatorHouseCore.Models
 {
     public class DominatorAccountModel
     {
-
         public DominatorAccountBaseModel AccountBaseModel { get; set; }
 
         #region Common Properties
