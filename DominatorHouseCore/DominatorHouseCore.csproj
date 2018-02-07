@@ -119,11 +119,13 @@
     <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="Interfaces\IJobConfiguration.cs" />
     <Compile Include="Log4NetHelper\GlobusLogHelper.cs" />
+    <Compile Include="Models\AccountManagerModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\ContentSelectGroup.cs" />
     <Compile Include="Models\CookieHelper.cs" />
     <Compile Include="Models\GenderFilter.cs" />
     <Compile Include="Models\IncreaseActivityRange.cs" />
+    <Compile Include="Models\JobActivityManager.cs" />
     <Compile Include="Models\JobConfiguration.cs" />
     <Compile Include="Models\JsonElements.cs" />
     <Compile Include="Models\ReportDetails.cs" />
@@ -184,6 +186,7 @@
     <Compile Include="Utility\TaskAndThreadUtility.cs" />
     <Compile Include="Utility\Utilities.cs" />
     <Compile Include="Utility\ValidationHelper.cs" />
+    <Compile Include="ViewModel\AccountManagerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -202,9 +205,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
