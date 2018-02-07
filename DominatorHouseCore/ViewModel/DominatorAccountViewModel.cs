@@ -13,7 +13,7 @@ using System.Windows.Input;
 using DataBaseConnection.CommonDatabaseConnection.Tables.Account;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Log4NetHelper;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 

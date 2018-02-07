@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouseCore.Log4NetHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
@@ -16,13 +15,14 @@ using GramDominatorCore.GDUtility;
 using GramDominatorCore.GDViewModel.Accounts;
 using GramDominatorUI.AccountGrowthMode;
 using GramDominatorUI.TabManager;
-using log4net.Config;
 using MahApps.Metro.Controls;
 using System.Windows.Media;
 using System.ComponentModel;
 using System.Linq;
 using GramDominatorCore.GDModel;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
+using NLog;
 
 #endregion
 
@@ -42,13 +42,14 @@ namespace DominatorHouse
         private static ManagementObject processor = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
 
         public MainWindow()
-        {
-            XmlConfigurator.Configure();
+        {            
             var account = RandomUtilties.GetRandomTexts(10);
             InitializeComponent();
+
+           // GlobusLogHelper.InitializeLogger(this);
             objMainWindowRef = this;
             InitializeTabs();
-            GlobusLogHelper.log.Info("Welcome To Gram Dominator" );
+            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome To Gram Dominator" );
             ActivityDeserialize.GdScheduler += GdScheduler.StartScheduler;
             AccountManagerViewModel accountManagerViewModel = AccountManagerViewModel.GetAccountManagerViewModel();
             NormalModeTab.ItemsSource = TabItems;
@@ -73,6 +74,15 @@ namespace DominatorHouse
 
             Closed += (o, e) => Process.GetCurrentProcess().Kill(); 
         }
+        
+
+        public void LogText(string message, bool error)
+        {
+            if (!error)
+                GlobusLogHelper.LogTextToList(InfoLogger, message);
+            else
+                GlobusLogHelper.LogTextToList(ErrorLogger, message);
+        }        
 
 
         public static MainWindow objMainWindowRef = null;
@@ -90,11 +100,7 @@ namespace DominatorHouse
                     TabItems = twtDominator.InitializeAllTabs();
                     break;
             }
-
-
-
-
-
+            
             NormalModeTab.ItemsSource = TabItems;
             var vv = NormalModeTab.SelectedContent as UserControl;
         }
@@ -282,6 +288,8 @@ namespace DominatorHouse
             }
         }
 
+
+
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -300,7 +308,11 @@ namespace DominatorHouse
                     TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
                     break;
-
+                case SocialNetworks.PinInterest:
+                    //PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
+                    //TabItems = pinDominator.InitializeAllTabs();
+                    this.Title = SocialNetworks.PinInterest.ToString() + " Dominator";
+                    break;
             }
 
             NormalModeTab.ItemsSource = TabItems;
@@ -308,203 +320,4 @@ namespace DominatorHouse
             var vv = NormalModeTab.SelectedContent as UserControl;
         }
     }
-    #region LogFornetclass
-    public class GlobusLogAppender : log4net.Appender.AppenderSkeleton
-    {
-
-        private static readonly object lockerLog4Append = new object();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="loggingEvent"></param>
-        protected override void Append(log4net.Core.LoggingEvent loggingEvent)
-        {
-            try
-            {
-                string loggerName = loggingEvent.Level.Name;
-                MainWindow mainWindow = MainWindow.objMainWindowRef;
-
-
-                lock (lockerLog4Append)
-                {
-                    switch (loggingEvent.Level.Name)
-                    {
-                        case "DEBUG":
-                            try
-                            {
-
-                                {
-                                    if (!mainWindow.InfoLogger.Dispatcher.CheckAccess())
-                                    {
-                                        mainWindow.InfoLogger.Dispatcher.Invoke(new Action(delegate
-                                        {
-                                            try
-                                            {
-                                                if (mainWindow.InfoLogger.Items.Count > 1000)
-                                                {
-                                                    mainWindow.InfoLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-                                                }
-
-                                                mainWindow.InfoLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0" + "\r\t" + loggingEvent.RenderedMessage.Replace("\t"," "));
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                               
-
-                                                GlobusLogHelper.log.Error(" Error : " + ex.Message);
-                                            }
-
-                                        }));
-
-                                    }
-                                    else
-                                    {
-                                        try
-                                        {
-                                            if (mainWindow.InfoLogger.Items.Count > 1000)
-                                            {
-                                                mainWindow.InfoLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-                                            }
-
-                                            mainWindow.InfoLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\r\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                           GlobusLogHelper.log.Error("Error : 74" + ex.Message);
-                                        }
-                                    }
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Error Case Debug : " + ex.StackTrace);
-                                Console.WriteLine("Error Case Debug : " + ex.Message);
-
-                                GlobusLogHelper.log.Error(" Error : " + ex.Message);
-                            }
-                            break;
-                        case "INFO":
-                            try
-                            {
-                                if (loggingEvent.RenderedMessage.Contains("error"))
-                                {
-                                    GlobusLogHelper.log.Error(loggingEvent.RenderedMessage);
-                                    return;
-                                }
-                                if (!mainWindow.InfoLogger.Dispatcher.CheckAccess())
-                                {
-                                    mainWindow.InfoLogger.Dispatcher.Invoke(new Action(delegate
-                                    {
-                                        try
-                                        {
-                                            if (mainWindow.InfoLogger.Items.Count > 1000)
-                                            {
-                                                mainWindow.InfoLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-                                            }
-
-                                            mainWindow.InfoLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\t\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                             GlobusLogHelper.log.Error(" Error : " + ex.Message);
-                                        }
-
-                                    }));
-
-                                }
-                                else
-                                {
-                                    try
-                                    {
-                                        if (mainWindow.InfoLogger.Items.Count > 1000)
-                                        {
-                                            mainWindow.InfoLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-                                        }
-
-                                        mainWindow.InfoLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\t\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                       GlobusLogHelper.log.Error("Error : 75" + ex.Message);
-                                    }
-                                }
-
-                            }
-                            catch (Exception ex)
-                            {
-                                
-                               GlobusLogHelper.log.Error(" Error : " + ex.Message);
-                            }
-                            break;
-
-                        case "ERROR":
-
-                            #region ERROR
-                            try
-                            {
-                                var messege = loggingEvent.RenderedMessage.Split(new string[] { " at" }, StringSplitOptions.None);
-                                if (!mainWindow.ErrorLogger.Dispatcher.CheckAccess())
-                                {
-                                    mainWindow.ErrorLogger.Dispatcher.Invoke(new Action(delegate
-                                    {
-                                        try
-                                        {
-                                            if (mainWindow.ErrorLogger.Items.Count > 1000)
-                                            {
-                                                mainWindow.ErrorLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-                                            }
-
-                                            if ((!String.IsNullOrEmpty(messege[0]) && messege[0] != "  ") && !messege[0].Contains("<"))
-                                                mainWindow.ErrorLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\t\t" + "Error : " + "\t\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            GlobusLogHelper.log.Error(" Error : " + ex.Message);
-                                        }
-
-                                    }));
-
-                                }
-                                else
-                                {
-                                    try
-                                    {
-                                        if (mainWindow.ErrorLogger.Items.Count > 1000)
-                                        {
-                                            mainWindow.ErrorLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-                                        }
-                                        if (!(String.IsNullOrEmpty(messege[0]) && messege[0] == "  ") && !messege[0].Contains("<"))
-                                            mainWindow.ErrorLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\t\t" + "Error : " + "\t\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        GlobusLogHelper.log.Error("Error : 75" + ex.Message);
-                                    }
-                                }
-
-                            }
-                            catch (Exception ex)
-                            {
-                                GlobusLogHelper.log.Error(" Error : " + ex.Message);
-                            }
-
-                            #endregion
-
-                            break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // GlobusLogHelper.log.Error("Error : 76" + ex.Message);
-            }
-
-        }
-
-
-    }
-    #endregion
-
 }
