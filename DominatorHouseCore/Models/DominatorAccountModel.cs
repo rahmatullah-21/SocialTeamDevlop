@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using DominatorHouseCore.Requests;
 using DominatorHouseCore.Utility;
+using ProtoBuf;
 
 namespace DominatorHouseCore.Models
 {
     public class DominatorAccountModel
     {
         public DominatorAccountBaseModel AccountBaseModel { get; set; }
-
         #region Common Properties
 
         public bool SelectedGroup { get; set; }
@@ -24,6 +24,8 @@ namespace DominatorHouseCore.Models
         public bool IsAccountSelected { get; set; }
 
         public bool IsAccountManagerAccountSelected { get; set; }
+
+        public bool IsCretedFromNormalMode { get; set; }
 
         #endregion
 
@@ -61,6 +63,13 @@ namespace DominatorHouseCore.Models
         #region Display Count
 
         public string Count { get; set; }
+
+        [ProtoMember(6)]
+        public int FollowersCount { get; set; }
+        [ProtoMember(6)]
+        public int FollowingCount { get; set; }
+        [ProtoMember(8)]
+        public int PostsCount { get; set; }
 
         #endregion
 

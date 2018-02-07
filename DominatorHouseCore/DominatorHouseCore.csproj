@@ -118,6 +118,8 @@
     <Compile Include="Converters\ListCountVisiblityConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="Interfaces\IJobConfiguration.cs" />
+    <Compile Include="Interfaces\IPost.cs" />
+    <Compile Include="Interfaces\IUser.cs" />
     <Compile Include="LogHelper\GlobusLogHelper.cs" />
     <Compile Include="LogHelper\ILoggableWindow.cs" />
     <Compile Include="LogHelper\NlogUiTarget.cs" />
@@ -134,6 +136,7 @@
     <Compile Include="Models\ReportDetails.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\RunningTimes.cs" />
+    <Compile Include="Models\ScrapeResultNew.cs" />
     <Compile Include="Models\TabItem.cs" />
     <Compile Include="Models\TimingRange.cs" />
     <Compile Include="Enums\Gender.cs" />

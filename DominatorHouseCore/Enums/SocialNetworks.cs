@@ -10,7 +10,6 @@
         Reddit,
         Craglist,
         Backpage,
-        DominatorHouseSocial
         Social
     }
 

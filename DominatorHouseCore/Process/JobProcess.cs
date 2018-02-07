@@ -60,7 +60,7 @@ namespace DominatorHouseCore.Process
             InitializeActivityCount(account);
         }
 
-        private void InitializeActivityCount(string account)
+        protected void InitializeActivityCount(string account)
         {
             MaxNoOfActionPerJob = this.JobConfiguration.JobsActivityCount.GetRandom();
             MaxNoOfActionPerHour = JobConfiguration.HoursActivityCount.GetRandom();
@@ -74,43 +74,6 @@ namespace DominatorHouseCore.Process
             DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(AccountModel.AccountBaseModel.UserName, DatabaseType.AccountType);
         }
 
-        public void StartProcess()
-        {
-            try
-            {
-                DictRunningJobs.Add(this.TemplateId, "");
-                if (string.IsNullOrEmpty(this.campaignId))
-                    return;
-
-                GlobusLogHelper.log.Info("Process started with account => " + AccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
-                if (!this.AccountModel.IsUserLoggedIn)
-                {
-                    GlobusLogHelper.log.Info("Logging in with account => " + AccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
-                    LogInProcess logInProcess = new LogInProcess();
-                    logInProcess.LoginWithDataBaseCookies(this.AccountModel, true);
-                }
-
-                if (this.AccountModel.IsUserLoggedIn)
-                {
-                    GlobusLogHelper.log.Info("Logged in successfully with account => " + AccountModel.UserName + " module => " + ActivityType.ToString());
-                    InstagramScraper instragramscraper = new InstagramScraper(this);
-                    instragramscraper.ScrapeWithQuery();
-                }
-                try
-                {
-                    DictRunningJobs.Remove(this.TemplateId);
-                }
-                catch (Exception)
-                {
-                }
-            }
-            catch (Exception Ex)
-            {
-            }
-            finally
-            {
-            }
-        }
 
 
         public JobProcessResult FinalProcess(ScrapeResultNew ScrapedResult)
