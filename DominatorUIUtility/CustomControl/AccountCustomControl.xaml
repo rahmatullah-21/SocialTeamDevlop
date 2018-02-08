@@ -243,7 +243,7 @@
                               FontWeight="SemiBold" 
                               Foreground="White"
                               GridLinesVisibility="All"
-                              ItemsSource="{Binding LstAccountModel,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding LstDominatorAccountModel,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               RowHeight="30"
                               ScrollViewer.HorizontalScrollBarVisibility="Auto"
                               ScrollViewer.VerticalScrollBarVisibility="Auto" >
@@ -251,38 +251,38 @@
                     <Style TargetType="DataGridRow">
                         <Setter Property="Background" Value="#A07120" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Status}" Value="Success">
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Success">
                                 <Setter Property="Background" Value="#3C804C" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Status}" Value="Failed">
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Failed">
                                 <Setter Property="Background" Value="#7C0409" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Status}" Value="Fail">
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Fail">
                                 <Setter Property="Background" Value="#7C0409" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Status}" Value="Invalid Credentials">
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Invalid Credentials">
                                 <Setter Property="Background" Value="#7C0409" />
                             </DataTrigger>
 
-                            <DataTrigger Binding="{Binding Status}" Value="Verify">
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify">
                                 <Setter Property="Background" Value="#A07120" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Status}" Value="Verify via Phone Number">
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Phone Number">
                                 <Setter Property="Background" Value="#A07120" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Status}" Value="Verify via Email">
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Email">
                                 <Setter Property="Background" Value="#A07120" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Status}" Value="Verify via Phone Number or Email">
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Phone Number or Email">
                                 <Setter Property="Background" Value="#A07120" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Status}" Value="Not Checked">
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Not Checked">
                                 <Setter Property="Background" Value="#A07120" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Status}" Value="Proxy is Not Working">
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Proxy is Not Working">
                                 <Setter Property="Background" Value="#A07120" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Status}" Value="Verify Your Account">
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify Your Account">
                                 <Setter Property="Background" Value="#A07120" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -402,19 +402,19 @@
 
                     </DataGridTemplateColumn>
 
-                    <DataGridTextColumn Binding="{Binding UserName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Foreground="White" IsReadOnly="True" >
+                    <DataGridTextColumn Binding="{Binding AccountBaseModel.UserName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Foreground="White" IsReadOnly="True" >
                         <DataGridTextColumn.Header>
                             <TextBlock Text="{DynamicResource langUsername}" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding AccountGroup.AccountGroupName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"   Foreground="White" IsReadOnly="True" >
+                    <DataGridTextColumn Binding="{Binding AccountBaseModel.AccountGroup.Content,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"   Foreground="White" IsReadOnly="True" >
                         <DataGridTextColumn.Header>
                             <TextBlock Text="{DynamicResource langAccountGroup}" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding Status}" IsReadOnly="True"  Foreground="White" >
+                    <DataGridTextColumn Binding="{Binding AccountBaseModel.Status}" IsReadOnly="True"  Foreground="White" >
                         <DataGridTextColumn.Header>
                             <TextBlock Text="{DynamicResource langStatus}" />
                         </DataGridTextColumn.Header>
@@ -481,7 +481,7 @@
                     </DataGridTextColumn>
 
 
-                    <DataGridTextColumn Binding="{Binding AccountProxy.ProxyIp,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Foreground="White" IsReadOnly="True" >
+                    <DataGridTextColumn Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Foreground="White" IsReadOnly="True" >
                         <DataGridTextColumn.Header>
                             <TextBlock Text="{DynamicResource langProxyIp}" />
                         </DataGridTextColumn.Header>
@@ -505,16 +505,7 @@
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>-->
 
-                    <DataGridTemplateColumn Visibility="Hidden">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label Content="" Foreground="White" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.Header>
-                            <TextBlock Text="{DynamicResource langAction}" />
-                        </DataGridTemplateColumn.Header>
-                    </DataGridTemplateColumn>
+                   
 
                 </DataGrid.Columns>
 

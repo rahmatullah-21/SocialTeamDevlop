@@ -26,7 +26,7 @@ namespace DominatorHouseCore.Process
         protected int NoOfActionPerformedCurrentWeek = 0;
         public string TemplateId { get; set; }
         public string campaignId { get; set; }
-        public DominatorAccountModel AccountModel { get; set; }
+        public DominatorAccountModel DominatorAccountModel { get; set; }
         public JobConfiguration JobConfiguration { get; set; }
         public ActivityType ActivityType { get; set; }
         public object GdBinFileHelper { get; private set; }
@@ -37,9 +37,9 @@ namespace DominatorHouseCore.Process
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; } 
         #endregion
 
-        public JobProcess(DominatorAccountModel AccountModel, JobConfiguration JobConfiguration, ActivityType activityType, TimingRange CurrentJobTimeRange)
+        public JobProcess(DominatorAccountModel dominatorAccountModel, JobConfiguration JobConfiguration, ActivityType activityType, TimingRange CurrentJobTimeRange)
         {
-            this.AccountModel = AccountModel;
+            this.DominatorAccountModel = dominatorAccountModel;
             this.JobConfiguration = JobConfiguration;
             this.ActivityType = activityType;
             this.CurrentJobTimeRange = CurrentJobTimeRange;
@@ -48,7 +48,7 @@ namespace DominatorHouseCore.Process
 
         public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
         {
-            this.AccountModel = BinFileHelper.GetBinFileDetails<DominatorAccountModel>().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
+            this.DominatorAccountModel = BinFileHelper.GetBinFileDetails<DominatorAccountModel>().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
             this.CurrentJobTimeRange = CurrentJobTimeRange;
             TemplateModel model = BinFileHelper.GetBinFileDetails<TemplateModel>().FirstOrDefault(x => x.Id == template);
             this.JobConfiguration = Newtonsoft.Json.JsonConvert.DeserializeObject<JobConfiguration>(model.ActivitySettings);
@@ -71,7 +71,7 @@ namespace DominatorHouseCore.Process
         private void InitializeDatabseConnection()
         {
             DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionInstance(campaignId, DatabaseType.CampaignType);
-            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(AccountModel.AccountBaseModel.UserName, DatabaseType.AccountType);
+            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.UserName, DatabaseType.AccountType);
         }
 
 
@@ -83,7 +83,7 @@ namespace DominatorHouseCore.Process
             if (jobProcessResult.IsProcessCompleted)
             {
                 StartOtherConfiguration(ScrapedResult);
-                GlobusLogHelper.log.Info("Process completed with account => " + AccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+                GlobusLogHelper.log.Info("Process completed with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
             }
             return jobProcessResult;
         }
@@ -108,14 +108,14 @@ namespace DominatorHouseCore.Process
             NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24).Count();
             if (NoOfActionPerformedCurrentDay > MaxNoOfActionPerDay)
             {
-                TaskAndThreadUtility.StopTask(this.AccountModel.AccountBaseModel.UserName, this.TemplateId);
+                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
                 return true;
             }
 
             NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24 * 7).Count();
             if (NoOfActionPerformedCurrentWeek > MaxNoOfActionPerWeek)
             {
-                TaskAndThreadUtility.StopTask(this.AccountModel.AccountBaseModel.UserName, this.TemplateId);
+                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
                 return true;
             }
 
@@ -124,7 +124,7 @@ namespace DominatorHouseCore.Process
 
         private void ScheduleNextJob(DateTime dateTime)
         {
-            TaskAndThreadUtility.StopTask(this.AccountModel.AccountBaseModel.UserName, this.TemplateId);
+            TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
 
             List<RunningTimes> lstTimings = this.JobConfiguration.RunningTime;
 
@@ -142,12 +142,12 @@ namespace DominatorHouseCore.Process
 
             if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
             {
-                var TemplateId = AccountModel.ActivityManager.LstModuleConfiguration
+                var TemplateId = DominatorAccountModel.ActivityManager.LstModuleConfiguration
                      .FirstOrDefault(x => x.ActivityType == ActivityType.Follow).TemplateId;
                 JobManager.AddJob(
                     () =>
                     {
-                        ActivityDeserialize.GdScheduler(AccountModel.AccountBaseModel.UserName, TemplateId, CurrentJobTimeRange,
+                        ActivityDeserialize.GdScheduler(DominatorAccountModel.AccountBaseModel.UserName, TemplateId, CurrentJobTimeRange,
                             ActivityType.Follow.ToString());
                     }, s => s.WithName($"{ActivityType.Follow.ToString()}-{this.TemplateId}").ToRunOnceAt(dateTime));
             }
@@ -168,7 +168,7 @@ namespace DominatorHouseCore.Process
 
         protected void StopFollow()
         {
-            TaskAndThreadUtility.StopTask(this.AccountModel.AccountBaseModel.UserName, TemplateId);
+            TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, TemplateId);
             List<TemplateModel> lstTemplateModel = BinFileHelper.GetTemplateDetails();
             lstTemplateModel.ForEach(template =>
             {
