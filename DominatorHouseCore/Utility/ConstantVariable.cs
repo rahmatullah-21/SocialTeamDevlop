@@ -61,7 +61,13 @@ namespace DominatorHouseCore.Utility
             return GetDominatorBaseDirectory()+ ConstantVariable.DominatorPath + "\\Index\\AC";
         }
 
-       // public static string GetIndexCampaignPath(SocialNetworks.Instagram) = GdPath + "\\Index\\CP";
+        // Back compatibility
+        public static string GetIndexAccountPath(SocialNetworks sc)
+        {
+            return GetIndexAccountPath();
+        }
+
+            // public static string GetIndexCampaignPath(SocialNetworks.Instagram) = GdPath + "\\Index\\CP";
 
         public static string GetIndexCampaignPath(SocialNetworks SocialNetworkType)
         {
