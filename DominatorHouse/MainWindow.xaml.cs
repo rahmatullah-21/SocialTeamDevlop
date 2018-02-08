@@ -23,6 +23,8 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorUIUtility.CustomControl;
 using NLog;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore;
 
 #endregion
 
@@ -31,7 +33,7 @@ namespace DominatorHouse
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : MetroWindow, ILoggableWindow
     {
         public List<TabItemTemplates> TabItems { get; set; }
         // Bring all the performance bottlenecks to here. Actually MainWindow class should 
@@ -43,15 +45,17 @@ namespace DominatorHouse
 
         public MainWindow()
         {
+            DominatorHouseInitializer.Init(this);
+
             //XmlConfigurator.Configure();
             var account = RandomUtilties.GetRandomTexts(10);
             InitializeComponent();
-
-            // GlobusLogHelper.InitializeLogger(this);
+            
             objMainWindowRef = this;
             InitializeTabs();
             GlobusLogHelper.log.Info("Welcome to Dominator social" );        
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social"); 
+
 
             ActivityDeserialize.GdScheduler += GdScheduler.StartScheduler;
             //AccountManagerViewModel accountManagerViewModel = AccountManagerViewModel.GetAccountManagerViewModel();
