@@ -1,0 +1,131 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Win32;
+
+namespace DominatorHouseCore.Diagnostics
+{
+    class GlobusExceptionHandler
+    {
+        [DllImport("kernel32.dll")]
+        static extern ErrorModes SetErrorMode(ErrorModes uMode);
+
+        [Flags]
+        public enum ErrorModes : uint
+        {
+            SYSTEM_DEFAULT = 0x0,
+            SEM_FAILCRITICALERRORS = 0x0001,
+            SEM_NOALIGNMENTFAULTEXCEPT = 0x0004,
+            SEM_NOGPFAULTERRORBOX = 0x0002,
+            SEM_NOOPENFILEERRORBOX = 0x8000
+        }
+
+        // Call to disable error report dialogs over App
+        public static void DisableErrorDialog()
+        {
+            try
+            {
+                var dwMode = SetErrorMode(ErrorModes.SEM_NOGPFAULTERRORBOX);
+                SetErrorMode(dwMode | ErrorModes.SEM_NOGPFAULTERRORBOX);
+            }
+            catch { }
+        }
+
+        // Call to disable error report dialogs over System
+        public static void DisableErrorDialogForSystem()
+        {
+            //[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting]
+            //"ForceQueue"=dword:00000001
+            try
+            {
+                var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting", true);
+                key.SetValue("ForceQueue", 1);
+
+                key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting", true);
+                key.SetValue("ForceQueue", 1);
+            }
+            catch { }
+
+            //[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\Consent]
+            //"DefaultConsent"=dword:00000001
+            try
+            {
+                var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting\Consent", true);
+                if(key != null)
+                    key.SetValue("DefaultConsent", 1);
+
+                key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting\Consent", true);
+                if (key != null)
+                    key.SetValue("DefaultConsent", 1);
+            }
+            catch
+            {
+            }
+
+            // [HKLM|HKCU]\Software\Microsoft\Windows\Windows Error Reporting\DontShowUI
+            try
+            {
+                var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting", true);
+                key.SetValue("DontShowUI", 1);                
+            }
+            catch { }
+
+            try
+            {
+                var key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting", true);
+                key.SetValue("DontShowUI", 1);
+            }
+            catch { }
+        }
+
+        public static void SetupGlobalExceptionHandlers()
+        {
+            AppDomain.CurrentDomain.UnhandledException += (o, e) =>
+            {
+                try
+                {
+                    HandleGlobalException(e.ExceptionObject as Exception, o.ToString());
+                }
+                catch { }
+            };            
+
+            TaskScheduler.UnobservedTaskException += (o, e) =>
+            {
+                try
+                {
+                    HandleGlobalException(e.Exception, o.ToString());
+                }
+                catch
+                { }
+            };
+
+        }
+
+        /// <summary>
+        /// Application will be exit after notifying user on Unhandled exception occurred
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="senderString"></param>
+        internal static void HandleGlobalException(Exception exception, string senderString)
+        {
+            try
+            {
+                if (exception != null)
+                {
+                    UIDiagnostic.Fatal(exception, "Unhandled exception has been thrown from {0}", senderString);
+                }
+                else
+                    UIDiagnostic.Fatal("Unhandled exception has been thrown from {0}", senderString);
+            }
+            catch (Exception ex)
+            {
+                UIDiagnostic.Fatal(ex, "Unhandled exception has been thrown in HandleGlobalException()");                
+            }
+        }
+
+    }
+}

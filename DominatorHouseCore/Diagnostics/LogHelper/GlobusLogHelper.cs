@@ -52,7 +52,7 @@ namespace DominatorHouseCore.LogHelper
         {
         }
 
-        public static void InitializeLogger(ILoggableWindow window)
+        internal static void InitializeLoggerUI(ILoggableWindow window)
         {
             ((Window)window).Loaded += (s, e) => {
                 var target = new NlogUiTarget("Activity Log", LogLevel.Info);
@@ -73,7 +73,7 @@ namespace DominatorHouseCore.LogHelper
                 }
                 catch (Exception ex)
                 {
-                    GlobusLogHelper.log.Error(" Error : " + ex.Message);
+                    Console.WriteLine(" Error : " + ex.Message);
                 }
             }));
         }
