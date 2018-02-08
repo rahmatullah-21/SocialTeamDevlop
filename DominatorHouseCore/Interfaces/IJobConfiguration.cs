@@ -22,13 +22,13 @@ namespace DominatorHouseCore.Interfaces
 
         List<RunningTimes> RunningTime { get; set; }
 
-        string JobsActivityDisplayName { get; set; }
+        string ActivitiesPerJobDisplayName { get; set; }
 
-        string HoursActivityDisplayName { get; set; }
+        string ActivitiesPerHourDisplayName { get; set; }
 
-        string DaysActivityDisplayName { get; set; }
+        string ActivitiesPerDayDisplayName { get; set; }
 
-        string WeeksActivityDisplayName { get; set; }
+        string ActivitiesPerWeekDisplayName { get; set; }
 
         string IncreaseActivityDisplayName { get; set; }
 

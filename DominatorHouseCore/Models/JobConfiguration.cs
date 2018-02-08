@@ -61,21 +61,21 @@ namespace DominatorHouseCore.Models
         [ProtoMember(7)]
         public IncreaseActivityRange IncreaseActivitiesEachDay { get; set; }
 
-        // Day of week and time interval when Activity will be active
+        // Day of Week and Time interval when Activity will be active
         [ProtoMember(8)]
         public List<RunningTimes> RunningTime { get; set; }
 
         [ProtoMember(9)]
-        public string JobsActivityDisplayName { get; set; } = string.Empty;
+        public string ActivitiesPerJobDisplayName { get; set; } = string.Empty;
 
         [ProtoMember(10)]
-        public string HoursActivityDisplayName { get; set; } = string.Empty;
+        public string ActivitiesPerHourDisplayName { get; set; } = string.Empty;
 
         [ProtoMember(11)]
-        public string DaysActivityDisplayName { get; set; } = string.Empty;
+        public string ActivitiesPerDayDisplayName { get; set; } = string.Empty;
 
         [ProtoMember(12)]
-        public string WeeksActivityDisplayName { get; set; } = string.Empty;
+        public string ActivitiesPerWeekDisplayName { get; set; } = string.Empty;
 
         [ProtoMember(13)]
         public string IncreaseActivityDisplayName { get; set; } = string.Empty;
