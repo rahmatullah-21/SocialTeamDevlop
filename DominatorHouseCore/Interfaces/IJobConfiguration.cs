@@ -6,19 +6,19 @@ namespace DominatorHouseCore.Interfaces
 {
     public interface IJobConfiguration
     {
-        RangeUtilities ActivitiesDelay { get; set; }
+        RangeUtilities DelayBetweenActivity { get; set; }
 
-        RangeUtilities JobsDelay { get; set; }
+        RangeUtilities DelayBetweenJobs { get; set; }
 
-        RangeUtilities JobsActivityCount { get; set; }
+        RangeUtilities ActivitiesPerJob { get; set; }
 
-        RangeUtilities HoursActivityCount { get; set; }
+        RangeUtilities ActivitiesPerHour { get; set; }
 
-        RangeUtilities DaysActivityCount { get; set; }
+        RangeUtilities ActivitiesPerDay { get; set; }
 
-        RangeUtilities WeeksActivityCount { get; set; }
+        RangeUtilities ActivitiesPerWeek { get; set; }
 
-        IncreaseActivityRange IncreaseActivity { get; set; }
+        IncreaseActivityRange IncreaseActivitiesEachDay { get; set; }
 
         List<RunningTimes> RunningTime { get; set; }
 

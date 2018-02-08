@@ -62,10 +62,10 @@ namespace DominatorHouseCore.Process
 
         protected void InitializeActivityCount(string account)
         {
-            MaxNoOfActionPerJob = this.JobConfiguration.JobsActivityCount.GetRandom();
-            MaxNoOfActionPerHour = JobConfiguration.HoursActivityCount.GetRandom();
-            MaxNoOfActionPerDay = JobConfiguration.DaysActivityCount.GetRandom();
-            MaxNoOfActionPerWeek = JobConfiguration.WeeksActivityCount.GetRandom();
+            MaxNoOfActionPerJob = this.JobConfiguration.ActivitiesPerJob.GetRandom();
+            MaxNoOfActionPerHour = JobConfiguration.ActivitiesPerHour.GetRandom();
+            MaxNoOfActionPerDay = JobConfiguration.ActivitiesPerDay.GetRandom();
+            MaxNoOfActionPerWeek = JobConfiguration.ActivitiesPerWeek.GetRandom();
             InitializeDatabseConnection();
         }
         private void InitializeDatabseConnection()
@@ -93,7 +93,7 @@ namespace DominatorHouseCore.Process
 
             if (NoOfActionPerformedCurrentJob > MaxNoOfActionPerJob)
             {
-                ScheduleNextJob(DateTime.Now.AddTicks(this.JobConfiguration.JobsDelay.GetRandom()));
+                ScheduleNextJob(DateTime.Now.AddTicks(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
                 return true;
             }
             int currentTime = DateTimeUtilities.GetEpochTime();
@@ -101,7 +101,7 @@ namespace DominatorHouseCore.Process
             if (NoOfActionPerformedCurrentHour > MaxNoOfActionPerHour)
             {
 
-                ScheduleNextJob(DateTime.Now.AddMinutes(this.JobConfiguration.JobsDelay.GetRandom()));
+                ScheduleNextJob(DateTime.Now.AddMinutes(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
                 return true;
             }
 

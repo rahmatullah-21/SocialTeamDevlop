@@ -10,7 +10,7 @@ using ProtoBuf;
 
 namespace DominatorHouseCore.Models
 {
-    public class DominatorAccountModel
+    public class DominatorAccountModel : BindableBase
     {
         public DominatorAccountBaseModel AccountBaseModel { get; set; }
         #region Common Properties

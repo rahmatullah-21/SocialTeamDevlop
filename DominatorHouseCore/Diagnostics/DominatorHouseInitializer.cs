@@ -24,9 +24,11 @@ namespace DominatorHouseCore.Diagnostics
             if (_isInitialized) return;
             _isInitialized = true;
 
+            // initialize global exception handler
             GlobusExceptionHandler.SetupGlobalExceptionHandlers();
             GlobusExceptionHandler.DisableErrorDialog();
 
+            // initialize logging to UI
             if (mainWindow is ILoggableWindow)
                 GlobusLogHelper.InitializeLoggerUI((ILoggableWindow)mainWindow);
 

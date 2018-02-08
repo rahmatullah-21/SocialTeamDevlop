@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
+using FluentScheduler;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -103,8 +104,18 @@ namespace DominatorHouseCore.Diagnostics
                 { }
             };
 
+            // Exception within jobs
+            JobManager.JobException += job =>
+            {
+                try
+                {
+                    HandleGlobalException(job.Exception, job.Name);
+                }
+                catch { }
+            };
         }
 
+        
         /// <summary>
         /// Application will be exit after notifying user on Unhandled exception occurred
         /// </summary>
@@ -113,7 +124,7 @@ namespace DominatorHouseCore.Diagnostics
         internal static void HandleGlobalException(Exception exception, string senderString)
         {
             try
-            {
+            {                
                 if (exception != null)
                 {
                     UIDiagnostic.Fatal(exception, "Unhandled exception has been thrown from {0}", senderString);

@@ -5,20 +5,35 @@ using ProtoBuf;
 
 namespace DominatorHouseCore.Models
 {
- 
+     /// <summary>
+     /// Stores schedule of JobProcess and its activities: delays, timing range, limits per job/hour/day/week
+     /// </summary>
     [ProtoContract]
     public class JobConfiguration : IJobConfiguration
     {
 
         public JobConfiguration()
         {
-            ActivitiesDelay = new RangeUtilities(10, 20);
-            JobsDelay = new RangeUtilities(10, 20);
-            JobsActivityCount = new RangeUtilities(10, 20);
-            HoursActivityCount = new RangeUtilities(10, 20);
-            DaysActivityCount = new RangeUtilities(10, 20);
-            WeeksActivityCount = new RangeUtilities(10, 20);
-            IncreaseActivity = new IncreaseActivityRange(10, 100, false);
+            //  Delay between each operations (minutes)
+            DelayBetweenActivity = new RangeUtilities(10, 20);
+
+            //  Delay between jobs (minutes)
+            DelayBetweenJobs = new RangeUtilities(10, 20);
+
+            // Number of <activities> per Job (users)
+            ActivitiesPerJob = new RangeUtilities(10, 20);
+
+            // Number of <activities> per Hour (users)
+            ActivitiesPerHour = new RangeUtilities(10, 20);
+
+            // Number of <activities> per Day (users)
+            ActivitiesPerDay = new RangeUtilities(10, 20);
+
+            // Number of <activities> per Week (users)
+            ActivitiesPerWeek = new RangeUtilities(10, 20);
+
+            // Increase each day with 10 until it reaches 100 max <activity> per day
+            IncreaseActivitiesEachDay = new IncreaseActivityRange(10, 100, false);
          
         }
 
@@ -26,26 +41,27 @@ namespace DominatorHouseCore.Models
         #region IJobConfiguration
 
         [ProtoMember(1)]
-        public RangeUtilities ActivitiesDelay { get; set; }
+        public RangeUtilities DelayBetweenActivity { get; set; }
 
         [ProtoMember(2)]
-        public RangeUtilities JobsDelay { get; set; }
+        public RangeUtilities DelayBetweenJobs { get; set; }
 
         [ProtoMember(3)]
-        public RangeUtilities JobsActivityCount { get; set; }
+        public RangeUtilities ActivitiesPerJob { get; set; }
 
         [ProtoMember(4)]
-        public RangeUtilities HoursActivityCount { get; set; }
+        public RangeUtilities ActivitiesPerHour { get; set; }
 
         [ProtoMember(5)]
-        public RangeUtilities DaysActivityCount { get; set; }
+        public RangeUtilities ActivitiesPerDay { get; set; }
 
         [ProtoMember(6)]
-        public RangeUtilities WeeksActivityCount { get; set; }
+        public RangeUtilities ActivitiesPerWeek { get; set; }
 
         [ProtoMember(7)]
-        public IncreaseActivityRange IncreaseActivity { get; set; }
+        public IncreaseActivityRange IncreaseActivitiesEachDay { get; set; }
 
+        // Day of week and time interval when Activity will be active
         [ProtoMember(8)]
         public List<RunningTimes> RunningTime { get; set; }
 
