@@ -10,51 +10,34 @@ using DominatorHouseCore.Utility;
 using FluentScheduler;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Process;
-
+using DominatorHouseCore.Interfaces;
 
 namespace DominatorHouseCore.BusinessLogic
 {    
-    public class DominatorScheduler
+    public partial class DominatorScheduler
     {
         /// <summary>
-        /// 
-        /// </summary>        
-        public static void InitalizeScheduler(DominatorAccountModel account)
+        /// Loads all activities for particular social network and runs them
+        /// </summary>
+        public static void InitializeScheduler(IJobProcessFactory jobProcessFactory)
         {
-            // 1. Load jobs from Template.bin
-
-        }
-
-        public static void StopScheduler(string accountId, string module, string tamplateId)
-        {
-            TaskAndThreadUtility.StopTask(accountId , tamplateId);
-          
-            JobManager.RemoveJob($"{module}-{tamplateId}");
-            Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{tamplateId}");
-
-            try
-            {
-                ScheduledJob.Disable();
-
-                if (ScheduledJob.Disabled)
-                {
-                    GlobusLogHelper.log.Info($"{module}-{tamplateId}" + " stopped");
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Info($"{module}-{tamplateId}" + " job not yet running");
-            }
-                
+            // TODO: load activities and create them through factory
         }
 
 
+        /// <summary>
+        /// Starts scheduler for specified 'module' . 
+        /// </summary>
+        /// <typeparam name="T">type of job like GramDominator.FollowProcess</typeparam>
+        /// <param name="account"></param>
+        /// <param name="template"></param>
+        /// <param name="CurrentJobTimeRange"></param>
+        /// <param name="module">Follow, Comment, etc.</param>
         public static void StartScheduler<T>(string account, string template, TimingRange CurrentJobTimeRange, string module)
-            where T : JobProcess
+            where T : JobProcess, new()
         {
             Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{template}");
-             if (ScheduledJob!=null && ScheduledJob.Disabled)
+            if (ScheduledJob != null && ScheduledJob.Disabled)
                 return;
 
             var activity = (ActivityType)Enum.Parse(typeof(ActivityType), module);
@@ -64,26 +47,31 @@ namespace DominatorHouseCore.BusinessLogic
                 // Call Follow Module
                 case ActivityType.Follow:
                     
-                    /*GdFollowProcess*/ var followProcess = new FollowProcess(account, template, activity, CurrentJobTimeRange);
+                    T followProcess = (T)(new T().Initialize(account, template, activity, CurrentJobTimeRange));
                     Task.Factory.StartNew(() =>
                     {
                         GlobusLogHelper.log.Info("process started with [ " + account + "]");
                         followProcess.StartProcess();
                        
-                    }/*, followProcess.JobCancellationTokenSource.Token*/);
+                    }, followProcess.JobCancellationTokenSource.Token);
                     break;
+
                 case ActivityType.Unfollow:
                     // Call Unfollow Module
                     break;
+
                 case ActivityType.Like:
                     // Call Like Module
                     break;
+
                 case ActivityType.Unlike:
                     // Call Unlike Module
                     break;
+
                 case ActivityType.Comment:
                     // Call Comment Module
                     break;
+
                 case ActivityType.DeleteComment:
                     // Call DeleteComment Module
                     break;
@@ -112,6 +100,33 @@ namespace DominatorHouseCore.BusinessLogic
             }
         }
 
+
+        public static void StopScheduler(string accountId, string module, string tamplateId)
+        {
+            TaskAndThreadUtility.StopTask(accountId, tamplateId);
+
+            JobManager.RemoveJob($"{module}-{tamplateId}");
+            Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{tamplateId}");
+
+            try
+            {
+                ScheduledJob.Disable();
+
+                if (ScheduledJob.Disabled)
+                {
+                    GlobusLogHelper.log.Info($"{module}-{tamplateId}" + " stopped");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Info($"{module}-{tamplateId}" + " job not yet running");
+            }
+
+        }
+
+
+
         public static void ScheduleTodayJobs(DominatorAccountModel dominatorAccount , ActivityType? activityType = null)
         {
             var moduleConfiguration = dominatorAccount.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
@@ -127,30 +142,9 @@ namespace DominatorHouseCore.BusinessLogic
             }
             catch (Exception ex)
             {
+                GlobusLogHelper.log.Debug(ex, $"{nameof(ScheduleTodayJobs)} unexpected exception");
             }
-            #region Commented
-            //switch (activityType)
-            //{
-            //    case ActivityType.Follow:
-            //        if (!account.ActivityManager.FollowModule.IsEnabled)
-            //            return;
-            //        try
-            //        {
-            //            JobManager.RunningSchedules.ToList().ForEach(schedule =>
-            //            {
-            //                if (schedule.Name == $"{activityType.ToString()}-{account.ActivityManager.FollowModule.TemplateId}")
-            //                    return;
-            //            });
-            //        }
-            //        catch (Exception ex)
-            //        {
-
-
-            //        }
-
-            //        break;
-            //} 
-            #endregion
+            
 
             try
             {
@@ -226,77 +220,8 @@ namespace DominatorHouseCore.BusinessLogic
 
             var gdModule = (ActivityType)Enum.Parse(typeof(ActivityType), timing.Module);
 
-            return dominatorAccount.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == gdModule).TemplateId;
-
-            #region Commented
-            //switch (gdModule)
-            //{
-            //    case ActivityType.Follow:
-            //        templateId = account.ActivityManager.FollowModule.TemplateId;//accountDetails.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType.Follow)
-            //        break;
-            //    case ActivityType.Unfollow:
-            //        templateId = account.ActivityManager.UnfollowModule.TemplateId;
-            //        break;
-            //    case ActivityType.Like:
-            //        templateId = account.ActivityManager.LikeModule.TemplateId;
-            //        break;
-            //    case ActivityType.Unlike:
-            //        templateId = account.ActivityManager.UnlikeModule.TemplateId;
-            //        break;
-            //    case ActivityType.Comment:
-            //        templateId = account.ActivityManager.CommentModule.TemplateId;
-            //        break;
-            //    case ActivityType.DeleteComment:
-            //        templateId = account.ActivityManager.DeleteCommentModule.TemplateId;
-            //        break;
-            //    case ActivityType.Post:
-            //        templateId = account.ActivityManager.PostingModule.TemplateId;
-            //        break;
-            //    case ActivityType.Repost:
-            //        templateId = account.ActivityManager.RepostModule.TemplateId;
-            //        break;
-            //    case ActivityType.DeletePost:
-            //        templateId = account.ActivityManager.DeletePostModule.TemplateId;
-            //        break;
-            //    case ActivityType.Message:
-            //        templateId = account.ActivityManager.MessageModule.TemplateId;
-            //        break;
-            //    case ActivityType.UserScraper:
-            //        templateId = account.ActivityManager.UserScraperModule.TemplateId;
-            //        break;
-            //    case ActivityType.DownloadScraper:
-            //        templateId = account.ActivityManager.PhotoScraperModule.TemplateId;
-            //        break;
-            //} 
-            #endregion
-            return templateId;
-        }
-    }
-
-    public class FollowProcess
-    {
-        private string account;
-        private ActivityType activity;
-        private TimingRange currentJobTimeRange;
-        private string template;
-
-        virtual public JobCancellationToken JobCancellationTokenSource { get; internal set; }
-
-        public FollowProcess(string account, string template, ActivityType activity, TimingRange currentJobTimeRange)
-        {
-            this.account = account;
-            this.template = template;
-            this.activity = activity;
-            this.currentJobTimeRange = currentJobTimeRange;
-        }
-
-        public virtual void StartProcess()
-        {
+            // Returns TemplateId for particular module
+            return dominatorAccount.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == gdModule).TemplateId;            
         }
     }    
-
-    public class JobCancellationToken
-    {
-        
-    }   
 }

@@ -10,9 +10,9 @@ namespace DominatorHouseCore.Utility
     public class ActivityDeserialize
     {
         /// <summary>
-        /// Callback of GdScheduler.StartScheduler on app startup
+        /// Callback to start scheduler on app startup, create/update campaign, etc.
         /// </summary>
-        public static Action<string, string, TimingRange, string> GdScheduler { get; set; }
+        public static Action<string, string, TimingRange, string> DominatorScheduler { get; set; }
 
         public static Action<string, string, string> FdScheduler { get; set; }
 
@@ -34,10 +34,10 @@ namespace DominatorHouseCore.Utility
             switch (socialNetworks)
             {
                 case SocialNetworks.Instagram:
-                    ActivityDeserialize.GdScheduler(AccountUserName, TemplateId, timing, ModuleName);
+                    DominatorScheduler?.Invoke(AccountUserName, TemplateId, timing, ModuleName);
                     break;
                 case SocialNetworks.Facebook:
-                    ActivityDeserialize.FdScheduler(AccountUserName, TemplateId, ModuleName);
+                    FdScheduler?.Invoke(AccountUserName, TemplateId, ModuleName);
                     break;
             }
         }
