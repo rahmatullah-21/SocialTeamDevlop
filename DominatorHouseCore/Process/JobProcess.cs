@@ -13,6 +13,13 @@ using Newtonsoft.Json;
 
 namespace DominatorHouseCore.Process
 {
+    /// <summary>
+    /// Base abstract class for other jobs: FollowProcess, LikeProcess
+    /// Contains: account, job configuration (schedule), activity type (follow, unfollow, etc),
+    /// other helper objects.
+    /// 
+    /// Derived class have to implement PostScrapeProcess
+    /// </summary>
     public abstract class JobProcess
     {
         #region Required Properties
@@ -147,6 +154,7 @@ namespace DominatorHouseCore.Process
                 JobManager.AddJob(
                     () =>
                     {
+                        // Calls DominatorScheduler
                         ActivityDeserialize.GdScheduler(DominatorAccountModel.AccountBaseModel.UserName, TemplateId, CurrentJobTimeRange,
                             ActivityType.Follow.ToString());
                     }, s => s.WithName($"{ActivityType.Follow.ToString()}-{this.TemplateId}").ToRunOnceAt(dateTime));

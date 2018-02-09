@@ -1,14 +1,57 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
     public class JobActivityManager
     {
+        /// <summary>
+        /// Module Configurations. FollowModule, UnfollowModule, LikeModule etc.
+        /// </summary>
         [ProtoMember(1)]
         public List<ModuleConfiguration> LstModuleConfiguration { get; set; } = new List<ModuleConfiguration>();
+
+        /// <summary>
+        /// Day of week and Time when particular modules will be running
+        /// </summary>
+        [ProtoMember(14)]
+        public List<RunningTimes> RunningTime { get; set; } = new List<RunningTimes>();
+
+
+        public JobActivityManager()
+        {
+#if DEBUG            
+            FillConfigurations();
+            FillRunningTime();
+#endif
+        }
+
+        private void FillRunningTime()
+        {
+            RunningTime = RunningTimes.DayWiseRunningTimes;
+        }
+
+
+        // TODO: have to be loaded from Templates.bin
+        void FillConfigurations()
+        {            
+            LstModuleConfiguration.Add(new ModuleConfiguration()
+            {
+                TemplateId = "",
+                IsEnabled = false,         
+                Status = "",
+                LastUpdatedDate = DateTimeUtilities.GetEpochTime(),
+                LstRunningTimes = new List<RunningTimes>(),
+                ActivityType = ActivityType.Follow,
+            });
+        }
+
+
+        #region Not Implemented Modules
 
         //[ProtoMember(2)]
         //public ModuleConfiguration UnfollowModule { get; set; } = new ModuleConfiguration();
@@ -57,9 +100,7 @@ namespace DominatorHouseCore.Models
         //[ProtoMember(13)]
         //public ModuleConfiguration PhotoScraperModule { get; set; } = new ModuleConfiguration();
 
-
-        [ProtoMember(14)]
-        public List<RunningTimes> RunningTime { get; set; }
+        #endregion
 
     }
 }

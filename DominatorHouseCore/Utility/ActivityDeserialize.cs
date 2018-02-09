@@ -4,9 +4,14 @@ using DominatorHouseCore.Models;
 
 namespace DominatorHouseCore.Utility
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ActivityDeserialize
     {
-
+        /// <summary>
+        /// Callback of GdScheduler.StartScheduler on app startup
+        /// </summary>
         public static Action<string, string, TimingRange, string> GdScheduler { get; set; }
 
         public static Action<string, string, string> FdScheduler { get; set; }

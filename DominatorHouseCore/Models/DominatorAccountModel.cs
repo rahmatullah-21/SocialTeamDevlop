@@ -13,8 +13,12 @@ using ProtoBuf;
 
 namespace DominatorHouseCore.Models
 {
+    /// <summary>
+    /// Reprents each account loaded from %localappdata%/.../AccountDetails.bin
+    /// Contains ActivityManager with Jobs/Activites for this account.
+    /// </summary>
     [ProtoContract]
-    public class DominatorAccountModel : INotifyPropertyChanged
+    public sealed class DominatorAccountModel : BindableBase
     {
         /// <summary>
         /// AccountBaseModel contains the base information of the account
@@ -77,14 +81,6 @@ namespace DominatorHouseCore.Models
 
         public string ModulePrivateDetails { get; set; } = string.Empty;
 
-        #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        #endregion        
     }
 }

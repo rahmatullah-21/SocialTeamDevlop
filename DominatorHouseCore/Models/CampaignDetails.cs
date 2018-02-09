@@ -6,16 +6,20 @@ using ProtoBuf;
 
 namespace DominatorHouseCore.Models
 {
+    /// <summary>
+    /// Contains module/submodule name, selected accounts
+    /// Purpose of campaign is to share it between several users
+    /// </summary>
     [ProtoContract]
     public class CampaignDetails:BindableBase
     {
         public CampaignDetails()
         {
-            CampaignId = Utilities.GetGuid(true);
+            
         }
 
         [ProtoMember(10)]
-        public string CampaignId { get; set; }
+        public string CampaignId { get; } = Utilities.GetGuid(true);
 
 
         [ProtoMember(1)]
