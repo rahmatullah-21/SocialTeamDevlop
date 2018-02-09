@@ -1,11 +1,13 @@
 ﻿using DominatorHouseCore.Utility;
 using System.Windows;
+using ProtoBuf;
 
 namespace DominatorHouseCore.Models
 {
     /// <summary>
     /// ContentSelectGroup is used in binding where content along with select options such as inside combobox content with checkbox 
     /// </summary>
+    [ProtoContract]
     public class ContentSelectGroup : BindableBase
     {
       
@@ -13,6 +15,7 @@ namespace DominatorHouseCore.Models
         /// <summary>
         /// Provide the content
         /// </summary>
+        [ProtoMember(1)]
         public string Content
         {
             get
@@ -33,6 +36,7 @@ namespace DominatorHouseCore.Models
         /// <summary>
         /// IsContentSelected is used to give the status whether the content is selected or not
         /// </summary>
+        [ProtoMember(2)]
         public bool IsContentSelected
         {
             get
@@ -41,11 +45,9 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-
                 if (value == _isContentSelected)
                     return;
                 SetProperty(ref _isContentSelected, value);
-
             }
         }
       

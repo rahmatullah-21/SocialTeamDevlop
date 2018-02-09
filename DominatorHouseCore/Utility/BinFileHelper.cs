@@ -24,6 +24,14 @@ namespace DominatorHouseCore.Utility
             }
         }
 
+        public static List<DominatorAccountModel> ReadAccounts()
+        {
+            lock (AccountReadLocker)
+            {
+                return ProtoBuffBase.DeserializeObjects<DominatorAccountModel>(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
+            }
+        }
+
         #endregion
 
         public static ObservableCollectionBase<string> GetUsers(SocialNetworks socialNetwork)

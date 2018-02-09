@@ -1,18 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Requests;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models
 {
-    public class DominatorAccountModel : BindableBase
+    [ProtoContract]
+    public class DominatorAccountModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// AccountBaseModel contains the base information of the account
+        /// </summary>
+        [ProtoMember(1)]      
         public DominatorAccountBaseModel AccountBaseModel { get; set; }
+
         #region Common Properties
 
         public bool SelectedGroup { get; set; }
@@ -38,23 +47,21 @@ namespace DominatorHouseCore.Models
 
         #region Http
 
-        public HttpHelper HttpHelper { get; set; }
+        public HttpHelper HttpHelper { get; set; } = new HttpHelper();
 
-        public HttpHelper HttpHelperMobile { get; set; }
-
-        public CookieCollection Cookies { get; set; }
+        public CookieCollection Cookies { get; set; } = new CookieCollection();
 
         public bool IsloggedinWithPhone { get; set; }
 
-        public string SessionId { get; set; }
+        public string SessionId { get; set; } = string.Empty;
 
         public DeviceGenerator DeviceDetails { get; set; } = new DeviceGenerator();
 
         public bool IsUserLoggedIn { get; set; }
 
-        public string UserAgentWeb { get; set; }
+        public string UserAgentWeb { get; set; } = string.Empty;
 
-        public string UserAgentMobile { get; set; }
+        public string UserAgentMobile { get; set; } = string.Empty;
 
         public int LastLogin { get; set; }
 
@@ -62,21 +69,22 @@ namespace DominatorHouseCore.Models
 
         #region Display Count
 
-        public string Count { get; set; }
-
-        [ProtoMember(6)]
-        public int FollowersCount { get; set; }
-        [ProtoMember(6)]
-        public int FollowingCount { get; set; }
-        [ProtoMember(8)]
-        public int PostsCount { get; set; }
+        public string Count { get; set; } = "0";
 
         #endregion
 
         #region Module Wise Details
 
-        public string ModulePrivateDetails { get; set; }
+        public string ModulePrivateDetails { get; set; } = string.Empty;
 
         #endregion
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

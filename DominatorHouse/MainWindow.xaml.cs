@@ -19,7 +19,6 @@ using MahApps.Metro.Controls;
 using System.Windows.Media;
 using System.ComponentModel;
 using System.Linq;
-using GramDominatorCore.GDModel;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorUIUtility.CustomControl;
@@ -54,10 +53,13 @@ namespace DominatorHouse
             
             objMainWindowRef = this;
             InitializeTabs();
-                        
-            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome To Dominator House Social");
+            GlobusLogHelper.log.Info("Welcome to Dominator social" );        
+            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social"); 
+
+
             ActivityDeserialize.GdScheduler += GdScheduler.StartScheduler;
-            AccountManagerViewModel accountManagerViewModel = AccountManagerViewModel.GetAccountManagerViewModel();
+            //AccountManagerViewModel accountManagerViewModel = AccountManagerViewModel.GetAccountManagerViewModel();
+
             NormalModeTab.ItemsSource = TabItems;
             Global.ChangeTabIndex += ChangeIndex;
 
@@ -65,18 +67,18 @@ namespace DominatorHouse
                 TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
 
-            Task.Factory.StartNew(() =>
-            {
-                DateTime NextDayTime = DateTime.Now.AddDays(1);
-                accountManagerViewModel.InitialAccountDetails();
+            //Task.Factory.StartNew(() =>
+            //{
+            //    DateTime NextDayTime = DateTime.Now.AddDays(1);
+            //    accountManagerViewModel.InitialAccountDetails();
 
-                JobManager.AddJob(() =>
-                    accountManagerViewModel.InitialAccountDetails(),
-                    x => x.ToRunOnceAt(new DateTime(NextDayTime.Year, NextDayTime.Month, NextDayTime.Day,
-                        0, 0, 1)
-                    ).AndEvery(1).Days());
+            //    JobManager.AddJob(() =>
+            //        accountManagerViewModel.InitialAccountDetails(),
+            //        x => x.ToRunOnceAt(new DateTime(NextDayTime.Year, NextDayTime.Month, NextDayTime.Day,
+            //            0, 0, 1)
+            //        ).AndEvery(1).Days());
 
-            });
+            //});
 
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
         }
@@ -92,6 +94,7 @@ namespace DominatorHouse
 
 
         public static MainWindow objMainWindowRef = null;
+
         private void InitializeTabs()
         {
             SocialNetworks socialNetwork = SocialNetworks.Social;
@@ -114,28 +117,9 @@ namespace DominatorHouse
                     break;
             }
 
-
-
-
-
             NormalModeTab.ItemsSource = TabItems;
             var vv = NormalModeTab.SelectedContent as UserControl;
         }
-
-
-        public List<TabItemTemplates> InitializeAllSocialTabs()
-        {
-            return new List<TabItemTemplates>
-            {
-                new TabItemTemplates
-                {
-                    Title=FindResource("langAccounts").ToString(),
-                    Content=new Lazy<UserControl>(()=>new AccountTab())
-                }
-            };
-        }
-
-
 
         public void ChangeIndex(int TabControlIndex, int TabIndex)
         {
@@ -168,6 +152,7 @@ namespace DominatorHouse
                     break;
             }
         }
+
         public void SelectTab(int mainTabindex)
         {
             NormalModeTab.SelectedIndex = mainTabindex;
@@ -244,6 +229,7 @@ namespace DominatorHouse
             return memAvailable;
         }
 
+
         private void btnAccountGrowthMode_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             if (btnAccountGrowthMode.Name == "btnAccountGrowthMode")
@@ -251,12 +237,12 @@ namespace DominatorHouse
 
                 AccountGrowthMode();
             }
-            else
+            else 
             {
                 NormalMode();
             }
-
         }
+
         public void AccountGrowthMode()
         {
             AccountGrowthModeTab.Children.Clear();
@@ -268,6 +254,7 @@ namespace DominatorHouse
             btnAccountGrowthMode.Content = "Switch to Normal Mode";
             btnAccountGrowthMode.Name = "btnNormalMode";
         }
+
         public void NormalMode()
         {
             NormalModeTab.Visibility = System.Windows.Visibility.Visible;
@@ -346,8 +333,8 @@ namespace DominatorHouse
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
                     break;
                 case SocialNetworks.PinInterest:
-                    PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
-                    TabItems = pinDominator.InitializeAllTabs();
+                    //PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
+                    //TabItems = pinDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.PinInterest.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Social:
@@ -388,6 +375,7 @@ namespace DominatorHouse
             };
         }
     }
+
     #region LogFornetclass
     //public class GlobusLogAppender : log4net.Appender.AppenderSkeleton
     //{

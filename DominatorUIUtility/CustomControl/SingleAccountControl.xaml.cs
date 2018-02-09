@@ -11,6 +11,7 @@ namespace DominatorUIUtility.CustomControl
     public partial class SingleAccountControl : CustomDialog
     {
         SingleAccountModel objSingleAccountModel = new SingleAccountModel();
+
         public SingleAccountControl()
         {
             InitializeComponent();
