@@ -43,7 +43,18 @@ namespace DominatorHouseCore.Models
         // To define the account is selected or not 
         public bool IsAccountSelected { get; set; }
 
-        public bool IsAccountManagerAccountSelected { get; set; }
+        private bool _bIsAccountManagerAccountSelected;
+        public bool IsAccountManagerAccountSelected
+        {
+            get { return _bIsAccountManagerAccountSelected; }
+            set
+            {
+                if (_bIsAccountManagerAccountSelected == value)
+                    return;
+                _bIsAccountManagerAccountSelected = value;
+                OnPropertyChanged(nameof(IsAccountManagerAccountSelected));
+            }
+        }
 
         public bool IsCretedFromNormalMode { get; set; }
 

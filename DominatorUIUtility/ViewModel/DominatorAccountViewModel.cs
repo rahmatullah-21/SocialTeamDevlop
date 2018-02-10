@@ -684,18 +684,14 @@ namespace DominatorUIUtility.ViewModel
 
         public void SelectAllAccounts()
         {
-            LstDominatorAccountModel.Select(x =>
-            {
-                x.IsAccountManagerAccountSelected = true; return x;
-            }).ToList();
+            foreach (var x in LstDominatorAccountModel)
+                x.IsAccountManagerAccountSelected = true;
         }
 
         public void DeselectAllAccounts()
         {
-            LstDominatorAccountModel.Select(x =>
-            {
-                x.IsAccountManagerAccountSelected = false; return x;
-            }).ToList();
+            foreach (var x in LstDominatorAccountModel)
+                x.IsAccountManagerAccountSelected = false;
         }
 
         public void SelectAccount(object sender)
