@@ -27,7 +27,18 @@ namespace DominatorHouseCore.Models
         public bool SelectedGroup { get; set; }
 
         // To display the account row position
-        public int RowNo { get; set; }
+        private int _rownumber;
+        public int RowNo
+        {
+            get { return _rownumber; }
+            set
+            {
+                if (_rownumber == value)
+                    return;
+                _rownumber = value;
+                OnPropertyChanged(nameof(RowNo));
+            }
+        }
 
         // To define the account is selected or not 
         public bool IsAccountSelected { get; set; }
