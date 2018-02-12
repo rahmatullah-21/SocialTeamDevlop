@@ -153,13 +153,12 @@ namespace DominatorHouseCore.Utility
             string filePath = String.Empty;
             if (typeof(T) == typeof(TemplateModel))
                 filePath =
-                    $"{ConstantVariable.socialConfigurationPath(SocialNetworks.Instagram)}//{ConstantVariable.TemplateBinName}";
+                    $@"{ConstantVariable.socialConfigurationPath(SocialNetworks.Instagram)}\{ConstantVariable.TemplateBinName}";
             else if (typeof(T) == typeof(CampaignDetails))
                 filePath =
-                    $"{ConstantVariable.socialNetworkPath(SocialNetworks.Instagram)}//{ConstantVariable.CampaignDetails}";
+                    $@"{ConstantVariable.socialNetworkPath(SocialNetworks.Instagram)}\{ConstantVariable.CampaignDetails}";
             else if (typeof(T) == typeof(DominatorAccountModel))
-                filePath = ConstantVariable.GetIndexAccountPath() +
-                           $"//{ConstantVariable.AccountDetails}";
+                filePath = ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}";
             return filePath;
         }
 

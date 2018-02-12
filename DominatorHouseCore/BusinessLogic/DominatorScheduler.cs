@@ -16,130 +16,101 @@ using Newtonsoft.Json;
 namespace DominatorHouseCore.BusinessLogic
 {    
     public partial class DominatorScheduler
-    {
+    {        
+        private static Dictionary<SocialNetworks, IJobProcessFactory> _jobProcessFactories = new Dictionary<SocialNetworks, IJobProcessFactory>();
+        public static object _runStopActivityLocker = new object();
+        
         /// <summary>
         /// Loads all activities for particular social network and runs them
         /// </summary>
-        public static void InitializeScheduler(IJobProcessFactory jobProcessFactory)
+        internal static void AddJobProcessFactoryForNetwork(IJobProcessFactory jobProcessFactory, SocialNetworks socialNetwork)
         {
-            // TODO: load activities and create them through factory
+            if (!_jobProcessFactories.ContainsKey(socialNetwork))
+            {
+                _jobProcessFactories.Add(socialNetwork, jobProcessFactory);
+                GlobusLogHelper.log.Debug($"{socialNetwork}JobProcessFactory registered in DominatorScheduler.");
+            }
+            else
+                GlobusLogHelper.log.Warn($"{socialNetwork}JobProcessFactory already in DominatorScheduler.");
         }
 
 
         /// <summary>
-        /// Starts scheduler for specified 'module' . 
+        /// Runs activity for specific 'module' and social network. 
         /// </summary>
         /// <typeparam name="T">type of job like GramDominator.FollowProcess</typeparam>
         /// <param name="account"></param>
         /// <param name="template"></param>
         /// <param name="CurrentJobTimeRange"></param>
         /// <param name="module">Follow, Comment, etc.</param>
-        public static void StartScheduler<T>(string account, string template, TimingRange CurrentJobTimeRange, string module)
-            where T : JobProcess, new()
+        public static void RunActivity(string account, string template, TimingRange CurrentJobTimeRange, string module, SocialNetworks socialNetwork)            
         {
-            Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{template}");
-            if (ScheduledJob != null && ScheduledJob.Disabled)
-                return;
-
-            var activity = (ActivityType)Enum.Parse(typeof(ActivityType), module);
-
-            switch (activity)
+            lock (_runStopActivityLocker)
             {
-                // Call Follow Module
-                case ActivityType.Follow:
-                    
-                    T followProcess = (T)(new T().Initialize(account, template, activity, CurrentJobTimeRange));
-                    Task.Factory.StartNew(() =>
-                    {
-                        GlobusLogHelper.log.Info("process started with [ " + account + "]");
-                        followProcess.StartProcess();
-                       
-                    }, followProcess.JobCancellationTokenSource.Token);
-                    break;
+                Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{template}");
+                if (ScheduledJob != null && ScheduledJob.Disabled)
+                    return;
 
-                case ActivityType.Unfollow:
-                    // Call Unfollow Module
-                    break;
+                var jobProcessFactory = _jobProcessFactories[socialNetwork];
 
-                case ActivityType.Like:
-                    // Call Like Module
-                    break;
+                // jobProcess may be Follow, Like, Comment, Repost, for any particular social network.
+                // jobProcessFactory have to be registered for each library.
+                var jobProcess = jobProcessFactory.Create(account, template, CurrentJobTimeRange, module);
+                Task.Factory.StartNew(() =>
+                {
+                    GlobusLogHelper.log.Info("process started with [ " + account + "]");
+                    jobProcess.StartProcess();
 
-                case ActivityType.Unlike:
-                    // Call Unlike Module
-                    break;
-
-                case ActivityType.Comment:
-                    // Call Comment Module
-                    break;
-
-                case ActivityType.DeleteComment:
-                    // Call DeleteComment Module
-                    break;
-                case ActivityType.Post:
-                    // Call Post Module
-                    break;
-                case ActivityType.Repost:
-                    // Call Repost Module
-                    break;
-                case ActivityType.DeletePost:
-                    // Call DeletePost Module
-                    break;
-                case ActivityType.Message:
-                    // Call Message Module
-                    break;
-                case ActivityType.UserScraper:
-                    // Call UserScraper Module
-                    break;
-                case ActivityType.DownloadScraper:
-                    // Call DownloadScraper Module
-                    break;
-
-                default:
-                    break;
-
+                }, jobProcess.JobCancellationTokenSource.Token);
             }
         }
 
 
-        public static void StopScheduler(string accountId, string module, string tamplateId)
+        public static void StopActivity(string accountId, string module, string tamplateId)
         {
-            TaskAndThreadUtility.StopTask(accountId, tamplateId);
-
-            JobManager.RemoveJob($"{module}-{tamplateId}");
-            Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{tamplateId}");
-
-            try
+            lock (_runStopActivityLocker)
             {
-                ScheduledJob.Disable();
+                TaskAndThreadUtility.StopTask(accountId, tamplateId);
 
-                if (ScheduledJob.Disabled)
+                JobManager.RemoveJob($"{module}-{tamplateId}");
+                Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{tamplateId}");
+
+                try
                 {
-                    GlobusLogHelper.log.Info($"{module}-{tamplateId}" + " stopped");
-                    return;
+                    ScheduledJob.Disable();
+
+                    if (ScheduledJob.Disabled)
+                    {
+                        GlobusLogHelper.log.Info($"{module}-{tamplateId}" + " stopped");
+                        return;
+                    }
+                }
+                catch (Exception)
+                {
+                    GlobusLogHelper.log.Error($"{module}-{tamplateId}" + " job not yet running");
                 }
             }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Info($"{module}-{tamplateId}" + " job not yet running");
-            }
-
         }
 
 
-
-        public static void ScheduleTodayJobs(DominatorAccountModel dominatorAccount , ActivityType? activityType = null)
+        /// <summary>
+        /// Schedules for today or run at once specific activity for certain social network
+        /// </summary>
+        /// <param name="dominatorAccount"></param>
+        /// <param name="netowork"></param>
+        /// <param name="activityType"></param>
+        public static void ScheduleTodayJobs(DominatorAccountModel dominatorAccount, SocialNetworks netowork, ActivityType activityType)
         {
             var moduleConfiguration = dominatorAccount.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
-            if (moduleConfiguration!=null && !moduleConfiguration.IsEnabled)
+            if (moduleConfiguration != null && !moduleConfiguration.IsEnabled)
                 return;
+
             try
             {
-                JobManager.RunningSchedules.ToList().ForEach(schedule =>
-                {
+                // Check if activity with the same id already running
+                foreach (var schedule in JobManager.RunningSchedules)
                     if (schedule.Name == $"{activityType.ToString()}-{moduleConfiguration.TemplateId}")
-                        return;
-                });
+                        return;                
             }
             catch (Exception ex)
             {
@@ -151,13 +122,11 @@ namespace DominatorHouseCore.BusinessLogic
             {
                 if (dominatorAccount.ActivityManager.RunningTime == null)
                     return;
-
-                // get the current day
-                var today = DateTimeUtilities.GetDayOfWeek();
+                
+                var today = DateTimeUtilities.GetDayOfWeek();           // get the current day
 
                 // retrieve the account's todays scheduled modules
-           
-                var timeScheduleModel = dominatorAccount.ActivityManager.RunningTime.First((x => x.DayOfWeek == today));
+                var timeScheduleModel = dominatorAccount.ActivityManager.RunningTime.First(x => x.DayOfWeek == today);
 
                 if (!timeScheduleModel.IsEnabled)
                     return;
@@ -165,7 +134,8 @@ namespace DominatorHouseCore.BusinessLogic
                 // get the hour and minute of current time
                 var currentTimespan = DateTimeUtilities.GetTimeSpanCurrentHourMinute();
 
-                timeScheduleModel.Timings.ToList().ForEach(timing =>
+                // Schedule jobs of specific module for each time range
+                foreach(var timing in timeScheduleModel.Timings)
                 {
                     // get the template id for respective module
                     string templateId = GetTemplateId(timing, dominatorAccount);
@@ -176,43 +146,40 @@ namespace DominatorHouseCore.BusinessLogic
                     {
                         JobManager.AddJob(() =>
                         {
-                            var activityDeserialize = new ActivityDeserialize(timing.Module, templateId, dominatorAccount.AccountBaseModel.UserName, timing,
-                                SocialNetworks.Instagram);
+                           RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module, 
+                                       netowork);
 
                         }, s => s.WithName($"{timing.Module}-{templateId}").ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
+
                         JobManager.AddJob(() =>
                         {
-                            StopScheduler(dominatorAccount.AccountBaseModel.AccountId,timing.Module,templateId);
+                            StopActivity(dominatorAccount.AccountBaseModel.AccountId, timing.Module, templateId);
 
                         }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
                     }
+
                     // If start time already crossed of the day and end time is not crossed, then it will start after 5 seconds
-                    else if(timing.EndTime.Hours >= currentTimespan.Hours && timing.EndTime.Minutes > currentTimespan.Minutes)
+                    else if (timing.EndTime.Hours >= currentTimespan.Hours && timing.EndTime.Minutes > currentTimespan.Minutes)
                     {
                         JobManager.AddJob(() =>
                         {
-                           
-                            var activityDeserialize = new ActivityDeserialize(timing.Module, templateId,  dominatorAccount.AccountBaseModel.UserName, timing,
-                                SocialNetworks.Instagram);
+                            RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module, netowork);
+
                         }, s => s.WithName($"{timing.Module}-{templateId}").ToRunOnceAt(DateTime.Now.AddSeconds(5)));
 
                         JobManager.AddJob(() =>
-                        {
-                            
-                            StopScheduler(dominatorAccount.AccountBaseModel.AccountId,timing.Module,templateId);
+                        {                            
+                            StopActivity(dominatorAccount.AccountBaseModel.AccountId,timing.Module,templateId);
 
                         }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
-                    }
-                       
-                   
-                });
+                    }  
+                };
              
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
-            }
-            //JobManager.AllSchedules.ToList().ForEach(x => JobList.Add(x.Name));
+                GlobusLogHelper.log.Error(ex);
+            }            
         }
 
 
@@ -221,29 +188,25 @@ namespace DominatorHouseCore.BusinessLogic
         /// it will schedule job for all module having running time except given moduleType if moduleType is 
         /// null it will schedule for all module having running time
         /// </summary>
-        /// <param name="moduleType"></param>
+        /// <param name="moduleToIgnore"></param>
         /// <param name="account"></param>
-        public static void ScheduleForEachModule(ActivityType? moduleType, DominatorAccountModel account)
+        public static void ScheduleForEachModule(ActivityType? moduleToIgnore, DominatorAccountModel account, SocialNetworks network)
         {
             try
             {
-                foreach (ActivityType at in Enum.GetValues(typeof(ActivityType)))
+                foreach (ActivityType activity in Enum.GetValues(typeof(ActivityType)))
                 {
-                    if (at != moduleType)
+                    if (activity != moduleToIgnore)
                     {
-                        var moduleRunningTimes = GetRunningTimes(account, at);
+                        var moduleRunningTimes = GetRunningTimes(account, activity);
                         if (moduleRunningTimes.Count() > 0)
                         {
                             account.ActivityManager.RunningTime = moduleRunningTimes;
-                            account.ActivityManager.RunningTime.ForEach(timing =>
-                            {
-                                foreach (var timingRange in timing.Timings)
-                                {
-                                    timingRange.Module = at.ToString();
-                                }
-                            });
-
-                            DominatorScheduler.ScheduleTodayJobs(account, at);
+                            foreach(var timing in account.ActivityManager.RunningTime)
+                                foreach (var timingRange in timing.Timings)                              
+                                    timingRange.Module = activity.ToString();
+                                
+                            DominatorScheduler.ScheduleTodayJobs(account, network, activity);
                         }
                     }
                 }
@@ -253,6 +216,8 @@ namespace DominatorHouseCore.BusinessLogic
                 GlobusLogHelper.log.Error(ex.ToString());
             }
         }
+
+
         /// <summary>
         /// GetRunningTimes take two argument first is an object of AccountModel and second is Module type
         /// it will return running time list according to Module type

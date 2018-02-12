@@ -162,7 +162,6 @@
     <Compile Include="Models\TabItem.cs" />
     <Compile Include="Models\TimingRange.cs" />
     <Compile Include="Enums\Gender.cs" />
-    <Compile Include="Process\FollowProcess.cs" />
     <Compile Include="Process\JobProcess.cs" />
     <Compile Include="Process\JobProcessResult.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -198,7 +197,6 @@
     <Compile Include="Utility\SocialNetworkPathFactory.cs" />
     <Compile Include="Models\TemplateModel.cs" />
     <Compile Include="Utility\GenderGuesser.cs" />
-    <Compile Include="Utility\BaseEnum.cs" />
     <Compile Include="Utility\BindableBase.cs" />
     <Compile Include="Utility\ConstantVariable.cs" />
     <Compile Include="Utility\DateTimeUtilities.cs" />

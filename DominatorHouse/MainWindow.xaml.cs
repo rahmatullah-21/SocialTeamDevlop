@@ -46,7 +46,7 @@ namespace DominatorHouse
 
         public MainWindow()
         {
-            DominatorHouseInitializer.Init(this);
+            DominatorHouseInitializer.Init(this, DominatorJobProcessFactory.Instance, SocialNetworks.Social);
 
             //XmlConfigurator.Configure();
             var account = RandomUtilties.GetRandomTexts(10);
@@ -56,10 +56,7 @@ namespace DominatorHouse
             InitializeTabs();
             GlobusLogHelper.log.Info("Welcome to Dominator social" );        
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
-
-            ActivityDeserialize.DominatorScheduler += (string acc, string template, TimingRange CurrentJobTimeRange, string module) =>
-                DominatorScheduler.StartScheduler<FollowProcess>(acc, template, CurrentJobTimeRange, module);
-
+            
             //AccountManagerViewModel accountManagerViewModel = AccountManagerViewModel.GetAccountManagerViewModel();
 
             NormalModeTab.ItemsSource = TabItems;

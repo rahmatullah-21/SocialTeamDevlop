@@ -20,7 +20,7 @@ namespace DominatorHouseCore.Utility
             return DictAllJobCancellationTokenSources[key].IsCancellationRequested;
         }
 
-        private static bool StopTask1(string key)
+        private static bool StopTask(string key)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-               return StopTask1(accountId + "_" + templateId);
+               return StopTask(accountId + "_" + templateId);
           
             }
             catch (Exception Ex)

@@ -1,7 +1,7 @@
 ﻿using DominatorHouseCore.LogHelper;
 using System;
 
-namespace DominatorHouseCore.Diagnostics
+namespace DominatorHouseCore
 {
     public static class ExceptionExtensions
     {

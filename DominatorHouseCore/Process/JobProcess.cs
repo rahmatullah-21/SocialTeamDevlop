@@ -44,15 +44,7 @@ namespace DominatorHouseCore.Process
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; } 
         #endregion
-
-        public JobProcess(DominatorAccountModel dominatorAccountModel, JobConfiguration jobConfiguration, ActivityType activityType, TimingRange currentJobTimeRange)
-        {
-            this.DominatorAccountModel = dominatorAccountModel;
-            this.JobConfiguration = jobConfiguration;
-            this.ActivityType = activityType;
-            this.CurrentJobTimeRange = currentJobTimeRange;
-        }        
-
+        
         public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
         {
             this.DominatorAccountModel = BinFileHelper.GetBinFileDetails<DominatorAccountModel>().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
@@ -156,9 +148,10 @@ namespace DominatorHouseCore.Process
                 JobManager.AddJob(
                     () =>
                     {
-                        // TODO: obtain next job 
-                        DominatorScheduler.StartScheduler<FollowProcess>(DominatorAccountModel.AccountBaseModel.UserName, TemplateId, CurrentJobTimeRange,
-                            ActivityType.Follow.ToString());
+                        // use registered Factories
+                        DominatorScheduler.RunActivity(DominatorAccountModel.AccountBaseModel.UserName, TemplateId, CurrentJobTimeRange,
+                            ActivityType.Follow.ToString(), SocialNetworks.Facebook);
+
                     }, s => s.WithName($"{ActivityType.Follow.ToString()}-{this.TemplateId}").ToRunOnceAt(dateTime));
             }
 

@@ -32,10 +32,7 @@ namespace DominatorHouseCore.Utility
             SocialNetworks = socialNetworks;
 
             switch (socialNetworks)
-            {
-                case SocialNetworks.Instagram:
-                    DominatorScheduler?.Invoke(AccountUserName, TemplateId, timing, ModuleName);
-                    break;
+            {                
                 case SocialNetworks.Facebook:
                     FdScheduler?.Invoke(AccountUserName, TemplateId, ModuleName);
                     break;

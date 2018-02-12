@@ -10,11 +10,11 @@ using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.BusinessLogic
 {
-    internal class DominatorJobProcessFactory : IJobProcessFactory
+    public class DominatorJobProcessFactory : IJobProcessFactory
     {
-        DominatorJobProcessFactory _instance;
+        static DominatorJobProcessFactory _instance;
 
-        public DominatorJobProcessFactory Instance => _instance ?? (_instance = new DominatorJobProcessFactory());
+        public static DominatorJobProcessFactory Instance => _instance ?? (_instance = new DominatorJobProcessFactory());
 
         public JobProcess Create(string account, string template, TimingRange currentJobTimeRange, string module)
         {
@@ -23,7 +23,7 @@ namespace DominatorHouseCore.BusinessLogic
             switch (activity)
             {
                 case ActivityType.Follow:
-                    return new FollowProcess(account, template, activity, currentJobTimeRange);
+                    throw new NotImplementedException();
 
                 case ActivityType.Unfollow:
                     throw new NotImplementedException();
