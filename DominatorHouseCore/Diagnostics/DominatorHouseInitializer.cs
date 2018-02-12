@@ -32,6 +32,9 @@ namespace DominatorHouseCore.Diagnostics
             if (mainWindow is ILoggableWindow)
                 GlobusLogHelper.InitializeLoggerUI((ILoggableWindow)mainWindow);
 
+            // init Job Process Factory for this library
+
+
 #if DEBUG && ATTACH_CONSOLE
             ConsoleManager.Show();
 #endif            

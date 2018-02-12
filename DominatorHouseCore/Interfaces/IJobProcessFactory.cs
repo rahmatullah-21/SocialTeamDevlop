@@ -1,17 +1,14 @@
-﻿using DominatorHouseCore.Process;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DominatorHouseCore.Models;
+using DominatorHouseCore.Process;
 
 namespace DominatorHouseCore.Interfaces
 {
     /// <summary>
-    /// Each library have to implement its own factory
+    /// Each library have to implement its own job process factory to create particular
+    /// activities via scheduler
     /// </summary>
     public interface IJobProcessFactory
     {
-        JobProcess Create(string moduleName);
+        JobProcess Create(string account, string template, TimingRange currentJobTimeRange, string module);
     }
 }

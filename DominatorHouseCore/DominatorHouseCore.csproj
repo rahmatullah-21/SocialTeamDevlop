@@ -123,6 +123,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\DominatorJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\DominatorScheduler.cs" />
     <Compile Include="BusinessLogic\DominatorScheduler.Helpers.cs" />
     <Compile Include="Command\BaseCommand.cs" />
