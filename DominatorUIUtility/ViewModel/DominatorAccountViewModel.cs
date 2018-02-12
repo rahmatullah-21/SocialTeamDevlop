@@ -444,6 +444,13 @@ namespace DominatorUIUtility.ViewModel
 
             //remove the selected accounts from account model
             selectAccounts.ForEach(item => LstDominatorAccountModel.Remove(item));
+            //whatever account is left in LstDominatorAccountModel needs to be re-rowed
+            int row = 1;
+            foreach (var account in LstDominatorAccountModel)
+            {
+                account.RowNo = row;
+                ++row;
+            }
 
             //after removed serialize the remaining accounts 
             ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
@@ -677,18 +684,14 @@ namespace DominatorUIUtility.ViewModel
 
         public void SelectAllAccounts()
         {
-            LstDominatorAccountModel.Select(x =>
-            {
-                x.IsAccountManagerAccountSelected = true; return x;
-            }).ToList();
+            foreach (var x in LstDominatorAccountModel)
+                x.IsAccountManagerAccountSelected = true;
         }
 
         public void DeselectAllAccounts()
         {
-            LstDominatorAccountModel.Select(x =>
-            {
-                x.IsAccountManagerAccountSelected = false; return x;
-            }).ToList();
+            foreach (var x in LstDominatorAccountModel)
+                x.IsAccountManagerAccountSelected = false;
         }
 
         public void SelectAccount(object sender)

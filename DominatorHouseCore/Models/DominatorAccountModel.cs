@@ -31,12 +31,34 @@ namespace DominatorHouseCore.Models
         public bool SelectedGroup { get; set; }
 
         // To display the account row position
-        public int RowNo { get; set; }
+        private int _rownumber;
+        public int RowNo
+        {
+            get { return _rownumber; }
+            set
+            {
+                if (_rownumber == value)
+                    return;
+                _rownumber = value;
+                OnPropertyChanged(nameof(RowNo));
+            }
+        }
 
         // To define the account is selected or not 
         public bool IsAccountSelected { get; set; }
 
-        public bool IsAccountManagerAccountSelected { get; set; }
+        private bool _bIsAccountManagerAccountSelected;
+        public bool IsAccountManagerAccountSelected
+        {
+            get { return _bIsAccountManagerAccountSelected; }
+            set
+            {
+                if (_bIsAccountManagerAccountSelected == value)
+                    return;
+                _bIsAccountManagerAccountSelected = value;
+                OnPropertyChanged(nameof(IsAccountManagerAccountSelected));
+            }
+        }
 
         public bool IsCretedFromNormalMode { get; set; }
 
