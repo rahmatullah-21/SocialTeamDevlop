@@ -28,8 +28,8 @@ namespace DominatorHouseCore.Utility
                 throw new ArgumentException(nameof(objects));
 
             try
-            {
-                using (Stream fileStream = File.Create(filePath))
+            {                
+                using (Stream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
                 {
                     Serializer.Serialize(fileStream, objects);                 
                 }                
@@ -44,26 +44,7 @@ namespace DominatorHouseCore.Utility
             return true;
         }        
 
-
-        public static void SerializeOneObject<T>(T obj, string filePath) where T : class
-        {
-            if (obj == null)
-                throw new ArgumentNullException(nameof(obj));
-
-            try
-            {
-                using (Stream fileStream = File.Create(filePath))
-                {
-                    Serializer.Serialize(fileStream, obj);
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog($"ProtobufError: Unable to serialize object of type {typeof(T).FullName}");
-                throw;
-            }
-        }
-
+        
         #endregion
 
 
@@ -86,7 +67,7 @@ namespace DominatorHouseCore.Utility
                     stream = _openedFiles[filename];
                 else
                 {
-                    stream = File.OpenRead(filename);
+                    stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
                     _openedFiles.Add(filename, stream);
                 }
 
