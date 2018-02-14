@@ -6,7 +6,6 @@ namespace DominatorHouseCore.Utility
 {
     public class ActivityDeserialize
     {
-
         public static Action<string, string, TimingRange, string> GdScheduler { get; set; }
 
         public static Action<string, string, string> FdScheduler { get; set; }

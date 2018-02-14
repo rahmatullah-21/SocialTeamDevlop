@@ -64,7 +64,7 @@ namespace DominatorHouse
             Global.ChangeTabIndex += ChangeIndex;
 
             Task performanceTask = new Task(() => StartbindMemory(),
-                TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
+            TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
 
             //Task.Factory.StartNew(() =>
@@ -77,7 +77,6 @@ namespace DominatorHouse
             //        x => x.ToRunOnceAt(new DateTime(NextDayTime.Year, NextDayTime.Month, NextDayTime.Day,
             //            0, 0, 1)
             //        ).AndEvery(1).Days());
-
             //});
 
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
@@ -158,6 +157,8 @@ namespace DominatorHouse
             NormalModeTab.SelectedIndex = mainTabindex;
         }
 
+
+
         async private void StartbindMemory()
         {
             while (true)
@@ -186,6 +187,10 @@ namespace DominatorHouse
             }
         }
 
+
+
+
+
         /// <summary>
         /// Getting Ram size
         /// </summary>
@@ -201,6 +206,9 @@ namespace DominatorHouse
 
             return "0 MB";
         }
+
+
+
 
         /// <summary>
         /// Getting CPU Usages
@@ -259,8 +267,6 @@ namespace DominatorHouse
         {
             NormalModeTab.Visibility = System.Windows.Visibility.Visible;
             AccountGrowthModeTab.Visibility = System.Windows.Visibility.Collapsed;
-
-
             btnAccountGrowthMode.Content = "Switch to Account Growth Mode";
             btnAccountGrowthMode.Name = "btnAccountGrowthMode";
         }
@@ -361,218 +367,12 @@ namespace DominatorHouse
                     Title=FindResource("langAccounts").ToString(),
                     Content=new Lazy<UserControl>(()=>new AccountTabCustomControl())
                 }
-                //new TabItemTemplates
-                //{
-                //    Title=FindResource("langGrowFollowers﻿").ToString(),
-                //    Content=new Lazy<UserControl>(GrowFollowersTab.GetSingeltonObjectGrowFollowersTab)
-                //},
-                //new TabItemTemplates
-                //{
-                //    Title=FindResource("langInstaPoster﻿").ToString(),
-                //    Content=new Lazy<UserControl>(InstaPosterTab.GetSingeltonObjectInstaPosterTab)
-                //},
+                
                 
             };
         }
     }
 
-    #region LogFornetclass
-    //public class GlobusLogAppender : log4net.Appender.AppenderSkeleton
-    //{
 
-    //    private static readonly object lockerLog4Append = new object();
-
-    //    /// <summary>
-    //    /// 
-    //    /// </summary>
-    //    /// <param name="loggingEvent"></param>
-    //    protected override void Append(log4net.Core.LoggingEvent loggingEvent)
-    //    {
-    //        try
-    //        {
-    //            string loggerName = loggingEvent.Level.Name;
-    //            MainWindow mainWindow = MainWindow.objMainWindowRef;
-
-
-    //            lock (lockerLog4Append)
-    //            {
-    //                switch (loggingEvent.Level.Name)
-    //                {
-    //                    case "DEBUG":
-    //                        try
-    //                        {
-
-    //                            {
-    //                                if (!mainWindow.InfoLogger.Dispatcher.CheckAccess())
-    //                                {
-    //                                    mainWindow.InfoLogger.Dispatcher.Invoke(new Action(delegate
-    //                                    {
-    //                                        try
-    //                                        {
-    //                                            if (mainWindow.InfoLogger.Items.Count > 1000)
-    //                                            {
-    //                                                mainWindow.InfoLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-    //                                            }
-
-    //                                            mainWindow.InfoLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0" + "\r\t" + loggingEvent.RenderedMessage.Replace("\t"," "));
-    //                                        }
-    //                                        catch (Exception ex)
-    //                                        {
-                                               
-
-    //                                            GlobusLogHelper.log.Error(" Error : " + ex.Message);
-    //                                        }
-
-    //                                    }));
-
-    //                                }
-    //                                else
-    //                                {
-    //                                    try
-    //                                    {
-    //                                        if (mainWindow.InfoLogger.Items.Count > 1000)
-    //                                        {
-    //                                            mainWindow.InfoLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-    //                                        }
-
-    //                                        mainWindow.InfoLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\r\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-    //                                    }
-    //                                    catch (Exception ex)
-    //                                    {
-    //                                       GlobusLogHelper.log.Error("Error : 74" + ex.Message);
-    //                                    }
-    //                                }
-    //                            }
-    //                        }
-    //                        catch (Exception ex)
-    //                        {
-    //                            Console.WriteLine("Error Case Debug : " + ex.StackTrace);
-    //                            Console.WriteLine("Error Case Debug : " + ex.Message);
-
-    //                            GlobusLogHelper.log.Error(" Error : " + ex.Message);
-    //                        }
-    //                        break;
-    //                    case "INFO":
-    //                        try
-    //                        {
-    //                            if (loggingEvent.RenderedMessage.Contains("error"))
-    //                            {
-    //                                GlobusLogHelper.log.Error(loggingEvent.RenderedMessage);
-    //                                return;
-    //                            }
-    //                            if (!mainWindow.InfoLogger.Dispatcher.CheckAccess())
-    //                            {
-    //                                mainWindow.InfoLogger.Dispatcher.Invoke(new Action(delegate
-    //                                {
-    //                                    try
-    //                                    {
-    //                                        if (mainWindow.InfoLogger.Items.Count > 1000)
-    //                                        {
-    //                                            mainWindow.InfoLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-    //                                        }
-
-    //                                        mainWindow.InfoLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\t\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-    //                                    }
-    //                                    catch (Exception ex)
-    //                                    {
-    //                                         GlobusLogHelper.log.Error(" Error : " + ex.Message);
-    //                                    }
-
-    //                                }));
-
-    //                            }
-    //                            else
-    //                            {
-    //                                try
-    //                                {
-    //                                    if (mainWindow.InfoLogger.Items.Count > 1000)
-    //                                    {
-    //                                        mainWindow.InfoLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-    //                                    }
-
-    //                                    mainWindow.InfoLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\t\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-    //                                }
-    //                                catch (Exception ex)
-    //                                {
-    //                                   GlobusLogHelper.log.Error("Error : 75" + ex.Message);
-    //                                }
-    //                            }
-
-    //                        }
-    //                        catch (Exception ex)
-    //                        {
-                                
-    //                           GlobusLogHelper.log.Error(" Error : " + ex.Message);
-    //                        }
-    //                        break;
-
-    //                    case "ERROR":
-
-    //                        #region ERROR
-    //                        try
-    //                        {
-    //                            var messege = loggingEvent.RenderedMessage.Split(new string[] { " at" }, StringSplitOptions.None);
-    //                            if (!mainWindow.ErrorLogger.Dispatcher.CheckAccess())
-    //                            {
-    //                                mainWindow.ErrorLogger.Dispatcher.Invoke(new Action(delegate
-    //                                {
-    //                                    try
-    //                                    {
-    //                                        if (mainWindow.ErrorLogger.Items.Count > 1000)
-    //                                        {
-    //                                            mainWindow.ErrorLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-    //                                        }
-
-    //                                        if ((!String.IsNullOrEmpty(messege[0]) && messege[0] != "  ") && !messege[0].Contains("<"))
-    //                                            mainWindow.ErrorLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\t\t" + "Error : " + "\t\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-    //                                    }
-    //                                    catch (Exception ex)
-    //                                    {
-    //                                        GlobusLogHelper.log.Error(" Error : " + ex.Message);
-    //                                    }
-
-    //                                }));
-
-    //                            }
-    //                            else
-    //                            {
-    //                                try
-    //                                {
-    //                                    if (mainWindow.ErrorLogger.Items.Count > 1000)
-    //                                    {
-    //                                        mainWindow.ErrorLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-    //                                    }
-    //                                    if (!(String.IsNullOrEmpty(messege[0]) && messege[0] == "  ") && !messege[0].Contains("<"))
-    //                                        mainWindow.ErrorLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\t\t" + "Error : " + "\t\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-
-    //                                }
-    //                                catch (Exception ex)
-    //                                {
-    //                                    GlobusLogHelper.log.Error("Error : 75" + ex.Message);
-    //                                }
-    //                            }
-
-    //                        }
-    //                        catch (Exception ex)
-    //                        {
-    //                            GlobusLogHelper.log.Error(" Error : " + ex.Message);
-    //                        }
-
-    //                        #endregion
-
-    //                        break;
-    //                }
-    //            }
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            // GlobusLogHelper.log.Error("Error : 76" + ex.Message);
-    //        }
-
-    //    }
-
-
-    //}
-    #endregion
 
 }

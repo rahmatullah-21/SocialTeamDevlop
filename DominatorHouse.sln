@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PinDominatorUI", "..\pindom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PinDominatorCore", "..\pindominator-library\PinDominatorCore\PinDominatorCore.csproj", "{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "gramUISetup", "gramUISetup\gramUISetup.vdproj", "{23A124B3-E266-4241-98F9-BEB82CAA71B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Release|Any CPU.Build.0 = Release|Any CPU
 		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Release|x86.ActiveCfg = Release|Any CPU
 		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Release|x86.Build.0 = Release|Any CPU
+		{23A124B3-E266-4241-98F9-BEB82CAA71B9}.Debug|Any CPU.ActiveCfg = Debug
+		{23A124B3-E266-4241-98F9-BEB82CAA71B9}.Debug|x86.ActiveCfg = Debug
+		{23A124B3-E266-4241-98F9-BEB82CAA71B9}.Release|Any CPU.ActiveCfg = Release
+		{23A124B3-E266-4241-98F9-BEB82CAA71B9}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

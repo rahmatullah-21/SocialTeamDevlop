@@ -31,7 +31,7 @@ namespace DominatorHouseCore.Diagnostics
                 GlobusLogHelper.InitializeLoggerUI((ILoggableWindow)mainWindow);
 
 #if DEBUG && ATTACH_CONSOLE
-            ConsoleManager.Show();
+          //  ConsoleManager.Show();
 #endif            
         }
     }
