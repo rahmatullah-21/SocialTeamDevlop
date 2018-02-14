@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using System.IO;
+using System.Diagnostics;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.Utility
 {
@@ -14,153 +17,142 @@ namespace DominatorHouseCore.Utility
 
         #region Read Accounts
 
-        private static readonly object AccountReadLocker = new object();
-
-        public static List<DominatorAccountBaseModel> ReadAccounts(SocialNetworks socialNetwork)
-        {
-            lock (AccountReadLocker)
-            {
-                return ProtoBuffBase.DeserializeObjects<DominatorAccountBaseModel>(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
-            }
-        }
-
-        public static List<DominatorAccountModel> ReadAccounts()
-        {
-            lock (AccountReadLocker)
-            {
-                return ProtoBuffBase.DeserializeObjects<DominatorAccountModel>(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
-            }
-        }
+        private static readonly object _accountDetailsFileLocker = new object();
+        private static readonly object _campaignsFileLocker = new object();
+        private static readonly object _templatesFileLocker = new object();
 
         #endregion
 
         public static ObservableCollectionBase<string> GetUsers(SocialNetworks socialNetwork)
-        {
-            lock (AccountReadLocker)
-                return new ObservableCollectionBase<string>(ReadAccounts(socialNetwork).Select(x => x.UserName).ToList());
-        }
+            => new ObservableCollectionBase<string>(GetAccountDetails(socialNetwork).Select(x => x.AccountBaseModel.UserName).ToList());
 
-        public static List<DominatorAccountModel> GetAccountDetail()
+
+        public static IEnumerable<DominatorAccountModel> GetAccountDetails(SocialNetworks network)
         {
-            lock (AccountReadLocker)
+            lock (_accountDetailsFileLocker)
                 return ProtoBuffBase.DeserializeObjects<DominatorAccountModel>(
-                       ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
+                       ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
         }
 
+        public static IEnumerable<DominatorAccountModel> GetAccountDetails()
+                => GetAccountDetails(DominatorHouseInitializer.ActiveSocialNetwork);
 
-        public static bool UpdateAccountDetail(List<DominatorAccountModel> lstAccountModel)
+        public static IEnumerable<T> GetAccountDetailsFor<T>(SocialNetworks network) where T : class
         {
-            lock (AccountReadLocker)
-                return ProtoBuffBase.SerializeListObject<DominatorAccountModel>(lstAccountModel,
-                    ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
-        }
+            lock (_accountDetailsFileLocker)
+                return ProtoBuffBase.DeserializeObjects<T>(
+                    ConstantVariable.GetIndexAccountPath(network) + $@"\{ConstantVariable.AccountDetails}");
+        }        
 
-
-        public static void DeleteAccountDetailBinFile()
+        public static IEnumerable<CampaignDetails> GetCampaignDetail(SocialNetworks network)
         {
-            lock (AccountReadLocker)
-                File.Delete(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
-        }
-
-        public static List<CampaignDetails> GetCampaignDetail()
-        {
-            lock (AccountReadLocker)
+            lock (_accountDetailsFileLocker)
                 return ProtoBuffBase.DeserializeObjects<CampaignDetails>(
-                $"{ConstantVariable.socialNetworkPath(SocialNetworks.Instagram)}//{ConstantVariable.CampaignDetails}"); //ConstantVariable.socialNetworkPath(SocialNetworks.Instagram)
+                    $"{ConstantVariable.socialNetworkPath(network)}\\{ConstantVariable.CampaignDetails}");
         }
 
-        public static void DeleteCampaignDetailsBinFile()
-        {
-            lock (AccountReadLocker)
-                File.Delete($"{ConstantVariable.socialNetworkPath(SocialNetworks.Instagram)}//{ConstantVariable.CampaignDetails}");
-        }
+        public static IEnumerable<CampaignDetails> GetCampaignDetail()
+            => GetCampaignDetail(DominatorHouseInitializer.ActiveSocialNetwork);
 
-        public static List<TemplateModel> GetTemplateDetails()
+        public static IEnumerable<TemplateModel> GetTemplateDetails(SocialNetworks network)
         {
-            lock (AccountReadLocker)
+            lock (_accountDetailsFileLocker)
                 return ProtoBuffBase.DeserializeObjects<TemplateModel>(
-                $"{ConstantVariable.socialConfigurationPath(SocialNetworks.Instagram)}//{ConstantVariable.TemplateBinName}");//ConstantVariable.socialConfigurationPath(SocialNetworks.Instagram)
+                    $"{ConstantVariable.socialConfigurationPath(network)}\\{ConstantVariable.TemplateBinName}");
         }
 
-        public static List<T> GetBinFileDetails<T>() where T : class
-        {
-            lock (AccountReadLocker)
-                return ProtoBuffBase.DeserializeObjects<T>(GetBinFilePath<T>());//ConstantVariable.socialConfigurationPath(SocialNetworks.Instagram)
-        }
+        public static IEnumerable<TemplateModel> GetTemplateDetails()
+            => GetTemplateDetails(DominatorHouseInitializer.ActiveSocialNetwork);
 
-
-
-        public static void DeleteTemplateDetailsBinFile()
-        {
-            lock (AccountReadLocker)
-                File.Delete($"{ConstantVariable.socialConfigurationPath(SocialNetworks.Instagram)}//{ConstantVariable.TemplateBinName}");
-        }
-
-        public static void DeleteBinFile<T>()
-        {
-            lock (AccountReadLocker)
-                File.Delete(GetBinFilePath<T>());
-        }
-
-
-        private static object updateAccountLocker = new object();
 
         /// <summary>
-        /// update perticularr accountmodel to the account bin file
+        /// Overwrites AccountDetails.bin with updated account
         /// </summary>
         /// <param name="accountModel"></param>
         /// <returns></returns>
         public static bool UpdateAccount(DominatorAccountModel accountModel)
         {
-            bool isUpdated;
             try
             {
-                lock (updateAccountLocker)
+                lock (_accountDetailsFileLocker)
                 {
-                    List<DominatorAccountModel> lstAllAccountModel = GetAccountDetail();
-                    DominatorAccountModel accountModelProto = lstAllAccountModel.FirstOrDefault(x => x.AccountBaseModel.AccountId == accountModel.AccountBaseModel.AccountId);
-                    lstAllAccountModel[lstAllAccountModel.IndexOf(accountModelProto)] = accountModel;
+                    var accountDetailsList = GetAccountDetails().ToList();      
+                    int indexOfAccountToUpdate =
+                        accountDetailsList.FindIndex(x => x.AccountBaseModel.AccountId == accountModel.AccountBaseModel.AccountId);
 
-                    isUpdated = UpdateAccountDetail(lstAllAccountModel);
+                    if (indexOfAccountToUpdate == -1)
+                        return false;
+
+                    accountDetailsList[indexOfAccountToUpdate] = accountModel;
+
+                    bool result = ProtoBuffBase.SerializeObjects(accountDetailsList,
+                            ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
+
+                    GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
+                    return result;
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-
-            return isUpdated;
-        }
-
-
-        public static bool UpdateBinFile<T>(List<T> lstTemplateModels) where T : class
-        {
-            try
-            {
-                DeleteBinFile<T>();
-                ProtoBuffBase.SerializeListObject<T>(lstTemplateModels, GetBinFilePath<T>());
-                return true;
             }
             catch (Exception ex)
             {
+                GlobusLogHelper.log.Error("Update account details error - " + ex.Message);
+                ex.DebugLog();
                 return false;
             }
         }
 
-        private static string GetBinFilePath<T>()
+        public static void UpdateAllAccounts(IList<DominatorAccountModel> accountDetailsList)
         {
-            string filePath = String.Empty;
-            if (typeof(T) == typeof(TemplateModel))
-                filePath =
-                    $@"{ConstantVariable.socialConfigurationPath(SocialNetworks.Instagram)}\{ConstantVariable.TemplateBinName}";
-            else if (typeof(T) == typeof(CampaignDetails))
-                filePath =
-                    $@"{ConstantVariable.socialNetworkPath(SocialNetworks.Instagram)}\{ConstantVariable.CampaignDetails}";
-            else if (typeof(T) == typeof(DominatorAccountModel))
-                filePath = ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}";
-            return filePath;
+            UpdateAllAccounts<DominatorAccountModel>(accountDetailsList);
         }
 
+
+        // TODO: back compatibility to save old AccountModel. Have to be replaced with IList<DominatorAccountModel>
+        public static void UpdateAllAccounts<T>(IList<T> accountDetailsList)
+        {
+            lock (_accountDetailsFileLocker)
+            {
+                try
+                {
+                    ProtoBuffBase.SerializeObjects(accountDetailsList,
+                                ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
+                }
+                catch (Exception ex)
+                {
+                    GlobusLogHelper.log.Error("Update All Accounts error - " + ex.Message);
+                    ex.DebugLog();
+                }
+            }
+        }
+        
+
+        public static void UpdateCampaigns(IList<CampaignDetails> campaignList)
+        {
+            lock (_campaignsFileLocker)
+            {
+                try
+                {
+                    ProtoBuffBase.SerializeObjects(campaignList, ConstantVariable.GetIndexCampaignPath() + $@"\{ConstantVariable.CampaignDetails}");
+                }
+                catch (Exception ex)
+                {
+                    GlobusLogHelper.log.Error("Update campaigns error - " + ex.Message);
+                }
+            }
+        }
+
+        public static void UpdateTemplates(IEnumerable<TemplateModel> templatesList)
+        {
+            lock (_templatesFileLocker)
+            {
+                try
+                {
+                    ProtoBuffBase.SerializeObjects(templatesList, ConstantVariable.GetTemplatesPath());
+                }
+                catch (Exception ex)
+                {
+                    GlobusLogHelper.log.Error("Update campaigns error - " + ex.Message);
+                }
+            }
+        }
     }
 }

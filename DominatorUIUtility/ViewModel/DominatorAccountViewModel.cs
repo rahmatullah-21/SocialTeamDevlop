@@ -17,6 +17,7 @@ using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
 using MahApps.Metro.Controls.Dialogs;
 using ProtoBuf;
+using DominatorHouseCore;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -262,8 +263,7 @@ namespace DominatorUIUtility.ViewModel
             DirectoryUtilities.CreateDirectory(ConstantVariable.GetIndexAccountPath());
 
             //serialize the given account, if its success then add to account model list
-            if (ProtoBuffBase.SerializeObjects<DominatorAccountModel>(dominatorAccountModel,
-                ConstantVariable.GetIndexAccountPath() + $"\\{ConstantVariable.AccountDetails}"))
+            if (BinFileHelper.UpdateAccount(dominatorAccountModel))                
             {
                 LstDominatorAccountModel.Add(dominatorAccountModel);
             }
@@ -452,9 +452,8 @@ namespace DominatorUIUtility.ViewModel
                 ++row;
             }
 
-            //after removed serialize the remaining accounts 
-            ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
-                ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
+            // after removing serialize the remaining accounts 
+            BinFileHelper.UpdateAllAccounts(LstDominatorAccountModel);
             return false;
         }
 
@@ -771,19 +770,18 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (syncLoadAccounts)
             {
-                var savedAccounts = BinFileHelper.ReadAccounts();
+                var savedAccounts = BinFileHelper.GetAccountDetails();
 
                 var allGroups = new List<ContentSelectGroup>();
 
                 try
                 {
                     LstDominatorAccountModel.Clear();
-                    savedAccounts.ForEach(account =>
+                    foreach(var account in savedAccounts)
                     {
                         LstDominatorAccountModel.Add(account);
-                        allGroups.Add(account.AccountBaseModel.AccountGroup);
-                        //Global.ScheduleForEachModule(null, account);
-                    });
+                        allGroups.Add(account.AccountBaseModel.AccountGroup);                     
+                    }
 
                     foreach (var group in allGroups)
                     {

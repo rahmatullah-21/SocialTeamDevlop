@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DominatorHouseCore.LogHelper;
+using System;
 using System.IO;
 
 namespace DominatorHouseCore.Utility
@@ -13,16 +14,12 @@ namespace DominatorHouseCore.Utility
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
             }
-            catch (Exception ex)
+            catch (IOException ex)
             {
-
+                GlobusLogHelper.log.Error($"Unable to create directory {folder} - {ex.Message}");                
+                throw;        
             }
         }
-
-
-
-
-
 
     }
 }

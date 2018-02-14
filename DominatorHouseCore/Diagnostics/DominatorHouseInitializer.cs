@@ -1,6 +1,7 @@
 ﻿using DominatorHouse.Helpers;
 using DominatorHouseCore.BusinessLogic;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using System.Windows;
 
@@ -16,6 +17,8 @@ namespace DominatorHouseCore.Diagnostics
     {
         static bool _isInitialized = false;
 
+        public static SocialNetworks ActiveSocialNetwork { get; private set; } = SocialNetworks.Social;
+
         /// <summary>
         /// Call this method in ctor of particular main window of library
         /// </summary>
@@ -24,6 +27,8 @@ namespace DominatorHouseCore.Diagnostics
         {
             if (_isInitialized) return;
             _isInitialized = true;
+
+            ActiveSocialNetwork = network;
 
             // initialize global exception handler
             GlobusExceptionHandler.SetupGlobalExceptionHandlers();

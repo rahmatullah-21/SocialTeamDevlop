@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using DominatorHouseCore.LogHelper;
+using NLog;
 using NLog.Common;
 using NLog.Config;
 using NLog.Targets;
@@ -8,7 +9,7 @@ using System.Windows.Controls;
 
 namespace DominatorHouseCore.LogHelper
 {
-    public sealed class GlobusLogHelper
+    public class GlobusLogHelper
     {
         static GlobusLogHelper()
         {

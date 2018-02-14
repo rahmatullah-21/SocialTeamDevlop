@@ -25,6 +25,11 @@ namespace DominatorHouseCore.Utility
 
         private object _syncRoot;
 
+        public ObservableCollectionBase(IEnumerable<TType> inputCollection)
+        {
+            this._inputCollection = inputCollection.ToList();
+        }
+
         public ObservableCollectionBase(IList<TType> inputCollection)
         {
             this._inputCollection = inputCollection;

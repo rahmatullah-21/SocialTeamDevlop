@@ -137,6 +137,9 @@
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
     <Compile Include="Diagnostics\UI\UIDiagnostic.cs" />
+    <Compile Include="FileManagers\AccountsFileManager.cs" />
+    <Compile Include="FileManagers\CampaignsFileManager.cs" />
+    <Compile Include="FileManagers\TemplatesFileManager.cs" />
     <Compile Include="Interfaces\IJobConfiguration.cs" />
     <Compile Include="Interfaces\IGeneralSettings.cs" />
     <Compile Include="Interfaces\IJobProcessFactory.cs" />
@@ -190,6 +193,7 @@
     <Compile Include="Utility\DataBaseHandler.cs" />
     <Compile Include="Utility\DateTimeHelper.cs" />
     <Compile Include="Utility\GridViewColumns.cs" />
+    <Compile Include="Utility\IEnumerableExtensions.cs" />
     <Compile Include="Utility\ListHelper.cs" />
     <Compile Include="Utility\LoggerHelper.cs" />
     <Compile Include="Utility\ModuleConfiguration.cs" />

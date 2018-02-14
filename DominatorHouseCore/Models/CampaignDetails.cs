@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.Models
 {
@@ -83,25 +84,5 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _campaignDetails, value);
             }
         }
-        public bool SaveCampaign(CampaignDetails campaignDetails, SocialNetworks socialNetworks)
-        {
-            try
-            {
-                // Get the path for current social network
-                var socialNetworkPath = new SocialNetworkPathFactory(socialNetworks).GetSocialNetworkCampaignPath();
-
-                DirectoryUtilities.CreateDirectory(socialNetworkPath);
-
-                // Serialize the template configuration to bin files
-                ProtoBuffBase.SerializeObjects(campaignDetails, $"{socialNetworkPath}//{ConstantVariable.CampaignDetails}");
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
     }
 }

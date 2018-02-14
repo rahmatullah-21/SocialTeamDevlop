@@ -2,6 +2,9 @@
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System.IO;
+using DominatorHouseCore.LogHelper;
+using System.Linq;
 
 namespace DominatorHouseCore.Models
 {
@@ -48,15 +51,14 @@ namespace DominatorHouseCore.Models
         /// <param name="templateName">Provide the template name from the client</param>
         /// <returns>returns the template id</returns>
         public string SaveTemplate<T>(T activitySettingObject, string activityType, SocialNetworks socialNetworks, string templateName) where T : class
-        {
-            TemplateModel templateModel = null;
+        {            
             try
-            {
+            {                
                 // serialize the object to string formate
                 var activitySettings = Newtonsoft.Json.JsonConvert.SerializeObject(activitySettingObject);
 
-                //Initialize and assign the values to TemplateModel for store in bin files
-                 templateModel = new TemplateModel
+                // Initialize and assign the values to TemplateModel for store in bin files
+                TemplateModel newTemplate = new TemplateModel
                 {
                     ActivityType = activityType,
                     ActivitySettings = activitySettings,
@@ -71,16 +73,20 @@ namespace DominatorHouseCore.Models
                 DirectoryUtilities.CreateDirectory(socialNetworkPath);
 
                 // Serialize the template configuration to bin files
-                ProtoBuffBase.SerializeObjects(templateModel, $"{socialNetworkPath}\\{ConstantVariable.TemplateBinName}");
+                var templates = BinFileHelper.GetTemplateDetails().ToList();
+                templates.Add(newTemplate);
 
+                BinFileHelper.UpdateTemplates(templates);
+
+                return newTemplate.Id;
             }
-            catch (Exception)
+
+            catch (IOException ex)
             {
-
+                GlobusLogHelper.log.Error($"Unable to add and save template [{templateName}] - {ex.Message}");
+                ex.DebugLog();
                 return null;
-            }
-            return $"{templateModel.Id}";
-
+            }            
         }
 
 

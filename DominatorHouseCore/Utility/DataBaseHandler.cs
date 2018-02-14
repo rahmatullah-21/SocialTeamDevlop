@@ -21,9 +21,9 @@ namespace DominatorHouseCore.Utility
                 });
                 List<DataBaseConnection.CommonDatabaseConnection.Tables.Account.Friendships> lstFriendships = databaseConnection.Get<DataBaseConnection.CommonDatabaseConnection.Tables.Account.Friendships>();
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
         }
 
