@@ -4,9 +4,19 @@ using DominatorHouseCore.Models;
 
 namespace DominatorHouseCore.Utility
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ActivityDeserialize
     {
+<<<<<<< HEAD
         public static Action<string, string, TimingRange, string> GdScheduler { get; set; }
+=======
+        /// <summary>
+        /// Callback to start scheduler on app startup, create/update campaign, etc.
+        /// </summary>
+        public static Action<string, string, TimingRange, string> DominatorScheduler { get; set; }
+>>>>>>> 90451138ff539015d353c40ecee4b2b96156cd82
 
         public static Action<string, string, string> FdScheduler { get; set; }
 
@@ -26,12 +36,9 @@ namespace DominatorHouseCore.Utility
             SocialNetworks = socialNetworks;
 
             switch (socialNetworks)
-            {
-                case SocialNetworks.Instagram:
-                    ActivityDeserialize.GdScheduler(AccountUserName, TemplateId, timing, ModuleName);
-                    break;
+            {                
                 case SocialNetworks.Facebook:
-                    ActivityDeserialize.FdScheduler(AccountUserName, TemplateId, ModuleName);
+                    FdScheduler?.Invoke(AccountUserName, TemplateId, ModuleName);
                     break;
             }
         }

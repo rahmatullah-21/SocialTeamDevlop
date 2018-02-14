@@ -10,9 +10,17 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Newtonsoft.Json;
+using DominatorHouseCore.BusinessLogic;
 
 namespace DominatorHouseCore.Process
 {
+    /// <summary>
+    /// Base abstract class for other jobs: FollowProcess, LikeProcess
+    /// Contains: account, job configuration (schedule), activity type (follow, unfollow, etc),
+    /// other helper objects.
+    /// 
+    /// Derived class have to implement PostScrapeProcess
+    /// </summary>
     public abstract class JobProcess
     {
         #region Required Properties
@@ -36,23 +44,14 @@ namespace DominatorHouseCore.Process
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; } 
         #endregion
-
-        public JobProcess(DominatorAccountModel dominatorAccountModel, JobConfiguration JobConfiguration, ActivityType activityType, TimingRange CurrentJobTimeRange)
-        {
-            this.DominatorAccountModel = dominatorAccountModel;
-            this.JobConfiguration = JobConfiguration;
-            this.ActivityType = activityType;
-            this.CurrentJobTimeRange = CurrentJobTimeRange;
-        }
-
-
+        
         public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
         {
             this.DominatorAccountModel = BinFileHelper.GetBinFileDetails<DominatorAccountModel>().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
             this.CurrentJobTimeRange = CurrentJobTimeRange;
             TemplateModel model = BinFileHelper.GetBinFileDetails<TemplateModel>().FirstOrDefault(x => x.Id == template);
             this.JobConfiguration = Newtonsoft.Json.JsonConvert.DeserializeObject<JobConfiguration>(model.ActivitySettings);
-            var cc = BinFileHelper.GetBinFileDetails<CampaignDetails>();
+            
             this.TemplateId = template;
             this.campaignId = BinFileHelper.GetBinFileDetails<CampaignDetails>().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
             this.ActivityType = activityType;
@@ -60,12 +59,14 @@ namespace DominatorHouseCore.Process
             InitializeActivityCount(account);
         }
 
+        public abstract JobProcess Initialize(string account, string template, ActivityType activity, TimingRange currentJobTimeRange);
+        
         protected void InitializeActivityCount(string account)
         {
-            MaxNoOfActionPerJob = this.JobConfiguration.JobsActivityCount.GetRandom();
-            MaxNoOfActionPerHour = JobConfiguration.HoursActivityCount.GetRandom();
-            MaxNoOfActionPerDay = JobConfiguration.DaysActivityCount.GetRandom();
-            MaxNoOfActionPerWeek = JobConfiguration.WeeksActivityCount.GetRandom();
+            MaxNoOfActionPerJob = this.JobConfiguration.ActivitiesPerJob.GetRandom();
+            MaxNoOfActionPerHour = JobConfiguration.ActivitiesPerHour.GetRandom();
+            MaxNoOfActionPerDay = JobConfiguration.ActivitiesPerDay.GetRandom();
+            MaxNoOfActionPerWeek = JobConfiguration.ActivitiesPerWeek.GetRandom();
             InitializeDatabseConnection();
         }
         private void InitializeDatabseConnection()
@@ -93,7 +94,7 @@ namespace DominatorHouseCore.Process
 
             if (NoOfActionPerformedCurrentJob > MaxNoOfActionPerJob)
             {
-                ScheduleNextJob(DateTime.Now.AddTicks(this.JobConfiguration.JobsDelay.GetRandom()));
+                ScheduleNextJob(DateTime.Now.AddTicks(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
                 return true;
             }
             int currentTime = DateTimeUtilities.GetEpochTime();
@@ -101,7 +102,7 @@ namespace DominatorHouseCore.Process
             if (NoOfActionPerformedCurrentHour > MaxNoOfActionPerHour)
             {
 
-                ScheduleNextJob(DateTime.Now.AddMinutes(this.JobConfiguration.JobsDelay.GetRandom()));
+                ScheduleNextJob(DateTime.Now.AddMinutes(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
                 return true;
             }
 
@@ -147,8 +148,10 @@ namespace DominatorHouseCore.Process
                 JobManager.AddJob(
                     () =>
                     {
-                        ActivityDeserialize.GdScheduler(DominatorAccountModel.AccountBaseModel.UserName, TemplateId, CurrentJobTimeRange,
-                            ActivityType.Follow.ToString());
+                        // use registered Factories
+                        DominatorScheduler.RunActivity(DominatorAccountModel.AccountBaseModel.UserName, TemplateId, CurrentJobTimeRange,
+                            ActivityType.Follow.ToString(), SocialNetworks.Facebook);
+
                     }, s => s.WithName($"{ActivityType.Follow.ToString()}-{this.TemplateId}").ToRunOnceAt(dateTime));
             }
 
@@ -157,6 +160,7 @@ namespace DominatorHouseCore.Process
 
         public abstract JobProcessResult PostScrapeProcess(ScrapeResultNew scrapeResult);
 
+        public abstract void StartProcess();
 
         public abstract void StartOtherConfiguration(ScrapeResultNew scrapeResult);
 

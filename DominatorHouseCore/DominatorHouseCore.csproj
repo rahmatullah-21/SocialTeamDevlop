@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ATTACH_CONSOLE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -67,6 +67,14 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.Data, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -83,6 +91,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.106.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.106.0\lib\net46\System.Data.SQLite.dll</HintPath>
@@ -114,6 +123,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\DominatorJobProcessFactory.cs" />
+    <Compile Include="BusinessLogic\DominatorScheduler.cs" />
+    <Compile Include="BusinessLogic\DominatorScheduler.Helpers.cs" />
     <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\ListCountVisiblityConverter.cs" />
@@ -126,6 +138,8 @@
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
     <Compile Include="Diagnostics\UI\UIDiagnostic.cs" />
     <Compile Include="Interfaces\IJobConfiguration.cs" />
+    <Compile Include="Interfaces\IGeneralSettings.cs" />
+    <Compile Include="Interfaces\IJobProcessFactory.cs" />
     <Compile Include="Interfaces\IPost.cs" />
     <Compile Include="Interfaces\IUser.cs" />
     <Compile Include="Diagnostics\LogHelper\GlobusLogHelper.cs" />
@@ -167,7 +181,6 @@
     <Compile Include="Interfaces\IHelpControl.cs" />
     <Compile Include="Settings\ISearchControl.cs" />
     <Compile Include="Interfaces\ISearchQueryControl.cs" />
-    <Compile Include="Settings\JobConfiguration.cs" />
     <Compile Include="Settings\Queries.cs" />
     <Compile Include="Models\QueryInfo.cs" />
     <Compile Include="Settings\RunningTimeSpanModel.cs" />
@@ -184,7 +197,6 @@
     <Compile Include="Utility\SocialNetworkPathFactory.cs" />
     <Compile Include="Models\TemplateModel.cs" />
     <Compile Include="Utility\GenderGuesser.cs" />
-    <Compile Include="Utility\BaseEnum.cs" />
     <Compile Include="Utility\BindableBase.cs" />
     <Compile Include="Utility\ConstantVariable.cs" />
     <Compile Include="Utility\DateTimeUtilities.cs" />
@@ -225,14 +237,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
-    <Folder Include="Log4NetHelper\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
-
   <ItemGroup />
-
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

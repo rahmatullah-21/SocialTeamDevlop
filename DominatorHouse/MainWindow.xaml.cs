@@ -25,6 +25,7 @@ using DominatorUIUtility.CustomControl;
 using NLog;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore;
+using DominatorHouseCore.BusinessLogic;
 
 #endregion
 
@@ -45,7 +46,7 @@ namespace DominatorHouse
 
         public MainWindow()
         {
-            DominatorHouseInitializer.Init(this);
+            DominatorHouseInitializer.Init(this, DominatorJobProcessFactory.Instance, SocialNetworks.Social);
 
             //XmlConfigurator.Configure();
             var account = RandomUtilties.GetRandomTexts(10);
@@ -54,14 +55,12 @@ namespace DominatorHouse
             objMainWindowRef = this;
             InitializeTabs();
             GlobusLogHelper.log.Info("Welcome to Dominator social" );        
-            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social"); 
-
-
-            ActivityDeserialize.GdScheduler += GdScheduler.StartScheduler;
+            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
+            
             //AccountManagerViewModel accountManagerViewModel = AccountManagerViewModel.GetAccountManagerViewModel();
 
             NormalModeTab.ItemsSource = TabItems;
-            Global.ChangeTabIndex += ChangeIndex;
+            DominatorScheduler.ChangeTabIndex += ChangeIndex;
 
             Task performanceTask = new Task(() => StartbindMemory(),
             TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);

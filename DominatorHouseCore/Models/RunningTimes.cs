@@ -73,7 +73,7 @@ namespace DominatorHouseCore.Models
 
         private ObservableCollection<TimingRange> _timings = new ObservableCollection<TimingRange>();
         [ProtoMember(2)]
-        // Timings which include all the time spam when the job is going to start
+        // Timings which include all the time span when the job is going to start
         public ObservableCollection<TimingRange> Timings
         {
             get

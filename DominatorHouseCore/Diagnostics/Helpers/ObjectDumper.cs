@@ -42,83 +42,112 @@ namespace DominatorHouse.Helpers
             if (element == null || element is ValueType || element is string)
             {
                 Write(FormatValue(element));
+                return _stringBuilder.ToString();
+            }
+
+            var objectType = element.GetType();
+            bool bIsObjectNotEnnumerable = !typeof(IEnumerable).IsAssignableFrom(objectType);
+            if (bIsObjectNotEnnumerable)
+            {
+                Write("{{{0}}}", objectType.FullName);
+                _hashListOfFoundElements.Add(element.GetHashCode());
+                _level++;
+            }
+
+            var enumerableElement = element as IEnumerable;
+            if (enumerableElement != null)
+            {
+                RecursivelyEnumerateAndDumpElements(enumerableElement);
             }
             else
             {
-                var objectType = element.GetType();
-                if (!typeof(IEnumerable).IsAssignableFrom(objectType))
-                {
-                    Write("{{{0}}}", objectType.FullName);
-                    _hashListOfFoundElements.Add(element.GetHashCode());
-                    _level++;
-                }
+                MemberInfo[] members = element.GetType().GetMembers(BindingFlags.Public | BindingFlags.Instance);
+                RecursivelyEnumerateMemberInfoAndDumpElements(members, element);
+            }
 
-                var enumerableElement = element as IEnumerable;
-                if (enumerableElement != null)
-                {
-                    foreach (object item in enumerableElement)
-                    {
-                        if (item is IEnumerable && !(item is string))
-                        {
-                            _level++;
-                            DumpElement(item);
-                            _level--;
-                        }
-                        else
-                        {
-                            if (!AlreadyTouched(item))
-                                DumpElement(item);
-                            else
-                                Write("{{{0}}} <-- bidirectional reference found", item.GetType().FullName);
-                        }
-                    }
-                }
-                else
-                {
-                    MemberInfo[] members = element.GetType().GetMembers(BindingFlags.Public | BindingFlags.Instance);
-                    foreach (var memberInfo in members)
-                    {
-                        var fieldInfo = memberInfo as FieldInfo;
-                        var propertyInfo = memberInfo as PropertyInfo;
-
-                        if (fieldInfo == null && propertyInfo == null)
-                            continue;
-
-                        if (propertyInfo != null && Attribute.IsDefined(propertyInfo, typeof(JsonIgnoreAttribute)))
-                            continue;
-
-                        var type = fieldInfo != null ? fieldInfo.FieldType : propertyInfo.PropertyType;
-                        object value = fieldInfo != null
-                                           ? fieldInfo.GetValue(element)
-                                           : propertyInfo.GetValue(element, null);
-
-                        if (type.IsValueType || type == typeof(string))
-                        {
-                            Write("{0}: {1}", memberInfo.Name, FormatValue(value));
-                        }
-                        else
-                        {
-                            var isEnumerable = typeof(IEnumerable).IsAssignableFrom(type);
-                            Write("{0}: {1}", memberInfo.Name, isEnumerable ? "..." : "{ }");
-
-                            var alreadyTouched = !isEnumerable && AlreadyTouched(value);
-                            _level++;
-                            if (!alreadyTouched)
-                                DumpElement(value);
-                            else
-                                Write("{{{0}}} <-- bidirectional reference found", value.GetType().FullName);
-                            _level--;
-                        }
-                    }
-                }
-
-                if (!typeof(IEnumerable).IsAssignableFrom(objectType))
-                {
-                    _level--;
-                }
+            if (bIsObjectNotEnnumerable)
+            {
+                _level--;
             }
 
             return _stringBuilder.ToString();
+        }
+
+        private void RecursivelyEnumerateAndDumpElements(IEnumerable enumerableElement)
+        {
+            foreach (object item in enumerableElement)
+            {
+                if (item is IEnumerable && !(item is string))
+                {
+                    _level++;
+                    DumpElement(item);
+                    _level--;
+                }
+                else
+                {
+                    if (!AlreadyTouched(item))
+                        DumpElement(item);
+                    else
+                        Write("{{{0}}} <-- bidirectional reference found", item.GetType().FullName);
+                }
+            }
+        }
+
+        private void RecursivelyEnumerateMemberInfoAndDumpElements(MemberInfo[] members, object element)
+        {
+            foreach (var memberInfo in members)
+            {
+                if (IsMemberNotDumbable(memberInfo))
+                    continue;
+
+                var Info = GetTypeAndValue(memberInfo, element);
+                var type = Info.Item1;
+                object value = Info.Item2;
+
+                if (type.IsValueType || type == typeof(string))
+                {
+                    Write("{0}: {1}", memberInfo.Name, FormatValue(value));
+                }
+                else
+                {
+                    var isEnumerable = typeof(IEnumerable).IsAssignableFrom(type);
+                    Write("{0}: {1}", memberInfo.Name, isEnumerable ? "..." : "{ }");
+
+                    var alreadyTouched = !isEnumerable && AlreadyTouched(value);
+                    _level++;
+                    if (!alreadyTouched)
+                        DumpElement(value);
+                    else
+                        Write("{{{0}}} <-- bidirectional reference found", value.GetType().FullName);
+                    _level--;
+                }
+            }
+        }
+
+        private bool IsMemberNotDumbable(MemberInfo memberInfo)
+        {
+            var fieldInfo = memberInfo as FieldInfo;
+            var propertyInfo = memberInfo as PropertyInfo;
+
+            if (fieldInfo == null && propertyInfo == null)
+                return true;
+
+            if (propertyInfo != null && Attribute.IsDefined(propertyInfo, typeof(JsonIgnoreAttribute)))
+                return true;
+
+            return false;
+        }
+
+        private Tuple<Type, Object> GetTypeAndValue(MemberInfo memberInfo, object element)
+        {
+            var fieldInfo = memberInfo as FieldInfo;
+            var propertyInfo = memberInfo as PropertyInfo;
+
+            var type = fieldInfo != null ? fieldInfo.FieldType : propertyInfo.PropertyType;
+            object value = fieldInfo != null
+                               ? fieldInfo.GetValue(element)
+                               : propertyInfo.GetValue(element, null);
+            return new Tuple<Type, object>(type, value);
         }
 
         private bool AlreadyTouched(object value)

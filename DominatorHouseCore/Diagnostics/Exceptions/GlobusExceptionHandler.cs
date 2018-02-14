@@ -103,8 +103,18 @@ namespace DominatorHouseCore.Diagnostics
                 { }
             };
 
+            // Exception within jobs
+            FluentScheduler.JobManager.JobException += job =>
+            {
+                try
+                {
+                    HandleGlobalException(job.Exception, job.Name);
+                }
+                catch { }
+            };
         }
 
+        
         /// <summary>
         /// Application will be exit after notifying user on Unhandled exception occurred
         /// </summary>
@@ -113,7 +123,7 @@ namespace DominatorHouseCore.Diagnostics
         internal static void HandleGlobalException(Exception exception, string senderString)
         {
             try
-            {
+            {                
                 if (exception != null)
                 {
                     UIDiagnostic.Fatal(exception, "Unhandled exception has been thrown from {0}", senderString);
