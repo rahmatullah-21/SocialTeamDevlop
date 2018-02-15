@@ -277,7 +277,6 @@ namespace DominatorHouse
             //else
             //{
             //    Logger.Visibility = Visibility.Collapsed;
-
             //}
 
         }
