@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace DominatorHouseCore.Utility
 {
-   public class ProtoBuffBase
+    internal class ProtoBuffBase
     {
         #region Serialize
 
@@ -19,7 +19,7 @@ namespace DominatorHouseCore.Utility
         /// <typeparam name="T">Specify the object is belongs to which Type </typeparam>
         /// <param name="objectType">The object which is going to serialize</param>
         /// <param name="filePath">Specify the filepath where the serialized object is going to save </param>
-        public static bool SerializeObjects<T>(T objects, string filePath) where T : IEnumerable
+        internal static bool SerializeObjects<T>(T objects, string filePath) where T : IEnumerable
         {
             if (objects == null)
                 throw new ArgumentNullException(nameof(objects));
@@ -29,9 +29,9 @@ namespace DominatorHouseCore.Utility
 
             try
             {                
-                using (Stream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+                using (var stream = File.OpenWrite(filePath))
                 {
-                    Serializer.Serialize(fileStream, objects);                 
+                    Serializer.Serialize(stream, objects);                 
                 }                
             }
             catch (Exception ex)
@@ -50,32 +50,25 @@ namespace DominatorHouseCore.Utility
 
         #region Deserialize 
 
-        static Dictionary<string, Stream> _openedFiles = new Dictionary<string, Stream>();
-
+        
         /// <summary>
         /// DeserializeObjects<T>() Method is used to deserialize the file and return  List ofType(T)
         /// </summary>
         /// <typeparam name="T">Class which is goes convert back</typeparam>
         /// <param name="filePath">Source of the file </param>
         /// <returns>List of Type T</returns>
-        public static IEnumerable<T> DeserializeObjects<T>(string filename) where T : class
+        internal static List<T> DeserializeObjects<T>(string filePath) where T : class
         {
             try
             {
-                Stream stream = null;
-                if (_openedFiles.ContainsKey(filename))
-                    stream = _openedFiles[filename];
-                else
+                using (var stream = File.OpenRead(filePath))
                 {
-                    stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
-                    _openedFiles.Add(filename, stream);
+                    return Serializer.DeserializeItems<T>(stream, PrefixStyle.Base128, 1).ToList();
                 }
-
-                return Serializer.DeserializeItems<T>(stream, PrefixStyle.Base128, 1);                
             }
             catch (Exception ex)
             {
-                ex.ErrorLog($"Unable to deserialize object of type {typeof(T).FullName} from {filename}");
+                ex.ErrorLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
                 return new List<T>();
             }            
         }

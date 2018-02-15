@@ -11,6 +11,7 @@ using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Newtonsoft.Json;
 using DominatorHouseCore.BusinessLogic;
+using DominatorHouseCore.FileManagers;
 
 namespace DominatorHouseCore.Process
 {
@@ -47,13 +48,13 @@ namespace DominatorHouseCore.Process
         
         public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
         {
-            this.DominatorAccountModel = BinFileHelper.GetAccountDetails().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
+            this.DominatorAccountModel = FileManagers.AccountsFileManager.Get().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
             this.CurrentJobTimeRange = CurrentJobTimeRange;
             TemplateModel model = BinFileHelper.GetTemplateDetails(SocialNetworks.Instagram).FirstOrDefault(x => x.Id == template);
             this.JobConfiguration = Newtonsoft.Json.JsonConvert.DeserializeObject<JobConfiguration>(model.ActivitySettings);
             
             this.TemplateId = template;
-            this.campaignId = BinFileHelper.GetCampaignDetail().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
+            this.campaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
             this.ActivityType = activityType;
             JobCancellationTokenSource = new DominatorCancellationTokenSource(account, template);
             InitializeActivityCount(account);

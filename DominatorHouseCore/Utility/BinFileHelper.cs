@@ -12,56 +12,56 @@ using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.Utility
 {
-    public class BinFileHelper
+    internal class BinFileHelper
     {
-
-        #region Read Accounts
-
         private static readonly object _accountDetailsFileLocker = new object();
         private static readonly object _campaignsFileLocker = new object();
         private static readonly object _templatesFileLocker = new object();
-
-        #endregion
 
         public static ObservableCollectionBase<string> GetUsers(SocialNetworks socialNetwork)
             => new ObservableCollectionBase<string>(GetAccountDetails(socialNetwork).Select(x => x.AccountBaseModel.UserName).ToList());
 
 
-        public static IEnumerable<DominatorAccountModel> GetAccountDetails(SocialNetworks network)
+        public static List<DominatorAccountModel> GetAccountDetails(SocialNetworks network)
         {
             lock (_accountDetailsFileLocker)
                 return ProtoBuffBase.DeserializeObjects<DominatorAccountModel>(
                        ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
         }
 
-        public static IEnumerable<DominatorAccountModel> GetAccountDetails()
+        public static List<DominatorAccountModel> GetAccountDetails()
                 => GetAccountDetails(DominatorHouseInitializer.ActiveSocialNetwork);
 
-        public static IEnumerable<T> GetAccountDetailsFor<T>(SocialNetworks network) where T : class
+        // TODO: back compatibility for account models of PD, TWD etc.
+        public static List<T> GetAccountDetailsFor<T>() where T : class
         {
             lock (_accountDetailsFileLocker)
                 return ProtoBuffBase.DeserializeObjects<T>(
-                    ConstantVariable.GetIndexAccountPath(network) + $@"\{ConstantVariable.AccountDetails}");
-        }        
+                           ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
+        }
 
-        public static IEnumerable<CampaignDetails> GetCampaignDetail(SocialNetworks network)
+
+        // Get campigns for certain social network
+        public static List<CampaignDetails> GetCampaignDetail(SocialNetworks network)
         {
-            lock (_accountDetailsFileLocker)
+            lock (_campaignsFileLocker)
                 return ProtoBuffBase.DeserializeObjects<CampaignDetails>(
                     $"{ConstantVariable.socialNetworkPath(network)}\\{ConstantVariable.CampaignDetails}");
         }
 
-        public static IEnumerable<CampaignDetails> GetCampaignDetail()
+        public static List<CampaignDetails> GetCampaignDetail()
             => GetCampaignDetail(DominatorHouseInitializer.ActiveSocialNetwork);
 
-        public static IEnumerable<TemplateModel> GetTemplateDetails(SocialNetworks network)
+        
+        // Get templates for certain social network
+        public static List<TemplateModel> GetTemplateDetails(SocialNetworks network)
         {
-            lock (_accountDetailsFileLocker)
+            lock (_templatesFileLocker)
                 return ProtoBuffBase.DeserializeObjects<TemplateModel>(
                     $"{ConstantVariable.socialConfigurationPath(network)}\\{ConstantVariable.TemplateBinName}");
         }
 
-        public static IEnumerable<TemplateModel> GetTemplateDetails()
+        public static List<TemplateModel> GetTemplateDetails()
             => GetTemplateDetails(DominatorHouseInitializer.ActiveSocialNetwork);
 
 
@@ -76,7 +76,7 @@ namespace DominatorHouseCore.Utility
             {
                 lock (_accountDetailsFileLocker)
                 {
-                    var accountDetailsList = GetAccountDetails().ToList();      
+                    var accountDetailsList = GetAccountDetails();      
                     int indexOfAccountToUpdate =
                         accountDetailsList.FindIndex(x => x.AccountBaseModel.AccountId == accountModel.AccountBaseModel.AccountId);
 
@@ -100,26 +100,31 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static void UpdateAllAccounts(IList<DominatorAccountModel> accountDetailsList)
+        public static bool UpdateAllAccounts(IList<DominatorAccountModel> accountDetailsList)
         {
-            UpdateAllAccounts<DominatorAccountModel>(accountDetailsList);
+            return UpdateAllAccounts<DominatorAccountModel>(accountDetailsList);
         }
 
 
         // TODO: back compatibility to save old AccountModel. Have to be replaced with IList<DominatorAccountModel>
-        public static void UpdateAllAccounts<T>(IList<T> accountDetailsList)
+        public static bool UpdateAllAccounts<T>(IList<T> accountDetailsList)
         {
             lock (_accountDetailsFileLocker)
             {
                 try
                 {
-                    ProtoBuffBase.SerializeObjects(accountDetailsList,
+                    bool result = ProtoBuffBase.SerializeObjects(accountDetailsList,
                                 ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
+
+                    GlobusLogHelper.log.Debug("Accounts succesfully saved");
+
+                    return result;
                 }
                 catch (Exception ex)
                 {
                     GlobusLogHelper.log.Error("Update All Accounts error - " + ex.Message);
                     ex.DebugLog();
+                    return false;
                 }
             }
         }
@@ -140,7 +145,7 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static void UpdateTemplates(IEnumerable<TemplateModel> templatesList)
+        public static void UpdateTemplates(List<TemplateModel> templatesList)
         {
             lock (_templatesFileLocker)
             {

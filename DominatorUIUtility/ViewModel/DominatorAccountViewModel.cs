@@ -18,6 +18,7 @@ using DominatorUIUtility.CustomControl;
 using MahApps.Metro.Controls.Dialogs;
 using ProtoBuf;
 using DominatorHouseCore;
+using DominatorHouseCore.FileManagers;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -263,17 +264,9 @@ namespace DominatorUIUtility.ViewModel
             DirectoryUtilities.CreateDirectory(ConstantVariable.GetIndexAccountPath());
 
             //serialize the given account, if its success then add to account model list
-            if (BinFileHelper.UpdateAccount(dominatorAccountModel))                
-            {
-                LstDominatorAccountModel.Add(dominatorAccountModel);
-            }
-            else
-            {
-                /*INFO*/
-                Console.WriteLine($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
-                GlobusLogHelper.log.Info($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
-            }
-
+            LstDominatorAccountModel.Add(dominatorAccountModel);
+            AccountsFileManager.Save(LstDominatorAccountModel);                
+            
             DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.UserName);
 
             #endregion
@@ -453,7 +446,7 @@ namespace DominatorUIUtility.ViewModel
             }
 
             // after removing serialize the remaining accounts 
-            BinFileHelper.UpdateAllAccounts(LstDominatorAccountModel);
+            AccountsFileManager.Save(LstDominatorAccountModel);
             return false;
         }
 
@@ -770,7 +763,7 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (syncLoadAccounts)
             {
-                var savedAccounts = BinFileHelper.GetAccountDetails();
+                var savedAccounts = DominatorHouseCore.FileManagers.AccountsFileManager.Get();
 
                 var allGroups = new List<ContentSelectGroup>();
 

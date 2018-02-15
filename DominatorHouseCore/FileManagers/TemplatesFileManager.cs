@@ -52,5 +52,31 @@ namespace DominatorHouseCore.FileManagers
         {
             ApplyActionForId(templateId, t => t.ActivitySettings = activitySettingsJson);
         }
+
+
+        public static List<TemplateModel> Get()
+        {
+            var result = new List<TemplateModel>();
+            ApplyFunc(t =>
+            {
+                result.Add(t);
+                return false;
+            });
+
+            return result;
+        }
+
+        public static TemplateModel GetTemplateById(string id)
+        {
+            var templates = Get();
+            var result = templates.FirstOrDefault(t => t.Id == id);
+
+            return result;
+        }
+
+        public static void Save(List<TemplateModel> templates)
+        {
+            BinFileHelper.UpdateTemplates(templates);
+        }
     }
 }
