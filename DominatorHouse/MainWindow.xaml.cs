@@ -103,8 +103,9 @@ namespace DominatorHouse
                     TabItems = gramDominator.InitializeAllTabs();
                     break;
                 case SocialNetworks.Twitter:
-                    TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
-                    TabItems = twtDominator.InitializeAllTabs();
+#warning UNCOMMENT LINES BELLOW WHEN COMPILED
+                    //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
+                    //TabItems = twtDominator.InitializeAllTabs();
                     break;
                 case SocialNetworks.Social:
                     TabItems = InitializeAllTabs();
@@ -332,8 +333,10 @@ namespace DominatorHouse
                     this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Twitter:
-                    TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
-                    TabItems = twtDominator.InitializeAllTabs();
+
+#warning UNCOMMENT LINES BELLOW WHEN COMPILED
+                    //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
+                    //TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
                     break;
                 case SocialNetworks.PinInterest:

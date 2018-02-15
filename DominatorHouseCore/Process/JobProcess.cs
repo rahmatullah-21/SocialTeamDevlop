@@ -11,6 +11,7 @@ using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Newtonsoft.Json;
 using DominatorHouseCore.BusinessLogic;
+using DominatorHouseCore.FileManagers;
 
 namespace DominatorHouseCore.Process
 {
@@ -47,13 +48,13 @@ namespace DominatorHouseCore.Process
         
         public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
         {
-            this.DominatorAccountModel = BinFileHelper.GetBinFileDetails<DominatorAccountModel>().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
+            this.DominatorAccountModel = FileManagers.AccountsFileManager.Get().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
             this.CurrentJobTimeRange = CurrentJobTimeRange;
-            TemplateModel model = BinFileHelper.GetBinFileDetails<TemplateModel>().FirstOrDefault(x => x.Id == template);
+            TemplateModel model = BinFileHelper.GetTemplateDetails(SocialNetworks.Instagram).FirstOrDefault(x => x.Id == template);
             this.JobConfiguration = Newtonsoft.Json.JsonConvert.DeserializeObject<JobConfiguration>(model.ActivitySettings);
             
             this.TemplateId = template;
-            this.campaignId = BinFileHelper.GetBinFileDetails<CampaignDetails>().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
+            this.campaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
             this.ActivityType = activityType;
             JobCancellationTokenSource = new DominatorCancellationTokenSource(account, template);
             InitializeActivityCount(account);
@@ -173,16 +174,12 @@ namespace DominatorHouseCore.Process
         protected void StopFollow()
         {
             TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, TemplateId);
-            List<TemplateModel> lstTemplateModel = BinFileHelper.GetTemplateDetails();
-            lstTemplateModel.ForEach(template =>
-            {
-                if (template.Id == TemplateId)
-                {
+            List<TemplateModel> lstTemplateModel = BinFileHelper.GetTemplateDetails().ToList();
+            foreach (var template in lstTemplateModel)            
+                if (template.Id == TemplateId)                
                     JsonConvert.DeserializeObject<JobConfiguration>(template.ActivitySettings).RunningTime.Clear();
-                }
-            });
-            BinFileHelper.UpdateBinFile(lstTemplateModel);
 
+            TemplatesFileManager.Save(lstTemplateModel);            
         }
 
 

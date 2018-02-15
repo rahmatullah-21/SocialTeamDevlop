@@ -17,6 +17,8 @@ using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
 using MahApps.Metro.Controls.Dialogs;
 using ProtoBuf;
+using DominatorHouseCore;
+using DominatorHouseCore.FileManagers;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -262,18 +264,9 @@ namespace DominatorUIUtility.ViewModel
             DirectoryUtilities.CreateDirectory(ConstantVariable.GetIndexAccountPath());
 
             //serialize the given account, if its success then add to account model list
-            if (ProtoBuffBase.SerializeObjects<DominatorAccountModel>(dominatorAccountModel,
-                ConstantVariable.GetIndexAccountPath() + $"\\{ConstantVariable.AccountDetails}"))
-            {
-                LstDominatorAccountModel.Add(dominatorAccountModel);
-            }
-            else
-            {
-                /*INFO*/
-                Console.WriteLine($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
-                GlobusLogHelper.log.Info($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
-            }
-
+            LstDominatorAccountModel.Add(dominatorAccountModel);
+            AccountsFileManager.Save(LstDominatorAccountModel);                
+            
             DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.UserName);
 
             #endregion
@@ -452,9 +445,8 @@ namespace DominatorUIUtility.ViewModel
                 ++row;
             }
 
-            //after removed serialize the remaining accounts 
-            ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
-                ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
+            // after removing serialize the remaining accounts 
+            AccountsFileManager.Save(LstDominatorAccountModel);
             return false;
         }
 
@@ -771,19 +763,18 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (syncLoadAccounts)
             {
-                var savedAccounts = BinFileHelper.ReadAccounts();
+                var savedAccounts = DominatorHouseCore.FileManagers.AccountsFileManager.Get();
 
                 var allGroups = new List<ContentSelectGroup>();
 
                 try
                 {
                     LstDominatorAccountModel.Clear();
-                    savedAccounts.ForEach(account =>
+                    foreach(var account in savedAccounts)
                     {
                         LstDominatorAccountModel.Add(account);
-                        allGroups.Add(account.AccountBaseModel.AccountGroup);
-                        //Global.ScheduleForEachModule(null, account);
-                    });
+                        allGroups.Add(account.AccountBaseModel.AccountGroup);                     
+                    }
 
                     foreach (var group in allGroups)
                     {

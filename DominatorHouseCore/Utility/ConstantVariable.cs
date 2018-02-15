@@ -2,6 +2,8 @@
 using System.Windows.Documents;
 using DominatorHouseCore.Enums;
 using System.Reflection;
+using DominatorHouseCore.Diagnostics;
+using System.IO;
 
 namespace DominatorHouseCore.Utility
 {
@@ -26,7 +28,7 @@ namespace DominatorHouseCore.Utility
 
         public static string Manufacturer { get; } = "DOMINATORHOUSE";
 
-        //  public static string GdPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{Manufacturer}\\GD";
+        
         public static string GetDominatorBaseDirectory()
         {
             return $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{Manufacturer}";
@@ -36,11 +38,7 @@ namespace DominatorHouseCore.Utility
         {
             return $"{GetDominatorBaseDirectory()}\\{SocialNetworkType}";
         }
-
-
-
-     //   public static string GetConfigurationPath(SocialNetworks.Instagram) = $"{GdPath}\\Configurations";
-
+        
 
         public static string GetConfigurationPath(SocialNetworks SocialNetworkType)
         {
@@ -58,24 +56,29 @@ namespace DominatorHouseCore.Utility
 
         public static string GetIndexAccountPath()
         {
-            return GetDominatorBaseDirectory() + "\\"+ ConstantVariable.DominatorPath + "\\Index\\AC";
+            SocialNetworks network = DominatorHouseInitializer.ActiveSocialNetwork;
+            string directoryPath = GetDominatorBaseDirectory() + $"\\{network}\\Index\\AC";
+
+            DirectoryUtilities.CreateDirectory(directoryPath);
+
+            return directoryPath;
         }
 
 
         public static string GetIndexAccountPath(SocialNetworks SocialNetworkType)
-        {
-            return GetDominatorPath(SocialNetworkType) + "\\Index\\AC";
-        }
-
-        // public static string GetIndexCampaignPath(SocialNetworks.Instagram) = GdPath + "\\Index\\CP";
-
+                => GetDominatorPath(SocialNetworkType) + "\\Index\\AC";                
 
         public static string GetIndexCampaignPath(SocialNetworks SocialNetworkType)
-        {
-            return GetDominatorPath(SocialNetworkType) + "\\Index\\CP";
-        }
+            => GetDominatorPath(SocialNetworkType) + "\\Index\\CP";
 
+        public static string GetIndexCampaignPath()
+            => GetIndexCampaignPath(DominatorHouseInitializer.ActiveSocialNetwork);
 
+        public static string GetTemplatesPath(SocialNetworks SocialNetworkType)
+                => GetConfigurationPath(SocialNetworkType) + "\\" + TemplateBinName;
+
+        public static string GetTemplatesPath()
+                => GetConfigurationPath(DominatorHouseInitializer.ActiveSocialNetwork) + "\\" + TemplateBinName;
 
         public static string AccountDetails = "AccountDetails.bin";
 
@@ -90,26 +93,14 @@ namespace DominatorHouseCore.Utility
         public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
 
 
-      //  public static string socialConfigurationPath = new SocialNetworkPathFactory(SocialNetworks.Instagram).GetSocialNetworkConfigPath();
-
-
         public static string socialConfigurationPath(SocialNetworks SocialNetworkType)
         {
            return new SocialNetworkPathFactory(SocialNetworkType).GetSocialNetworkConfigPath();
         }
-
-     //   public static string socialNetworkPath = new SocialNetworkPathFactory(SocialNetworks.Instagram).GetSocialNetworkCampaignPath();
-
+     
         public static string socialNetworkPath(SocialNetworks SocialNetworkType)
         {
             return new SocialNetworkPathFactory(SocialNetworkType).GetSocialNetworkCampaignPath();
-        }
-
-        public static string DominatorPath = Assembly.GetExecutingAssembly().GetName().Name;
-
-       // public static string DominatorPath = Assembly.GetExecutingAssembly().FullName;
-
-
-
+        }        
     }
 }

@@ -1,134 +1,78 @@
 ﻿using ProtoBuf;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
 namespace DominatorHouseCore.Utility
 {
-   public class ProtoBuffBase
+    internal class ProtoBuffBase
     {
         #region Serialize
 
+        
         /// <summary>
-        /// SerializeObjects<T>() method is used to serialize the object and appended in the specified filepath
+        /// SerializeObjects<T>() method is used to serialize the LIST of objects
         /// </summary>
         /// <typeparam name="T">Specify the object is belongs to which Type </typeparam>
         /// <param name="objectType">The object which is going to serialize</param>
         /// <param name="filePath">Specify the filepath where the serialized object is going to save </param>
-        public static bool SerializeObjects<T>(T objectType, string filePath) where T : class
+        internal static bool SerializeObjects<T>(T objects, string filePath) where T : IEnumerable
         {
-            if (objectType == null) return false;
+            if (objects == null)
+                throw new ArgumentNullException(nameof(objects));
 
-            if (!File.Exists(filePath))
-            {
-                try
+            if (!(objects is IList))
+                throw new ArgumentException(nameof(objects));
+
+            try
+            {                
+                using (var stream = File.OpenWrite(filePath))
                 {
-                    using (Stream fileStream = File.Create(filePath))
-                    {
-                        Serializer.SerializeWithLengthPrefix(fileStream, objectType, PrefixStyle.Base128, 1);
-                        fileStream.Close();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.StackTrace);
-                    return false;
-                }
+                    Serializer.Serialize(stream, objects);                 
+                }                
             }
-            else
+            catch (Exception ex)
             {
-                try
-                {
-                    using (Stream fileStream = File.Open(filePath, FileMode.Append))
-                    {
-                        Serializer.SerializeWithLengthPrefix(fileStream, objectType, PrefixStyle.Base128, 1);
-                        fileStream.Close();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.StackTrace);
-                    return false;
-                }
+                ex.DebugLog($"ProtobufError: Unable to serialize object of type {typeof(T).FullName}");                
+                throw;        
             }
+
+
             return true;
-        }
+        }        
 
-        public static bool SerializeListObject<T>(IEnumerable<T> objectType, string filePath) where T : class
-        {
-            foreach (T singleobject in objectType)
-            {
-                try
-                {
-                    var status = SerializeObjects<T>(singleobject, filePath);
-                    if (!status)
-                        return false;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    return false;
-                }
-            }
-            return true;
-        }
-
+        
         #endregion
 
 
-
-
         #region Deserialize 
+
+        
         /// <summary>
         /// DeserializeObjects<T>() Method is used to deserialize the file and return  List ofType(T)
         /// </summary>
         /// <typeparam name="T">Class which is goes convert back</typeparam>
         /// <param name="filePath">Source of the file </param>
         /// <returns>List of Type T</returns>
-        public static List<T> DeserializeObjects<T>(string filename) where T : class
+        internal static List<T> DeserializeObjects<T>(string filePath) where T : class
         {
             try
             {
-                using (Stream file = File.Open(filename, FileMode.Open))
+                using (var stream = File.OpenRead(filePath))
                 {
-                    return Serializer.DeserializeItems<T>(file, PrefixStyle.Base128, 1).ToList();
+                    return Serializer.DeserializeItems<T>(stream, PrefixStyle.Base128, 1).ToList();
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-            }
-            return new List<T>();
+                ex.ErrorLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
+                return new List<T>();
+            }            
         }
 
-        #endregion
-
-
-
-
-        #region UpdateObject 
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <typeparam name="T"></typeparam>
-       /// <param name="filename"></param>
-       /// <returns></returns>
-        public static void UpdateObjects<T>(string filename , T obj) where T : class
-        {
-            try
-            {
-                using (Stream file = File.Open(filename, FileMode.Open))
-                {
-                    Serializer.MergeWithLengthPrefix(file, obj, PrefixStyle.Base128);
-                }
-            }
-            catch (Exception e)
-            {
-            }
-
-        }
-
-        #endregion
-
+        #endregion        
     }
 }

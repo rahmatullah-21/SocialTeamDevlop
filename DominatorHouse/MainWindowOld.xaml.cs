@@ -21,8 +21,9 @@ namespace DominatorHouse
 
         private void ButtonTD_OnClick(object sender, RoutedEventArgs e)
         {
-            TwtDominatorUI.MainWindow TdWindows = new TwtDominatorUI.MainWindow();
-            TdWindows.Show();
+#warning UNCOMMENT LINES BELLOW WHEN COMPILED
+            //TwtDominatorUI.MainWindow TdWindows = new TwtDominatorUI.MainWindow();
+            //TdWindows.Show();
         }
     }
 }

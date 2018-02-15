@@ -37,17 +37,35 @@ namespace DominatorHouseCore
                                 ex.GetType().ToString(), ex.Message, string.Format(userMessage, args), ex.StackTrace);
         }
 
-
-        public static void Log(this Exception ex)
+        public static void TraceLog(this Exception ex)
         {
-            GlobusLogHelper.log.Error(ex.ToUnhandledString());
+            TraceLog(ex, "");
         }
 
-        public static void Log(this Exception ex, string userMessage, params object[] args)
+        public static void TraceLog(this Exception ex, string userMessage, params object[] args)
+        {
+            GlobusLogHelper.log.Trace(ex.ToUserStringWithStack(userMessage, args));
+        }
+
+
+        public static void DebugLog(this Exception ex)
+        {
+            DebugLog(ex, "");
+        }
+
+        public static void DebugLog(this Exception ex, string userMessage, params object[] args)
+        {
+            GlobusLogHelper.log.Debug(ex.ToUserStringWithStack(userMessage, args));
+        }
+
+        public static void ErrorLog(this Exception ex)
+        {
+            ErrorLog(ex, "");
+        }
+
+        public static void ErrorLog(this Exception ex, string userMessage, params object[] args)
         {
             GlobusLogHelper.log.Error(ex.ToUserStringWithStack(userMessage, args));
         }
-
-
     }
 }
