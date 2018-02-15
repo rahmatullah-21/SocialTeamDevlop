@@ -21,6 +21,9 @@ namespace DominatorHouseCore.Utility
         public static ObservableCollectionBase<string> GetUsers(SocialNetworks socialNetwork)
             => new ObservableCollectionBase<string>(GetAccountDetails(socialNetwork).Select(x => x.AccountBaseModel.UserName).ToList());
 
+        public static ObservableCollectionBase<string> GetUsers<T>() where T : class
+            => new ObservableCollectionBase<string>(GetAccountDetailsFor<T>().Select(x => (x as dynamic).UserName as string).ToList());
+
 
         public static List<DominatorAccountModel> GetAccountDetails(SocialNetworks network)
         {
@@ -76,7 +79,7 @@ namespace DominatorHouseCore.Utility
             {
                 lock (_accountDetailsFileLocker)
                 {
-                    var accountDetailsList = GetAccountDetails();      
+                    var accountDetailsList = GetAccountDetails();
                     int indexOfAccountToUpdate =
                         accountDetailsList.FindIndex(x => x.AccountBaseModel.AccountId == accountModel.AccountBaseModel.AccountId);
 
@@ -99,6 +102,38 @@ namespace DominatorHouseCore.Utility
                 return false;
             }
         }
+
+        // TODO: backward compatibility
+        internal static bool UpdateAccount<T>(T accountModel) where T : class
+        {
+            try
+            {
+                lock (_accountDetailsFileLocker)
+                {
+                    var accountDetailsList = GetAccountDetailsFor<T>();
+                    int indexOfAccountToUpdate =
+                        accountDetailsList.FindIndex(x => (x as dynamic).AccountId == (accountModel as dynamic).AccountId);
+
+                    if (indexOfAccountToUpdate == -1)
+                        return false;
+
+                    accountDetailsList[indexOfAccountToUpdate] = accountModel;
+
+                    bool result = ProtoBuffBase.SerializeObjects(accountDetailsList,
+                            ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
+
+                    GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error("Update account details error - " + ex.Message);
+                ex.DebugLog();
+                return false;
+            }
+        }
+
 
         public static bool UpdateAllAccounts(IList<DominatorAccountModel> accountDetailsList)
         {

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -37,8 +38,7 @@ namespace DominatorHouseCore.FileManagers
                 BinFileHelper.UpdateAllAccounts(accounts);
         }
 
-
-        public static void Save(IList<DominatorAccountModel> lstAccountModel)
+        public static void Save<T>(IList<T> lstAccountModel) where T : class
         {
             BinFileHelper.UpdateAllAccounts(lstAccountModel);
             GlobusLogHelper.log.Debug("Accounts successfully saved");
@@ -50,12 +50,20 @@ namespace DominatorHouseCore.FileManagers
             GlobusLogHelper.log.Debug($"Accounts successfully saved - [{account.AccountBaseModel.UserName}]");
         }
 
-        public static void FillList(ObservableCollection<DominatorAccountModel> lstAccountModel)
+        // TODO: remove. Backward compatibility
+        public static void SaveAccount<T>(T account) where T : class
+        {
+            BinFileHelper.UpdateAccount<T>(account);
+            GlobusLogHelper.log.Debug($"Accounts successfully saved - [{(account as dynamic).UserName}]");
+        }
+
+
+        public static void FillList<T>(ObservableCollection<T> lstAccountModel) where T : class
         {
             lstAccountModel.Clear();
             ApplyFunc(a =>
             {
-                lstAccountModel.Add(a);
+                lstAccountModel.Add((T)(object)a);
                 return false;
             });
         }
@@ -67,6 +75,12 @@ namespace DominatorHouseCore.FileManagers
             return result;
         }
 
+
+        // Back compatibility for old account models
+        public static List<AccountModel> GetFor<AccountModel>() where AccountModel : class
+            => BinFileHelper.GetAccountDetailsFor<AccountModel>();
+
+
         public static DominatorAccountModel GetAccount(string userName)
         {
             var accounts = Get();
@@ -75,9 +89,26 @@ namespace DominatorHouseCore.FileManagers
             return result;
         }
 
+        // TODO: remove. backward compatibility for old account models
+        public static T GetAccount<T>(string userName) where T : class
+        {
+            var accounts = GetFor<T>();
+
+            var result = accounts.FirstOrDefault(x => (x as dynamic).UserName == userName);
+            return result;
+        }
+
         public static ObservableCollectionBase<string> GetUsers()
         {
             var result = BinFileHelper.GetUsers(DominatorHouseInitializer.ActiveSocialNetwork);
+
+            return result;
+        }
+
+        // TODO: remove. backward compatibility for old account models
+        public static ObservableCollectionBase<string> GetUsersFor<T>() where T : class
+        {
+            var result = BinFileHelper.GetUsers<T>();
 
             return result;
         }

@@ -179,7 +179,7 @@ namespace DominatorHouseCore.Process
                 if (template.Id == TemplateId)                
                     JsonConvert.DeserializeObject<JobConfiguration>(template.ActivitySettings).RunningTime.Clear();
 
-            BinFileHelper.UpdateTemplates(lstTemplateModel);            
+            TemplatesFileManager.Save(lstTemplateModel);            
         }
 
 
