@@ -61,7 +61,6 @@ namespace DominatorHouse
             TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
 
-<<<<<<< HEAD
             #region commeted
             //Task.Factory.StartNew(() =>
             //{
@@ -76,8 +75,6 @@ namespace DominatorHouse
             //}); 
             #endregion
 
-=======
->>>>>>> 0caa81b5fdb3f602c6762b2dfca060619dff8d63
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
         }
 
@@ -91,77 +88,78 @@ namespace DominatorHouse
         }
 
 
-<<<<<<< HEAD
+
         public static MainWindow objMainWindowRef = null;
 
-        private void InitializeTabs()
-        {
-            SocialNetworks socialNetwork = SocialNetworks.Social;
-            switch (socialNetwork)
-            {
-                case SocialNetworks.Instagram:
-                    GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
-                    TabItems = gramDominator.InitializeAllTabs();
-                    break;
-                case SocialNetworks.Twitter:
-#warning UNCOMMENT LINES BELLOW WHEN COMPILED
-                    //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
-                    //TabItems = twtDominator.InitializeAllTabs();
-                    break;
-                case SocialNetworks.Social:
-                    TabItems = InitializeAllTabs();
-                    this.Title = "Dominator - All in One";
-                    break;
-                default:
+        #region commented for now
+        //private void InitializeTabs()
+        //{
+        //    SocialNetworks socialNetwork = SocialNetworks.Social;
+        //    switch (socialNetwork)
+        //    {
+        //        case SocialNetworks.Instagram:
+        //            GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
+        //            TabItems = gramDominator.InitializeAllTabs();
+        //            break;
+        //        case SocialNetworks.Twitter:
 
-                    break;
-            }
+        //            //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
+        //            //TabItems = twtDominator.InitializeAllTabs();
+        //            break;
+        //        case SocialNetworks.Social:
+        //            TabItems = InitializeAllTabs();
+        //            this.Title = "Dominator - All in One";
+        //            break;
+        //        default:
 
-            NormalModeTab.ItemsSource = TabItems;
-            var vv = NormalModeTab.SelectedContent as UserControl;
-        }
+        //            break;
+        //    }
 
-        public void ChangeIndex(int TabControlIndex, int TabIndex)
-        {
-            NormalModeTab.SelectedIndex = TabControlIndex;
-            //string item = (NormalModeTab.SelectedItem as TabItemViewModel).Title;
-            switch (TabControlIndex)
-            {
-                case 1:
-                    GrowFollowersTab objGrowFollowersTab = GrowFollowersTab.GetSingeltonObjectGrowFollowersTab();
-                    objGrowFollowersTab.setIndex(TabIndex);
-                    break;
-                case 2:
-                    InstaPosterTab objInstaPosterTab = InstaPosterTab.GetSingeltonObjectInstaPosterTab();
-                    objInstaPosterTab.setIndex(TabIndex);
-                    break;
+        //    NormalModeTab.ItemsSource = TabItems;
+        //    var vv = NormalModeTab.SelectedContent as UserControl;
+        //}
 
-                case 3:
-                    InstachatTab.GetSingeltonObjectInstachatTab();
-                    break;
-                case 4:
-                    var objInstaLikerInstaCommenterTab = InstaLikerInstaCommenterTab.GetSingeltonObjectInstaLikerInstaCommenterTab();
-                    objInstaLikerInstaCommenterTab.setIndex(TabIndex);
-                    break;
-                case 5:
-                    InstaScrapeTab objInstaScrapeTab = InstaScrapeTab.GetSingeltonObjectInstaScrapeTab();
-                    objInstaScrapeTab.setIndex(TabIndex);
-                    break;
-                case 6:
-                    //campaign
-                    break;
-            }
-        }
+        //public void ChangeIndex(int TabControlIndex, int TabIndex)
+        //{
+        //    NormalModeTab.SelectedIndex = TabControlIndex;
+        //    //string item = (NormalModeTab.SelectedItem as TabItemViewModel).Title;
+        //    switch (TabControlIndex)
+        //    {
+        //        case 1:
+        //            GrowFollowersTab objGrowFollowersTab = GrowFollowersTab.GetSingeltonObjectGrowFollowersTab();
+        //            objGrowFollowersTab.setIndex(TabIndex);
+        //            break;
+        //        case 2:
+        //            InstaPosterTab objInstaPosterTab = InstaPosterTab.GetSingeltonObjectInstaPosterTab();
+        //            objInstaPosterTab.setIndex(TabIndex);
+        //            break;
 
-        public void SelectTab(int mainTabindex)
-        {
-            NormalModeTab.SelectedIndex = mainTabindex;
-        }
+        //        case 3:
+        //            InstachatTab.GetSingeltonObjectInstachatTab();
+        //            break;
+        //        case 4:
+        //            var objInstaLikerInstaCommenterTab = InstaLikerInstaCommenterTab.GetSingeltonObjectInstaLikerInstaCommenterTab();
+        //            objInstaLikerInstaCommenterTab.setIndex(TabIndex);
+        //            break;
+        //        case 5:
+        //            InstaScrapeTab objInstaScrapeTab = InstaScrapeTab.GetSingeltonObjectInstaScrapeTab();
+        //            objInstaScrapeTab.setIndex(TabIndex);
+        //            break;
+        //        case 6:
+        //            //campaign
+        //            break;
+        //    }
+        //}
+
+        //public void SelectTab(int mainTabindex)
+        //{
+        //    NormalModeTab.SelectedIndex = mainTabindex;
+        //} 
+        #endregion
 
 
 
-=======
->>>>>>> 0caa81b5fdb3f602c6762b2dfca060619dff8d63
+
         async private void StartbindMemory()
         {
             while (true)
@@ -243,20 +241,14 @@ namespace DominatorHouse
 
 
 
-<<<<<<< HEAD
-            btnAccountGrowthMode.Content = "Switch to Normal Mode";
-            btnAccountGrowthMode.Name = "btnNormalMode";
-        }
+        //public void NormalMode()
+        //{
+        //    NormalModeTab.Visibility = System.Windows.Visibility.Visible;
+        //    AccountGrowthModeTab.Visibility = System.Windows.Visibility.Collapsed;
+        //    btnAccountGrowthMode.Content = "Switch to Account Growth Mode";
+        //    btnAccountGrowthMode.Name = "btnAccountGrowthMode";
+        //}
 
-        public void NormalMode()
-        {
-            NormalModeTab.Visibility = System.Windows.Visibility.Visible;
-            AccountGrowthModeTab.Visibility = System.Windows.Visibility.Collapsed;
-            btnAccountGrowthMode.Content = "Switch to Account Growth Mode";
-            btnAccountGrowthMode.Name = "btnAccountGrowthMode";
-        }
-=======
->>>>>>> 0caa81b5fdb3f602c6762b2dfca060619dff8d63
 
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -284,13 +276,13 @@ namespace DominatorHouse
             switch (socialNetwork)
             {
                 case SocialNetworks.Instagram:
-                  
+
                     GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
                     TabItems = gramDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Twitter:
-                    #warning UNCOMMENT LINES BELLOW WHEN COMPILED
+#warning UNCOMMENT LINES BELLOW WHEN COMPILED
                     //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
                     //TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
@@ -356,22 +348,14 @@ namespace DominatorHouse
                 Title=FindResource("langOtherConfigurations").ToString(),
                 //  Content=new Lazy<UserControl>(()=>new OtherConfiguration())
                 }
-<<<<<<< HEAD
-                
-                
+
             };
-=======
 
-
-        };
->>>>>>> 0caa81b5fdb3f602c6762b2dfca060619dff8d63
         }
 
     }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 0caa81b5fdb3f602c6762b2dfca060619dff8d63
+
 
 }

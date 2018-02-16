@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Runtime.CompilerServices;
 using DominatorHouseCore.Requests;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json;
@@ -16,21 +18,15 @@ namespace DominatorHouseCore.Models
     {
 
         private DominatorAccountBaseModel _accountBaseModel;
+
         /// <summary>
         /// AccountBaseModel contains the base information of the account
         /// </summary>
-<<<<<<< HEAD
-     
-        [ProtoMember(1)]      
-        public DominatorAccountBaseModel AccountBaseModel { get; set; }
-=======
+
         [ProtoMember(1)]
         public DominatorAccountBaseModel AccountBaseModel
         {
-            get
-            {
-                return _accountBaseModel;
-            }
+            get { return _accountBaseModel; }
             set
             {
                 if (_accountBaseModel != null && _accountBaseModel == value)
@@ -39,7 +35,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
->>>>>>> 0caa81b5fdb3f602c6762b2dfca060619dff8d63
+
 
         #region Common Properties
 
@@ -47,6 +43,7 @@ namespace DominatorHouseCore.Models
 
         // To display the account row position
         private int _rownumber;
+
         public int RowNo
         {
             get { return _rownumber; }
@@ -63,6 +60,7 @@ namespace DominatorHouseCore.Models
         public bool IsAccountSelected { get; set; }
 
         private bool _bIsAccountManagerAccountSelected;
+
         public bool IsAccountManagerAccountSelected
         {
             get { return _bIsAccountManagerAccountSelected; }
@@ -113,7 +111,7 @@ namespace DominatorHouseCore.Models
         //It cont
         public string ModulePrivateDetails { get; set; } = string.Empty;
 
-<<<<<<< HEAD
+
         public object GetModulePrivateDetailsValue([CallerMemberName] string PropertyName = null)
         {
             try
@@ -124,8 +122,9 @@ namespace DominatorHouseCore.Models
             {
                 return null;
             }
-           
+
         }
+
         public void SetModulePrivateDetailsValue(object model)
         {
             try
@@ -138,9 +137,7 @@ namespace DominatorHouseCore.Models
         }
 
         #endregion
-=======
-        #endregion        
-
->>>>>>> 0caa81b5fdb3f602c6762b2dfca060619dff8d63
     }
+
+
 }
