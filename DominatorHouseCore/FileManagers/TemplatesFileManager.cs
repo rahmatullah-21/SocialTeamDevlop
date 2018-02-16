@@ -78,5 +78,31 @@ namespace DominatorHouseCore.FileManagers
         {
             BinFileHelper.UpdateTemplates(templates);
         }
+
+
+        public static void Add(TemplateModel template) => BinFileHelper.Append(template);            
+
+        // finds by id and delete
+        public static void Delete(TemplateModel template)
+        {
+            var templates = Get();
+            var toDelete = templates.FirstOrDefault(t => t.Id == template.Id);
+            if (toDelete != null)
+            {
+                templates.Remove(toDelete);
+                Save(templates);
+            }
+        }
+
+        public static void Edit(TemplateModel template)
+        {
+            var templates = Get();
+            var index = templates.FindIndex(t => t.Id == template.Id);
+            if (index != -1)
+            {
+                templates[index] = template;
+                Save(templates);
+            }
+        }
     }
 }

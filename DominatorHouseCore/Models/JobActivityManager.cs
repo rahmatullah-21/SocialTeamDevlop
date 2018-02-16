@@ -25,8 +25,8 @@ namespace DominatorHouseCore.Models
         public JobActivityManager()
         {
 #if DEBUG            
-            FillConfigurations();
-            FillRunningTime();
+            //FillConfigurations();
+            //FillRunningTime();
 #endif
         }
 
@@ -36,13 +36,13 @@ namespace DominatorHouseCore.Models
         }
 
 
-        // TODO: have to be loaded from Templates.bin
+        // TODO: have to be loaded from binary files
         void FillConfigurations()
         {            
             LstModuleConfiguration.Add(new ModuleConfiguration()
             {
                 TemplateId = "",
-                IsEnabled = false,         
+                IsEnabled = true,         
                 Status = "",
                 LastUpdatedDate = DateTimeUtilities.GetEpochTime(),
                 LstRunningTimes = new List<RunningTimes>(),

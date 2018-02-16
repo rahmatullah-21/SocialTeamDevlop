@@ -12,7 +12,7 @@ using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.FileManagers
 {
-    public class AccountsFileManager
+    public static class AccountsFileManager
     {
         // Updates Accounts with applying action to it and writes changes back to file
         public static void ApplyAction(Action<DominatorAccountModel> actionToApply)
@@ -74,6 +74,24 @@ namespace DominatorHouseCore.FileManagers
 
             return result;
         }
+
+
+        // backward compatibility for TD, PD
+        public static void Add<AModel>(AModel account) => BinFileHelper.Append(account);
+
+        public static void Delete<AModel>(Predicate<AModel> match) where AModel : class
+        {
+            var accs = GetFor<AModel>();
+            var ix = accs.FindIndex(match);
+            if (ix != -1)
+            {
+                accs.RemoveAt(ix);
+                Save(accs);
+            }
+        }
+
+        // alias
+        public static void Edit<TModel>(TModel account) where TModel : class => SaveAccount(account);
 
 
         // Back compatibility for old account models

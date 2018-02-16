@@ -66,7 +66,7 @@ namespace DominatorHouseCore.Models
 
         #region Job Scheduling
 
-        // To define activity of the account in day wise
+        // Stores  of the account in day wise
         public JobActivityManager ActivityManager { get; set; } = new JobActivityManager();
 
         #endregion

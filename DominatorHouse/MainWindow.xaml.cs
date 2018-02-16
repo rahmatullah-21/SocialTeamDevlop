@@ -69,10 +69,10 @@ namespace DominatorHouse
             //Task.Factory.StartNew(() =>
             //{
             //    DateTime NextDayTime = DateTime.Now.AddDays(1);
-            //    accountManagerViewModel.InitialAccountDetails();
+            //    accountManagerViewModel.InitializeAccountDetails();
 
             //    JobManager.AddJob(() =>
-            //        accountManagerViewModel.InitialAccountDetails(),
+            //        accountManagerViewModel.InitializeAccountDetails(),
             //        x => x.ToRunOnceAt(new DateTime(NextDayTime.Year, NextDayTime.Month, NextDayTime.Day,
             //            0, 0, 1)
             //        ).AndEvery(1).Days());
