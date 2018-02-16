@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="DominatorUIUtility.Views.Publisher.ManageDraft"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher"
+             mc:Ignorable="d" 
+            >
+    <Grid  Name="MainGrid">
+        <StackPanel>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource langPost}" Margin="5" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource langFilter}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBox x:Name="txtFilter" Margin="5" Width="200"/>
+                    <Button Content="{DynamicResource langSufflePosts}"   x:Name="btnSufflePosts" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                    <Button Content="{DynamicResource langSendAllToPostList}"   x:Name="btnSendAllToPostList" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                    <Button Content="{DynamicResource langSendAllToTopOfPostList}"   x:Name="btnSendAllToTopPostList" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                    <Button Content="{DynamicResource langSendPostToCampaign}"   x:Name="btnSendPostToCampaign" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                    <Button Content="{DynamicResource langDeleteAll}"   x:Name="btnDeleteAll" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                </StackPanel>
+                <CheckBox Content="{DynamicResource langRemoveDraftsWhenAddingToPostList}" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <ListView  Margin="5">
+                <ListView.Resources>
+                    <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="#" />
+                        <GridViewColumn Header="{DynamicResource langMessage}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock/>
+                                        <Image/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource langImages}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <Image/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource langCreatedOn}" />
+
+                        <GridViewColumn Header="{DynamicResource langAction}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="{DynamicResource langSendToPostList}" Grid.Column="0"  x:Name="btnSendToPostList"
+                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                        <Button Content="{DynamicResource langSendToTopOfPostList}" Grid.Column="0"  x:Name="btnSendToTopOfPostList"
+                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                        <Button Content="{DynamicResource langSendToCampaign}" Grid.Column="0"  x:Name="btnSendToCampaign"
+                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                        <Button Content="{DynamicResource langDuplicatePost}" Grid.Column="0"  x:Name="btnDuplicatePost"
+                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                        <Button Content="{DynamicResource langEdit}" Grid.Column="0"  x:Name="btnEdit"
+                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                        <Button Content="{DynamicResource langDelete}" Grid.Column="0"  x:Name="btnDelete"
+                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource langDeleted}" />
+
+                    </GridView>
+                </ListView.View>
+
+            </ListView>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

@@ -111,6 +111,9 @@
     <Compile Include="CustomControl\AccountTabCustomControl.xaml.cs">
       <DependentUpon>AccountTabCustomControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\AddOrUpdateProxyControl.xaml.cs">
+      <DependentUpon>AddOrUpdateProxyControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\AddUpdateAccountControl.xaml.cs">
       <DependentUpon>AddUpdateAccountControl.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,9 @@
     </Compile>
     <Compile Include="CustomControl\JobConfigControl.xaml.cs">
       <DependentUpon>JobConfigControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\ProxyManager.xaml.cs">
+      <DependentUpon>ProxyManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\Reports.xaml.cs">
       <DependentUpon>Reports.xaml</DependentUpon>
@@ -138,6 +144,57 @@
       <DependentUpon>Language.en.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
+    <Compile Include="Views\Publisher\AddPosts.xaml.cs">
+      <DependentUpon>AddPosts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\AdvancedOptions\AdvancedOption.xaml.cs">
+      <DependentUpon>AdvancedOption.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\AdvancedOptions\InstagramAdvancedOptions.xaml.cs">
+      <DependentUpon>InstagramAdvancedOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\AdvancedSettings\ErrorHandling.xaml.cs">
+      <DependentUpon>ErrorHandling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\AdvancedSettings\Facebook.xaml.cs">
+      <DependentUpon>Facebook.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\AdvancedSettings\General.xaml.cs">
+      <DependentUpon>General.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\AdvancedSettings\GooglePlus.xaml.cs">
+      <DependentUpon>GooglePlus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\AdvancedSettings\Instagram.xaml.cs">
+      <DependentUpon>Instagram.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\AdvancedSettings\Pinterest.xaml.cs">
+      <DependentUpon>Pinterest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\AdvancedSettings\Twitter.xaml.cs">
+      <DependentUpon>Twitter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\Campaigns.xaml.cs">
+      <DependentUpon>Campaigns.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\CampaignsAdvanceSetting.xaml.cs">
+      <DependentUpon>CampaignsAdvanceSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\Header.xaml.cs">
+      <DependentUpon>Header.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\ManageDestination.xaml.cs">
+      <DependentUpon>ManageDestination.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\ManageDraft.xaml.cs">
+      <DependentUpon>ManageDraft.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\ManagePosts.xaml.cs">
+      <DependentUpon>ManagePosts.xaml</DependentUpon>
+    </Compile>
     <Page Include="CustomControl\AccountCustomControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -147,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\AccountTabCustomControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\AddOrUpdateProxyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,6 +248,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\PostAreaBoxControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\ProxyManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -274,6 +339,74 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\PrussianBlue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AddPosts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AdvancedOptions\AdvancedOption.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AdvancedOptions\InstagramAdvancedOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AdvancedSettings\ErrorHandling.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AdvancedSettings\Facebook.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AdvancedSettings\General.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AdvancedSettings\GooglePlus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AdvancedSettings\Instagram.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AdvancedSettings\Pinterest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AdvancedSettings\Twitter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\Campaigns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\CampaignsAdvanceSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\Header.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\Home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\ManageDestination.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\ManageDraft.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\ManagePosts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 
 namespace DominatorUIUtility.CustomControl
@@ -29,7 +30,7 @@ namespace DominatorUIUtility.CustomControl
                 new TabItemTemplates
                 {
                     Title =FindResource("langAccountsManager").ToString(),
-                    Content = new Lazy<UserControl>(() => new AccountCustomControl())
+                    Content = new Lazy<UserControl>(() =>  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social))
                 },
                 //new TabItemTemplates
                 //{

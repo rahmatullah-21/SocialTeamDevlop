@@ -44,11 +44,18 @@ namespace DominatorHouseCore.FileManagers
             GlobusLogHelper.log.Debug("Accounts successfully saved");
         }
 
-        public static void SaveAccount(DominatorAccountModel account)
+        public static bool SaveAccount(DominatorAccountModel account)
         {
-            BinFileHelper.UpdateAccount(account);
-            GlobusLogHelper.log.Debug($"Accounts successfully saved - [{account.AccountBaseModel.UserName}]");
+            var savedStatus=  BinFileHelper.UpdateAccount(account);
+
+            if (savedStatus)
+            {
+                GlobusLogHelper.log.Debug($"Accounts successfully saved - [{account.AccountBaseModel.UserName}]");
+            }
+
+            return savedStatus;
         }
+
 
         // TODO: remove. Backward compatibility
         public static void SaveAccount<T>(T account) where T : class
@@ -56,7 +63,6 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper.UpdateAccount<T>(account);
             GlobusLogHelper.log.Debug($"Accounts successfully saved - [{(account as dynamic).UserName}]");
         }
-
 
         public static void FillList<T>(ObservableCollection<T> lstAccountModel) where T : class
         {
@@ -70,14 +76,15 @@ namespace DominatorHouseCore.FileManagers
 
         public static List<DominatorAccountModel> Get()
         {
-            var result = BinFileHelper.GetAccountDetails();
-
-            return result;
+            return BinFileHelper.GetAccountDetails();           
         }
 
 
         // backward compatibility for TD, PD
-        public static void Add<AModel>(AModel account) => BinFileHelper.Append(account);
+        public static bool Add<AModel>(AModel account)
+        {
+            return BinFileHelper.Append(account);
+        }
 
         public static void Delete<AModel>(Predicate<AModel> match) where AModel : class
         {

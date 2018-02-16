@@ -13,7 +13,7 @@ using FluentScheduler;
 using GramDominatorCore.GDLibrary;
 using GramDominatorCore.GDUtility;
 using GramDominatorCore.GDViewModel.Accounts;
-using GramDominatorUI.AccountGrowthMode;
+
 using GramDominatorUI.TabManager;
 using MahApps.Metro.Controls;
 using System.Windows.Media;
@@ -26,6 +26,8 @@ using NLog;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic;
+using DominatorUIUtility.Views.Publisher;
+using GramDominatorUI.GDViews.SocialProfiles;
 
 #endregion
 
@@ -48,36 +50,16 @@ namespace DominatorHouse
         {
             DominatorHouseInitializer.Init(this, DominatorJobProcessFactory.Instance, SocialNetworks.Social);
 
-            //XmlConfigurator.Configure();
-            var account = RandomUtilties.GetRandomTexts(10);
             InitializeComponent();
-            
-            objMainWindowRef = this;
-            InitializeTabs();
-            GlobusLogHelper.log.Info("Welcome to Dominator social" );        
-            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
-            
-            //AccountManagerViewModel accountManagerViewModel = AccountManagerViewModel.GetAccountManagerViewModel();
 
-            NormalModeTab.ItemsSource = TabItems;
-            DominatorScheduler.ChangeTabIndex += ChangeIndex;
+            AccountGrowthModeTab.ItemsSource = InitializeAllTabs();
+
+            GlobusLogHelper.log.Info("Welcome to Dominator social");
+            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
 
             Task performanceTask = new Task(() => StartbindMemory(),
                 TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
-
-            //Task.Factory.StartNew(() =>
-            //{
-            //    DateTime NextDayTime = DateTime.Now.AddDays(1);
-            //    accountManagerViewModel.InitializeAccountDetails();
-
-            //    JobManager.AddJob(() =>
-            //        accountManagerViewModel.InitializeAccountDetails(),
-            //        x => x.ToRunOnceAt(new DateTime(NextDayTime.Year, NextDayTime.Month, NextDayTime.Day,
-            //            0, 0, 1)
-            //        ).AndEvery(1).Days());
-
-            //});
 
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
         }
@@ -91,72 +73,6 @@ namespace DominatorHouse
                 GlobusLogHelper.LogTextToList(ErrorLogger, message);
         }
 
-
-        public static MainWindow objMainWindowRef = null;
-
-        private void InitializeTabs()
-        {
-            SocialNetworks socialNetwork = SocialNetworks.Social;
-            switch (socialNetwork)
-            {
-                case SocialNetworks.Instagram:
-                    GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
-                    TabItems = gramDominator.InitializeAllTabs();
-                    break;
-                case SocialNetworks.Twitter:
-#warning UNCOMMENT LINES BELLOW WHEN COMPILED
-                    //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
-                    //TabItems = twtDominator.InitializeAllTabs();
-                    break;
-                case SocialNetworks.Social:
-                    TabItems = InitializeAllTabs();
-                    this.Title = "Dominator - All in One";
-                    break;
-                default:
-
-                    break;
-            }
-
-            NormalModeTab.ItemsSource = TabItems;
-            var vv = NormalModeTab.SelectedContent as UserControl;
-        }
-
-        public void ChangeIndex(int TabControlIndex, int TabIndex)
-        {
-            NormalModeTab.SelectedIndex = TabControlIndex;
-            //string item = (NormalModeTab.SelectedItem as TabItemViewModel).Title;
-            switch (TabControlIndex)
-            {
-                case 1:
-                    GrowFollowersTab objGrowFollowersTab = GrowFollowersTab.GetSingeltonObjectGrowFollowersTab();
-                    objGrowFollowersTab.setIndex(TabIndex);
-                    break;
-                case 2:
-                    InstaPosterTab objInstaPosterTab = InstaPosterTab.GetSingeltonObjectInstaPosterTab();
-                    objInstaPosterTab.setIndex(TabIndex);
-                    break;
-
-                case 3:
-                    InstachatTab.GetSingeltonObjectInstachatTab();
-                    break;
-                case 4:
-                    var objInstaLikerInstaCommenterTab = InstaLikerInstaCommenterTab.GetSingeltonObjectInstaLikerInstaCommenterTab();
-                    objInstaLikerInstaCommenterTab.setIndex(TabIndex);
-                    break;
-                case 5:
-                    InstaScrapeTab objInstaScrapeTab = InstaScrapeTab.GetSingeltonObjectInstaScrapeTab();
-                    objInstaScrapeTab.setIndex(TabIndex);
-                    break;
-                case 6:
-                    //campaign
-                    break;
-            }
-        }
-
-        public void SelectTab(int mainTabindex)
-        {
-            NormalModeTab.SelectedIndex = mainTabindex;
-        }
 
         async private void StartbindMemory()
         {
@@ -230,40 +146,8 @@ namespace DominatorHouse
         }
 
 
-        private void btnAccountGrowthMode_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            if (btnAccountGrowthMode.Name == "btnAccountGrowthMode")
-            {
-
-                AccountGrowthMode();
-            }
-            else 
-            {
-                NormalMode();
-            }
-        }
-
-        public void AccountGrowthMode()
-        {
-            AccountGrowthModeTab.Children.Clear();
-            AccountGrowthModeTab.Children.Add(AccountGrowth.GetSingletonAccountGrowth());
-            NormalModeTab.Visibility = System.Windows.Visibility.Collapsed;
-
-            AccountGrowthModeTab.Visibility = System.Windows.Visibility.Visible;
-
-            btnAccountGrowthMode.Content = "Switch to Normal Mode";
-            btnAccountGrowthMode.Name = "btnNormalMode";
-        }
-
-        public void NormalMode()
-        {
-            NormalModeTab.Visibility = System.Windows.Visibility.Visible;
-            AccountGrowthModeTab.Visibility = System.Windows.Visibility.Collapsed;
 
 
-            btnAccountGrowthMode.Content = "Switch to Account Growth Mode";
-            btnAccountGrowthMode.Name = "btnAccountGrowthMode";
-        }
 
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -278,58 +162,27 @@ namespace DominatorHouse
         }
 
 
-        private ICollectionView _infoLoggerCollection;
-        public ICollectionView InfoLoggerCollection
-        {
-            get
-            {
-                return _infoLoggerCollection;
-            }
-            set
-            {
-                if (_infoLoggerCollection != null && value == _infoLoggerCollection)
-                    return;
-
-            }
-        }
-
-        private ICollectionView _errorLoggerCollection;
-        public ICollectionView ErrorLoggerCollection
-        {
-            get
-            {
-                return _errorLoggerCollection;
-            }
-            set
-            {
-                if (_errorLoggerCollection != null && value == _errorLoggerCollection)
-                    return;
-
-            }
-        }
-
-
-
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
             this.Title = "Dominator - All in One";
 
-            if (NormalModeTab == null)
+            if (AccountGrowthModeTab == null)
                 return;
 
             SocialNetworks socialNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), (cmbSocialNetwork.SelectedItem as ComboBoxItem).Content.ToString());
+            AccountGrowthModeTab.TabStripPlacement = Dock.Top;
 
             switch (socialNetwork)
             {
                 case SocialNetworks.Instagram:
+                  
                     GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
                     TabItems = gramDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Twitter:
-
-#warning UNCOMMENT LINES BELLOW WHEN COMPILED
+                    #warning UNCOMMENT LINES BELLOW WHEN COMPILED
                     //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
                     //TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
@@ -340,6 +193,7 @@ namespace DominatorHouse
                     this.Title = SocialNetworks.PinInterest.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Social:
+                    AccountGrowthModeTab.TabStripPlacement = Dock.Left;
                     TabItems = InitializeAllTabs();
                     this.Title = "Dominator - All in One";
                     break;
@@ -348,9 +202,10 @@ namespace DominatorHouse
                     this.Title = "Dominator - All in One";
                     break;
             }
-            NormalModeTab.ItemsSource = TabItems;
-            NormalModeTab.SelectedIndex = 0;
-            var vv = NormalModeTab.SelectedContent as UserControl;
+
+            AccountGrowthModeTab.ItemsSource = TabItems;
+            AccountGrowthModeTab.SelectedIndex = 0;
+
         }
 
 
@@ -360,221 +215,45 @@ namespace DominatorHouse
             {
                 new TabItemTemplates
                 {
-                    Title=FindResource("langAccounts").ToString(),
-                    Content=new Lazy<UserControl>(()=>new AccountTabCustomControl())
+                    Title =FindResource("langAccountsManager").ToString(),
+                    Content = new Lazy<UserControl>(() =>  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social))
+                },
+                new TabItemTemplates
+                {
+                Title=FindResource("langDashBoard").ToString(),
+                //   Content=new Lazy<UserControl>(()=>new DashBoard())
+                },
+                new TabItemTemplates
+                {
+                Title=FindResource("langModuleConfiguration").ToString(),
+                Content=new Lazy<UserControl>(()=>new ToolTabs())
+                },
+                new TabItemTemplates
+                {
+                Title=FindResource("langPublisher").ToString(),
+                Content=new Lazy<UserControl>(Home.GetSingletonHome)
+                },
+                new TabItemTemplates
+                {
+                Title=FindResource("langProxyManager").ToString(),
+                Content=new Lazy<UserControl>(()=>new ProxyManager())
+                },
+                new TabItemTemplates
+                {
+                Title=FindResource("langSettings").ToString(),
+                //Content=new Lazy<UserControl>(()=>new ToolTabs())
+                },
+                new TabItemTemplates
+                {
+                Title=FindResource("langOtherConfigurations").ToString(),
+                //  Content=new Lazy<UserControl>(()=>new OtherConfiguration())
                 }
-                //new TabItemTemplates
-                //{
-                //    Title=FindResource("langGrowFollowers﻿").ToString(),
-                //    Content=new Lazy<UserControl>(GrowFollowersTab.GetSingeltonObjectGrowFollowersTab)
-                //},
-                //new TabItemTemplates
-                //{
-                //    Title=FindResource("langInstaPoster﻿").ToString(),
-                //    Content=new Lazy<UserControl>(InstaPosterTab.GetSingeltonObjectInstaPosterTab)
-                //},
-                
-            };
+
+
+        };
         }
+
     }
 
-    #region LogFornetclass
-    //public class GlobusLogAppender : log4net.Appender.AppenderSkeleton
-    //{
-
-    //    private static readonly object lockerLog4Append = new object();
-
-    //    /// <summary>
-    //    /// 
-    //    /// </summary>
-    //    /// <param name="loggingEvent"></param>
-    //    protected override void Append(log4net.Core.LoggingEvent loggingEvent)
-    //    {
-    //        try
-    //        {
-    //            string loggerName = loggingEvent.Level.Name;
-    //            MainWindow mainWindow = MainWindow.objMainWindowRef;
-
-
-    //            lock (lockerLog4Append)
-    //            {
-    //                switch (loggingEvent.Level.Name)
-    //                {
-    //                    case "DEBUG":
-    //                        try
-    //                        {
-
-    //                            {
-    //                                if (!mainWindow.InfoLogger.Dispatcher.CheckAccess())
-    //                                {
-    //                                    mainWindow.InfoLogger.Dispatcher.Invoke(new Action(delegate
-    //                                    {
-    //                                        try
-    //                                        {
-    //                                            if (mainWindow.InfoLogger.Items.Count > 1000)
-    //                                            {
-    //                                                mainWindow.InfoLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-    //                                            }
-
-    //                                            mainWindow.InfoLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0" + "\r\t" + loggingEvent.RenderedMessage.Replace("\t"," "));
-    //                                        }
-    //                                        catch (Exception ex)
-    //                                        {
-                                               
-
-    //                                            GlobusLogHelper.log.Error(" Error : " + ex.Message);
-    //                                        }
-
-    //                                    }));
-
-    //                                }
-    //                                else
-    //                                {
-    //                                    try
-    //                                    {
-    //                                        if (mainWindow.InfoLogger.Items.Count > 1000)
-    //                                        {
-    //                                            mainWindow.InfoLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-    //                                        }
-
-    //                                        mainWindow.InfoLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\r\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-    //                                    }
-    //                                    catch (Exception ex)
-    //                                    {
-    //                                       GlobusLogHelper.log.Error("Error : 74" + ex.Message);
-    //                                    }
-    //                                }
-    //                            }
-    //                        }
-    //                        catch (Exception ex)
-    //                        {
-    //                            Console.WriteLine("Error Case Debug : " + ex.StackTrace);
-    //                            Console.WriteLine("Error Case Debug : " + ex.Message);
-
-    //                            GlobusLogHelper.log.Error(" Error : " + ex.Message);
-    //                        }
-    //                        break;
-    //                    case "INFO":
-    //                        try
-    //                        {
-    //                            if (loggingEvent.RenderedMessage.Contains("error"))
-    //                            {
-    //                                GlobusLogHelper.log.Error(loggingEvent.RenderedMessage);
-    //                                return;
-    //                            }
-    //                            if (!mainWindow.InfoLogger.Dispatcher.CheckAccess())
-    //                            {
-    //                                mainWindow.InfoLogger.Dispatcher.Invoke(new Action(delegate
-    //                                {
-    //                                    try
-    //                                    {
-    //                                        if (mainWindow.InfoLogger.Items.Count > 1000)
-    //                                        {
-    //                                            mainWindow.InfoLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-    //                                        }
-
-    //                                        mainWindow.InfoLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\t\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-    //                                    }
-    //                                    catch (Exception ex)
-    //                                    {
-    //                                         GlobusLogHelper.log.Error(" Error : " + ex.Message);
-    //                                    }
-
-    //                                }));
-
-    //                            }
-    //                            else
-    //                            {
-    //                                try
-    //                                {
-    //                                    if (mainWindow.InfoLogger.Items.Count > 1000)
-    //                                    {
-    //                                        mainWindow.InfoLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-    //                                    }
-
-    //                                    mainWindow.InfoLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\t\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-    //                                }
-    //                                catch (Exception ex)
-    //                                {
-    //                                   GlobusLogHelper.log.Error("Error : 75" + ex.Message);
-    //                                }
-    //                            }
-
-    //                        }
-    //                        catch (Exception ex)
-    //                        {
-                                
-    //                           GlobusLogHelper.log.Error(" Error : " + ex.Message);
-    //                        }
-    //                        break;
-
-    //                    case "ERROR":
-
-    //                        #region ERROR
-    //                        try
-    //                        {
-    //                            var messege = loggingEvent.RenderedMessage.Split(new string[] { " at" }, StringSplitOptions.None);
-    //                            if (!mainWindow.ErrorLogger.Dispatcher.CheckAccess())
-    //                            {
-    //                                mainWindow.ErrorLogger.Dispatcher.Invoke(new Action(delegate
-    //                                {
-    //                                    try
-    //                                    {
-    //                                        if (mainWindow.ErrorLogger.Items.Count > 1000)
-    //                                        {
-    //                                            mainWindow.ErrorLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-    //                                        }
-
-    //                                        if ((!String.IsNullOrEmpty(messege[0]) && messege[0] != "  ") && !messege[0].Contains("<"))
-    //                                            mainWindow.ErrorLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\t\t" + "Error : " + "\t\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-    //                                    }
-    //                                    catch (Exception ex)
-    //                                    {
-    //                                        GlobusLogHelper.log.Error(" Error : " + ex.Message);
-    //                                    }
-
-    //                                }));
-
-    //                            }
-    //                            else
-    //                            {
-    //                                try
-    //                                {
-    //                                    if (mainWindow.ErrorLogger.Items.Count > 1000)
-    //                                    {
-    //                                        mainWindow.ErrorLogger.Items.RemoveAt(mainWindow.InfoLogger.Items.Count - 1);
-    //                                    }
-    //                                    if (!(String.IsNullOrEmpty(messege[0]) && messege[0] == "  ") && !messege[0].Contains("<"))
-    //                                        mainWindow.ErrorLogger.Items.Insert(0, loggingEvent.TimeStamp + "\t" + "Gram Dominator 3.0 " + "\t\t" + "Error : " + "\t\t" + loggingEvent.RenderedMessage.Replace("\t", " "));
-
-    //                                }
-    //                                catch (Exception ex)
-    //                                {
-    //                                    GlobusLogHelper.log.Error("Error : 75" + ex.Message);
-    //                                }
-    //                            }
-
-    //                        }
-    //                        catch (Exception ex)
-    //                        {
-    //                            GlobusLogHelper.log.Error(" Error : " + ex.Message);
-    //                        }
-
-    //                        #endregion
-
-    //                        break;
-    //                }
-    //            }
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            // GlobusLogHelper.log.Error("Error : 76" + ex.Message);
-    //        }
-
-    //    }
-
-
-    //}
-    #endregion
 
 }
