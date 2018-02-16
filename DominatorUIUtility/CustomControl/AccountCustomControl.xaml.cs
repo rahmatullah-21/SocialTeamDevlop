@@ -38,8 +38,6 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
-
-
         private AccountCustomControl()
         {
 
@@ -113,9 +111,6 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-
-
-
         private void MangeblacklistedContextMenu_Click(object sender, RoutedEventArgs e)
         {
             BlacklistUserControl objBlacklistUserControl = new BlacklistUserControl();
@@ -144,7 +139,6 @@ namespace DominatorUIUtility.CustomControl
             };
             window.ShowDialog();
         }
-
 
         private void chkgroup_Checked(object sender, RoutedEventArgs e)
         {

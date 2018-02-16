@@ -12,7 +12,7 @@ using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.FileManagers
 {
-    public class AccountsFileManager
+    public static class AccountsFileManager
     {
         // Updates Accounts with applying action to it and writes changes back to file
         public static void ApplyAction(Action<DominatorAccountModel> actionToApply)
@@ -64,32 +64,6 @@ namespace DominatorHouseCore.FileManagers
             GlobusLogHelper.log.Debug($"Accounts successfully saved - [{(account as dynamic).UserName}]");
         }
 
-
-        private static readonly object _addAccountFileLocker = new object();
-
-        public static bool AddNewAccount(DominatorAccountModel account)
-        {
-            try
-            {
-                lock (_addAccountFileLocker)
-                {
-                    var accountDetailsList = new List<DominatorAccountModel>();
-                    accountDetailsList.Add(account);
-                    bool result = ProtoBuffBase.SerializeObjects(accountDetailsList,
-                        ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
-
-                    GlobusLogHelper.log.Trace($"Add Accounts - [{result}]");
-                    return result;
-                }
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Error("Add account details error - " + ex.Message);
-                ex.DebugLog();
-                return false;
-            }
-        }
-
         public static void FillList<T>(ObservableCollection<T> lstAccountModel) where T : class
         {
             lstAccountModel.Clear();
@@ -102,10 +76,29 @@ namespace DominatorHouseCore.FileManagers
 
         public static List<DominatorAccountModel> Get()
         {
-            var result = BinFileHelper.GetAccountDetails();
-
-            return result;
+            return BinFileHelper.GetAccountDetails();           
         }
+
+
+        // backward compatibility for TD, PD
+        public static bool Add<AModel>(AModel account)
+        {
+            return BinFileHelper.Append(account);
+        }
+
+        public static void Delete<AModel>(Predicate<AModel> match) where AModel : class
+        {
+            var accs = GetFor<AModel>();
+            var ix = accs.FindIndex(match);
+            if (ix != -1)
+            {
+                accs.RemoveAt(ix);
+                Save(accs);
+            }
+        }
+
+        // alias
+        public static void Edit<TModel>(TModel account) where TModel : class => SaveAccount(account);
 
 
         // Back compatibility for old account models

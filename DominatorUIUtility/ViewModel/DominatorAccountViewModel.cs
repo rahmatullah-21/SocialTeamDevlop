@@ -472,7 +472,7 @@ namespace DominatorUIUtility.ViewModel
 
 
             //serialize the given account, if its success then add to account model list
-            if (AccountsFileManager.AddNewAccount(dominatorAccountModel))
+            if (AccountsFileManager.Add(dominatorAccountModel))
             {
                 LstDominatorAccountModel.Add(dominatorAccountModel);
             }
@@ -824,7 +824,7 @@ namespace DominatorUIUtility.ViewModel
                 AccountNetwork = selectedAccount.AccountBaseModel.AccountNetwork
             };
 
-            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Update Account", "Update", !string.IsNullOrEmpty(selectedAccount.AccountBaseModel.AccountProxy.ProxyIp), DominatorHouseInitializer.ActiveSocialNetwork.ToString());
+            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Update Account", "Update", !string.IsNullOrEmpty(selectedAccount.AccountBaseModel.AccountProxy.ProxyIp), objDominatorAccountBaseModel.AccountNetwork.ToString());
 
             var customDialog = new CustomDialog()
             {

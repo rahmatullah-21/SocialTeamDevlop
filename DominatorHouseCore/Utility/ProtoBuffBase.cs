@@ -36,21 +36,43 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                ex.DebugLog($"ProtobufError: Unable to serialize object of type {typeof(T).FullName}");                
+                ex.DebugLog($"ProtobufError: Unable to serialize object of type {typeof(T).FullName} to {filePath}");                
                 throw;        
             }
 
 
             return true;
-        }        
+        }
 
-        
+        // Method to append new object to file
+        internal static void AppendObject<T>(T obj, string filePath)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+
+            try
+            {
+                if (!File.Exists(filePath))
+                    using (File.Create(filePath)) { }
+
+                using (var stream = File.Open(filePath, FileMode.Append))
+                {
+                    Serializer.Serialize(stream, obj);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog($"ProtobufError: Unable to append object of type {typeof(T).Name} to {filePath}");
+                throw;
+            }
+        }
+
         #endregion
 
 
         #region Deserialize 
 
-        
+
         /// <summary>
         /// DeserializeObjects<T>() Method is used to deserialize the file and return  List ofType(T)
         /// </summary>

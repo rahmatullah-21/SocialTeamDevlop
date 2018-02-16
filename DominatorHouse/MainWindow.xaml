@@ -30,7 +30,6 @@
     </Window.Resources>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Content="{DynamicResource langAccountGrowthMode}"  Name="btnAccountGrowthMode" Click="btnAccountGrowthMode_Click"/>
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" >
                 <ComboBoxItem>Social</ComboBoxItem>
                 <ComboBoxItem>Instagram</ComboBoxItem>
@@ -50,49 +49,11 @@
             <RowDefinition Height="3*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TabControl  Controls:TabControlHelper.Underlined="None" TabStripPlacement="Top" Name="NormalModeTab" Visibility="Visible" VerticalAlignment="Stretch" >
-            <TabControl.Resources>
-                <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type TabItem}">
-                                <Grid>
-                                    <Border Name="Border" >
-                                        <ContentPresenter  VerticalAlignment="Center" Margin="5" HorizontalAlignment="Left"  ContentSource="Header" TextBlock.FontSize="18">
-                                        </ContentPresenter>
-                                    </Border>
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
-                                        <Setter  Property="Foreground" Value="white" />
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="False">
-                                        <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-
-            </TabControl.Resources>
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Title}"/>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <UserControl Content="{Binding Content.Value}"/>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
-
-        <!--<StackPanel Name="AccountGrowthModeTab" Visibility="Collapsed" />-->
+      
+       
         <!--Account Growth Mode Tabs-->
         <TabControl  Controls:TabControlHelper.Underlined="None" TabStripPlacement="Left" SelectedIndex="0"
-                   Name="AccountGrowthModeTab" Visibility="Collapsed" VerticalAlignment="Stretch" >
+                   Name="AccountGrowthModeTab" VerticalAlignment="Stretch" >
 
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabItem}">
@@ -131,6 +92,7 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
+       
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="{DynamicResource AccentBaseColorBrush}"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows"/>
         <Grid Name="Logger" Grid.Row="2">

@@ -25,6 +25,37 @@ namespace DominatorHouseCore.Utility
             => new ObservableCollectionBase<string>(GetAccountDetailsFor<T>().Select(x => (x as dynamic).UserName as string).ToList());
 
 
+        public static bool Append<T>(T obj)
+        {
+
+            object locker = _accountDetailsFileLocker;
+            string filePath = ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}";
+
+            if (typeof(T) == typeof(CampaignDetails))
+            {
+                locker = _campaignsFileLocker;
+                filePath = $"{ConstantVariable.socialNetworkPath(DominatorHouseInitializer.ActiveSocialNetwork)}\\{ConstantVariable.CampaignDetails}";
+            }
+
+            else if (typeof(T) == typeof(TemplateModel))
+            {
+                locker = _templatesFileLocker;
+                filePath = $"{ConstantVariable.socialNetworkPath(DominatorHouseInitializer.ActiveSocialNetwork)}\\{ConstantVariable.TemplateBinName}";
+            }
+
+            try
+            {               
+                lock (locker)
+                    ProtoBuffBase.AppendObject<T>(obj, filePath);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error($"Error caught while adding the account "+ex.StackTrace);
+                return false;
+            }
+        }
+
         public static List<DominatorAccountModel> GetAccountDetails(SocialNetworks network)
         {
             lock (_accountDetailsFileLocker)
