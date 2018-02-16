@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -484,12 +485,16 @@ namespace DominatorUIUtility.ViewModel
 
             DirectoryUtilities.CreateDirectory(ConstantVariable.GetIndexAccountPath());
 
+
             //serialize the given account, if its success then add to account model list
-            if (ProtoBuffBase.SerializeObjects<DominatorAccountModel>(dominatorAccountModel,
-                ConstantVariable.GetIndexAccountPath() + $"\\{ConstantVariable.AccountDetails}"))
+            if (AccountsFileManager.AddNewAccount(dominatorAccountModel))
             {
                 LstDominatorAccountModel.Add(dominatorAccountModel);
             }
+            //if (ProtoBuffBase.SerializeObjects<DominatorAccountModel>(dominatorAccountModel,
+            //    ConstantVariable.GetIndexAccountPath() + $"\\{ConstantVariable.AccountDetails}"))
+            //{               
+            //}
             else
             {
                 /*INFO*/
@@ -669,8 +674,10 @@ namespace DominatorUIUtility.ViewModel
             selectAccounts.ForEach(item => LstDominatorAccountModel.Remove(item));
 
             //after removed serialize the remaining accounts 
-            ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
-                ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
+            //ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
+            //    ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
+
+
             return false;
         }
 
@@ -860,8 +867,8 @@ namespace DominatorUIUtility.ViewModel
 
                 File.Delete(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
 
-                ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
-                    ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
+                //ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
+                //    ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
 
                 dialogWindow.Close();
 
@@ -991,7 +998,9 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (syncLoadAccounts)
             {
-                var savedAccounts = BinFileHelper.ReadAccounts();
+               // var savedAccounts = BinFileHelper.ReadAccounts();
+
+                var savedAccounts = AccountsFileManager.Get();
 
                 var allGroups = new List<ContentSelectGroup>();
 

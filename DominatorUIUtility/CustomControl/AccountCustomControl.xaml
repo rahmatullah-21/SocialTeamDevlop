@@ -12,9 +12,6 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <Style x:Key="ListViewStyle" TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-        </Style>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converters:BooleanToVisibilityConverter>
     </UserControl.Resources>
 
@@ -258,7 +255,7 @@
 
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Social Network" >
+                        <GridViewColumn Header="{DynamicResource langSelectSocialNetwork}" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <!--<Image Source="{Binding AccountBaseModel.SocialNetworkLogo}" Height="25" Width="25"></Image>-->

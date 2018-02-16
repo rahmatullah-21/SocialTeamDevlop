@@ -44,11 +44,18 @@ namespace DominatorHouseCore.FileManagers
             GlobusLogHelper.log.Debug("Accounts successfully saved");
         }
 
-        public static void SaveAccount(DominatorAccountModel account)
+        public static bool SaveAccount(DominatorAccountModel account)
         {
-            BinFileHelper.UpdateAccount(account);
-            GlobusLogHelper.log.Debug($"Accounts successfully saved - [{account.AccountBaseModel.UserName}]");
+            var savedStatus=  BinFileHelper.UpdateAccount(account);
+
+            if (savedStatus)
+            {
+                GlobusLogHelper.log.Debug($"Accounts successfully saved - [{account.AccountBaseModel.UserName}]");
+            }
+
+            return savedStatus;
         }
+
 
         // TODO: remove. Backward compatibility
         public static void SaveAccount<T>(T account) where T : class
@@ -57,6 +64,31 @@ namespace DominatorHouseCore.FileManagers
             GlobusLogHelper.log.Debug($"Accounts successfully saved - [{(account as dynamic).UserName}]");
         }
 
+
+        private static readonly object _addAccountFileLocker = new object();
+
+        public static bool AddNewAccount(DominatorAccountModel account)
+        {
+            try
+            {
+                lock (_addAccountFileLocker)
+                {
+                    var accountDetailsList = new List<DominatorAccountModel>();
+                    accountDetailsList.Add(account);
+                    bool result = ProtoBuffBase.SerializeObjects(accountDetailsList,
+                        ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
+
+                    GlobusLogHelper.log.Trace($"Add Accounts - [{result}]");
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error("Add account details error - " + ex.Message);
+                ex.DebugLog();
+                return false;
+            }
+        }
 
         public static void FillList<T>(ObservableCollection<T> lstAccountModel) where T : class
         {

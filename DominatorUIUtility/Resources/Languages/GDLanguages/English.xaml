@@ -1178,5 +1178,5 @@
     <system:String x:Key="langPeoplePerDays">people per days</system:String>
     <system:String x:Key="langSelectTag">Select Tag</system:String>
     <system:String x:Key="langProxyName">Proxy Name</system:String>
-
+    <system:String x:Key="langSelectSocialNetwork">Social Network</system:String>
 </ResourceDictionary>
