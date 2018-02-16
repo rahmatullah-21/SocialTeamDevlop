@@ -10,85 +10,196 @@ using ProtoBuf;
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    public class DominatorAccountBaseModel
+    public class DominatorAccountBaseModel : BindableBase
     {
-        public DominatorAccountBaseModel()
-        {
-            AccountProxy.ProxyIp = string.Empty;
-            AccountProxy.ProxyPort = string.Empty;
-            AccountProxy.ProxyUsername = string.Empty;
-            AccountProxy.ProxyPassword = string.Empty;
-        }
 
+        private SocialNetworks _accountNetwork = SocialNetworks.Social;
         /// <summary>
         ///  To Identify Account is belongs to which network
         /// </summary>
         [ProtoMember(1)]
-        public SocialNetworks AccountNetwork { get; set; } = SocialNetworks.Instagram;
+        public SocialNetworks AccountNetwork
+        {
+            get
+            {
+                return _accountNetwork;
+            }
+            set
+            {
+                if (_accountNetwork == value)
+                    return;
+                SetProperty(ref _accountNetwork, value);
 
+            }
+        }
 
+        private ContentSelectGroup _accountGroup = new ContentSelectGroup();
         /// <summary>
         /// To define the account is belongs to which group
         /// </summary>
         [ProtoMember(2)]
-        public ContentSelectGroup AccountGroup { get; set; } = new ContentSelectGroup();
+        public ContentSelectGroup AccountGroup
+        {
+            get
+            {
+                return _accountGroup;
+            }
+            set
+            {
+                if (_accountGroup == value)
+                    return;
+                SetProperty(ref _accountGroup, value);
+            }
+        }
 
 
+        private string _userName = string.Empty;
         /// <summary>
         /// To define the social networks username of the accounts
         /// </summary>
         [ProtoMember(3)]
-        public string UserName { get; set; } = string.Empty;
+        public string UserName
+        {
+            get { return _userName; }
+            set
+            {
+                if (_userName != null && _userName == value)
+                    return;
+                SetProperty(ref _userName, value);
+            }
+        }
 
-
+        private string _password = string.Empty;
         /// <summary>
         /// To store the account password
         /// </summary>
         [ProtoMember(4)]
-        public string Password { get; set; } = string.Empty;
+        public string Password
+        {
+            get { return _password; }
+            set
+            {
+                if (_password != null && _password == value)
+                    return;
+                SetProperty(ref _password, value);
+            }
+        }
 
 
+        private string _userId = string.Empty;
         /// <summary>
         /// To define the social networks id of the account
         /// </summary>
         [ProtoMember(5)]
-        public string UserId { get; set; } = string.Empty;
+        public string UserId
+        {
+            get
+            {
+                return _userId;
+            }
+            set
+            {
+                if (_userId != null && _userId == value)
+                    return;
+                SetProperty(ref _userId, value);
+            }
+        }
 
 
+        private string _userFullName = string.Empty;
         /// <summary>
         /// To define the username of the account
         /// </summary>
         [ProtoMember(6)]
-        public string UserFullName { get; set; } = string.Empty;
+        public string UserFullName
+        {
+            get
+            {
+                return _userFullName;
+            }
+            set
+            {
+                if (_userFullName != null && _userFullName == value)
+                    return;
+                SetProperty(ref _userFullName, value);
+            }
+        }
 
-
+        private string _profilePictureUrl = string.Empty;
         /// <summary>
         /// To define the profile picture url of the account
         /// </summary>
         [ProtoMember(7)]
-        public string ProfilePictureUrl { get; set; } = string.Empty;
+        public string ProfilePictureUrl
+        {
+            get
+            {
+                return _profilePictureUrl;
+            }
+            set
+            {
+                if (_profilePictureUrl != null && _profilePictureUrl == value)
+                    return;
+                SetProperty(ref _profilePictureUrl, value);
+            }
+        }
 
-
+        private Proxy _accountProxy = new Proxy();
         /// <summary>
         /// To define the Account Proxy
         /// </summary>       
         [ProtoMember(8)]
-        public Proxy AccountProxy { get; set; } = new Proxy();
+        public Proxy AccountProxy
+        {
+            get
+            {
+                return _accountProxy;
+            }
+            set
+            {
+                if (_accountProxy != null && _accountProxy == value)
+                    return;
+                SetProperty(ref _accountProxy, value);
+            }
+        }
 
-
+        private string _accountId = Utilities.GetGuid(true);
         /// <summary>
         /// To access the account with unique Id
         /// </summary>
         [ProtoMember(9)]
-        public string AccountId { get; set; } = Utilities.GetGuid(true);
+        public string AccountId
+        {
+            get
+            {
+                return _accountId;
+            }
+            set
+            {
 
+                if (_accountId != null && _accountId == value)
+                    return;
+                SetProperty(ref _accountId, value);
+            }
+        }
 
+        private string _status = ConstantVariable.NotChecked;
         /// <summary>
         /// To define the status of the account
         /// </summary>
         [ProtoMember(10)]
-        public string Status { get; set; } = ConstantVariable.NotChecked;
-
-
+        public string Status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                if (_status != null && _status == value)
+                    return;
+                SetProperty(ref _status, value);
+            }
+        }
     }
 }

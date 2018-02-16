@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
@@ -251,22 +252,6 @@ namespace DominatorUIUtility.ViewModel
         }
 
 
-        private bool _socialNetworkEditable;
-
-        public bool SocialNetworkEditable
-        {
-            get
-            {
-                return _socialNetworkEditable;
-            }
-            set
-            {
-                if (_socialNetworkEditable == value)
-                    return;
-                SetProperty(ref _socialNetworkEditable, value);
-
-            }
-        }
 
 
 
@@ -297,7 +282,7 @@ namespace DominatorUIUtility.ViewModel
 
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
 
-            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Add Account", "Save", false, SocialNetworkEditable, SocialNetwork.ToString());
+            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Add Account", "Save", false, DominatorHouseInitializer.ActiveSocialNetwork.ToString());
 
 
 
@@ -819,6 +804,7 @@ namespace DominatorUIUtility.ViewModel
 
             var selectedAccount = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
 
+          
             // var selectedAccount = LstDominatorAccountModel.FirstOrDefault<DominatorAccountModel>(x => selectedRow != null && x.RowNo == selectedRow.RowNo);
 
             if (selectedAccount == null) return;
@@ -838,7 +824,7 @@ namespace DominatorUIUtility.ViewModel
                 AccountNetwork = selectedAccount.AccountBaseModel.AccountNetwork
             };
 
-            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Update Account", "Update", !string.IsNullOrEmpty(selectedAccount.AccountBaseModel.AccountProxy.ProxyIp), SocialNetworkEditable, SocialNetwork.ToString());
+            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Update Account", "Update", !string.IsNullOrEmpty(selectedAccount.AccountBaseModel.AccountProxy.ProxyIp), DominatorHouseInitializer.ActiveSocialNetwork.ToString());
 
             var customDialog = new CustomDialog()
             {
@@ -865,7 +851,7 @@ namespace DominatorUIUtility.ViewModel
                 selectedAccount.AccountBaseModel.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
                 selectedAccount.AccountBaseModel.AccountNetwork = objDominatorAccountBaseModel.AccountNetwork;
 
-                File.Delete(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
+                //  File.Delete(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
 
                 //ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
                 //    ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");

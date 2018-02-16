@@ -64,11 +64,12 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="title">Show the title of the user control, like Add account</param>
         /// <param name="actionButtonContent">Pass the action button content like Save</param>
         /// <param name="showAdvance">Pass true only if proxy ip contains values otherwise false</param>
-        public AddUpdateAccountControl(DominatorAccountBaseModel dominatorAccountBaseModelBinding, string title, string actionButtonContent, bool showAdvance, bool socialNetworkEditable, string socialNetwork)
+        public AddUpdateAccountControl(DominatorAccountBaseModel dominatorAccountBaseModelBinding, string title, string actionButtonContent, bool showAdvance,  string socialNetwork)
         {
             InitializeComponent();
 
-            if (socialNetworkEditable)
+
+            if (socialNetwork==SocialNetworks.Social.ToString())
             {
                 foreach (var item in Enum.GetValues(typeof(SocialNetworks)))
                 {

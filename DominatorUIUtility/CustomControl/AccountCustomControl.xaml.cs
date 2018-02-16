@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.ViewModel;
@@ -76,7 +77,8 @@ namespace DominatorUIUtility.CustomControl
                     DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = false;
                     DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
                     DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
-                    DominatorAccountViewModel.SocialNetworkEditable = true;
+                    //DominatorAccountViewModel.SocialNetworkEditable = true;
+                    //DominatorHouseInitializer.ActiveSocialNetwork = SocialNetworks.Social;
                     break;
 
                 case SocialNetworks.Instagram:
@@ -93,7 +95,7 @@ namespace DominatorUIUtility.CustomControl
                     DominatorAccountViewModel.GridHeaderColumn4.Header = "Post Count";
 
                     DominatorAccountViewModel.SocialNetwork = SocialNetworks.Instagram;
-                    DominatorAccountViewModel.SocialNetworkEditable = false;
+                    //DominatorAccountViewModel.SocialNetworkEditable = false;
                     break;
 
                 case SocialNetworks.Twitter:
@@ -105,7 +107,7 @@ namespace DominatorUIUtility.CustomControl
                     DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
                     DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
                     DominatorAccountViewModel.SocialNetwork = SocialNetworks.Twitter;
-                    DominatorAccountViewModel.SocialNetworkEditable = false;
+                  //  DominatorAccountViewModel.SocialNetworkEditable = false;
                     break;
 
             }
