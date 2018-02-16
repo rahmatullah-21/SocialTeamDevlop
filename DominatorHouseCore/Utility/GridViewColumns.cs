@@ -222,5 +222,4 @@ namespace DominatorHouseCore.Utility
         public string ColumnBindingText { get; set; }
 
     }
-
 }

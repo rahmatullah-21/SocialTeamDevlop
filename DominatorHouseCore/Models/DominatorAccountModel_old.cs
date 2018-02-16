@@ -1,4 +1,12 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Net;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Requests;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
@@ -12,26 +20,11 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public sealed class DominatorAccountModel : BindableBase
     {
-
-        private DominatorAccountBaseModel _accountBaseModel;
         /// <summary>
         /// AccountBaseModel contains the base information of the account
         /// </summary>
-        [ProtoMember(1)]
-        public DominatorAccountBaseModel AccountBaseModel
-        {
-            get
-            {
-                return _accountBaseModel;
-            }
-            set
-            {
-                if (_accountBaseModel != null && _accountBaseModel == value)
-                    return;
-                SetProperty(ref _accountBaseModel, value);
-            }
-        }
-
+        [ProtoMember(1)]      
+        public DominatorAccountBaseModel AccountBaseModel { get; set; }
 
         #region Common Properties
 
@@ -100,11 +93,16 @@ namespace DominatorHouseCore.Models
 
         #endregion
 
+        #region Display Count
+
+        public string Count { get; set; } = "0";
+
+        #endregion
+
         #region Module Wise Details
 
         public string ModulePrivateDetails { get; set; } = string.Empty;
 
         #endregion        
-
     }
 }
