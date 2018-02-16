@@ -47,13 +47,8 @@ namespace DominatorHouseCore.FileManagers
         // NOTE: further optimization may be needed to store campaigns in memory.
         public static List<CampaignDetails> Get()
         {
-            var result = new List<CampaignDetails>();
-            ApplyFunc(c =>
-            {
-                result.Add(c);
-                return false;
-            });
-
+            var result = BinFileHelper.GetCampaignDetail();
+            
             return result;
         }
 

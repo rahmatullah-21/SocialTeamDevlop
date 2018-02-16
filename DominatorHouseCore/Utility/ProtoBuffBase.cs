@@ -29,7 +29,7 @@ namespace DominatorHouseCore.Utility
 
             try
             {                
-                using (var stream = File.OpenWrite(filePath))
+                using (var stream = File.Open(filePath, FileMode.Create))
                 {
                     Serializer.Serialize(stream, objects);                 
                 }                
@@ -85,12 +85,14 @@ namespace DominatorHouseCore.Utility
             {
                 using (var stream = File.OpenRead(filePath))
                 {
-                    return Serializer.DeserializeItems<T>(stream, PrefixStyle.Base128, 1).ToList();
+                    var items = Serializer.DeserializeItems<T>(stream, PrefixStyle.Base128, 1);
+
+                    return items.ToList();          // throws exception if no items in list
                 }
             }
             catch (Exception ex)
             {
-                ex.ErrorLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
+                ex.TraceLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
                 return new List<T>();
             }            
         }
