@@ -6,7 +6,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--<ResourceDictionary Source="/PinDominatorCore;component/PDLanguages/English.xaml"/>-->
-                <ResourceDictionary Source="/TwtDominatorCore;component/Languages/TDLanguages/English.xaml" />
+                <!--<ResourceDictionary Source="/TwtDominatorCore;component/Resources/Languages/TDLanguages/English.xaml" />-->
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/GDLanguages/English.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Styles/BaseStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>

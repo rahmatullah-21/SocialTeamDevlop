@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Requests;
 using DominatorHouseCore.Utility;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models
@@ -23,6 +25,7 @@ namespace DominatorHouseCore.Models
         /// <summary>
         /// AccountBaseModel contains the base information of the account
         /// </summary>
+     
         [ProtoMember(1)]      
         public DominatorAccountBaseModel AccountBaseModel { get; set; }
 
@@ -101,8 +104,32 @@ namespace DominatorHouseCore.Models
 
         #region Module Wise Details
 
+        //It cont
         public string ModulePrivateDetails { get; set; } = string.Empty;
 
-        #endregion        
+        public object GetModulePrivateDetailsValue([CallerMemberName] string PropertyName = null)
+        {
+            try
+            {
+                return JObject.Parse(ModulePrivateDetails)[PropertyName];
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+           
+        }
+        public void SetModulePrivateDetailsValue(object model)
+        {
+            try
+            {
+                this.ModulePrivateDetails = JsonConvert.SerializeObject(model);
+            }
+            catch (Exception Ex)
+            {
+            }
+        }
+
+        #endregion
     }
 }

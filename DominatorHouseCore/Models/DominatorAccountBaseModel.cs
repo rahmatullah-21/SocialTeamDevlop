@@ -20,6 +20,9 @@ namespace DominatorHouseCore.Models
             AccountProxy.ProxyPassword = string.Empty;
         }
 
+
+     
+
         /// <summary>
         ///  To Identify Account is belongs to which network
         /// </summary>
