@@ -1,0 +1,134 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.ProxyManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+            >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="{DynamicResource langImportProxies}" Height="30"   x:Name="btnImportProxies" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+            <Button Content="{DynamicResource langExportProxies}" Height="30"  x:Name="btnExportProxies" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+            <Button Content="{DynamicResource langAddProxy}" Height="30"  x:Name="btnAddProxy" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" Click="btnAddProxy_Click"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
+            <CheckBox Margin="5" Content="{DynamicResource langHideAssignedSocialProfiles}"/>
+            <CheckBox Margin="5" Content="{DynamicResource langHideUsernameAndPassword}"/>
+            <CheckBox Margin="5" Content="{DynamicResource langGroupByTag}"/>
+            <CheckBox Margin="5" Content="{DynamicResource langFilterByTag}"/>
+            <CheckBox Margin="5" Content="{DynamicResource langShowProxiesWithError}"/>
+            <CheckBox Margin="5" Content="{DynamicResource langShowUnassignedProxies}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5">
+            <TextBlock VerticalAlignment="Center" Margin="5" Text="{DynamicResource langFilter}"/>
+            <TextBox Width="200" Height="25" Name="txtfilter"/>
+            <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource langURLToUseToVerifyProxies}"/>
+            <TextBox Width="200" Height="25" Name="txtURLToUseToVerifyProxies"/>
+            <StackPanel Orientation="Horizontal" x:Name="cmbFilterBytag" Margin="30,0">
+                <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource langSelectTag}"/>
+                <ComboBox  Width="200" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" >
+            <Button Content="{DynamicResource langSelectAll}"  Height="30" x:Name="btnSelectAll" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+            <Button Content="{DynamicResource langSelectNone}" Height="30"  x:Name="btnSelectNone" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+            <Button Content="{DynamicResource langDeleteSelected}" Height="30"  x:Name="btnDeleteSelected" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+            <Button Content="{DynamicResource langExportSelected}" Height="30"  x:Name="btnExportSelected" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+        </StackPanel>
+        <ListView  Margin="5" Grid.Row="4" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="#" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Controls:NumericUpDown/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="{DynamicResource langSelected}" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource langName}" />
+                    <GridViewColumn Header="{DynamicResource langProxyIpPort}" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource langProxyUsername}" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource langProxyPassword}" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource langSocialProfiles}" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox/>
+                                    <TextBlock Text="{DynamicResource langAdd}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource langStatus}" />
+                    <GridViewColumn Header="{DynamicResource langResponseTime}" />
+                    <GridViewColumn Header="{DynamicResource langFailures}" />
+                    <GridViewColumn Header="{DynamicResource langAction}" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="{DynamicResource langDelete}" Grid.Column="0"  x:Name="btnDeletes"
+                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                    <Button Content="{DynamicResource langVerifyProxy}" Grid.Column="0"  x:Name="btnVerifyProxy"
+                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                    <Button Content="{DynamicResource langBrowse}" Grid.Column="0"  x:Name="btnBrowse"
+                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource langTag}" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                </GridView>
+            </ListView.View>
+
+        </ListView>
+    </Grid>
+</UserControl>

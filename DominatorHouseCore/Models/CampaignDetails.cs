@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 using DominatorHouseCore.LogHelper;
+using System.Windows;
 
 namespace DominatorHouseCore.Models
 {
@@ -85,4 +87,7 @@ namespace DominatorHouseCore.Models
             }
         }
     }
+
+
+  
 }

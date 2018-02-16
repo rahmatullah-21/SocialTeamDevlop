@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="DominatorUIUtility.Views.Publisher.AdvancedOptions.AdvancedOption"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher.AdvancedOptions"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             >
+    <Grid Margin="15" x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <CheckBox IsChecked="{Binding IsExpireDateChecked}" Content="{DynamicResource langEnableExpireDate}" VerticalAlignment="Center"/>
+            <controls:DateTimePicker Margin="10,5" IsEnabled="{Binding IsExpireDateChecked}" SelectedDate="{Binding ExpireDate}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
+            <CheckBox IsChecked="{Binding IsEnableReAddPostChecked}" Content="{DynamicResource langEnableReAddPostToPostList}" VerticalAlignment="Center"/>
+            <controls:NumericUpDown Value="{Binding Times}" IsEnabled="{Binding IsEnableReAddPostChecked}" Margin="10,0" VerticalAlignment="Center"/>
+            <TextBlock VerticalAlignment="Center" Text="{DynamicResource langTimes}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="5">
+            <TextBlock VerticalAlignment="Center" Text="{DynamicResource langLinkedinGroupPostType}" Margin="5,0"/>
+            <RadioButton Content="{DynamicResource langGeneral}" IsChecked="{Binding IsGeneralChecked}" />
+            <RadioButton Content="{DynamicResource langJob}" IsChecked="{Binding IsJobChecked}" Margin="5,0"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="5">
+            <TextBlock VerticalAlignment="Center" Text="{DynamicResource langTumblrTags}" Margin="5,0"/>
+            <TextBox Text="{Binding TumblrTags}" controls:TextBoxHelper.Watermark="{DynamicResource langTumblrTagsWatermark}" Width="400"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="5">
+            <TextBlock VerticalAlignment="Center" Text="{DynamicResource langDescriptionUsedForFacebook}" Width="110" TextWrapping="WrapWithOverflow" Margin="5,0"/>
+            <TextBox Text="{Binding DescriptionUsedForFacebook}" AcceptsReturn="True"  Width="355"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -240,4 +240,30 @@
         </Setter>
         
     </Style>
+    <Style TargetType="{x:Type TabItem}" x:Key="TabItemStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid>
+                        <Border Name="Border" >
+                            <ContentPresenter  VerticalAlignment="Center" Margin="5" HorizontalAlignment="Stretch"  ContentSource="Header" TextBlock.FontSize="18">
+                            </ContentPresenter>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
+                            <Setter  Property="Foreground" Value="white" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="ListViewItem" x:Key="ListViewItems">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
 </ResourceDictionary>

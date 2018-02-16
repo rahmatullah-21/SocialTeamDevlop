@@ -13,7 +13,7 @@ using FluentScheduler;
 using GramDominatorCore.GDLibrary;
 using GramDominatorCore.GDUtility;
 using GramDominatorCore.GDViewModel.Accounts;
-using GramDominatorUI.AccountGrowthMode;
+
 using GramDominatorUI.TabManager;
 using MahApps.Metro.Controls;
 using System.Windows.Media;
@@ -26,6 +26,8 @@ using NLog;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic;
+using DominatorUIUtility.Views.Publisher;
+using GramDominatorUI.GDViews.SocialProfiles;
 
 #endregion
 
@@ -245,8 +247,9 @@ namespace DominatorHouse
 
         public void AccountGrowthMode()
         {
-            AccountGrowthModeTab.Children.Clear();
-            AccountGrowthModeTab.Children.Add(AccountGrowth.GetSingletonAccountGrowth());
+            //AccountGrowthModeTab.Children.Clear();
+            //AccountGrowthModeTab.Children.Add(AccountGrowth.GetSingletonAccountGrowth());
+            InitilizeGrowthModeTab();
             NormalModeTab.Visibility = System.Windows.Visibility.Collapsed;
 
             AccountGrowthModeTab.Visibility = System.Windows.Visibility.Visible;
@@ -264,7 +267,50 @@ namespace DominatorHouse
             btnAccountGrowthMode.Content = "Switch to Account Growth Mode";
             btnAccountGrowthMode.Name = "btnAccountGrowthMode";
         }
+        private void InitilizeGrowthModeTab()
+        {
+            var GrowthTabItems = new List<TabItemTemplates>
+            {
+                new TabItemTemplates
+                {
+                    Title=FindResource("langDashBoard").ToString(),
+                    //   Content=new Lazy<UserControl>(()=>new DashBoard())
+                },
+                new TabItemTemplates
+                {
+                    Title=FindResource("langAccountsManager").ToString(),
+                    Content=new Lazy<UserControl>(()=>new SocialProfile())
+                },
+                new TabItemTemplates
+                {
+                    Title=FindResource("langModuleConfiguration").ToString(),
+                    Content=new Lazy<UserControl>(()=>new ToolTabs())
+                },
+                new TabItemTemplates
+                {
+                    Title=FindResource("langPublisher").ToString(),
+                    Content=new Lazy<UserControl>(()=>Home.GetSingletonHome())
+                },
+                new TabItemTemplates
+                {
+                    Title=FindResource("langProxyManager").ToString(),
+                    Content=new Lazy<UserControl>(()=>new ProxyManager())
+                },
+                new TabItemTemplates
+                {
+                    Title=FindResource("langSettings").ToString(),
+                    //Content=new Lazy<UserControl>(()=>new ToolTabs())
+                },
+                new TabItemTemplates
+                {
+                    Title=FindResource("langOtherConfigurations").ToString(),
+                    //  Content=new Lazy<UserControl>(()=>new OtherConfiguration())
+                },
 
+            };
+
+            AccountGrowthModeTab.ItemsSource = GrowthTabItems;
+        }
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             //if(Logger.Visibility == Visibility.Collapsed)
