@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="DominatorUIUtility.Views.Publisher.AdvancedSettings.Facebook"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher.AdvancedSettings"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+           >
+    <Grid x:Name="MainGrid">
+        <ScrollViewer>
+            <StackPanel>
+                <CheckBox Content="{DynamicResource langDisableClickableImagePost}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langNavigateFromFacebookWall}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langStopClickableImagePost}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langUseSimplifiedMethodForFacebook}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langSkipSimplifiedShare}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langUncheckIncludeOriginalPost}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langRemoveViaoption}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langHidePostInFacebook}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langDisableCommentsForNewPost}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langTurnOffNotificationsForNewPost}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langRemoveLocationForSellPosts}" VerticalAlignment="Center" Margin="5"/>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="{DynamicResource langAllowMaximumOf}" VerticalAlignment="Center" Margin="5"/>
+                    <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0"/>
+                    <TextBlock Text="{DynamicResource langPendingPostsInGroups}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <CheckBox Content="{DynamicResource langRefreshPageAndRetryPost}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langRemoveLinkPreview}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langSkipImageUpload}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langEnableAutomaticHashTags}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langAutomaticallyDeletePosts}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource langEnableDynamicHashTags}" VerticalAlignment="Center" Margin="5"/>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="{DynamicResource langGlobalSellPostsZipcode}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBox Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="{DynamicResource langSellPostsLocation}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBox Width="200" controls:TextBoxHelper.Watermark="{DynamicResource langSellPostsLocationWaterMark}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource langPublishOnBetween}" VerticalAlignment="Center" Margin="5"/>
+                    <controls:NumericUpDown VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource langAnd}" VerticalAlignment="Center" Margin="5"/>
+                    <controls:NumericUpDown VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource langSellGroupsAtSameTime}" VerticalAlignment="Center" Margin="5"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

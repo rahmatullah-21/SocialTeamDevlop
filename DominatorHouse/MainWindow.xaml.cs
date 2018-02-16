@@ -13,7 +13,7 @@ using FluentScheduler;
 using GramDominatorCore.GDLibrary;
 using GramDominatorCore.GDUtility;
 using GramDominatorCore.GDViewModel.Accounts;
-using GramDominatorUI.AccountGrowthMode;
+
 using GramDominatorUI.TabManager;
 using MahApps.Metro.Controls;
 using System.Windows.Media;
@@ -26,6 +26,8 @@ using NLog;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic;
+using DominatorUIUtility.Views.Publisher;
+using GramDominatorUI.GDViews.SocialProfiles;
 
 #endregion
 
@@ -48,24 +50,18 @@ namespace DominatorHouse
         {
             DominatorHouseInitializer.Init(this, DominatorJobProcessFactory.Instance, SocialNetworks.Social);
 
-            //XmlConfigurator.Configure();
-            var account = RandomUtilties.GetRandomTexts(10);
             InitializeComponent();
-            
-            objMainWindowRef = this;
-            InitializeTabs();
-            GlobusLogHelper.log.Info("Welcome to Dominator social" );        
-            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
-            
-            //AccountManagerViewModel accountManagerViewModel = AccountManagerViewModel.GetAccountManagerViewModel();
 
-            NormalModeTab.ItemsSource = TabItems;
-            DominatorScheduler.ChangeTabIndex += ChangeIndex;
+            AccountGrowthModeTab.ItemsSource = InitializeAllTabs();
+
+            GlobusLogHelper.log.Info("Welcome to Dominator social");
+            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
 
             Task performanceTask = new Task(() => StartbindMemory(),
             TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
 
+<<<<<<< HEAD
             #region commeted
             //Task.Factory.StartNew(() =>
             //{
@@ -80,6 +76,8 @@ namespace DominatorHouse
             //}); 
             #endregion
 
+=======
+>>>>>>> 0caa81b5fdb3f602c6762b2dfca060619dff8d63
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
         }
 
@@ -93,6 +91,7 @@ namespace DominatorHouse
         }
 
 
+<<<<<<< HEAD
         public static MainWindow objMainWindowRef = null;
 
         private void InitializeTabs()
@@ -161,6 +160,8 @@ namespace DominatorHouse
 
 
 
+=======
+>>>>>>> 0caa81b5fdb3f602c6762b2dfca060619dff8d63
         async private void StartbindMemory()
         {
             while (true)
@@ -240,27 +241,9 @@ namespace DominatorHouse
         }
 
 
-        private void btnAccountGrowthMode_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            if (btnAccountGrowthMode.Name == "btnAccountGrowthMode")
-            {
 
-                AccountGrowthMode();
-            }
-            else 
-            {
-                NormalMode();
-            }
-        }
 
-        public void AccountGrowthMode()
-        {
-            AccountGrowthModeTab.Children.Clear();
-            AccountGrowthModeTab.Children.Add(AccountGrowth.GetSingletonAccountGrowth());
-            NormalModeTab.Visibility = System.Windows.Visibility.Collapsed;
-
-            AccountGrowthModeTab.Visibility = System.Windows.Visibility.Visible;
-
+<<<<<<< HEAD
             btnAccountGrowthMode.Content = "Switch to Normal Mode";
             btnAccountGrowthMode.Name = "btnNormalMode";
         }
@@ -272,6 +255,8 @@ namespace DominatorHouse
             btnAccountGrowthMode.Content = "Switch to Account Growth Mode";
             btnAccountGrowthMode.Name = "btnAccountGrowthMode";
         }
+=======
+>>>>>>> 0caa81b5fdb3f602c6762b2dfca060619dff8d63
 
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -285,58 +270,27 @@ namespace DominatorHouse
         }
 
 
-        private ICollectionView _infoLoggerCollection;
-        public ICollectionView InfoLoggerCollection
-        {
-            get
-            {
-                return _infoLoggerCollection;
-            }
-            set
-            {
-                if (_infoLoggerCollection != null && value == _infoLoggerCollection)
-                    return;
-
-            }
-        }
-
-        private ICollectionView _errorLoggerCollection;
-        public ICollectionView ErrorLoggerCollection
-        {
-            get
-            {
-                return _errorLoggerCollection;
-            }
-            set
-            {
-                if (_errorLoggerCollection != null && value == _errorLoggerCollection)
-                    return;
-
-            }
-        }
-
-
-
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
             this.Title = "Dominator - All in One";
 
-            if (NormalModeTab == null)
+            if (AccountGrowthModeTab == null)
                 return;
 
             SocialNetworks socialNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), (cmbSocialNetwork.SelectedItem as ComboBoxItem).Content.ToString());
+            AccountGrowthModeTab.TabStripPlacement = Dock.Top;
 
             switch (socialNetwork)
             {
                 case SocialNetworks.Instagram:
+                  
                     GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
                     TabItems = gramDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Twitter:
-
-#warning UNCOMMENT LINES BELLOW WHEN COMPILED
+                    #warning UNCOMMENT LINES BELLOW WHEN COMPILED
                     //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
                     //TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
@@ -347,6 +301,7 @@ namespace DominatorHouse
                     this.Title = SocialNetworks.PinInterest.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Social:
+                    AccountGrowthModeTab.TabStripPlacement = Dock.Left;
                     TabItems = InitializeAllTabs();
                     this.Title = "Dominator - All in One";
                     break;
@@ -355,9 +310,10 @@ namespace DominatorHouse
                     this.Title = "Dominator - All in One";
                     break;
             }
-            NormalModeTab.ItemsSource = TabItems;
-            NormalModeTab.SelectedIndex = 0;
-            var vv = NormalModeTab.SelectedContent as UserControl;
+
+            AccountGrowthModeTab.ItemsSource = TabItems;
+            AccountGrowthModeTab.SelectedIndex = 0;
+
         }
 
 
@@ -367,15 +323,55 @@ namespace DominatorHouse
             {
                 new TabItemTemplates
                 {
-                    Title=FindResource("langAccounts").ToString(),
-                    Content=new Lazy<UserControl>(()=>new AccountTabCustomControl())
+                    Title =FindResource("langAccountsManager").ToString(),
+                    Content = new Lazy<UserControl>(() =>  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social))
+                },
+                new TabItemTemplates
+                {
+                Title=FindResource("langDashBoard").ToString(),
+                //   Content=new Lazy<UserControl>(()=>new DashBoard())
+                },
+                new TabItemTemplates
+                {
+                Title=FindResource("langModuleConfiguration").ToString(),
+                Content=new Lazy<UserControl>(()=>new ToolTabs())
+                },
+                new TabItemTemplates
+                {
+                Title=FindResource("langPublisher").ToString(),
+                Content=new Lazy<UserControl>(Home.GetSingletonHome)
+                },
+                new TabItemTemplates
+                {
+                Title=FindResource("langProxyManager").ToString(),
+                Content=new Lazy<UserControl>(()=>new ProxyManager())
+                },
+                new TabItemTemplates
+                {
+                Title=FindResource("langSettings").ToString(),
+                //Content=new Lazy<UserControl>(()=>new ToolTabs())
+                },
+                new TabItemTemplates
+                {
+                Title=FindResource("langOtherConfigurations").ToString(),
+                //  Content=new Lazy<UserControl>(()=>new OtherConfiguration())
                 }
+<<<<<<< HEAD
                 
                 
             };
+=======
+
+
+        };
+>>>>>>> 0caa81b5fdb3f602c6762b2dfca060619dff8d63
         }
+
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0caa81b5fdb3f602c6762b2dfca060619dff8d63
 
 }

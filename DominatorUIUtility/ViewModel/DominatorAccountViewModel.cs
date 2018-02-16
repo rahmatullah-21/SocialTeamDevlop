@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,8 +9,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -17,14 +22,13 @@ using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
 using MahApps.Metro.Controls.Dialogs;
 using ProtoBuf;
-using DominatorHouseCore;
-using DominatorHouseCore.FileManagers;
 
 namespace DominatorUIUtility.ViewModel
 {
     [ProtoContract]
-    public class DominatorAccountViewModel
+    public class DominatorAccountViewModel : BindableBase
     {
+
         public DominatorAccountViewModel()
         {
 
@@ -36,7 +40,7 @@ namespace DominatorUIUtility.ViewModel
 
             LoadMultipleAccountsCommand = new BaseCommand<object>(LoadMultipleAccountsCanExecute, LoadMultipleAccountsExecute);
 
-           // InfoCommand = new BaseCommand<object>(InfoCommandCanExecute, InfoCommandExecute);
+            // InfoCommand = new BaseCommand<object>(InfoCommandCanExecute, InfoCommandExecute);
 
             ContextMenuOpenCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
 
@@ -59,9 +63,197 @@ namespace DominatorUIUtility.ViewModel
 
         #region Property
 
+        private ICollectionView _accountCollectionView;
+
+        public ICollectionView AccountCollectionView
+        {
+            get
+            {
+                return _accountCollectionView;
+            }
+            set
+            {
+                if (_accountCollectionView != null && _accountCollectionView == value)
+                    return;
+                SetProperty(ref _accountCollectionView, value);
+
+            }
+        }
+
+
         public ObservableCollection<DominatorAccountModel> LstDominatorAccountModel { get; set; } = new ObservableCollection<DominatorAccountModel>();
 
         public ObservableCollection<ContentSelectGroup> Groups { get; set; } = new ObservableCollection<ContentSelectGroup>();
+
+
+        private GridViewHeader _gridHeaderColumn1 = new GridViewHeader();
+
+        public GridViewHeader GridHeaderColumn1
+        {
+            get
+            {
+                return _gridHeaderColumn1;
+            }
+            set
+            {
+                if (_gridHeaderColumn1 != null && _gridHeaderColumn1 == value)
+                    return;
+
+                SetProperty(ref _gridHeaderColumn1, value);
+            }
+        }
+
+        private int _displayColumnValue1 = 100;
+
+        public int DisplayColumnValue1
+        {
+            get
+            {
+                return _displayColumnValue1;
+            }
+            set
+            {
+                if (_displayColumnValue1 == value)
+                    return;
+
+                SetProperty(ref _displayColumnValue1, value);
+
+            }
+        }
+
+
+
+
+        private GridViewHeader _gridHeaderColumn2 = new GridViewHeader();
+
+        public GridViewHeader GridHeaderColumn2
+        {
+            get
+            {
+                return _gridHeaderColumn2;
+            }
+            set
+            {
+                if (_gridHeaderColumn2 != null && _gridHeaderColumn2 == value)
+                    return;
+
+                SetProperty(ref _gridHeaderColumn2, value);
+            }
+        }
+
+
+        private int _displayColumnValue2 = 100;
+
+        public int DisplayColumnValue2
+        {
+            get
+            {
+                return _displayColumnValue2;
+            }
+            set
+            {
+                if (_displayColumnValue2 == value)
+                    return;
+
+                SetProperty(ref _displayColumnValue2, value);
+
+            }
+        }
+
+
+        private GridViewHeader _gridHeaderColumn3 = new GridViewHeader();
+
+        public GridViewHeader GridHeaderColumn3
+        {
+            get
+            {
+                return _gridHeaderColumn3;
+            }
+            set
+            {
+                if (_gridHeaderColumn3 != null && _gridHeaderColumn3 == value)
+                    return;
+
+                SetProperty(ref _gridHeaderColumn3, value);
+            }
+        }
+
+
+        private int _displayColumnValue3 = 100;
+
+        public int DisplayColumnValue3
+        {
+            get
+            {
+                return _displayColumnValue3;
+            }
+            set
+            {
+                if (_displayColumnValue3 == value)
+                    return;
+
+                SetProperty(ref _displayColumnValue3, value);
+
+            }
+        }
+
+
+        private GridViewHeader _gridHeaderColumn4 = new GridViewHeader();
+
+        public GridViewHeader GridHeaderColumn4
+        {
+            get
+            {
+                return _gridHeaderColumn4;
+            }
+            set
+            {
+                if (_gridHeaderColumn4 != null && _gridHeaderColumn4 == value)
+                    return;
+
+                SetProperty(ref _gridHeaderColumn4, value);
+            }
+        }
+
+
+        private int _displayColumnValue4 = 100;
+
+        public int DisplayColumnValue4
+        {
+            get
+            {
+                return _displayColumnValue4;
+            }
+            set
+            {
+                if (_displayColumnValue4 == value)
+                    return;
+
+                SetProperty(ref _displayColumnValue4, value);
+
+            }
+        }
+
+
+        private SocialNetworks _socialNetwork = SocialNetworks.Facebook;
+
+        public SocialNetworks SocialNetwork
+        {
+            get
+            {
+                return _socialNetwork;
+            }
+            set
+            {
+                if (_socialNetwork == value)
+                    return;
+                SetProperty(ref _socialNetwork, value);
+            }
+        }
+
+
+
+
 
         #endregion
 
@@ -90,9 +282,9 @@ namespace DominatorUIUtility.ViewModel
 
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
 
-            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Add Account","Save",false);
+            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Add Account", "Save", false, DominatorHouseInitializer.ActiveSocialNetwork.ToString());
 
-            
+
 
             var customDialog = new CustomDialog()
             {
@@ -108,14 +300,25 @@ namespace DominatorUIUtility.ViewModel
                 if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||
                     string.IsNullOrEmpty(objDominatorAccountBaseModel.Password)) return;
 
+                if (objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString() != objDominatorAccountBaseModel.AccountNetwork.ToString())
+                    objDominatorAccountBaseModel.AccountNetwork =
+                        (SocialNetworks)Enum.Parse(typeof(SocialNetworks), objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString());
+
                 AddAccount(objDominatorAccountBaseModel);
                 dialogWindow.Close();
+            };
+
+            objAddUpdateAccountControl.ComboBoxSocialNetworks.SelectionChanged += (senders, events) =>
+            {
+                var objComboBox = ((FrameworkElement)senders) as ComboBox;
+                if (objComboBox != null)
+                    objDominatorAccountBaseModel.AccountNetwork =
+                        (SocialNetworks)Enum.Parse(typeof(SocialNetworks), objComboBox.SelectedValue.ToString());
             };
 
             objAddUpdateAccountControl.btnCancel.Click += (senders, events) => dialogWindow.Close();
 
             dialogWindow.ShowDialog();
-
         }
 
         private bool LoadMultipleAccountsCanExecute(object sender)
@@ -153,8 +356,10 @@ namespace DominatorUIUtility.ViewModel
 
                     //assign the username, password and groupname
                     var groupname = splitAccount[0];
-                    var username = splitAccount[1];
-                    var password = splitAccount[2];
+
+                    var socialNetwork = splitAccount[1];
+                    var username = splitAccount[2];
+                    var password = splitAccount[3];
 
                     if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                         continue;
@@ -166,19 +371,19 @@ namespace DominatorUIUtility.ViewModel
 
                     switch (splitAccount.Length)
                     {
-                        case 5:
-                            proxyaddress = splitAccount[3];
-                            proxyport = splitAccount[4];
+                        case 6:
+                            proxyaddress = splitAccount[4];
+                            proxyport = splitAccount[5];
                             break;
-                        case 7:
-                            proxyaddress = splitAccount[3];
-                            proxyport = splitAccount[4];
-                            proxyusername = splitAccount[5];
-                            proxypassword = splitAccount[6];
+                        case 8:
+                            proxyaddress = splitAccount[4];
+                            proxyport = splitAccount[5];
+                            proxyusername = splitAccount[6];
+                            proxypassword = splitAccount[7];
                             break;
                     }
 
-                    if (splitAccount.Length > 3)
+                    if (splitAccount.Length > 4)
                     {
                         if (string.IsNullOrEmpty(proxyaddress) || string.IsNullOrEmpty(proxyport))
                         {
@@ -195,7 +400,7 @@ namespace DominatorUIUtility.ViewModel
                         AccountGroup =
                         {
                             Content = groupname ?? ConstantVariable.UnGrouped
-                        },                      
+                        },
                         UserName = username,
                         Password = password,
                         AccountProxy =
@@ -204,7 +409,8 @@ namespace DominatorUIUtility.ViewModel
                                 ProxyPort = proxyport,
                                 ProxyUsername = proxyusername,
                                 ProxyPassword = proxypassword
-                            }
+                            },
+                        AccountNetwork =  (SocialNetworks) Enum.Parse(typeof(SocialNetworks), socialNetwork)
                     };
 
                     //add the account to DominatorAccountModel list and bin file
@@ -237,7 +443,7 @@ namespace DominatorUIUtility.ViewModel
 
             //Initialize the given account to account model
             var dominatorAccountBaseModel = new DominatorAccountBaseModel
-            {              
+            {
                 AccountGroup =
                 {
                     Content = objDominatorAccountBaseModel.AccountGroup.Content ?? ConstantVariable.UnGrouped
@@ -250,8 +456,9 @@ namespace DominatorUIUtility.ViewModel
                     ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort,
                     ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
                     ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword
-                },              
-                Status = ConstantVariable.NotChecked
+                },
+                Status = ConstantVariable.NotChecked,
+                AccountNetwork = objDominatorAccountBaseModel.AccountNetwork
             };
 
             var dominatorAccountModel = new DominatorAccountModel
@@ -263,10 +470,23 @@ namespace DominatorUIUtility.ViewModel
 
             DirectoryUtilities.CreateDirectory(ConstantVariable.GetIndexAccountPath());
 
+
             //serialize the given account, if its success then add to account model list
-            LstDominatorAccountModel.Add(dominatorAccountModel);
-            AccountsFileManager.Save(LstDominatorAccountModel);                
-            
+            if (AccountsFileManager.Add(dominatorAccountModel))
+            {
+                LstDominatorAccountModel.Add(dominatorAccountModel);
+            }
+            //if (ProtoBuffBase.SerializeObjects<DominatorAccountModel>(dominatorAccountModel,
+            //    ConstantVariable.GetIndexAccountPath() + $"\\{ConstantVariable.AccountDetails}"))
+            //{               
+            //}
+            else
+            {
+                /*INFO*/
+                Console.WriteLine($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
+                GlobusLogHelper.log.Info($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
+            }
+
             DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.UserName);
 
             #endregion
@@ -286,7 +506,7 @@ namespace DominatorUIUtility.ViewModel
 
             Task.Factory.StartNew(() =>
             {
-              //  UpdateAccountFollowerFollowing(objDominatorAccountModel);
+                //  UpdateAccountFollowerFollowing(objDominatorAccountModel);
             }, ct);
 
         }
@@ -437,16 +657,12 @@ namespace DominatorUIUtility.ViewModel
 
             //remove the selected accounts from account model
             selectAccounts.ForEach(item => LstDominatorAccountModel.Remove(item));
-            //whatever account is left in LstDominatorAccountModel needs to be re-rowed
-            int row = 1;
-            foreach (var account in LstDominatorAccountModel)
-            {
-                account.RowNo = row;
-                ++row;
-            }
 
-            // after removing serialize the remaining accounts 
-            AccountsFileManager.Save(LstDominatorAccountModel);
+            //after removed serialize the remaining accounts 
+            //ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
+            //    ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
+
+
             return false;
         }
 
@@ -586,68 +802,69 @@ namespace DominatorUIUtility.ViewModel
         public void EditAccount(object sender)
         {
 
-            var selectedRow = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+            var selectedAccount = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
 
-            var selectedAccount = LstDominatorAccountModel.FirstOrDefault<DominatorAccountModel>(x => selectedRow != null && x.RowNo == selectedRow.RowNo);
+          
+            // var selectedAccount = LstDominatorAccountModel.FirstOrDefault<DominatorAccountModel>(x => selectedRow != null && x.RowNo == selectedRow.RowNo);
 
             if (selectedAccount == null) return;
 
-            //var objDominatorAccountBaseModel = new DominatorAccountBaseModel
-            //{
-            //    BtnContent = "Update",
-            //    PageTitle = "Update Single Account",
-            //    GroupName = selectedAccount.AccountGroup.AccountGroupName,
-            //    UserName = selectedAccount.UserName,
-            //    Password = selectedAccount.Password,
-            //    AccountProxy =
-            //    {
-            //        ProxyIp = selectedAccount.AccountProxy.ProxyIp,
-            //        ProxyPort = selectedAccount.AccountProxy.ProxyPort,
-            //        ProxyUsername = selectedAccount.AccountProxy.ProxyUsername,
-            //        ProxyPassword = selectedAccount.AccountProxy.ProxyPassword
-            //    }
-            //};
+            var objDominatorAccountBaseModel = new DominatorAccountBaseModel
+            {
+                AccountGroup = new ContentSelectGroup() { Content = selectedAccount.AccountBaseModel.AccountGroup.Content },
+                UserName = selectedAccount.AccountBaseModel.UserName,
+                Password = selectedAccount.AccountBaseModel.Password,
+                AccountProxy =
+                {
+                    ProxyIp = selectedAccount.AccountBaseModel.AccountProxy.ProxyIp,
+                    ProxyPort = selectedAccount.AccountBaseModel.AccountProxy.ProxyPort,
+                    ProxyUsername = selectedAccount.AccountBaseModel.AccountProxy.ProxyUsername,
+                    ProxyPassword = selectedAccount.AccountBaseModel.AccountProxy.ProxyPassword
+                },
+                AccountNetwork = selectedAccount.AccountBaseModel.AccountNetwork
+            };
 
-            //var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel);
+            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Update Account", "Update", !string.IsNullOrEmpty(selectedAccount.AccountBaseModel.AccountProxy.ProxyIp), objDominatorAccountBaseModel.AccountNetwork.ToString());
 
-            //var customDialog = new CustomDialog()
-            //{
-            //    HorizontalAlignment = HorizontalAlignment.Center,
-            //    Content = objAddUpdateAccountControl
-            //};
+            var customDialog = new CustomDialog()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Content = objAddUpdateAccountControl
+            };
 
-            //var objDialog = new Dialog();
+            var objDialog = new Dialog();
 
-            //var dialogWindow = objDialog.GetCustomDialog(customDialog);
+            var dialogWindow = objDialog.GetCustomDialog(customDialog);
 
-            //objAddUpdateAccountControl.btnSave.Click += (senders, events) =>
-            //{
+            objAddUpdateAccountControl.btnSave.Click += (senders, events) =>
+            {
 
-            //    if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||
-            //        string.IsNullOrEmpty(objDominatorAccountBaseModel.Password)) return;
+                if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||
+                    string.IsNullOrEmpty(objDominatorAccountBaseModel.Password)) return;
 
-            //    selectedAccount.AccountGroup.AccountGroupName = objDominatorAccountBaseModel.GroupName;
-            //    selectedAccount.UserName = objDominatorAccountBaseModel.UserName;
-            //    selectedAccount.Password = objDominatorAccountBaseModel.Password;
-            //    selectedAccount.AccountProxy.ProxyIp = objDominatorAccountBaseModel.AccountProxy.ProxyIp;
-            //    selectedAccount.AccountProxy.ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort;
-            //    selectedAccount.AccountProxy.ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername;
-            //    selectedAccount.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
+                selectedAccount.AccountBaseModel.AccountGroup.Content = objDominatorAccountBaseModel.AccountGroup.Content;
+                selectedAccount.AccountBaseModel.UserName = objDominatorAccountBaseModel.UserName;
+                selectedAccount.AccountBaseModel.Password = objDominatorAccountBaseModel.Password;
+                selectedAccount.AccountBaseModel.AccountProxy.ProxyIp = objDominatorAccountBaseModel.AccountProxy.ProxyIp;
+                selectedAccount.AccountBaseModel.AccountProxy.ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort;
+                selectedAccount.AccountBaseModel.AccountProxy.ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername;
+                selectedAccount.AccountBaseModel.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
+                selectedAccount.AccountBaseModel.AccountNetwork = objDominatorAccountBaseModel.AccountNetwork;
 
-            //    File.Delete(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
+                //  File.Delete(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
 
-            //    ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
-            //        ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
+                //ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
+                //    ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
 
-            //    dialogWindow.Close();
+                dialogWindow.Close();
 
-            //};
-            //objAddUpdateAccountControl.btnCancel.Click += (senders, events) =>
-            //{
-            //    dialogWindow.Close();
-            //};
+            };
+            objAddUpdateAccountControl.btnCancel.Click += (senders, events) =>
+            {
+                dialogWindow.Close();
+            };
 
-            //dialogWindow.ShowDialog();
+            dialogWindow.ShowDialog();
         }
 
 
@@ -676,14 +893,18 @@ namespace DominatorUIUtility.ViewModel
 
         public void SelectAllAccounts()
         {
-            foreach (var x in LstDominatorAccountModel)
-                x.IsAccountManagerAccountSelected = true;
+            LstDominatorAccountModel.Select(x =>
+            {
+                x.IsAccountManagerAccountSelected = true; return x;
+            }).ToList();
         }
 
         public void DeselectAllAccounts()
         {
-            foreach (var x in LstDominatorAccountModel)
-                x.IsAccountManagerAccountSelected = false;
+            LstDominatorAccountModel.Select(x =>
+            {
+                x.IsAccountManagerAccountSelected = false; return x;
+            }).ToList();
         }
 
         public void SelectAccount(object sender)
@@ -763,18 +984,23 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (syncLoadAccounts)
             {
-                var savedAccounts = DominatorHouseCore.FileManagers.AccountsFileManager.Get();
+               // var savedAccounts = BinFileHelper.ReadAccounts();
+
+                var savedAccounts = AccountsFileManager.Get();
 
                 var allGroups = new List<ContentSelectGroup>();
 
                 try
                 {
                     LstDominatorAccountModel.Clear();
-                    foreach(var account in savedAccounts)
+                    savedAccounts.ForEach(account =>
                     {
                         LstDominatorAccountModel.Add(account);
-                        allGroups.Add(account.AccountBaseModel.AccountGroup);                     
-                    }
+                        allGroups.Add(account.AccountBaseModel.AccountGroup);
+
+                        AccountCollectionView = CollectionViewSource.GetDefaultView(LstDominatorAccountModel);
+                        //Global.ScheduleForEachModule(null, account);
+                    });
 
                     foreach (var group in allGroups)
                     {
@@ -799,5 +1025,41 @@ namespace DominatorUIUtility.ViewModel
         #endregion
 
 
+    }
+
+    public class GridViewHeader : BindableBase
+    {
+
+        private string _headers;
+
+        public string Header
+        {
+            get
+            {
+                return _headers;
+            }
+            set
+            {
+                if (_headers != null && _headers == value)
+                    return;
+                SetProperty(ref _headers, value);
+            }
+        }
+
+        private bool _headerVisible = false;
+
+        public bool HeaderVisible
+        {
+            get
+            {
+                return _headerVisible;
+            }
+            set
+            {
+                if (_headerVisible == value)
+                    return;
+                SetProperty(ref _headerVisible, value);
+            }
+        }
     }
 }

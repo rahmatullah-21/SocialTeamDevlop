@@ -1,5 +1,14 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media.Imaging;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.ViewModel;
 
@@ -8,25 +17,98 @@ namespace DominatorUIUtility.CustomControl
     /// <summary>
     /// Interaction logic for AccountCustomControl.xaml
     /// </summary>
-    public partial class AccountCustomControl : UserControl
+    public partial class AccountCustomControl : UserControl, INotifyPropertyChanged
     {
+        private DominatorAccountViewModel _dominatorAccountViewModel = new DominatorAccountViewModel();
 
         #region Property
 
-        public DominatorAccountViewModel DominatorAccountViewModel { get; set; } = new DominatorAccountViewModel();
+        public DominatorAccountViewModel DominatorAccountViewModel
+        {
+            get
+            {
+                return _dominatorAccountViewModel;
+            }
+            set
+            {
+                _dominatorAccountViewModel = value;
+                OnPropertyChanged(nameof(DominatorAccountViewModel));
+            }
+        }
 
         #endregion
 
-
-        public AccountCustomControl()
+        private AccountCustomControl()
         {
+
             InitializeComponent();
-            MainGrid.DataContext = DominatorAccountViewModel;
+            DominatorAccountViewModel.AccountCollectionView =
+                CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
+            AccountModule.DataContext = DominatorAccountViewModel;
+
         }
 
-        private void editContextMenu_Click(object sender, RoutedEventArgs e)
+        private static AccountCustomControl _accountCustomInstance = null;
+
+        public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks)
         {
-            DominatorAccountViewModel.EditAccount(sender);
+            if (_accountCustomInstance == null)
+            {
+                _accountCustomInstance = new AccountCustomControl();
+            }
+
+            _accountCustomInstance.GetRespectiveAccounts(socialNetworks);
+
+            return _accountCustomInstance;
+        }
+
+        private void GetRespectiveAccounts(SocialNetworks socialNetworks)
+        {
+            var listCollection = (ListCollectionView)DominatorAccountViewModel.AccountCollectionView;
+
+            switch (socialNetworks)
+            {
+                case SocialNetworks.Social:
+                    listCollection.Filter = null;
+                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn1.Header = "Friendship Count";
+                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
+                    //DominatorAccountViewModel.SocialNetworkEditable = true;
+                    //DominatorHouseInitializer.ActiveSocialNetwork = SocialNetworks.Social;
+                    break;
+
+                case SocialNetworks.Instagram:
+                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Instagram);
+                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
+
+                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
+
+                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
+
+                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Post Count";
+
+                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Instagram;
+                    //DominatorAccountViewModel.SocialNetworkEditable = false;
+                    break;
+
+                case SocialNetworks.Twitter:
+                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Twitter);
+                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
+                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
+                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
+                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Twitter;
+                  //  DominatorAccountViewModel.SocialNetworkEditable = false;
+                    break;
+
+            }
         }
 
         private void MangeblacklistedContextMenu_Click(object sender, RoutedEventArgs e)
@@ -58,11 +140,6 @@ namespace DominatorUIUtility.CustomControl
             window.ShowDialog();
         }
 
-        private void DeleteSingleContextMenu_Click(object sender, RoutedEventArgs e)
-        {
-            DominatorAccountViewModel.DeleteAccountByContextMenu(sender);
-        }
-
         private void chkgroup_Checked(object sender, RoutedEventArgs e)
         {
             DominatorAccountViewModel.SelectAccountByGroup(sender);
@@ -77,6 +154,163 @@ namespace DominatorUIUtility.CustomControl
         {
             DominatorAccountModel ObjDominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
             //DominatorAccountViewModel.UpdateAccount(ObjDominatorAccountModel);
+        }
+
+        private void Row_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            List<string> menuOptions = new List<string>();
+
+            ListViewItem sourceRow = sender as ListViewItem;
+
+            var dominatorAccountModelSelected = ((FrameworkElement)sourceRow)?.DataContext as DominatorAccountModel;
+
+            if (sourceRow != null)
+            {
+                sourceRow.ContextMenu = new ContextMenu();
+
+                if (dominatorAccountModelSelected != null)
+                {
+                    sourceRow.ContextMenu.ItemsSource = GetContextMenuItems(dominatorAccountModelSelected.AccountBaseModel.AccountNetwork.ToString(), dominatorAccountModelSelected);
+                }
+
+                if (sourceRow.ContextMenu.Items.Count > 0)
+                {
+                    sourceRow.ContextMenu.PlacementTarget = this;
+                    sourceRow.ContextMenu.IsOpen = true;
+                }
+                else
+                {
+                    sourceRow.ContextMenu = null;
+                }
+            }
+        }
+
+        private IEnumerable<MenuItem> GetContextMenuItems(string socialNetwork, DominatorAccountModel dominatorAccountModel)
+        {
+            var menuOptions = new List<MenuItem>();
+
+            var editProfileMenu = new MenuItem { Header = "Edit Profile" };
+            editProfileMenu.Click += EditProfile;
+            var icon = new Image
+            {
+                Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
+                Width = 25,
+                Height = 25
+            };
+            editProfileMenu.DataContext = dominatorAccountModel;
+            editProfileMenu.Icon = icon;
+            menuOptions.Add(editProfileMenu);
+
+
+            var deleteProfileMenu = new MenuItem { Header = "Delete Profile" };
+            deleteProfileMenu.Click += DeleteAccount;
+            deleteProfileMenu.DataContext = dominatorAccountModel;
+            deleteProfileMenu.Icon = new Image
+            {
+                Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
+                Width = 25,
+                Height = 25
+            };
+            menuOptions.Add(deleteProfileMenu);
+
+            var goToToolsMenu = new MenuItem { Header = "Go to Tools" };
+            goToToolsMenu.Click += GotoTools;
+            goToToolsMenu.DataContext = dominatorAccountModel;
+            goToToolsMenu.Icon = new Image
+            {
+                Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
+                Width = 25,
+                Height = 25
+            };
+            menuOptions.Add(goToToolsMenu);
+
+            switch (socialNetwork)
+            {
+                case "Facebook":
+                    var removePhoneVerificationMenu = new MenuItem { Header = "Remove Phone Verification" };
+                    removePhoneVerificationMenu.Click += FacebookRemovePhoneVerification;
+                    removePhoneVerificationMenu.DataContext = dominatorAccountModel;
+                    removePhoneVerificationMenu.Icon = new Image
+                    {
+                        Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
+                        Width = 25,
+                        Height = 25
+                    };
+                    menuOptions.Add(removePhoneVerificationMenu);
+                    break;
+
+                case "Instagram":
+
+                    var editInstaProfileMenu = new MenuItem { Header = "Edit Insta Profile" };
+                    editInstaProfileMenu.Click += EditInstaProfile;
+                    editInstaProfileMenu.DataContext = dominatorAccountModel;
+                    editInstaProfileMenu.Icon = new Image
+                    {
+                        Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
+                        Width = 25,
+                        Height = 25
+                    };
+                    menuOptions.Add(editInstaProfileMenu);
+
+
+                    var phoneVerificationMenu = new MenuItem { Header = "Phone Verification" };
+                    phoneVerificationMenu.Click += InstaPhoneVerification;
+                    phoneVerificationMenu.DataContext = dominatorAccountModel;
+                    phoneVerificationMenu.Icon = new Image
+                    {
+                        Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
+                        Width = 25,
+                        Height = 25
+                    };
+                    menuOptions.Add(phoneVerificationMenu);
+                    break;
+            }
+
+            return menuOptions;
+        }
+
+        public void EditProfile(object sender, RoutedEventArgs e)
+        {
+            var dataContext = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+
+            if (dataContext != null) DominatorAccountViewModel.EditAccount(sender);
+        }
+
+        public void DeleteAccount(object sender, RoutedEventArgs e)
+        {
+            var dataContext = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+
+            if (dataContext != null)
+                DominatorAccountViewModel.DeleteAccountByContextMenu(sender);
+        }
+
+        public void GotoTools(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void EditInstaProfile(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void InstaPhoneVerification(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void FacebookRemovePhoneVerification(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
 

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 
 namespace DominatorUIUtility.CustomControl
@@ -21,6 +22,7 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class AddUpdateAccountControl : UserControl
     {
+
         public DominatorAccountBaseModel DominatorAccountBaseModel { get; set; } = new DominatorAccountBaseModel();
 
         /// <summary>
@@ -29,6 +31,12 @@ namespace DominatorUIUtility.CustomControl
         public AddUpdateAccountControl()
         {
             InitializeComponent();
+
+            foreach (var item in Enum.GetValues(typeof(SocialNetworks)))
+            {
+                ComboBoxSocialNetworks.Items.Add(item);
+            }
+
             UserControlAddUpdateAccount.DataContext = DominatorAccountBaseModel;
         }
 
@@ -56,9 +64,23 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="title">Show the title of the user control, like Add account</param>
         /// <param name="actionButtonContent">Pass the action button content like Save</param>
         /// <param name="showAdvance">Pass true only if proxy ip contains values otherwise false</param>
-        public AddUpdateAccountControl(DominatorAccountBaseModel dominatorAccountBaseModelBinding, string title, string actionButtonContent, bool showAdvance)
+        public AddUpdateAccountControl(DominatorAccountBaseModel dominatorAccountBaseModelBinding, string title, string actionButtonContent, bool showAdvance,  string socialNetwork)
         {
             InitializeComponent();
+
+
+            if (socialNetwork==SocialNetworks.Social.ToString())
+            {
+                foreach (var item in Enum.GetValues(typeof(SocialNetworks)))
+                {
+                    ComboBoxSocialNetworks.Items.Add(item);
+                }
+            }
+            else
+            {
+                ComboBoxSocialNetworks.Items.Add((SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork));
+                //ComboBoxSocialNetworks.Items.Add(dominatorAccountBaseModelBinding.AccountNetwork);
+            }
 
             btnSave.Content = !string.IsNullOrEmpty(actionButtonContent) ? actionButtonContent : "Save";
             TextBlockPageTitle.Text = !string.IsNullOrEmpty(title) ? title : "Add Account";
@@ -67,9 +89,10 @@ namespace DominatorUIUtility.CustomControl
 
             DominatorAccountBaseModel = dominatorAccountBaseModelBinding;
             UserControlAddUpdateAccount.DataContext = DominatorAccountBaseModel;
+
         }
 
-      
+
         private void CheckBoxShowAdvance_OnChecked(object sender, RoutedEventArgs e)
         {
             GridAdvanceOption.Visibility = Visibility.Visible;
@@ -79,5 +102,7 @@ namespace DominatorUIUtility.CustomControl
         {
             GridAdvanceOption.Visibility = Visibility.Collapsed;
         }
+
+
     }
 }
