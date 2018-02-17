@@ -223,7 +223,11 @@
     <Compile Include="Utility\Utilities.cs" />
     <Compile Include="Utility\ValidationHelper.cs" />
     <Compile Include="ViewModel\AddPostViewModel.cs" />
+    <Compile Include="ViewModel\AutoActivity\DominatorAutoActivityViewModel.cs" />
+    <Compile Include="ViewModel\AutoActivity\HomeAutoActivityViewModel.cs" />
+    <Compile Include="ViewModel\AutoActivity\SocialAutoActivityViewModel.cs" />
     <Compile Include="ViewModel\ManageDestinationViewModel.cs" />
+    <Compile Include="ViewModel\UserControlSwitchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

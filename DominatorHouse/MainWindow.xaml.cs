@@ -26,6 +26,7 @@ using NLog;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic;
+using DominatorUIUtility.CustomControl.AutoActivity;
 using DominatorUIUtility.Views.Publisher;
 using GramDominatorUI.GDViews.SocialProfiles;
 
@@ -351,8 +352,15 @@ namespace DominatorHouse
                 {
                 Title=FindResource("langOtherConfigurations").ToString(),
                 //  Content=new Lazy<UserControl>(()=>new OtherConfiguration())
+                },
+                new TabItemTemplates
+                {
+                    Title=FindResource("langOtherConfigurations").ToString(),
+                      Content=new Lazy<UserControl>(HomeAutoActivity.GetSingletonHomeAutoActivity)
                 }
 
+
+                //HomeAutoActivity
             };
 
         }

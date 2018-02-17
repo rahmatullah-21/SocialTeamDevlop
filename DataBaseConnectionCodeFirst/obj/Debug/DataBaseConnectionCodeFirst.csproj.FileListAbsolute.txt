@@ -31,3 +31,4 @@ D:\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\bin\Debug\Sy
 D:\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\obj\Debug\DataBaseConnectionCodeFirst.csprojResolveAssemblyReference.cache
 D:\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\obj\Debug\DataBaseConnectionCodeFirst.dll
 D:\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\obj\Debug\DataBaseConnectionCodeFirst.pdb
+D:\2018\Projects\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\obj\Debug\DataBaseConnectionCodeFirst.csprojResolveAssemblyReference.cache
