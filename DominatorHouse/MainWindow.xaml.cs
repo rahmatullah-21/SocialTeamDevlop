@@ -187,10 +187,10 @@ namespace DominatorHouse
                     //TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
                     break;
-                case SocialNetworks.PinInterest:
+                case SocialNetworks.Pinterest:
                     //PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
                     //TabItems = pinDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.PinInterest.ToString() + " Dominator";
+                    this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Social:
                     AccountGrowthModeTab.TabStripPlacement = Dock.Left;

@@ -5,7 +5,7 @@
         Facebook,
         Instagram,
         Twitter,
-        PinInterest,
+        Pinterest,
         LinkedIn,
         Reddit,
         Craglist,

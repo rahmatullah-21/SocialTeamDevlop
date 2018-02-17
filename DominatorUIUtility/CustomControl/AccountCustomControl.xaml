@@ -316,7 +316,7 @@
                                                         </Setter>
                                                     </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.PinInterest}">
+                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
                                                         <Setter Property="Content" >
                                                             <Setter.Value>
                                                                 <Rectangle Fill="Red" Width="20" Height="20">
