@@ -1179,4 +1179,6 @@
     <system:String x:Key="langSelectTag">Select Tag</system:String>
     <system:String x:Key="langProxyName">Proxy Name</system:String>
     <system:String x:Key="langSelectSocialNetwork">Social Network</system:String>
+    <system:String x:Key="langAutoActivity">Auto Activity</system:String>
+    
 </ResourceDictionary>

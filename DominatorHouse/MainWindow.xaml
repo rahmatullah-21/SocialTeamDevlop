@@ -34,7 +34,8 @@
                 <ComboBoxItem>Social</ComboBoxItem>
                 <ComboBoxItem>Instagram</ComboBoxItem>
                 <ComboBoxItem>Twitter</ComboBoxItem>
-                <ComboBoxItem>PinInterest</ComboBoxItem>
+                <ComboBoxItem>Pinterest</ComboBoxItem>
+                <ComboBoxItem>Quora</ComboBoxItem>
             </ComboBox>
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbLanguage" >
                 <ComboBoxItem>English</ComboBoxItem>

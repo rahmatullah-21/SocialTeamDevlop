@@ -10,7 +10,8 @@
         Reddit,
         Craglist,
         Backpage,
-        Social
+        Social,
+        Quora
     }
 
     public enum ActivityType

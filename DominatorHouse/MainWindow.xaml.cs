@@ -297,7 +297,11 @@ namespace DominatorHouse
                     TabItems = InitializeAllTabs();
                     this.Title = "Dominator - All in One";
                     break;
-
+                case SocialNetworks.Quora:
+                    QuoraDominator.MainWindow quoraDominator = new QuoraDominator.MainWindow();
+                    TabItems = quoraDominator.InitializeAllTabs();
+                    this.Title = SocialNetworks.Quora.ToString() + " Dominator";
+                    break;
                 default:
                     this.Title = "Dominator - All in One";
                     break;
@@ -325,7 +329,7 @@ namespace DominatorHouse
                 },
                 new TabItemTemplates
                 {
-                Title=FindResource("langModuleConfiguration").ToString(),
+                Title=FindResource("langAutoActivity").ToString(),
                 Content=new Lazy<UserControl>(()=>new ToolTabs())
                 },
                 new TabItemTemplates
