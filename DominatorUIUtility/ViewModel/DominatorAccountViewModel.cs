@@ -28,7 +28,6 @@ namespace DominatorUIUtility.ViewModel
     [ProtoContract]
     public class DominatorAccountViewModel : BindableBase
     {
-
         public DominatorAccountViewModel()
         {
 
@@ -1024,6 +1023,11 @@ namespace DominatorUIUtility.ViewModel
 
         #endregion
 
+
+        #region Actions
+        public Action<DominatorAccountModel> action_CheckAccount { get; set; }
+        public Action<DominatorAccountModel> action_UpdateFollower { get; set; }
+        #endregion
 
     }
 

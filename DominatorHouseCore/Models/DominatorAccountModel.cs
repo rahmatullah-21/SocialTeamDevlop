@@ -36,7 +36,6 @@ namespace DominatorHouseCore.Models
         }
 
 
-
         #region Common Properties
 
         public bool SelectedGroup { get; set; }
@@ -136,7 +135,11 @@ namespace DominatorHouseCore.Models
             }
         }
 
+
+        
+
         #endregion
+
     }
 
 

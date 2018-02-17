@@ -11,8 +11,6 @@ namespace DominatorHouseCore.LogHelper
 {
     public class GlobusLogHelper
     {
-
-
         static GlobusLogHelper()
         {
 #if DEBUG
@@ -48,6 +46,7 @@ namespace DominatorHouseCore.LogHelper
         public static ILogger log { get; }
 
 
+
         /// <summary>
         /// Private Constructer for Singleton Implementation
         /// </summary>
@@ -80,5 +79,6 @@ namespace DominatorHouseCore.LogHelper
                 }
             }));
         }
+
     }
 }

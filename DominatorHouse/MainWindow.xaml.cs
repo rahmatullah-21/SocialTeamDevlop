@@ -39,12 +39,14 @@ namespace DominatorHouse
     public partial class MainWindow : MetroWindow, ILoggableWindow
     {
         public List<TabItemTemplates> TabItems { get; set; }
+
         // Bring all the performance bottlenecks to here. Actually MainWindow class should 
         // not be bothered about performance counter or management object. 
         // TODO: Fix to conform to SRP.
         private static string s_RamSizeOfCurrentComputer = getRAMsize();
         private static PerformanceCounter objPerformanceCounter = new PerformanceCounter("Memory", "Available MBytes");
         private static ManagementObject processor = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
+        private GramDominatorUI.MainWindow GramDominatorUI;
 
         public MainWindow()
         {
@@ -208,9 +210,6 @@ namespace DominatorHouse
             return "0 MB";
         }
 
-
-
-
         /// <summary>
         /// Getting CPU Usages
         /// </summary>
@@ -276,9 +275,9 @@ namespace DominatorHouse
             switch (socialNetwork)
             {
                 case SocialNetworks.Instagram:
-
-                    GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
-                    TabItems = gramDominator.InitializeAllTabs();
+                    if (GramDominatorUI == null)
+                        GramDominatorUI = new GramDominatorUI.MainWindow();
+                    TabItems = GramDominatorUI.InitializeAllTabs();
                     this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Twitter:
@@ -311,12 +310,20 @@ namespace DominatorHouse
 
         public List<TabItemTemplates> InitializeAllTabs()
         {
+
+            AccountCustomControl AccountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+
+            AccountCustomControl.DominatorAccountViewModel.action_CheckAccount = action_CheckAccount;
+
             return new List<TabItemTemplates>
             {
+
                 new TabItemTemplates
                 {
                     Title =FindResource("langAccountsManager").ToString(),
-                    Content = new Lazy<UserControl>(() =>  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social))
+
+                    Content = new Lazy<UserControl>(() => AccountCustomControl),
+
                 },
                 new TabItemTemplates
                 {
@@ -353,9 +360,24 @@ namespace DominatorHouse
 
         }
 
+
+
+        public void action_CheckAccount(DominatorAccountModel dominatorAccountModel)
+        {
+            switch (dominatorAccountModel.AccountBaseModel.AccountNetwork)
+            {
+                case SocialNetworks.PinInterest:
+                    PinDominatorCore.PDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                    break;
+                case SocialNetworks.Instagram:
+                    GramDominatorCore.GDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                    break;
+                case SocialNetworks.Twitter:
+                    TwtDominatorCore.TDViewModel.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                    break;
+            }
+        }
+
     }
-
-
-
 
 }
