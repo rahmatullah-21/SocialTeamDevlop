@@ -58,8 +58,22 @@ namespace DominatorHouse
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
 
             Task performanceTask = new Task(() => StartbindMemory(),
-                TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
+            TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
+
+            #region commeted
+            //Task.Factory.StartNew(() =>
+            //{
+            //    DateTime NextDayTime = DateTime.Now.AddDays(1);
+            //    accountManagerViewModel.InitialAccountDetails();
+
+            //    JobManager.AddJob(() =>
+            //        accountManagerViewModel.InitialAccountDetails(),
+            //        x => x.ToRunOnceAt(new DateTime(NextDayTime.Year, NextDayTime.Month, NextDayTime.Day,
+            //            0, 0, 1)
+            //        ).AndEvery(1).Days());
+            //}); 
+            #endregion
 
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
         }
@@ -72,6 +86,78 @@ namespace DominatorHouse
             else
                 GlobusLogHelper.LogTextToList(ErrorLogger, message);
         }
+
+
+
+        public static MainWindow objMainWindowRef = null;
+
+        #region commented for now
+        //private void InitializeTabs()
+        //{
+        //    SocialNetworks socialNetwork = SocialNetworks.Social;
+        //    switch (socialNetwork)
+        //    {
+        //        case SocialNetworks.Instagram:
+        //            GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
+        //            TabItems = gramDominator.InitializeAllTabs();
+        //            break;
+        //        case SocialNetworks.Twitter:
+
+        //            //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
+        //            //TabItems = twtDominator.InitializeAllTabs();
+        //            break;
+        //        case SocialNetworks.Social:
+        //            TabItems = InitializeAllTabs();
+        //            this.Title = "Dominator - All in One";
+        //            break;
+        //        default:
+
+        //            break;
+        //    }
+
+        //    NormalModeTab.ItemsSource = TabItems;
+        //    var vv = NormalModeTab.SelectedContent as UserControl;
+        //}
+
+        //public void ChangeIndex(int TabControlIndex, int TabIndex)
+        //{
+        //    NormalModeTab.SelectedIndex = TabControlIndex;
+        //    //string item = (NormalModeTab.SelectedItem as TabItemViewModel).Title;
+        //    switch (TabControlIndex)
+        //    {
+        //        case 1:
+        //            GrowFollowersTab objGrowFollowersTab = GrowFollowersTab.GetSingeltonObjectGrowFollowersTab();
+        //            objGrowFollowersTab.setIndex(TabIndex);
+        //            break;
+        //        case 2:
+        //            InstaPosterTab objInstaPosterTab = InstaPosterTab.GetSingeltonObjectInstaPosterTab();
+        //            objInstaPosterTab.setIndex(TabIndex);
+        //            break;
+
+        //        case 3:
+        //            InstachatTab.GetSingeltonObjectInstachatTab();
+        //            break;
+        //        case 4:
+        //            var objInstaLikerInstaCommenterTab = InstaLikerInstaCommenterTab.GetSingeltonObjectInstaLikerInstaCommenterTab();
+        //            objInstaLikerInstaCommenterTab.setIndex(TabIndex);
+        //            break;
+        //        case 5:
+        //            InstaScrapeTab objInstaScrapeTab = InstaScrapeTab.GetSingeltonObjectInstaScrapeTab();
+        //            objInstaScrapeTab.setIndex(TabIndex);
+        //            break;
+        //        case 6:
+        //            //campaign
+        //            break;
+        //    }
+        //}
+
+        //public void SelectTab(int mainTabindex)
+        //{
+        //    NormalModeTab.SelectedIndex = mainTabindex;
+        //} 
+        #endregion
+
+
 
 
         async private void StartbindMemory()
@@ -102,6 +188,10 @@ namespace DominatorHouse
             }
         }
 
+
+
+
+
         /// <summary>
         /// Getting Ram size
         /// </summary>
@@ -117,6 +207,9 @@ namespace DominatorHouse
 
             return "0 MB";
         }
+
+
+
 
         /// <summary>
         /// Getting CPU Usages
@@ -148,6 +241,14 @@ namespace DominatorHouse
 
 
 
+        //public void NormalMode()
+        //{
+        //    NormalModeTab.Visibility = System.Windows.Visibility.Visible;
+        //    AccountGrowthModeTab.Visibility = System.Windows.Visibility.Collapsed;
+        //    btnAccountGrowthMode.Content = "Switch to Account Growth Mode";
+        //    btnAccountGrowthMode.Name = "btnAccountGrowthMode";
+        //}
+
 
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -156,7 +257,6 @@ namespace DominatorHouse
             //else
             //{
             //    Logger.Visibility = Visibility.Collapsed;
-
             //}
 
         }
@@ -176,13 +276,13 @@ namespace DominatorHouse
             switch (socialNetwork)
             {
                 case SocialNetworks.Instagram:
-                  
+
                     GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
                     TabItems = gramDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Twitter:
-                    #warning UNCOMMENT LINES BELLOW WHEN COMPILED
+#warning UNCOMMENT LINES BELLOW WHEN COMPILED
                     //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
                     //TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
@@ -249,11 +349,13 @@ namespace DominatorHouse
                 //  Content=new Lazy<UserControl>(()=>new OtherConfiguration())
                 }
 
+            };
 
-        };
         }
 
     }
+
+
 
 
 }

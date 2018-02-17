@@ -11,6 +11,8 @@ namespace DominatorHouseCore.LogHelper
 {
     public class GlobusLogHelper
     {
+
+
         static GlobusLogHelper()
         {
 #if DEBUG

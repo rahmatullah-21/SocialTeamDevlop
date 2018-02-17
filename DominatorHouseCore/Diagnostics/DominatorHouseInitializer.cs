@@ -42,7 +42,7 @@ namespace DominatorHouseCore.Diagnostics
             DominatorScheduler.AddJobProcessFactoryForNetwork(factory, network);
 
 #if DEBUG && ATTACH_CONSOLE
-            ConsoleManager.Show();
+          //  ConsoleManager.Show();
 #endif            
         }
     }

@@ -1,6 +1,10 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Runtime.CompilerServices;
 using DominatorHouseCore.Requests;
 using DominatorHouseCore.Utility;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models
@@ -14,16 +18,15 @@ namespace DominatorHouseCore.Models
     {
 
         private DominatorAccountBaseModel _accountBaseModel;
+
         /// <summary>
         /// AccountBaseModel contains the base information of the account
         /// </summary>
+
         [ProtoMember(1)]
         public DominatorAccountBaseModel AccountBaseModel
         {
-            get
-            {
-                return _accountBaseModel;
-            }
+            get { return _accountBaseModel; }
             set
             {
                 if (_accountBaseModel != null && _accountBaseModel == value)
@@ -33,12 +36,14 @@ namespace DominatorHouseCore.Models
         }
 
 
+
         #region Common Properties
 
         public bool SelectedGroup { get; set; }
 
         // To display the account row position
         private int _rownumber;
+
         public int RowNo
         {
             get { return _rownumber; }
@@ -55,6 +60,7 @@ namespace DominatorHouseCore.Models
         public bool IsAccountSelected { get; set; }
 
         private bool _bIsAccountManagerAccountSelected;
+
         public bool IsAccountManagerAccountSelected
         {
             get { return _bIsAccountManagerAccountSelected; }
@@ -102,9 +108,36 @@ namespace DominatorHouseCore.Models
 
         #region Module Wise Details
 
+        //It cont
         public string ModulePrivateDetails { get; set; } = string.Empty;
 
-        #endregion        
 
+        public object GetModulePrivateDetailsValue([CallerMemberName] string PropertyName = null)
+        {
+            try
+            {
+                return JObject.Parse(ModulePrivateDetails)[PropertyName];
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
+        public void SetModulePrivateDetailsValue(object model)
+        {
+            try
+            {
+                this.ModulePrivateDetails = JsonConvert.SerializeObject(model);
+            }
+            catch (Exception Ex)
+            {
+            }
+        }
+
+        #endregion
     }
+
+
 }

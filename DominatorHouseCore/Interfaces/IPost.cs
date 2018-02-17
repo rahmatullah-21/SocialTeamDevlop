@@ -11,7 +11,5 @@ namespace DominatorHouseCore.Interfaces
 
         string Id { get; set; }
 
-
-
     }
 }

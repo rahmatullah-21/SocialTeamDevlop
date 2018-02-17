@@ -9,16 +9,17 @@ namespace DominatorHouseCore.Diagnostics
     /// <summary>
     /// Class uses to create tasks with exception handlers
     /// </summary>
-    internal class ThreadFactory
+    public class ThreadFactory
     {
         public delegate void TaskError(Task task, Exception error);
 
         public static readonly ThreadFactory Instance = new ThreadFactory();
 
-        private ThreadFactory() {
+        private ThreadFactory()
+        {
             Error += (t, e) =>
             {
-                GlobusExceptionHandler.HandleGlobalException(e, t.ToString());                
+                GlobusExceptionHandler.HandleGlobalException(e, t.ToString());                 
             };
         }
 

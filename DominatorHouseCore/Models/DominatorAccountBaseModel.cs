@@ -13,7 +13,9 @@ namespace DominatorHouseCore.Models
     public class DominatorAccountBaseModel : BindableBase
     {
 
+
         private SocialNetworks _accountNetwork = SocialNetworks.Social;
+
         /// <summary>
         ///  To Identify Account is belongs to which network
         /// </summary>
