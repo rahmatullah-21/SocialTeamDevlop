@@ -5,3 +5,6 @@ bin
 obj
 packages
 .vs
+gramUISetup/Debug/
+gramUISetup/Release/
+CodeMap1.dgml
