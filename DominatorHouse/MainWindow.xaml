@@ -6,7 +6,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GramDominatorUI"
+        xmlns:local="clr-namespace:DominatorHouse"
         xmlns:dockable="http://dragablz.net/winfx/xaml/dockablz"
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
