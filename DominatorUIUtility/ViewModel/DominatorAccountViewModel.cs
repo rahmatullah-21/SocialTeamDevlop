@@ -476,10 +476,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 LstDominatorAccountModel.Add(dominatorAccountModel);
             }
-            //if (ProtoBuffBase.SerializeObjects<DominatorAccountModel>(dominatorAccountModel,
-            //    ConstantVariable.GetIndexAccountPath() + $"\\{ConstantVariable.AccountDetails}"))
-            //{               
-            //}
+
             else
             {
                 /*INFO*/

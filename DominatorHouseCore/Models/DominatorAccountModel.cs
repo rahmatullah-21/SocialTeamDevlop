@@ -35,10 +35,13 @@ namespace DominatorHouseCore.Models
 
         #region Common Properties
 
+        [ProtoMember(2)]
         public bool SelectedGroup { get; set; }
 
         // To display the account row position
         private int _rownumber;
+
+        [ProtoMember(3)]
         public int RowNo
         {
             get { return _rownumber; }
@@ -52,9 +55,12 @@ namespace DominatorHouseCore.Models
         }
 
         // To define the account is selected or not 
+        [ProtoMember(4)]
         public bool IsAccountSelected { get; set; }
 
         private bool _bIsAccountManagerAccountSelected;
+
+        [ProtoMember(5)]
         public bool IsAccountManagerAccountSelected
         {
             get { return _bIsAccountManagerAccountSelected; }
@@ -67,6 +73,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
+        [ProtoMember(6)]
         public bool IsCretedFromNormalMode { get; set; }
 
         #endregion
@@ -74,34 +81,45 @@ namespace DominatorHouseCore.Models
         #region Job Scheduling
 
         // Stores  of the account in day wise
+        [ProtoMember(7)]
         public JobActivityManager ActivityManager { get; set; } = new JobActivityManager();
 
         #endregion
 
         #region Http
 
+        [ProtoIgnore]
         public HttpHelper HttpHelper { get; set; } = new HttpHelper();
 
+        [ProtoIgnore]
         public CookieCollection Cookies { get; set; } = new CookieCollection();
 
+        [ProtoIgnore]
         public bool IsloggedinWithPhone { get; set; }
 
+        [ProtoIgnore]
         public string SessionId { get; set; } = string.Empty;
 
+        [ProtoIgnore]
         public DeviceGenerator DeviceDetails { get; set; } = new DeviceGenerator();
 
+        [ProtoIgnore]
         public bool IsUserLoggedIn { get; set; }
 
+        [ProtoIgnore]
         public string UserAgentWeb { get; set; } = string.Empty;
 
+        [ProtoIgnore]
         public string UserAgentMobile { get; set; } = string.Empty;
 
+        [ProtoIgnore]
         public int LastLogin { get; set; }
 
         #endregion
 
         #region Module Wise Details
 
+        [ProtoIgnore]
         public string ModulePrivateDetails { get; set; } = string.Empty;
 
         #endregion        

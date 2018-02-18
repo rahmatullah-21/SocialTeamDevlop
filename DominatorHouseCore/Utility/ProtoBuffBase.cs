@@ -1,8 +1,10 @@
-﻿using ProtoBuf;
+﻿using DominatorHouseCore.Models;
+using ProtoBuf;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -31,7 +33,7 @@ namespace DominatorHouseCore.Utility
             {                
                 using (var stream = File.OpenWrite(filePath))
                 {
-                    Serializer.Serialize(stream, objects);                 
+                    Serializer.SerializeWithLengthPrefix(stream, objects, PrefixStyle.Base128);                 
                 }                
             }
             catch (Exception ex)
@@ -50,20 +52,27 @@ namespace DominatorHouseCore.Utility
             if (obj == null)
                 throw new ArgumentNullException(nameof(obj));
 
+            Stream stream = null;
             try
             {
-                if (!File.Exists(filePath))
-                    using (File.Create(filePath)) { }
+                if (filePath.ToLower().Contains("account"))
+                    Debug.Assert(typeof(T) == typeof(DominatorAccountModel));
 
-                using (var stream = File.Open(filePath, FileMode.Append))
-                {
-                    Serializer.Serialize(stream, obj);
-                }
+                if (!File.Exists(filePath))
+                    stream = File.Create(filePath);
+                else
+                    stream = File.Open(filePath, FileMode.Append);
+
+                Serializer.SerializeWithLengthPrefix(stream, obj, PrefixStyle.Base128, 1);             
             }
             catch (Exception ex)
             {
                 ex.DebugLog($"ProtobufError: Unable to append object of type {typeof(T).Name} to {filePath}");
                 throw;
+            }
+            finally
+            {
+                stream?.Close();
             }
         }
 
@@ -85,7 +94,12 @@ namespace DominatorHouseCore.Utility
             {
                 using (var stream = File.OpenRead(filePath))
                 {
-                    return Serializer.DeserializeItems<T>(stream, PrefixStyle.Base128, 1).ToList();
+                    if (filePath.ToLower().Contains("account"))
+                        Debug.Assert(typeof(T) == typeof(DominatorAccountModel));
+
+                    var list = Serializer.DeserializeItems<T>(stream, PrefixStyle.Base128, 1);
+
+                    return list.ToList();
                 }
             }
             catch (Exception ex)

@@ -81,9 +81,9 @@ namespace DominatorHouseCore.FileManagers
 
 
         // backward compatibility for TD, PD
-        public static bool Add<AModel>(AModel account)
+        public static bool Add<AModel>(AModel account) where AModel : class
         {
-            return BinFileHelper.Append(account);
+            return BinFileHelper.Append(account);            
         }
 
         public static void Delete<AModel>(Predicate<AModel> match) where AModel : class
