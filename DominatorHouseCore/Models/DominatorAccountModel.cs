@@ -2,6 +2,10 @@
 using DominatorHouseCore.Requests;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System.Runtime.CompilerServices;
+using Newtonsoft.Json.Linq;
+using System;
+using Newtonsoft.Json;
 
 namespace DominatorHouseCore.Models
 {
@@ -119,10 +123,38 @@ namespace DominatorHouseCore.Models
 
         #region Module Wise Details
 
+        //It cont
         [ProtoIgnore]
         public string ModulePrivateDetails { get; set; } = string.Empty;
 
-        #endregion        
+
+        public object GetModulePrivateDetailsValue([CallerMemberName] string PropertyName = null)
+        {
+            try
+            {
+                return JObject.Parse(ModulePrivateDetails)[PropertyName];
+            }
+            catch (Exception e)
+            {
+                e.TraceLog();
+                return null;
+            }
+
+        }
+
+        public void SetModulePrivateDetailsValue(object model)
+        {
+            try
+            {
+                this.ModulePrivateDetails = JsonConvert.SerializeObject(model);
+            }
+            catch (Exception Ex)
+            {
+                Ex.TraceLog();
+            }
+        }
+
+        #endregion
 
     }
 }
