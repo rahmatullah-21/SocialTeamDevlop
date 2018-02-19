@@ -138,7 +138,6 @@
                                 </ContextMenu>
                             </Button.ContextMenu>
                         </Button>
-
                     </StackPanel>
                     <StackPanel Margin="10,0,0,0"  Orientation="Horizontal">
                         <Button Name="btnUpdate" Background="Transparent" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Command="{Binding ContextMenuOpenCommand}" CommandParameter="{Binding ElementName=btnUpdate}">
@@ -149,14 +148,9 @@
                                             <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
                                             <Label Content="{DynamicResource langUpdate}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                         </StackPanel>
-
-
                                     </Border>
-
                                 </ControlTemplate>
                             </Button.Template>
-
-
                             <Button.ContextMenu>
                                 <ContextMenu  DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
 
