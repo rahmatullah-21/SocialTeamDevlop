@@ -59,7 +59,7 @@ namespace DominatorHouseCore.Utility
         public static List<DominatorAccountModel> GetAccountDetails()
         {
             lock (_accountDetailsFileLocker)
-                return ProtoBuffBase.DeserializeObjects<DominatorAccountModel>(ConstantVariable.GetIndexAccountFile());
+                return ProtoBuffBase.DeserializeList<DominatorAccountModel>(ConstantVariable.GetIndexAccountFile());
         }
 
         
@@ -68,7 +68,7 @@ namespace DominatorHouseCore.Utility
         public static List<T> GetAccountDetailsFor<T>() where T : class
         {
             lock (_accountDetailsFileLocker)
-                return ProtoBuffBase.DeserializeObjects<T>(ConstantVariable.GetIndexAccountFile());
+                return ProtoBuffBase.DeserializeList<T>(ConstantVariable.GetIndexAccountFile());
         }
 
 
@@ -76,7 +76,7 @@ namespace DominatorHouseCore.Utility
         public static List<CampaignDetails> GetCampaignDetail()
         {
             lock (_campaignsFileLocker)
-                return ProtoBuffBase.DeserializeObjects<CampaignDetails>(ConstantVariable.GetIndexCampaignFile());
+                return ProtoBuffBase.DeserializeList<CampaignDetails>(ConstantVariable.GetIndexCampaignFile());
         }
         
         
@@ -84,7 +84,7 @@ namespace DominatorHouseCore.Utility
         public static List<TemplateModel> GetTemplateDetails()
         {
             lock (_templatesFileLocker)
-                return ProtoBuffBase.DeserializeObjects<TemplateModel>(ConstantVariable.GetTemplatesFile());
+                return ProtoBuffBase.DeserializeList<TemplateModel>(ConstantVariable.GetTemplatesFile());
         }
 
 
@@ -114,7 +114,7 @@ namespace DominatorHouseCore.Utility
 
                     accountDetailsList[indexOfAccountToUpdate] = accountModel;
 
-                    bool result = ProtoBuffBase.SerializeObjects(accountDetailsList, ConstantVariable.GetIndexAccountFile());
+                    bool result = ProtoBuffBase.SerializeList(accountDetailsList, ConstantVariable.GetIndexAccountFile());
 
                     GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
                     return result;
@@ -135,7 +135,7 @@ namespace DominatorHouseCore.Utility
             {
                 lock (_accountDetailsFileLocker)
                 {
-                    var accountDetailsList = GetAccountDetailsFor<T>();
+                    List<T> accountDetailsList = GetAccountDetailsFor<T>();
                     int indexOfAccountToUpdate = FindAccountIndex(accountDetailsList,(accountModel as dynamic).AccountId);
                         
                     if (indexOfAccountToUpdate == -1)
@@ -143,8 +143,8 @@ namespace DominatorHouseCore.Utility
 
                     accountDetailsList[indexOfAccountToUpdate] = accountModel;
 
-                    bool result = ProtoBuffBase.SerializeObjects(accountDetailsList,
-                                                                 ConstantVariable.GetIndexAccountFile());
+                    bool result = ProtoBuffBase.SerializeList(accountDetailsList,
+                                                                ConstantVariable.GetIndexAccountFile());
 
                     GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
                     return result;
@@ -159,20 +159,20 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public static bool UpdateAllAccounts(IList<DominatorAccountModel> accountDetailsList)
+        public static bool UpdateAllAccounts(List<DominatorAccountModel> accountDetailsList)
         {
             return UpdateAllAccounts<DominatorAccountModel>(accountDetailsList);
         }
 
 
         // TODO: back compatibility to save old AccountModel. Have to be replaced with IList<DominatorAccountModel>
-        public static bool UpdateAllAccounts<T>(IList<T> accountDetailsList)
+        public static bool UpdateAllAccounts<T>(List<T> accountDetailsList) where T : class
         {
             lock (_accountDetailsFileLocker)
             {
                 try
                 {
-                    bool result = ProtoBuffBase.SerializeObjects(accountDetailsList,
+                    bool result = ProtoBuffBase.SerializeList(accountDetailsList,
                                                                  ConstantVariable.GetIndexAccountFile());
 
                     GlobusLogHelper.log.Debug("Accounts succesfully saved");
@@ -189,13 +189,13 @@ namespace DominatorHouseCore.Utility
         }
         
 
-        public static void UpdateCampaigns(IList<CampaignDetails> campaignList)
+        public static void UpdateCampaigns(List<CampaignDetails> campaignList)
         {
             lock (_campaignsFileLocker)
             {
                 try
                 {
-                    ProtoBuffBase.SerializeObjects(campaignList, ConstantVariable.GetIndexCampaignFile());
+                    ProtoBuffBase.SerializeList(campaignList, ConstantVariable.GetIndexCampaignFile());
                 }
                 catch (Exception ex)
                 {
@@ -210,7 +210,7 @@ namespace DominatorHouseCore.Utility
             {
                 try
                 {
-                    ProtoBuffBase.SerializeObjects(templatesList, ConstantVariable.GetTemplatesFile());
+                    ProtoBuffBase.SerializeList(templatesList, ConstantVariable.GetTemplatesFile());
                 }
                 catch (Exception ex)
                 {

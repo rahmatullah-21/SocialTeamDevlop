@@ -57,7 +57,7 @@ namespace DominatorHouseCore.FileManagers
             return Get().FirstOrDefault(x => x.CampaignId == id);
         }
 
-        public static void Save(IList<CampaignDetails> campaigns)
+        public static void Save(List<CampaignDetails> campaigns)
         {
             BinFileHelper.UpdateCampaigns(campaigns);
         }

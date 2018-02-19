@@ -649,7 +649,7 @@ namespace DominatorUIUtility.ViewModel
 
 
             //after removed serialize the remaining accounts 
-            AccountsFileManager.SaveAll(LstDominatorAccountModel);
+            AccountsFileManager.Delete<DominatorAccountModel>(a => selectAccounts.FirstOrDefault(p => p.AccountId == a.AccountId) != null);
 
             return false;
         }

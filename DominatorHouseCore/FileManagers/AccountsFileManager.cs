@@ -32,10 +32,10 @@ namespace DominatorHouseCore.FileManagers
 
 
         // Saves all accounts. Have to work Only in Social library. Otherwise use MergeAndSaveAll() method to update AccountDetails.bin
-        internal static void SaveAll<T>(IList<T> lstAccountModel) where T : class
+        internal static void SaveAll<T>(List<T> lstAccountModel) where T : class
         {
-            //if (DominatorHouseInitializer.ActiveSocialNetwork != SocialNetworks.Social)
-            //    throw new InvalidOperationException($"Use MergeAndSaveAll() method for {DominatorHouseInitializer.ActiveSocialNetwork}");
+            if (DominatorHouseInitializer.ActiveSocialNetwork != SocialNetworks.Social)
+                throw new InvalidOperationException($"Use MergeAndSaveAll() method for {DominatorHouseInitializer.ActiveSocialNetwork}");
 
             BinFileHelper.UpdateAllAccounts(lstAccountModel);
             GlobusLogHelper.log.Debug("Accounts successfully saved");
@@ -46,7 +46,7 @@ namespace DominatorHouseCore.FileManagers
         // TODO: make it work for AccountModel from TD, PD
         public static void MergeAndSaveAll(IList<DominatorAccountModel> libraryAccounts) 
         {            
-            var all = GetAll();
+            var all = BinFileHelper.GetAccountDetails();
 
             // Update all entries that exists in libraryAccount, and add that does not exists
             for (int i = 0; i < libraryAccounts.Count; i++)
@@ -59,7 +59,7 @@ namespace DominatorHouseCore.FileManagers
                     all[ix] = acc;
             }
 
-            SaveAll(all);
+            BinFileHelper.UpdateAllAccounts(all);            
         }
 
         // Saves one account by looking for it in list of all accounts
@@ -108,6 +108,16 @@ namespace DominatorHouseCore.FileManagers
         }
 
         // backward compatibility for TD, PD
+        public static bool Add(DominatorAccountModel account) 
+        {
+            var lst = GetAll();
+            lst.Add(account);
+            BinFileHelper.UpdateAllAccounts(lst);
+
+            return true;
+        }
+
+        // backward compatibility for TD, PD
         public static bool Add<AModel>(AModel account) where AModel : class
         {
             return BinFileHelper.Append(account);            
@@ -120,7 +130,7 @@ namespace DominatorHouseCore.FileManagers
             if (ix != -1)
             {
                 accs.RemoveAt(ix);
-                SaveAll(accs);
+                BinFileHelper.UpdateAllAccounts(accs);
             }
         }
 

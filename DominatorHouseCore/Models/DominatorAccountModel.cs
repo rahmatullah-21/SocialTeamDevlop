@@ -15,8 +15,7 @@ namespace DominatorHouseCore.Models
     /// </summary>
     [ProtoContract]
     public sealed class DominatorAccountModel : BindableBase
-    {
-
+    {        
         private DominatorAccountBaseModel _accountBaseModel;
         /// <summary>
         /// AccountBaseModel contains the base information of the account
@@ -156,5 +155,14 @@ namespace DominatorHouseCore.Models
 
         #endregion
 
+        #region Aliases of AccountBaseModel
+
+        [ProtoIgnore]
+        public string AccountId => AccountBaseModel?.AccountId;
+
+        [ProtoIgnore]
+        public string UserName => AccountBaseModel?.UserName;
+
+        #endregion
     }
 }
