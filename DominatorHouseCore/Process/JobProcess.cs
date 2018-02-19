@@ -48,9 +48,9 @@ namespace DominatorHouseCore.Process
         
         public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
         {
-            this.DominatorAccountModel = FileManagers.AccountsFileManager.Get().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
+            this.DominatorAccountModel = FileManagers.AccountsFileManager.GetAll().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
             this.CurrentJobTimeRange = CurrentJobTimeRange;
-            TemplateModel model = BinFileHelper.GetTemplateDetails(SocialNetworks.Instagram).FirstOrDefault(x => x.Id == template);
+            TemplateModel model = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == template);
             this.JobConfiguration = Newtonsoft.Json.JsonConvert.DeserializeObject<JobConfiguration>(model.ActivitySettings);
             
             this.TemplateId = template;

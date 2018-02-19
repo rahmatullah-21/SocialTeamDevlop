@@ -31,7 +31,7 @@ namespace DominatorUIUtility.Views.Publisher
     /// </summary>
     public partial class AddPosts : UserControl, INotifyPropertyChanged
     {
-        string PostDetailFilePath = ConstantVariable.GetConfigurationPath(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
+        string PostDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
         private AddPosts()
         {
             InitializeComponent();
@@ -151,8 +151,8 @@ namespace DominatorUIUtility.Views.Publisher
 
         private void btnAddToPostList_Click(object sender, RoutedEventArgs e)
         {
-            string PostDetailFilePath = ConstantVariable.GetConfigurationPath(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
-            string LocationDetailFilePath = ConstantVariable.GetConfigurationPath(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\LocationsDetail.bin";
+            string PostDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
+            string LocationDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\LocationsDetail.bin";
             //  AddPostViewModel.AddPostModel.SerialNo = ProtoBuffBase.DeserializeObjects<AddPostModel>(PostDetailFilePath).Count + 1;
             if (AddPostViewModel.AddPostModel.CampaignDetails.Status == "False")
             {

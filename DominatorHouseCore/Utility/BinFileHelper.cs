@@ -18,8 +18,8 @@ namespace DominatorHouseCore.Utility
         private static readonly object _campaignsFileLocker = new object();
         private static readonly object _templatesFileLocker = new object();
 
-        public static ObservableCollectionBase<string> GetUsers(SocialNetworks socialNetwork)
-            => new ObservableCollectionBase<string>(GetAccountDetails(socialNetwork).Select(x => x.AccountBaseModel.UserName).ToList());
+        public static ObservableCollectionBase<string> GetUsers()
+            => new ObservableCollectionBase<string>(GetAccountDetails().Select(x => x.AccountBaseModel.UserName).ToList());
 
         public static ObservableCollectionBase<string> GetUsers<T>() where T : class
             => new ObservableCollectionBase<string>(GetAccountDetailsFor<T>().Select(x => (x as dynamic).UserName as string).ToList());
@@ -29,18 +29,18 @@ namespace DominatorHouseCore.Utility
         {
 
             object locker = _accountDetailsFileLocker;
-            string filePath = ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}";
+            string filePath = ConstantVariable.GetIndexAccountFile();
 
             if (typeof(T) == typeof(CampaignDetails))
             {
                 locker = _campaignsFileLocker;
-                filePath = $"{ConstantVariable.socialNetworkPath(DominatorHouseInitializer.ActiveSocialNetwork)}\\{ConstantVariable.CampaignDetails}";
+                filePath = ConstantVariable.GetIndexCampaignFile();
             }
 
             else if (typeof(T) == typeof(TemplateModel))
             {
                 locker = _templatesFileLocker;
-                filePath = $"{ConstantVariable.socialNetworkPath(DominatorHouseInitializer.ActiveSocialNetwork)}\\{ConstantVariable.TemplateBinName}";
+                filePath = ConstantVariable.GetTemplatesFile();
             }
 
             try
@@ -56,48 +56,44 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static List<DominatorAccountModel> GetAccountDetails(SocialNetworks network)
+        public static List<DominatorAccountModel> GetAccountDetails()
         {
             lock (_accountDetailsFileLocker)
-                return ProtoBuffBase.DeserializeObjects<DominatorAccountModel>(
-                       ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
+                return ProtoBuffBase.DeserializeObjects<DominatorAccountModel>(ConstantVariable.GetIndexAccountFile());
         }
 
-        public static List<DominatorAccountModel> GetAccountDetails()
-                => GetAccountDetails(DominatorHouseInitializer.ActiveSocialNetwork);
-
+        
         // TODO: back compatibility for account models of PD, TWD etc.
+        // Modify index account path. Uses only for testing purposes of PD, TWD and others.
         public static List<T> GetAccountDetailsFor<T>() where T : class
         {
             lock (_accountDetailsFileLocker)
-                return ProtoBuffBase.DeserializeObjects<T>(
-                           ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
+                return ProtoBuffBase.DeserializeObjects<T>(ConstantVariable.GetIndexAccountFile());
         }
 
 
-        // Get campigns for certain social network
-        public static List<CampaignDetails> GetCampaignDetail(SocialNetworks network)
+        // Get all campigns 
+        public static List<CampaignDetails> GetCampaignDetail()
         {
             lock (_campaignsFileLocker)
-                return ProtoBuffBase.DeserializeObjects<CampaignDetails>(
-                    $"{ConstantVariable.socialNetworkPath(network)}\\{ConstantVariable.CampaignDetails}");
+                return ProtoBuffBase.DeserializeObjects<CampaignDetails>(ConstantVariable.GetIndexCampaignFile());
         }
-
-        public static List<CampaignDetails> GetCampaignDetail()
-            => GetCampaignDetail(DominatorHouseInitializer.ActiveSocialNetwork);
-
         
-        // Get templates for certain social network
-        public static List<TemplateModel> GetTemplateDetails(SocialNetworks network)
+        
+        // Get all templates 
+        public static List<TemplateModel> GetTemplateDetails()
         {
             lock (_templatesFileLocker)
-                return ProtoBuffBase.DeserializeObjects<TemplateModel>(
-                    $"{ConstantVariable.socialConfigurationPath(network)}\\{ConstantVariable.TemplateBinName}");
+                return ProtoBuffBase.DeserializeObjects<TemplateModel>(ConstantVariable.GetTemplatesFile());
         }
 
-        public static List<TemplateModel> GetTemplateDetails()
-            => GetTemplateDetails(DominatorHouseInitializer.ActiveSocialNetwork);
 
+        public static int FindAccountIndex<T>(List<T> accounts, string id)
+        {
+            return typeof(T) == typeof(DominatorAccountModel)                                            ?
+                accounts.FindIndex(a => (a as DominatorAccountModel).AccountBaseModel.AccountId == id)   :
+                accounts.FindIndex(a => (a as dynamic).AccountId == id);            
+        }
 
         /// <summary>
         /// Overwrites AccountDetails.bin with updated account
@@ -111,16 +107,14 @@ namespace DominatorHouseCore.Utility
                 lock (_accountDetailsFileLocker)
                 {
                     var accountDetailsList = GetAccountDetails();
-                    int indexOfAccountToUpdate =
-                        accountDetailsList.FindIndex(x => x.AccountBaseModel.AccountId == accountModel.AccountBaseModel.AccountId);
+                    int indexOfAccountToUpdate = FindAccountIndex(accountDetailsList, accountModel.AccountBaseModel.AccountId);
 
                     if (indexOfAccountToUpdate == -1)
                         return false;
 
                     accountDetailsList[indexOfAccountToUpdate] = accountModel;
 
-                    bool result = ProtoBuffBase.SerializeObjects(accountDetailsList,
-                            ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
+                    bool result = ProtoBuffBase.SerializeObjects(accountDetailsList, ConstantVariable.GetIndexAccountFile());
 
                     GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
                     return result;
@@ -142,16 +136,15 @@ namespace DominatorHouseCore.Utility
                 lock (_accountDetailsFileLocker)
                 {
                     var accountDetailsList = GetAccountDetailsFor<T>();
-                    int indexOfAccountToUpdate =
-                        accountDetailsList.FindIndex(x => (x as dynamic).AccountId == (accountModel as dynamic).AccountId);
-
+                    int indexOfAccountToUpdate = FindAccountIndex(accountDetailsList,(accountModel as dynamic).AccountId);
+                        
                     if (indexOfAccountToUpdate == -1)
                         return false;
 
                     accountDetailsList[indexOfAccountToUpdate] = accountModel;
 
                     bool result = ProtoBuffBase.SerializeObjects(accountDetailsList,
-                            ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
+                                                                 ConstantVariable.GetIndexAccountFile());
 
                     GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
                     return result;
@@ -180,7 +173,7 @@ namespace DominatorHouseCore.Utility
                 try
                 {
                     bool result = ProtoBuffBase.SerializeObjects(accountDetailsList,
-                                ConstantVariable.GetIndexAccountPath() + $@"\{ConstantVariable.AccountDetails}");
+                                                                 ConstantVariable.GetIndexAccountFile());
 
                     GlobusLogHelper.log.Debug("Accounts succesfully saved");
 
@@ -202,7 +195,7 @@ namespace DominatorHouseCore.Utility
             {
                 try
                 {
-                    ProtoBuffBase.SerializeObjects(campaignList, ConstantVariable.GetIndexCampaignPath() + $@"\{ConstantVariable.CampaignDetails}");
+                    ProtoBuffBase.SerializeObjects(campaignList, ConstantVariable.GetIndexCampaignFile());
                 }
                 catch (Exception ex)
                 {
@@ -217,7 +210,7 @@ namespace DominatorHouseCore.Utility
             {
                 try
                 {
-                    ProtoBuffBase.SerializeObjects(templatesList, ConstantVariable.GetTemplatesPath());
+                    ProtoBuffBase.SerializeObjects(templatesList, ConstantVariable.GetTemplatesFile());
                 }
                 catch (Exception ex)
                 {

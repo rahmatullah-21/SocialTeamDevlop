@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DominatorHouseCore;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -194,7 +195,7 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception ex)
             {
-
+                ex.ErrorLog();
               
             }
         }

@@ -27,7 +27,7 @@ namespace DominatorUIUtility.Views.Publisher
         {
            
             InitializeComponent();
-            string PostDetailFilePath = ConstantVariable.GetConfigurationPath(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
+            string PostDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
 
             // PublisherDetailCollection = CollectionViewSource.GetDefaultView(ProtoBuffBase.DeserializeObjects<AddPostModel>(PostDetailFilePath));
             publisherDetail.ItemsSource = PublisherDetailCollection;
@@ -76,7 +76,7 @@ namespace DominatorUIUtility.Views.Publisher
             AddPostViewModel ObjAddPostViewModel = new AddPostViewModel();
             managePosts.MainGrid.DataContext = ObjAddPostViewModel.AddPostModel;
 
-            string PostDetailFilePath = ConstantVariable.GetConfigurationPath(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
+            string PostDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
             //   var postDetails = ProtoBuffBase.DeserializeObjects<AddPostModel>(PostDetailFilePath);
             //  ObjAddPostViewModel.AddPostModel.PostsDetailCollection = CollectionViewSource.GetDefaultView(postDetails);
         }

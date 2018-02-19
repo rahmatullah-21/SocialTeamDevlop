@@ -26,26 +26,27 @@ namespace DominatorHouseCore.Utility
 
         public static bool UseSystemProxy { get; } = true;
 
-        public static string Manufacturer { get; } = "DOMINATORHOUSE";
-
-        
-        public static string GetDominatorBaseDirectory()
+        public static string GetPlatformBaseDirectory()
         {
-            return $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{Manufacturer}";
+            string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{DominatorHouseInitializer.PlatformName}";
+            DirectoryUtilities.CreateDirectory(basePath);
+            return basePath;
         }
 
-        public static string GetDominatorPath(SocialNetworks SocialNetworkType)
+        public static string GetConfigurationDir()
         {
-            return $"{GetDominatorBaseDirectory()}\\{SocialNetworkType}";
-        }
-        
-
-        public static string GetConfigurationPath(SocialNetworks SocialNetworkType)
-        {
-            return $"{GetDominatorPath(SocialNetworkType)}\\Configurations";
+            string dir = $"{GetPlatformBaseDirectory()}\\Configurations";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir;
         }
 
-        public const string TemplateBinName = "Template.bin";
+        public static string GetConfigurationDir(SocialNetworks network)
+        {
+            string dir = $"{GetPlatformBaseDirectory()}\\Configurations\\{network}";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir;
+        }
+
 
         public const string CreateCampaign = "Create Campaign";
 
@@ -54,35 +55,27 @@ namespace DominatorHouseCore.Utility
         public const string NoAccountSelected = "No Account Selected";
 
 
-        public static string GetIndexAccountPath()
+        internal static string GetIndexAccountDir()
         {
-            SocialNetworks network = DominatorHouseInitializer.ActiveSocialNetwork;
-            string directoryPath = GetDominatorBaseDirectory() + $"\\{network}\\Index\\AC";
-
-            DirectoryUtilities.CreateDirectory(directoryPath);
-
-            return directoryPath;
+            string dir = GetPlatformBaseDirectory() + @"\Index\AC";
+            DirectoryUtilities.CreateDirectory(dir);            
+            return dir;
         }
+        public static string GetIndexAccountFile() => GetIndexAccountDir() + @"\AccountDetails.bin";
 
 
-        public static string GetIndexAccountPath(SocialNetworks SocialNetworkType)
-                => GetDominatorPath(SocialNetworkType) + "\\Index\\AC";                
+        public static string GetIndexCampaignDir()
+        {
+            string dir = GetPlatformBaseDirectory() + @"\Index\CP";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir;
+        }            
 
-        public static string GetIndexCampaignPath(SocialNetworks SocialNetworkType)
-            => GetDominatorPath(SocialNetworkType) + "\\Index\\CP";
+        public static string GetIndexCampaignFile() => GetIndexCampaignDir() + @"\CampaignDetails.bin";
 
-        public static string GetIndexCampaignPath()
-            => GetIndexCampaignPath(DominatorHouseInitializer.ActiveSocialNetwork);
 
-        public static string GetTemplatesPath(SocialNetworks SocialNetworkType)
-                => GetConfigurationPath(SocialNetworkType) + "\\" + TemplateBinName;
+        public static string GetTemplatesFile() => GetConfigurationDir() + "\\Template.bin";
 
-        public static string GetTemplatesPath()
-                => GetConfigurationPath(DominatorHouseInitializer.ActiveSocialNetwork) + "\\" + TemplateBinName;
-
-        public static string AccountDetails = "AccountDetails.bin";
-
-        public static string CampaignDetails = "CampaignDetails.bin";
 
         public const string UnGrouped = "Ungrouped";
 
@@ -91,16 +84,5 @@ namespace DominatorHouseCore.Utility
         public const string NotChecked = "Not Checked";
 
         public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
-
-
-        public static string socialConfigurationPath(SocialNetworks SocialNetworkType)
-        {
-           return new SocialNetworkPathFactory(SocialNetworkType).GetSocialNetworkConfigPath();
-        }
-     
-        public static string socialNetworkPath(SocialNetworks SocialNetworkType)
-        {
-            return new SocialNetworkPathFactory(SocialNetworkType).GetSocialNetworkCampaignPath();
-        }        
-    }
+    }                
 }

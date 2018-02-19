@@ -5,6 +5,7 @@ using ProtoBuf;
 using System.IO;
 using DominatorHouseCore.LogHelper;
 using System.Linq;
+using DominatorHouseCore.FileManagers;
 
 namespace DominatorHouseCore.Models
 {
@@ -67,17 +68,10 @@ namespace DominatorHouseCore.Models
                     SocialNetwork = socialNetworks
                 };
 
-                // Get the path for current social network
-                var socialNetworkPath = new SocialNetworkPathFactory(socialNetworks).GetSocialNetworkConfigPath();
-
-                DirectoryUtilities.CreateDirectory(socialNetworkPath);
 
                 // Serialize the template configuration to bin files
-                var templates = BinFileHelper.GetTemplateDetails().ToList();
-                templates.Add(newTemplate);
-
-                BinFileHelper.UpdateTemplates(templates);
-
+                TemplatesFileManager.Add(newTemplate);
+                
                 return newTemplate.Id;
             }
 

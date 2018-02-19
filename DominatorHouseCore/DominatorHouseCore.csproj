@@ -200,7 +200,6 @@
     <Compile Include="Utility\LoggerHelper.cs" />
     <Compile Include="Utility\ModuleConfiguration.cs" />
     <Compile Include="Utility\ObservableCollectionCustom.cs" />
-    <Compile Include="Utility\SocialNetworkPathFactory.cs" />
     <Compile Include="Models\TemplateModel.cs" />
     <Compile Include="Utility\GenderGuesser.cs" />
     <Compile Include="Utility\BindableBase.cs" />

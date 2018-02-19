@@ -30,10 +30,12 @@ namespace DominatorHouseCore.Utility
                 throw new ArgumentException(nameof(objects));
 
             try
-            {                
+            {
+                DirectoryUtilities.CreateDirectory(Path.GetDirectoryName(filePath));
+                              
                 using (var stream = File.OpenWrite(filePath))
                 {
-                    Serializer.SerializeWithLengthPrefix(stream, objects, PrefixStyle.Base128);                 
+                    Serializer.SerializeWithLengthPrefix(stream, objects, PrefixStyle.Base128, 1);                 
                 }                
             }
             catch (Exception ex)
