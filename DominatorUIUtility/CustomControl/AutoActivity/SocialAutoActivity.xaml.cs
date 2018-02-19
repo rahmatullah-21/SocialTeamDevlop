@@ -22,6 +22,7 @@ namespace DominatorUIUtility.CustomControl.AutoActivity
     /// </summary>
     public partial class SocialAutoActivity : UserControl
     {
+
         public SocialAutoActivity()
         {
             InitializeComponent();
@@ -32,6 +33,13 @@ namespace DominatorUIUtility.CustomControl.AutoActivity
             var homeAutoActivity = HomeAutoActivity.GetSingletonHomeAutoActivity();
 
             homeAutoActivity.HomeAutoActivityViewModel.UserControlSwitchViewModel= new DominatorAutoActivityViewModel(SocialNetworks.Instagram);
+        }
+
+        private static SocialAutoActivity socialAutoActivity;
+
+        public static SocialAutoActivity GetSingletonSocialAutoActivity()
+        {
+            return socialAutoActivity ?? (socialAutoActivity = new SocialAutoActivity());
         }
     }
 }

@@ -26,6 +26,7 @@ using NLog;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic;
+using DominatorHouseCore.ViewModel.AutoActivity;
 using DominatorUIUtility.CustomControl.AutoActivity;
 using DominatorUIUtility.Views.Publisher;
 using GramDominatorUI.GDViews.SocialProfiles;
@@ -355,8 +356,10 @@ namespace DominatorHouse
                 },
                 new TabItemTemplates
                 {
-                    Title=FindResource("langOtherConfigurations").ToString(),
-                      Content=new Lazy<UserControl>(HomeAutoActivity.GetSingletonHomeAutoActivity)
+                    Title=FindResource("langAutoActivity").ToString(),
+                    Content=new Lazy<UserControl>(HomeAutoActivity.GetSingletonHomeAutoActivity)
+                    //Content=new Lazy<UserControl>(()=> new HomeAutoActivity())
+
                 }
 
 
@@ -365,6 +368,19 @@ namespace DominatorHouse
 
         }
 
+        private void TabItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var textBlockDetails = ((FrameworkElement)sender) as TextBlock;
+
+            if (textBlockDetails == null)
+                return;
+
+            if (textBlockDetails.Text == FindResource("langAutoActivity").ToString())
+            {
+                var homeAutoActivity = HomeAutoActivity.GetSingletonHomeAutoActivity();
+                homeAutoActivity.HomeAutoActivityViewModel.UserControlSwitchViewModel =  new SocialAutoActivityViewModel();
+            }
+        }
     }
 
 

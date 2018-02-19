@@ -8,8 +8,8 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <StackPanel>
-            <TextBlock Text="DominatorAutoActivity" FontSize="13" Foreground="Black"></TextBlock>
-<Button Width="70" Height="30" Content="Click" Click="ButtonBase_OnClick"></Button>
+            <TextBlock Text="SocialAutoActivity" FontSize="13" Foreground="Black"></TextBlock>
+            <Button Width="70" Height="30" Content="Click" Click="ButtonBase_OnClick"></Button>
         </StackPanel>
     </Grid>
 </UserControl>

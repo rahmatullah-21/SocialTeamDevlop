@@ -20,7 +20,7 @@ namespace DominatorHouseCore.ViewModel.AutoActivity
             }
             set
             {
-                if(_userControlSwitchViewModel!=null || _userControlSwitchViewModel==value)
+                if( _userControlSwitchViewModel==value)
                     return;
                 SetProperty(ref _userControlSwitchViewModel, value);
             }

@@ -16,5 +16,8 @@ namespace DominatorHouseCore.ViewModel.AutoActivity
         {
             _name = networks.ToString();
         }
+
+
+
     }
 }
