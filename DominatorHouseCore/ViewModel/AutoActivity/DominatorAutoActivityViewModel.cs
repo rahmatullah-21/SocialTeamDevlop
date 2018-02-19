@@ -9,6 +9,7 @@ namespace DominatorHouseCore.ViewModel.AutoActivity
 {
     public class DominatorAutoActivityViewModel : UserControlSwitchViewModel
     {
+
         private readonly string _name;
         public override string Name => _name;
 

@@ -18,7 +18,7 @@ namespace DominatorHouseCore.Models
         /// <summary>
         /// Day of week and Time when particular modules will be running
         /// </summary>
-        [ProtoMember(14)]
+        [ProtoMember(2)]
         public List<RunningTimes> RunningTime { get; set; } = new List<RunningTimes>();
 
 
