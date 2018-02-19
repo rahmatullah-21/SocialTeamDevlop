@@ -19,6 +19,8 @@ using MahApps.Metro.Controls;
 using System.Windows.Media;
 using System.ComponentModel;
 using System.Linq;
+using DominatorHouse.Social.AutoActivity.ViewModels;
+using DominatorHouse.Social.AutoActivity.Views;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorUIUtility.CustomControl;
@@ -26,10 +28,9 @@ using NLog;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic;
-using DominatorHouseCore.ViewModel.AutoActivity;
-using DominatorUIUtility.CustomControl.AutoActivity;
 using DominatorUIUtility.Views.Publisher;
 using GramDominatorUI.GDViews.SocialProfiles;
+
 
 #endregion
 
@@ -40,6 +41,7 @@ namespace DominatorHouse
     /// </summary>
     public partial class MainWindow : MetroWindow, ILoggableWindow
     {
+
         public List<TabItemTemplates> TabItems { get; set; }
         // Bring all the performance bottlenecks to here. Actually MainWindow class should 
         // not be bothered about performance counter or management object. 
@@ -279,12 +281,12 @@ namespace DominatorHouse
             {
                 case SocialNetworks.Instagram:
 
-                    GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
+                    GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow(); 
                     TabItems = gramDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Twitter:
-#warning UNCOMMENT LINES BELLOW WHEN COMPILED
+                    #warning UNCOMMENT LINES BELLOW WHEN COMPILED
                     //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
                     //TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
@@ -329,10 +331,16 @@ namespace DominatorHouse
                 Title=FindResource("langDashBoard").ToString(),
                 //   Content=new Lazy<UserControl>(()=>new DashBoard())
                 },
+                //new TabItemTemplates
+                //{
+                //Title=FindResource("langAutoActivity").ToString(),
+                //Content=new Lazy<UserControl>(()=>new ToolTabs())
+                //},
                 new TabItemTemplates
                 {
-                Title=FindResource("langAutoActivity").ToString(),
-                Content=new Lazy<UserControl>(()=>new ToolTabs())
+                    Title=FindResource("langAutoActivity").ToString(),
+                    Content=new Lazy<UserControl>(()=>DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
+                    //Content=new Lazy<UserControl>(()=> new HomeAutoActivity())
                 },
                 new TabItemTemplates
                 {
@@ -353,15 +361,7 @@ namespace DominatorHouse
                 {
                 Title=FindResource("langOtherConfigurations").ToString(),
                 //  Content=new Lazy<UserControl>(()=>new OtherConfiguration())
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("langAutoActivity").ToString(),
-                    Content=new Lazy<UserControl>(HomeAutoActivity.GetSingletonHomeAutoActivity)
-                    //Content=new Lazy<UserControl>(()=> new HomeAutoActivity())
-
                 }
-
 
                 //HomeAutoActivity
             };
@@ -377,8 +377,7 @@ namespace DominatorHouse
 
             if (textBlockDetails.Text == FindResource("langAutoActivity").ToString())
             {
-                var homeAutoActivity = HomeAutoActivity.GetSingletonHomeAutoActivity();
-                homeAutoActivity.HomeAutoActivityViewModel.UserControlSwitchViewModel =  new SocialAutoActivityViewModel();
+                DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
             }
         }
     }

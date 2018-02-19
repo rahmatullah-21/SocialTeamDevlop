@@ -235,7 +235,6 @@ namespace DominatorUIUtility.CustomControl
             menuOptions.Add(goToToolsMenu);
 
 
-
             var loginStatusMenu = new MenuItem { Header = "Check in Status" };
             loginStatusMenu.Click += GotoTools;
             loginStatusMenu.DataContext = dominatorAccountModel;

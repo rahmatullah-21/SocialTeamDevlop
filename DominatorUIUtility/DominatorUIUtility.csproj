@@ -117,15 +117,6 @@
     <Compile Include="CustomControl\AddUpdateAccountControl.xaml.cs">
       <DependentUpon>AddUpdateAccountControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControl\AutoActivity\DominatorAutoActivity.xaml.cs">
-      <DependentUpon>DominatorAutoActivity.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControl\AutoActivity\HomeAutoActivity.xaml.cs">
-      <DependentUpon>HomeAutoActivity.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControl\AutoActivity\SocialAutoActivity.xaml.cs">
-      <DependentUpon>SocialAutoActivity.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CustomControl\DayTimerControl.xaml.cs">
       <DependentUpon>DayTimerControl.xaml</DependentUpon>
     </Compile>
@@ -225,18 +216,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\AdvanceFilterControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\AutoActivity\DominatorAutoActivity.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\AutoActivity\HomeAutoActivity.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\AutoActivity\SocialAutoActivity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
