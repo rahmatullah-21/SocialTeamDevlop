@@ -283,8 +283,9 @@ namespace DominatorHouse
 
                     GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow(); 
                     TabItems = gramDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
+                    this.Title = SocialNetworks.Instagram.ToString() + " Dominator";                    
                     break;
+
                 case SocialNetworks.Twitter:
                     #warning UNCOMMENT LINES BELLOW WHEN COMPILED
                     //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();

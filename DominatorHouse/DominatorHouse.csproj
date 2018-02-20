@@ -171,14 +171,6 @@
       <Project>{164cddcd-db12-4998-b822-3adc9c8a7072}</Project>
       <Name>QuoraDominatorUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorCore\TwtDominatorCore.csproj">
-      <Project>{e41bf7d2-231f-4d58-ad45-95f7146e1979}</Project>
-      <Name>TwtDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorUI\TwtDominatorUI.csproj">
-      <Project>{b91d5616-eafd-4bf8-aaf5-051675592714}</Project>
-      <Name>TwtDominatorUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataBaseConnectionCodeFirst\DataBaseConnectionCodeFirst.csproj">
       <Project>{86643b31-b55d-435f-8af5-75542dd8fccb}</Project>
       <Name>DataBaseConnectionCodeFirst</Name>

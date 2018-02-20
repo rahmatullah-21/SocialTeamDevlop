@@ -54,7 +54,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     break;
 
                 case SocialNetworks.Twitter:
-                    SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
+                    //SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
                     break;          
             }
         }

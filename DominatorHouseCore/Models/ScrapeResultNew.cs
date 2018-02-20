@@ -10,8 +10,8 @@ namespace DominatorHouseCore.Models
 {
     public class ScrapeResultNew
     {
-        public IUser ResultUser { get; set; }
-        public IPost ResultPost { get; set; }
+        public IUser InstagramUser { get; set; }
+        public IPost InstagramPost { get; set; }
         public ActivityType ActivityType { get; set; }
         public QueryInfo QueryInfo { get; set; }
         public bool IsAccountLocked { get; set; }

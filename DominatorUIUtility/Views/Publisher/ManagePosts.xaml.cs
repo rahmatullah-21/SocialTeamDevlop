@@ -28,7 +28,7 @@ namespace DominatorUIUtility.Views.Publisher
             InitializeComponent();
             publishersHeader.HeaderText = FindResource("langManagePosts").ToString();
             MainGrid.DataContext = ObjAddPostViewModel.AddPostModel;
-            string PostDetailFilePath = ConstantVariable.GetConfigurationPath(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
+            string PostDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
             ObjAddPostViewModel.AddPostModel.PostsDetailCollection = CollectionViewSource.GetDefaultView(PostDetailFilePath);
         }
 

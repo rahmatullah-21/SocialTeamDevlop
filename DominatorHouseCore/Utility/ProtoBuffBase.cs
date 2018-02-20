@@ -10,6 +10,22 @@ using System.Linq;
 
 namespace DominatorHouseCore.Utility
 {
+    [ProtoContract]
+    internal class ListWrapper<T>
+    {
+        [ProtoMember(1)]
+        public List<T> List { get; set; }
+
+        public ListWrapper()
+        {
+        }
+
+        public ListWrapper(List<T> list)
+        {
+            List = list;
+        }
+    }
+
     internal class ProtoBuffBase
     {
         #region Serialize
@@ -21,20 +37,25 @@ namespace DominatorHouseCore.Utility
         /// <typeparam name="T">Specify the object is belongs to which Type </typeparam>
         /// <param name="objectType">The object which is going to serialize</param>
         /// <param name="filePath">Specify the filepath where the serialized object is going to save </param>
-        internal static bool SerializeObjects<T>(T objects, string filePath) where T : IEnumerable
+        internal static bool SerializeList<T>(List<T> list, string filePath) where T : class
         {
-            if (objects == null)
-                throw new ArgumentNullException(nameof(objects));
+            if (list == null)
+                throw new ArgumentNullException(nameof(list));
 
-            if (!(objects is IList))
-                throw new ArgumentException(nameof(objects));
-
+            if (!(list is IList))
+                throw new ArgumentException(nameof(list));
+            
             try
             {                
-                using (var stream = File.OpenWrite(filePath))
-                {
-                    Serializer.SerializeWithLengthPrefix(stream, objects, PrefixStyle.Base128);                 
-                }                
+                DirectoryUtilities.CreateDirectory(Path.GetDirectoryName(filePath));
+                if (!File.Exists(filePath))                
+                    File.Create(filePath).Close();
+
+                using (var stream = File.Open(filePath, FileMode.Truncate))
+                {                    
+                    Serializer.Serialize(stream, new ListWrapper<T>(list));
+                    stream.SetLength(stream.Position);
+                }
             }
             catch (Exception ex)
             {
@@ -52,6 +73,9 @@ namespace DominatorHouseCore.Utility
             if (obj == null)
                 throw new ArgumentNullException(nameof(obj));
 
+            if (obj is IEnumerable)
+                throw new ArgumentException("AppendObjects does not work for collection");
+
             Stream stream = null;
             try
             {
@@ -63,7 +87,8 @@ namespace DominatorHouseCore.Utility
                 else
                     stream = File.Open(filePath, FileMode.Append);
 
-                Serializer.SerializeWithLengthPrefix(stream, obj, PrefixStyle.Base128, 1);             
+                Serializer.SerializeWithLengthPrefix(stream, obj, PrefixStyle.Base128, 1);
+                stream.SetLength(stream.Position);
             }
             catch (Exception ex)
             {
@@ -88,7 +113,7 @@ namespace DominatorHouseCore.Utility
         /// <typeparam name="T">Class which is goes convert back</typeparam>
         /// <param name="filePath">Source of the file </param>
         /// <returns>List of Type T</returns>
-        internal static List<T> DeserializeObjects<T>(string filePath) where T : class
+        internal static List<T> DeserializeList<T>(string filePath) where T : class
         {
             try
             {
@@ -97,9 +122,9 @@ namespace DominatorHouseCore.Utility
                     if (filePath.ToLower().Contains("account"))
                         Debug.Assert(typeof(T) == typeof(DominatorAccountModel));
 
-                    var list = Serializer.DeserializeItems<T>(stream, PrefixStyle.Base128, 1);
+                    var wrapper = Serializer.Deserialize<ListWrapper<T>>(stream);  
 
-                    return list.ToList();
+                    return wrapper.List;
                 }
             }
             catch (Exception ex)
