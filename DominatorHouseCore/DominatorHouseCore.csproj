@@ -193,6 +193,7 @@
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="Utility\DataBaseHandler.cs" />
     <Compile Include="Utility\DateTimeHelper.cs" />
+    <Compile Include="Utility\EnumUtility.cs" />
     <Compile Include="Utility\GridViewBehaviors.cs" />
     <Compile Include="Utility\GridViewColumns.cs" />
     <Compile Include="Utility\IEnumerableExtensions.cs" />

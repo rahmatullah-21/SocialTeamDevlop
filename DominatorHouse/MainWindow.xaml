@@ -28,6 +28,7 @@
             </Style>
         </ResourceDictionary>
     </Window.Resources>
+    <!--Manage Networks Here -->
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" >

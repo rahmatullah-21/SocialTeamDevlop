@@ -1,21 +1,23 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Controls;
+using System.Windows.Data;
 using DominatorHouse.Social.AutoActivity.Views;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 
 namespace DominatorHouse.Social.AutoActivity.ViewModels
 {
-    public class DominatorAutoActivityViewModel  : BindableBase
+    public class DominatorAutoActivityViewModel : BindableBase
     {
 
         private DominatorAutoActivityViewModel()
         {
             _selectedUserControl = new UserControl();
-            ObservableCollection = new ObservableCollection<DominatorAccountModel>() ;
-
+            AccountsCollection = new ObservableCollection<DominatorAccountModel>();
         }
 
         private static DominatorAutoActivityViewModel ObjDominatorAutoActivityViewModel { get; set; } = null;
@@ -25,6 +27,8 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             return ObjDominatorAutoActivityViewModel ?? (ObjDominatorAutoActivityViewModel = new DominatorAutoActivityViewModel());
         }
 
+
+        public ICollectionView AccountsCollectionView { get; set; }
 
         private UserControl _selectedUserControl;
 
@@ -48,6 +52,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             {
                 case SocialNetworks.Social:
                     SelectedUserControl = SocialAutoActivity.GetSingletonSocialAutoActivity();
+                    InitializeAccounts();
                     break;
                 case SocialNetworks.Instagram:
                     SelectedUserControl = GramDominatorUI.TabManager.ToolTabs.GetSingletonToolTabs();
@@ -55,13 +60,21 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
                 case SocialNetworks.Twitter:
                     //SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
-                    break;          
+                    break;
             }
         }
 
-        public ObservableCollection<DominatorAccountModel> ObservableCollection { get; set; } 
+        public ObservableCollection<DominatorAccountModel> AccountsCollection { get; set; }
 
+        private void InitializeAccounts()
+        {
 
+            AccountsCollection =
+                new ObservableCollection<DominatorAccountModel>(AccountsFileManager.GetAll());
+
+            AccountsCollectionView = CollectionViewSource.GetDefaultView(AccountsCollection);
+
+        }
 
 
     }

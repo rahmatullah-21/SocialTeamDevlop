@@ -53,6 +53,7 @@ namespace DominatorHouse
 
         public MainWindow()
         {
+
             DominatorHouseInitializer.Init(this, DominatorJobProcessFactory.Instance, SocialNetworks.Social);
 
             InitializeComponent();

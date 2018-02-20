@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouse.Social.AutoActivity.ViewModels;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
 
 namespace DominatorHouse.Social.AutoActivity.Views
 {
@@ -56,6 +57,30 @@ namespace DominatorHouse.Social.AutoActivity.Views
         {
             DominatorAutoActivityViewModel = DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
             DominatorAutoActivityViewModel.CallRespectiveView(SocialNetworks.Twitter);
+        }
+
+        private void UserName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var dominatorAccountModel =
+                ((FrameworkElement) sender).DataContext as DominatorAccountModel;
+
+            if (dominatorAccountModel == null) return;
+
+            switch (dominatorAccountModel.AccountBaseModel.AccountNetwork)
+            {
+
+                case SocialNetworks.Instagram:
+                    DominatorAutoActivityViewModel =
+                        DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
+                    DominatorAutoActivityViewModel.CallRespectiveView(SocialNetworks.Instagram);
+                    break;
+
+                case SocialNetworks.Twitter:
+                    DominatorAutoActivityViewModel =
+                        DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
+                    DominatorAutoActivityViewModel.CallRespectiveView(SocialNetworks.Twitter);
+                    break;
+            }
         }
     }
 }
