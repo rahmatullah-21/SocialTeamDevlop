@@ -16,11 +16,11 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <Button Content="{DynamicResource langImportProxies}" Height="30"   x:Name="btnImportProxies" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
             <Button Content="{DynamicResource langExportProxies}" Height="30"  x:Name="btnExportProxies" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
             <Button Content="{DynamicResource langAddProxy}" Height="30"  x:Name="btnAddProxy" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" Click="btnAddProxy_Click"/>
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Click="btnAddProxy_Click"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
             <CheckBox Margin="5" Content="{DynamicResource langHideAssignedSocialProfiles}"/>
@@ -42,13 +42,13 @@
         </StackPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal" >
             <Button Content="{DynamicResource langSelectAll}"  Height="30" x:Name="btnSelectAll" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
             <Button Content="{DynamicResource langSelectNone}" Height="30"  x:Name="btnSelectNone" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
             <Button Content="{DynamicResource langDeleteSelected}" Height="30"  x:Name="btnDeleteSelected" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
             <Button Content="{DynamicResource langExportSelected}" Height="30"  x:Name="btnExportSelected" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
         </StackPanel>
         <ListView  Margin="5" Grid.Row="4" >
             <ListView.View>
@@ -107,12 +107,12 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="{DynamicResource langDelete}" Grid.Column="0"  x:Name="btnDeletes"
-                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
-                                    <Button Content="{DynamicResource langVerifyProxy}" Grid.Column="0"  x:Name="btnVerifyProxy"
-                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
-                                    <Button Content="{DynamicResource langBrowse}" Grid.Column="0"  x:Name="btnBrowse"
-                                                                    Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                                    <Button Content="{DynamicResource langDelete}" x:Name="btnDeletes"
+                                                                    Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
+                                    <Button Content="{DynamicResource langVerifyProxy}"  x:Name="btnVerifyProxy"
+                                                                    Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
+                                    <Button Content="{DynamicResource langBrowse}"   x:Name="btnBrowse"
+                                                                    Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
 
                                 </StackPanel>
                             </DataTemplate>

@@ -356,7 +356,7 @@ namespace DominatorHouse
                 new TabItemTemplates
                 {
                 Title=FindResource("langSettings").ToString(),
-                //Content=new Lazy<UserControl>(()=>new ToolTabs())
+                Content=new Lazy<UserControl>(()=>new DominatorHouse.Social.Settings.View.Home())
                 },
                 new TabItemTemplates
                 {

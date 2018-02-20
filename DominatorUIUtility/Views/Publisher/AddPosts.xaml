@@ -7,7 +7,7 @@
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             >
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
@@ -21,7 +21,7 @@
                      VerticalScrollBarVisibility="Auto" Margin="25,5" HorizontalAlignment="Left" TextWrapping="Wrap" Width="300" Height="80"/>
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <Label Content="{DynamicResource langAttachPhotos}"/>
-                        <Button  VerticalAlignment="Center" x:Name="btnPhotos"  Background="{StaticResource AccentBaseColorBrush}" Foreground="White"  Click="btnPhotos_Click">
+                        <Button  VerticalAlignment="Center" x:Name="btnPhotos"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"  Click="btnPhotos_Click">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <Rectangle Width="15" Height="15" Fill="White">
@@ -33,7 +33,7 @@
                                 </StackPanel>
                             </Button.Content>
                         </Button>
-                        <Button  VerticalAlignment="Center" x:Name="btnVideo"  Background="{StaticResource AccentBaseColorBrush}" Foreground="White" Margin="10,0" Click="btnVideo_Click" >
+                        <Button  VerticalAlignment="Center" x:Name="btnVideo"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,0" Click="btnVideo_Click" >
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <Rectangle Width="15" Height="15" Fill="White">
@@ -189,8 +189,8 @@
                                     <CheckBox IsChecked="{Binding IsEnableWatermarkChecked}" Content="{DynamicResource langEnableWatermark}"  Margin="5"/>
                                     <CheckBox Content="{DynamicResource langEnableCustomTokens}"  Margin="5"/>
                                     <StackPanel Orientation="Horizontal" Margin="5">
-                                        <Button Content="{DynamicResource langAdvancedSettings}" x:Name="btnAdvancedSettings" Foreground="White" Background="{StaticResource AccentBaseColorBrush}" Click="btnAdvancedSettings_Click"/>
-                                        <Button Content="{DynamicResource langCopySettings}" x:Name="btnCopySettings" Margin="10,0,0,0" Foreground="White" Background="{StaticResource AccentBaseColorBrush}"/>
+                                        <Button Content="{DynamicResource langAdvancedSettings}" x:Name="btnAdvancedSettings" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Click="btnAdvancedSettings_Click"/>
+                                        <Button Content="{DynamicResource langCopySettings}" x:Name="btnCopySettings" Margin="10,0,0,0" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>

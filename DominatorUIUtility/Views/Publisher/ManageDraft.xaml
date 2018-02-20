@@ -14,15 +14,15 @@
                     <TextBlock Text="{DynamicResource langFilter}" VerticalAlignment="Center" Margin="5"/>
                     <TextBox x:Name="txtFilter" Margin="5" Width="200"/>
                     <Button Content="{DynamicResource langSufflePosts}"   x:Name="btnSufflePosts" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
                     <Button Content="{DynamicResource langSendAllToPostList}"   x:Name="btnSendAllToPostList" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
                     <Button Content="{DynamicResource langSendAllToTopOfPostList}"   x:Name="btnSendAllToTopPostList" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
                     <Button Content="{DynamicResource langSendPostToCampaign}"   x:Name="btnSendPostToCampaign" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
                     <Button Content="{DynamicResource langDeleteAll}"   x:Name="btnDeleteAll" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
                 </StackPanel>
                 <CheckBox Content="{DynamicResource langRemoveDraftsWhenAddingToPostList}" HorizontalAlignment="Center"/>
             </StackPanel>

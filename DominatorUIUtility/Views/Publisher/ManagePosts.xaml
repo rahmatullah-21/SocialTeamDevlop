@@ -23,7 +23,7 @@
                 <StackPanel >
                     <StackPanel Orientation="Horizontal">
                         <Button Content="{DynamicResource langClearHistroy}"   x:Name="btnClearHistroy" Margin="5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
                         <TextBlock Text="{DynamicResource langFilter}" VerticalAlignment="Center" Margin="5"/>
                         <TextBox x:Name="txtFilter" Margin="5" Width="200"/>
                         <CheckBox Margin="20,5,5,5" Content="{DynamicResource langAutomaticallySendHistoryPosts}"/>
@@ -64,19 +64,19 @@
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
                                                 <Button Content="{DynamicResource langContinue}" Grid.Column="0"  x:Name="btnContinue" FontWeight="SemiBold"
-                                                                    Foreground="{StaticResource AccentBaseColorBrush}" Background="Transparent" Click="btnContinue_Click" />
+                                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" Click="btnContinue_Click" />
                                                 <Button Content="{DynamicResource langDetails}" Grid.Column="0"  x:Name="btnDetails" FontWeight="SemiBold"
-                                                                   Foreground="{StaticResource AccentBaseColorBrush}" Background="Transparent" />
+                                                                   Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
                                                 <Button Content="{DynamicResource langReAdd}" Grid.Column="0"  x:Name="btnReAdd" FontWeight="SemiBold"
-                                                                     Foreground="{StaticResource AccentBaseColorBrush}" Background="Transparent" />
+                                                                     Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
                                                 <Button Content="{DynamicResource langBump}" Grid.Column="0"  x:Name="btnBump" FontWeight="SemiBold"
-                                                                    Foreground="{StaticResource AccentBaseColorBrush}" Background="Transparent" />
+                                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
                                                 <Button Content="{DynamicResource langCreateReport}" Grid.Column="0"  x:Name="btnCreateReport" FontWeight="SemiBold"
-                                                                  Foreground="{StaticResource AccentBaseColorBrush}" Background="Transparent" />
+                                                                  Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
                                                 <Button Content="{DynamicResource langDeleteReport}" Grid.Column="0"  x:Name="btnDeleteReport" FontWeight="SemiBold"
-                                                                    Foreground="{StaticResource AccentBaseColorBrush}" Background="Transparent" />
+                                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
                                                 <Button Content="{DynamicResource langDeletePosts}" Grid.Column="0"  x:Name="btnDeletePosts" FontWeight="SemiBold"
-                                                                     Foreground="{StaticResource AccentBaseColorBrush}" Background="Transparent"/>
+                                                                     Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>

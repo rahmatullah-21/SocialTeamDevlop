@@ -353,7 +353,7 @@
     <system:String x:Key="langStartNow">Start Now</system:String>
     <system:String x:Key="langUserControlProfileScraperJobwiseSliderText">This module helps to automate creating multiple events from multiple accounts at once. You can create public or private event. Also give you option to host your public events by pages.</system:String>
     <system:String x:Key="langHelp">Help</system:String>
-    <system:String x:Key="langAPPEARANCE">APPEARANCE</system:String>
+    <system:String x:Key="langAppearance">Appearance</system:String>
     <system:String x:Key="langTheme">Theme</system:String>
     <system:String x:Key="langColor">Colors</system:String>
     <system:String x:Key="langRecentColor">Recent Colors</system:String>

@@ -104,6 +104,13 @@
     <Compile Include="Social\AutoActivity\Views\SocialAutoActivity.xaml.cs">
       <DependentUpon>SocialAutoActivity.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Social\Settings\ViewModel\AppearanceViewModel.cs" />
+    <Compile Include="Social\Settings\View\Appearance.xaml.cs">
+      <DependentUpon>Appearance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Social\Settings\View\Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -120,6 +127,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Social\AutoActivity\Views\SocialAutoActivity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Social\Settings\View\Appearance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Social\Settings\View\Home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
