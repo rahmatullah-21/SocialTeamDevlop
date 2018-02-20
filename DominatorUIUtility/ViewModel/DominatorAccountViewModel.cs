@@ -279,12 +279,9 @@ namespace DominatorUIUtility.ViewModel
 
         private void AddSingleAccountExecute(object sender)
         {
-
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
 
             var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Add Account", "Save", false, DominatorHouseInitializer.ActiveSocialNetwork.ToString());
-
-
 
             var customDialog = new CustomDialog()
             {
@@ -300,20 +297,12 @@ namespace DominatorUIUtility.ViewModel
                 if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||
                     string.IsNullOrEmpty(objDominatorAccountBaseModel.Password)) return;
 
-                if (objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString() != objDominatorAccountBaseModel.AccountNetwork.ToString())
+             if (objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString() != objDominatorAccountBaseModel.AccountNetwork.ToString())
                     objDominatorAccountBaseModel.AccountNetwork =
                         (SocialNetworks)Enum.Parse(typeof(SocialNetworks), objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString());
 
                 AddAccount(objDominatorAccountBaseModel);
                 dialogWindow.Close();
-            };
-
-            objAddUpdateAccountControl.ComboBoxSocialNetworks.SelectionChanged += (senders, events) =>
-            {
-                var objComboBox = ((FrameworkElement)senders) as ComboBox;
-                if (objComboBox != null)
-                    objDominatorAccountBaseModel.AccountNetwork =
-                        (SocialNetworks)Enum.Parse(typeof(SocialNetworks), objComboBox.SelectedValue.ToString());
             };
 
             objAddUpdateAccountControl.btnCancel.Click += (senders, events) => dialogWindow.Close();
@@ -473,7 +462,6 @@ namespace DominatorUIUtility.ViewModel
             {
                 LstDominatorAccountModel.Add(dominatorAccountModel);
             }
-
             else
             {
                 /*INFO*/

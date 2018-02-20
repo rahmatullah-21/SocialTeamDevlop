@@ -68,7 +68,6 @@ namespace DominatorUIUtility.CustomControl
         {
             InitializeComponent();
 
-
             if (socialNetwork==SocialNetworks.Social.ToString())
             {
                 foreach (var item in Enum.GetValues(typeof(SocialNetworks)))
@@ -79,6 +78,7 @@ namespace DominatorUIUtility.CustomControl
             else
             {
                 ComboBoxSocialNetworks.Items.Add((SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork));
+              
                 //ComboBoxSocialNetworks.Items.Add(dominatorAccountBaseModelBinding.AccountNetwork);
             }
 

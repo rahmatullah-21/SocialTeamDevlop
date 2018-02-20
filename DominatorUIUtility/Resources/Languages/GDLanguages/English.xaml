@@ -1180,5 +1180,18 @@
     <system:String x:Key="langProxyName">Proxy Name</system:String>
     <system:String x:Key="langSelectSocialNetwork">Social Network</system:String>
     <system:String x:Key="langAutoActivity">Auto Activity</system:String>
-    
+
+    <system:String x:Key="langVoting">Voting</system:String>
+    <system:String x:Key="langScrape">Scrape</system:String>
+    <system:String x:Key="langQuestions">Questions</system:String>
+    <system:String x:Key="langUpvote">Upvote</system:String>
+    <system:String x:Key="langDownvote">Downvote</system:String>
+    <system:String x:Key="langAnswers">Answers</system:String>
+    <system:String x:Key="langLockedStatus">Locked Status</system:String>
+    <system:String x:Key="langLastAskedDaysCount">Last Asked Days Count</system:String>
+    <system:String x:Key="langViewsCount">Views Count</system:String>
+    <system:String x:Key="langPublicFollowersCount">Public Followers Count</system:String>
+    <system:String x:Key="langCommentsCount">Comments Count</system:String>
+    <system:String x:Key="langQuestionFollowersCount">Question Followers Count</system:String>
+    <system:String x:Key="langAnswersCount">Answers Count</system:String>
 </ResourceDictionary>

@@ -196,6 +196,7 @@
     <Compile Include="Utility\GridViewBehaviors.cs" />
     <Compile Include="Utility\GridViewColumns.cs" />
     <Compile Include="Utility\IEnumerableExtensions.cs" />
+    <Compile Include="Utility\JsonHelper.cs" />
     <Compile Include="Utility\ListHelper.cs" />
     <Compile Include="Utility\LoggerHelper.cs" />
     <Compile Include="Utility\ModuleConfiguration.cs" />

@@ -28,8 +28,9 @@ using NLog;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic;
+using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.Publisher;
-using GramDominatorUI.GDViews.SocialProfiles;
+
 
 
 #endregion
@@ -254,17 +255,6 @@ namespace DominatorHouse
         //}
 
 
-        private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            //if(Logger.Visibility == Visibility.Collapsed)
-            //Logger.Visibility = Visibility.Visible;
-            //else
-            //{
-            //    Logger.Visibility = Visibility.Collapsed;
-            //}
-
-        }
-
 
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -316,7 +306,6 @@ namespace DominatorHouse
             AccountGrowthModeTab.SelectedIndex = 0;
 
         }
-
 
         public List<TabItemTemplates> InitializeAllTabs()
         {
@@ -381,6 +370,39 @@ namespace DominatorHouse
                 DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
             }
         }
+
+
+        private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (MainGrid.RowDefinitions[2].Height.Value <= 200 && MainGrid.RowDefinitions[2].Height.Value > 25)
+                MainGrid.RowDefinitions[2].Height = new GridLength(25);
+            else
+                MainGrid.RowDefinitions[2].Height = new GridLength(200);
+        }
+
+        bool IsClickedFromMainWindow = true;
+
+        private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (IsClickedFromMainWindow)
+            {
+                Dialog dialog = new Dialog();
+                Window ActivityLogWindow = dialog.GetMetroWindow(sender, "Activity Log");
+                ActivityLogWindow.Topmost = false;
+                IsClickedFromMainWindow = false;
+                ActivityLogWindow.Closing += (senders, events) =>
+                {
+                    Logger.Children.Remove(RootLayout);
+                    Logger.Children.Add(RootLayout);
+                    MainGrid.RowDefinitions[2].Height = new GridLength(200);
+                    IsClickedFromMainWindow = true;
+                };
+                MainGrid.RowDefinitions[2].Height = new GridLength(25);
+                ActivityLogWindow.ShowDialog();
+
+            }
+        }
+
     }
 
 
