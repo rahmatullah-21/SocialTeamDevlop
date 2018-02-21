@@ -35,13 +35,13 @@ namespace DominatorHouseCore.Utility
                 switch (databaseType)
                 {
                     case DatabaseType.CampaignType:
-                        directoryName = ConstantVariable.GetIndexCampaignPath(SocialNetworks.Instagram) + $"\\DB";//GetIndexCampaignPath(SocialNetworks.Instagram)
+                        directoryName = ConstantVariable.GetIndexCampaignDir() + $"\\DB";
                         break;
                     case DatabaseType.AccountType:
-                        directoryName = ConstantVariable.GetIndexAccountPath() + $"\\DB";//GetIndexAccountPath()
+                        directoryName = ConstantVariable.GetIndexAccountDir() + $"\\DB";
                         break;
                     default:
-                        directoryName = ConstantVariable.GetIndexAccountPath() + $"\\DB";
+                        directoryName = ConstantVariable.GetIndexAccountDir() + $"\\DB";
                         break;
                 }
          

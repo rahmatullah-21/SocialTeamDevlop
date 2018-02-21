@@ -7,7 +7,7 @@ namespace DominatorHouseCore.Utility
    public  class DirectoryUtilities
     {
 
-        public static void CreateDirectory(string folder)
+        internal static void CreateDirectory(string folder)
         {
             try
             {

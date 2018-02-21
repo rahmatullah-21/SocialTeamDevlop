@@ -278,17 +278,26 @@ namespace DominatorHouse
             switch (socialNetwork)
             {
                 case SocialNetworks.Instagram:
+<<<<<<< HEAD
                     if (GramDominatorUI == null)
                         GramDominatorUI = new GramDominatorUI.MainWindow();
                     TabItems = GramDominatorUI.InitializeAllTabs();
                     this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
+=======
+
+                    GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
+                    TabItems = gramDominator.InitializeAllTabs();
+                    this.Title = SocialNetworks.Instagram.ToString() + " Dominator";                    
+>>>>>>> b63585976b327f7e913c895681f4937681a8fa63
                     break;
+
                 case SocialNetworks.Twitter:
 #warning UNCOMMENT LINES BELLOW WHEN COMPILED
                     //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
                     //TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
                     break;
+
                 case SocialNetworks.PinInterest:
                     this.Title = SocialNetworks.PinInterest.ToString() + " Dominator";
                     break;

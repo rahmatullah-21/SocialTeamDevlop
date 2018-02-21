@@ -25,7 +25,7 @@ namespace DominatorUIUtility.Views.Publisher
     /// </summary>
     public partial class ManageDestination : UserControl, INotifyPropertyChanged
     {
-        string DestinationDetailFilePath = ConstantVariable.GetConfigurationPath(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\Destinations.bin";
+        string DestinationDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\Destinations.bin";
 
         public ManageDestination()
         {

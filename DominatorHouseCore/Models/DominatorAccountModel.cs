@@ -1,11 +1,11 @@
-﻿using System;
-using System.Net;
-using System.Runtime.CompilerServices;
+﻿using System.Net;
 using DominatorHouseCore.Requests;
 using DominatorHouseCore.Utility;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using ProtoBuf;
+using System.Runtime.CompilerServices;
+using Newtonsoft.Json.Linq;
+using System;
+using Newtonsoft.Json;
 
 namespace DominatorHouseCore.Models
 {
@@ -15,18 +15,18 @@ namespace DominatorHouseCore.Models
     /// </summary>
     [ProtoContract]
     public sealed class DominatorAccountModel : BindableBase
-    {
-
+    {        
         private DominatorAccountBaseModel _accountBaseModel;
-
         /// <summary>
         /// AccountBaseModel contains the base information of the account
         /// </summary>
-
         [ProtoMember(1)]
         public DominatorAccountBaseModel AccountBaseModel
         {
-            get { return _accountBaseModel; }
+            get
+            {
+                return _accountBaseModel;
+            }
             set
             {
                 if (_accountBaseModel != null && _accountBaseModel == value)
@@ -38,11 +38,13 @@ namespace DominatorHouseCore.Models
 
         #region Common Properties
 
+        [ProtoMember(2)]
         public bool SelectedGroup { get; set; }
 
         // To display the account row position
         private int _rownumber;
 
+        [ProtoMember(3)]
         public int RowNo
         {
             get { return _rownumber; }
@@ -56,10 +58,12 @@ namespace DominatorHouseCore.Models
         }
 
         // To define the account is selected or not 
+        [ProtoMember(4)]
         public bool IsAccountSelected { get; set; }
 
         private bool _bIsAccountManagerAccountSelected;
 
+        [ProtoMember(5)]
         public bool IsAccountManagerAccountSelected
         {
             get { return _bIsAccountManagerAccountSelected; }
@@ -72,6 +76,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
+        [ProtoMember(6)]
         public bool IsCretedFromNormalMode { get; set; }
 
         #endregion
@@ -79,27 +84,41 @@ namespace DominatorHouseCore.Models
         #region Job Scheduling
 
         // Stores  of the account in day wise
+        [ProtoMember(7)]
         public JobActivityManager ActivityManager { get; set; } = new JobActivityManager();
 
         #endregion
 
         #region Http
+<<<<<<< HEAD
+=======
+
+        [ProtoIgnore]
+>>>>>>> b63585976b327f7e913c895681f4937681a8fa63
         public HttpHelper HttpHelper { get; set; } = new HttpHelper();
 
+        [ProtoIgnore]
         public CookieCollection Cookies { get; set; } = new CookieCollection();
 
+        [ProtoIgnore]
         public bool IsloggedinWithPhone { get; set; }
 
+        [ProtoIgnore]
         public string SessionId { get; set; } = string.Empty;
 
+        [ProtoIgnore]
         public DeviceGenerator DeviceDetails { get; set; } = new DeviceGenerator();
 
+        [ProtoIgnore]
         public bool IsUserLoggedIn { get; set; }
 
+        [ProtoIgnore]
         public string UserAgentWeb { get; set; } = string.Empty;
 
+        [ProtoIgnore]
         public string UserAgentMobile { get; set; } = string.Empty;
 
+        [ProtoIgnore]
         public int LastLogin { get; set; }
 
         #endregion
@@ -107,6 +126,7 @@ namespace DominatorHouseCore.Models
         #region Module Wise Details
 
         //It cont
+        [ProtoIgnore]
         public string ModulePrivateDetails { get; set; } = string.Empty;
 
 
@@ -118,6 +138,7 @@ namespace DominatorHouseCore.Models
             }
             catch (Exception e)
             {
+                e.TraceLog();
                 return null;
             }
 
@@ -131,6 +152,7 @@ namespace DominatorHouseCore.Models
             }
             catch (Exception Ex)
             {
+                Ex.TraceLog();
             }
         }
 
@@ -138,8 +160,20 @@ namespace DominatorHouseCore.Models
         
 
         #endregion
+<<<<<<< HEAD
 
     }
+=======
+>>>>>>> b63585976b327f7e913c895681f4937681a8fa63
 
+        #region Aliases of AccountBaseModel
 
+        [ProtoIgnore]
+        public string AccountId => AccountBaseModel?.AccountId;
+
+        [ProtoIgnore]
+        public string UserName => AccountBaseModel?.UserName;
+
+        #endregion
+    }
 }

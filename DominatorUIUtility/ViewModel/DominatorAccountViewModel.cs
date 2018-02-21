@@ -464,10 +464,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 AccountBaseModel = dominatorAccountBaseModel,
                 RowNo = LstDominatorAccountModel.Count + 1
-            };
-
-
-            DirectoryUtilities.CreateDirectory(ConstantVariable.GetIndexAccountPath());
+            };            
 
 
             //serialize the given account, if its success then add to account model list
@@ -475,10 +472,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 LstDominatorAccountModel.Add(dominatorAccountModel);
             }
-            //if (ProtoBuffBase.SerializeObjects<DominatorAccountModel>(dominatorAccountModel,
-            //    ConstantVariable.GetIndexAccountPath() + $"\\{ConstantVariable.AccountDetails}"))
-            //{               
-            //}
+
             else
             {
                 /*INFO*/
@@ -647,20 +641,14 @@ namespace DominatorUIUtility.ViewModel
         {
 
             //if selectedaccount count is zero, it wont delete the bin file
-            if (selectAccounts.Count == 0) return true;
-
-            DirectoryUtilities.CreateDirectory(ConstantVariable.GetIndexAccountPath());
-
-            //delete the account bin file 
-            File.Delete(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
-
+            if (selectAccounts.Count == 0) return true;            
+            
             //remove the selected accounts from account model
             selectAccounts.ForEach(item => LstDominatorAccountModel.Remove(item));
 
-            //after removed serialize the remaining accounts 
-            //ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
-            //    ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
 
+            //after removed serialize the remaining accounts 
+            AccountsFileManager.Delete<DominatorAccountModel>(a => selectAccounts.FirstOrDefault(p => p.AccountId == a.AccountId) != null);
 
             return false;
         }
@@ -982,10 +970,8 @@ namespace DominatorUIUtility.ViewModel
         public void InitialAccountDetails()
         {
             lock (syncLoadAccounts)
-            {
-               // var savedAccounts = BinFileHelper.ReadAccounts();
-
-                var savedAccounts = AccountsFileManager.Get();
+            {               
+                var savedAccounts = AccountsFileManager.GetAll();
 
                 var allGroups = new List<ContentSelectGroup>();
 

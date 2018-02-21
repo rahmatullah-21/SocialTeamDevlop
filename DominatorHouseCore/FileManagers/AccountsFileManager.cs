@@ -9,22 +9,14 @@ using System.Collections.ObjectModel;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using System.Diagnostics;
 
 namespace DominatorHouseCore.FileManagers
 {
     public static class AccountsFileManager
     {
-        // Updates Accounts with applying action to it and writes changes back to file
-        public static void ApplyAction(Action<DominatorAccountModel> actionToApply)
-        {
-            var accounts = BinFileHelper.GetAccountDetails();
-
-            foreach (var a in accounts)
-                actionToApply(a);
-
-            BinFileHelper.UpdateAllAccounts(accounts);
-        }
-
+        private static List<DominatorAccountModel> _allAccountsCache = new List<DominatorAccountModel>();
+        
         // Same as above, but Func must return true if file needs to be overwritten        
         public static void ApplyFunc(Func<DominatorAccountModel, bool> funcToApply)
         {
@@ -38,15 +30,42 @@ namespace DominatorHouseCore.FileManagers
                 BinFileHelper.UpdateAllAccounts(accounts);
         }
 
-        public static void Save<T>(IList<T> lstAccountModel) where T : class
+
+        // Saves all accounts. Have to work Only in Social library. Otherwise use MergeAndSaveAll() method to update AccountDetails.bin
+        internal static void SaveAll<T>(List<T> lstAccountModel) where T : class
         {
+            if (DominatorHouseInitializer.ActiveSocialNetwork != SocialNetworks.Social)
+                throw new InvalidOperationException($"Use MergeAndSaveAll() method for {DominatorHouseInitializer.ActiveSocialNetwork}");
+
             BinFileHelper.UpdateAllAccounts(lstAccountModel);
             GlobusLogHelper.log.Debug("Accounts successfully saved");
         }
 
+
+        // Merge accounts and save to AccountDetails.bin
+        // TODO: make it work for AccountModel from TD, PD
+        public static void MergeAndSaveAll(IList<DominatorAccountModel> libraryAccounts) 
+        {            
+            var all = BinFileHelper.GetAccountDetails();
+
+            // Update all entries that exists in libraryAccount, and add that does not exists
+            for (int i = 0; i < libraryAccounts.Count; i++)
+            {
+                var acc = libraryAccounts[i];
+                var ix = all.FindIndex(a => acc.AccountBaseModel.AccountId == a.AccountBaseModel.AccountId);
+                if (ix == -1)
+                    all.Add(acc);
+                else
+                    all[ix] = acc;
+            }
+
+            BinFileHelper.UpdateAllAccounts(all);            
+        }
+
+        // Saves one account by looking for it in list of all accounts
         public static bool SaveAccount(DominatorAccountModel account)
         {
-            var savedStatus=  BinFileHelper.UpdateAccount(account);
+            var savedStatus = BinFileHelper.UpdateAccount(account);
 
             if (savedStatus)
             {
@@ -57,11 +76,15 @@ namespace DominatorHouseCore.FileManagers
         }
 
 
-        // TODO: remove. Backward compatibility
-        public static void SaveAccount<T>(T account) where T : class
+        // For other than DominatorAccountModel
+        public static bool SaveAccount<T>(T account) where T : class
         {
-            BinFileHelper.UpdateAccount<T>(account);
-            GlobusLogHelper.log.Debug($"Accounts successfully saved - [{(account as dynamic).UserName}]");
+            Debug.Assert(typeof(T).Name.Contains("AccountModel"));
+
+            var savedStatus = BinFileHelper.UpdateAccount<T>(account);
+            GlobusLogHelper.log.Debug($"Accounts successfully saved");
+
+            return savedStatus;
         }
 
         public static void FillList<T>(ObservableCollection<T> lstAccountModel) where T : class
@@ -74,16 +97,30 @@ namespace DominatorHouseCore.FileManagers
             });
         }
 
-        public static List<DominatorAccountModel> Get()
+        public static List<DominatorAccountModel> GetAll()
         {
             return BinFileHelper.GetAccountDetails();           
         }
 
+        public static List<DominatorAccountModel> GetAll(SocialNetworks network)
+        {
+            return BinFileHelper.GetAccountDetails().Where(a => a.AccountBaseModel.AccountNetwork == network).ToList();
+        }
 
         // backward compatibility for TD, PD
-        public static bool Add<AModel>(AModel account)
+        public static bool Add(DominatorAccountModel account) 
         {
-            return BinFileHelper.Append(account);
+            var lst = GetAll();
+            lst.Add(account);
+            BinFileHelper.UpdateAllAccounts(lst);
+
+            return true;
+        }
+
+        // backward compatibility for TD, PD
+        public static bool Add<AModel>(AModel account) where AModel : class
+        {
+            return BinFileHelper.Append(account);            
         }
 
         public static void Delete<AModel>(Predicate<AModel> match) where AModel : class
@@ -93,7 +130,7 @@ namespace DominatorHouseCore.FileManagers
             if (ix != -1)
             {
                 accs.RemoveAt(ix);
-                Save(accs);
+                BinFileHelper.UpdateAllAccounts(accs);
             }
         }
 
@@ -108,7 +145,7 @@ namespace DominatorHouseCore.FileManagers
 
         public static DominatorAccountModel GetAccount(string userName)
         {
-            var accounts = Get();
+            var accounts = GetAll();
             var result = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == userName);
 
             return result;
@@ -125,7 +162,7 @@ namespace DominatorHouseCore.FileManagers
 
         public static ObservableCollectionBase<string> GetUsers()
         {
-            var result = BinFileHelper.GetUsers(DominatorHouseInitializer.ActiveSocialNetwork);
+            var result = BinFileHelper.GetUsers();
 
             return result;
         }
