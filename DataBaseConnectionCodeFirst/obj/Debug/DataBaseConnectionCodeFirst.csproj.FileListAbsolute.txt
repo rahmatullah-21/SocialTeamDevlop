@@ -48,3 +48,4 @@ D:\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\bin\Debug\lo
 D:\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\bin\Debug\System.Data.SQLite.xml
 D:\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\obj\Debug\DataBaseConnectionCodeFirst.dll
 D:\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\obj\Debug\DataBaseConnectionCodeFirst.pdb
+D:\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\obj\Debug\DataBaseConnectionCodeFirst.csprojResolveAssemblyReference.cache
