@@ -219,6 +219,7 @@
     <Compile Include="Utility\Resources.cs" />
     <Compile Include="Enums\SocialNetworks.cs" />
     <Compile Include="Utility\StringHelper.cs" />
+    <Compile Include="Utility\TabSwitcher.cs" />
     <Compile Include="Utility\TaskAndThreadUtility.cs" />
     <Compile Include="Utility\Utilities.cs" />
     <Compile Include="Utility\ValidationHelper.cs" />

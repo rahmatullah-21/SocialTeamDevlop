@@ -58,7 +58,7 @@ namespace DominatorHouse
 
             GlobusLogHelper.log.Info("Welcome to Dominator social");
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
-
+            //TabSwitcher.ChangeTabIndex = ChangeIndex;
             Task performanceTask = new Task(() => StartbindMemory(),
             TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
@@ -88,6 +88,9 @@ namespace DominatorHouse
             else
                 GlobusLogHelper.LogTextToList(ErrorLogger, message);
         }
+
+
+
 
 
 
