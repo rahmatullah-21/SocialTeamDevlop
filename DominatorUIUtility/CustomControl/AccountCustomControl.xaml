@@ -325,6 +325,21 @@
                                                         </Setter>
                                                     </DataTrigger>
 
+                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
+                                                        <Setter Property="Content" >
+                                                            <Setter.Value>
+                                                                <Rectangle Fill="Red" Width="20" Height="20">
+                                                                    <Rectangle.Resources>
+                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                    </Rectangle.Resources>
+                                                                    <Rectangle.OpacityMask>
+                                                                        <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
+                                                                    </Rectangle.OpacityMask>
+                                                                </Rectangle>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+
 
                                                 </Style.Triggers>
                                             </Style>

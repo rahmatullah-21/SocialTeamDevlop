@@ -35,7 +35,6 @@ namespace DominatorHouseCore.Models
             }
         }
 
-
         #region Common Properties
 
         [ProtoMember(2)]
