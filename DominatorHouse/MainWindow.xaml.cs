@@ -278,17 +278,12 @@ namespace DominatorHouse
             switch (socialNetwork)
             {
                 case SocialNetworks.Instagram:
-<<<<<<< HEAD
+
                     if (GramDominatorUI == null)
                         GramDominatorUI = new GramDominatorUI.MainWindow();
                     TabItems = GramDominatorUI.InitializeAllTabs();
                     this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
-=======
 
-                    GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
-                    TabItems = gramDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Instagram.ToString() + " Dominator";                    
->>>>>>> b63585976b327f7e913c895681f4937681a8fa63
                     break;
 
                 case SocialNetworks.Twitter:
@@ -375,13 +370,13 @@ namespace DominatorHouse
             switch (dominatorAccountModel.AccountBaseModel.AccountNetwork)
             {
                 case SocialNetworks.PinInterest:
-                    PinDominatorCore.PDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                    //PinDominatorCore.PDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
                 case SocialNetworks.Instagram:
                     GramDominatorCore.GDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
                 case SocialNetworks.Twitter:
-                    TwtDominatorCore.TDViewModel.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                    //TwtDominatorCore.TDViewModel.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
             }
         }

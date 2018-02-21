@@ -90,11 +90,9 @@ namespace DominatorHouseCore.Models
         #endregion
 
         #region Http
-<<<<<<< HEAD
-=======
 
         [ProtoIgnore]
->>>>>>> b63585976b327f7e913c895681f4937681a8fa63
+
         public HttpHelper HttpHelper { get; set; } = new HttpHelper();
 
         [ProtoIgnore]
@@ -160,11 +158,9 @@ namespace DominatorHouseCore.Models
         
 
         #endregion
-<<<<<<< HEAD
 
-    }
-=======
->>>>>>> b63585976b327f7e913c895681f4937681a8fa63
+
+
 
         #region Aliases of AccountBaseModel
 
