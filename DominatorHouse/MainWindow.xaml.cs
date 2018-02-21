@@ -287,8 +287,6 @@ namespace DominatorHouse
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
                     break;
                 case SocialNetworks.PinInterest:
-                    //PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
-                    //TabItems = pinDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.PinInterest.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Social:
@@ -296,7 +294,6 @@ namespace DominatorHouse
                     TabItems = InitializeAllTabs();
                     this.Title = "Dominator - All in One";
                     break;
-
                 default:
                     this.Title = "Dominator - All in One";
                     break;
@@ -310,7 +307,6 @@ namespace DominatorHouse
 
         public List<TabItemTemplates> InitializeAllTabs()
         {
-
             AccountCustomControl AccountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
 
             AccountCustomControl.DominatorAccountViewModel.action_CheckAccount = action_CheckAccount;

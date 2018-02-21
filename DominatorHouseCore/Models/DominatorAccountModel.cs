@@ -84,7 +84,6 @@ namespace DominatorHouseCore.Models
         #endregion
 
         #region Http
-
         public HttpHelper HttpHelper { get; set; } = new HttpHelper();
 
         public CookieCollection Cookies { get; set; } = new CookieCollection();

@@ -1027,6 +1027,7 @@ namespace DominatorUIUtility.ViewModel
         #region Actions
         public Action<DominatorAccountModel> action_CheckAccount { get; set; }
         public Action<DominatorAccountModel> action_UpdateFollower { get; set; }
+
         #endregion
 
     }
