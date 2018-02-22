@@ -294,8 +294,8 @@ namespace DominatorHouse
                     this.Title = "Dominator - All in One";
                     break;
                 case SocialNetworks.Quora:
-                    QuoraDominator.MainWindow quoraDominator = new QuoraDominator.MainWindow();
-                    TabItems = quoraDominator.InitializeAllTabs();
+                    //QuoraDominator.MainWindow quoraDominator = new QuoraDominator.MainWindow();
+                    //TabItems = quoraDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Quora.ToString() + " Dominator";
                     break;
                 default:
