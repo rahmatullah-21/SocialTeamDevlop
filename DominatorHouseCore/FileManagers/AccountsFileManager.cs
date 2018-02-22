@@ -122,15 +122,25 @@ namespace DominatorHouseCore.FileManagers
             return BinFileHelper.Append(account);            
         }
 
+        public static void DeleteSelected(List<DominatorAccountModel> accs)
+        {
+            var all = GetAll().Where(a => accs.FirstOrDefault(p => p.AccountId == a.AccountId) == null).ToList();
+            SaveAll(all);
+        }
+
+        public static void Delete(Predicate<DominatorAccountModel> match) 
+        {
+            var accs = GetAll();            
+            accs.RemoveAll(match);
+            BinFileHelper.UpdateAllAccounts(accs);
+        }
+
         public static void Delete<AModel>(Predicate<AModel> match) where AModel : class
         {
             var accs = GetFor<AModel>();
-            var ix = accs.FindIndex(match);
-            if (ix != -1)
-            {
-                accs.RemoveAt(ix);
-                BinFileHelper.UpdateAllAccounts(accs);
-            }
+            var toDelete = accs.FindAll(match);
+            accs.RemoveAll(match);
+            BinFileHelper.UpdateAllAccounts(accs);            
         }
 
         // alias

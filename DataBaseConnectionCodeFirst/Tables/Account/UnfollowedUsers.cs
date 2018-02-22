@@ -6,9 +6,9 @@ namespace DataBaseConnection.CommonDatabaseConnection.Tables.Account
 {
     public class UnfollowedUsers
     {
-
         [Key]
         [Autoincrement]
+        [Index]
         [Column(Order =1)]
         public int Id { get; set; } 
 
