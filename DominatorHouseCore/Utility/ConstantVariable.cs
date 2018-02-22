@@ -55,7 +55,7 @@ namespace DominatorHouseCore.Utility
         public const string NoAccountSelected = "No Account Selected";
 
 
-        internal static string GetIndexAccountDir()
+        public static string GetIndexAccountDir()
         {
             string dir = GetPlatformBaseDirectory() + @"\Index\AC";
             DirectoryUtilities.CreateDirectory(dir);            

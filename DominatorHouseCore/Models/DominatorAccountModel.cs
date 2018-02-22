@@ -91,6 +91,7 @@ namespace DominatorHouseCore.Models
         #region Http
 
         [ProtoIgnore]
+
         public HttpHelper HttpHelper { get; set; } = new HttpHelper();
 
         [ProtoIgnore]
@@ -109,7 +110,7 @@ namespace DominatorHouseCore.Models
         public bool IsUserLoggedIn { get; set; }
 
         [ProtoIgnore]
-        public string UserAgentWeb { get; set; } = string.Empty;
+        public string UserAgentWeb { get; set; } =  string.Empty;
 
         [ProtoIgnore]
         public string UserAgentMobile { get; set; } = string.Empty;
@@ -123,28 +124,29 @@ namespace DominatorHouseCore.Models
 
         //It cont
         [ProtoIgnore]
-        public string ModulePrivateDetails { get; set; } = string.Empty;
+        public JObject ModulePrivateDetails { get; set; } 
 
 
-        public object GetModulePrivateDetailsValue([CallerMemberName] string PropertyName = null)
+        public string GetModulePrivateDetailsValue([CallerMemberName] string PropertyName = null)
         {
             try
             {
-                return JObject.Parse(ModulePrivateDetails)[PropertyName];
+                return ModulePrivateDetails[PropertyName].ToString();
             }
             catch (Exception e)
             {
                 e.TraceLog();
-                return null;
+                return string.Empty;
             }
 
         }
 
-        public void SetModulePrivateDetailsValue(object model)
+
+        public void UpdateModulePrivateDetailsValue(object model)
         {
             try
             {
-                this.ModulePrivateDetails = JsonConvert.SerializeObject(model);
+                this.ModulePrivateDetails = JObject.Parse(Newtonsoft.Json.JsonConvert.SerializeObject(model));
             }
             catch (Exception Ex)
             {
@@ -152,7 +154,26 @@ namespace DominatorHouseCore.Models
             }
         }
 
+
+        public void SetModulePrivateDetailsValue(object value,[CallerMemberName]string PropertyName="")
+        {
+            try
+            {
+                this.ModulePrivateDetails[PropertyName] = value.ToString();
+            }
+            catch (Exception Ex)
+            {
+                Ex.TraceLog();
+            }
+        }
+
+
+        
+
         #endregion
+
+
+
 
         #region Aliases of AccountBaseModel
 

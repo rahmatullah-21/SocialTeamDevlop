@@ -381,15 +381,12 @@
                                                   utility:GridViewBehaviors.CollapseableColumn="True" />
 
                         </GridViewColumn>
-
-
                         <GridViewColumn  DisplayMemberBinding="{Binding DataContext.DisplayColumnValue3 ,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
                             <GridViewColumnHeader Width="130"
                                                   Content="{Binding DataContext.GridHeaderColumn3.Header,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                                   Visibility="{Binding DataContext.GridHeaderColumn3.HeaderVisible,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                   utility:GridViewBehaviors.CollapseableColumn="True" />
                         </GridViewColumn>
-
 
                         <GridViewColumn  DisplayMemberBinding="{Binding DataContext.DisplayColumnValue4 ,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
                             <GridViewColumnHeader Width="130"

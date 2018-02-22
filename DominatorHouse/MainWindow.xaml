@@ -16,8 +16,8 @@
         NonActiveWindowTitleBrush="#B30000"
         GlowBrush="{DynamicResource AccentColorBrush}"
         ShowIconOnTitleBar="True" 
-    WindowState="Maximized" 
-      >
+    WindowState="Maximized">
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -45,7 +45,7 @@
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Grid Name="MainGrid" >
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="30*"/>
             <RowDefinition Height="0.5*"/>
@@ -94,10 +94,10 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-       
+
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="{DynamicResource AccentBaseColorBrush}"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows"/>
-     
+
         <Grid Name="Logger" Grid.Row="2">
             <dockable:Layout  Name="RootLayout">
                 <dragable:TabablzControl x:Name="InitialTabablzControl"  Style="{StaticResource TabablzControlStyle}" MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" >
@@ -111,7 +111,7 @@
                 </dragable:TabablzControl>
             </dockable:Layout>
         </Grid>
-     
+
         <Grid Grid.Row="3" VerticalAlignment="Bottom">
             <StatusBar Background="{DynamicResource AccentColorBrush}" Height="25" VerticalAlignment="Center" >
                 <StatusBar.ItemsPanel>

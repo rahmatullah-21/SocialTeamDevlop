@@ -45,7 +45,7 @@ namespace DominatorUIUtility.CustomControl
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;
-
+           
         }
 
         private static AccountCustomControl _accountCustomInstance = null;
@@ -274,7 +274,6 @@ namespace DominatorUIUtility.CustomControl
                     };
                     menuOptions.Add(editInstaProfileMenu);
 
-
                     var phoneVerificationMenu = new MenuItem { Header = "Phone Verification" };
                     phoneVerificationMenu.Click += InstaPhoneVerification;
                     phoneVerificationMenu.DataContext = dominatorAccountModel;
@@ -285,6 +284,19 @@ namespace DominatorUIUtility.CustomControl
                         Height = 25
                     };
                     menuOptions.Add(phoneVerificationMenu);
+
+
+                    var checkAccountStatus = new MenuItem { Header = "Check Account Status" };
+                    checkAccountStatus.Click += InstaCheckAccount;
+                    checkAccountStatus.DataContext = dominatorAccountModel;
+                    checkAccountStatus.Icon = new Image
+                    {
+                        Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
+                        Width = 25,
+                        Height = 25
+                    };
+                    menuOptions.Add(checkAccountStatus);
+
                     break;
             }
 
@@ -319,6 +331,23 @@ namespace DominatorUIUtility.CustomControl
         public void InstaPhoneVerification(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        public void InstaCheckAccount(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DominatorAccountModel dominatorAccountModel =  ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+                DominatorAccountModel objDominatorAccountModel =
+                    ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+                DominatorAccountViewModel.action_CheckAccount(dominatorAccountModel);
+
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
         }
 
         public void FacebookRemovePhoneVerification(object sender, RoutedEventArgs e)
