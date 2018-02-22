@@ -110,7 +110,7 @@ namespace DominatorHouseCore.FileManagers
         // backward compatibility for TD, PD
         public static bool Add(DominatorAccountModel account) 
         {
-            var lst = GetAll();
+            var lst = GetAll() ?? new List<DominatorAccountModel>();
             lst.Add(account);
             BinFileHelper.UpdateAllAccounts(lst);
 

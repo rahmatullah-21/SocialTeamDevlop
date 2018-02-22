@@ -174,7 +174,6 @@
 
                                 </StackPanel>
                             </Expander.Header>
-
                             <Grid>
                                 <ListView BorderThickness="0" ItemsSource="{Binding Path=AutoActivityModuleDetailsCollections}">
                                     <ListView.ItemsPanel>
@@ -189,11 +188,12 @@
                                             <Setter Property="VerticalAlignment" Value="Center" />
                                         </Style>
                                     </ListView.ItemContainerStyle>
+
+
                                 </ListView>
                             </Grid>
                         </Expander>
                     </DataTemplate>
-
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
