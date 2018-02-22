@@ -111,7 +111,7 @@ namespace DominatorHouseCore.Requests
                         }
                     }
                     webRequest.Host = webRequest.RequestUri.Host;
-                    webRequest.KeepAlive = false;
+                    webRequest.KeepAlive = requestParamater.KeepAlive;
                     webRequest.UserAgent = requestParamater.UserAgent;
                     webRequest.ContentType = requestParamater.ContentType;
                     webRequest.Referer = requestParamater.Referer;
@@ -250,7 +250,8 @@ namespace DominatorHouseCore.Requests
 
                     if (response != null)
                     {
-                        CookieCollection cookies = response.Cookies;
+                     
+                        CookieCollection cookies = request.CookieContainer.GetCookies(request.RequestUri);
                         foreach (Cookie cookie in cookies)
                         {
                             bool isPresent = false;

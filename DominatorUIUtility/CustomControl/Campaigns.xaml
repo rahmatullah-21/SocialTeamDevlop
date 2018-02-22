@@ -1,0 +1,130 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.Campaigns"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl" x:Name="Campaign" Loaded="Campaign_Loaded"
+             mc:Ignorable="d"  xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+    
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*" />
+            <RowDefinition Height="8*" />
+        </Grid.RowDefinitions>
+        <Grid  Background="{DynamicResource AccentBaseColorBrush}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <Label Foreground="White" FontSize="12" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                       Height="25"  Content="{DynamicResource langSelectCampaignCategory}" />
+                <ComboBox x:Name="CmbCampaignType" SelectedIndex="0"
+                          Height="26" 
+                          MinWidth="240"
+                          Margin="3"  Background="Transparent"  Foreground="White"                 
+                          BorderBrush="White"
+                          ToolTip="{DynamicResource langSelectCampaignToFilterForView}" />
+            </StackPanel>
+        </Grid>
+        <Border Grid.Row="1" BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2" Margin="0 5 0 0 ">
+            <ListView SizeChanged="list_SizeChanged" x:Name="list" ItemsSource="{Binding CampaignCollection}" ItemContainerStyle="{StaticResource ListViewItems}">
+                <ListView.Resources>
+                    <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="{DynamicResource langCampaignName}" DisplayMemberBinding="{Binding CampaignName}"/>
+                            <GridViewColumn Header="{DynamicResource langModuleName}" DisplayMemberBinding="{Binding SubModule}"/>
+                            <GridViewColumn Header="{DynamicResource langStatus}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <controls:ToggleSwitch OnLabel="{DynamicResource langActive}" OffLabel="{DynamicResource langPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                                                   IsCheckedChanged="CampaignStatusChanged" FontSize="12" >
+
+                                            <controls:ToggleSwitch.Style>
+                                                <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Tag" Value="Active">
+                                                            <Setter Property="IsChecked" Value="True" />
+                                                        </Trigger>
+                                                        <Trigger Property="Tag" Value="Paused">
+                                                            <Setter Property="IsChecked" Value="False" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </controls:ToggleSwitch.Style>
+                                        </controls:ToggleSwitch>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource langAction}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="4" >
+                                            <Button Name="BtnCampaignSetting" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25"  VerticalAlignment="Top" Margin="10,0,0,0"  Click="BtnCampaignSetting_OnClick">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </StackPanel>
+                                                <Button.ContextMenu>
+                                                    <ContextMenu >
+                                                        <MenuItem Header="{DynamicResource langEdit}" Height="30"  VerticalContentAlignment="Center" Name="EditCampaign" Click="EditCampaign_OnClick">
+                                                            <MenuItem.Icon>
+                                                                <Rectangle Width="20" Height="20" Fill="Black">
+                                                                    <Rectangle.OpacityMask>
+                                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
+                                                                    </Rectangle.OpacityMask>
+                                                                </Rectangle>
+                                                            </MenuItem.Icon>
+                                                        </MenuItem>
+                                                        <MenuItem Header="{DynamicResource langDuplicateCampaign}" Height="30" x:Name="DuplicateCampaign"  VerticalContentAlignment="Center"  Click="DuplicateCampaign_OnClick">
+                                                            <MenuItem.Icon>
+                                                                <Image Source="/DominatorUIUtility;component/Images/duplicatecampaign.png" />
+                                                            </MenuItem.Icon>
+                                                        </MenuItem>
+                                                        <Separator />
+                                                        <MenuItem Header="{DynamicResource langDelete}" Height="30" x:Name="DeleteSingleCampaign" VerticalContentAlignment="Center" Click="DeleteSingleCampaign_OnClick">
+                                                            <MenuItem.Icon>
+                                                                <Rectangle Width="15" Height="20" Fill="Black">
+                                                                    <Rectangle.OpacityMask>
+                                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                                    </Rectangle.OpacityMask>
+                                                                </Rectangle>
+
+                                                            </MenuItem.Icon>
+                                                        </MenuItem>
+                                                        <Separator />
+                                                        <MenuItem Header="{DynamicResource langReport}" VerticalContentAlignment="Center" Height="30" x:Name="CampaignReports" Click="CampaignReports_OnClick">
+                                                            <MenuItem.Icon>
+                                                                <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
+                                                            </MenuItem.Icon>
+                                                        </MenuItem>
+                                                        <MenuItem Header="{DynamicResource langAccountWiseDetails}" VerticalContentAlignment="Center" Height="30" x:Name="AccountWiseDetails" >
+                                                            <MenuItem.Icon>
+                                                                <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
+                                                            </MenuItem.Icon>
+                                                        </MenuItem>
+                                                        <MenuItem Header="{DynamicResource langMarkCampaignCompleted}" Height="30" Name="btnMarkCampaignCompleted"   VerticalContentAlignment="Center" >
+                                                            <MenuItem.Icon>
+                                                                <Image Source="/DominatorUIUtility;component/Images/edit.png"  />
+                                                            </MenuItem.Icon>
+                                                        </MenuItem>
+                                                    </ContextMenu>
+                                                </Button.ContextMenu>
+
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+    </Grid>
+</UserControl>

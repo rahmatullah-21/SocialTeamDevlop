@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
@@ -69,8 +70,21 @@ namespace DominatorHouseCore.Models
 
         [ProtoMember(9)]
         public int LastEditedDate { get; set; }
-       
 
+        private ICollectionView _campaignCollection;
+        public ICollectionView CampaignCollection
+        {
+            get
+            {
+                return _campaignCollection;
+            }
+            set
+            {
+                if (_campaignCollection != null && _campaignCollection == value)
+                    return;
+                SetProperty(ref _campaignCollection, value);
+            }
+        }
         private ObservableCollectionBase<CampaignDetails> _campaignDetails=new ObservableCollectionBase<CampaignDetails>();
        
         public ObservableCollectionBase<CampaignDetails> ObjCampaignDetails
