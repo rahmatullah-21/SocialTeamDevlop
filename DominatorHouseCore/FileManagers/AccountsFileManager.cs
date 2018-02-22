@@ -30,7 +30,6 @@ namespace DominatorHouseCore.FileManagers
                 BinFileHelper.UpdateAllAccounts(accounts);
         }
 
-
         // Saves all accounts. Have to work Only in Social library. Otherwise use MergeAndSaveAll() method to update AccountDetails.bin
         internal static void SaveAll<T>(List<T> lstAccountModel) where T : class
         {
@@ -174,5 +173,14 @@ namespace DominatorHouseCore.FileManagers
 
             return result;
         }
+
+
+        public static void Delete(Predicate<DominatorAccountModel> match)
+        {
+            var accs = GetAll();
+            accs.RemoveAll(match);
+            BinFileHelper.UpdateAllAccounts(accs);
+        }
+
     }
 }
