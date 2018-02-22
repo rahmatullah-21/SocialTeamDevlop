@@ -6,20 +6,22 @@
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" Name="ModuleDetails"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             >
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore" >
     <UserControl.Resources>
         <converters:PercentageToColorConverter x:Key="PercentageToColorConverter" />
+        <converters:StringPercentageTextConverter x:Key="PercentageTextConverter"></converters:StringPercentageTextConverter>
     </UserControl.Resources>
     <Grid>
 
-        <StackPanel >
+        <StackPanel>
+            
             <StackPanel Background="{DynamicResource AccentBaseColorBrush}">
-                <TextBlock Text="{Binding ActivityDetailsModel.Title}" HorizontalAlignment="Center" Height="25" FontSize="15" FontWeight="DemiBold" Foreground="AliceBlue"></TextBlock>
+                <Label Content="{Binding ActivityDetailsModel.Title}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Height="28" FontSize="14" FontWeight="DemiBold" Foreground="AliceBlue" Margin="2"></Label>
             </StackPanel>
+     
             <StackPanel Orientation="Horizontal" Margin="2,10,0,2">
-                <Label Content="80 %"  HorizontalContentAlignment="Center"
-                       Height="50"
+                <Label Content="{Binding ActivityDetailsModel.Ratio.Percentage, Converter={StaticResource PercentageTextConverter}}"  HorizontalContentAlignment="Center"
+                       Height="50" Foreground="White"
                        Width="50" VerticalContentAlignment="Center">
                     <Label.Background>
                         <VisualBrush>

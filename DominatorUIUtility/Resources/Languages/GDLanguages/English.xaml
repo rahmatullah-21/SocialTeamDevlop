@@ -1180,6 +1180,9 @@
     <system:String x:Key="langProxyName">Proxy Name</system:String>
     <system:String x:Key="langSelectSocialNetwork">Social Network</system:String>
     <system:String x:Key="langAutoActivity">Auto Activity</system:String>
+    <system:String x:Key="langAutoActivityTitle">Accounts Activity</system:String>
+    <system:String x:Key="langExpandAll">Expand All</system:String>
+    <system:String x:Key="langShrinkAll">Shrink All</system:String>
 
     <system:String x:Key="langVoting">Voting</system:String>
     <system:String x:Key="langScrape">Scrape</system:String>
