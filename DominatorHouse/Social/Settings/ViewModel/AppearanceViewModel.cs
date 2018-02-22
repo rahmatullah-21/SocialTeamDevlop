@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DominatorHouseCore.Utility;
 
 namespace DominatorHouse.Social.Settings.ViewModel
@@ -160,40 +156,15 @@ namespace DominatorHouse.Social.Settings.ViewModel
 
     public class ColorsCollection
     {
-        string _name = string.Empty;
-        string _value = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
+        public string Value { get; set; } = string.Empty;
 
-            set
-            {
-                _name = value;
-            }
-        }
-
-        public string Value
-        {
-            get
-            {
-                return _value;
-            }
-
-            set
-            {
-                _value = value;
-            }
-        }
         public ColorsCollection(string Name, string Value)
         {
             this.Name = Name;
             this.Value = Value;
         }
-
     }
 
     public class ThemeCollection

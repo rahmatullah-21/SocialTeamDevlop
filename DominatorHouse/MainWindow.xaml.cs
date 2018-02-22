@@ -44,12 +44,14 @@ namespace DominatorHouse
     {
 
         public List<TabItemTemplates> TabItems { get; set; }
+
         // Bring all the performance bottlenecks to here. Actually MainWindow class should 
         // not be bothered about performance counter or management object. 
         // TODO: Fix to conform to SRP.
         private static string s_RamSizeOfCurrentComputer = getRAMsize();
         private static PerformanceCounter objPerformanceCounter = new PerformanceCounter("Memory", "Available MBytes");
         private static ManagementObject processor = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
+        private GramDominatorUI.MainWindow GramDominatorUI;
 
         public MainWindow()
         {
@@ -62,7 +64,7 @@ namespace DominatorHouse
 
             GlobusLogHelper.log.Info("Welcome to Dominator social");
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
-
+            //TabSwitcher.ChangeTabIndex = ChangeIndex;
             Task performanceTask = new Task(() => StartbindMemory(),
             TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
@@ -92,6 +94,9 @@ namespace DominatorHouse
             else
                 GlobusLogHelper.LogTextToList(ErrorLogger, message);
         }
+
+
+
 
 
 
@@ -214,9 +219,6 @@ namespace DominatorHouse
             return "0 MB";
         }
 
-
-
-
         /// <summary>
         /// Getting CPU Usages
         /// </summary>
@@ -271,10 +273,10 @@ namespace DominatorHouse
             switch (socialNetwork)
             {
                 case SocialNetworks.Instagram:
-
                     GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow(); 
                     TabItems = gramDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Instagram.ToString() + " Dominator";                    
+
                     break;
 
                 case SocialNetworks.Twitter:
@@ -298,7 +300,7 @@ namespace DominatorHouse
                     //TabItems = quoraDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Quora.ToString() + " Dominator";
                     break;
-                default:
+
                     this.Title = "Dominator - All in One";
                     break;
             }
@@ -310,12 +312,19 @@ namespace DominatorHouse
 
         public List<TabItemTemplates> InitializeAllTabs()
         {
+            AccountCustomControl AccountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+
+            AccountCustomControl.DominatorAccountViewModel.action_CheckAccount = action_CheckAccount;
+
             return new List<TabItemTemplates>
             {
+
                 new TabItemTemplates
                 {
                     Title =FindResource("langAccountsManager").ToString(),
-                    Content = new Lazy<UserControl>(() =>  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social))
+
+                    Content = new Lazy<UserControl>(() => AccountCustomControl),
+
                 },
                 new TabItemTemplates
                 {
@@ -404,9 +413,20 @@ namespace DominatorHouse
             }
         }
 
+        public void action_CheckAccount(DominatorAccountModel dominatorAccountModel)
+        {
+            switch (dominatorAccountModel.AccountBaseModel.AccountNetwork)
+            {
+                case SocialNetworks.Pinterest:
+                    //PinDominatorCore.PDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                    break;
+                case SocialNetworks.Instagram:
+                    GramDominatorCore.GDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                    break;
+                case SocialNetworks.Twitter:
+                    //TwtDominatorCore.TDViewModel.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                    break;
+            }
+        }
     }
-
-
-
-
 }

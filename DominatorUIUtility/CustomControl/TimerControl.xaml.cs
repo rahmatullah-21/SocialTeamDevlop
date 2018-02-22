@@ -25,11 +25,7 @@ namespace DominatorUIUtility.CustomControl
             FridayRunningTimeItemSource=new RunningTimeSpanModel();
             SaturdayRunningTimeItemSource=new RunningTimeSpanModel();
             MainGrid.DataContext = this;
-
         }
-
-
-
 
         public RunningTimeSpanModel RunningTimeItemSource
         {

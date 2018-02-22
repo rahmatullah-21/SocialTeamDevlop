@@ -28,7 +28,6 @@ namespace DominatorUIUtility.ViewModel
     [ProtoContract]
     public class DominatorAccountViewModel : BindableBase
     {
-
         public DominatorAccountViewModel()
         {
 
@@ -297,7 +296,7 @@ namespace DominatorUIUtility.ViewModel
                 if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||
                     string.IsNullOrEmpty(objDominatorAccountBaseModel.Password)) return;
 
-             if (objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString() != objDominatorAccountBaseModel.AccountNetwork.ToString())
+                if (objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString() != objDominatorAccountBaseModel.AccountNetwork.ToString())
                     objDominatorAccountBaseModel.AccountNetwork =
                         (SocialNetworks)Enum.Parse(typeof(SocialNetworks), objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString());
 
@@ -399,7 +398,7 @@ namespace DominatorUIUtility.ViewModel
                                 ProxyUsername = proxyusername,
                                 ProxyPassword = proxypassword
                             },
-                        AccountNetwork =  (SocialNetworks) Enum.Parse(typeof(SocialNetworks), socialNetwork)
+                        AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork)
                     };
 
                     //add the account to DominatorAccountModel list and bin file
@@ -454,7 +453,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 AccountBaseModel = dominatorAccountBaseModel,
                 RowNo = LstDominatorAccountModel.Count + 1
-            };            
+            };
 
 
             //serialize the given account, if its success then add to account model list
@@ -630,8 +629,8 @@ namespace DominatorUIUtility.ViewModel
         {
 
             //if selectedaccount count is zero, it wont delete the bin file
-            if (selectAccounts.Count == 0) return true;            
-            
+            if (selectAccounts.Count == 0) return true;
+
             //remove the selected accounts from account model
             selectAccounts.ForEach(item => LstDominatorAccountModel.Remove(item));
 
@@ -780,7 +779,7 @@ namespace DominatorUIUtility.ViewModel
 
             var selectedAccount = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
 
-          
+
             // var selectedAccount = LstDominatorAccountModel.FirstOrDefault<DominatorAccountModel>(x => selectedRow != null && x.RowNo == selectedRow.RowNo);
 
             if (selectedAccount == null) return;
@@ -959,7 +958,7 @@ namespace DominatorUIUtility.ViewModel
         public void InitialAccountDetails()
         {
             lock (syncLoadAccounts)
-            {               
+            {
                 var savedAccounts = AccountsFileManager.GetAll();
 
                 var allGroups = new List<ContentSelectGroup>();
@@ -999,7 +998,15 @@ namespace DominatorUIUtility.ViewModel
         #endregion
 
 
+        #region Actions
+        public Action<DominatorAccountModel> action_CheckAccount { get; set; }
+        public Action<DominatorAccountModel> action_UpdateFollower { get; set; }
+
+        #endregion
+
     }
+
+
 
     public class GridViewHeader : BindableBase
     {

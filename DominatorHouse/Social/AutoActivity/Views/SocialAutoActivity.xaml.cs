@@ -14,7 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouse.Social.AutoActivity.ViewModels;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorUIUtility.ViewModel;
 
 namespace DominatorHouse.Social.AutoActivity.Views
 {
@@ -81,6 +83,19 @@ namespace DominatorHouse.Social.AutoActivity.Views
                     DominatorAutoActivityViewModel.CallRespectiveView(SocialNetworks.Twitter);
                     break;
             }
+        }
+
+        private void Expander_OnExpanded(object sender, RoutedEventArgs e)
+        {
+            var data = ((FrameworkElement) sender).DataContext as AccountsActivityDetailModel;
+          
+            if (data == null || data.AutoActivityModuleDetailsCollections.Count != 0) return;
+
+            var currentExpander = sender as Expander;
+
+            if (currentExpander != null)
+              currentExpander.IsExpanded = false;
+            GlobusLogHelper.log.Info($"No acvitity details are found {data.DominatorAccountModel.AccountBaseModel.UserName}");
         }
     }
 }
