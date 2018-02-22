@@ -97,11 +97,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Social\AutoActivity\ViewModels\DominatorAutoActivityViewModel.cs" />
+    <Compile Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml.cs">
+      <DependentUpon>DominatorAutoActivity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Social\AutoActivity\Views\SocialAutoActivity.xaml.cs">
+      <DependentUpon>SocialAutoActivity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Social\Settings\ViewModel\AppearanceViewModel.cs" />
+    <Compile Include="Social\Settings\View\Appearance.xaml.cs">
+      <DependentUpon>Appearance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Social\Settings\View\Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MainWindowOld.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -112,10 +122,22 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindowOld.xaml.cs">
-      <DependentUpon>MainWindowOld.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Social\AutoActivity\Views\SocialAutoActivity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Social\Settings\View\Appearance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Social\Settings\View\Home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -155,6 +177,14 @@
     <ProjectReference Include="..\..\gramdominator-library\GramDominatorUI\GramDominatorUI.csproj">
       <Project>{317a142c-6ae2-4cc1-90a7-5752b9ed76f3}</Project>
       <Name>GramDominatorUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj">
+      <Project>{21b1d90e-f201-4ef0-b4e9-a99315945f1d}</Project>
+      <Name>QuoraDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorUI\QuoraDominatorUI.csproj">
+      <Project>{164cddcd-db12-4998-b822-3adc9c8a7072}</Project>
+      <Name>QuoraDominatorUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataBaseConnectionCodeFirst\DataBaseConnectionCodeFirst.csproj">
       <Project>{86643b31-b55d-435f-8af5-75542dd8fccb}</Project>

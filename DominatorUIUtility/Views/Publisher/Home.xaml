@@ -40,11 +40,11 @@
         <StackPanel Orientation="Horizontal" x:FieldModifier="public" x:Name="publisherPageButtons"  Margin="5" VerticalAlignment="Top">
 
             <Button Content="{DynamicResource langManageDestination}" Height="30" x:Name="btnManageDestination" Margin="5,5,20,5" HorizontalAlignment="Left"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" Click="btnManageDestination_Click"/>
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Click="btnManageDestination_Click"/>
             <Button Content="{DynamicResource langManagePosts}" Height="30" x:Name="btnManagePosts" Margin="20,5" HorizontalAlignment="Left"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" Click="btnManagePosts_Click"/>
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Click="btnManagePosts_Click"/>
             <Button Content="{DynamicResource langCreateCampaign}" Height="30" x:Name="btnCreateCampaign" Margin="20,5" HorizontalAlignment="Left"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" Click="btnCreateCampaign_Click"/>
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Click="btnCreateCampaign_Click"/>
         </StackPanel>
 
 

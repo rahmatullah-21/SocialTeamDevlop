@@ -224,5 +224,4 @@ namespace DominatorHouseCore.Converters
             }
         }
     }
-
 }

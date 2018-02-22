@@ -353,7 +353,7 @@
     <system:String x:Key="langStartNow">Start Now</system:String>
     <system:String x:Key="langUserControlProfileScraperJobwiseSliderText">This module helps to automate creating multiple events from multiple accounts at once. You can create public or private event. Also give you option to host your public events by pages.</system:String>
     <system:String x:Key="langHelp">Help</system:String>
-    <system:String x:Key="langAPPEARANCE">APPEARANCE</system:String>
+    <system:String x:Key="langAppearance">Appearance</system:String>
     <system:String x:Key="langTheme">Theme</system:String>
     <system:String x:Key="langColor">Colors</system:String>
     <system:String x:Key="langRecentColor">Recent Colors</system:String>
@@ -1179,4 +1179,19 @@
     <system:String x:Key="langSelectTag">Select Tag</system:String>
     <system:String x:Key="langProxyName">Proxy Name</system:String>
     <system:String x:Key="langSelectSocialNetwork">Social Network</system:String>
+    <system:String x:Key="langAutoActivity">Auto Activity</system:String>
+
+    <system:String x:Key="langVoting">Voting</system:String>
+    <system:String x:Key="langScrape">Scrape</system:String>
+    <system:String x:Key="langQuestions">Questions</system:String>
+    <system:String x:Key="langUpvote">Upvote</system:String>
+    <system:String x:Key="langDownvote">Downvote</system:String>
+    <system:String x:Key="langAnswers">Answers</system:String>
+    <system:String x:Key="langLockedStatus">Locked Status</system:String>
+    <system:String x:Key="langLastAskedDaysCount">Last Asked Days Count</system:String>
+    <system:String x:Key="langViewsCount">Views Count</system:String>
+    <system:String x:Key="langPublicFollowersCount">Public Followers Count</system:String>
+    <system:String x:Key="langCommentsCount">Comments Count</system:String>
+    <system:String x:Key="langQuestionFollowersCount">Question Followers Count</system:String>
+    <system:String x:Key="langAnswersCount">Answers Count</system:String>
 </ResourceDictionary>

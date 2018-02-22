@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PinDominatorCore", "..\pind
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "gramUISetup", "gramUISetup\gramUISetup.vdproj", "{23A124B3-E266-4241-98F9-BEB82CAA71B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuoraDominatorCore", "..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj", "{21B1D90E-F201-4EF0-B4E9-A99315945F1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuoraDominatorUI", "..\quoradominator-library\QuoraDominatorUI\QuoraDominatorUI.csproj", "{164CDDCD-DB12-4998-B822-3ADC9C8A7072}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +121,22 @@ Global
 		{23A124B3-E266-4241-98F9-BEB82CAA71B9}.Debug|x86.ActiveCfg = Debug
 		{23A124B3-E266-4241-98F9-BEB82CAA71B9}.Release|Any CPU.ActiveCfg = Release
 		{23A124B3-E266-4241-98F9-BEB82CAA71B9}.Release|x86.ActiveCfg = Release
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|x86.Build.0 = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|x86.ActiveCfg = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|x86.Build.0 = Release|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Debug|x86.Build.0 = Debug|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Release|Any CPU.Build.0 = Release|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Release|x86.ActiveCfg = Release|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

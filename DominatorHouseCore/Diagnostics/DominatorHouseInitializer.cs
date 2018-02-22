@@ -98,7 +98,7 @@ namespace DominatorHouseCore.Diagnostics
                 case SocialNetworks.Twitter:
                     return "TwtDominator";
 
-                case SocialNetworks.PinInterest:
+                case SocialNetworks.Pinterest:
                     return "PinDominator";
 
                 case SocialNetworks.LinkedIn:

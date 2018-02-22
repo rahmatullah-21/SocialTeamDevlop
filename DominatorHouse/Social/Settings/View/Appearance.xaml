@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="DominatorHouse.Social.Settings.View.Appearance"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorHouse.Social.Settings"
+             mc:Ignorable="d" 
+            >
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=".5*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="{DynamicResource langColor}"   Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" BorderBrush="{DynamicResource AccentBaseColorBrush}">
+                <StackPanel x:Name="ColorGroup"  Margin="90,0" VerticalAlignment="Center">
+                    <ListBox Name="lstcolor"
+                        ItemsSource="{Binding lstColorsCollection,Mode=TwoWay}" SelectedItem="{Binding SelectedAccentColor, Mode=TwoWay}"
+                         SelectionChanged="lstcolor_SelectionChanged" >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel MaxWidth="{Binding ActualWidth, ElementName=ColorGroup}" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Ellipse Width="40" Height="40" Margin="5" ToolTipService.ToolTip="{Binding Name}">
+                                    <Ellipse.Fill>
+                                        <SolidColorBrush x:Name="Brush" Color="{Binding Value}" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
+
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="{DynamicResource langRecentColor}" Grid.Column="1"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" BorderBrush="{DynamicResource AccentBaseColorBrush}">
+                <StackPanel x:Name="RecentcolorGroup"  Margin="90,0" VerticalAlignment="Center">
+                    <ListBox Name="lstRecentcolor" 
+                        ItemsSource="{Binding lstRecentColorsCollection}" SelectedItem="{Binding SelectedRecentColor, Mode=TwoWay}"
+                         SelectionChanged="lstRecentcolor_SelectionChanged" >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel MaxWidth="{Binding ActualWidth, ElementName=RecentcolorGroup}" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Ellipse Width="40" Height="40" Margin="5" ToolTipService.ToolTip="{Binding Name}">
+                                    <Ellipse.Fill>
+                                        <SolidColorBrush x:Name="Brush" Color="{Binding Value}" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
+
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+        <GroupBox Header="{DynamicResource langTheme}" Grid.Row="1" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" BorderBrush="{DynamicResource AccentBaseColorBrush}">
+
+            <Grid HorizontalAlignment="Left">
+
+                <ListBox Name="lsttheme"  SelectionChanged="lsttheme_SelectionChanged"  ItemsSource="{Binding lstThemeCollection}" 
+                            SelectedItem="{Binding SelectedTheme,Mode=TwoWay}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel  Orientation="Horizontal"  Width="130" >
+                                <Ellipse Width="40" Height="40" Margin="5" Stroke="Black" StrokeThickness="1" ToolTipService.ToolTip="{Binding Name}">
+                                    <Ellipse.Fill>
+                                        <SolidColorBrush x:Name="ellipseBrush" Color="{Binding Value}" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <Label Content="{Binding Name}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

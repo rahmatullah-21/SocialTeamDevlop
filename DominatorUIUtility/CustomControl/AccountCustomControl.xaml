@@ -138,7 +138,6 @@
                                 </ContextMenu>
                             </Button.ContextMenu>
                         </Button>
-
                     </StackPanel>
                     <StackPanel Margin="10,0,0,0"  Orientation="Horizontal">
                         <Button Name="btnUpdate" Background="Transparent" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Command="{Binding ContextMenuOpenCommand}" CommandParameter="{Binding ElementName=btnUpdate}">
@@ -149,14 +148,9 @@
                                             <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
                                             <Label Content="{DynamicResource langUpdate}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                         </StackPanel>
-
-
                                     </Border>
-
                                 </ControlTemplate>
                             </Button.Template>
-
-
                             <Button.ContextMenu>
                                 <ContextMenu  DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
 
@@ -316,7 +310,7 @@
                                                         </Setter>
                                                     </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.PinInterest}">
+                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
                                                         <Setter Property="Content" >
                                                             <Setter.Value>
                                                                 <Rectangle Fill="Red" Width="20" Height="20">
@@ -325,6 +319,21 @@
                                                                     </Rectangle.Resources>
                                                                     <Rectangle.OpacityMask>
                                                                         <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
+                                                                    </Rectangle.OpacityMask>
+                                                                </Rectangle>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
+                                                        <Setter Property="Content" >
+                                                            <Setter.Value>
+                                                                <Rectangle Fill="Red" Width="20" Height="20">
+                                                                    <Rectangle.Resources>
+                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                    </Rectangle.Resources>
+                                                                    <Rectangle.OpacityMask>
+                                                                        <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
                                                                     </Rectangle.OpacityMask>
                                                                 </Rectangle>
                                                             </Setter.Value>

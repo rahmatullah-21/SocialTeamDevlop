@@ -113,6 +113,9 @@
     <Compile Include="CustomControl\AccountCustomControl.xaml.cs">
       <DependentUpon>AccountCustomControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\AccountsActivityControl.xaml.cs">
+      <DependentUpon>AccountsActivityControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\AccountTabCustomControl.xaml.cs">
       <DependentUpon>AccountTabCustomControl.xaml</DependentUpon>
     </Compile>
@@ -122,8 +125,13 @@
     <Compile Include="CustomControl\AddUpdateAccountControl.xaml.cs">
       <DependentUpon>AddUpdateAccountControl.xaml</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="CustomControl\Campaigns.xaml.cs">
       <DependentUpon>Campaigns.xaml</DependentUpon>
+=======
+    <Compile Include="CustomControl\AutoActivityModuleDetails.xaml.cs">
+      <DependentUpon>AutoActivityModuleDetails.xaml</DependentUpon>
+>>>>>>> f25a44f7b3e6eec322dc1ed8ff0db942bc114840
     </Compile>
     <Compile Include="CustomControl\DayTimerControl.xaml.cs">
       <DependentUpon>DayTimerControl.xaml</DependentUpon>
@@ -152,6 +160,7 @@
       <DependentUpon>Language.en.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
+    <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
     </Compile>
@@ -211,6 +220,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CustomControl\AccountsActivityControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomControl\AccountTabCustomControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -224,6 +237,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\AdvanceFilterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\AutoActivityModuleDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

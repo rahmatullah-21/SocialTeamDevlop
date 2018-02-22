@@ -128,7 +128,9 @@
     <Compile Include="BusinessLogic\DominatorScheduler.Helpers.cs" />
     <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\ListCountBoolConverter.cs" />
     <Compile Include="Converters\ListCountVisiblityConverter.cs" />
+    <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="Diagnostics\DominatorHouseInitializer.cs" />
     <Compile Include="Diagnostics\Exceptions\ExceptionExtensions.cs" />
@@ -193,9 +195,11 @@
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="Utility\DataBaseHandler.cs" />
     <Compile Include="Utility\DateTimeHelper.cs" />
+    <Compile Include="Utility\EnumUtility.cs" />
     <Compile Include="Utility\GridViewBehaviors.cs" />
     <Compile Include="Utility\GridViewColumns.cs" />
     <Compile Include="Utility\IEnumerableExtensions.cs" />
+    <Compile Include="Utility\JsonHelper.cs" />
     <Compile Include="Utility\ListHelper.cs" />
     <Compile Include="Utility\LoggerHelper.cs" />
     <Compile Include="Utility\ModuleConfiguration.cs" />
@@ -224,6 +228,7 @@
     <Compile Include="Utility\ValidationHelper.cs" />
     <Compile Include="ViewModel\AddPostViewModel.cs" />
     <Compile Include="ViewModel\ManageDestinationViewModel.cs" />
+    <Compile Include="ViewModel\UserControlSwitchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

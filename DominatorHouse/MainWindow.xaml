@@ -17,6 +17,7 @@
         GlowBrush="{DynamicResource AccentColorBrush}"
         ShowIconOnTitleBar="True" 
     WindowState="Maximized">
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -27,13 +28,15 @@
             </Style>
         </ResourceDictionary>
     </Window.Resources>
+    <!--Manage Networks Here -->
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" >
                 <ComboBoxItem>Social</ComboBoxItem>
                 <ComboBoxItem>Instagram</ComboBoxItem>
                 <ComboBoxItem>Twitter</ComboBoxItem>
-                <ComboBoxItem>PinInterest</ComboBoxItem>
+                <ComboBoxItem>Pinterest</ComboBoxItem>
+                <ComboBoxItem>Quora</ComboBoxItem>
             </ComboBox>
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbLanguage" >
                 <ComboBoxItem>English</ComboBoxItem>
@@ -41,15 +44,15 @@
             </ComboBox>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-    <Grid >
+    <Grid Name="MainGrid" >
+
         <Grid.RowDefinitions>
             <RowDefinition Height="30*"/>
             <RowDefinition Height="0.5*"/>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-      
-       
+
         <!--Account Growth Mode Tabs-->
         <TabControl  Controls:TabControlHelper.Underlined="None" TabStripPlacement="Left" SelectedIndex="0"
                    Name="AccountGrowthModeTab" VerticalAlignment="Stretch" >
@@ -82,7 +85,7 @@
             </TabControl.Resources>
             <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Title}" />
+                    <TextBlock Text="{Binding Title}" MouseLeftButtonDown="TabItem_OnMouseLeftButtonDown"/>
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
@@ -91,12 +94,13 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-       
+
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="{DynamicResource AccentBaseColorBrush}"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows"/>
+
         <Grid Name="Logger" Grid.Row="2">
             <dockable:Layout  Name="RootLayout">
-                <dragable:TabablzControl x:Name="InitialTabablzControl"  Style="{StaticResource TabablzControlStyle}"  >
+                <dragable:TabablzControl x:Name="InitialTabablzControl"  Style="{StaticResource TabablzControlStyle}" MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" >
                     <TabItem Header="Info">
                         <ListBox x:Name="InfoLogger" IsSelected="True"/>
                     </TabItem>
@@ -107,6 +111,7 @@
                 </dragable:TabablzControl>
             </dockable:Layout>
         </Grid>
+
         <Grid Grid.Row="3" VerticalAlignment="Bottom">
             <StatusBar Background="{DynamicResource AccentColorBrush}" Height="25" VerticalAlignment="Center" >
                 <StatusBar.ItemsPanel>

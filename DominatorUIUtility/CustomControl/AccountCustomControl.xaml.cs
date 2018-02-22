@@ -107,7 +107,17 @@ namespace DominatorUIUtility.CustomControl
                     DominatorAccountViewModel.SocialNetwork = SocialNetworks.Twitter;
                   //  DominatorAccountViewModel.SocialNetworkEditable = false;
                     break;
-
+                case SocialNetworks.Quora:
+                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Quora);
+                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
+                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
+                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
+                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Quora;
+                    //  DominatorAccountViewModel.SocialNetworkEditable = false;
+                    break;
             }
         }
 
@@ -223,6 +233,18 @@ namespace DominatorUIUtility.CustomControl
                 Height = 25
             };
             menuOptions.Add(goToToolsMenu);
+
+
+            var loginStatusMenu = new MenuItem { Header = "Check in Status" };
+            loginStatusMenu.Click += GotoTools;
+            loginStatusMenu.DataContext = dominatorAccountModel;
+            loginStatusMenu.Icon = new Image
+            {
+                Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
+                Width = 25,
+                Height = 25
+            };
+            menuOptions.Add(loginStatusMenu);
 
             switch (socialNetwork)
             {

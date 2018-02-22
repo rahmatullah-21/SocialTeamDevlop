@@ -19,6 +19,8 @@ using MahApps.Metro.Controls;
 using System.Windows.Media;
 using System.ComponentModel;
 using System.Linq;
+using DominatorHouse.Social.AutoActivity.ViewModels;
+using DominatorHouse.Social.AutoActivity.Views;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorUIUtility.CustomControl;
@@ -26,8 +28,10 @@ using NLog;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic;
+using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.Publisher;
-using GramDominatorUI.GDViews.SocialProfiles;
+
+
 
 #endregion
 
@@ -38,6 +42,7 @@ namespace DominatorHouse
     /// </summary>
     public partial class MainWindow : MetroWindow, ILoggableWindow
     {
+
         public List<TabItemTemplates> TabItems { get; set; }
 
         // Bring all the performance bottlenecks to here. Actually MainWindow class should 
@@ -50,6 +55,7 @@ namespace DominatorHouse
 
         public MainWindow()
         {
+
             DominatorHouseInitializer.Init(this, DominatorJobProcessFactory.Instance, SocialNetworks.Social);
 
             InitializeComponent();
@@ -252,17 +258,6 @@ namespace DominatorHouse
         //}
 
 
-        private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            //if(Logger.Visibility == Visibility.Collapsed)
-            //Logger.Visibility = Visibility.Visible;
-            //else
-            //{
-            //    Logger.Visibility = Visibility.Collapsed;
-            //}
-
-        }
-
 
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -278,30 +273,34 @@ namespace DominatorHouse
             switch (socialNetwork)
             {
                 case SocialNetworks.Instagram:
-
-                    if (GramDominatorUI == null)
-                        GramDominatorUI = new GramDominatorUI.MainWindow();
-                    TabItems = GramDominatorUI.InitializeAllTabs();
-                    this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
+                    GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow(); 
+                    TabItems = gramDominator.InitializeAllTabs();
+                    this.Title = SocialNetworks.Instagram.ToString() + " Dominator";                    
 
                     break;
 
                 case SocialNetworks.Twitter:
-#warning UNCOMMENT LINES BELLOW WHEN COMPILED
+                    #warning UNCOMMENT LINES BELLOW WHEN COMPILED
                     //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
                     //TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
                     break;
-
-                case SocialNetworks.PinInterest:
-                    this.Title = SocialNetworks.PinInterest.ToString() + " Dominator";
+                case SocialNetworks.Pinterest:
+                    //PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
+                    //TabItems = pinDominator.InitializeAllTabs();
+                    this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Social:
                     AccountGrowthModeTab.TabStripPlacement = Dock.Left;
                     TabItems = InitializeAllTabs();
                     this.Title = "Dominator - All in One";
                     break;
-                default:
+                case SocialNetworks.Quora:
+                    QuoraDominator.MainWindow quoraDominator = new QuoraDominator.MainWindow();
+                    TabItems = quoraDominator.InitializeAllTabs();
+                    this.Title = SocialNetworks.Quora.ToString() + " Dominator";
+                    break;
+
                     this.Title = "Dominator - All in One";
                     break;
             }
@@ -310,7 +309,6 @@ namespace DominatorHouse
             AccountGrowthModeTab.SelectedIndex = 0;
 
         }
-
 
         public List<TabItemTemplates> InitializeAllTabs()
         {
@@ -333,10 +331,16 @@ namespace DominatorHouse
                 Title=FindResource("langDashBoard").ToString(),
                 //   Content=new Lazy<UserControl>(()=>new DashBoard())
                 },
+                //new TabItemTemplates
+                //{
+                //Title=FindResource("langAutoActivity").ToString(),
+                //Content=new Lazy<UserControl>(()=>new ToolTabs())
+                //},
                 new TabItemTemplates
                 {
-                Title=FindResource("langModuleConfiguration").ToString(),
-                Content=new Lazy<UserControl>(()=>new ToolTabs())
+                    Title=FindResource("langAutoActivity").ToString(),
+                    Content=new Lazy<UserControl>(()=>DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
+                    //Content=new Lazy<UserControl>(()=> new HomeAutoActivity())
                 },
                 new TabItemTemplates
                 {
@@ -351,7 +355,7 @@ namespace DominatorHouse
                 new TabItemTemplates
                 {
                 Title=FindResource("langSettings").ToString(),
-                //Content=new Lazy<UserControl>(()=>new ToolTabs())
+                Content=new Lazy<UserControl>(()=>new DominatorHouse.Social.Settings.View.Home())
                 },
                 new TabItemTemplates
                 {
@@ -359,17 +363,61 @@ namespace DominatorHouse
                 //  Content=new Lazy<UserControl>(()=>new OtherConfiguration())
                 }
 
+                //HomeAutoActivity
             };
 
         }
 
+        private void TabItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var textBlockDetails = ((FrameworkElement)sender) as TextBlock;
 
+            if (textBlockDetails == null)
+                return;
+
+            if (textBlockDetails.Text == FindResource("langAutoActivity").ToString())
+            {
+                DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+            }
+        }
+
+
+        private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (MainGrid.RowDefinitions[2].Height.Value <= 200 && MainGrid.RowDefinitions[2].Height.Value > 25)
+                MainGrid.RowDefinitions[2].Height = new GridLength(25);
+            else
+                MainGrid.RowDefinitions[2].Height = new GridLength(200);
+        }
+
+        bool IsClickedFromMainWindow = true;
+
+        private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (IsClickedFromMainWindow)
+            {
+                Dialog dialog = new Dialog();
+                Window ActivityLogWindow = dialog.GetMetroWindow(sender, "Activity Log");
+                ActivityLogWindow.Topmost = false;
+                IsClickedFromMainWindow = false;
+                ActivityLogWindow.Closing += (senders, events) =>
+                {
+                    Logger.Children.Remove(RootLayout);
+                    Logger.Children.Add(RootLayout);
+                    MainGrid.RowDefinitions[2].Height = new GridLength(200);
+                    IsClickedFromMainWindow = true;
+                };
+                MainGrid.RowDefinitions[2].Height = new GridLength(25);
+                ActivityLogWindow.ShowDialog();
+
+            }
+        }
 
         public void action_CheckAccount(DominatorAccountModel dominatorAccountModel)
         {
             switch (dominatorAccountModel.AccountBaseModel.AccountNetwork)
             {
-                case SocialNetworks.PinInterest:
+                case SocialNetworks.Pinterest:
                     //PinDominatorCore.PDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
                 case SocialNetworks.Instagram:
@@ -380,7 +428,5 @@ namespace DominatorHouse
                     break;
             }
         }
-
     }
-
 }

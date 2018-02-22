@@ -8,7 +8,7 @@
              xmlns:headers="clr-namespace:DominatorUIUtility.Views.Publisher"
              mc:Ignorable="d" 
              >
-    <Grid  Name="MainGrid"  Margin="0,-60,0,0">
+    <Grid  Name="MainGrid"  Margin="0,2,0,0" VerticalAlignment="Top">
         <headers:Header x:Name="publishersHeader" VerticalAlignment="Top"/>
 
         <Border BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="0" >
@@ -16,7 +16,7 @@
                 <StackPanel>
                     <StackPanel x:Name="manageDestination">
                         <Button Content="{DynamicResource langCreateDestination}" x:Name="btnCreateDestination" Margin="5,5,20,5" HorizontalAlignment="Left"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" Click="btnCreateDestination_Click"/>
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Click="btnCreateDestination_Click"/>
                         <ListView Margin="5" ItemsSource="{Binding DestinationCollection}"  ItemContainerStyle="{StaticResource ListViewItems}">
                             <ListView.Resources>
                                 <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
@@ -43,11 +43,11 @@
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
                                                         <Button Content="{DynamicResource langDetails}" FontWeight="SemiBold" Margin="5"  x:Name="btnDetails"
-                                                                    Foreground="{StaticResource AccentBaseColorBrush}" Background="Transparent" />
+                                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
                                                         <Button Content="{DynamicResource langClone}" FontWeight="SemiBold" Margin="5"  x:Name="btnClone"
-                                                                     Foreground="{StaticResource AccentBaseColorBrush}" Background="Transparent" />
+                                                                     Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
                                                         <Button Content="{DynamicResource langDelete}" FontWeight="SemiBold" Margin="5"  x:Name="btnDelete" 
-                                                                     Foreground="{StaticResource AccentBaseColorBrush}" Background="Transparent" />
+                                                                     Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
