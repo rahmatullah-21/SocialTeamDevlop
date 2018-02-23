@@ -109,6 +109,7 @@
     </ApplicationDefinition>
     <Compile Include="Behaviours\CampaignManager.cs" />
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
+    <Compile Include="Behaviours\ReportManager.cs" />
     <Compile Include="Behaviours\UserQueryParameters.cs" />
     <Compile Include="CustomControl\AccountCustomControl.xaml.cs">
       <DependentUpon>AccountCustomControl.xaml</DependentUpon>
@@ -125,13 +126,11 @@
     <Compile Include="CustomControl\AddUpdateAccountControl.xaml.cs">
       <DependentUpon>AddUpdateAccountControl.xaml</DependentUpon>
     </Compile>
-<<<<<<< HEAD
-    <Compile Include="CustomControl\Campaigns.xaml.cs">
-      <DependentUpon>Campaigns.xaml</DependentUpon>
-=======
     <Compile Include="CustomControl\AutoActivityModuleDetails.xaml.cs">
       <DependentUpon>AutoActivityModuleDetails.xaml</DependentUpon>
->>>>>>> f25a44f7b3e6eec322dc1ed8ff0db942bc114840
+    </Compile>
+    <Compile Include="CustomControl\Campaigns.xaml.cs">
+      <DependentUpon>Campaigns.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\DayTimerControl.xaml.cs">
       <DependentUpon>DayTimerControl.xaml</DependentUpon>

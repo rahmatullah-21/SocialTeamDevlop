@@ -29,7 +29,7 @@
                         </VisualBrush>
                     </Label.Background>
                 </Label>
-                <controls:ToggleSwitch OnLabel="" OffLabel="" Margin="6,0,0,0" IsCheckedChanged="ActivityChanged_OnIsCheckedChanged" VerticalAlignment="Center" Tag="{Binding ActivityDetailsModel.Status}" >
+                <controls:ToggleSwitch OnLabel="" OffLabel="" Margin="6,0,0,0"  VerticalAlignment="Center" Tag="{Binding ActivityDetailsModel.Status}" >
                     <controls:ToggleSwitch.Style>
                         <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
                             <Style.Triggers>
