@@ -52,11 +52,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentScheduler, Version=5.2.1.0, Culture=neutral, PublicKeyToken=b76503528a14ebd1, processorArchitecture=MSIL">
@@ -87,6 +87,10 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="protobuf-net, Version=2.3.2.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.2.3.2\lib\net40\protobuf-net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SQLite.CodeFirst, Version=1.5.1.25, Culture=neutral, PublicKeyToken=eb96ba0a78d831a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLite.CodeFirst.1.5.1.25\lib\net45\SQLite.CodeFirst.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -132,6 +136,13 @@
     <Compile Include="Converters\ListCountVisiblityConverter.cs" />
     <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
+    <Compile Include="DatabaseHandler\AccountDB\ModelConfiguration.cs" />
+    <Compile Include="DatabaseHandler\AccountDB\Tables\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\AccountDB\Tables\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\AccountDB\Tables\Friendship.cs" />
+    <Compile Include="DatabaseHandler\AccountDB\Tables\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\AccountDB\Tables\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\AccountDB\Tables\UnfollowedUsers.cs" />
     <Compile Include="Diagnostics\DominatorHouseInitializer.cs" />
     <Compile Include="Diagnostics\Exceptions\ExceptionExtensions.cs" />
     <Compile Include="Diagnostics\Exceptions\GlobusExceptionHandler.cs" />
@@ -139,6 +150,9 @@
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
     <Compile Include="Diagnostics\UI\UIDiagnostic.cs" />
+    <Compile Include="Enums\ActivityType.cs" />
+    <Compile Include="Enums\Gender.cs" />
+    <Compile Include="Enums\MediaType.cs" />
     <Compile Include="FileManagers\AccountsFileManager.cs" />
     <Compile Include="FileManagers\CampaignsFileManager.cs" />
     <Compile Include="FileManagers\TemplatesFileManager.cs" />
@@ -192,7 +206,7 @@
     <Compile Include="Settings\RunningTimeSpanModel.cs" />
     <Compile Include="Utility\BinFileHelper.cs" />
     <Compile Include="Utility\Constants.cs" />
-    <Compile Include="Utility\DataBaseHandler.cs" />
+    <Compile Include="DatabaseHandler\DataBaseHandler.cs" />
     <Compile Include="Utility\DateTimeHelper.cs" />
     <Compile Include="Utility\EnumUtility.cs" />
     <Compile Include="Utility\GridViewBehaviors.cs" />

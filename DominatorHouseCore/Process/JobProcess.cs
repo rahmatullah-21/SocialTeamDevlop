@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataBaseConnection.CommonDatabaseConnection.Tables.Account;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
@@ -11,6 +10,7 @@ using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Newtonsoft.Json;
 using DominatorHouseCore.BusinessLogic;
+using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.FileManagers;
 
 namespace DominatorHouseCore.Process
@@ -78,53 +78,11 @@ namespace DominatorHouseCore.Process
 
 
 
-        public JobProcessResult FinalProcess(ScrapeResultNew ScrapedResult)
-        {
-            JobProcessResult jobProcessResult = PostScrapeProcess(ScrapedResult);
-            jobProcessResult.IsProcessCompleted = checkJobProcessCompleted();
-            if (jobProcessResult.IsProcessCompleted)
-            {
-                StartOtherConfiguration(ScrapedResult);
-                GlobusLogHelper.log.Info("Process completed with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
-            }
-            return jobProcessResult;
-        }
+      
 
-        private bool checkJobProcessCompleted()
-        {
 
-            if (NoOfActionPerformedCurrentJob > MaxNoOfActionPerJob)
-            {
-                ScheduleNextJob(DateTime.Now.AddTicks(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
-                return true;
-            }
-            int currentTime = DateTimeUtilities.GetEpochTime();
-            NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600).Count();
-            if (NoOfActionPerformedCurrentHour > MaxNoOfActionPerHour)
-            {
 
-                ScheduleNextJob(DateTime.Now.AddMinutes(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
-                return true;
-            }
-
-            NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24).Count();
-            if (NoOfActionPerformedCurrentDay > MaxNoOfActionPerDay)
-            {
-                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
-                return true;
-            }
-
-            NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24 * 7).Count();
-            if (NoOfActionPerformedCurrentWeek > MaxNoOfActionPerWeek)
-            {
-                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
-                return true;
-            }
-
-            return false;
-        }
-
-        private void ScheduleNextJob(DateTime dateTime)
+        protected void ScheduleNextJob(DateTime dateTime)
         {
             TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
 
