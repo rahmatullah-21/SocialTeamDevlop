@@ -77,7 +77,12 @@ namespace DominatorHouseCore.Process
         }
 
 
-
+        /// <summary>
+        /// Executes POST action like Follow user and check if we reached limites and process complete.
+        /// If so, start other configuration
+        /// </summary>
+        /// <param name="ScrapedResult"></param>
+        /// <returns></returns>
         public JobProcessResult FinalProcess(ScrapeResultNew ScrapedResult)
         {
             JobProcessResult jobProcessResult = PostScrapeProcess(ScrapedResult);
@@ -90,6 +95,13 @@ namespace DominatorHouseCore.Process
             return jobProcessResult;
         }
 
+        /// <summary>
+        /// Checks activity limits per job/hour/day/week and returns true if job process reached the limits and completed
+        /// </summary>
+        /// <returns>
+        /// true - if new jobscheduled for next time / or task stopped and we're waiting for next day 
+        /// false - limits not reached and job process not completed. Need to run next activity immediately in a scope of this JobProcess.
+        /// </returns>
         private bool checkJobProcessCompleted()
         {
 
@@ -102,7 +114,8 @@ namespace DominatorHouseCore.Process
             NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600).Count();
             if (NoOfActionPerformedCurrentHour > MaxNoOfActionPerHour)
             {
-
+                // TODO: it has to be scheduled next hour, not after random minutes. Ex. 2 actions at 13:00. Delay between jobs 10-20 minutes.
+                // Then next job on 13:10-13:20 which is incorrect.
                 ScheduleNextJob(DateTime.Now.AddMinutes(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
                 return true;
             }
