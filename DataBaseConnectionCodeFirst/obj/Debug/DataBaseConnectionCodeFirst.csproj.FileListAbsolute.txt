@@ -12,5 +12,6 @@ D:\2018\Projects\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirs
 D:\2018\Projects\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\bin\Debug\EntityFramework.SqlServer.xml
 D:\2018\Projects\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\bin\Debug\log4net.xml
 D:\2018\Projects\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\bin\Debug\System.Data.SQLite.xml
+D:\2018\Projects\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\obj\Debug\DataBaseConnectionCodeFirst.csprojResolveAssemblyReference.cache
 D:\2018\Projects\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\obj\Debug\DataBaseConnectionCodeFirst.dll
 D:\2018\Projects\DominatorHouse\dominatorhouse-social\DataBaseConnectionCodeFirst\obj\Debug\DataBaseConnectionCodeFirst.pdb

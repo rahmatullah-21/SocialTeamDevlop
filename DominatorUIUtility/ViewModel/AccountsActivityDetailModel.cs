@@ -120,7 +120,7 @@ namespace DominatorUIUtility.ViewModel
                 if (_completed == value)
                     return;
                 SetProperty(ref _completed, value);
-                GetPercentages();
+              
             }
         }
 

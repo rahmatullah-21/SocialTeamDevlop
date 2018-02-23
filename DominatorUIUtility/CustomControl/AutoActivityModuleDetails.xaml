@@ -14,39 +14,45 @@
     <Grid>
 
         <StackPanel>
-            
-            <StackPanel Background="{DynamicResource AccentBaseColorBrush}">
-                <Label Content="{Binding ActivityDetailsModel.Title}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Height="28" FontSize="14" FontWeight="DemiBold" Foreground="AliceBlue" Margin="2"></Label>
-            </StackPanel>
-     
-            <StackPanel Orientation="Horizontal" Margin="2,10,0,2">
-                <Label Content="{Binding ActivityDetailsModel.Ratio.Percentage, Converter={StaticResource PercentageTextConverter}}"  HorizontalContentAlignment="Center"
-                       Height="50" Foreground="White"
-                       Width="50" VerticalContentAlignment="Center">
-                    <Label.Background>
-                        <VisualBrush>
-                            <VisualBrush.Visual>
-                                <Ellipse Height="20" Width="20" Fill="{Binding ActivityDetailsModel.Ratio.Percentage , Converter={StaticResource PercentageToColorConverter}}" Stroke="LightGray" StrokeThickness="1.5"  />
-                            </VisualBrush.Visual>
-                        </VisualBrush>
-                    </Label.Background>
-                </Label>
-                <controls:ToggleSwitch OnLabel="" OffLabel="" Margin="6,0,0,0" IsCheckedChanged="ActivityChanged_OnIsCheckedChanged" VerticalAlignment="Center" Tag="{Binding ActivityDetailsModel.Status}" >
-                    <controls:ToggleSwitch.Style>
-                        <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
-                            <Style.Triggers>
-                                <Trigger Property="Tag" Value="Active">
-                                    <Setter Property="IsChecked" Value="True" />
-                                </Trigger>
-                                <Trigger Property="Tag" Value="InActive">
-                                    <Setter Property="IsChecked" Value="False" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </controls:ToggleSwitch.Style>
-                </controls:ToggleSwitch>
-            </StackPanel>
+            <StackPanel Background="{DynamicResource AccentBaseColorBrush}" Orientation="Horizontal">
+                <Label Content="{Binding ActivityDetailsModel.Title}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Height="28" FontSize="14" FontWeight="DemiBold" Foreground="AliceBlue" Margin="2" />
+                <StackPanel Background="White" Orientation="Vertical">
+                    <controls:ToggleSwitch OnLabel="" OffLabel=""  Margin="6,0,0,0" HorizontalAlignment="Center" IsCheckedChanged="ActivityChanged_OnIsCheckedChanged" VerticalAlignment="Center" Tag="{Binding ActivityDetailsModel.Status}" >
+                        <controls:ToggleSwitch.Style>
+                            <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
+                                <Style.Triggers>
+                                    <Trigger Property="Tag" Value="Active">
+                                        <Setter Property="IsChecked" Value="True" />
+                                    </Trigger>
+                                    <Trigger Property="Tag" Value="InActive">
+                                        <Setter Property="IsChecked" Value="False" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:ToggleSwitch.Style>
+                    </controls:ToggleSwitch>
 
+                    <StackPanel Orientation="Horizontal" Margin="2,10,0,2" HorizontalAlignment="Center">
+                        <Label Visibility="Collapsed" Content="{Binding ActivityDetailsModel.Ratio.Percentage, Converter={StaticResource PercentageTextConverter}}"  HorizontalContentAlignment="Center"
+                               Height="50" Foreground="White"
+                               Width="50" VerticalContentAlignment="Center">
+                            <Label.Background>
+                                <VisualBrush>
+                                    <VisualBrush.Visual>
+                                        <Ellipse Height="20" Width="20" Fill="{Binding ActivityDetailsModel.Ratio.Percentage , Converter={StaticResource PercentageToColorConverter}}" Stroke="LightGray" StrokeThickness="1.5"  />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Label.Background>
+                        </Label>
+
+                        <TextBlock Text="{Binding ActivityDetailsModel.Ratio.Completed}" FontSize="13" />
+                        <TextBlock Text=" / " FontSize="13" />
+                        <TextBlock Text="{Binding ActivityDetailsModel.Ratio.Total}" FontSize="13" />
+
+                    </StackPanel>
+
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
 
 
