@@ -178,7 +178,7 @@
                                 <ListView BorderThickness="0" ItemsSource="{Binding Path=AutoActivityModuleDetailsCollections}">
                                     <ListView.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <UniformGrid Columns="9" />
+                                            <UniformGrid Columns="4" />
                                         </ItemsPanelTemplate>
                                     </ListView.ItemsPanel>
                                     <ListView.ItemContainerStyle>
@@ -188,8 +188,6 @@
                                             <Setter Property="VerticalAlignment" Value="Center" />
                                         </Style>
                                     </ListView.ItemContainerStyle>
-
-
                                 </ListView>
                             </Grid>
                         </Expander>
