@@ -59,7 +59,7 @@ namespace DominatorUIUtility.Views.Publisher
         static Campaigns ObjCreateCampaign = null;
         public static Campaigns GetSingltonCreateCampaignObject()
         {
-            return ObjCreateCampaign;
+            return ObjCreateCampaign ?? (ObjCreateCampaign = new Campaigns());
         }
 
         public void SetDataContext()

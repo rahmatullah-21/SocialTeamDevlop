@@ -8,6 +8,7 @@ namespace DataBaseConnection.CommonDatabaseConnection.Tables.Account
     {
         [Key]
         [Autoincrement]
+        [Index]
         [Column(Order = 1)]
         public int Id { get; set; }
 
@@ -52,18 +53,18 @@ namespace DataBaseConnection.CommonDatabaseConnection.Tables.Account
 
 
         [Column(Order = 10)]
-        public int HasAnonymousProfilePicture
+        public bool HasAnonymousProfilePicture
         { get; set; }
 
 
 
         [Column(Order = 11)]
-        public int IsPrivate
+        public bool IsPrivate
         { get; set; }
 
 
         [Column(Order = 12)]
-        public int IsVerified
+        public bool IsVerified
         { get; set; }
 
   
@@ -97,7 +98,13 @@ namespace DataBaseConnection.CommonDatabaseConnection.Tables.Account
         { get; set; }
 
 
-        [Column(Order = 18)] public int FollowType { get; set; }
-
+        [Column(Order = 18)]
+        public FollowType FollowType
+        { get; set; }        
     }
+
+    public enum FollowType : int
+    {
+        Following, NotFollowing, Unfollowed
+    }       
 }

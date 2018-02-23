@@ -8,6 +8,7 @@ namespace DataBaseConnection.CommonDatabaseConnection.Tables.Account
     {
         [Key]
         [Column(Order = 1)]
+        [Index]
         [Autoincrement]
         public int Id
         { get; set; }
@@ -21,11 +22,11 @@ namespace DataBaseConnection.CommonDatabaseConnection.Tables.Account
         { get; set; }
 
         [Column(Order = 4)]
-        public int CommentsDisabled
+        public bool CommentsDisabled
         { get; set; }
 
         [Column(Order = 5)]
-        public int Preview
+        public string Preview
         { get; set; }
 
 
@@ -35,7 +36,7 @@ namespace DataBaseConnection.CommonDatabaseConnection.Tables.Account
 
 
         [Column(Order = 7)]
-        public int VideoDuration
+        public double VideoDuration
         { get; set; }
 
 

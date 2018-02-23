@@ -31,22 +31,21 @@ namespace DominatorHouseCore.FileManagers
         }
 
 
-        // Saves all accounts. Have to work Only in Social library. Otherwise use MergeAndSaveAll() method to update AccountDetails.bin
+        // Saves all accounts. Have to work Only in Social library. Otherwise use UpdateAccounts() method to update AccountDetails.bin
         internal static void SaveAll<T>(List<T> lstAccountModel) where T : class
         {
             if (DominatorHouseInitializer.ActiveSocialNetwork != SocialNetworks.Social)
-                throw new InvalidOperationException($"Use MergeAndSaveAll() method for {DominatorHouseInitializer.ActiveSocialNetwork}");
+                throw new InvalidOperationException($"Use UpdateAccounts() method for {DominatorHouseInitializer.ActiveSocialNetwork}");
 
             BinFileHelper.UpdateAllAccounts(lstAccountModel);
             GlobusLogHelper.log.Debug("Accounts successfully saved");
         }
 
 
-        // Merge accounts and save to AccountDetails.bin
-        // TODO: make it work for AccountModel from TD, PD
-        public static void MergeAndSaveAll(IList<DominatorAccountModel> libraryAccounts) 
+        // Update account entries and save to AccountDetails.bin        
+        public static void UpdateAccounts(IList<DominatorAccountModel> libraryAccounts) 
         {            
-            var all = BinFileHelper.GetAccountDetails();
+            var all = BinFileHelper.GetAccountDetails();            
 
             // Update all entries that exists in libraryAccount, and add that does not exists
             for (int i = 0; i < libraryAccounts.Count; i++)
@@ -123,15 +122,25 @@ namespace DominatorHouseCore.FileManagers
             return BinFileHelper.Append(account);            
         }
 
+        public static void DeleteSelected(List<DominatorAccountModel> accs)
+        {
+            var all = GetAll().Where(a => accs.FirstOrDefault(p => p.AccountId == a.AccountId) == null).ToList();
+            SaveAll(all);
+        }
+
+        public static void Delete(Predicate<DominatorAccountModel> match) 
+        {
+            var accs = GetAll();            
+            accs.RemoveAll(match);
+            BinFileHelper.UpdateAllAccounts(accs);
+        }
+
         public static void Delete<AModel>(Predicate<AModel> match) where AModel : class
         {
             var accs = GetFor<AModel>();
-            var ix = accs.FindIndex(match);
-            if (ix != -1)
-            {
-                accs.RemoveAt(ix);
-                BinFileHelper.UpdateAllAccounts(accs);
-            }
+            var toDelete = accs.FindAll(match);
+            accs.RemoveAll(match);
+            BinFileHelper.UpdateAllAccounts(accs);            
         }
 
         // alias
