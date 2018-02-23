@@ -8,6 +8,7 @@ namespace DataBaseConnection.CommonDatabaseConnection.Tables.Account
     {
         [Key]
         [Column(Order = 1)]
+        [Index]
         [Autoincrement]
         public int Id { get; set; }
 
@@ -15,10 +16,10 @@ namespace DataBaseConnection.CommonDatabaseConnection.Tables.Account
         public int InteractionDate { get; set; }
 
         [Column(Order = 3)]
-        public int MediaType { get; set; }
+        public MediaType MediaType { get; set; }
 
         [Column(Order = 4)]
-        public int OperationType{ get; set; }
+        public ActivityType OperationType{ get; set; }
 
         [Column(Order = 5)]
         public string PkOwner { get; set; }

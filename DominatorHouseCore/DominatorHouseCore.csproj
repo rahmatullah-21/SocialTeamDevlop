@@ -169,7 +169,6 @@
     <Compile Include="Models\ScrapeResultNew.cs" />
     <Compile Include="Models\TabItem.cs" />
     <Compile Include="Models\TimingRange.cs" />
-    <Compile Include="Enums\Gender.cs" />
     <Compile Include="Process\JobProcess.cs" />
     <Compile Include="Process\JobProcessResult.cs" />
     <Compile Include="Properties\Annotations.cs" />

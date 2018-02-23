@@ -8,6 +8,7 @@ namespace DataBaseConnection.CommonDatabaseConnection.Tables.Account
     {
         [Key]
         [Autoincrement]
+        [Index]
         [Column(Order = 1)]
         public int Id { get; set; }
 
