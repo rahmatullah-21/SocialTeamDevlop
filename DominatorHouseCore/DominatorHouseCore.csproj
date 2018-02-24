@@ -127,9 +127,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLogic\DominatorJobProcessFactory.cs" />
-    <Compile Include="BusinessLogic\DominatorScheduler.cs" />
-    <Compile Include="BusinessLogic\DominatorScheduler.Helpers.cs" />
+    <Compile Include="BusinessLogic\Scheduler\DominatorJobProcessFactory.cs" />
+    <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.cs" />
+    <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.Helpers.cs" />
+    <Compile Include="BusinessLogic\Scraper\IScraperFactory.cs" />
+    <Compile Include="BusinessLogic\Scraper\NotImplementedQueryScraper.cs" />
+    <Compile Include="BusinessLogic\Scraper\DominatorScraperFactory.cs" />
+    <Compile Include="BusinessLogic\Scraper\RunScraper.cs" />
     <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\ListCountBoolConverter.cs" />
@@ -156,9 +160,10 @@
     <Compile Include="FileManagers\AccountsFileManager.cs" />
     <Compile Include="FileManagers\CampaignsFileManager.cs" />
     <Compile Include="FileManagers\TemplatesFileManager.cs" />
+    <Compile Include="BusinessLogic\Scraper\AbstractQueryScraper.cs" />
     <Compile Include="Interfaces\IJobConfiguration.cs" />
     <Compile Include="Interfaces\IGeneralSettings.cs" />
-    <Compile Include="Interfaces\IJobProcessFactory.cs" />
+    <Compile Include="BusinessLogic\Scheduler\IJobProcessFactory.cs" />
     <Compile Include="Interfaces\IPost.cs" />
     <Compile Include="Interfaces\IUser.cs" />
     <Compile Include="Diagnostics\LogHelper\GlobusLogHelper.cs" />

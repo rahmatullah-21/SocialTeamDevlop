@@ -7,32 +7,18 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using FluentScheduler;
-using GramDominatorCore.GDLibrary;
-using GramDominatorCore.GDUtility;
-using GramDominatorCore.GDViewModel.Accounts;
 
-using GramDominatorUI.TabManager;
-using MahApps.Metro.Controls;
-using System.Windows.Media;
-using System.ComponentModel;
-using System.Linq;
-using DominatorHouse.Social.AutoActivity.ViewModels;
 using DominatorHouse.Social.AutoActivity.Views;
+using DominatorHouseCore.BusinessLogic;
+using DominatorHouseCore.BusinessLogic.Scraper;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
-using DominatorUIUtility.CustomControl;
-using NLog;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore;
-using DominatorHouseCore.BusinessLogic;
+using DominatorHouseCore.Models;
 using DominatorUIUtility.Behaviours;
+using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.Publisher;
-
-
-
+using MahApps.Metro.Controls;
 #endregion
 
 namespace DominatorHouse
@@ -55,8 +41,9 @@ namespace DominatorHouse
 
         public MainWindow()
         {
-
-            DominatorHouseInitializer.Init(this, DominatorJobProcessFactory.Instance, SocialNetworks.Social);
+            DominatorHouseInitializer.Init(this, DominatorJobProcessFactory.Instance, 
+                DominatorScraperFactory.Instance,
+                SocialNetworks.Social);
 
             InitializeComponent();
 

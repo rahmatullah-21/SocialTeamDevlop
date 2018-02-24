@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using DominatorHouseCore.BusinessLogic;
 using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
 
 namespace DominatorHouseCore.Process
 {
@@ -38,12 +39,13 @@ namespace DominatorHouseCore.Process
         public DominatorAccountModel DominatorAccountModel { get; set; }
         public JobConfiguration JobConfiguration { get; set; }
         public ActivityType ActivityType { get; set; }
-        public object GdBinFileHelper { get; private set; }
+        
         public TimingRange CurrentJobTimeRange { get; set; }
         public DominatorCancellationTokenSource JobCancellationTokenSource { get; set; }
         public static Dictionary<string, string> DictRunningJobs = new Dictionary<string, string>();
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
-        protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; }
+        protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; }        
+
         #endregion
 
         public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
@@ -52,7 +54,7 @@ namespace DominatorHouseCore.Process
             this.CurrentJobTimeRange = CurrentJobTimeRange;
             TemplateModel model = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == template);
             this.JobConfiguration = Newtonsoft.Json.JsonConvert.DeserializeObject<JobConfiguration>(model.ActivitySettings);
-
+            
             this.TemplateId = template;
             this.campaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
             this.ActivityType = activityType;
