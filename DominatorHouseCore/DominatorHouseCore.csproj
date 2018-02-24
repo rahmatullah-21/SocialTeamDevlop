@@ -133,7 +133,6 @@
     <Compile Include="BusinessLogic\Scraper\IScraperFactory.cs" />
     <Compile Include="BusinessLogic\Scraper\NotImplementedQueryScraper.cs" />
     <Compile Include="BusinessLogic\Scraper\DominatorScraperFactory.cs" />
-    <Compile Include="BusinessLogic\Scraper\RunScraper.cs" />
     <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\ListCountBoolConverter.cs" />
@@ -250,10 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

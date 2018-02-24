@@ -1,7 +1,7 @@
 ﻿using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 
-namespace DominatorHouseCore.Scheduler
+namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     /// <summary>
     /// Each library have to implement its own job process factory to create particular

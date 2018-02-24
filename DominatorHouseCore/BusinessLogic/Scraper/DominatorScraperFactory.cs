@@ -16,7 +16,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
         public AbstractQueryScraper Create(JobProcess jobProcess)
         {
-            return new NotImplementedQueryScraper();
+            return new NotImplementedQueryScraper(jobProcess);
         }
     }
 }

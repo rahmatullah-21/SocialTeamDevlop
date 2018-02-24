@@ -1,11 +1,11 @@
 ﻿using DominatorHouse.Helpers;
 using DominatorHouseCore.BusinessLogic;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Scheduler;
 using System;
 using System.Collections.Generic;
 using System.Windows;

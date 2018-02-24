@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Scheduler;
 
-namespace DominatorHouseCore.BusinessLogic
+
+namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public class DominatorJobProcessFactory : IJobProcessFactory
     {

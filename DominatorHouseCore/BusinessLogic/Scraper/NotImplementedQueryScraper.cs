@@ -1,6 +1,7 @@
 ﻿using DominatorHouseCore.Models;
 using System;
 using System.Collections.Generic;
+using DominatorHouseCore.Process;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
@@ -9,12 +10,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
     /// </summary>
     public class NotImplementedQueryScraper : AbstractQueryScraper
     {
-        protected override IEnumerable<QueryInfo> SavedQueries
+        public NotImplementedQueryScraper(JobProcess jobProcess) : base(jobProcess)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
         }
 
         protected override void StartProcessForCustomUsers(QueryInfo queryInfo)

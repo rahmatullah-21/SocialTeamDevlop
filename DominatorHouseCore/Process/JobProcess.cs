@@ -9,10 +9,11 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Newtonsoft.Json;
-using DominatorHouseCore.BusinessLogic;
 using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.BusinessLogic.Scraper;
+using DominatorHouseCore.Diagnostics;
 
 namespace DominatorHouseCore.Process
 {
@@ -23,7 +24,7 @@ namespace DominatorHouseCore.Process
     /// 
     /// Derived class have to implement PostScrapeProcess
     /// </summary>
-    public abstract class JobProcess
+    public abstract class JobProcess 
     {
         #region Required Properties
         protected int NoOfActionPerformedCurrentJob = 0;
@@ -39,13 +40,15 @@ namespace DominatorHouseCore.Process
         public DominatorAccountModel DominatorAccountModel { get; set; }
         public JobConfiguration JobConfiguration { get; set; }
         public ActivityType ActivityType { get; set; }
-        
+        public List<QueryInfo> SavedQueries { get; set; }
+
         public TimingRange CurrentJobTimeRange { get; set; }
         public DominatorCancellationTokenSource JobCancellationTokenSource { get; set; }
         public static Dictionary<string, string> DictRunningJobs = new Dictionary<string, string>();
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
-        protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; }        
+        protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; }
 
+        
         #endregion
 
         public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
@@ -54,7 +57,12 @@ namespace DominatorHouseCore.Process
             this.CurrentJobTimeRange = CurrentJobTimeRange;
             TemplateModel model = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == template);
             this.JobConfiguration = Newtonsoft.Json.JsonConvert.DeserializeObject<JobConfiguration>(model.ActivitySettings);
-            
+
+            dynamic deserializedValue = JsonConvert.DeserializeObject(model.ActivitySettings);
+
+            try { this.SavedQueries = JsonConvert.DeserializeObject<List<QueryInfo>>(deserializedValue["SavedQueries"].ToString()); }
+            catch { this.SavedQueries = new List<QueryInfo>(); }
+
             this.TemplateId = template;
             this.campaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
             this.ActivityType = activityType;
@@ -142,7 +150,17 @@ namespace DominatorHouseCore.Process
             TemplatesFileManager.Save(lstTemplateModel);
         }
 
-
-
+        /// <summary>
+        /// 1. Obtains Scraper factory for active library (GD, PD, TD etc.)
+        /// 2. Creates Scraper
+        /// 3. Executes scraping based on queries for certain social network and job process
+        /// </summary>
+        /// <param name="jobProcess"></param>
+        public void RunScraper()
+        {
+            IScraperFactory scraperFactory = DominatorHouseInitializer.ActiveLibrary.QueryScraperFactory;
+            AbstractQueryScraper scraper = scraperFactory.Create(this);
+            scraper.ScrapeWithQueries();
+        }        
     }
 }

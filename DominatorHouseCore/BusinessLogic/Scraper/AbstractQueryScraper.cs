@@ -1,8 +1,10 @@
 ﻿using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Process;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
@@ -12,10 +14,14 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
     {
         private readonly Dictionary<UserQueryParameters, Action<QueryInfo>> _queryToActionTable;
 
-        protected abstract IEnumerable<QueryInfo> SavedQueries { get; }
+        private JobProcess _jobProcess;
 
-        protected AbstractQueryScraper()
+
+        protected AbstractQueryScraper(JobProcess jobProcess)
         {
+            _jobProcess = jobProcess;
+            Debug.Assert(_jobProcess != null);
+
             // NOTE: add new action associated with new QueryType if needed
             _queryToActionTable = new Dictionary<UserQueryParameters, Action<QueryInfo>>() {
                 { UserQueryParameters.HashtagPost, StartProcessWithHashtagPosts },
@@ -32,7 +38,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 { UserQueryParameters.CustomPhotos, StartProcessWithCustomPhotos },
                 { UserQueryParameters.UsersWhoLikedPost, StartProcessForMediaLikers },
                 { UserQueryParameters.UsersWhoCommentedOnPost, StartProcessForMediaCommenters },
-            };
+            };            
         }
 
         abstract protected void StartProcessWithKeyword(QueryInfo queryInfo);
@@ -67,7 +73,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         /// <param name="queries"></param>
         public void ScrapeWithQueries()
         {
-            foreach (var query in SavedQueries)
+            foreach (var query in _jobProcess.SavedQueries)
             {
                 try
                 {

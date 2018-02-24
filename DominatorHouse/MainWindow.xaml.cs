@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 using DominatorHouse.Social.AutoActivity.Views;
-using DominatorHouseCore.BusinessLogic;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -41,7 +41,8 @@ namespace DominatorHouse
 
         public MainWindow()
         {
-            DominatorHouseInitializer.Init(this, DominatorJobProcessFactory.Instance, 
+            DominatorHouseInitializer.Init(this, 
+                DominatorJobProcessFactory.Instance, 
                 DominatorScraperFactory.Instance,
                 SocialNetworks.Social);
 
