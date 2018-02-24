@@ -20,8 +20,9 @@ namespace DominatorHouseCore.Models
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-        public ICollectionView ReportCollection { get; set; } 
+        public ICollectionView ReportCollection { get; set; }
 
+        public string ModuleType { get; set; } = "";
         public ObservableCollection<GridViewColumnDescriptor> GridViewColumn { get; set; }  = new ObservableCollection<GridViewColumnDescriptor>();
 
     }

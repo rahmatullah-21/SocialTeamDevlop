@@ -279,15 +279,14 @@ namespace DominatorHouse
 
                     break;
 
-                case SocialNetworks.Twitter:
-                    #warning UNCOMMENT LINES BELLOW WHEN COMPILED
-                    //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
-                    //TabItems = twtDominator.InitializeAllTabs();
+                case SocialNetworks.Twitter:                    
+                    TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
+                    TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Pinterest:
-                    //PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
-                    //TabItems = pinDominator.InitializeAllTabs();
+                    PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
+                    TabItems = pinDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Social:
@@ -296,6 +295,7 @@ namespace DominatorHouse
                     this.Title = "Dominator - All in One";
                     break;
                 case SocialNetworks.Quora:
+#warning    UNCOMMENT LINES BELOW WHEN COMPILED
                     //QuoraDominator.MainWindow quoraDominator = new QuoraDominator.MainWindow();
                     //TabItems = quoraDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Quora.ToString() + " Dominator";

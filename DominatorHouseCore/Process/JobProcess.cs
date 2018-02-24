@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataBaseConnection.CommonDatabaseConnection.Tables.Account;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
@@ -11,6 +10,7 @@ using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Newtonsoft.Json;
 using DominatorHouseCore.BusinessLogic;
+using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.FileManagers;
 
 namespace DominatorHouseCore.Process
@@ -43,16 +43,16 @@ namespace DominatorHouseCore.Process
         public DominatorCancellationTokenSource JobCancellationTokenSource { get; set; }
         public static Dictionary<string, string> DictRunningJobs = new Dictionary<string, string>();
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
-        protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; } 
+        protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; }
         #endregion
-        
+
         public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
         {
             this.DominatorAccountModel = FileManagers.AccountsFileManager.GetAll().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
             this.CurrentJobTimeRange = CurrentJobTimeRange;
             TemplateModel model = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == template);
             this.JobConfiguration = Newtonsoft.Json.JsonConvert.DeserializeObject<JobConfiguration>(model.ActivitySettings);
-            
+
             this.TemplateId = template;
             this.campaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
             this.ActivityType = activityType;
@@ -61,7 +61,7 @@ namespace DominatorHouseCore.Process
         }
 
         public abstract JobProcess Initialize(string account, string template, ActivityType activity, TimingRange currentJobTimeRange);
-        
+
         protected void InitializeActivityCount(string account)
         {
             MaxNoOfActionPerJob = this.JobConfiguration.ActivitiesPerJob.GetRandom();
@@ -77,67 +77,12 @@ namespace DominatorHouseCore.Process
         }
 
 
-        /// <summary>
-        /// Executes POST action like Follow user and check if we reached limites and process complete.
-        /// If so, start other configuration
-        /// </summary>
-        /// <param name="ScrapedResult"></param>
-        /// <returns></returns>
-        public JobProcessResult FinalProcess(ScrapeResultNew ScrapedResult)
-        {
-            JobProcessResult jobProcessResult = PostScrapeProcess(ScrapedResult);
-            jobProcessResult.IsProcessCompleted = checkJobProcessCompleted();
-            if (jobProcessResult.IsProcessCompleted)
-            {
-                StartOtherConfiguration(ScrapedResult);
-                GlobusLogHelper.log.Info("Process completed with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
-            }
-            return jobProcessResult;
-        }
 
-        /// <summary>
-        /// Checks activity limits per job/hour/day/week and returns true if job process reached the limits and completed
-        /// </summary>
-        /// <returns>
-        /// true - if new jobscheduled for next time / or task stopped and we're waiting for next day 
-        /// false - limits not reached and job process not completed. Need to run next activity immediately in a scope of this JobProcess.
-        /// </returns>
-        private bool checkJobProcessCompleted()
-        {
 
-            if (NoOfActionPerformedCurrentJob > MaxNoOfActionPerJob)
-            {
-                ScheduleNextJob(DateTime.Now.AddTicks(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
-                return true;
-            }
-            int currentTime = DateTimeUtilities.GetEpochTime();
-            NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600).Count();
-            if (NoOfActionPerformedCurrentHour > MaxNoOfActionPerHour)
-            {
-                // TODO: it has to be scheduled next hour, not after random minutes. Ex. 2 actions at 13:00. Delay between jobs 10-20 minutes.
-                // Then next job on 13:10-13:20 which is incorrect.
-                ScheduleNextJob(DateTime.Now.AddMinutes(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
-                return true;
-            }
 
-            NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24).Count();
-            if (NoOfActionPerformedCurrentDay > MaxNoOfActionPerDay)
-            {
-                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
-                return true;
-            }
 
-            NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24 * 7).Count();
-            if (NoOfActionPerformedCurrentWeek > MaxNoOfActionPerWeek)
-            {
-                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
-                return true;
-            }
 
-            return false;
-        }
-
-        private void ScheduleNextJob(DateTime dateTime)
+        protected void ScheduleNextJob(DateTime dateTime)
         {
             TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
 
@@ -188,11 +133,11 @@ namespace DominatorHouseCore.Process
         {
             TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, TemplateId);
             List<TemplateModel> lstTemplateModel = BinFileHelper.GetTemplateDetails().ToList();
-            foreach (var template in lstTemplateModel)            
-                if (template.Id == TemplateId)                
+            foreach (var template in lstTemplateModel)
+                if (template.Id == TemplateId)
                     JsonConvert.DeserializeObject<JobConfiguration>(template.ActivitySettings).RunningTime.Clear();
 
-            TemplatesFileManager.Save(lstTemplateModel);            
+            TemplatesFileManager.Save(lstTemplateModel);
         }
 
 
