@@ -123,15 +123,15 @@ namespace DominatorHouseCore.Models
         #region Module Wise Details
 
         //It cont
-        [ProtoIgnore]
-        public JObject ModulePrivateDetails { get; set; } 
+        [ProtoMember(8)]
+        public string ModulePrivateDetails { get; set; } 
 
 
         public string GetModulePrivateDetailsValue([CallerMemberName] string PropertyName = null)
         {
             try
             {
-                return ModulePrivateDetails[PropertyName].ToString();
+                return JObject.Parse(ModulePrivateDetails)[PropertyName].ToString();
             }
             catch (Exception e)
             {
@@ -146,7 +146,7 @@ namespace DominatorHouseCore.Models
         {
             try
             {
-                this.ModulePrivateDetails = JObject.Parse(Newtonsoft.Json.JsonConvert.SerializeObject(model));
+                this.ModulePrivateDetails = Newtonsoft.Json.JsonConvert.SerializeObject(model);
             }
             catch (Exception Ex)
             {
@@ -159,7 +159,9 @@ namespace DominatorHouseCore.Models
         {
             try
             {
-                this.ModulePrivateDetails[PropertyName] = value.ToString();
+                JObject jObject = JObject.Parse(this.ModulePrivateDetails);
+                jObject[PropertyName] = value.ToString();
+                this.ModulePrivateDetails = jObject.ToString();
             }
             catch (Exception Ex)
             {

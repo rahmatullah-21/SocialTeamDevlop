@@ -106,14 +106,19 @@ namespace DominatorHouseCore.Utility
             {
                 lock (_accountDetailsFileLocker)
                 {
+                    int indexOfAccountToUpdate = 0;
                     var accountDetailsList = GetAccountDetails();
-                    int indexOfAccountToUpdate = FindAccountIndex(accountDetailsList, accountModel.AccountBaseModel.AccountId);
-
-                    if (indexOfAccountToUpdate == -1)
-                        return false;
-
-                    accountDetailsList[indexOfAccountToUpdate] = accountModel;
-
+                   
+                    if (accountDetailsList != null)
+                    {
+                        indexOfAccountToUpdate = FindAccountIndex(accountDetailsList, accountModel.AccountBaseModel.AccountId);
+                        accountDetailsList[indexOfAccountToUpdate] = accountModel;
+                    }
+                    else
+                    {
+                        accountDetailsList = new List<DominatorAccountModel>();
+                        accountDetailsList.Add(accountModel);
+                    }
                     bool result = ProtoBuffBase.SerializeList(accountDetailsList, ConstantVariable.GetIndexAccountFile());
 
                     GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
