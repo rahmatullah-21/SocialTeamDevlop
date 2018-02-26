@@ -14,6 +14,9 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
+using DominatorHouseCore.BusinessLogic.ActivitiesWorkflow;
+using System.Diagnostics;
 
 namespace DominatorHouseCore.Process
 {
@@ -35,6 +38,7 @@ namespace DominatorHouseCore.Process
         protected int MaxNoOfActionPerDay = 0;
         protected int MaxNoOfActionPerWeek = 0;
         protected int NoOfActionPerformedCurrentWeek = 0;
+
         public string TemplateId { get; set; }
         public string campaignId { get; set; }
         public DominatorAccountModel DominatorAccountModel { get; set; }
@@ -47,7 +51,6 @@ namespace DominatorHouseCore.Process
         public static Dictionary<string, string> DictRunningJobs = new Dictionary<string, string>();
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; }
-
         
         #endregion
 
@@ -126,17 +129,129 @@ namespace DominatorHouseCore.Process
 
         }
 
-
-        public abstract JobProcessResult PostScrapeProcess(ScrapeResultNew scrapeResult);
-
+        /// <summary>
+        /// Starts process for certain social network. Must use JobProcess.StartProcess(ILoginProcess)
+        /// </summary>
         public abstract void StartProcess();
+
+        /// <summary>
+        /// Does a POST request for certain process after login. Like Follow, Like, Comment etc.
+        /// </summary>
+        /// <param name="scrapeResult"></param>
+        /// <returns></returns>
+        public abstract JobProcessResult PostScrapeProcess(ScrapeResultNew scrapeResult);
+        
+
+        /// <summary>
+        /// Logs-in to social network and scrap data from its feed
+        /// </summary>
+        protected void StartProcess(ILoginProcess logInProcess)
+        {
+            lock (DictRunningJobs)
+            {
+                try
+                {
+                    if (DictRunningJobs.ContainsKey(TemplateId)) return;        // job already running
+
+                    DictRunningJobs.Add(this.TemplateId, "");
+                    Debug.Assert(!string.IsNullOrEmpty(this.campaignId))
+                    
+                    GlobusLogHelper.log.Info("Process started with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+                    if (!this.DominatorAccountModel.IsUserLoggedIn)
+                    {
+                        GlobusLogHelper.log.Info("Logging in with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+
+                        logInProcess.LoginWithDataBaseCookies(this.DominatorAccountModel, true);
+                    }
+
+                    if (this.DominatorAccountModel.IsUserLoggedIn)
+                    {
+                        GlobusLogHelper.log.Info("Logged in successfully with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+
+                        RunScraper();
+                    }
+
+                }
+                catch (Exception Ex)
+                {
+                    Ex.DebugLog();
+                }
+                finally
+                {
+                    try
+                    {
+                        DictRunningJobs.Remove(this.TemplateId);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+        }
+    
 
         public abstract void StartOtherConfiguration(ScrapeResultNew scrapeResult);
 
-        public bool checkIfJobCompleted()
+
+        /// <summary>
+        /// Calls after scrapping result from social network (e.g. Instagram feed).
+        /// If process completed (time or activities limits reached) then starts other configuration stuff
+        /// </summary>
+        /// <param name="ScrapedResult">Data that obtained from network's feed</param>
+        /// <returns></returns>
+        public virtual JobProcessResult FinalProcess(ScrapeResultNew ScrapedResult)
         {
+            JobProcessResult jobProcessResult = PostScrapeProcess(ScrapedResult);
+            jobProcessResult.IsProcessCompleted = CheckJobProcessLimitsReached();
+
+            if (jobProcessResult.IsProcessCompleted)
+            {
+                StartOtherConfiguration(ScrapedResult);
+                GlobusLogHelper.log.Info("Process completed with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+            }
+            return jobProcessResult;
+        }
+
+
+        /// <summary>
+        /// Checks wheter time limits(per hour/day/week) or activities count reached
+        /// </summary>
+        /// <returns>
+        /// true if limits reached and caller needds to process with Other Configuration        
+        /// </returns>
+        protected virtual bool CheckJobProcessLimitsReached()
+        {
+            if (NoOfActionPerformedCurrentJob > MaxNoOfActionPerJob)
+            {
+                ScheduleNextJob(DateTime.Now.AddTicks(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
+                return true;
+            }
+
+            int currentTime = DateTimeUtilities.GetEpochTime();
+            NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600).Count();
+            if (NoOfActionPerformedCurrentHour > MaxNoOfActionPerHour)
+            {
+                ScheduleNextJob(DateTime.Now.AddMinutes(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
+                return true;
+            }
+
+            NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24).Count();
+            if (NoOfActionPerformedCurrentDay > MaxNoOfActionPerDay)
+            {
+                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
+                return true;
+            }
+
+            NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24 * 7).Count();
+            if (NoOfActionPerformedCurrentWeek > MaxNoOfActionPerWeek)
+            {
+                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
+                return true;
+            }
+
             return false;
         }
+        
 
 
         protected void StopFollow()
@@ -149,6 +264,7 @@ namespace DominatorHouseCore.Process
 
             TemplatesFileManager.Save(lstTemplateModel);
         }
+
 
         /// <summary>
         /// 1. Obtains Scraper factory for active library (GD, PD, TD etc.)
