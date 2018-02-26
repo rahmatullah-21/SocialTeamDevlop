@@ -72,9 +72,7 @@ namespace DominatorHouseCore.Process
             JobCancellationTokenSource = new DominatorCancellationTokenSource(account, template);
             InitializeActivityCount(account);
         }
-
-        public abstract JobProcess Initialize(string account, string template, ActivityType activity, TimingRange currentJobTimeRange);
-
+        
         protected void InitializeActivityCount(string account)
         {
             MaxNoOfActionPerJob = this.JobConfiguration.ActivitiesPerJob.GetRandom();
@@ -188,9 +186,20 @@ namespace DominatorHouseCore.Process
                 }
             }
         }
-    
 
-        public abstract void StartOtherConfiguration(ScrapeResultNew scrapeResult);
+
+
+        /// <summary>
+        /// Will be called when JobProcess complete.
+        /// Starts actions that was selected by user from Other Configuration section.
+        /// Like Follow/Unfollow for GramDominator/Follow module.
+        /// </summary>
+        /// <param name="scrapeResult"></param>
+        public virtual void StartOtherConfiguration(ScrapeResultNew scrapeResult)
+        {
+            GlobusLogHelper.log.Info($"Started other configuration with account => " +
+                    $"{DominatorAccountModel.AccountBaseModel.UserName} module => {ActivityType}");
+        }
 
 
         /// <summary>

@@ -120,12 +120,15 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
             try
             {
-                if (dominatorAccount.ActivityManager.RunningTime == null)
-                    return;
+                // TODO: check that at least one timing was set up before creating campaign
+                if (dominatorAccount.ActivityManager.RunningTime == null ||
+                    dominatorAccount.ActivityManager.RunningTime.All(rt => rt.Timings.Count == 0))
+                    throw new InvalidOperationException($"Running time for activity {activityType} wasn't set");
                 
-                var today = DateTimeUtilities.GetDayOfWeek();           // get the current day
+                var today = DateTimeUtilities.GetDayOfWeek();           
 
-                // retrieve the account's todays scheduled modules
+                // retrieve the account's todays scheduled modules.
+                // TODO: check that at least one running time was set up
                 var timeScheduleModel = dominatorAccount.ActivityManager.RunningTime.First(x => x.DayOfWeek == today);
 
                 if (!timeScheduleModel.IsEnabled)
@@ -178,7 +181,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex);
+                GlobusLogHelper.log.Error(ex.Message);
             }            
         }
 
