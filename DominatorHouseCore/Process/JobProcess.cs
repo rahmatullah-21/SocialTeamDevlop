@@ -154,7 +154,7 @@ namespace DominatorHouseCore.Process
                     if (DictRunningJobs.ContainsKey(TemplateId)) return;        // job already running
 
                     DictRunningJobs.Add(this.TemplateId, "");
-                    Debug.Assert(!string.IsNullOrEmpty(this.campaignId))
+                    Debug.Assert(!string.IsNullOrEmpty(this.campaignId));
                     
                     GlobusLogHelper.log.Info("Process started with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
                     if (!this.DominatorAccountModel.IsUserLoggedIn)
