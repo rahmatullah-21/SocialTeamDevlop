@@ -127,7 +127,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLogic\ActivitiesWorkflow\DominatorLogicProcess.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.Helpers.cs" />
