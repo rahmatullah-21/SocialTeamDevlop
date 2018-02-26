@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,9 +16,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouse.Social.AutoActivity.ViewModels;
+using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
 
 namespace DominatorHouse.Social.AutoActivity.Views
@@ -63,8 +68,10 @@ namespace DominatorHouse.Social.AutoActivity.Views
 
         private void UserName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var dominatorAccountModel =
-                ((FrameworkElement) sender).DataContext as DominatorAccountModel;
+            var accountsActivityDetailModel =
+                ((FrameworkElement) sender).DataContext as AccountsActivityDetailModel;
+
+            var dominatorAccountModel = accountsActivityDetailModel?.DominatorAccountModel;
 
             if (dominatorAccountModel == null) return;
 
@@ -97,5 +104,37 @@ namespace DominatorHouse.Social.AutoActivity.Views
               currentExpander.IsExpanded = false;
             GlobusLogHelper.log.Info($"No acvitity details are found {data.DominatorAccountModel.AccountBaseModel.UserName}");
         }
+
+        private void ExpandAll_OnClick(object sender, RoutedEventArgs e)
+        {
+            var data = ((FrameworkElement)sender).DataContext as DominatorAutoActivityViewModel;
+
+            data?.AccountsCollection.ForEach(x => { x.IsExpand = true; });
+        }
+
+        private void MenuShrinkAll_OnClick(object sender, RoutedEventArgs e)
+        {
+            var data = ((FrameworkElement) sender).DataContext as DominatorAutoActivityViewModel;
+
+            data?.AccountsCollection.ForEach(x => { x.IsExpand = false; });
+        }
+
+        private void BtnSelect_OnClick(object sender, RoutedEventArgs e)
+        {
+            var contextMenu = ((Button) sender).ContextMenu;
+            if (contextMenu != null)
+            {
+                contextMenu.DataContext = ((Button) sender).DataContext;
+                contextMenu.IsOpen = true;
+            }
+        }
+
+        private void SocialAutoActivity_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            DominatorAutoActivityViewModel.InitializeAccounts();
+            SetDataContext();
+        }
+
+
     }
 }

@@ -138,6 +138,7 @@
     <Compile Include="Converters\ListCountBoolConverter.cs" />
     <Compile Include="Converters\ListCountVisiblityConverter.cs" />
     <Compile Include="Converters\PercentageToColorConverter.cs" />
+    <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="DatabaseHandler\AccountDB\ModelConfiguration.cs" />
     <Compile Include="DatabaseHandler\AccountDB\Tables\DailyStatitics.cs" />

@@ -301,8 +301,10 @@ namespace DominatorUIUtility.ViewModel
                     objDominatorAccountBaseModel.AccountNetwork =
                         (SocialNetworks)Enum.Parse(typeof(SocialNetworks), objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString());
 
-                AddAccount(objDominatorAccountBaseModel);
                 dialogWindow.Close();
+
+                AddAccount(objDominatorAccountBaseModel);
+                
             };
 
             objAddUpdateAccountControl.btnCancel.Click += (senders, events) => dialogWindow.Close();
@@ -603,7 +605,6 @@ namespace DominatorUIUtility.ViewModel
             DeleteAccountByContextMenu(sender);
         }
 
-
         private bool DeleteAccountsCanExecute(object sender)
         {
             return true;
@@ -635,9 +636,16 @@ namespace DominatorUIUtility.ViewModel
             //remove the selected accounts from account model
             selectAccounts.ForEach(item => LstDominatorAccountModel.Remove(item));
 
+            AccountsFileManager.SaveAll<DominatorAccountModel>(selectAccounts);
 
-            //after removed serialize the remaining accounts 
-            AccountsFileManager.Delete<DominatorAccountModel>(a => selectAccounts.FirstOrDefault(p => p.AccountId == a.AccountId) != null);
+            AccountsFileManager.Delete(x => x.IsAccountManagerAccountSelected);
+
+            //// Remove the accounts from bin files
+            //foreach (var dominatorAccountModel in selectAccounts)                          
+            //    AccountsFileManager.Delete<DominatorAccountModel>
+            //        (a => dominatorAccountModel.AccountId == a.AccountId );
+
+
 
             return false;
         }
@@ -780,7 +788,6 @@ namespace DominatorUIUtility.ViewModel
 
             var selectedAccount = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
 
-
             // var selectedAccount = LstDominatorAccountModel.FirstOrDefault<DominatorAccountModel>(x => selectedRow != null && x.RowNo == selectedRow.RowNo);
 
             if (selectedAccount == null) return;
@@ -831,6 +838,8 @@ namespace DominatorUIUtility.ViewModel
 
                 //ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
                 //    ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
+
+                AccountsFileManager.SaveAccount(selectedAccount);
 
                 dialogWindow.Close();
 
@@ -997,7 +1006,6 @@ namespace DominatorUIUtility.ViewModel
         }
 
         #endregion
-
 
         #region Actions
         public Action<DominatorAccountModel> action_CheckAccount { get; set; }

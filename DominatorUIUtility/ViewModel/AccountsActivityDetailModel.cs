@@ -12,11 +12,27 @@ using DominatorUIUtility.CustomControl;
 namespace DominatorUIUtility.ViewModel
 {
 
-    public class AccountsActivityDetailModel
+    public class AccountsActivityDetailModel :BindableBase
     {
+       
         public DominatorAccountModel DominatorAccountModel { get; set; }
 
         public ObservableCollection<AutoActivityModuleDetails> AutoActivityModuleDetailsCollections { get; set; }
+
+        private bool _isExpand;
+        public bool IsExpand
+        {
+            get
+            {
+                return _isExpand;
+            }
+            set
+            {
+                if(_isExpand==value)
+                    return;
+              SetProperty(ref _isExpand,value);
+            }
+        }
 
     }
 
@@ -39,7 +55,6 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-
         private string _status;
         public string Status
         {
@@ -56,7 +71,6 @@ namespace DominatorUIUtility.ViewModel
         }
 
         private ActivityRatio _ratio = new ActivityRatio();
-
         public ActivityRatio Ratio
         {
             get
@@ -70,6 +84,8 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _ratio, value);
             }
         }
+
+
     }
 
     public class ActivityRatio : BindableBase
@@ -104,7 +120,7 @@ namespace DominatorUIUtility.ViewModel
                 if (_completed == value)
                     return;
                 SetProperty(ref _completed, value);
-                GetPercentages();
+              
             }
         }
 
@@ -124,7 +140,7 @@ namespace DominatorUIUtility.ViewModel
         private void GetPercentages()
         {
             var value = (double)(((double)Completed / (double)Total) * 100);
-            Percentage = System.Math.Round(value, 2);
+            Percentage = System.Math.Round(value, 0);
         }
     }
 

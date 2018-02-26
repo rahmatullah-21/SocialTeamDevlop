@@ -150,6 +150,9 @@
     <Compile Include="CustomControl\SchedulerControl.xaml.cs">
       <DependentUpon>SchedulerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\SelectAccountControl.xaml.cs">
+      <DependentUpon>SelectAccountControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\TimerControl.xaml.cs">
       <DependentUpon>TimerControl.xaml</DependentUpon>
     </Compile>
@@ -294,6 +297,10 @@
     <Page Include="CustomControl\SearchQueryControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\SelectAccountControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\SingleAccountControl.xaml">
       <SubType>Designer</SubType>

@@ -18,7 +18,9 @@ using DominatorHouseCore.Models;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.Publisher;
+using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
+
 #endregion
 
 namespace DominatorHouse
@@ -70,8 +72,8 @@ namespace DominatorHouse
             //        ).AndEvery(1).Days());
             //}); 
             #endregion
-
-            Closed += (o, e) => Process.GetCurrentProcess().Kill();
+            DialogParticipation.SetRegister(this,this);
+             Closed += (o, e) => Process.GetCurrentProcess().Kill();
         }
 
 
@@ -268,14 +270,14 @@ namespace DominatorHouse
                     break;
 
                 case SocialNetworks.Twitter:                    
-                    TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
-                    TabItems = twtDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
+                    //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
+                    //TabItems = twtDominator.InitializeAllTabs();
+                    //this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Pinterest:
-                    PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
-                    TabItems = pinDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
+                    //PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
+                    //TabItems = pinDominator.InitializeAllTabs();
+                    //this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Social:
                     AccountGrowthModeTab.TabStripPlacement = Dock.Left;

@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
-
+    <!--Start Gram Dominator-->
     <system:String x:Key="langAddAccount">Add Account</system:String>
     <system:String x:Key="langCPUUsage">CPU Usage :</system:String>
     <system:String x:Key="langLoadedMemory">Loaded Memory :</system:String>
@@ -1180,7 +1180,13 @@
     <system:String x:Key="langProxyName">Proxy Name</system:String>
     <system:String x:Key="langSelectSocialNetwork">Social Network</system:String>
     <system:String x:Key="langAutoActivity">Auto Activity</system:String>
+    <system:String x:Key="langAutoActivityTitle">Accounts Activity</system:String>
+    <system:String x:Key="langExpandAll">Expand All</system:String>
+    <system:String x:Key="langShrinkAll">Shrink All</system:String>
 
+    <!--End Gram Dominator-->
+
+    <!--Start Quora Dominator-->
     <system:String x:Key="langVoting">Voting</system:String>
     <system:String x:Key="langScrape">Scrape</system:String>
     <system:String x:Key="langQuestions">Questions</system:String>
@@ -1194,4 +1200,73 @@
     <system:String x:Key="langCommentsCount">Comments Count</system:String>
     <system:String x:Key="langQuestionFollowersCount">Question Followers Count</system:String>
     <system:String x:Key="langAnswersCount">Answers Count</system:String>
+    <system:String x:Key="langQuestionFilters">Question Filters</system:String>
+    <system:String x:Key="langAnswerFilters">Answer Filters</system:String>
+    <system:String x:Key="langAnsweredDaysCount">Last Answered Days Count</system:String>
+    <system:String x:Key="langUpvoteAnswers">Upvote Answers</system:String>
+    <system:String x:Key="langDownvoteAnswers">Downvote Answers</system:String>
+    <system:String x:Key="langReportUser">Report User</system:String>
+    <system:String x:Key="langReportAnswer">Report Answer</system:String>
+    <system:String x:Key="langDownvoteQuestions">Downvote Questions</system:String>
+    <system:String x:Key="langIgnoreCurrentUsersFollowers">Ignore Followers</system:String>
+    <system:String x:Key="langIgnoreNonEnglishUser">Ignore Non-English Users</system:String>
+    <system:String x:Key="langPostsCount">Posts Count</system:String>
+    <system:String x:Key="langBlogsCount">Blogs Count</system:String>
+    <system:String x:Key="langTopicsCount">Topics Count</system:String>
+    <system:String x:Key="langEditsCount">Edits Count</system:String>
+    <system:String x:Key="langAnswerViewsCount">Answer Views Count</system:String>
+    <system:String x:Key="langBlacklistedLivesInPlaces">User should not have lived in specified places</system:String>
+    <system:String x:Key="langBlacklistedStudiedPlaces">User should not have studied in specified places</system:String>
+    <system:String x:Key="langBlacklistedWorkPlaces">User should not have worked in specified places</system:String>
+    <system:String x:Key="langFollowersCount">Followers Count</system:String>
+    <system:String x:Key="langBioRestrictedWords">User should not have specified words in bio description</system:String>
+    <system:String x:Key="langUserNameRestrictedWords">User should not have specified words in username</system:String>
+    <system:String x:Key="langSpecificFollowRatio">User should have follow ratio in specified range</system:String>
+    <system:String x:Key="langAnsweredInRecentDays">User should have answered in recently in</system:String>
+    <system:String x:Key="langQuestionsCount">Questions Count</system:String>
+    <system:String x:Key="langEnableFollowAnswerer">Enable Follow Answerer After Voting</system:String>
+    <system:String x:Key="langAfterUpvoteAnswers">After Upvoting Answers</system:String>
+
+    <system:String x:Key="langUpvoteAnswersPerJob">Number of Answers to Upvote per job</system:String>
+    <system:String x:Key="langUpvoteAnswersPerHour">Number of Answers to Upvote per hour</system:String>
+    <system:String x:Key="langUpvoteAnswersPerDay">Number of Answers to Upvote per day</system:String>
+    <system:String x:Key="langUpvoteAnswersPerWeek">Number of Answers to Upvote per day</system:String>
+    <system:String x:Key="langMaxUpvoteAnswersDay">Max Answers to Upvote per day</system:String>
+    <system:String x:Key="langAnswersFilters">Answers Filters</system:String>
+
+
+    <system:String x:Key="langDownvoteAnswersPerJob">Number of Answers to Downvote per job</system:String>
+    <system:String x:Key="langDownvoteAnswersPerHour">Number of Answers to Downvote per hour</system:String>
+    <system:String x:Key="langDownvoteAnswersPerDay">Number of Answers to Downvote per day</system:String>
+    <system:String x:Key="langDownvoteAnswersPerWeek">Number of Answers to Downvote per day</system:String>
+    <system:String x:Key="langMaxDownvoteAnswersDay">Max Answers to Downvote per day</system:String>
+
+
+    <system:String x:Key="langReportQuestionsPerJob">Number of Questions to Report per job</system:String>
+    <system:String x:Key="langReportQuestionsPerHour">Number of Questions to Report per hour</system:String>
+    <system:String x:Key="langReportQuestionsPerDay">Number of Questions to Report per day</system:String>
+    <system:String x:Key="langReportQuestionsPerWeek">Number of Questions to Report per day</system:String>
+    <system:String x:Key="langMaxReportQuestionsDay">Max Questions to Report per day</system:String>
+
+    <system:String x:Key="langReportUserPerJob">Number of Users to Report per job</system:String>
+    <system:String x:Key="langReportUserPerHour">Number of Users to Report per hour</system:String>
+    <system:String x:Key="langReportUserPerDay">Number of Users to Report per day</system:String>
+    <system:String x:Key="langReportUserPerWeek">Number of Users to Report per day</system:String>
+    <system:String x:Key="langMaxReportUserDay">Max Users to Report per day</system:String>
+
+    <system:String x:Key="langReportAnswerPerJob">Number of Answers to Report per job</system:String>
+    <system:String x:Key="langReportAnswerPerHour">Number of Answers to Report per hour</system:String>
+    <system:String x:Key="langReportAnswerPerDay">Number of Answers to Report per day</system:String>
+    <system:String x:Key="langReportAnswerPerWeek">Number of Answers to Report per day</system:String>
+    <system:String x:Key="langMaxReportAnswerDay">Max Answers to Report per day</system:String>
+
+
+    <system:String x:Key="langDownvoteQuestionsPerJob">Number of Questions to Downvote per job</system:String>
+    <system:String x:Key="langDownvoteQuestionsPerHour">Number of Questions to Downvote per hour</system:String>
+    <system:String x:Key="langDownvoteQuestionsPerDay">Number of Questions to Downvote per day</system:String>
+    <system:String x:Key="langDownvoteQuestionsPerWeek">Number of Questions to Downvote per day</system:String>
+    <system:String x:Key="langMaxDownvoteQuestionsDay">Max Questions to Downvote per day</system:String>
+    <!--End Quora Dominator-->
+
+
 </ResourceDictionary>

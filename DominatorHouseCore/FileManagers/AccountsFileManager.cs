@@ -32,6 +32,7 @@ namespace DominatorHouseCore.FileManagers
 
 
         // Saves all accounts. Have to work Only in Social library. Otherwise use UpdateAccounts() method to update AccountDetails.bin
+
         internal static void SaveAll<T>(List<T> lstAccountModel) where T : class
         {
             if (DominatorHouseInitializer.ActiveSocialNetwork != SocialNetworks.Social)
@@ -109,7 +110,7 @@ namespace DominatorHouseCore.FileManagers
         // backward compatibility for TD, PD
         public static bool Add(DominatorAccountModel account) 
         {
-            var lst = GetAll();
+            var lst = GetAll() ?? new List<DominatorAccountModel>();
             lst.Add(account);
             BinFileHelper.UpdateAllAccounts(lst);
 
@@ -183,5 +184,9 @@ namespace DominatorHouseCore.FileManagers
 
             return result;
         }
+
+
+        
+
     }
 }

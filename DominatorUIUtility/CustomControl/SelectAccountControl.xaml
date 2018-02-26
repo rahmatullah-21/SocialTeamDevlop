@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.SelectAccountControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
+             mc:Ignorable="d" MaxHeight="700" MaxWidth="650"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
+    <Border BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="1" Margin="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="40" />
+                <RowDefinition Height="8*" />
+                <RowDefinition  Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"  Background="{DynamicResource AccentBaseColorBrush}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                
+                <!--Groups combobox-->
+                <Grid Height="30" VerticalAlignment="Center">
+                    <ComboBox Name="cmbAllGroups" Margin="10,0,0,0"
+                      Grid.Column="0" Text="{DynamicResource langSelectGroup}"
+                       Width="200" Height="25"
+                      VerticalAlignment="Center" 
+                      FontSize="14" Background="White"
+                      IsEditable="True" DropDownClosed="cmbAllGroups_DropDownClosed"
+                      IsTextSearchEnabled="False" 
+                      ItemsSource="{Binding Groups}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding Content}" Name="chkgroup"
+                                          IsChecked="{Binding IsContentSelected}"  Checked="chkgroup_Checked" Unchecked="chkgroup_Unchecked"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+
+                <!--Select All Account Checkbox-->
+                <CheckBox Name="chkSelectAllAccount" 
+                      Grid.Column="1" Checked="chkSelectAllAccount_Checked" Unchecked="chkSelectAllAccount_Unchecked"
+                      Margin="0,0,4,0" Foreground="White"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Content="{DynamicResource langSelectAll}" />
+                
+                <!--Filter Section-->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource langSearch}" VerticalAlignment="Center" Width="100" HorizontalAlignment="Center" Style="{StaticResource SearchMetroTextBox}" Name="txtSearch" TextChanged="txtSearch_TextChanged"/>
+                    <ComboBox Margin="10,0,10,0"  Controls:TextBoxHelper.ClearTextButton="True" SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Center"  Name="cmbSearchFilter" >
+                        <ComboBoxItem Content="{DynamicResource langByGroupName}"/>
+                        <ComboBoxItem Content="{DynamicResource langByAccount}"/>
+                    </ComboBox>
+                </StackPanel>
+                
+            </Grid>
+
+            <!--Account detail list-->
+            <Grid Grid.Row="1" Margin="0,10,0,0">
+                <ListView ItemsSource="{Binding AccountCollectionView}" ItemContainerStyle="{StaticResource ListViewItems}"
+                          Name="lstviewAccounts" SizeChanged="lstviewAccounts_SizeChanged">
+                    <ListView.Resources>
+                        <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </ListView.Resources>
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False" >
+                            <GridViewColumn Header="{DynamicResource langSelect}" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Name="chkSelectAccount" HorizontalAlignment="Center"
+                                         IsChecked="{Binding IsAccountSelected}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn  Header="{DynamicResource langSNo}" DisplayMemberBinding="{Binding RowNo}" />
+                            <GridViewColumn   Header="{DynamicResource langAccounts}" DisplayMemberBinding="{Binding UserName}" />
+                            <GridViewColumn   Header="{DynamicResource langGroupName}" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            
+            <!--save and cancel button-->
+            <Grid Grid.Row="2" Margin="0,10,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                    <Button  Content="{DynamicResource langSave}" Name="btnSave" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" />
+                    <Button Content="{DynamicResource langCancel}" Name="btnCancel" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </Border>
+</UserControl>

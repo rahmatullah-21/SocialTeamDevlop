@@ -13,9 +13,23 @@ namespace DominatorHouseCore.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+           
+
             if (value != null)
                 GivenPercentage = double.Parse(value.ToString());
-            return GivenPercentage >= 25 ?  (GivenPercentage >= 25 && GivenPercentage < 50 ?Brushes.OrangeRed  : (GivenPercentage >= 50 && GivenPercentage < 75  ? Brushes.CornflowerBlue  : Brushes.YellowGreen)): Brushes.Red;
+
+            if (GivenPercentage >= 25)
+
+                if (GivenPercentage >= 25 && GivenPercentage < 50)
+                    return Brushes.OrangeRed;
+
+                else if (GivenPercentage >= 50 && GivenPercentage < 75)
+                    return Brushes.CornflowerBlue;
+
+                else
+                    return Brushes.YellowGreen;
+
+            else return Brushes.Red;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

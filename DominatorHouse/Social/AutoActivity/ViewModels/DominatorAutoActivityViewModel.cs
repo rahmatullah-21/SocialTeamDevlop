@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
 using DominatorHouse.Social.AutoActivity.Views;
@@ -15,7 +16,6 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 {
     public class DominatorAutoActivityViewModel : BindableBase
     {
-
         private DominatorAutoActivityViewModel()
         {
             _selectedUserControl = new UserControl();
@@ -28,7 +28,6 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         {
             return ObjDominatorAutoActivityViewModel ?? (ObjDominatorAutoActivityViewModel = new DominatorAutoActivityViewModel());
         }
-
 
         public ICollectionView AccountsCollectionView { get; set; }
 
@@ -68,44 +67,95 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
         public ObservableCollection<AccountsActivityDetailModel> AccountsCollection { get; set; }
 
-        private void InitializeAccounts()
+        public void InitializeAccounts()
         {
             var accounts = AccountsFileManager.GetAll();
 
             AccountsCollection =
                 new ObservableCollection<AccountsActivityDetailModel>();
 
-            foreach (var account in accounts)
-            {
-                var accountsActivityDetailModel = new AccountsActivityDetailModel
+            if (accounts != null)
+                foreach (var account in accounts)
                 {
-                    DominatorAccountModel = account,
-                    AutoActivityModuleDetailsCollections = new ObservableCollection<AutoActivityModuleDetails>()
-                };
-
-                account.ActivityManager.LstModuleConfiguration.ForEach(x =>
-                {
-                    var activityDetailsModel = new ActivityDetailsModel()
+                    var accountsActivityDetailModel = new AccountsActivityDetailModel
                     {
-                        Title = x.ActivityType.ToString(),
-                        Status = x.IsEnabled ? "Active" : "InActive",
-                        Ratio = new ActivityRatio()
+                        DominatorAccountModel = account,
+                        AutoActivityModuleDetailsCollections = new ObservableCollection<AutoActivityModuleDetails>()
+                    };
+
+                    account.ActivityManager.LstModuleConfiguration.ForEach(x =>
+                    {
+                        var randomTotal = RandomUtilties.GetRandomNumber(100, 0);
+                        var randomCompleted = RandomUtilties.GetRandomNumber(randomTotal, 0);
+
+                        var activityDetailsModel = new ActivityDetailsModel()
                         {
-                            Total = x.MaximumCountPerDay,
-                            Completed = x.MaximumCountPerDay - 1 <= 0 ? x.MaximumCountPerDay : x.MaximumCountPerDay - 1
-                        }
-                    };
+                            Title = x.ActivityType.ToString(),
+                            Status = x.IsEnabled ? "Active" : "InActive",
+                            Ratio = new ActivityRatio()
+                            {
+                                // Once total and Completed value are binded then remove the following two lines                               
+                                Total = randomTotal,
+                                Completed = randomCompleted
 
-                    var autoActivityModuleDetails = new AutoActivityModuleDetails
+                                // Uncomment once done
+                                //    Total = x.MaximumCountPerDay,
+                                //    Completed = x.MaximumCountPerDay - 1 <= 0 ? x.MaximumCountPerDay : x.MaximumCountPerDay - 1
+                            }
+                        };
+
+                        var autoActivityModuleDetails = new AutoActivityModuleDetails
+                        {
+                            ActivityDetailsModel = activityDetailsModel
+                        };
+
+                        accountsActivityDetailModel.AutoActivityModuleDetailsCollections.Add(autoActivityModuleDetails);
+                    });
+
+                    var accountModuleList = EnumUtility.GetEnums(account.AccountBaseModel.AccountNetwork.ToString());
+
+                    if (accountModuleList.Count >
+                        accountsActivityDetailModel.AutoActivityModuleDetailsCollections.Count)
                     {
-                        ActivityDetailsModel = activityDetailsModel
-                    };
+                        var alreadyAddedActivity = account.ActivityManager.LstModuleConfiguration
+                            .Select(x => x.ActivityType).ToList();
 
-                    accountsActivityDetailModel.AutoActivityModuleDetailsCollections.Add(autoActivityModuleDetails);                    
-                });
+                        var notAddedList = accountModuleList.Except(alreadyAddedActivity);
 
-                AccountsCollection.Add(accountsActivityDetailModel);
-            }
+                        notAddedList.ForEach(x =>
+                        {
+                            var randomTotal = RandomUtilties.GetRandomNumber(100, 0);
+                            var randomCompleted = RandomUtilties.GetRandomNumber(randomTotal, 0);
+
+                            var activityDetailsModel = new ActivityDetailsModel()
+                            {
+                                Title = x.ToString(),
+                                Status = "InActive",
+                                Ratio = new ActivityRatio()
+                                {
+                                    // Once total and Completed value are binded then remove the following two lines                               
+                                    Total = randomTotal,
+                                    Completed = randomCompleted
+
+                                    // Uncomment once done
+                                    //    Total = x.MaximumCountPerDay,
+                                    //    Completed = x.MaximumCountPerDay - 1 <= 0 ? x.MaximumCountPerDay : x.MaximumCountPerDay - 1
+                                }
+                            };
+
+                            var autoActivityModuleDetails = new AutoActivityModuleDetails
+                            {
+                                ActivityDetailsModel = activityDetailsModel
+                            };
+
+                            accountsActivityDetailModel.AutoActivityModuleDetailsCollections.Add(
+                                autoActivityModuleDetails);
+                        });
+                    }
+
+                    accountsActivityDetailModel.IsExpand = true;
+                    AccountsCollection.Add(accountsActivityDetailModel);
+                }
             AccountsCollectionView = CollectionViewSource.GetDefaultView(AccountsCollection);
 
         }
