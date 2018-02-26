@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using DominatorHouseCore.Enums;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -24,7 +25,7 @@ namespace DominatorUIUtility.CustomControl
             this.DataContext = objDominatorAccountViewModel;
 
             //Read all accounts from bin files
-            var items = AccountsFileManager.GetAll();
+            var items = AccountsFileManager.GetAll(SocialNetworks.Instagram);
 
             //Iterate all account model from bin file and add to DominatorAccountViewModel object
             objDominatorAccountViewModel.LstDominatorAccountModel.Clear();
@@ -176,7 +177,7 @@ namespace DominatorUIUtility.CustomControl
         }
         private void lstviewAccounts_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            GridViewColumns.SetGridViewColumnsWidthToStartWidth(lstviewAccounts, e);
+          //  GridViewColumns.SetGridViewColumnsWidthToStartWidth(lstviewAccounts, e);
         }
     }
 }
