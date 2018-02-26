@@ -234,7 +234,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var moduleConfiguration = item.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == moduleType);
                 activitySetting = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId).ActivitySettings;
 
-                runningTime = JsonConvert.DeserializeObject<IGeneralSettings>(activitySetting).JobConfiguration.RunningTime;
+                dynamic obj = JsonConvert.DeserializeObject(activitySetting);
+                runningTime = obj.JobConfiguration.RunningTime;
 
                 #region Commented
                 //switch (moduleType)
