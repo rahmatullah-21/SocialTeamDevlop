@@ -170,12 +170,26 @@ namespace DominatorHouseCore.Models
         }
 
 
-        
+
 
         #endregion
 
+        #region Display column values
+        // TODO: move those properties to DominatorAccountViewModel
 
+        [ProtoIgnore]
+        public int DisplayColumnValue1 { get; set; }
 
+        [ProtoIgnore]
+        public int DisplayColumnValue2 { get; set; }
+
+        [ProtoIgnore]
+        public int DisplayColumnValue3 { get; set; }
+
+        [ProtoIgnore]
+        public int DisplayColumnValue4 { get; set; } 
+
+        #endregion
 
         #region Aliases of AccountBaseModel
 
@@ -185,6 +199,7 @@ namespace DominatorHouseCore.Models
         [ProtoIgnore]
         public string UserName => AccountBaseModel?.UserName;
 
+        
         #endregion
     }
 }

@@ -19,13 +19,12 @@ namespace DominatorHouseCore.DatabaseHandler
             {
                 DataBaseConnectionCodeFirst.DataBaseConnection databaseConnection =
                     GetDataBaseConnectionInstance(DBName, databaseType);
-                #region commeted for now
+
                 //databaseConnection.Add<DataBaseConnection.CommonDatabaseConnection.Tables.Account.Friendships>(new DataBaseConnection.CommonDatabaseConnection.Tables.Account.Friendships()
                 //{
                 //    FullName = "Vikas Singh"
                 //});
-                //List<DataBaseConnection.CommonDatabaseConnection.Tables.Account.Friendships> lstFriendships = databaseConnection.Get<DataBaseConnection.CommonDatabaseConnection.Tables.Account.Friendships>(); 
-                #endregion
+                //List<DataBaseConnection.CommonDatabaseConnection.Tables.Account.Friendships> lstFriendships = databaseConnection.Get<DataBaseConnection.CommonDatabaseConnection.Tables.Account.Friendships>();
             }
             catch (Exception ex)
             {

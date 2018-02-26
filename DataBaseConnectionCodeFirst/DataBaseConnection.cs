@@ -39,7 +39,7 @@ namespace DataBaseConnectionCodeFirst
                         context.Set<T>().Add(data);
                         context.SaveChanges();
                     }
-                    sqLiteConnection.Close();
+                    
                 }
                 return true;
             }
@@ -60,11 +60,10 @@ namespace DataBaseConnectionCodeFirst
                     {
                         return Expression==null? context.Set<T>().ToList():context.Set<T>().Where(Expression).ToList();
                     }                    
-                }
-                return null;
+                }                
             }
             catch (Exception Ex)
-            {
+            {                
                 return null;
             }
         }
@@ -83,10 +82,8 @@ namespace DataBaseConnectionCodeFirst
                         using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
                         {
                             return Expression == null ? context.Set<T>().ToList() : context.Set<T>().Where(Expression).ToList();
-                        }
-                        sqLiteConnection.Close();
-                    }
-                    return null;
+                        }                        
+                    }                    
                 });
             
             }
@@ -108,10 +105,8 @@ namespace DataBaseConnectionCodeFirst
                     using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
                     {
                         return context.Set<T>().FirstOrDefault(Expression);
-                    }
-                    sqLiteConnection.Close();
-                }
-                return null;
+                    }                    
+                }                
             }
             catch (Exception Ex)
             {

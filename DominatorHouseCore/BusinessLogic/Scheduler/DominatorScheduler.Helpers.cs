@@ -9,7 +9,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.Interfaces;
 
-namespace DominatorHouseCore.BusinessLogic
+namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public partial class DominatorScheduler
     {

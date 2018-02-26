@@ -1,5 +1,7 @@
 ﻿using DominatorHouse.Helpers;
 using DominatorHouseCore.BusinessLogic;
+using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
@@ -18,30 +20,50 @@ namespace DominatorHouseCore.Diagnostics
     /// </summary>
     public static class DominatorHouseInitializer
     {
-        public class LibraryData
+        public class LibraryCoreObjects
         {
-            public SocialNetworks Network { get; set; }
-            public IJobProcessFactory JobProcessFactory { get; set; }
+            /// <summary>
+            /// Network ID
+            /// </summary>
+            public SocialNetworks Network { get; internal set; }
+
+            /// <summary>
+            /// reates job process based on social network and module
+            /// </summary>
+            public IJobProcessFactory JobProcessFactory { get; internal set; }       
+
+            /// <summary>
+            /// Scraps data from social network feed based on query (queries)
+            /// </summary>
+            public IScraperFactory QueryScraperFactory { get; internal set; }
+
+            /// <summary>
+            /// Library main window
+            /// </summary>
             public Window MainWindow { get; set; }
         }
 
+
         static bool _isInitialized = false;
 
-        private static Dictionary<SocialNetworks, LibraryData> _registeredLibraries = new Dictionary<SocialNetworks, LibraryData>();
+        private static Dictionary<SocialNetworks, LibraryCoreObjects> _registeredLibraries = new Dictionary<SocialNetworks, LibraryCoreObjects>();
 
-        public static LibraryData ActiveLibrary { get; private set; }
+        public static LibraryCoreObjects ActiveLibrary { get; private set; }
 
         public static SocialNetworks ActiveSocialNetwork => ActiveLibrary.Network;
 
         // Platform sets only once on first initialization. May be DominatorHouseSocial for DH, or GramDominator for standalone exe.
         public static string PlatformName { get; private set; }
-
+        
 
         /// <summary>
         /// Call this method in ctor of particular main window of library
         /// </summary>
         /// <param name="mainWindow"></param>
-        public static void Init(Window mainWindow, Interfaces.IJobProcessFactory factory, Enums.SocialNetworks network)
+        public static void Init(Window mainWindow, 
+                IJobProcessFactory jobProcessFactory,
+                IScraperFactory queryScrapperFactory,
+                Enums.SocialNetworks network)
         {
             if (_registeredLibraries.ContainsKey(network))
             {
@@ -50,11 +72,12 @@ namespace DominatorHouseCore.Diagnostics
             }
 
             // Save data of active library
-            ActiveLibrary = new LibraryData()
+            ActiveLibrary = new LibraryCoreObjects()
             {
                 Network = network,
                 MainWindow = mainWindow,
-                JobProcessFactory = factory,
+                JobProcessFactory = jobProcessFactory,
+                QueryScraperFactory = queryScrapperFactory,
             };
             _registeredLibraries.Add(network, ActiveLibrary);
 
@@ -77,7 +100,7 @@ namespace DominatorHouseCore.Diagnostics
                 GlobusLogHelper.InitializeLoggerUI((ILoggableWindow)mainWindow);
 
             // init Job Process Factory for caller library: GD, TD, PD, LD..
-            DominatorScheduler.AddJobProcessFactoryForNetwork(factory, network);
+            DominatorScheduler.AddJobProcessFactoryForNetwork(jobProcessFactory, network);
 
 #if DEBUG && ATTACH_CONSOLE
             ConsoleManager.Show();

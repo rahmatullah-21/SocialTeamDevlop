@@ -14,7 +14,7 @@ namespace DominatorHouseCore.Utility
     internal class ListWrapper<T>
     {
         [ProtoMember(1)]
-        public List<T> List { get; set; }
+        public List<T> List { get; set; } = new List<T>();
 
         public ListWrapper()
         {
@@ -114,22 +114,18 @@ namespace DominatorHouseCore.Utility
         /// <param name="filePath">Source of the file </param>
         /// <returns>List of Type T</returns>
         internal static List<T> DeserializeList<T>(string filePath) where T : class
-
-
-
-
-
+            
         {
             try
             {
                 using (var stream = File.OpenRead(filePath))
                 {
                     if (filePath.ToLower().Contains("account"))
-                        Debug.Assert(typeof(T) == typeof(DominatorAccountModel));
+                        Debug.Assert(typeof(T) == typeof(DominatorAccountModel));       // account model have to be only DominatorAccountModel
 
                     var wrapper = Serializer.Deserialize<ListWrapper<T>>(stream);  
 
-                    return wrapper.List;
+                    return wrapper.List ?? new List<T>();
                 }
             }
             catch (Exception ex)

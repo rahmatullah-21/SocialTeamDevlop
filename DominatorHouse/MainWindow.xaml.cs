@@ -7,30 +7,19 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using FluentScheduler;
-using GramDominatorCore.GDLibrary;
-using GramDominatorCore.GDUtility;
-using GramDominatorCore.GDViewModel.Accounts;
 
-using GramDominatorUI.TabManager;
-using MahApps.Metro.Controls;
-using System.Windows.Media;
-using System.ComponentModel;
-using System.Linq;
-using DominatorHouse.Social.AutoActivity.ViewModels;
 using DominatorHouse.Social.AutoActivity.Views;
+using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.BusinessLogic.Scraper;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
-using DominatorUIUtility.CustomControl;
-using NLog;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore;
-using DominatorHouseCore.BusinessLogic;
+using DominatorHouseCore.Models;
 using DominatorUIUtility.Behaviours;
+using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.Publisher;
 using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
 
 #endregion
 
@@ -54,8 +43,10 @@ namespace DominatorHouse
 
         public MainWindow()
         {
-
-            DominatorHouseInitializer.Init(this, DominatorJobProcessFactory.Instance, SocialNetworks.Social);
+            DominatorHouseInitializer.Init(this, 
+                DominatorJobProcessFactory.Instance, 
+                DominatorScraperFactory.Instance,
+                SocialNetworks.Social);
 
             InitializeComponent();
 
@@ -278,16 +269,15 @@ namespace DominatorHouse
 
                     break;
 
-                case SocialNetworks.Twitter:
-                    #warning UNCOMMENT LINES BELLOW WHEN COMPILED
+                case SocialNetworks.Twitter:                    
                     //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
                     //TabItems = twtDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
+                    //this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Pinterest:
                     //PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
                     //TabItems = pinDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
+                    //this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Social:
                     AccountGrowthModeTab.TabStripPlacement = Dock.Left;
@@ -295,6 +285,7 @@ namespace DominatorHouse
                     this.Title = "Dominator - All in One";
                     break;
                 case SocialNetworks.Quora:
+#warning    UNCOMMENT LINES BELOW WHEN COMPILED
                     //QuoraDominator.MainWindow quoraDominator = new QuoraDominator.MainWindow();
                     //TabItems = quoraDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Quora.ToString() + " Dominator";

@@ -8,7 +8,8 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Enums;
 
-namespace DominatorHouseCore.BusinessLogic
+
+namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public class DominatorJobProcessFactory : IJobProcessFactory
     {

@@ -13,7 +13,7 @@ using DominatorHouseCore.Process;
 using DominatorHouseCore.Interfaces;
 using Newtonsoft.Json;
 
-namespace DominatorHouseCore.BusinessLogic
+namespace DominatorHouseCore.BusinessLogic.Scheduler
 {    
     public partial class DominatorScheduler
     {        
