@@ -30,8 +30,7 @@ using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.Publisher;
-
-
+using MahApps.Metro.Controls.Dialogs;
 
 #endregion
 
@@ -82,8 +81,8 @@ namespace DominatorHouse
             //        ).AndEvery(1).Days());
             //}); 
             #endregion
-
-            Closed += (o, e) => Process.GetCurrentProcess().Kill();
+            DialogParticipation.SetRegister(this,this);
+             Closed += (o, e) => Process.GetCurrentProcess().Kill();
         }
 
 

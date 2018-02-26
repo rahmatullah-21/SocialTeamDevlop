@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouse.Social.AutoActivity.ViewModels;
+using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
@@ -124,5 +128,13 @@ namespace DominatorHouse.Social.AutoActivity.Views
                 contextMenu.IsOpen = true;
             }
         }
+
+        private void SocialAutoActivity_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            DominatorAutoActivityViewModel.InitializeAccounts();
+            SetDataContext();
+        }
+
+
     }
 }

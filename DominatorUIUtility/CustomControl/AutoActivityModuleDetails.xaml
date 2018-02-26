@@ -12,12 +12,11 @@
         <converters:StringPercentageTextConverter x:Key="PercentageTextConverter"></converters:StringPercentageTextConverter>
     </UserControl.Resources>
     <Grid>
-
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Grid Background="White">
                     <Rectangle Width="180" Height="30" RadiusX="10" RadiusY="20" Stroke="CadetBlue" StrokeThickness="5" Fill="CadetBlue" />
-                     <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
                         <TextBlock Foreground="White" Text="{Binding ActivityDetailsModel.Title}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Margin="2" />
                         <controls:ToggleSwitch OnLabel="" OffLabel=""  Margin="6,0,0,0" HorizontalAlignment="Center" IsCheckedChanged="ActivityChanged_OnIsCheckedChanged" VerticalAlignment="Center" Tag="{Binding ActivityDetailsModel.Status}" >
                             <controls:ToggleSwitch.Style>
@@ -56,9 +55,5 @@
                 </Grid>
             </StackPanel>
         </StackPanel>
-
-
-
-
     </Grid>
 </UserControl>

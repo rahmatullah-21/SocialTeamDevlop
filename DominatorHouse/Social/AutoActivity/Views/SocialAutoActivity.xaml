@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorHouse.Social.AutoActivity.Views"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"         
-             mc:Ignorable="d" Name="SocialActivity"
+             mc:Ignorable="d" Name="SocialActivity" Loaded="SocialAutoActivity_OnLoaded"
             >
     <Grid>
 

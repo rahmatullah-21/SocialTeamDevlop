@@ -16,7 +16,6 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 {
     public class DominatorAutoActivityViewModel : BindableBase
     {
-
         private DominatorAutoActivityViewModel()
         {
             _selectedUserControl = new UserControl();
@@ -68,7 +67,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
         public ObservableCollection<AccountsActivityDetailModel> AccountsCollection { get; set; }
 
-        private void InitializeAccounts()
+        public void InitializeAccounts()
         {
             var accounts = AccountsFileManager.GetAll();
 
