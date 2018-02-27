@@ -320,6 +320,9 @@ namespace DominatorUIUtility.CustomControl
 
         public void GotoTools(object sender, RoutedEventArgs e)
         {
+            var dominatorAccountModel = ((FrameworkElement) sender).DataContext as DominatorAccountModel;
+
+            DominatorHouseCore.Utility.TabSwitcher.ChangeTabWithNetwork(2, dominatorAccountModel.AccountBaseModel.AccountNetwork, dominatorAccountModel.AccountBaseModel.UserName);
 
         }
 

@@ -15,7 +15,7 @@ namespace DominatorUIUtility.Behaviours
         public static Func<string, string, ObservableCollectionBase<QueryInfo>> GetSavedQuery { get; set; }
 
         public static Func<Reports, Dictionary<string, string>, DataBaseConnectionCodeFirst.DataBaseConnection, CampaignDetails, ObservableCollection<object>> GetReportDetail { get; set; }
-       public static Func<string> GetHeader { get; set; }
+        public static Func<string> GetHeader { get; set; }
         public static Action<string,string> ExportReports { get; set; }
         public static Func<string, ReportModel, bool> FilterByQueryType { get; set; }
         public static Func<string, ReportModel, bool> FilterByAccount { get; set; }

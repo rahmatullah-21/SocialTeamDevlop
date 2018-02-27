@@ -55,6 +55,22 @@ namespace DominatorHouse.Social.AutoActivity.Views
             return ObjSocialAutoActivity;
         }
 
+
+        public static bool NewAutoActivityObject(SocialNetworks soicalNetworks,string selectedAccouts)
+        {
+            try
+            {
+                ObjSocialAutoActivity = new SocialAutoActivity();
+                ObjSocialAutoActivity.SetDataContext();
+                ObjSocialAutoActivity.DominatorAutoActivityViewModel.CallRespectiveView(soicalNetworks, selectedAccouts);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         private void SetDataContext()
         {
             SocialActivity.DataContext = DominatorAutoActivityViewModel;

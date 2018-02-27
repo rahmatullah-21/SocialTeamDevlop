@@ -15,9 +15,11 @@ using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.Publisher;
+using GramDominatorUI.TabManager;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 
@@ -54,7 +56,8 @@ namespace DominatorHouse
 
             GlobusLogHelper.log.Info("Welcome to Dominator social");
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
-            //TabSwitcher.ChangeTabIndex = ChangeIndex;
+             TabSwitcher.ChangeTabIndex = ChangeIndex;
+             TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
             Task performanceTask = new Task(() => StartbindMemory(),
             TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
@@ -76,6 +79,11 @@ namespace DominatorHouse
              Closed += (o, e) => Process.GetCurrentProcess().Kill();
         }
 
+        private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
+        {
+            AccountGrowthModeTab.SelectedIndex = index;
+            SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
+        }
 
         public void LogText(string message, bool error)
         {
@@ -84,11 +92,6 @@ namespace DominatorHouse
             else
                 GlobusLogHelper.LogTextToList(ErrorLogger, message);
         }
-
-
-
-
-
 
         public static MainWindow objMainWindowRef = null;
 
@@ -157,9 +160,6 @@ namespace DominatorHouse
         //    NormalModeTab.SelectedIndex = mainTabindex;
         //} 
         #endregion
-
-
-
 
         async private void StartbindMemory()
         {
@@ -237,8 +237,6 @@ namespace DominatorHouse
         }
 
 
-
-
         //public void NormalMode()
         //{
         //    NormalModeTab.Visibility = System.Windows.Visibility.Visible;
@@ -246,8 +244,6 @@ namespace DominatorHouse
         //    btnAccountGrowthMode.Content = "Switch to Account Growth Mode";
         //    btnAccountGrowthMode.Name = "btnAccountGrowthMode";
         //}
-
-
 
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -415,6 +411,40 @@ namespace DominatorHouse
                     break;
                 case SocialNetworks.Twitter:
                     //TwtDominatorCore.TDViewModel.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                    break;
+            }
+        }
+
+
+        public void ChangeIndex(int tabControlIndex, int tabIndex)
+        {
+            AccountGrowthModeTab.SelectedIndex = tabControlIndex;
+
+            switch (tabControlIndex)
+            {
+                case 1:
+                    GrowFollowersTab objGrowFollowersTab = GrowFollowersTab.GetSingeltonObjectGrowFollowersTab();
+                    objGrowFollowersTab.setIndex(tabIndex);
+                    break;
+                case 2:
+                    InstaPosterTab objInstaPosterTab = InstaPosterTab.GetSingeltonObjectInstaPosterTab();
+                    objInstaPosterTab.setIndex(tabIndex);
+                    break;
+
+                case 3:
+                    InstachatTab.GetSingeltonObjectInstachatTab();
+                    break;
+                case 4:
+                    var objInstaLikerInstaCommenterTab = InstaLikerInstaCommenterTab.GetSingeltonObjectInstaLikerInstaCommenterTab();
+                    objInstaLikerInstaCommenterTab.setIndex(tabIndex);
+                    break;
+                case 5:
+                    InstaScrapeTab objInstaScrapeTab = InstaScrapeTab.GetSingeltonObjectInstaScrapeTab();
+                    objInstaScrapeTab.setIndex(tabIndex);
+                    break;
+                case 6:
+                    CampaignTab objCampaignTab = CampaignTab.GetSingeltonObjectCampaignTab();
+                    objCampaignTab.setIndex(TabIndex);
                     break;
             }
         }
