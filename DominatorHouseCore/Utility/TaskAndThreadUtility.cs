@@ -72,7 +72,7 @@ namespace DominatorHouseCore.Utility
 
         public DominatorCancellationTokenSource(string key) :base()
         {
-            if (TaskAndThreadUtility.DictAllJobCancellationTokenSources.Keys.Contains(key))
+            if (TaskAndThreadUtility.DictAllJobCancellationTokenSources.ContainsKey(key))
                 TaskAndThreadUtility.DictAllJobCancellationTokenSources.Remove(key);
             TaskAndThreadUtility.DictAllJobCancellationTokenSources.Add(key, this);
         }

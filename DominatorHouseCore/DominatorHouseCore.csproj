@@ -210,6 +210,7 @@
     <Compile Include="Settings\Queries.cs" />
     <Compile Include="Models\QueryInfo.cs" />
     <Compile Include="Settings\RunningTimeSpanModel.cs" />
+    <Compile Include="Models\UserFilterModel.cs" />
     <Compile Include="Utility\BinFileHelper.cs" />
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="DatabaseHandler\DataBaseHandler.cs" />

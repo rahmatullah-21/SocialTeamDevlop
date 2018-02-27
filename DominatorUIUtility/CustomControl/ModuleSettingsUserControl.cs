@@ -1,0 +1,502 @@
+﻿using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.Behaviours;
+using MahApps.Metro.Controls.Dialogs;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+
+namespace DominatorUIUtility.CustomControl
+{
+    /// <summary>
+    /// Base class which handles events from IHeaderControl, IHelpContol, IFooterControl
+    /// Implements handlers for: _OnSelectAccountChanged, _OnCreateCampaignChanged, _OnCustomFilterChanged,
+    ///  _OnInfoChanged, _OnAddQuery, SetDataContex
+    /// Uses as base for: Follower, Unfollower, Like, Comment, DownloadPhotos, etc.
+    /// </summary>
+    public abstract class ModuleSettingsUserControl<TViewModel, TModel> : UserControl, INotifyPropertyChanged, IHeaderControl, IHelpControl, IFooterControl
+        where TModel : class, new()
+        where TViewModel : class, new()
+    {
+        HeaderControl _headerControl;
+        FooterControl _footerControl;
+        SearchQueryControl _queryControl;
+        Grid _mainGrid;
+
+        ActivityType _activityType;
+        string _moduleName;
+        SocialNetworks _socialNetwork => DominatorHouseInitializer.ActiveSocialNetwork;
+
+
+        public ModuleSettingsUserControl(HeaderControl header, FooterControl footer, SearchQueryControl queryControl,
+                                         Grid MainGrid, ActivityType activityType, string moduleName)
+        {
+            _headerControl = header;
+            _footerControl = footer;
+            _queryControl = queryControl;
+            _mainGrid = MainGrid;
+            _activityType = activityType;
+            _moduleName = moduleName;
+        }
+
+
+        private void ModuleSectionsFooterControl_OnSelectAccountChanged(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var objSelectAccountControl = new SelectAccountControl(_footerControl.list_SelectedAccounts);
+
+                var objDialog = new Dialog();
+
+                var window = objDialog.GetMetroWindow(objSelectAccountControl, "Select Account");
+
+                objSelectAccountControl.btnSave.Click += (senders, Events) =>
+                {
+                    if (objSelectAccountControl.GetSelectedAccount().Count > 0)
+                    {
+                        _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
+                        this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+                    }
+                    else
+                    {
+                        this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                    }
+                    window.Close();
+                };
+
+                objSelectAccountControl.btnCancel.Click += (senders, events) => window.Close();
+                window.ShowDialog();
+
+            }
+            catch (Exception Ex)
+            {
+                Ex.ErrorLog();
+            }
+        }
+
+
+        // IHeaderControl
+        private string _campaignName;
+
+        public string CampaignName
+        {
+            get
+            {
+                return _campaignName;
+            }
+            set
+            {
+                _campaignName = value;
+                OnPropertyChanged(nameof(CampaignName));
+            }
+        }
+
+        private bool _isEditCampaignName = true;
+
+        public bool IsEditCampaignName
+        {
+            get
+            {
+                return _isEditCampaignName;
+            }
+            set
+            {
+                _isEditCampaignName = value;
+                OnPropertyChanged(nameof(IsEditCampaignName));
+            }
+        }
+
+
+        private Visibility _cancelEditVisibility = Visibility.Collapsed;
+
+        public Visibility CancelEditVisibility
+        {
+            get
+            {
+                return _cancelEditVisibility;
+            }
+            set
+            {
+                _cancelEditVisibility = value;
+                OnPropertyChanged(nameof(CancelEditVisibility));
+            }
+        }
+        private string _templateId;
+        public string TemplateId
+        {
+            get
+            {
+                return _templateId;
+            }
+
+            set
+            {
+                _templateId = value;
+                OnPropertyChanged(nameof(_templateId));
+            }
+        }
+        //
+
+        #region IHelpControl
+
+        // 
+        public string VideoTutorialLink { get; set; } = "!Pass ConstantHelpDetails.VideoTutorialsLink in Derived Class";
+
+        public string KnowledgeBaseLink { get; set; } = "!Pass ConstantHelpDetails.KnowledgeBaseLink";
+
+        public string ContactSupportLink { get; set; } = "!Pass ConstantHelpDetails.ContactLink";
+
+        #endregion
+
+
+        #region IFooterControl
+
+        private string _selectedAccountCount = ConstantVariable.NoAccountSelected;
+
+        public string SelectedAccountCount
+        {
+            get
+            {
+                return _selectedAccountCount;
+            }
+            set
+            {
+                _selectedAccountCount = value;
+                OnPropertyChanged("SelectedAccountCount");
+            }
+        }
+
+        private string _campaignButtonContent = ConstantVariable.CreateCampaign;
+        public string CampaignButtonContent
+        {
+            get
+            {
+                return _campaignButtonContent;
+            }
+            set
+            {
+                _campaignButtonContent = value;
+                OnPropertyChanged(nameof(CampaignButtonContent));
+            }
+        }
+
+        #endregion
+
+        private TViewModel _ObjViewModel = new TViewModel();
+
+        public TViewModel ObjViewModel
+        {
+            get { return _ObjViewModel; }
+            set
+            {
+                _ObjViewModel = value;
+                OnPropertyChanged(nameof(ObjViewModel));
+            }
+        }
+
+        public dynamic Model => (ObjViewModel as dynamic).Model as TModel;
+
+
+        #region PropertyChanged section
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        #endregion
+
+
+        /// <summary>
+        /// Add Query handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void SearchQueryControl_OnAddQuery(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue))
+            {
+                _queryControl.QueryCollection.ForEach(query =>
+                {
+                    var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
+
+                    if (currentQuery == null) return;
+
+                    currentQuery.QueryValue = query;
+
+                    currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
+
+                    currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                    Model.SavedQueries.Add(currentQuery);
+
+                });
+            }
+            else
+            {
+
+                _queryControl.CurrentQuery.QueryTypeDisplayName
+                    = _queryControl.CurrentQuery.QueryType;
+
+                var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
+
+                if (currentQuery == null) return;
+
+                currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                Model.SavedQueries.Add(currentQuery);
+
+                _queryControl.CurrentQuery = new QueryInfo();
+
+            }
+        }
+
+
+        /// <summary>
+        /// On Custom filter  changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchQueryControl_OnCustomFilterChanged(object sender, RoutedEventArgs e)
+        {
+            UserFiltersControl objUserFiltersControl = new UserFiltersControl();
+            Dialog objDialog = new Dialog();
+
+            var FilterWindow = objDialog.GetMetroWindow(objUserFiltersControl, "Filter");
+
+            objUserFiltersControl.SaveButton.Click += (senders, Events) =>
+            {
+                _queryControl.CurrentQuery.CustomFilters = JsonConvert.SerializeObject(objUserFiltersControl.UserFilter);
+                FilterWindow.Close();
+            };
+
+            FilterWindow.ShowDialog();
+        }
+
+        public abstract void SaveDetails(List<string> lstSelectedAccounts, ActivityType moduleType);
+        public abstract void AddNewCampaign(List<string> lstSelectedAccounts, ActivityType moduleType);
+
+
+        /// <summary>
+        /// Event handler called when user Creates or Updates campaign
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FooterControl_OnCreateCampaignChanged(object sender, RoutedEventArgs e)
+        {
+            if (_footerControl.list_SelectedAccounts.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please select at least one account.",
+                    MessageDialogStyle.Affirmative);
+                return;
+            }
+
+            // Check queries
+            if (Model.SavedQueries.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please ADD at least one query.",
+                    MessageDialogStyle.Affirmative);
+                return;
+            }
+
+            // Check timings
+            if (Model.SavedQueries.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please ADD at least one query.",
+                    MessageDialogStyle.Affirmative);
+                return;
+            }
+
+
+            var objTemplateModel = new TemplateModel();
+
+            TemplateId = objTemplateModel.SaveTemplate((TModel)Model,
+                _activityType.ToString(), SocialNetworks.Instagram,
+                CampaignName);
+
+            SaveDetails(_footerControl.list_SelectedAccounts, _activityType);
+
+            AddNewCampaign(_footerControl.list_SelectedAccounts, _activityType);
+
+            SetDataContext();
+            TabSwitcher.ChangeTabIndex(6, 0);
+        }
+
+
+        private void FooterControl_OnSelectAccountChanged(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                var objSelectAccountControl = new SelectAccountControl(_footerControl.list_SelectedAccounts);
+
+                var objDialog = new Dialog();
+
+                var window = objDialog.GetMetroWindow(objSelectAccountControl, "Select Account");
+
+                objSelectAccountControl.btnSave.Click += (senders, Events) =>
+                {
+                    if (objSelectAccountControl.GetSelectedAccount().Count > 0)
+                    {
+                        _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
+                        this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+                    }
+                    else
+                    {
+                        this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                    }
+                    window.Close();
+                };
+
+                objSelectAccountControl.btnCancel.Click += (senders, events) => window.Close();
+                window.ShowDialog();
+
+            }
+            catch (Exception Ex)
+            {
+                Ex.DebugLog();
+            }
+        }
+
+        private void HeaderControl_OnCancelEditClick(object sender, RoutedEventArgs e)
+        {
+            IsEditCampaignName = true;
+            CancelEditVisibility = Visibility.Collapsed;
+            _footerControl.CampaignManager = ConstantVariable.CreateCampaign;
+            SetDataContext();
+        }
+
+
+        private void FooterControl_OnUpdateCampaignChanged(object sender, RoutedEventArgs e)
+        {
+            // Update Template Detail
+            TemplatesFileManager.UpdateActivitySettings(TemplateId, JsonConvert.SerializeObject(Model as TModel));
+
+
+            // Update Campaign Detail
+            CampaignsFileManager.ApplyAction(campaign =>
+            {
+                if (campaign.TemplateId == TemplateId)
+                {
+                    campaign.CampaignName = CampaignName;
+
+                    campaign.MainModule = _moduleName;
+                    campaign.SubModule = _activityType.ToString();
+
+                    campaign.SocialNetworks = _socialNetwork;
+                    campaign.SelectedAccountList = _footerControl.list_SelectedAccounts;
+                    campaign.TemplateId = TemplateId;
+                    campaign.CreationDate = DateTimeUtilities.GetEpochTime();
+                    campaign.Status = "Active";
+                    campaign.LastEditedDate = DateTimeUtilities.GetEpochTime();
+                }
+            });
+
+            // Update Account Detail
+
+            var AccountDetails = AccountsFileManager.GetAll();
+            if (UpdateSelectedAccountDetails(AccountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Update", "Update Successfull", MessageDialogStyle.Affirmative);
+
+
+            SetDataContext();
+            DominatorHouseCore.Utility.TabSwitcher.ChangeTabIndex(6, 0);
+        }
+
+        protected void SetDataContext()
+        {
+            this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+            ObjViewModel = new TViewModel();
+            _footerControl.list_SelectedAccounts = new List<string>();
+            _mainGrid.DataContext = Model as TModel;
+            _headerControl.DataContext = _footerControl.DataContext = this;
+            CampaignName = $"{_socialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
+        }
+
+
+        /// <summary>
+        /// UpdateSelectedAccountDetails method will take AccountDetails and list of selected account to modify as  argument and
+        /// will update that account with setting and return status
+        /// </summary>
+        /// <param name="allAccountDetails"></param>
+        /// <param name="listSelectedAccounts"></param>
+        /// <returns></returns>
+        public bool UpdateSelectedAccountDetails(IEnumerable<DominatorAccountModel> allAccountDetails,
+            List<string> listSelectedAccounts, JobConfiguration jobConfiguration)
+        {
+            bool isAccountDetailsUpdated = false;
+
+            List<DominatorAccountModel> selectedAccounts = new List<DominatorAccountModel>(listSelectedAccounts.Count);
+            foreach (var account in allAccountDetails)
+            {
+                if (!listSelectedAccounts.Contains(account.AccountBaseModel.UserName))
+                    continue;
+
+
+                isAccountDetailsUpdated = true;
+                try
+                {
+                    if (account.ActivityManager.RunningTime == null)
+                        account.ActivityManager.RunningTime = RunningTimes.DayWiseRunningTimes;
+
+                    var moduleConfiguration = account.ActivityManager.LstModuleConfiguration?.FirstOrDefault(y => y.ActivityType == _activityType);
+                    if (moduleConfiguration == null)
+                    {
+                        moduleConfiguration = new ModuleConfiguration() { ActivityType = _activityType };
+                        account.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
+                    }
+
+
+                    moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
+                    moduleConfiguration.IsEnabled = true;
+                    moduleConfiguration.Status = "Active";
+
+                    // Update running times for current activity
+                    jobConfiguration.RunningTime.ForEach(x =>
+                            {
+                                foreach (var timingRange in x.Timings)
+                                    timingRange.Module = _activityType.ToString();
+                            });
+
+                    account.ActivityManager.RunningTime = jobConfiguration.RunningTime;
+
+
+                    account.IsCretedFromNormalMode = true;
+                    selectedAccounts.Add(account);
+
+                    AccountsFileManager.Edit(account);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+
+            // save all accounts and schedule actitvities of selected accounts            
+            foreach (var account in selectedAccounts)
+            {
+                DominatorScheduler.ScheduleTodayJobs(account, SocialNetworks.Instagram, _activityType);
+                DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: account, network: SocialNetworks.Instagram);
+            }
+
+            return isAccountDetailsUpdated;
+        }
+    }
+}

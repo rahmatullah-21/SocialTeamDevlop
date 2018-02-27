@@ -27,7 +27,7 @@ namespace DominatorHouseCore.Process
     /// 
     /// Derived class have to implement PostScrapeProcess
     /// </summary>
-    public abstract class JobProcess 
+    public abstract class JobProcess
     {
         #region Required Properties
         protected int NoOfActionPerformedCurrentJob = 0;
@@ -51,7 +51,7 @@ namespace DominatorHouseCore.Process
         public static Dictionary<string, string> DictRunningJobs = new Dictionary<string, string>();
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; }
-        
+
         #endregion
 
         public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
@@ -72,7 +72,7 @@ namespace DominatorHouseCore.Process
             JobCancellationTokenSource = new DominatorCancellationTokenSource(account, template);
             InitializeActivityCount(account);
         }
-        
+
         protected void InitializeActivityCount(string account)
         {
             MaxNoOfActionPerJob = this.JobConfiguration.ActivitiesPerJob.GetRandom();
@@ -138,53 +138,51 @@ namespace DominatorHouseCore.Process
         /// <param name="scrapeResult"></param>
         /// <returns></returns>
         public abstract JobProcessResult PostScrapeProcess(ScrapeResultNew scrapeResult);
-        
+
 
         /// <summary>
         /// Logs-in to social network and scrap data from its feed
         /// </summary>
         protected void StartProcess(ILoginProcess logInProcess)
         {
-            lock (DictRunningJobs)
+            try
+            {
+                if (DictRunningJobs.ContainsKey(TemplateId)) return;        // job already running
+
+                DictRunningJobs.Add(this.TemplateId, "");
+                Debug.Assert(!string.IsNullOrEmpty(this.campaignId));
+
+                GlobusLogHelper.log.Info("Process started with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+                if (!this.DominatorAccountModel.IsUserLoggedIn)
+                {
+                    GlobusLogHelper.log.Info("Logging in with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+
+                    logInProcess.LoginWithDataBaseCookies(this.DominatorAccountModel, true);
+                }
+
+                if (this.DominatorAccountModel.IsUserLoggedIn)
+                {
+                    GlobusLogHelper.log.Info("Logged in successfully with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+
+                    RunScraper();
+                }
+
+            }
+            catch (Exception Ex)
+            {
+                Ex.DebugLog();
+            }
+            finally
             {
                 try
                 {
-                    if (DictRunningJobs.ContainsKey(TemplateId)) return;        // job already running
-
-                    DictRunningJobs.Add(this.TemplateId, "");
-                    Debug.Assert(!string.IsNullOrEmpty(this.campaignId));
-                    
-                    GlobusLogHelper.log.Info("Process started with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
-                    if (!this.DominatorAccountModel.IsUserLoggedIn)
-                    {
-                        GlobusLogHelper.log.Info("Logging in with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
-
-                        logInProcess.LoginWithDataBaseCookies(this.DominatorAccountModel, true);
-                    }
-
-                    if (this.DominatorAccountModel.IsUserLoggedIn)
-                    {
-                        GlobusLogHelper.log.Info("Logged in successfully with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
-
-                        RunScraper();
-                    }
-
+                    DictRunningJobs.Remove(this.TemplateId);
                 }
-                catch (Exception Ex)
+                catch (Exception)
                 {
-                    Ex.DebugLog();
-                }
-                finally
-                {
-                    try
-                    {
-                        DictRunningJobs.Remove(this.TemplateId);
-                    }
-                    catch (Exception)
-                    {
-                    }
                 }
             }
+
         }
 
 
@@ -260,7 +258,7 @@ namespace DominatorHouseCore.Process
 
             return false;
         }
-        
+
 
 
         protected void StopFollow()
@@ -286,6 +284,6 @@ namespace DominatorHouseCore.Process
             IScraperFactory scraperFactory = DominatorHouseInitializer.ActiveLibrary.QueryScraperFactory;
             AbstractQueryScraper scraper = scraperFactory.Create(this);
             scraper.ScrapeWithQueries();
-        }        
+        }
     }
 }
