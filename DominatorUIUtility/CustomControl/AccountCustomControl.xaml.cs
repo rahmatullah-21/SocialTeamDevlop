@@ -236,7 +236,7 @@ namespace DominatorUIUtility.CustomControl
 
 
             var loginStatusMenu = new MenuItem { Header = "Check in Status" };
-            loginStatusMenu.Click += GotoTools;
+            loginStatusMenu.Click += CheckinStatus;
             loginStatusMenu.DataContext = dominatorAccountModel;
             loginStatusMenu.Icon = new Image
             {
@@ -323,6 +323,12 @@ namespace DominatorUIUtility.CustomControl
             var dominatorAccountModel = ((FrameworkElement) sender).DataContext as DominatorAccountModel;
 
             DominatorHouseCore.Utility.TabSwitcher.ChangeTabWithNetwork(2, dominatorAccountModel.AccountBaseModel.AccountNetwork, dominatorAccountModel.AccountBaseModel.UserName);
+
+        }
+
+
+        public void CheckinStatus(object sender, RoutedEventArgs e)
+        {
 
         }
 
