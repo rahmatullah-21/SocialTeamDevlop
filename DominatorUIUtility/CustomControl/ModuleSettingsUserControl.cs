@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -43,16 +44,27 @@ namespace DominatorUIUtility.CustomControl
         string _moduleName;
         SocialNetworks _socialNetwork => DominatorHouseInitializer.ActiveSocialNetwork;
 
+        bool _initialized = false;
 
-        public ModuleSettingsUserControl(HeaderControl header, FooterControl footer, SearchQueryControl queryControl,
-                                         Grid MainGrid, ActivityType activityType, string moduleName)
+        protected ModuleSettingsUserControl()
         {
+        }
+
+        public void InitializeBaseClass(HeaderControl header, FooterControl footer, SearchQueryControl queryControl,
+                                        Grid MainGrid, ActivityType activityType, string moduleName)
+        {
+            if (_initialized) return;
+
+            Debug.Assert(header != null && footer != null && queryControl != null && moduleName != null);
+
             _headerControl = header;
             _footerControl = footer;
             _queryControl = queryControl;
             _mainGrid = MainGrid;
             _activityType = activityType;
             _moduleName = moduleName;
+
+            _initialized = true;
         }
 
 
@@ -210,6 +222,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
+        // NOTE: ViewModel must contain Model field
         public dynamic Model => (ObjViewModel as dynamic).Model as TModel;
 
 
@@ -229,7 +242,7 @@ namespace DominatorUIUtility.CustomControl
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void SearchQueryControl_OnAddQuery(object sender, RoutedEventArgs e)
+        protected void SearchQueryControl_OnAddQuery(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue))
             {
@@ -274,7 +287,7 @@ namespace DominatorUIUtility.CustomControl
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SearchQueryControl_OnCustomFilterChanged(object sender, RoutedEventArgs e)
+        protected void SearchQueryControl_OnCustomFilterChanged(object sender, RoutedEventArgs e)
         {
             UserFiltersControl objUserFiltersControl = new UserFiltersControl();
             Dialog objDialog = new Dialog();
@@ -294,18 +307,13 @@ namespace DominatorUIUtility.CustomControl
         public abstract void AddNewCampaign(List<string> lstSelectedAccounts, ActivityType moduleType);
 
 
-        /// <summary>
-        /// Event handler called when user Creates or Updates campaign
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FooterControl_OnCreateCampaignChanged(object sender, RoutedEventArgs e)
+        private bool ValidateCampaign()
         {
             if (_footerControl.list_SelectedAccounts.Count == 0)
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please select at least one account.",
                     MessageDialogStyle.Affirmative);
-                return;
+                return false;
             }
 
             // Check queries
@@ -313,22 +321,35 @@ namespace DominatorUIUtility.CustomControl
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please ADD at least one query.",
                     MessageDialogStyle.Affirmative);
-                return;
+                return false; 
             }
 
             // Check timings
-            if (Model.SavedQueries.Count == 0)
+            if (((IEnumerable<RunningTimes>)Model.JobConfiguration.RunningTime).All(rt => rt.Timings.Count == 0))
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please ADD at least one query.",
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please ADD at least one time range when to run and stop the activity.",
                     MessageDialogStyle.Affirmative);
-                return;
+                return false; 
             }
 
+            return true;
+        }
 
+
+        /// <summary>
+        /// Event handler called when user Creates or Updates campaign
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void FooterControl_OnCreateCampaignChanged(object sender, RoutedEventArgs e)
+        {
+            if (!ValidateCampaign())
+                return;
+                    
             var objTemplateModel = new TemplateModel();
 
             TemplateId = objTemplateModel.SaveTemplate((TModel)Model,
-                _activityType.ToString(), SocialNetworks.Instagram,
+                _activityType.ToString(), _socialNetwork,
                 CampaignName);
 
             SaveDetails(_footerControl.list_SelectedAccounts, _activityType);
@@ -336,11 +357,80 @@ namespace DominatorUIUtility.CustomControl
             AddNewCampaign(_footerControl.list_SelectedAccounts, _activityType);
 
             SetDataContext();
-            TabSwitcher.ChangeTabIndex(6, 0);
+            TabSwitcher.ChangeTabIndex?.Invoke(6, 0);
         }
 
 
-        private void FooterControl_OnSelectAccountChanged(object sender, RoutedEventArgs e)
+        // Update Campaign        
+        protected void FooterControl_OnUpdateCampaignChanged(object sender, RoutedEventArgs e)
+        {
+            if (!ValidateCampaign())
+                return;
+
+            var Module = _activityType.ToString();
+
+            // Update Template Detail
+            TemplatesFileManager.ApplyFunc(template =>
+            {
+                if (template.Id != TemplateId)
+                    return false;
+
+                TModel model = JsonConvert.DeserializeObject<TModel>(template.ActivitySettings);
+                var firstRunningTime = ((dynamic)model).JobConfiguration.RunningTime;
+                var secondRunningTime = Model.JobConfiguration.RunningTime;
+
+                var result = DominatorScheduler.CompareRunningTime(firstRunningTime, secondRunningTime);
+                if (!result)
+                {
+                    try
+                    {
+                        foreach (var acc in _footerControl.list_SelectedAccounts)
+                            DominatorScheduler.StopActivity(acc, Module, TemplateId);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+
+
+                    // Update the template configuration 
+                    template.ActivitySettings = JsonConvert.SerializeObject((TModel)Model);
+                }
+
+                return true;
+            });
+
+
+            // Update Campaign Details
+            CampaignsFileManager.ApplyAction(campaign =>
+            {
+
+                if (campaign.TemplateId == TemplateId)
+                {
+                    campaign.CampaignName = CampaignName;
+                    campaign.MainModule = _moduleName;
+                    campaign.SubModule = _activityType.ToString();
+                    campaign.SocialNetworks = _socialNetwork;
+                    campaign.SelectedAccountList = _footerControl.list_SelectedAccounts;
+                    campaign.TemplateId = TemplateId;
+                    campaign.CreationDate = DateTimeUtilities.GetEpochTime();
+                    campaign.Status = "Active";
+                    campaign.LastEditedDate = DateTimeUtilities.GetEpochTime();
+                }
+            });
+
+            
+            // Update Account Detail
+            var AccountDetails = AccountsFileManager.GetAll();
+            if (UpdateSelectedAccountDetails(AccountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Update", "Update Successfull", MessageDialogStyle.Affirmative);
+            
+            SetDataContext();
+            DominatorHouseCore.Utility.TabSwitcher.ChangeTabIndex(6, 0);
+        }
+
+
+        protected void FooterControl_OnSelectAccountChanged(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -375,7 +465,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        private void HeaderControl_OnCancelEditClick(object sender, RoutedEventArgs e)
+        protected void HeaderControl_OnCancelEditClick(object sender, RoutedEventArgs e)
         {
             IsEditCampaignName = true;
             CancelEditVisibility = Visibility.Collapsed;
@@ -383,43 +473,7 @@ namespace DominatorUIUtility.CustomControl
             SetDataContext();
         }
 
-
-        private void FooterControl_OnUpdateCampaignChanged(object sender, RoutedEventArgs e)
-        {
-            // Update Template Detail
-            TemplatesFileManager.UpdateActivitySettings(TemplateId, JsonConvert.SerializeObject(Model as TModel));
-
-
-            // Update Campaign Detail
-            CampaignsFileManager.ApplyAction(campaign =>
-            {
-                if (campaign.TemplateId == TemplateId)
-                {
-                    campaign.CampaignName = CampaignName;
-
-                    campaign.MainModule = _moduleName;
-                    campaign.SubModule = _activityType.ToString();
-
-                    campaign.SocialNetworks = _socialNetwork;
-                    campaign.SelectedAccountList = _footerControl.list_SelectedAccounts;
-                    campaign.TemplateId = TemplateId;
-                    campaign.CreationDate = DateTimeUtilities.GetEpochTime();
-                    campaign.Status = "Active";
-                    campaign.LastEditedDate = DateTimeUtilities.GetEpochTime();
-                }
-            });
-
-            // Update Account Detail
-
-            var AccountDetails = AccountsFileManager.GetAll();
-            if (UpdateSelectedAccountDetails(AccountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Update", "Update Successfull", MessageDialogStyle.Affirmative);
-
-
-            SetDataContext();
-            DominatorHouseCore.Utility.TabSwitcher.ChangeTabIndex(6, 0);
-        }
-
+    
         protected void SetDataContext()
         {
             this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
@@ -438,8 +492,8 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="allAccountDetails"></param>
         /// <param name="listSelectedAccounts"></param>
         /// <returns></returns>
-        public bool UpdateSelectedAccountDetails(IEnumerable<DominatorAccountModel> allAccountDetails,
-            List<string> listSelectedAccounts, JobConfiguration jobConfiguration)
+        protected bool UpdateSelectedAccountDetails(IEnumerable<DominatorAccountModel> allAccountDetails,
+                    List<string> listSelectedAccounts, JobConfiguration jobConfiguration)
         {
             bool isAccountDetailsUpdated = false;
 

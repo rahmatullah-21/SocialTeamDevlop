@@ -70,11 +70,13 @@ namespace DominatorHouseCore.Utility
         {
         }
 
-        public DominatorCancellationTokenSource(string key) :base()
+        public DominatorCancellationTokenSource(string key)
         {
-            if (TaskAndThreadUtility.DictAllJobCancellationTokenSources.ContainsKey(key))
-                TaskAndThreadUtility.DictAllJobCancellationTokenSources.Remove(key);
-            TaskAndThreadUtility.DictAllJobCancellationTokenSources.Add(key, this);
+            try
+            {
+                TaskAndThreadUtility.DictAllJobCancellationTokenSources.Add(key, this);
+            }
+            catch { }
         }
     }
 
