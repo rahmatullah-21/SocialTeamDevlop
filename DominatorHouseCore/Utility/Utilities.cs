@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Windows;
 
 namespace DominatorHouseCore.Utility
 {
@@ -129,5 +130,8 @@ namespace DominatorHouseCore.Utility
           return (value * percentage) / 100;
         }
 
+        // Returns string from resource dictionary
+        public static string FromResourceDictionary(this string resourceDictionaryKey)
+            => Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ?? resourceDictionaryKey;        
     }
 }

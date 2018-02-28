@@ -135,6 +135,7 @@
     <Compile Include="BusinessLogic\Scraper\DominatorScraperFactory.cs" />
     <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\ListCountBoolConverter.cs" />
     <Compile Include="Converters\ListCountVisiblityConverter.cs" />
     <Compile Include="Converters\PercentageToColorConverter.cs" />

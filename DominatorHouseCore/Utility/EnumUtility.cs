@@ -7,10 +7,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using DominatorHouseCore.Enums;
+using System.Windows;
 
 namespace DominatorHouseCore.Utility
 {
-    public class EnumUtility
+    public static class EnumUtility
     {
 
         public static List<ActivityType> GetEnums( string requiredDescriptionData) 
@@ -28,6 +29,41 @@ namespace DominatorHouseCore.Utility
                 where descriptionAttribute != null && descriptionAttribute.Description.Contains(requiredDescriptionData)
                 select value)
                 .ToList();
+        }
+
+        // how to use
+        // MyEnum x = MyEnum.NeedMoreCoffee;
+        // string description = x.GetDescriptionAttr();            
+        public static string GetDescriptionAttr(this Enum value)
+        {
+            Type type = value.GetType();
+            string name = Enum.GetName(type, value);
+            if (name != null)
+            {
+                FieldInfo field = type.GetField(name);
+                if (field != null)
+                {
+                    DescriptionAttribute attr = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+                    if (attr != null)
+                    {
+                        return attr.Description;
+                    }
+                }
+            }
+
+            return null;            
+        }
+
+
+        public static List<string> GetListOfDescription<T>() where T : struct
+        {
+            Type t = typeof(T);
+            return !t.IsEnum ? null : Enum.GetValues(t).Cast<Enum>().Select(x => x.GetDescriptionAttr() ?? x.ToString()).ToList();
+        }
+
+        public static List<string> ResourceDictionaryKeysToStrings(List<string> langResourceKeys)
+        {
+            return langResourceKeys.Select(l => Application.Current.FindResource(l)?.ToString() ?? l).ToList();
         }
     }
 }

@@ -254,7 +254,7 @@ namespace DominatorUIUtility.CustomControl
 
                     currentQuery.QueryValue = query;
 
-                    currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
+                    currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName();
 
                     currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
 
@@ -263,10 +263,8 @@ namespace DominatorUIUtility.CustomControl
                 });
             }
             else
-            {
-
-                _queryControl.CurrentQuery.QueryTypeDisplayName
-                    = _queryControl.CurrentQuery.QueryType;
+            {                
+                _queryControl.CurrentQuery.QueryTypeDisplayName = _queryControl.CurrentQuery.QueryTypeAsDisplayName();
 
                 var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
 
