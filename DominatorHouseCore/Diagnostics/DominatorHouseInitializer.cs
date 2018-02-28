@@ -98,10 +98,7 @@ namespace DominatorHouseCore.Diagnostics
             // initialize logging to UI
             if (mainWindow is ILoggableWindow)
                 GlobusLogHelper.InitializeLoggerUI((ILoggableWindow)mainWindow);
-
-            // init Job Process Factory for caller library: GD, TD, PD, LD..
-            DominatorScheduler.AddJobProcessFactoryForNetwork(jobProcessFactory, network);
-
+            
 #if DEBUG && ATTACH_CONSOLE
             ConsoleManager.Show();
 #endif            

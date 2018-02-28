@@ -12,28 +12,15 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Interfaces;
 using Newtonsoft.Json;
+using DominatorHouseCore.Diagnostics;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public partial class DominatorScheduler
-    {
-        private static Dictionary<SocialNetworks, IJobProcessFactory> _jobProcessFactories = new Dictionary<SocialNetworks, IJobProcessFactory>();
+    {        
+        static IJobProcessFactory _activeJobProcessFactory => DominatorHouseInitializer.ActiveLibrary.JobProcessFactory;
+
         public static object _runStopActivityLocker = new object();
-
-        /// <summary>
-        /// Loads all activities for particular social network and runs them
-        /// </summary>
-        internal static void AddJobProcessFactoryForNetwork(IJobProcessFactory jobProcessFactory, SocialNetworks socialNetwork)
-        {
-            if (!_jobProcessFactories.ContainsKey(socialNetwork))
-            {
-                _jobProcessFactories.Add(socialNetwork, jobProcessFactory);
-                GlobusLogHelper.log.Debug($"{socialNetwork}JobProcessFactory registered in DominatorScheduler.");
-            }
-            else
-                GlobusLogHelper.log.Warn($"{socialNetwork}JobProcessFactory already in DominatorScheduler.");
-        }
-
 
         /// <summary>
         /// Runs activity for specific 'module' and social network. 
@@ -43,17 +30,15 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="template"></param>
         /// <param name="CurrentJobTimeRange"></param>
         /// <param name="module">Follow, Comment, etc.</param>
-        public static void RunActivity(string account, string template, TimingRange CurrentJobTimeRange, string module, SocialNetworks socialNetwork)
+        public static void RunActivity(string account, string template, TimingRange CurrentJobTimeRange, string module)
         {
             Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{template}");
             if (ScheduledJob != null && ScheduledJob.Disabled)
                 return;
-
-            var jobProcessFactory = _jobProcessFactories[socialNetwork];
-
+            
             // jobProcess may be Follow, Like, Comment, Repost, for any particular social network.
             // jobProcessFactory have to be registered for each library.
-            var jobProcess = jobProcessFactory.Create(account, template, CurrentJobTimeRange, module);
+            var jobProcess = _activeJobProcessFactory.Create(account, template, CurrentJobTimeRange, module);
             Task.Factory.StartNew(() =>
             {
                 GlobusLogHelper.log.Info("process started with [ " + account + "]");
@@ -147,8 +132,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     {
                         JobManager.AddJob(() =>
                         {
-                            RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module,
-                                        netowork);
+                            RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module);
 
                         }, s => s.WithName($"{timing.Module}-{templateId}").ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
 
@@ -164,7 +148,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     {
                         JobManager.AddJob(() =>
                         {
-                            RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module, netowork);
+                            RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module);
 
                         }, s => s.WithName($"{timing.Module}-{templateId}").ToRunOnceAt(DateTime.Now.AddSeconds(5)));
 

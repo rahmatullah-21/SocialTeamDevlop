@@ -17,6 +17,7 @@ using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
 using DominatorHouseCore.BusinessLogic.ActivitiesWorkflow;
 using System.Diagnostics;
+using System.Threading;
 
 namespace DominatorHouseCore.Process
 {
@@ -117,10 +118,9 @@ namespace DominatorHouseCore.Process
                      .FirstOrDefault(x => x.ActivityType == ActivityType.Follow).TemplateId;
                 JobManager.AddJob(
                     () =>
-                    {
-                        // use registered Factories
+                    {                        
                         DominatorScheduler.RunActivity(DominatorAccountModel.AccountBaseModel.UserName, TemplateId, CurrentJobTimeRange,
-                            ActivityType.Follow.ToString(), SocialNetworks.Facebook);
+                            ActivityType.Follow.ToString());
 
                     }, s => s.WithName($"{ActivityType.Follow.ToString()}-{this.TemplateId}").ToRunOnceAt(dateTime));
             }
@@ -228,27 +228,10 @@ namespace DominatorHouseCore.Process
         /// </returns>
         protected virtual bool CheckJobProcessLimitsReached()
         {
-            if (NoOfActionPerformedCurrentJob > MaxNoOfActionPerJob)
-            {
-                ScheduleNextJob(DateTime.Now.AddTicks(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
-                return true;
-            }
-
             int currentTime = DateTimeUtilities.GetEpochTime();
-            NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600).Count();
-            if (NoOfActionPerformedCurrentHour > MaxNoOfActionPerHour)
-            {
-                ScheduleNextJob(DateTime.Now.AddMinutes(this.JobConfiguration.DelayBetweenJobs.GetRandom()));
-                return true;
-            }
 
-            NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24).Count();
-            if (NoOfActionPerformedCurrentDay > MaxNoOfActionPerDay)
-            {
-                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
-                return true;
-            }
-
+            // Check weekly limit. If reached, Stop task and wait for next days.
+            // TODO: implement schedule holder on a weekly basis.
             NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24 * 7).Count();
             if (NoOfActionPerformedCurrentWeek > MaxNoOfActionPerWeek)
             {
@@ -256,9 +239,72 @@ namespace DominatorHouseCore.Process
                 return true;
             }
 
+            // Check daily limit
+            // TODO: extend DominatorScheduler with holding days/weeks and obtain day of next job from there
+            NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24).Count();
+            if (NoOfActionPerformedCurrentDay > MaxNoOfActionPerDay)
+            {
+                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
+                return true;
+            }
+
+            // Check hourly limit. Wait a hour.
+            // TODO: implement schedule holder on a weekly basis and extract next hours job from there.
+            NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600).Count();
+            if (NoOfActionPerformedCurrentHour > MaxNoOfActionPerHour)
+            {
+                // schedule next job on next hour
+                ScheduleNextJob(DateTime.Now.AddHours(1));
+                return true;
+            }
+
+           
+            // Finally check max number of jobs limit
+            if (NoOfActionPerformedCurrentJob > MaxNoOfActionPerJob)
+            {
+                GlobusLogHelper.log.Info($"Number of {ActivityType} per job limit reached. Scheduling next job.");
+
+                // Next job have to be after X minutes, e.g 10-20 minutes.
+                // TODO: implement via DominatorScheduler
+                var nextJobTime = DateTime.Now.AddMinutes(this.JobConfiguration.DelayBetweenJobs.GetRandom());
+
+                GlobusLogHelper.log.Info($"Next job scheduled to {nextJobTime.ToString("hh:mm")}");
+                ScheduleNextJob(nextJobTime);
+                return true;
+            }
+
             return false;
         }
 
+
+        #region Delay methods
+
+        public void DelayBeforeNextActivity()
+        {
+            int seconds = JobConfiguration.DelayBetweenActivity.GetRandom();
+
+            GlobusLogHelper.log.Info($"{seconds} seconds Delay before next {ActivityType}");
+
+#if SKIP_DELAYS
+            seconds = 2;
+#endif            
+            Thread.Sleep(seconds * 1000);
+        }
+
+        public void DelayBeforeNextJob()
+        {
+            int minutes = JobConfiguration.DelayBetweenJobs.GetRandom();
+
+            GlobusLogHelper.log.Info($"{minutes} minutes Delay before next job ({ActivityType})");
+
+#if SKIP_DELAYS
+            minutes = 0;
+#endif            
+
+            Thread.Sleep(minutes * (60 * 1000));
+        }
+
+        #endregion        
 
 
         protected void StopFollow()

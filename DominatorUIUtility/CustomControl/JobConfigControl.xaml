@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             >
     <Grid Name="MainGrid">
         <StackPanel>
 
@@ -15,7 +15,7 @@
                 <controls:NumericUpDown Name="DelayOperationStartValue" Margin="5,5,5,0" Value="{Binding JobConfiguration.DelayBetweenActivity.StartValue}" />
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langTo}" />
                 <controls:NumericUpDown  Margin="5,5,5,0" Minimum="{Binding Value, ElementName=DelayOperationStartValue}" Value="{Binding JobConfiguration.DelayBetweenActivity.EndValue}" />
-                <Label  VerticalAlignment="Center" Content="{DynamicResource langMinutes}" />
+                <Label  VerticalAlignment="Center" Content="{DynamicResource langSeconds}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,8,0,0">
