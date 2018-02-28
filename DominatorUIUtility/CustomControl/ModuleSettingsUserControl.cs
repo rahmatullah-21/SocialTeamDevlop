@@ -66,43 +66,7 @@ namespace DominatorUIUtility.CustomControl
 
             _initialized = true;
         }
-
-
-        private void ModuleSectionsFooterControl_OnSelectAccountChanged(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var objSelectAccountControl = new SelectAccountControl(_footerControl.list_SelectedAccounts);
-
-                var objDialog = new Dialog();
-
-                var window = objDialog.GetMetroWindow(objSelectAccountControl, "Select Account");
-
-                objSelectAccountControl.btnSave.Click += (senders, Events) =>
-                {
-                    if (objSelectAccountControl.GetSelectedAccount().Count > 0)
-                    {
-                        _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
-                        this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
-                    }
-                    else
-                    {
-                        this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
-                    }
-                    window.Close();
-                };
-
-                objSelectAccountControl.btnCancel.Click += (senders, events) => window.Close();
-                window.ShowDialog();
-
-            }
-            catch (Exception Ex)
-            {
-                Ex.ErrorLog();
-            }
-        }
-
-
+        
         // IHeaderControl
         private string _campaignName;
 
@@ -428,12 +392,18 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
+        /// <summary>
+        /// Calls when user click 'Select Accounts' button in footer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void FooterControl_OnSelectAccountChanged(object sender, RoutedEventArgs e)
         {
             try
             {
 
-                var objSelectAccountControl = new SelectAccountControl(_footerControl.list_SelectedAccounts);
+                var objSelectAccountControl = new SelectAccountControl(_footerControl.list_SelectedAccounts,
+                    filterForActiveSocialNetwrok: true);
 
                 var objDialog = new Dialog();
 
