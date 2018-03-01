@@ -64,7 +64,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-fast-test|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug-fast-test\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SKIP_DELAYS</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -74,7 +74,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-fast-test|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug-fast-test\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SKIP_DELAYS</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -215,14 +215,6 @@
     <ProjectReference Include="..\..\pindominator-library\PinDominator\PinDominatorUI.csproj">
       <Project>{107cebc6-409b-47ca-a248-4a5e03d86e66}</Project>
       <Name>PinDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj">
-      <Project>{21b1d90e-f201-4ef0-b4e9-a99315945f1d}</Project>
-      <Name>QuoraDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorUI\QuoraDominatorUI.csproj">
-      <Project>{164cddcd-db12-4998-b822-3adc9c8a7072}</Project>
-      <Name>QuoraDominatorUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\twtdominator-library\TwtDominatorUI\TwtDominatorUI.csproj">
       <Project>{b91d5616-eafd-4bf8-aaf5-051675592714}</Project>

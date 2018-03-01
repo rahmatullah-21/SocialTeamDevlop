@@ -73,7 +73,7 @@ namespace DominatorHouseCore.FileManagers
             if (toDelete != null)                
             {
                 campaigns.Remove(toDelete);
-                Save(campaigns);
+                Save(campaigns);                
             }
         }
         

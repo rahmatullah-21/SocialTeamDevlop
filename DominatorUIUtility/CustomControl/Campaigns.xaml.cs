@@ -36,7 +36,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var data = CampaignsFileManager.Get();
 
-            objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(CampaignsFileManager.Get());
+            objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(data);
 
             MainGrid.DataContext = objCampaignDetails;
         }
@@ -222,40 +222,42 @@ namespace DominatorUIUtility.CustomControl
 
         }
 
+
         private void DeleteSingleCampaign_OnClick(object sender, RoutedEventArgs e)
         {
-            CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
-            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete [ " + campName.CampaignName + " ] Campaign permanently from campaign\nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton());
-            if (dialogResult == MessageDialogResult.Affirmative)
-            {
-                objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(BinFileHelper.GetCampaignDetail());
-               // CampaignsFileManager.Delete(campName);
+            CampaignDetails campaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
+            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete [ " + campaign.CampaignName + " ] Campaign permanently from campaign\nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton());
+            if (dialogResult != MessageDialogResult.Affirmative)
+                return;
 
-                var accounts = AccountsFileManager.GetAll();
+            CampaignsFileManager.Delete(campaign);
 
-                if (accounts != null)
+            objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(BinFileHelper.GetCampaignDetail());
+            
+            var allAccounts = AccountsFileManager.GetAll();
+
+            // remove template from each account
+            allAccounts.ForEach(x => {                
+                var moduleConfig = x.ActivityManager.LstModuleConfiguration.FirstOrDefault(mc => mc.TemplateId == campaign.TemplateId);
+
+                if (moduleConfig != null)
                 {
-                    accounts.ForEach(x =>
-                    {
-                        //x.ActivityManager.LstModuleConfiguration.Any(y => y.TemplateId == campName.TemplateId)
-                    });
+                    // Stop active task related to campaign
+                    TaskAndThreadUtility.StopTask(x.AccountId, campaign.TemplateId);
 
-
-                    foreach (var account in accounts)
-                    {
-                        if (campName.SelectedAccountList.Contains(account.AccountBaseModel.UserName))
-                        {
-                            
-                        }
-                    }
+                    // Remove task from list
+                    x.ActivityManager.LstModuleConfiguration.RemoveAll(y => y.TemplateId == campaign.TemplateId);
                 }
+            });            
 
+            AccountsFileManager.SaveAll(allAccounts);
 
-                GlobusLogHelper.log.Info(campName.CampaignName + "  Campaign deleted permanently from campaigns.");
-                SetDataContext();
-            }
+            GlobusLogHelper.log.Info(campaign.CampaignName + "  Campaign deleted permanently from campaigns.");
+            SetDataContext();
         }
-        public string ReportHeader=string.Empty;
+
+
+        public string ReportHeader = string.Empty;
         private void CampaignReports_OnClick(object sender, RoutedEventArgs e)
         {
             //Reports ObjReports = new Reports();
@@ -355,8 +357,8 @@ namespace DominatorUIUtility.CustomControl
             //};
 
             //win.ShowDialog();
-        
-    }
+
+        }
 
         private void Campaign_Loaded(object sender, RoutedEventArgs e)
         {

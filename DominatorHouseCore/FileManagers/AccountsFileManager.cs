@@ -35,8 +35,11 @@ namespace DominatorHouseCore.FileManagers
 
         internal static void SaveAll<T>(List<T> lstAccountModel) where T : class
         {
-            if (DominatorHouseInitializer.ActiveSocialNetwork != SocialNetworks.Social)
-                throw new InvalidOperationException($"Use UpdateAccounts() method for {DominatorHouseInitializer.ActiveSocialNetwork}");
+#if DEBUG
+            // make sure lstAccountModel contains all accounts
+            var all = GetAll();
+            Debug.Assert(all.Count == lstAccountModel.Count);      
+#endif
 
             BinFileHelper.UpdateAllAccounts(lstAccountModel);
             GlobusLogHelper.log.Debug("Accounts successfully saved");

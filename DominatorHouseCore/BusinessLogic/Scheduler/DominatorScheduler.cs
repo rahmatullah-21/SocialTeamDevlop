@@ -41,7 +41,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             var jobProcess = _activeJobProcessFactory.Create(account, template, CurrentJobTimeRange, module);
             Task.Factory.StartNew(() =>
             {
-                GlobusLogHelper.log.Info("process started with [ " + account + "]");
+                GlobusLogHelper.log.Info($"{module} process started with {DominatorHouseInitializer.ActiveSocialNetwork} account [" + account + "]");
                 jobProcess.StartProcess();
 
             }, jobProcess.JobCancellationTokenSource.Token);

@@ -442,11 +442,12 @@ namespace DominatorUIUtility.CustomControl
         }
 
     
-        protected void SetDataContext()
+        protected virtual void SetDataContext()
         {
             this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
             ObjViewModel = new TViewModel();
             _footerControl.list_SelectedAccounts = new List<string>();
+
             _mainGrid.DataContext = Model as TModel;
             _headerControl.DataContext = _footerControl.DataContext = this;
             CampaignName = $"{_socialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";

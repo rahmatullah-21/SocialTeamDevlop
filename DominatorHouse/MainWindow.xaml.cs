@@ -59,6 +59,9 @@ namespace DominatorHouse
             TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
 
+#if SKIP_DELAYS
+            cmbSocialNetwork.SelectedIndex = 1;     // Go to instagram
+#endif
             #region commeted
             //Task.Factory.StartNew(() =>
             //{
@@ -92,7 +95,7 @@ namespace DominatorHouse
 
         public static MainWindow objMainWindowRef = null;
 
-        #region commented for now
+#region commented for now
         //private void InitializeTabs()
         //{
         //    SocialNetworks socialNetwork = SocialNetworks.Social;
@@ -156,7 +159,7 @@ namespace DominatorHouse
         //{
         //    NormalModeTab.SelectedIndex = mainTabindex;
         //} 
-        #endregion
+#endregion
 
 
 

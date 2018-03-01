@@ -167,22 +167,14 @@ namespace DominatorHouseCore.Process
                     RunScraper();
                 }
 
+                DictRunningJobs.Remove(this.TemplateId);
+
             }
             catch (Exception Ex)
             {
                 Ex.DebugLog();
-            }
-            finally
-            {
-                try
-                {
-                    DictRunningJobs.Remove(this.TemplateId);
-                }
-                catch (Exception)
-                {
-                }
-            }
-
+                DictRunningJobs.Remove(this.TemplateId);
+            }           
         }
 
 
