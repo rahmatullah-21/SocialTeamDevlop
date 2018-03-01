@@ -28,7 +28,7 @@ namespace DominatorHouseCore.Utility
                     return false;
                 DominatorCancellationTokenSource DominatorCancellationTokenSource = DictAllJobCancellationTokenSources[key];
                 DominatorCancellationTokenSource.Cancel();
-                GlobusLogHelper.log.Info("Process stopped");
+                GlobusLogHelper.log.Info($"Process stopped [{key}]");
                 //  DictAllJobCancellationTokenSources.Remove(key);
                 DictAllJobCancellationTokenSources[key] = DominatorCancellationTokenSource;
                 return true;
@@ -41,11 +41,11 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public static bool StopTask(string accountId,string templateId)
+        public static bool StopTask(string userName,string templateId)
         {
             try
             {
-               return StopTask(accountId + "_" + templateId);
+               return StopTask(userName + "_" + templateId);
           
             }
             catch (Exception Ex)
@@ -55,29 +55,27 @@ namespace DominatorHouseCore.Utility
 
         }
 
-
-
-
-
-
-
-
+        public static bool IsStarted(string userName, string templateId)
+        {
+            return DictAllJobCancellationTokenSources.ContainsKey($"{userName}_{templateId}");
+        }
     }
+
 
     public class DominatorCancellationTokenSource : CancellationTokenSource
     {
-        public DominatorCancellationTokenSource(string accountId , string templateId) : this(accountId + "_" + templateId)
-        {
-        }
+        public static object syncDict = new object();
 
-        public DominatorCancellationTokenSource(string key)
+        public DominatorCancellationTokenSource(string userName , string templateId) 
         {
-            try
+            lock (syncDict)
             {
-                TaskAndThreadUtility.DictAllJobCancellationTokenSources.Add(key, this);
+                string key = userName + "_" + templateId;
+
+                if (!TaskAndThreadUtility.DictAllJobCancellationTokenSources.ContainsKey(key))
+                    TaskAndThreadUtility.DictAllJobCancellationTokenSources.Add(key, this);
             }
-            catch { }
-        }
+        }        
     }
 
 

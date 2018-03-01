@@ -17,7 +17,7 @@ using DominatorHouseCore.Diagnostics;
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public partial class DominatorScheduler
-    {        
+    {
         static IJobProcessFactory _activeJobProcessFactory => DominatorHouseInitializer.ActiveLibrary.JobProcessFactory;
 
         public static object _runStopActivityLocker = new object();
@@ -35,7 +35,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{template}");
             if (ScheduledJob != null && ScheduledJob.Disabled)
                 return;
-            
+
             // jobProcess may be Follow, Like, Comment, Repost, for any particular social network.
             // jobProcessFactory have to be registered for each library.
             var jobProcess = _activeJobProcessFactory.Create(account, template, CurrentJobTimeRange, module);
@@ -88,22 +88,16 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             if (moduleConfiguration != null && !moduleConfiguration.IsEnabled)
                 return;
 
-            try
+            // Check if activity with the same id already running
+            if (TaskAndThreadUtility.IsStarted(dominatorAccount.UserName, moduleConfiguration.TemplateId))
             {
-                // Check if activity with the same id already running
-                foreach (var schedule in JobManager.RunningSchedules)
-                    if (schedule.Name == $"{activityType.ToString()}-{moduleConfiguration.TemplateId}")
-                        return;
+                GlobusLogHelper.log.Error($"{dominatorAccount.UserName}_{moduleConfiguration.TemplateId} already started");
+                return;
             }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Debug(ex, $"{nameof(ScheduleTodayJobs)} unexpected exception");
-            }
-
 
             try
             {
-                // TODO: check that at least one timing was set up before creating campaign
+                // Check that at least one timing was set up before creating campaign
                 if (dominatorAccount.ActivityManager.RunningTime == null ||
                     dominatorAccount.ActivityManager.RunningTime.All(rt => rt.Timings.Count == 0))
                     throw new InvalidOperationException($"Running time for activity {activityType} wasn't set");
