@@ -20,6 +20,8 @@ using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.Publisher;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
+using DominatorHouseCore.Utility;
+using GramDominatorUI.TabManager;
 
 #endregion
 
@@ -39,18 +41,18 @@ namespace DominatorHouse
         private static string s_RamSizeOfCurrentComputer = getRAMsize();
         private static PerformanceCounter objPerformanceCounter = new PerformanceCounter("Memory", "Available MBytes");
         private static ManagementObject processor = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
-        private GramDominatorUI.MainWindow GramDominatorUI;
 
         public MainWindow()
         {
-            DominatorHouseInitializer.Init(this, 
-                DominatorJobProcessFactory.Instance, 
+            DominatorHouseInitializer.Init(this,
+                DominatorJobProcessFactory.Instance,
                 DominatorScraperFactory.Instance,
                 SocialNetworks.Social);
 
             InitializeComponent();
 
-            AccountGrowthModeTab.ItemsSource = InitializeAllTabs();
+            MainTabControl.ItemsSource = InitializeAllTabs();
+            TabSwitcher.ChangeTabIndex = ChangeTabIndex;
 
             GlobusLogHelper.log.Info("Welcome to Dominator social");
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
@@ -75,10 +77,39 @@ namespace DominatorHouse
             //        ).AndEvery(1).Days());
             //}); 
             #endregion
-            DialogParticipation.SetRegister(this,this);
-             Closed += (o, e) => Process.GetCurrentProcess().Kill();
+            DialogParticipation.SetRegister(this, this);
+            Closed += (o, e) => Process.GetCurrentProcess().Kill();
         }
 
+        private void ChangeTabIndex(int mainTabIndex, int? subTabIndex = null)
+        {
+            MainTabControl.SelectedIndex = mainTabIndex;
+
+            if (subTabIndex == null) return;
+            
+
+            // NOTE: Works for instagram tabs
+            switch (mainTabIndex)
+            {
+                case 1:
+                    GrowFollowersTab.GetSingeltonObjectGrowFollowersTab().setIndex((int)subTabIndex);
+                    break;
+                case 2:
+                    InstaPosterTab.GetSingeltonObjectInstaPosterTab().setIndex((int)subTabIndex);
+                    break;
+
+                case 3:
+                    InstachatTab.GetSingeltonObjectInstachatTab().setIndex((int)subTabIndex);
+                    break;
+                case 4:
+                    InstaLikerInstaCommenterTab.GetSingeltonObjectInstaLikerInstaCommenterTab().setIndex((int)subTabIndex);
+                    break;
+
+                case 5:
+                    InstaScrapeTab.GetSingeltonObjectInstaScrapeTab().setIndex((int)subTabIndex);
+                    break;
+            }
+        }
 
         public void LogText(string message, bool error)
         {
@@ -95,7 +126,7 @@ namespace DominatorHouse
 
         public static MainWindow objMainWindowRef = null;
 
-#region commented for now
+        #region commented for now
         //private void InitializeTabs()
         //{
         //    SocialNetworks socialNetwork = SocialNetworks.Social;
@@ -159,7 +190,7 @@ namespace DominatorHouse
         //{
         //    NormalModeTab.SelectedIndex = mainTabindex;
         //} 
-#endregion
+        #endregion
 
 
 
@@ -245,7 +276,7 @@ namespace DominatorHouse
         //public void NormalMode()
         //{
         //    NormalModeTab.Visibility = System.Windows.Visibility.Visible;
-        //    AccountGrowthModeTab.Visibility = System.Windows.Visibility.Collapsed;
+        //    MainTabControl.Visibility = System.Windows.Visibility.Collapsed;
         //    btnAccountGrowthMode.Content = "Switch to Account Growth Mode";
         //    btnAccountGrowthMode.Name = "btnAccountGrowthMode";
         //}
@@ -257,22 +288,22 @@ namespace DominatorHouse
 
             this.Title = "Dominator - All in One";
 
-            if (AccountGrowthModeTab == null)
+            if (MainTabControl == null)
                 return;
 
             SocialNetworks socialNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), (cmbSocialNetwork.SelectedItem as ComboBoxItem).Content.ToString());
-            AccountGrowthModeTab.TabStripPlacement = Dock.Top;
+            MainTabControl.TabStripPlacement = Dock.Top;
 
             switch (socialNetwork)
             {
                 case SocialNetworks.Instagram:
-                    GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow(); 
+                    GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
                     TabItems = gramDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Instagram.ToString() + " Dominator";                    
+                    this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
 
                     break;
 
-                case SocialNetworks.Twitter:                    
+                case SocialNetworks.Twitter:
                     TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
                     TabItems = twtDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
@@ -283,7 +314,7 @@ namespace DominatorHouse
                     this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Social:
-                    AccountGrowthModeTab.TabStripPlacement = Dock.Left;
+                    MainTabControl.TabStripPlacement = Dock.Left;
                     TabItems = InitializeAllTabs();
                     this.Title = "Dominator - All in One";
                     break;
@@ -298,8 +329,8 @@ namespace DominatorHouse
                     break;
             }
 
-            AccountGrowthModeTab.ItemsSource = TabItems;
-            AccountGrowthModeTab.SelectedIndex = 0;
+            MainTabControl.ItemsSource = TabItems;
+            MainTabControl.SelectedIndex = 0;
 
         }
 
@@ -420,6 +451,6 @@ namespace DominatorHouse
                     //TwtDominatorCore.TDViewModel.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
             }
-        }
+        }        
     }
 }

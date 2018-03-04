@@ -11,7 +11,7 @@
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
         BorderThickness="1"
-        Title="{DynamicResource langGramDominator}" 
+        Title="{DynamicResource langDominatorSocial}" 
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"
         GlowBrush="{DynamicResource AccentColorBrush}"
@@ -55,7 +55,7 @@
 
         <!--Account Growth Mode Tabs-->
         <TabControl  Controls:TabControlHelper.Underlined="None" TabStripPlacement="Left" SelectedIndex="0"
-                   Name="AccountGrowthModeTab" VerticalAlignment="Stretch" >
+                   Name="MainTabControl" VerticalAlignment="Stretch" >
 
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabItem}">
@@ -98,6 +98,8 @@
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="{DynamicResource AccentBaseColorBrush}"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows"/>
 
+        <!--<Button Content="Test Switch" Click="TestSwitchButton_Click" Width="100" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>-->
+        
         <Grid Name="Logger" Grid.Row="2">
             <dockable:Layout  Name="RootLayout">
                 <dragable:TabablzControl x:Name="InitialTabablzControl"  Style="{StaticResource TabablzControlStyle}" MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" >

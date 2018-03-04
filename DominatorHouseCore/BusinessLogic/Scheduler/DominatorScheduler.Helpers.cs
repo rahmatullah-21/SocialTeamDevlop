@@ -13,8 +13,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public partial class DominatorScheduler
     {
-        public static Action<int, int> ChangeTabIndex { get; set; }
-
         private static string GetTemplateId(TimingRange timing, DominatorAccountModel dominatorAccount)
         {
             var templateId = string.Empty;

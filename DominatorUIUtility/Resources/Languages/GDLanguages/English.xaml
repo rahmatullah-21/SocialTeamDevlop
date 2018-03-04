@@ -681,6 +681,7 @@
     <system:String x:Key="langInstachat">Instachat</system:String>
     <system:String x:Key="langStartFollowBack">Start Follow Back</system:String>
     <system:String x:Key="langGramDominator">Gram Dominator</system:String>
+    <system:String x:Key="langDominatorSocial">Dominator House Social</system:String>
     <system:String x:Key="langDashboardBeta">Dashboard Beta</system:String>
     <system:String x:Key="langAccountsManager">Accounts Manager</system:String>
     <system:String x:Key="langAccountStatsBeta">Account Stats Beta</system:String>
