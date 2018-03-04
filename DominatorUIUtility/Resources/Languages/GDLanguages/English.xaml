@@ -794,6 +794,8 @@
     <system:String x:Key="langEnableAutoFollowUnfollow">Enable Auto Follow/Unfollow</system:String>
     <system:String x:Key="langFriendRequestsPerOperation">friend requests per operation</system:String>
     <system:String x:Key="langRemovePoorQualitySources">Remove poor quality Sources</system:String>
+    <system:String x:Key="langFollowGloballyUniqueUsers">Follow globally unique users</system:String>
+    <system:String x:Key="langFollowCampaignUniqueUsers">Follow campaign unique users</system:String>
     <system:String x:Key="langRemoveSourceIfFollowBackRatioIsLowerThan">Remove source if Follow Back Ratio is lower than</system:String>
     <system:String x:Key="langIgnoreAddingSourcesThatWerePrevioslyRemoved">Do not allow adding sources that were previosly removed.</system:String>
     <system:String x:Key="langSelectGroup">Select Group</system:String>

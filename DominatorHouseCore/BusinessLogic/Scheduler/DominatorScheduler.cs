@@ -105,11 +105,14 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var today = DateTimeUtilities.GetDayOfWeek();
 
                 // retrieve the account's todays scheduled modules.
-                // TODO: check that at least one running time was set up
+                // TODO: check not only first but all running times                
                 var timeScheduleModel = dominatorAccount.ActivityManager.RunningTime.First(x => x.DayOfWeek == today);
 
                 if (!timeScheduleModel.IsEnabled)
+                {
+                    GlobusLogHelper.log.Debug($"Activity {activityType} is disabled");
                     return;
+                }
 
                 // get the hour and minute of current time
                 var currentTimespan = DateTimeUtilities.GetTimeSpanCurrentHourMinute();
