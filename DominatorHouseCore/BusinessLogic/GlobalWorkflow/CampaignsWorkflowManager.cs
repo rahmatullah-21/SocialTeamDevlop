@@ -19,14 +19,14 @@ namespace DominatorHouseCore.BusinessLogic
     /// </summary>
     public class CampaignsWorkflowManager
     {
-        CampaignsWorkflowManager _instance = new CampaignsWorkflowManager();
-        public CampaignsWorkflowManager Instance => _instance;
+        static CampaignsWorkflowManager _instance = new CampaignsWorkflowManager();
+        public static CampaignsWorkflowManager Instance => _instance;
 
         // UI delegate to select accounts
-        public Func<List<string>, List<string>> SelectAccountsDialog = selectedAccs =>
+        public Func<string, bool> ConfirmDialog = msg =>
         {
             GlobusLogHelper.log.Error("SelectAccountsDialog action handler not set");
-            return selectedAccs;
+            return false;
         };
 
 
@@ -67,7 +67,8 @@ namespace DominatorHouseCore.BusinessLogic
         /// </summary>
         /// <param name="activityType"></param>
         /// <param name="selectedAccounts"></param>
-        private List<string> CheckExistingActivities(ActivityType activityType, List<string> selectedAccounts)
+        /// <returns>false - user choose to stop execution</returns>
+        private bool CheckExistingActivities(ActivityType activityType, List<string> selectedAccounts)
         {
             Debug.Assert(selectedAccounts.Count > 0);
 
@@ -79,16 +80,21 @@ namespace DominatorHouseCore.BusinessLogic
                                                      ?.TemplateId != null)?.ToList() ?? new List<DominatorAccountModel>();
 
             if (accountsWithRunningActivity.Count == 0)
-                return selectedAccounts;
+                return true;
 
             var selectedAccountsWithRunningActivity = accountsWithRunningActivity.Where(a => selectedAccounts.Contains(a.UserName)).ToList();
             if (selectedAccountsWithRunningActivity.Count == 0)
-                return selectedAccounts;
+                return true;
 
             // Asks for select and overwriting through UI
-            selectedAccounts = SelectAccountsDialog(selectedAccountsWithRunningActivity.Select(a => a.UserName).ToList());
+            string accs = string.Join(", ", selectedAccountsWithRunningActivity.Select(a => a.UserName));
+            string msg = $"{selectedAccountsWithRunningActivity.Count} account(s) already set up to run {activityType} activity." +
+                          $"Would you like to overwrite settings of those accounts?\r\n{accs}";
 
-            return selectedAccounts;
+            if (ConfirmDialog(msg))
+                return true;
+
+            return false;
         }
 
 
@@ -103,7 +109,8 @@ namespace DominatorHouseCore.BusinessLogic
             TemplateModel template = CreateTempale(activitySettingsJson, activityType.ToString(), socialNetwork, templateName: campaignName);
 
             // Check existing activities and overwrite them if selected account already has running activity with the same type
-            selectedAccounts = CheckExistingActivities(activityType, selectedAccounts);
+            if (!CheckExistingActivities(activityType, selectedAccounts))
+                return;
 
             // Save 
         }

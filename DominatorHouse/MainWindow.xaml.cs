@@ -22,6 +22,7 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using DominatorHouseCore.Utility;
 using GramDominatorUI.TabManager;
+using DominatorHouseCore.BusinessLogic;
 
 #endregion
 
@@ -52,11 +53,17 @@ namespace DominatorHouse
             InitializeComponent();
 
             MainTabControl.ItemsSource = InitializeAllTabs();
-            TabSwitcher.ChangeTabIndex = ChangeTabIndex;
 
-            GlobusLogHelper.log.Info("Welcome to Dominator social");
+
+            // Init UI delegates
+            TabSwitcher.ChangeTabIndex = ChangeTabIndex;
+            CampaignsWorkflowManager.Instance.ConfirmDialog = msg =>
+                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg,
+                                    MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;                            
+
+            // Log
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
-            //TabSwitcher.ChangeTabIndex = ChangeIndex;
+            
             Task performanceTask = new Task(() => StartbindMemory(),
             TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();

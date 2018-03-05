@@ -1,5 +1,6 @@
 ﻿using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.BusinessLogic;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -310,13 +311,15 @@ namespace DominatorUIUtility.CustomControl
                     
             var objTemplateModel = new TemplateModel();
 
-            TemplateId = objTemplateModel.SaveTemplate((TModel)Model,
-                _activityType.ToString(), _socialNetwork,
-                CampaignName);
+            CampaignsWorkflowManager.Instance.Create(Model, _activityType, CampaignName, _footerControl.list_SelectedAccounts);
 
-            SaveDetails(_footerControl.list_SelectedAccounts, _activityType);
+            //TemplateId = objTemplateModel.SaveTemplate((TModel)Model,
+            //    _activityType.ToString(), _socialNetwork,
+            //    CampaignName);
 
-            AddNewCampaign(_footerControl.list_SelectedAccounts, _activityType);
+            //SaveDetails(_footerControl.list_SelectedAccounts, _activityType);
+
+            //AddNewCampaign(_footerControl.list_SelectedAccounts, _activityType);
 
             SetDataContext();
             TabSwitcher.ChangeTabIndex?.Invoke(6, 0);
