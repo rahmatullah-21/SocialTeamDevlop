@@ -32,17 +32,11 @@ namespace DominatorHouseCore.FileManagers
 
 
         // Saves all accounts. Have to work Only in Social library. Otherwise use UpdateAccounts() method to update AccountDetails.bin
-
-        internal static void SaveAll<T>(List<T> lstAccountModel) where T : class
+        // NOTE: make sure lstAccountModel contains all accounts
+        internal static void SaveAll(List<DominatorAccountModel> lstAccountModel)
         {
-#if DEBUG
-            // make sure lstAccountModel contains all accounts
-            var all = GetAll();
-            Debug.Assert(all.Count == lstAccountModel.Count);      
-#endif
-
             BinFileHelper.UpdateAllAccounts(lstAccountModel);
-            GlobusLogHelper.log.Debug("Accounts successfully saved");
+            GlobusLogHelper.log.Debug($"{lstAccountModel.Count} Accounts successfully saved");
         }
 
 
@@ -139,13 +133,6 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper.UpdateAllAccounts(accs);
         }
 
-        public static void Delete<AModel>(Predicate<AModel> match) where AModel : class
-        {
-            var accs = GetFor<AModel>();
-            var toDelete = accs.FindAll(match);
-            accs.RemoveAll(match);
-            BinFileHelper.UpdateAllAccounts(accs);            
-        }
 
         // alias
         public static void Edit<TModel>(TModel account) where TModel : class => SaveAccount(account);

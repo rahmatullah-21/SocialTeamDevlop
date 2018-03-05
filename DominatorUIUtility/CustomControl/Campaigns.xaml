@@ -40,7 +40,7 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <controls:ToggleSwitch OnLabel="{DynamicResource langActive}" OffLabel="{DynamicResource langPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
-                                                   IsCheckedChanged="CampaignStatusChanged" FontSize="12" >
+                                                   IsCheckedChanged="ToggleActivatePause_Campaign" FontSize="12" >
 
                                             <controls:ToggleSwitch.Style>
                                                 <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">

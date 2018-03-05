@@ -131,15 +131,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Behaviours\CampaignManager.cs" />
+    <Compile Include="Behaviours\ErrorModelControl.xaml.cs">
+      <DependentUpon>ErrorModelControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
     <Compile Include="Behaviours\ReportManager.cs" />
-    <Compile Include="Behaviours\UserQueryParameters.cs" />
     <Compile Include="CustomControl\AccountCustomControl.xaml.cs">
       <DependentUpon>AccountCustomControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControl\AccountsActivityControl.xaml.cs">
-      <DependentUpon>AccountsActivityControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\AccountTabCustomControl.xaml.cs">
       <DependentUpon>AccountTabCustomControl.xaml</DependentUpon>
@@ -242,15 +240,15 @@
     <Compile Include="Views\Publisher\ManagePosts.xaml.cs">
       <DependentUpon>ManagePosts.xaml</DependentUpon>
     </Compile>
+    <Page Include="Behaviours\ErrorModelControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CustomControl\AccountCustomControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\AccountGrowthModeHeader.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\AccountsActivityControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

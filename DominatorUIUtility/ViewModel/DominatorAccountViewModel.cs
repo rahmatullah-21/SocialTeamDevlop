@@ -636,16 +636,8 @@ namespace DominatorUIUtility.ViewModel
             //remove the selected accounts from account model
             selectAccounts.ForEach(item => LstDominatorAccountModel.Remove(item));
 
-            AccountsFileManager.SaveAll<DominatorAccountModel>(selectAccounts);
-
-            AccountsFileManager.Delete(x => x.IsAccountManagerAccountSelected);
-
-            //// Remove the accounts from bin files
-            //foreach (var dominatorAccountModel in selectAccounts)                          
-            //    AccountsFileManager.Delete<DominatorAccountModel>
-            //        (a => dominatorAccountModel.AccountId == a.AccountId );
-
-
+            // remove from file
+            AccountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);            
 
             return false;
         }

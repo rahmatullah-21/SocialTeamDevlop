@@ -28,7 +28,7 @@ namespace DominatorHouseCore.Utility
                     return false;
                 DominatorCancellationTokenSource DominatorCancellationTokenSource = DictAllJobCancellationTokenSources[key];
                 DominatorCancellationTokenSource.Cancel();
-                GlobusLogHelper.log.Info($"Process stopped [{key}]");
+                GlobusLogHelper.log.Debug($"Process stopped [{key}]");
                 //  DictAllJobCancellationTokenSources.Remove(key);
                 DictAllJobCancellationTokenSources[key] = DominatorCancellationTokenSource;
                 return true;

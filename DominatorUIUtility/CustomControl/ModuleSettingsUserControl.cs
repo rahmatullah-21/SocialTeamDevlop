@@ -281,7 +281,7 @@ namespace DominatorUIUtility.CustomControl
             // Check queries
             if (Model.SavedQueries.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please ADD at least one query.",
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one query.",
                     MessageDialogStyle.Affirmative);
                 return false; 
             }
@@ -289,7 +289,7 @@ namespace DominatorUIUtility.CustomControl
             // Check timings
             if (((IEnumerable<RunningTimes>)Model.JobConfiguration.RunningTime).All(rt => rt.Timings.Count == 0))
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please ADD at least one time range when to run and stop the activity.",
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one time range when to run and stop the activity.",
                     MessageDialogStyle.Affirmative);
                 return false; 
             }
