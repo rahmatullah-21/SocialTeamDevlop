@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.FileManagers;
+﻿using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
@@ -18,14 +19,17 @@ namespace DominatorUIUtility.CustomControl
     public partial class SelectAccountControl : UserControl
     {
         public DominatorAccountViewModel objDominatorAccountViewModel = new DominatorAccountViewModel();
-        public SelectAccountControl(List<string> lstSelectedAccount)
+        public SelectAccountControl(List<string> lstSelectedAccount, bool filterForActiveSocialNetwrok = true)
         {
             InitializeComponent();
 
             this.DataContext = objDominatorAccountViewModel;
 
             //Read all accounts from bin files
-            var items = AccountsFileManager.GetAll(SocialNetworks.Instagram);
+
+            var items = filterForActiveSocialNetwrok                                               ?
+                        AccountsFileManager.GetAll(DominatorHouseInitializer.ActiveSocialNetwork)  :
+                        AccountsFileManager.GetAll();
 
             //Iterate all account model from bin file and add to DominatorAccountViewModel object
             objDominatorAccountViewModel.LstDominatorAccountModel.Clear();

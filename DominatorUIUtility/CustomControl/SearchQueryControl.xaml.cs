@@ -9,9 +9,12 @@ using DominatorHouseCore.Command;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
+using System.Windows.Data;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace DominatorUIUtility.CustomControl
-{
+{    
     public partial class SearchQueryControl : UserControl
     {
 
@@ -26,10 +29,6 @@ namespace DominatorUIUtility.CustomControl
         }
 
         #region Variables
-
-
-
-
 
         public IEnumerable<string> ListQueryType
         {

@@ -6,7 +6,7 @@ namespace DominatorHouseCore.Utility
 {
     public static class RandomUtilties
     {
-        public static Random ObjRandom { get; } = new Random();
+        public static Random ObjRandom { get; } = new Random(Guid.NewGuid().GetHashCode());
 
         /// <summary>
         /// This Medthod is used to get the random item from the list

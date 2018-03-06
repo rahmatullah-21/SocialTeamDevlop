@@ -14,6 +14,10 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
+using DominatorHouseCore.BusinessLogic.ActivitiesWorkflow;
+using System.Diagnostics;
+using System.Threading;
 
 namespace DominatorHouseCore.Process
 {
@@ -24,7 +28,7 @@ namespace DominatorHouseCore.Process
     /// 
     /// Derived class have to implement PostScrapeProcess
     /// </summary>
-    public abstract class JobProcess 
+    public abstract class JobProcess
     {
         #region Required Properties
         protected int NoOfActionPerformedCurrentJob = 0;
@@ -35,6 +39,7 @@ namespace DominatorHouseCore.Process
         protected int MaxNoOfActionPerDay = 0;
         protected int MaxNoOfActionPerWeek = 0;
         protected int NoOfActionPerformedCurrentWeek = 0;
+
         public string TemplateId { get; set; }
         public string campaignId { get; set; }
         public DominatorAccountModel DominatorAccountModel { get; set; }
@@ -48,7 +53,6 @@ namespace DominatorHouseCore.Process
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; }
 
-        
         #endregion
 
         public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
@@ -69,8 +73,6 @@ namespace DominatorHouseCore.Process
             JobCancellationTokenSource = new DominatorCancellationTokenSource(account, template);
             InitializeActivityCount(account);
         }
-
-        public abstract JobProcess Initialize(string account, string template, ActivityType activity, TimingRange currentJobTimeRange);
 
         protected void InitializeActivityCount(string account)
         {
@@ -116,27 +118,185 @@ namespace DominatorHouseCore.Process
                      .FirstOrDefault(x => x.ActivityType == ActivityType.Follow).TemplateId;
                 JobManager.AddJob(
                     () =>
-                    {
-                        // use registered Factories
+                    {                        
                         DominatorScheduler.RunActivity(DominatorAccountModel.AccountBaseModel.UserName, TemplateId, CurrentJobTimeRange,
-                            ActivityType.Follow.ToString(), SocialNetworks.Facebook);
+                            ActivityType.Follow.ToString());
 
                     }, s => s.WithName($"{ActivityType.Follow.ToString()}-{this.TemplateId}").ToRunOnceAt(dateTime));
             }
 
         }
 
-
-        public abstract JobProcessResult PostScrapeProcess(ScrapeResultNew scrapeResult);
-
+        /// <summary>
+        /// Starts process for certain social network. Must use JobProcess.StartProcess(ILoginProcess)
+        /// </summary>
         public abstract void StartProcess();
 
-        public abstract void StartOtherConfiguration(ScrapeResultNew scrapeResult);
+        /// <summary>
+        /// Does a POST request for certain process after login. Like Follow, Like, Comment etc.
+        /// </summary>
+        /// <param name="scrapeResult"></param>
+        /// <returns></returns>
+        public abstract JobProcessResult PostScrapeProcess(ScrapeResultNew scrapeResult);
 
-        public bool checkIfJobCompleted()
+
+        /// <summary>
+        /// Logs-in to social network and scrap data from its feed
+        /// </summary>
+        protected void StartProcess(ILoginProcess logInProcess)
         {
+            try
+            {
+                if (DictRunningJobs.ContainsKey(TemplateId)) return;        // job already running
+
+                DictRunningJobs.Add(this.TemplateId, "");
+                Debug.Assert(!string.IsNullOrEmpty(this.campaignId));
+
+                GlobusLogHelper.log.Info("Process started with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+                if (!this.DominatorAccountModel.IsUserLoggedIn)
+                {
+                    GlobusLogHelper.log.Info("Logging in with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+
+                    logInProcess.LoginWithDataBaseCookies(this.DominatorAccountModel, true);
+                }
+
+                if (this.DominatorAccountModel.IsUserLoggedIn)
+                {
+                    GlobusLogHelper.log.Info("Logged in successfully with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+
+                    RunScraper();
+                }
+
+                DictRunningJobs.Remove(this.TemplateId);
+
+            }
+            catch (Exception Ex)
+            {
+                Ex.DebugLog();
+                DictRunningJobs.Remove(this.TemplateId);
+            }           
+        }
+
+
+
+        /// <summary>
+        /// Will be called when JobProcess complete.
+        /// Starts actions that was selected by user from Other Configuration section.
+        /// Like Follow/Unfollow for GramDominator/Follow module.
+        /// </summary>
+        /// <param name="scrapeResult"></param>
+        public virtual void StartOtherConfiguration(ScrapeResultNew scrapeResult)
+        {
+            GlobusLogHelper.log.Info($"Started other configuration with account => " +
+                    $"{DominatorAccountModel.AccountBaseModel.UserName} module => {ActivityType}");
+        }
+
+
+        /// <summary>
+        /// Calls after scrapping result from social network (e.g. Instagram feed).
+        /// If process completed (time or activities limits reached) then starts other configuration stuff
+        /// </summary>
+        /// <param name="ScrapedResult">Data that obtained from network's feed</param>
+        /// <returns></returns>
+        public virtual JobProcessResult FinalProcess(ScrapeResultNew ScrapedResult)
+        {
+            JobProcessResult jobProcessResult = PostScrapeProcess(ScrapedResult);
+            jobProcessResult.IsProcessCompleted = CheckJobProcessLimitsReached();
+
+            if (jobProcessResult.IsProcessCompleted)
+            {
+                StartOtherConfiguration(ScrapedResult);
+                GlobusLogHelper.log.Info("Process completed with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
+            }
+            return jobProcessResult;
+        }
+
+
+        /// <summary>
+        /// Checks wheter time limits(per hour/day/week) or activities count reached
+        /// </summary>
+        /// <returns>
+        /// true if limits reached and caller needds to process with Other Configuration        
+        /// </returns>
+        protected virtual bool CheckJobProcessLimitsReached()
+        {
+            int currentTime = DateTimeUtilities.GetEpochTime();
+
+            // Check weekly limit. If reached, Stop task and wait for next days.
+            // TODO: implement schedule holder on a weekly basis.
+            NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24 * 7).Count();
+            if (NoOfActionPerformedCurrentWeek > MaxNoOfActionPerWeek)
+            {
+                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
+                return true;
+            }
+
+            // Check daily limit
+            // TODO: extend DominatorScheduler with holding days/weeks and obtain day of next job from there
+            NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24).Count();
+            if (NoOfActionPerformedCurrentDay > MaxNoOfActionPerDay)
+            {
+                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
+                return true;
+            }
+
+            // Check hourly limit. Wait a hour.
+            // TODO: implement schedule holder on a weekly basis and extract next hours job from there.
+            NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600).Count();
+            if (NoOfActionPerformedCurrentHour > MaxNoOfActionPerHour)
+            {
+                // schedule next job on next hour
+                ScheduleNextJob(DateTime.Now.AddHours(1));
+                return true;
+            }
+
+           
+            // Finally check max number of jobs limit
+            if (NoOfActionPerformedCurrentJob > MaxNoOfActionPerJob)
+            {
+                GlobusLogHelper.log.Info($"Number of {ActivityType} per job limit reached. Scheduling next job.");
+
+                // Next job have to be after X minutes, e.g 10-20 minutes.
+                // TODO: implement via DominatorScheduler
+                var nextJobTime = DateTime.Now.AddMinutes(this.JobConfiguration.DelayBetweenJobs.GetRandom());
+
+                GlobusLogHelper.log.Info($"Next job scheduled to {nextJobTime.ToString("hh:mm")}");
+                ScheduleNextJob(nextJobTime);
+                return true;
+            }
+
             return false;
         }
+
+
+        #region Delay methods
+
+        public void DelayBeforeNextActivity()
+        {
+            int seconds = JobConfiguration.DelayBetweenActivity.GetRandom();
+
+            GlobusLogHelper.log.Info($"{seconds} seconds Delay before next {ActivityType}");
+
+#if SKIP_DELAYS
+            seconds = 2;
+#endif            
+            Thread.Sleep(seconds * 1000);
+        }
+
+        public void DelayBeforeNextJob()
+        {
+            int minutes = JobConfiguration.DelayBetweenJobs.GetRandom();
+
+            GlobusLogHelper.log.Info($"{minutes} minutes Delay before next job ({ActivityType})");
+
+#if SKIP_DELAYS
+            minutes = 0;
+#endif            
+
+            Thread.Sleep(minutes * (60 * 1000));
+        }
+
+        #endregion        
 
 
         protected void StopFollow()
@@ -150,6 +310,7 @@ namespace DominatorHouseCore.Process
             TemplatesFileManager.Save(lstTemplateModel);
         }
 
+
         /// <summary>
         /// 1. Obtains Scraper factory for active library (GD, PD, TD etc.)
         /// 2. Creates Scraper
@@ -161,6 +322,6 @@ namespace DominatorHouseCore.Process
             IScraperFactory scraperFactory = DominatorHouseInitializer.ActiveLibrary.QueryScraperFactory;
             AbstractQueryScraper scraper = scraperFactory.Create(this);
             scraper.ScrapeWithQueries();
-        }        
+        }
     }
 }

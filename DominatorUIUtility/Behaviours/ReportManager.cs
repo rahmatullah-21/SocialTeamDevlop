@@ -19,5 +19,6 @@ namespace DominatorUIUtility.Behaviours
         public static Action<string,string> ExportReports { get; set; }
         public static Func<string, ReportModel, bool> FilterByQueryType { get; set; }
         public static Func<string, ReportModel, bool> FilterByAccount { get; set; }
+
     }
 }

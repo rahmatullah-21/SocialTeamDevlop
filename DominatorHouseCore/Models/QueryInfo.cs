@@ -57,36 +57,9 @@ namespace DominatorHouseCore.Models
             {
                 if (_queryType == value)
                     return;
-                SetProperty(ref _queryType, value);
+                SetProperty(ref _queryType, value);                
             }
         }
-
-
-
-        //private UserQueryParameters _queryType;
-        ///// <summary>
-        ///// QueryType holds the index value of QueryParameters 
-        ///// </summary>
-        //[ProtoMember(2)]
-        //public UserQueryParameters QueryType
-        //{
-        //    get
-        //    {
-        //        return _queryType;
-        //    }
-        //    set
-        //    {
-        //        if (_queryType == value)
-        //            return;
-        //        SetProperty(ref _queryType, value);
-        //    }
-        //}
-
-
-
-
-
-
 
         /// <summary>
         /// QueryValue holds the input value for selected query type
@@ -102,7 +75,7 @@ namespace DominatorHouseCore.Models
             {
                 if (_queryValue != null && _queryValue == value)
                     return;
-                SetProperty(ref _queryValue, value);
+                SetProperty(ref _queryValue, value);                
             }
         }
 
@@ -179,6 +152,14 @@ namespace DominatorHouseCore.Models
             }
         }
 
+        public string QueryTypeAsDisplayName()
+        {
+            var value = (UserQueryParameters)Enum.Parse(typeof(UserQueryParameters), QueryType);
+            var descrKey = EnumUtility.GetDescriptionAttr(value);
+
+            return descrKey.FromResourceDictionary();
+        }
+
         [ProtoMember(8)]
         public string QueryTypeDisplayName
         {
@@ -190,7 +171,9 @@ namespace DominatorHouseCore.Models
             {
                 if (_queryTypeDisplayName != null && _queryTypeDisplayName == value)
                     return;
-                SetProperty(ref _queryTypeDisplayName, value);
+
+                var displayName = value;            // ConvertToDisplayName(value)
+                SetProperty(ref _queryTypeDisplayName, displayName);
             }
         }
 
@@ -245,7 +228,7 @@ namespace DominatorHouseCore.Models
         LocationPosts = 9,
         [Description("langCustomUser")]
         CustomUsers = 10,
-        [Description("SuggestedUsers")]
+        [Description("langSuggestedUsers")]
         SuggestedUsers = 11,
         [Description("langCustomPhotos")]
         CustomPhotos =12,

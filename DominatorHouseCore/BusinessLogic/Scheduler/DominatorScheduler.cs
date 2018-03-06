@@ -12,28 +12,15 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Interfaces;
 using Newtonsoft.Json;
+using DominatorHouseCore.Diagnostics;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
-{    
+{
     public partial class DominatorScheduler
-    {        
-        private static Dictionary<SocialNetworks, IJobProcessFactory> _jobProcessFactories = new Dictionary<SocialNetworks, IJobProcessFactory>();
-        public static object _runStopActivityLocker = new object();
-        
-        /// <summary>
-        /// Loads all activities for particular social network and runs them
-        /// </summary>
-        internal static void AddJobProcessFactoryForNetwork(IJobProcessFactory jobProcessFactory, SocialNetworks socialNetwork)
-        {
-            if (!_jobProcessFactories.ContainsKey(socialNetwork))
-            {
-                _jobProcessFactories.Add(socialNetwork, jobProcessFactory);
-                GlobusLogHelper.log.Debug($"{socialNetwork}JobProcessFactory registered in DominatorScheduler.");
-            }
-            else
-                GlobusLogHelper.log.Warn($"{socialNetwork}JobProcessFactory already in DominatorScheduler.");
-        }
+    {
+        static IJobProcessFactory _activeJobProcessFactory => DominatorHouseInitializer.ActiveLibrary.JobProcessFactory;
 
+        public static object _runStopActivityLocker = new object();
 
         /// <summary>
         /// Runs activity for specific 'module' and social network. 
@@ -43,26 +30,22 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="template"></param>
         /// <param name="CurrentJobTimeRange"></param>
         /// <param name="module">Follow, Comment, etc.</param>
-        public static void RunActivity(string account, string template, TimingRange CurrentJobTimeRange, string module, SocialNetworks socialNetwork)            
+        public static void RunActivity(string account, string template, TimingRange CurrentJobTimeRange, string module)
         {
-            lock (_runStopActivityLocker)
+            Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{template}");
+            if (ScheduledJob != null && ScheduledJob.Disabled)
+                return;
+
+            // jobProcess may be Follow, Like, Comment, Repost, for any particular social network.
+            // jobProcessFactory have to be registered for each library.
+            var jobProcess = _activeJobProcessFactory.Create(account, template, CurrentJobTimeRange, module);
+            Task.Factory.StartNew(() =>
             {
-                Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{template}");
-                if (ScheduledJob != null && ScheduledJob.Disabled)
-                    return;
+                GlobusLogHelper.log.Info($"{module} process started with {DominatorHouseInitializer.ActiveSocialNetwork} account [" + account + "]");
+                jobProcess.StartProcess();
 
-                var jobProcessFactory = _jobProcessFactories[socialNetwork];
+            }, jobProcess.JobCancellationTokenSource.Token);
 
-                // jobProcess may be Follow, Like, Comment, Repost, for any particular social network.
-                // jobProcessFactory have to be registered for each library.
-                var jobProcess = jobProcessFactory.Create(account, template, CurrentJobTimeRange, module);
-                Task.Factory.StartNew(() =>
-                {
-                    GlobusLogHelper.log.Info("process started with [ " + account + "]");
-                    jobProcess.StartProcess();
-
-                }, jobProcess.JobCancellationTokenSource.Token);
-            }
         }
 
 
@@ -105,49 +88,48 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             if (moduleConfiguration != null && !moduleConfiguration.IsEnabled)
                 return;
 
-            try
+            // Check if activity with the same id already running
+            if (TaskAndThreadUtility.IsStarted(dominatorAccount.UserName, moduleConfiguration.TemplateId))
             {
-                // Check if activity with the same id already running
-                foreach (var schedule in JobManager.RunningSchedules)
-                    if (schedule.Name == $"{activityType.ToString()}-{moduleConfiguration.TemplateId}")
-                        return;                
+                GlobusLogHelper.log.Error($"{dominatorAccount.UserName}_{moduleConfiguration.TemplateId} already started");
+                return;
             }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Debug(ex, $"{nameof(ScheduleTodayJobs)} unexpected exception");
-            }
-            
 
             try
             {
-                if (dominatorAccount.ActivityManager.RunningTime == null)
-                    return;
-                
-                var today = DateTimeUtilities.GetDayOfWeek();           // get the current day
+                // Check that at least one timing was set up before creating campaign
+                if (dominatorAccount.ActivityManager.RunningTime == null ||
+                    dominatorAccount.ActivityManager.RunningTime.All(rt => rt.Timings.Count == 0))
+                    throw new InvalidOperationException($"Running time for activity {activityType} wasn't set");
 
-                // retrieve the account's todays scheduled modules
+                var today = DateTimeUtilities.GetDayOfWeek();
+
+                // retrieve the account's todays scheduled modules.
+                // TODO: check not only first but all running times                
                 var timeScheduleModel = dominatorAccount.ActivityManager.RunningTime.First(x => x.DayOfWeek == today);
 
                 if (!timeScheduleModel.IsEnabled)
+                {
+                    GlobusLogHelper.log.Debug($"Activity {activityType} is disabled");
                     return;
+                }
 
                 // get the hour and minute of current time
                 var currentTimespan = DateTimeUtilities.GetTimeSpanCurrentHourMinute();
 
                 // Schedule jobs of specific module for each time range
-                foreach(var timing in timeScheduleModel.Timings)
+                foreach (var timing in timeScheduleModel.Timings)
                 {
                     // get the template id for respective module
                     string templateId = GetTemplateId(timing, dominatorAccount);
 
-                   
+
                     // If start time not met before,it will schedule to start time
                     if (timing.StartTime.Hours >= currentTimespan.Hours && timing.StartTime.Minutes > currentTimespan.Minutes)
                     {
                         JobManager.AddJob(() =>
                         {
-                           RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module, 
-                                       netowork);
+                            RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module);
 
                         }, s => s.WithName($"{timing.Module}-{templateId}").ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
 
@@ -163,23 +145,23 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     {
                         JobManager.AddJob(() =>
                         {
-                            RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module, netowork);
+                            RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module);
 
                         }, s => s.WithName($"{timing.Module}-{templateId}").ToRunOnceAt(DateTime.Now.AddSeconds(5)));
 
                         JobManager.AddJob(() =>
-                        {                            
-                            StopActivity(dominatorAccount.AccountBaseModel.AccountId,timing.Module,templateId);
+                        {
+                            StopActivity(dominatorAccount.AccountBaseModel.AccountId, timing.Module, templateId);
 
                         }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
-                    }  
+                    }
                 };
-             
+
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex);
-            }            
+                GlobusLogHelper.log.Error(ex.Message);
+            }
         }
 
 
@@ -202,10 +184,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         if (moduleRunningTimes.Count() > 0)
                         {
                             account.ActivityManager.RunningTime = moduleRunningTimes;
-                            foreach(var timing in account.ActivityManager.RunningTime)
-                                foreach (var timingRange in timing.Timings)                              
+                            foreach (var timing in account.ActivityManager.RunningTime)
+                                foreach (var timingRange in timing.Timings)
                                     timingRange.Module = activity.ToString();
-                                
+
                             DominatorScheduler.ScheduleTodayJobs(account, network, activity);
                         }
                     }
@@ -234,7 +216,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var moduleConfiguration = item.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == moduleType);
                 activitySetting = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId).ActivitySettings;
 
-                runningTime = JsonConvert.DeserializeObject<IGeneralSettings>(activitySetting).JobConfiguration.RunningTime;
+                dynamic obj = JsonConvert.DeserializeObject(activitySetting);
+                runningTime = obj.JobConfiguration.RunningTime;
 
                 #region Commented
                 //switch (moduleType)
@@ -310,6 +293,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
 
             return IsEqual;
-        }        
-    }    
+        }
+    }
 }

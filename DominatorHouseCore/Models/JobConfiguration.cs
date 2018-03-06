@@ -2,6 +2,7 @@
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System.Threading;
 
 namespace DominatorHouseCore.Models
 {
@@ -14,8 +15,8 @@ namespace DominatorHouseCore.Models
 
         public JobConfiguration()
         {
-            //  Delay between each operations (minutes)
-            DelayBetweenActivity = new RangeUtilities(10, 20);
+            //  Delay between each operations (seconds)
+            DelayBetweenActivity = new RangeUtilities(30, 60);
 
             //  Delay between jobs (minutes)
             DelayBetweenJobs = new RangeUtilities(10, 20);
@@ -27,10 +28,10 @@ namespace DominatorHouseCore.Models
             ActivitiesPerHour = new RangeUtilities(10, 20);
 
             // Number of <activities> per Day (users)
-            ActivitiesPerDay = new RangeUtilities(10, 20);
+            ActivitiesPerDay = new RangeUtilities(50, 60);
 
             // Number of <activities> per Week (users)
-            ActivitiesPerWeek = new RangeUtilities(10, 20);
+            ActivitiesPerWeek = new RangeUtilities(350, 420);
 
             // Increase each day with 10 until it reaches 100 max <activity> per day
             IncreaseActivitiesEachDay = new IncreaseActivityRange(10, 100, false);
@@ -81,6 +82,5 @@ namespace DominatorHouseCore.Models
         public string IncreaseActivityDisplayName { get; set; } = string.Empty;
 
         #endregion
-
     }
 }
