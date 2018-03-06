@@ -12,84 +12,86 @@
     <UserControl.Resources>
         <converters:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
     </UserControl.Resources>
-    <Grid  Name="MainGrid" Margin="0,-60,0,0">
+    <Grid  Name="MainGrid" Margin="0,-50,0,0">
         <header:Header x:Name="publishersHeader" VerticalAlignment="Top"/>
-        <ScrollViewer Margin="0,40,0,0">
-            <StackPanel ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <StackPanel Orientation="Horizontal" Margin="5,5,0,5" >
-                    <Label Content="{DynamicResource langCampaign}"/>
-                    <ComboBox x:Name="cmbCampaign" Height="25" Width="200"/>
-                </StackPanel>
-                <StackPanel >
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="{DynamicResource langClearHistroy}"   x:Name="btnClearHistroy" Margin="5"
-                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
-                        <TextBlock Text="{DynamicResource langFilter}" VerticalAlignment="Center" Margin="5"/>
-                        <TextBox x:Name="txtFilter" Margin="5" Width="200"/>
-                        <CheckBox Margin="20,5,5,5" Content="{DynamicResource langAutomaticallySendHistoryPosts}"/>
-                        <TextBlock Text="{DynamicResource langDeletePostsOlderThen}" VerticalAlignment="Center" Margin="30,5,5,5"/>
-                        <controls:NumericUpDown VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource langDaysOld}" VerticalAlignment="Center" Margin="5"/>
-                        <Button Content="{DynamicResource langDelete}"   x:Name="btnDelete" Margin="10,5"
-                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+        <Border BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2" Margin="5">
+            <ScrollViewer Margin="0,40,0,0">
+                <StackPanel ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Horizontal" Margin="5,5,0,5" >
+                        <Label Content="{DynamicResource langCampaign}"/>
+                        <ComboBox x:Name="cmbCampaign" Height="25" Width="200"/>
                     </StackPanel>
+                    <StackPanel >
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="{DynamicResource langClearHistroy}"   x:Name="btnClearHistroy" Margin="5"
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" />
+                            <TextBlock Text="{DynamicResource langFilter}" VerticalAlignment="Center" Margin="5"/>
+                            <TextBox x:Name="txtFilter" Margin="5" Width="200"/>
+                            <CheckBox Margin="20,5,5,5" Content="{DynamicResource langAutomaticallySendHistoryPosts}"/>
+                            <TextBlock Text="{DynamicResource langDeletePostsOlderThen}" VerticalAlignment="Center" Margin="30,5,5,5"/>
+                            <controls:NumericUpDown VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource langDaysOld}" VerticalAlignment="Center" Margin="5"/>
+                            <Button Content="{DynamicResource langDelete}"   x:Name="btnDelete" Margin="10,5"
+                Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+                        </StackPanel>
 
-                    <ListView  Margin="5" ItemsSource="{Binding PostsDetailCollection}">
-                        <ListView.Resources>
-                            <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            </Style>
-                        </ListView.Resources>
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.View >
-                            <GridView >
-                                <GridViewColumn Header="#" DisplayMemberBinding="{Binding SerialNo}"/>
-                                <GridViewColumn Header="{DynamicResource langMessage}" DisplayMemberBinding="{Binding Messeges}"/>
-                                <GridViewColumn Header="{DynamicResource langEndDate}" DisplayMemberBinding="{Binding CampaignEndDate}"/>
-                                <GridViewColumn Header="{DynamicResource langFinished}" DisplayMemberBinding="{Binding Finished}"/>
-                                <GridViewColumn Header="{DynamicResource langSucceessfull}" DisplayMemberBinding="{Binding Succeessfull}"/>
-                                <GridViewColumn Header="{DynamicResource langStatus}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Status}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="{DynamicResource langAction}" >
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Button Content="{DynamicResource langContinue}" Grid.Column="0"  x:Name="btnContinue" FontWeight="SemiBold"
+                        <ListView  Margin="5" ItemsSource="{Binding PostsDetailCollection}">
+                            <ListView.Resources>
+                                <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </ListView.Resources>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View >
+                                <GridView >
+                                    <GridViewColumn Header="#" DisplayMemberBinding="{Binding SerialNo}"/>
+                                    <GridViewColumn Header="{DynamicResource langMessage}" DisplayMemberBinding="{Binding Messeges}"/>
+                                    <GridViewColumn Header="{DynamicResource langEndDate}" DisplayMemberBinding="{Binding CampaignEndDate}"/>
+                                    <GridViewColumn Header="{DynamicResource langFinished}" DisplayMemberBinding="{Binding Finished}"/>
+                                    <GridViewColumn Header="{DynamicResource langSucceessfull}" DisplayMemberBinding="{Binding Succeessfull}"/>
+                                    <GridViewColumn Header="{DynamicResource langStatus}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Status}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource langAction}" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Content="{DynamicResource langContinue}" Grid.Column="0"  x:Name="btnContinue" FontWeight="SemiBold"
                                                                     Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" Click="btnContinue_Click" />
-                                                <Button Content="{DynamicResource langDetails}" Grid.Column="0"  x:Name="btnDetails" FontWeight="SemiBold"
+                                                    <Button Content="{DynamicResource langDetails}" Grid.Column="0"  x:Name="btnDetails" FontWeight="SemiBold"
                                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                                <Button Content="{DynamicResource langReAdd}" Grid.Column="0"  x:Name="btnReAdd" FontWeight="SemiBold"
+                                                    <Button Content="{DynamicResource langReAdd}" Grid.Column="0"  x:Name="btnReAdd" FontWeight="SemiBold"
                                                                      Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                                <Button Content="{DynamicResource langBump}" Grid.Column="0"  x:Name="btnBump" FontWeight="SemiBold"
+                                                    <Button Content="{DynamicResource langBump}" Grid.Column="0"  x:Name="btnBump" FontWeight="SemiBold"
                                                                     Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                                <Button Content="{DynamicResource langCreateReport}" Grid.Column="0"  x:Name="btnCreateReport" FontWeight="SemiBold"
+                                                    <Button Content="{DynamicResource langCreateReport}" Grid.Column="0"  x:Name="btnCreateReport" FontWeight="SemiBold"
                                                                   Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                                <Button Content="{DynamicResource langDeleteReport}" Grid.Column="0"  x:Name="btnDeleteReport" FontWeight="SemiBold"
+                                                    <Button Content="{DynamicResource langDeleteReport}" Grid.Column="0"  x:Name="btnDeleteReport" FontWeight="SemiBold"
                                                                     Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                                <Button Content="{DynamicResource langDeletePosts}" Grid.Column="0"  x:Name="btnDeletePosts" FontWeight="SemiBold"
+                                                    <Button Content="{DynamicResource langDeletePosts}" Grid.Column="0"  x:Name="btnDeletePosts" FontWeight="SemiBold"
                                                                      Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="{DynamicResource langDeleted}" DisplayMemberBinding="{Binding Deleted}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource langDeleted}" DisplayMemberBinding="{Binding Deleted}"/>
 
-                            </GridView>
-                        </ListView.View>
+                                </GridView>
+                            </ListView.View>
 
-                    </ListView>
+                        </ListView>
 
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-        </ScrollViewer>
+            </ScrollViewer>
+        </Border >
     </Grid>
 </UserControl>

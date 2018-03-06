@@ -33,13 +33,13 @@ namespace DominatorHouse.Social.Settings.View
             objAppearanceViewModel.lstRecentColorsCollection = new ObservableCollection<ColorsCollection>(objAppearanceViewModel.lstRecentColorsCollection.Distinct());
 
             ChangeAppearance(sender);
-
         }
+
         private void lsttheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ChangeAppearance(sender);
-           
+            ChangeAppearance(sender);           
         }
+
         private void lstRecentcolor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ChangeAppearance(sender);
@@ -75,7 +75,6 @@ namespace DominatorHouse.Social.Settings.View
                     ColorName = ((ColorsCollection)lstRecentcolor.SelectedItem).Name;
                     SelectedItem = (ColorsCollection)lstRecentcolor.SelectedItem;
                     AccentColor = objAppearanceViewModel.lstRecentColorsCollection.FirstOrDefault(x => x.Value == SelectedItem.Value).Name;
-
                 }
                 if (ColorName == "Default")
                 {
@@ -93,7 +92,6 @@ namespace DominatorHouse.Social.Settings.View
             catch (Exception ex)
             {
                 GlobusLogHelper.log.Error(ex.Message + ex.StackTrace);
-
             }
             SaveCurrentTheme();
         }
