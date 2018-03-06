@@ -1129,9 +1129,9 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class Campaign : BindableBase
     {
-        private ObservableCollection<string> _lstCampaign = new ObservableCollection<string>();
+        private ObservableCollection<Campaign> _lstCampaign = new ObservableCollection<Campaign>();
 
-        public ObservableCollection<string> LstCampaign
+        public ObservableCollection<Campaign> LstCampaign
         {
             get
             {
@@ -1157,21 +1157,22 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private string _selectedCampaignName;
+        private string _selectedAccount;
         [ProtoMember(1)]
-        public string SelectedCampaignName
+        public string SelectedAccount
         {
             get
             {
-                return _selectedCampaignName;
+                return _selectedAccount;
             }
             set
             {
-                if (value == _selectedCampaignName)
+                if (value == _selectedAccount)
                     return;
-                SetProperty(ref _selectedCampaignName, value);
+                SetProperty(ref _selectedAccount, value);
             }
         }
+
         private string _selectedStatus = Application.Current.FindResource("langAll").ToString();
         [ProtoMember(2)]
         public string SelectedStatus
@@ -1216,6 +1217,19 @@ namespace DominatorHouseCore.Models
                 if (value == _status)
                     return;
                 SetProperty(ref _status, value);
+            }
+        }
+
+        private DateTime _campaignCreatedDate;
+        [ProtoMember(5)]
+        public DateTime CampaignCreatedDate
+        {
+            get { return _campaignCreatedDate; }
+            set
+            {
+                if (value == _campaignCreatedDate)
+                    return;
+                SetProperty(ref _campaignCreatedDate, value);
             }
         }
 

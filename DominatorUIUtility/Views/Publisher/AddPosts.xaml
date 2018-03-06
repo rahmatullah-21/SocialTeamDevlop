@@ -6,14 +6,13 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" x:Name="addPost"
              >
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     
     <Grid x:Name="MainGrid" >
-        <Border BorderThickness="2"  BorderBrush="{DynamicResource AccentBaseColorBrush}">
             <StackPanel>
                 <StackPanel x:Name="createCampaign">
                     <Label Content="{DynamicResource langAddSinglePost}" FontWeight="SemiBold" Margin="5"/>
@@ -200,7 +199,5 @@
                 </StackPanel>
                 <local:ManageDraft x:Name="manageDraft" Visibility="Collapsed" />
             </StackPanel>
-        </Border>
-
     </Grid>
 </UserControl>

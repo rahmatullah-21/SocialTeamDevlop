@@ -17,7 +17,9 @@ namespace DominatorHouseCore.Utility
         private static readonly object _accountDetailsFileLocker = new object();
         private static readonly object _campaignsFileLocker = new object();
         private static readonly object _templatesFileLocker = new object();
-
+        private static readonly object _proxyFileLocker = new object();
+        private static readonly object _postFileLocker = new object();
+        private static readonly object _configFileLocker = new object();
         public static ObservableCollectionBase<string> GetUsers()
             => new ObservableCollectionBase<string>(GetAccountDetails().Select(x => x.AccountBaseModel.UserName).ToList());
 
@@ -222,6 +224,149 @@ namespace DominatorHouseCore.Utility
                     GlobusLogHelper.log.Error("Update campaigns error - " + ex.Message);
                 }
             }
+        }
+        public static void SaveProxy<T>(T ProxyManagerModel) where T : class
+        {
+            ProtoBuffBase.AppendObject(ProxyManagerModel, ConstantVariable.GetOtherProxyFile());
+        }
+        public static List<T> GetProxyDetails<T>() where T : class
+        {
+            lock (_proxyFileLocker)
+                return ProtoBuffBase.DeserializeList<T>(ConstantVariable.GetOtherProxyFile());
+        }
+        public static int FindProxyIndex<T>(List<T> proxy, string ProxyName)
+        {
+            return typeof(T) == typeof(ProxyManagerModel) ?
+                proxy.FindIndex(a => (a as ProxyManagerModel).AccountProxy.ProxyName == ProxyName) :
+                proxy.FindIndex(a => (a as dynamic).AccountProxy.ProxyName == ProxyName);
+        }
+        internal static bool UpdateProxy<T>(T proxy) where T : class
+        {
+            try
+            {
+                lock (_proxyFileLocker)
+                {
+                    List<T> proxyDetailsList = GetProxyDetails<T>();
+                    int indexOfProxyToUpdate = FindProxyIndex(proxyDetailsList, (proxy as dynamic).AccountProxy.ProxyName);
+
+                    if (indexOfProxyToUpdate == -1)
+                        return false;
+
+                    proxyDetailsList[indexOfProxyToUpdate] = proxy;
+
+                    bool result = ProtoBuffBase.SerializeList(proxyDetailsList,
+                                                                ConstantVariable.GetOtherProxyFile());
+
+                    GlobusLogHelper.log.Trace($"Update Proxy - [{result}]");
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error("Update proxy details error - " + ex.Message);
+                ex.DebugLog();
+                return false;
+            }
+        }
+        public static bool UpdateAllProxy<T>(List<T> proxyDetailsList) where T : class
+        {
+            lock (_proxyFileLocker)
+            {
+                try
+                {
+                    bool result = ProtoBuffBase.SerializeList(proxyDetailsList, ConstantVariable.GetOtherProxyFile());
+
+                    GlobusLogHelper.log.Debug("Proxy succesfully saved");
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    GlobusLogHelper.log.Error("Update All Proxy error - " + ex.Message);
+                    ex.DebugLog();
+                    return false;
+                }
+            }
+        }
+        public static void SavePosts<T>(T PostModel) where T : class
+        {
+            ProtoBuffBase.AppendObject(PostModel, ConstantVariable.GetOtherPostsFile());
+        }
+        public static List<T> GetPostDetails<T>() where T : class
+        {
+            lock (_postFileLocker)
+                return ProtoBuffBase.DeserializeList<T>(ConstantVariable.GetOtherPostsFile());
+        }
+        internal static bool UpdatePost<T>(T post) where T : class
+        {
+            try
+            {
+                lock (_postFileLocker)
+                {
+                    List<T> postDetailsList = GetPostDetails<T>();
+                    int indexOfPostToUpdate = FindPostIndex(postDetailsList, (post as dynamic).CampaignDetails.CampaignName);
+
+                    if (indexOfPostToUpdate == -1)
+                        return false;
+
+                    postDetailsList[indexOfPostToUpdate] = post;
+
+                    bool result = ProtoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
+
+                    GlobusLogHelper.log.Trace($"Update Posts - [{result}]");
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error("Update Posts details error - " + ex.Message);
+                ex.DebugLog();
+                return false;
+            }
+        }
+        public static bool UpdateAllPosts<T>(List<T> postDetailsList) where T : class
+        {
+            lock (_proxyFileLocker)
+            {
+                try
+                {
+                    bool result = ProtoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
+
+                    GlobusLogHelper.log.Debug("Posts succesfully saved");
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    GlobusLogHelper.log.Error("Update All Posts error - " + ex.Message);
+                    ex.DebugLog();
+                    return false;
+                }
+            }
+        }
+        public static int FindPostIndex<T>(List<T> posts, string CampaignName)
+        {
+            return typeof(T) == typeof(AddPostModel) ?
+                posts.FindIndex(a => (a as AddPostModel).CampaignDetails.CampaignName == CampaignName) :
+                posts.FindIndex(a => (a as dynamic).AccountProxy.ProxyName == CampaignName);
+        }
+        public static void SaveConfig<T>(T Config) where T : class
+        {
+            ProtoBuffBase.AppendObject(Config, ConstantVariable.GetOtherConfigFile());
+        }
+        public static List<T> GetConfigDetails<T>() where T : class
+        {
+            try
+            {
+                lock (_configFileLocker)
+                    return ProtoBuffBase.DeserializeList<T>(ConstantVariable.GetOtherConfigFile());
+            }
+            catch (Exception ex)
+            {
+
+
+            }
+            return null;
         }
     }
 }

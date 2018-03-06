@@ -13,6 +13,7 @@ using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -55,7 +56,7 @@ namespace DominatorHouse
 
             MainTabControl.ItemsSource = InitializeAllTabs();
             TabSwitcher.ChangeTabIndex = ChangeTabIndex;
-
+            ConfigFileManager.ApplyTheme();
             GlobusLogHelper.log.Info("Welcome to Dominator social");
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
              TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;

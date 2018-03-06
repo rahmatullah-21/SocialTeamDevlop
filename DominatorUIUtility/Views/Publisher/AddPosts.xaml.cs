@@ -23,6 +23,7 @@ using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.Publisher.AdvancedOptions;
 using MahApps.Metro.Controls;
+using DominatorHouseCore.FileManagers;
 
 namespace DominatorUIUtility.Views.Publisher
 {
@@ -31,14 +32,15 @@ namespace DominatorUIUtility.Views.Publisher
     /// </summary>
     public partial class AddPosts : UserControl, INotifyPropertyChanged
     {
-        string PostDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
+       
         private AddPosts()
         {
             InitializeComponent();
+            ObjAddPosts = this;
             SetDataContext();
         }
 
-        private void SetDataContext()
+        public void SetDataContext()
         {
             AddPostViewModel = new AddPostViewModel();
             AddPostViewModel.AddPostModel.CampaignDetails.LstStatus = new ObservableCollection<string>()
@@ -49,20 +51,19 @@ namespace DominatorUIUtility.Views.Publisher
                     FindResource("langPublished").ToString()
                     };
 
-
-
-            //var postDetails = ProtoBuffBase.DeserializeObjects<AddPostModel>(PostDetailFilePath);
-            //postDetails.ForEach(x =>
-            //{
-            //    AddPostViewModel.AddPostModel.CampaignDetails.LstCampaign.Add(x.CampaignDetails.CampaignName);
-            //});
+            var postDetails = PostFileManager.GetAllPost();
+            postDetails.ForEach(x =>
+            {
+                AddPostViewModel.AddPostModel.CampaignDetails.LstCampaign.Add(new Campaign { CampaignName = x.CampaignDetails.CampaignName });
+            });
             MainGrid.DataContext = AddPostViewModel.AddPostModel;
 
             Campaigns ObjCampaigns = Campaigns.GetSingltonCreateCampaignObject();
+            
             ObjCampaigns.createCampign.DataContext = AddPostViewModel.AddPostModel.CampaignDetails;
 
-            Home ObjPublisher = Home.GetSingletonHome();
-            //  ObjPublisher.PublisherDetailCollection = CollectionViewSource.GetDefaultView(ProtoBuffBase.DeserializeObjects<AddPostModel>(PostDetailFilePath));
+           Home ObjPublisher = Home.GetSingletonHome();
+            ObjPublisher.PublisherDetailCollection = CollectionViewSource.GetDefaultView(postDetails);
             ObjPublisher.publisherDetail.ItemsSource = ObjPublisher.PublisherDetailCollection;
 
         }
@@ -72,7 +73,9 @@ namespace DominatorUIUtility.Views.Publisher
             Campaigns ObjCampaigns = Campaigns.GetSingltonCreateCampaignObject();
 
             //  AddPostViewModel.AddPostModel.SerialNo = ProtoBuffBase.DeserializeObjects<AddPostModel>(PostDetailFilePath).Count + 1;
+              AddPostViewModel.AddPostModel.SerialNo =PostFileManager.GetAllPost().Count + 1;
             AddPostViewModel.AddPostModel.Status = AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus;
+          //  PostFileManager.SavePost(AddPostViewModel.AddPostModel);
 
             // ProtoBuffBase.SerializeObjects(AddPostViewModel.AddPostModel, PostDetailFilePath);
             //manageDraft.Visibility = Visibility.Visible;
@@ -151,38 +154,72 @@ namespace DominatorUIUtility.Views.Publisher
 
         private void btnAddToPostList_Click(object sender, RoutedEventArgs e)
         {
-            string PostDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
-            string LocationDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\LocationsDetail.bin";
-            //  AddPostViewModel.AddPostModel.SerialNo = ProtoBuffBase.DeserializeObjects<AddPostModel>(PostDetailFilePath).Count + 1;
-            if (AddPostViewModel.AddPostModel.CampaignDetails.Status == "False")
+            Campaigns ObjCampaigns = Campaigns.GetSingltonCreateCampaignObject();
+            var portDetails = PostFileManager.GetAllPost();
+            int PendingCount = 0;
+            int DraftCount = 0;
+            int PublishedCount = 0;
+            if (!string.IsNullOrEmpty(ObjCampaigns.cmbCampaign.Text) && ObjCampaigns.cmbCampaign.Text == AddPostViewModel.AddPostModel.CampaignDetails.CampaignName)
             {
-                AddPostViewModel.AddPostModel.CampaignDetails.Status = FindResource("langStopped").ToString();
+                var postToupdate= portDetails.FirstOrDefault(post => post.CampaignDetails.CampaignName == AddPostViewModel.AddPostModel.CampaignDetails.CampaignName);
+                PendingCount = postToupdate.PostStatus.PendingCount;
+                DraftCount = postToupdate.PostStatus.DraftCount;
+                PublishedCount = postToupdate.PostStatus.PublishedCount;
+            
+
+                if (AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == FindResource("langAll").ToString())
+                {
+                    AddPostViewModel.AddPostModel.PostStatus.PendingCount = PendingCount + 1;
+
+                    AddPostViewModel.AddPostModel.PostStatus.DraftCount = DraftCount + 1;
+
+                    AddPostViewModel.AddPostModel.PostStatus.PublishedCount = PublishedCount + 1;
+
+                }
+                else
+                {
+                    AddPostViewModel.AddPostModel.PostStatus.PendingCount = 
+                        AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Pending" ? PendingCount+1 : PendingCount;
+
+                    AddPostViewModel.AddPostModel.PostStatus.DraftCount =
+                        AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Draft" ? DraftCount+ 1 : DraftCount;
+
+                    AddPostViewModel.AddPostModel.PostStatus.PublishedCount =
+                        AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Published" ? PublishedCount +1 : PublishedCount;
+                }
+                AddPostViewModel.AddPostModel.CampaignDetails.SelectedAccount = ObjCampaigns.publishersHeader.cmbAccounts.SelectedValue.ToString();
+                PostFileManager.EditPost(AddPostViewModel.AddPostModel);
             }
             else
-                AddPostViewModel.AddPostModel.CampaignDetails.Status = FindResource("langActive").ToString();
-            if (AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == FindResource("langAll").ToString())
             {
-                AddPostViewModel.AddPostModel.PostStatus.PendingCount = 1;
+                AddPostViewModel.AddPostModel.CampaignDetails.SelectedAccount = ObjCampaigns.publishersHeader.cmbAccounts.SelectedValue.ToString();
+                AddPostViewModel.AddPostModel.CampaignDetails.CampaignCreatedDate = DateTime.Now;
+                AddPostViewModel.AddPostModel.SerialNo = portDetails.Count + 1;
 
-                AddPostViewModel.AddPostModel.PostStatus.DraftCount = 1;
 
-                AddPostViewModel.AddPostModel.PostStatus.PublishedCount = 1;
+                if (AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == FindResource("langAll").ToString())
+                {
+                    AddPostViewModel.AddPostModel.PostStatus.PendingCount = 1;
 
+                    AddPostViewModel.AddPostModel.PostStatus.DraftCount = 1;
+
+                    AddPostViewModel.AddPostModel.PostStatus.PublishedCount = 1;
+
+                }
+                else
+                {
+                    AddPostViewModel.AddPostModel.PostStatus.PendingCount = AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Pending" ?
+                        1 : 0;
+                    AddPostViewModel.AddPostModel.PostStatus.DraftCount = AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Draft" ?
+                        1 : 0;
+                    AddPostViewModel.AddPostModel.PostStatus.PublishedCount = AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Published" ?
+                         1 : 0;
+                }
+                AddPostViewModel.AddPostModel.CampaignDetails.LstCampaign.Add(
+                    new Campaign { CampaignName = AddPostViewModel.AddPostModel.CampaignDetails.CampaignName });
+            
+                PostFileManager.SavePost(AddPostViewModel.AddPostModel);
             }
-            else
-            {
-                AddPostViewModel.AddPostModel.PostStatus.PendingCount = AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Pending" ?
-                    1 : 0;
-                AddPostViewModel.AddPostModel.PostStatus.DraftCount = AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Draft" ?
-                    1 : 0;
-                AddPostViewModel.AddPostModel.PostStatus.PublishedCount = AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Published" ?
-                     1 : 0;
-            }
-            AddPostViewModel.AddPostModel.CampaignDetails.LstCampaign.Add(AddPostViewModel.AddPostModel.CampaignDetails.CampaignName);
-            //     ProtoBuffBase.SerializeObjects(AddPostViewModel.AddPostModel, PostDetailFilePath);
-
-
-
             SetDataContext();
         }
 
@@ -235,5 +272,7 @@ namespace DominatorUIUtility.Views.Publisher
             Window window = dialog.GetMetroWindow(ObjCampaignsAdvanceSetting, "Campaign - Advanced Settings");
             window.Show();
         }
+
+       
     }
 }

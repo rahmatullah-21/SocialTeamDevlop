@@ -48,6 +48,9 @@ namespace DominatorUIUtility.CustomControl
            
         }
 
+       
+
+
         private static AccountCustomControl _accountCustomInstance = null;
 
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks)
@@ -59,6 +62,16 @@ namespace DominatorUIUtility.CustomControl
 
             _accountCustomInstance.GetRespectiveAccounts(socialNetworks);
 
+            return _accountCustomInstance;
+        }
+
+
+        public static AccountCustomControl GetAccountCustomControl()
+        {
+            if (_accountCustomInstance == null)
+            {
+                _accountCustomInstance = new AccountCustomControl();
+            }
             return _accountCustomInstance;
         }
 

@@ -1187,7 +1187,18 @@
     <system:String x:Key="langAutoActivityTitle">Accounts Activity</system:String>
     <system:String x:Key="langExpandAll">Expand All</system:String>
     <system:String x:Key="langShrinkAll">Shrink All</system:String>
-
+    <system:String x:Key="langDuplicate">Duplicate</system:String>
+    <system:String x:Key="langSearch">Search....</system:String>
+    <system:String x:Key="langGroupSelected">Group(s) selected</system:String>
+    <system:String x:Key="langUpdateProxy">Update Proxy</system:String>
+    <system:String x:Key="langDeleteProxy">Delete Proxy</system:String>
+    <system:String x:Key="langAccountAssignToThisProxy">Accounts Assign To This Proxy</system:String>
+    <system:String x:Key="langRemove">Remove</system:String>
+    <system:String x:Key="langFilterByGroup">Filter By Group</system:String>
+    <system:String x:Key="langProxyGroup">Proxy Group</system:String>
+    <system:String x:Key="langCompleted">Completed</system:String>
+    
+    
     <!--End Gram Dominator-->
 
     <!--Start Quora Dominator-->

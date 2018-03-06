@@ -1,11 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 
 namespace DominatorHouse.Social.Settings.ViewModel
 {
     public class AppearanceViewModel : BindableBase
-    {   
+    {
         public AppearanceViewModel()
         {
             _lstColorsCollection = new ObservableCollection<ColorsCollection>()
@@ -46,8 +48,20 @@ namespace DominatorHouse.Social.Settings.ViewModel
 
         private void ApplyDefaultThemeAndColor()
         {
-            this.selectedTheme = this.lstThemeCollection.FirstOrDefault();
-            this.selectedAccentColor = this.lstColorsCollection.FirstOrDefault();
+            var config = ConfigFileManager.GetConfigWithType("Theme");
+
+            if (config == null)
+            {
+                this.selectedTheme = this.lstThemeCollection.FirstOrDefault();
+                this.selectedAccentColor = this.lstColorsCollection.FirstOrDefault();
+            }
+            else
+            {
+                var Theme = Newtonsoft.Json.JsonConvert.DeserializeObject<Themes>(config.ConfigurationSetting);
+                this.selectedTheme = this.lstThemeCollection.FirstOrDefault(theme => theme.Name == Theme.SelectedTheme.Name && theme.Value == Theme.SelectedTheme.Value);
+                this.selectedAccentColor = this.lstColorsCollection.FirstOrDefault(color => color.Name == Theme.SelectedAccentColor.Name && color.Value == Theme.SelectedAccentColor.Value);
+            }
+
         }
 
 
@@ -156,9 +170,9 @@ namespace DominatorHouse.Social.Settings.ViewModel
 
     public class ColorsCollection
     {
-        public string Name { get; set; } = string.Empty;
 
-        public string Value { get; set; } = string.Empty;
+        public string Name { get; set; }
+        public string Value { get; set; }
 
         public ColorsCollection(string Name, string Value)
         {
@@ -169,34 +183,10 @@ namespace DominatorHouse.Social.Settings.ViewModel
 
     public class ThemeCollection
     {
-        string _name = string.Empty;
-        string _value = string.Empty;
 
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
+        public string Name { get; set; }
+        public string Value { get; set; }
 
-            set
-            {
-                _name = value;
-            }
-        }
-
-        public string Value
-        {
-            get
-            {
-                return _value;
-            }
-
-            set
-            {
-                _value = value;
-            }
-        }
         public ThemeCollection(string Name, string Value)
         {
             this.Name = Name;

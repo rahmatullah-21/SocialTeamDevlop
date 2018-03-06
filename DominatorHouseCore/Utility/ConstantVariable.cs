@@ -84,5 +84,14 @@ namespace DominatorHouseCore.Utility
         public const string NotChecked = "Not Checked";
 
         public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
+        public static string GetOtherDir()
+        {
+            string dir = $"{GetPlatformBaseDirectory()}\\Other";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir;
+        }
+        public static string GetOtherProxyFile() => GetOtherDir() + @"\Proxy.bin";
+        public static string GetOtherPostsFile() => GetOtherDir() + @"\Posts.bin";
+        public static string GetOtherConfigFile() => GetOtherDir() + @"\Config.bin";
     }                
 }

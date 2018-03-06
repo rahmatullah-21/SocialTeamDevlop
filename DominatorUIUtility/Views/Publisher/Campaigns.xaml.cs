@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.FileManagers;
 
 namespace DominatorUIUtility.Views.Publisher
 {
@@ -52,7 +53,7 @@ namespace DominatorUIUtility.Views.Publisher
 
             CreateCampaignTabs.ItemsSource = TabItems;
             ObjCreateCampaign = this;
-            //  SetDataContext();
+          
         }
 
      
@@ -61,20 +62,6 @@ namespace DominatorUIUtility.Views.Publisher
         {
             return ObjCreateCampaign ?? (ObjCreateCampaign = new Campaigns());
         }
-
-        public void SetDataContext()
-        {
-            var SelectedTab = (CreateCampaignTabs.Items.CurrentItem as TabItemTemplates).Title.ToString();
-            switch (SelectedTab)
-            {
-                case "Add Posts":
-                    AddPosts ObjAddPosts = AddPosts.GetSingeltonAddPosts();
-
-                    createCampign.DataContext = ObjAddPosts.AddPostViewModel.AddPostModel.CampaignDetails;
-                    break;
-            }
-        }
-
         private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             AddPosts ObjAddPosts = AddPosts.GetSingeltonAddPosts();
@@ -93,6 +80,45 @@ namespace DominatorUIUtility.Views.Publisher
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void cmbCampaign_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AddPosts ObjAddPosts = AddPosts.GetSingeltonAddPosts();
+            var selectedCampaign = string.Empty;
+            if (cmbCampaign.SelectedItem!=null)
+            selectedCampaign = (cmbCampaign.SelectedItem as Campaign).CampaignName;
+            if (!string.IsNullOrEmpty(selectedCampaign))
+            {
+                ObjAddPosts.AddPostViewModel.AddPostModel.CampaignDetails.CampaignName = selectedCampaign;
+                ObjAddPosts.MainGrid.DataContext = PostFileManager.GetAllPost().FirstOrDefault(post => post.CampaignDetails.CampaignName == selectedCampaign);
+            }
+            else
+                ObjAddPosts.SetDataContext();
+        }
+
+       
+
+        private void tglStatus_IsCheckedChanged(object sender, EventArgs e)
+        {
+            AddPosts ObjAddPosts = AddPosts.GetSingeltonAddPosts();
+            string OnLabel = tglStatus.OnLabel;
+            switch (OnLabel)
+            {
+                case "Completed":
+                    ObjAddPosts.AddPostViewModel.AddPostModel.CampaignDetails.Status= "Stopped";
+                    break;
+                case "Stopped":
+                    ObjAddPosts.AddPostViewModel.AddPostModel.CampaignDetails.Status = "Active";
+                    break;
+                case "Active":
+                    ObjAddPosts.AddPostViewModel.AddPostModel.CampaignDetails.Status = "Paused";
+                    break;
+                case "Paused":
+                    ObjAddPosts.AddPostViewModel.AddPostModel.CampaignDetails.Status = "Completed";
+                    break;
+               
+            }
+        }
     }
 
 

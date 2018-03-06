@@ -21,7 +21,9 @@
                           MinWidth="240"
                           Margin="3"  Background="Transparent"  Foreground="White"                 
                           BorderBrush="White"
-                          ToolTip="{DynamicResource langSelectCampaignToFilterForView}" />
+                          ToolTip="{DynamicResource langSelectCampaignToFilterForView}" 
+                          SelectionChanged="CmbCampaignType_SelectionChanged"/>
+
             </StackPanel>
         </Grid>
         <Border Grid.Row="1" BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2" Margin="0 5 0 0 ">
