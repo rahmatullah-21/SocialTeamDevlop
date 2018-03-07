@@ -13,11 +13,14 @@ using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.Publisher;
+using GramDominatorUI.TabManager;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using DominatorHouseCore.Utility;
@@ -55,15 +58,19 @@ namespace DominatorHouse
             MainTabControl.ItemsSource = InitializeAllTabs();
 
 
-            // Init UI delegates
-            TabSwitcher.ChangeTabIndex = ChangeTabIndex;
+            // Init UI delegates            
             CampaignsWorkflowManager.Instance.ConfirmDialog = msg =>
                     DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg,
-                                    MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;                            
+                                    MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
 
-            // Log
+            TabSwitcher.ChangeTabIndex = ChangeTabIndex;
+            TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
+
+            // Log strated
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
             
+            ConfigFileManager.ApplyTheme();
+
             Task performanceTask = new Task(() => StartbindMemory(),
             TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
@@ -71,7 +78,7 @@ namespace DominatorHouse
 #if SKIP_DELAYS
             cmbSocialNetwork.SelectedIndex = 1;     // Go to instagram
 #endif
-            #region commeted
+            #region commeted - start todays jobs
             //Task.Factory.StartNew(() =>
             //{
             //    DateTime NextDayTime = DateTime.Now.AddDays(1);
@@ -86,6 +93,13 @@ namespace DominatorHouse
             #endregion
             DialogParticipation.SetRegister(this, this);
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
+        }
+
+
+        private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
+        {
+            MainTabControl.SelectedIndex = index;
+            SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
         }
 
         private void ChangeTabIndex(int mainTabIndex, int? subTabIndex = null)
@@ -116,6 +130,7 @@ namespace DominatorHouse
                     InstaScrapeTab.GetSingeltonObjectInstaScrapeTab().setIndex((int)subTabIndex);
                     break;
             }
+
         }
 
         public void LogText(string message, bool error)
@@ -125,11 +140,6 @@ namespace DominatorHouse
             else
                 GlobusLogHelper.LogTextToList(ErrorLogger, message);
         }
-
-
-
-
-
 
         public static MainWindow objMainWindowRef = null;
 
@@ -198,9 +208,6 @@ namespace DominatorHouse
         //    NormalModeTab.SelectedIndex = mainTabindex;
         //} 
         #endregion
-
-
-
 
         async private void StartbindMemory()
         {
@@ -278,8 +285,6 @@ namespace DominatorHouse
         }
 
 
-
-
         //public void NormalMode()
         //{
         //    NormalModeTab.Visibility = System.Windows.Visibility.Visible;
@@ -287,8 +292,6 @@ namespace DominatorHouse
         //    btnAccountGrowthMode.Content = "Switch to Account Growth Mode";
         //    btnAccountGrowthMode.Name = "btnAccountGrowthMode";
         //}
-
-
 
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -458,6 +461,11 @@ namespace DominatorHouse
                     //TwtDominatorCore.TDViewModel.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
             }
-        }        
+
+        }
+
+
+      
+
     }
 }

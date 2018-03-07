@@ -1,20 +1,26 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using FluentScheduler;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
+
 using DominatorHouseCore;
-using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
+using FluentScheduler;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using System;
+using System.Collections.Generic;
+
+using System.Globalization;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using DominatorHouseCore.BusinessLogic.Scheduler;
+using System.Collections.ObjectModel;
+using DominatorHouseCore.DatabaseHandler;
+using System.IO;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -43,6 +49,7 @@ namespace DominatorUIUtility.CustomControl
             objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(data);
 
             MainGrid.DataContext = objCampaignDetails;
+            CmbCampaignType.SelectedIndex = 0;
         }
 
         static Campaigns ObjCampaigns = null;
@@ -54,9 +61,6 @@ namespace DominatorUIUtility.CustomControl
             ObjCampaigns.SetComboBoxItems(networks.ToString());
             return ObjCampaigns;
         }
-
-
-
         private void SetComboBoxItems(string networks)
         {
             CmbCampaignType.Items.Clear();
@@ -249,11 +253,12 @@ namespace DominatorUIUtility.CustomControl
             CampaignsFileManager.Delete(campaign);
 
             objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(BinFileHelper.GetCampaignDetail());
-            
+
             var allAccounts = AccountsFileManager.GetAll();
 
             // remove template from each account
-            allAccounts.ForEach(x => {                
+            allAccounts.ForEach(x =>
+            {
                 var moduleConfig = x.ActivityManager.LstModuleConfiguration.FirstOrDefault(mc => mc.TemplateId == campaign.TemplateId);
 
                 if (moduleConfig != null)
@@ -264,7 +269,7 @@ namespace DominatorUIUtility.CustomControl
                     // Remove task from list
                     x.ActivityManager.LstModuleConfiguration.RemoveAll(y => y.TemplateId == campaign.TemplateId);
                 }
-            });            
+            });
 
             AccountsFileManager.SaveAll(allAccounts);
 
@@ -273,121 +278,143 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
+
         public string ReportHeader = string.Empty;
         private void CampaignReports_OnClick(object sender, RoutedEventArgs e)
         {
-            //Reports ObjReports = new Reports();
+            Reports ObjReports = new Reports();
 
-            //ObjReports.ReportModel = new ReportModel();
+            ObjReports.ReportModel = new ReportModel();
 
-            //Dialog objDialog = new Dialog();
-
-            //CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
-
-            //ObjReports.ReportModel.ModuleType = campName.SubModule;
-
-            //var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
-
-            //ObservableCollectionBase<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
+            Dialog objDialog = new Dialog();
 
 
-            //Dictionary<string, string> lstCurrentQueries = new Dictionary<string, string>();
+            CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
 
-            //lstSavedQuery.ToList().ForEach(x =>
-            //{
-            //    lstCurrentQueries.Add(x.QueryValue, x.QueryType.ToString());
+            ObjReports.ReportModel.ModuleType = campName.SubModule;
 
-            //    #region Update QueryList for combobox
+            var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
 
-            //    if (ObjReports.ReportModel.QueryList.Any(query => query.Content == x.QueryType) == false)
-            //        ObjReports.ReportModel.QueryList.Add(new ContentSelectGroup() { IsContentSelected = false, Content = x.QueryType });
+            ObservableCollectionBase<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
 
-            //    #endregion
 
-            //});
+            Dictionary<string, string> lstCurrentQueries = new Dictionary<string, string>();
 
-            //try
-            //{
-            //    #region Update AccountList & StatusList for combobox
+            lstSavedQuery.ToList().ForEach(x =>
+            {
+                lstCurrentQueries.Add(x.QueryValue, x.QueryType.ToString());
 
-            //    campName.SelectedAccountList.ToList().ForEach(acc =>
-            //    {
-            //        DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc);
+                #region Update QueryList for combobox
 
-            //        ObjReports.ReportModel.AccountList.Add(new ContentSelectGroup()
-            //        {
-            //            IsContentSelected = false,
-            //            Content = objDominatorAccountModel.AccountBaseModel.UserName
-            //        });
+                if (ObjReports.ReportModel.QueryList.Any(query => query.Content == x.QueryType) == false)
+                    ObjReports.ReportModel.QueryList.Add(new ContentSelectGroup() { IsContentSelected = false, Content = x.QueryType });
 
-            //        if (ObjReports.ReportModel.StatusList.Count > 1 &&
-            //            ObjReports.ReportModel.StatusList.Any(status => status.Content == objDominatorAccountModel.AccountBaseModel.Status) ==
-            //            false)
-            //            ObjReports.ReportModel.StatusList.Add(new ContentSelectGroup()
-            //            {
-            //                IsContentSelected = false,
-            //                Content = objDominatorAccountModel.AccountBaseModel.Status
-            //            });
+                #endregion
 
-            //    });
-            //    #endregion
+            });
 
-            //    DataBaseConnectionCodeFirst.DataBaseConnection dataBase =
-            //       DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, DatabaseType.CampaignType);
+            try
+            {
+                #region Update AccountList & StatusList for combobox
 
-            //    ObservableCollection<Object> ReportDetail = ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName);
+                campName.SelectedAccountList.ToList().ForEach(acc =>
+                       {
+                           DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc);
 
-            //    ObjReports.ReportModel.ReportCollection = CollectionViewSource.GetDefaultView(ReportDetail);
+                           ObjReports.ReportModel.AccountList.Add(new ContentSelectGroup()
+                           {
+                               IsContentSelected = false,
+                               Content = objDominatorAccountModel.AccountBaseModel.UserName
+                           });
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    GlobusLogHelper.log.Error(ex.Message);
-            //}
+                           if (ObjReports.ReportModel.StatusList.Count > 1 &&
+                               ObjReports.ReportModel.StatusList.Any(status => status.Content == objDominatorAccountModel.AccountBaseModel.Status) ==
+                               false)
+                               ObjReports.ReportModel.StatusList.Add(new ContentSelectGroup()
+                               {
+                                   IsContentSelected = false,
+                                   Content = objDominatorAccountModel.AccountBaseModel.Status
+                               });
 
-            //Window win = objDialog.GetMetroWindow(ObjReports, "Reports");
+                       });
+                #endregion
 
-            //ObjReports.ExportReport.Click += (senders, events) =>
-            //{
-            //    var exportPath = FileUtilities.GetExportPath();
+                DataBaseConnectionCodeFirst.DataBaseConnection dataBase =
+                   DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, DatabaseType.CampaignType);
 
-            //    if (string.IsNullOrEmpty(exportPath))
-            //        return;
+                ObservableCollection<Object> ReportDetail = ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName);
+                if (ReportDetail.Count == 0)
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Report", "Reports for " + campName.CampaignName + " Campaign not available", MessageDialogStyle.Affirmative);
+                    return;
+                }
 
-            //    var filename = $"{exportPath}\\{campName.CampaignName}-Reports [{ConstantVariable.DateasFileName}].csv";
+                ObjReports.ReportModel.ReportCollection = CollectionViewSource.GetDefaultView(ReportDetail);
 
-            //    //Header for csv file columns
-            //    string header = ReportManager.GetHeader();
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error(ex.Message);
+            }
 
-            //    if (!File.Exists(filename))
-            //    {
-            //        using (var streamWriter = new StreamWriter(filename, true))
-            //        {
-            //            streamWriter.WriteLine(header);
-            //        }
-            //    }
+            Window win = objDialog.GetMetroWindow(ObjReports, "Reports");
 
-            //    //Export Reports to csv File
-            //    ReportManager.ExportReports(campName.SubModule, filename);
+            ObjReports.ExportReport.Click += (senders, events) =>
+            {
+                var exportPath = FileUtilities.GetExportPath();
 
-            //};
+                if (string.IsNullOrEmpty(exportPath))
+                    return;
 
-            //win.ShowDialog();
+                var filename = $"{exportPath}\\{campName.CampaignName}-Reports [{ConstantVariable.DateasFileName}].csv";
 
+                //Header for csv file columns
+                string header = ReportManager.GetHeader();
+
+                if (!File.Exists(filename))
+                {
+                    using (var streamWriter = new StreamWriter(filename, true))
+                    {
+                        streamWriter.WriteLine(header);
+                    }
+                }
+
+                //Export Reports to csv File
+                ReportManager.ExportReports(campName.SubModule, filename);
+
+            };
+
+            win.ShowDialog();
         }
+
+
 
         private void Campaign_Loaded(object sender, RoutedEventArgs e)
         {
             SetDataContext();
-
         }
 
         private void list_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             GridViewColumns.SetGridViewColumnsWidthToStartWidth(list, e);
-
         }
 
+        private void CmbCampaignType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            List<CampaignDetails> moduleWiseDetail = null;
+            if (!CmbCampaignType.SelectedItem.Equals("All"))
+            {
+                moduleWiseDetail = CampaignsFileManager.Get()
+                       .Where(x => x.SubModule == CmbCampaignType.SelectedItem.ToString()).ToList();
 
+            }
+            else
+            {
+                moduleWiseDetail = CampaignsFileManager.Get();
+            }
+            objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(moduleWiseDetail);
+            objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(objCampaignDetails.ObjCampaignDetails);
+
+        }
     }
 }

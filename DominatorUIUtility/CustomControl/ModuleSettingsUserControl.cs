@@ -155,7 +155,7 @@ namespace DominatorUIUtility.CustomControl
             set
             {
                 _selectedAccountCount = value;
-                OnPropertyChanged("SelectedAccountCount");
+                OnPropertyChanged(nameof(SelectedAccountCount));
             }
         }
 

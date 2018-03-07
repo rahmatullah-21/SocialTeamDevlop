@@ -65,6 +65,12 @@ namespace DominatorHouseCore.Enums
         ReportAnswers = 20,
 
         [Description("Quora")]
-        ReportUsers = 21
+        ReportUsers = 21,
+
+        [Description("Pinterest")]
+        BoardScraper = 22,
+
+        [Description("Pinterest")]
+        PinScraper = 23,
     }
 }

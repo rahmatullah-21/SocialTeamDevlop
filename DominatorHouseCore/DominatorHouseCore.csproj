@@ -156,6 +156,7 @@
     <Compile Include="BusinessLogic\Scraper\DominatorScraperFactory.cs" />
     <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\BooleanToWidthConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\ListCountBoolConverter.cs" />
     <Compile Include="Converters\ListCountVisiblityConverter.cs" />
@@ -181,6 +182,9 @@
     <Compile Include="Enums\MediaType.cs" />
     <Compile Include="FileManagers\AccountsFileManager.cs" />
     <Compile Include="FileManagers\CampaignsFileManager.cs" />
+    <Compile Include="FileManagers\ConfigFileManager.cs" />
+    <Compile Include="FileManagers\PostFileManager.cs" />
+    <Compile Include="FileManagers\ProxyFileManager.cs" />
     <Compile Include="FileManagers\TemplatesFileManager.cs" />
     <Compile Include="BusinessLogic\Scraper\AbstractQueryScraper.cs" />
     <Compile Include="Interfaces\IJobConfiguration.cs" />
@@ -193,6 +197,7 @@
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
+    <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ContentSelectGroup.cs" />
     <Compile Include="Models\CookieHelper.cs" />
     <Compile Include="Models\DominatorAccountBaseModel.cs" />
@@ -203,6 +208,7 @@
     <Compile Include="Models\JobConfiguration.cs" />
     <Compile Include="Models\JsonElements.cs" />
     <Compile Include="Models\ManageDestinationModel.cs" />
+    <Compile Include="Models\ProxyManagerModel.cs" />
     <Compile Include="Models\ReportDetails.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\RunningTimes.cs" />

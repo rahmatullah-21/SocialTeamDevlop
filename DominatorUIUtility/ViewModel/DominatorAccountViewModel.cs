@@ -457,7 +457,7 @@ namespace DominatorUIUtility.ViewModel
                 AccountBaseModel = dominatorAccountBaseModel,
                 RowNo = LstDominatorAccountModel.Count + 1
             };
-
+            UpdateProxy(objDominatorAccountBaseModel);
 
             //serialize the given account, if its success then add to account model list
             if (AccountsFileManager.Add(dominatorAccountModel))
@@ -482,7 +482,65 @@ namespace DominatorUIUtility.ViewModel
             #endregion
         }
 
+        public  void UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
+        {
+            if (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) && string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort))
+                return;
+            List<ProxyManagerModel> ProxyDetail = ProxyFileManager.GetAllProxy();
 
+            bool IsProxyAvailable = false;
+            foreach (var proxy in ProxyDetail)
+            {
+                if (objDominatorAccountBaseModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
+                  && objDominatorAccountBaseModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
+                {
+                    IsProxyAvailable = true;
+
+                    foreach (var proxy2 in ProxyDetail)
+                    {
+                        var account2 = proxy2.AccountsAssignedto.FirstOrDefault(x => x.UserName == objDominatorAccountBaseModel.UserName);
+                        if (account2 != null)
+                        {
+                            proxy2.AccountsAssignedto.Remove(account2);
+                            ProxyFileManager.EditProxy<ProxyManagerModel>(proxy2);
+                            break;
+                        }
+                    }
+                    var account = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == objDominatorAccountBaseModel.UserName);
+                    if (account == null)
+                    {
+                        proxy.AccountsAssignedto.Add(new AccountAssign
+                        {
+                            UserName = objDominatorAccountBaseModel.UserName,
+                            AccountNetwork = objDominatorAccountBaseModel.AccountNetwork
+                        });
+                        ProxyFileManager.EditProxy<ProxyManagerModel>(proxy);
+                    }
+
+                    break;
+                }
+            }
+            if (!IsProxyAvailable)
+            {
+                ProxyManagerModel ProxyManagerModel = new ProxyManagerModel
+                {
+                    AccountProxy ={
+                        ProxyName=$"Proxy {ProxyDetail.Count+1 }",
+                    ProxyIp = objDominatorAccountBaseModel.AccountProxy.ProxyIp,
+                    ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort,
+                    ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
+                    ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword
+                }
+                };
+
+                ProxyManagerModel.AccountsAssignedto.Add(new AccountAssign
+                {
+                    UserName = objDominatorAccountBaseModel.UserName,
+                    AccountNetwork = objDominatorAccountBaseModel.AccountNetwork
+                });
+                ProxyFileManager.SaveProxy<ProxyManagerModel>(ProxyManagerModel);
+            }
+        }
         public void UpdateAccount(DominatorAccountModel objDominatorAccountModel)
         {
             CancellationTokenSource cts = new CancellationTokenSource();
@@ -825,14 +883,9 @@ namespace DominatorUIUtility.ViewModel
                 selectedAccount.AccountBaseModel.AccountProxy.ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername;
                 selectedAccount.AccountBaseModel.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
                 selectedAccount.AccountBaseModel.AccountNetwork = objDominatorAccountBaseModel.AccountNetwork;
-
-                //  File.Delete(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
-
-                //ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
-                //    ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
-
-                AccountsFileManager.SaveAccount(selectedAccount);
-
+                
+                AccountsFileManager.Edit(selectedAccount);
+                UpdateProxy(objDominatorAccountBaseModel);
                 dialogWindow.Close();
 
             };

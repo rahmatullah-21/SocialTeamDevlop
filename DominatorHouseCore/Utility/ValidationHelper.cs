@@ -55,5 +55,51 @@ namespace DominatorHouseCore.Utility
         }
     
     }
-    
+    public class ProxyValidationHelper : ValidationRule
+    {
+        public string Sender { get; set; }
+        static string ProxyAddress = string.Empty;
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            try
+            {
+                switch (Sender.Substring(3))
+                {
+                    case "ProxyAddress":
+                        if (string.IsNullOrEmpty(value as string))
+                        {
+                            return new ValidationResult(false, "*Required Field");
+                        }
+                        else
+                        {
+                            ProxyAddress = value.ToString();
+                            if (!Models.Proxy.IsValidProxyIp(value.ToString()))
+                            {
+                                return new ValidationResult(false, "Invalid Address");
+                            }
+                        }
+                        break;
+                    case "ProxyPort":
+                        if (string.IsNullOrEmpty(value as string))
+                        {
+                            return new ValidationResult(false, "*Required Field");
+                        }
+                        else if (!string.IsNullOrEmpty(ProxyAddress))
+                        {
+                            if (!Models.Proxy.IsValidProxy(ProxyAddress, value.ToString()))
+                            {
+                                return new ValidationResult(false, "Invalid Port");
+                            }
+                        }
+                        break;
+                }
+            }
+            catch (Exception E)
+            {
+
+            }
+            return new ValidationResult(true, null);
+        }
+
+    }
 }

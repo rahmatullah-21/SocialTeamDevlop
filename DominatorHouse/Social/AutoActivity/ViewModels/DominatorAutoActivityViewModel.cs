@@ -11,6 +11,9 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
+using GramDominatorUI.GDViews.Tools;
+using GramDominatorUI.GDViews.Tools.Follow;
+using GramDominatorUI.TabManager;
 
 namespace DominatorHouse.Social.AutoActivity.ViewModels
 {
@@ -64,6 +67,28 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     break;
             }
         }
+
+        public void CallRespectiveView(SocialNetworks networks, string selectedAccounts)
+        {
+            switch (networks)
+            {
+                case SocialNetworks.Social:
+                    SelectedUserControl = SocialAutoActivity.GetSingletonSocialAutoActivity();
+                    InitializeAccounts();
+                    break;
+                case SocialNetworks.Instagram:
+                    SelectedUserControl = GramDominatorUI.TabManager.ToolTabs.GetSingletonToolTabs();
+                    var data = FollowConfiguration.GetSingeltonObjectFollowConfiguration();
+                    data.accountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers();
+                    data.accountGrowthHeader.SelectedItem = selectedAccounts;
+                    break;
+
+                case SocialNetworks.Twitter:
+                    //SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
+                    break;
+            }
+        }
+
 
         public ObservableCollection<AccountsActivityDetailModel> AccountsCollection { get; set; }
 

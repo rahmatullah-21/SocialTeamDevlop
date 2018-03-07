@@ -96,6 +96,38 @@ namespace DominatorHouseCore.Models
             }
         }
 
+        private string _proxyName;
+
+        [ProtoMember(7)]
+        public string ProxyName
+        {
+            get
+            {
+                return _proxyName;
+            }
+            set
+            {
+                if (_proxyName != null && value == _proxyName)
+                    return;
+                SetProperty(ref _proxyName, value);
+            }
+        }
+
+        private string _proxyGroup = "UnGroup";
+        [ProtoMember(8)]
+        public string ProxyGroup
+        {
+            get
+            {
+                return _proxyGroup;
+            }
+            set
+            {
+                if (_proxyGroup == value)
+                    return;
+                SetProperty(ref _proxyGroup, value);
+            }
+        }
 
         public void ChangeProxy(string proxyIp, string proxyPort)
         {

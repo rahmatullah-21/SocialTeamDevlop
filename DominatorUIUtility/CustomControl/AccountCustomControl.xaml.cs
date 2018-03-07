@@ -48,6 +48,9 @@ namespace DominatorUIUtility.CustomControl
            
         }
 
+       
+
+
         private static AccountCustomControl _accountCustomInstance = null;
 
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks)
@@ -59,6 +62,16 @@ namespace DominatorUIUtility.CustomControl
 
             _accountCustomInstance.GetRespectiveAccounts(socialNetworks);
 
+            return _accountCustomInstance;
+        }
+
+
+        public static AccountCustomControl GetAccountCustomControl()
+        {
+            if (_accountCustomInstance == null)
+            {
+                _accountCustomInstance = new AccountCustomControl();
+            }
             return _accountCustomInstance;
         }
 
@@ -236,7 +249,7 @@ namespace DominatorUIUtility.CustomControl
 
 
             var loginStatusMenu = new MenuItem { Header = "Check in Status" };
-            loginStatusMenu.Click += GotoTools;
+            loginStatusMenu.Click += CheckinStatus;
             loginStatusMenu.DataContext = dominatorAccountModel;
             loginStatusMenu.Icon = new Image
             {
@@ -319,6 +332,15 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public void GotoTools(object sender, RoutedEventArgs e)
+        {
+            var dominatorAccountModel = ((FrameworkElement) sender).DataContext as DominatorAccountModel;
+
+            DominatorHouseCore.Utility.TabSwitcher.ChangeTabWithNetwork(2, dominatorAccountModel.AccountBaseModel.AccountNetwork, dominatorAccountModel.AccountBaseModel.UserName);
+
+        }
+
+
+        public void CheckinStatus(object sender, RoutedEventArgs e)
         {
 
         }

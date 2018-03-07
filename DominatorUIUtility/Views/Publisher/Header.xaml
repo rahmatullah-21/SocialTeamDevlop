@@ -12,9 +12,12 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <TextBlock HorizontalAlignment="Left" Text="{Binding HeaderText}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
-        <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+            <ComboBox VerticalAlignment="Center" x:Name="cmbAccounts" x:FieldModifier="public"
+                      Margin="15,0" Background="Transparent" Foreground="White"  BorderThickness="1"
+                      BorderBrush="AntiqueWhite" SelectedIndex="0" Width="200"/>
             <Button x:Name="BtnBackToCampaign" Content="{DynamicResource langBackToCampaign}"   Background="{DynamicResource AccentBaseColorBrush}"
                     Foreground="White" VerticalAlignment="Center" Click="BtnBackToCampaign_Click"/>
-        </Grid>
+        </StackPanel>
     </Grid>
 </UserControl>

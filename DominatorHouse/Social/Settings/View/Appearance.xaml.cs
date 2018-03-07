@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using DominatorHouse.Social.Settings.ViewModel;
 using DominatorHouseCore.LogHelper;
 using MahApps.Metro;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.FileManagers;
 
 namespace DominatorHouse.Social.Settings.View
 {
@@ -32,10 +34,12 @@ namespace DominatorHouse.Social.Settings.View
 
             ChangeAppearance(sender);
         }
+
         private void lsttheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ChangeAppearance(sender);
+            ChangeAppearance(sender);           
         }
+
         private void lstRecentcolor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ChangeAppearance(sender);
@@ -71,7 +75,6 @@ namespace DominatorHouse.Social.Settings.View
                     ColorName = ((ColorsCollection)lstRecentcolor.SelectedItem).Name;
                     SelectedItem = (ColorsCollection)lstRecentcolor.SelectedItem;
                     AccentColor = objAppearanceViewModel.lstRecentColorsCollection.FirstOrDefault(x => x.Value == SelectedItem.Value).Name;
-
                 }
                 if (ColorName == "Default")
                 {
@@ -89,9 +92,22 @@ namespace DominatorHouse.Social.Settings.View
             catch (Exception ex)
             {
                 GlobusLogHelper.log.Error(ex.Message + ex.StackTrace);
-
             }
+            SaveCurrentTheme();
         }
 
+        private void SaveCurrentTheme()
+        {
+            Configuration configuration = new Configuration();
+            configuration.ConfigurationDate = DateTime.Now;
+            configuration.ConfigurationType = "Theme";
+            var Theme = new Themes
+            {
+                SelectedAccentColor = new AccentColors(objAppearanceViewModel.SelectedAccentColor.Name, objAppearanceViewModel.SelectedAccentColor.Value),
+                SelectedTheme = new Theme(objAppearanceViewModel.SelectedTheme.Name, objAppearanceViewModel.SelectedTheme.Value)
+            };
+            configuration.ConfigurationSetting = Newtonsoft.Json.JsonConvert.SerializeObject(Theme);
+            ConfigFileManager.SaveConfig(configuration);
+        }
     }
 }
