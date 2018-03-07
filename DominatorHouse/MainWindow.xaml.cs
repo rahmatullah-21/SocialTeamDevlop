@@ -59,7 +59,7 @@ namespace DominatorHouse
 
 
             // Init UI delegates            
-            CampaignsWorkflowManager.Instance.ConfirmDialog = msg =>
+            CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
                     DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg,
                                     MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
 
@@ -77,6 +77,7 @@ namespace DominatorHouse
 
 #if SKIP_DELAYS
             cmbSocialNetwork.SelectedIndex = 1;     // Go to instagram
+            ChangeTabIndex(1, 1);
 #endif
             #region commeted - start todays jobs
             //Task.Factory.StartNew(() =>

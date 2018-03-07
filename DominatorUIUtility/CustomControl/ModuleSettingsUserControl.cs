@@ -310,16 +310,17 @@ namespace DominatorUIUtility.CustomControl
                 return;
                     
             var objTemplateModel = new TemplateModel();
+            
+            // TODO: implement saving and add campaign
+            if(false) CampaignGlobalRoutines.Instance.Create((TModel)Model, _activityType, CampaignName, _footerControl.list_SelectedAccounts);
 
-            CampaignsWorkflowManager.Instance.Create(Model, _activityType, CampaignName, _footerControl.list_SelectedAccounts);
+            TemplateId = objTemplateModel.SaveTemplate((TModel)Model,
+                _activityType.ToString(), _socialNetwork,
+                CampaignName);
 
-            //TemplateId = objTemplateModel.SaveTemplate((TModel)Model,
-            //    _activityType.ToString(), _socialNetwork,
-            //    CampaignName);
+            SaveDetails(_footerControl.list_SelectedAccounts, _activityType);
 
-            //SaveDetails(_footerControl.list_SelectedAccounts, _activityType);
-
-            //AddNewCampaign(_footerControl.list_SelectedAccounts, _activityType);
+            AddNewCampaign(_footerControl.list_SelectedAccounts, _activityType);
 
             SetDataContext();
             TabSwitcher.ChangeTabIndex?.Invoke(6, 0);

@@ -17,10 +17,10 @@ namespace DominatorHouseCore.BusinessLogic
     /// Class which manages all campaigns workflow over the application:
     /// Start, Update, Delete, Duplicate, Pause, Resume, Stop
     /// </summary>
-    public class CampaignsWorkflowManager
+    public class CampaignGlobalRoutines
     {
-        static CampaignsWorkflowManager _instance = new CampaignsWorkflowManager();
-        public static CampaignsWorkflowManager Instance => _instance;
+        static CampaignGlobalRoutines _instance = new CampaignGlobalRoutines();
+        public static CampaignGlobalRoutines Instance => _instance;
 
         // UI delegate to select accounts
         public Func<string, bool> ConfirmDialog = msg =>
@@ -30,7 +30,7 @@ namespace DominatorHouseCore.BusinessLogic
         };
 
 
-        private CampaignsWorkflowManager() { }
+        private CampaignGlobalRoutines() { }
 
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace DominatorHouseCore.BusinessLogic
         /// Runs when user clicks Create Campaign
         /// </summary>
         /// <param name="newCampaign"></param>
-        public void Create<TModel>(TModel activitySettings, ActivityType activityType, string campaignName, List<string> selectedAccounts)                
+        public void Create(object activitySettings, ActivityType activityType, string campaignName, List<string> selectedAccounts)                
         {
             string activitySettingsJson = Newtonsoft.Json.JsonConvert.SerializeObject(activitySettings);
             SocialNetworks socialNetwork = DominatorHouseInitializer.ActiveSocialNetwork;

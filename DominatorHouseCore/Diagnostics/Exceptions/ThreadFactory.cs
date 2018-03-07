@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Diagnostics
@@ -37,9 +38,9 @@ namespace DominatorHouseCore.Diagnostics
             return task;
         }
 
-        public Task Start(Action action, TaskCreationOptions options)
+        public Task Start(Action action, CancellationToken token, TaskCreationOptions options = TaskCreationOptions.LongRunning)
         {
-            var task = new Task(action, options);
+            var task = new Task(action, token, options);
             Start(task);
             return task;
         }
