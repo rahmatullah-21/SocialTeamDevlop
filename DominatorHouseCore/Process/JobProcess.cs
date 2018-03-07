@@ -175,8 +175,8 @@ namespace DominatorHouseCore.Process
                 JobCancellationTokenSource.Cancel();
                 GlobusLogHelper.log.Info($"{ActivityType} process stopped [{TemplateId}] for {AccountName}");
 
-                //_runningJobProcesses.Remove(TemplateId);
-                //JobCancellationTokenSource = null;
+                _runningJobProcesses.Remove(TemplateId);
+                JobCancellationTokenSource = null;
             }
         }
         
@@ -189,7 +189,7 @@ namespace DominatorHouseCore.Process
                 {
                     if (!_runningJobProcesses.ContainsKey(templateId))
                     {
-                        GlobusLogHelper.log.Error($"Job process with template Id {templateId} not found");
+                        GlobusLogHelper.log.Trace($"Job process with template Id {templateId} not found");
                         return false;
                     }
 
