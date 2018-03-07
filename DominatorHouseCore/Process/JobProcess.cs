@@ -39,7 +39,7 @@ namespace DominatorHouseCore.Process
         protected int MaxNoOfActionPerDay = 0;
         protected int MaxNoOfActionPerWeek = 0;
         protected int NoOfActionPerformedCurrentWeek = 0;
-
+        
         public string TemplateId { get; set; }
         public string campaignId { get; set; }
         public DominatorAccountModel DominatorAccountModel { get; set; }
@@ -49,7 +49,7 @@ namespace DominatorHouseCore.Process
 
         public TimingRange CurrentJobTimeRange { get; set; }
         public CancellationTokenSource JobCancellationTokenSource { get; set; }
-        public static Dictionary<string, string> DictRunningJobs = new Dictionary<string, string>();
+        
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; }
 
@@ -92,10 +92,6 @@ namespace DominatorHouseCore.Process
 
 
 
-
-
-
-
         protected void ScheduleNextJob(DateTime dateTime)
         {
             Stop();
@@ -134,6 +130,9 @@ namespace DominatorHouseCore.Process
         private static Dictionary<string, JobProcess> _runningJobProcesses = new Dictionary<string, JobProcess>();
         static object _syncJobProcess = new object();
 
+        private string Id => AsId(AccountName, TemplateId);
+        public static string AsId(string account, string templateId) => $"{account}-{templateId}";
+        
 
         /// <summary>
         /// Main method to start process in thread
@@ -146,7 +145,7 @@ namespace DominatorHouseCore.Process
                 Debug.Assert(JobCancellationTokenSource == null);
 
                 JobCancellationTokenSource = new CancellationTokenSource();
-                _runningJobProcesses.Add(TemplateId, this);
+                _runningJobProcesses.Add(Id, this);
 
                 var task = ThreadFactory.Instance.Start(() =>
                 {
@@ -160,40 +159,45 @@ namespace DominatorHouseCore.Process
         }
 
 
-        public static bool IsStarted(string templateId)
+        public static bool IsStarted(string accountName, string templateId)
         {
-            return _runningJobProcesses.ContainsKey(templateId);
+            lock (_syncJobProcess)
+            {
+                return _runningJobProcesses.ContainsKey(AsId(accountName, templateId));
+            }        
         }
 
         public void Stop()
-        {
-            Debug.Assert(JobCancellationTokenSource != null);
-            Debug.Assert(_runningJobProcesses.ContainsKey(TemplateId));
-
+        {            
             lock (_syncJobProcess)
             {
-                JobCancellationTokenSource.Cancel();
-                GlobusLogHelper.log.Info($"{ActivityType} process stopped [{TemplateId}] for {AccountName}");
+                if (JobCancellationTokenSource == null ||
+                    !_runningJobProcesses.ContainsKey(Id))
+                    return;                
 
-                _runningJobProcesses.Remove(TemplateId);
+                JobCancellationTokenSource.Cancel();
+                GlobusLogHelper.log.Info($"{ActivityType} process stopped for {AccountName}");
+
+                _runningJobProcesses.Remove(Id);
                 JobCancellationTokenSource = null;
             }
         }
         
 
-        public static bool Stop(string accoutName, string templateId)
+        public static bool Stop(string accountName, string templateId)
         {
             try
             {
                 lock (_syncJobProcess)
                 {
-                    if (!_runningJobProcesses.ContainsKey(templateId))
+                    var id = AsId(accountName, templateId);
+                    if (!_runningJobProcesses.ContainsKey(id))
                     {
-                        GlobusLogHelper.log.Trace($"Job process with template Id {templateId} not found");
+                        GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
                         return false;
                     }
 
-                    var jobProcess = _runningJobProcesses[templateId];
+                    var jobProcess = _runningJobProcesses[id];
                     jobProcess.Stop();
                 }
 
@@ -201,7 +205,7 @@ namespace DominatorHouseCore.Process
             }
             catch (Exception Ex)
             {
-                Ex.TraceLog();
+                Ex.ErrorLog();
                 return false;
             }
         }
@@ -227,10 +231,7 @@ namespace DominatorHouseCore.Process
         protected void StartProcess(ILoginProcess logInProcess)
         {
             try
-            {
-                if (DictRunningJobs.ContainsKey(TemplateId)) return;        // job already running
-
-                DictRunningJobs.Add(this.TemplateId, "");
+            {               
                 if (string.IsNullOrEmpty(this.campaignId))
                 {
                     GlobusLogHelper.log.Debug($"Campign Id not set for {ActivityType} - {TemplateId}");
@@ -250,20 +251,23 @@ namespace DominatorHouseCore.Process
                     GlobusLogHelper.log.Info("Logged in successfully with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
 
                     RunScraper();
-                }
-
-                DictRunningJobs.Remove(this.TemplateId);
+                }                
 
             }
             catch (Exception Ex)
             {
-                Ex.DebugLog();
-                DictRunningJobs.Remove(this.TemplateId);
+                Ex.DebugLog();                
             }           
         }
 
 
-        public bool IsCancelled() => JobCancellationTokenSource?.IsCancellationRequested ?? false;        
+        public bool IsStopped()
+        {
+            lock (_syncJobProcess)
+            {
+                return JobCancellationTokenSource == null || JobCancellationTokenSource.IsCancellationRequested;
+            }
+        }
 
         #endregion      // task routines: start, stop, iscancelled
 
@@ -362,6 +366,8 @@ namespace DominatorHouseCore.Process
 
         public void DelayBeforeNextActivity()
         {
+            if (IsStopped()) return;
+
             int seconds = JobConfiguration.DelayBetweenActivity.GetRandom();
 
             GlobusLogHelper.log.Info($"{seconds} seconds Delay before next {ActivityType}");
@@ -374,6 +380,8 @@ namespace DominatorHouseCore.Process
 
         public void DelayBeforeNextJob()
         {
+            if (IsStopped()) return;
+
             int minutes = JobConfiguration.DelayBetweenJobs.GetRandom();
 
             GlobusLogHelper.log.Info($"{minutes} minutes Delay before next job ({ActivityType})");

@@ -32,7 +32,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="module">Follow, Comment, etc.</param>
         public static void RunActivity(string account, string templateId, TimingRange CurrentJobTimeRange, string module)
         {
-            Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == templateId);
+            var id = JobProcess.AsId(account, templateId);
+
+            Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
             if (ScheduledJob != null && ScheduledJob.Disabled)
                 return;
 
@@ -47,11 +49,12 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         public static void StopActivity(string accountName, string module, string templateId)
         {
             lock (_runStopActivityLocker)
-            {
+            {                
                 JobProcess.Stop(accountName, templateId);
 
-                JobManager.RemoveJob(templateId);
-                Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == templateId);
+                var id = JobProcess.AsId(accountName, templateId);
+                JobManager.RemoveJob(id);
+                Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
 
                 try
                 {
@@ -63,9 +66,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         return;
                     }
                 }
-                catch (Exception)
+                catch (Exception )
                 {
-                    GlobusLogHelper.log.Error($"{module}-{templateId}" + " job not yet running");
+                    
                 }
             }
         }
@@ -84,7 +87,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 return;
 
             // Check if activity with the same id already running
-            if (JobProcess.IsStarted(moduleConfiguration.TemplateId))
+            if (JobProcess.IsStarted(dominatorAccount.UserName, moduleConfiguration.TemplateId))
             {
                 GlobusLogHelper.log.Error($"Job {moduleConfiguration.TemplateId} already started for {dominatorAccount.UserName}");
                 return;
