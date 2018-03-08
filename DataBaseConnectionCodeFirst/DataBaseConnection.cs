@@ -21,11 +21,31 @@ namespace DataBaseConnectionCodeFirst
 
         private Action<DbModelBuilder> ConfigureDbModelBuilder { get; set; }
 
-        public DataBaseConnection(string connectionString , Action<DbModelBuilder> ConfigureDbModelBuilder = null)
+        public DataBaseConnection(string connectionString, Action<DbModelBuilder> ConfigureDbModelBuilder = null)
         {
             this.ConnectionString = connectionString;
             this.ConfigureDbModelBuilder = ConfigureDbModelBuilder;
         }
+
+        public int Count<T>(Expression<Func<T, bool>> expression = null) where T : class
+        {
+            try
+            {
+                using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
+                {
+                    sqLiteConnection.Open();
+                    using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
+                    {
+                        return expression == null ? context.Set<T>().Count() : context.Set<T>().Where(expression).Count();                       
+                    }
+                }               
+            }
+            catch (Exception Ex)
+            {
+                return 0;
+            }
+        }
+
 
         public bool Add<T>(T data) where T : class
         {
@@ -39,17 +59,16 @@ namespace DataBaseConnectionCodeFirst
                         context.Set<T>().Add(data);
                         context.SaveChanges();
                     }
-                    
                 }
                 return true;
             }
             catch (Exception Ex)
-            {                
+            {
                 return false;
             }
         }
 
-        public List<T> Get<T>(Expression<Func<T,bool>> Expression = null) where T : class
+        public List<T> Get<T>(Expression<Func<T, bool>> Expression = null) where T : class
         {
             try
             {
@@ -58,12 +77,12 @@ namespace DataBaseConnectionCodeFirst
                     sqLiteConnection.Open();
                     using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
                     {
-                        return Expression==null? context.Set<T>().ToList():context.Set<T>().Where(Expression).ToList();
-                    }                    
-                }                
+                        return Expression == null ? context.Set<T>().ToList() : context.Set<T>().Where(Expression).ToList();
+                    }
+                }
             }
             catch (Exception Ex)
-            {                
+            {
                 return null;
             }
         }
@@ -74,18 +93,18 @@ namespace DataBaseConnectionCodeFirst
             List<T> lstData = new List<T>();
             try
             {
-                lstData =  await Task.Factory.StartNew(() =>
-                {
-                    using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
-                    {
-                        sqLiteConnection.Open();
-                        using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
-                        {
-                            return Expression == null ? context.Set<T>().ToList() : context.Set<T>().Where(Expression).ToList();
-                        }                        
-                    }                    
-                });
-            
+                lstData = await Task.Factory.StartNew(() =>
+               {
+                   using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
+                   {
+                       sqLiteConnection.Open();
+                       using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
+                       {
+                           return Expression == null ? context.Set<T>().ToList() : context.Set<T>().Where(Expression).ToList();
+                       }
+                   }
+               });
+
             }
             catch (Exception Ex)
             {
@@ -105,8 +124,8 @@ namespace DataBaseConnectionCodeFirst
                     using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
                     {
                         return context.Set<T>().FirstOrDefault(Expression);
-                    }                    
-                }                
+                    }
+                }
             }
             catch (Exception Ex)
             {
@@ -123,7 +142,7 @@ namespace DataBaseConnectionCodeFirst
                     sqLiteConnection.Open();
                     using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
                     {
-                         context.Entry<T>(t).State = System.Data.Entity.EntityState.Deleted;
+                        context.Entry<T>(t).State = System.Data.Entity.EntityState.Deleted;
                         context.SaveChanges();
                     }
                     sqLiteConnection.Close();

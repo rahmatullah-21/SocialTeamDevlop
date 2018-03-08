@@ -687,26 +687,22 @@ namespace DominatorUIUtility.ViewModel
 
         private bool DeleteAccounts(List<DominatorAccountModel> selectAccounts)
         {
-
             //if selectedaccount count is zero, it wont delete the bin file
             if (selectAccounts.Count == 0) return true;
 
             //remove the selected accounts from account model
             selectAccounts.ForEach(item => LstDominatorAccountModel.Remove(item));
 
+
+
             AccountsFileManager.SaveAll<DominatorAccountModel>(selectAccounts);
 
             AccountsFileManager.Delete(x => x.IsAccountManagerAccountSelected);
 
-            //// Remove the accounts from bin files
-            //foreach (var dominatorAccountModel in selectAccounts)                          
-            //    AccountsFileManager.Delete<DominatorAccountModel>
-            //        (a => dominatorAccountModel.AccountId == a.AccountId );
-
-
-
             return false;
         }
+
+
 
         public void DeleteAccountByContextMenu(object sender)
         {

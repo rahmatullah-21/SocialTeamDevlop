@@ -37,8 +37,8 @@ namespace DominatorHouseCore.FileManagers
         {
 #if DEBUG
             // make sure lstAccountModel contains all accounts
-            var all = GetAll();
-            Debug.Assert(all.Count == lstAccountModel.Count);      
+            //var all = GetAll();
+            //Debug.Assert(all.Count == lstAccountModel.Count);      
 #endif
 
             BinFileHelper.UpdateAllAccounts(lstAccountModel);

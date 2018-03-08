@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using DominatorHouseCore.Enums;
 using System.Data.Entity;
+using System.Threading;
 using DominatorHouseCore.DatabaseHandler.AccountDB;
+using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
 using DominatorHouseCore.Utility;
 using SQLite.CodeFirst;
 
@@ -13,18 +15,15 @@ namespace DominatorHouseCore.DatabaseHandler
 
         #region database Helper Method
 
-        public static void CreateDataBase(string DBName ,DatabaseType ? databaseType = DatabaseType.AccountType)
+        public static void CreateDataBase(string DBName, DatabaseType? databaseType = DatabaseType.AccountType)
         {
             try
             {
                 DataBaseConnectionCodeFirst.DataBaseConnection databaseConnection =
                     GetDataBaseConnectionInstance(DBName, databaseType);
 
-                //databaseConnection.Add<DataBaseConnection.CommonDatabaseConnection.Tables.Account.Friendships>(new DataBaseConnection.CommonDatabaseConnection.Tables.Account.Friendships()
-                //{
-                //    FullName = "Vikas Singh"
-                //});
-                //List<DataBaseConnection.CommonDatabaseConnection.Tables.Account.Friendships> lstFriendships = databaseConnection.Get<DataBaseConnection.CommonDatabaseConnection.Tables.Account.Friendships>();
+                var initiaThread = new Thread(() => databaseConnection.Count<Friendships>()) {IsBackground = true};
+                initiaThread.Start();
             }
             catch (Exception ex)
             {
@@ -49,8 +48,8 @@ namespace DominatorHouseCore.DatabaseHandler
                         directoryName = ConstantVariable.GetIndexAccountDir() + $"\\DB";
                         break;
                 }
-         
-                DirectoryUtilities.CreateDirectory(directoryName);  
+
+                DirectoryUtilities.CreateDirectory(directoryName);
                 string connectionString = directoryName + $"\\{DBName}.db";
                 return new DataBaseConnectionCodeFirst.DataBaseConnection(connectionString, ModelConfiguration.ConfigureAccountdataBaseEntity);
             }
@@ -58,11 +57,7 @@ namespace DominatorHouseCore.DatabaseHandler
             {
                 return null;
             }
-
         }
-
-
-      
 
         #endregion
 
