@@ -49,7 +49,7 @@ namespace DominatorHouseCore.Models
         /// <param name="activitySettingObject">The value of the activity configuration settings</param>
         /// <param name="activityType">Its defined the activity base class</param>
         /// <param name="socialNetworks">Its defined it social networks such as FaceDom, GramDom and so on</param>
-        /// <param name="templateName">Provide the template name from the client</param>
+        /// <param name="templateName">Provide the template name from the client (the same as campaign name)</param>
         /// <returns>returns the template id</returns>
         public string SaveTemplate<T>(T activitySettingObject, string activityType, SocialNetworks socialNetworks, string templateName) where T : class
         {            

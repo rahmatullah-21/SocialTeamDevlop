@@ -39,7 +39,7 @@ namespace DominatorHouseCore.Process
         protected int MaxNoOfActionPerDay = 0;
         protected int MaxNoOfActionPerWeek = 0;
         protected int NoOfActionPerformedCurrentWeek = 0;
-
+        
         public string TemplateId { get; set; }
         public string campaignId { get; set; }
         public DominatorAccountModel DominatorAccountModel { get; set; }
@@ -48,10 +48,12 @@ namespace DominatorHouseCore.Process
         public List<QueryInfo> SavedQueries { get; set; }
 
         public TimingRange CurrentJobTimeRange { get; set; }
-        public DominatorCancellationTokenSource JobCancellationTokenSource { get; set; }
-        public static Dictionary<string, string> DictRunningJobs = new Dictionary<string, string>();
+        public CancellationTokenSource JobCancellationTokenSource { get; set; }
+        
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
         protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; }
+
+        public string AccountName => DominatorAccountModel?.UserName;
 
         #endregion
 
@@ -70,7 +72,7 @@ namespace DominatorHouseCore.Process
             this.TemplateId = template;
             this.campaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
             this.ActivityType = activityType;
-            JobCancellationTokenSource = new DominatorCancellationTokenSource(account, template);
+            
             InitializeActivityCount(account);
         }
 
@@ -90,28 +92,21 @@ namespace DominatorHouseCore.Process
 
 
 
-
-
-
-
         protected void ScheduleNextJob(DateTime dateTime)
         {
-            TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
+            Stop();
 
             List<RunningTimes> lstTimings = this.JobConfiguration.RunningTime;
 
             var today = DateTimeUtilities.GetDayOfWeek();
-            var timeScheduleModel = this.JobConfiguration.RunningTime.First((x => x.DayOfWeek == today));
+            var timeScheduleModel = this.JobConfiguration.RunningTime.First(x => x.DayOfWeek == today);
 
             if (!timeScheduleModel.IsEnabled)
                 return;
 
             // get the hour and minute of current time
             var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime);//GetTimeSpanForGivenTime
-
-
-            JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{ActivityType.Follow.ToString()}-{this.TemplateId}");
-
+            
             if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
             {
                 var TemplateId = DominatorAccountModel.ActivityManager.LstModuleConfiguration
@@ -122,15 +117,105 @@ namespace DominatorHouseCore.Process
                         DominatorScheduler.RunActivity(DominatorAccountModel.AccountBaseModel.UserName, TemplateId, CurrentJobTimeRange,
                             ActivityType.Follow.ToString());
 
-                    }, s => s.WithName($"{ActivityType.Follow.ToString()}-{this.TemplateId}").ToRunOnceAt(dateTime));
+                    }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
             }
 
         }
 
+
+        #region Job Process workflow routines
+
+
+        // stores all running job processes. Key - TemplateId
+        private static Dictionary<string, JobProcess> _runningJobProcesses = new Dictionary<string, JobProcess>();
+        static object _syncJobProcess = new object();
+
+        private string Id => AsId(AccountName, TemplateId);
+        public static string AsId(string account, string templateId) => $"{account}-{templateId}";
+        
+
         /// <summary>
-        /// Starts process for certain social network. Must use JobProcess.StartProcess(ILoginProcess)
+        /// Main method to start process in thread
         /// </summary>
-        public abstract void StartProcess();
+        /// <returns></returns>
+        public Task StartProcessAsync()
+        {
+            lock (_syncJobProcess)
+            {
+                Debug.Assert(JobCancellationTokenSource == null);
+
+                JobCancellationTokenSource = new CancellationTokenSource();
+                _runningJobProcesses.Add(Id, this);
+
+                var task = ThreadFactory.Instance.Start(() =>
+                {
+                    GlobusLogHelper.log.Info($"{ActivityType} process started with {DominatorHouseInitializer.ActiveSocialNetwork} account [{AccountName}]");
+                    StartProcess();
+
+                }, JobCancellationTokenSource.Token);
+
+                return task;
+            }
+        }
+
+
+        public static bool IsStarted(string accountName, string templateId)
+        {
+            lock (_syncJobProcess)
+            {
+                return _runningJobProcesses.ContainsKey(AsId(accountName, templateId));
+            }        
+        }
+
+        public void Stop()
+        {            
+            lock (_syncJobProcess)
+            {
+                if (JobCancellationTokenSource == null ||
+                    !_runningJobProcesses.ContainsKey(Id))
+                    return;                
+
+                JobCancellationTokenSource.Cancel();
+                GlobusLogHelper.log.Info($"{ActivityType} process stopped for {AccountName}");
+
+                _runningJobProcesses.Remove(Id);
+                JobCancellationTokenSource = null;
+            }
+        }
+        
+
+        public static bool Stop(string accountName, string templateId)
+        {
+            try
+            {
+                lock (_syncJobProcess)
+                {
+                    var id = AsId(accountName, templateId);
+                    if (!_runningJobProcesses.ContainsKey(id))
+                    {
+                        GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
+                        return false;
+                    }
+
+                    var jobProcess = _runningJobProcesses[id];
+                    jobProcess.Stop();
+                }
+
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                Ex.ErrorLog();
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// Starts process for certain social network. Must use JobProcess.StartProcess(ILoginProcess).
+        /// Use StartProcessAsync in consumer code to create task and start process.
+        /// </summary>
+        protected abstract void StartProcess();
 
         /// <summary>
         /// Does a POST request for certain process after login. Like Follow, Like, Comment etc.
@@ -146,11 +231,12 @@ namespace DominatorHouseCore.Process
         protected void StartProcess(ILoginProcess logInProcess)
         {
             try
-            {
-                if (DictRunningJobs.ContainsKey(TemplateId)) return;        // job already running
-
-                DictRunningJobs.Add(this.TemplateId, "");
-                Debug.Assert(!string.IsNullOrEmpty(this.campaignId));
+            {               
+                if (string.IsNullOrEmpty(this.campaignId))
+                {
+                    GlobusLogHelper.log.Debug($"Campign Id not set for {ActivityType} - {TemplateId}");
+                    return;
+                }
 
                 GlobusLogHelper.log.Info("Process started with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
                 if (!this.DominatorAccountModel.IsUserLoggedIn)
@@ -165,18 +251,25 @@ namespace DominatorHouseCore.Process
                     GlobusLogHelper.log.Info("Logged in successfully with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
 
                     RunScraper();
-                }
-
-                DictRunningJobs.Remove(this.TemplateId);
+                }                
 
             }
             catch (Exception Ex)
             {
-                Ex.DebugLog();
-                DictRunningJobs.Remove(this.TemplateId);
+                Ex.DebugLog();                
             }           
         }
 
+
+        public bool IsStopped()
+        {
+            lock (_syncJobProcess)
+            {
+                return JobCancellationTokenSource == null || JobCancellationTokenSource.IsCancellationRequested;
+            }
+        }
+
+        #endregion      // task routines: start, stop, iscancelled
 
 
         /// <summary>
@@ -227,7 +320,7 @@ namespace DominatorHouseCore.Process
             NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24 * 7).Count();
             if (NoOfActionPerformedCurrentWeek > MaxNoOfActionPerWeek)
             {
-                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
+                Stop();
                 return true;
             }
 
@@ -236,7 +329,7 @@ namespace DominatorHouseCore.Process
             NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<InteractedUsers>(x => (currentTime - x.Date) <= 3600 * 24).Count();
             if (NoOfActionPerformedCurrentDay > MaxNoOfActionPerDay)
             {
-                TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, this.TemplateId);
+                Stop();
                 return true;
             }
 
@@ -273,6 +366,8 @@ namespace DominatorHouseCore.Process
 
         public void DelayBeforeNextActivity()
         {
+            if (IsStopped()) return;
+
             int seconds = JobConfiguration.DelayBetweenActivity.GetRandom();
 
             GlobusLogHelper.log.Info($"{seconds} seconds Delay before next {ActivityType}");
@@ -285,6 +380,8 @@ namespace DominatorHouseCore.Process
 
         public void DelayBeforeNextJob()
         {
+            if (IsStopped()) return;
+
             int minutes = JobConfiguration.DelayBetweenJobs.GetRandom();
 
             GlobusLogHelper.log.Info($"{minutes} minutes Delay before next job ({ActivityType})");
@@ -301,7 +398,8 @@ namespace DominatorHouseCore.Process
 
         protected void StopFollow()
         {
-            TaskAndThreadUtility.StopTask(this.DominatorAccountModel.AccountBaseModel.UserName, TemplateId);
+            Stop();
+
             List<TemplateModel> lstTemplateModel = BinFileHelper.GetTemplateDetails().ToList();
             foreach (var template in lstTemplateModel)
                 if (template.Id == TemplateId)

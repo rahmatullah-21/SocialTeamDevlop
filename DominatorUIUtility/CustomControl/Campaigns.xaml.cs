@@ -21,6 +21,7 @@ using DominatorHouseCore.BusinessLogic.Scheduler;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.DatabaseHandler;
 using System.IO;
+using DominatorHouseCore.Process;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -30,6 +31,10 @@ namespace DominatorUIUtility.CustomControl
     public partial class Campaigns : UserControl
     {
         private CampaignDetails objCampaignDetails;
+
+        public static Action<TemplateModel, CampaignDetails, bool, Visibility, string, string> EditOrDuplicateCampaign { get; set; } =
+            (t, c, b, v, s, s2) => GlobusLogHelper.log.Error($"Campaigns.EditOrDuplicateCampaign action handler wasn't set");
+
 
         private Campaigns()
         {
@@ -99,96 +104,71 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception ex)
             {
-                Console.WriteLine("");
+                ex.DebugLog();
             }
         }
-        private void CampaignStatusChanged(object sender, EventArgs e)
+
+        /// <summary>
+        /// Raises when campaign status changed:
+        /// - Active/Paused
+        /// - Switch to Campaigns tab
+        /// - Create/Update Campaign
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ToggleActivatePause_Campaign(object sender, EventArgs e)
         {
             objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(CampaignsFileManager.Get());
             var lstAccountDetails = AccountsFileManager.GetAll();
 
-            var campaignDetails = ((FrameworkElement)sender).DataContext as CampaignDetails;
-            if (campaignDetails == null)
-                return;
-            var module = (ActivityType)Enum.Parse(typeof(ActivityType), campaignDetails.SubModule);
+            var selectedCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
+            if (selectedCampaign == null)            
+                return;            
 
+            var module = (ActivityType)Enum.Parse(typeof(ActivityType), selectedCampaign.SubModule);
+
+            // Update module configuration inside Account details and save it back
             foreach (var account in lstAccountDetails)
             {
                 var moduleConfiguration = account.ActivityManager.LstModuleConfiguration
                     .FirstOrDefault(y => y.ActivityType == module);
-                if (moduleConfiguration != null && moduleConfiguration.TemplateId == campaignDetails.TemplateId)
-                {
+                if (moduleConfiguration?.TemplateId == selectedCampaign.TemplateId)
                     moduleConfiguration.IsEnabled = (bool)(sender as ToggleSwitch).IsChecked;
-                    AccountsFileManager.Edit(account);
-                }
             }
 
+            AccountsFileManager.SaveAll(lstAccountDetails);
 
+         
+            // Run/Stop job process in campaigns
             try
             {
-                Schedule schedule = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{campaignDetails.TemplateId}");
-                if ((sender as ToggleSwitch)?.IsChecked ?? false)
-                {
-                    if (schedule != null)
-                    {
-                        if (schedule.Disabled)
-                        {
-                            var accounts = AccountsFileManager.GetAll();
-                            foreach (var account in accounts)
-                            {
-                                if (campaignDetails.SelectedAccountList.Contains(account.AccountBaseModel.UserName))
-                                    DominatorScheduler.ScheduleTodayJobs(account, SocialNetworks.Instagram, module);
-                            }
-                            schedule.Enable();
-                        }
-                        else
-                        {
-                            schedule?.Disable();
-                        }
-                    }
-                }
-                else
-                {
-                    campaignDetails.SelectedAccountList.ForEach(x =>
-                    {
-                        DominatorScheduler.StopActivity(x, module.ToString(), campaignDetails.TemplateId);
-                    });
-                    GlobusLogHelper.log.Info(module + "-" + campaignDetails.TemplateId + "  Job is disabled");
-
-                }
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Info(ex.Message);
-                ex.DebugLog();
-            }
-
-
-            try
-            {
+                bool isToggleActivate = (sender as ToggleSwitch).IsChecked ?? false;
                 foreach (var campaign in objCampaignDetails.ObjCampaignDetails)
                 {
-                    if (campaign.CampaignName == campaignDetails.CampaignName)
+                    if (campaign.CampaignName != selectedCampaign.CampaignName)
+                        continue;
+
+                    bool isCampaignAlreadyActive = campaign.Status == "Active";
+                    if (isCampaignAlreadyActive == isToggleActivate)
+                        continue;
+                    
+                    if (isToggleActivate)
                     {
-
-                        if ((sender as ToggleSwitch).IsChecked ?? false)
+                        campaign.Status = "Active";
+                        foreach (var accountModel in lstAccountDetails.Where(x => selectedCampaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
                         {
-                            campaign.Status = "Active";
-                            foreach (var accountModel in lstAccountDetails.Where(x => campaignDetails.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
-                            {
-                                DominatorScheduler.ScheduleTodayJobs(accountModel, SocialNetworks.Instagram, module);
-                            }
-                        }
-                        else
-                        {
-                            campaign.Status = "Paused";
-                            campaign.SelectedAccountList.ForEach(x =>
-                            {
-                                TaskAndThreadUtility.StopTask(x, campaignDetails.TemplateId);
-                            });
-
+                            DominatorScheduler.ScheduleTodayJobs(accountModel, SocialNetworks.Instagram, module);
                         }
                     }
+                    else
+                    {
+                        campaign.Status = "Paused";
+                        campaign.SelectedAccountList.ForEach(acc =>
+                        {
+                            DominatorScheduler.StopActivity(acc, campaign.SubModule, campaign.TemplateId);                            
+                        });
+                    }
+
                 }
 
                 CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());
@@ -202,6 +182,7 @@ namespace DominatorUIUtility.CustomControl
             var testResult = CampaignsFileManager.Get();
         }
 
+
         private void EditCampaign_OnClick(object sender, RoutedEventArgs e)
         {
             CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
@@ -210,7 +191,7 @@ namespace DominatorUIUtility.CustomControl
 
             var templateDetails = TemplatesFileManager.GetTemplateById(campaignDetails.TemplateId);
 
-            CampaignManager.EditOrDuplicateCampaign(templateDetails, campaignDetails, false, Visibility.Visible, ConstantVariable.UpdateCampaign, campaignDetails.TemplateId);
+            EditOrDuplicateCampaign(templateDetails, campaignDetails, false, Visibility.Visible, ConstantVariable.UpdateCampaign, campaignDetails.TemplateId);
         }
 
         private void DuplicateCampaign_OnClick(object sender, RoutedEventArgs e)
@@ -222,7 +203,8 @@ namespace DominatorUIUtility.CustomControl
             var templateDetails = TemplatesFileManager.GetTemplateById(campaignDetails.TemplateId);
 
             campaignDetails.CampaignName = campName.CampaignName.Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
-            CampaignManager.EditOrDuplicateCampaign(templateDetails, campaignDetails, true, Visibility.Collapsed, ConstantVariable.CreateCampaign, campaignDetails.TemplateId);
+
+            EditOrDuplicateCampaign(templateDetails, campaignDetails, true, Visibility.Collapsed, ConstantVariable.CreateCampaign, campaignDetails.TemplateId);
 
         }
 
@@ -248,7 +230,7 @@ namespace DominatorUIUtility.CustomControl
                 if (moduleConfig != null)
                 {
                     // Stop active task related to campaign
-                    TaskAndThreadUtility.StopTask(x.AccountId, campaign.TemplateId);
+                    JobProcess.Stop(x.AccountId, campaign.TemplateId);
 
                     // Remove task from list
                     x.ActivityManager.LstModuleConfiguration.RemoveAll(y => y.TemplateId == campaign.TemplateId);

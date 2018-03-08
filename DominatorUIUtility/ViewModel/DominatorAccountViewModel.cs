@@ -693,11 +693,8 @@ namespace DominatorUIUtility.ViewModel
             //remove the selected accounts from account model
             selectAccounts.ForEach(item => LstDominatorAccountModel.Remove(item));
 
-
-
-            AccountsFileManager.SaveAll<DominatorAccountModel>(selectAccounts);
-
-            AccountsFileManager.Delete(x => x.IsAccountManagerAccountSelected);
+            // remove from file
+            AccountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);            
 
             return false;
         }
@@ -887,13 +884,8 @@ namespace DominatorUIUtility.ViewModel
                 selectedAccount.AccountBaseModel.AccountProxy.ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername;
                 selectedAccount.AccountBaseModel.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
                 selectedAccount.AccountBaseModel.AccountNetwork = objDominatorAccountBaseModel.AccountNetwork;
-
-                //  File.Delete(ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
-
-                //ProtoBuffBase.SerializeListObject<DominatorAccountModel>(LstDominatorAccountModel,
-                //    ConstantVariable.GetIndexAccountPath() + $"//{ConstantVariable.AccountDetails}");
-
-                AccountsFileManager.SaveAccount(selectedAccount);
+                
+                AccountsFileManager.Edit(selectedAccount);
                 UpdateProxy(objDominatorAccountBaseModel);
                 dialogWindow.Close();
 

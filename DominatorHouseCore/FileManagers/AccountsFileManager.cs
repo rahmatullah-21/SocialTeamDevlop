@@ -32,17 +32,17 @@ namespace DominatorHouseCore.FileManagers
 
 
         // Saves all accounts. Have to work Only in Social library. Otherwise use UpdateAccounts() method to update AccountDetails.bin
-
-        internal static void SaveAll<T>(List<T> lstAccountModel) where T : class
+        // NOTE: make sure lstAccountModel contains all accounts
+        internal static void SaveAll(List<DominatorAccountModel> lstAccountModel)
         {
+
 #if DEBUG
             // make sure lstAccountModel contains all accounts
             //var all = GetAll();
             //Debug.Assert(all.Count == lstAccountModel.Count);      
 #endif
-
             BinFileHelper.UpdateAllAccounts(lstAccountModel);
-            GlobusLogHelper.log.Debug("Accounts successfully saved");
+            GlobusLogHelper.log.Debug($"{lstAccountModel.Count} Accounts successfully saved");
         }
 
 
@@ -65,8 +65,9 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper.UpdateAllAccounts(all);            
         }
 
-        // Saves one account by looking for it in list of all accounts
-        public static bool SaveAccount(DominatorAccountModel account)
+        // Saves one account by looking for it in list of all accounts.
+        // Use Edit() in consumer code
+        private static bool SaveAccount(DominatorAccountModel account)
         {
             var savedStatus = BinFileHelper.UpdateAccount(account);
 
@@ -77,18 +78,7 @@ namespace DominatorHouseCore.FileManagers
 
             return savedStatus;
         }
-
-
-        // For other than DominatorAccountModel
-        public static bool SaveAccount<T>(T account) where T : class
-        {
-            Debug.Assert(typeof(T).Name.Contains("AccountModel"));
-
-            var savedStatus = BinFileHelper.UpdateAccount<T>(account);
-            GlobusLogHelper.log.Debug($"Accounts successfully saved");
-
-            return savedStatus;
-        }
+        
 
         public static void FillList<T>(ObservableCollection<T> lstAccountModel) where T : class
         {
@@ -105,7 +95,8 @@ namespace DominatorHouseCore.FileManagers
             return BinFileHelper.GetAccountDetails();           
         }
 
-        public static List<DominatorAccountModel> GetAll(SocialNetworks network)
+        // for internal user to prevent overwriting all accounts after GetAll
+        internal static List<DominatorAccountModel> GetAll(SocialNetworks network)
         {
             return BinFileHelper.GetAccountDetails().Where(a => a.AccountBaseModel.AccountNetwork == network).ToList();
         }
@@ -139,22 +130,10 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper.UpdateAllAccounts(accs);
         }
 
-        public static void Delete<AModel>(Predicate<AModel> match) where AModel : class
-        {
-            var accs = GetFor<AModel>();
-            var toDelete = accs.FindAll(match);
-            accs.RemoveAll(match);
-            BinFileHelper.UpdateAllAccounts(accs);            
-        }
 
         // alias
-        public static void Edit<TModel>(TModel account) where TModel : class => SaveAccount(account);
-
-
-        // Back compatibility for old account models
-        public static List<AccountModel> GetFor<AccountModel>() where AccountModel : class
-            => BinFileHelper.GetAccountDetailsFor<AccountModel>();
-
+        public static void Edit(DominatorAccountModel account) => SaveAccount(account);
+        
 
         public static DominatorAccountModel GetAccount(string userName)
         {
@@ -163,15 +142,7 @@ namespace DominatorHouseCore.FileManagers
 
             return result;
         }
-
-        // TODO: remove. backward compatibility for old account models
-        public static T GetAccount<T>(string userName) where T : class
-        {
-            var accounts = GetFor<T>();
-
-            var result = accounts.FirstOrDefault(x => (x as dynamic).UserName == userName);
-            return result;
-        }
+        
 
         public static ObservableCollectionBase<string> GetUsers()
         {

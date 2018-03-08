@@ -27,36 +27,34 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// </summary>
         /// <typeparam name="T">type of job like GramDominator.FollowProcess</typeparam>
         /// <param name="account"></param>
-        /// <param name="template"></param>
+        /// <param name="templateId"></param>
         /// <param name="CurrentJobTimeRange"></param>
         /// <param name="module">Follow, Comment, etc.</param>
-        public static void RunActivity(string account, string template, TimingRange CurrentJobTimeRange, string module)
+        public static void RunActivity(string account, string templateId, TimingRange CurrentJobTimeRange, string module)
         {
-            Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{template}");
+            var id = JobProcess.AsId(account, templateId);
+
+            Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
             if (ScheduledJob != null && ScheduledJob.Disabled)
                 return;
 
             // jobProcess may be Follow, Like, Comment, Repost, for any particular social network.
             // jobProcessFactory have to be registered for each library.
-            var jobProcess = _activeJobProcessFactory.Create(account, template, CurrentJobTimeRange, module);
-            Task.Factory.StartNew(() =>
-            {
-                GlobusLogHelper.log.Info($"{module} process started with {DominatorHouseInitializer.ActiveSocialNetwork} account [" + account + "]");
-                jobProcess.StartProcess();
-
-            }, jobProcess.JobCancellationTokenSource.Token);
-
+            var jobProcess = _activeJobProcessFactory.Create(account, templateId, CurrentJobTimeRange, module);
+            
+            jobProcess.StartProcessAsync();
         }
 
 
-        public static void StopActivity(string accountId, string module, string tamplateId)
+        public static void StopActivity(string accountName, string module, string templateId)
         {
             lock (_runStopActivityLocker)
-            {
-                TaskAndThreadUtility.StopTask(accountId, tamplateId);
+            {                
+                JobProcess.Stop(accountName, templateId);
 
-                JobManager.RemoveJob($"{module}-{tamplateId}");
-                Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == $"{module}-{tamplateId}");
+                var id = JobProcess.AsId(accountName, templateId);
+                JobManager.RemoveJob(id);
+                Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
 
                 try
                 {
@@ -64,13 +62,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
                     if (ScheduledJob.Disabled)
                     {
-                        GlobusLogHelper.log.Info($"{module}-{tamplateId}" + " stopped");
+                        GlobusLogHelper.log.Info($"{module}-{templateId}" + " stopped");
                         return;
                     }
                 }
-                catch (Exception)
+                catch (Exception )
                 {
-                    GlobusLogHelper.log.Error($"{module}-{tamplateId}" + " job not yet running");
+                    
                 }
             }
         }
@@ -89,9 +87,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 return;
 
             // Check if activity with the same id already running
-            if (TaskAndThreadUtility.IsStarted(dominatorAccount.UserName, moduleConfiguration.TemplateId))
+            if (JobProcess.IsStarted(dominatorAccount.UserName, moduleConfiguration.TemplateId))
             {
-                GlobusLogHelper.log.Error($"{dominatorAccount.UserName}_{moduleConfiguration.TemplateId} already started");
+                GlobusLogHelper.log.Error($"Job {moduleConfiguration.TemplateId} already started for {dominatorAccount.UserName}");
                 return;
             }
 
@@ -131,7 +129,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         {
                             RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module);
 
-                        }, s => s.WithName($"{timing.Module}-{templateId}").ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
+                        }, s => s.WithName(templateId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
 
                         JobManager.AddJob(() =>
                         {
@@ -147,7 +145,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         {
                             RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module);
 
-                        }, s => s.WithName($"{timing.Module}-{templateId}").ToRunOnceAt(DateTime.Now.AddSeconds(5)));
+                        }, s => s.WithName(templateId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
 
                         JobManager.AddJob(() =>
                         {

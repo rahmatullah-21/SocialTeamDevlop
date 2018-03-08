@@ -147,6 +147,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\GlobalRoutines\CampaignGlobalRoutines.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.Helpers.cs" />
@@ -270,7 +271,6 @@
     <Compile Include="Enums\SocialNetworks.cs" />
     <Compile Include="Utility\StringHelper.cs" />
     <Compile Include="Utility\TabSwitcher.cs" />
-    <Compile Include="Utility\TaskAndThreadUtility.cs" />
     <Compile Include="Utility\Utilities.cs" />
     <Compile Include="Utility\ValidationHelper.cs" />
     <Compile Include="ViewModel\AddPostViewModel.cs" />

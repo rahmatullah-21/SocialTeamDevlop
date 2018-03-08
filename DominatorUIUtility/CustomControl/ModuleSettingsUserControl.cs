@@ -1,5 +1,6 @@
 ﻿using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.BusinessLogic;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -281,7 +282,7 @@ namespace DominatorUIUtility.CustomControl
             // Check queries
             if (Model.SavedQueries.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please ADD at least one query.",
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one query.",
                     MessageDialogStyle.Affirmative);
                 return false; 
             }
@@ -289,7 +290,7 @@ namespace DominatorUIUtility.CustomControl
             // Check timings
             if (((IEnumerable<RunningTimes>)Model.JobConfiguration.RunningTime).All(rt => rt.Timings.Count == 0))
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please ADD at least one time range when to run and stop the activity.",
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one time range when to run and stop the activity.",
                     MessageDialogStyle.Affirmative);
                 return false; 
             }
@@ -309,6 +310,9 @@ namespace DominatorUIUtility.CustomControl
                 return;
                     
             var objTemplateModel = new TemplateModel();
+            
+            // TODO: implement saving and add campaign
+            if(false) CampaignGlobalRoutines.Instance.Create((TModel)Model, _activityType, CampaignName, _footerControl.list_SelectedAccounts);
 
             TemplateId = objTemplateModel.SaveTemplate((TModel)Model,
                 _activityType.ToString(), _socialNetwork,

@@ -25,6 +25,7 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using DominatorHouseCore.Utility;
 using GramDominatorUI.TabManager;
+using DominatorHouseCore.BusinessLogic;
 
 #endregion
 
@@ -55,19 +56,30 @@ namespace DominatorHouse
             InitializeComponent();
 
             MainTabControl.ItemsSource = InitializeAllTabs();
+
+
+            // Init UI delegates            
+            CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
+                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg,
+                                    MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
+
             TabSwitcher.ChangeTabIndex = ChangeTabIndex;
-            ConfigFileManager.ApplyTheme();
-            GlobusLogHelper.log.Info("Welcome to Dominator social");
+            TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
+
+            // Log strated
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
-             TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
+            
+            ConfigFileManager.ApplyTheme();
+
             Task performanceTask = new Task(() => StartbindMemory(),
             TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
 
 #if SKIP_DELAYS
             cmbSocialNetwork.SelectedIndex = 1;     // Go to instagram
+            ChangeTabIndex(1, 0);
 #endif
-            #region commeted
+            #region commeted - start todays jobs
             //Task.Factory.StartNew(() =>
             //{
             //    DateTime NextDayTime = DateTime.Now.AddDays(1);

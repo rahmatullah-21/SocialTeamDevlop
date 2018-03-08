@@ -20,10 +20,7 @@ namespace DominatorHouseCore.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value == null) return DependencyProperty.UnsetValue;
-
-            //var descriptions = EnumUtility.GetListOfDescription<UserQueryParameters>();
-            //return EnumUtility.ResourceDictionaryKeysToStrings(descriptions);
-
+            
             try
             {
                 var v = (UserQueryParameters)Enum.Parse(typeof(UserQueryParameters), value.ToString());
@@ -38,7 +35,14 @@ namespace DominatorHouseCore.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return Enum.ToObject(targetType, value);
+            try
+            {
+                return Enum.ToObject(targetType, value);
+            }
+            catch
+            {
+                return value;
+            }
         }
 
         public static string GetDescription(Enum en)
