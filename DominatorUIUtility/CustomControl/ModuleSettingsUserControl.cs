@@ -55,9 +55,7 @@ namespace DominatorUIUtility.CustomControl
                                         Grid MainGrid, ActivityType activityType, string moduleName)
         {
             if (_initialized) return;
-
-            Debug.Assert(header != null && footer != null && queryControl != null && moduleName != null);
-
+            
             _headerControl = header;
             _footerControl = footer;
             _queryControl = queryControl;

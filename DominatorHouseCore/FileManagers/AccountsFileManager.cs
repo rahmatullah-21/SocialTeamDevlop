@@ -35,12 +35,8 @@ namespace DominatorHouseCore.FileManagers
         // NOTE: make sure lstAccountModel contains all accounts
         internal static void SaveAll(List<DominatorAccountModel> lstAccountModel)
         {
+            // Warning: make sure lstAccountModel contains all accounts            
 
-#if DEBUG
-            // make sure lstAccountModel contains all accounts
-            //var all = GetAll();
-            //Debug.Assert(all.Count == lstAccountModel.Count);      
-#endif
             BinFileHelper.UpdateAllAccounts(lstAccountModel);
             GlobusLogHelper.log.Debug($"{lstAccountModel.Count} Accounts successfully saved");
         }
