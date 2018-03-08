@@ -315,15 +315,15 @@ namespace DominatorHouse
                     break;
 
                 case SocialNetworks.Twitter:
-                    TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
-                    TabItems = twtDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
-                    break;
+                    //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
+                    //TabItems = twtDominator.InitializeAllTabs();
+                    //this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
+                    //break;
                 case SocialNetworks.Pinterest:
-                    PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
-                    TabItems = pinDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
-                    break;
+                    //PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
+                    //TabItems = pinDominator.InitializeAllTabs();
+                    //this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
+                    //break;
                 case SocialNetworks.Social:
                     MainTabControl.TabStripPlacement = Dock.Left;
                     TabItems = InitializeAllTabs();

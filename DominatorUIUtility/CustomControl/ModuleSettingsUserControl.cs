@@ -252,18 +252,19 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="e"></param>
         protected void SearchQueryControl_OnCustomFilterChanged(object sender, RoutedEventArgs e)
         {
-            UserFiltersControl objUserFiltersControl = new UserFiltersControl();
-            Dialog objDialog = new Dialog();
+            UserFilterAction.UserFilterControl(_queryControl);
+            //UserFiltersControl objUserFiltersControl = new UserFiltersControl();
+            //Dialog objDialog = new Dialog();
 
-            var FilterWindow = objDialog.GetMetroWindow(objUserFiltersControl, "Filter");
+            //var FilterWindow = objDialog.GetMetroWindow(objUserFiltersControl, "Filter");
 
-            objUserFiltersControl.SaveButton.Click += (senders, Events) =>
-            {
-                _queryControl.CurrentQuery.CustomFilters = JsonConvert.SerializeObject(objUserFiltersControl.UserFilter);
-                FilterWindow.Close();
-            };
+            //objUserFiltersControl.SaveButton.Click += (senders, Events) =>
+            //{
+            //    _queryControl.CurrentQuery.CustomFilters = JsonConvert.SerializeObject(objUserFiltersControl.UserFilter);
+            //    FilterWindow.Close();
+            //};
 
-            FilterWindow.ShowDialog();
+            //FilterWindow.ShowDialog();
         }
 
         public abstract void SaveDetails(List<string> lstSelectedAccounts, ActivityType moduleType);

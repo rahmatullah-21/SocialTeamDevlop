@@ -136,6 +136,7 @@
     </Compile>
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
     <Compile Include="Behaviours\ReportManager.cs" />
+    <Compile Include="Behaviours\UserFilterAction.cs" />
     <Compile Include="CustomControl\AccountCustomControl.xaml.cs">
       <DependentUpon>AccountCustomControl.xaml</DependentUpon>
     </Compile>
@@ -178,9 +179,6 @@
     </Compile>
     <Compile Include="CustomControl\TimerControl.xaml.cs">
       <DependentUpon>TimerControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControl\UserFiltersControl.xaml.cs">
-      <DependentUpon>UserFiltersControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\Languages\GDLanguages\Language.en.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -333,10 +331,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\TimerControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\UserFiltersControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
