@@ -138,23 +138,25 @@ namespace DominatorHouseCore.Process
         /// Main method to start process in thread
         /// </summary>
         /// <returns></returns>
-        public Task StartProcessAsync()
+        public void StartProcessAsync()
         {
             lock (_syncJobProcess)
             {
-                Debug.Assert(JobCancellationTokenSource == null);
+                if (_runningJobProcesses.ContainsKey(Id)) return;
 
+                Debug.Assert(JobCancellationTokenSource == null);
+                
                 JobCancellationTokenSource = new CancellationTokenSource();
                 _runningJobProcesses.Add(Id, this);
 
                 var task = ThreadFactory.Instance.Start(() =>
                 {
                     GlobusLogHelper.log.Info($"{ActivityType} process started with {DominatorHouseInitializer.ActiveSocialNetwork} account [{AccountName}]");
-                    StartProcess();
+                    // Login and run scraper/poster from derived concrete classes
+                    if (Login())
+                        RunScrapper();
 
-                }, JobCancellationTokenSource.Token);
-
-                return task;
+                }, JobCancellationTokenSource.Token);                
             }
         }
 
@@ -215,7 +217,7 @@ namespace DominatorHouseCore.Process
         /// Starts process for certain social network. Must use JobProcess.StartProcess(ILoginProcess).
         /// Use StartProcessAsync in consumer code to create task and start process.
         /// </summary>
-        protected abstract void StartProcess();
+        protected abstract bool Login();
 
         /// <summary>
         /// Does a POST request for certain process after login. Like Follow, Like, Comment etc.
@@ -228,14 +230,14 @@ namespace DominatorHouseCore.Process
         /// <summary>
         /// Logs-in to social network and scrap data from its feed
         /// </summary>
-        protected void StartProcess(ILoginProcess logInProcess)
+        protected bool LoginBase(ILoginProcess logInProcess)
         {
             try
             {               
                 if (string.IsNullOrEmpty(this.campaignId))
                 {
-                    GlobusLogHelper.log.Debug($"Campign Id not set for {ActivityType} - {TemplateId}");
-                    return;
+                    GlobusLogHelper.log.Info($"Campign Id not set for {ActivityType} - {TemplateId}");
+                    return false;
                 }
 
                 GlobusLogHelper.log.Info("Process started with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
@@ -250,14 +252,16 @@ namespace DominatorHouseCore.Process
                 {
                     GlobusLogHelper.log.Info("Logged in successfully with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
 
-                    RunScraper();
+                    return true;
                 }                
 
             }
             catch (Exception Ex)
             {
                 Ex.DebugLog();                
-            }           
+            }
+
+            return false;
         }
 
 
@@ -408,18 +412,23 @@ namespace DominatorHouseCore.Process
             TemplatesFileManager.Save(lstTemplateModel);
         }
 
-
+        
         /// <summary>
         /// 1. Obtains Scraper factory for active library (GD, PD, TD etc.)
         /// 2. Creates Scraper
         /// 3. Executes scraping based on queries for certain social network and job process
         /// </summary>
         /// <param name="jobProcess"></param>
-        public void RunScraper()
-        {
+        public void RunScrapper()
+        {            
             IScraperFactory scraperFactory = DominatorHouseInitializer.ActiveLibrary.QueryScraperFactory;
             AbstractQueryScraper scraper = scraperFactory.Create(this);
-            scraper.ScrapeWithQueries();
+
+            if (SavedQueries.Count == 0)
+                scraper.ScrapeNoQueries();
+            else
+                scraper.ScrapeWithQueries();                            
         }
+ 
     }
 }

@@ -14,6 +14,11 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         {
         }
 
+        protected override void ScrapeToUnfollow()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void StartProcessForCustomUsers(QueryInfo queryInfo)
         {
             throw new NotImplementedException();

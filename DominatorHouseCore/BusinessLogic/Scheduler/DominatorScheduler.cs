@@ -38,7 +38,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             if (ScheduledJob != null && ScheduledJob.Disabled)
                 return;
 
-            // jobProcess may be Follow, Like, Comment, Repost, for any particular social network.
+            // jobProcess may be Follow, UnFollowProcess, Like, Comment, Repost, for any particular social network.
             // jobProcessFactory have to be registered for each library.
             var jobProcess = _activeJobProcessFactory.Create(account, templateId, CurrentJobTimeRange, module);
             
@@ -120,7 +120,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     // get the template id for respective module
                     string templateId = GetTemplateId(timing, dominatorAccount);
-
+                    var jobId = JobProcess.AsId(dominatorAccount.UserName, templateId);
 
                     // If start time not met before,it will schedule to start time
                     if (timing.StartTime.Hours >= currentTimespan.Hours && timing.StartTime.Minutes > currentTimespan.Minutes)
@@ -129,7 +129,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         {
                             RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module);
 
-                        }, s => s.WithName(templateId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
+                        }, s => s.WithName(jobId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
 
                         JobManager.AddJob(() =>
                         {
@@ -145,7 +145,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         {
                             RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module);
 
-                        }, s => s.WithName(templateId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
+                        }, s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
 
                         JobManager.AddJob(() =>
                         {

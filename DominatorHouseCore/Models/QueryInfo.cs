@@ -21,6 +21,9 @@ namespace DominatorHouseCore.Models
         private int _queryPriority;
         private string _queryTypeDisplayName;
 
+        public static readonly QueryInfo NoQuery = new QueryInfo();
+
+
         /// <summary>
         /// Id is the unique id for the query, which contains guid without dashes
         /// </summary>
