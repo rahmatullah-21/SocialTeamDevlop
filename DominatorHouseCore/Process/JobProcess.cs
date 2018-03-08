@@ -62,9 +62,10 @@ namespace DominatorHouseCore.Process
             this.DominatorAccountModel = FileManagers.AccountsFileManager.GetAll().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
             this.CurrentJobTimeRange = CurrentJobTimeRange;
             TemplateModel model = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == template);
-            this.JobConfiguration = Newtonsoft.Json.JsonConvert.DeserializeObject<JobConfiguration>(model.ActivitySettings);
-
+            
             dynamic deserializedValue = JsonConvert.DeserializeObject(model.ActivitySettings);
+
+            this.JobConfiguration = JsonConvert.DeserializeObject<JobConfiguration>(deserializedValue["JobConfiguration"].ToString());
 
             try { this.SavedQueries = JsonConvert.DeserializeObject<List<QueryInfo>>(deserializedValue["SavedQueries"].ToString()); }
             catch { this.SavedQueries = new List<QueryInfo>(); }
@@ -375,10 +376,7 @@ namespace DominatorHouseCore.Process
             int seconds = JobConfiguration.DelayBetweenActivity.GetRandom();
 
             GlobusLogHelper.log.Info($"{seconds} seconds Delay before next {ActivityType}");
-
-#if SKIP_DELAYS
-            seconds = 2;
-#endif            
+      
             Thread.Sleep(seconds * 1000);
         }
 

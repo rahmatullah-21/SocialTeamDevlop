@@ -155,6 +155,8 @@ namespace DominatorUIUtility.CustomControl
                     if (isToggleActivate)
                     {
                         campaign.Status = "Active";
+
+                        GlobusLogHelper.log.Info($"Starting campaign {campaign.CampaignName}");
                         foreach (var accountModel in lstAccountDetails.Where(x => selectedCampaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
                         {
                             DominatorScheduler.ScheduleTodayJobs(accountModel, SocialNetworks.Instagram, module);
