@@ -20,12 +20,11 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.Publisher;
-using GramDominatorUI.TabManager;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using DominatorHouseCore.Utility;
-using GramDominatorUI.TabManager;
 using DominatorHouseCore.BusinessLogic;
+using GramDominatorUI.TabManager;
 
 #endregion
 
@@ -476,7 +475,12 @@ namespace DominatorHouse
                 case SocialNetworks.LinkedIn:
                     // Call your methods to login
                     break;
-
+                case SocialNetworks.Gplus:
+                    // Call your methods to login
+                    break;
+                case SocialNetworks.Facebook:
+                // Call your methods to login
+                    break;
             }
 
         }
