@@ -11,6 +11,7 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
+using GramDominatorUI.GDViews.Tools.Follow;
 
 
 namespace DominatorHouse.Social.AutoActivity.ViewModels
@@ -57,7 +58,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     InitializeAccounts();
                     break;
                 case SocialNetworks.Instagram:
-                   // SelectedUserControl = GramDominatorUI.TabManager.ToolTabs.GetSingletonToolTabs();
+                    SelectedUserControl = GramDominatorUI.TabManager.ToolTabs.GetSingletonToolTabs();
                     break;
 
                 case SocialNetworks.Twitter:
@@ -75,10 +76,10 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     InitializeAccounts();
                     break;
                 case SocialNetworks.Instagram:
-                    //SelectedUserControl = GramDominatorUI.TabManager.ToolTabs.GetSingletonToolTabs();
-                    //var data = FollowConfiguration.GetSingeltonObjectFollowConfiguration();
-                    //data.accountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers();
-                    //data.accountGrowthHeader.SelectedItem = selectedAccounts;
+                    SelectedUserControl = GramDominatorUI.TabManager.ToolTabs.GetSingletonToolTabs();
+                    var data = FollowConfiguration.GetSingeltonObjectFollowConfiguration();
+                    data.accountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers();
+                    data.accountGrowthHeader.SelectedItem = selectedAccounts;
                     break;
 
                 case SocialNetworks.Twitter:
