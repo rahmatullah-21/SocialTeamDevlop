@@ -131,6 +131,29 @@ namespace DominatorUIUtility.CustomControl
                     DominatorAccountViewModel.SocialNetwork = SocialNetworks.Quora;
                     //  DominatorAccountViewModel.SocialNetworkEditable = false;
                     break;
+                case SocialNetworks.Facebook:
+                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Facebook);
+                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Friends Count";
+                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Groups Count";                
+                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Pages Count";
+                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Quora;
+                    break;
+                case SocialNetworks.LinkedIn:
+                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.LinkedIn);
+                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Connection Count";
+                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Groups Count";
+                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Pages Count";
+                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Quora;
+                    break;
+
             }
         }
 
@@ -248,7 +271,7 @@ namespace DominatorUIUtility.CustomControl
             menuOptions.Add(goToToolsMenu);
 
 
-            var loginStatusMenu = new MenuItem { Header = "Check in Status" };
+            var loginStatusMenu = new MenuItem { Header = "Check Account Status" };
             loginStatusMenu.Click += CheckinStatus;
             loginStatusMenu.DataContext = dominatorAccountModel;
             loginStatusMenu.Icon = new Image
@@ -299,16 +322,16 @@ namespace DominatorUIUtility.CustomControl
                     menuOptions.Add(phoneVerificationMenu);
 
 
-                    var checkAccountStatus = new MenuItem { Header = "Check Account Status" };
-                    checkAccountStatus.Click += InstaCheckAccount;
-                    checkAccountStatus.DataContext = dominatorAccountModel;
-                    checkAccountStatus.Icon = new Image
-                    {
-                        Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
-                        Width = 25,
-                        Height = 25
-                    };
-                    menuOptions.Add(checkAccountStatus);
+                    //var checkAccountStatus = new MenuItem { Header = "Check Account Status" };
+                    //checkAccountStatus.Click += InstaCheckAccount;
+                    //checkAccountStatus.DataContext = dominatorAccountModel;
+                    //checkAccountStatus.Icon = new Image
+                    //{
+                    //    Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
+                    //    Width = 25,
+                    //    Height = 25
+                    //};
+                    //menuOptions.Add(checkAccountStatus);
 
                     break;
             }
@@ -342,7 +365,16 @@ namespace DominatorUIUtility.CustomControl
 
         public void CheckinStatus(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;             
+                DominatorAccountViewModel.action_CheckAccount(dominatorAccountModel);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
         }
 
         public void EditInstaProfile(object sender, RoutedEventArgs e)

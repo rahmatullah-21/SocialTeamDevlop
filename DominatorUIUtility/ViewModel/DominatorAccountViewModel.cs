@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.Diagnostics;
@@ -404,8 +405,14 @@ namespace DominatorUIUtility.ViewModel
                         AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork)
                     };
 
-                    //add the account to DominatorAccountModel list and bin file
-                    AddAccount(objDominatorAccountBaseModel);
+                    ////add the account to DominatorAccountModel list and bin file
+                    var addAccounThread = new Thread(() => AddAccount(objDominatorAccountBaseModel))
+                    {
+                        Name = objDominatorAccountBaseModel.UserName + "_addingthread",
+                        IsBackground = true
+                    };
+                    addAccounThread.Start();
+
                 }
                 catch (Exception ex)
                 {
@@ -457,12 +464,29 @@ namespace DominatorUIUtility.ViewModel
                 AccountBaseModel = dominatorAccountBaseModel,
                 RowNo = LstDominatorAccountModel.Count + 1
             };
-            UpdateProxy(objDominatorAccountBaseModel);
+
+            var updatingProxyAccounThread = new Thread(() => UpdateProxy(objDominatorAccountBaseModel))
+            {
+                Name = objDominatorAccountBaseModel.UserName + "_updatingproxythread",
+                IsBackground = true
+            };
+            updatingProxyAccounThread.Start();
 
             //serialize the given account, if its success then add to account model list
             if (AccountsFileManager.Add(dominatorAccountModel))
             {
-                LstDominatorAccountModel.Add(dominatorAccountModel);
+               
+                if (!Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(delegate
+                    {
+                        LstDominatorAccountModel.Add(dominatorAccountModel);
+                    }));
+                }
+                else
+                {
+                    LstDominatorAccountModel.Add(dominatorAccountModel);
+                }
             }
             else
             {

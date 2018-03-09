@@ -34,9 +34,11 @@
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" >
                 <ComboBoxItem>Social</ComboBoxItem>
                 <ComboBoxItem>Instagram</ComboBoxItem>
+                <ComboBoxItem>LinkedIn</ComboBoxItem>
                 <ComboBoxItem>Twitter</ComboBoxItem>
                 <ComboBoxItem>Pinterest</ComboBoxItem>
                 <ComboBoxItem>Quora</ComboBoxItem>
+                <ComboBoxItem>Facebook</ComboBoxItem>
             </ComboBox>
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbLanguage" >
                 <ComboBoxItem>English</ComboBoxItem>

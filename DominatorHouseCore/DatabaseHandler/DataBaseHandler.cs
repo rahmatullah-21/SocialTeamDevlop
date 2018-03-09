@@ -22,7 +22,7 @@ namespace DominatorHouseCore.DatabaseHandler
                 DataBaseConnectionCodeFirst.DataBaseConnection databaseConnection =
                     GetDataBaseConnectionInstance(DBName, databaseType);
 
-                var initiaThread = new Thread(() => databaseConnection.Count<Friendships>()) {IsBackground = true};
+                var initiaThread = new Thread(() => databaseConnection.Count<Friendships>()) { IsBackground = true };
                 initiaThread.Start();
             }
             catch (Exception ex)

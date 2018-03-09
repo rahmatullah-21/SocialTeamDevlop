@@ -11,10 +11,10 @@ namespace DominatorHouseCore.Enums
         Pinterest,
         LinkedIn,
         Reddit,
-        Craglist,
-        Backpage,
         Social,
-        Quora
+        Quora,
+        Gplus,
+        Youtube
 
     }
 

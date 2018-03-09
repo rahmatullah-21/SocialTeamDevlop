@@ -92,6 +92,7 @@ namespace DominatorHouse
             //        ).AndEvery(1).Days());
             //}); 
             #endregion
+
             DialogParticipation.SetRegister(this, this);
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
         }
@@ -323,14 +324,25 @@ namespace DominatorHouse
                     //PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
                     //TabItems = pinDominator.InitializeAllTabs();
                     //this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
-                    //break;
+                    //break;              
+                case SocialNetworks.Facebook:
+                    FaceDominatorUI.MainWindow faceDominator = new FaceDominatorUI.MainWindow();
+                    TabItems = faceDominator.InitializeAllTabs();
+                    this.Title = SocialNetworks.Facebook.ToString() + " Dominator";
+                    break;
+                case SocialNetworks.LinkedIn:
+                    //LinkedDominatorUI.MainWindow linkedInDominator = new LinkedDominatorUI.MainWindow();
+                    //TabItems = linkedInDominator.InitializeAllTabs();
+                    //this.Title = SocialNetworks.LinkedIn.ToString() + " Dominator";
+                    break;
                 case SocialNetworks.Social:
                     MainTabControl.TabStripPlacement = Dock.Left;
                     TabItems = InitializeAllTabs();
                     this.Title = "Dominator - All in One";
                     break;
+
                 case SocialNetworks.Quora:
-#warning    UNCOMMENT LINES BELOW WHEN COMPILED
+                   #warning UNCOMMENT LINES BELOW WHEN COMPILED
                     //QuoraDominator.MainWindow quoraDominator = new QuoraDominator.MainWindow();
                     //TabItems = quoraDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Quora.ToString() + " Dominator";
@@ -461,6 +473,10 @@ namespace DominatorHouse
                 case SocialNetworks.Twitter:
                     //TwtDominatorCore.TDViewModel.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
+                case SocialNetworks.LinkedIn:
+                    // Call your methods to login
+                    break;
+
             }
 
         }

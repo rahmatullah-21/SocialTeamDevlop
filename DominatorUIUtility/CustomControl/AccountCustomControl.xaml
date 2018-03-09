@@ -371,6 +371,37 @@
                                                             </Setter.Value>
                                                         </Setter>
                                                     </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                                        <Setter Property="Content" >
+                                                            <Setter.Value>
+                                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                    <Rectangle.Resources>
+                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                    </Rectangle.Resources>
+                                                                    <Rectangle.OpacityMask>
+                                                                        <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
+                                                                    </Rectangle.OpacityMask>
+                                                                </Rectangle>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                                        <Setter Property="Content" >
+                                                            <Setter.Value>
+                                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                    <Rectangle.Resources>
+                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                    </Rectangle.Resources>
+                                                                    <Rectangle.OpacityMask>
+                                                                        <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
+                                                                    </Rectangle.OpacityMask>
+                                                                </Rectangle>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    
+                                                    
                                                 </Style.Triggers>
                                             </Style>
                                         </ContentControl.Style>

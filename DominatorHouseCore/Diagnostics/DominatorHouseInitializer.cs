@@ -127,11 +127,11 @@ namespace DominatorHouseCore.Diagnostics
                 case SocialNetworks.Reddit:
                     return "RedditDominator";
 
-                case SocialNetworks.Craglist:
-                    return "CraglistDominator";
+                //case SocialNetworks.Craglist:
+                //    return "CraglistDominator";
 
-                case SocialNetworks.Backpage:
-                    return "BackpageDominator";
+                //case SocialNetworks.Backpage:
+                //    return "BackpageDominator";
 
                 case SocialNetworks.Social:
                     return "DominatorHouseSocial";

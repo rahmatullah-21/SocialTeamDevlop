@@ -48,7 +48,7 @@
     <system:String x:Key="langCustomPhotos">Custom Photos</system:String>
     <system:String x:Key="langInfo">Informations</system:String>
     <system:String x:Key="langSuggestedUsers">Suggested Users</system:String>
-    
+
     <system:String x:Key="langSomeonesFollowings">Someone's followings</system:String>
     <system:String x:Key="langFollowersOfSomeonesFollowings">Followers Of Someones Followings</system:String>
     <system:String x:Key="langFollowersOfSomeonesFollowers">Followers Of Someones Followers</system:String>
@@ -930,7 +930,7 @@
     <system:String x:Key="langEndDate">End Date</system:String>
     <system:String x:Key="langSelectQuery">Select Query</system:String>
 
-    
+
     <!--nnnn-->
 
 
@@ -1197,8 +1197,8 @@
     <system:String x:Key="langFilterByGroup">Filter By Group</system:String>
     <system:String x:Key="langProxyGroup">Proxy Group</system:String>
     <system:String x:Key="langCompleted">Completed</system:String>
-    
-    
+
+
     <!--End Gram Dominator-->
 
     <!--Start Twt Dominator-->
@@ -1208,6 +1208,7 @@
     <!-- End Twt Dominator-->
 
     <!--Start Quora Dominator-->
+
     <system:String x:Key="langVoting">Voting</system:String>
     <system:String x:Key="langScrape">Scrape</system:String>
     <system:String x:Key="langQuestions">Questions</system:String>
@@ -1221,6 +1222,7 @@
     <system:String x:Key="langCommentsCount">Comments Count</system:String>
     <system:String x:Key="langQuestionFollowersCount">Question Followers Count</system:String>
     <system:String x:Key="langAnswersCount">Answers Count</system:String>
+
     <system:String x:Key="langQuestionFilters">Question Filters</system:String>
     <system:String x:Key="langAnswerFilters">Answer Filters</system:String>
     <system:String x:Key="langAnsweredDaysCount">Last Answered Days Count</system:String>
