@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Interfaces;
+﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
@@ -63,6 +64,14 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         abstract protected void StartProcessForMediaLikers(QueryInfo queryInfo);
         abstract protected void StartProcessForMediaCommenters(QueryInfo queryInfo);
 
+
+        #region Scrape with no queries methods
+
+        protected abstract void ScrapeToUnfollow();
+
+        #endregion
+
+
         // Call this method inside override methods of derived class for ignored queries
         protected void Ignore(QueryInfo queryInfo) =>        
             GlobusLogHelper.log.Info($"Scrape for '{queryInfo.QueryType}' query ignored");
@@ -73,6 +82,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         /// <param name="queries"></param>
         public void ScrapeWithQueries()
         {
+            Debug.Assert(_jobProcess.SavedQueries.Count > 0);
+
             foreach (var query in _jobProcess.SavedQueries)
             {
                 try
@@ -86,6 +97,19 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 }
             }
         }
+
+        public virtual void ScrapeNoQueries()
+        {
+            switch (_jobProcess.ActivityType)
+            {
+                case ActivityType.Unfollow:
+                    ScrapeToUnfollow();
+                    break;
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }        
     }
 }
 

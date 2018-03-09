@@ -55,9 +55,7 @@ namespace DominatorUIUtility.CustomControl
                                         Grid MainGrid, ActivityType activityType, string moduleName)
         {
             if (_initialized) return;
-
-            Debug.Assert(header != null && footer != null && queryControl != null && moduleName != null);
-
+            
             _headerControl = header;
             _footerControl = footer;
             _queryControl = queryControl;
@@ -271,7 +269,7 @@ namespace DominatorUIUtility.CustomControl
         public abstract void AddNewCampaign(List<string> lstSelectedAccounts, ActivityType moduleType);
 
 
-        private bool ValidateCampaign()
+        protected virtual bool ValidateCampaign()
         {
             if (_footerControl.list_SelectedAccounts.Count == 0)
             {
@@ -279,14 +277,7 @@ namespace DominatorUIUtility.CustomControl
                     MessageDialogStyle.Affirmative);
                 return false;
             }
-
-            // Check queries
-            if (Model.SavedQueries.Count == 0)
-            {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one query.",
-                    MessageDialogStyle.Affirmative);
-                return false; 
-            }
+           
 
             // Check timings
             if (((IEnumerable<RunningTimes>)Model.JobConfiguration.RunningTime).All(rt => rt.Timings.Count == 0))

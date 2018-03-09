@@ -77,7 +77,7 @@ namespace DominatorHouse
 
 #if SKIP_DELAYS
             cmbSocialNetwork.SelectedIndex = 1;     // Go to instagram
-            ChangeTabIndex(1, 0);
+            ChangeTabIndex(1, 1);       // unfollower
 #endif
             #region commeted - start todays jobs
             //Task.Factory.StartNew(() =>
