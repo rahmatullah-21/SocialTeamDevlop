@@ -236,6 +236,15 @@ namespace DominatorHouseCore.Models
 
         public string ContentType { get; set; }
 
+        [JsonProperty(PropertyName = "formkey")]
+        public string Formkey { get; set; }
+
+        [JsonProperty(PropertyName = "postkey")]
+        public string Postkey { get; set; }
+
+        [JsonProperty(PropertyName = "window_id")]
+        public string WindowId { get; set; }
+
         public class DeviceJson
         {
             [JsonProperty(PropertyName = "android_release")]

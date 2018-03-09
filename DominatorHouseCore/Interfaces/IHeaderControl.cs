@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DominatorHouseCore.Settings
+namespace DominatorHouseCore.Interfaces
 {
     public interface IHeaderControl
     {

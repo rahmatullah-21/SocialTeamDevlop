@@ -12,9 +12,7 @@ namespace DominatorUIUtility.CustomControl
         public AccountGrowthModeHeader()
         {
             InitializeComponent();
-
             mainGrid.DataContext = this;
-
         }
 
         public ObservableCollectionBase<string> AccountItemSource

@@ -1,4 +1,4 @@
-﻿namespace DominatorHouseCore.Settings
+﻿namespace DominatorHouseCore.Interfaces
 {
     public interface IFooterControl
     {

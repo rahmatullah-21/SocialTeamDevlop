@@ -32,7 +32,7 @@ namespace DominatorUIUtility.CustomControl
     ///  _OnInfoChanged, _OnAddQuery, SetDataContex
     /// Uses as base for: Follower, Unfollower, Like, Comment, DownloadPhotos, etc.
     /// </summary>
-    public abstract class ModuleSettingsUserControl<TViewModel, TModel> : UserControl, INotifyPropertyChanged, IHeaderControl, IHelpControl, IFooterControl
+    public abstract class ModuleSettingsUserControl<TViewModel, TModel> : UserControl, INotifyPropertyChanged, IHeaderControl, IHelpControl, IFooterControl, IAccountGrowthModeHeader
         where TModel : class, new()
         where TViewModel : class, new()
     {
@@ -40,7 +40,7 @@ namespace DominatorUIUtility.CustomControl
         FooterControl _footerControl;
         SearchQueryControl _queryControl;
         Grid _mainGrid;
-
+        private AccountGrowthModeHeader _accountGrowthModeHeader;
         ActivityType _activityType;
         string _moduleName;
         SocialNetworks _socialNetwork => DominatorHouseInitializer.ActiveSocialNetwork;
@@ -51,9 +51,16 @@ namespace DominatorUIUtility.CustomControl
         {
         }
 
-        public void InitializeBaseClass(HeaderControl header, FooterControl footer, SearchQueryControl queryControl,
-                                        Grid MainGrid, ActivityType activityType, string moduleName)
+        public void InitializeBaseClass( 
+            Grid MainGrid,
+            ActivityType activityType,
+            string moduleName,
+            HeaderControl header = null,
+            FooterControl footer = null,
+            SearchQueryControl queryControl =null,
+            AccountGrowthModeHeader accountGrowthModeHeader=null)
         {
+            if (queryControl == null) throw new ArgumentNullException(nameof(queryControl));
             if (_initialized) return;
             
             _headerControl = header;
@@ -62,7 +69,7 @@ namespace DominatorUIUtility.CustomControl
             _mainGrid = MainGrid;
             _activityType = activityType;
             _moduleName = moduleName;
-
+            _accountGrowthModeHeader = accountGrowthModeHeader;
             _initialized = true;
         }
         
@@ -112,6 +119,7 @@ namespace DominatorUIUtility.CustomControl
                 OnPropertyChanged(nameof(CancelEditVisibility));
             }
         }
+
         private string _templateId;
         public string TemplateId
         {
@@ -126,8 +134,7 @@ namespace DominatorUIUtility.CustomControl
                 OnPropertyChanged(nameof(_templateId));
             }
         }
-        //
-
+     
         #region IHelpControl
 
         // 
@@ -138,7 +145,6 @@ namespace DominatorUIUtility.CustomControl
         public string ContactSupportLink { get; set; } = "!Pass ConstantHelpDetails.ContactLink";
 
         #endregion
-
 
         #region IFooterControl
 
@@ -173,7 +179,10 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
+
         private TViewModel _ObjViewModel = new TViewModel();
+        private ObservableCollectionBase<string> _accountItemSource;
+        private string _selectedItem;
 
         public TViewModel ObjViewModel
         {
@@ -445,7 +454,13 @@ namespace DominatorUIUtility.CustomControl
             _footerControl.list_SelectedAccounts = new List<string>();
 
             _mainGrid.DataContext = Model as TModel;
-            _headerControl.DataContext = _footerControl.DataContext = this;
+
+            if (_headerControl != null && _footerControl != null)
+                _headerControl.DataContext = _footerControl.DataContext = this;
+
+            if (_accountGrowthModeHeader != null)
+                _accountGrowthModeHeader.DataContext = this;
+
             CampaignName = $"{_socialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
         }
 
@@ -517,5 +532,36 @@ namespace DominatorUIUtility.CustomControl
 
             return isAccountDetailsUpdated;
         }
+
+
+        #region IAccountGrowthModeHeader
+
+        public ObservableCollectionBase<string> AccountItemSource
+        {
+            get
+            {
+                return _accountItemSource;
+            }
+            set
+            {
+                _accountItemSource = value;
+                OnPropertyChanged(nameof(_accountItemSource));
+            }
+        }
+
+        public string SelectedItem
+        {
+            get
+            {
+                return _selectedItem;
+            }
+            set
+            {
+                _selectedItem = value;
+                OnPropertyChanged(nameof(_selectedItem));
+            }
+        } 
+
+        #endregion
     }
 }

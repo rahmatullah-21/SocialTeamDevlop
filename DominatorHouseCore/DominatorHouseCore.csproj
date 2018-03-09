@@ -230,10 +230,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings\BlacklistSettings.cs" />
-    <Compile Include="Settings\IFooterControl.cs" />
-    <Compile Include="Settings\IHeaderControl.cs" />
+    <Compile Include="Interfaces\IFooterControl.cs" />
+    <Compile Include="Interfaces\IHeaderControl.cs" />
     <Compile Include="Interfaces\IHelpControl.cs" />
-    <Compile Include="Settings\ISearchControl.cs" />
+    <Compile Include="Interfaces\ISearchControl.cs" />
     <Compile Include="Interfaces\ISearchQueryControl.cs" />
     <Compile Include="Settings\Queries.cs" />
     <Compile Include="Models\QueryInfo.cs" />

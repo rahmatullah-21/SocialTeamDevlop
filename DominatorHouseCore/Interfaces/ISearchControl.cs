@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using DominatorHouseCore.Settings;
 
-namespace DominatorHouseCore.Settings
+namespace DominatorHouseCore.Interfaces
 {
     public interface ISearchControl
     {
