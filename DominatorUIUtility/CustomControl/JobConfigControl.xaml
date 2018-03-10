@@ -62,10 +62,14 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
-                <CheckBox  VerticalAlignment="Center" Content="{DynamicResource langIncreaseEachDay}" IsChecked="{Binding JobConfiguration.IncreaseActivity.IsIncreaseCountChecked}"/>
-                <controls:NumericUpDown Margin="5,5,5,5" Value="{Binding JobConfiguration.IncreaseActivitiesEachDay.IncreaseActivityCount}" Name="IncreaseMaxActionsPerDays" IsEnabled="{Binding JobConfiguration.IncreaseActivity.IsIncreaseCountChecked}"/>
+                <CheckBox  VerticalAlignment="Center" x:Name="chkIncreaseEachDay" Content="{DynamicResource langIncreaseEachDay}" IsChecked="{Binding JobConfiguration.IncreaseActivity.IsIncreaseCountChecked}"/>
+                <controls:NumericUpDown Margin="5,5,5,5" Value="{Binding JobConfiguration.IncreaseActivitiesEachDay.IncreaseActivityCount}" Name="IncreaseMaxActionsPerDays" 
+                                        IsEnabled="{Binding ElementName=chkIncreaseEachDay,Path=IsChecked}"/>
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langUntilReach}"  />
-                <controls:NumericUpDown Margin="5,5,5,5" Maximum="9999" Value="{Binding JobConfiguration.IncreaseActivitiesEachDay.UntilMaxCountReached}" Minimum="{Binding Value, ElementName=IncreaseMaxActionsPerDays}" IsEnabled="{Binding JobConfiguration.IncreaseActivitiesEachDay.IsIncreaseCountChecked}"/>
+                <controls:NumericUpDown Margin="5,5,5,5" Maximum="9999" 
+                                        Value="{Binding JobConfiguration.IncreaseActivitiesEachDay.UntilMaxCountReached}"
+                                        Minimum="{Binding Value, ElementName=IncreaseMaxActionsPerDays}" 
+                                        IsEnabled="{Binding ElementName=chkIncreaseEachDay,Path=IsChecked}"/>
                 <Label  VerticalAlignment="Center"  Content="{Binding  JobConfiguration.IncreaseActivityDisplayName}"  />
             </StackPanel>
 

@@ -51,18 +51,18 @@ namespace DominatorUIUtility.CustomControl
         {
         }
 
-        public void InitializeBaseClass( 
+        public void InitializeBaseClass(
             Grid MainGrid,
             ActivityType activityType,
             string moduleName,
             HeaderControl header = null,
             FooterControl footer = null,
-            SearchQueryControl queryControl =null,
-            AccountGrowthModeHeader accountGrowthModeHeader=null)
+            SearchQueryControl queryControl = null,
+            AccountGrowthModeHeader accountGrowthModeHeader = null)
         {
             if (queryControl == null) throw new ArgumentNullException(nameof(queryControl));
             if (_initialized) return;
-            
+
             _headerControl = header;
             _footerControl = footer;
             _queryControl = queryControl;
@@ -72,7 +72,7 @@ namespace DominatorUIUtility.CustomControl
             _accountGrowthModeHeader = accountGrowthModeHeader;
             _initialized = true;
         }
-        
+
         // IHeaderControl
         private string _campaignName;
 
@@ -134,7 +134,7 @@ namespace DominatorUIUtility.CustomControl
                 OnPropertyChanged(nameof(_templateId));
             }
         }
-     
+
         #region IHelpControl
 
         // 
@@ -235,7 +235,7 @@ namespace DominatorUIUtility.CustomControl
                 });
             }
             else
-            {                
+            {
                 _queryControl.CurrentQuery.QueryTypeDisplayName = _queryControl.CurrentQuery.QueryTypeAsDisplayName();
 
                 var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
@@ -274,9 +274,10 @@ namespace DominatorUIUtility.CustomControl
             //FilterWindow.ShowDialog();
         }
 
-        public abstract void SaveDetails(List<string> lstSelectedAccounts, ActivityType moduleType);
-        public abstract void AddNewCampaign(List<string> lstSelectedAccounts, ActivityType moduleType);
-     
+        public virtual void SaveDetails(List<string> lstSelectedAccounts, ActivityType moduleType) { }
+
+        public virtual void AddNewCampaign(List<string> lstSelectedAccounts, ActivityType moduleType) { }
+
         protected virtual bool ValidateCampaign()
         {
             if (_footerControl.list_SelectedAccounts.Count == 0)
@@ -285,14 +286,14 @@ namespace DominatorUIUtility.CustomControl
                     MessageDialogStyle.Affirmative);
                 return false;
             }
-           
+
 
             // Check timings
             if (((IEnumerable<RunningTimes>)Model.JobConfiguration.RunningTime).All(rt => rt.Timings.Count == 0))
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one time range when to run and stop the activity.",
                     MessageDialogStyle.Affirmative);
-                return false; 
+                return false;
             }
 
             return true;
@@ -308,11 +309,11 @@ namespace DominatorUIUtility.CustomControl
         {
             if (!ValidateCampaign())
                 return;
-                    
+
             var objTemplateModel = new TemplateModel();
-            
+
             // TODO: implement saving and add campaign
-            if(false) CampaignGlobalRoutines.Instance.Create((TModel)Model, _activityType, CampaignName, _footerControl.list_SelectedAccounts);
+            if (false) CampaignGlobalRoutines.Instance.Create((TModel)Model, _activityType, CampaignName, _footerControl.list_SelectedAccounts);
 
             TemplateId = objTemplateModel.SaveTemplate((TModel)Model,
                 _activityType.ToString(), _socialNetwork,
@@ -327,7 +328,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         protected void AccountGrowthHeader_OnSaveClick(object sender, RoutedEventArgs e)
-        {                       
+        {
             // Getting details of account
             var accounts = AccountsFileManager.GetAll();
 
@@ -434,18 +435,18 @@ namespace DominatorUIUtility.CustomControl
                 }
             });
 
-            
+
             // Update Account Detail
             var AccountDetails = AccountsFileManager.GetAll();
             if (UpdateSelectedAccountDetails(AccountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
                 DialogCoordinator.Instance.ShowModalMessageExternal(this, "Update", "Update Successfull", MessageDialogStyle.Affirmative);
-            
+
             SetDataContext();
             DominatorHouseCore.Utility.TabSwitcher.ChangeTabIndex(6, 0);
         }
 
 
-        
+
 
         /// <summary>
         /// Calls when user click 'Select Accounts' button in footer
@@ -496,7 +497,7 @@ namespace DominatorUIUtility.CustomControl
             SetDataContext();
         }
 
-    
+
         protected virtual void SetDataContext()
         {
             this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
@@ -505,15 +506,41 @@ namespace DominatorUIUtility.CustomControl
 
             _mainGrid.DataContext = Model as TModel;
 
-            if (_headerControl != null && _footerControl != null)
-                _headerControl.DataContext = _footerControl.DataContext = this;
-
-            if (_accountGrowthModeHeader != null)
-                _accountGrowthModeHeader.DataContext = this;
+            _headerControl.DataContext = _footerControl.DataContext = this;
 
             CampaignName = $"{_socialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
         }
 
+
+        protected virtual void SetAccountModeDataContext()
+        {
+            //try
+            //{
+            //    var accountDetails = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem);
+
+            //    var moduleConfiguration = accountDetails.ActivityManager.LstModuleConfiguration
+            //        .FirstOrDefault(y => y.ActivityType == _activityType);
+
+            //    if (moduleConfiguration == null)
+            //        return;
+
+            //    var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
+
+            //    Model =
+            //         JsonConvert.DeserializeObject<TModel>(templateDetails.ActivitySettings);
+
+            //    Model.IsAccountGrowthActive.IsChecked = moduleConfiguration.IsEnabled;
+
+            //    _mainGrid.DataContext = Model as TModel;
+
+            //    _accountGrowthModeHeader.DataContext = this;
+            //}
+
+            //catch (Exception ex)
+            //{
+            //    ex.DebugLog();
+            //}
+        }
 
         /// <summary>
         /// UpdateSelectedAccountDetails method will take AccountDetails and list of selected account to modify as  argument and
@@ -610,7 +637,7 @@ namespace DominatorUIUtility.CustomControl
                 _selectedItem = value;
                 OnPropertyChanged(nameof(_selectedItem));
             }
-        } 
+        }
 
         #endregion
     }

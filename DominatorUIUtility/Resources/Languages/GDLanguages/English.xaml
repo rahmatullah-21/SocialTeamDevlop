@@ -1197,7 +1197,11 @@
     <system:String x:Key="langFilterByGroup">Filter By Group</system:String>
     <system:String x:Key="langProxyGroup">Proxy Group</system:String>
     <system:String x:Key="langCompleted">Completed</system:String>
-
+    <system:String x:Key="langQueries">Queries</system:String>
+    <system:String x:Key="langFilterText">Filter Text</system:String>
+    <system:String x:Key="langManageComment">Manage Comment</system:String>
+    <system:String x:Key="langCommentList">Comment Lists</system:String>
+    <system:String x:Key="langAddCommentToList">Add Comment To List</system:String>
 
     <!--End Gram Dominator-->
 
