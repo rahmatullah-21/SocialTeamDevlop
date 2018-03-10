@@ -40,7 +40,7 @@ namespace DominatorUIUtility.CustomControl
         FooterControl _footerControl;
         SearchQueryControl _queryControl;
         Grid _mainGrid;
-        private AccountGrowthModeHeader _accountGrowthModeHeader;
+        AccountGrowthModeHeader _accountGrowthModeHeader;
         ActivityType _activityType;
         string _moduleName;
         SocialNetworks _socialNetwork => DominatorHouseInitializer.ActiveSocialNetwork;
@@ -276,8 +276,7 @@ namespace DominatorUIUtility.CustomControl
 
         public abstract void SaveDetails(List<string> lstSelectedAccounts, ActivityType moduleType);
         public abstract void AddNewCampaign(List<string> lstSelectedAccounts, ActivityType moduleType);
-
-
+     
         protected virtual bool ValidateCampaign()
         {
             if (_footerControl.list_SelectedAccounts.Count == 0)
@@ -325,6 +324,55 @@ namespace DominatorUIUtility.CustomControl
 
             SetDataContext();
             TabSwitcher.ChangeTabIndex?.Invoke(6, 0);
+        }
+
+        protected void AccountGrowthHeader_OnSaveClick(object sender, RoutedEventArgs e)
+        {                       
+            // Getting details of account
+            var accounts = AccountsFileManager.GetAll();
+
+            //Getting details of account having the user name  as selected account
+            var selectedAccountDetails = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == _accountGrowthModeHeader.SelectedItem);
+
+            if (selectedAccountDetails == null)
+                return;
+
+            var accountstemplateId = selectedAccountDetails.ActivityManager.LstModuleConfiguration
+                .FirstOrDefault(y => y.ActivityType == _activityType)
+                ?.TemplateId;
+
+            if (selectedAccountDetails.IsCretedFromNormalMode)
+            {
+                selectedAccountDetails.IsCretedFromNormalMode = false;
+                CampaignsFileManager.DeleteSelectedAccount(accountstemplateId, _accountGrowthModeHeader.SelectedItem);
+                AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, selectedAccountDetails);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(accountstemplateId))
+                    AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, selectedAccountDetails);
+
+                // Updating existing template
+                else
+                    TemplatesFileManager.UpdateActivitySettings(accountstemplateId,
+                        JsonConvert.SerializeObject((TModel)Model));
+            }
+
+            DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!", MessageDialogStyle.Affirmative);
+
+        }
+
+        private static void AddNewTemplate<T>(T moduleToSave, string userName, ActivityType moduleType, DominatorAccountModel account) where T : class
+        {
+            var objTemplateModel = new TemplateModel();
+            var first = account.ActivityManager?.LstModuleConfiguration.FirstOrDefault
+                (x => x.ActivityType == moduleType);
+
+            if (first != null)
+                first.TemplateId =
+                    objTemplateModel.SaveTemplate(moduleToSave,
+                        moduleType.ToString(), SocialNetworks.Instagram,
+                        userName + "_" + moduleType + "_Template");
         }
 
 
@@ -396,6 +444,8 @@ namespace DominatorUIUtility.CustomControl
             DominatorHouseCore.Utility.TabSwitcher.ChangeTabIndex(6, 0);
         }
 
+
+        
 
         /// <summary>
         /// Calls when user click 'Select Accounts' button in footer

@@ -187,6 +187,7 @@
     <Compile Include="FileManagers\ProxyFileManager.cs" />
     <Compile Include="FileManagers\TemplatesFileManager.cs" />
     <Compile Include="BusinessLogic\Scraper\AbstractQueryScraper.cs" />
+    <Compile Include="Interfaces\IAccountGrowthModeHeader.cs" />
     <Compile Include="Interfaces\IJobConfiguration.cs" />
     <Compile Include="Interfaces\IGeneralSettings.cs" />
     <Compile Include="BusinessLogic\Scheduler\IJobProcessFactory.cs" />

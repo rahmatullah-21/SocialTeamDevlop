@@ -481,6 +481,9 @@ namespace DominatorHouse
                 case SocialNetworks.Facebook:
                 // Call your methods to login
                     break;
+                case SocialNetworks.Quora:
+                    //Call your methods to login
+                    break;
             }
 
         }
