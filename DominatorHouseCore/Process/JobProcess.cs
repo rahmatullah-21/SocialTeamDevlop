@@ -59,16 +59,30 @@ namespace DominatorHouseCore.Process
 
         public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
         {
+           // Get the current account details 
             this.DominatorAccountModel = FileManagers.AccountsFileManager.GetAll().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
+
             this.CurrentJobTimeRange = CurrentJobTimeRange;
+
+            // Get the Template Model from the given template id
             TemplateModel model = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == template);
-            
-            dynamic deserializedValue = JsonConvert.DeserializeObject(model.ActivitySettings);
 
-            this.JobConfiguration = JsonConvert.DeserializeObject<JobConfiguration>(deserializedValue["JobConfiguration"].ToString());
+            if (model != null)
+            {
+                dynamic deserializedValue = JsonConvert.DeserializeObject(model.ActivitySettings);
 
-            try { this.SavedQueries = JsonConvert.DeserializeObject<List<QueryInfo>>(deserializedValue["SavedQueries"].ToString()); }
-            catch { this.SavedQueries = new List<QueryInfo>(); }
+                this.JobConfiguration = JsonConvert.DeserializeObject<JobConfiguration>(deserializedValue["JobConfiguration"].ToString());
+
+                try
+                {
+                    this.SavedQueries =
+                        JsonConvert.DeserializeObject<List<QueryInfo>>(deserializedValue["SavedQueries"].ToString());
+                }
+                catch
+                {
+                    this.SavedQueries = new List<QueryInfo>();
+                }
+            }
 
             this.TemplateId = template;
             this.campaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
@@ -115,7 +129,7 @@ namespace DominatorHouseCore.Process
                 JobManager.AddJob(
                     () =>
                     {                        
-                        DominatorScheduler.RunActivity(DominatorAccountModel.AccountBaseModel.UserName, TemplateId, CurrentJobTimeRange,
+                        DominatorScheduler.RunActivity(DominatorAccountModel, TemplateId, CurrentJobTimeRange,
                             ActivityType.Follow.ToString());
 
                     }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
@@ -235,7 +249,7 @@ namespace DominatorHouseCore.Process
         {
             try
             {               
-                if (string.IsNullOrEmpty(this.campaignId))
+                if (string.IsNullOrEmpty(this.campaignId) && string.IsNullOrEmpty(this.TemplateId))
                 {
                     GlobusLogHelper.log.Info($"Campign Id not set for {ActivityType} - {TemplateId}");
                     return false;

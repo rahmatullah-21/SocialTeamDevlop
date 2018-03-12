@@ -30,9 +30,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="templateId"></param>
         /// <param name="CurrentJobTimeRange"></param>
         /// <param name="module">Follow, Comment, etc.</param>
-        public static void RunActivity(string account, string templateId, TimingRange CurrentJobTimeRange, string module)
+        public static void RunActivity(DominatorAccountModel account, string templateId, TimingRange CurrentJobTimeRange, string module)
         {
-            var id = JobProcess.AsId(account, templateId);
+            var id = JobProcess.AsId(account.AccountBaseModel.UserName, templateId);
 
             Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
             if (ScheduledJob != null && ScheduledJob.Disabled)
@@ -40,7 +40,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
             // jobProcess may be Follow, UnFollowProcess, Like, Comment, Repost, for any particular social network.
             // jobProcessFactory have to be registered for each library.
-            var jobProcess = _activeJobProcessFactory.Create(account, templateId, CurrentJobTimeRange, module);
+            var jobProcess = _activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId, CurrentJobTimeRange, module,account.AccountBaseModel.AccountNetwork);
             
             jobProcess.StartProcessAsync();
         }
@@ -127,7 +127,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     {
                         JobManager.AddJob(() =>
                         {
-                            RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module);
+                            RunActivity(dominatorAccount, templateId, timing, timing.Module);
 
                         }, s => s.WithName(jobId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
 
@@ -143,7 +143,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     {
                         JobManager.AddJob(() =>
                         {
-                            RunActivity(dominatorAccount.AccountBaseModel.UserName, templateId, timing, timing.Module);
+                            RunActivity(dominatorAccount, templateId, timing, timing.Module);
 
                         }, s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
 

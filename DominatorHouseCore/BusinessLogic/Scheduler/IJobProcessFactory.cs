@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Models;
+﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
@@ -9,6 +10,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     /// </summary>
     public interface IJobProcessFactory
     {
-        JobProcess Create(string account, string template, TimingRange currentJobTimeRange, string module);
+        JobProcess Create(string account, string template, TimingRange currentJobTimeRange, string module,SocialNetworks network);
     }
 }

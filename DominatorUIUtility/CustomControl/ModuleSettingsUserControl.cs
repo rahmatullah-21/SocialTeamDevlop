@@ -60,7 +60,8 @@ namespace DominatorUIUtility.CustomControl
             SearchQueryControl queryControl = null,
             AccountGrowthModeHeader accountGrowthModeHeader = null)
         {
-            if (queryControl == null) throw new ArgumentNullException(nameof(queryControl));
+            //if (queryControl == null) throw new ArgumentNullException(nameof(queryControl));
+
             if (_initialized) return;
 
             _headerControl = header;
@@ -278,6 +279,8 @@ namespace DominatorUIUtility.CustomControl
 
         public virtual void AddNewCampaign(List<string> lstSelectedAccounts, ActivityType moduleType) { }
 
+        protected virtual void SetModuleValues(bool isToggleButtonActive, TemplateModel templateModel) { }
+
         protected virtual bool ValidateCampaign()
         {
             if (_footerControl.list_SelectedAccounts.Count == 0)
@@ -289,13 +292,17 @@ namespace DominatorUIUtility.CustomControl
 
 
             // Check timings
+            return ValidateRunningTime();
+        }
+
+        private bool ValidateRunningTime()
+        {
             if (((IEnumerable<RunningTimes>)Model.JobConfiguration.RunningTime).All(rt => rt.Timings.Count == 0))
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one time range when to run and stop the activity.",
                     MessageDialogStyle.Affirmative);
                 return false;
             }
-
             return true;
         }
 
@@ -359,8 +366,26 @@ namespace DominatorUIUtility.CustomControl
                         JsonConvert.SerializeObject((TModel)Model));
             }
 
-            DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!", MessageDialogStyle.Affirmative);
+            AccountsFileManager.Edit(selectedAccountDetails);
 
+            if (!ValidateRunningTime()) return;
+
+            UpdateRunningTime(Model.JobConfiguration, selectedAccountDetails);
+
+            DominatorScheduler.ScheduleTodayJobs(selectedAccountDetails, SocialNetworks.Instagram, _activityType);
+            DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: selectedAccountDetails, network: selectedAccountDetails.AccountBaseModel.AccountNetwork);
+            DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!", MessageDialogStyle.Affirmative);
+            
+        }
+
+        public void UpdateRunningTime(JobConfiguration jobConfiguration, DominatorAccountModel account)
+        {
+            jobConfiguration.RunningTime.ForEach(x =>
+            {
+                foreach (var timingRange in x.Timings)
+                    timingRange.Module = _activityType.ToString();
+            });
+            account.ActivityManager.RunningTime = jobConfiguration.RunningTime; 
         }
 
         private static void AddNewTemplate<T>(T moduleToSave, string userName, ActivityType moduleType, DominatorAccountModel account) where T : class
@@ -514,32 +539,42 @@ namespace DominatorUIUtility.CustomControl
 
         protected virtual void SetAccountModeDataContext()
         {
-            //try
-            //{
-            //    var accountDetails = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem);
+            try
+            {
+                var accountDetails = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem);
 
-            //    var moduleConfiguration = accountDetails.ActivityManager.LstModuleConfiguration
-            //        .FirstOrDefault(y => y.ActivityType == _activityType);
+                var moduleConfiguration = accountDetails.ActivityManager.LstModuleConfiguration
+                    .FirstOrDefault(y => y.ActivityType == _activityType);
 
-            //    if (moduleConfiguration == null)
-            //        return;
+                if (moduleConfiguration == null)
+                {
+                    if (accountDetails.ActivityManager.RunningTime == null)
+                        accountDetails.ActivityManager.RunningTime = RunningTimes.DayWiseRunningTimes;
 
-            //    var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
+                    moduleConfiguration = new ModuleConfiguration() { ActivityType = _activityType };
+                    accountDetails.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
 
-            //    Model =
-            //         JsonConvert.DeserializeObject<TModel>(templateDetails.ActivitySettings);
+                    moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
+                    moduleConfiguration.IsEnabled = true;
+                    moduleConfiguration.Status = "Active";
+                    AccountsFileManager.Edit(accountDetails);
+                    SetModuleValues(false, null);
+                }
 
-            //    Model.IsAccountGrowthActive.IsChecked = moduleConfiguration.IsEnabled;
+                else
+                {
+                    var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
+                    SetModuleValues(moduleConfiguration.IsEnabled, templateDetails);
+                }
 
-            //    _mainGrid.DataContext = Model as TModel;
+                _mainGrid.DataContext = Model as TModel;
+                _accountGrowthModeHeader.DataContext = this;
+            }
 
-            //    _accountGrowthModeHeader.DataContext = this;
-            //}
-
-            //catch (Exception ex)
-            //{
-            //    ex.DebugLog();
-            //}
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         /// <summary>
@@ -573,23 +608,15 @@ namespace DominatorUIUtility.CustomControl
                         moduleConfiguration = new ModuleConfiguration() { ActivityType = _activityType };
                         account.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
                     }
-
-
                     moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
                     moduleConfiguration.IsEnabled = true;
                     moduleConfiguration.Status = "Active";
 
                     // Update running times for current activity
-                    jobConfiguration.RunningTime.ForEach(x =>
-                            {
-                                foreach (var timingRange in x.Timings)
-                                    timingRange.Module = _activityType.ToString();
-                            });
-
-                    account.ActivityManager.RunningTime = jobConfiguration.RunningTime;
-
+                    UpdateRunningTime(jobConfiguration, account);
 
                     account.IsCretedFromNormalMode = true;
+
                     selectedAccounts.Add(account);
 
                     AccountsFileManager.Edit(account);
@@ -603,8 +630,8 @@ namespace DominatorUIUtility.CustomControl
             // save all accounts and schedule actitvities of selected accounts            
             foreach (var account in selectedAccounts)
             {
-                DominatorScheduler.ScheduleTodayJobs(account, SocialNetworks.Instagram, _activityType);
-                DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: account, network: SocialNetworks.Instagram);
+                DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, _activityType);
+                DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: account, network: account.AccountBaseModel.AccountNetwork);
             }
 
             return isAccountDetailsUpdated;
