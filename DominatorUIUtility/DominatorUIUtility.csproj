@@ -155,6 +155,9 @@
     <Compile Include="CustomControl\Campaigns.xaml.cs">
       <DependentUpon>Campaigns.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\CommentControl.xaml.cs">
+      <DependentUpon>CommentControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\DayTimerControl.xaml.cs">
       <DependentUpon>DayTimerControl.xaml</DependentUpon>
     </Compile>
@@ -163,6 +166,9 @@
     </Compile>
     <Compile Include="CustomControl\JobConfigControl.xaml.cs">
       <DependentUpon>JobConfigControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\ManageComment.xaml.cs">
+      <DependentUpon>ManageComment.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\ModuleSettingsUserControl.cs" />
     <Compile Include="CustomControl\ProxyManager.xaml.cs">
@@ -278,6 +284,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="CustomControl\CommentControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CustomControl\DayTimerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -301,6 +311,10 @@
     <Page Include="CustomControl\JobConfigControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\ManageComment.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\PostAreaBoxControl.xaml">
       <SubType>Designer</SubType>
@@ -397,6 +411,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\Languages\GpDLanguages\English.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Languages\LDLanguages\English.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

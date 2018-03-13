@@ -72,5 +72,47 @@ namespace DominatorHouseCore.Enums
 
         [Description("Pinterest")]
         PinScraper = 23,
+
+        [Description("Facebook")]
+        SendFriendRequest = 24,
+
+        [Description("Facebook")]
+        ManageFriendRequest = 25,
+
+        [Description("Facebook")]
+        Unfriend = 26,
+
+        [Description("Facebook")]
+        GroupScraper = 27,
+
+        [Description("Facebook")]
+        FanpageScraper = 28,
+
+        [Description("Facebook")]
+        CommentScraper = 29,
+
+        [Description("Facebook")]
+        PostScraper = 30,
+
+        [Description("Facebook")]
+        GroupJoiner = 31,
+
+        [Description("Facebook")]
+        GroupUnjoiner = 32,
+
+        [Description("Facebook")]
+        GroupInviter = 34,
+
+        [Description("Facebook")]
+        PageInviter = 35,
+
+        [Description("Facebook")]
+        EventInviter = 36,
+
+        [Description("Facebook")]
+        GroupCreator = 37,
+
+        [Description("Facebook")]
+        EventCreator = 38
     }
 }

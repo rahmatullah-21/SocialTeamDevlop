@@ -238,6 +238,20 @@ namespace DominatorHouseCore.Models
         [Description("langUsersWhoLiked")]
         UsersWhoLikedPost = 13,
         [Description("langUsersWhoCommented")]
-        UsersWhoCommentedOnPost = 14
+        UsersWhoCommentedOnPost = 14,
+        [Description("langFromSomeonesCircle")]
+        FromSomeonesCircle=15,
+        [Description("langFromCircleOfFollowers")]
+        FromCircleOfFollowers=16,
+        [Description("langFromCircleOfFollowings")]
+        FromCircleOfFollowings=17,
+        [Description("langBoardFollowers")]
+        BoardFollowers = 18,
+        [Description("langCustomBoard")]
+        CustomBoard = 19,
+        [Description("langCustomPin")]
+        CustomPin = 20,
+        [Description("langNewsFeedPins")]
+        NewsFeedPins = 21
     }
 }
