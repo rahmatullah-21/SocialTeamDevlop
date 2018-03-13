@@ -83,4 +83,5 @@
     <system:String x:Key="langFromSomeonesCircle">From Someone's Circle</system:String>
     <system:String x:Key="langFromCircleOfFollowers">From Circle Of Followers</system:String>
     <system:String x:Key="langFromCircleOfFollowings">From Circle Of Followings</system:String>
+    <system:String x:Key="langMaxJoinDay">max Join per day</system:String>
 </ResourceDictionary>
