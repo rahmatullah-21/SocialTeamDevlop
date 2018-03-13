@@ -39,17 +39,9 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 { UserQueryParameters.CustomPhotos, StartProcessWithCustomPhotos },
                 { UserQueryParameters.UsersWhoLikedPost, StartProcessForMediaLikers },
                 { UserQueryParameters.UsersWhoCommentedOnPost, StartProcessForMediaCommenters },
-                { UserQueryParameters.BoardFollowers, StartProcessForBoardFollowers },
-                { UserQueryParameters.CustomBoard, StartProcessForCustomBoards },
-                { UserQueryParameters.CustomPin, StartProcessForCustomPin },
-                { UserQueryParameters.NewsFeedPins, StartProcessForNewsFeedPins }
+
             };            
         }
-
-        abstract protected void StartProcessForBoardFollowers(QueryInfo queryInfo);
-        abstract protected void StartProcessForCustomBoards(QueryInfo queryInfo);
-        abstract protected void StartProcessForCustomPin(QueryInfo queryInfo);
-        abstract protected void StartProcessForNewsFeedPins(QueryInfo queryInfo);
 
         abstract protected void StartProcessWithKeyword(QueryInfo queryInfo);
 
