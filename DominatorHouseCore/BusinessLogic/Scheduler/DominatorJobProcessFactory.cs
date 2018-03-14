@@ -14,6 +14,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     public class DominatorJobProcessFactory : IJobProcessFactory
     {
         public static Func<string, string, TimingRange, string, JobProcess> GdAccountConfigScheduler { get; set; }
+        public static Func<string, string, TimingRange, string, JobProcess> TdAccountConfigScheduler { get; set; }
+        public static Func<string, string, TimingRange, string, JobProcess> PdAccountConfigScheduler { get; set; }
 
 
         static DominatorJobProcessFactory _instance;
@@ -23,11 +25,15 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         public JobProcess Create(string account, string template, TimingRange currentJobTimeRange, string module, SocialNetworks networks)
         {
             ActivityType activity = (ActivityType)Enum.Parse(typeof(ActivityType), module);
-        
+
             switch (networks)
             {
                 case SocialNetworks.Instagram:
-                   return GdAccountConfigScheduler(account, template, currentJobTimeRange, module);                  
+                    return GdAccountConfigScheduler(account, template, currentJobTimeRange, module);
+                case SocialNetworks.Twitter:
+                    return TdAccountConfigScheduler(account, template, currentJobTimeRange, module);
+                case SocialNetworks.Pinterest:
+                    return PdAccountConfigScheduler(account, template, currentJobTimeRange, module);
             }
 
             return null;

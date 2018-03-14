@@ -39,39 +39,31 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 { UserQueryParameters.CustomPhotos, StartProcessWithCustomPhotos },
                 { UserQueryParameters.UsersWhoLikedPost, StartProcessForMediaLikers },
                 { UserQueryParameters.UsersWhoCommentedOnPost, StartProcessForMediaCommenters },
-                //{ UserQueryParameters.BoardFollowers, StartProcessForBoardFollowers },
-                //{ UserQueryParameters.CustomBoard, StartProcessForCustomBoards },
-                //{ UserQueryParameters.CustomPin, StartProcessForCustomPin },
-                //{ UserQueryParameters.NewsFeedPins, StartProcessForNewsFeedPins }
+                { UserQueryParameters.BoardFollowers, StartProcessForBoardFollowers },
+                { UserQueryParameters.CustomBoard, StartProcessForCustomBoards },
+                { UserQueryParameters.CustomPin, StartProcessForCustomPin },
+                { UserQueryParameters.NewsFeedPins, StartProcessForNewsFeedPins }
             };            
         }
 
-        //abstract protected void StartProcessForBoardFollowers(QueryInfo queryInfo);
-        //abstract protected void StartProcessForCustomBoards(QueryInfo queryInfo);
-        //abstract protected void StartProcessForCustomPin(QueryInfo queryInfo);
-        //abstract protected void StartProcessForNewsFeedPins(QueryInfo queryInfo);
-
-        abstract protected void StartProcessWithKeyword(QueryInfo queryInfo);
-
-        abstract protected void StartProcessWithHashtagUsers(QueryInfo queryInfo);
-        abstract protected void StartProcessWithHashtagPosts(QueryInfo queryInfo);
-
-        abstract protected void StartProcessForSomeonesFollowers(QueryInfo queryInfo);
-        abstract protected void StartProcessForSomeonesFollowings(QueryInfo queryInfo);
-
-        abstract protected void StartProcessForFollowersOfFollowers(QueryInfo queryInfo);
-        abstract protected void StartProcessForFollowersOfFollowings(QueryInfo queryInfo);
-
-        abstract protected void StartProcessWithLocationUsers(QueryInfo queryInfo);
-        abstract protected void StartProcessWithLocationPosts(QueryInfo queryInfo);
-
-        abstract protected void StartProcessForCustomUsers(QueryInfo queryInfo);
-        abstract protected void StartProcessForSuggestedusers(QueryInfo queryInfo);
-
-        abstract protected void StartProcessWithCustomPhotos(QueryInfo queryInfo);
-
-        abstract protected void StartProcessForMediaLikers(QueryInfo queryInfo);
-        abstract protected void StartProcessForMediaCommenters(QueryInfo queryInfo);
+         protected virtual void StartProcessForBoardFollowers(QueryInfo queryInfo) { }
+         protected virtual void StartProcessForCustomBoards(QueryInfo queryInfo) { }
+         protected virtual void StartProcessForCustomPin(QueryInfo queryInfo) { }
+         protected virtual void StartProcessForNewsFeedPins(QueryInfo queryInfo) { }
+         protected virtual void StartProcessWithKeyword(QueryInfo queryInfo) { }
+         protected virtual void StartProcessWithHashtagUsers(QueryInfo queryInfo) { }
+         protected virtual void StartProcessWithHashtagPosts(QueryInfo queryInfo) { }
+         protected virtual void StartProcessForSomeonesFollowers(QueryInfo queryInfo) { }
+         protected virtual void StartProcessForSomeonesFollowings(QueryInfo queryInfo) { }
+         protected virtual void StartProcessForFollowersOfFollowers(QueryInfo queryInfo) { }
+         protected virtual void StartProcessForFollowersOfFollowings(QueryInfo queryInfo) { }
+         protected virtual void StartProcessWithLocationUsers(QueryInfo queryInfo) { }
+         protected virtual void StartProcessWithLocationPosts(QueryInfo queryInfo) { }
+         protected virtual void StartProcessForCustomUsers(QueryInfo queryInfo) { }
+         protected virtual void StartProcessForSuggestedusers(QueryInfo queryInfo) { }
+         protected virtual void StartProcessWithCustomPhotos(QueryInfo queryInfo) { }
+         protected virtual void StartProcessForMediaLikers(QueryInfo queryInfo) { }
+         protected virtual void StartProcessForMediaCommenters(QueryInfo queryInfo) { }
 
 
         #region Scrape with no queries methods

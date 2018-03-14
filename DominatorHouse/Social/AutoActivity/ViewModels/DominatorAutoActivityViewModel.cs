@@ -62,8 +62,12 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     break;
 
                 case SocialNetworks.Twitter:
-                    //SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
+                    SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
                     break;
+                case SocialNetworks.Pinterest:
+                    SelectedUserControl = PinDominator.TabManager.ToolTabs.GetSingletonToolTabs();
+                    break;
+
             }
         }
 
@@ -83,8 +87,18 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     break;
 
                 case SocialNetworks.Twitter:
-                    //SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
+                    SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
+                    var tddata = TwtDominatorUI.TDViews.Tools.Follow.FollowConfiguration.GetSingeltonObjectFollowConfiguration();
+                    tddata.accountgrothHeader.AccountItemSource = AccountsFileManager.GetUsers();
+                    tddata.accountgrothHeader.SelectedItem = selectedAccounts;
                     break;
+                case SocialNetworks.Pinterest:
+                    SelectedUserControl = PinDominator.TabManager.ToolTabs.GetSingletonToolTabs();
+                    var pddata = PinDominator.PDViews.Tools.Follow.FollowConfiguration.GetSingeltonObjectFollowConfiguration();
+                    pddata.accountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers();
+                    pddata.accountGrowthHeader.SelectedItem = selectedAccounts;
+                    break;
+
             }
         }
 

@@ -95,16 +95,12 @@ namespace DominatorUIUtility.CustomControl
                 case SocialNetworks.Instagram:
                     listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Instagram);
                     DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
-
                     DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
                     DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
-
                     DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = true;
                     DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
-
                     DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = true;
                     DominatorAccountViewModel.GridHeaderColumn4.Header = "Post Count";
-
                     DominatorAccountViewModel.SocialNetwork = SocialNetworks.Instagram;
                     //DominatorAccountViewModel.SocialNetworkEditable = false;
                     break;
@@ -129,7 +125,7 @@ namespace DominatorUIUtility.CustomControl
                     DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
                     DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
                     DominatorAccountViewModel.SocialNetwork = SocialNetworks.Quora;
-                    //  DominatorAccountViewModel.SocialNetworkEditable = false;
+                    //DominatorAccountViewModel.SocialNetworkEditable = false;
                     break;
                 case SocialNetworks.Facebook:
                     listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Facebook);
@@ -140,7 +136,7 @@ namespace DominatorUIUtility.CustomControl
                     DominatorAccountViewModel.GridHeaderColumn3.Header = "Groups Count";                
                     DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = true;
                     DominatorAccountViewModel.GridHeaderColumn4.Header = "Pages Count";
-                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Quora;
+                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Facebook;
                     break;
                 case SocialNetworks.LinkedIn:
                     listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.LinkedIn);
@@ -151,7 +147,18 @@ namespace DominatorUIUtility.CustomControl
                     DominatorAccountViewModel.GridHeaderColumn3.Header = "Groups Count";
                     DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
                     DominatorAccountViewModel.GridHeaderColumn4.Header = "Pages Count";
-                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Quora;
+                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.LinkedIn;
+                    break;
+                case SocialNetworks.Pinterest:
+                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest);
+                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
+                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
+                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Board Count";
+                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Pinterest;
                     break;
 
             }

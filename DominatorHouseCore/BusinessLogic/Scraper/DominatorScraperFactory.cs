@@ -12,6 +12,9 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
     public class DominatorScraperFactory : IScraperFactory
     {
         public static Func<JobProcess, AbstractQueryScraper> GdAccountConfigScraper { get; set; }
+        public static Func<JobProcess, AbstractQueryScraper> TdAccountConfigScraper { get; set; }
+
+        public static Func<JobProcess, AbstractQueryScraper> PdAccountConfigScraper { get; set; }
 
         static DominatorScraperFactory _instance;
 
@@ -25,6 +28,10 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             {
                 case SocialNetworks.Instagram:
                     return GdAccountConfigScraper(jobProcess);
+                case SocialNetworks.Twitter:
+                    return TdAccountConfigScraper(jobProcess);
+                case SocialNetworks.Pinterest:
+                    return PdAccountConfigScraper(jobProcess);
             }
 
             return new NotImplementedQueryScraper(jobProcess);

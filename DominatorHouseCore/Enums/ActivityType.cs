@@ -113,6 +113,9 @@ namespace DominatorHouseCore.Enums
         GroupCreator = 37,
 
         [Description("Facebook")]
-        EventCreator = 38
+        EventCreator = 38,
+
+        [Description("Twitter")]
+        Tweet = 39
     }
 }

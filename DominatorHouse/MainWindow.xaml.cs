@@ -67,7 +67,7 @@ namespace DominatorHouse
 
             // Log strated
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
-            
+
             ConfigFileManager.ApplyTheme();
 
             Task performanceTask = new Task(() => StartbindMemory(),
@@ -108,7 +108,7 @@ namespace DominatorHouse
             MainTabControl.SelectedIndex = mainTabIndex;
 
             if (subTabIndex == null) return;
-            
+
 
             // NOTE: Works for instagram tabs
             switch (mainTabIndex)
@@ -285,15 +285,6 @@ namespace DominatorHouse
             return memAvailable;
         }
 
-
-        //public void NormalMode()
-        //{
-        //    NormalModeTab.Visibility = System.Windows.Visibility.Visible;
-        //    MainTabControl.Visibility = System.Windows.Visibility.Collapsed;
-        //    btnAccountGrowthMode.Content = "Switch to Account Growth Mode";
-        //    btnAccountGrowthMode.Name = "btnAccountGrowthMode";
-        //}
-
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -311,19 +302,17 @@ namespace DominatorHouse
                     GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
                     TabItems = gramDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
-
                     break;
-
                 case SocialNetworks.Twitter:
-                    //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
-                    //TabItems = twtDominator.InitializeAllTabs();
-                    //this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
-                    //break;
+                    TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
+                    TabItems = twtDominator.InitializeAllTabs();
+                    this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
+                    break;
                 case SocialNetworks.Pinterest:
-                    //PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
-                    //TabItems = pinDominator.InitializeAllTabs();
-                    //this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
-                    //break;              
+                    PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
+                    TabItems = pinDominator.InitializeAllTabs();
+                    this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
+                    break;
                 case SocialNetworks.Facebook:
                     FaceDominatorUI.MainWindow faceDominator = new FaceDominatorUI.MainWindow();
                     TabItems = faceDominator.InitializeAllTabs();
@@ -341,13 +330,12 @@ namespace DominatorHouse
                     break;
 
                 case SocialNetworks.Quora:
-                   #warning UNCOMMENT LINES BELOW WHEN COMPILED
                     //QuoraDominator.MainWindow quoraDominator = new QuoraDominator.MainWindow();
                     //TabItems = quoraDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Quora.ToString() + " Dominator";
                     break;
-
-                    this.Title = "Dominator - All in One";
+                default:
+                    this.Title = "Dominator House";
                     break;
             }
 
@@ -486,13 +474,13 @@ namespace DominatorHouse
                     break;
                 case SocialNetworks.Quora:
                     // Call your methods to login
-                    break;              
+                    break;
             }
 
         }
 
 
-      
+
 
     }
 }
