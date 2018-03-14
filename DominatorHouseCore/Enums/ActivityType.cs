@@ -116,6 +116,12 @@ namespace DominatorHouseCore.Enums
         EventCreator = 38,
 
         [Description("Twitter")]
-        Tweet = 39
+        Tweet = 39,
+
+        [Description("Quora")]
+        DownvoteQuestions = 41,
+
+        [Description("Quora")]
+        UpvoteAnswers = 42
     }
 }
