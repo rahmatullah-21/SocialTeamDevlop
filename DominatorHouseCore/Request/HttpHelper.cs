@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using DominatorHouseCore.Interfaces;
 
 namespace DominatorHouseCore.Requests
 {
@@ -26,7 +27,7 @@ namespace DominatorHouseCore.Requests
         public HttpHelper(IRequestParameters requestParameters)
         {
             this.requestParameters = new RequestParameters();
-            setRequestParamaeter(requestParameters);
+            SetRequestParameter(requestParameters);
             try
             {
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
@@ -47,7 +48,7 @@ namespace DominatorHouseCore.Requests
         /// RequestHeaders contains Cookies , WebHeaders and Proxies , 
         /// Here we can get and set all these headers       
 
-        public virtual IRequestParameters getRequestParamaeter()
+        public virtual IRequestParameters GetRequestParamaeter()
         {
             return this.requestParameters;
         }
@@ -56,7 +57,7 @@ namespace DominatorHouseCore.Requests
         /// set request header
         /// </summary>
         /// <param name="requestParameters"></param>
-        public virtual void setRequestParamaeter(IRequestParameters requestParameters)
+        public virtual void SetRequestParameter(IRequestParameters requestParameters)
         {
             this.requestParameters = requestParameters;
         }
@@ -356,7 +357,7 @@ namespace DominatorHouseCore.Requests
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public virtual IResponseParameter getRequest(string url)
+        public virtual IResponseParameter GetRequest(string url)
         {
             this.request = (HttpWebRequest)WebRequest.Create(url);
             setRequestParametersToWebRequest(ref request, requestParameters);
@@ -370,7 +371,7 @@ namespace DominatorHouseCore.Requests
         /// <param name="url"></param>
         /// <param name="requestParameters"></param>
         /// <returns></returns>
-        public virtual IResponseParameter getRequest(string url, IRequestParameters requestParameters)
+        public virtual IResponseParameter GetRequest(string url, IRequestParameters requestParameters)
         {
             this.request = (HttpWebRequest)WebRequest.Create(url);
             setRequestParametersToWebRequest(ref request, requestParameters);
@@ -383,7 +384,7 @@ namespace DominatorHouseCore.Requests
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public virtual async Task<IResponseParameter> getRequestAsync(string url)
+        public virtual async Task<IResponseParameter> GetRequestAsync(string url)
         {
             request = (HttpWebRequest)WebRequest.Create(url);
             setRequestParametersToWebRequest(ref request, this.requestParameters);
@@ -402,7 +403,7 @@ namespace DominatorHouseCore.Requests
         /// <param name="url"></param>
         /// <param name="requestParameters"></param>
         /// <returns></returns>
-        public virtual async Task<IResponseParameter> getRequestAsync(string url, IRequestParameters requestParameters)
+        public virtual async Task<IResponseParameter> GetRequestAsync(string url, IRequestParameters requestParameters)
         {
             request = (HttpWebRequest)WebRequest.Create(url);
             setRequestParametersToWebRequest(ref request, requestParameters);
@@ -421,7 +422,7 @@ namespace DominatorHouseCore.Requests
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <returns></returns>
-        public virtual IResponseParameter postRequest(string url, string postData)
+        public virtual IResponseParameter PostRequest(string url, string postData)
         {
             this.request = (HttpWebRequest)WebRequest.Create(url);
             setRequestParametersToWebRequest(ref request, this.requestParameters);
@@ -451,7 +452,7 @@ namespace DominatorHouseCore.Requests
         /// <param name="postData"></param>
         /// <param name="requestParamater"></param>
         /// <returns></returns>
-        public virtual IResponseParameter postRequest(string url, string postData, IRequestParameters requestParamater)
+        public virtual IResponseParameter PostRequest(string url, string postData, IRequestParameters requestParamater)
         {
             this.request = (HttpWebRequest)WebRequest.Create(url);
             string Reponce = string.Empty;
@@ -468,7 +469,7 @@ namespace DominatorHouseCore.Requests
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <returns></returns>
-        public virtual async Task<IResponseParameter> postRequestAsync(string url, string postData)
+        public virtual async Task<IResponseParameter> PostRequestAsync(string url, string postData)
         {
             this.request = (HttpWebRequest)WebRequest.Create(url);
             string Reponce = string.Empty;
@@ -486,7 +487,7 @@ namespace DominatorHouseCore.Requests
         /// <param name="postData"></param>
         /// <param name="RequestParameters"></param>
         /// <returns></returns>
-        public virtual async Task<IResponseParameter> postRequestAsync(string url, string postData, IRequestParameters RequestParameters)
+        public virtual async Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters RequestParameters)
         {
             request = (HttpWebRequest)WebRequest.Create(url);
             this.response = null;
@@ -500,28 +501,4 @@ namespace DominatorHouseCore.Requests
         #endregion
 
     }
-
-    /// <summary>
-    /// Interface for HttpHelper
-    /// </summary>
-    public interface IHttpHelper : IRequestHelper
-    {
-        Task<IResponseParameter> getRequestAsync(string url);
-        Task<IResponseParameter> getRequestAsync(string url, IRequestParameters RequestParameters);
-        Task<IResponseParameter> postRequestAsync(string url, string postData);
-        Task<IResponseParameter> postRequestAsync(string url, string postData, IRequestParameters RequestParameters);
-        IResponseParameter getRequest(string url);
-        IResponseParameter getRequest(string url, IRequestParameters RequestParameters);
-        IResponseParameter postRequest(string url, string postData);
-        IResponseParameter postRequest(string url, string postData, IRequestParameters RequestParameters);
-
-    }
-
-    public interface IRequestHelper
-    {
-        void setRequestParamaeter(IRequestParameters RequestParameters);
-        IRequestParameters getRequestParamaeter();
-    }
-
-
 }

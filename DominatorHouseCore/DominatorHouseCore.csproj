@@ -223,6 +223,8 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Request\FileData.cs" />
     <Compile Include="Request\HttpHelper.cs" />
+    <Compile Include="Interfaces\IHttpHelper.cs" />
+    <Compile Include="Interfaces\IRequestHelper.cs" />
     <Compile Include="Request\RequestParameters.cs" />
     <Compile Include="Request\ResponseParameter.cs" />
     <Compile Include="Request\WebHelper.cs" />
