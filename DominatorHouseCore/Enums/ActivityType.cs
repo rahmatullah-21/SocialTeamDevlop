@@ -4,19 +4,19 @@ namespace DominatorHouseCore.Enums
 {
     public enum ActivityType
     {
-        [Description("Twitter,Instagram")]
+        [Description("Twitter,Instagram,Gplus")]
         Follow = 1,
 
-        [Description("Twitter,Instagram")]
+        [Description("Twitter,Instagram,Gplus")]
         Unfollow = 2,
 
-        [Description("Facebook,Twitter,Instagram")]
+        [Description("Facebook,Twitter,Instagram,Gplus")]
         Like = 3,
 
-        [Description("Twitter,Instagram")]
+        [Description("Twitter,Instagram,Gplus")]
         Unlike = 4,
 
-        [Description("Facebook,Twitter,Instagram")]
+        [Description("Facebook,Twitter,Instagram,Gplus")]
         Comment = 5,
 
         [Description("Twitter,Instagram")]
@@ -34,7 +34,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Twitter,Instagram")]
         Message = 10,
 
-        [Description("Facebook,Twitter,Instagram")]
+        [Description("Facebook,Twitter,Instagram,Gplus")]
         UserScraper = 11,
 
         [Description("Twitter,Instagram")]
@@ -122,6 +122,12 @@ namespace DominatorHouseCore.Enums
         DownvoteQuestions = 41,
 
         [Description("Quora")]
-        UpvoteAnswers = 42
+        UpvoteAnswers = 42,
+
+        [Description("Gplus")]
+        Join = 43,
+
+        [Description("Gplus")]
+        Unjoin = 44,
     }
 }
