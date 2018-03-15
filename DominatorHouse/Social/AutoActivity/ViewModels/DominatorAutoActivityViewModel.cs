@@ -60,12 +60,23 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 case SocialNetworks.Instagram:
                     SelectedUserControl = GramDominatorUI.TabManager.ToolTabs.GetSingletonToolTabs();
                     break;
-
                 case SocialNetworks.Twitter:
                     SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
                     break;
                 case SocialNetworks.Pinterest:
                     SelectedUserControl = PinDominator.TabManager.ToolTabs.GetSingletonToolTabs();
+                    break;
+                case SocialNetworks.Gplus:
+                    break;
+                case SocialNetworks.Reddit:
+                    break;
+                case SocialNetworks.Facebook:
+                    break;
+                case SocialNetworks.Quora:
+                    break;
+                case SocialNetworks.LinkedIn:
+                    break;
+                case SocialNetworks.Youtube:
                     break;
 
             }
@@ -85,7 +96,6 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     data.accountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers();
                     data.accountGrowthHeader.SelectedItem = selectedAccounts;
                     break;
-
                 case SocialNetworks.Twitter:
                     SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
                     var tddata = TwtDominatorUI.TDViews.Tools.Follow.FollowConfiguration.GetSingeltonObjectFollowConfiguration();
@@ -98,7 +108,18 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     pddata.accountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers();
                     pddata.accountGrowthHeader.SelectedItem = selectedAccounts;
                     break;
-
+                case SocialNetworks.Gplus:
+                    break;
+                case SocialNetworks.Reddit:
+                    break;
+                case SocialNetworks.Facebook:
+                    break;
+                case SocialNetworks.Quora:
+                    break;
+                case SocialNetworks.LinkedIn:
+                    break;
+                case SocialNetworks.Youtube:
+                    break;
             }
         }
 

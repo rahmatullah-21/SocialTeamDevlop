@@ -322,17 +322,25 @@ namespace DominatorHouse
                     //LinkedDominatorUI.MainWindow linkedInDominator = new LinkedDominatorUI.MainWindow();
                     //TabItems = linkedInDominator.InitializeAllTabs();
                     //this.Title = SocialNetworks.LinkedIn.ToString() + " Dominator";
+                    break;              
+                case SocialNetworks.Quora:
+                    //QuoraDominator.MainWindow quoraDominator = new QuoraDominator.MainWindow();
+                    //TabItems = quoraDominator.InitializeAllTabs();
+                    this.Title = SocialNetworks.Quora.ToString() + " Dominator";
+                    break;
+                case SocialNetworks.Reddit:
+                    this.Title = SocialNetworks.Reddit.ToString() + " Dominator";
+                    break;
+                case SocialNetworks.Gplus:
+                    this.Title = SocialNetworks.Gplus.ToString() + " Dominator";
+                    break;
+                case SocialNetworks.Youtube:
+                    this.Title = SocialNetworks.Youtube.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Social:
                     MainTabControl.TabStripPlacement = Dock.Left;
                     TabItems = InitializeAllTabs();
                     this.Title = "Dominator - All in One";
-                    break;
-
-                case SocialNetworks.Quora:
-                    //QuoraDominator.MainWindow quoraDominator = new QuoraDominator.MainWindow();
-                    //TabItems = quoraDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Quora.ToString() + " Dominator";
                     break;
                 default:
                     this.Title = "Dominator House";
@@ -473,6 +481,9 @@ namespace DominatorHouse
                     // Call your methods to login
                     break;
                 case SocialNetworks.Quora:
+                    // Call your methods to login
+                    break;
+                case SocialNetworks.Reddit:
                     // Call your methods to login
                     break;
             }

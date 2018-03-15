@@ -39,6 +39,9 @@
                 <ComboBoxItem>Pinterest</ComboBoxItem>
                 <ComboBoxItem>Quora</ComboBoxItem>
                 <ComboBoxItem>Facebook</ComboBoxItem>
+                <ComboBoxItem>Gplus</ComboBoxItem>
+                <ComboBoxItem>YouTube</ComboBoxItem>
+                <ComboBoxItem>Reddit</ComboBoxItem>
             </ComboBox>
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbLanguage" >
                 <ComboBoxItem>English</ComboBoxItem>
