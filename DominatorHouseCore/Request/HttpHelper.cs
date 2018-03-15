@@ -1,380 +1,378 @@
-﻿using DominatorHouseCore.LogHelper;
-using System;
+﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Requests;
 
-namespace DominatorHouseCore.Requests
+namespace DominatorHouseCore.Request
 {
     public class HttpHelper : IHttpHelper
     {
-        /// Initialize the httpHelper object , which will help to make httpwebrequest  
-        #region cunstroctor
+
         public HttpHelper()
         {
-            this.requestParameters = new RequestParameters();
-            try
-            {
-                // ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
-                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-            }
-            catch (Exception ex)
-            { GlobusLogHelper.log.Error(ex.StackTrace); }
-
+            // call to valid the certificates
+            ValidateServerCertificate();
         }
-        public HttpHelper(IRequestParameters requestParameters)
+
+        public HttpHelper(IRequestParameters requestParameters) : this()
         {
-            this.requestParameters = new RequestParameters();
+            // set the web header details      
             SetRequestParameter(requestParameters);
+        }
+
+        /// <summary>
+        /// Gets or Sets the header details of <see cref="HttpHelper"/>
+        /// </summary>
+        protected virtual IRequestParameters RequestParameters { get; set; } = new RequestParameters();
+
+        protected HttpWebRequest Request = null;
+
+        protected HttpWebResponse Response = null;
+
+        /// <summary>
+        /// Validate the server certificates
+        /// </summary>
+        private static void ValidateServerCertificate()
+        {
             try
             {
-                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                ServicePointManager.ServerCertificateValidationCallback
+                    = delegate { return true; };
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.StackTrace); 
+                GlobusLogHelper.log.Error(ex.StackTrace);
             }
         }
-        #endregion
 
-        protected virtual IRequestParameters requestParameters { get; set; }
-        protected HttpWebRequest request = null;
-        protected HttpWebResponse response = null;
-
-        #region get and set request headers
-        /// Get And Set Request Haeader 
-        /// RequestHeaders contains Cookies , WebHeaders and Proxies , 
-        /// Here we can get and set all these headers       
-
+        /// <summary>
+        /// Returns <see cref="DominatorHouseCore.Requests.IRequestParameters"/> which contains header details of 
+        /// <see cref="HttpHelper"/>
+        /// </summary>
+        /// <returns>A <see cref="DominatorHouseCore.Requests.IRequestParameters"/></returns>
         public virtual IRequestParameters GetRequestParamaeter()
-        {
-            return this.requestParameters;
-        }
+            => RequestParameters;
 
-        /// <summary>s
-        /// set request header
+        /// <summary>
+        /// Set the web header details to <see cref="RequestParameters"/>
         /// </summary>
-        /// <param name="requestParameters"></param>
+        /// <param name="requestParameters">Pass the class which inherits <see cref="DominatorHouseCore.Requests.IRequestParameters"/> interface</param>
         public virtual void SetRequestParameter(IRequestParameters requestParameters)
-        {
-            this.requestParameters = requestParameters;
-        }
-        #endregion
+            => RequestParameters = requestParameters;
 
 
-        #region PreRequest And PostRequest Logics 
-        /// Before Making Any Request -
-        /// We Set Cookies , Proxy And WebHeaders
-        /// After Request , We Store Cookies RequestHeader Cookie Field
-        /// 
-        //Set Cookies , Proxy And WebHeaders
-        protected virtual void setRequestParametersToWebRequest(ref HttpWebRequest webRequest, IRequestParameters requestParamater)
+      
+        /// <summary>
+        /// <para>Set <see cref="DominatorHouseCore.Requests.IRequestParameters"/> details to the followings.</para>
+        /// <para> 1.<see cref="DominatorHouseCore.Requests.IRequestParameters.Headers"/> to <see cref="HttpWebRequest.Headers"/></para>
+        /// <para> 2.<see cref="DominatorHouseCore.Requests.IRequestParameters.Cookies"/> to <see cref="HttpWebRequest.CookieContainer"/></para>
+        /// <para> 3.<see cref="DominatorHouseCore.Requests.IRequestParameters.Proxy"/> to <see cref="HttpWebRequest.Proxy"/></para>
+        /// </summary>
+        /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
+        /// <param name="requestParameter"><see cref="DominatorHouseCore.Requests.IRequestParameters"/></param>
+        protected virtual void SetRequestParametersToWebRequest(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
         {
             try
             {
-                if (requestParamater != null)
+                if (requestParameter == null)
+                    return;
+
+                #region Set the Headers
+
+                webRequest.Headers = new WebHeaderCollection();
+
+                if (requestParameter.Headers != null)
                 {
-                    if (requestParamater.Headers != null)
+                    foreach (var eachHeader in requestParameter.Headers)
                     {
-                        webRequest.Headers = new WebHeaderCollection();
-                        if (requestParamater.Headers != null)
+                        try
                         {
-                            foreach (var eachHeader in requestParamater.Headers)
+                            var headerName = eachHeader.ToString();
+
+                            var headerValue = requestParameter.Headers[headerName];
+
+                            if (headerName == "X-CSRFToken")
                             {
-                                try
-                                {
-                                    string headerName = eachHeader.ToString();
-                                    string headerValue = requestParamater.Headers[eachHeader.ToString()];
-
-                                    if (headerName == "X-CSRFToken")
-                                    {
-                                        string token = requestParamater.Cookies["csrftoken"].Value;
-                                        webRequest.Headers.Add(eachHeader.ToString(), token);
-                                    }
-                                    else
-                                    {
-
-                                        if (!WebHeaderCollection.IsRestricted(headerName))
-                                        {
-                                            webRequest.Headers.Add(headerName, headerValue);
-                                        }
-                                        // 
-                                        //  webRequest.Headers[headerName] = headerValue;
-                                    }
-                                }
-                                catch (Exception Ex)
-                                {
-                                    GlobusLogHelper.log.Error(Ex.StackTrace + Ex.Message);
-                                }
-                            }
-                        }
-                    }
-                    webRequest.Host = webRequest.RequestUri.Host;
-                    webRequest.KeepAlive = requestParamater.KeepAlive;
-                    webRequest.UserAgent = requestParamater.UserAgent;
-                    webRequest.ContentType = requestParamater.ContentType;
-                    webRequest.Referer = requestParamater.Referer;
-                    webRequest.Accept = requestParamater.Accept;
-                    webRequest.CookieContainer = new CookieContainer();
-                    if (ServicePointManager.Expect100Continue == true)
-                    {
-                        ServicePointManager.Expect100Continue = false;
-                    }
-
-                    if (requestParamater.Cookies != null)
-                    {
-                        webRequest.CookieContainer = new CookieContainer();
-                        foreach (System.Net.Cookie eachCookie in requestParameters.Cookies)
-                        {
-                            try
-                            {
-                                Cookie cookieData = new Cookie(eachCookie.Name, eachCookie.Value, "/", eachCookie.Domain);
-                                webRequest.CookieContainer.Add(cookieData);
-                            }
-                            catch (Exception Ex)
-                            { GlobusLogHelper.log.Error(Ex.StackTrace + Ex.Message); }
-                        }
-
-
-                    }
-                    if (requestParamater.Proxy != null && !string.IsNullOrEmpty(requestParamater.Proxy.ProxyIp))
-                    {
-                        SetProxy(ref webRequest, requestParamater);
-
-                    }
-                }
-            }
-            catch (Exception Ex)
-            {
-                GlobusLogHelper.log.Error(Ex.StackTrace + Ex.Message);
-            }
-        }
-        /// <summary>
-        /// Set Proxy to each request
-        /// </summary>
-        /// <param name="webRequest"></param>
-        /// <param name="requestParamater"></param>
-        private void SetProxy(ref HttpWebRequest webRequest, IRequestParameters requestParamater)
-        {
-            try
-            {
-                StringBuilder proxyAddress = new StringBuilder();
-                proxyAddress.Append(requestParamater.Proxy.ProxyIp);
-                int proxyPort = int.Parse(requestParamater.Proxy.ProxyPort);
-
-                WebProxy myproxy = new WebProxy(proxyAddress.ToString(), proxyPort);
-                myproxy.BypassProxyOnLocal = true;
-
-                if (!string.IsNullOrEmpty(requestParamater.Proxy.ProxyUsername) && !string.IsNullOrEmpty(requestParamater.Proxy.ProxyPassword))
-                {
-                    StringBuilder proxyUsername = new StringBuilder();
-                    proxyUsername.Append(requestParamater.Proxy.ProxyUsername);
-                    StringBuilder proxyPassword = new StringBuilder();
-                    proxyPassword.Append(requestParamater.Proxy.ProxyPassword);
-
-                    myproxy.Credentials = new NetworkCredential(proxyUsername.ToString(), proxyPassword.ToString());
-                }
-                webRequest.Proxy = myproxy;
-            }
-            catch (Exception Ex)
-            {
-                GlobusLogHelper.log.Error(Ex.StackTrace + Ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Writing Post Data For Post Method WebRequest
-        /// </summary>
-        /// <param name="gRequest"></param>
-        /// <param name="postData"></param>
-        protected virtual void writePostData(ref HttpWebRequest gRequest, string postData)
-        {
-            try
-            {
-                gRequest.Method = "POST";
-                string postdata = string.Format(postData);
-                byte[] postBuffer = System.Text.Encoding.UTF8.GetBytes(postData);
-                gRequest.ContentLength = postBuffer.Length;
-                using (Stream postDataStream = gRequest.GetRequestStream())
-                {
-                    postDataStream.Write(postBuffer, 0, postBuffer.Length);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-
-
-        /// <summary>
-        /// Writing Post Data For Post Method WebRequest
-        /// </summary>
-        /// <param name="gRequest"></param>
-        /// <param name="postBuffer"></param>
-        protected virtual void writePostData(ref HttpWebRequest gRequest, byte[] postBuffer)
-        {
-            try
-            {
-                gRequest.Method = "POST";
-                gRequest.ContentLength = postBuffer.Length;
-                using (Stream postDataStream = gRequest.GetRequestStream())
-                {
-                    postDataStream.Write(postBuffer, 0, postBuffer.Length);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-
-        /// <summary>
-        /// Store Cookies RequestHeader Cookie Field Taking From WebResponse 
-        /// </summary>
-        /// <param name="r"></param>
-        protected virtual void ReadCookies(WebResponse r)
-        {
-            try
-            {
-                if (r != null)
-                {
-                    var response = r as HttpWebResponse;
-                    if (this.requestParameters.Cookies == null)
-                    {
-                        this.requestParameters.Cookies = new CookieCollection();
-                    }
-
-                    if (response != null)
-                    {
-                     
-                        CookieCollection cookies = request.CookieContainer.GetCookies(request.RequestUri);
-                        foreach (Cookie cookie in cookies)
-                        {
-                            bool isPresent = false;
-
-                            foreach (Cookie cookie_RequestParamete in this.requestParameters.Cookies)
-                            {
-                                if (cookie_RequestParamete.Name == cookie.Name)
-                                {
-                                    isPresent = true;
-                                    break;
-                                }
-                            }
-                            if (isPresent)
-                            {
-                                if (!string.IsNullOrEmpty(cookie.Value))
-                                    this.requestParameters.Cookies[cookie.Name].Value = cookie.Value;
+                                var token = requestParameter.Cookies["csrftoken"]?.Value;
+                                webRequest.Headers.Add(eachHeader.ToString(), token);
                             }
                             else
                             {
-                                this.requestParameters.Cookies.Add(cookie);
+                                if (!WebHeaderCollection.IsRestricted(headerName))
+                                    webRequest.Headers.Add(headerName, headerValue);
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.ErrorLog();
                         }
                     }
                 }
-            }
-            catch (Exception Ex)
-            {
-                GlobusLogHelper.log.Error(Ex.StackTrace + Ex.Message);
-            }
+                webRequest.Host = webRequest.RequestUri.Host;
+                webRequest.KeepAlive = requestParameter.KeepAlive;
+                webRequest.UserAgent = requestParameter.UserAgent;
+                webRequest.ContentType = requestParameter.ContentType;
+                webRequest.Referer = requestParameter.Referer;
+                webRequest.Accept = requestParameter.Accept;
 
+                #endregion
+
+                if (ServicePointManager.Expect100Continue)
+                {
+                    ServicePointManager.Expect100Continue = false;
+                }
+
+                #region Set the Cookies
+
+                if (requestParameter.Cookies != null)
+                {
+                    webRequest.CookieContainer = new CookieContainer();
+
+                    foreach (Cookie eachCookie in RequestParameters.Cookies)
+                    {
+                        try
+                        {
+                            var cookieData = new Cookie(eachCookie.Name, eachCookie.Value, "/", eachCookie.Domain);
+                            webRequest.CookieContainer.Add(cookieData);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.ErrorLog();
+                        }
+                    }
+                }
+
+                #endregion
+
+                #region Set the Proxy
+
+                if (!string.IsNullOrEmpty(requestParameter.Proxy?.ProxyIp))
+                    SetProxy(ref webRequest, requestParameter);
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                ex.ErrorLog();
+            }
+        }
+
+        /// <summary>
+        /// Set the <see cref="DominatorHouseCore.Requests.IRequestParameters.Proxy"/> to <see cref="HttpWebRequest.Proxy"/>
+        /// </summary>
+        /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
+        /// <param name="requestParameter"><see cref="DominatorHouseCore.Requests.IRequestParameters"/></param>
+        private static void SetProxy(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
+        {
+            try
+            {
+                var webProxy = new WebProxy(requestParameter.Proxy.ProxyIp, int.Parse(requestParameter.Proxy.ProxyPort))
+                {
+                    BypassProxyOnLocal = true
+                };
+
+                if (!string.IsNullOrEmpty(requestParameter.Proxy.ProxyUsername)
+                    && !string.IsNullOrEmpty(requestParameter.Proxy.ProxyPassword))
+                {
+                    webProxy.Credentials = new NetworkCredential(requestParameter.Proxy.ProxyUsername, requestParameter.Proxy.ProxyPassword);
+                }
+                webRequest.Proxy = webProxy;
+            }
+            catch (Exception ex)
+            {
+                ex.ErrorLog();
+            }
         }
 
 
         /// <summary>
-        /// Get the final response
+        /// Convert the postdata(string) to sequences of bytes and write into the <see cref="HttpWebRequest"/> 
         /// </summary>
-        /// <returns></returns>
+        /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
+        /// <param name="postData">Data which should pass as post data</param>
+        protected virtual void WritePostData(ref HttpWebRequest webRequest, string postData)
+        {
+            try
+            {
+                var postBuffer = System.Text.Encoding.UTF8.GetBytes(postData);
+                WritePostData(ref webRequest, postBuffer);
+            }
+            catch (Exception ex)
+            {
+                ex.ErrorLog();
+            }
+        }
+
+
+        /// <summary>
+        /// Convert the postdata(sequences of bytes) to streams
+        /// </summary>
+        /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
+        /// <param name="postBuffer">Post data in bytes array</param>
+        protected virtual void WritePostData(ref HttpWebRequest webRequest, byte[] postBuffer)
+        {
+            try
+            {
+                webRequest.Method = "POST";
+                webRequest.ContentLength = postBuffer.Length;
+                using (var postDataStream = webRequest.GetRequestStream())
+                {
+                    postDataStream.Write(postBuffer, 0, postBuffer.Length);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ErrorLog();
+            }
+        }
+
+
+        /// <summary>
+        /// Read the cookies from <see cref="System.Net.WebResponse"/> object to RequestParameters
+        /// </summary>
+        /// <param name="webResponse"><see cref="System.Net.WebResponse"/></param>
+        protected virtual void ReadCookies(WebResponse webResponse)
+        {
+            try
+            {
+                if (webResponse == null) return;
+
+                var response = webResponse as HttpWebResponse;
+
+                if (RequestParameters.Cookies == null)
+                {
+                    RequestParameters.Cookies = new CookieCollection();
+                }
+
+                if (response == null) return;
+
+                var cookies = Request.CookieContainer.GetCookies(Request.RequestUri);
+
+                foreach (Cookie cookie in cookies)
+                {
+                    // check the current cookie is any already present in RequestParameter
+                    var isPresent =
+                        RequestParameters.Cookies.Cast<Cookie>()
+                        .Any(requestParameterCookie => requestParameterCookie.Name == cookie.Name);
+
+                    // If its present read then overwrite otherwise add to RequestParameter
+                    if (isPresent)
+                    {
+                        if (!string.IsNullOrEmpty(RequestParameters.Cookies[cookie.Name]?.Value))
+                            RequestParameters.Cookies[cookie.Name].Value = cookie.Value;
+                    }
+                    else
+                        RequestParameters.Cookies.Add(cookie);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ErrorLog();
+            }
+        }
+
+
+        /// <summary>
+        /// Get the final response of the http request
+        /// </summary>
+        /// <returns><see cref="DominatorHouseCore.Requests.IResponseParameter"/></returns>
         protected virtual IResponseParameter GetFinalResponse()
         {
             try
             {
-                return GetReponce((HttpWebResponse) request.GetResponse());
+                // Get the reponse from request
+                return GetReponse((HttpWebResponse)Request.GetResponse());
             }
-            catch (WebException Ex)
+            catch (WebException ex)
             {
                 try
                 {
-                    return GetReponce((HttpWebResponse) Ex.Response);
+                    // Get error message from the response
+                    return GetReponse((HttpWebResponse)ex.Response);
                 }
-                catch (WebException Exn)
+                catch (WebException exception)
                 {
+                    // return the exceptions of response in ResponseParameter
                     return new ResponseParameter()
                     {
                         HasError = true,
-                        Exception = Exn
+                        Exception = exception
                     };
                 }
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
+                // return the actual exceptions in ResponseParameter
                 return new ResponseParameter()
                 {
                     HasError = true,
-                    Exception = Ex
+                    Exception = ex
                 };
             }
-            finally
-            {
-            }
-
         }
 
 
         /// <summary>
-        /// Get the final response and read it as string
+        /// Get the final response data from <see cref="System.Net.HttpWebResponse"/> objects to <see cref="DominatorHouseCore.Requests.IResponseParameter"/>
         /// </summary>
         /// <returns></returns>
-        protected virtual IResponseParameter GetReponce(HttpWebResponse webResponse)
+        protected virtual IResponseParameter GetReponse(HttpWebResponse webResponse)
         {
-            #region read the response as a stream
-            this.response = webResponse;
-            ReadCookies(response);
-            using (StreamReader streamReader = new StreamReader(this.response.GetResponseStream()))
+
+            // pointing same address Response and webResponse
+            Response = webResponse;
+
+            // Read the cookies from webresponse to RequestParameter
+            ReadCookies(Response);
+
+            // Get the streams from Response
+            var responseStream = Response.GetResponseStream();
+
+            // Check null integrity
+            if (responseStream == null)
+                return new ResponseParameter {Response = string.Empty};
+
+            // return as proper ResponseParameter with appropriate reponse
+            using (var streamReader = new StreamReader(responseStream))
             {
                 return new ResponseParameter()
                 {
                     Response = streamReader.ReadToEnd()
                 };
-            }
-            #endregion
+            }           
         }
 
-        #endregion
+
 
 
         #region Get Request And Post Request With Synchronous And Asynchronous Methods
 
         /// <summary>
-        /// We Create Request With HttpWebRequest
-        /// We Create HttpWebRequest Instance , Set Cookies , WebHeaders And Proxies  
-        /// Get The Request Result And Provide the Result In String Format .
+        /// Get http request from url with already setted RequestParameters
         /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
+        /// <param name="url">url of tha page</param>
+        /// <returns><see cref="DominatorHouseCore.Requests.IResponseParameter"/></returns>
         public virtual IResponseParameter GetRequest(string url)
         {
-            this.request = (HttpWebRequest)WebRequest.Create(url);
-            setRequestParametersToWebRequest(ref request, requestParameters);
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            SetRequestParametersToWebRequest(ref Request, RequestParameters);
             return GetFinalResponse();
         }
 
-
         /// <summary>
-        /// Get Request With RequestParameters
+        /// Get http request from url with new RequestParameters
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="requestParameters"></param>
-        /// <returns></returns>
+        /// <param name="url">url of tha page</param>
+        /// <param name="requestParameters"><see cref="DominatorHouseCore.Requests.IRequestParameters"/></param>
+        /// <returns><see cref="DominatorHouseCore.Requests.IResponseParameter"/></returns>
         public virtual IResponseParameter GetRequest(string url, IRequestParameters requestParameters)
         {
-            this.request = (HttpWebRequest)WebRequest.Create(url);
-            setRequestParametersToWebRequest(ref request, requestParameters);
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            SetRequestParametersToWebRequest(ref Request, requestParameters);
             return GetFinalResponse();
         }
 
@@ -386,8 +384,8 @@ namespace DominatorHouseCore.Requests
         /// <returns></returns>
         public virtual async Task<IResponseParameter> GetRequestAsync(string url)
         {
-            request = (HttpWebRequest)WebRequest.Create(url);
-            setRequestParametersToWebRequest(ref request, this.requestParameters);
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            SetRequestParametersToWebRequest(ref Request, this.RequestParameters);
             await Task.Factory.StartNew(() =>
             {
                 return GetFinalResponse();
@@ -395,8 +393,8 @@ namespace DominatorHouseCore.Requests
             return new ResponseParameter();
         }
 
-       
-        
+
+
         /// <summary>
         /// Async Get Request With RequestParameters
         /// </summary>
@@ -405,8 +403,8 @@ namespace DominatorHouseCore.Requests
         /// <returns></returns>
         public virtual async Task<IResponseParameter> GetRequestAsync(string url, IRequestParameters requestParameters)
         {
-            request = (HttpWebRequest)WebRequest.Create(url);
-            setRequestParametersToWebRequest(ref request, requestParameters);
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            SetRequestParametersToWebRequest(ref Request, requestParameters);
             await Task.Factory.StartNew(() =>
             {
                 return GetFinalResponse();
@@ -417,48 +415,47 @@ namespace DominatorHouseCore.Requests
 
 
         /// <summary>
-        /// Post Request With 
+        /// Post Request with url and postdata with already saved RequestParameter
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="postData"></param>
-        /// <returns></returns>
+        /// <param name="url">url of tha page</param>
+        /// <param name="postData">post data which while pass with url</param>
+        /// <returns><see cref="DominatorHouseCore.Requests.IResponseParameter"/></returns>
         public virtual IResponseParameter PostRequest(string url, string postData)
         {
-            this.request = (HttpWebRequest)WebRequest.Create(url);
-            setRequestParametersToWebRequest(ref request, this.requestParameters);
-            writePostData(ref request, postData);
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            SetRequestParametersToWebRequest(ref Request, this.RequestParameters);
+            WritePostData(ref Request, postData);
             return GetFinalResponse();
         }
 
 
         /// <summary>
-        /// Post requesst using bytes
+        /// Post Request with url and postdata with already saved RequestParameter
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="postData"></param>
-        /// <returns></returns>
-        public virtual IResponseParameter postRequest(string url, byte[] postData)
+        /// <param name="url">url of tha page</param>
+        /// <param name="postData">post data in byte array which while pass with url</param>
+        /// <returns><see cref="DominatorHouseCore.Requests.IResponseParameter"/></returns>
+        public virtual IResponseParameter PostRequest(string url, byte[] postData)
         {
-            this.request = (HttpWebRequest)WebRequest.Create(url);
-            setRequestParametersToWebRequest(ref request, this.requestParameters);
-            writePostData(ref request, postData);
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            SetRequestParametersToWebRequest(ref Request, RequestParameters);
+            WritePostData(ref Request, postData);
             return GetFinalResponse();
         }
 
         /// <summary>
-        /// Post Request With RequestParameters
+        /// Post Request with url and postdata with new RequestParameter
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="postData"></param>
-        /// <param name="requestParamater"></param>
-        /// <returns></returns>
+        /// <param name="url">url of tha page</param>
+        /// <param name="postData">post data in byte array which while pass with url</param>
+        /// <param name="requestParamater"><see cref="DominatorHouseCore.Requests.IRequestParameters"/></param>
+        /// <returns><see cref="DominatorHouseCore.Requests.IResponseParameter"/></returns>
         public virtual IResponseParameter PostRequest(string url, string postData, IRequestParameters requestParamater)
         {
-            this.request = (HttpWebRequest)WebRequest.Create(url);
-            string Reponce = string.Empty;
-            request.Host = request.RequestUri.Host;
-            setRequestParametersToWebRequest(ref request, requestParamater);
-            writePostData(ref request, postData);
+            this.Request = (HttpWebRequest)WebRequest.Create(url);
+            Request.Host = Request.RequestUri.Host;
+            SetRequestParametersToWebRequest(ref Request, requestParamater);
+            WritePostData(ref Request, postData);
             return GetFinalResponse();
         }
 
@@ -471,11 +468,11 @@ namespace DominatorHouseCore.Requests
         /// <returns></returns>
         public virtual async Task<IResponseParameter> PostRequestAsync(string url, string postData)
         {
-            this.request = (HttpWebRequest)WebRequest.Create(url);
+            this.Request = (HttpWebRequest)WebRequest.Create(url);
             string Reponce = string.Empty;
-            this.response = null;
-            setRequestParametersToWebRequest(ref request, requestParameters);
-            writePostData(ref request, postData);
+            this.Response = null;
+            SetRequestParametersToWebRequest(ref Request, RequestParameters);
+            WritePostData(ref Request, postData);
             return GetFinalResponse();
         }
 
@@ -489,15 +486,15 @@ namespace DominatorHouseCore.Requests
         /// <returns></returns>
         public virtual async Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters RequestParameters)
         {
-            request = (HttpWebRequest)WebRequest.Create(url);
-            this.response = null;
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            this.Response = null;
             string Reponce = string.Empty;
-            setRequestParametersToWebRequest(ref request, requestParameters);
-            writePostData(ref request, postData);
+            SetRequestParametersToWebRequest(ref Request, this.RequestParameters);
+            WritePostData(ref Request, postData);
             return GetFinalResponse();
         }
 
-       
+
         #endregion
 
     }

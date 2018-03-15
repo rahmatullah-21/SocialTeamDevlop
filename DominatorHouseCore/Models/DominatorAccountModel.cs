@@ -5,6 +5,7 @@ using ProtoBuf;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
 using System;
+using DominatorHouseCore.Request;
 using Newtonsoft.Json;
 
 namespace DominatorHouseCore.Models

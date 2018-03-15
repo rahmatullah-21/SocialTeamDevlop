@@ -452,13 +452,13 @@ namespace DominatorHouse
             switch (dominatorAccountModel.AccountBaseModel.AccountNetwork)
             {
                 case SocialNetworks.Pinterest:
-                    //PinDominatorCore.PDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                    PinDominatorCore.PDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
                 case SocialNetworks.Instagram:
                     GramDominatorCore.GDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
                 case SocialNetworks.Twitter:
-                    //TwtDominatorCore.TDViewModel.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                    TwtDominatorCore.TDViewModel.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
                 case SocialNetworks.LinkedIn:
                     // Call your methods to login
