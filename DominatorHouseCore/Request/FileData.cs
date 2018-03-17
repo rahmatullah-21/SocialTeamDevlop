@@ -1,6 +1,6 @@
 ﻿using System.Collections.Specialized;
 
-namespace GramDominatorCore.Request
+namespace DominatorHouseCore.Request
 {
     public class FileData
     {

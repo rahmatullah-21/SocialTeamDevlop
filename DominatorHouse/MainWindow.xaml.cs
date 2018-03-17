@@ -24,6 +24,7 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.BusinessLogic;
+using FaceDominatorCore.FDLibrary;
 using GramDominatorUI.TabManager;
 
 #endregion
@@ -322,7 +323,7 @@ namespace DominatorHouse
                     //LinkedDominatorUI.MainWindow linkedInDominator = new LinkedDominatorUI.MainWindow();
                     //TabItems = linkedInDominator.InitializeAllTabs();
                     //this.Title = SocialNetworks.LinkedIn.ToString() + " Dominator";
-                    break;              
+                    break;
                 case SocialNetworks.Quora:
                     //QuoraDominator.MainWindow quoraDominator = new QuoraDominator.MainWindow();
                     //TabItems = quoraDominator.InitializeAllTabs();
@@ -475,7 +476,8 @@ namespace DominatorHouse
                     // Call your methods to login
                     break;
                 case SocialNetworks.Facebook:
-                    // Call your methods to login
+                    var fdLoginProcess = new FdLoginProcess();
+                    fdLoginProcess.CheckLogin(dominatorAccountModel);
                     break;
                 case SocialNetworks.Youtube:
                     // Call your methods to login

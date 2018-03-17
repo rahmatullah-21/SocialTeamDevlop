@@ -91,8 +91,19 @@ namespace DominatorHouseCore.Models
 
         #region Http
 
-        [ProtoIgnore]
+        [ProtoMember(8)]
+        public bool IsUserLoggedIn { get; set; }
 
+        [ProtoMember(9)]
+        public string UserAgentWeb { get; set; } = string.Empty;
+
+        [ProtoMember(10)]
+        public string UserAgentMobile { get; set; } = string.Empty;
+
+        [ProtoMember(11)]
+        public bool UseMobileRequestOnly { get; set; } = false;
+
+        [ProtoIgnore]
         public HttpHelper HttpHelper { get; set; } = new HttpHelper();
 
         [ProtoIgnore]
@@ -106,16 +117,7 @@ namespace DominatorHouseCore.Models
 
         [ProtoIgnore]
         public DeviceGenerator DeviceDetails { get; set; } = new DeviceGenerator();
-
-        [ProtoIgnore]
-        public bool IsUserLoggedIn { get; set; }
-
-        [ProtoIgnore]
-        public string UserAgentWeb { get; set; } =  string.Empty;
-
-        [ProtoIgnore]
-        public string UserAgentMobile { get; set; } = string.Empty;
-
+     
         [ProtoIgnore]
         public int LastLogin { get; set; }
 
@@ -124,7 +126,7 @@ namespace DominatorHouseCore.Models
         #region Module Wise Details
 
         //It cont
-        [ProtoMember(8)]
+        [ProtoMember(12)]
         public string ModulePrivateDetails { get; set; } 
 
 

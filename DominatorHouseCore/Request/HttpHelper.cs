@@ -50,30 +50,30 @@ namespace DominatorHouseCore.Request
         }
 
         /// <summary>
-        /// Returns <see cref="DominatorHouseCore.Requests.IRequestParameters"/> which contains header details of 
+        /// Returns <see cref="IRequestParameters"/> which contains header details of 
         /// <see cref="HttpHelper"/>
         /// </summary>
-        /// <returns>A <see cref="DominatorHouseCore.Requests.IRequestParameters"/></returns>
-        public virtual IRequestParameters GetRequestParamaeter()
+        /// <returns>A <see cref="IRequestParameters"/></returns>
+        public virtual IRequestParameters GetRequestParameter()
             => RequestParameters;
 
         /// <summary>
         /// Set the web header details to <see cref="RequestParameters"/>
         /// </summary>
-        /// <param name="requestParameters">Pass the class which inherits <see cref="DominatorHouseCore.Requests.IRequestParameters"/> interface</param>
+        /// <param name="requestParameters">Pass the class which inherits <see cref="IRequestParameters"/> interface</param>
         public virtual void SetRequestParameter(IRequestParameters requestParameters)
             => RequestParameters = requestParameters;
 
 
       
         /// <summary>
-        /// <para>Set <see cref="DominatorHouseCore.Requests.IRequestParameters"/> details to the followings.</para>
-        /// <para> 1.<see cref="DominatorHouseCore.Requests.IRequestParameters.Headers"/> to <see cref="HttpWebRequest.Headers"/></para>
-        /// <para> 2.<see cref="DominatorHouseCore.Requests.IRequestParameters.Cookies"/> to <see cref="HttpWebRequest.CookieContainer"/></para>
-        /// <para> 3.<see cref="DominatorHouseCore.Requests.IRequestParameters.Proxy"/> to <see cref="HttpWebRequest.Proxy"/></para>
+        /// <para>Set <see cref="IRequestParameters"/> details to the followings.</para>
+        /// <para> 1.<see cref="IRequestParameters.Headers"/> to <see cref="HttpWebRequest.Headers"/></para>
+        /// <para> 2.<see cref="IRequestParameters.Cookies"/> to <see cref="HttpWebRequest.CookieContainer"/></para>
+        /// <para> 3.<see cref="IRequestParameters.Proxy"/> to <see cref="HttpWebRequest.Proxy"/></para>
         /// </summary>
         /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
-        /// <param name="requestParameter"><see cref="DominatorHouseCore.Requests.IRequestParameters"/></param>
+        /// <param name="requestParameter"><see cref="IRequestParameters"/></param>
         protected virtual void SetRequestParametersToWebRequest(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
         {
             try
@@ -162,10 +162,10 @@ namespace DominatorHouseCore.Request
         }
 
         /// <summary>
-        /// Set the <see cref="DominatorHouseCore.Requests.IRequestParameters.Proxy"/> to <see cref="HttpWebRequest.Proxy"/>
+        /// Set the <see cref="IRequestParameters.Proxy"/> to <see cref="HttpWebRequest.Proxy"/>
         /// </summary>
         /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
-        /// <param name="requestParameter"><see cref="DominatorHouseCore.Requests.IRequestParameters"/></param>
+        /// <param name="requestParameter"><see cref="IRequestParameters"/></param>
         private static void SetProxy(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
         {
             try
@@ -279,7 +279,7 @@ namespace DominatorHouseCore.Request
         /// <summary>
         /// Get the final response of the http request
         /// </summary>
-        /// <returns><see cref="DominatorHouseCore.Requests.IResponseParameter"/></returns>
+        /// <returns><see cref="IResponseParameter"/></returns>
         protected virtual IResponseParameter GetFinalResponse()
         {
             try
@@ -317,7 +317,7 @@ namespace DominatorHouseCore.Request
 
 
         /// <summary>
-        /// Get the final response data from <see cref="System.Net.HttpWebResponse"/> objects to <see cref="DominatorHouseCore.Requests.IResponseParameter"/>
+        /// Get the final response data from <see cref="System.Net.HttpWebResponse"/> objects to <see cref="IResponseParameter"/>
         /// </summary>
         /// <returns></returns>
         protected virtual IResponseParameter GetReponse(HttpWebResponse webResponse)
@@ -355,7 +355,7 @@ namespace DominatorHouseCore.Request
         /// Get http request from url with already setted RequestParameters
         /// </summary>
         /// <param name="url">url of tha page</param>
-        /// <returns><see cref="DominatorHouseCore.Requests.IResponseParameter"/></returns>
+        /// <returns><see cref="IResponseParameter"/></returns>
         public virtual IResponseParameter GetRequest(string url)
         {
             Request = (HttpWebRequest)WebRequest.Create(url);
@@ -367,8 +367,8 @@ namespace DominatorHouseCore.Request
         /// Get http request from url with new RequestParameters
         /// </summary>
         /// <param name="url">url of tha page</param>
-        /// <param name="requestParameters"><see cref="DominatorHouseCore.Requests.IRequestParameters"/></param>
-        /// <returns><see cref="DominatorHouseCore.Requests.IResponseParameter"/></returns>
+        /// <param name="requestParameters"><see cref="IRequestParameters"/></param>
+        /// <returns><see cref="IResponseParameter"/></returns>
         public virtual IResponseParameter GetRequest(string url, IRequestParameters requestParameters)
         {
             Request = (HttpWebRequest)WebRequest.Create(url);
@@ -419,7 +419,7 @@ namespace DominatorHouseCore.Request
         /// </summary>
         /// <param name="url">url of tha page</param>
         /// <param name="postData">post data which while pass with url</param>
-        /// <returns><see cref="DominatorHouseCore.Requests.IResponseParameter"/></returns>
+        /// <returns><see cref="IResponseParameter"/></returns>
         public virtual IResponseParameter PostRequest(string url, string postData)
         {
             Request = (HttpWebRequest)WebRequest.Create(url);
@@ -434,7 +434,7 @@ namespace DominatorHouseCore.Request
         /// </summary>
         /// <param name="url">url of tha page</param>
         /// <param name="postData">post data in byte array which while pass with url</param>
-        /// <returns><see cref="DominatorHouseCore.Requests.IResponseParameter"/></returns>
+        /// <returns><see cref="IResponseParameter"/></returns>
         public virtual IResponseParameter PostRequest(string url, byte[] postData)
         {
             Request = (HttpWebRequest)WebRequest.Create(url);
@@ -448,12 +448,27 @@ namespace DominatorHouseCore.Request
         /// </summary>
         /// <param name="url">url of tha page</param>
         /// <param name="postData">post data in byte array which while pass with url</param>
-        /// <param name="requestParamater"><see cref="DominatorHouseCore.Requests.IRequestParameters"/></param>
-        /// <returns><see cref="DominatorHouseCore.Requests.IResponseParameter"/></returns>
+        /// <param name="requestParamater"><see cref="IRequestParameters"/></param>
+        /// <returns><see cref="IResponseParameter"/></returns>
         public virtual IResponseParameter PostRequest(string url, string postData, IRequestParameters requestParamater)
         {
             this.Request = (HttpWebRequest)WebRequest.Create(url);
             Request.Host = Request.RequestUri.Host;
+            SetRequestParametersToWebRequest(ref Request, requestParamater);
+            WritePostData(ref Request, postData);
+            return GetFinalResponse();
+        }
+
+        /// <summary>
+        /// Post Request with url and postdata as sequences of bytes with new RequestParameter
+        /// </summary>
+        /// <param name="url">url of tha page</param>
+        /// <param name="postData">post data in byte array which while pass with url</param>
+        /// <param name="requestParamater"><see cref="IRequestParameters"/></param>
+        /// <returns><see cref="IResponseParameter"/></returns>
+        public virtual IResponseParameter PostRequest(string url, byte[] postData, IRequestParameters requestParamater)
+        {
+            Request = (HttpWebRequest)WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref Request, requestParamater);
             WritePostData(ref Request, postData);
             return GetFinalResponse();

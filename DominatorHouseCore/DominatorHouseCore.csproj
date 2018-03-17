@@ -178,8 +178,17 @@
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
     <Compile Include="Diagnostics\UI\UIDiagnostic.cs" />
     <Compile Include="Enums\ActivityType.cs" />
+    <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdGroupJoinerQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdPosterQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdProfileScraperQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
     <Compile Include="Enums\Gender.cs" />
     <Compile Include="Enums\MediaType.cs" />
+    <Compile Include="Enums\QdQuery\AnswerQueryParameters.cs" />
+    <Compile Include="Enums\QdQuery\QuestionQueryParameters.cs" />
+    <Compile Include="Enums\QdQuery\UserQueryParameters.cs" />
     <Compile Include="FileManagers\AccountsFileManager.cs" />
     <Compile Include="FileManagers\CampaignsFileManager.cs" />
     <Compile Include="FileManagers\ConfigFileManager.cs" />
@@ -225,6 +234,8 @@
     <Compile Include="Request\HttpHelper.cs" />
     <Compile Include="Interfaces\IHttpHelper.cs" />
     <Compile Include="Interfaces\IRequestHelper.cs" />
+    <Compile Include="Interfaces\IRequestParameters.cs" />
+    <Compile Include="Interfaces\IResponseParameter.cs" />
     <Compile Include="Request\RequestParameters.cs" />
     <Compile Include="Request\ResponseParameter.cs" />
     <Compile Include="Request\WebHelper.cs" />
@@ -298,7 +309,10 @@
       <Name>DataBaseConnectionCodeFirst</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Enums\GdQuery\" />
+    <Folder Include="Enums\LdQuery\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

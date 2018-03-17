@@ -163,6 +163,16 @@ namespace DominatorHouseCore.Models
             return descrKey.FromResourceDictionary();
         }
 
+        public string QueryTypeAsDisplayName(Type queryParameterType)
+        {
+            var value = Enum.Parse(queryParameterType, QueryType);
+
+            var descrKey = EnumUtility.GetDescriptionAttr((Enum)Enum.Parse(queryParameterType, value.ToString()));
+
+            return descrKey.FromResourceDictionary();
+        }
+
+
         [ProtoMember(8)]
         public string QueryTypeDisplayName
         {

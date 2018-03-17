@@ -1,145 +1,235 @@
-﻿using DominatorHouseCore.Utility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using DominatorHouseCore.Models;
-using GramDominatorCore.Request;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Utility;
 using Newtonsoft.Json.Linq;
 
-namespace DominatorHouseCore.Requests
+namespace DominatorHouseCore.Request
 {
 
-    /// <summary>
-    /// Here we can set respected reqest headers like useragent , referer , host , cookies , These will be added while creating request .  
-    /// </summary>
     public class RequestParameters : IRequestParameters
     {
         public RequestParameters(string url)
-        {
-            this.Url = url;
-        }
-        public RequestParameters()
-        {
-          
-        }
+        { Url = url; }
 
+        public RequestParameters() { }
+
+        /// <summary>
+        /// To assign the Cookies for request
+        /// </summary>
         public virtual System.Net.CookieCollection Cookies { get; set; }
 
+        /// <summary>
+        /// To assign the Http header
+        /// </summary>
         public WebHeaderCollection Headers { get; set; } = new WebHeaderCollection();
 
-
+        /// <summary>
+        /// To assign proxy for the http request
+        /// </summary>
         public Models.Proxy Proxy { get; set; }
-     
+
+        /// <summary>
+        /// If its true, allows the same tcp connection for upcoming http connections
+        /// </summary>
         public bool KeepAlive { get; set; }
 
+        /// <summary>
+        /// To specify media types which are acceptable for the response
+        /// </summary>
         public string Accept { get; set; }
 
+        /// <summary>
+        /// To specify the address of the previous pages of the http request
+        /// </summary>
         public string Referer { get; set; }
-        public string ContentType { get; set; } 
+
+        /// <summary>
+        /// To specify the media type of the body of the http request
+        /// </summary>
+        public string ContentType { get; set; }
+
+        /// <summary>
+        /// To specify the user agent
+        /// </summary>
         public string UserAgent { get; set; }
 
-      
-
+        /// <summary>
+        /// To specify the get or post request url
+        /// </summary>
         public string Url { get; set; }
 
+        /// <summary>
+        /// To specify the post data in bytes of sequences
+        /// </summary>
         public byte[] PostData { get; set; }
 
+        /// <summary>
+        /// To specify whether request for media type or not, such as images
+        /// </summary>
         public bool IsMultiPart { get; set; }
 
 
-        public Dictionary<string, FileData> fileList = new Dictionary<string, FileData>();
-        public Dictionary<string, string> parameters = new Dictionary<string, string>();
-        public Dictionary<string, string> postItems = new Dictionary<string, string>();
-
-
-        #region fucntions 
         /// <summary>
-        /// GenerateMultipartBoundary
+        /// AddHeader is used to add the header key and values to <see cref="RequestParameters.Headers"/>
         /// </summary>
-        /// <returns></returns>
-        private static string GenerateMultipartBoundary()
+        /// <param name="key">The header to add to the collection</param>
+        /// <param name="value">The content of the header</param>
+        public void AddHeader(string key, string value)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            int max = "-_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".Length - 1;
-            for (int index = 0; index < 30; ++index)
-                stringBuilder.Append("-_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[RandomUtilties.GetRandomNumber(max, 0)]);
-            return stringBuilder.ToString();
+            try
+            {
+                Headers.Add(key, value);
+            }
+            catch (Exception ex)
+            {
+                ex.ErrorLog();
+            }
+        }
+
+        /// <summary>
+        /// To add media files with their respective <see cref="DominatorHouseCore.Request.FileData"/> details
+        /// </summary>
+        public Dictionary<string, FileData> FileList { get; set; } = new Dictionary<string, FileData>();
+
+        /// <summary>
+        /// To append the extra parameter to url
+        /// For example : https://webaddress.com/?paramkey1=paramvalue1&paramkey2=paramvalue2
+        /// Here url : https://webaddress.com/
+        /// So UrlParameters contains two items
+        /// UrlParameters  = new Dictionary &lt;string, string &gt;() { { "paramkey1", "paramvalue1" } , { "paramkey2", "paramvalue3" } };
+        /// </summary>
+        public Dictionary<string, string> UrlParameters { get; set; } 
+            = new Dictionary<string, string>();
+
+        /// <summary>
+        /// To Add the extra parameter to post data
+        /// For Example posturl =  https://webaddress.com/ and 
+        /// postdata = paramkey1=paramvalue1&paramkey2=paramvalue2
+        /// So PostDataParameters contains two items
+        /// PostDataParameters  = new Dictionary &lt;string, string &gt;() { { "paramkey1", "paramvalue1" } , { "paramkey2", "paramvalue3" } };
+        /// </summary>
+        public Dictionary<string, string> PostDataParameters { get; set; } 
+            = new Dictionary<string, string>();
+
+       
+
+        /// <summary>
+        /// To add the extra parameter along with url.
+        /// The key and values will add in  <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters"/>
+        /// </summary>
+        /// <param name="key">parameter title</param>
+        /// <param name="value">parameter value</param>
+        public void AddUrlParameters(string key, string value) => UrlParameters.Add(key, value);
+
+        /// <summary>
+        /// To add the extra parameter in post data.
+        /// The key and values will add in  <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters"/>
+        /// </summary>
+        /// <param name="key">parameter title</param>
+        /// <param name="value">parameter value</param>
+        public void AddPostDataParameters(string key, string value) => PostDataParameters.Add(key, value);
+
+        /// <summary>
+        /// To add the file description along with title, image byte sequences and file name 
+        /// </summary>
+        /// <param name="title">File title</param>
+        /// <param name="data">image byte sequences</param>
+        /// <param name="fileName">file name </param>
+        public void AddFileList(string title, byte[] data, string fileName)
+        {
+            var headers = new NameValueCollection
+            {
+                {"Content-Type", "application/octet-stream"},
+                {"Content-Transfer-Encoding", "binary"}
+            };
+
+            if (fileName != null)
+            {
+                fileName = Path.GetFileName(fileName);
+
+                if (data != null)
+                {
+                    var fileData = new FileData(headers, fileName, data);
+                    FileList.Add(title, fileData);
+                }
+            }
+            IsMultiPart = true;
         }
 
 
         /// <summary>
-        /// CreateMultipartBody
+        /// To add the file description along with headers, title, image byte sequences and file name 
         /// </summary>
-        /// <param name="jsonString"></param>
-        /// <returns></returns>
-        public virtual byte[] CreateMultipartBody(string jsonString)
+        /// <param name="headers">Specify the content-type and Content-Transfer-Encoding</param>
+        /// <param name="title">File title</param>
+        /// <param name="data">image byte sequences</param>
+        /// <param name="fileName">file name </param>
+        public void AddFileList(NameValueCollection headers, string title, byte[] data, string fileName)
         {
-            JObject jobject = JObject.Parse(jsonString);
-            string multipartBoundary = GenerateMultipartBoundary();
-            string str1 = string.Format("--{0}", (object)multipartBoundary);
-            string str2 = string.Format("--{0}--", (object)multipartBoundary);
-            StringBuilder stringBuilder = new StringBuilder();
-
-            using (MemoryStream memoryStream = new MemoryStream())
+            if (fileName != null)
             {
-                stringBuilder.AppendLine(str1);
-                foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
+                fileName = Path.GetFileName(fileName);
+                if (data != null && headers != null)
                 {
-                    stringBuilder.AppendLine(str1);
-                    stringBuilder.AppendLine(string.Format("Content-Disposition: form-data; name=\"{0}\"", (object)keyValuePair.Key));
-                    stringBuilder.AppendLine();
-                    stringBuilder.AppendLine(keyValuePair.Value.ToString());
+                    var fileData = new FileData(headers, fileName, data);
+                    FileList.Add(title, fileData);
                 }
-                foreach (KeyValuePair<string, string> postItem in this.postItems)
-                {
-                    stringBuilder.AppendLine(str1);
-                    stringBuilder.AppendLine(string.Format("Content-Disposition: form-data; name=\"{0}\"", (object)postItem.Key));
-                    stringBuilder.AppendLine();
-                    stringBuilder.AppendLine(postItem.Value);
-                }
-                foreach (KeyValuePair<string, FileData> file in this.fileList)
-                {
-                    stringBuilder.AppendLine(str1);
-                    stringBuilder.AppendLine(string.Format("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"", (object)file.Key, (object)file.Value.FileName));
-                    foreach (string header in (NameObjectCollectionBase)file.Value.Headers)
-                        stringBuilder.AppendLine(string.Format("{0}: {1}", (object)header, (object)file.Value.Headers[header]));
-                    stringBuilder.AppendLine();
-                    byte[] bytes = Encoding.UTF8.GetBytes(stringBuilder.ToString());
-                    memoryStream.Write(bytes, 0, bytes.Length);
-                    stringBuilder.Clear();
-                    memoryStream.Write(file.Value.Contents, 0, file.Value.Contents.Length);
-                }
-
-                byte[] bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + str2);
-                memoryStream.Write(bytes1, 0, bytes1.Length);
-                this.AddHeader("Content-Type", string.Format("multipart/form-data; boundary={0}", (object)multipartBoundary));
-
-                return memoryStream.ToArray();
             }
+            IsMultiPart = true;
+        }
+
+        /// <summary>
+        /// To Generate the request url alone with <see cref="DominatorHouseCore.Request.RequestParameters.Url"/> and stored <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters"/> items
+        /// </summary>      
+        /// <returns>returns the valid url</returns>
+        public string GenerateUrl()
+        {
+            var array = GetUrlParameterValues();
+            return $"{Url}{(array.Length != 0 ? "?" : string.Empty)}{string.Join("&", array)}";
+        }
+
+        /// <summary>
+        /// To Generate the request url alone with given url and stored <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters"/> items
+        /// </summary>
+        /// <param name="url">the actual url</param>
+        /// <returns>returns the valid url</returns>
+        public string GenerateUrl([NotNull] string url)
+        {
+            if (url == null)
+                throw new ArgumentNullException(nameof(url));
+
+            var array = GetUrlParameterValues();
+
+            // need to check given parameters are not used
+            return $"{Url}{(array.Length != 0 ? "?" : string.Empty)}{string.Join("&", array)}";
+        }
+
+        /// <summary>
+        /// To retrieve the stored <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters"/> items as bytes sequences
+        /// </summary>
+        /// <returns>stored items in <see cref="DominatorHouseCore.Request.RequestParameters.UrlParameters"/></returns>
+        private string[] GetUrlParameterValues()
+        {
+            return UrlParameters.Select(x =>
+                        $"{WebUtility.UrlEncode(x.Key)}={WebUtility.UrlEncode(x.Value)}").ToArray();
         }
 
 
         /// <summary>
-        /// CreateSimplePost
-        /// </summary>
-        /// <param name="jsonString"></param>
-        /// <returns></returns>
-        public byte[] CreateSimplePost(string jsonString)
+        /// To generate the normal post data from already stored in <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters"/>
+        /// </summary>       
+        /// <returns>post data in sequences of bytes</returns>
+        public byte[] GeneratePostData()
         {
-            JObject jobject = JObject.Parse(jsonString);
-            StringBuilder stringBuilder = new StringBuilder();
-            foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
-            {
-                stringBuilder.Append(keyValuePair.Key);
-                stringBuilder.Append("=");
-                stringBuilder.Append((object)keyValuePair.Value);
-                stringBuilder.Append("&");
-            }
-            foreach (KeyValuePair<string, string> postItem in this.postItems)
+            var stringBuilder = new StringBuilder();
+            foreach (KeyValuePair<string, string> postItem in PostDataParameters)
             {
                 stringBuilder.Append(postItem.Key);
                 stringBuilder.Append("=");
@@ -150,122 +240,223 @@ namespace DominatorHouseCore.Requests
             return Encoding.UTF8.GetBytes(stringBuilder.ToString());
         }
 
+
         /// <summary>
-        /// AddHeader
+        /// To generate the normal post data from json string
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        public void AddHeader(string key, string value)
+        /// <param name="jsonString">post data which will pass as bytes</param>
+        /// <returns>post data in sequences of bytes</returns>
+        public byte[] GeneratePostDataFromJson(string jsonString)
         {
-            try
+            var jobject = JObject.Parse(jsonString);
+            var stringBuilder = new StringBuilder();
+            foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
             {
-                this.Headers.Add(key, value);
-            }
-            catch (Exception Ex)
+                stringBuilder.Append(keyValuePair.Key);
+                stringBuilder.Append("=");
+                stringBuilder.Append((object)keyValuePair.Value);
+                stringBuilder.Append("&");
+            }            
+            --stringBuilder.Length;
+            return Encoding.UTF8.GetBytes(stringBuilder.ToString());
+        }
+
+
+        /// <summary>
+        /// To generate the normal post data from json and already stored in <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters"/>
+        /// </summary>
+        /// <param name="jsonString">post data which will pass as bytes</param>
+        /// <returns>post data in sequences of bytes</returns>
+        public byte[] GeneratePostData(string jsonString)
+        {
+            var jobject = JObject.Parse(jsonString);
+            var stringBuilder = new StringBuilder();
+            foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
             {
+                stringBuilder.Append(keyValuePair.Key);
+                stringBuilder.Append("=");
+                stringBuilder.Append((object)keyValuePair.Value);
+                stringBuilder.Append("&");
             }
-        }
-
-        /// <summary>
-        /// AddParam
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        public void AddParam(string key, string value)
-        {
-            this.parameters.Add(key, value);
-        }
-
-        /// <summary>
-        /// Adds Unsigned Post
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        public void AddUnsignedPost(string key, string value)
-        {
-            this.postItems.Add(key, value);
-        }
-
-        /// <summary>
-        /// AddFile
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="data"></param>
-        /// <param name="fileName"></param>
-        public void AddFile(string key, byte[] data, string fileName)
-        {
-            NameValueCollection headers = new NameValueCollection();
-            headers.Add("Content-Type", "application/octet-stream");
-            headers.Add("Content-Transfer-Encoding", "binary");
-            fileName = Path.GetFileName(fileName);
-            string fileName1 = fileName;
-            byte[] contents = data;
-            FileData fileData = new FileData(headers, fileName1, contents);
-            this.fileList.Add(key, fileData);
-            this.IsMultiPart = true;
+            foreach (KeyValuePair<string, string> postItem in PostDataParameters)
+            {
+                stringBuilder.Append(postItem.Key);
+                stringBuilder.Append("=");
+                stringBuilder.Append(postItem.Value);
+                stringBuilder.Append("&");
+            }
+            --stringBuilder.Length;
+            return Encoding.UTF8.GetBytes(stringBuilder.ToString());
         }
 
 
         /// <summary>
-        /// GenerateUrl
+        /// Generate multipart boundary values for multipart initial values 
         /// </summary>
         /// <returns></returns>
-        public string GenerateUrl()
+        private static string GenerateMultipartBoundary()
         {
-            string[] array =
-                this.parameters.Select<KeyValuePair<string, string>, string>
-                (
-                    (Func<KeyValuePair<string, string>, string>)(x => string.Format("{0}={1}", (object)WebUtility.UrlEncode(x.Key), (object)WebUtility.UrlEncode(x.Value)))).ToArray<string>();
-            return string.Format("{0}{1}{2}", (object)this.Url, array.Length != 0 ? (object)"?" : (object)string.Empty, (object)string
-
-                .Join("&", array));
+            var stringBuilder = new StringBuilder();
+            var max = "-_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".Length - 1;
+            for (var index = 0; index < 30; ++index)
+                stringBuilder.Append("-_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[RandomUtilties.GetRandomNumber(max, 0)]);
+            return stringBuilder.ToString();
         }
-
 
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public string GenerateUrl(string url)
+        /// To generate the multi part post data for media files and rest of the post data are generated from stored <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters"/> items
+        /// </summary>       
+        /// <returns>post data in sequences of bytes</returns>
+        public virtual byte[] CreateMultipartBody()
         {
-            string[] array =
-                this.parameters.Select<KeyValuePair<string, string>, string>
-                (
-                    (Func<KeyValuePair<string, string>, string>)(x => string.Format("{0}={1}", WebUtility.UrlEncode(x.Key), WebUtility.UrlEncode(x.Value)))).ToArray<string>();
-            return string.Format("{0}{1}{2}", this.Url, array.Length != 0 ? "?" : string.Empty,string
-                .Join("&", array));
+
+            var multipartBoundary = GenerateMultipartBoundary();
+
+            var strMultipartBoundary = $"--{multipartBoundary}";
+
+            var stringBuilder = new StringBuilder();
+
+            using (var memoryStream = new MemoryStream())
+            {
+                stringBuilder.AppendLine(strMultipartBoundary);
+
+                foreach (KeyValuePair<string, string> postItem in PostDataParameters)
+                {
+                    stringBuilder.AppendLine(strMultipartBoundary);
+                    stringBuilder.AppendLine($"Content-Disposition: form-data; name=\"{postItem.Key as object}\"");
+                    stringBuilder.AppendLine();
+                    stringBuilder.AppendLine(postItem.Value);
+                }
+                foreach (KeyValuePair<string, FileData> file in FileList)
+                {
+                    stringBuilder.AppendLine(strMultipartBoundary);
+                    stringBuilder.AppendLine(
+                        $"Content-Disposition: form-data; name=\"{file.Key as object}\"; filename=\"{file.Value.FileName as object}\"");
+
+                    foreach (string header in file.Value.Headers)
+                        stringBuilder.AppendLine($"{(object)header}: {file.Value.Headers[header] as object}");
+
+                    stringBuilder.AppendLine();
+                    var bytes = Encoding.UTF8.GetBytes(stringBuilder.ToString());
+                    memoryStream.Write(bytes, 0, bytes.Length);
+                    stringBuilder.Clear();
+                    memoryStream.Write(file.Value.Contents, 0, file.Value.Contents.Length);
+                }
+
+                byte[] bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
+                memoryStream.Write(bytes1, 0, bytes1.Length);
+
+                AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
+
+                return memoryStream.ToArray();
+            }
         }
 
-        #endregion
+        /// <summary>
+        /// To generate the multi part post data for media files and rest of the post data are generated from given Jsonstring 
+        /// </summary>
+        /// <param name="jsonString">post data which will pass as bytes</param>
+        /// <returns>post data in sequences of bytes</returns>
+        public virtual byte[] CreateMultipartBodyFromJson(string jsonString)
+        {
+            var jobject = JObject.Parse(jsonString);
+            var multipartBoundary = GenerateMultipartBoundary();
 
-    }
+            var strMultipartBoundary = $"--{multipartBoundary}";
+
+            var stringBuilder = new StringBuilder();
+
+            using (var memoryStream = new MemoryStream())
+            {
+                stringBuilder.AppendLine(strMultipartBoundary);
+                foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
+                {
+                    stringBuilder.AppendLine(strMultipartBoundary);
+                    stringBuilder.AppendLine($"Content-Disposition: form-data; name=\"{keyValuePair.Key as object}\"");
+                    stringBuilder.AppendLine();
+                    stringBuilder.AppendLine(keyValuePair.Value.ToString());
+                }              
+                foreach (KeyValuePair<string, FileData> file in FileList)
+                {
+                    stringBuilder.AppendLine(strMultipartBoundary);
+                    stringBuilder.AppendLine(
+                        $"Content-Disposition: form-data; name=\"{file.Key as object}\"; filename=\"{file.Value.FileName as object}\"");
+
+                    foreach (string header in file.Value.Headers)
+                        stringBuilder.AppendLine($"{(object)header}: {file.Value.Headers[header] as object}");
+
+                    stringBuilder.AppendLine();
+                    var bytes = Encoding.UTF8.GetBytes(stringBuilder.ToString());
+                    memoryStream.Write(bytes, 0, bytes.Length);
+                    stringBuilder.Clear();
+                    memoryStream.Write(file.Value.Contents, 0, file.Value.Contents.Length);
+                }
+
+                byte[] bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
+                memoryStream.Write(bytes1, 0, bytes1.Length);
+
+                AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
+
+                return memoryStream.ToArray();
+            }
+        }
 
 
-    public interface IRequestParameters
-    {
-        WebHeaderCollection Headers { get; set; }
+        /// <summary>
+        /// To generate the multi part post data for media files and rest of the post data are generated from given Jsonstring and stored <see cref="DominatorHouseCore.Request.RequestParameters.PostDataParameters"/> items
+        /// </summary>
+        /// <param name="jsonString">post data which will pass as bytes</param>
+        /// <returns>post data in sequences of bytes</returns>
+        public virtual byte[] CreateMultipartBody(string jsonString)
+        {
+            var jobject = JObject.Parse(jsonString);
+            var multipartBoundary = GenerateMultipartBoundary();
 
-        System.Net.CookieCollection Cookies { get;  set;}
+            var strMultipartBoundary = $"--{multipartBoundary}";
 
-        string ContentType { get; set; }
+            var stringBuilder = new StringBuilder();
 
-        string UserAgent { get; set; }
+            using (var memoryStream = new MemoryStream())
+            {
+                stringBuilder.AppendLine(strMultipartBoundary);
+                foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
+                {
+                    stringBuilder.AppendLine(strMultipartBoundary);
+                    stringBuilder.AppendLine($"Content-Disposition: form-data; name=\"{keyValuePair.Key as object}\"");
+                    stringBuilder.AppendLine();
+                    stringBuilder.AppendLine(keyValuePair.Value.ToString());
+                }
+                foreach (KeyValuePair<string, string> postItem in PostDataParameters)
+                {
+                    stringBuilder.AppendLine(strMultipartBoundary);
+                    stringBuilder.AppendLine($"Content-Disposition: form-data; name=\"{postItem.Key as object}\"");
+                    stringBuilder.AppendLine();
+                    stringBuilder.AppendLine(postItem.Value);
+                }
+                foreach (KeyValuePair<string, FileData> file in FileList)
+                {
+                    stringBuilder.AppendLine(strMultipartBoundary);
+                    stringBuilder.AppendLine(
+                        $"Content-Disposition: form-data; name=\"{file.Key as object}\"; filename=\"{file.Value.FileName as object}\"");
 
-        Proxy Proxy { get; set; }
+                    foreach (string header in file.Value.Headers)
+                        stringBuilder.AppendLine($"{(object)header}: {file.Value.Headers[header] as object}");
 
-        bool KeepAlive { get; set; }
+                    stringBuilder.AppendLine();
+                    var bytes = Encoding.UTF8.GetBytes(stringBuilder.ToString());
+                    memoryStream.Write(bytes, 0, bytes.Length);
+                    stringBuilder.Clear();
+                    memoryStream.Write(file.Value.Contents, 0, file.Value.Contents.Length);
+                }
 
-        string Accept { get; set; }
+                byte[] bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
+                memoryStream.Write(bytes1, 0, bytes1.Length);
 
-        string Referer { get; set; }
+                AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
 
-        string Url { get; set; }
-
-        byte[] PostData { get; set; }
-
-        bool IsMultiPart { get; set; }
-
-        void AddHeader(string key, string value);
+                return memoryStream.ToArray();
+            }
+        }
     }
 }

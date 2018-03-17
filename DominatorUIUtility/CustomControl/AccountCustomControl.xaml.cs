@@ -160,7 +160,39 @@ namespace DominatorUIUtility.CustomControl
                     DominatorAccountViewModel.GridHeaderColumn4.Header = "Board Count";
                     DominatorAccountViewModel.SocialNetwork = SocialNetworks.Pinterest;
                     break;
-
+                case SocialNetworks.Gplus:
+                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Gplus);
+                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
+                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
+                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Board Count";
+                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Gplus;
+                    break;
+                case SocialNetworks.Reddit:
+                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Reddit);
+                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
+                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
+                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Board Count";
+                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Reddit;
+                    break;
+                case SocialNetworks.Youtube:
+                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Youtube);
+                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
+                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
+                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
+                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Board Count";
+                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Youtube;
+                    break;
             }
         }
 

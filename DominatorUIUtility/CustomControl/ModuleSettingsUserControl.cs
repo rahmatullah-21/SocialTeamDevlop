@@ -254,6 +254,50 @@ namespace DominatorUIUtility.CustomControl
 
 
         /// <summary>
+        /// Add Query handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="queryParameterType"></param>
+        protected void SearchQueryControl_OnAddQuery(object sender, RoutedEventArgs e,Type queryParameterType)
+        {
+            if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue))
+            {
+                _queryControl.QueryCollection.ForEach(query =>
+                {
+                    var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
+
+                    if (currentQuery == null) return;
+
+                    currentQuery.QueryValue = query;
+
+                    currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName(queryParameterType);
+
+                    currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                    Model.SavedQueries.Add(currentQuery);
+
+                });
+            }
+            else
+            {
+                _queryControl.CurrentQuery.QueryTypeDisplayName = _queryControl.CurrentQuery.QueryTypeAsDisplayName(queryParameterType);
+
+                var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
+
+                if (currentQuery == null) return;
+
+                currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                Model.SavedQueries.Add(currentQuery);
+
+                _queryControl.CurrentQuery = new QueryInfo();
+
+            }
+        }
+
+
+        /// <summary>
         /// On Custom filter  changed
         /// </summary>
         /// <param name="sender"></param>

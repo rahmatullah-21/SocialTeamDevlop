@@ -118,6 +118,9 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter")]
         Tweet = 39,
 
+        [Description("Facebook")]
+        ProfileScraper = 40,
+
         [Description("Quora")]
         DownvoteQuestions = 41,
 
@@ -129,5 +132,16 @@ namespace DominatorHouseCore.Enums
 
         [Description("Gplus")]
         Unjoin = 44,
+
+        [Description("Facebook")]
+        PostLikerCommentor = 45,
+
+        [Description("Facebook")]
+        FanpageLiker = 46,
+
+        [Description("Facebook")]
+        WebpageLikerCommentor = 47,
+
+        
     }
 }

@@ -8,5 +8,7 @@ namespace DominatorHouseCore.Interfaces
     public interface IGeneralSettings 
     {
         JobConfiguration JobConfiguration { get; set; }
+
+        bool IsAccountGrowthActive { get; set; }
     }
 }

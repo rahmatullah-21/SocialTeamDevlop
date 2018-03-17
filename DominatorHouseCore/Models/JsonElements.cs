@@ -245,6 +245,13 @@ namespace DominatorHouseCore.Models
         [JsonProperty(PropertyName = "window_id")]
         public string WindowId { get; set; }
 
+        [JsonProperty(PropertyName = "parent_domid")]
+        public string ParentDomId { get; set; }
+
+        [JsonProperty(PropertyName = "parent_cid")]
+        public string ParentCid { get; set; }
+
+
         public class DeviceJson
         {
             [JsonProperty(PropertyName = "android_release")]

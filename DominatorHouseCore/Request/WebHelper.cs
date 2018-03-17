@@ -14,123 +14,200 @@ namespace DominatorHouseCore.Requests
             return value;
         }
 
-        public static WebHelper.WebExceptionIssue GetErrorMsgWebrequest(this WebException ex)
+        public static WebExceptionIssue GetErrorMsgWebrequest(this WebException ex)
         {
             switch (ex.Status)
             {
                 case WebExceptionStatus.Success:
-                    throw new NotImplementedException();
+                    return new WebExceptionIssue
+                    {
+                        MessageShort = "Success",
+                        MessageLong = "No error was encountered.",
+                        MessageSolution = "Everything is fine"
+                    };
                 case WebExceptionStatus.NameResolutionFailure:
-                    return new WebHelper.WebExceptionIssue()
+                    return new WebExceptionIssue
                     {
                         MessageShort = "No connection",
                         MessageLong = "Unable to resolve host name.",
-                        MessageSolution = "Make sure there is an internet connection. Make sure your DNS server is working."
+                        MessageSolution =
+                            "Make sure there is an internet connection. Make sure your DNS server is working."
                     };
                 case WebExceptionStatus.ConnectFailure:
-                    return new WebHelper.WebExceptionIssue()
+                    return new WebExceptionIssue
                     {
                         MessageShort = "No connection",
                         MessageLong = "Unable to make a request to the host. Unable to create a connection.",
                         MessageSolution = "Make sure there is an internet connection."
                     };
                 case WebExceptionStatus.ReceiveFailure:
-                    return new WebHelper.WebExceptionIssue()
+                    return new WebExceptionIssue
                     {
                         MessageShort = "Server Error",
                         MessageLong = "A complete response was not received from the remote server.",
-                        MessageSolution = "Make sure there is an internet connection and that your connection is stable."
+                        MessageSolution =
+                            "Make sure there is an internet connection and that your connection is stable."
                     };
                 case WebExceptionStatus.SendFailure:
-                    return new WebHelper.WebExceptionIssue()
+                    return new WebExceptionIssue
                     {
                         MessageShort = "DNS Error",
                         MessageLong = "A complete request could not be sent to the remote server.",
-                        MessageSolution = "Make sure there is an internet connection and that your connection is stable."
+                        MessageSolution =
+                            "Make sure there is an internet connection and that your connection is stable."
                     };
                 case WebExceptionStatus.PipelineFailure:
-                    throw new NotImplementedException();
+                    return new WebExceptionIssue
+                    {
+                        MessageShort = "Connection error",
+                        MessageLong =
+                            "The request was a pipelined request and the connection was closed before the response was received. ",
+                        MessageSolution =
+                            "Make sure there is an internet connection and that your connection is stable."
+                    };
                 case WebExceptionStatus.RequestCanceled:
-                    return new WebHelper.WebExceptionIssue()
+                    return new WebExceptionIssue
                     {
                         MessageShort = "Request canceled",
                         MessageLong = "The request was canceled/aborted.",
                         MessageSolution = "Contact support"
                     };
                 case WebExceptionStatus.ProtocolError:
-                    switch (((HttpWebResponse)ex.Response).StatusCode)
+                    switch (((HttpWebResponse) ex.Response).StatusCode)
                     {
                         case HttpStatusCode.RequestTimeout:
-                            return new WebHelper.WebExceptionIssue()
+                            return new WebExceptionIssue
                             {
                                 MessageShort = "Bad Request",
                                 MessageLong = "The data you sent was not expected by the server.",
-                                MessageSolution = "Make sure the data you send to the server is correct. If the issue persists, contact support."
+                                MessageSolution =
+                                    "Make sure the data you send to the server is correct. If the issue persists, contact support."
                             };
                         case HttpStatusCode.InternalServerError:
                         case HttpStatusCode.BadGateway:
-                            return new WebHelper.WebExceptionIssue()
+                            return new WebExceptionIssue
                             {
                                 MessageShort = "Connection error",
                                 MessageLong = "An incomplete request was made.",
-                                MessageSolution = "Make sure there is an internet connection. If the issue persists, contact support."
+                                MessageSolution =
+                                    "Make sure there is an internet connection. If the issue persists, contact support."
                             };
                         case HttpStatusCode.ServiceUnavailable:
-                            return new WebHelper.WebExceptionIssue()
+                            return new WebExceptionIssue
                             {
                                 MessageShort = "Connection error",
                                 MessageLong = "Server has closed.",
-                                MessageSolution = "Make sure there is an internet connection. If the issue persists, contact support."
+                                MessageSolution =
+                                    "Make sure there is an internet connection. If the issue persists, contact support."
                             };
                         default:
-                            throw new NotImplementedException();
+                            return new WebExceptionIssue
+                            {
+                                MessageShort = "Protocol error",
+                                MessageLong = "Unknown protocol error occurred.",
+                                MessageSolution =
+                                    "Make sure there is an internet connection. If the issue persists, contact support."
+                            };
                     }
                 case WebExceptionStatus.ConnectionClosed:
-                    throw new NotImplementedException();
-                case WebExceptionStatus.TrustFailure:
-                    throw new NotImplementedException();
-                case WebExceptionStatus.SecureChannelFailure:
-                    throw new NotImplementedException();
-                case WebExceptionStatus.ServerProtocolViolation:
-                    throw new NotImplementedException();
-                case WebExceptionStatus.KeepAliveFailure:
-                    return new WebHelper.WebExceptionIssue()
+                    return new WebExceptionIssue
                     {
                         MessageShort = "Connection error",
-                        MessageLong = "The connection for a request that specifies the Keep-alive header was closed unexpectedly.",
-                        MessageSolution = "Make sure there is an internet connection. If the issue persists, contact support."
+                        MessageLong = "The Connection was prematurely closed.",
+                        MessageSolution =
+                            "Make sure there is an internet connection. If the issue persists, contact support."
+                    };
+                case WebExceptionStatus.TrustFailure:
+                    return new WebExceptionIssue
+                    {
+                        MessageShort = "Validation error",
+                        MessageLong = "A server certificate could not validated.",
+                        MessageSolution =
+                            "Make sure there is an internet connection. If the issue persists, contact support."
+                    };
+                case WebExceptionStatus.SecureChannelFailure:
+                    return new WebExceptionIssue
+                    {
+                        MessageShort = "Connection error",
+                        MessageLong = "An error occurred while establishing a connection using SSL.",
+                        MessageSolution =
+                            "Make sure there is an internet connection. If the issue persists, contact support."
+                    };
+                case WebExceptionStatus.ServerProtocolViolation:
+                    return new WebExceptionIssue
+                    {
+                        MessageShort = "Server error",
+                        MessageLong = "The server response was not a valid HTTP Response.",
+                        MessageSolution =
+                            "Make sure there is an internet connection. If the issue persists, contact support."
+                    };
+                case WebExceptionStatus.KeepAliveFailure:
+                    return new WebExceptionIssue
+                    {
+                        MessageShort = "Connection error",
+                        MessageLong =
+                            "The connection for a request that specifies the Keep-alive header was closed unexpectedly.",
+                        MessageSolution =
+                            "Make sure there is an internet connection. If the issue persists, contact support."
                     };
                 case WebExceptionStatus.Pending:
-                    return new WebHelper.WebExceptionIssue()
+                    return new WebExceptionIssue
                     {
                         MessageShort = "Connection error",
                         MessageLong = "An internal asynchronous request is pending.",
                         MessageSolution = "Contact support"
                     };
                 case WebExceptionStatus.Timeout:
-                    return new WebHelper.WebExceptionIssue()
+                    return new WebExceptionIssue
                     {
                         MessageShort = "Request Timed Out",
                         MessageLong = "When requesting an url, the request timed out.",
-                        MessageSolution = "Make sure there is an internet connection, or try to increase the request timeout."
+                        MessageSolution =
+                            "Make sure there is an internet connection, or try to increase the request timeout."
                     };
                 case WebExceptionStatus.ProxyNameResolutionFailure:
-                    return new WebHelper.WebExceptionIssue()
+                    return new WebExceptionIssue
                     {
                         MessageShort = "No connection",
                         MessageLong = "The name resolver service could not resolve the proxy host name.",
                         MessageSolution = "Make sure there is an internet connection."
                     };
                 case WebExceptionStatus.UnknownError:
-                    throw new NotImplementedException();
+                    return new WebExceptionIssue
+                    {
+                        MessageShort = "Unknown Error",
+                        MessageLong = "The exception of unknown type has occurred",
+                        MessageSolution = "Make sure there is an internet connection."
+                    };
                 case WebExceptionStatus.MessageLengthLimitExceeded:
-                    throw new NotImplementedException();
+                    return new WebExceptionIssue
+                    {
+                        MessageShort = "Request/Response Error",
+                        MessageLong =
+                            "A message was received that exceeded the specified limit when sending a request or receiving response from the server.",
+                        MessageSolution = "Make sure there is an internet connection."
+                    };
                 case WebExceptionStatus.CacheEntryNotFound:
-                    throw new NotImplementedException();
+                    return new WebExceptionIssue
+                    {
+                        MessageShort = "Server Error",
+                        MessageLong = "The specified cache entry was not found",
+                        MessageSolution = "Make sure there is an internet connection."
+                    };
                 case WebExceptionStatus.RequestProhibitedByCachePolicy:
-                    throw new NotImplementedException();
+                    return new WebExceptionIssue
+                    {
+                        MessageShort = "Request Error",
+                        MessageLong = "The request was not permitted by the cache policy.",
+                        MessageSolution = "Make sure there is an internet connection."
+                    };
                 case WebExceptionStatus.RequestProhibitedByProxy:
-                    throw new NotImplementedException();
+                    return new WebExceptionIssue
+                    {
+                        MessageShort = "Request Error",
+                        MessageLong = "The request was not permitted by the proxy.",
+                        MessageSolution = "Make sure there is an internet connection."
+                    };
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -141,9 +218,7 @@ namespace DominatorHouseCore.Requests
             Uri result;
             if (uri == "N/A" || !Uri.TryCreate(uri, UriKind.Absolute, out result))
                 return false;
-            if (!(result.Scheme == Uri.UriSchemeHttp))
-                return result.Scheme == Uri.UriSchemeHttps;
-            return true;
+            return result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps;
         }
 
         public class WebExceptionIssue

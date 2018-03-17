@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
-    
+
     <system:String x:Key="FdlangFriend">FB Friend</system:String>
     <system:String x:Key="FdlangFbPoster">FB Poster</system:String>
     <system:String x:Key="FdlangFbMessanger">FB Messanger</system:String>
@@ -10,29 +10,29 @@
     <system:String x:Key="FdlangFbInviter">FB Inviter</system:String>
     <system:String x:Key="FdlangFbEvents">FB Events</system:String>
     <system:String x:Key="FdlangFbScraper">FB Scraper</system:String>
-    
+
     <system:String x:Key="FdlangSendFriendRequest">Send Friend Request</system:String>
     <system:String x:Key="FdlangIncomingFriendRequest">Incoming Friend Request</system:String>
     <system:String x:Key="FdlangManageFriendRequest">Manage Friend Request</system:String>
     <system:String x:Key="FdlangUnfriend">Unfriend</system:String>
-    
+
     <system:String x:Key="FdlangProfileScraper">Profile Scraper</system:String>
     <system:String x:Key="FdlangFanpageScraper">Fanpage Scraper</system:String>
     <system:String x:Key="FdlangGroupScraper">Group Scraper</system:String>
     <system:String x:Key="FdlangCommentScraper">Comment Scraper</system:String>
     <system:String x:Key="FdlangPostScraper">Post Scraper</system:String>
-    
+
     <system:String x:Key="FdlangMale">Male</system:String>
     <system:String x:Key="FdlangFemale">Female</system:String>
     <system:String x:Key="FdlangBoth">Both</system:String>
-    
+
     <system:String x:Key="FdlangEngagementType">Engagement Type</system:String>
     <system:String x:Key="FdlangExecuteActionAs">Execute Action As</system:String>
     <system:String x:Key="FdlangProfileFilters">Profile Filters</system:String>
     <system:String x:Key="FdlangPageFilters">Fanpage Filters</system:String>
     <system:String x:Key="FdlangGroupFilters">Group Filters</system:String>
     <system:String x:Key="FdlangPostReactionFilters">Post Reaction Filter</system:String>
-    <system:String x:Key="FdlangLikeFilters">Like (Select desired reactions below)</system:String>
+    <system:String x:Key="FdlangLikeFilters">(Select desired reactions below)</system:String>
     <system:String x:Key="FdlangOwnPage">Own page</system:String>
     <system:String x:Key="FdlangOwnAccount">Own account</system:String>
     <system:String x:Key="FdlangPagesLikedByFriend">Pages Liked By My Friend(s)</system:String>
@@ -53,6 +53,7 @@
     <system:String x:Key="FdlangPages">Pages</system:String>
     <system:String x:Key="FdlangEvents">Events</system:String>
     <system:String x:Key="FdlangCustomPostList">Custom post list</system:String>
+    <system:String x:Key="FdlangCustomPageList">Custom page list</system:String>
     <system:String x:Key="FdlangFdCampaign">FaceDominator campaign</system:String>
     <system:String x:Key="FdlangKeywords">Keywords</system:String>
     <system:String x:Key="FdlangLocation">Location</system:String>
@@ -161,6 +162,45 @@
     <system:String x:Key="FdlangMaxScrapPostPerDay">Scrap max Posts per day</system:String>
     <system:String x:Key="FdlangScrapPostPerWeek">Scrap Number of Posts per Week</system:String>
 
+
     <system:String x:Key="FdlangPostFilters">POST FILTER</system:String>
     <system:String x:Key="FdlangLikeFilter">LIKE FILTER</system:String>
+
+
+    <system:String x:Key="FdlangCustomGroupUrl">Custom group url(s)</system:String>
+
+    <system:String x:Key="FdEventName">Event Name</system:String>
+
+    <system:String x:Key="FdlangSelectFriends">Select Friends</system:String>
+    <system:String x:Key="FdlangSelectPages">Select Pages</system:String>
+    <system:String x:Key="FdlangSelectOwnPages">Select Own Pages</system:String>
+    <system:String x:Key="FdlangSelectGroups">Select Groups</system:String>
+    <system:String x:Key="FdlangSelectCampaign">Select Campaign</system:String>
+    <system:String x:Key="FdlangSelectCustomPostList">Custom Post List</system:String>
+    <system:String x:Key="FdlangReactionTypeConfiguration">Reaction Type</system:String>
+
+    <system:String x:Key="FdlangAfterLikeAction">After Like Action</system:String>
+    <system:String x:Key="FdlangAfterLikePageAction">posts, after likin a page</system:String>
+    <system:String x:Key="FdlangUnlikePage">Unlike the page after</system:String>
+    <system:String x:Key="FdlangOn">on</system:String>
+
+    <system:String x:Key="FdlangLoadGroups">Load group url(s)</system:String>
+    <system:String x:Key="FdlangLoadProfiles">Load profile url(s)</system:String>
+    <system:String x:Key="FdlangGroupActivity">Group activity type</system:String>
+    <system:String x:Key="FdlangMakeAdmin">Make Admin</system:String>
+    <system:String x:Key="FdlangMakeModerator">Make Moderator</system:String>
+
+    <system:String x:Key="FdlangFanpageByKeyword">Scrape fanpage(s) by keyword</system:String>
+    <system:String x:Key="FdlangGroupByKeyword">Scrape group(s) by keyword</system:String>
+    <system:String x:Key="FdlangCommentByPost">Scrape comment(s) by post</system:String>
+
+    <system:String x:Key="FdlnagAcceptRequest">Accept request</system:String>
+    <system:String x:Key="FdlangCancelReceived">Cancel received request</system:String>
+    <system:String x:Key="FdlangCancelSent">Cancel sent request</system:String>
+
+    <system:String x:Key="FdlangPostLikerCommentor">Post Like &amp; Comment</system:String>
+    <system:String x:Key="FdlangFanpageLiker">Fan Page Liker</system:String>
+    <system:String x:Key="FdlangWebpageLikerCommentor">Webpage Like &amp; Comment</system:String>
+
+
 </ResourceDictionary>

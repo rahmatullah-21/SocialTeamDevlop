@@ -1,6 +1,7 @@
 ﻿using System;
+using DominatorHouseCore.Interfaces;
 
-namespace DominatorHouseCore.Requests
+namespace DominatorHouseCore.Request
 {
     public class ResponseParameter : IResponseParameter
     {
@@ -11,17 +12,4 @@ namespace DominatorHouseCore.Requests
         public Exception Exception { get; set; }
 
     }
-
-
-    public interface IResponseParameter
-    {
-         bool HasError { get; set; }
-
-         string Response { get; set; }
-
-         Exception Exception { get; set; }
-
-    }
-
-
 }
