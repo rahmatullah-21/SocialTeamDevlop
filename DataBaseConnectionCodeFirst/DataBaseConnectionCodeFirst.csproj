@@ -109,12 +109,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataBaseConnection.cs" />
-    <Compile Include="Model\CommonDbContext.cs" />
-    <Compile Include="Model\CommonDbInitializer.cs" />
     <Compile Include="Model\ModelConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\SQLiteConfiguration.cs" />
     <Compile Include="Tables\Account\DailyStatitics.cs" />
     <Compile Include="Tables\Account\FeedInfo.cs" />
     <Compile Include="Tables\Account\Friendship.cs" />

@@ -1,13 +1,14 @@
 ﻿using System.Data.Entity;
 using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
+using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.DatabaseHandler.AccountDB
 {
     public class ModelConfiguration
     {
-        public static void Configure(DbModelBuilder modelBuilder)
+        public static void Configure(DbModelBuilder modelBuilder, SocialNetworks network )
         {
-            ConfigureAccountdataBaseEntity(modelBuilder);
+            ConfigureAccountdataBaseEntity(modelBuilder, network);
         }
 
         #region Commented
@@ -25,14 +26,49 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB
         //} 
         #endregion
 
-        public static void ConfigureAccountdataBaseEntity(DbModelBuilder modelBuilder)
+        public static void ConfigureAccountdataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
         {
-            modelBuilder.Entity<FeedInfoes>();
-            modelBuilder.Entity<Friendships>();
-            modelBuilder.Entity<DailyStatitics>();
-            modelBuilder.Entity<InteractedPosts>();
-            modelBuilder.Entity<InteractedUsers>();
-            modelBuilder.Entity<UnfollowedUsers>();
+            switch (networks)
+            {
+                case SocialNetworks.Instagram:
+                    modelBuilder.Entity<FeedInfoes>();
+                    modelBuilder.Entity<Friendships>();
+                    modelBuilder.Entity<DailyStatitics>();
+                    modelBuilder.Entity<InteractedPosts>();
+                    modelBuilder.Entity<InteractedUsers>();
+                    modelBuilder.Entity<UnfollowedUsers>();
+                    break;
+                case SocialNetworks.Twitter:
+                    modelBuilder.Entity<TdTables.Accounts.FeedInfoes>();
+                    modelBuilder.Entity<TdTables.Accounts.Friendships>();
+                    modelBuilder.Entity<TdTables.Accounts.DailyStatitics>();
+                    modelBuilder.Entity<TdTables.Accounts.InteractedPosts>();
+                    modelBuilder.Entity<TdTables.Accounts.InteractedUsers>();
+                    modelBuilder.Entity<TdTables.Accounts.UnfollowedUsers>();
+                    //modelBuilder.Entity<TdTables.Campaign.InteractedPosts>();
+                    //modelBuilder.Entity<TdTables.Campaign.InteractedUsers>();
+                    //modelBuilder.Entity<TdTables.Campaign.UnfollowedUsers>();
+                    break;
+                case SocialNetworks.Pinterest:
+
+                    break;
+                case SocialNetworks.Gplus:
+                    break;
+                case SocialNetworks.Facebook:
+                    break;
+                case SocialNetworks.LinkedIn:
+                    break;
+                case SocialNetworks.Quora:
+                    break;
+                case SocialNetworks.Reddit:
+                    break;
+                case SocialNetworks.Youtube:
+                    break;
+
+
+            }
+
+          
         }
 
     }

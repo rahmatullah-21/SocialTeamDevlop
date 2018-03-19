@@ -1,7 +1,8 @@
 using System;
 using System.Data.Entity;
+using SQLite.CodeFirst;
 
-namespace SQLite.CodeFirst
+namespace DominatorHouseCore.DatabaseHandler.CoreModels
 {
     public class CommonDbInitializer : SqliteDropCreateDatabaseWhenModelChanges<CommonDbContext>
     {

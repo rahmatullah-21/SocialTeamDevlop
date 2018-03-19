@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.FileManagers
 {    
@@ -86,6 +87,11 @@ namespace DominatorHouseCore.FileManagers
                 campaigns[index] = campaign;
                 Save(campaigns);
             }
+        }
+
+        public static List<CampaignDetails> GetCampaignByNetwork(SocialNetworks network)
+        {
+            return Get().Where(x => x.SocialNetworks == network).ToList();
         }
     }
 }

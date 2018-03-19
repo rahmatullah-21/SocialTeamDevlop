@@ -21,7 +21,12 @@ using DominatorHouseCore.BusinessLogic.Scheduler;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.DatabaseHandler;
 using System.IO;
+using DominatorHouseCore.Converters;
+using DominatorHouseCore.DatabaseHandler.CoreModels;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Process;
+
+
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -35,64 +40,80 @@ namespace DominatorUIUtility.CustomControl
         public static Action<TemplateModel, CampaignDetails, bool, Visibility, string, string> EditOrDuplicateCampaign { get; set; } =
             (t, c, b, v, s, s2) => GlobusLogHelper.log.Error($"Campaigns.EditOrDuplicateCampaign action handler wasn't set");
 
+        public SocialNetworks SocialNetworks { get; set; }
 
-        private Campaigns()
+
+        public Campaigns(SocialNetworks socialNetworks)
         {
             InitializeComponent();
-
+            this.SocialNetworks = socialNetworks;
             objCampaignDetails = new CampaignDetails();
+
         }
 
         private void SetDataContext()
         {
-            var data = CampaignsFileManager.Get();
+            var data = CampaignsFileManager.GetCampaignByNetwork(DominatorHouseInitializer.ActiveSocialNetwork);
 
-            objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(data);
+            SetComboBoxItemSource(DominatorHouseInitializer.ActiveSocialNetwork.ToString());
 
             MainGrid.DataContext = objCampaignDetails;
-            CmbCampaignType.SelectedIndex = 0;
+
+            objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(data);
         }
 
-        static Campaigns ObjCampaigns = null;
-        public static Campaigns GetSingeltonCampaignsObject(SocialNetworks networks)
-        {
 
-            if (ObjCampaigns == null)
-                ObjCampaigns = new Campaigns();
-            ObjCampaigns.SetComboBoxItems(networks.ToString());
-            return ObjCampaigns;
-        }
-        private void SetComboBoxItems(string networks)
+        private void SetComboBoxItemSource(string networks)
         {
-            CmbCampaignType.Items.Clear();
-            CmbCampaignType.Items.Add("All");
+            List<string> lstCampaignType = new List<string>();
+
+            lstCampaignType.Add("All");
+
             switch (networks)
             {
                 case "Instagram":
                     foreach (var name in Enum.GetNames(typeof(ActivityType)))
                     {
-                        CmbCampaignType.Items.Add(name);
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Instagram"))
+                            lstCampaignType.Add(name);
                     }
                     break;
                 case "Facebook":
                     foreach (var name in Enum.GetNames(typeof(ActivityType)))
                     {
-                        CmbCampaignType.Items.Add(name);
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Facebook"))
+                            lstCampaignType.Add(name);
                     }
                     break;
                 case "Twitter":
                     foreach (var name in Enum.GetNames(typeof(ActivityType)))
                     {
-                        CmbCampaignType.Items.Add(name);
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Twitter"))
+                            lstCampaignType.Add(name);
                     }
                     break;
                 case "PinInterest":
                     foreach (var name in Enum.GetNames(typeof(ActivityType)))
                     {
-                        CmbCampaignType.Items.Add(name);
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("PinInterest"))
+                            lstCampaignType.Add(name);
+                    }
+                    break;
+                case "Quora":
+                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
+                    {
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Quora"))
+                            lstCampaignType.Add(name);
                     }
                     break;
             }
+
+            CmbCampaignType.ItemsSource = lstCampaignType;
+        }
+
+        private static ActivityType ConvertToEnum(string name)
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), name);
         }
 
         private void BtnCampaignSetting_OnClick(object sender, RoutedEventArgs e)
@@ -118,12 +139,13 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="e"></param>
         private void ToggleActivatePause_Campaign(object sender, EventArgs e)
         {
-            objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(CampaignsFileManager.Get());
-            var lstAccountDetails = AccountsFileManager.GetAll();
+            objCampaignDetails.ObjCampaignDetails =
+                new ObservableCollectionBase<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(DominatorHouseInitializer.ActiveSocialNetwork));
+            var lstAccountDetails = AccountsFileManager.GetAll(DominatorHouseInitializer.ActiveSocialNetwork);
 
             var selectedCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
-            if (selectedCampaign == null)            
-                return;            
+            if (selectedCampaign == null)
+                return;
 
             var module = (ActivityType)Enum.Parse(typeof(ActivityType), selectedCampaign.SubModule);
 
@@ -138,7 +160,7 @@ namespace DominatorUIUtility.CustomControl
 
             AccountsFileManager.SaveAll(lstAccountDetails);
 
-         
+
             // Run/Stop job process in campaigns
             try
             {
@@ -151,7 +173,7 @@ namespace DominatorUIUtility.CustomControl
                     bool isCampaignAlreadyActive = campaign.Status == "Active";
                     if (isCampaignAlreadyActive == isToggleActivate)
                         continue;
-                    
+
                     if (isToggleActivate)
                     {
                         campaign.Status = "Active";
@@ -167,7 +189,7 @@ namespace DominatorUIUtility.CustomControl
                         campaign.Status = "Paused";
                         campaign.SelectedAccountList.ForEach(acc =>
                         {
-                            DominatorScheduler.StopActivity(acc, campaign.SubModule, campaign.TemplateId);                            
+                            DominatorScheduler.StopActivity(acc, campaign.SubModule, campaign.TemplateId);
                         });
                     }
 
@@ -220,9 +242,10 @@ namespace DominatorUIUtility.CustomControl
 
             CampaignsFileManager.Delete(campaign);
 
-            objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(BinFileHelper.GetCampaignDetail());
+            objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(
+                CampaignsFileManager.GetCampaignByNetwork(DominatorHouseInitializer.ActiveSocialNetwork));
 
-            var allAccounts = AccountsFileManager.GetAll();
+            var allAccounts = AccountsFileManager.GetAll(DominatorHouseInitializer.ActiveSocialNetwork);
 
             // remove template from each account
             allAccounts.ForEach(x =>
@@ -245,9 +268,6 @@ namespace DominatorUIUtility.CustomControl
             SetDataContext();
         }
 
-
-
-        public string ReportHeader = string.Empty;
         private void CampaignReports_OnClick(object sender, RoutedEventArgs e)
         {
             Reports ObjReports = new Reports();
@@ -286,29 +306,29 @@ namespace DominatorUIUtility.CustomControl
                 #region Update AccountList & StatusList for combobox
 
                 campName.SelectedAccountList.ToList().ForEach(acc =>
-                       {
-                           DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc);
+                {
+                    DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc);
 
-                           ObjReports.ReportModel.AccountList.Add(new ContentSelectGroup()
-                           {
-                               IsContentSelected = false,
-                               Content = objDominatorAccountModel.AccountBaseModel.UserName
-                           });
+                    ObjReports.ReportModel.AccountList.Add(new ContentSelectGroup()
+                    {
+                        IsContentSelected = false,
+                        Content = objDominatorAccountModel.AccountBaseModel.UserName
+                    });
 
-                           if (ObjReports.ReportModel.StatusList.Count > 1 &&
-                               ObjReports.ReportModel.StatusList.Any(status => status.Content == objDominatorAccountModel.AccountBaseModel.Status) ==
-                               false)
-                               ObjReports.ReportModel.StatusList.Add(new ContentSelectGroup()
-                               {
-                                   IsContentSelected = false,
-                                   Content = objDominatorAccountModel.AccountBaseModel.Status
-                               });
+                    if (ObjReports.ReportModel.StatusList.Count > 1 &&
+                        ObjReports.ReportModel.StatusList.Any(status => status.Content == objDominatorAccountModel.AccountBaseModel.Status) ==
+                        false)
+                        ObjReports.ReportModel.StatusList.Add(new ContentSelectGroup()
+                        {
+                            IsContentSelected = false,
+                            Content = objDominatorAccountModel.AccountBaseModel.Status
+                        });
 
-                       });
+                });
                 #endregion
 
-                DataBaseConnectionCodeFirst.DataBaseConnection dataBase =
-                   DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, DatabaseType.CampaignType);
+                DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnection dataBase =
+                   DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, SocialNetworks,DatabaseType.CampaignType);
 
                 ObservableCollection<Object> ReportDetail = ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName);
                 if (ReportDetail.Count == 0)
@@ -370,15 +390,16 @@ namespace DominatorUIUtility.CustomControl
         private void CmbCampaignType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             List<CampaignDetails> moduleWiseDetail = null;
+
             if (!CmbCampaignType.SelectedItem.Equals("All"))
             {
-                moduleWiseDetail = CampaignsFileManager.Get()
+                moduleWiseDetail = CampaignsFileManager.GetCampaignByNetwork(DominatorHouseInitializer.ActiveSocialNetwork)
                        .Where(x => x.SubModule == CmbCampaignType.SelectedItem.ToString()).ToList();
 
             }
             else
             {
-                moduleWiseDetail = CampaignsFileManager.Get();
+                moduleWiseDetail = CampaignsFileManager.GetCampaignByNetwork(DominatorHouseInitializer.ActiveSocialNetwork);
             }
             objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(moduleWiseDetail);
             objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(objCampaignDetails.ObjCampaignDetails);

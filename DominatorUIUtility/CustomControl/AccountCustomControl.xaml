@@ -427,6 +427,8 @@
 
                         <GridViewColumn  Header="User Name" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
 
+                        <GridViewColumn  Header="Status" DisplayMemberBinding="{Binding AccountBaseModel.Status}"/>
+
                         <GridViewColumn  DisplayMemberBinding="{Binding DataContext.DisplayColumnValue1}">
                             <GridViewColumnHeader Width="130"
                                 Content="{Binding GridHeaderColumn1.Header }"

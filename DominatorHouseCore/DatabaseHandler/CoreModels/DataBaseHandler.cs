@@ -1,29 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using DominatorHouseCore.Enums;
-using System.Data.Entity;
 using System.Threading;
 using DominatorHouseCore.DatabaseHandler.AccountDB;
 using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
-using SQLite.CodeFirst;
 
-namespace DominatorHouseCore.DatabaseHandler
+namespace DominatorHouseCore.DatabaseHandler.CoreModels
 {
     public class DataBaseHandler
     {
 
         #region database Helper Method
 
-        public static void CreateDataBase(string DBName, DatabaseType? databaseType = DatabaseType.AccountType)
+        public static void CreateDataBase(string DBName,SocialNetworks networks, DatabaseType? databaseType = DatabaseType.AccountType)
         {
             try
             {
-                DataBaseConnectionCodeFirst.DataBaseConnection databaseConnection =
-                    GetDataBaseConnectionInstance(DBName, databaseType);
+                DataBaseConnection databaseConnection =
+                    GetDataBaseConnectionInstance(DBName, networks,databaseType);
 
-                var initiaThread = new Thread(() => databaseConnection.Count<Friendships>()) { IsBackground = true };
-                initiaThread.Start();
+                switch (networks)
+                {
+                    case SocialNetworks.Twitter:
+                        var initiaThread = new Thread(() => databaseConnection.Count<DominatorHouseCore.DatabaseHandler.TdTables.Accounts.Friendships>()) { IsBackground = true };
+                        initiaThread.Start();
+                        break;
+
+                }
+               
+               
             }
             catch (Exception ex)
             {
@@ -31,7 +36,7 @@ namespace DominatorHouseCore.DatabaseHandler
             }
         }
 
-        public static DataBaseConnectionCodeFirst.DataBaseConnection GetDataBaseConnectionInstance(string DBName, DatabaseType? databaseType = DatabaseType.AccountType)
+        public static DataBaseConnection GetDataBaseConnectionInstance(string DBName, SocialNetworks networks, DatabaseType? databaseType = DatabaseType.AccountType)
         {
             try
             {
@@ -51,7 +56,7 @@ namespace DominatorHouseCore.DatabaseHandler
 
                 DirectoryUtilities.CreateDirectory(directoryName);
                 string connectionString = directoryName + $"\\{DBName}.db";
-                return new DataBaseConnectionCodeFirst.DataBaseConnection(connectionString, ModelConfiguration.ConfigureAccountdataBaseEntity);
+                return new DataBaseConnection(connectionString, networks, ModelConfiguration.ConfigureAccountdataBaseEntity);
             }
             catch (Exception Ex)
             {

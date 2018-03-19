@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Data.Common;
 using System.Data.Entity;
+using DominatorHouseCore.Enums;
 
-namespace SQLite.CodeFirst
+namespace DominatorHouseCore.DatabaseHandler.CoreModels
 {
     public class CommonDbContext : DbContext
     {
 
-        Action<DbModelBuilder> ConfigureDbModelBuilder;
+        Action<DbModelBuilder,SocialNetworks> ConfigureDbModelBuilder;
 
         Action<CommonDbContext> SeedDataBase;
+
+        private SocialNetworks Networks { get; set; }
 
         public CommonDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
@@ -23,10 +26,11 @@ namespace SQLite.CodeFirst
             Configure();
         }
 
-        public CommonDbContext(DbConnection connection, bool contextOwnsConnection, Action<DbModelBuilder> ConfigureDbModelBuilder = null , Action<CommonDbContext> SeedDataBase = null)
+        public CommonDbContext(DbConnection connection, bool contextOwnsConnection, SocialNetworks networks ,Action<DbModelBuilder, SocialNetworks> ConfigureDbModelBuilder = null , Action<CommonDbContext> SeedDataBase = null)
           : base(connection, contextOwnsConnection)
         {
             Configure();
+            this.Networks = networks;
             this.ConfigureDbModelBuilder = ConfigureDbModelBuilder;
             this.SeedDataBase = SeedDataBase;
         }
@@ -41,7 +45,7 @@ namespace SQLite.CodeFirst
         {
             if (this.ConfigureDbModelBuilder != null)
             {
-                this.ConfigureDbModelBuilder(modelBuilder);
+                this.ConfigureDbModelBuilder(modelBuilder, Networks);
                 var initializer = new CommonDbInitializer(modelBuilder, this.SeedDataBase);
                 Database.SetInitializer(initializer);
             }

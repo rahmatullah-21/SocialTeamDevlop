@@ -1,6 +1,5 @@
 ﻿//using BaseLib;
 
-using SQLite.CodeFirst;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,8 +7,9 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using DominatorHouseCore.Enums;
 
-namespace DataBaseConnectionCodeFirst
+namespace DominatorHouseCore.DatabaseHandler.CoreModels
 {
     /// <summary>
     /// Database connection with sqlite - code first approach
@@ -19,12 +19,15 @@ namespace DataBaseConnectionCodeFirst
     {
         private string ConnectionString { get; set; } = string.Empty;
 
-        private Action<DbModelBuilder> ConfigureDbModelBuilder { get; set; }
+        private Action<DbModelBuilder, SocialNetworks> ConfigureDbModelBuilder { get; set; }
 
-        public DataBaseConnection(string connectionString, Action<DbModelBuilder> ConfigureDbModelBuilder = null)
+        private SocialNetworks Network { get; set; }
+
+        public DataBaseConnection(string connectionString,SocialNetworks networks, Action<DbModelBuilder,SocialNetworks> ConfigureDbModelBuilder = null)
         {
             this.ConnectionString = connectionString;
             this.ConfigureDbModelBuilder = ConfigureDbModelBuilder;
+            this.Network = networks;
         }
 
         public int Count<T>(Expression<Func<T, bool>> expression = null) where T : class
@@ -34,7 +37,7 @@ namespace DataBaseConnectionCodeFirst
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
+                    using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
                         return expression == null ? context.Set<T>().Count() : context.Set<T>().Where(expression).Count();                       
                     }
@@ -54,7 +57,7 @@ namespace DataBaseConnectionCodeFirst
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
+                    using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
                         context.Set<T>().Add(data);
                         context.SaveChanges();
@@ -75,7 +78,7 @@ namespace DataBaseConnectionCodeFirst
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
+                    using (var context = new CommonDbContext(sqLiteConnection, false, Network,this.ConfigureDbModelBuilder))
                     {
                         return Expression == null ? context.Set<T>().ToList() : context.Set<T>().Where(Expression).ToList();
                     }
@@ -98,7 +101,7 @@ namespace DataBaseConnectionCodeFirst
                    using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                    {
                        sqLiteConnection.Open();
-                       using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
+                       using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                        {
                            return Expression == null ? context.Set<T>().ToList() : context.Set<T>().Where(Expression).ToList();
                        }
@@ -121,7 +124,7 @@ namespace DataBaseConnectionCodeFirst
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
+                    using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
                         return context.Set<T>().FirstOrDefault(Expression);
                     }
@@ -140,7 +143,7 @@ namespace DataBaseConnectionCodeFirst
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
+                    using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
                         context.Entry<T>(t).State = System.Data.Entity.EntityState.Deleted;
                         context.SaveChanges();
@@ -162,7 +165,7 @@ namespace DataBaseConnectionCodeFirst
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, this.ConfigureDbModelBuilder))
+                    using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
                         context.Entry<T>(t).State = EntityState.Modified;
                         context.SaveChanges();

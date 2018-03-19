@@ -170,6 +170,19 @@
     <Compile Include="DatabaseHandler\AccountDB\Tables\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\AccountDB\Tables\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\AccountDB\Tables\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\CommonDbContext.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\CommonDbInitializer.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\DataBaseConnection.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\SQLiteConfiguration.cs" />
+    <Compile Include="DatabaseHandler\TdTables\Accounts\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\TdTables\Accounts\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\TdTables\Accounts\Friendship.cs" />
+    <Compile Include="DatabaseHandler\TdTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\TdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\TdTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\TdTables\Campaign\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\TdTables\Campaign\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\TdTables\Campaign\UnfollowedUsers.cs" />
     <Compile Include="Diagnostics\DominatorHouseInitializer.cs" />
     <Compile Include="Diagnostics\Exceptions\ExceptionExtensions.cs" />
     <Compile Include="Diagnostics\Exceptions\GlobusExceptionHandler.cs" />
@@ -256,7 +269,7 @@
     <Compile Include="Models\UserFilterModel.cs" />
     <Compile Include="Utility\BinFileHelper.cs" />
     <Compile Include="Utility\Constants.cs" />
-    <Compile Include="DatabaseHandler\DataBaseHandler.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\DataBaseHandler.cs" />
     <Compile Include="Utility\DateTimeHelper.cs" />
     <Compile Include="Utility\EnumUtility.cs" />
     <Compile Include="Utility\GridViewBehaviors.cs" />
@@ -310,6 +323,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DatabaseHandler\PdTables\" />
     <Folder Include="Enums\GdQuery\" />
     <Folder Include="Enums\LdQuery\" />
   </ItemGroup>

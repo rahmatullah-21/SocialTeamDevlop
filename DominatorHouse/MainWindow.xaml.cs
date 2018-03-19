@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
 using DominatorHouse.Social.AutoActivity.Views;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
@@ -333,6 +332,8 @@ namespace DominatorHouse
                     this.Title = SocialNetworks.Reddit.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Gplus:
+                    GplusDominatorUI.MainWindow gplusDominator = new GplusDominatorUI.MainWindow();
+                    TabItems = gplusDominator.InitializeAllTabs();
                     this.Title = SocialNetworks.Gplus.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Youtube:
@@ -473,7 +474,7 @@ namespace DominatorHouse
                     // Call your methods to login
                     break;
                 case SocialNetworks.Gplus:
-                    // Call your methods to login
+                    GplusDominatorCore.GplusViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
                 case SocialNetworks.Facebook:
                     var fdLoginProcess = new FdLoginProcess();

@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.DatabaseHandler;
+using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -495,7 +496,7 @@ namespace DominatorUIUtility.ViewModel
                 GlobusLogHelper.log.Info($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
             }
 
-            DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.UserName);
+            DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.UserName, objDominatorAccountBaseModel.AccountNetwork);
 
             #endregion
 

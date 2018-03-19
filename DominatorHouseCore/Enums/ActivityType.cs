@@ -142,6 +142,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         WebpageLikerCommentor = 47,
 
-        
+        [Description("Twitter")]
+        TweetScraper =48
     }
 }

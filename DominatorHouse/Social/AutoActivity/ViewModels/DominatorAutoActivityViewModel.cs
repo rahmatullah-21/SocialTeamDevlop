@@ -66,7 +66,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 case SocialNetworks.Pinterest:
                     SelectedUserControl = PinDominator.TabManager.ToolTabs.GetSingletonToolTabs();
                     break;
-                case SocialNetworks.Gplus:
+                case SocialNetworks.Gplus:                   
                     break;
                 case SocialNetworks.Reddit:
                     break;

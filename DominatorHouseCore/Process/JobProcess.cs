@@ -18,6 +18,9 @@ using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
 using DominatorHouseCore.BusinessLogic.ActivitiesWorkflow;
 using System.Diagnostics;
 using System.Threading;
+using DominatorHouseCore.DatabaseHandler.CoreModels;
+
+
 
 namespace DominatorHouseCore.Process
 {
@@ -50,18 +53,20 @@ namespace DominatorHouseCore.Process
         public TimingRange CurrentJobTimeRange { get; set; }
         public CancellationTokenSource JobCancellationTokenSource { get; set; }
         
-        protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionCampaign { get; set; }
-        protected DataBaseConnectionCodeFirst.DataBaseConnection DataBaseConnectionAccount { get; set; }
+        protected DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnection DataBaseConnectionCampaign { get; set; }
+        protected DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnection DataBaseConnectionAccount { get; set; }
 
         public string AccountName => DominatorAccountModel?.UserName;
 
+        public SocialNetworks SocialNetworks { get; set; }
         #endregion
 
-        public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange)
+        public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange,SocialNetworks network)
         {
            // Get the current account details 
             this.DominatorAccountModel = FileManagers.AccountsFileManager.GetAll().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
 
+            this.SocialNetworks = network;
             this.CurrentJobTimeRange = CurrentJobTimeRange;
 
             // Get the Template Model from the given template id
@@ -101,11 +106,9 @@ namespace DominatorHouseCore.Process
         }
         private void InitializeDatabseConnection()
         {
-            DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionInstance(campaignId, DatabaseType.CampaignType);
-            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.UserName, DatabaseType.AccountType);
+            DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionInstance(campaignId, SocialNetworks, DatabaseType.CampaignType);
+            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.UserName, SocialNetworks, DatabaseType.AccountType);
         }
-
-
 
         protected void ScheduleNextJob(DateTime dateTime)
         {
