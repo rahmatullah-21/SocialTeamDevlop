@@ -25,6 +25,8 @@ namespace DominatorHouseCore.Converters
             return value;
         }
     }
+
+    [ValueConversion(typeof(string), typeof(string))]
     [ValueConversion(typeof(string), typeof(string))]
 
     public class StringToPasswordConverter : IValueConverter

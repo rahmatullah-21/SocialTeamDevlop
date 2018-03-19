@@ -158,8 +158,11 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToWidthConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
+    <Compile Include="Converters\EpochToDateTimeConverter.cs" />
+    <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Converters\ListCountBoolConverter.cs" />
     <Compile Include="Converters\ListCountVisiblityConverter.cs" />
+    <Compile Include="Converters\MessegeTypeToHorizontalAlignmentConverter.cs" />
     <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
@@ -205,6 +208,7 @@
     <Compile Include="FileManagers\AccountsFileManager.cs" />
     <Compile Include="FileManagers\CampaignsFileManager.cs" />
     <Compile Include="FileManagers\ConfigFileManager.cs" />
+    <Compile Include="FileManagers\LiveChatFileManager.cs" />
     <Compile Include="FileManagers\PostFileManager.cs" />
     <Compile Include="FileManagers\ProxyFileManager.cs" />
     <Compile Include="FileManagers\TemplatesFileManager.cs" />
@@ -230,6 +234,7 @@
     <Compile Include="Models\JobActivityManager.cs" />
     <Compile Include="Models\JobConfiguration.cs" />
     <Compile Include="Models\JsonElements.cs" />
+    <Compile Include="Models\LiveChatModel.cs" />
     <Compile Include="Models\ManageCommentModel.cs" />
     <Compile Include="Models\ManageDestinationModel.cs" />
     <Compile Include="Models\ProxyManagerModel.cs" />
@@ -302,6 +307,7 @@
     <Compile Include="Utility\Utilities.cs" />
     <Compile Include="Utility\ValidationHelper.cs" />
     <Compile Include="ViewModel\AddPostViewModel.cs" />
+    <Compile Include="ViewModel\LiveChatViewModel.cs" />
     <Compile Include="ViewModel\ManageDestinationViewModel.cs" />
     <Compile Include="ViewModel\UserControlSwitchViewModel.cs" />
   </ItemGroup>

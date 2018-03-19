@@ -93,5 +93,12 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherProxyFile() => GetOtherDir() + @"\Proxy.bin";
         public static string GetOtherPostsFile() => GetOtherDir() + @"\Posts.bin";
         public static string GetOtherConfigFile() => GetOtherDir() + @"\Config.bin";
+        public static string GetChatDir()
+        {
+            string dir = $"{GetPlatformBaseDirectory()}\\Chat";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir;
+        }
+        internal static string GetLiveChatFile() => GetChatDir() + @"\LiveChat.bin";
     }                
 }

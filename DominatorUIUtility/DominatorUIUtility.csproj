@@ -167,6 +167,9 @@
     <Compile Include="CustomControl\JobConfigControl.xaml.cs">
       <DependentUpon>JobConfigControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\LiveChat.xaml.cs">
+      <DependentUpon>LiveChat.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\ManageComment.xaml.cs">
       <DependentUpon>ManageComment.xaml</DependentUpon>
     </Compile>
@@ -311,6 +314,10 @@
     <Page Include="CustomControl\JobConfigControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\LiveChat.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\ManageComment.xaml">
       <Generator>MSBuild:Compile</Generator>
