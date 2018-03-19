@@ -22,21 +22,20 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 
         [Column(Order = 4)]
         public string QueryValue { get; set; }
-
+        [Index("IX_UserIDAndActivityType", 2, IsUnique = true)]
         [Column(Order = 5)]
         public string ActivityType
         { get; set; }
 
 
         [Column(Order = 6)]
-        public string InteractedUsername
-        { get; set; }
+        public string InteractedUsername { get; set; }
 
+        [Index("IX_UserIDAndActivityType", 1, IsUnique = true)]
         [Column(Order = 7)]
-        public string InteractedUserId
-        { get; set; }
+        public string InteractedUserId { get; set; }
 
-        [Column(Order =8)]
+        [Column(Order = 8)]
         public string InteractedUserFullName
         { get; set; }
 

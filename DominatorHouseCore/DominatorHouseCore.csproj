@@ -175,8 +175,24 @@
     <Compile Include="DatabaseHandler\AccountDB\Tables\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\CoreModels\CommonDbContext.cs" />
     <Compile Include="DatabaseHandler\CoreModels\CommonDbInitializer.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\CustomHistory.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DataBaseConnection.cs" />
     <Compile Include="DatabaseHandler\CoreModels\SQLiteConfiguration.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\Friendship.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\Friendship.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Campaigns\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\Friendship.cs" />
@@ -323,13 +339,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataBaseConnectionCodeFirst\DataBaseConnectionCodeFirst.csproj">
-      <Project>{86643b31-b55d-435f-8af5-75542dd8fccb}</Project>
-      <Name>DataBaseConnectionCodeFirst</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DatabaseHandler\PdTables\" />
+    <Folder Include="DatabaseHandler\FdTables\" />
+    <Folder Include="DatabaseHandler\GplusTables\Campaigns\" />
     <Folder Include="Enums\GdQuery\" />
     <Folder Include="Enums\LdQuery\" />
   </ItemGroup>

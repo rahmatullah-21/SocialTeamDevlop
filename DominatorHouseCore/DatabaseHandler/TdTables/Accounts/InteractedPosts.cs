@@ -27,17 +27,17 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 
         [Column(Order = 4)]
         public string QueryValue { get; set; }
-
+        [Index("IX_TweetIdAndActivityType", 2, IsUnique = true)]
         [Column(Order = 5)]
         public string ActivityType { get; set; }
 
         [Column(Order = 6)]
         public int InteractionTimeStamp { get; set; }
-       
+
         /// <summary>
         /// Id of the tweet
         /// </summary>
-
+        [Index("IX_TweetIdAndActivityType", 1, IsUnique = true)]
         [Column(Order = 7)]
         public string TweetId { get; set; }
 

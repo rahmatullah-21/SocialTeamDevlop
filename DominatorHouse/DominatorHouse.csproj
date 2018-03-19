@@ -248,10 +248,6 @@
       <Project>{b91d5616-eafd-4bf8-aaf5-051675592714}</Project>
       <Name>TwtDominatorUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataBaseConnectionCodeFirst\DataBaseConnectionCodeFirst.csproj">
-      <Project>{86643b31-b55d-435f-8af5-75542dd8fccb}</Project>
-      <Name>DataBaseConnectionCodeFirst</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
       <Name>DominatorHouseCore</Name>
