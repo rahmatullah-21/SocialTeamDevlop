@@ -23,7 +23,7 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.BusinessLogic;
-using FaceDominatorCore.FDLibrary;
+// using FaceDominatorCore.FDLibrary;
 using GramDominatorUI.TabManager;
 
 #endregion
@@ -304,19 +304,19 @@ namespace DominatorHouse
                     this.Title = SocialNetworks.Instagram.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Twitter:
-                    TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
-                    TabItems = twtDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
+                    //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
+                    //TabItems = twtDominator.InitializeAllTabs();
+                    //this.Title = SocialNetworks.Twitter.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Pinterest:
-                    PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
-                    TabItems = pinDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
+                    //PinDominator.MainWindow pinDominator = new PinDominator.MainWindow();
+                    //TabItems = pinDominator.InitializeAllTabs();
+                    //this.Title = SocialNetworks.Pinterest.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Facebook:
-                    FaceDominatorUI.MainWindow faceDominator = new FaceDominatorUI.MainWindow();
-                    TabItems = faceDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Facebook.ToString() + " Dominator";
+                    //FaceDominatorUI.MainWindow faceDominator = new FaceDominatorUI.MainWindow();
+                    //TabItems = faceDominator.InitializeAllTabs();
+                    //this.Title = SocialNetworks.Facebook.ToString() + " Dominator";
                     break;
                 case SocialNetworks.LinkedIn:
                     //LinkedDominatorUI.MainWindow linkedInDominator = new LinkedDominatorUI.MainWindow();
@@ -332,9 +332,9 @@ namespace DominatorHouse
                     this.Title = SocialNetworks.Reddit.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Gplus:
-                    GplusDominatorUI.MainWindow gplusDominator = new GplusDominatorUI.MainWindow();
-                    TabItems = gplusDominator.InitializeAllTabs();
-                    this.Title = SocialNetworks.Gplus.ToString() + " Dominator";
+                    //GplusDominatorUI.MainWindow gplusDominator = new GplusDominatorUI.MainWindow();
+                    //TabItems = gplusDominator.InitializeAllTabs();
+                    //this.Title = SocialNetworks.Gplus.ToString() + " Dominator";
                     break;
                 case SocialNetworks.Youtube:
                     this.Title = SocialNetworks.Youtube.ToString() + " Dominator";
@@ -462,23 +462,23 @@ namespace DominatorHouse
             switch (dominatorAccountModel.AccountBaseModel.AccountNetwork)
             {
                 case SocialNetworks.Pinterest:
-                    PinDominatorCore.PDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                   // PinDominatorCore.PDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
                 case SocialNetworks.Instagram:
                     GramDominatorCore.GDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
                 case SocialNetworks.Twitter:
-                    TwtDominatorCore.TDViewModel.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                   // TwtDominatorCore.TDViewModel.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
                 case SocialNetworks.LinkedIn:
                     // Call your methods to login
                     break;
                 case SocialNetworks.Gplus:
-                    GplusDominatorCore.GplusViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
+                   // GplusDominatorCore.GplusViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount(dominatorAccountModel);
                     break;
                 case SocialNetworks.Facebook:
-                    var fdLoginProcess = new FdLoginProcess();
-                    fdLoginProcess.CheckLogin(dominatorAccountModel);
+                    //var fdLoginProcess = new FdLoginProcess();
+                    //fdLoginProcess.CheckLogin(dominatorAccountModel);
                     break;
                 case SocialNetworks.Youtube:
                     // Call your methods to login
