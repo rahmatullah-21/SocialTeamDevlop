@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
 
@@ -9,51 +10,52 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         [Key]
         [Autoincrement]
         [Index]
-        [Column(Order =1)]
-        public int Id { get; set; } 
-
+        [Column(Order = 1)]
+        public int Id { get; set; }
 
         [Column(Order = 2)]
-        public string FilterArgument
-        { get; set; }
+        public string SinAccUsername { get; set; }
 
 
         [Column(Order = 3)]
-        public int FilterTypeSql
+        public string UnfollowSource
         { get; set; }
 
 
         [Column(Order = 4)]
-        public int FollowedBack
+        public string SourceType
         { get; set; }
 
-
         [Column(Order = 5)]
-        public int FollowedBackDate
+        public int SourceFilter
         { get; set; }
 
 
         [Column(Order = 6)]
-        public int InteractionDate
-        { get; set; }
-
-
-        [Column(Order = 7)]
-        public int OperationType
-        { get; set; }
-
-
-        [Column(Order = 8)]
         public string Username
         { get; set; }
 
-        [Column(Order = 9)]
+        [Column(Order = 7)]
         public string UserId { get; set; }
 
+        [Column(Order = 8)]
+        public int FollowBackStatus
+        { get; set; }
+
+
+        [Column(Order = 9)]
+        public int FollowedBackDate
+        { get; set; }
+
         [Column(Order = 10)]
-        public string FullName { get; set; }
+        public int InteractionTimeStamp
+        { get; set; }
 
         [Column(Order = 11)]
-        public string Module { get; set; }
+        public DateTime InteractionDate
+        { get; set; }
+
+        [Column(Order = 12)]
+        public string ProcessType { get; set; }
     }
 }
