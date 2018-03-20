@@ -106,6 +106,14 @@ namespace DominatorUIUtility.CustomControl
                             lstCampaignType.Add(name);
                     }
                     break;
+
+                case "Gplus":
+                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
+                    {
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Gplus"))
+                            lstCampaignType.Add(name);
+                    }
+                    break;
             }
 
             CmbCampaignType.ItemsSource = lstCampaignType;
@@ -384,7 +392,7 @@ namespace DominatorUIUtility.CustomControl
 
         private void list_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            GridViewColumns.SetGridViewColumnsWidthToStartWidth(list, e);
+          //  GridViewColumns.SetGridViewColumnsWidthToStartWidth(list, e);
         }
 
         private void CmbCampaignType_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -405,5 +413,69 @@ namespace DominatorUIUtility.CustomControl
             objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(objCampaignDetails.ObjCampaignDetails);
 
         }
+
+        private void AllCampaignChecked_Checked(object sender, RoutedEventArgs e)
+        {
+            AllCampaignCheckUnchek(true);
+            SetDefaultView();
+        }
+
+        private void AllCampaignChecked_Unchecked(object sender, RoutedEventArgs e)
+        {
+            AllCampaignCheckUnchek(false);
+            SetDefaultView();
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckUncheckCampaign(sender, true);
+        }
+
+        private void CheckUncheckCampaign(object sender, bool Ischecked)
+        {
+            var checkedItem = ((FrameworkElement)sender).DataContext as CampaignDetails;
+            objCampaignDetails.ObjCampaignDetails.Select(x =>
+            {
+                if (x.CampaignId == checkedItem.CampaignId)
+                    x.IsCampaignChecked = Ischecked;
+                return x;
+            }).ToList();
+        }
+        private void AllCampaignCheckUnchek(bool isChecked)
+        {
+            objCampaignDetails.ObjCampaignDetails.Select(x => { x.IsCampaignChecked = isChecked; return x; }).ToList();
+        }
+        private void DeleteMultipleCampaign_Click(object sender, RoutedEventArgs e)
+        {
+            var campaign = objCampaignDetails.ObjCampaignDetails.Where(x => x.IsCampaignChecked).ToList();
+            if (campaign.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                    "Warning", "To delete Campaign please select atleast one Campaign !!!", MessageDialogStyle.Affirmative);
+                return;
+            }
+
+            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                "Confirmation", "If you delete it will delete from Campaign permanently\nAre you sure You want to delete selected Campaign?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton());
+            if (dialogResult != MessageDialogResult.Affirmative)
+                return;
+            campaign.ForEach(camp =>
+            {
+                CampaignsFileManager.Delete(camp);
+                objCampaignDetails.ObjCampaignDetails.Remove(camp);
+            });
+            SetDefaultView();
+        }
+
+        private void SetDefaultView()
+        {
+            objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(objCampaignDetails.ObjCampaignDetails);
+        }
+
+        private void CheckBox_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            CheckUncheckCampaign(sender, false);
+        }
+
     }
 }

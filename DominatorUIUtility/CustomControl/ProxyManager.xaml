@@ -11,7 +11,8 @@
     <UserControl.Resources>
         
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        
+        <converter:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
+
         <converter:BooleanToWidthConverter x:Key="BooleanToWidthConverter"/>
         
         <DataTemplate x:Key="ProxyAccountImageWithName">
@@ -428,7 +429,9 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <CheckBox IsChecked="{Binding IsProxySelected}" Margin="5,0,0,0"/>
-                                    <Label Content="{Binding Id}" />
+                                    <Label Margin="4 0 0 0" Content="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                   AncestorType={x:Type ListViewItem}}, 
+                                                   Converter={StaticResource ListViewItemIndexConverter}}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

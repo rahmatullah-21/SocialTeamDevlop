@@ -70,7 +70,46 @@
     <system:String x:Key="QDlangDownvoteQuestionsPerJob">Number of Questions to Downvote per job</system:String>
     <system:String x:Key="QDlangDownvoteQuestionsPerHour">Number of Questions to Downvote per hour</system:String>
     <system:String x:Key="QDlangDownvoteQuestionsPerDay">Number of Questions to Downvote per day</system:String>
-    <system:String x:Key="QDlangDownvoteQuestionsPerWeek">Number of Questions to Downvote per day</system:String>
+    <system:String x:Key="QDlangDownvoteQuestionsPerWeek">Number of Questions to Downvote per week</system:String>
     <system:String x:Key="QDlangMaxDownvoteQuestionsDay">Max Questions to Downvote per day</system:String>
 
+    <system:String x:Key="QDlangCustomURL">Custom URL</system:String>
+    <system:String x:Key="QDlangKeywords">Keywords</system:String>
+    <system:String x:Key="QDlangCustomUser">Custom User</system:String>
+    <system:String x:Key="QDlangTopicList">Topic List</system:String>
+    <system:String x:Key="QDlangReportAnswersWarning">These accounts are already running with Report Answers configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="QDlangUnfollow">Unfollow</system:String>
+    <system:String x:Key="QDlangReportUsersWarning">These accounts are already running with Report Users configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="QDlangAfterReportAnswer">After Report Answer</system:String>
+    <system:String x:Key="QDlangAfterDownvoteAnswers">After Downnvote Answers</system:String>
+    <system:String x:Key="QDlangSomeonesFollowers">Someone's Followers</system:String>
+    <system:String x:Key="QDlangSomeonesFollowings">Someone's Followings</system:String>
+    <system:String x:Key="QDlangCustomUsers">Custom Users</system:String>
+    <system:String x:Key="QDlangEngagedUsers">Engaged Users</system:String>
+    <system:String x:Key="QDlangOwnFollowers">Own Followers</system:String>
+    <system:String x:Key="QDlangTopicFollowers">Topic Followers</system:String>
+    <system:String x:Key="QDlangAnswerUpvoters">Answer Upvoters</system:String>
+    <system:String x:Key="QDlangAfterDownvoteQuestions">After Downvote Questions</system:String>
+    <system:String x:Key="QDlangDownvoteAnswersWarning">These accounts are already running with Downvote Answer configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="QDlangDownvoteQuestionsWarning">These accounts are already running with Downvote Questions configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="QDlangUpvoteAnswersWarning">These accounts are already running with Upvote Answers configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+
+
+    <system:String x:Key="QDlangScrapeUserPerJob">Scrape user per job</system:String>
+    <system:String x:Key="QDlangScrapeUserPerHour">Scrape user per hour</system:String>
+    <system:String x:Key="QDlangScrapeUserPerDay">Scrape user per day</system:String>
+    <system:String x:Key="QDlangScrapeUserPerWeek">Scrape user per week</system:String>
+    <system:String x:Key="QDlangMaxScrapeUserDay">Max scrape user per day</system:String>
+    <system:String x:Key="QDlangAnswerScrapePerJob">Answer scrape per job</system:String>
+    <system:String x:Key="QDlangAnswerScrapePerHour">Answer scrape per hour</system:String>
+    <system:String x:Key="QDlangAnswerScrapePerDay">Answer scrape per day</system:String>
+    <system:String x:Key="QDlangAnswerScrapePerWeek">Answer scrape per week</system:String>
+    <system:String x:Key="QDlangMaxAnswerScrapeDay">Max answer scrape per day</system:String>
+    <system:String x:Key="QDlangAfterScrapeUser">After scrape user</system:String>
+    <system:String x:Key="QDlangQuestionScraperPerJob">Question scrape per job</system:String>
+    <system:String x:Key="QDlangQuestionScraperPerHour">Question scrape per hour</system:String>
+    <system:String x:Key="QDlangQuestionScraperPerDay">Question scrape per day</system:String>
+    <system:String x:Key="QDlangQuestionScraperPerWeek">Question scrape per week</system:String>
+    <system:String x:Key="QDlangMaxQuestionScraperDay">Max question scrape per day</system:String>
+    <system:String x:Key="QDlangAfterQuestionsScraper">After Questions Scraper</system:String>
 </ResourceDictionary>

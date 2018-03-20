@@ -84,4 +84,9 @@
     <system:String x:Key="langFromCircleOfFollowers">From Circle Of Followers</system:String>
     <system:String x:Key="langFromCircleOfFollowings">From Circle Of Followings</system:String>
     <system:String x:Key="langMaxJoinDay">max Join per day</system:String>
+    <system:String x:Key="langScrapingPeoplePerJob">Number of Scraping People per job</system:String>
+    <system:String x:Key="langScrapingPeoplePerHour">Number of Scraping People per hour</system:String>
+    <system:String x:Key="langScrapingPeoplePerDay">Number of Scraping People per day</system:String>
+    <system:String x:Key="langScrapingPeoplePerWeek">Number of Scraping People per week</system:String>
+    <system:String x:Key="langMaxScrapingPeopleDay">Max Number of Scraping People per day</system:String>
 </ResourceDictionary>

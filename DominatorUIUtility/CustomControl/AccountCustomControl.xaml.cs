@@ -186,9 +186,9 @@ namespace DominatorUIUtility.CustomControl
                     listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Youtube);
                     DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
                     DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
-                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
+                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Subscribers Count";
+                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = true;
+                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Liked Count";
                     DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
                     DominatorAccountViewModel.GridHeaderColumn4.Header = "Board Count";
                     DominatorAccountViewModel.SocialNetwork = SocialNetworks.Youtube;
@@ -391,6 +391,8 @@ namespace DominatorUIUtility.CustomControl
 
             if (dataContext != null)
                 DominatorAccountViewModel.DeleteAccountByContextMenu(sender);
+
+            AccountListView.ItemsSource = DominatorAccountViewModel.AccountCollectionView;
         }
 
         public void GotoTools(object sender, RoutedEventArgs e)

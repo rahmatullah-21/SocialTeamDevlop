@@ -733,7 +733,8 @@ namespace DominatorUIUtility.ViewModel
             var selectedAccount = LstDominatorAccountModel.FirstOrDefault<DominatorAccountModel>(x => selectedRow != null && x.AccountBaseModel.AccountId == selectedRow.AccountBaseModel.AccountId);
 
             DeleteAccounts(new List<DominatorAccountModel> { selectedAccount });
-            GlobusLogHelper.log.Info(selectedAccount + " Deleted");
+
+            GlobusLogHelper.log.Info(selectedAccount + " Deleted");         
         }
 
 

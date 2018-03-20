@@ -62,8 +62,11 @@ namespace DominatorHouse
                     DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg,
                                     MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
 
-            TabSwitcher.ChangeTabIndex = ChangeTabIndex;
-            TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
+
+
+           // TabSwitcher.ChangeTabIndex = ChangeTabIndex;
+           // TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
+            TabSwitcher.SelectMainTab = SelectMainIndex;
 
             // Log strated
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
@@ -105,33 +108,39 @@ namespace DominatorHouse
 
         private void ChangeTabIndex(int mainTabIndex, int? subTabIndex = null)
         {
+
             MainTabControl.SelectedIndex = mainTabIndex;
 
-            if (subTabIndex == null) return;
+            //if (subTabIndex == null) return;
 
 
-            // NOTE: Works for instagram tabs
-            switch (mainTabIndex)
-            {
-                case 1:
-                    GrowFollowersTab.GetSingeltonObjectGrowFollowersTab().setIndex((int)subTabIndex);
-                    break;
-                case 2:
-                    InstaPosterTab.GetSingeltonObjectInstaPosterTab().setIndex((int)subTabIndex);
-                    break;
+            //// NOTE: Works for instagram tabs
+            //switch (mainTabIndex)
+            //{
+            //    case 1:
+            //        GrowFollowersTab.GetSingeltonObjectGrowFollowersTab().setIndex((int)subTabIndex);
+            //        break;
+            //    case 2:
+            //        InstaPosterTab.GetSingeltonObjectInstaPosterTab().setIndex((int)subTabIndex);
+            //        break;
 
-                case 3:
-                    InstachatTab.GetSingeltonObjectInstachatTab().setIndex((int)subTabIndex);
-                    break;
-                case 4:
-                    InstaLikerInstaCommenterTab.GetSingeltonObjectInstaLikerInstaCommenterTab().setIndex((int)subTabIndex);
-                    break;
+            //    case 3:
+            //        InstachatTab.GetSingeltonObjectInstachatTab().setIndex((int)subTabIndex);
+            //        break;
+            //    case 4:
+            //        InstaLikerInstaCommenterTab.GetSingeltonObjectInstaLikerInstaCommenterTab().setIndex((int)subTabIndex);
+            //        break;
 
-                case 5:
-                    InstaScrapeTab.GetSingeltonObjectInstaScrapeTab().setIndex((int)subTabIndex);
-                    break;
-            }
+            //    case 5:
+            //        InstaScrapeTab.GetSingeltonObjectInstaScrapeTab().setIndex((int)subTabIndex);
+            //        break;
+            //}
 
+        }
+
+        private void SelectMainIndex(int mainTabIndex)
+        {
+            MainTabControl.SelectedIndex = mainTabIndex;
         }
 
         public void LogText(string message, bool error)

@@ -25,6 +25,10 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                         var initiaThread = new Thread(() => databaseConnection.Count<DominatorHouseCore.DatabaseHandler.TdTables.Accounts.Friendships>()) { IsBackground = true };
                         initiaThread.Start();
                         break;
+                    case SocialNetworks.Gplus:
+                        var initialGplusThread = new Thread(() => databaseConnection.Count<Friendships>()) { IsBackground = true };
+                        initialGplusThread.Start();
+                        break;
 
                 }
                

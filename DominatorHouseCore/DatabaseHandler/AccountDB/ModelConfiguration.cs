@@ -53,6 +53,12 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB
 
                     break;
                 case SocialNetworks.Gplus:
+                    modelBuilder.Entity<FeedInfoes>();
+                    modelBuilder.Entity<Friendships>();
+                    modelBuilder.Entity<DailyStatitics>();
+                    modelBuilder.Entity<InteractedPosts>();
+                    modelBuilder.Entity<InteractedUsers>();
+                    modelBuilder.Entity<UnfollowedUsers>();
                     break;
                 case SocialNetworks.Facebook:
                     break;

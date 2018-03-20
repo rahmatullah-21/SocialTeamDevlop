@@ -100,6 +100,21 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _campaignDetails, value);
             }
         }
+
+        private bool _isCampaignChecked;
+        public bool IsCampaignChecked
+        {
+            get
+            {
+                return _isCampaignChecked;
+            }
+            set
+            {
+                if (_isCampaignChecked == value)
+                    return;
+                SetProperty(ref _isCampaignChecked, value);
+            }
+        }
     }
 
 

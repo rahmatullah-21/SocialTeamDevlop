@@ -17,7 +17,6 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
         private JobProcess _jobProcess;
 
-
         protected AbstractQueryScraper(JobProcess jobProcess)
         {
             _jobProcess = jobProcess;

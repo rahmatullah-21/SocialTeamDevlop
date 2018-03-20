@@ -176,7 +176,7 @@
     <system:String x:Key="langReport">Report</system:String>
     <system:String x:Key="langAccountWiseDetails">Account wise details</system:String>
     <system:String x:Key="langMinutes">minutes</system:String>
-    <system:String x:Key="langUsers">users</system:String>
+    <system:String x:Key="langUsers">Users</system:String>
     <system:String x:Key="langCaptionText">Caption Text</system:String>
     <system:String x:Key="langSearchQuery">Search Query</system:String>
     <system:String x:Key="langQueryType">Query type</system:String>
