@@ -151,13 +151,22 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         public int FollowBackStatus
         { get; set; }
 
+        [Column(Order = 23)]
+        public int IsAlreadyLiked
+        { get; set; }
+
+
+        [Column(Order = 24)]
+        public int IsAlreadyRetweeted
+        { get; set; }
+
         /// <summary>
         /// Describes wheather the activity is done in Activity process or after activity process
         /// </summary>
-        [Column(Order = 23)]
+        [Column(Order = 25)]
         public string ProcessType { get; set; }
 
-        [Column(Order = 24)]
+        [Column(Order = 26)]
         public DateTime InteractionDate { get; set; }
 
     }

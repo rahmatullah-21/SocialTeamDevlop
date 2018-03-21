@@ -102,22 +102,15 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         [Column(Order = 24)]
         public string Bio { get; set; }
 
-        [Column(Order = 25)]
-        public int IsAlreadyLiked
-        { get; set; }
-
-
-        [Column(Order = 26)]
-        public int IsAlreadyRetweeted
-        { get; set; }
+       
 
         /// <summary>
         /// Describes wheather the activity is done in Activity process or after activity process
         /// </summary>
-        [Column(Order = 27)]
+        [Column(Order = 25)]
         public string ProcessType { get; set; }
 
-        [Column(Order = 28)]
+        [Column(Order = 26)]
         public DateTime InteractionDateTime { get; set; }
 
     }
