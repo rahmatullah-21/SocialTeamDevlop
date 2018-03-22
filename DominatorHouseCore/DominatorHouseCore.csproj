@@ -319,6 +319,7 @@
     <Compile Include="Utility\RangeUtilities.cs" />
     <Compile Include="Utility\Resources.cs" />
     <Compile Include="Enums\SocialNetworks.cs" />
+    <Compile Include="Utility\SelectedDominatorAccounts.cs" />
     <Compile Include="Utility\StringHelper.cs" />
     <Compile Include="Utility\TabSwitcher.cs" />
     <Compile Include="Utility\Utilities.cs" />

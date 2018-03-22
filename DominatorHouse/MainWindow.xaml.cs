@@ -65,7 +65,7 @@ namespace DominatorHouse
 
 
            // TabSwitcher.ChangeTabIndex = ChangeTabIndex;
-           // TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
+            TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
             TabSwitcher.SelectMainTab = SelectMainIndex;
 
             // Log strated

@@ -23,6 +23,10 @@ namespace DominatorHouseCore.Utility
         public static ObservableCollectionBase<string> GetUsers()
             => new ObservableCollectionBase<string>(GetAccountDetails().Select(x => x.AccountBaseModel.UserName).ToList());
 
+        public static ObservableCollectionBase<string> GetUsers(SocialNetworks networks)
+            => new ObservableCollectionBase<string>(GetAccountDetails().Where(x=> x.AccountBaseModel.AccountNetwork== networks).Select(x => x.AccountBaseModel.UserName).ToList());
+
+
         public static ObservableCollectionBase<string> GetUsers<T>() where T : class
             => new ObservableCollectionBase<string>(GetAccountDetailsFor<T>().Select(x => (x as dynamic).UserName as string).ToList());
 

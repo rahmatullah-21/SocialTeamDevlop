@@ -432,7 +432,7 @@ namespace DominatorUIUtility.ViewModel
 
             #region Add Account
             //check the account is already present or not
-            if (LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == objDominatorAccountBaseModel.UserName))
+            if (LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == objDominatorAccountBaseModel.UserName && x.AccountBaseModel.AccountId == objDominatorAccountBaseModel.AccountId))
             {
                 /*INFO*/
                 Console.WriteLine($@"Account [{objDominatorAccountBaseModel.UserName}] already added!");
@@ -496,7 +496,7 @@ namespace DominatorUIUtility.ViewModel
                 GlobusLogHelper.log.Info($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
             }
 
-            DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.UserName, objDominatorAccountBaseModel.AccountNetwork);
+            DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork);
 
             #endregion
 

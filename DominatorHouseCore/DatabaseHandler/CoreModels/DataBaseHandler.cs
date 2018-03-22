@@ -22,6 +22,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 switch (networks)
                 {
                     case SocialNetworks.Twitter:
+                       
                         var initiaThread = new Thread(() => databaseConnection.Count<DominatorHouseCore.DatabaseHandler.TdTables.Accounts.Friendships>()) { IsBackground = true };
                         initiaThread.Start();
                         break;

@@ -100,5 +100,5 @@ namespace DominatorHouseCore.Utility
             return dir;
         }
         internal static string GetLiveChatFile() => GetChatDir() + @"\LiveChat.bin";
-    }                
+    }
 }
