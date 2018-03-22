@@ -46,12 +46,12 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<PdTables.Accounts.InteractedBoards>();
                     break;
                 case SocialNetworks.Gplus:
-                    modelBuilder.Entity<FeedInfoes>();
-                    modelBuilder.Entity<Friendships>();
-                    modelBuilder.Entity<DailyStatitics>();
-                    modelBuilder.Entity<InteractedPosts>();
-                    modelBuilder.Entity<InteractedUsers>();
-                    modelBuilder.Entity<UnfollowedUsers>();
+                    modelBuilder.Entity<GplusTables.Accounts.FeedInfoes>();
+                    modelBuilder.Entity<GplusTables.Accounts.Friendships>();
+                    modelBuilder.Entity<GplusTables.Accounts.DailyStatitics>();
+                    modelBuilder.Entity<GplusTables.Accounts.InteractedPosts>();
+                    modelBuilder.Entity<GplusTables.Accounts.InteractedUsers>();
+                    modelBuilder.Entity<GplusTables.Accounts.UnfollowedUsers>();
                     break;
                 case SocialNetworks.Facebook:
                     break;

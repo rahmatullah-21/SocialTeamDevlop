@@ -368,7 +368,7 @@ namespace DominatorHouse
         }
 
         public List<TabItemTemplates> InitializeAllTabs()
-        {
+     {
             AccountCustomControl AccountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
 
             AccountCustomControl.DominatorAccountViewModel.action_CheckAccount = action_CheckAccount;

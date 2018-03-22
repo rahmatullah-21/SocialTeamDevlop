@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
@@ -21,7 +22,9 @@ namespace EmbeddedBrowser
     /// </summary>
     public partial class BrowserWindow : Window, INotifyPropertyChanged, IComponentConnector, IDisposable
     {
-       
+
+        private readonly object _syncLock = new object();
+
         public BrowserWindow()
         {
             InitializeComponent();
@@ -34,14 +37,15 @@ namespace EmbeddedBrowser
             DominatorAccountModel = dominatorAccountModel;
 
             InitializeComponent();
-          
+
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
                 CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
             });
-        
-            Browser.RequestHandler = new RequestHandlerCustom(this);
 
+            Browser.RequestHandler = new RequestHandlerCustom(this);
+            var url = GetNetworksHomeUrl();
+            Browser.Address = url;
             Browser.IsBrowserInitializedChanged += LoadSettings;
         }
 
@@ -119,7 +123,7 @@ namespace EmbeddedBrowser
                         }
                         else
                         {
-                            var dictProxyIpPort = new Dictionary<string, object> {{"mode", "direct"}};
+                            var dictProxyIpPort = new Dictionary<string, object> { { "mode", "direct" } };
 
 
                             string error;
@@ -142,6 +146,7 @@ namespace EmbeddedBrowser
             Browser.Load(homePage);
 
             Browser.LoadingStateChanged += BrowserOnLoaded;
+
         }
 
 
@@ -150,7 +155,6 @@ namespace EmbeddedBrowser
             try
             {
                 bool isLoaded = false;
-
                 Dispatcher.Invoke(() =>
                 {
                     try
@@ -159,46 +163,63 @@ namespace EmbeddedBrowser
                     }
                     catch (Exception e)
                     {
-                      e.DebugLog(); 
-                    }                   
+                        e.DebugLog();
+                    }
                 });
-                    
-                if(!isLoaded) return;
+
+                if (!isLoaded) return;
 
                 if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) &&
                     !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
                 {
-                    switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                    Browser.GetSourceAsync().ContinueWith(taskHtml =>
                     {
-                        case SocialNetworks.Facebook:
-                            FacebookBrowserLogin();
-                            break;
-                        case SocialNetworks.Instagram:
-                            break;
-                        case SocialNetworks.Twitter:
-                            break;
-                        case SocialNetworks.Pinterest:
-                            break;
-                        case SocialNetworks.LinkedIn:
-                            break;
-                        case SocialNetworks.Reddit:
-                            break;
-                        case SocialNetworks.Social:
-                            break;
-                        case SocialNetworks.Quora:
-                            break;
-                        case SocialNetworks.Gplus:
-                            break;
-                        case SocialNetworks.Youtube:
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
+                        try
+                        {
+                            var html = taskHtml.Result;
+                            if (html != null)
+                            {
+                                switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                                {
+                                    case SocialNetworks.Facebook:
+                                        FacebookBrowserLogin(html);
+                                        break;
+                                    case SocialNetworks.Instagram:
+                                        InstagramBrowserLogin(html);
+                                        break;
+                                    case SocialNetworks.Twitter:
+                                        break;
+                                    case SocialNetworks.Pinterest:
+                                        PinterestBrowserLogin(html);
+                                        break;
+                                    case SocialNetworks.LinkedIn:
+                                        LinkedInBrowserLogin(html);
+                                        break;
+                                    case SocialNetworks.Reddit:
+                                        break;
+                                    case SocialNetworks.Quora:
+                                        QuoraLogin(html);
+                                        break;
+                                    case SocialNetworks.Gplus:
+                                        GoogleBrowserLogin(html);
+                                        break;
+                                    case SocialNetworks.Youtube:
+                                        GoogleBrowserLogin(html);
+                                        break;
+                                    default:
+                                        throw new ArgumentOutOfRangeException();
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    });
 
-                   
+
                 }
 
-                Browser.LoadingStateChanged -= BrowserOnLoaded;
             }
             catch (Exception ex)
             {
@@ -206,19 +227,209 @@ namespace EmbeddedBrowser
             }
         }
 
-        private void FacebookBrowserLogin()
+        private void FacebookBrowserLogin(string html)
         {
+            if (html.Contains("royal_login_button"))
+            {
+                Thread.Sleep(3000);
+                Browser.ExecuteScriptAsync("document.getElementById('email').value= '" +
+                                           DominatorAccountModel.AccountBaseModel.UserName + "'");
+
+                Browser.ExecuteScriptAsync("document.getElementById('pass').value= '" +
+                                           DominatorAccountModel.AccountBaseModel.Password + "'");
+
+                Thread.Sleep(1000);
+
+                Browser.ExecuteScriptAsync("document.getElementById('u_0_5').click()");
+
+                Browser.LoadingStateChanged -= BrowserOnLoaded;
+            }
+        }
 
 
-            Browser.ExecuteScriptAsync("document.getElementById('email').value= '" +
-                                       DominatorAccountModel.AccountBaseModel.UserName + "'");
+        private void GoogleBrowserLogin(string html)
+        {
+            try
+            {
+                Browser.ExecuteScriptAsync("document.getElementById('sign-in-btn').click()");
 
-            Browser.ExecuteScriptAsync("document.getElementById('pass').value= '" +
-                                       DominatorAccountModel.AccountBaseModel.Password + "'");
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            Thread.Sleep(3000);
 
-            Thread.Sleep(1000);
+            if (html.Contains("identifierNext"))
+            {
+                try
+                {
+                    Browser.ExecuteScriptAsync("document.getElementById('identifierId').value= '" +
+                                               DominatorAccountModel.AccountBaseModel.UserName + "'");
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+                Thread.Sleep(2000);
+                try
+                {
+                    Browser.ExecuteScriptAsync("document.getElementById('identifierNext').click()");
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+                Thread.Sleep(2000);
+            }
+            if (html.Contains("passwordNext"))
+            {
+                try
+                {
+                    Browser.ExecuteScriptAsync("document.getElementsByName('password')[0].value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+                Thread.Sleep(2000);
+                try
+                {
+                    Browser.ExecuteScriptAsync("document.getElementById('passwordNext').click()");
 
-            Browser.ExecuteScriptAsync("document.getElementById('u_0_5').click()");
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+                Thread.Sleep(2000);
+
+                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
+                {
+                    Browser.Load("https://plus.google.com/");
+                }
+            }
+        }
+
+
+        private void LinkedInBrowserLogin(string html)
+        {
+            if (!string.IsNullOrEmpty(html) && html.Contains("LinkedIn: Log In or Sign Up") && html.Contains("Be great at what you do") && html.Contains("By clicking Join now, you agree to the LinkedIn"))
+            {
+                if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
+                {
+                    Browser.ExecuteScriptAsync("document.getElementById('login-email').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
+
+                    Browser.ExecuteScriptAsync("document.getElementById('login-password').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
+
+                    Browser.ExecuteScriptAsync("document.getElementById('login-submit').disabled = false");
+
+                    Thread.Sleep(4000);
+
+                    Browser.ExecuteScriptAsync("document.getElementById('login-submit').click()");
+
+                }
+            }
+        }
+
+        private void PinterestBrowserLogin(string html)
+        {
+            if (!string.IsNullOrEmpty(html) && html.Contains("type=\"email\"") && html.Contains("type=\"password\""))
+            {
+                if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
+                {
+                    Thread.Sleep(2000);
+                    Browser.ExecuteScriptAsync("document.getElementById('email').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
+
+                    Thread.Sleep(2000);
+
+                    Browser.ExecuteScriptAsync("document.getElementById('password').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
+
+                    Thread.Sleep(50);
+
+                    Browser.ExecuteScriptAsync("document.getElementsByClassName('red SignupButton active')[0].click()");
+
+                }
+            }
+        }
+
+        private void InstagramBrowserLogin(string html)
+        {
+            if (html.Contains("Phone number, username, or email"))
+            {
+                KeyEvent k = new KeyEvent();
+                k.FocusOnEditableField = false;
+                k.WindowsKeyCode = 9;
+                k.IsSystemKey = false;
+                k.Type = KeyEventType.KeyDown;
+                Browser.GetBrowser().GetHost().SendKeyEvent(k);
+
+                var userName = " " + DominatorAccountModel.AccountBaseModel.UserName;
+                Browser.ExecuteScriptAsync("document.getElementsByName(\"username\")[0].click()");
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                userName.ToList<char>().ForEach((x) =>
+                {
+                    k = new KeyEvent
+                    {
+                        WindowsKeyCode = (int) x,
+                        FocusOnEditableField = false,
+                        IsSystemKey = false,
+                        Type = KeyEventType.Char
+                    };
+                    Browser.GetBrowser().GetHost().SendKeyEvent(k);
+                });
+
+                k = new KeyEvent();
+                k.FocusOnEditableField = false;
+                k.WindowsKeyCode = 9;
+                k.IsSystemKey = false;
+                k.Type = KeyEventType.KeyDown;
+                Browser.GetBrowser().GetHost().SendKeyEvent(k);
+
+               
+                var password = " " + DominatorAccountModel.AccountBaseModel.Password;
+                //cefBrowser.ExecuteScriptAsync("document.getElementsByName(\"password\")[0].click()");
+                password.ToList<char>().ForEach((x) =>
+                {
+                    k = new KeyEvent();
+                    k.WindowsKeyCode = (int)x;
+                    k.FocusOnEditableField = false;
+                    k.IsSystemKey = false;
+                    k.Type = KeyEventType.Char;
+                    Browser.GetBrowser().GetHost().SendKeyEvent(k);
+
+                });
+
+                k = new KeyEvent();
+                k.FocusOnEditableField = false;
+                k.WindowsKeyCode = 13;
+                k.IsSystemKey = false;
+                k.Type = KeyEventType.KeyDown;
+                Browser.GetBrowser().GetHost().SendKeyEvent(k);
+                Thread.Sleep(1000);
+
+                Browser.ExecuteScriptAsync("document.getElementsByClassName(\"_qv64e _gexxb _4tgw8 _njrw0\")[0].click()");
+                Thread.Sleep(2000);
+
+            }
+        }
+
+        private void QuoraLogin(string html)
+        {
+            lock(_syncLock)
+            {
+                if (html != null && html.Contains("name=\"password\"") && html.Contains("name=\"email\""))
+                {
+                    Browser.ExecuteScriptAsync("document.getElementsByName('email')[0].value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
+
+                    Browser.ExecuteScriptAsync("document.getElementsByName('password')[0].value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
+
+                    Browser.ExecuteScriptAsync("document.getElementsByClassName('submit_button ignore_interaction submit_button_disabled')[0].class='submit_button ignore_interaction'");
+
+                    Browser.ExecuteScriptAsync("document.getElementsByClassName('submit_button ignore_interaction')[0].click()");
+                }
+            }
+           
         }
 
         public string GetNetworksHomeUrl()
@@ -226,32 +437,30 @@ namespace EmbeddedBrowser
             switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
             {
                 case SocialNetworks.Facebook:
-                    return "https://www.facebook.com";                   
+                    return "https://www.facebook.com";
                 case SocialNetworks.Instagram:
-                    break;
+                    return "https://www.instagram.com/accounts/login/";
                 case SocialNetworks.Twitter:
                     break;
                 case SocialNetworks.Pinterest:
-                    break;
+                    return "https://www.pinterest.com/login/";
                 case SocialNetworks.LinkedIn:
-                    break;
+                    return "https://www.linkedin.com";
                 case SocialNetworks.Reddit:
                     break;
-                case SocialNetworks.Social:
-                    break;
                 case SocialNetworks.Quora:
-                    break;
+                    return "https://www.quora.com/";
                 case SocialNetworks.Gplus:
-                    break;
+                    return "https://accounts.google.com/signin";
                 case SocialNetworks.Youtube:
-                    break;
+                    return "https://www.youtube.com/signin";
                 default:
                     throw new ArgumentOutOfRangeException();
             }
             return null;
         }
 
-        
+
 
         public void Dispose()
         {
@@ -288,7 +497,6 @@ namespace EmbeddedBrowser
 
                     return true;
                 }
-
                 return false;
             }
 
@@ -508,5 +716,21 @@ namespace EmbeddedBrowser
         }
 
 
+        private void ButtonBack_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (Browser.CanGoBack)
+                Browser.Back();
+        }
+
+        private void ButtonForward_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (Browser.CanGoForward)
+                Browser.Forward();
+        }
+
+        private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e)
+        {
+            Browser.Reload();
+        }
     }
 }

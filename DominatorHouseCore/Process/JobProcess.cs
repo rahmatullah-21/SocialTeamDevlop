@@ -191,7 +191,7 @@ namespace DominatorHouseCore.Process
 
 
             // Finally check max number of jobs limit
-            if (NoOfActionPerformedCurrentJob > MaxNoOfActionPerJob)
+            if (NoOfActionPerformedCurrentJob >= MaxNoOfActionPerJob)
             {
                 GlobusLogHelper.log.Info($"Number of {ActivityType} per job limit reached. Scheduling next job.");
 
