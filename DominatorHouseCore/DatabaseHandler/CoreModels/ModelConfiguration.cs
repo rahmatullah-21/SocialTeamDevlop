@@ -2,7 +2,7 @@
 using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
 using DominatorHouseCore.Enums;
 
-namespace DominatorHouseCore.DatabaseHandler.AccountDB
+namespace DominatorHouseCore.DatabaseHandler.CoreModels
 {
     public class ModelConfiguration
     {
@@ -11,20 +11,7 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB
             ConfigureAccountdataBaseEntity(modelBuilder, network);
         }
 
-        #region Commented
-        //private static void ConfigureTeamEntity(DbModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Team>().ToTable("Base.MyTable")
-        //        .HasRequired(t => t.Coach)
-        //        .WithMany()
-        //        .WillCascadeOnDelete(false);
-
-        //    modelBuilder.Entity<Team>()
-        //        .HasRequired(t => t.Stadion)
-        //        .WithRequiredPrincipal()
-        //        .WillCascadeOnDelete(true);
-        //} 
-        #endregion
+      
 
         public static void ConfigureAccountdataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
         {
@@ -50,7 +37,13 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB
                     //modelBuilder.Entity<TdTables.Campaign.UnfollowedUsers>();
                     break;
                 case SocialNetworks.Pinterest:
-
+                    modelBuilder.Entity<PdTables.Accounts.FeedInfoes>();
+                    modelBuilder.Entity<PdTables.Accounts.Friendships>();
+                    modelBuilder.Entity<PdTables.Accounts.DailyStatitics>();
+                    modelBuilder.Entity<PdTables.Accounts.InteractedPosts>();
+                    modelBuilder.Entity<PdTables.Accounts.InteractedUsers>();
+                    modelBuilder.Entity<PdTables.Accounts.UnfollowedUsers>();
+                    modelBuilder.Entity<PdTables.Accounts.InteractedBoards>();
                     break;
                 case SocialNetworks.Gplus:
                     modelBuilder.Entity<FeedInfoes>();
@@ -65,6 +58,12 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB
                 case SocialNetworks.LinkedIn:
                     break;
                 case SocialNetworks.Quora:
+                    modelBuilder.Entity<FeedInfoes>();
+                    modelBuilder.Entity<Friendships>();
+                    modelBuilder.Entity<DailyStatitics>();
+                    modelBuilder.Entity<InteractedPosts>();
+                    modelBuilder.Entity<InteractedUsers>();
+                    modelBuilder.Entity<UnfollowedUsers>();
                     break;
                 case SocialNetworks.Reddit:
                     break;

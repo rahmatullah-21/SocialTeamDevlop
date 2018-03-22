@@ -211,7 +211,7 @@
 
         </Grid>
         <Grid Margin="0,10,0,0" Grid.Row="1">
-            <wpf:ChromiumWebBrowser x:Name="Browser" Address="http://www.facebook.com" />
+            <wpf:ChromiumWebBrowser x:Name="Browser" Address="https://www.facebook.com" />
         </Grid>
     </Grid>
 </Window>

@@ -23,8 +23,8 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();           
             CurrentQuery = new QueryInfo();          
             MainGrid.DataContext = this;
-               
-            AddQueryCommand = new BaseCommand<object>(CanExecute, Execute);
+            IsExpanded = true;
+         AddQueryCommand = new BaseCommand<object>(CanExecute, Execute);
            
         }
 
@@ -264,7 +264,18 @@ namespace DominatorUIUtility.CustomControl
             AddQueryEventHandler();
         }
 
-       
+        public bool IsExpanded
+        {
+            get { return (bool)GetValue(IsExpandedProperty); }
+            set { SetValue(IsExpandedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsExpanded.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsExpandedProperty =
+            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            {
+                BindsTwoWayByDefault = true
+            });
     }
 
     

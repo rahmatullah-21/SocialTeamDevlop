@@ -69,7 +69,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
         #region Scrape with no queries methods
 
-        protected abstract void ScrapeToUnfollow();
+        protected virtual void ScrapeToUnfollow() { }
 
         #endregion
 

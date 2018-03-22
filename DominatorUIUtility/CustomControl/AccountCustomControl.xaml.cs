@@ -298,6 +298,17 @@ namespace DominatorUIUtility.CustomControl
             };
             menuOptions.Add(deleteProfileMenu);
 
+            var browserLoginMenu = new MenuItem { Header = "Browser Login" };
+            browserLoginMenu.Click += BrowserLogin;
+            browserLoginMenu.DataContext = dominatorAccountModel;
+            browserLoginMenu.Icon = new Image
+            {
+                Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
+                Width = 25,
+                Height = 25
+            };
+            menuOptions.Add(browserLoginMenu);
+
             var goToToolsMenu = new MenuItem { Header = "Go to Tools" };
             goToToolsMenu.Click += GotoTools;
             goToToolsMenu.DataContext = dominatorAccountModel;
@@ -400,8 +411,22 @@ namespace DominatorUIUtility.CustomControl
             var dominatorAccountModel = ((FrameworkElement) sender).DataContext as DominatorAccountModel;
 
             DominatorHouseCore.Utility.TabSwitcher.ChangeTabWithNetwork(2, dominatorAccountModel.AccountBaseModel.AccountNetwork, dominatorAccountModel.AccountBaseModel.UserName);
-
         }
+
+
+        public void BrowserLogin(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+                DominatorAccountViewModel.AccountBrowserLogin(dominatorAccountModel);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);             
+            }
+        }
+
 
 
         public void CheckinStatus(object sender, RoutedEventArgs e)
@@ -413,8 +438,7 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
-                throw;
+                Console.WriteLine(exception);               
             }
         }
 

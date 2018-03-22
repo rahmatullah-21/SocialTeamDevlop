@@ -573,7 +573,15 @@ namespace DominatorUIUtility.ViewModel
 
             Task.Factory.StartNew(() =>
             {
-                //  UpdateAccountFollowerFollowing(objDominatorAccountModel);
+                switch (objDominatorAccountModel.AccountBaseModel.AccountNetwork)
+                {
+                    case SocialNetworks.Instagram:
+                        AccountAddUpdate.UpdateGDAccount(objDominatorAccountModel);
+                        break;
+                    case SocialNetworks.Quora:
+                        AccountAddUpdate.UpdateQDAccount(objDominatorAccountModel);
+                        break;
+                }
             }, ct);
 
         }
@@ -1081,6 +1089,9 @@ namespace DominatorUIUtility.ViewModel
 
         #region Actions
         public Action<DominatorAccountModel> action_CheckAccount { get; set; }
+
+        public Action<DominatorAccountModel> AccountBrowserLogin { get; set; }
+
         public Action<DominatorAccountModel> action_UpdateFollower { get; set; }
 
         #endregion

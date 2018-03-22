@@ -256,6 +256,10 @@
       <Project>{e8d95af0-e99b-4059-9140-5c02b3f52e06}</Project>
       <Name>DominatorUIUtility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EmbeddedBrowser\EmbeddedBrowser.csproj">
+      <Project>{21f00635-aaf7-466b-9214-a830ea9c8963}</Project>
+      <Name>EmbeddedBrowser</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

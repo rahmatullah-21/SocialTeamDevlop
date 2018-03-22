@@ -9,8 +9,10 @@ using System.Windows.Markup;
 using CefSharp;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 
 namespace EmbeddedBrowser
 {
@@ -19,6 +21,7 @@ namespace EmbeddedBrowser
     /// </summary>
     public partial class BrowserWindow : Window, INotifyPropertyChanged, IComponentConnector, IDisposable
     {
+       
         public BrowserWindow()
         {
             InitializeComponent();
@@ -31,49 +34,33 @@ namespace EmbeddedBrowser
             DominatorAccountModel = dominatorAccountModel;
 
             InitializeComponent();
-
-            var accountCacheId = string.Empty;
-
-            //try
-            //{
-            //    AccountCacheID = DataBaseConnection.DataBaseConnection.getSingleData<tbl_AccountCacheDetails>(x => x.Account == account.username).CacheID;
-            //}
-            //catch (Exception)
-            //{
-            //}
-            //if (string.IsNullOrEmpty(AccountCacheID))
-            //{
-            //    try
-            //    {
-            //        AccountCacheID = Guid.NewGuid().ToString();
-            //        tbl_AccountCacheDetails objtbl_AccountCacheDetails = new tbl_AccountCacheDetails();
-            //        objtbl_AccountCacheDetails.Account = account.username;
-            //        objtbl_AccountCacheDetails.CacheID = AccountCacheID;
-            //        objtbl_AccountCacheDetails.ActionDate = DateTime.Now.ToString();
-            //        DataBaseConnection.DataBaseConnection.AddData<tbl_AccountCacheDetails>(objtbl_AccountCacheDetails);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        GlobusLogHelper.log.Error(ex.Message);
-            //    }
-            //}
-
+          
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
-                CachePath =
-                    $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{"FD"}\\cache\\{accountCacheId}"
+                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
             });
-
+        
             Browser.RequestHandler = new RequestHandlerCustom(this);
 
             Browser.IsBrowserInitializedChanged += LoadSettings;
         }
 
-        public DominatorAccountModel DominatorAccountModel { get; set; }
 
+        private DominatorAccountModel _dominatorAccountModel;
+        public DominatorAccountModel DominatorAccountModel
+        {
+            get
+            {
+                return _dominatorAccountModel;
+            }
+            set
+            {
+                _dominatorAccountModel = value;
+                OnPropertyChanged(nameof(DominatorAccountModel));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
 
         private void ButtonCheckIp_OnClick(object sender, RoutedEventArgs e)
         {
@@ -82,6 +69,8 @@ namespace EmbeddedBrowser
 
         private void ButtonLogin_OnClick(object sender, RoutedEventArgs e)
         {
+            var homePage = GetNetworksHomeUrl();
+            Browser.Load(homePage);
         }
 
         [NotifyPropertyChangedInvocator]
@@ -107,36 +96,35 @@ namespace EmbeddedBrowser
                                 DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword, this);
 
                         // get the proxyip from objDominatorAccountModel object
-                        var ProxyIp = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp;
+                        var proxyIp = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp;
 
                         // get the proxyport from objDominatorAccountModel object
-                        var ProxyPort = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort;
+                        var proxyPort = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort;
 
                         // get the current browser request context
                         var requestContext = Browser.GetBrowser().GetHost().RequestContext;
 
-                        if (!string.IsNullOrEmpty(ProxyIp) && !string.IsNullOrEmpty(ProxyPort))
+                        if (!string.IsNullOrEmpty(proxyIp) && !string.IsNullOrEmpty(proxyPort))
                         {
                             // declare the dictionary for passing proxy ip and proxy port
-                            var DictProxyIpPort = new Dictionary<string, object>();
-
-                            DictProxyIpPort.Add("mode", "fixed_servers");
-
-                            DictProxyIpPort.Add("server", "" + ProxyIp + ":" + ProxyPort + "");
+                            var dictProxyIpPort = new Dictionary<string, object>
+                            {
+                                {"mode", "fixed_servers"},
+                                {"server", "" + proxyIp + ":" + proxyPort + ""}
+                            };
 
                             string error;
 
-                            var success = requestContext.SetPreference("proxy", DictProxyIpPort, out error);
+                            var success = requestContext.SetPreference("proxy", dictProxyIpPort, out error);
                         }
                         else
                         {
-                            var DictProxyIpPort = new Dictionary<string, object>();
+                            var dictProxyIpPort = new Dictionary<string, object> {{"mode", "direct"}};
 
-                            DictProxyIpPort.Add("mode", "direct");
 
                             string error;
 
-                            var success = requestContext.SetPreference("proxy", DictProxyIpPort, out error);
+                            var success = requestContext.SetPreference("proxy", dictProxyIpPort, out error);
                         }
                     }
                     catch (Exception ex)
@@ -150,7 +138,8 @@ namespace EmbeddedBrowser
                 GlobusLogHelper.log.Error(ex.Message);
             }
 
-            Browser.Load("https://www.facebook.com");
+            var homePage = GetNetworksHomeUrl();
+            Browser.Load(homePage);
 
             Browser.LoadingStateChanged += BrowserOnLoaded;
         }
@@ -160,22 +149,53 @@ namespace EmbeddedBrowser
         {
             try
             {
-                if (Dispatcher.Invoke(() => !Browser.IsLoaded))
-                    return;
+                bool isLoaded = false;
 
+                Dispatcher.Invoke(() =>
+                {
+                    try
+                    {
+                        isLoaded = Browser.IsLoaded;
+                    }
+                    catch (Exception e)
+                    {
+                      e.DebugLog(); 
+                    }                   
+                });
+                    
+                if(!isLoaded) return;
 
                 if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) &&
                     !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
                 {
-                    Browser.ExecuteScriptAsync("document.getElementById('email').value= '" +
-                                               DominatorAccountModel.AccountBaseModel.UserName + "'");
+                    switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                    {
+                        case SocialNetworks.Facebook:
+                            FacebookBrowserLogin();
+                            break;
+                        case SocialNetworks.Instagram:
+                            break;
+                        case SocialNetworks.Twitter:
+                            break;
+                        case SocialNetworks.Pinterest:
+                            break;
+                        case SocialNetworks.LinkedIn:
+                            break;
+                        case SocialNetworks.Reddit:
+                            break;
+                        case SocialNetworks.Social:
+                            break;
+                        case SocialNetworks.Quora:
+                            break;
+                        case SocialNetworks.Gplus:
+                            break;
+                        case SocialNetworks.Youtube:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
 
-                    Browser.ExecuteScriptAsync("document.getElementById('pass').value= '" +
-                                               DominatorAccountModel.AccountBaseModel.Password + "'");
-
-                    Thread.Sleep(1000);
-
-                    Browser.ExecuteScriptAsync("document.getElementById('u_0_5').click()");
+                   
                 }
 
                 Browser.LoadingStateChanged -= BrowserOnLoaded;
@@ -186,11 +206,52 @@ namespace EmbeddedBrowser
             }
         }
 
-
-        private void btnFacebookLogin_Click(object sender, RoutedEventArgs e)
+        private void FacebookBrowserLogin()
         {
-            Browser.Load("https://www.facebook.com");
+
+
+            Browser.ExecuteScriptAsync("document.getElementById('email').value= '" +
+                                       DominatorAccountModel.AccountBaseModel.UserName + "'");
+
+            Browser.ExecuteScriptAsync("document.getElementById('pass').value= '" +
+                                       DominatorAccountModel.AccountBaseModel.Password + "'");
+
+            Thread.Sleep(1000);
+
+            Browser.ExecuteScriptAsync("document.getElementById('u_0_5').click()");
         }
+
+        public string GetNetworksHomeUrl()
+        {
+            switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
+            {
+                case SocialNetworks.Facebook:
+                    return "https://www.facebook.com";                   
+                case SocialNetworks.Instagram:
+                    break;
+                case SocialNetworks.Twitter:
+                    break;
+                case SocialNetworks.Pinterest:
+                    break;
+                case SocialNetworks.LinkedIn:
+                    break;
+                case SocialNetworks.Reddit:
+                    break;
+                case SocialNetworks.Social:
+                    break;
+                case SocialNetworks.Quora:
+                    break;
+                case SocialNetworks.Gplus:
+                    break;
+                case SocialNetworks.Youtube:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            return null;
+        }
+
+        
 
         public void Dispose()
         {
@@ -317,7 +378,6 @@ namespace EmbeddedBrowser
                 return false;
             }
         }
-
 
         public class ProxyRequestHandler : IRequestHandler
         {
@@ -446,5 +506,7 @@ namespace EmbeddedBrowser
                 return false;
             }
         }
+
+
     }
 }

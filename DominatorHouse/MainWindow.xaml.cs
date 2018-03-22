@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +24,8 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.BusinessLogic;
+using DominatorUIUtility;
+using EmbeddedBrowser;
 using FaceDominatorCore.FDLibrary;
 using GramDominatorUI.TabManager;
 
@@ -67,7 +70,8 @@ namespace DominatorHouse
            // TabSwitcher.ChangeTabIndex = ChangeTabIndex;
             TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
             TabSwitcher.SelectMainTab = SelectMainIndex;
-
+            AccountAddUpdate.UpdateGDAccount = GramDominatorCore.GDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount;
+           // AccountAddUpdate.UpdateQDAccount = QuoraDominatorCore.ViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount;
             // Log strated
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
 
@@ -369,6 +373,8 @@ namespace DominatorHouse
 
             AccountCustomControl.DominatorAccountViewModel.action_CheckAccount = action_CheckAccount;
 
+            AccountCustomControl.DominatorAccountViewModel.AccountBrowserLogin = AccountBrowserLogin;
+
             return new List<TabItemTemplates>
             {
 
@@ -504,6 +510,14 @@ namespace DominatorHouse
 
 
 
+
+        public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
+        {
+            BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel);
+            browserWindow.Show();
+          
+
+        }
 
     }
 }

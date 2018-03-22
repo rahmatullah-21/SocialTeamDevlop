@@ -12,6 +12,7 @@ namespace DominatorHouseCore.Models
     {
         public IUser ResultUser { get; set; }
         public IPost ResultPost { get; set; }
+        public IGroup ResultGroup { get; set; }
         public ActivityType ActivityType { get; set; }
         public QueryInfo QueryInfo { get; set; }
         public bool IsAccountLocked { get; set; }
