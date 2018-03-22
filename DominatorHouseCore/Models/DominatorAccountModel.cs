@@ -106,7 +106,7 @@ namespace DominatorHouseCore.Models
         [ProtoIgnore]
         public HttpHelper HttpHelper { get; set; } = new HttpHelper();
 
-        [ProtoIgnore]
+        [ProtoMember(13)]
         public CookieCollection Cookies { get; set; } = new CookieCollection();
 
         [ProtoIgnore]

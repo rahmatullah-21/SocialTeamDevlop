@@ -73,7 +73,7 @@ namespace DominatorHouseCore.Models
         [JsonProperty(PropertyName = "first_name")]
         public string FirstName { get; set; }
 
-        [JsonProperty(PropertyName = "gender")]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore, PropertyName = "gender")]
         public int Gender { get; set; }
 
         [JsonProperty(PropertyName = "geotag_enabled")]

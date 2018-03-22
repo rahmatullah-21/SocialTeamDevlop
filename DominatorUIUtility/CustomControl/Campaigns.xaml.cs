@@ -197,7 +197,6 @@ namespace DominatorUIUtility.CustomControl
 
                 CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());
             }
-
             catch (Exception ex)
             {
                 ex.DebugLog();

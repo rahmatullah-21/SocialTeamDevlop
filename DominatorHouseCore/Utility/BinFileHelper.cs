@@ -12,7 +12,7 @@ using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.Utility
 {
-    internal class BinFileHelper
+    public class BinFileHelper
     {
         private static readonly object _accountDetailsFileLocker = new object();
         private static readonly object _campaignsFileLocker = new object();
@@ -46,14 +46,14 @@ namespace DominatorHouseCore.Utility
             }
 
             try
-            {               
+            {
                 lock (locker)
                     ProtoBuffBase.AppendObject<T>(obj, filePath);
                 return true;
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error($"Error caught while adding the account "+ex.StackTrace);
+                GlobusLogHelper.log.Error($"Error caught while adding the account " + ex.StackTrace);
                 return false;
             }
         }
@@ -64,7 +64,7 @@ namespace DominatorHouseCore.Utility
                 return ProtoBuffBase.DeserializeList<DominatorAccountModel>(ConstantVariable.GetIndexAccountFile());
         }
 
-        
+
         // TODO: back compatibility for account models of PD, TWD etc.
         // Modify index account path. Uses only for testing purposes of PD, TWD and others.
         public static List<T> GetAccountDetailsFor<T>() where T : class
@@ -80,8 +80,8 @@ namespace DominatorHouseCore.Utility
             lock (_campaignsFileLocker)
                 return ProtoBuffBase.DeserializeList<CampaignDetails>(ConstantVariable.GetIndexCampaignFile());
         }
-        
-        
+
+
         // Get all templates 
         public static List<TemplateModel> GetTemplateDetails()
         {
@@ -92,9 +92,9 @@ namespace DominatorHouseCore.Utility
 
         public static int FindAccountIndex<T>(List<T> accounts, string id)
         {
-            return typeof(T) == typeof(DominatorAccountModel)                                            ?
-                accounts.FindIndex(a => (a as DominatorAccountModel).AccountBaseModel.AccountId == id)   :
-                accounts.FindIndex(a => (a as dynamic).AccountId == id);            
+            return typeof(T) == typeof(DominatorAccountModel) ?
+                accounts.FindIndex(a => (a as DominatorAccountModel).AccountBaseModel.AccountId == id) :
+                accounts.FindIndex(a => (a as dynamic).AccountId == id);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace DominatorHouseCore.Utility
                 {
                     int indexOfAccountToUpdate = 0;
                     var accountDetailsList = GetAccountDetails();
-                   
+
                     if (accountDetailsList != null)
                     {
                         indexOfAccountToUpdate = FindAccountIndex(accountDetailsList, accountModel.AccountBaseModel.AccountId);
@@ -122,6 +122,9 @@ namespace DominatorHouseCore.Utility
                         accountDetailsList.Add(accountModel);
                     }
                     bool result = ProtoBuffBase.SerializeList(accountDetailsList, ConstantVariable.GetIndexAccountFile());
+
+                    var getAllAccounts = GetAccountDetails();
+
 
                     GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
                     return result;
@@ -143,8 +146,8 @@ namespace DominatorHouseCore.Utility
                 lock (_accountDetailsFileLocker)
                 {
                     List<T> accountDetailsList = GetAccountDetailsFor<T>();
-                    int indexOfAccountToUpdate = FindAccountIndex(accountDetailsList,(accountModel as dynamic).AccountId);
-                        
+                    int indexOfAccountToUpdate = FindAccountIndex(accountDetailsList, (accountModel as dynamic).AccountId);
+
                     if (indexOfAccountToUpdate == -1)
                         return false;
 
@@ -194,7 +197,7 @@ namespace DominatorHouseCore.Utility
                 }
             }
         }
-        
+
 
         public static void UpdateCampaigns(List<CampaignDetails> campaignList)
         {

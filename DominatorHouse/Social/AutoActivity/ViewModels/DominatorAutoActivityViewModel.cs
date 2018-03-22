@@ -61,10 +61,10 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     SelectedUserControl = GramDominatorUI.TabManager.ToolTabs.GetSingletonToolTabs();
                     break;
                 case SocialNetworks.Twitter:
-                    SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
+                   // SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
                     break;
                 case SocialNetworks.Pinterest:
-                    SelectedUserControl = PinDominator.TabManager.ToolTabs.GetSingletonToolTabs();
+                   // SelectedUserControl = PinDominator.TabManager.ToolTabs.GetSingletonToolTabs();
                     break;
                 case SocialNetworks.Gplus:                   
                     break;
@@ -97,16 +97,16 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     data.accountGrowthHeader.SelectedItem = selectedAccounts;
                     break;
                 case SocialNetworks.Twitter:
-                    SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
-                    var tddata = TwtDominatorUI.TDViews.Tools.Follow.FollowConfiguration.GetSingeltonObjectFollowConfiguration();
-                    tddata.accountgrothHeader.AccountItemSource = AccountsFileManager.GetUsers();
-                    tddata.accountgrothHeader.SelectedItem = selectedAccounts;
+                    //SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
+                    //var tddata = TwtDominatorUI.TDViews.Tools.Follow.FollowConfiguration.GetSingeltonObjectFollowConfiguration();
+                    //tddata.accountgrothHeader.AccountItemSource = AccountsFileManager.GetUsers();
+                    //tddata.accountgrothHeader.SelectedItem = selectedAccounts;
                     break;
                 case SocialNetworks.Pinterest:
-                    SelectedUserControl = PinDominator.TabManager.ToolTabs.GetSingletonToolTabs();
-                    var pddata = PinDominator.PDViews.Tools.Follow.FollowConfiguration.GetSingeltonObjectFollowConfiguration();
-                    pddata.accountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers();
-                    pddata.accountGrowthHeader.SelectedItem = selectedAccounts;
+                    //SelectedUserControl = PinDominator.TabManager.ToolTabs.GetSingletonToolTabs();
+                    //var pddata = PinDominator.PDViews.Tools.Follow.FollowConfiguration.GetSingeltonObjectFollowConfiguration();
+                    //pddata.accountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers();
+                    //pddata.accountGrowthHeader.SelectedItem = selectedAccounts;
                     break;
                 case SocialNetworks.Gplus:
                     break;

@@ -42,7 +42,7 @@ namespace DominatorHouseCore.Process
         protected int MaxNoOfActionPerDay = 0;
         protected int MaxNoOfActionPerWeek = 0;
         protected int NoOfActionPerformedCurrentWeek = 0;
-        
+
         public string TemplateId { get; set; }
         public string campaignId { get; set; }
         public DominatorAccountModel DominatorAccountModel { get; set; }
@@ -52,7 +52,7 @@ namespace DominatorHouseCore.Process
 
         public TimingRange CurrentJobTimeRange { get; set; }
         public CancellationTokenSource JobCancellationTokenSource { get; set; }
-        
+
         protected DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnection DataBaseConnectionCampaign { get; set; }
         protected DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnection DataBaseConnectionAccount { get; set; }
 
@@ -61,9 +61,9 @@ namespace DominatorHouseCore.Process
         public SocialNetworks SocialNetworks { get; set; }
         #endregion
 
-        public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange,SocialNetworks network)
+        public JobProcess(string account, string template, ActivityType activityType, TimingRange CurrentJobTimeRange, SocialNetworks network)
         {
-           // Get the current account details 
+            // Get the current account details 
             this.DominatorAccountModel = FileManagers.AccountsFileManager.GetAll().FirstOrDefault(x => x.AccountBaseModel.UserName == account);
 
             this.SocialNetworks = network;
@@ -92,7 +92,7 @@ namespace DominatorHouseCore.Process
             this.TemplateId = template;
             this.campaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == this.TemplateId)?.CampaignId;
             this.ActivityType = activityType;
-            
+
             InitializeActivityCount(account);
         }
 
@@ -124,14 +124,14 @@ namespace DominatorHouseCore.Process
 
             // get the hour and minute of current time
             var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime);//GetTimeSpanForGivenTime
-            
+
             if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
             {
                 var TemplateId = DominatorAccountModel.ActivityManager.LstModuleConfiguration
                      .FirstOrDefault(x => x.ActivityType == ActivityType.Follow).TemplateId;
                 JobManager.AddJob(
                     () =>
-                    {                        
+                    {
                         DominatorScheduler.RunActivity(DominatorAccountModel, TemplateId, CurrentJobTimeRange,
                             ActivityType.Follow.ToString());
 
@@ -150,7 +150,7 @@ namespace DominatorHouseCore.Process
 
         private string Id => AsId(AccountName, TemplateId);
         public static string AsId(string account, string templateId) => $"{account}-{templateId}";
-        
+
 
         /// <summary>
         /// Main method to start process in thread
@@ -163,7 +163,7 @@ namespace DominatorHouseCore.Process
                 if (_runningJobProcesses.ContainsKey(Id)) return;
 
                 Debug.Assert(JobCancellationTokenSource == null);
-                
+
                 JobCancellationTokenSource = new CancellationTokenSource();
                 _runningJobProcesses.Add(Id, this);
 
@@ -174,7 +174,7 @@ namespace DominatorHouseCore.Process
                     if (Login())
                         RunScrapper();
 
-                }, JobCancellationTokenSource.Token);                
+                }, JobCancellationTokenSource.Token);
             }
         }
 
@@ -184,16 +184,16 @@ namespace DominatorHouseCore.Process
             lock (_syncJobProcess)
             {
                 return _runningJobProcesses.ContainsKey(AsId(accountName, templateId));
-            }        
+            }
         }
 
         public void Stop()
-        {            
+        {
             lock (_syncJobProcess)
             {
                 if (JobCancellationTokenSource == null ||
                     !_runningJobProcesses.ContainsKey(Id))
-                    return;                
+                    return;
 
                 JobCancellationTokenSource.Cancel();
                 GlobusLogHelper.log.Info($"{ActivityType} process stopped for {AccountName}");
@@ -202,7 +202,7 @@ namespace DominatorHouseCore.Process
                 JobCancellationTokenSource = null;
             }
         }
-        
+
 
         public static bool Stop(string accountName, string templateId)
         {
@@ -251,7 +251,7 @@ namespace DominatorHouseCore.Process
         protected bool LoginBase(ILoginProcess logInProcess)
         {
             try
-            {               
+            {
                 if (string.IsNullOrEmpty(this.campaignId) && string.IsNullOrEmpty(this.TemplateId))
                 {
                     GlobusLogHelper.log.Info($"Campign Id not set for {ActivityType} - {TemplateId}");
@@ -271,12 +271,12 @@ namespace DominatorHouseCore.Process
                     GlobusLogHelper.log.Info("Logged in successfully with account => " + DominatorAccountModel.AccountBaseModel.UserName + " module => " + ActivityType.ToString());
 
                     return true;
-                }                
+                }
 
             }
             catch (Exception Ex)
             {
-                Ex.DebugLog();                
+                Ex.DebugLog();
             }
 
             return false;
@@ -365,7 +365,7 @@ namespace DominatorHouseCore.Process
                 return true;
             }
 
-           
+
             // Finally check max number of jobs limit
             if (NoOfActionPerformedCurrentJob > MaxNoOfActionPerJob)
             {
@@ -393,7 +393,7 @@ namespace DominatorHouseCore.Process
             int seconds = JobConfiguration.DelayBetweenActivity.GetRandom();
 
             GlobusLogHelper.log.Info($"{seconds} seconds Delay before next {ActivityType}");
-      
+
             Thread.Sleep(seconds * 1000);
         }
 
@@ -427,7 +427,7 @@ namespace DominatorHouseCore.Process
             TemplatesFileManager.Save(lstTemplateModel);
         }
 
-        
+
         /// <summary>
         /// 1. Obtains Scraper factory for active library (GD, PD, TD etc.)
         /// 2. Creates Scraper
@@ -435,15 +435,15 @@ namespace DominatorHouseCore.Process
         /// </summary>
         /// <param name="jobProcess"></param>
         public void RunScrapper()
-        {            
+        {
             IScraperFactory scraperFactory = DominatorHouseInitializer.ActiveLibrary.QueryScraperFactory;
             AbstractQueryScraper scraper = scraperFactory.Create(this);
 
             if (SavedQueries.Count == 0)
                 scraper.ScrapeNoQueries();
             else
-                scraper.ScrapeWithQueries();                            
+                scraper.ScrapeWithQueries();
         }
- 
+
     }
 }

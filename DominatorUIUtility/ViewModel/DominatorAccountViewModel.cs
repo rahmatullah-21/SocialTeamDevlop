@@ -105,7 +105,7 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private int _displayColumnValue1 = 100;
+        private int _displayColumnValue1 = 0;
 
         public int DisplayColumnValue1
         {
@@ -144,7 +144,7 @@ namespace DominatorUIUtility.ViewModel
         }
 
 
-        private int _displayColumnValue2 = 100;
+        private int _displayColumnValue2 = 0;
 
         public int DisplayColumnValue2
         {
@@ -181,7 +181,7 @@ namespace DominatorUIUtility.ViewModel
         }
 
 
-        private int _displayColumnValue3 = 100;
+        private int _displayColumnValue3 = 0;
 
         public int DisplayColumnValue3
         {
@@ -218,7 +218,7 @@ namespace DominatorUIUtility.ViewModel
         }
 
 
-        private int _displayColumnValue4 = 100;
+        private int _displayColumnValue4 = 0;
 
         public int DisplayColumnValue4
         {
