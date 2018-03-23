@@ -18,6 +18,9 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
         public static Func<JobProcess, AbstractQueryScraper> PdAccountConfigScraper { get; set; }
 
+        public static Func<JobProcess, AbstractQueryScraper> YdAccountConfigScraper { get; set; }
+
+
         static DominatorScraperFactory _instance;
 
         public static DominatorScraperFactory Instance => _instance ?? (_instance = new DominatorScraperFactory());

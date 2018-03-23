@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
@@ -11,9 +12,13 @@ using CefSharp;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
+using Cookie = CefSharp.Cookie;
 
 namespace EmbeddedBrowser
 {
@@ -24,6 +29,8 @@ namespace EmbeddedBrowser
     {
 
         private readonly object _syncLock = new object();
+
+        private readonly object _googleLock = new object();
 
         public BrowserWindow()
         {
@@ -304,10 +311,17 @@ namespace EmbeddedBrowser
                 }
                 Thread.Sleep(2000);
 
+             
+
                 if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
                 {
                     Browser.Load("https://plus.google.com/");
                 }
+            }
+
+            if ((html.Contains(DominatorAccountModel.UserName) || !html.Contains("Sign in now to see your channels")) && !string.IsNullOrEmpty(html) && html!= "<html><head></head><body></body></html>")
+            {
+                SaveCookie();
             }
         }
 
@@ -371,7 +385,7 @@ namespace EmbeddedBrowser
                 {
                     k = new KeyEvent
                     {
-                        WindowsKeyCode = (int) x,
+                        WindowsKeyCode = (int)x,
                         FocusOnEditableField = false,
                         IsSystemKey = false,
                         Type = KeyEventType.Char
@@ -386,7 +400,7 @@ namespace EmbeddedBrowser
                 k.Type = KeyEventType.KeyDown;
                 Browser.GetBrowser().GetHost().SendKeyEvent(k);
 
-               
+
                 var password = " " + DominatorAccountModel.AccountBaseModel.Password;
                 //cefBrowser.ExecuteScriptAsync("document.getElementsByName(\"password\")[0].click()");
                 password.ToList<char>().ForEach((x) =>
@@ -416,7 +430,7 @@ namespace EmbeddedBrowser
 
         private void QuoraLogin(string html)
         {
-            lock(_syncLock)
+            lock (_syncLock)
             {
                 if (html != null && html.Contains("name=\"password\"") && html.Contains("name=\"email\""))
                 {
@@ -429,7 +443,7 @@ namespace EmbeddedBrowser
                     Browser.ExecuteScriptAsync("document.getElementsByClassName('submit_button ignore_interaction')[0].click()");
                 }
             }
-           
+
         }
 
         public string GetNetworksHomeUrl()
@@ -731,6 +745,65 @@ namespace EmbeddedBrowser
         private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e)
         {
             Browser.Reload();
+        }
+
+
+        private void SaveCookie()
+        {
+           lock(_googleLock)
+            {
+                if (!DominatorAccountModel.IsUserLoggedIn)
+                {
+                    try
+                    {
+                        var lstCookies = Browser.RequestContext.GetDefaultCookieManager(new TaskCompletionCallback())
+                            .VisitAllCookiesAsync().Result;
+
+                        var cookieCollection = new CookieCollection();
+
+                        foreach (var item in lstCookies)
+                        {
+                            try
+                            {
+
+                                cookieCollection.Add(new System.Net.Cookie()
+                                {
+                                    Expires = (DateTime)item.Expires,
+                                    Name = item.Name,
+                                    Value = item.Value,
+                                    Domain = item.Domain,
+                                    Path = item.Path,
+                                    Secure = item.Secure
+                                });
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.ErrorLog();
+                            }
+                        }
+
+                        var requestParameters = (RequestParameters)DominatorAccountModel.HttpHelper.GetRequestParameter();
+                        requestParameters.Cookies = cookieCollection;
+                        DominatorAccountModel.HttpHelper.SetRequestParameter(requestParameters);
+
+                        IResponseParameter objResponseParameter = (DominatorHouseCore.Request.ResponseParameter)DominatorAccountModel.HttpHelper.GetRequest("https://youtube.com/");
+
+                        if (!objResponseParameter.Response.ToLower()
+                            .Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()))
+                            return;
+
+                        DominatorAccountModel.IsUserLoggedIn = true;
+                        DominatorAccountModel.Cookies = cookieCollection;
+                        AccountsFileManager.Edit(DominatorAccountModel);
+                        GlobusLogHelper.log.Info($"Browser login successfull with {DominatorAccountModel.AccountBaseModel.UserName} !");
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.ErrorLog();
+                    } 
+                }
+            }
+            
         }
     }
 }
