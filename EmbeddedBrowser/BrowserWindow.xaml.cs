@@ -311,7 +311,7 @@ namespace EmbeddedBrowser
                 }
                 Thread.Sleep(2000);
 
-             
+
 
                 if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
                 {
@@ -319,7 +319,7 @@ namespace EmbeddedBrowser
                 }
             }
 
-            if ((html.Contains(DominatorAccountModel.UserName) || !html.Contains("Sign in now to see your channels")) && !string.IsNullOrEmpty(html) && html!= "<html><head></head><body></body></html>")
+            if ((html.Contains(DominatorAccountModel.UserName) || !html.Contains("Sign in now to see your channels")) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
             {
                 SaveCookie();
             }
@@ -750,7 +750,7 @@ namespace EmbeddedBrowser
 
         private void SaveCookie()
         {
-           lock(_googleLock)
+            lock (_googleLock)
             {
                 if (!DominatorAccountModel.IsUserLoggedIn)
                 {
@@ -786,10 +786,40 @@ namespace EmbeddedBrowser
                         requestParameters.Cookies = cookieCollection;
                         DominatorAccountModel.HttpHelper.SetRequestParameter(requestParameters);
 
-                        IResponseParameter objResponseParameter = (DominatorHouseCore.Request.ResponseParameter)DominatorAccountModel.HttpHelper.GetRequest("https://youtube.com/");
+                        var url = string.Empty;
 
-                        if (!objResponseParameter.Response.ToLower()
-                            .Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()))
+                        switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        {
+                            case SocialNetworks.Facebook:
+                                break;
+                            case SocialNetworks.Instagram:
+                                break;
+                            case SocialNetworks.Twitter:
+                                break;
+                            case SocialNetworks.Pinterest:
+                                break;
+                            case SocialNetworks.LinkedIn:
+                                break;
+                            case SocialNetworks.Reddit:
+                                break;
+                            case SocialNetworks.Social:
+                                break;
+                            case SocialNetworks.Quora:
+                                break;
+                            case SocialNetworks.Gplus:
+                                url = "https://plus.google.com/";
+                                break;
+                            case SocialNetworks.Youtube:
+                                url = "https://www.youtube.com/";
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+
+                        IResponseParameter objResponseParameter = (ResponseParameter)DominatorAccountModel.HttpHelper.GetRequest(url);
+
+                        if ((!objResponseParameter.Response.ToLower()
+                            .Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()) || !objResponseParameter.Response.Contains("Sign in now to see your channels")) && !string.IsNullOrEmpty(objResponseParameter.Response) && objResponseParameter.Response != "<html><head></head><body></body></html>")
                             return;
 
                         DominatorAccountModel.IsUserLoggedIn = true;
@@ -800,10 +830,10 @@ namespace EmbeddedBrowser
                     catch (Exception ex)
                     {
                         ex.ErrorLog();
-                    } 
+                    }
                 }
             }
-            
+
         }
     }
 }
