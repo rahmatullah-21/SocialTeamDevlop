@@ -514,10 +514,15 @@ namespace DominatorHouse
         public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
         {
             BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel);
-            browserWindow.Show();
-          
-
+            browserWindow.Show();          
         }
 
+
+        public void InitializeAllMainWindow()
+        {
+            TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
+            GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
+           
+        }
     }
 }

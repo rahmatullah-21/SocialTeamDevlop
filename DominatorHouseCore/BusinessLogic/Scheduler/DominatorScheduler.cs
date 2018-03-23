@@ -18,7 +18,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public partial class DominatorScheduler
     {
-        static IJobProcessFactory _activeJobProcessFactory => DominatorHouseInitializer.ActiveLibrary.JobProcessFactory;
+        ///static IJobProcessFactory _activeJobProcessFactory => DominatorHouseInitializer.ActiveLibrary.JobProcessFactory;
+        private static IJobProcessFactory _activeJobProcessFactory;
 
         public static object _runStopActivityLocker = new object();
 
@@ -32,6 +33,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="module">Follow, Comment, etc.</param>
         public static void RunActivity(DominatorAccountModel account, string templateId, TimingRange CurrentJobTimeRange, string module)
         {
+
+            _activeJobProcessFactory = DominatorHouseInitializer.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).JobProcessFactory;
+
             var id = JobProcess.AsId(account.AccountBaseModel.UserName, templateId);
 
             Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
@@ -179,7 +183,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     if (activity != moduleToIgnore)
                     {
                         var moduleRunningTimes = GetRunningTimes(account, activity);
-                        if (moduleRunningTimes.Count() > 0)
+                        if (moduleRunningTimes.Count> 0)
                         {
                             account.ActivityManager.RunningTime = moduleRunningTimes;
                             foreach (var timing in account.ActivityManager.RunningTime)

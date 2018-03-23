@@ -97,6 +97,11 @@ namespace DominatorHouseCore.FileManagers
             return BinFileHelper.GetAccountDetails().Where(a => a.AccountBaseModel.AccountNetwork == network).ToList();
         }
 
+        internal static List<DominatorAccountModel> GetAll(List<string> neededAccountList)
+        {
+            return BinFileHelper.GetAccountDetails().Where(a => neededAccountList.Contains(a.AccountBaseModel.UserName)).ToList();
+        }
+
         // backward compatibility for TD, PD
         public static bool Add(DominatorAccountModel account)
         {
