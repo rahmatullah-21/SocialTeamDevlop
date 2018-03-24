@@ -18,7 +18,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public partial class DominatorScheduler
     {
-        ///static IJobProcessFactory _activeJobProcessFactory => DominatorHouseInitializer.ActiveLibrary.JobProcessFactory;
+        ///static IJobProcessFactory _activeJobProcessFactory => DominatorHouseInitializer.ActiveNetwork.JobProcessFactory;
         private static IJobProcessFactory _activeJobProcessFactory;
 
         public static object _runStopActivityLocker = new object();
@@ -34,7 +34,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         public static void RunActivity(DominatorAccountModel account, string templateId, TimingRange CurrentJobTimeRange, string module)
         {
 
-            _activeJobProcessFactory = DominatorHouseInitializer.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).JobProcessFactory;
+            _activeJobProcessFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).JobProcessFactory;
 
             var id = JobProcess.AsId(account.AccountBaseModel.UserName, templateId);
 

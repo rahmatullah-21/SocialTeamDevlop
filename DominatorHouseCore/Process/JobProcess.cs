@@ -229,8 +229,8 @@ namespace DominatorHouseCore.Process
         /// <param name="jobProcess"></param>
         public void RunScrapper()
         {
-            //var scraperFactory1 = DominatorHouseInitializer.ActiveLibrary.QueryScraperFactory;
-            var scraperFactory = DominatorHouseInitializer.GetSocialLibrary(SocialNetworks).QueryScraperFactory; 
+            //var scraperFactory1 = DominatorHouseInitializer.ActiveNetwork.QueryScraperFactory;
+            var scraperFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).QueryScraperFactory; 
 
             var scraper = scraperFactory.Create(this);
 

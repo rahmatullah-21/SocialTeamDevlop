@@ -154,6 +154,7 @@
     <Compile Include="BusinessLogic\Scraper\IScraperFactory.cs" />
     <Compile Include="BusinessLogic\Scraper\NotImplementedQueryScraper.cs" />
     <Compile Include="BusinessLogic\Scraper\DominatorScraperFactory.cs" />
+    <Compile Include="BusinessLogic\Scraper\QueryScraper.cs" />
     <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToWidthConverter.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Diagnostics\Exceptions\ThreadFactory.cs" />
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
+    <Compile Include="Diagnostics\SocinatorInitialize.cs" />
     <Compile Include="Diagnostics\UI\UIDiagnostic.cs" />
     <Compile Include="Enums\ActivityType.cs" />
     <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />

@@ -23,6 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore.BusinessLogic.GlobalRoutines;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 
 namespace DominatorUIUtility.CustomControl

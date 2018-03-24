@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Management;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouse.Social.AutoActivity.Views;
+using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
@@ -24,10 +26,14 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.BusinessLogic;
+using DominatorHouseCore.BusinessLogic.GlobalRoutines;
 using DominatorUIUtility;
 using EmbeddedBrowser;
+using FaceDominatorCore.FDFactories;
 using FaceDominatorCore.FDLibrary;
+using GramDominatorCore.Factories;
 using GramDominatorUI.TabManager;
+using TwtDominatorCore.Factories;
 
 #endregion
 
@@ -41,63 +47,36 @@ namespace DominatorHouse
 
         public List<TabItemTemplates> TabItems { get; set; }
 
-        // Bring all the performance bottlenecks to here. Actually MainWindow class should 
-        // not be bothered about performance counter or management object. 
-        // TODO: Fix to conform to SRP.
-        private static string s_RamSizeOfCurrentComputer = getRAMsize();
-        private static PerformanceCounter objPerformanceCounter = new PerformanceCounter("Memory", "Available MBytes");
-        private static ManagementObject processor = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
+        private static readonly string RamSize = GetRaMsize();
+
+        private static PerformanceCounter PerformanceCounter { get; }
+            = new PerformanceCounter("Memory", "Available MBytes");
+
+        private static ManagementObject Processor { get; }
+            = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
 
         public MainWindow()
-        {
-            DominatorHouseInitializer.Init(this,
-                DominatorJobProcessFactory.Instance,
-                DominatorScraperFactory.Instance,
-                SocialNetworks.Social);
+        {           
+            SocinatorInitialize.LogInitializer(this);
 
             InitializeComponent();
 
             MainTabControl.ItemsSource = InitializeAllTabs();
 
-
             // Init UI delegates            
             CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
-                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg,
-                                    MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
-
-
+                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg, MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
 
            // TabSwitcher.ChangeTabIndex = ChangeTabIndex;
             TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
             TabSwitcher.SelectMainTab = SelectMainIndex;
             AccountAddUpdate.UpdateGDAccount = GramDominatorCore.GDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount;
            // AccountAddUpdate.UpdateQDAccount = QuoraDominatorCore.ViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount;
-            // Log strated
-            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
-
+                    
             ConfigFileManager.ApplyTheme();
 
-            Task performanceTask = new Task(() => StartbindMemory(),
-            TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
+            var performanceTask = new Task(StartbindMemory, TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
-
-#if SKIP_DELAYS
-            cmbSocialNetwork.SelectedIndex = 1;     // Go to instagram
-            ChangeTabIndex(1, 1);       // unfollower
-#endif
-            #region commeted - start todays jobs
-            //Task.Factory.StartNew(() =>
-            //{
-            //    DateTime NextDayTime = DateTime.Now.AddDays(1);
-            //    accountManagerViewModel.InitialAccountDetails();
-
-            //    JobManager.AddJob(() =>
-            //        accountManagerViewModel.InitialAccountDetails(),
-            //        x => x.ToRunOnceAt(new DateTime(NextDayTime.Year, NextDayTime.Month, NextDayTime.Day,
-            //            0, 0, 1)
-            //        ).AndEvery(1).Days());
-            //}); 
-            #endregion
 
             DialogParticipation.SetRegister(this, this);
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
@@ -149,102 +128,31 @@ namespace DominatorHouse
 
         public void LogText(string message, bool error)
         {
-            if (!error)
-                GlobusLogHelper.LogTextToList(InfoLogger, message);
-            else
-                GlobusLogHelper.LogTextToList(ErrorLogger, message);
+            GlobusLogHelper.LogTextToList(!error ? InfoLogger : ErrorLogger, message);
         }
 
-        public static MainWindow objMainWindowRef = null;
 
-        #region commented for now
-        //private void InitializeTabs()
-        //{
-        //    SocialNetworks socialNetwork = SocialNetworks.Social;
-        //    switch (socialNetwork)
-        //    {
-        //        case SocialNetworks.Instagram:
-        //            GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
-        //            TabItems = gramDominator.InitializeAllTabs();
-        //            break;
-        //        case SocialNetworks.Twitter:
-
-        //            //TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
-        //            //TabItems = twtDominator.InitializeAllTabs();
-        //            break;
-        //        case SocialNetworks.Social:
-        //            TabItems = InitializeAllTabs();
-        //            this.Title = "Dominator - All in One";
-        //            break;
-        //        default:
-
-        //            break;
-        //    }
-
-        //    NormalModeTab.ItemsSource = TabItems;
-        //    var vv = NormalModeTab.SelectedContent as UserControl;
-        //}
-
-        //public void ChangeIndex(int TabControlIndex, int TabIndex)
-        //{
-        //    NormalModeTab.SelectedIndex = TabControlIndex;
-        //    //string item = (NormalModeTab.SelectedItem as TabItemViewModel).Title;
-        //    switch (TabControlIndex)
-        //    {
-        //        case 1:
-        //            GrowFollowersTab objGrowFollowersTab = GrowFollowersTab.GetSingeltonObjectGrowFollowersTab();
-        //            objGrowFollowersTab.setIndex(TabIndex);
-        //            break;
-        //        case 2:
-        //            InstaPosterTab objInstaPosterTab = InstaPosterTab.GetSingeltonObjectInstaPosterTab();
-        //            objInstaPosterTab.setIndex(TabIndex);
-        //            break;
-
-        //        case 3:
-        //            InstachatTab.GetSingeltonObjectInstachatTab();
-        //            break;
-        //        case 4:
-        //            var objInstaLikerInstaCommenterTab = InstaLikerInstaCommenterTab.GetSingeltonObjectInstaLikerInstaCommenterTab();
-        //            objInstaLikerInstaCommenterTab.setIndex(TabIndex);
-        //            break;
-        //        case 5:
-        //            InstaScrapeTab objInstaScrapeTab = InstaScrapeTab.GetSingeltonObjectInstaScrapeTab();
-        //            objInstaScrapeTab.setIndex(TabIndex);
-        //            break;
-        //        case 6:
-        //            //campaign
-        //            break;
-        //    }
-        //}
-
-        //public void SelectTab(int mainTabindex)
-        //{
-        //    NormalModeTab.SelectedIndex = mainTabindex;
-        //} 
-        #endregion
-
-        async private void StartbindMemory()
+        private async void StartbindMemory()
         {
             while (true)
             {
-                string Availablememory = getMemoryUsage().ToString();
-                string CPUUsage = getCPUUsage();
+                var availablememory = GetMemoryUsage().ToString(CultureInfo.InvariantCulture);
 
-                // WPF items can only be modified in the UI thread.
+                var cpuUsage = GetCpuUsage();            
+                 
                 try
                 {
                     Dispatcher.Invoke(() =>
                            {
-                               lbl_Datetime.Text = " : " + DateTime.Now.ToString();
-                               lbl_LoadedMemory.Text = " " + s_RamSizeOfCurrentComputer;
-                               lbl_Availablememory.Text = " " + Availablememory + "  MB";
-                               lbl_CPUUsage.Text = " " + CPUUsage + " % ";
+                               lbl_Datetime.Text = " : " + DateTime.Now.ToString(CultureInfo.InvariantCulture);
+                               lbl_LoadedMemory.Text = " " + RamSize;
+                               lbl_Availablememory.Text = " " + availablememory + "  MB";
+                               lbl_CPUUsage.Text = " " + cpuUsage + " % ";
                            });
                 }
                 catch (Exception ex)
                 {
-
-                    Console.WriteLine();
+                 ex.DebugLog();
                 }
 
                 await Task.Delay(100);
@@ -252,35 +160,25 @@ namespace DominatorHouse
         }
 
 
-
-
-
-        /// <summary>
-        /// Getting Ram size
-        /// </summary>
-        /// <returns></returns>
-        private static string getRAMsize()
+        private static string GetRaMsize()
         {
-            ManagementClass objManagementClass = new ManagementClass("Win32_ComputerSystem");
-            ManagementObjectCollection objManagementObjectCollection = objManagementClass.GetInstances();
-            foreach (ManagementObject item in objManagementObjectCollection)
+            var objManagementClass = new ManagementClass("Win32_ComputerSystem");
+            var objManagementObjectCollection = objManagementClass.GetInstances();
+            foreach (var item in objManagementObjectCollection)
             {
-                return Convert.ToString(Math.Round(Convert.ToDouble(item.Properties["TotalPhysicalMemory"].Value) / 1048576, 0)) + " MB";
+                return Convert.ToString(Math.Round(Convert.ToDouble(item.Properties["TotalPhysicalMemory"].Value) / 1048576, 0), CultureInfo.InvariantCulture) + " MB";
             }
 
             return "0 MB";
         }
 
-        /// <summary>
-        /// Getting CPU Usages
-        /// </summary>
-        /// <returns></returns>
-        private string getCPUUsage()
+       
+        private static string GetCpuUsage()
         {
             try
             {
-                processor.Get();
-                return processor.Properties["PercentProcessorTime"].Value.ToString();
+                Processor.Get();
+                return Processor.Properties["PercentProcessorTime"].Value.ToString();
             }
             catch (Exception)
             {
@@ -288,19 +186,15 @@ namespace DominatorHouse
             }
         }
 
-        /// <summary>
-        /// Getting Memory Usages
-        /// </summary>
-        /// <returns></returns>
-        private double getMemoryUsage()
+        
+        private static double GetMemoryUsage()
         {
-            double memAvailable = (double)objPerformanceCounter.NextValue();
+            var memAvailable = (double)PerformanceCounter.NextValue();
             return memAvailable;
         }
 
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             this.Title = "Dominator - All in One";
 
             if (MainTabControl == null)
@@ -369,11 +263,11 @@ namespace DominatorHouse
 
         public List<TabItemTemplates> InitializeAllTabs()
      {
-            AccountCustomControl AccountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+            var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
 
-            AccountCustomControl.DominatorAccountViewModel.action_CheckAccount = action_CheckAccount;
+            accountCustomControl.DominatorAccountViewModel.action_CheckAccount = action_CheckAccount;
 
-            AccountCustomControl.DominatorAccountViewModel.AccountBrowserLogin = AccountBrowserLogin;
+            accountCustomControl.DominatorAccountViewModel.AccountBrowserLogin = AccountBrowserLogin;
 
             return new List<TabItemTemplates>
             {
@@ -382,7 +276,7 @@ namespace DominatorHouse
                 {
                     Title =FindResource("langAccountsManager").ToString(),
 
-                    Content = new Lazy<UserControl>(() => AccountCustomControl),
+                    Content = new Lazy<UserControl>(() => accountCustomControl),
 
                 },
                 new TabItemTemplates
@@ -517,12 +411,82 @@ namespace DominatorHouse
             browserWindow.Show();          
         }
 
-
-        public void InitializeAllMainWindow()
+        public void InitializeJobCores(string license)
         {
-            TwtDominatorUI.MainWindow twtDominator = new TwtDominatorUI.MainWindow();
-            GramDominatorUI.MainWindow gramDominator = new GramDominatorUI.MainWindow();
+
+            // get all available networks from license          
+            var availablNetworks = new List<SocialNetworks>
+            {
+                SocialNetworks.Social,
+                SocialNetworks.Facebook,
+                SocialNetworks.Instagram,
+                SocialNetworks.Twitter
+            };
+
+            var socialNetworkObject = new List<SocialNetworkObjects>();
            
+            foreach (var network in availablNetworks)
+            {
+                switch (network)
+                {
+                    case SocialNetworks.Facebook:
+                        socialNetworkObject.Add(new SocialNetworkObjects()
+                        {
+                            JobProcessFactory = FdJobProcessFactory.Instance,
+                            QueryScraperFactory = FdScraperFactory.Instance,
+                            Network = SocialNetworks.Facebook
+                        });
+                        break;
+                    case SocialNetworks.Instagram:
+                        socialNetworkObject.Add(new SocialNetworkObjects()
+                        {
+                            JobProcessFactory = GdJobProcessFactory.Instance,
+                            QueryScraperFactory = GdScraperFactory.Instance,
+                            Network = SocialNetworks.Instagram
+                        });
+                        break;
+                    case SocialNetworks.Twitter:
+                        socialNetworkObject.Add(new SocialNetworkObjects()
+                        {
+                            JobProcessFactory= TdJobProcessFactory.Instance,
+                            QueryScraperFactory= TdScraperFactory.Instance,
+                            Network = SocialNetworks.Twitter
+                        });
+                        break;
+                    case SocialNetworks.Pinterest:
+                        break;
+                    case SocialNetworks.LinkedIn:
+                        break;
+                    case SocialNetworks.Reddit:
+                        break;
+                    case SocialNetworks.Social:
+                        socialNetworkObject.Add(new SocialNetworkObjects()
+                        {
+                            JobProcessFactory = DominatorJobProcessFactory.Instance,
+                            QueryScraperFactory = DominatorScraperFactory.Instance,
+                            Network = SocialNetworks.Social
+                        });
+                        break;
+                    case SocialNetworks.Quora:
+                        break;
+                    case SocialNetworks.Gplus:
+                        break;
+                    case SocialNetworks.Youtube:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            SocinatorInitialize.SocialNetworkRegister(socialNetworkObject);
+
+            var accountDetails = AccountsFileManager.GetAll();
+
+            foreach (var account in accountDetails)
+            {
+               // DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, _activityType);
+               // DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: account, network: _socialNetwork);
+            }
         }
     }
 }

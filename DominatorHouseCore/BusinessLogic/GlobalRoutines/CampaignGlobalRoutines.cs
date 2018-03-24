@@ -1,17 +1,15 @@
-﻿using DominatorHouseCore.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DominatorHouseCore.BusinessLogic
+namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
 {
     /// <summary>
     /// Class which manages all campaigns workflow over the application:
