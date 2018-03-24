@@ -28,8 +28,11 @@ using DominatorUIUtility;
 using EmbeddedBrowser;
 using FaceDominatorCore.FDFactories;
 using FaceDominatorCore.FDLibrary;
+using GplusDominatorCore.GpDFactories;
 using GramDominatorCore.Factories;
 using GramDominatorUI.TabManager;
+using LinkedDominatorCore.Factories;
+using PinDominatorCore.Factories;
 using TwtDominatorCore.Factories;
 
 #endregion
@@ -68,7 +71,7 @@ namespace DominatorHouse
                     DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg,
                                     MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
 
-
+            InitializeJobCores("license");
 
            // TabSwitcher.ChangeTabIndex = ChangeTabIndex;
             TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
@@ -525,7 +528,6 @@ namespace DominatorHouse
 
         public void InitializeJobCores(string license)
         {
-
             // get all available networks from license          
             var availablNetworks = new List<SocialNetworks>
             {
@@ -569,10 +571,25 @@ namespace DominatorHouse
                         });
                         break;
                     case SocialNetworks.Pinterest:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        {
+                            JobProcessFactory = PdJobProcessFactory.Instance,
+                            QueryScraperFactory = PdScraperFactory.Instance,
+                            Network = SocialNetworks.Pinterest,
+                            MainWindow = this
+                        });
                         break;
                     case SocialNetworks.LinkedIn:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        {
+                            JobProcessFactory = LDJobProcessFactory.Instance,
+                            QueryScraperFactory = LDScraperFactory.Instance,
+                            Network = SocialNetworks.LinkedIn,
+                            MainWindow = this
+                        });
                         break;
                     case SocialNetworks.Reddit:
+                        
                         break;
                     case SocialNetworks.Social:
                         socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
@@ -583,11 +600,18 @@ namespace DominatorHouse
                             MainWindow = this
                         });
                         break;
-                    case SocialNetworks.Quora:
+                    case SocialNetworks.Quora:                        
                         break;
                     case SocialNetworks.Gplus:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        {
+                            JobProcessFactory = GpDProcessFactory.Instance,
+                            QueryScraperFactory = GpDScraperFactory.Instance,
+                            Network = SocialNetworks.Gplus,
+                            MainWindow = this
+                        });
                         break;
-                    case SocialNetworks.Youtube:
+                    case SocialNetworks.Youtube:                       
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -600,8 +624,11 @@ namespace DominatorHouse
 
             foreach (var account in accountDetails)
             {
-                // DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, _activityType);
-                // DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: account, network: _socialNetwork);
+                foreach (var modulesConfiguration in account.ActivityManager.LstModuleConfiguration)
+                {                   
+                        DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, modulesConfiguration.ActivityType);
+                        DominatorScheduler.ScheduleForEachModule(moduleToIgnore: modulesConfiguration.ActivityType, account: account, network: account.AccountBaseModel.AccountNetwork);
+                }
             }
         }
     }
