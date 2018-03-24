@@ -26,8 +26,11 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.BusinessLogic;
 using DominatorUIUtility;
 using EmbeddedBrowser;
+using FaceDominatorCore.FDFactories;
 using FaceDominatorCore.FDLibrary;
+using GramDominatorCore.Factories;
 using GramDominatorUI.TabManager;
+using TwtDominatorCore.Factories;
 
 #endregion
 
@@ -519,5 +522,87 @@ namespace DominatorHouse
 
         }
 
+
+        public void InitializeJobCores(string license)
+        {
+
+            // get all available networks from license          
+            var availablNetworks = new List<SocialNetworks>
+            {
+                SocialNetworks.Social,
+                SocialNetworks.Facebook,
+                SocialNetworks.Instagram,
+                SocialNetworks.Twitter
+            };
+
+            var socialNetworkObject = new List<DominatorHouseInitializer.LibraryCoreObjects>();
+
+            foreach (var network in availablNetworks)
+            {
+                switch (network)
+                {
+                    case SocialNetworks.Facebook:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        {
+                            JobProcessFactory = FdJobProcessFactory.Instance,
+                            QueryScraperFactory = FdScraperFactory.Instance,
+                            Network = SocialNetworks.Facebook,
+                            MainWindow = this
+                        });
+                        break;
+                    case SocialNetworks.Instagram:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        {
+                            JobProcessFactory = GdJobProcessFactory.Instance,
+                            QueryScraperFactory = GdScraperFactory.Instance,
+                            Network = SocialNetworks.Instagram,
+                            MainWindow = this
+                        });
+                        break;
+                    case SocialNetworks.Twitter:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        {
+                            JobProcessFactory = TdJobProcessFactory.Instance,
+                            QueryScraperFactory = TdScraperFactory.Instance,
+                            Network = SocialNetworks.Twitter,
+                            MainWindow = this
+                        });
+                        break;
+                    case SocialNetworks.Pinterest:
+                        break;
+                    case SocialNetworks.LinkedIn:
+                        break;
+                    case SocialNetworks.Reddit:
+                        break;
+                    case SocialNetworks.Social:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        {
+                            JobProcessFactory = DominatorJobProcessFactory.Instance,
+                            QueryScraperFactory = DominatorScraperFactory.Instance,
+                            Network = SocialNetworks.Social,
+                            MainWindow = this
+                        });
+                        break;
+                    case SocialNetworks.Quora:
+                        break;
+                    case SocialNetworks.Gplus:
+                        break;
+                    case SocialNetworks.Youtube:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            DominatorHouseInitializer.SocialNetworkRegister(socialNetworkObject);
+
+            var accountDetails = AccountsFileManager.GetAll();
+
+            foreach (var account in accountDetails)
+            {
+                // DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, _activityType);
+                // DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: account, network: _socialNetwork);
+            }
+        }
     }
 }

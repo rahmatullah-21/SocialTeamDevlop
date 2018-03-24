@@ -25,17 +25,17 @@ namespace DominatorHouseCore.Diagnostics
             /// <summary>
             /// Network ID
             /// </summary>
-            public SocialNetworks Network { get; internal set; }
+            public SocialNetworks Network { get;  set; }
 
             /// <summary>
             /// reates job process based on social network and module
             /// </summary>
-            public IJobProcessFactory JobProcessFactory { get; internal set; }       
+            public IJobProcessFactory JobProcessFactory { get;  set; }       
 
             /// <summary>
             /// Scraps data from social network feed based on query (queries)
             /// </summary>
-            public IScraperFactory QueryScraperFactory { get; internal set; }
+            public IScraperFactory QueryScraperFactory { get;  set; }
 
             /// <summary>
             /// Library main window
