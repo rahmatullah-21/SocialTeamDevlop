@@ -307,15 +307,12 @@ namespace DominatorUIUtility.CustomControl
             UserFilterAction.UserFilterControl(_queryControl);
             //UserFiltersControl objUserFiltersControl = new UserFiltersControl();
             //Dialog objDialog = new Dialog();
-
             //var FilterWindow = objDialog.GetMetroWindow(objUserFiltersControl, "Filter");
-
             //objUserFiltersControl.SaveButton.Click += (senders, Events) =>
             //{
             //    _queryControl.CurrentQuery.CustomFilters = JsonConvert.SerializeObject(objUserFiltersControl.UserFilter);
             //    FilterWindow.Close();
             //};
-
             //FilterWindow.ShowDialog();
         }
 
@@ -329,12 +326,9 @@ namespace DominatorUIUtility.CustomControl
         {
             if (_footerControl.list_SelectedAccounts.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please select at least one account.",
-                    MessageDialogStyle.Affirmative);
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please select at least one account.", MessageDialogStyle.Affirmative);
                 return false;
             }
-
-
             // Check timings
             return ValidateRunningTime();
         }

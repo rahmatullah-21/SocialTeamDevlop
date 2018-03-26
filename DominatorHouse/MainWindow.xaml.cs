@@ -28,6 +28,7 @@ using DominatorUIUtility;
 using EmbeddedBrowser;
 using FaceDominatorCore.FDFactories;
 using FaceDominatorCore.FDLibrary;
+using FaceDominatorCore.FDLibrary.FdProcesses;
 using FluentScheduler;
 using GplusDominatorCore.GpDFactories;
 using GramDominatorCore.Factories;
