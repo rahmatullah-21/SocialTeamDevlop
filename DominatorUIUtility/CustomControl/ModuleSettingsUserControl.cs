@@ -626,19 +626,18 @@ namespace DominatorUIUtility.CustomControl
 
         public void SetSelectedAccounts(SocialNetworks networks,string selectedAccounts)
         {
+            var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
+            _accountGrowthModeHeader.AccountItemSource = accounts;         
             switch (networks)
             {
                 case SocialNetworks.Facebook:
                     SelectedDominatorAccounts.FdAccounts = selectedAccounts;
-                    var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook).Select(x => x.UserName));
-                    _accountGrowthModeHeader.AccountItemSource = accounts;
-                    _accountGrowthModeHeader.SelectedItem = SelectedDominatorAccounts.FdAccounts ?? (!string.IsNullOrEmpty(accounts[0]) ? accounts[0] : "");
                     break;
                 case SocialNetworks.Instagram:
                     SelectedDominatorAccounts.GdAccounts = selectedAccounts;
                     break;
                 case SocialNetworks.Twitter:
-                    SelectedDominatorAccounts.TdAccounts = selectedAccounts;
+                    SelectedDominatorAccounts.TdAccounts = selectedAccounts;                    
                     break;
                 case SocialNetworks.Pinterest:
                     SelectedDominatorAccounts.PdAccounts = selectedAccounts;
@@ -657,9 +656,9 @@ namespace DominatorUIUtility.CustomControl
                     break;
                 case SocialNetworks.Youtube:
                     SelectedDominatorAccounts.YdAccounts = selectedAccounts;
-                    break;
-               
+                    break;               
             }
+            _accountGrowthModeHeader.SelectedItem = selectedAccounts ?? (!string.IsNullOrEmpty(accounts[0]) ? accounts[0] : "");
         }
 
         /// <summary>
