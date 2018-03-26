@@ -28,10 +28,10 @@ using DominatorUIUtility;
 using EmbeddedBrowser;
 using FaceDominatorCore.FDFactories;
 using FaceDominatorCore.FDLibrary;
+using FluentScheduler;
 using GplusDominatorCore.GpDFactories;
 using GramDominatorCore.Factories;
 using GramDominatorUI.TabManager;
-using LinkedDominatorCore.Factories;
 using PinDominatorCore.Factories;
 using TwtDominatorCore.Factories;
 
@@ -65,13 +65,10 @@ namespace DominatorHouse
 
             MainTabControl.ItemsSource = InitializeAllTabs();
 
-
             // Init UI delegates            
             CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
                     DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg,
                                     MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
-
-            InitializeJobCores("license");
 
            // TabSwitcher.ChangeTabIndex = ChangeTabIndex;
             TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
@@ -83,30 +80,18 @@ namespace DominatorHouse
 
             ConfigFileManager.ApplyTheme();
 
-            Task performanceTask = new Task(() => StartbindMemory(),
-            TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
+            var performanceTask = new Task(StartbindMemory,TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
 
-#if SKIP_DELAYS
-            cmbSocialNetwork.SelectedIndex = 1;     // Go to instagram
-            ChangeTabIndex(1, 1);       // unfollower
-#endif
-            #region commeted - start todays jobs
-            //Task.Factory.StartNew(() =>
-            //{
-            //    DateTime NextDayTime = DateTime.Now.AddDays(1);
-            //    accountManagerViewModel.InitialAccountDetails();
-
-            //    JobManager.AddJob(() =>
-            //        accountManagerViewModel.InitialAccountDetails(),
-            //        x => x.ToRunOnceAt(new DateTime(NextDayTime.Year, NextDayTime.Month, NextDayTime.Day,
-            //            0, 0, 1)
-            //        ).AndEvery(1).Days());
-            //}); 
-            #endregion
+            Task.Factory.StartNew(() =>
+            {             
+                JobManager.AddJob(() => InitializeJobCores("License"),x=>x.ToRunNow());                                              
+            });
 
             DialogParticipation.SetRegister(this, this);
+
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
+
         }
 
 
@@ -528,6 +513,14 @@ namespace DominatorHouse
 
         public void InitializeJobCores(string license)
         {
+            Task.Factory.StartNew(() =>
+            {
+                var nextDayTime = DateTime.Now.AddDays(1);
+
+               JobManager.AddJob(() => InitializeJobCores("License"),
+                    x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1)).AndEvery(1).Days());
+            });
+
             // get all available networks from license          
             var availablNetworks = new List<SocialNetworks>
             {
@@ -553,7 +546,7 @@ namespace DominatorHouse
                         });
                         break;
                     case SocialNetworks.Instagram:
-                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects
                         {
                             JobProcessFactory = GdJobProcessFactory.Instance,
                             QueryScraperFactory = GdScraperFactory.Instance,
@@ -562,7 +555,7 @@ namespace DominatorHouse
                         });
                         break;
                     case SocialNetworks.Twitter:
-                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects
                         {
                             JobProcessFactory = TdJobProcessFactory.Instance,
                             QueryScraperFactory = TdScraperFactory.Instance,
@@ -571,7 +564,7 @@ namespace DominatorHouse
                         });
                         break;
                     case SocialNetworks.Pinterest:
-                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects
                         {
                             JobProcessFactory = PdJobProcessFactory.Instance,
                             QueryScraperFactory = PdScraperFactory.Instance,
@@ -580,19 +573,19 @@ namespace DominatorHouse
                         });
                         break;
                     case SocialNetworks.LinkedIn:
-                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
-                        {
-                            JobProcessFactory = LDJobProcessFactory.Instance,
-                            QueryScraperFactory = LDScraperFactory.Instance,
-                            Network = SocialNetworks.LinkedIn,
-                            MainWindow = this
-                        });
+                        //socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        //{
+                        //    JobProcessFactory = LDJobProcessFactory.Instance,
+                        //    QueryScraperFactory = LDScraperFactory.Instance,
+                        //    Network = SocialNetworks.LinkedIn,
+                        //    MainWindow = this
+                        //});
                         break;
                     case SocialNetworks.Reddit:
                         
                         break;
                     case SocialNetworks.Social:
-                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects
                         {
                             JobProcessFactory = DominatorJobProcessFactory.Instance,
                             QueryScraperFactory = DominatorScraperFactory.Instance,
@@ -603,7 +596,7 @@ namespace DominatorHouse
                     case SocialNetworks.Quora:                        
                         break;
                     case SocialNetworks.Gplus:
-                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects
                         {
                             JobProcessFactory = GpDProcessFactory.Instance,
                             QueryScraperFactory = GpDScraperFactory.Instance,

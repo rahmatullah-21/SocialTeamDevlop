@@ -233,14 +233,6 @@
       <Project>{317a142c-6ae2-4cc1-90a7-5752b9ed76f3}</Project>
       <Name>GramDominatorUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorCore\LinkedDominatorCore.csproj">
-      <Project>{9df3cac5-0c31-49f0-a71e-27b9cefc6553}</Project>
-      <Name>LinkedDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorUI\LinkedDominatorUI.csproj">
-      <Project>{8a858cd7-7834-4365-8f4d-4faa0361de7f}</Project>
-      <Name>LinkedDominatorUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\pindominator-library\PinDominatorCore\PinDominatorCore.csproj">
       <Project>{68ef34bf-36c9-4e33-9acd-7b9d7b746f29}</Project>
       <Name>PinDominatorCore</Name>
