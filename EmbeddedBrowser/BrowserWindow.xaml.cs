@@ -815,7 +815,6 @@ namespace EmbeddedBrowser
                             default:
                                 throw new ArgumentOutOfRangeException();
                         }
-
                         IResponseParameter objResponseParameter = (ResponseParameter)DominatorAccountModel.HttpHelper.GetRequest(url);
 
                         if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
@@ -831,7 +830,6 @@ namespace EmbeddedBrowser
                             if (objResponseParameter.Response.Contains("Sign in now to see your channels") && !string.IsNullOrEmpty(objResponseParameter.Response) && objResponseParameter.Response != "<html><head></head><body></body></html>")
                                 return;
                         }
-
                         DominatorAccountModel.IsUserLoggedIn = true;
                         DominatorAccountModel.Cookies = cookieCollection;
                         AccountsFileManager.Edit(DominatorAccountModel);

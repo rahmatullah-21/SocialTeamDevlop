@@ -48,8 +48,7 @@ namespace DominatorHouseCore.Diagnostics
             {
                 // TODO : update the license and recheck register dominator
                 // TODO : Auto restart feature
-            }
-                
+            }                
         }
 
         public static void SocialNetworkRegister(SocialNetworkObjects activeNetwork, SocialNetworks network)
@@ -105,7 +104,6 @@ namespace DominatorHouseCore.Diagnostics
         /// Scraps data from social network feed based on query (queries)
         /// </summary>
         public IScraperFactory QueryScraperFactory { get;  set; }
-
 
     }
 

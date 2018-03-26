@@ -31,8 +31,12 @@ using DominatorUIUtility;
 using EmbeddedBrowser;
 using FaceDominatorCore.FDFactories;
 using FaceDominatorCore.FDLibrary;
+using FaceDominatorCore.FDLibrary.FdProcesses;
+using FluentScheduler;
+using GplusDominatorCore.GpDFactories;
 using GramDominatorCore.Factories;
 using GramDominatorUI.TabManager;
+using PinDominatorCore.Factories;
 using TwtDominatorCore.Factories;
 
 #endregion
@@ -65,7 +69,9 @@ namespace DominatorHouse
 
             // Init UI delegates            
             CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
+
                     DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg, MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
+
 
            // TabSwitcher.ChangeTabIndex = ChangeTabIndex;
             TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
@@ -75,11 +81,20 @@ namespace DominatorHouse
                     
             ConfigFileManager.ApplyTheme();
 
-            var performanceTask = new Task(StartbindMemory, TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
+
+            var performanceTask = new Task(StartbindMemory,TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
 
+            Task.Factory.StartNew(() =>
+            {             
+                JobManager.AddJob(() => InitializeJobCores("License"),x=>x.ToRunNow());                                              
+            });
+
+
             DialogParticipation.SetRegister(this, this);
+
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
+
         }
 
 
@@ -411,8 +426,17 @@ namespace DominatorHouse
             browserWindow.Show();          
         }
 
+
+
         public void InitializeJobCores(string license)
         {
+            Task.Factory.StartNew(() =>
+            {
+                var nextDayTime = DateTime.Now.AddDays(1);
+
+               JobManager.AddJob(() => InitializeJobCores("License"),
+                    x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1)).AndEvery(1).Days());
+            });
 
             // get all available networks from license          
             var availablNetworks = new List<SocialNetworks>
@@ -472,6 +496,7 @@ namespace DominatorHouse
                     case SocialNetworks.Gplus:
                         break;
                     case SocialNetworks.Youtube:
+
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -484,8 +509,11 @@ namespace DominatorHouse
 
             foreach (var account in accountDetails)
             {
-               // DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, _activityType);
-               // DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: account, network: _socialNetwork);
+                foreach (var modulesConfiguration in account.ActivityManager.LstModuleConfiguration)
+                {                   
+                        DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, modulesConfiguration.ActivityType);
+                        DominatorScheduler.ScheduleForEachModule(moduleToIgnore: modulesConfiguration.ActivityType, account: account, network: account.AccountBaseModel.AccountNetwork);
+                }
             }
         }
     }

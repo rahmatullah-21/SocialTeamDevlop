@@ -26,24 +26,23 @@ namespace DominatorHouseCore.Diagnostics
             /// <summary>
             /// Network ID
             /// </summary>
-            public SocialNetworks Network { get; internal set; }
+            public SocialNetworks Network { get;  set; }
 
             /// <summary>
             /// reates job process based on social network and module
             /// </summary>
-            public IJobProcessFactory JobProcessFactory { get; internal set; }       
+            public IJobProcessFactory JobProcessFactory { get;  set; }       
 
             /// <summary>
             /// Scraps data from social network feed based on query (queries)
             /// </summary>
-            public IScraperFactory QueryScraperFactory { get; internal set; }
+            public IScraperFactory QueryScraperFactory { get;  set; }
 
             /// <summary>
             /// Library main window
             /// </summary>
             public Window MainWindow { get; set; }
         }
-
 
         static bool _isInitialized = false;
 
@@ -106,7 +105,25 @@ namespace DominatorHouseCore.Diagnostics
             ConsoleManager.Show();
 #endif            
         }
-               
+
+        public static void SocialNetworkRegister(List<LibraryCoreObjects> networkObjects)
+        {
+            foreach (var socialNetworkObjects in networkObjects)
+            {
+                try
+                {
+                    if (_registeredLibraries.ContainsKey(socialNetworkObjects.Network))
+                        continue;
+
+                    _registeredLibraries.Add(socialNetworkObjects.Network, socialNetworkObjects);
+                }
+                catch (Exception e)
+                {
+                    e.DebugLog();
+                }
+            }
+        }
+
         public static string PlatformNameFromEnum(SocialNetworks network)
         {
             switch (network)
