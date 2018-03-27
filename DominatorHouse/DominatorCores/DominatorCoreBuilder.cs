@@ -1,4 +1,6 @@
-﻿using DominatorHouseCore.BusinessLogic.Scheduler;
+﻿using DominatorHouse.Social.AutoActivity.Views;
+using DominatorHouseCore.BusinessLogic.Factories;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -18,7 +20,9 @@ namespace DominatorHouse.DominatorCores
             AddNetwork(SocialNetworks.Social)
                 .AddTabFactory(DominatorTabHandlerFactory.Instance)
                 .AddJobFactory(DominatorJobProcessFactory.Instance)
-                .AddScraperFactory(DominatorScraperFactory.Instance);          
+                .AddScraperFactory(DominatorScraperFactory.Instance)
+                .AddAccountCounts(DominatorAccountCountFactory.Instance)
+                .AddAccountUiTools(DominatorAccountToolsFactory.Instance);          
         }
 
         public NetworkCoreLibrary GetDominatorCoreObjects() => NetworkCoreLibrary;

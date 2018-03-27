@@ -31,6 +31,9 @@ namespace DominatorHouse.DominatorCores
             NetworkTabs = InitializeAllTabs();
         }
 
+        public void StartAccountCustomControl(SocialNetworks networks)
+            => AccountCustomControl.GetAccountCustomControl(networks);
+
         private List<TabItemTemplates> InitializeAllTabs()
         {
             var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);

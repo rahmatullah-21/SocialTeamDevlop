@@ -147,6 +147,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\Factories\DominatorAccountCountFactory.cs" />
     <Compile Include="BusinessLogic\GlobalRoutines\CampaignGlobalRoutines.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.cs" />
@@ -236,8 +237,10 @@
     <Compile Include="FileManagers\ProxyFileManager.cs" />
     <Compile Include="FileManagers\TemplatesFileManager.cs" />
     <Compile Include="BusinessLogic\Scraper\AbstractQueryScraper.cs" />
+    <Compile Include="Interfaces\IAccountCountFactory.cs" />
     <Compile Include="Interfaces\IAccountGrowthModeHeader.cs" />
     <Compile Include="Interfaces\IAccountUpdateFactory.cs" />
+    <Compile Include="Interfaces\IAccountToolsFactory.cs" />
     <Compile Include="Interfaces\IGroup.cs" />
     <Compile Include="Interfaces\IJobConfiguration.cs" />
     <Compile Include="Interfaces\IGeneralSettings.cs" />

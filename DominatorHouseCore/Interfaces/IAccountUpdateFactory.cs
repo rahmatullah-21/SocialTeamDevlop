@@ -6,16 +6,6 @@ namespace DominatorHouseCore.Interfaces
     {
         bool CheckStatus(DominatorAccountModel accountModel);
 
-        void UpdateDetails(DominatorAccountModel accountModel);
-
-        //long HeaderColumn1Value { get; set; }
-
-        //bool HeaderColumn1Visiblity
-        //GridHeaderColumn2
-        //    GridHeaderColumn3
-        //GridHeaderColumn3
-        //    GridHeaderColumn4
-        //GridHeaderColumn4
-
+        void UpdateDetails(DominatorAccountModel accountModel);      
     }
 }

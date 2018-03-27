@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
 using DominatorHouse.Social.AutoActivity.Views;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
@@ -51,92 +52,12 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
         public void CallRespectiveView(SocialNetworks networks)
         {
-            switch (networks)
-            {
-                case SocialNetworks.Social:
-                    SelectedUserControl = SocialAutoActivity.GetSingletonSocialAutoActivity();
-                    InitializeAccounts();
-                    break;
-                case SocialNetworks.Instagram:
-                    SelectedUserControl = GramDominatorUI.TabManager.ToolTabs.GetSingletonToolTabs();
-                    break;
-                case SocialNetworks.Twitter:
-                    SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
-                    break;
-                case SocialNetworks.Pinterest:
-                    SelectedUserControl = PinDominator.TabManager.ToolTabs.GetSingletonToolTabs();
-                    break;
-                case SocialNetworks.Gplus:                   
-                    break;
-                case SocialNetworks.Reddit:
-                    break;
-                case SocialNetworks.Facebook:
-                    break;
-                case SocialNetworks.Quora:
-                    break;
-                case SocialNetworks.LinkedIn:
-                    break;
-                case SocialNetworks.Youtube:
-                    break;
+            var accountToolsView = SocinatorInitialize.GetSocialLibrary(networks).AccountUserControlTools;
+            SelectedUserControl = accountToolsView.GetStartupToolsView();
 
-            }
+            if(networks==SocialNetworks.Social)
+                InitializeAccounts();
         }
-
-        public void CallRespectiveView(SocialNetworks networks, string selectedAccounts)
-        {
-            switch (networks)
-            {
-                case SocialNetworks.Social:
-                    SelectedUserControl = SocialAutoActivity.GetSingletonSocialAutoActivity();
-                    InitializeAccounts();
-                    break;
-                case SocialNetworks.Instagram:
-                    SelectedUserControl = GramDominatorUI.TabManager.ToolTabs.GetSingletonToolTabs();
-                    var data = FollowConfiguration.GetSingeltonObjectFollowConfiguration();
-                    data.AccountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers(SocialNetworks.Instagram);
-                    data.AccountGrowthHeader.SelectedItem = selectedAccounts;
-                    SelectedDominatorAccounts.GdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Twitter:
-                    SelectedUserControl= TwtDominatorUI.TabManager.ToolsTab.GetSingletonToolTabs();
-                    var tddata = TwtDominatorUI.TDViews.Tools.Follow.FollowConfiguration.GetSingeltonObjectFollowConfiguration();
-                    tddata.accountgrothHeader.AccountItemSource = AccountsFileManager.GetUsers(SocialNetworks.Twitter);
-                    tddata.accountgrothHeader.SelectedItem = selectedAccounts;
-                    SelectedDominatorAccounts.TdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Pinterest:
-                    SelectedUserControl = PinDominator.TabManager.ToolTabs.GetSingletonToolTabs();
-                    var pddata = PinDominator.PDViews.Tools.Follow.FollowConfiguration.GetSingeltonObjectFollowConfiguration();
-                    pddata.accountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers(SocialNetworks.Pinterest);
-                    pddata.accountGrowthHeader.SelectedItem = selectedAccounts;
-                    SelectedDominatorAccounts.PdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Gplus:                 
-                    SelectedDominatorAccounts.GplusAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Reddit:
-                    SelectedDominatorAccounts.RdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Facebook:
-                    SelectedUserControl =new FaceDominatorUI.FDViews.TabManager.ToolsTab();
-                    var fddata = FaceDominatorUI.FDViews.Tools.SendRequest.SendRequestTools
-                        .GetSingeltonObjectSendRequestTools();
-                    fddata.accountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers(SocialNetworks.Facebook);
-                    fddata.accountGrowthHeader.SelectedItem = selectedAccounts;                  
-                    SelectedDominatorAccounts.FdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Quora:
-                    SelectedDominatorAccounts.QdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.LinkedIn:
-                    SelectedDominatorAccounts.LdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Youtube:
-                    SelectedDominatorAccounts.YdAccounts = selectedAccounts;
-                    break;
-            }
-        }
-
 
         public ObservableCollection<AccountsActivityDetailModel> AccountsCollection { get; set; }
 

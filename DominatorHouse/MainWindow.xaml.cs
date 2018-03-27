@@ -48,7 +48,7 @@ namespace DominatorHouse
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow, ILoggableWindow , INotifyPropertyChanged
+    public partial class MainWindow : MetroWindow, ILoggableWindow, INotifyPropertyChanged
     {
         private static readonly string RamSize = GetRamsize();
 
@@ -63,13 +63,13 @@ namespace DominatorHouse
         }
 
         private void SocinatorInitializer()
-        {           
+        {
             var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
             accountCustomControl.DominatorAccountViewModel.ActionCheckAccount = AccountStatusChecker;
             accountCustomControl.DominatorAccountViewModel.AccountBrowserLogin = AccountBrowserLogin;
 
             Task.Factory.StartNew(() => { JobManager.AddJob(() => InitializeJobCores("License"), x => x.ToRunNow()); });
-            
+
             //Init UI delegates            
             CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
                 DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg,
@@ -101,7 +101,7 @@ namespace DominatorHouse
                 => MainTabControl.SelectedIndex =
                     TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
 
-           
+
 
             DialogParticipation.SetRegister(this, this);
 
@@ -127,6 +127,7 @@ namespace DominatorHouse
         {
             MainTabControl.SelectedIndex = index;
             SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
+
         }
 
         #region System Details  
@@ -202,16 +203,23 @@ namespace DominatorHouse
         {
             if (MainTabControl == null)
                 return;
-
             MainTabControl.TabStripPlacement = Dock.Top;
-
             var selectedSocialNetwork =
-                (SocialNetworks) Enum.Parse(typeof(SocialNetworks), cmbSocialNetwork.SelectedItem.ToString());
-
+                (SocialNetworks)Enum.Parse(typeof(SocialNetworks), cmbSocialNetwork.SelectedItem.ToString());
             if (selectedSocialNetwork == SocialNetworks.Social)
                 MainTabControl.TabStripPlacement = Dock.Left;
-
             TabInitialize(selectedSocialNetwork);
+        }
+
+        public void TabInitialize(SocialNetworks network)
+        {
+            var tabHandler = SocinatorInitialize.GetSocialLibrary(network).TabHandlerFactory;
+            MainTabControl.ItemsSource = TabItems = tabHandler.NetworkTabs;
+            Title = tabHandler.NetworkName;
+            tabHandler.StartAccountCustomControl(network);
+            MainTabControl.SelectedIndex = 0;
+            SocinatorInitialize.SetAsActiveNetwork(network);
+            //AccountCustomControl.GetAccountCustomControl(network);
         }
 
         private void TabItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -222,7 +230,11 @@ namespace DominatorHouse
                 return;
 
             if (textBlockDetails.Text == FindResource("langAutoActivity").ToString())
-                DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+            {
+                var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).AccountUserControlTools;
+                accountUi.GetStartupToolsView();
+            }
+            //  DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
         }
 
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -297,9 +309,9 @@ namespace DominatorHouse
                     case SocialNetworks.Facebook:
                         socialNetworkObject.Add(FdCoreBuilder.Instance.GetFdCoreObjects());
                         break;
-                    case SocialNetworks.Instagram:                        
+                    case SocialNetworks.Instagram:
                         break;
-                    case SocialNetworks.Twitter:                       
+                    case SocialNetworks.Twitter:
                         break;
                     case SocialNetworks.Pinterest:
                         break;
@@ -336,14 +348,7 @@ namespace DominatorHouse
                 }
         }
 
-        public void TabInitialize(SocialNetworks network)
-        {
-            var tabHandler = SocinatorInitialize.GetSocialLibrary(network).TabHandlerFactory;
-            MainTabControl.ItemsSource = TabItems = tabHandler.NetworkTabs;
-            Title = tabHandler.NetworkName;
-            MainTabControl.SelectedIndex = 0;
-            SocinatorInitialize.SetAsActiveNetwork(network);
-        }
+
 
 
         public event PropertyChangedEventHandler PropertyChanged;

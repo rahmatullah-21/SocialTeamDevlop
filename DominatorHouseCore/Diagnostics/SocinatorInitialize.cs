@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
@@ -27,7 +28,9 @@ namespace DominatorHouseCore.Diagnostics
             => ActiveNetwork.Network;
 
         public static NetworkCoreLibrary GetSocialLibrary(SocialNetworks networks)
-            => RegisteredNetworks[networks];
+        {
+            return RegisteredNetworks.Count != 0 ? RegisteredNetworks[networks] : null;
+        }
 
         public static void LogInitializer(Window mainWindow)
         {
@@ -52,12 +55,12 @@ namespace DominatorHouseCore.Diagnostics
             }
         }
 
-        public static void SocialNetworkRegister(NetworkCoreLibrary activeNetwork, SocialNetworks network)
+        public static void SocialNetworkRegister(NetworkCoreLibrary activeNetwork)
         {
-            if (RegisteredNetworks.ContainsKey(network))
+            if (RegisteredNetworks.ContainsKey(activeNetwork.Network))
                 return;
 
-            RegisteredNetworks.Add(network, activeNetwork);
+            RegisteredNetworks.Add(activeNetwork.Network, activeNetwork);
         }
 
         public static void SocialNetworkRegister(List<NetworkCoreLibrary> networkObjects)
@@ -110,6 +113,10 @@ namespace DominatorHouseCore.Diagnostics
 
         public IAccountUpdateFactory AccountUpdateFactory { get; set; }
 
+        public IAccountCountFactory AccountCountFactory { get; set; }
+
+        public IAccountToolsFactory AccountUserControlTools { get; set; }
+       
     }
 
 
@@ -150,6 +157,18 @@ namespace DominatorHouseCore.Diagnostics
         public NetworkCoreLibraryBuilder AddAccountFactory(IAccountUpdateFactory accountUpdate)
         {
             NetworkCoreLibrary.AccountUpdateFactory = accountUpdate;
+            return this;
+        }
+
+        public NetworkCoreLibraryBuilder AddAccountCounts(IAccountCountFactory accountCount)
+        {
+            NetworkCoreLibrary.AccountCountFactory = accountCount;
+            return this;
+        }
+
+        public NetworkCoreLibraryBuilder AddAccountUiTools(IAccountToolsFactory accountUserControl)
+        {
+            NetworkCoreLibrary.AccountUserControlTools = accountUserControl;
             return this;
         }
 

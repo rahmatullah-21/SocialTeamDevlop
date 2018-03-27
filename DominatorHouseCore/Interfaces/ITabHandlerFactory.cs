@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 
 namespace DominatorHouseCore.Interfaces
@@ -9,7 +10,7 @@ namespace DominatorHouseCore.Interfaces
 
         string NetworkName { get; set; }
 
-       
+        void StartAccountCustomControl(SocialNetworks networks);
 
     }
 }
