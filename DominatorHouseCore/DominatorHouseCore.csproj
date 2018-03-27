@@ -237,10 +237,12 @@
     <Compile Include="FileManagers\TemplatesFileManager.cs" />
     <Compile Include="BusinessLogic\Scraper\AbstractQueryScraper.cs" />
     <Compile Include="Interfaces\IAccountGrowthModeHeader.cs" />
+    <Compile Include="Interfaces\IAccountUpdateFactory.cs" />
     <Compile Include="Interfaces\IGroup.cs" />
     <Compile Include="Interfaces\IJobConfiguration.cs" />
     <Compile Include="Interfaces\IGeneralSettings.cs" />
     <Compile Include="BusinessLogic\Scheduler\IJobProcessFactory.cs" />
+    <Compile Include="Interfaces\ITabHandlerFactory.cs" />
     <Compile Include="Interfaces\IPost.cs" />
     <Compile Include="Interfaces\IUser.cs" />
     <Compile Include="Diagnostics\LogHelper\GlobusLogHelper.cs" />

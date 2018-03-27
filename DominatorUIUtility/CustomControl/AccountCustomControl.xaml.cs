@@ -91,7 +91,6 @@ namespace DominatorUIUtility.CustomControl
                     //DominatorAccountViewModel.SocialNetworkEditable = true;
                     //DominatorHouseInitializer.ActiveSocialNetwork = SocialNetworks.Social;
                     break;
-
                 case SocialNetworks.Instagram:
                     listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Instagram);
                     DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
@@ -434,7 +433,7 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;             
-                DominatorAccountViewModel.action_CheckAccount(dominatorAccountModel);
+                DominatorAccountViewModel.ActionCheckAccount(dominatorAccountModel);
             }
             catch (Exception exception)
             {
@@ -459,7 +458,7 @@ namespace DominatorUIUtility.CustomControl
                 DominatorAccountModel dominatorAccountModel =  ((FrameworkElement)sender).DataContext as DominatorAccountModel;
                 DominatorAccountModel objDominatorAccountModel =
                     ((FrameworkElement)sender).DataContext as DominatorAccountModel;
-                DominatorAccountViewModel.action_CheckAccount(dominatorAccountModel);
+                DominatorAccountViewModel.ActionCheckAccount(dominatorAccountModel);
 
             }
             catch (Exception exception)

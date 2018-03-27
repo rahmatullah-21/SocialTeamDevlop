@@ -19,11 +19,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         public static Func<string, string, TimingRange, string, JobProcess> FdAccountConfigScheduler { get; set; }
         public static Func<string, string, TimingRange, string, JobProcess> QdAccountConfigScheduler { get; set; }
         public static Func<string, string, TimingRange, string, JobProcess> LdAccountConfigScheduler { get; set; }
-
         public static Func<string, string, TimingRange, string, JobProcess> YdAccountConfigScheduler { get; set; }
         public static Func<string, string, TimingRange, string, JobProcess> GplusAccountConfigScheduler { get; set; }
-
-
 
         static DominatorJobProcessFactory _instance;
 

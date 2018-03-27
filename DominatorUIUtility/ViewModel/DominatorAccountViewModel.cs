@@ -18,6 +18,7 @@ using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -283,7 +284,7 @@ namespace DominatorUIUtility.ViewModel
         {
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
 
-            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Add Account", "Save", false, DominatorHouseInitializer.ActiveSocialNetwork.ToString());
+            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Add Account", "Save", false, SocinatorInitialize.ActiveSocialNetwork.ToString());
 
             var customDialog = new CustomDialog()
             {
@@ -1088,7 +1089,7 @@ namespace DominatorUIUtility.ViewModel
         #endregion
 
         #region Actions
-        public Action<DominatorAccountModel> action_CheckAccount { get; set; }
+        public Action<DominatorAccountModel> ActionCheckAccount { get; set; }
 
         public Action<DominatorAccountModel> AccountBrowserLogin { get; set; }
 

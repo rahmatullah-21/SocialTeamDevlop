@@ -8,6 +8,7 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using MahApps.Metro.Converters;
 
@@ -18,16 +19,16 @@ namespace DominatorHouseCore.Diagnostics
 
         private static bool _isInitialized;
 
-        private static Dictionary<SocialNetworks, SocialNetworkObjects> RegisteredNetworks { get;  } = new Dictionary<SocialNetworks, SocialNetworkObjects>();
+        private static Dictionary<SocialNetworks, NetworkCoreLibrary> RegisteredNetworks { get; } = new Dictionary<SocialNetworks, NetworkCoreLibrary>();
 
-        public static SocialNetworkObjects ActiveNetwork { get; private set; }
+        public static NetworkCoreLibrary ActiveNetwork { get; private set; }
 
-        public static SocialNetworks ActiveSocialNetwork 
+        public static SocialNetworks ActiveSocialNetwork
             => ActiveNetwork.Network;
 
-        public static SocialNetworkObjects GetSocialLibrary(SocialNetworks networks)  
+        public static NetworkCoreLibrary GetSocialLibrary(SocialNetworks networks)
             => RegisteredNetworks[networks];
-     
+
         public static void LogInitializer(Window mainWindow)
         {
             GlobalExceptionInitializer();
@@ -35,7 +36,7 @@ namespace DominatorHouseCore.Diagnostics
             var window = mainWindow as ILoggableWindow;
 
             if (window != null)
-                GlobusLogHelper.InitializeLoggerUI(window);          
+                GlobusLogHelper.InitializeLoggerUI(window);
         }
 
         public static void SetAsActiveNetwork(SocialNetworks networks)
@@ -48,10 +49,10 @@ namespace DominatorHouseCore.Diagnostics
             {
                 // TODO : update the license and recheck register dominator
                 // TODO : Auto restart feature
-            }                
+            }
         }
 
-        public static void SocialNetworkRegister(SocialNetworkObjects activeNetwork, SocialNetworks network)
+        public static void SocialNetworkRegister(NetworkCoreLibrary activeNetwork, SocialNetworks network)
         {
             if (RegisteredNetworks.ContainsKey(network))
                 return;
@@ -59,7 +60,7 @@ namespace DominatorHouseCore.Diagnostics
             RegisteredNetworks.Add(network, activeNetwork);
         }
 
-        public static void SocialNetworkRegister(List<SocialNetworkObjects> networkObjects)
+        public static void SocialNetworkRegister(List<NetworkCoreLibrary> networkObjects)
         {
             foreach (var socialNetworkObjects in networkObjects)
             {
@@ -76,7 +77,7 @@ namespace DominatorHouseCore.Diagnostics
                 }
             }
         }
-              
+
         private static void GlobalExceptionInitializer()
         {
             if (_isInitialized)
@@ -88,23 +89,69 @@ namespace DominatorHouseCore.Diagnostics
         }
     }
 
-    public class SocialNetworkObjects
+    public class NetworkCoreLibrary
     {
         /// <summary>
         /// Specify the network of the dominator
         /// </summary>
-        public SocialNetworks Network { get;  set; }
+        public SocialNetworks Network { get; set; }
 
         /// <summary>
         /// creates job process based on social network and module
         /// </summary>
-        public IJobProcessFactory JobProcessFactory { get;  set; }
+        public IJobProcessFactory JobProcessFactory { get; set; }
 
         /// <summary>
         /// Scraps data from social network feed based on query (queries)
         /// </summary>
-        public IScraperFactory QueryScraperFactory { get;  set; }
+        public IScraperFactory QueryScraperFactory { get; set; }
+
+        public ITabHandlerFactory TabHandlerFactory { get; set; }
+
+        public IAccountUpdateFactory AccountUpdateFactory { get; set; }
 
     }
 
+
+    public class NetworkCoreLibraryBuilder
+    {
+
+        public NetworkCoreLibrary NetworkCoreLibrary { get; set; }
+
+        public NetworkCoreLibraryBuilder()
+        {
+            NetworkCoreLibrary = new NetworkCoreLibrary();
+        }
+
+        public NetworkCoreLibraryBuilder AddNetwork(SocialNetworks networks)
+        {
+            NetworkCoreLibrary.Network = networks;
+            return this;
+        }
+
+        public NetworkCoreLibraryBuilder AddJobFactory(IJobProcessFactory jobProcessFactory)
+        {
+            NetworkCoreLibrary.JobProcessFactory = jobProcessFactory;
+            return this;
+        }
+
+        public NetworkCoreLibraryBuilder AddScraperFactory(IScraperFactory scraperFactory)
+        {
+            NetworkCoreLibrary.QueryScraperFactory = scraperFactory;
+            return this;
+        }
+
+        public NetworkCoreLibraryBuilder AddTabFactory(ITabHandlerFactory tabFactory)
+        {
+            NetworkCoreLibrary.TabHandlerFactory = tabFactory;
+            return this;
+        }
+
+        public NetworkCoreLibraryBuilder AddAccountFactory(IAccountUpdateFactory accountUpdate)
+        {
+            NetworkCoreLibrary.AccountUpdateFactory = accountUpdate;
+            return this;
+        }
+
+    }
 }

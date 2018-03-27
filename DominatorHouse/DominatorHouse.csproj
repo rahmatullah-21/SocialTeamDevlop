@@ -131,6 +131,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DominatorCores\DominatorCoreBuilder.cs" />
+    <Compile Include="DominatorCores\DominatorTabHandlerFactory.cs" />
     <Compile Include="Social\AutoActivity\ViewModels\DominatorAutoActivityViewModel.cs" />
     <Compile Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml.cs">
       <DependentUpon>DominatorAutoActivity.xaml</DependentUpon>
