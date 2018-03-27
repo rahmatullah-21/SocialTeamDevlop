@@ -369,7 +369,8 @@ namespace DominatorUIUtility.CustomControl
             AddNewCampaign(_footerControl.list_SelectedAccounts, _activityType);
 
             SetDataContext();
-            TabSwitcher.ChangeTabIndex?.Invoke(6, 0);
+            TabSwitcher.GoToCampaign();
+
         }
 
         protected void AccountGrowthHeader_OnSaveClick(object sender, RoutedEventArgs e)

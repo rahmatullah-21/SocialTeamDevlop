@@ -79,6 +79,21 @@ namespace DominatorHouse
             // Log strated
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
 
+            TabSwitcher.ChangeTabIndex = (mainTabIndex, subTabIndex) =>
+            {
+                MainTabControl.SelectedIndex = mainTabIndex;
+
+                if (subTabIndex == null)
+                    return;
+
+                var selectedTabObject = (MainTabControl.SelectedContent as TabItemTemplates).Content.Value;
+
+                (selectedTabObject as dynamic).setIndex((int)subTabIndex);
+            };
+
+
+            TabSwitcher.GoToCampaign = ()
+                => MainTabControl.SelectedIndex = TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
             ConfigFileManager.ApplyTheme();
 
             var performanceTask = new Task(StartbindMemory,TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
