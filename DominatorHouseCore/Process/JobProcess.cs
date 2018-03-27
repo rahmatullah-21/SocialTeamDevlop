@@ -25,10 +25,8 @@ namespace DominatorHouseCore.Process
     ///     Derived class have to implement PostScrapeProcess
     /// </summary>
     public abstract class JobProcess
-    {
-        
-        public JobProcess
-            (string account, string template, ActivityType activityType, TimingRange currentJobTimeRange,
+    {        
+        public JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange,
             SocialNetworks network)
         {
             // Get the current account details 
@@ -72,15 +70,15 @@ namespace DominatorHouseCore.Process
             MaxNoOfActionPerHour = JobConfiguration.ActivitiesPerHour.GetRandom();
             MaxNoOfActionPerDay = JobConfiguration.ActivitiesPerDay.GetRandom();
             MaxNoOfActionPerWeek = JobConfiguration.ActivitiesPerWeek.GetRandom();
-            InitializeDatabseConnection();
+            InitializeDatabaseConnection();
         }
 
-        private void InitializeDatabseConnection()
+        private void InitializeDatabaseConnection()
         {
             DataBaseConnectionCampaign =
                 DataBaseHandler.GetDataBaseConnectionInstance(CampaignId, SocialNetworks, DatabaseType.CampaignType);
             DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(
-                DominatorAccountModel.AccountBaseModel.UserName, SocialNetworks, DatabaseType.AccountType);
+                DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks, DatabaseType.AccountType);
         }
 
 
@@ -125,7 +123,6 @@ namespace DominatorHouseCore.Process
                                      $"{DominatorAccountModel.AccountBaseModel.UserName} module => {ActivityType}");
         }
 
-
         /// <summary>
         ///     Calls after scrapping result from social network (e.g. Instagram feed).
         ///     If process completed (time or activities limits reached) then starts other configuration stuff
@@ -154,14 +151,13 @@ namespace DominatorHouseCore.Process
         /// <returns>
         ///     true if limits reached and caller needds to process with Other Configuration
         /// </returns>
-        protected virtual bool CheckJobProcessLimitsReached()
+        protected virtual bool CheckJobProcessLimitsReached() 
         {
             var currentTime = DateTimeUtilities.GetEpochTime();
 
             // Check weekly limit. If reached, Stop task and wait for next days.
             // TODO: implement schedule holder on a weekly basis.
-            NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign
-                .Get<InteractedUsers>(x => currentTime - x.Date <= 3600 * 24 * 7).Count();
+            NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<InteractedUsers>(x => currentTime - x.Date <= 3600 * 24 * 7).Count();
 
             if (NoOfActionPerformedCurrentWeek > MaxNoOfActionPerWeek)
             {
@@ -171,8 +167,7 @@ namespace DominatorHouseCore.Process
 
             // Check daily limit
             // TODO: extend DominatorScheduler with holding days/weeks and obtain day of next job from there
-            NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign
-                .Get<InteractedUsers>(x => currentTime - x.Date <= 3600 * 24).Count();
+            NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<InteractedUsers>(x => currentTime - x.Date <= 3600 * 24).Count();
             if (NoOfActionPerformedCurrentDay > MaxNoOfActionPerDay)
             {
                 Stop();
@@ -337,21 +332,16 @@ namespace DominatorHouseCore.Process
 
 
         // stores all running job processes. Key - TemplateId
-        private static readonly Dictionary<string, JobProcess> RunningJobProcesses =
-            new Dictionary<string, JobProcess>();
-
+        private static readonly Dictionary<string, JobProcess> RunningJobProcesses =  new Dictionary<string, JobProcess>();
 
         private static readonly object SyncJobProcess = new object();
 
-
         private string Id => AsId(AccountName, TemplateId);
-
 
         public static string AsId(string account, string templateId)
         {
             return $"{account}-{templateId}";
         }
-
 
         /// <summary>
         ///     Main method to start process in thread
@@ -366,15 +356,17 @@ namespace DominatorHouseCore.Process
                 Debug.Assert(JobCancellationTokenSource == null);
 
                 JobCancellationTokenSource = new CancellationTokenSource();
+
                 RunningJobProcesses.Add(Id, this);
 
                 var task = ThreadFactory.Instance.Start(() =>
                 {
                     GlobusLogHelper.log.Info(
                         $"{ActivityType} process started with {DominatorHouseInitializer.ActiveSocialNetwork} account [{AccountName}]");
+                  
                     // Login and run scraper/poster from derived concrete classes
                     if (Login())
-                        RunScrapper();
+                      RunScrapper();
                 }, JobCancellationTokenSource.Token);
             }
         }

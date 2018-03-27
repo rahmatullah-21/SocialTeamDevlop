@@ -41,6 +41,7 @@
                 <ComboBoxItem>Gplus</ComboBoxItem>
                 <ComboBoxItem>Youtube</ComboBoxItem>
                 <ComboBoxItem>Reddit</ComboBoxItem>
+                <ComboBoxItem>Tumblr</ComboBoxItem>
             </ComboBox>
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbLanguage" >
                 <ComboBoxItem>English</ComboBoxItem>

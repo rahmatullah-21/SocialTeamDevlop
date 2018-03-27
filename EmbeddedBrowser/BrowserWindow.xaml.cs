@@ -195,6 +195,7 @@ namespace EmbeddedBrowser
                                         InstagramBrowserLogin(html);
                                         break;
                                     case SocialNetworks.Twitter:
+                                        TwitterLogin(html);
                                         break;
                                     case SocialNetworks.Pinterest:
                                         PinterestBrowserLogin(html);
@@ -445,6 +446,23 @@ namespace EmbeddedBrowser
             }
 
         }
+        private void TwitterLogin(string html)
+        {
+            if (html != null && html.Contains("js-username-field email-input js-initial-focus") && html.Contains("js-password-field"))
+            {
+                this.Browser.ExecuteScriptAsync(
+                    "document.getElementsByClassName('js-username-field email-input js-initial-focus')[0].value= '" +
+                    DominatorAccountModel.AccountBaseModel.UserName + "'");
+
+                Thread.Sleep(2000);
+                Browser.ExecuteScriptAsync("document.getElementsByClassName('js-password-field')[0].value= '" +
+                                           DominatorAccountModel.AccountBaseModel.Password + "'");
+                Thread.Sleep(2000);
+                this.Browser.ExecuteScriptAsync(
+                    "document.getElementsByClassName('submit EdgeButton EdgeButton--primary EdgeButtom--medium')[0].click()");
+                Thread.Sleep(4000);
+            }
+        }
 
         public string GetNetworksHomeUrl()
         {
@@ -455,7 +473,7 @@ namespace EmbeddedBrowser
                 case SocialNetworks.Instagram:
                     return "https://www.instagram.com/accounts/login/";
                 case SocialNetworks.Twitter:
-                    break;
+                    return "https://twitter.com/login";
                 case SocialNetworks.Pinterest:
                     return "https://www.pinterest.com/login/";
                 case SocialNetworks.LinkedIn:

@@ -60,41 +60,37 @@ namespace DominatorHouse
             = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
 
         public MainWindow()
-        {           
+        {
             SocinatorInitialize.LogInitializer(this);
 
             InitializeComponent();
 
             MainTabControl.ItemsSource = InitializeAllTabs();
 
-            // Init UI delegates            
+            //Init UI delegates            
             CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
 
-                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg, MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
+            DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg, MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
 
-
-           // TabSwitcher.ChangeTabIndex = ChangeTabIndex;
+            // TabSwitcher.ChangeTabIndex = ChangeTabIndex;
             TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
             TabSwitcher.SelectMainTab = SelectMainIndex;
             AccountAddUpdate.UpdateGDAccount = GramDominatorCore.GDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount;
-           // AccountAddUpdate.UpdateQDAccount = QuoraDominatorCore.ViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount;
-                    
+            //AccountAddUpdate.UpdateQDAccount = QuoraDominatorCore.ViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount;
+
             ConfigFileManager.ApplyTheme();
 
-
-            var performanceTask = new Task(StartbindMemory,TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
+            var performanceTask = new Task(StartbindMemory, TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
 
             Task.Factory.StartNew(() =>
-            {             
-                JobManager.AddJob(() => InitializeJobCores("License"),x=>x.ToRunNow());                                              
+            {
+                JobManager.AddJob(() => InitializeJobCores("License"), x => x.ToRunNow());
             });
-
 
             DialogParticipation.SetRegister(this, this);
 
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
-
         }
 
 
@@ -110,8 +106,6 @@ namespace DominatorHouse
             MainTabControl.SelectedIndex = mainTabIndex;
 
             //if (subTabIndex == null) return;
-
-
             //// NOTE: Works for instagram tabs
             //switch (mainTabIndex)
             //{
@@ -153,8 +147,8 @@ namespace DominatorHouse
             {
                 var availablememory = GetMemoryUsage().ToString(CultureInfo.InvariantCulture);
 
-                var cpuUsage = GetCpuUsage();            
-                 
+                var cpuUsage = GetCpuUsage();
+
                 try
                 {
                     Dispatcher.Invoke(() =>
@@ -167,7 +161,7 @@ namespace DominatorHouse
                 }
                 catch (Exception ex)
                 {
-                 ex.DebugLog();
+                    ex.DebugLog();
                 }
 
                 await Task.Delay(100);
@@ -187,7 +181,7 @@ namespace DominatorHouse
             return "0 MB";
         }
 
-       
+
         private static string GetCpuUsage()
         {
             try
@@ -201,7 +195,7 @@ namespace DominatorHouse
             }
         }
 
-        
+
         private static double GetMemoryUsage()
         {
             var memAvailable = (double)PerformanceCounter.NextValue();
@@ -266,6 +260,9 @@ namespace DominatorHouse
                     TabItems = InitializeAllTabs();
                     this.Title = "Dominator - All in One";
                     break;
+                case SocialNetworks.Tumblr:
+                    this.Title = SocialNetworks.Tumblr.ToString() + " Dominator";
+                    break;
                 default:
                     this.Title = "Dominator House";
                     break;
@@ -277,7 +274,7 @@ namespace DominatorHouse
         }
 
         public List<TabItemTemplates> InitializeAllTabs()
-     {
+        {
             var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
 
             accountCustomControl.DominatorAccountViewModel.action_CheckAccount = action_CheckAccount;
@@ -423,7 +420,7 @@ namespace DominatorHouse
         public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
         {
             BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel);
-            browserWindow.Show();          
+            browserWindow.Show();
         }
 
 
@@ -434,8 +431,8 @@ namespace DominatorHouse
             {
                 var nextDayTime = DateTime.Now.AddDays(1);
 
-               JobManager.AddJob(() => InitializeJobCores("License"),
-                    x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1)).AndEvery(1).Days());
+                JobManager.AddJob(() => InitializeJobCores("License"),
+                     x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1)).AndEvery(1).Days());
             });
 
             // get all available networks from license          
@@ -448,7 +445,7 @@ namespace DominatorHouse
             };
 
             var socialNetworkObject = new List<SocialNetworkObjects>();
-           
+
             foreach (var network in availablNetworks)
             {
                 switch (network)
@@ -472,8 +469,8 @@ namespace DominatorHouse
                     case SocialNetworks.Twitter:
                         socialNetworkObject.Add(new SocialNetworkObjects()
                         {
-                            JobProcessFactory= TdJobProcessFactory.Instance,
-                            QueryScraperFactory= TdScraperFactory.Instance,
+                            JobProcessFactory = TdJobProcessFactory.Instance,
+                            QueryScraperFactory = TdScraperFactory.Instance,
                             Network = SocialNetworks.Twitter
                         });
                         break;
@@ -510,9 +507,9 @@ namespace DominatorHouse
             foreach (var account in accountDetails)
             {
                 foreach (var modulesConfiguration in account.ActivityManager.LstModuleConfiguration)
-                {                   
-                        DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, modulesConfiguration.ActivityType);
-                        DominatorScheduler.ScheduleForEachModule(moduleToIgnore: modulesConfiguration.ActivityType, account: account, network: account.AccountBaseModel.AccountNetwork);
+                {
+                    DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, modulesConfiguration.ActivityType);
+                    DominatorScheduler.ScheduleForEachModule(moduleToIgnore: modulesConfiguration.ActivityType, account: account, network: account.AccountBaseModel.AccountNetwork);
                 }
             }
         }

@@ -14,7 +14,8 @@ namespace DominatorHouseCore.Enums
         Social,
         Quora,
         Gplus,
-        Youtube
+        Youtube,
+        Tumblr
 
     }
 
