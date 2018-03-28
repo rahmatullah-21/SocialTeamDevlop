@@ -102,6 +102,8 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         [Column(Order = 24)]
         public string Bio { get; set; }
 
+       
+
         /// <summary>
         /// Describes wheather the activity is done in Activity process or after activity process
         /// </summary>

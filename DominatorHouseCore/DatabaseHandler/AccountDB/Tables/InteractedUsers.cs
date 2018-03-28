@@ -56,5 +56,29 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
         public int Time
         { get; set; }
 
+
+        [Column(Order = 13)]
+        public bool IsPrivate
+        { get; set; }
+
+
+        [Column(Order = 14)]
+        public bool IsBusiness
+        { get; set; }
+
+
+        [Column(Order = 15)]
+        public bool IsVerified
+        { get; set; }
+
+
+        [Column(Order = 16)]
+        public bool? IsProfilePicAvailable
+        { get; set; }
+
+
+        [Column(Order = 17)]
+        public string ProfilePicUrl
+        { get; set; }
     }
 }

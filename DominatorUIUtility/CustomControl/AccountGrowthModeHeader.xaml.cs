@@ -13,6 +13,7 @@ namespace DominatorUIUtility.CustomControl
         {
             InitializeComponent();
             mainGrid.DataContext = this;
+            AccountItemSource = new ObservableCollectionBase<string>();
         }
 
         public ObservableCollectionBase<string> AccountItemSource

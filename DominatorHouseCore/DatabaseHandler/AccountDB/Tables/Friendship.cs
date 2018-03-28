@@ -99,10 +99,14 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
 
         [Column(Order = 18)]
         public FollowType FollowType
-        { get; set; }        
+        { get; set; }
+
+        [Column(Order = 19)]
+        public bool IsFollowBySoftware
+        { get; set; }
     }
 
-    public enum FollowType : int
+    public enum FollowType
     {
         Following, NotFollowing, Unfollowed
     }       

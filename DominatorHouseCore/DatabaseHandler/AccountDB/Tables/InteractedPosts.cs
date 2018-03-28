@@ -35,6 +35,7 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
         [Column(Order = 8)]
         public string Username { get; set; }
 
-
+        [Column(Order = 9)]
+        public string Comment { get; set; }
     }
 }

@@ -17,7 +17,6 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
         private JobProcess _jobProcess;
 
-
         protected AbstractQueryScraper(JobProcess jobProcess)
         {
             _jobProcess = jobProcess;
@@ -31,7 +30,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 { UserQueryParameters.SomeonesFollowers, StartProcessForSomeonesFollowers },
                 { UserQueryParameters.SomeonesFollowings, StartProcessForSomeonesFollowings },
                 { UserQueryParameters.FollowersOfFollowings, StartProcessForFollowersOfFollowings },
-                { UserQueryParameters.FollowersOfFollowers, StartProcessForSomeonesFollowings },
+                { UserQueryParameters.FollowersOfFollowers, StartProcessForFollowersOfFollowers },
                 { UserQueryParameters.LocationUsers, StartProcessWithLocationUsers },
                 { UserQueryParameters.LocationPosts, StartProcessWithLocationPosts },
                 { UserQueryParameters.CustomUsers, StartProcessForCustomUsers },
@@ -42,10 +41,12 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 { UserQueryParameters.BoardFollowers, StartProcessForBoardFollowers },
                 { UserQueryParameters.CustomBoard, StartProcessForCustomBoards },
                 { UserQueryParameters.CustomPin, StartProcessForCustomPin },
-                { UserQueryParameters.NewsFeedPins, StartProcessForNewsFeedPins }
+                { UserQueryParameters.NewsFeedPins, StartProcessForNewsFeedPins },
+                { UserQueryParameters.FromSomeonesCircle, StartProcessForSomeonesCircle}
             };            
         }
 
+        protected virtual void StartProcessForSomeonesCircle(QueryInfo queryInfo) { }
          protected virtual void StartProcessForBoardFollowers(QueryInfo queryInfo) { }
          protected virtual void StartProcessForCustomBoards(QueryInfo queryInfo) { }
          protected virtual void StartProcessForCustomPin(QueryInfo queryInfo) { }
@@ -80,7 +81,6 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         /// <summary>
         /// Used from DominatorHouseInitializer for certain library
         /// </summary>
-        /// <param name="queries"></param>
         public void ScrapeWithQueries()
         {
             Debug.Assert(_jobProcess.SavedQueries.Count > 0);

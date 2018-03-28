@@ -9,42 +9,46 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
         [Key]
         [Autoincrement]
         [Index]
-        [Column(Order =1)]
-        public int Id { get; set; } 
-
+        [Column(Order = 1)]
+        public int Id { get; set; }
 
         [Column(Order = 2)]
+        public string AccountUsername
+        { get; set; }
+
+        [Column(Order = 3)]
         public string FilterArgument
         { get; set; }
 
 
-        [Column(Order = 3)]
+        [Column(Order = 4)]
         public int FilterTypeSql
         { get; set; }
 
 
-        [Column(Order = 4)]
+        [Column(Order = 5)]
         public int FollowedBack
         { get; set; }
 
 
-        [Column(Order = 5)]
+        [Column(Order = 6)]
         public int FollowedBackDate
         { get; set; }
 
 
-        [Column(Order = 6)]
-        public string InteractionDate
-        { get; set; }
-
-
         [Column(Order = 7)]
-        public int OperationType
+        public int InteractionDate
         { get; set; }
 
 
         [Column(Order = 8)]
-        public string Username
+        public FollowType FollowType
+        { get; set; }
+
+
+        [Column(Order = 9)]
+        [Unique]
+        public string UnfollowedUsername
         { get; set; }
 
     }

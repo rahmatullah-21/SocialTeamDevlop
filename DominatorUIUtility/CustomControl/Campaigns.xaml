@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl" x:Name="Campaign" Loaded="Campaign_Loaded"
              mc:Ignorable="d"  xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
-    
+    <UserControl.Resources>
+        <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
+    </UserControl.Resources>
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.6*" />
@@ -14,6 +16,17 @@
         </Grid.RowDefinitions>
         <Grid  Background="{DynamicResource AccentBaseColorBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <Button Height="30" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Margin="30,0" Click="DeleteMultipleCampaign_Click"
+                        VerticalContentAlignment="Center" Background="Transparent" ToolTip="Delete selected">
+                    <Button.Content>
+                        <Rectangle Width="15" Height="20" Fill="White">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+
+                    </Button.Content>
+                </Button>
                 <Label Foreground="White" FontSize="12" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                        Height="25"  Content="{DynamicResource langSelectCampaignCategory}" />
                 <ComboBox x:Name="CmbCampaignType" SelectedIndex="0"
@@ -36,6 +49,21 @@
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
+                            <GridViewColumn Width="100">
+                                <CheckBox Name="AllCampaignChecked" Content=" #" Checked="AllCampaignChecked_Checked"
+                                          Unchecked="AllCampaignChecked_Unchecked"/>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox IsChecked="{Binding IsCampaignChecked}" Margin="5,0,0,0" Checked="CheckBox_Checked" Unchecked="CheckBox_OnUnchecked"/>
+                                            <Label Content="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                   AncestorType={x:Type ListViewItem}}, 
+                                                   Converter={StaticResource ListViewItemIndexConverter}}"/>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="{DynamicResource langCampaignName}" DisplayMemberBinding="{Binding CampaignName}"/>
                             <GridViewColumn Header="{DynamicResource langModuleName}" DisplayMemberBinding="{Binding SubModule}"/>
                             <GridViewColumn Header="{DynamicResource langStatus}">

@@ -62,8 +62,11 @@ namespace DominatorHouse
                     DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg,
                                     MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
 
-            TabSwitcher.ChangeTabIndex = ChangeTabIndex;
+
+
+           TabSwitcher.ChangeTabIndex = ChangeTabIndex;
             TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
+            TabSwitcher.SelectMainTab = SelectMainIndex;
 
             // Log strated
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
@@ -105,6 +108,7 @@ namespace DominatorHouse
 
         private void ChangeTabIndex(int mainTabIndex, int? subTabIndex = null)
         {
+
             MainTabControl.SelectedIndex = mainTabIndex;
 
             if (subTabIndex == null) return;
@@ -132,6 +136,11 @@ namespace DominatorHouse
                     break;
             }
 
+        }
+
+        private void SelectMainIndex(int mainTabIndex)
+        {
+            MainTabControl.SelectedIndex = mainTabIndex;
         }
 
         public void LogText(string message, bool error)

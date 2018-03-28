@@ -264,6 +264,6 @@
         </Setter>
     </Style>
     <Style TargetType="ListViewItem" x:Key="ListViewItems">
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
     </Style>
 </ResourceDictionary>
