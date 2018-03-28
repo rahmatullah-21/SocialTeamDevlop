@@ -18,6 +18,18 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
         public static Func<JobProcess, AbstractQueryScraper> PdAccountConfigScraper { get; set; }
 
+        public static Func<JobProcess, AbstractQueryScraper> YdAccountConfigScraper { get; set; }
+
+
+        public static Func<JobProcess, AbstractQueryScraper> FdAccountConfigScraper { get; set; }
+
+        public static Func<JobProcess, AbstractQueryScraper> LdAccountConfigScraper { get; set; }
+
+        public static Func<JobProcess, AbstractQueryScraper> GplusAccountConfigScraper { get; set; }
+
+        public static Func<JobProcess, AbstractQueryScraper> QdAccountConfigScraper { get; set; }
+
+
         static DominatorScraperFactory _instance;
 
         public static DominatorScraperFactory Instance => _instance ?? (_instance = new DominatorScraperFactory());
@@ -34,6 +46,16 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     return TdAccountConfigScraper(jobProcess);
                 case SocialNetworks.Pinterest:
                     return PdAccountConfigScraper(jobProcess);
+                case SocialNetworks.Facebook:
+                    return FdAccountConfigScraper(jobProcess);
+                case SocialNetworks.LinkedIn:
+                    return LdAccountConfigScraper(jobProcess);
+                case SocialNetworks.Quora:
+                    return QdAccountConfigScraper(jobProcess);
+                case SocialNetworks.Youtube:
+                    return YdAccountConfigScraper(jobProcess);
+                case SocialNetworks.Gplus:
+                    return GplusAccountConfigScraper(jobProcess);
             }
 
             return new NotImplementedQueryScraper(jobProcess);

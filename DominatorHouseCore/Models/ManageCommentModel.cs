@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    public class ManageCommentModel:BindableBase
+    public class ManageCommentModel : BindableBase
     {
-        
+
 
         private int _serialNo;
-        
+
         public int SerialNo
         {
             get
@@ -31,7 +31,7 @@ namespace DominatorHouseCore.Models
             }
         }
         private string _commentText;
-       
+
         public string CommentText
         {
             get
@@ -46,7 +46,7 @@ namespace DominatorHouseCore.Models
             }
         }
         private string _filterText;
-        
+
         public string FilterText
         {
             get
@@ -60,16 +60,60 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _filterText, value);
             }
         }
-       
-     
-        public ObservableCollection<string> SelectedQuery { get; set; } = new ObservableCollection<string>();
-       
-       
-        public ObservableCollection<ContentSelectGroup> LstQueries { get; set;} = new ObservableCollection<ContentSelectGroup>();
 
+
+        public ObservableCollection<QueryContent> SelectedQuery { get; set; } = new ObservableCollection<QueryContent>();
+
+
+
+        public ObservableCollection<QueryContent> LstQueries { get; set; } = new ObservableCollection<QueryContent>();
 
     }
 
-  
-   
+    [ProtoContract]
+    public class QueryContent : BindableBase
+    {
+
+        private QueryInfo _content;
+        /// <summary>
+        /// Provide the content
+        /// </summary>
+        [ProtoMember(1)]
+        public QueryInfo Content
+        {
+            get
+            {
+                return _content;
+            }
+            set
+            {
+                if (_content != null && value == _content)
+                    return;
+                SetProperty(ref _content, value);
+
+            }
+        }
+
+
+        private bool _isContentSelected;
+        /// <summary>
+        /// IsContentSelected is used to give the status whether the content is selected or not
+        /// </summary>
+        [ProtoMember(2)]
+        public bool IsContentSelected
+        {
+            get
+            {
+                return _isContentSelected;
+            }
+            set
+            {
+                if (value == _isContentSelected)
+                    return;
+                SetProperty(ref _isContentSelected, value);
+            }
+        }
+
+    }
+
 }

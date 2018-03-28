@@ -50,6 +50,6 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
         [Unique]
         public string UnfollowedUsername
         { get; set; }
-
+       
     }
 }

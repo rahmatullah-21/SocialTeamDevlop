@@ -12,7 +12,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         [Index]
         [Column(Order = 1)]
         public int Id { get; set; }
-
+        [Index("IX_AccountUserIDActivityType", 1, IsUnique = true)]
         [Column(Order = 2)]
         public string SinAccUsername { get; set; }
 
@@ -22,7 +22,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 
         [Column(Order = 4)]
         public string QueryValue { get; set; }
-        [Index("IX_UserIDAndActivityType", 2, IsUnique = true)]
+        [Index("IX_AccountUserIDActivityType", 2, IsUnique = true)]
         [Column(Order = 5)]
         public string ActivityType
         { get; set; }
@@ -31,7 +31,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         [Column(Order = 6)]
         public string InteractedUsername { get; set; }
 
-        [Index("IX_UserIDAndActivityType", 1, IsUnique = true)]
+        [Index("IX_AccountUserIDActivityType", 3, IsUnique = true)]
         [Column(Order = 7)]
         public string InteractedUserId { get; set; }
 

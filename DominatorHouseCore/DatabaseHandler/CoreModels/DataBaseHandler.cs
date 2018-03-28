@@ -21,8 +21,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
                 switch (networks)
                 {
-                    case SocialNetworks.Twitter:
-                       
+                    case SocialNetworks.Twitter:                       
                         var initiaThread = new Thread(() => databaseConnection.Count<DominatorHouseCore.DatabaseHandler.TdTables.Accounts.Friendships>()) { IsBackground = true };
                         initiaThread.Start();
                         break;
@@ -30,10 +29,19 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                         var initialGplusThread = new Thread(() => databaseConnection.Count<Friendships>()) { IsBackground = true };
                         initialGplusThread.Start();
                         break;
-
+                    case SocialNetworks.Instagram:
+                        var initialGdThread = new Thread(() => databaseConnection.Count<Friendships>()) { IsBackground = true };
+                        initialGdThread.Start();
+                        break;
+                    case SocialNetworks.Quora:
+                        var initialQdThread = new Thread(() => databaseConnection.Count<Friendships>()) { IsBackground = true };
+                        initialQdThread.Start();
+                        break;
+                    case SocialNetworks.Pinterest:
+                        var initialPdThread = new Thread(() => databaseConnection.Count<PdTables.Accounts.Friendships>()) { IsBackground = true };
+                        initialPdThread.Start();
+                        break;
                 }
-               
-               
             }
             catch (Exception ex)
             {

@@ -58,7 +58,7 @@ namespace DominatorUIUtility.CustomControl
           
             EditComment.Comments.LstQueries.ToList().ForEach(x =>
             {
-                if (EditComment.Comments.SelectedQuery.Contains(x.Content))
+                if (EditComment.Comments.SelectedQuery.Contains(x))
                     x.IsContentSelected = true;
             });
             EditComment.MainGrid.Margin =new Thickness(20);

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -61,6 +62,13 @@ namespace DominatorUIUtility.CustomControl
 
         private void btnAddCommentToList_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(Comments.CommentText))
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
+                    "Please type some comment !!");
+                return;
+            }
+              
             AddCheckedQueryToList();
             if (btnAddCommentToList.Content.ToString() == "Update Comment")
             {
@@ -74,7 +82,7 @@ namespace DominatorUIUtility.CustomControl
                     }
                     return x;
                 });
-                Comments.SelectedQuery.Remove("All");
+                Comments.SelectedQuery.Remove(Comments.SelectedQuery.FirstOrDefault(x=>x.Content.QueryValue=="All"));
                 Comments.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
                 Window.GetWindow(this).Close();
             }
@@ -88,24 +96,21 @@ namespace DominatorUIUtility.CustomControl
 
         private void chkQuery_Checked(object sender, RoutedEventArgs e)
         {
-            if ((sender as CheckBox).Content.ToString() == "All")
-            {
-                CheckUncheckAll(true);
-            }
-
+               CheckUncheckAll(sender,true);
         }
-
-        private void CheckUncheckAll(bool IsChecked)
-        {
-            Comments.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
-        }
-
+       
         private void chkQuery_Unchecked(object sender, RoutedEventArgs e)
         {
-            if ((sender as CheckBox).Content.ToString() == "All")
+                CheckUncheckAll(sender,false);
+        }
+
+        private void CheckUncheckAll(object sender, bool IsChecked)
+        {
+            if (((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue == "All")
             {
-                CheckUncheckAll(false);
+                Comments.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
             }
+
         }
         private void AddCheckedQueryToList()
         {
@@ -113,7 +118,7 @@ namespace DominatorUIUtility.CustomControl
             Comments.LstQueries.ToList().ForEach(query =>
             {
                     if (query.IsContentSelected)
-                    Comments.SelectedQuery.Add(query.Content);
+                    Comments.SelectedQuery.Add(query);
             });
         }
       

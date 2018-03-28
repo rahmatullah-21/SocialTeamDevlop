@@ -11,7 +11,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 {
     // Interface that have to be implemented by certain social network scraper
     // InstagramScraper, PinterestScraper, TwitterScrappr etc.
-    public abstract class AbstractQueryScraper 
+    public abstract class AbstractQueryScraper
     {
         private readonly Dictionary<UserQueryParameters, Action<QueryInfo>> _queryToActionTable;
 
@@ -43,41 +43,46 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 { UserQueryParameters.CustomPin, StartProcessForCustomPin },
                 { UserQueryParameters.NewsFeedPins, StartProcessForNewsFeedPins },
                 { UserQueryParameters.FromSomeonesCircle, StartProcessForSomeonesCircle}
-            };            
+            };
+        }
+
+        protected virtual void StartProcessForFriendofFriend(QueryInfo queryInfo)
+        {
+            
         }
 
         protected virtual void StartProcessForSomeonesCircle(QueryInfo queryInfo) { }
-         protected virtual void StartProcessForBoardFollowers(QueryInfo queryInfo) { }
-         protected virtual void StartProcessForCustomBoards(QueryInfo queryInfo) { }
-         protected virtual void StartProcessForCustomPin(QueryInfo queryInfo) { }
-         protected virtual void StartProcessForNewsFeedPins(QueryInfo queryInfo) { }
-         protected virtual void StartProcessWithKeyword(QueryInfo queryInfo) { }
-         protected virtual void StartProcessWithHashtagUsers(QueryInfo queryInfo) { }
-         protected virtual void StartProcessWithHashtagPosts(QueryInfo queryInfo) { }
-         protected virtual void StartProcessForSomeonesFollowers(QueryInfo queryInfo) { }
-         protected virtual void StartProcessForSomeonesFollowings(QueryInfo queryInfo) { }
-         protected virtual void StartProcessForFollowersOfFollowers(QueryInfo queryInfo) { }
-         protected virtual void StartProcessForFollowersOfFollowings(QueryInfo queryInfo) { }
-         protected virtual void StartProcessWithLocationUsers(QueryInfo queryInfo) { }
-         protected virtual void StartProcessWithLocationPosts(QueryInfo queryInfo) { }
-         protected virtual void StartProcessForCustomUsers(QueryInfo queryInfo) { }
-         protected virtual void StartProcessForSuggestedusers(QueryInfo queryInfo) { }
-         protected virtual void StartProcessWithCustomPhotos(QueryInfo queryInfo) { }
-         protected virtual void StartProcessForMediaLikers(QueryInfo queryInfo) { }
-         protected virtual void StartProcessForMediaCommenters(QueryInfo queryInfo) { }
+        protected virtual void StartProcessForBoardFollowers(QueryInfo queryInfo) { }
+        protected virtual void StartProcessForCustomBoards(QueryInfo queryInfo) { }
+        protected virtual void StartProcessForCustomPin(QueryInfo queryInfo) { }
+        protected virtual void StartProcessForNewsFeedPins(QueryInfo queryInfo) { }
+        protected virtual void StartProcessWithKeyword(QueryInfo queryInfo) { }
+        protected virtual void StartProcessWithHashtagUsers(QueryInfo queryInfo) { }
+        protected virtual void StartProcessWithHashtagPosts(QueryInfo queryInfo) { }
+        protected virtual void StartProcessForSomeonesFollowers(QueryInfo queryInfo) { }
+        protected virtual void StartProcessForSomeonesFollowings(QueryInfo queryInfo) { }
+        protected virtual void StartProcessForFollowersOfFollowers(QueryInfo queryInfo) { }
+        protected virtual void StartProcessForFollowersOfFollowings(QueryInfo queryInfo) { }
+        protected virtual void StartProcessWithLocationUsers(QueryInfo queryInfo) { }
+        protected virtual void StartProcessWithLocationPosts(QueryInfo queryInfo) { }
+        protected virtual void StartProcessForCustomUsers(QueryInfo queryInfo) { }
+        protected virtual void StartProcessForSuggestedusers(QueryInfo queryInfo) { }
+        protected virtual void StartProcessWithCustomPhotos(QueryInfo queryInfo) { }
+        protected virtual void StartProcessForMediaLikers(QueryInfo queryInfo) { }
+        protected virtual void StartProcessForMediaCommenters(QueryInfo queryInfo) { }
 
 
         #region Scrape with no queries methods
 
-        protected abstract void ScrapeToUnfollow();
+        protected virtual void ScrapeToUnfollow() { }
 
         #endregion
 
 
         // Call this method inside override methods of derived class for ignored queries
-        protected void Ignore(QueryInfo queryInfo) =>        
+        protected void Ignore(QueryInfo queryInfo) =>
             GlobusLogHelper.log.Info($"Scrape for '{queryInfo.QueryType}' query ignored");
-                
+
         /// <summary>
         /// Used from DominatorHouseInitializer for certain library
         /// </summary>
@@ -110,7 +115,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 default:
                     throw new NotImplementedException();
             }
-        }        
+        }
     }
 }
 

@@ -69,7 +69,14 @@ namespace DominatorHouseCore.Utility
             string dir = GetPlatformBaseDirectory() + @"\Index\CP";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
-        }            
+        }
+
+        public static string GetCachePathDirectory()
+        {
+            var dir = GetPlatformBaseDirectory() + @"\Cache";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir;
+        }
 
         public static string GetIndexCampaignFile() => GetIndexCampaignDir() + @"\CampaignDetails.bin";
 

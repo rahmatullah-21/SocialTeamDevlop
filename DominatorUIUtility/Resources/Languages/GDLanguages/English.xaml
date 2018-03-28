@@ -1206,7 +1206,7 @@
     <system:String x:Key="langCommentList">Comment Lists</system:String>
     <system:String x:Key="langAddCommentToList">Add Comment To List</system:String>
     <system:String x:Key="GdlangLiveChat">LiveChat</system:String>
-
+    <system:String x:Key="DHlangCollapseAll">Collapse All</system:String>
 
     <!--End Gram Dominator-->
 

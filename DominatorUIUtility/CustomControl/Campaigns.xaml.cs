@@ -411,14 +411,14 @@ namespace DominatorUIUtility.CustomControl
 
         private void AllCampaignChecked_Checked(object sender, RoutedEventArgs e)
         {
-            AllCampaignCheckUnchek(true);
-            SetDefaultView();
+            AllCampaignCheckUncheck(true);
+           
         }
 
         private void AllCampaignChecked_Unchecked(object sender, RoutedEventArgs e)
         {
-            AllCampaignCheckUnchek(false);
-            SetDefaultView();
+            AllCampaignCheckUncheck(false);
+            
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -431,12 +431,12 @@ namespace DominatorUIUtility.CustomControl
             var checkedItem = ((FrameworkElement)sender).DataContext as CampaignDetails;
             objCampaignDetails.ObjCampaignDetails.Select(x =>
             {
-                if (x.CampaignId == checkedItem.CampaignId)
+                if (x.CampaignId == checkedItem?.CampaignId)
                     x.IsCampaignChecked = Ischecked;
                 return x;
             }).ToList();
         }
-        private void AllCampaignCheckUnchek(bool isChecked)
+        private void AllCampaignCheckUncheck(bool isChecked)
         {
             objCampaignDetails.ObjCampaignDetails.Select(x => { x.IsCampaignChecked = isChecked; return x; }).ToList();
         }
@@ -459,6 +459,7 @@ namespace DominatorUIUtility.CustomControl
                 CampaignsFileManager.Delete(camp);
                 objCampaignDetails.ObjCampaignDetails.Remove(camp);
             });
+            objCampaignDetails.IsCampaignChecked = false;
             SetDefaultView();
         }
 
@@ -467,10 +468,11 @@ namespace DominatorUIUtility.CustomControl
             objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(objCampaignDetails.ObjCampaignDetails);
         }
 
-        private void CheckBox_OnUnchecked(object sender, RoutedEventArgs e)
-        {
-            CheckUncheckCampaign(sender, false);
-        }
 
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+        
+            CheckUncheckCampaign(sender, true);
+        }
     }
 }

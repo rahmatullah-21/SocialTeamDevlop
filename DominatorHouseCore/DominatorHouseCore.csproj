@@ -163,7 +163,7 @@
     <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\ModelConfiguration.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\ModelConfiguration.cs" />
     <Compile Include="DatabaseHandler\AccountDB\Tables\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\AccountDB\Tables\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\AccountDB\Tables\Friendship.cs" />
@@ -184,6 +184,7 @@
     <Compile Include="DatabaseHandler\PdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\Friendship.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\UnfollowedUsers.cs" />
@@ -214,6 +215,9 @@
     <Compile Include="Enums\FdQuery\FdProfileScraperQuery.cs" />
     <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
     <Compile Include="Enums\Gender.cs" />
+    <Compile Include="Enums\LdQuery\LDGroupQueryParameters.cs" />
+    <Compile Include="Enums\LdQuery\LDGrowConnectionUserQueryParameters.cs" />
+    <Compile Include="Enums\LdQuery\LDScraperUserQueryParameters.cs" />
     <Compile Include="Enums\MediaType.cs" />
     <Compile Include="Enums\QdQuery\AnswerQueryParameters.cs" />
     <Compile Include="Enums\QdQuery\QuestionQueryParameters.cs" />
@@ -227,6 +231,7 @@
     <Compile Include="FileManagers\TemplatesFileManager.cs" />
     <Compile Include="BusinessLogic\Scraper\AbstractQueryScraper.cs" />
     <Compile Include="Interfaces\IAccountGrowthModeHeader.cs" />
+    <Compile Include="Interfaces\IGroup.cs" />
     <Compile Include="Interfaces\IJobConfiguration.cs" />
     <Compile Include="Interfaces\IGeneralSettings.cs" />
     <Compile Include="BusinessLogic\Scheduler\IJobProcessFactory.cs" />
@@ -340,7 +345,6 @@
     <Folder Include="DatabaseHandler\FdTables\" />
     <Folder Include="DatabaseHandler\GplusTables\Campaigns\" />
     <Folder Include="Enums\GdQuery\" />
-    <Folder Include="Enums\LdQuery\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets')" />

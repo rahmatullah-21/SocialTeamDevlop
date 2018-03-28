@@ -93,8 +93,8 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 case SocialNetworks.Instagram:
                     SelectedUserControl = GramDominatorUI.TabManager.ToolTabs.GetSingletonToolTabs();
                     var data = FollowConfiguration.GetSingeltonObjectFollowConfiguration();
-                    data.accountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers(SocialNetworks.Instagram);
-                    data.accountGrowthHeader.SelectedItem = selectedAccounts;
+                    data.AccountGrowthHeader.AccountItemSource = AccountsFileManager.GetUsers(SocialNetworks.Instagram);
+                    data.AccountGrowthHeader.SelectedItem = selectedAccounts;
                     SelectedDominatorAccounts.GdAccounts = selectedAccounts;
                     break;
                 case SocialNetworks.Twitter:

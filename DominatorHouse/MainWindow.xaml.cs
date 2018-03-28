@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,7 +25,17 @@ using MahApps.Metro.Controls;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.BusinessLogic;
 // using FaceDominatorCore.FDLibrary;
+using DominatorUIUtility;
+//using EmbeddedBrowser;
+//using FaceDominatorCore.FDFactories;
+//using FaceDominatorCore.FDLibrary;
+//using FaceDominatorCore.FDLibrary.FdProcesses;
+using FluentScheduler;
+//using GplusDominatorCore.GpDFactories;
+using GramDominatorCore.Factories;
 using GramDominatorUI.TabManager;
+//using PinDominatorCore.Factories;
+//using TwtDominatorCore.Factories;
 
 #endregion
 
@@ -56,47 +67,47 @@ namespace DominatorHouse
 
             MainTabControl.ItemsSource = InitializeAllTabs();
 
-
             // Init UI delegates            
             CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
                     DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg,
                                     MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
 
-
-
-           TabSwitcher.ChangeTabIndex = ChangeTabIndex;
             TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
             TabSwitcher.SelectMainTab = SelectMainIndex;
-
+            AccountAddUpdate.UpdateGDAccount = GramDominatorCore.GDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount;
+           // AccountAddUpdate.UpdateQDAccount = QuoraDominatorCore.ViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount;
             // Log strated
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
 
+            TabSwitcher.ChangeTabIndex = (mainTabIndex, subTabIndex) =>
+            {
+                MainTabControl.SelectedIndex = mainTabIndex;
+
+                if (subTabIndex == null)
+                    return;
+
+                var selectedTabObject = (MainTabControl.SelectedContent as TabItemTemplates).Content.Value;
+
+                (selectedTabObject as dynamic).setIndex((int)subTabIndex);
+            };
+
+
+            TabSwitcher.GoToCampaign = ()
+                => MainTabControl.SelectedIndex = TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
             ConfigFileManager.ApplyTheme();
 
-            Task performanceTask = new Task(() => StartbindMemory(),
-            TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
+            var performanceTask = new Task(StartbindMemory,TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
             performanceTask.Start();
 
-#if SKIP_DELAYS
-            cmbSocialNetwork.SelectedIndex = 1;     // Go to instagram
-            ChangeTabIndex(1, 1);       // unfollower
-#endif
-            #region commeted - start todays jobs
-            //Task.Factory.StartNew(() =>
-            //{
-            //    DateTime NextDayTime = DateTime.Now.AddDays(1);
-            //    accountManagerViewModel.InitialAccountDetails();
-
-            //    JobManager.AddJob(() =>
-            //        accountManagerViewModel.InitialAccountDetails(),
-            //        x => x.ToRunOnceAt(new DateTime(NextDayTime.Year, NextDayTime.Month, NextDayTime.Day,
-            //            0, 0, 1)
-            //        ).AndEvery(1).Days());
-            //}); 
-            #endregion
+            Task.Factory.StartNew(() =>
+            {             
+                JobManager.AddJob(() => InitializeJobCores("License"),x=>x.ToRunNow());                                              
+            });
 
             DialogParticipation.SetRegister(this, this);
+
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
+
         }
 
 
@@ -364,10 +375,12 @@ namespace DominatorHouse
         }
 
         public List<TabItemTemplates> InitializeAllTabs()
-        {
+     {
             AccountCustomControl AccountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
 
             AccountCustomControl.DominatorAccountViewModel.action_CheckAccount = action_CheckAccount;
+
+            AccountCustomControl.DominatorAccountViewModel.AccountBrowserLogin = AccountBrowserLogin;
 
             return new List<TabItemTemplates>
             {
@@ -505,5 +518,127 @@ namespace DominatorHouse
 
 
 
+        public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
+        {
+            //BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel);
+            //browserWindow.Show();
+          
+
+        }
+
+
+        public void InitializeJobCores(string license)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var nextDayTime = DateTime.Now.AddDays(1);
+
+               JobManager.AddJob(() => InitializeJobCores("License"),
+                    x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1)).AndEvery(1).Days());
+            });
+
+            // get all available networks from license          
+            var availablNetworks = new List<SocialNetworks>
+            {
+                SocialNetworks.Social,
+                SocialNetworks.Facebook,
+                SocialNetworks.Instagram,
+                SocialNetworks.Twitter
+            };
+
+            var socialNetworkObject = new List<DominatorHouseInitializer.LibraryCoreObjects>();
+
+            foreach (var network in availablNetworks)
+            {
+                switch (network)
+                {
+                    case SocialNetworks.Facebook:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        {
+                            //JobProcessFactory = FdJobProcessFactory.Instance,
+                            //QueryScraperFactory = FdScraperFactory.Instance,
+                            //Network = SocialNetworks.Facebook,
+                            //MainWindow = this
+                        });
+                        break;
+                    case SocialNetworks.Instagram:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects
+                        {
+                            JobProcessFactory = GdJobProcessFactory.Instance,
+                            QueryScraperFactory = GdScraperFactory.Instance,
+                            Network = SocialNetworks.Instagram,
+                            MainWindow = this
+                        });
+                        break;
+                    case SocialNetworks.Twitter:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects
+                        {
+                            //JobProcessFactory = TdJobProcessFactory.Instance,
+                            //QueryScraperFactory = TdScraperFactory.Instance,
+                            //Network = SocialNetworks.Twitter,
+                            //MainWindow = this
+                        });
+                        break;
+                    case SocialNetworks.Pinterest:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects
+                        {
+                            //JobProcessFactory = PdJobProcessFactory.Instance,
+                            //QueryScraperFactory = PdScraperFactory.Instance,
+                            //Network = SocialNetworks.Pinterest,
+                            //MainWindow = this
+                        });
+                        break;
+                    case SocialNetworks.LinkedIn:
+                        //socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects()
+                        //{
+                        //    JobProcessFactory = LDJobProcessFactory.Instance,
+                        //    QueryScraperFactory = LDScraperFactory.Instance,
+                        //    Network = SocialNetworks.LinkedIn,
+                        //    MainWindow = this
+                        //});
+                        break;
+                    case SocialNetworks.Reddit:
+                        
+                        break;
+                    case SocialNetworks.Social:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects
+                        {
+                            JobProcessFactory = DominatorJobProcessFactory.Instance,
+                            QueryScraperFactory = DominatorScraperFactory.Instance,
+                            Network = SocialNetworks.Social,
+                            MainWindow = this
+                        });
+                        break;
+                    case SocialNetworks.Quora:                        
+                        break;
+                    case SocialNetworks.Gplus:
+                        socialNetworkObject.Add(new DominatorHouseInitializer.LibraryCoreObjects
+                        {
+                            //JobProcessFactory = GpDProcessFactory.Instance,
+                            //QueryScraperFactory = GpDScraperFactory.Instance,
+                            //Network = SocialNetworks.Gplus,
+                            //MainWindow = this
+                        });
+                        break;
+                    case SocialNetworks.Youtube:                       
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            DominatorHouseInitializer.SocialNetworkRegister(socialNetworkObject);
+
+            var accountDetails = AccountsFileManager.GetAll();
+
+            foreach (var account in accountDetails)
+            {
+                foreach (var modulesConfiguration in account.ActivityManager.LstModuleConfiguration)
+                {                   
+                        DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, modulesConfiguration.ActivityType);
+                        DominatorScheduler.ScheduleForEachModule(moduleToIgnore: modulesConfiguration.ActivityType, account: account, network: account.AccountBaseModel.AccountNetwork);
+                }
+            }
+        }
     }
 }

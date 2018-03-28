@@ -34,7 +34,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Twitter,Instagram")]
         Message = 10,
 
-        [Description("Facebook,Twitter,Instagram,Gplus")]
+        [Description("Facebook,Twitter,Instagram,Gplus,LinkedIn")]
         UserScraper = 11,
 
         [Description("Twitter,Instagram")]
@@ -94,7 +94,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         PostScraper = 30,
 
-        [Description("Facebook")]
+        [Description("Facebook,LinkedIn")]
         GroupJoiner = 31,
 
         [Description("Facebook")]
@@ -147,5 +147,23 @@ namespace DominatorHouseCore.Enums
          
         [Description("Facebook")]
         MakeAdmin=49,
+
+        [Description("LinkedIn")]
+        ConnectionRequest = 50,
+          
+        [Description("YouTube")]
+        Subscribe = 51,
+
+        [Description("Facebook,Youtube")]
+        Share = 52,
+
+        [Description("YouTube")]
+        LikeComments = 53,
+
+        [Description("YouTube")]
+        UnSubscribe = 54,
+
+        [Description("YouTube")]
+        ViewIncreaser = 55
     }
 }

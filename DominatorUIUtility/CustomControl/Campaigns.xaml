@@ -50,12 +50,14 @@
                     <GridView>
                         <GridView.Columns>
                             <GridViewColumn Width="100">
-                                <CheckBox Name="AllCampaignChecked" Content=" #" Checked="AllCampaignChecked_Checked"
+                                <CheckBox x:Name="AllCampaignChecked" IsChecked="{Binding IsCampaignChecked}" Content=" #" Checked="AllCampaignChecked_Checked"
                                           Unchecked="AllCampaignChecked_Unchecked"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <CheckBox IsChecked="{Binding IsCampaignChecked}" Margin="5,0,0,0" Checked="CheckBox_Checked" Unchecked="CheckBox_OnUnchecked"/>
+                                            <CheckBox IsChecked="{Binding IsChecked,ElementName=AllCampaignChecked,Mode=OneWay}" 
+                                                      Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"
+                                                      Margin="5,0,0,0" />
                                             <Label Content="{Binding RelativeSource={RelativeSource FindAncestor, 
                                                    AncestorType={x:Type ListViewItem}}, 
                                                    Converter={StaticResource ListViewItemIndexConverter}}"/>

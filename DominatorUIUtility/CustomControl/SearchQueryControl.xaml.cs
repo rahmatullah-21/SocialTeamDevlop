@@ -23,8 +23,8 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();           
             CurrentQuery = new QueryInfo();          
             MainGrid.DataContext = this;
-               
-            AddQueryCommand = new BaseCommand<object>(CanExecute, Execute);
+            IsExpanded = true;
+         AddQueryCommand = new BaseCommand<object>(CanExecute, Execute);
            
         }
 
@@ -221,13 +221,19 @@ namespace DominatorUIUtility.CustomControl
 
         private void DeleteSingle_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var currentRow = ((FrameworkElement)sender).DataContext as QueryInfo;
+            //var currentRow = ((FrameworkElement)sender).DataContext as QueryInfo;
 
-            if (ListQueryInfo.Any(x => currentRow != null && x.Id == currentRow.Id))
-            {
-                ListQueryInfo.Remove(currentRow);
-            }
+            //if (ListQueryInfo.Any(x => currentRow != null && x.Id == currentRow.Id))
+            //{
+            //    ListQueryInfo.Remove(currentRow);
+            //}
+            //DeleteQueryEventHandler();
+            CurrentQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
             DeleteQueryEventHandler();
+            if (ListQueryInfo.Any(x => CurrentQuery != null && x.Id == CurrentQuery.Id))
+            {
+                ListQueryInfo.Remove(CurrentQuery);
+            }
         }
 
         #endregion
@@ -264,7 +270,18 @@ namespace DominatorUIUtility.CustomControl
             AddQueryEventHandler();
         }
 
-       
+        public bool IsExpanded
+        {
+            get { return (bool)GetValue(IsExpandedProperty); }
+            set { SetValue(IsExpandedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsExpanded.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsExpandedProperty =
+            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            {
+                BindsTwoWayByDefault = true
+            });
     }
 
     

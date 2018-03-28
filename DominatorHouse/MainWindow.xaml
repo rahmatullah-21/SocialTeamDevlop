@@ -1,16 +1,15 @@
-﻿<Controls:MetroWindow
+﻿<controls:MetroWindow
         x:Class="DominatorHouse.MainWindow"
-        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DominatorHouse"
         xmlns:dockable="http://dragablz.net/winfx/xaml/dockablz"
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
-        BorderThickness="1"
+        BorderThickness="1" Icon="Images/SociNator.ico"
         Title="{DynamicResource langDominatorSocial}" 
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"
@@ -29,8 +28,8 @@
         </ResourceDictionary>
     </Window.Resources>
     <!--Manage Networks Here -->
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" >
                 <ComboBoxItem>Social</ComboBoxItem>
                 <ComboBoxItem>Instagram</ComboBoxItem>
@@ -40,15 +39,15 @@
                 <ComboBoxItem>Quora</ComboBoxItem>
                 <ComboBoxItem>Facebook</ComboBoxItem>
                 <ComboBoxItem>Gplus</ComboBoxItem>
-                <ComboBoxItem>YouTube</ComboBoxItem>
+                <ComboBoxItem>Youtube</ComboBoxItem>
                 <ComboBoxItem>Reddit</ComboBoxItem>
             </ComboBox>
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbLanguage" >
                 <ComboBoxItem>English</ComboBoxItem>
                 <ComboBoxItem>Portuguese</ComboBoxItem>
             </ComboBox>
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
     <Grid Name="MainGrid" >
 
         <Grid.RowDefinitions>
@@ -59,7 +58,7 @@
         </Grid.RowDefinitions>
 
         <!--Account Growth Mode Tabs-->
-        <TabControl  Controls:TabControlHelper.Underlined="None" TabStripPlacement="Left" SelectedIndex="0"
+        <TabControl  controls:TabControlHelper.Underlined="None" TabStripPlacement="Left" SelectedIndex="0"
                    Name="MainTabControl" VerticalAlignment="Stretch" >
 
             <TabControl.Resources>
@@ -104,7 +103,7 @@
                       ResizeDirection="Rows"/>
 
         <!--<Button Content="Test Switch" Click="TestSwitchButton_Click" Width="100" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>-->
-        
+
         <Grid Name="Logger" Grid.Row="2">
             <dockable:Layout  Name="RootLayout">
                 <dragable:TabablzControl x:Name="InitialTabablzControl"  Style="{StaticResource TabablzControlStyle}" MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" >
@@ -198,4 +197,7 @@
         </Grid>
 
     </Grid>
-</Controls:MetroWindow>
+</controls:MetroWindow>
+
+
+
