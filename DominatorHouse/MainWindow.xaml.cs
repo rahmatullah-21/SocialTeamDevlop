@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Management;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -56,6 +57,8 @@ namespace DominatorHouse
 
         public MainWindow()
         {
+            FeatureLists featureList = new FeatureLists();
+
             DominatorHouseCore.Diagnostics.SocinatorInitialize.LogInitializer(this);
             InitializeComponent();
             SocinatorWindow.DataContext = this;
@@ -213,7 +216,7 @@ namespace DominatorHouse
 
         public void TabInitialize(SocialNetworks network)
         {
-            var tabHandler = SocinatorInitialize.GetSocialLibrary(network).TabHandlerFactory;
+            var tabHandler = SocinatorInitialize.GetSocialLibrary(network).GetNetworkCoreFactory().TabHandlerFactory;
             MainTabControl.ItemsSource = TabItems = tabHandler.NetworkTabs;
             Title = tabHandler.NetworkName;
             tabHandler.StartAccountCustomControl(network);
@@ -231,7 +234,7 @@ namespace DominatorHouse
 
             if (textBlockDetails.Text == FindResource("langAutoActivity").ToString())
             {
-                var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).AccountUserControlTools;
+                var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory().AccountUserControlTools;
                 accountUi.GetStartupToolsView();
             }
             //  DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
@@ -296,46 +299,18 @@ namespace DominatorHouse
             {
                 SocialNetworks.Social,
                 SocialNetworks.Facebook,
-                SocialNetworks.Instagram,
-                SocialNetworks.Twitter,
-                SocialNetworks.Gplus
             };
-
-            var socialNetworkObject = new List<NetworkCoreLibrary>();
-
+         
             foreach (var network in AvailableNetworks)
-                switch (network)
-                {
-                    case SocialNetworks.Facebook:
-                        socialNetworkObject.Add(FdCoreBuilder.Instance.GetFdCoreObjects());
-                        break;
-                    case SocialNetworks.Instagram:
-                        break;
-                    case SocialNetworks.Twitter:
-                        break;
-                    case SocialNetworks.Pinterest:
-                        break;
-                    case SocialNetworks.LinkedIn:
-                        break;
-                    case SocialNetworks.Reddit:
-                        break;
-                    case SocialNetworks.Social:
-                        socialNetworkObject.Add(DominatorCoreBuilder.Instance.GetDominatorCoreObjects());
-                        break;
-                    case SocialNetworks.Quora:
-                        break;
-                    case SocialNetworks.Gplus:
-                        break;
-                    case SocialNetworks.Youtube:
-                        break;
-                    case SocialNetworks.Tumblr:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-            SocinatorInitialize.SocialNetworkRegister(socialNetworkObject);
-
+            {
+                var networkNamespace = SocinatorInitialize.GetNetworksNamespace(network);
+                var networkAssembly = Assembly.Load(networkNamespace);
+                var networkFullNameSpace = $"{networkNamespace}.Factories.{network}NetworkCollectionFactory";
+                var networkTypes =networkAssembly.GetType(networkFullNameSpace);
+                var networkCoreFactory = (INetworkCollectionFactory) Activator.CreateInstance(networkTypes);
+                SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);               
+            }
+           
             var accountDetails = AccountsFileManager.GetAll();
 
             foreach (var account in accountDetails)
@@ -362,7 +337,7 @@ namespace DominatorHouse
         public void AccountStatusChecker(DominatorAccountModel dominatorAccountModel)
         {
             var accountUpdateFactory = SocinatorInitialize.GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                .AccountUpdateFactory;
+                .GetNetworkCoreFactory().AccountUpdateFactory;
             accountUpdateFactory.CheckStatus(dominatorAccountModel);
         }
 

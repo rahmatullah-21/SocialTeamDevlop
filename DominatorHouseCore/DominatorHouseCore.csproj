@@ -212,6 +212,8 @@
     <Compile Include="Diagnostics\Exceptions\ThreadFactory.cs" />
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
+    <Compile Include="Interfaces\INetworkCollectionFactory.cs" />
+    <Compile Include="Interfaces\INetworkCoreFactory.cs" />
     <Compile Include="Diagnostics\SocinatorInitialize.cs" />
     <Compile Include="Diagnostics\UI\UIDiagnostic.cs" />
     <Compile Include="Enums\ActivityType.cs" />
@@ -306,6 +308,7 @@
     <Compile Include="DatabaseHandler\CoreModels\DataBaseHandler.cs" />
     <Compile Include="Utility\DateTimeHelper.cs" />
     <Compile Include="Utility\EnumUtility.cs" />
+    <Compile Include="Utility\FeatureLists.cs" />
     <Compile Include="Utility\GridViewBehaviors.cs" />
     <Compile Include="Utility\GridViewColumns.cs" />
     <Compile Include="Utility\IEnumerableExtensions.cs" />

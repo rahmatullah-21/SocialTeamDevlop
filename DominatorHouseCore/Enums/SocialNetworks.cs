@@ -16,7 +16,6 @@ namespace DominatorHouseCore.Enums
         Gplus,
         Youtube,
         Tumblr
-
     }
 
     

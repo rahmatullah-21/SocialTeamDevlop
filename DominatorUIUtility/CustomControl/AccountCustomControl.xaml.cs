@@ -42,16 +42,11 @@ namespace DominatorUIUtility.CustomControl
 
         private AccountCustomControl()
         {
-
             InitializeComponent();
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;
-
         }
-
-
-
 
         private static AccountCustomControl _accountCustomInstance = null;
 
@@ -70,24 +65,23 @@ namespace DominatorUIUtility.CustomControl
 
         public static AccountCustomControl GetAccountCustomControl()
         {
-            if (_accountCustomInstance == null)
-            {
-                _accountCustomInstance = new AccountCustomControl();
-            }
-            return _accountCustomInstance;
+            return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl());
         }
 
         private void GetRespectiveAccounts(SocialNetworks socialNetworks)
         {
             var listCollection = (ListCollectionView)DominatorAccountViewModel.AccountCollectionView;
 
-            listCollection.Filter = socialNetworks == SocialNetworks.Social ? null
-                : new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == socialNetworks);
+            listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == socialNetworks;
+
+            if (socialNetworks == SocialNetworks.Social)
+                listCollection.Filter = null;
 
             var networkAccountCountFactory = socialNetworks == SocialNetworks.Social
-                ? DominatorAccountCountFactory.Instance
-                : SocinatorInitialize.GetSocialLibrary(socialNetworks)
-                    .AccountCountFactory;
+                  ? DominatorAccountCountFactory.Instance
+                  : SocinatorInitialize.GetSocialLibrary(socialNetworks)
+                  .GetNetworkCoreFactory()
+                  .AccountCountFactory;
 
             DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = networkAccountCountFactory.HeaderColumn1Visiblity;
             DominatorAccountViewModel.GridHeaderColumn1.Header = networkAccountCountFactory.HeaderColumn1Value;
@@ -98,7 +92,6 @@ namespace DominatorUIUtility.CustomControl
             DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = networkAccountCountFactory.HeaderColumn1Visiblity;
             DominatorAccountViewModel.GridHeaderColumn4.Header = networkAccountCountFactory.HeaderColumn2Value;
             DominatorAccountViewModel.SocialNetwork = socialNetworks;
-           
         }
 
         private void MangeblacklistedContextMenu_Click(object sender, RoutedEventArgs e)

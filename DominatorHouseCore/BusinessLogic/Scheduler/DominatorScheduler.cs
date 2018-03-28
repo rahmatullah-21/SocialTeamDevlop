@@ -32,7 +32,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
        /// <param name="module"></param>
         public static void RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange, string module)
         {
-            _activeJobProcessFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).JobProcessFactory;
+            _activeJobProcessFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).GetNetworkCoreFactory().JobProcessFactory;
 
             var id = JobProcess.AsId(account.AccountBaseModel.UserName, templateId);
 

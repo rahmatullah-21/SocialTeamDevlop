@@ -52,7 +52,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
         public void CallRespectiveView(SocialNetworks networks)
         {
-            var accountToolsView = SocinatorInitialize.GetSocialLibrary(networks).AccountUserControlTools;
+            var accountToolsView = SocinatorInitialize.GetSocialLibrary(networks).GetNetworkCoreFactory().AccountUserControlTools;
             SelectedUserControl = accountToolsView.GetStartupToolsView();
 
             if(networks==SocialNetworks.Social)
