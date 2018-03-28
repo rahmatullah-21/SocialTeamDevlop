@@ -46,7 +46,8 @@ namespace DominatorHouseCore.Diagnostics
 
         static bool _isInitialized = false;
 
-        private static Dictionary<SocialNetworks, LibraryCoreObjects> _registeredLibraries = new Dictionary<SocialNetworks, LibraryCoreObjects>();
+        private static Dictionary<SocialNetworks, LibraryCoreObjects> _registeredLibraries  =
+            new Dictionary<SocialNetworks, LibraryCoreObjects>();
 
         public static LibraryCoreObjects ActiveLibrary { get; private set; }
 

@@ -53,9 +53,9 @@ namespace DominatorUIUtility.CustomControl
 
         private void SetDataContext()
         {
-            var data = CampaignsFileManager.GetCampaignByNetwork(DominatorHouseInitializer.ActiveSocialNetwork);
+            var data = CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork);
 
-            SetComboBoxItemSource(DominatorHouseInitializer.ActiveSocialNetwork.ToString());
+            SetComboBoxItemSource(SocinatorInitialize.ActiveSocialNetwork.ToString());
 
             MainGrid.DataContext = objCampaignDetails;
 
@@ -148,8 +148,8 @@ namespace DominatorUIUtility.CustomControl
         private void ToggleActivatePause_Campaign(object sender, EventArgs e)
         {
             objCampaignDetails.ObjCampaignDetails =
-                new ObservableCollectionBase<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(DominatorHouseInitializer.ActiveSocialNetwork));
-            var lstAccountDetails = AccountsFileManager.GetAll(DominatorHouseInitializer.ActiveSocialNetwork);
+                new ObservableCollectionBase<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
+            var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
 
             var selectedCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
             if (selectedCampaign == null)
@@ -251,9 +251,9 @@ namespace DominatorUIUtility.CustomControl
             CampaignsFileManager.Delete(campaign);
 
             objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(
-                CampaignsFileManager.GetCampaignByNetwork(DominatorHouseInitializer.ActiveSocialNetwork));
+                CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
 
-            var allAccounts = AccountsFileManager.GetAll(DominatorHouseInitializer.ActiveSocialNetwork);
+            var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
 
             // remove template from each account
             allAccounts.ForEach(x =>
@@ -401,13 +401,13 @@ namespace DominatorUIUtility.CustomControl
 
             if (!CmbCampaignType.SelectedItem.Equals("All"))
             {
-                moduleWiseDetail = CampaignsFileManager.GetCampaignByNetwork(DominatorHouseInitializer.ActiveSocialNetwork)
+                moduleWiseDetail = CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork)
                        .Where(x => x.SubModule == CmbCampaignType.SelectedItem.ToString()).ToList();
 
             }
             else
             {
-                moduleWiseDetail = CampaignsFileManager.GetCampaignByNetwork(DominatorHouseInitializer.ActiveSocialNetwork);
+                moduleWiseDetail = CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork);
             }
             objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(moduleWiseDetail);
             objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(objCampaignDetails.ObjCampaignDetails);

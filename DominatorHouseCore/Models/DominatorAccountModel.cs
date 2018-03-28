@@ -239,6 +239,8 @@ namespace DominatorHouseCore.Models
         public Dictionary<string, string> ExtraParameters { get; set; }
             = new Dictionary<string, string>();
 
+        [ProtoIgnore]
+        public FeatureLists FeatureLists { get; set; } = new FeatureLists();
 
     }
 }

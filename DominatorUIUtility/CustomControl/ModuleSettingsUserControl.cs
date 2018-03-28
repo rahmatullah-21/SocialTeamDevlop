@@ -45,7 +45,7 @@ namespace DominatorUIUtility.CustomControl
         AccountGrowthModeHeader _accountGrowthModeHeader;
         ActivityType _activityType;
         string _moduleName;
-        SocialNetworks _socialNetwork => DominatorHouseInitializer.ActiveSocialNetwork;
+        SocialNetworks _socialNetwork => SocinatorInitialize.ActiveSocialNetwork;
 
         bool _initialized = false;
 

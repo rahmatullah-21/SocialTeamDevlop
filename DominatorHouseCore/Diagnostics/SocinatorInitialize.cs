@@ -20,7 +20,8 @@ namespace DominatorHouseCore.Diagnostics
         private static Dictionary<SocialNetworks, string> NetworksNamespace { get; set; } = new Dictionary<SocialNetworks, string>()
         {
             {SocialNetworks.Social,"DominatorHouse" },
-            {SocialNetworks.Facebook,"FaceDominatorUI"}
+            {SocialNetworks.Facebook,"FaceDominatorUI"},
+            {SocialNetworks.Twitter,"TwtDominatorUI"}
         };
 
         public static string GetNetworksNamespace(SocialNetworks networks)
@@ -32,9 +33,19 @@ namespace DominatorHouseCore.Diagnostics
 
         public static INetworkCollectionFactory ActiveNetwork { get; private set; }
 
-        public static SocialNetworks ActiveSocialNetwork
-            => ActiveNetwork.GetNetworkCoreFactory().Network;
+        public static SocialNetworks ActiveSocialNetwork => GetActiveSocialNetwork();
 
+        private static SocialNetworks GetActiveSocialNetwork()
+        {
+            try
+            {
+                return ActiveNetwork.GetNetworkCoreFactory().Network;
+            }
+            catch (Exception e)
+            {
+                return SocialNetworks.Social;
+            }
+        }
         public static INetworkCollectionFactory GetSocialLibrary(SocialNetworks networks)
         {
             return RegisteredNetworks.Count != 0 ? RegisteredNetworks[networks] : null;

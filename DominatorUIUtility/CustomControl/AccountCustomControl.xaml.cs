@@ -51,7 +51,7 @@ namespace DominatorUIUtility.CustomControl
         private static AccountCustomControl _accountCustomInstance = null;
 
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks)
-        {
+       {
             if (_accountCustomInstance == null)
             {
                 _accountCustomInstance = new AccountCustomControl();

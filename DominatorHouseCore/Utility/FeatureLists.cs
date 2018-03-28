@@ -11,6 +11,7 @@ namespace DominatorHouseCore.Utility
         AccountUpdateDetails = 4,
         AccountCount = 5
     }
+
     public class FeatureLists
     {
         public Dictionary<string, bool> Flags { get; set; }

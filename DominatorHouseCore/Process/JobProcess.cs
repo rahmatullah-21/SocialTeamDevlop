@@ -362,7 +362,7 @@ namespace DominatorHouseCore.Process
                 var task = ThreadFactory.Instance.Start(() =>
                 {
                     GlobusLogHelper.log.Info(
-                        $"{ActivityType} process started with {DominatorHouseInitializer.ActiveSocialNetwork} account [{AccountName}]");
+                        $"{ActivityType} process started with {SocinatorInitialize.ActiveSocialNetwork} account [{AccountName}]");
                   
                     // Login and run scraper/poster from derived concrete classes
                     if (Login())

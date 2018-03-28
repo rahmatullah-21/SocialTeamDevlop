@@ -57,9 +57,8 @@ namespace DominatorHouse
 
         public MainWindow()
         {
-            FeatureLists featureList = new FeatureLists();
-
-            DominatorHouseCore.Diagnostics.SocinatorInitialize.LogInitializer(this);
+            SocinatorInitialize.LogInitializer(this);
+            GlobusLogHelper.log.Info("Welcome to Socinator");
             InitializeComponent();
             SocinatorWindow.DataContext = this;
             SocinatorInitializer();
@@ -103,8 +102,6 @@ namespace DominatorHouse
             TabSwitcher.GoToCampaign = ()
                 => MainTabControl.SelectedIndex =
                     TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
-
-
 
             DialogParticipation.SetRegister(this, this);
 
@@ -200,8 +197,6 @@ namespace DominatorHouse
         #endregion
 
 
-
-
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (MainTabControl == null)
@@ -236,8 +231,7 @@ namespace DominatorHouse
             {
                 var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory().AccountUserControlTools;
                 accountUi.GetStartupToolsView();
-            }
-            //  DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+            }            
         }
 
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -299,6 +293,7 @@ namespace DominatorHouse
             {
                 SocialNetworks.Social,
                 SocialNetworks.Facebook,
+                SocialNetworks.Twitter
             };
          
             foreach (var network in AvailableNetworks)
