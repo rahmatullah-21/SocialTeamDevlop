@@ -85,12 +85,12 @@ namespace DominatorUIUtility.CustomControl
 
             DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = networkAccountCountFactory.HeaderColumn1Visiblity;
             DominatorAccountViewModel.GridHeaderColumn1.Header = networkAccountCountFactory.HeaderColumn1Value;
-            DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = networkAccountCountFactory.HeaderColumn1Visiblity;
+            DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = networkAccountCountFactory.HeaderColumn2Visiblity;
             DominatorAccountViewModel.GridHeaderColumn2.Header = networkAccountCountFactory.HeaderColumn2Value;
-            DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = networkAccountCountFactory.HeaderColumn1Visiblity;
-            DominatorAccountViewModel.GridHeaderColumn3.Header = networkAccountCountFactory.HeaderColumn2Value;
-            DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = networkAccountCountFactory.HeaderColumn1Visiblity;
-            DominatorAccountViewModel.GridHeaderColumn4.Header = networkAccountCountFactory.HeaderColumn2Value;
+            DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = networkAccountCountFactory.HeaderColumn3Visiblity;
+            DominatorAccountViewModel.GridHeaderColumn3.Header = networkAccountCountFactory.HeaderColumn3Value;
+            DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = networkAccountCountFactory.HeaderColumn4Visiblity;
+            DominatorAccountViewModel.GridHeaderColumn4.Header = networkAccountCountFactory.HeaderColumn4Value;
             DominatorAccountViewModel.SocialNetwork = socialNetworks;
         }
 

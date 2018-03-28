@@ -48,8 +48,8 @@
         </Grid.RowDefinitions>
 
         <!--Account Growth Mode Tabs-->
-        <TabControl  controls:TabControlHelper.Underlined="None" TabStripPlacement="Left" SelectedIndex="0"
-                   Name="MainTabControl" VerticalAlignment="Stretch" >
+        <TabControl  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedIndex="0"
+                   Name="MainTabControl" VerticalAlignment="Stretch" ItemsSource="{Binding TabItems}">
 
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabItem}">

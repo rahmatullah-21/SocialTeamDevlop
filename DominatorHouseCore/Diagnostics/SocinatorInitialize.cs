@@ -17,6 +17,24 @@ namespace DominatorHouseCore.Diagnostics
         private static Dictionary<SocialNetworks, INetworkCollectionFactory> RegisteredNetworks { get; } =
             new Dictionary<SocialNetworks, INetworkCollectionFactory>();
 
+        public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();
+        
+        public static HashSet<SocialNetworks> GetAvailableSocialNetworks(string license)
+        {
+            //TODO : Get all available networks from license                
+            AvailableNetworks = new HashSet<SocialNetworks>
+            {
+                SocialNetworks.Social,
+                SocialNetworks.Facebook,
+                SocialNetworks.Twitter
+            };
+
+            return AvailableNetworks;
+        }
+            
+
+
+
         private static Dictionary<SocialNetworks, string> NetworksNamespace { get; set; } = new Dictionary<SocialNetworks, string>()
         {
             {SocialNetworks.Social,"DominatorHouse" },

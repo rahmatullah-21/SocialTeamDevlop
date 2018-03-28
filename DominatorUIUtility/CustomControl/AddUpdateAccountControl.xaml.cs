@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 
@@ -70,7 +71,7 @@ namespace DominatorUIUtility.CustomControl
 
             if (socialNetwork==SocialNetworks.Social.ToString())
             {
-                foreach (var item in Enum.GetValues(typeof(SocialNetworks)))
+                foreach (var item in SocinatorInitialize.AvailableNetworks)
                 {
                     ComboBoxSocialNetworks.Items.Add(item);
                 }
