@@ -5,6 +5,9 @@ using ProtoBuf;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Request;
 using Newtonsoft.Json;
 
@@ -16,7 +19,7 @@ namespace DominatorHouseCore.Models
     /// </summary>
     [ProtoContract]
     public sealed class DominatorAccountModel : BindableBase
-    {        
+    {
         private DominatorAccountBaseModel _accountBaseModel;
         /// <summary>
         /// AccountBaseModel contains the base information of the account
@@ -61,17 +64,17 @@ namespace DominatorHouseCore.Models
         [ProtoMember(4)]
         public bool IsAccountSelected { get; set; }
 
-        private bool _bIsAccountManagerAccountSelected;
+        private bool _IsAccountManagerAccountSelected;
 
         [ProtoMember(5)]
         public bool IsAccountManagerAccountSelected
         {
-            get { return _bIsAccountManagerAccountSelected; }
+            get { return _IsAccountManagerAccountSelected; }
             set
             {
-                if (_bIsAccountManagerAccountSelected == value)
+                if (_IsAccountManagerAccountSelected == value)
                     return;
-                _bIsAccountManagerAccountSelected = value;
+                _IsAccountManagerAccountSelected = value;
                 OnPropertyChanged(nameof(IsAccountManagerAccountSelected));
             }
         }
@@ -106,9 +109,6 @@ namespace DominatorHouseCore.Models
         [ProtoIgnore]
         public HttpHelper HttpHelper { get; set; } = new HttpHelper();
 
-        [ProtoMember(13)]
-        public CookieCollection Cookies { get; set; } = new CookieCollection();
-
         [ProtoIgnore]
         public bool IsloggedinWithPhone { get; set; }
 
@@ -117,7 +117,7 @@ namespace DominatorHouseCore.Models
 
         [ProtoIgnore]
         public DeviceGenerator DeviceDetails { get; set; } = new DeviceGenerator();
-     
+
         [ProtoIgnore]
         public int LastLogin { get; set; }
 
@@ -127,7 +127,7 @@ namespace DominatorHouseCore.Models
 
         //It cont
         [ProtoMember(12)]
-        public string ModulePrivateDetails { get; set; } 
+        public string ModulePrivateDetails { get; set; }
 
 
         public string GetModulePrivateDetailsValue([CallerMemberName] string PropertyName = null)
@@ -158,7 +158,7 @@ namespace DominatorHouseCore.Models
         }
 
 
-        public void SetModulePrivateDetailsValue(object value,[CallerMemberName]string PropertyName="")
+        public void SetModulePrivateDetailsValue(object value, [CallerMemberName]string PropertyName = "")
         {
             try
             {
@@ -172,12 +172,10 @@ namespace DominatorHouseCore.Models
             }
         }
 
-
-
-
         #endregion
 
         #region Display column values
+
         // TODO: move those properties to DominatorAccountViewModel
 
         [ProtoIgnore]
@@ -190,7 +188,7 @@ namespace DominatorHouseCore.Models
         public int DisplayColumnValue3 { get; set; }
 
         [ProtoIgnore]
-        public int DisplayColumnValue4 { get; set; } 
+        public int DisplayColumnValue4 { get; set; }
 
         #endregion
 
@@ -202,7 +200,45 @@ namespace DominatorHouseCore.Models
         [ProtoIgnore]
         public string UserName => AccountBaseModel?.UserName;
 
-        
         #endregion
+
+        [ProtoMember(13)]
+        private HashSet<CookieHelper> _cookieHelperList = new HashSet<CookieHelper>();
+
+        [ProtoIgnore]
+        public CookieCollection Cookies
+        {
+            get
+            {
+                var cookieCollection = new CookieCollection();
+
+                if (IsUserLoggedIn)
+                {
+                    foreach (var cookieHelper in _cookieHelperList)
+                        cookieCollection.Add(new Cookie()
+                        {
+                            Domain = cookieHelper.Domain,
+                            Name = cookieHelper.Name,
+                            Value = cookieHelper.Value
+                        });
+                }
+                return cookieCollection;
+            }
+            set
+            {
+                _cookieHelperList = value?.Cast<Cookie>().Select(cookie => new CookieHelper
+                {
+                    Domain = cookie.Domain,
+                    Name = cookie.Name,
+                    Value = cookie.Value
+                }).ToHashSet();
+            }
+        }
+
+        [ProtoMember(14)]
+        public Dictionary<string, string> ExtraParameters { get; set; }
+            = new Dictionary<string, string>();
+
+
     }
 }

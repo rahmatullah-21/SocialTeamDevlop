@@ -17,6 +17,13 @@ namespace DominatorUIUtility.CustomControl
             MainGrid.DataContext = this;
         }
 
+        public Reports(ReportModel ReportModel)
+        {
+            InitializeComponent();
+            this.ReportModel = ReportModel;
+            MainGrid.DataContext = this;
+        }
+
         public ReportModel ReportModel
         {
             get { return (ReportModel)GetValue(ReportModelProperty); }

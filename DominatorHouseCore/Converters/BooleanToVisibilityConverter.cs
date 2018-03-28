@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace DominatorHouseCore.Converters
@@ -25,6 +24,7 @@ namespace DominatorHouseCore.Converters
             return value;
         }
     }
+
 
     [ValueConversion(typeof(string), typeof(string))]
     [ValueConversion(typeof(string), typeof(string))]

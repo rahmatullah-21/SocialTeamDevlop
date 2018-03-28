@@ -16,7 +16,7 @@ namespace DominatorHouseCore.FileManagers
     public static class AccountsFileManager
     {
         private static List<DominatorAccountModel> _allAccountsCache = new List<DominatorAccountModel>();
-        
+
         // Same as above, but Func must return true if file needs to be overwritten        
         public static void ApplyFunc(Func<DominatorAccountModel, bool> funcToApply)
         {
@@ -43,9 +43,9 @@ namespace DominatorHouseCore.FileManagers
 
 
         // Update account entries and save to AccountDetails.bin        
-        public static void UpdateAccounts(IList<DominatorAccountModel> libraryAccounts) 
-        {            
-            var all = BinFileHelper.GetAccountDetails();            
+        public static void UpdateAccounts(IList<DominatorAccountModel> libraryAccounts)
+        {
+            var all = BinFileHelper.GetAccountDetails();
 
             // Update all entries that exists in libraryAccount, and add that does not exists
             for (int i = 0; i < libraryAccounts.Count; i++)
@@ -58,7 +58,7 @@ namespace DominatorHouseCore.FileManagers
                     all[ix] = acc;
             }
 
-            BinFileHelper.UpdateAllAccounts(all);            
+            BinFileHelper.UpdateAllAccounts(all);
         }
 
         // Saves one account by looking for it in list of all accounts.
@@ -74,7 +74,7 @@ namespace DominatorHouseCore.FileManagers
 
             return savedStatus;
         }
-        
+
 
         public static void FillList<T>(ObservableCollection<T> lstAccountModel) where T : class
         {
@@ -88,7 +88,7 @@ namespace DominatorHouseCore.FileManagers
 
         public static List<DominatorAccountModel> GetAll()
         {
-            return BinFileHelper.GetAccountDetails();           
+            return BinFileHelper.GetAccountDetails();
         }
 
         // for internal user to prevent overwriting all accounts after GetAll
@@ -98,7 +98,7 @@ namespace DominatorHouseCore.FileManagers
         }
 
         // backward compatibility for TD, PD
-        public static bool Add(DominatorAccountModel account) 
+        public static bool Add(DominatorAccountModel account)
         {
             var lst = GetAll() ?? new List<DominatorAccountModel>();
             lst.Add(account);
@@ -110,7 +110,7 @@ namespace DominatorHouseCore.FileManagers
         // backward compatibility for TD, PD
         public static bool Add<AModel>(AModel account) where AModel : class
         {
-            return BinFileHelper.Append(account);            
+            return BinFileHelper.Append(account);
         }
 
         public static void DeleteSelected(List<DominatorAccountModel> accs)
@@ -119,9 +119,9 @@ namespace DominatorHouseCore.FileManagers
             SaveAll(all);
         }
 
-        public static void Delete(Predicate<DominatorAccountModel> match) 
+        public static void Delete(Predicate<DominatorAccountModel> match)
         {
-            var accs = GetAll();            
+            var accs = GetAll();
             accs.RemoveAll(match);
             BinFileHelper.UpdateAllAccounts(accs);
         }
@@ -129,7 +129,7 @@ namespace DominatorHouseCore.FileManagers
 
         // alias
         public static void Edit(DominatorAccountModel account) => SaveAccount(account);
-        
+
 
         public static DominatorAccountModel GetAccount(string userName)
         {
@@ -138,12 +138,18 @@ namespace DominatorHouseCore.FileManagers
 
             return result;
         }
-        
+
 
         public static ObservableCollectionBase<string> GetUsers()
         {
             var result = BinFileHelper.GetUsers();
 
+            return result;
+        }
+
+        public static ObservableCollectionBase<string> GetUsers(SocialNetworks networks)
+        {
+            var result = BinFileHelper.GetUsers(networks);
             return result;
         }
 
@@ -156,7 +162,7 @@ namespace DominatorHouseCore.FileManagers
         }
 
 
-        
+
 
     }
 }

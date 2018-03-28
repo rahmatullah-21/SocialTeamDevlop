@@ -613,11 +613,52 @@ namespace DominatorUIUtility.CustomControl
 
                 _mainGrid.DataContext = Model as TModel;
                 _accountGrowthModeHeader.DataContext = this;
+                SetSelectedAccounts(accountDetails.AccountBaseModel.AccountNetwork, _accountGrowthModeHeader.SelectedItem);
+
+
             }
 
             catch (Exception ex)
             {
                 ex.DebugLog();
+            }
+        }
+
+        public void SetSelectedAccounts(SocialNetworks networks,string selectedAccounts)
+        {
+            switch (networks)
+            {
+                case SocialNetworks.Facebook:
+                    SelectedDominatorAccounts.FdAccounts = selectedAccounts;
+                    var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook).Select(x => x.UserName));
+                    _accountGrowthModeHeader.AccountItemSource = accounts;
+                    _accountGrowthModeHeader.SelectedItem = SelectedDominatorAccounts.FdAccounts ?? (!string.IsNullOrEmpty(accounts[0]) ? accounts[0] : "");
+                    break;
+                case SocialNetworks.Instagram:
+                    SelectedDominatorAccounts.GdAccounts = selectedAccounts;
+                    break;
+                case SocialNetworks.Twitter:
+                    SelectedDominatorAccounts.TdAccounts = selectedAccounts;
+                    break;
+                case SocialNetworks.Pinterest:
+                    SelectedDominatorAccounts.PdAccounts = selectedAccounts;
+                    break;
+                case SocialNetworks.LinkedIn:
+                    SelectedDominatorAccounts.LdAccounts = selectedAccounts;
+                    break;
+                case SocialNetworks.Reddit:
+                    SelectedDominatorAccounts.RdAccounts = selectedAccounts;
+                    break;               
+                case SocialNetworks.Quora:
+                    SelectedDominatorAccounts.QdAccounts = selectedAccounts;
+                    break;
+                case SocialNetworks.Gplus:
+                    SelectedDominatorAccounts.GplusAccounts = selectedAccounts;
+                    break;
+                case SocialNetworks.Youtube:
+                    SelectedDominatorAccounts.YdAccounts = selectedAccounts;
+                    break;
+               
             }
         }
 

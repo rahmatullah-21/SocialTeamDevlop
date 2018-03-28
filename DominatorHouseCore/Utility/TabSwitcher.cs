@@ -16,6 +16,13 @@ namespace DominatorHouseCore.Utility
         public static Action<int, int?> ChangeTabIndex { get; set; } = (i, j) =>
             GlobusLogHelper.log.Error("ChangeTabIndex wasn't set");
         
+
+        public static Action<int> SelectMainTab { get; set; }
+
+        public static Action<int, int> SelectMainTabIndex { get; set; } = (i, j) =>
+            GlobusLogHelper.log.Error("ChangeTabIndex wasn't set");
+
+
     }
 
 

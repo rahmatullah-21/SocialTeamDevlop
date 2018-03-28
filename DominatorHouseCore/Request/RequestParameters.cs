@@ -103,7 +103,7 @@ namespace DominatorHouseCore.Request
         /// For example : https://webaddress.com/?paramkey1=paramvalue1&paramkey2=paramvalue2
         /// Here url : https://webaddress.com/
         /// So UrlParameters contains two items
-        /// UrlParameters  = new Dictionary &lt;string, string &gt;() { { "paramkey1", "paramvalue1" } , { "paramkey2", "paramvalue3" } };
+        /// UrlParameters  = new Dictionary &lt;string, string &gt;() { { "paramkey1", "paramvalue1" } , { "paramkey2", "paramvalue2" } };
         /// </summary>
         public Dictionary<string, string> UrlParameters { get; set; } 
             = new Dictionary<string, string>();
@@ -206,9 +206,8 @@ namespace DominatorHouseCore.Request
                 throw new ArgumentNullException(nameof(url));
 
             var array = GetUrlParameterValues();
-
-            // need to check given parameters are not used
-            return $"{Url}{(array.Length != 0 ? "?" : string.Empty)}{string.Join("&", array)}";
+          
+            return $"{url}{(array.Length != 0 ? "?" : string.Empty)}{string.Join("&", array)}";
         }
 
         /// <summary>

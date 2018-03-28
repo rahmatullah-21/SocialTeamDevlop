@@ -429,10 +429,9 @@ namespace DominatorUIUtility.ViewModel
 
         public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel)
         {
-
             #region Add Account
             //check the account is already present or not
-            if (LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == objDominatorAccountBaseModel.UserName))
+            if (LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == objDominatorAccountBaseModel.UserName && x.AccountBaseModel.AccountId == objDominatorAccountBaseModel.AccountId))
             {
                 /*INFO*/
                 Console.WriteLine($@"Account [{objDominatorAccountBaseModel.UserName}] already added!");
@@ -496,7 +495,7 @@ namespace DominatorUIUtility.ViewModel
                 GlobusLogHelper.log.Info($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
             }
 
-            DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.UserName, objDominatorAccountBaseModel.AccountNetwork);
+            DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork);
 
             #endregion
 
@@ -733,7 +732,8 @@ namespace DominatorUIUtility.ViewModel
             var selectedAccount = LstDominatorAccountModel.FirstOrDefault<DominatorAccountModel>(x => selectedRow != null && x.AccountBaseModel.AccountId == selectedRow.AccountBaseModel.AccountId);
 
             DeleteAccounts(new List<DominatorAccountModel> { selectedAccount });
-            GlobusLogHelper.log.Info(selectedAccount + " Deleted");
+
+            GlobusLogHelper.log.Info(selectedAccount + " Deleted");         
         }
 
 

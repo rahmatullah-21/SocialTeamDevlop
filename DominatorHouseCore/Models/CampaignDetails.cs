@@ -15,11 +15,11 @@ namespace DominatorHouseCore.Models
     /// Purpose of campaign is to share it between several users
     /// </summary>
     [ProtoContract]
-    public class CampaignDetails:BindableBase
+    public class CampaignDetails : BindableBase
     {
         public CampaignDetails()
         {
-            
+
         }
 
         [ProtoMember(10)]
@@ -42,7 +42,9 @@ namespace DominatorHouseCore.Models
         public SocialNetworks SocialNetworks { get; set; }
 
         private List<string> _selectedAccountList = new List<string>();
-        [ProtoMember(5)] public List<string> SelectedAccountList {
+        [ProtoMember(5)]
+        public List<string> SelectedAccountList
+        {
             get
             {
                 return _selectedAccountList;
@@ -53,7 +55,7 @@ namespace DominatorHouseCore.Models
                     return;
                 SetProperty(ref _selectedAccountList, value);
             }
-        } 
+        }
 
 
         [ProtoMember(6)]
@@ -85,8 +87,8 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _campaignCollection, value);
             }
         }
-        private ObservableCollectionBase<CampaignDetails> _campaignDetails=new ObservableCollectionBase<CampaignDetails>();
-       
+        private ObservableCollectionBase<CampaignDetails> _campaignDetails = new ObservableCollectionBase<CampaignDetails>();
+
         public ObservableCollectionBase<CampaignDetails> ObjCampaignDetails
         {
             get
@@ -96,12 +98,27 @@ namespace DominatorHouseCore.Models
             set
             {
                 if (_campaignDetails != null && _campaignDetails == value)
-                  return;
+                    return;
                 SetProperty(ref _campaignDetails, value);
+            }
+        }
+
+        private bool _isCampaignChecked;
+        public bool IsCampaignChecked
+        {
+            get
+            {
+                return _isCampaignChecked;
+            }
+            set
+            {
+                if (_isCampaignChecked == value)
+                    return;
+                SetProperty(ref _isCampaignChecked, value);
             }
         }
     }
 
 
-  
+
 }
