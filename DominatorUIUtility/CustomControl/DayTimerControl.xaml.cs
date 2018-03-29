@@ -41,8 +41,6 @@ namespace DominatorUIUtility.CustomControl
 
         private void AddTimer_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-
             RunningTimes.IsEnabled = RunningTimes.Timings.Count > 0 ? true : false;
 
             var objDialogWindow = new Dialog();

@@ -16,8 +16,20 @@
             </Grid.RowDefinitions>
 
             <Grid >
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" >
-                    <ToggleButton IsChecked="{Binding RunningTimes.IsEnabled}"  Style="{DynamicResource MetroFlatToggleButton}" Content="{Binding RunningTimes.Day}"  Foreground="White" Width="100" MouseLeftButtonDown="AddTimer_OnMouseLeftButtonDown" />
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" MouseLeftButtonDown="AddTimer_OnMouseLeftButtonDown">
+                    <ToggleButton IsEnabled="False"  
+                                  Content="{Binding RunningTimes.Day}"  Foreground="White" Width="100" MouseLeftButtonDown="AddTimer_OnMouseLeftButtonDown" >
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MetroFlatToggleButton}">
+                                <Setter Property="IsChecked" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RunningTimes.Timings.Count}" Value="0">
+                                        <Setter Property="IsChecked" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
                     <StackPanel Name="AddTimer" Background="{DynamicResource AccentBaseColorBrush}" MouseLeftButtonDown="AddTimer_OnMouseLeftButtonDown">
                         <Rectangle Width="20" Height="20" Fill="White" Name="AddTimingRange"  Margin="10" >
                             <Rectangle.OpacityMask>

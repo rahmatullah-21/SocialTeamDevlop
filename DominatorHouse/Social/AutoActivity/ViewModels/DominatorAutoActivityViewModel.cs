@@ -12,7 +12,6 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
-using GramDominatorUI.GDViews.Tools.Follow;
 
 
 namespace DominatorHouse.Social.AutoActivity.ViewModels

@@ -5,30 +5,52 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
-{
-    public abstract class QueryScraper
+{   
+    public interface IScraperActionTables
     {
-        private Dictionary<string, Action<QueryInfo>> QueryToActionTable { get; }
+        // key will be for query type and action will be respective call back
+        Dictionary<string, Action<QueryInfo>> ScrapeWithQueriesActionTable { get; set; }
+
+        // key will be for module and action will be respective call back
+        Dictionary<string, Action> ScrapeWithoutQueriesActionTable { get; set; }
+    }
+
+    public abstract class QueryScraper  : IScraperActionTables
+    {
+        protected QueryScraper(JobProcess jobProcess, Dictionary<string, Action<QueryInfo>> scrapeWithQueriesActionTable, Dictionary<string, Action> scrapeWithoutQueriesActionTable)
+        {
+            _jobProcess = jobProcess;
+            ScrapeWithQueriesActionTable = scrapeWithQueriesActionTable;
+            ScrapeWithoutQueriesActionTable = scrapeWithoutQueriesActionTable;
+        }
 
         private readonly JobProcess _jobProcess;
 
-        protected QueryScraper(JobProcess jobProcess, Dictionary<string, Action<QueryInfo>> queryToActionTable)
+        public Dictionary<string, Action<QueryInfo>> ScrapeWithQueriesActionTable { get; set; }
+
+        public Dictionary<string, Action> ScrapeWithoutQueriesActionTable { get; set; }
+
+        public void ScrapeWithoutQueries(string module)
         {
-            _jobProcess = jobProcess;
-            QueryToActionTable = queryToActionTable;
+            try
+            {
+                ScrapeWithoutQueriesActionTable[module]?.Invoke();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                ex.ErrorLog($"Unable to find key for given module - {module}. {ex.Message}");
+            }
         }
 
-        protected virtual void ScrapeWithoutQueries() { }
-
         public void ScrapeWithQueries()
-        {        
+        {
             Debug.Assert(_jobProcess.SavedQueries.Count > 0);
 
             foreach (var query in _jobProcess.SavedQueries)
             {
                 try
-                {                  
-                    QueryToActionTable[query.QueryType]?.Invoke(query);
+                {
+                    ScrapeWithQueriesActionTable[query.QueryType]?.Invoke(query);
                 }
                 catch (KeyNotFoundException ex)
                 {
@@ -36,6 +58,5 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 }
             }
         }
-
     }
 }

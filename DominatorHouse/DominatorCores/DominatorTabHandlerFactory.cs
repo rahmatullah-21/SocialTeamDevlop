@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouse.Social.Accounts;
 using DominatorHouse.Social.AutoActivity.Views;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -26,49 +27,49 @@ namespace DominatorHouse.DominatorCores
 
         private DominatorTabHandlerFactory()
         {
-            NetworkTabs =  new List<TabItemTemplates>();
+            NetworkTabs = new List<TabItemTemplates>();
             NetworkName = $"The {SocialNetworks.Social} Dominator";
-            NetworkTabs = InitializeAllTabs();
+            InitializeAllTabs();
         }
 
-        public void StartAccountCustomControl(SocialNetworks networks)
-            => AccountCustomControl.GetAccountCustomControl(networks);
-
-        private List<TabItemTemplates> InitializeAllTabs()
+        public void UpdateAccountCustomControl(SocialNetworks networks)
         {
-            var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+            NetworkTabs[0].Content = new Lazy<UserControl>(() => new AccountTab());
+        }
 
-            return new List<TabItemTemplates>
+        private void InitializeAllTabs()
+        {
+            NetworkTabs= new List<TabItemTemplates>
             {
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("langAccountsManager") == null? "Account Manager" : Application.Current.FindResource("langAccountsManager")?.ToString(),
-                    Content = new Lazy<UserControl>(() => accountCustomControl)
+                    Content = new Lazy<UserControl>(() => new AccountTab())
                 },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("langDashBoard") == null? "Dash Board" : Application.Current.FindResource("langDashBoard")?.ToString(),
                     //Content=new Lazy<UserControl>(()=>new DashBoard())
-                },              
+                },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("langAutoActivity") == null? "Auto Activity" : Application.Current.FindResource("langAutoActivity")?.ToString(),
                     Content = new Lazy<UserControl>(() =>
-                        DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))                  
+                        DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
                 },
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("langPublisher") == null? "Publisher" : Application.Current.FindResource("langPublisher")?.ToString(),                   
+                    Title = Application.Current.FindResource("langPublisher") == null? "Publisher" : Application.Current.FindResource("langPublisher")?.ToString(),
                     Content = new Lazy<UserControl>(Home.GetSingletonHome)
                 },
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("langProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("langProxyManager")?.ToString(),                 
+                    Title = Application.Current.FindResource("langProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("langProxyManager")?.ToString(),
                     Content = new Lazy<UserControl>(() => new ProxyManager())
                 },
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("langSettings") == null? "Settings" : Application.Current.FindResource("langSettings")?.ToString(),        
+                    Title = Application.Current.FindResource("langSettings") == null? "Settings" : Application.Current.FindResource("langSettings")?.ToString(),
                     Content = new Lazy<UserControl>(() => new Social.Settings.View.Home())
                 },
                 new TabItemTemplates
@@ -80,7 +81,7 @@ namespace DominatorHouse.DominatorCores
         }
 
 
-       
+
 
     }
 }

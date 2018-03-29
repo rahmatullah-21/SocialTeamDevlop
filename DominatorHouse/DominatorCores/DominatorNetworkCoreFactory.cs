@@ -21,7 +21,7 @@ namespace DominatorHouse.DominatorCores
         /// <summary>
         ///     Scraps data from social network feed based on query (queries)
         /// </summary>
-        public IScraperFactory QueryScraperFactory { get; set; }
+        public IQueryScraperFactory QueryScraperFactory { get; set; }
 
         public ITabHandlerFactory TabHandlerFactory { get; set; }
 

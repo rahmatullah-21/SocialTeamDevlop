@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeDominatorCore", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbeddedBrowser", "EmbeddedBrowser\EmbeddedBrowser.csproj", "{21F00635-AAF7-466B-9214-A830EA9C8963}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TheSocinator", "TheSocinator\TheSocinator.vdproj", "{DDE26F36-7C45-4D6E-8E75-93704F5BE496}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -293,6 +295,12 @@ Global
 		{21F00635-AAF7-466B-9214-A830EA9C8963}.Release|Any CPU.Build.0 = Release|Any CPU
 		{21F00635-AAF7-466B-9214-A830EA9C8963}.Release|x86.ActiveCfg = Release|Any CPU
 		{21F00635-AAF7-466B-9214-A830EA9C8963}.Release|x86.Build.0 = Release|Any CPU
+		{DDE26F36-7C45-4D6E-8E75-93704F5BE496}.Debug|Any CPU.ActiveCfg = Debug
+		{DDE26F36-7C45-4D6E-8E75-93704F5BE496}.Debug|x86.ActiveCfg = Debug
+		{DDE26F36-7C45-4D6E-8E75-93704F5BE496}.Debug-fast-test|Any CPU.ActiveCfg = Debug
+		{DDE26F36-7C45-4D6E-8E75-93704F5BE496}.Debug-fast-test|x86.ActiveCfg = Debug
+		{DDE26F36-7C45-4D6E-8E75-93704F5BE496}.Release|Any CPU.ActiveCfg = Release
+		{DDE26F36-7C45-4D6E-8E75-93704F5BE496}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

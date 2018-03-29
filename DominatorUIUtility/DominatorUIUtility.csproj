@@ -131,7 +131,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AccountAddUpdate.cs" />
     <Compile Include="Behaviours\ErrorModelControl.xaml.cs">
       <DependentUpon>ErrorModelControl.xaml</DependentUpon>
     </Compile>

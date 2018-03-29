@@ -50,7 +50,7 @@ namespace DominatorHouse
         public MainWindow()
         {
             SocinatorInitialize.LogInitializer(this);
-            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");        
+            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");
             InitializeComponent();
             SocinatorWindow.DataContext = this;
             SocinatorInitializer();
@@ -68,6 +68,38 @@ namespace DominatorHouse
                 OnPropertyChanged(nameof(TabItems));
             }
         }
+
+        private int _selectedViewIndex;
+
+        public int SelectedViewIndex
+        {
+            get
+            {
+                return _selectedViewIndex;
+            }
+            set
+            {
+                _selectedViewIndex = value;
+                OnPropertyChanged(nameof(SelectedViewIndex));
+            }
+        }
+
+        private int _selectedNetworkIndex;
+
+        public int SelectedNetworkIndex
+        {
+            get
+            {
+                return _selectedNetworkIndex;
+            }
+            set
+            {
+                _selectedNetworkIndex = value;
+                OnPropertyChanged(nameof(SelectedNetworkIndex));
+            }
+        }
+
+
 
         private static PerformanceCounter PerformanceCounter { get; }
             = new PerformanceCounter("Memory", "Available MBytes");
@@ -96,7 +128,7 @@ namespace DominatorHouse
             }
             set
             {
-                _tabDock = value; 
+                _tabDock = value;
                 OnPropertyChanged(nameof(TabDock));
             }
         }
@@ -131,19 +163,19 @@ namespace DominatorHouse
 
             TabSwitcher.ChangeTabIndex = (mainTabIndex, subTabIndex) =>
             {
-                MainTabControl.SelectedIndex = mainTabIndex;
+                SelectedViewIndex = mainTabIndex;
 
                 if (subTabIndex == null)
                     return;
 
                 var selectedTabObject = (MainTabControl.SelectedContent as TabItemTemplates)?.Content.Value;
 
-                ((dynamic) selectedTabObject)?.setIndex((int) subTabIndex);
+                ((dynamic)selectedTabObject)?.setIndex((int)subTabIndex);
             };
 
             // Go to campaign from respective module after campaign saved
             TabSwitcher.GoToCampaign = ()
-                => MainTabControl.SelectedIndex =
+                => SelectedViewIndex =
                     TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
 
             DialogParticipation.SetRegister(this, this);
@@ -154,7 +186,7 @@ namespace DominatorHouse
 
         private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
         {
-            MainTabControl.SelectedIndex = index;
+            SelectedViewIndex = index;
             SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
         }
 
@@ -165,7 +197,7 @@ namespace DominatorHouse
                 return;
             TabDock = Dock.Top;
             var selectedSocialNetwork =
-                (SocialNetworks) Enum.Parse(typeof(SocialNetworks), cmbSocialNetwork.SelectedItem.ToString());
+                (SocialNetworks)Enum.Parse(typeof(SocialNetworks), cmbSocialNetwork.SelectedItem.ToString());
             if (selectedSocialNetwork == SocialNetworks.Social)
                 TabDock = Dock.Left;
             TabInitialize(selectedSocialNetwork);
@@ -173,18 +205,30 @@ namespace DominatorHouse
 
         public void TabInitialize(SocialNetworks network)
         {
-            var tabHandler = SocinatorInitialize.GetSocialLibrary(network).GetNetworkCoreFactory().TabHandlerFactory;
-            TabItems = new ObservableCollection<TabItemTemplates>(tabHandler.NetworkTabs); 
-            Title = tabHandler.NetworkName;
-            tabHandler.StartAccountCustomControl(network);
-            MainTabControl.SelectedIndex = 0;
-            SocinatorInitialize.SetAsActiveNetwork(network);          
+            try
+            {
+                var tabHandler = SocinatorInitialize.GetSocialLibrary(network).GetNetworkCoreFactory().TabHandlerFactory;
+                TabItems = new ObservableCollection<TabItemTemplates>(tabHandler.NetworkTabs);
+                Title = tabHandler.NetworkName;
+                SelectedViewIndex = 0;
+                tabHandler.UpdateAccountCustomControl(network);
+                SocinatorInitialize.SetAsActiveNetwork(network);
+            }
+            catch (Exception)
+            {
+                TabDock = Dock.Left;
+                
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Fetal Error",
+                    $"Please purchase access of {network} automation features!");
+
+                SelectedNetworkIndex = 0;
+            }
             //AccountCustomControl.GetAccountCustomControl(network);
         }
 
         private void TabItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var textBlockDetails = (FrameworkElement) sender as TextBlock;
+            var textBlockDetails = (FrameworkElement)sender as TextBlock;
 
             if (textBlockDetails == null)
                 return;
@@ -240,24 +284,31 @@ namespace DominatorHouse
 
             foreach (var network in AvailableNetworks)
             {
-                var networkNamespace = SocinatorInitialize.GetNetworksNamespace(network);
-                var networkAssembly = Assembly.Load(networkNamespace);
-                var networkFullNameSpace = $"{networkNamespace}.Factories.{network}NetworkCollectionFactory";
-                var networkTypes = networkAssembly.GetType(networkFullNameSpace);
-                var networkCoreFactory = (INetworkCollectionFactory) Activator.CreateInstance(networkTypes);
-                SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);
+                try
+                {
+                    var networkNamespace = SocinatorInitialize.GetNetworksNamespace(network);
+                    var networkAssembly = Assembly.Load(networkNamespace);
+                    var networkFullNameSpace = $"{networkNamespace}.Factories.{network}NetworkCollectionFactory";
+                    var networkTypes = networkAssembly.GetType(networkFullNameSpace);
+                    var networkCoreFactory = (INetworkCollectionFactory)Activator.CreateInstance(networkTypes);
+                    SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
 
             var accountDetails = AccountsFileManager.GetAll();
 
             foreach (var account in accountDetails)
-            foreach (var modulesConfiguration in account.ActivityManager.LstModuleConfiguration)
-            {
-                DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork,
-                    modulesConfiguration.ActivityType);
-                DominatorScheduler.ScheduleForEachModule(modulesConfiguration.ActivityType, account,
-                    account.AccountBaseModel.AccountNetwork);
-            }
+                foreach (var modulesConfiguration in account.ActivityManager.LstModuleConfiguration)
+                {
+                    DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork,
+                        modulesConfiguration.ActivityType);
+                    DominatorScheduler.ScheduleForEachModule(modulesConfiguration.ActivityType, account,
+                        account.AccountBaseModel.AccountNetwork);
+                }
         }
 
         [NotifyPropertyChangedInvocator]
@@ -339,7 +390,7 @@ namespace DominatorHouse
 
         private static double GetMemoryUsage()
         {
-            var memAvailable = (double) PerformanceCounter.NextValue();
+            var memAvailable = (double)PerformanceCounter.NextValue();
             return memAvailable;
         }
 

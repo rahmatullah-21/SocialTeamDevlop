@@ -136,6 +136,9 @@
     <Compile Include="DominatorCores\DominatorCoreBuilder.cs" />
     <Compile Include="DominatorCores\DominatorNetworkCoreFactory.cs" />
     <Compile Include="DominatorCores\DominatorTabHandlerFactory.cs" />
+    <Compile Include="Social\Accounts\AccountTab.xaml.cs">
+      <DependentUpon>AccountTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Social\AutoActivity\ViewModels\DominatorAutoActivityViewModel.cs" />
     <Compile Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml.cs">
       <DependentUpon>DominatorAutoActivity.xaml</DependentUpon>
@@ -161,6 +164,10 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Social\Accounts\AccountTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

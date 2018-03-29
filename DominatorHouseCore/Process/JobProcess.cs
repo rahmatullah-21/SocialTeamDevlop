@@ -228,9 +228,9 @@ namespace DominatorHouseCore.Process
             var scraperFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().QueryScraperFactory; 
 
             var scraper = scraperFactory.Create(this);
-
+           
             if (SavedQueries.Count == 0)
-                scraper.ScrapeNoQueries();
+                scraper.ScrapeWithoutQueries(ActivityType.ToString());
             else
                 scraper.ScrapeWithQueries();
         }

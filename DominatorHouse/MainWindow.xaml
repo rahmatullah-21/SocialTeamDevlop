@@ -31,7 +31,7 @@
     <!--Manage Networks Here -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <ComboBox Background="Transparent" ItemsSource="{Binding AvailableNetworks}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" />
+            <ComboBox Background="Transparent" ItemsSource="{Binding AvailableNetworks}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="{Binding SelectedNetworkIndex}" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" />
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbLanguage" >
                 <ComboBoxItem>English</ComboBoxItem>
                 <ComboBoxItem>Portuguese</ComboBoxItem>
@@ -48,7 +48,7 @@
         </Grid.RowDefinitions>
 
         <!--Account Growth Mode Tabs-->
-        <TabControl  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedIndex="0"
+        <TabControl  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedIndex="{Binding SelectedViewIndex}"
                    Name="MainTabControl" VerticalAlignment="Stretch" ItemsSource="{Binding TabItems}">
 
             <TabControl.Resources>

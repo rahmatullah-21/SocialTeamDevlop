@@ -73,6 +73,8 @@ namespace DominatorUIUtility.CustomControl
             {
                 foreach (var item in SocinatorInitialize.AvailableNetworks)
                 {
+                    if(item == SocialNetworks.Social)
+                        continue;
                     ComboBoxSocialNetworks.Items.Add(item);
                 }
             }

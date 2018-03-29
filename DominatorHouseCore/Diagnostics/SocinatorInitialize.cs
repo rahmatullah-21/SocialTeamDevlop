@@ -11,7 +11,6 @@ namespace DominatorHouseCore.Diagnostics
 {
     public class SocinatorInitialize
     {
-
         private static bool _isInitialized;
 
         private static Dictionary<SocialNetworks, INetworkCollectionFactory> RegisteredNetworks { get; } =
@@ -26,20 +25,33 @@ namespace DominatorHouseCore.Diagnostics
             {
                 SocialNetworks.Social,
                 SocialNetworks.Facebook,
-                SocialNetworks.Twitter
+                SocialNetworks.Twitter,
+                SocialNetworks.Gplus,
+                SocialNetworks.Instagram,
+                SocialNetworks.LinkedIn,
+                SocialNetworks.Quora,
+                SocialNetworks.Pinterest,
+                SocialNetworks.Tumblr,
+                SocialNetworks.Youtube,
+                SocialNetworks.Reddit
             };
 
             return AvailableNetworks;
         }
             
-
-
-
         private static Dictionary<SocialNetworks, string> NetworksNamespace { get; set; } = new Dictionary<SocialNetworks, string>()
         {
             {SocialNetworks.Social,"DominatorHouse" },
             {SocialNetworks.Facebook,"FaceDominatorUI"},
-            {SocialNetworks.Twitter,"TwtDominatorUI"}
+            {SocialNetworks.Twitter,"TwtDominatorUI"},
+            { SocialNetworks.Gplus,"GplusDominatorUI"},
+            {SocialNetworks.Instagram,"InstagramDominatorUI"},
+            {SocialNetworks.LinkedIn,"LinkedInDominatorUI"},
+            {SocialNetworks.Quora,"QuoraDominatorUI"},
+            {SocialNetworks.Pinterest,"PinterestDominatorUI"},
+            {SocialNetworks.Tumblr,"TumblrDominatorUI"},
+            {SocialNetworks.Youtube,"YoutubeDominatorUI"},
+            {SocialNetworks.Reddit,"RedditDominatorUI"},
         };
 
         public static string GetNetworksNamespace(SocialNetworks networks)
@@ -64,6 +76,7 @@ namespace DominatorHouseCore.Diagnostics
                 return SocialNetworks.Social;
             }
         }
+
         public static INetworkCollectionFactory GetSocialLibrary(SocialNetworks networks)
         {
             return RegisteredNetworks.Count != 0 ? RegisteredNetworks[networks] : null;
@@ -137,7 +150,7 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
-        public NetworkCoreLibraryBuilder AddScraperFactory(IScraperFactory scraperFactory)
+        public NetworkCoreLibraryBuilder AddScraperFactory(IQueryScraperFactory scraperFactory)
         {
             NetworkCoreFactory.QueryScraperFactory = scraperFactory;
             return this;
