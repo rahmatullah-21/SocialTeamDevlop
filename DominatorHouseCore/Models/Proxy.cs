@@ -225,7 +225,7 @@ namespace DominatorHouseCore.Models
         }
 
 
-        [return: TupleElementNames(new string[] { "username", "password" })]
+        // [return: TupleElementNames(new string[] { "username", "password" })]
         public ValueTuple<string, string> GetCredentials()
         {
             return new ValueTuple<string, string>(this.ProxyUsername, this.ProxyPassword);
