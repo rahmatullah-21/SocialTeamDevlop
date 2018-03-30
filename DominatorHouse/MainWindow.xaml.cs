@@ -53,7 +53,7 @@ namespace DominatorHouse
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");
             InitializeComponent();
             SocinatorWindow.DataContext = this;
-            SocinatorInitializer();
+            FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
         }
 
         public ObservableCollection<TabItemTemplates> TabItems

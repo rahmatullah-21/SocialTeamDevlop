@@ -240,7 +240,7 @@ namespace DominatorHouseCore.Models
             = new Dictionary<string, string>();
 
         [ProtoIgnore]
-        public FeatureLists FeatureLists { get; set; } = new FeatureLists();
+        public FeatureFlags FeatureLists { get; set; } = new FeatureFlags();
 
     }
 }
