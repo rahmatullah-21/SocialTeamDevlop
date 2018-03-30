@@ -134,7 +134,7 @@ namespace DominatorHouseCore.Models
         {
             try
             {
-                return JObject.Parse(ModulePrivateDetails)[PropertyName].ToString();
+                return ModulePrivateDetails == null ? null : JObject.Parse(ModulePrivateDetails)[PropertyName].ToString();
             }
             catch (Exception e)
             {
