@@ -373,6 +373,7 @@ namespace DominatorUIUtility.CustomControl
                 _activityType.ToString(), _socialNetwork,
                 CampaignName);
 
+
             SaveDetails(_footerControl.list_SelectedAccounts, _activityType);
 
             AddNewCampaign(_footerControl.list_SelectedAccounts, _activityType);

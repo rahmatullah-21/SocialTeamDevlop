@@ -58,9 +58,6 @@ namespace DominatorHouse
 
         }
 
-
-      
-
         public ObservableCollection<TabItemTemplates> TabItems
         {
             get
@@ -104,8 +101,6 @@ namespace DominatorHouse
                 OnPropertyChanged(nameof(SelectedNetworkIndex));
             }
         }
-
-
 
         private static PerformanceCounter PerformanceCounter { get; }
             = new PerformanceCounter("Memory", "Available MBytes");
@@ -227,8 +222,7 @@ namespace DominatorHouse
                     $"Please purchase access of {network} automation features!");
 
                 SelectedNetworkIndex = 0;
-            }
-            //AccountCustomControl.GetAccountCustomControl(network);
+            }            
         }
 
         private void TabItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
