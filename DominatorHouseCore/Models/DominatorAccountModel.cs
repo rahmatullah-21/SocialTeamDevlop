@@ -94,7 +94,7 @@ namespace DominatorHouseCore.Models
 
         #region Http
 
-        [ProtoMember(8)]
+        [ProtoIgnore]
         public bool IsUserLoggedIn { get; set; }
 
         [ProtoMember(9)]
