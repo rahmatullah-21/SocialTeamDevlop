@@ -11,9 +11,11 @@ namespace DominatorHouseCore.Utility
             if (Instance == null)
             {
                 // acquire the Feature Flag values from somewhere
-                Instance = new FeatureFlags();
                 // for now we do this on code
-                Instance["SocinatorInitializer"] = false;
+                Instance = new FeatureFlags() {
+                    {"SocinatorInitializer", true },
+                    {"Twitter", true }
+                };
             }
 
             if (!Instance.ContainsKey(key))
