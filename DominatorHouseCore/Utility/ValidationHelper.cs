@@ -15,19 +15,19 @@ namespace DominatorHouseCore.Utility
                 switch (Sender.Substring(3))
                 {
                     case "UserName":
-                        if (string.IsNullOrEmpty(value.ToString()))
+                        if (string.IsNullOrEmpty(value?.ToString()))
                         {
                             return new ValidationResult(false, "*Required Field");
                         }
                         break;
                     case "Password":
-                        if (string.IsNullOrEmpty(value.ToString()))
+                        if (string.IsNullOrEmpty(value?.ToString()))
                         {
                             return new ValidationResult(false, "*Required Field");
                         }
                         break;
                     case "ProxyAddress":
-                        if (!string.IsNullOrEmpty(value.ToString()))
+                        if (!string.IsNullOrEmpty(value?.ToString()))
                         {
                             ProxyAddress = value.ToString();
                             if (!Models.Proxy.IsValidProxyIp(value.ToString()))
@@ -37,7 +37,7 @@ namespace DominatorHouseCore.Utility
                         }
                         break;
                     case "ProxyPort":
-                        if (!string.IsNullOrEmpty(ProxyAddress) && !string.IsNullOrEmpty(value.ToString()))
+                        if (!string.IsNullOrEmpty(ProxyAddress) && !string.IsNullOrEmpty(value?.ToString()))
                         {
                             if (!Models.Proxy.IsValidProxy(ProxyAddress, value.ToString()))
                             {
@@ -47,7 +47,7 @@ namespace DominatorHouseCore.Utility
                         break;
                 }
             }
-            catch (Exception E)
+            catch (Exception)
             {
 
             }
