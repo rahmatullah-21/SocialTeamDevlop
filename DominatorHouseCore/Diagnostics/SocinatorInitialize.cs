@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 using DominatorHouseCore.BusinessLogic.Scheduler;
@@ -6,6 +7,7 @@ using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -21,8 +23,7 @@ namespace DominatorHouseCore.Diagnostics
         public static HashSet<SocialNetworks> GetAvailableSocialNetworks(string license)
         {
             //TODO : Get all available networks from license                
-            AvailableNetworks = new HashSet<SocialNetworks>
-            {
+            AvailableNetworks = new SocialNetworks[] {
                 SocialNetworks.Social,
                 SocialNetworks.Facebook,
                 SocialNetworks.Twitter,
@@ -34,7 +35,9 @@ namespace DominatorHouseCore.Diagnostics
                 SocialNetworks.Tumblr,
                 SocialNetworks.Youtube,
                 SocialNetworks.Reddit
-            };
+            }
+            .Where(network => FeatureFlags.Check(network.ToString()))
+            .ToHashSet();
 
             return AvailableNetworks;
         }
@@ -79,7 +82,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static INetworkCollectionFactory GetSocialLibrary(SocialNetworks networks)
         {
-            return RegisteredNetworks.Count != 0 ? RegisteredNetworks[networks] : null;
+            return RegisteredNetworks.ContainsKey(networks) ? RegisteredNetworks[networks] : null;
         }
 
         public static void LogInitializer(Window mainWindow)

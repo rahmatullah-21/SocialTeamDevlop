@@ -30,6 +30,7 @@ using EmbeddedBrowser;
 using FluentScheduler;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using System.Linq;
 #endregion
 
 namespace DominatorHouse
@@ -53,7 +54,7 @@ namespace DominatorHouse
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");
             InitializeComponent();
             SocinatorWindow.DataContext = this;
-            SocinatorInitializer();
+            FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
         }
 
         public ObservableCollection<TabItemTemplates> TabItems
@@ -284,19 +285,22 @@ namespace DominatorHouse
 
             foreach (var network in AvailableNetworks)
             {
-                try
+                FeatureFlags.Check(network.ToString(), () =>
                 {
-                    var networkNamespace = SocinatorInitialize.GetNetworksNamespace(network);
-                    var networkAssembly = Assembly.Load(networkNamespace);
-                    var networkFullNameSpace = $"{networkNamespace}.Factories.{network}NetworkCollectionFactory";
-                    var networkTypes = networkAssembly.GetType(networkFullNameSpace);
-                    var networkCoreFactory = (INetworkCollectionFactory)Activator.CreateInstance(networkTypes);
-                    SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
+                    try
+                    {
+                        var networkNamespace = SocinatorInitialize.GetNetworksNamespace(network);
+                        var networkAssembly = Assembly.Load(networkNamespace);
+                        var networkFullNameSpace = $"{networkNamespace}.Factories.{network}NetworkCollectionFactory";
+                        var networkTypes = networkAssembly.GetType(networkFullNameSpace);
+                        var networkCoreFactory = (INetworkCollectionFactory)Activator.CreateInstance(networkTypes);
+                        SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                });
             }
 
             var accountDetails = AccountsFileManager.GetAll();

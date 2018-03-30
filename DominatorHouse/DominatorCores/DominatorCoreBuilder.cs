@@ -5,8 +5,8 @@ using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
-using FaceDominatorCore.FDFactories;
-using FaceDominatorUI.FdCoreLibrary;
+//using FaceDominatorCore.FDFactories;
+//using FaceDominatorUI.FdCoreLibrary;
 
 namespace DominatorHouse.DominatorCores
 {
