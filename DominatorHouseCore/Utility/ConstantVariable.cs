@@ -26,9 +26,11 @@ namespace DominatorHouseCore.Utility
 
         public static bool UseSystemProxy { get; } = true;
 
+        public static string ApplicationName { get; } = "Socinator";
+
         public static string GetPlatformBaseDirectory()
         {
-            string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{DominatorHouseInitializer.PlatformName}";
+            string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}";
             DirectoryUtilities.CreateDirectory(basePath);
             return basePath;
         }

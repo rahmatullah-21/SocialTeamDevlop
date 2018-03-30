@@ -12,12 +12,14 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
+using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -283,7 +285,7 @@ namespace DominatorUIUtility.ViewModel
         {
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
 
-            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Add Account", "Save", false, DominatorHouseInitializer.ActiveSocialNetwork.ToString());
+            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Add Account", "Save", false, SocinatorInitialize.ActiveSocialNetwork.ToString());
 
             var customDialog = new CustomDialog()
             {
@@ -499,11 +501,25 @@ namespace DominatorUIUtility.ViewModel
 
             #endregion
 
-            #region Login Account And Update Follower And Following Count
+         
 
-            UpdateAccount(dominatorAccountModel);
+            try
+            {
+                var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
+                    .GetNetworkCoreFactory().AccountUpdateFactory;
 
-            #endregion
+                Task.Factory.StartNew(() =>
+                {
+                    accountFactory.CheckStatus(dominatorAccountModel);
+                    accountFactory.UpdateDetails(dominatorAccountModel);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+           
         }
 
         public  void UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
@@ -565,124 +581,9 @@ namespace DominatorUIUtility.ViewModel
                 ProxyFileManager.SaveProxy<ProxyManagerModel>(ProxyManagerModel);
             }
         }
-        public void UpdateAccount(DominatorAccountModel objDominatorAccountModel)
-        {
-            CancellationTokenSource cts = new CancellationTokenSource();
-            CancellationToken ct = cts.Token;
+  
 
-            Task.Factory.StartNew(() =>
-            {
-                switch (objDominatorAccountModel.AccountBaseModel.AccountNetwork)
-                {
-                    case SocialNetworks.Instagram:
-                        AccountAddUpdate.UpdateGDAccount(objDominatorAccountModel);
-                        break;
-                    case SocialNetworks.Quora:
-                        AccountAddUpdate.UpdateQDAccount(objDominatorAccountModel);
-                        break;
-                }
-            }, ct);
-
-        }
-
-        //private static void UpdateAccountFollowerFollowing(DominatorAccountModel objDominatorAccountModel)
-        //{
-        //    try
-        //    {
-        //        if (!LogInProcess.checkLogin(objDominatorAccountModel))
-        //            return;
-        //        if (!objDominatorAccountModel.IsUserLoggedIn)
-        //        {
-        //            LogInProcess logInProcess = new LogInProcess();
-        //            logInProcess.LoginWithMobileDevice(ref objDominatorAccountModel);
-        //        }
-
-        //        if (!objDominatorAccountModel.IsUserLoggedIn)
-        //            return;
-
-        //        DataBaseConnectionCodeFirst.DataBaseConnection databaseConnection =
-        //            DataBaseHandler.GetDataBaseConnectionInstance(objDominatorAccountModel.UserName);
-        //        InstaFunct instaFunct = new InstaFunct(objDominatorAccountModel);
-
-        //        try
-        //        {
-        //            UsernameInfoIgResponseHandler userInfo = instaFunct.SearchUsername(objDominatorAccountModel.UserName);
-        //            objDominatorAccountModel.PostsCount = userInfo.MediaCount;
-        //            objDominatorAccountModel.FollowersCount = userInfo.FollowerCount;
-        //            objDominatorAccountModel.FollowingCount = userInfo.FollowingCount;
-        //            List<InstagramUser> lstUserFollowers =
-        //                instaFunct.GetUserFollowers(objDominatorAccountModel.UserId).UsersList;
-
-        //            lstUserFollowers.ForEach(x =>
-        //            {
-        //                try
-        //                {
-        //                    Friendships friendship = new Friendships()
-        //                    {
-        //                        Username = x.Username,
-        //                        IsPrivate = x.IsPrivate ? 1 : 0,
-        //                        IsVerified = x.IsVerified ? 1 : 0,
-        //                        UserId = x.Pk,
-        //                        FullName = x.FullName,
-        //                        HasAnonymousProfilePicture =
-        //                            (x.HasAnonymousProfilePicture == null || x.HasAnonymousProfilePicture == false) ? 0 : 1,
-        //                        ProfilePicUrl = x.ProfilePicUrl
-        //                    };
-        //                    databaseConnection.Add<Friendships>(friendship);
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    GlobusLogHelper.log.Error(e.Message);
-        //                }
-        //            });
-        //        }
-        //        catch (Exception Ex)
-        //        {
-        //            GlobusLogHelper.log.Error(Ex.Message);
-        //        }
-
-        //        try
-        //        {
-        //            List<InstagramUser> lstUserFollowings =
-        //                instaFunct.GetUserFollowings(objDominatorAccountModel.UserId).UsersList;
-
-        //            lstUserFollowings.ForEach(x =>
-        //            {
-        //                try
-        //                {
-        //                    Friendships friendship = new Friendships()
-        //                    {
-        //                        Username = x.Username,
-        //                        IsPrivate = x.IsPrivate ? 1 : 0,
-        //                        IsVerified = x.IsVerified ? 1 : 0,
-        //                        UserId = x.Pk,
-        //                        FullName = x.FullName,
-        //                        HasAnonymousProfilePicture =
-        //                            (x.HasAnonymousProfilePicture == null || x.HasAnonymousProfilePicture == false) ? 0 : 1,
-        //                        ProfilePicUrl = x.ProfilePicUrl
-        //                    };
-
-        //                    databaseConnection.Add<Friendships>(friendship);
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    GlobusLogHelper.log.Error(e.Message);
-        //                }
-        //            });
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            GlobusLogHelper.log.Error(ex.Message);
-        //        }
-
-        //        GdBinFileHelper.UpdateAccount(objDominatorAccountModel);
-        //    }
-        //    catch (Exception Ex)
-        //    {
-        //        GlobusLogHelper.log.Error(Ex.Message + Ex.StackTrace);
-        //    }
-
-        //}
+     
 
         #endregion
 
@@ -1087,7 +988,7 @@ namespace DominatorUIUtility.ViewModel
         #endregion
 
         #region Actions
-        public Action<DominatorAccountModel> action_CheckAccount { get; set; }
+        public Action<DominatorAccountModel> ActionCheckAccount { get; set; }
 
         public Action<DominatorAccountModel> AccountBrowserLogin { get; set; }
 

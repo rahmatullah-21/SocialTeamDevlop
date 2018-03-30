@@ -82,9 +82,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\gramdominator-library\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="ControlzEx">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="Dragablz, Version=0.0.3.197, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dragablz.0.0.3.197\lib\net45\Dragablz.dll</HintPath>
@@ -94,17 +93,15 @@
       <HintPath>..\packages\FluentScheduler.5.3.0\lib\net40\FluentScheduler.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\gramdominator-library\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\packages\MahApps.Metro.1.6.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\gramdominator-library\packages\NLog.4.4.13\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.4.4.13\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -127,6 +124,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Factories\SocialNetworkCollectionFactory.cs" />
+    <Compile Include="DominatorCores\DominatorAccountToolsFactory.cs" />
+    <Compile Include="DominatorCores\DominatorCoreBuilder.cs" />
+    <Compile Include="DominatorCores\DominatorNetworkCoreFactory.cs" />
+    <Compile Include="DominatorCores\DominatorTabHandlerFactory.cs" />
+    <Compile Include="Social\Accounts\AccountTab.xaml.cs">
+      <DependentUpon>AccountTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Social\AutoActivity\ViewModels\DominatorAutoActivityViewModel.cs" />
     <Compile Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml.cs">
       <DependentUpon>DominatorAutoActivity.xaml</DependentUpon>
@@ -152,6 +157,10 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Social\Accounts\AccountTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -205,6 +214,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\facedominator-library\FaceDominatorCore\FaceDominatorCore.csproj">
+      <Project>{36f8a922-028e-49dd-bbd6-d7daab339491}</Project>
+      <Name>FaceDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\facedominator-library\FaceDominatorUI\FaceDominatorUI.csproj">
+      <Project>{1c0beb70-f243-4a53-983e-ce25a1b722f6}</Project>
+      <Name>FaceDominatorUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\gramdominator-library\GramDominatorCore\GramDominatorCore.csproj">
       <Project>{b04813ea-a4b5-40ae-b705-743687f74770}</Project>
       <Name>GramDominatorCore</Name>
@@ -213,6 +230,14 @@
       <Project>{317a142c-6ae2-4cc1-90a7-5752b9ed76f3}</Project>
       <Name>GramDominatorUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorCore\TwtDominatorCore.csproj">
+      <Project>{e41bf7d2-231f-4d58-ad45-95f7146e1979}</Project>
+      <Name>TwtDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorUI\TwtDominatorUI.csproj">
+      <Project>{b91d5616-eafd-4bf8-aaf5-051675592714}</Project>
+      <Name>TwtDominatorUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
       <Name>DominatorHouseCore</Name>
@@ -220,6 +245,10 @@
     <ProjectReference Include="..\DominatorUIUtility\DominatorUIUtility.csproj">
       <Project>{e8d95af0-e99b-4059-9140-5c02b3f52e06}</Project>
       <Name>DominatorUIUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmbeddedBrowser\EmbeddedBrowser.csproj">
+      <Project>{21f00635-aaf7-466b-9214-a830ea9c8963}</Project>
+      <Name>EmbeddedBrowser</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -28,7 +28,7 @@ namespace DominatorUIUtility.CustomControl
             //Read all accounts from bin files
 
             var items = filterForActiveSocialNetwrok                                               ?
-                        AccountsFileManager.GetAll(DominatorHouseInitializer.ActiveSocialNetwork)  :
+                        AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork)  :
                         AccountsFileManager.GetAll();
 
             //Iterate all account model from bin file and add to DominatorAccountViewModel object

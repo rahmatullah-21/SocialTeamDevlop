@@ -60,8 +60,9 @@ namespace DominatorHouseCore.Models
                             var model = new RunningTimes
                             {
                                 Day = day.ToString(),
-                                DayOfWeek = day
+                                DayOfWeek = day,                              
                             };
+                            model.Timings.Add(new TimingRange(new TimeSpan(9, 0, 0), new TimeSpan(18, 0, 0)));
                             return model;
                         }))
                         ?.ToList();

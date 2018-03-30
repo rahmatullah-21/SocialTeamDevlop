@@ -8,6 +8,7 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 
 namespace DominatorHouseCore.Diagnostics
@@ -43,10 +44,10 @@ namespace DominatorHouseCore.Diagnostics
             public Window MainWindow { get; set; }
         }
 
-
         static bool _isInitialized = false;
 
-        private static Dictionary<SocialNetworks, LibraryCoreObjects> _registeredLibraries = new Dictionary<SocialNetworks, LibraryCoreObjects>();
+        private static Dictionary<SocialNetworks, LibraryCoreObjects> _registeredLibraries  =
+            new Dictionary<SocialNetworks, LibraryCoreObjects>();
 
         public static LibraryCoreObjects ActiveLibrary { get; private set; }
 
@@ -54,8 +55,10 @@ namespace DominatorHouseCore.Diagnostics
 
         // Platform sets only once on first initialization. May be DominatorHouseSocial for DH, or GramDominator for standalone exe.
         public static string PlatformName { get; private set; }
-        
 
+        public static LibraryCoreObjects GetSocialLibrary(SocialNetworks networks) 
+            => _registeredLibraries[networks];
+        
         /// <summary>
         /// Call this method in ctor of particular main window of library
         /// </summary>
@@ -103,7 +106,6 @@ namespace DominatorHouseCore.Diagnostics
             ConsoleManager.Show();
 #endif            
         }
-
 
         public static void SocialNetworkRegister(List<LibraryCoreObjects> networkObjects)
         {

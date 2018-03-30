@@ -7,8 +7,10 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.BusinessLogic.Factories;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.ViewModel;
 
@@ -40,21 +42,16 @@ namespace DominatorUIUtility.CustomControl
 
         private AccountCustomControl()
         {
-
             InitializeComponent();
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;
-           
         }
-
-       
-
 
         private static AccountCustomControl _accountCustomInstance = null;
 
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks)
-        {
+       {
             if (_accountCustomInstance == null)
             {
                 _accountCustomInstance = new AccountCustomControl();
@@ -68,132 +65,33 @@ namespace DominatorUIUtility.CustomControl
 
         public static AccountCustomControl GetAccountCustomControl()
         {
-            if (_accountCustomInstance == null)
-            {
-                _accountCustomInstance = new AccountCustomControl();
-            }
-            return _accountCustomInstance;
+            return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl());
         }
 
         private void GetRespectiveAccounts(SocialNetworks socialNetworks)
         {
             var listCollection = (ListCollectionView)DominatorAccountViewModel.AccountCollectionView;
 
-            switch (socialNetworks)
-            {
-                case SocialNetworks.Social:
-                    listCollection.Filter = null;
-                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn1.Header = "Friendship Count";
-                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
-                    //DominatorAccountViewModel.SocialNetworkEditable = true;
-                    //DominatorHouseInitializer.ActiveSocialNetwork = SocialNetworks.Social;
-                    break;
+            listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == socialNetworks;
 
-                case SocialNetworks.Instagram:
-                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Instagram);
-                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
-                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
-                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Post Count";
-                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Instagram;
-                    //DominatorAccountViewModel.SocialNetworkEditable = false;
-                    break;
+            if (socialNetworks == SocialNetworks.Social)
+                listCollection.Filter = null;
 
-                case SocialNetworks.Twitter:
-                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Twitter);
-                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
-                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
-                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
-                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Twitter;
-                  //  DominatorAccountViewModel.SocialNetworkEditable = false;
-                    break;
-                case SocialNetworks.Quora:
-                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Quora);
-                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
-                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
-                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
-                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Quora;
-                    //DominatorAccountViewModel.SocialNetworkEditable = false;
-                    break;
-                case SocialNetworks.Facebook:
-                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Facebook);
-                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Friends Count";
-                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Groups Count";                
-                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Pages Count";
-                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Facebook;
-                    break;
-                case SocialNetworks.LinkedIn:
-                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.LinkedIn);
-                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Connection Count";
-                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Groups Count";
-                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Pages Count";
-                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.LinkedIn;
-                    break;
-                case SocialNetworks.Pinterest:
-                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest);
-                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
-                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
-                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Board Count";
-                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Pinterest;
-                    break;
-                case SocialNetworks.Gplus:
-                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Gplus);
-                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
-                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
-                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Board Count";
-                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Gplus;
-                    break;
-                case SocialNetworks.Reddit:
-                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Reddit);
-                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Follower Count";
-                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Following Count";
-                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Board Count";
-                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Reddit;
-                    break;
-                case SocialNetworks.Youtube:
-                    listCollection.Filter = new Predicate<object>(x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocialNetworks.Youtube);
-                    DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn2.Header = "Subscribers Count";
-                    DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = true;
-                    DominatorAccountViewModel.GridHeaderColumn3.Header = "Liked Count";
-                    DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = false;
-                    DominatorAccountViewModel.GridHeaderColumn4.Header = "Board Count";
-                    DominatorAccountViewModel.SocialNetwork = SocialNetworks.Youtube;
-                    break;
-            }
+            var networkAccountCountFactory = socialNetworks == SocialNetworks.Social
+                  ? DominatorAccountCountFactory.Instance
+                  : SocinatorInitialize.GetSocialLibrary(socialNetworks)
+                  .GetNetworkCoreFactory()
+                  .AccountCountFactory;
+
+            DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = networkAccountCountFactory.HeaderColumn1Visiblity;
+            DominatorAccountViewModel.GridHeaderColumn1.Header = networkAccountCountFactory.HeaderColumn1Value;
+            DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = networkAccountCountFactory.HeaderColumn2Visiblity;
+            DominatorAccountViewModel.GridHeaderColumn2.Header = networkAccountCountFactory.HeaderColumn2Value;
+            DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = networkAccountCountFactory.HeaderColumn3Visiblity;
+            DominatorAccountViewModel.GridHeaderColumn3.Header = networkAccountCountFactory.HeaderColumn3Value;
+            DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = networkAccountCountFactory.HeaderColumn4Visiblity;
+            DominatorAccountViewModel.GridHeaderColumn4.Header = networkAccountCountFactory.HeaderColumn4Value;
+            DominatorAccountViewModel.SocialNetwork = socialNetworks;
         }
 
         private void MangeblacklistedContextMenu_Click(object sender, RoutedEventArgs e)
@@ -408,7 +306,7 @@ namespace DominatorUIUtility.CustomControl
 
         public void GotoTools(object sender, RoutedEventArgs e)
         {
-            var dominatorAccountModel = ((FrameworkElement) sender).DataContext as DominatorAccountModel;
+            var dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
 
             DominatorHouseCore.Utility.TabSwitcher.ChangeTabWithNetwork(2, dominatorAccountModel.AccountBaseModel.AccountNetwork, dominatorAccountModel.AccountBaseModel.UserName);
         }
@@ -423,7 +321,7 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);             
+                Console.WriteLine(exception);
             }
         }
 
@@ -433,12 +331,12 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;             
-                DominatorAccountViewModel.action_CheckAccount(dominatorAccountModel);
+                DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+                DominatorAccountViewModel.ActionCheckAccount(dominatorAccountModel);
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);               
+                Console.WriteLine(exception);
             }
         }
 
@@ -456,10 +354,10 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                DominatorAccountModel dominatorAccountModel =  ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+                DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
                 DominatorAccountModel objDominatorAccountModel =
                     ((FrameworkElement)sender).DataContext as DominatorAccountModel;
-                DominatorAccountViewModel.action_CheckAccount(dominatorAccountModel);
+                DominatorAccountViewModel.ActionCheckAccount(dominatorAccountModel);
 
             }
             catch (Exception exception)

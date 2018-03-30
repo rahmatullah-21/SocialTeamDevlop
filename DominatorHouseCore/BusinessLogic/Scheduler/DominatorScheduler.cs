@@ -18,29 +18,32 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public partial class DominatorScheduler
     {
-        static IJobProcessFactory _activeJobProcessFactory => DominatorHouseInitializer.ActiveLibrary.JobProcessFactory;
+       
+        private static IJobProcessFactory _activeJobProcessFactory;
 
-        public static object _runStopActivityLocker = new object();
+        public static object RunStopActivityLocker = new object();
 
-        /// <summary>
-        /// Runs activity for specific 'module' and social network. 
-        /// </summary>
-        /// <typeparam name="T">type of job like GramDominator.FollowProcess</typeparam>
-        /// <param name="account"></param>
-        /// <param name="templateId"></param>
-        /// <param name="CurrentJobTimeRange"></param>
-        /// <param name="module">Follow, Comment, etc.</param>
-        public static void RunActivity(DominatorAccountModel account, string templateId, TimingRange CurrentJobTimeRange, string module)
+       /// <summary>
+       /// To start the activity of template for the given account at specified time range
+       /// </summary>
+       /// <param name="account"></param>
+       /// <param name="templateId"></param>
+       /// <param name="currentJobTimeRange"></param>
+       /// <param name="module"></param>
+        public static void RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange, string module)
         {
-            var id = JobProcess.AsId(account.AccountBaseModel.UserName, templateId);
+            _activeJobProcessFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).GetNetworkCoreFactory().JobProcessFactory;
 
-            Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
-            if (ScheduledJob != null && ScheduledJob.Disabled)
+            var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
+
+            var scheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
+
+           
+
+            if (scheduledJob != null && scheduledJob.Disabled)
                 return;
 
-            // jobProcess may be Follow, UnFollowProcess, Like, Comment, Repost, for any particular social network.
-            // jobProcessFactory have to be registered for each library.
-            var jobProcess = _activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId, CurrentJobTimeRange, module,account.AccountBaseModel.AccountNetwork);
+            var jobProcess = _activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId, currentJobTimeRange, module,account.AccountBaseModel.AccountNetwork);
             
             jobProcess.StartProcessAsync();
         }
@@ -48,7 +51,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         public static void StopActivity(string accountName, string module, string templateId)
         {
-            lock (_runStopActivityLocker)
+            lock (RunStopActivityLocker)
             {                
                 JobProcess.Stop(accountName, templateId);
 
@@ -87,7 +90,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 return;
 
             // Check if activity with the same id already running
-            if (JobProcess.IsStarted(dominatorAccount.UserName, moduleConfiguration.TemplateId))
+            if (JobProcess.IsStarted(dominatorAccount.AccountId, moduleConfiguration.TemplateId))
             {
                 GlobusLogHelper.log.Error($"Job {moduleConfiguration.TemplateId} already started for {dominatorAccount.UserName}");
                 return;
@@ -120,7 +123,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     // get the template id for respective module
                     string templateId = GetTemplateId(timing, dominatorAccount);
-                    var jobId = JobProcess.AsId(dominatorAccount.UserName, templateId);
+                    var jobId = JobProcess.AsId(dominatorAccount.AccountId, templateId);
 
                     // If start time not met before,it will schedule to start time
                     if (timing.StartTime.Hours >= currentTimespan.Hours && timing.StartTime.Minutes > currentTimespan.Minutes)
@@ -179,7 +182,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     if (activity != moduleToIgnore)
                     {
                         var moduleRunningTimes = GetRunningTimes(account, activity);
-                        if (moduleRunningTimes.Count() > 0)
+                        if (moduleRunningTimes.Count> 0)
                         {
                             account.ActivityManager.RunningTime = moduleRunningTimes;
                             foreach (var timing in account.ActivityManager.RunningTime)

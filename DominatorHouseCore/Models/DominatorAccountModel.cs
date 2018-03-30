@@ -134,7 +134,7 @@ namespace DominatorHouseCore.Models
         {
             try
             {
-                return JObject.Parse(ModulePrivateDetails)[PropertyName].ToString();
+                return ModulePrivateDetails == null ? null : JObject.Parse(ModulePrivateDetails)[PropertyName].ToString();
             }
             catch (Exception e)
             {
@@ -239,6 +239,8 @@ namespace DominatorHouseCore.Models
         public Dictionary<string, string> ExtraParameters { get; set; }
             = new Dictionary<string, string>();
 
+        [ProtoIgnore]
+        public FeatureFlags FeatureLists { get; set; } = new FeatureFlags();
 
     }
 }

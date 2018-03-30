@@ -26,14 +26,13 @@ namespace DominatorHouseCore.FileManagers
                 return false;
             }         
         }
-        public static List<Configuration> GetAllConfig()
+        public static IEnumerable<Configuration> GetAllConfig()
         {
             return BinFileHelper.GetConfigDetails<Configuration>();
         }
         public static Configuration GetConfigWithType(string ConfigType)
         {
-            List<Configuration> configuration = GetAllConfig();
-            return configuration.LastOrDefault(config => config.ConfigurationType == ConfigType);
+            return GetAllConfig().LastOrDefault(config => config.ConfigurationType == ConfigType);
         }
         public static void ApplyTheme()
         {
@@ -41,24 +40,28 @@ namespace DominatorHouseCore.FileManagers
             {
                 Configuration config = GetConfigWithType("Theme");
 
-                var Themes = Newtonsoft.Json.JsonConvert.DeserializeObject<Themes>(config.ConfigurationSetting);
-
-                if (Themes == null)
-                    return;
-
-                Accent newAccent = null;
-
-                AppTheme newAppTheme = ThemeManager.GetAppTheme("Base" + Themes.SelectedTheme.Name);
-
-                if (Themes.SelectedTheme.Name == "Default")
+                string serializedThemes = config?.ConfigurationSetting;
+                if (!string.IsNullOrEmpty(serializedThemes))
                 {
-                    ThemeManager.AddAccent("PrussianBlue", new Uri("pack://application:,,,/DominatorUIUtility;component/Themes/PrussianBlue.xaml"));
-                    newAccent = ThemeManager.GetAccent("PrussianBlue");
-                }
-                else
-                    newAccent = ThemeManager.GetAccent(Themes.SelectedAccentColor.Name);
+                    var Themes = Newtonsoft.Json.JsonConvert.DeserializeObject<Themes>(config.ConfigurationSetting);
 
-                ThemeManager.ChangeAppStyle(Application.Current, newAccent, newAppTheme);
+                    if (Themes == null)
+                        return;
+
+                    Accent newAccent = null;
+
+                    AppTheme newAppTheme = ThemeManager.GetAppTheme("Base" + Themes.SelectedTheme.Name);
+
+                    if (Themes.SelectedTheme.Name == "Default")
+                    {
+                        ThemeManager.AddAccent("PrussianBlue", new Uri("pack://application:,,,/DominatorUIUtility;component/Themes/PrussianBlue.xaml"));
+                        newAccent = ThemeManager.GetAccent("PrussianBlue");
+                    }
+                    else
+                        newAccent = ThemeManager.GetAccent(Themes.SelectedAccentColor.Name);
+
+                    ThemeManager.ChangeAppStyle(Application.Current, newAccent, newAppTheme);
+                }
 
             }
             catch (Exception ex)
