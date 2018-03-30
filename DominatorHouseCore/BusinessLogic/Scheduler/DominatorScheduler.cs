@@ -34,9 +34,11 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             _activeJobProcessFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).GetNetworkCoreFactory().JobProcessFactory;
 
-            var id = JobProcess.AsId(account.AccountBaseModel.UserName, templateId);
+            var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
 
             var scheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
+
+           
 
             if (scheduledJob != null && scheduledJob.Disabled)
                 return;
@@ -88,7 +90,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 return;
 
             // Check if activity with the same id already running
-            if (JobProcess.IsStarted(dominatorAccount.UserName, moduleConfiguration.TemplateId))
+            if (JobProcess.IsStarted(dominatorAccount.AccountId, moduleConfiguration.TemplateId))
             {
                 GlobusLogHelper.log.Error($"Job {moduleConfiguration.TemplateId} already started for {dominatorAccount.UserName}");
                 return;
@@ -121,7 +123,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     // get the template id for respective module
                     string templateId = GetTemplateId(timing, dominatorAccount);
-                    var jobId = JobProcess.AsId(dominatorAccount.UserName, templateId);
+                    var jobId = JobProcess.AsId(dominatorAccount.AccountId, templateId);
 
                     // If start time not met before,it will schedule to start time
                     if (timing.StartTime.Hours >= currentTimespan.Hours && timing.StartTime.Minutes > currentTimespan.Minutes)

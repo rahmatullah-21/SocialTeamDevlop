@@ -30,7 +30,7 @@
                             </Style>
                         </ToggleButton.Style>
                     </ToggleButton>
-                    <StackPanel Name="AddTimer" Background="{DynamicResource AccentBaseColorBrush}" MouseLeftButtonDown="AddTimer_OnMouseLeftButtonDown">
+                    <StackPanel Name="AddTimer" Background="{DynamicResource AccentBaseColorBrush}" >
                         <Rectangle Width="20" Height="20" Fill="White" Name="AddTimingRange"  Margin="10" >
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_timer}"/>

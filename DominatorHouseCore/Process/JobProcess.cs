@@ -320,6 +320,8 @@ namespace DominatorHouseCore.Process
 
         public string AccountName => DominatorAccountModel?.UserName;
 
+        public string AccountId=> DominatorAccountModel?.AccountId;
+
         /// <summary>
         /// To specify the given account is belongs to which networks
         /// </summary>
@@ -332,11 +334,11 @@ namespace DominatorHouseCore.Process
 
 
         // stores all running job processes. Key - TemplateId
-        private static readonly Dictionary<string, JobProcess> RunningJobProcesses =  new Dictionary<string, JobProcess>();
+        private static readonly Dictionary<string, JobProcess> RunningJobProcesses  = new Dictionary<string, JobProcess>();
 
         private static readonly object SyncJobProcess = new object();
 
-        private string Id => AsId(AccountName, TemplateId);
+        private string Id => AsId(AccountId, TemplateId);
 
         public static string AsId(string account, string templateId)
         {
@@ -408,11 +410,9 @@ namespace DominatorHouseCore.Process
                         GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
                         return false;
                     }
-
                     var jobProcess = RunningJobProcesses[id];
                     jobProcess.Stop();
                 }
-
                 return true;
             }
             catch (Exception ex)

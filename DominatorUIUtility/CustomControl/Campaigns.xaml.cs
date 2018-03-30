@@ -48,7 +48,6 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
             this.SocialNetworks = socialNetworks;
             objCampaignDetails = new CampaignDetails();
-
         }
 
         private void SetDataContext()
@@ -244,7 +243,7 @@ namespace DominatorUIUtility.CustomControl
         private void DeleteSingleCampaign_OnClick(object sender, RoutedEventArgs e)
         {
             CampaignDetails campaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
-            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete [ " + campaign.CampaignName + " ] Campaign permanently from campaign\nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton());
+            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete [ " + campaign.CampaignName + " ] Campaign permanently from campaign\nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Delete Anyways","Don't delete"));
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
 
