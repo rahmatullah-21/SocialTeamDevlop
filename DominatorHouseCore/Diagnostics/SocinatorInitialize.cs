@@ -8,6 +8,8 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
+using System.Net.Http;
+using ProtectedCommon;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -19,26 +21,54 @@ namespace DominatorHouseCore.Diagnostics
             new Dictionary<SocialNetworks, INetworkCollectionFactory>();
 
         public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();
-        
+
         public static HashSet<SocialNetworks> GetAvailableSocialNetworks(string license)
         {
-            //TODO : Get all available networks from license                
-            AvailableNetworks = new SocialNetworks[] {
-                SocialNetworks.Social,
-                SocialNetworks.Facebook,
-                SocialNetworks.Twitter,
-                SocialNetworks.Gplus,
-                SocialNetworks.Instagram,
-                SocialNetworks.LinkedIn,
-                SocialNetworks.Quora,
-                SocialNetworks.Pinterest,
-                SocialNetworks.Tumblr,
-                SocialNetworks.Youtube,
-                SocialNetworks.Reddit
-            }
-            .Where(network => FeatureFlags.Check(network.ToString()))
-            .ToHashSet();
+            try
+            {
+                // Get all available networks from license  
 
+                var client_config = @"<RSAKeyValue><Modulus>tY8cCx5hU3yKtajFtqfLPcM5gdXKTLai6YSDmEqNSLJbEKL6qEg952Q1qo+tb1mO+uqsIiWUK8q0WS1BoH1BeC9mULWAl68SJcNcmyG2YMn1glqIvJ4C1b9M67e2PC4ZbSG5/jJtb1s0Kr9gzpshqeCPtNjw29lpJ4tadLNfAWU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
+                var baseAddress = "http://localhost:9000/";
+
+                HttpClient client = new HttpClient();
+                var response = client.GetAsync(baseAddress + "api/configurations/" + license).Result;
+                var result = response.Content.ReadAsStringAsync().Result;
+                if (result.Length > 2 && result.StartsWith("\""))
+                {
+                    result = result.Substring(1, result.Length - 2);
+                }
+
+                Signature.Configure(client_config);
+                var marketing_enabled = new HashSet<string>(Signature.GetVerifiedText(result)?.Split(','));
+
+                AvailableNetworks = new SocialNetworks[] {
+                    SocialNetworks.Social,
+                    SocialNetworks.Facebook,
+                    SocialNetworks.Twitter,
+                    SocialNetworks.Gplus,
+                    SocialNetworks.Instagram,
+                    SocialNetworks.LinkedIn,
+                    SocialNetworks.Quora,
+                    SocialNetworks.Pinterest,
+                    SocialNetworks.Tumblr,
+                    SocialNetworks.Youtube,
+                    SocialNetworks.Reddit
+                }
+                .Where(network =>
+                {
+                    var name = network.ToString();
+                    return FeatureFlags.Check(name) && marketing_enabled != null && marketing_enabled.Contains(name);
+                })
+                .ToHashSet();
+            }
+            catch(Exception ex)
+            {
+                AvailableNetworks = new SocialNetworks[] {
+                    SocialNetworks.Social
+                }.ToHashSet();
+                GlobusLogHelper.log.Error(ex, "Starting up with no license");
+            }
             return AvailableNetworks;
         }
             
