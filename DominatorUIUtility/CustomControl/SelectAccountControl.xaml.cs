@@ -18,7 +18,7 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class SelectAccountControl : UserControl
     {
-        public DominatorAccountViewModel objDominatorAccountViewModel = new DominatorAccountViewModel();
+        public DominatorAccountViewModel objDominatorAccountViewModel = null;
         public SelectAccountControl(List<string> lstSelectedAccount, bool filterForActiveSocialNetwrok = true)
         {
             InitializeComponent();

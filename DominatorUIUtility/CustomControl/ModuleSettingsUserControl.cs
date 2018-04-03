@@ -698,7 +698,7 @@ namespace DominatorUIUtility.CustomControl
             if (first != null)
                 first.TemplateId =
                     TemplateModel.SaveTemplate(moduleToSave,
-                        moduleType.ToString(), SocialNetworks.Instagram,
+                        moduleType.ToString(), account.AccountBaseModel.AccountNetwork ,
                         userName + "_" + moduleType + "_Template");
         }
 

@@ -26,6 +26,7 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.ViewModel;
 using EmbeddedBrowser;
 using FluentScheduler;
 using MahApps.Metro.Controls;
@@ -48,14 +49,24 @@ namespace DominatorHouse
 
         private bool IsClickedFromMainWindow { get; set; } = true;
 
+        private DominatorAccountViewModel.AccessorStrategies _strategies;
+
         public MainWindow()
         {
+            _strategies = new DominatorAccountViewModel.AccessorStrategies
+            {
+                ActionCheckAccount = AccountStatusChecker,
+                AccountBrowserLogin = AccountBrowserLogin,
+                _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
+                _inform_warnings = GlobusLogHelper.log.Warn
+            };
+            DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
+
             SocinatorInitialize.LogInitializer(this);
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");
             InitializeComponent();
             SocinatorWindow.DataContext = this;
             FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
-
         }
 
         public ObservableCollection<TabItemTemplates> TabItems
@@ -144,9 +155,7 @@ namespace DominatorHouse
 
         private void SocinatorInitializer()
         {
-            var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
-            accountCustomControl.DominatorAccountViewModel.ActionCheckAccount = AccountStatusChecker;
-            accountCustomControl.DominatorAccountViewModel.AccountBrowserLogin = AccountBrowserLogin;
+            var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);
 
             Task.Factory.StartNew(() => { JobManager.AddJob(() => InitializeJobCores("License"), x => x.ToRunNow()); });
 
@@ -280,7 +289,7 @@ namespace DominatorHouse
             });
 
             AvailableNetworks = SocinatorInitialize.GetAvailableSocialNetworks(license);
-
+            var to_remove = new List<SocialNetworks>();
             foreach (var network in AvailableNetworks)
             {
                 FeatureFlags.Check(network.ToString(), () =>
@@ -296,10 +305,13 @@ namespace DominatorHouse
                     }
                     catch (Exception ex)
                     {
+                        to_remove.Add(network);
                         ex.DebugLog();
                     }
                 });
             }
+
+            AvailableNetworks.ExceptWith(to_remove);
 
             var accountDetails = AccountsFileManager.GetAll();
 
@@ -329,8 +341,15 @@ namespace DominatorHouse
 
         public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
         {
-            var browserWindow = new BrowserWindow(dominatorAccountModel);
-            browserWindow.Show();
+            try
+            {
+                var browserWindow = new BrowserWindow(dominatorAccountModel);
+                browserWindow.Show();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         #region System Details  

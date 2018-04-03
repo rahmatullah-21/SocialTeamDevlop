@@ -5,6 +5,7 @@ using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
+using DominatorUIUtility.ViewModel;
 //using FaceDominatorCore.FDFactories;
 //using FaceDominatorUI.FdCoreLibrary;
 
@@ -13,6 +14,12 @@ namespace DominatorHouse.DominatorCores
     public class DominatorCoreBuilder : NetworkCoreLibraryBuilder
     {
         private static DominatorCoreBuilder _instance;
+        private static DominatorAccountViewModel.AccessorStrategies _strategies;
+        public static DominatorAccountViewModel.AccessorStrategies Strategies { set
+            {
+                _strategies = value;
+            }
+        }
 
         public static DominatorCoreBuilder Instance(INetworkCoreFactory networkCoreFactory)
             => _instance ?? (_instance = new DominatorCoreBuilder(networkCoreFactory));
@@ -21,7 +28,7 @@ namespace DominatorHouse.DominatorCores
             : base(networkCoreFactory)
         {
             AddNetwork(SocialNetworks.Social)
-                .AddTabFactory(DominatorTabHandlerFactory.Instance)
+                .AddTabFactory(DominatorTabHandlerFactory.GetInstance(_strategies))
                 .AddJobFactory(DominatorJobProcessFactory.Instance)
                 .AddScraperFactory(DominatorScraperFactory.Instance)
                 .AddAccountCounts(DominatorAccountCountFactory.Instance)

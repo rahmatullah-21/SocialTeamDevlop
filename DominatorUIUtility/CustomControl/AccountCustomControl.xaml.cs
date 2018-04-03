@@ -21,7 +21,7 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class AccountCustomControl : UserControl, INotifyPropertyChanged
     {
-        private DominatorAccountViewModel _dominatorAccountViewModel = new DominatorAccountViewModel();
+        private DominatorAccountViewModel _dominatorAccountViewModel;
 
         #region Property
 
@@ -40,8 +40,9 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
-        private AccountCustomControl()
+        private AccountCustomControl(DominatorAccountViewModel.AccessorStrategies strategyPack)
         {
+            _dominatorAccountViewModel = new DominatorAccountViewModel(strategyPack);
             InitializeComponent();
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
@@ -50,11 +51,11 @@ namespace DominatorUIUtility.CustomControl
 
         private static AccountCustomControl _accountCustomInstance = null;
 
-        public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks)
+        public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks, DominatorAccountViewModel.AccessorStrategies strategies)
        {
             if (_accountCustomInstance == null)
             {
-                _accountCustomInstance = new AccountCustomControl();
+                _accountCustomInstance = new AccountCustomControl(strategies);
             }
 
             _accountCustomInstance.GetRespectiveAccounts(socialNetworks);
@@ -63,9 +64,9 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        public static AccountCustomControl GetAccountCustomControl()
+        public static AccountCustomControl GetAccountCustomControl(DominatorAccountViewModel.AccessorStrategies strategies)
         {
-            return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl());
+            return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl(strategies));
         }
 
         private void GetRespectiveAccounts(SocialNetworks socialNetworks)

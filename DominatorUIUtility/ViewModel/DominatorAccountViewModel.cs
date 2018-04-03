@@ -33,8 +33,17 @@ namespace DominatorUIUtility.ViewModel
     [ProtoContract]
     public class DominatorAccountViewModel : BindableBase
     {
-        public DominatorAccountViewModel()
+        public class AccessorStrategies
         {
+            public Func<SocialNetworks,bool> _determine_available;
+            public Action<string> _inform_warnings;
+            public Action<DominatorAccountModel> ActionCheckAccount;
+            public Action<DominatorAccountModel> AccountBrowserLogin;
+            public Action<DominatorAccountModel> action_UpdateFollower;
+        }
+        public DominatorAccountViewModel(AccessorStrategies strategyPack)
+        {
+            this.strategyPack = strategyPack;
 
             InitialAccountDetails();
 
@@ -42,7 +51,7 @@ namespace DominatorUIUtility.ViewModel
 
             AddSingleAccountCommand = new BaseCommand<object>(AddSingleAccountCanExecute, AddSingleAccountExecute);
 
-            LoadMultipleAccountsCommand = new BaseCommand<object>(LoadMultipleAccountsCanExecute, LoadMultipleAccountsExecute);
+            LoadMultipleAccountsCommand = new BaseCommand<object>(LoadMultipleAccountsCanExecute, (o) => LoadMultipleAccountsExecute(o, this.strategyPack._determine_available, this.strategyPack._inform_warnings));
 
             // InfoCommand = new BaseCommand<object>(InfoCommandCanExecute, InfoCommandExecute);
 
@@ -330,7 +339,7 @@ namespace DominatorUIUtility.ViewModel
         ///If any values are null, we can use NA        
         /// </summary>
         /// <param name="sender"></param>
-        private void LoadMultipleAccountsExecute(object sender)
+        private void LoadMultipleAccountsExecute(object sender, Func<SocialNetworks,bool> isNetworkAvailable, Action<string> warn)
         {
             //Read the accounts from text or csv files
             var loadedAccountlist = FileUtilities.FileBrowseAndReader();
@@ -408,14 +417,22 @@ namespace DominatorUIUtility.ViewModel
                         AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork)
                     };
 
-                    ////add the account to DominatorAccountModel list and bin file
-                    var addAccounThread = new Thread(() => AddAccount(objDominatorAccountBaseModel))
+                    if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                     {
-                        Name = objDominatorAccountBaseModel.UserName + "_addingthread",
-                        IsBackground = true
-                    };
-                    addAccounThread.Start();
-
+                        ////add the account to DominatorAccountModel list and bin file
+                        var addAccounThread = new Thread(() => AddAccount(objDominatorAccountBaseModel))
+                        {
+                            Name = objDominatorAccountBaseModel.UserName + "_addingthread",
+                            IsBackground = true
+                        };
+                        addAccounThread.Start();
+                    }
+                    else
+                    {
+                        warn(string.Format("The account {0} cannot be imported because {1} is not available.",
+                            objDominatorAccountBaseModel,
+                            objDominatorAccountBaseModel.AccountNetwork));
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -944,6 +961,7 @@ namespace DominatorUIUtility.ViewModel
         #region Initialize AccountManager
 
         private object syncLoadAccounts = new object();
+        private AccessorStrategies strategyPack;
 
         public void InitialAccountDetails()
         {
@@ -987,14 +1005,8 @@ namespace DominatorUIUtility.ViewModel
 
         #endregion
 
-        #region Actions
-        public Action<DominatorAccountModel> ActionCheckAccount { get; set; }
-
-        public Action<DominatorAccountModel> AccountBrowserLogin { get; set; }
-
-        public Action<DominatorAccountModel> action_UpdateFollower { get; set; }
-
-        #endregion
+        public void AccountBrowserLogin(DominatorAccountModel model) => strategyPack.AccountBrowserLogin(model);
+        public void ActionCheckAccount(DominatorAccountModel model) => strategyPack.ActionCheckAccount(model);
 
     }
 

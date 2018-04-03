@@ -9,6 +9,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
 using EmbeddedBrowser;
 
@@ -16,17 +17,20 @@ namespace DominatorHouse.DominatorCores
 {
     public class DominatorTabHandlerFactory : ITabHandlerFactory
     {
+        private DominatorAccountViewModel.AccessorStrategies _strategies;
+
         public List<TabItemTemplates> NetworkTabs { get; set; }
 
         public string NetworkName { get; set; }
 
         private static DominatorTabHandlerFactory _instance;
 
-        public static DominatorTabHandlerFactory Instance
-            => _instance ?? (_instance = new DominatorTabHandlerFactory());
+        public static DominatorTabHandlerFactory GetInstance(DominatorAccountViewModel.AccessorStrategies strategies)
+            => _instance ?? (_instance = new DominatorTabHandlerFactory(strategies));
 
-        private DominatorTabHandlerFactory()
+        private DominatorTabHandlerFactory(DominatorAccountViewModel.AccessorStrategies strategies)
         {
+            _strategies = strategies;
             NetworkTabs = new List<TabItemTemplates>();
             NetworkName = $"The {SocialNetworks.Social} Dominator";
             InitializeAllTabs();
@@ -34,7 +38,7 @@ namespace DominatorHouse.DominatorCores
 
         public void UpdateAccountCustomControl(SocialNetworks networks)
         {
-            NetworkTabs[0].Content = new Lazy<UserControl>(() => new AccountTab());
+            NetworkTabs[0].Content = new Lazy<UserControl>(() => new AccountTab(_strategies));
         }
 
         private void InitializeAllTabs()
@@ -44,7 +48,7 @@ namespace DominatorHouse.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("langAccountsManager") == null? "Account Manager" : Application.Current.FindResource("langAccountsManager")?.ToString(),
-                    Content = new Lazy<UserControl>(() => new AccountTab())
+                    Content = new Lazy<UserControl>(() => new AccountTab(_strategies))
                 },
                 new TabItemTemplates
                 {
@@ -65,7 +69,7 @@ namespace DominatorHouse.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("langProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("langProxyManager")?.ToString(),
-                    Content = new Lazy<UserControl>(() => new ProxyManager())
+                    Content = new Lazy<UserControl>(() => new ProxyManager(_strategies))
                 },
                 new TabItemTemplates
                 {
