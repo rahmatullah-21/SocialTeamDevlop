@@ -9,7 +9,7 @@ namespace DominatorHouseCore.Enums.TdQuery
         [Description("langHashtags")]
         Hashtags = 2,
         [Description("langLocationTweets")]
-        LocationPosts = 3,
+        LocationTweets = 3,
         [Description("langCustomTweetsList")]
         CustomTweetsList = 4,
         [Description("langSomeonesFollowersTweets")]

@@ -6,8 +6,7 @@ using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorUIUtility.ViewModel;
-//using FaceDominatorCore.FDFactories;
-//using FaceDominatorUI.FdCoreLibrary;
+
 
 namespace DominatorHouse.DominatorCores
 {
@@ -15,7 +14,9 @@ namespace DominatorHouse.DominatorCores
     {
         private static DominatorCoreBuilder _instance;
         private static DominatorAccountViewModel.AccessorStrategies _strategies;
-        public static DominatorAccountViewModel.AccessorStrategies Strategies { set
+        public static DominatorAccountViewModel.AccessorStrategies Strategies
+        {
+            set
             {
                 _strategies = value;
             }

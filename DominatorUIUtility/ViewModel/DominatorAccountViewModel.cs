@@ -41,6 +41,7 @@ namespace DominatorUIUtility.ViewModel
             public Action<DominatorAccountModel> AccountBrowserLogin;
             public Action<DominatorAccountModel> action_UpdateFollower;
         }
+
         public DominatorAccountViewModel(AccessorStrategies strategyPack)
         {
             this.strategyPack = strategyPack;
@@ -1005,8 +1006,11 @@ namespace DominatorUIUtility.ViewModel
 
         #endregion
 
-        public void AccountBrowserLogin(DominatorAccountModel model) => strategyPack.AccountBrowserLogin(model);
-        public void ActionCheckAccount(DominatorAccountModel model) => strategyPack.ActionCheckAccount(model);
+        public void AccountBrowserLogin(DominatorAccountModel model) 
+            => strategyPack.AccountBrowserLogin(model);
+
+        public void ActionCheckAccount(DominatorAccountModel model)
+            => strategyPack.ActionCheckAccount(model);
 
     }
 
