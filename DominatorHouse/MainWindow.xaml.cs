@@ -286,7 +286,7 @@ namespace DominatorHouse
             });
 
             AvailableNetworks = SocinatorInitialize.GetAvailableSocialNetworks(license);
-
+            var to_remove = new List<SocialNetworks>();
             foreach (var network in AvailableNetworks)
             {
                 FeatureFlags.Check(network.ToString(), () =>
@@ -302,10 +302,13 @@ namespace DominatorHouse
                     }
                     catch (Exception ex)
                     {
+                        to_remove.Add(network);
                         ex.DebugLog();
                     }
                 });
             }
+
+            AvailableNetworks.ExceptWith(to_remove);
 
             var accountDetails = AccountsFileManager.GetAll();
 
