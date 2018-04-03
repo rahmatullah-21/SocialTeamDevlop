@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -299,9 +300,30 @@ namespace DominatorHouse
                         var networkNamespace = SocinatorInitialize.GetNetworksNamespace(network);
                         var networkAssembly = Assembly.Load(networkNamespace);
                         var networkFullNameSpace = $"{networkNamespace}.Factories.{network}NetworkCollectionFactory";
-                        var networkTypes = networkAssembly.GetType(networkFullNameSpace);
-                        var networkCoreFactory = (INetworkCollectionFactory)Activator.CreateInstance(networkTypes);
-                        SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);
+                        var networkType = networkAssembly.GetType(networkFullNameSpace);
+                        // is this a correct type?
+                        if (typeof(INetworkCollectionFactory).IsAssignableFrom(networkType))
+                        {
+                            INetworkCollectionFactory networkCoreFactory;
+                            var constructors = networkType.GetConstructors();
+                            // do we have a constructor taking a strategy object?
+                            var selectedConstructor = constructors.FirstOrDefault(ci =>
+                            {
+                                var pars = ci.GetParameters();
+                                return pars.Length == 1 && pars[0].ParameterType == typeof(DominatorAccountViewModel.AccessorStrategies);
+                            });
+                            if (selectedConstructor != default(ConstructorInfo))
+                            {
+                                networkCoreFactory = (INetworkCollectionFactory)selectedConstructor.Invoke(new object[] { _strategies });
+                            }
+                            else
+                            {
+                                // if not, do we have a constructor with no parameters?
+                                selectedConstructor = constructors.First(ci => ci.GetParameters().Length == 0);
+                                networkCoreFactory = (INetworkCollectionFactory)selectedConstructor.Invoke(null);
+                            }
+                            SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);
+                        }
                     }
                     catch (Exception ex)
                     {
