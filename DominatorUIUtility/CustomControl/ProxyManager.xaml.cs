@@ -16,6 +16,7 @@ using DominatorHouseCore.LogHelper;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
+using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -25,13 +26,15 @@ namespace DominatorUIUtility.CustomControl
     public partial class ProxyManager : UserControl
     {
         ProxyManagerModel currentProxyManagerModel;
+        private DominatorAccountViewModel.AccessorStrategies _strategies;
 
         ProxyManagerModel ProxyManagerModel { get; set; }
 
         ObservableCollection<ProxyManagerModel> ProxyDetail { get; set; } = new ObservableCollection<ProxyManagerModel>();
 
-        public ProxyManager()
+        public ProxyManager(DominatorAccountViewModel.AccessorStrategies strategies)
         {
+            _strategies = strategies;
             InitializeComponent();
             SetDataContext();
         }
@@ -131,7 +134,7 @@ namespace DominatorUIUtility.CustomControl
             AccountsFileManager.Edit(AccountToDeleteProxy);
 
 
-            UpdateAccountsProxy(AccountToDeleteProxy);
+            UpdateAccountsProxy(AccountToDeleteProxy, _strategies);
 
         }
 
@@ -325,13 +328,13 @@ namespace DominatorUIUtility.CustomControl
             ProxyDetail[indexToUpdate].AccountsAssignedto = currentProxyManagerModel.AccountsAssignedto;
             ProxyDetail[indexToUpdate].AccountsToBeAssign = currentProxyManagerModel.AccountsToBeAssign;
 
-            UpdateAccountsProxy(AccountToUpdateProxy);
+            UpdateAccountsProxy(AccountToUpdateProxy, _strategies);
         }
 
 
-        private static void UpdateAccountsProxy( DominatorAccountModel accountToUpdateProxy)
+        private static void UpdateAccountsProxy( DominatorAccountModel accountToUpdateProxy, DominatorAccountViewModel.AccessorStrategies strategies)
         {
-            var objAccountCustomControl = AccountCustomControl.GetAccountCustomControl();
+            var objAccountCustomControl = AccountCustomControl.GetAccountCustomControl(strategies);
 
             var updateAccountsDetails = objAccountCustomControl.DominatorAccountViewModel.LstDominatorAccountModel.FirstOrDefault(x =>
                   x.AccountBaseModel.AccountId == accountToUpdateProxy.AccountBaseModel.AccountId);

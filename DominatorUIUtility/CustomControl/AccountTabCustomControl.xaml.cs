@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
+using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -22,7 +23,7 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class AccountTabCustomControl : UserControl
     {
-        public AccountTabCustomControl()
+        public AccountTabCustomControl(DominatorAccountViewModel.AccessorStrategies strategies)
         {
             InitializeComponent();
             var items = new List<TabItemTemplates>
@@ -30,7 +31,7 @@ namespace DominatorUIUtility.CustomControl
                 new TabItemTemplates
                 {
                     Title =FindResource("langAccountsManager").ToString(),
-                    Content = new Lazy<UserControl>(() =>  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social))
+                    Content = new Lazy<UserControl>(() =>  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, strategies))
                 },
                 //new TabItemTemplates
                 //{

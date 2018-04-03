@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.ViewModel;
 
 namespace DominatorHouse.Social.Accounts
 {
@@ -24,12 +25,15 @@ namespace DominatorHouse.Social.Accounts
     /// Interaction logic for AccountTab.xaml
     /// </summary>
     public partial class AccountTab : UserControl 
-    {     
-        public AccountTab()
+    {
+        private DominatorAccountViewModel.AccessorStrategies _strategies;
+
+        public AccountTab(DominatorAccountViewModel.AccessorStrategies strategies)
         {
+            this._strategies = strategies;
             InitializeComponent();
             DominatorAccountTab.DataContext = this;
-            SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+            SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);
         }
 
         public AccountCustomControl SelectedUserControl { get; set; }
