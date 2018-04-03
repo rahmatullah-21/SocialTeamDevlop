@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GramDominatorCore", "..\gramdominator-library\GramDominatorCore\GramDominatorCore.csproj", "{B04813EA-A4B5-40AE-B705-743687F74770}"
 EndProject
@@ -44,6 +44,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbeddedBrowser", "EmbeddedBrowser\EmbeddedBrowser.csproj", "{21F00635-AAF7-466B-9214-A830EA9C8963}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SociNator", "SociNator\SociNator.vdproj", "{A597955A-5178-47ED-BC52-9AB9EAD17146}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtectedServerApp", "ProtectedServerApp\ProtectedServerApp.csproj", "{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtectedCommon", "ProtectedCommon\ProtectedCommon.csproj", "{060FCA33-80BF-4658-B094-17760ADDC001}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -301,11 +305,36 @@ Global
 		{A597955A-5178-47ED-BC52-9AB9EAD17146}.Debug-fast-test|x86.ActiveCfg = Debug
 		{A597955A-5178-47ED-BC52-9AB9EAD17146}.Release|Any CPU.ActiveCfg = Release
 		{A597955A-5178-47ED-BC52-9AB9EAD17146}.Release|x86.ActiveCfg = Release
+		{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}.Debug|x86.Build.0 = Debug|Any CPU
+		{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}.Release|x86.ActiveCfg = Release|Any CPU
+		{0771A96C-AF77-497A-A6FA-2DC4C94CBAE9}.Release|x86.Build.0 = Release|Any CPU
+		{060FCA33-80BF-4658-B094-17760ADDC001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{060FCA33-80BF-4658-B094-17760ADDC001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{060FCA33-80BF-4658-B094-17760ADDC001}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{060FCA33-80BF-4658-B094-17760ADDC001}.Debug|x86.Build.0 = Debug|Any CPU
+		{060FCA33-80BF-4658-B094-17760ADDC001}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{060FCA33-80BF-4658-B094-17760ADDC001}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{060FCA33-80BF-4658-B094-17760ADDC001}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{060FCA33-80BF-4658-B094-17760ADDC001}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{060FCA33-80BF-4658-B094-17760ADDC001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{060FCA33-80BF-4658-B094-17760ADDC001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{060FCA33-80BF-4658-B094-17760ADDC001}.Release|x86.ActiveCfg = Release|Any CPU
+		{060FCA33-80BF-4658-B094-17760ADDC001}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
+		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
 	EndGlobalSection
 EndGlobal

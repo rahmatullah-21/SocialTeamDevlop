@@ -54,7 +54,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public void InitializeBaseClass(
-            Grid MainGrid,
+            Grid mainGrid,
             ActivityType activityType,
             string moduleName,
             HeaderControl header = null,
@@ -69,7 +69,7 @@ namespace DominatorUIUtility.CustomControl
             _headerControl = header;
             _footerControl = footer;
             _queryControl = queryControl;
-            _mainGrid = MainGrid;
+            _mainGrid = mainGrid;
             _activityType = activityType;
             _moduleName = moduleName;
             _accountGrowthModeHeader = accountGrowthModeHeader;
@@ -364,12 +364,12 @@ namespace DominatorUIUtility.CustomControl
             if (!ValidateCampaign())
                 return;
 
-            var objTemplateModel = new TemplateModel();
+        
 
             // TODO: implement saving and add campaign
             if (false) CampaignGlobalRoutines.Instance.Create((TModel)Model, _activityType, CampaignName, _footerControl.list_SelectedAccounts);
 
-            TemplateId = objTemplateModel.SaveTemplate((TModel)Model,
+            TemplateId = TemplateModel.SaveTemplate((TModel)Model,
                 _activityType.ToString(), _socialNetwork,
                 CampaignName);
 
@@ -391,9 +391,7 @@ namespace DominatorUIUtility.CustomControl
             if (!ValidateCampaign())
                 return;
 
-            var objTemplateModel = new TemplateModel();
-
-            TemplateId = objTemplateModel.SaveTemplate((TModel)Model,
+            TemplateId = TemplateModel.SaveTemplate((TModel)Model,
                 _activityType.ToString(), _socialNetwork,
                 CampaignName);
 
@@ -693,13 +691,13 @@ namespace DominatorUIUtility.CustomControl
 
         private static void AddNewTemplate<T>(T moduleToSave, string userName, ActivityType moduleType, DominatorAccountModel account) where T : class
         {
-            var objTemplateModel = new TemplateModel();
+            
             var first = account.ActivityManager?.LstModuleConfiguration.FirstOrDefault
                 (x => x.ActivityType == moduleType);
 
             if (first != null)
                 first.TemplateId =
-                    objTemplateModel.SaveTemplate(moduleToSave,
+                    TemplateModel.SaveTemplate(moduleToSave,
                         moduleType.ToString(), SocialNetworks.Instagram,
                         userName + "_" + moduleType + "_Template");
         }
