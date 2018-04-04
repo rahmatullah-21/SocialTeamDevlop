@@ -50,7 +50,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             {
                 try
                 {
-                    ScrapeWithQueriesActionTable[query.QueryType]?.Invoke(query);
+                    ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
                 }
                 catch (KeyNotFoundException ex)
                 {

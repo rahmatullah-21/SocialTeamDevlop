@@ -428,8 +428,10 @@
                         <GridViewColumn  Header="User Name" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
 
                         <GridViewColumn  Header="Status" DisplayMemberBinding="{Binding AccountBaseModel.Status}"/>
-                      
-                        <GridViewColumn  Header="Proxy" >
+
+                        <GridViewColumn  Header="Group Name" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
+
+                        <GridViewColumn  Header="Proxy" Width="130">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type ListViewItem}">
                                     <TextBlock Name="TextBlockName" Text="{Binding Path=AccountBaseModel.AccountProxy.ProxyIp}"></TextBlock>
@@ -440,7 +442,6 @@
                                         <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="{x:Null}">
                                             <Setter TargetName="TextBlockName" Property="Text" Value="Local Ip" />
                                         </DataTrigger>
-
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

@@ -112,5 +112,10 @@ namespace DominatorHouseCore.Utility
 
         public static string GetDownloadedMediaFolderPath =>
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+        public static string GetOtherEmailNotificationFile() => GetOtherDir() + @"\EmailNotification.bin";
+        public static string GetOtherEmbeddedBrowserSettingsFile() => GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
+        public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";
+        public static string GetOtherFacebookSettingsFile() => GetOtherDir() + @"\Facebook.bin";
     }
 }

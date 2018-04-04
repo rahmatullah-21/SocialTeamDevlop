@@ -5,7 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              mc:Ignorable="d" MaxHeight="700" MaxWidth="650"
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+    <UserControl.Resources>
+        <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
+    </UserControl.Resources>
     <Border BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="1" Margin="10">
         <Grid>
             <Grid.RowDefinitions>
@@ -17,52 +21,46 @@
             <Grid Grid.Row="0"  Background="{DynamicResource AccentBaseColorBrush}" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.5*" />
-                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
                 
                 <!--Groups combobox-->
-                <Grid Height="30" VerticalAlignment="Center">
-                    <ComboBox Name="cmbAllGroups" Margin="10,0,0,0"
+                <Grid Height="30" VerticalAlignment="Center" >
+                    <ComboBox x:Name="cmbAllGroups" Margin="10,0,0,0"
                       Grid.Column="0" Text="{DynamicResource langSelectGroup}"
-                       Width="200" Height="25"
-                      VerticalAlignment="Center" 
+                       Width="200" Height="30"
+                      VerticalAlignment="Center" VerticalContentAlignment="Top"
                       FontSize="14" Background="White"
                       IsEditable="True" DropDownClosed="cmbAllGroups_DropDownClosed"
                       IsTextSearchEnabled="False" 
                       ItemsSource="{Binding Groups}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox Content="{Binding Content}" Name="chkgroup"
+                                <CheckBox Content="{Binding Content}" x:Name="chkgroup"
                                           IsChecked="{Binding IsContentSelected}"  Checked="chkgroup_Checked" Unchecked="chkgroup_Unchecked"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </Grid>
-
-                <!--Select All Account Checkbox-->
-                <CheckBox Name="chkSelectAllAccount" 
-                      Grid.Column="1" Checked="chkSelectAllAccount_Checked" Unchecked="chkSelectAllAccount_Unchecked"
-                      Margin="0,0,4,0" Foreground="White"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
-                      Content="{DynamicResource langSelectAll}" />
-                
+              
                 <!--Filter Section-->
-                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource langSearch}" VerticalAlignment="Center" Width="100" HorizontalAlignment="Center" Style="{StaticResource SearchMetroTextBox}" Name="txtSearch" TextChanged="txtSearch_TextChanged"/>
-                    <ComboBox Margin="10,0,10,0"  Controls:TextBoxHelper.ClearTextButton="True" SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Center"  Name="cmbSearchFilter" >
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource langSearch}" 
+                              VerticalAlignment="Center" Height="30"  HorizontalAlignment="Left" Width="150"
+                              Style="{StaticResource SearchMetroTextBox}" Name="txtSearch" TextChanged="txtSearch_TextChanged"/>
+                    <ComboBox Margin="10,0"  Controls:TextBoxHelper.ClearTextButton="True" SelectedIndex="0" Width="150" 
+                              VerticalAlignment="Center" HorizontalAlignment="Right" Height="30"  Name="cmbSearchFilter" >
                         <ComboBoxItem Content="{DynamicResource langByGroupName}"/>
                         <ComboBoxItem Content="{DynamicResource langByAccount}"/>
                     </ComboBox>
                 </StackPanel>
-                
             </Grid>
 
             <!--Account detail list-->
             <Grid Grid.Row="1" Margin="0,10,0,0">
                 <ListView ItemsSource="{Binding AccountCollectionView}" ItemContainerStyle="{StaticResource ListViewItems}"
-                          Name="lstviewAccounts" SizeChanged="lstviewAccounts_SizeChanged">
+                          Name="lstviewAccounts"
+                          Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="False">
                     <ListView.Resources>
                         <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
                             <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -70,17 +68,26 @@
                     </ListView.Resources>
                     <ListView.View>
                         <GridView AllowsColumnReorder="False" >
-                            <GridViewColumn Header="{DynamicResource langSelect}" >
+                            <GridViewColumn Width="100" >
+                                <CheckBox x:Name="AllAccount"  Content=" #" IsChecked="{Binding IsAllAccountSelected}"
+                                          Checked="AllAccount_OnChecked"
+                                          Unchecked="AllAccount_OnUnchecked"/>
                                 <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox Name="chkSelectAccount" HorizontalAlignment="Center"
-                                         IsChecked="{Binding IsAccountSelected}" />
+                                    <DataTemplate >
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <CheckBox IsChecked="{Binding IsAccountSelected}" 
+                                                      x:Name="SingleAccount"
+                                                       Margin="5,0,0,0" Unchecked="SingleAccount_OnUnchecked"/>
+                                            <Label Content="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                   AncestorType={x:Type ListViewItem}}, 
+                                                   Converter={StaticResource ListViewItemIndexConverter}}"/>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn  Header="{DynamicResource langSNo}" DisplayMemberBinding="{Binding RowNo}" />
+                            <!--<GridViewColumn  Header="{DynamicResource langSNo}" DisplayMemberBinding="{Binding RowNo}" />-->
                             <GridViewColumn   Header="{DynamicResource langAccounts}" DisplayMemberBinding="{Binding UserName}" />
-                            <GridViewColumn   Header="{DynamicResource langGroupName}" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
+                            <GridViewColumn   Header="{DynamicResource langGroupName}" DisplayMemberBinding="{Binding GroupName}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

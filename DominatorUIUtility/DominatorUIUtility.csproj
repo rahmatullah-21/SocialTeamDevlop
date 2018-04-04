@@ -135,6 +135,30 @@
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
     <Compile Include="Behaviours\ReportManager.cs" />
     <Compile Include="Behaviours\UserFilterAction.cs" />
+    <Compile Include="ConfigControl\EmailNotifications.xaml.cs">
+      <DependentUpon>EmailNotifications.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\EmbeddedBrowserSettings.xaml.cs">
+      <DependentUpon>EmbeddedBrowserSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\Facebook.xaml.cs">
+      <DependentUpon>Facebook.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\Pinterest.xaml.cs">
+      <DependentUpon>Pinterest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\SoftwareSettings.xaml.cs">
+      <DependentUpon>SoftwareSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\Tumblr.xaml.cs">
+      <DependentUpon>Tumblr.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\Twitter.xaml.cs">
+      <DependentUpon>Twitter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\Youtube.xaml.cs">
+      <DependentUpon>Youtube.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\AccountCustomControl.xaml.cs">
       <DependentUpon>AccountCustomControl.xaml</DependentUpon>
     </Compile>
@@ -194,6 +218,7 @@
     </Compile>
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
+    <Compile Include="ViewModel\SelectAccountViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
     </Compile>
@@ -246,6 +271,38 @@
       <DependentUpon>ManagePosts.xaml</DependentUpon>
     </Compile>
     <Page Include="Behaviours\ErrorModelControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\EmailNotifications.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\EmbeddedBrowserSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\Facebook.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\Pinterest.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\SoftwareSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\Tumblr.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\Twitter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\Youtube.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -362,6 +419,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\IconsNonShared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Languages\DHLanguages\English.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

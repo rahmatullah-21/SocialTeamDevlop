@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouse.Social.Accounts;
 using DominatorHouse.Social.AutoActivity.Views;
+using DominatorHouse.Social.OtherConfiguration;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
@@ -79,7 +80,7 @@ namespace DominatorHouse.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("langOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("langOtherConfigurations")?.ToString(),
-                    //  Content=new Lazy<UserControl>(()=>new OtherConfiguration())
+                      Content=new Lazy<UserControl>(()=>new OtherConfigurationTab())
                 }
             };
         }

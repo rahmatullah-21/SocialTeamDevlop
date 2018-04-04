@@ -784,7 +784,7 @@ namespace DominatorUIUtility.CustomControl
             {
 
                 var objSelectAccountControl = new SelectAccountControl(_footerControl.list_SelectedAccounts,
-                    filterForActiveSocialNetwrok: true);
+                    filterForActiveSocialNetwork: true);
 
                 var objDialog = new Dialog();
 
