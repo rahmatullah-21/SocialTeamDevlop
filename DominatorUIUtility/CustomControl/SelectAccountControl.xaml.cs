@@ -48,13 +48,6 @@ namespace DominatorUIUtility.CustomControl
                         });
             });
 
-
-            //_objAccountViewModel.LstSelectAccount.ForEach(x =>
-            //{
-               
-            //});
-
-
             //Select the account which is already selected
             _objAccountViewModel.LstSelectAccount?.ToList().ForEach(x =>
             {

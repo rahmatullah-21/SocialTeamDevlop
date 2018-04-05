@@ -73,10 +73,8 @@ namespace DominatorHouseCore.Process
 
         private void InitializeDatabaseConnection()
         {
-            DataBaseConnectionCampaign =
-                DataBaseHandler.GetDataBaseConnectionInstance(CampaignId, SocialNetworks, DatabaseType.CampaignType);
-            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(
-                DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks, DatabaseType.AccountType);
+            DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionInstance(CampaignId, SocialNetworks, DatabaseType.CampaignType);
+            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks, DatabaseType.AccountType);
         }
 
 
@@ -154,28 +152,28 @@ namespace DominatorHouseCore.Process
             var currentTime = DateTimeUtilities.GetEpochTime();
 
             // Check weekly limit. If reached, Stop task and wait for next days.
-            // TODO: implement schedule holder on a weekly basis.
-            NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<InteractedUsers>(x => currentTime - x.Date <= 3600 * 24 * 7).Count();
+
+            var getStartDateofWeek = DateTime.Now.GetStartOfWeek();
+            var getTodayDate = DateTime.Today;
+
+            NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<DatabaseHandler.TdTables.Accounts.InteractedUsers>(x => x.InteractionDateTime >= getStartDateofWeek).Count();
 
             if (NoOfActionPerformedCurrentWeek >= MaxNoOfActionPerWeek)
             {
                 Stop();
                 return true;
             }
+        
+            NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<DatabaseHandler.TdTables.Accounts.InteractedUsers>(x => x.InteractionDateTime >= getTodayDate).Count();
 
-            // Check daily limit
-            // TODO: extend DominatorScheduler with holding days/weeks and obtain day of next job from there
-            NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign
-                .Get<InteractedUsers>(x => currentTime - x.Date <= 3600 * 24).Count();
             if (NoOfActionPerformedCurrentDay >= MaxNoOfActionPerDay)
             {
                 Stop();
                 return true;
             }
+        
+            NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<DatabaseHandler.TdTables.Accounts.InteractedUsers>(x => x.InteractionDateTime.Hour == DateTime.Now.Hour && x.InteractionDateTime.Date == getTodayDate.Date).Count;
 
-            // Check hourly limit. Wait a hour.
-            // TODO: implement schedule holder on a weekly basis and extract next hours job from there.
-            NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<InteractedUsers>(x => currentTime - x.Date <= 3600).Count;
             if (NoOfActionPerformedCurrentHour >= MaxNoOfActionPerHour)
             {
                 // schedule next job on next hour

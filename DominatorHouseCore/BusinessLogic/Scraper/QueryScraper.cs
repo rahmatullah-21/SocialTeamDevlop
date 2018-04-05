@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
+using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {   
@@ -45,6 +46,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         public void ScrapeWithQueries()
         {
             Debug.Assert(_jobProcess.SavedQueries.Count > 0);
+
+            _jobProcess.SavedQueries.Shuffle();
 
             foreach (var query in _jobProcess.SavedQueries)
             {
