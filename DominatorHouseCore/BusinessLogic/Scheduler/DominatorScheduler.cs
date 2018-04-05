@@ -115,53 +115,77 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     return;
                 }
 
-                // get the hour and minute of current time
-                var currentTimespan = DateTimeUtilities.GetTimeSpanCurrentHourMinute();
-
                 // Schedule jobs of specific module for each time range
                 foreach (var timing in timeScheduleModel.Timings)
                 {
                     // get the template id for respective module
-                    string templateId = GetTemplateId(timing, dominatorAccount);
+                    var templateId = GetTemplateId(timing, dominatorAccount);
+
                     var jobId = JobProcess.AsId(dominatorAccount.AccountId, templateId);
 
-                    // If start time not met before,it will schedule to start time
-                    if (timing.StartTime.Hours >= currentTimespan.Hours && timing.StartTime.Minutes > currentTimespan.Minutes)
+                    var now = DateTime.Now.TimeOfDay;
+
+                    if (TimeBetween(now, timing.StartTime, timing.EndTime))
                     {
-                        JobManager.AddJob(() =>
-                        {
-                            RunActivity(dominatorAccount, templateId, timing, timing.Module);
-
-                        }, s => s.WithName(jobId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
-
-                        JobManager.AddJob(() =>
-                        {
-                            StopActivity(dominatorAccount.AccountBaseModel.AccountId, timing.Module, templateId);
-
-                        }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
+                        ScheduleJob(dominatorAccount, timing, templateId, jobId, isDelayed: now > timing.StartTime);
                     }
+                    //// If start time not met before,it will schedule to start time
+                    //if (timing.StartTime.Hours >= currentTimespan.Hours && timing.StartTime.Minutes > currentTimespan.Minutes)
+                    //{
+                    //    ScheduleJob(dominatorAccount, timing, templateId, jobId, isDelayed: false);
+                    //}
 
-                    // If start time already crossed of the day and end time is not crossed, then it will start after 5 seconds
-                    else if (timing.EndTime.Hours >= currentTimespan.Hours && timing.EndTime.Minutes > currentTimespan.Minutes)
-                    {
-                        JobManager.AddJob(() =>
-                        {
-                            RunActivity(dominatorAccount, templateId, timing, timing.Module);
-
-                        }, s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
-
-                        JobManager.AddJob(() =>
-                        {
-                            StopActivity(dominatorAccount.AccountBaseModel.AccountId, timing.Module, templateId);
-
-                        }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
-                    }
+                    //// If start time already crossed of the day and end time is not crossed, then it will start after 5 seconds
+                    //else if (timing.EndTime.Hours >= currentTimespan.Hours && timing.EndTime.Minutes > currentTimespan.Minutes)
+                    //{
+                    //    ScheduleJob(dominatorAccount, timing, templateId, jobId, isDelayed: true);
+                    //}
                 };
-
             }
             catch (Exception ex)
             {
                 GlobusLogHelper.log.Error(ex.Message);
+            }
+        }
+
+
+        private static bool TimeBetween(TimeSpan now, TimeSpan start, TimeSpan end)
+        {
+            if (start < end)
+                if (now <= end || start > now)
+                    return true;
+            return !(end < now && now < start);
+        }
+
+
+        private static void ScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, bool isDelayed)
+        {
+            if (isDelayed)
+            {
+                JobManager.AddJob(() =>
+                {
+                    RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                }, s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
+
+                JobManager.AddJob(() =>
+                {
+                    StopActivity(dominatorAccount.AccountBaseModel.AccountId, timing.Module, templateId);
+                }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
+            }
+            else
+            {
+                JobManager.AddJob(() =>
+                {
+                    RunActivity(dominatorAccount, templateId, timing, timing.Module);
+
+                }, s => s.WithName(jobId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
+
+                JobManager.AddJob(() =>
+                {
+                    StopActivity(dominatorAccount.AccountBaseModel.AccountId, timing.Module, templateId);
+
+                }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
+
             }
         }
 
