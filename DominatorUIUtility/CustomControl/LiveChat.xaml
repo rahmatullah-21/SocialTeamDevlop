@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              mc:Ignorable="d" xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             >
+             xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converter:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
         <converter:MessegeTypeToHorizontalAlignmentConverter x:Key="MessegeTypeToHorizontalAlignmentConverter"/>
@@ -69,7 +68,6 @@
                     Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
-                            
                             <Setter Property="Focusable" Value="False"/>
                         </Style>
                         
@@ -87,7 +85,7 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <Border CornerRadius="10"  Padding="15" Background="{DynamicResource AccentColorBrush}">
+                                        <Border CornerRadius="10"  Padding="15"  Background="{DynamicResource AccentColorBrush}">
                                            <TextBox IsReadOnly="True" BorderThickness="0" Background="Transparent" 
                                                     x:Name="Messege"  Text="{Binding Messeges}" Grid.Column="0" Foreground="White"
                                                     VerticalAlignment="Top"  Margin="10,5" HorizontalAlignment="Left"/>

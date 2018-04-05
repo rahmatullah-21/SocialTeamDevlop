@@ -68,6 +68,7 @@ namespace DominatorHouseCore.Diagnostics
             if (_registeredLibraries.ContainsKey(network))
             {
                 ActiveLibrary = _registeredLibraries[network];
+
                 return;
             }
 
@@ -79,6 +80,8 @@ namespace DominatorHouseCore.Diagnostics
                 JobProcessFactory = jobProcessFactory,
                 QueryScraperFactory = queryScrapperFactory,
             };
+
+
             _registeredLibraries.Add(network, ActiveLibrary);
 
 

@@ -143,6 +143,7 @@ namespace DominatorHouseCore.Process
         public virtual JobProcessResult FinalProcess(ScrapeResultNew scrapedResult)
         {
             var jobProcessResult = PostScrapeProcess(scrapedResult);
+
             jobProcessResult.IsProcessCompleted = CheckJobProcessLimitsReached();
 
             if (jobProcessResult.IsProcessCompleted)
@@ -152,7 +153,9 @@ namespace DominatorHouseCore.Process
                                          DominatorAccountModel.AccountBaseModel.UserName + " module => " +
                                          ActivityType);
             }
+
             return jobProcessResult;
+
         }
 
 
@@ -164,7 +167,10 @@ namespace DominatorHouseCore.Process
         /// </returns>
         protected virtual bool CheckJobProcessLimitsReached()
         {
+
+
             var currentTime = DateTimeUtilities.GetEpochTime();
+
 
             // Check weekly limit. If reached, Stop task and wait for next days.
             // TODO: implement schedule holder on a weekly basis.
@@ -186,6 +192,8 @@ namespace DominatorHouseCore.Process
                 Stop();
                 return true;
             }
+
+
 
             // Check hourly limit. Wait a hour.
             // TODO: implement schedule holder on a weekly basis and extract next hours job from there.

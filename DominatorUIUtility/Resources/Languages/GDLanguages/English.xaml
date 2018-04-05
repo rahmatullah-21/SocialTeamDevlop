@@ -1208,6 +1208,23 @@
     <system:String x:Key="GdlangLiveChat">LiveChat</system:String>
     <system:String x:Key="DHlangCollapseAll">Collapse All</system:String>
 
+
+    <system:String x:Key="DHWhatInMind">What's on your mind?</system:String>
+    <system:String x:Key="GDlangFollowBack">Follow Back</system:String>
+    <system:String x:Key="GDlangLikeComments">Like Comments</system:String>
+    <system:String x:Key="GDlangBlockFollower">Block Follower</system:String>
+
+
+
+    <system:String x:Key="GDlangNumberOfHashtagsPerJob">Number of Hashtags per job</system:String>
+    <system:String x:Key="GDlangNumberOfHashtagsPerHour">Number of Hashtags per hour</system:String>
+    <system:String x:Key="GDlangNumberOfHashtagsPerDay">Number of Hashtags per day</system:String>
+    <system:String x:Key="GDlangNumberOfHashtagsPerWeek">Number of Hashtags per week</system:String>
+    <system:String x:Key="GDlangMaxHashtagsDay">Max Hashtags per day</system:String>
+    <system:String x:Key="GDlangScrape">Scrape</system:String>
+    <system:String x:Key="GDlangHashtagsScrape">Hashtags Scraper</system:String>
+
+
     <!--End Gram Dominator-->
 
     <!--Start Twt Dominator-->

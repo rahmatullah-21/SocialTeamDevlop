@@ -59,8 +59,7 @@
 
         <!--Account Growth Mode Tabs-->
         <TabControl  controls:TabControlHelper.Underlined="None" TabStripPlacement="Left" SelectedIndex="0"
-                   Name="MainTabControl" VerticalAlignment="Stretch" >
-
+                   x:Name="MainTabControl" VerticalAlignment="Stretch" >
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="Template">
@@ -123,25 +122,20 @@
                 <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid>
-
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
-
                             </Grid.ColumnDefinitions>
                         </Grid>
                     </ItemsPanelTemplate>
                 </StatusBar.ItemsPanel>
                 <StatusBarItem  Grid.Column="0" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource langLoadedMemory}"
-                               Foreground="White"
-                              />
-                        <TextBlock Name="lbl_LoadedMemory" Text="{DynamicResource langZeroMB}"
-                           Foreground="White"
+                        <TextBlock Text="{DynamicResource langLoadedMemory}" Foreground="White"/>
+                        <TextBlock Name="lbl_LoadedMemory" Text="{DynamicResource langZeroMB}" Foreground="White"
                            />
                     </StackPanel>
 
@@ -163,7 +157,6 @@
                 <StatusBarItem  Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center">
                     <TextBlock Text="{DynamicResource langActivityLog}" Name="ActivityLog" MouseDown="ActivityLog_OnMouseDown"/>
                 </StatusBarItem>
-
                 <StatusBarItem  Grid.Column="3" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
 

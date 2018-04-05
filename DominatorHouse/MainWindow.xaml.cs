@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -46,7 +47,6 @@ namespace DominatorHouse
     /// </summary>
     public partial class MainWindow : MetroWindow, ILoggableWindow
     {
-
         public List<TabItemTemplates> TabItems { get; set; }
 
         // Bring all the performance bottlenecks to here. Actually MainWindow class should 
@@ -58,12 +58,11 @@ namespace DominatorHouse
 
         public MainWindow()
         {
+            InitializeComponent();
             DominatorHouseInitializer.Init(this,
                 DominatorJobProcessFactory.Instance,
                 DominatorScraperFactory.Instance,
                 SocialNetworks.Social);
-
-            InitializeComponent();
 
             MainTabControl.ItemsSource = InitializeAllTabs();
 
@@ -91,7 +90,6 @@ namespace DominatorHouse
                 (selectedTabObject as dynamic).setIndex((int)subTabIndex);
             };
 
-
             TabSwitcher.GoToCampaign = ()
                 => MainTabControl.SelectedIndex = TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
             ConfigFileManager.ApplyTheme();
@@ -105,8 +103,17 @@ namespace DominatorHouse
             });
 
             DialogParticipation.SetRegister(this, this);
+            List<TemplateModel> lstTemplateDetails = BinFileHelper.GetTemplateDetails();
+
+
+            //var model = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == template);
+
+            //DominatorScheduler.RunActivity();
+
 
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
+
+
 
         }
 

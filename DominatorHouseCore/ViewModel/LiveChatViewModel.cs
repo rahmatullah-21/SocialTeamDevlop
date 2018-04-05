@@ -26,5 +26,8 @@ namespace DominatorHouseCore.ViewModel
             }
         }
 
+
+        public List<DominatorAccountModel> lstAccountModel = new List<DominatorAccountModel>();
+
     }
 }

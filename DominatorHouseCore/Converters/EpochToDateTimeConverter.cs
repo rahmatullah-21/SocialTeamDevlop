@@ -11,8 +11,15 @@ namespace DominatorHouseCore.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
-            return DateTimeHelper.EpochToDateTimeUtc(int.Parse(value.ToString()));
+            try
+            {
+                return DateTimeHelper.EpochToDateTimeUtc(int.Parse(value.ToString()));
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

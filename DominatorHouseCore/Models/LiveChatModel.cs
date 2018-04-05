@@ -6,7 +6,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Media;
+using System.Globalization;
+using System.Windows;
 
 namespace DominatorHouseCore.Models
 {
@@ -76,6 +79,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _senderDetails, value);
             }
         }
+
+        [ProtoMember(4)]
+        public string SenderDetailsCursorId { get; set; }
+
+        public DominatorAccountModel dominatorAccountModel { get; set; }
+
     }
 
 
@@ -112,9 +121,9 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _senderImage, value);
             }
         }
-        private int _lastMessegedate;
+        private string _lastMessegedate;
         [ProtoMember(3)]
-        public int LastMessegedate
+        public string LastMessegedate
         {
             get
             {
@@ -143,8 +152,21 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _lastMesseges, value);
             }
         }
-       
 
+
+        public string SenderId { get; set; }
+
+
+        [ProtoMember(5)]
+        public string ThreadId { get; set; }
+
+
+        public bool more_available_min { get; set; }
+
+        public bool more_available_max { get; set; }
+
+        public string next_max_id { get; set; }
+        public string next_min_id { get; set; }
     }
 
     [ProtoContract]
@@ -196,6 +218,7 @@ namespace DominatorHouseCore.Models
             }
         }
         private string _time;
+
         [ProtoMember(4)]
         public string Time
         {
@@ -209,6 +232,44 @@ namespace DominatorHouseCore.Models
                     return;
                 SetProperty(ref _time, value);
             }
+        }
+
+        [ProtoMember(5)]
+        public string itemId { get; set; }
+
+        [ProtoMember(6)]
+        public string SenderId { get; set; }
+
+
+        private bool _IsRecieved { get; set; }
+
+        public bool IsRecieved
+        {
+            get { return _IsRecieved; }
+            set
+            {
+                if (value == _IsRecieved) return;
+                _IsRecieved = value;
+                this.OnPropertyChanged("IsRecieved");
+              
+            }
+        }
+
+        public AllignmentConvertor allignmentConvertor = new AllignmentConvertor();
+
+    }
+
+
+    public class AllignmentConvertor : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+           return (bool)value == true ? HorizontalAlignment.Right: HorizontalAlignment.Left;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (HorizontalAlignment)value == HorizontalAlignment.Right;
         }
     }
 }

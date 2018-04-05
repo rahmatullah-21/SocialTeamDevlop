@@ -164,6 +164,18 @@ namespace DominatorHouseCore.Enums
         UnSubscribe = 54,
 
         [Description("YouTube")]
-        ViewIncreaser = 55
+        ViewIncreaser = 55,
+
+        [Description("Instagram")]
+        FollowBack = 56,
+
+        [Description("Instagram")]
+        BlockFollower = 57,
+
+        [Description("Instagram")]
+        LikeComment = 58,
+
+        [Description("Instagram")]
+        HashtagsScraper = 59
     }
 }
