@@ -174,10 +174,13 @@
     <Compile Include="DatabaseHandler\CoreModels\CustomHistory.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DataBaseConnection.cs" />
     <Compile Include="DatabaseHandler\CoreModels\SQLiteConfiguration.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\Communities.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Friendship.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedCommunities.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUserReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\DailyStatitics.cs" />
@@ -205,6 +208,9 @@
     <Compile Include="Diagnostics\Exceptions\ThreadFactory.cs" />
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
+    <Compile Include="Enums\GpDQuery\GplusCommunitiesQueries.cs" />
+    <Compile Include="Enums\GpDQuery\GplusPostsQueries.cs" />
+    <Compile Include="Enums\GpDQuery\GplusUsersQueries.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
@@ -214,6 +220,7 @@
     <Compile Include="FileManagers\TumblrFileManager.cs" />
     <Compile Include="FileManagers\TwitterFileManager.cs" />
     <Compile Include="FileManagers\YoutubeFileManager.cs" />
+    <Compile Include="Interfaces\ICommunity.cs" />
     <Compile Include="Interfaces\INetworkCollectionFactory.cs" />
     <Compile Include="Interfaces\INetworkCoreFactory.cs" />
     <Compile Include="Diagnostics\SocinatorInitialize.cs" />

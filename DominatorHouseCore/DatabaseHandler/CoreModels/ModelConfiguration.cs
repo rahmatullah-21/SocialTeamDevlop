@@ -52,6 +52,8 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<GplusTables.Accounts.InteractedPosts>();
                     modelBuilder.Entity<GplusTables.Accounts.InteractedUsers>();
                     modelBuilder.Entity<GplusTables.Accounts.UnfollowedUsers>();
+                    modelBuilder.Entity<GplusTables.Accounts.Communities>();
+                    modelBuilder.Entity<GplusTables.Accounts.InteractedCommunities>();
                     break;
                 case SocialNetworks.Facebook:
                     break;

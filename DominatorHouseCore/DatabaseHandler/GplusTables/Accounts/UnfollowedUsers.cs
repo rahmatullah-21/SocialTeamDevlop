@@ -34,7 +34,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 
 
         [Column(Order = 6)]
-        public string InteractionDate
+        public int InteractionDate
         { get; set; }
 
 
@@ -44,7 +44,11 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 
 
         [Column(Order = 8)]
-        public string Username
+        public string UserId
+        { get; set; }
+
+        [Column(Order = 9)]
+        public string FullName
         { get; set; }
 
     }

@@ -4,7 +4,7 @@ using SQLite.CodeFirst;
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 {
-    public class InteractedUsers
+    public class InteractedUserReport
     {
         [Key]
         [Autoincrement]
@@ -53,7 +53,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 
 
         [Column(Order = 12)]
-        public bool? HasAnonymousProfilePicture
+        public bool HasAnonymousProfilePicture
         { get; set; }
 
 
@@ -66,9 +66,10 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public string ProfilePicUrl
         { get; set; }
 
-       
+
         [Column(Order = 15)]
         public FollowType FollowType
         { get; set; }
+
     }
 }

@@ -230,7 +230,6 @@ namespace DominatorHouseCore.Process
                 scraper.ScrapeWithoutQueries(ActivityType.ToString());
             else
                 scraper.ScrapeWithQueries();
-
         }
 
         #region Required Properties
@@ -371,8 +370,7 @@ namespace DominatorHouseCore.Process
 
                 JobCancellationTokenSource.Token.Register(() =>
                 {
-                    
-
+                    Console.WriteLine("Cancellation requested!");
                 });
             }
         }

@@ -174,6 +174,7 @@ namespace DominatorHouse
 
             TabSwitcher.ChangeTabIndex = (mainTabIndex, subTabIndex) =>
             {
+                SelectedViewIndex = mainTabIndex;
 
                 if (subTabIndex == null)
                     return;

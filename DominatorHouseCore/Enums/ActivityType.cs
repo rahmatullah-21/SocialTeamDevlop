@@ -91,7 +91,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         CommentScraper = 29,
 
-        [Description("Facebook")]
+        [Description("Facebook,Gplus")]
         PostScraper = 30,
 
         [Description("Facebook,LinkedIn")]
@@ -177,6 +177,9 @@ namespace DominatorHouseCore.Enums
 
         [Description("Twitter")]
         Mute = 59,
+
+        [Description("Gplus")]
+        CommunityScraper = 60
 
     }
 }
