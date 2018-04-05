@@ -65,7 +65,12 @@ namespace DominatorHouseCore.Utility
         public static List<DominatorAccountModel> GetAccountDetails()
         {
             lock (_accountDetailsFileLocker)
-                return ProtoBuffBase.DeserializeList<DominatorAccountModel>(ConstantVariable.GetIndexAccountFile());
+            {
+                var indexAccountPath = ConstantVariable.GetIndexAccountFile();
+                return File.Exists(indexAccountPath) ? 
+                    ProtoBuffBase.DeserializeList<DominatorAccountModel>(indexAccountPath) : 
+                    new List<DominatorAccountModel>();
+            }
         }
 
 
@@ -364,9 +369,15 @@ namespace DominatorHouseCore.Utility
             try
             {
                 lock (_configFileLocker)
-                    return ProtoBuffBase.DeserializeList<T>(ConstantVariable.GetOtherConfigFile());
+                {
+                    var configDetailsPath = ConstantVariable.GetOtherConfigFile();
+                    if (File.Exists(configDetailsPath)) {
+                        return ProtoBuffBase.DeserializeList<T>(configDetailsPath);
+                    }
+                    return new List<T>();
+                }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
 

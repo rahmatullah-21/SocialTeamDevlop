@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.props" Condition="Exists('..\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.props')" />
+  <Import Project="..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props')" />
+  <Import Project="..\packages\cef.redist.x86.3.3239.1723\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.3.3239.1723\build\cef.redist.x86.props')" />
+  <Import Project="..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.props')" />
   <Import Project="..\..\gramdominator-library\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.props" Condition="Exists('..\..\gramdominator-library\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.props')" />
   <Import Project="..\..\gramdominator-library\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props" Condition="Exists('..\..\gramdominator-library\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props')" />
   <Import Project="..\packages\CefSharp.Wpf.63.0.2\build\CefSharp.Wpf.props" Condition="Exists('..\packages\CefSharp.Wpf.63.0.2\build\CefSharp.Wpf.props')" />
   <Import Project="..\packages\CefSharp.Common.63.0.2\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.63.0.2\build\CefSharp.Common.props')" />
-  <Import Project="..\packages\cef.redist.x86.3.3239.1723\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.3.3239.1723\build\cef.redist.x86.props')" />
-  <Import Project="..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -20,9 +22,9 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,21 +66,25 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CefSharp.BrowserSubprocess, Version=63.0.0.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86">
+    <Reference Include="CefSharp, Version=63.0.3.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CefSharp.Common.63.0.2\CefSharp\x86\CefSharp.BrowserSubprocess.exe</HintPath>
+      <HintPath>..\packages\CefSharp.Common.63.0.3\CefSharp\x86\CefSharp.dll</HintPath>
     </Reference>
-    <Reference Include="CefSharp.BrowserSubprocess.Core, Version=63.0.0.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86">
+    <Reference Include="CefSharp.BrowserSubprocess, Version=63.0.3.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CefSharp.Common.63.0.2\CefSharp\x86\CefSharp.BrowserSubprocess.Core.dll</HintPath>
+      <HintPath>..\packages\CefSharp.Common.63.0.3\CefSharp\x86\CefSharp.BrowserSubprocess.exe</HintPath>
     </Reference>
-    <Reference Include="CefSharp.Core, Version=63.0.0.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86">
+    <Reference Include="CefSharp.BrowserSubprocess.Core, Version=63.0.3.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CefSharp.Common.63.0.2\CefSharp\x86\CefSharp.Core.dll</HintPath>
+      <HintPath>..\packages\CefSharp.Common.63.0.3\CefSharp\x86\CefSharp.BrowserSubprocess.Core.dll</HintPath>
     </Reference>
-    <Reference Include="CefSharp.Wpf, Version=63.0.0.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86">
+    <Reference Include="CefSharp.Core, Version=63.0.3.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CefSharp.Wpf.63.0.2\CefSharp\x86\CefSharp.Wpf.dll</HintPath>
+      <HintPath>..\packages\CefSharp.Common.63.0.3\CefSharp\x86\CefSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.Wpf, Version=63.0.3.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CefSharp.Wpf.63.0.3\CefSharp\x86\CefSharp.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.1.6.0\lib\net45\MahApps.Metro.dll</HintPath>
@@ -160,20 +166,20 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="CefSharpFiles\Libs\cef.pak" />
+    <None Include="CefSharpFiles\Libs\cef_100_percent.pak" />
+    <None Include="CefSharpFiles\Libs\cef_200_percent.pak" />
+    <None Include="CefSharpFiles\Libs\cef_extensions.pak" />
+    <None Include="CefSharpFiles\Libs\devtools_resources.pak" />
+    <None Include="CefSharpFiles\Libs\icudtl.dat" />
     <None Include="CefSharpFiles\Libs\natives_blob.bin" />
     <None Include="CefSharpFiles\Libs\snapshot_blob.bin" />
-    <None Include="CefSharpFiles\paks\cef.pak" />
-    <None Include="CefSharpFiles\paks\cef_100_percent.pak" />
-    <None Include="CefSharpFiles\paks\cef_200_percent.pak" />
-    <None Include="CefSharpFiles\paks\cef_extensions.pak" />
-    <None Include="CefSharpFiles\paks\devtools_resources.pak" />
-    <None Include="CefSharpFiles\paks\icudtl.dat" />
+    <None Include="CefSharpFiles\Libs\v8_context_snapshot.bin" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <AppDesigner Include="Properties\" />
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
@@ -186,15 +192,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\SociNator.ico" />
+    <Resource Include="Resources\Entypo-license.txt" />
+    <Resource Include="Resources\WindowsIcons-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="CefSharpFiles\Libs\chrome_elf.dll" />
     <Content Include="CefSharpFiles\Libs\d3dcompiler_47.dll" />
     <Content Include="CefSharpFiles\Libs\libcef.dll" />
     <Content Include="CefSharpFiles\Libs\libEGL.dll" />
     <Content Include="CefSharpFiles\Libs\libGLESv2.dll" />
     <Content Include="CefSharpFiles\Libs\widevinecdmadapter.dll" />
-    <Resource Include="Resources\SociNator.ico" />
-    <Resource Include="Resources\Entypo-license.txt" />
-    <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -203,24 +211,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.props'))" />
     <Error Condition="!Exists('..\packages\cef.redist.x86.3.3239.1723\build\cef.redist.x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.3239.1723\build\cef.redist.x86.props'))" />
-    <Error Condition="!Exists('..\packages\CefSharp.Common.63.0.2\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.63.0.2\build\CefSharp.Common.props'))" />
-    <Error Condition="!Exists('..\packages\CefSharp.Common.63.0.2\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.63.0.2\build\CefSharp.Common.targets'))" />
-    <Error Condition="!Exists('..\packages\CefSharp.Wpf.63.0.2\build\CefSharp.Wpf.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Wpf.63.0.2\build\CefSharp.Wpf.props'))" />
-    <Error Condition="!Exists('..\packages\CefSharp.Wpf.63.0.2\build\CefSharp.Wpf.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Wpf.63.0.2\build\CefSharp.Wpf.targets'))" />
-    <Error Condition="!Exists('..\..\gramdominator-library\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\gramdominator-library\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props'))" />
-    <Error Condition="!Exists('..\..\gramdominator-library\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\gramdominator-library\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.targets'))" />
-    <Error Condition="!Exists('..\..\gramdominator-library\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\gramdominator-library\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.props'))" />
-    <Error Condition="!Exists('..\..\gramdominator-library\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\gramdominator-library\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.targets'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.targets'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.targets'))" />
   </Target>
-  <Import Project="..\packages\CefSharp.Common.63.0.2\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.63.0.2\build\CefSharp.Common.targets')" />
-  <Import Project="..\packages\CefSharp.Wpf.63.0.2\build\CefSharp.Wpf.targets" Condition="Exists('..\packages\CefSharp.Wpf.63.0.2\build\CefSharp.Wpf.targets')" />
-  <Import Project="..\..\gramdominator-library\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.targets" Condition="Exists('..\..\gramdominator-library\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.targets')" />
-  <Import Project="..\..\gramdominator-library\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.targets" Condition="Exists('..\..\gramdominator-library\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <Import Project="..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.targets')" />
+  <Import Project="..\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.targets" Condition="Exists('..\packages\CefSharp.Wpf.63.0.3\build\CefSharp.Wpf.targets')" />
 </Project>

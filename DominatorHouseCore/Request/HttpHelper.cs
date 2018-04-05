@@ -292,7 +292,13 @@ namespace DominatorHouseCore.Request
                 try
                 {
                     // Get error message from the response
-                    return GetReponse((HttpWebResponse)ex.Response);
+                    return ex.Response != null
+                        ? GetReponse((HttpWebResponse) ex.Response)
+                        : new ResponseParameter
+                        {
+                            HasError = true,
+                            Exception = ex
+                        };
                 }
                 catch (WebException exception)
                 {

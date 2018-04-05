@@ -86,5 +86,12 @@ namespace DominatorHouseCore.Utility
             return date.AddDays((double)(-1 * num)).Date;
         }
 
+        public static DateTime GetStartOfWeek(this DateTime date)
+        {
+            int num = date.DayOfWeek - DayOfWeek.Sunday;
+            if (num < 0)
+                num += 7;
+            return date.AddDays((double)(-1 * num)).Date;
+        }
     }
 }

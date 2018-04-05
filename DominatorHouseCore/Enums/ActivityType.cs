@@ -166,6 +166,7 @@ namespace DominatorHouseCore.Enums
         [Description("YouTube")]
         ViewIncreaser = 55,
 
+<<<<<<< HEAD
         [Description("Instagram")]
         FollowBack = 56,
 
@@ -177,5 +178,19 @@ namespace DominatorHouseCore.Enums
 
         [Description("Instagram")]
         HashtagsScraper = 59
+=======
+        [Description("Pinterest")]
+        CreateBoard = 56,
+
+        [Description("Twitter")]
+        FollowBack = 57,
+
+        [Description("Twitter")]
+        DeleteTweet = 58,
+
+        [Description("Twitter")]
+        Mute = 59,
+
+>>>>>>> ef4b7d29c98222607df6555df79a5cd3b271a12d
     }
 }

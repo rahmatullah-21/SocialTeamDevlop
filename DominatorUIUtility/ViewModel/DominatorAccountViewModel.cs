@@ -12,12 +12,14 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
+using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -31,8 +33,18 @@ namespace DominatorUIUtility.ViewModel
     [ProtoContract]
     public class DominatorAccountViewModel : BindableBase
     {
-        public DominatorAccountViewModel()
+        public class AccessorStrategies
         {
+            public Func<SocialNetworks,bool> _determine_available;
+            public Action<string> _inform_warnings;
+            public Action<DominatorAccountModel> ActionCheckAccount;
+            public Action<DominatorAccountModel> AccountBrowserLogin;
+            public Action<DominatorAccountModel> action_UpdateFollower;
+        }
+
+        public DominatorAccountViewModel(AccessorStrategies strategyPack)
+        {
+            this.strategyPack = strategyPack;
 
             InitialAccountDetails();
 
@@ -40,7 +52,7 @@ namespace DominatorUIUtility.ViewModel
 
             AddSingleAccountCommand = new BaseCommand<object>(AddSingleAccountCanExecute, AddSingleAccountExecute);
 
-            LoadMultipleAccountsCommand = new BaseCommand<object>(LoadMultipleAccountsCanExecute, LoadMultipleAccountsExecute);
+            LoadMultipleAccountsCommand = new BaseCommand<object>(LoadMultipleAccountsCanExecute, (o) => LoadMultipleAccountsExecute(o, this.strategyPack._determine_available, this.strategyPack._inform_warnings));
 
             // InfoCommand = new BaseCommand<object>(InfoCommandCanExecute, InfoCommandExecute);
 
@@ -283,7 +295,7 @@ namespace DominatorUIUtility.ViewModel
         {
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
 
-            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Add Account", "Save", false, DominatorHouseInitializer.ActiveSocialNetwork.ToString());
+            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Add Account", "Save", false, SocinatorInitialize.ActiveSocialNetwork.ToString());
 
             var customDialog = new CustomDialog()
             {
@@ -328,7 +340,7 @@ namespace DominatorUIUtility.ViewModel
         ///If any values are null, we can use NA        
         /// </summary>
         /// <param name="sender"></param>
-        private void LoadMultipleAccountsExecute(object sender)
+        private void LoadMultipleAccountsExecute(object sender, Func<SocialNetworks,bool> isNetworkAvailable, Action<string> warn)
         {
             //Read the accounts from text or csv files
             var loadedAccountlist = FileUtilities.FileBrowseAndReader();
@@ -406,14 +418,22 @@ namespace DominatorUIUtility.ViewModel
                         AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork)
                     };
 
-                    ////add the account to DominatorAccountModel list and bin file
-                    var addAccounThread = new Thread(() => AddAccount(objDominatorAccountBaseModel))
+                    if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                     {
-                        Name = objDominatorAccountBaseModel.UserName + "_addingthread",
-                        IsBackground = true
-                    };
-                    addAccounThread.Start();
-
+                        ////add the account to DominatorAccountModel list and bin file
+                        var addAccounThread = new Thread(() => AddAccount(objDominatorAccountBaseModel))
+                        {
+                            Name = objDominatorAccountBaseModel.UserName + "_addingthread",
+                            IsBackground = true
+                        };
+                        addAccounThread.Start();
+                    }
+                    else
+                    {
+                        warn(string.Format("The account {0} cannot be imported because {1} is not available.",
+                            objDominatorAccountBaseModel,
+                            objDominatorAccountBaseModel.AccountNetwork));
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -499,11 +519,25 @@ namespace DominatorUIUtility.ViewModel
 
             #endregion
 
-            #region Login Account And Update Follower And Following Count
+         
 
-            UpdateAccount(dominatorAccountModel);
+            try
+            {
+                var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
+                    .GetNetworkCoreFactory().AccountUpdateFactory;
 
-            #endregion
+                Task.Factory.StartNew(() =>
+                {
+                    accountFactory.CheckStatus(dominatorAccountModel);
+                    accountFactory.UpdateDetails(dominatorAccountModel);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+           
         }
 
         public  void UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
@@ -565,124 +599,9 @@ namespace DominatorUIUtility.ViewModel
                 ProxyFileManager.SaveProxy<ProxyManagerModel>(ProxyManagerModel);
             }
         }
-        public void UpdateAccount(DominatorAccountModel objDominatorAccountModel)
-        {
-            CancellationTokenSource cts = new CancellationTokenSource();
-            CancellationToken ct = cts.Token;
+  
 
-            Task.Factory.StartNew(() =>
-            {
-                switch (objDominatorAccountModel.AccountBaseModel.AccountNetwork)
-                {
-                    case SocialNetworks.Instagram:
-                        AccountAddUpdate.UpdateGDAccount(objDominatorAccountModel);
-                        break;
-                    case SocialNetworks.Quora:
-                        AccountAddUpdate.UpdateQDAccount(objDominatorAccountModel);
-                        break;
-                }
-            }, ct);
-
-        }
-
-        //private static void UpdateAccountFollowerFollowing(DominatorAccountModel objDominatorAccountModel)
-        //{
-        //    try
-        //    {
-        //        if (!LogInProcess.checkLogin(objDominatorAccountModel))
-        //            return;
-        //        if (!objDominatorAccountModel.IsUserLoggedIn)
-        //        {
-        //            LogInProcess logInProcess = new LogInProcess();
-        //            logInProcess.LoginWithMobileDevice(ref objDominatorAccountModel);
-        //        }
-
-        //        if (!objDominatorAccountModel.IsUserLoggedIn)
-        //            return;
-
-        //        DataBaseConnectionCodeFirst.DataBaseConnection databaseConnection =
-        //            DataBaseHandler.GetDataBaseConnectionInstance(objDominatorAccountModel.UserName);
-        //        InstaFunct instaFunct = new InstaFunct(objDominatorAccountModel);
-
-        //        try
-        //        {
-        //            UsernameInfoIgResponseHandler userInfo = instaFunct.SearchUsername(objDominatorAccountModel.UserName);
-        //            objDominatorAccountModel.PostsCount = userInfo.MediaCount;
-        //            objDominatorAccountModel.FollowersCount = userInfo.FollowerCount;
-        //            objDominatorAccountModel.FollowingCount = userInfo.FollowingCount;
-        //            List<InstagramUser> lstUserFollowers =
-        //                instaFunct.GetUserFollowers(objDominatorAccountModel.UserId).UsersList;
-
-        //            lstUserFollowers.ForEach(x =>
-        //            {
-        //                try
-        //                {
-        //                    Friendships friendship = new Friendships()
-        //                    {
-        //                        Username = x.Username,
-        //                        IsPrivate = x.IsPrivate ? 1 : 0,
-        //                        IsVerified = x.IsVerified ? 1 : 0,
-        //                        UserId = x.Pk,
-        //                        FullName = x.FullName,
-        //                        HasAnonymousProfilePicture =
-        //                            (x.HasAnonymousProfilePicture == null || x.HasAnonymousProfilePicture == false) ? 0 : 1,
-        //                        ProfilePicUrl = x.ProfilePicUrl
-        //                    };
-        //                    databaseConnection.Add<Friendships>(friendship);
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    GlobusLogHelper.log.Error(e.Message);
-        //                }
-        //            });
-        //        }
-        //        catch (Exception Ex)
-        //        {
-        //            GlobusLogHelper.log.Error(Ex.Message);
-        //        }
-
-        //        try
-        //        {
-        //            List<InstagramUser> lstUserFollowings =
-        //                instaFunct.GetUserFollowings(objDominatorAccountModel.UserId).UsersList;
-
-        //            lstUserFollowings.ForEach(x =>
-        //            {
-        //                try
-        //                {
-        //                    Friendships friendship = new Friendships()
-        //                    {
-        //                        Username = x.Username,
-        //                        IsPrivate = x.IsPrivate ? 1 : 0,
-        //                        IsVerified = x.IsVerified ? 1 : 0,
-        //                        UserId = x.Pk,
-        //                        FullName = x.FullName,
-        //                        HasAnonymousProfilePicture =
-        //                            (x.HasAnonymousProfilePicture == null || x.HasAnonymousProfilePicture == false) ? 0 : 1,
-        //                        ProfilePicUrl = x.ProfilePicUrl
-        //                    };
-
-        //                    databaseConnection.Add<Friendships>(friendship);
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    GlobusLogHelper.log.Error(e.Message);
-        //                }
-        //            });
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            GlobusLogHelper.log.Error(ex.Message);
-        //        }
-
-        //        GdBinFileHelper.UpdateAccount(objDominatorAccountModel);
-        //    }
-        //    catch (Exception Ex)
-        //    {
-        //        GlobusLogHelper.log.Error(Ex.Message + Ex.StackTrace);
-        //    }
-
-        //}
+     
 
         #endregion
 
@@ -1043,6 +962,7 @@ namespace DominatorUIUtility.ViewModel
         #region Initialize AccountManager
 
         private object syncLoadAccounts = new object();
+        private AccessorStrategies strategyPack;
 
         public void InitialAccountDetails()
         {
@@ -1086,14 +1006,11 @@ namespace DominatorUIUtility.ViewModel
 
         #endregion
 
-        #region Actions
-        public Action<DominatorAccountModel> action_CheckAccount { get; set; }
+        public void AccountBrowserLogin(DominatorAccountModel model) 
+            => strategyPack.AccountBrowserLogin(model);
 
-        public Action<DominatorAccountModel> AccountBrowserLogin { get; set; }
-
-        public Action<DominatorAccountModel> action_UpdateFollower { get; set; }
-
-        #endregion
+        public void ActionCheckAccount(DominatorAccountModel model)
+            => strategyPack.ActionCheckAccount(model);
 
     }
 

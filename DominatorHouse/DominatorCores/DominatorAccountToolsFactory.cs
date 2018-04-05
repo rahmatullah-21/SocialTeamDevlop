@@ -1,0 +1,19 @@
+﻿using System.Windows.Controls;
+using DominatorHouse.Social.AutoActivity.Views;
+using DominatorHouseCore.Interfaces;
+
+namespace DominatorHouse.DominatorCores
+{
+    public class DominatorAccountToolsFactory : IAccountToolsFactory
+    {
+        private static DominatorAccountToolsFactory _instance;
+
+        public static DominatorAccountToolsFactory Instance
+            => _instance ?? (_instance = new DominatorAccountToolsFactory());
+
+        private DominatorAccountToolsFactory()  { }
+
+        public UserControl GetStartupToolsView() 
+            => SocialAutoActivity.GetSingletonSocialAutoActivity();
+    }
+}

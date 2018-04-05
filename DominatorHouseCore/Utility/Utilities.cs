@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
@@ -132,6 +133,7 @@ namespace DominatorHouseCore.Utility
 
         // Returns string from resource dictionary
         public static string FromResourceDictionary(this string resourceDictionaryKey)
-            => Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ?? resourceDictionaryKey;        
+            => Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ?? resourceDictionaryKey;
+
     }
 }

@@ -15,6 +15,7 @@
         NonActiveWindowTitleBrush="#B30000"
         GlowBrush="{DynamicResource AccentColorBrush}"
         ShowIconOnTitleBar="True" 
+    Name="SocinatorWindow"
     WindowState="Maximized">
 
     <Window.Resources>
@@ -30,18 +31,7 @@
     <!--Manage Networks Here -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" >
-                <ComboBoxItem>Social</ComboBoxItem>
-                <ComboBoxItem>Instagram</ComboBoxItem>
-                <ComboBoxItem>LinkedIn</ComboBoxItem>
-                <ComboBoxItem>Twitter</ComboBoxItem>
-                <ComboBoxItem>Pinterest</ComboBoxItem>
-                <ComboBoxItem>Quora</ComboBoxItem>
-                <ComboBoxItem>Facebook</ComboBoxItem>
-                <ComboBoxItem>Gplus</ComboBoxItem>
-                <ComboBoxItem>Youtube</ComboBoxItem>
-                <ComboBoxItem>Reddit</ComboBoxItem>
-            </ComboBox>
+            <ComboBox Background="Transparent" ItemsSource="{Binding AvailableNetworks}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="{Binding SelectedNetworkIndex}" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" />
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbLanguage" >
                 <ComboBoxItem>English</ComboBoxItem>
                 <ComboBoxItem>Portuguese</ComboBoxItem>
@@ -58,8 +48,14 @@
         </Grid.RowDefinitions>
 
         <!--Account Growth Mode Tabs-->
+<<<<<<< HEAD
         <TabControl  controls:TabControlHelper.Underlined="None" TabStripPlacement="Left" SelectedIndex="0"
                    x:Name="MainTabControl" VerticalAlignment="Stretch" >
+=======
+        <TabControl  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedIndex="{Binding SelectedViewIndex}"
+                   Name="MainTabControl" VerticalAlignment="Stretch" ItemsSource="{Binding TabItems}">
+
+>>>>>>> ef4b7d29c98222607df6555df79a5cd3b271a12d
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="Template">

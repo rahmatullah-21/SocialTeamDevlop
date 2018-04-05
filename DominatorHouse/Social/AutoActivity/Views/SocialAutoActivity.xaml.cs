@@ -62,7 +62,7 @@ namespace DominatorHouse.Social.AutoActivity.Views
             {
                 ObjSocialAutoActivity = new SocialAutoActivity();
                 ObjSocialAutoActivity.SetDataContext();
-                ObjSocialAutoActivity.DominatorAutoActivityViewModel.CallRespectiveView(soicalNetworks, selectedAccouts);
+                ObjSocialAutoActivity.DominatorAutoActivityViewModel.CallRespectiveView(soicalNetworks);
                 return true;
             }
             catch (Exception ex)
@@ -71,16 +71,12 @@ namespace DominatorHouse.Social.AutoActivity.Views
             }
         }
 
+       
         private void SetDataContext()
         {
             SocialActivity.DataContext = DominatorAutoActivityViewModel;
         }
 
-        private void ButtonBase1_OnClick(object sender, RoutedEventArgs e)
-        {
-            DominatorAutoActivityViewModel = DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
-            DominatorAutoActivityViewModel.CallRespectiveView(SocialNetworks.Twitter);
-        }
 
         private void UserName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

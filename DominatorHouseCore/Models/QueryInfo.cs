@@ -42,9 +42,6 @@ namespace DominatorHouseCore.Models
             }
         }
 
-
-
-
         private string _queryType;
         /// <summary>
         /// QueryType holds the index value of QueryParameters 

@@ -88,5 +88,17 @@ namespace DominatorUIUtility.Behaviours
             };
             return MetroDialogButton;
         }
+
+        public static MetroDialogSettings SetMetroDialogButton(string affirmativeText, string negativeText)
+        {
+            var metroDialogButton = new MetroDialogSettings()
+            {
+                AffirmativeButtonText = affirmativeText,
+                NegativeButtonText = negativeText,
+                AnimateShow = true,
+                AnimateHide = false
+            };
+            return metroDialogButton;
+        }
     }
 }

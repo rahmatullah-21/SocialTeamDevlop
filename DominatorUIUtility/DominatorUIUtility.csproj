@@ -76,9 +76,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\gramdominator-library\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="ControlzEx">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -87,21 +86,20 @@
       <HintPath>..\packages\FluentScheduler.5.3.0\lib\net40\FluentScheduler.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\gramdominator-library\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MahApps.Metro, Version=1.6.0.362, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MahApps.Metro.1.6.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\gramdominator-library\packages\NLog.4.4.13\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.4.4.13\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="protobuf-net, Version=2.3.7.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
-      <HintPath>..\..\gramdominator-library\packages\protobuf-net.2.3.7\lib\net40\protobuf-net.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="protobuf-net, Version=2.3.6.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\protobuf-net.2.3.6\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -131,13 +129,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AccountAddUpdate.cs" />
     <Compile Include="Behaviours\ErrorModelControl.xaml.cs">
       <DependentUpon>ErrorModelControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
     <Compile Include="Behaviours\ReportManager.cs" />
     <Compile Include="Behaviours\UserFilterAction.cs" />
+    <Compile Include="ConfigControl\EmailNotifications.xaml.cs">
+      <DependentUpon>EmailNotifications.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\EmbeddedBrowserSettings.xaml.cs">
+      <DependentUpon>EmbeddedBrowserSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\Facebook.xaml.cs">
+      <DependentUpon>Facebook.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\Pinterest.xaml.cs">
+      <DependentUpon>Pinterest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\SoftwareSettings.xaml.cs">
+      <DependentUpon>SoftwareSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\Tumblr.xaml.cs">
+      <DependentUpon>Tumblr.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\Twitter.xaml.cs">
+      <DependentUpon>Twitter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\Youtube.xaml.cs">
+      <DependentUpon>Youtube.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\AccountCustomControl.xaml.cs">
       <DependentUpon>AccountCustomControl.xaml</DependentUpon>
     </Compile>
@@ -197,6 +218,7 @@
     </Compile>
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
+    <Compile Include="ViewModel\SelectAccountViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
     </Compile>
@@ -249,6 +271,38 @@
       <DependentUpon>ManagePosts.xaml</DependentUpon>
     </Compile>
     <Page Include="Behaviours\ErrorModelControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\EmailNotifications.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\EmbeddedBrowserSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\Facebook.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\Pinterest.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\SoftwareSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\Tumblr.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\Twitter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\Youtube.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -365,6 +419,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\IconsNonShared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Languages\DHLanguages\English.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

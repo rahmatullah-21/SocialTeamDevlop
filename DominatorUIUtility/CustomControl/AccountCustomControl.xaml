@@ -429,13 +429,25 @@
 
                         <GridViewColumn  Header="Status" DisplayMemberBinding="{Binding AccountBaseModel.Status}"/>
 
-                        <GridViewColumn  DisplayMemberBinding="{Binding DataContext.DisplayColumnValue1}">
-                            <GridViewColumnHeader Width="130"
-                                Content="{Binding GridHeaderColumn1.Header }"
-                                Visibility="{Binding GridHeaderColumn1.HeaderVisible}"
-                                utility:GridViewBehaviors.CollapseableColumn="False" />
-                        </GridViewColumn>
+                        <GridViewColumn  Header="Group Name" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
 
+                        <GridViewColumn  Header="Proxy" Width="130">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type ListViewItem}">
+                                    <TextBlock Name="TextBlockName" Text="{Binding Path=AccountBaseModel.AccountProxy.ProxyIp}"></TextBlock>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="">
+                                            <Setter TargetName="TextBlockName" Property="Text" Value="Local Ip" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="{x:Null}">
+                                            <Setter TargetName="TextBlockName" Property="Text" Value="Local Ip" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+
+
+                        </GridViewColumn>
 
                         <GridViewColumn  DisplayMemberBinding="{Binding DataContext.DisplayColumnValue2 ,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
                             <GridViewColumnHeader Width="130"
@@ -459,25 +471,13 @@
 
                         </GridViewColumn>
 
-                        <GridViewColumn  Header="Proxy" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate DataType="{x:Type ListViewItem}">
-                                    <TextBlock Name="TextBlockName" Text="{Binding Path=AccountBaseModel.AccountProxy.ProxyIp}"></TextBlock>
-                                    <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="">
-                                            <Setter TargetName="TextBlockName" Property="Text" Value="Local Ip" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="{x:Null}">
-                                            <Setter TargetName="TextBlockName" Property="Text" Value="Local Ip" />
-                                        </DataTrigger>
 
-                                    </DataTemplate.Triggers>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-
-
+                        <GridViewColumn  DisplayMemberBinding="{Binding DataContext.DisplayColumnValue1}">
+                            <GridViewColumnHeader Width="130"
+                                                  Content="{Binding GridHeaderColumn1.Header }"
+                                                  Visibility="{Binding GridHeaderColumn1.HeaderVisible}"
+                                                  utility:GridViewBehaviors.CollapseableColumn="False" />
                         </GridViewColumn>
-
                     </GridView>
 
 

@@ -43,14 +43,11 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 { UserQueryParameters.CustomPin, StartProcessForCustomPin },
                 { UserQueryParameters.NewsFeedPins, StartProcessForNewsFeedPins },
                 { UserQueryParameters.FromSomeonesCircle, StartProcessForSomeonesCircle}
+
             };
         }
 
-        protected virtual void StartProcessForFriendofFriend(QueryInfo queryInfo)
-        {
-            
-        }
-
+        protected virtual void StartProcessForFriendofFriend(QueryInfo queryInfo) { }
         protected virtual void StartProcessForSomeonesCircle(QueryInfo queryInfo) { }
         protected virtual void StartProcessForBoardFollowers(QueryInfo queryInfo) { }
         protected virtual void StartProcessForCustomBoards(QueryInfo queryInfo) { }

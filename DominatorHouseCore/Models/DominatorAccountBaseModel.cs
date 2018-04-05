@@ -201,5 +201,10 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _status, value);
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0} on {1}", _userName, _accountNetwork);
+        }
     }
 }

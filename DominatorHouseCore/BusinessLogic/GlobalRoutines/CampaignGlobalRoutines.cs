@@ -1,17 +1,15 @@
-﻿using DominatorHouseCore.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DominatorHouseCore.BusinessLogic
+namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
 {
     /// <summary>
     /// Class which manages all campaigns workflow over the application:
@@ -105,7 +103,7 @@ namespace DominatorHouseCore.BusinessLogic
         public void Create(object activitySettings, ActivityType activityType, string campaignName, List<string> selectedAccounts)                
         {
             string activitySettingsJson = Newtonsoft.Json.JsonConvert.SerializeObject(activitySettings);
-            SocialNetworks socialNetwork = DominatorHouseInitializer.ActiveSocialNetwork;
+            SocialNetworks socialNetwork = SocinatorInitialize.ActiveSocialNetwork;
             TemplateModel template = CreateTempale(activitySettingsJson, activityType.ToString(), socialNetwork, templateName: campaignName);
 
             // Check existing activities and overwrite them if selected account already has running activity with the same type
