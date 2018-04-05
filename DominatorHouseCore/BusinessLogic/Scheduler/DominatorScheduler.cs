@@ -44,34 +44,34 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 return;
 
             var jobProcess = _activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId, currentJobTimeRange, module,account.AccountBaseModel.AccountNetwork);
-            
+
+           
+
             jobProcess.StartProcessAsync();
         }
 
 
-        public static void StopActivity(string accountName, string module, string templateId)
+        public static void StopActivity(string accountId, string module, string templateId)
         {
             lock (RunStopActivityLocker)
             {                
-                JobProcess.Stop(accountName, templateId);
+                JobProcess.Stop(accountId, templateId);
 
-                var id = JobProcess.AsId(accountName, templateId);
+                var id = JobProcess.AsId(accountId, templateId);
                 JobManager.RemoveJob(id);
-                Schedule ScheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
+                var scheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
 
                 try
                 {
-                    ScheduledJob.Disable();
+                    if (scheduledJob == null) return;
+                    scheduledJob.Disable();
 
-                    if (ScheduledJob.Disabled)
-                    {
-                        GlobusLogHelper.log.Info($"{module}-{templateId}" + " stopped");
-                        return;
-                    }
+                    if (!scheduledJob.Disabled) return;
+                    GlobusLogHelper.log.Info($"{module}-{templateId}" + " stopped");
                 }
-                catch (Exception )
+                catch (Exception ex)
                 {
-                    
+                    ex.DebugLog();
                 }
             }
         }
@@ -114,6 +114,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     GlobusLogHelper.log.Debug($"Activity {activityType} is disabled");
                     return;
                 }
+
 
                 // Schedule jobs of specific module for each time range
                 foreach (var timing in timeScheduleModel.Timings)

@@ -27,47 +27,21 @@ namespace DominatorHouseCore.Diagnostics
             try
             {
                 // Get all available networks from license  
-
-                var client_config = @"<RSAKeyValue><Modulus>tY8cCx5hU3yKtajFtqfLPcM5gdXKTLai6YSDmEqNSLJbEKL6qEg952Q1qo+tb1mO+uqsIiWUK8q0WS1BoH1BeC9mULWAl68SJcNcmyG2YMn1glqIvJ4C1b9M67e2PC4ZbSG5/jJtb1s0Kr9gzpshqeCPtNjw29lpJ4tadLNfAWU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
-                var baseAddress = "http://localhost:9000/";
-
-                HttpClient client = new HttpClient();
-                var response = client.GetAsync(baseAddress + "api/configurations/" + license).Result;
-                var result = response.Content.ReadAsStringAsync().Result;
-                if (result.Length > 2 && result.StartsWith("\""))
-                {
-                    result = result.Substring(1, result.Length - 2);
-                }
-
-                Signature.Configure(client_config);
-                var marketing_enabled = new HashSet<string>(Signature.GetVerifiedText(result)?.Split(','));
-
-                AvailableNetworks = new SocialNetworks[] {
-                    SocialNetworks.Social,
-                    SocialNetworks.Facebook,
-                    SocialNetworks.Twitter,
-                    SocialNetworks.Gplus,
-                    SocialNetworks.Instagram,
-                    SocialNetworks.LinkedIn,
-                    SocialNetworks.Quora,
-                    SocialNetworks.Pinterest,
-                    SocialNetworks.Tumblr,
-                    SocialNetworks.Youtube,
-                    SocialNetworks.Reddit
-                }
-                .Where(network =>
-                {
-                    var name = network.ToString();
-                    return FeatureFlags.Check(name) && marketing_enabled != null && marketing_enabled.Contains(name);
-                })
-                .ToHashSet();
+                AvailableNetworks.Add(SocialNetworks.Social);
+                AvailableNetworks.Add(SocialNetworks.Twitter);
+                AvailableNetworks.Add(SocialNetworks.Facebook);
+                AvailableNetworks.Add(SocialNetworks.Gplus);
+                AvailableNetworks.Add(SocialNetworks.Instagram);
+                AvailableNetworks.Add(SocialNetworks.LinkedIn);
+                AvailableNetworks.Add(SocialNetworks.Quora);
+                AvailableNetworks.Add(SocialNetworks.Pinterest);
+                AvailableNetworks.Add(SocialNetworks.Tumblr);
+                AvailableNetworks.Add(SocialNetworks.Youtube);
+                AvailableNetworks.Add(SocialNetworks.Reddit);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                AvailableNetworks = new SocialNetworks[] {
-                    SocialNetworks.Social
-                }.ToHashSet();
-                GlobusLogHelper.log.Error(ex, "Starting up with no license");
+                ex.DebugLog();
             }
             return AvailableNetworks;
         }
@@ -78,10 +52,10 @@ namespace DominatorHouseCore.Diagnostics
             {SocialNetworks.Facebook,"FaceDominatorUI"},
             {SocialNetworks.Twitter,"TwtDominatorUI"},
             { SocialNetworks.Gplus,"GplusDominatorUI"},
-            {SocialNetworks.Instagram,"InstagramDominatorUI"},
-            {SocialNetworks.LinkedIn,"LinkedInDominatorUI"},
+            {SocialNetworks.Instagram,"GramDominatorUI"},
+            {SocialNetworks.LinkedIn,"LinkedDominatorUI"},
             {SocialNetworks.Quora,"QuoraDominatorUI"},
-            {SocialNetworks.Pinterest,"PinterestDominatorUI"},
+            {SocialNetworks.Pinterest,"PinDominator"},
             {SocialNetworks.Tumblr,"TumblrDominatorUI"},
             {SocialNetworks.Youtube,"YoutubeDominatorUI"},
             {SocialNetworks.Reddit,"RedditDominatorUI"},

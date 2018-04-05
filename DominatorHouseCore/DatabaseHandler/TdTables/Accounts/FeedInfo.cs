@@ -81,5 +81,24 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         public int ViewCount
         { get; set; }
 
+        [Column(Order = 12)]
+        public int IsComment { get; set; }
+
+        /// <summary>
+        /// tweet id on which comment is done
+        /// </summary>
+
+        [Column(Order = 13)]
+        public string CommentedOnTweetID
+        { get; set; }
+
+        /// <summary>
+        /// owner of the tweet on which comment or retweet is done
+        /// </summary>
+
+        [Column(Order = 14)]
+        public string TweetOwnerIfRetweetedOrCommented
+        { get; set; }
+
     }
 }

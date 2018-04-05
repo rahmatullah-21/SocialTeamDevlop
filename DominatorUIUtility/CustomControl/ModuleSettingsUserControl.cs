@@ -445,7 +445,7 @@ namespace DominatorUIUtility.CustomControl
                                 //To remove the account which we don't want to update with new Configuration
                                 unSelectedAccountForModification.ForEach(item => selectedAccounts.Remove(item));
 
-                                //it will check if account is updated or not if updated then will delete account and save that updated details
+                                //it will check if account is updated or not, if updated then will delete account and save that updated details
                                 UpdateSelectedAccountDetails(accountDetails, selectedAccounts, runningTime);
 
                                 //To update campaign file calling UpdateCampaignBinFile() method
@@ -514,16 +514,18 @@ namespace DominatorUIUtility.CustomControl
                         account.ActivityManager.LstModuleConfiguration?.Add(moduleConfiguration);
                     }
 
+                    DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleConfiguration.TemplateId);
+
                     moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
                     moduleConfiguration.IsEnabled = true;
                     moduleConfiguration.Status = "Active";
-
+                    moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
                     moduleConfiguration.TemplateId = TemplateId;
                     runningTime.ForEach(x =>
                     {
                         foreach (var timingRange in x.Timings)
                         {
-                            timingRange.Module = ActivityType.Follow.ToString();
+                            timingRange.Module = _activityType.ToString();
                         }
                     });
                     account.ActivityManager.RunningTime = runningTime;
@@ -567,6 +569,8 @@ namespace DominatorUIUtility.CustomControl
 
                     var templateId = dominatorAccountModel.ActivityManager.LstModuleConfiguration
                         .FirstOrDefault(y => y.ActivityType == _activityType)?.TemplateId;
+
+                  //  DominatorScheduler.StopActivity(dominatorAccountModel.AccountBaseModel.AccountId, _activityType.ToString(), TemplateId);
 
                     foreach (var campaign in campaignsList)
                         if (templateId != null && campaign.TemplateId == templateId)
@@ -676,7 +680,6 @@ namespace DominatorUIUtility.CustomControl
             DominatorScheduler.ScheduleTodayJobs(selectedAccountDetails, SocialNetworks.Instagram, _activityType);
             DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: selectedAccountDetails, network: selectedAccountDetails.AccountBaseModel.AccountNetwork);
             DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!", MessageDialogStyle.Affirmative);
-
         }
 
         public void UpdateRunningTime(JobConfiguration jobConfiguration, DominatorAccountModel account)
@@ -687,6 +690,10 @@ namespace DominatorUIUtility.CustomControl
                     timingRange.Module = _activityType.ToString();
             });
             account.ActivityManager.RunningTime = jobConfiguration.RunningTime;
+            var accountModuleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
+
+            if (accountModuleSettings != null)
+                accountModuleSettings.LstRunningTimes = jobConfiguration.RunningTime;
         }
 
         private static void AddNewTemplate<T>(T moduleToSave, string userName, ActivityType moduleType, DominatorAccountModel account) where T : class
@@ -726,8 +733,13 @@ namespace DominatorUIUtility.CustomControl
                 {
                     try
                     {
-                        foreach (var acc in _footerControl.list_SelectedAccounts)
-                            DominatorScheduler.StopActivity(acc, Module, TemplateId);
+                        var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+
+                        foreach (var accountModel in lstAccountDetails.Where(x => _footerControl.list_SelectedAccounts.Contains(x.AccountBaseModel.UserName)))                       
+                            DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId, Module, TemplateId);
+                        
+                        //foreach (var acc in _footerControl.list_SelectedAccounts)
+                        //    DominatorScheduler.StopActivity(acc, Module, TemplateId);
                     }
                     catch (Exception ex)
                     {
@@ -935,7 +947,6 @@ namespace DominatorUIUtility.CustomControl
                 if (!listSelectedAccounts.Contains(account.AccountBaseModel.UserName))
                     continue;
 
-
                 isAccountDetailsUpdated = true;
                 try
                 {
@@ -951,7 +962,7 @@ namespace DominatorUIUtility.CustomControl
                     moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
                     moduleConfiguration.IsEnabled = true;
                     moduleConfiguration.Status = "Active";
-
+                    moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
                     // Update running times for current activity
                     UpdateRunningTime(jobConfiguration, account);
 

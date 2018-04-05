@@ -26,7 +26,7 @@ namespace DominatorHouseCore.Process
     /// </summary>
     public abstract class JobProcess
     {
-        public JobProcess (string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
+        public JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
         {
             // Get the current account details 
             DominatorAccountModel = AccountsFileManager.GetAccount(account);
@@ -147,7 +147,7 @@ namespace DominatorHouseCore.Process
         /// <returns>
         ///     true if limits reached and caller needds to process with Other Configuration
         /// </returns>
-        protected virtual bool CheckJobProcessLimitsReached() 
+        protected virtual bool CheckJobProcessLimitsReached()
         {
             var currentTime = DateTimeUtilities.GetEpochTime();
 
@@ -163,7 +163,7 @@ namespace DominatorHouseCore.Process
                 Stop();
                 return true;
             }
-        
+
             NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<DatabaseHandler.TdTables.Accounts.InteractedUsers>(x => x.InteractionDateTime >= getTodayDate).Count();
 
             if (NoOfActionPerformedCurrentDay >= MaxNoOfActionPerDay)
@@ -171,7 +171,7 @@ namespace DominatorHouseCore.Process
                 Stop();
                 return true;
             }
-        
+
             NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<DatabaseHandler.TdTables.Accounts.InteractedUsers>(x => x.InteractionDateTime.Hour == DateTime.Now.Hour && x.InteractionDateTime.Date == getTodayDate.Date).Count;
 
             if (NoOfActionPerformedCurrentHour >= MaxNoOfActionPerHour)
@@ -221,14 +221,16 @@ namespace DominatorHouseCore.Process
         public void RunScrapper()
         {
             //var scraperFactory1 = DominatorHouseInitializer.ActiveNetwork.QueryScraperFactory;
-            var scraperFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().QueryScraperFactory; 
+
+            var scraperFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().QueryScraperFactory;
 
             var scraper = scraperFactory.Create(this);
-           
+
             if (SavedQueries.Count == 0)
                 scraper.ScrapeWithoutQueries(ActivityType.ToString());
             else
                 scraper.ScrapeWithQueries();
+
         }
 
         #region Required Properties
@@ -316,7 +318,7 @@ namespace DominatorHouseCore.Process
 
         public string AccountName => DominatorAccountModel?.UserName;
 
-        public string AccountId=> DominatorAccountModel?.AccountId;
+        public string AccountId => DominatorAccountModel?.AccountId;
 
         /// <summary>
         /// To specify the given account is belongs to which networks
@@ -330,7 +332,7 @@ namespace DominatorHouseCore.Process
 
 
         // stores all running job processes. Key - TemplateId
-        private static readonly Dictionary<string, JobProcess> RunningJobProcesses  = new Dictionary<string, JobProcess>();
+        private static readonly Dictionary<string, JobProcess> RunningJobProcesses = new Dictionary<string, JobProcess>();
 
         private static readonly object SyncJobProcess = new object();
 
@@ -361,11 +363,17 @@ namespace DominatorHouseCore.Process
                 {
                     GlobusLogHelper.log.Info(
                         $"{ActivityType} process started with {SocinatorInitialize.ActiveSocialNetwork} account [{AccountName}]");
-                  
+
                     // Login and run scraper/poster from derived concrete classes
                     if (Login())
-                      RunScrapper();
+                        RunScrapper();
                 }, JobCancellationTokenSource.Token);
+
+                JobCancellationTokenSource.Token.Register(() =>
+                {
+                    
+
+                });
             }
         }
 

@@ -164,6 +164,19 @@ namespace DominatorHouseCore.Enums
         UnSubscribe = 54,
 
         [Description("YouTube")]
-        ViewIncreaser = 55
+        ViewIncreaser = 55,
+
+        [Description("Pinterest")]
+        CreateBoard = 56,
+
+        [Description("Twitter")]
+        FollowBack = 57,
+
+        [Description("Twitter")]
+        DeleteTweet = 58,
+
+        [Description("Twitter")]
+        Mute = 59,
+
     }
 }

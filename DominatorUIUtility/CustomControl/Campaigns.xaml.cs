@@ -194,10 +194,11 @@ namespace DominatorUIUtility.CustomControl
                     else
                     {
                         campaign.Status = "Paused";
-                        campaign.SelectedAccountList.ForEach(acc =>
+                       
+                        foreach (var accountModel in lstAccountDetails.Where(x => campaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
                         {
-                            DominatorScheduler.StopActivity(acc, campaign.SubModule, campaign.TemplateId);
-                        });
+                            DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId, campaign.SubModule, campaign.TemplateId);
+                        }
                     }
 
                 }
