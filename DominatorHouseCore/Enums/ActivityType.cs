@@ -191,14 +191,11 @@ namespace DominatorHouseCore.Enums
         [Description("Gplus")]
         CommunityScraper = 60,
 
-        [Description("Instagram")]
-        HashtagsScraper = 61,
 
-        [Description("Instagram")]
-        BlockFollower = 62,
 
-        [Description("Instagram")]
-        LikeComment = 63,
+
+
+
 
         [Description("LinkedIn")]
         JobScraper=64,
