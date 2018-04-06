@@ -59,6 +59,19 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 case SocialNetworks.Facebook:
                     break;
                 case SocialNetworks.LinkedIn:
+                    modelBuilder.Entity<LdTables.Account.Connections>();
+                    modelBuilder.Entity<LdTables.Account.DailyStatitics>();
+                    modelBuilder.Entity<LdTables.Account.FeedInfo>();
+                    modelBuilder.Entity<LdTables.Account.InteractedCompanies>();
+                    modelBuilder.Entity<LdTables.Account.InteractedGroups>();
+                    modelBuilder.Entity<LdTables.Account.InteractedJobs>();
+                    modelBuilder.Entity<LdTables.Account.InteractedPosts>();
+                    modelBuilder.Entity<LdTables.Account.InteractedUsers>();
+                    modelBuilder.Entity<LdTables.Campaign.InteractedCompanies>();
+                    modelBuilder.Entity<LdTables.Campaign.InteractedGroups>();
+                    modelBuilder.Entity<LdTables.Campaign.InteractedJobs>();
+                    modelBuilder.Entity<LdTables.Campaign.InteractedPosts>();
+                    modelBuilder.Entity<LdTables.Campaign.InteractedUsers>();
                     break;
                 case SocialNetworks.Quora:
                     modelBuilder.Entity<FeedInfoes>();
