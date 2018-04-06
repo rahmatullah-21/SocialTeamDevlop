@@ -2,10 +2,10 @@
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
-    public interface IScraperFactory
-    {
-        AbstractQueryScraper Create(JobProcess jobProcess);      
-    }
+    //public interface IQueryScraperFactory
+    //{
+    //    AbstractQueryScraper Create(JobProcess jobProcess);
+    //}
 
     public interface IQueryScraperFactory
     {

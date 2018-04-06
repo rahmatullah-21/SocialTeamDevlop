@@ -136,7 +136,6 @@ namespace DominatorHouseCore.Diagnostics
     {
         public NetworkCoreLibraryBuilder()
         {
-
         }
         public NetworkCoreLibraryBuilder(INetworkCoreFactory networkCoreFactory)
         {

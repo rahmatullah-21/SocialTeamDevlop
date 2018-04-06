@@ -54,7 +54,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public void InitializeBaseClass(
-            Grid mainGrid,
+            Grid MainGrid,
             ActivityType activityType,
             string moduleName,
             HeaderControl header = null,
@@ -69,7 +69,7 @@ namespace DominatorUIUtility.CustomControl
             _headerControl = header;
             _footerControl = footer;
             _queryControl = queryControl;
-            _mainGrid = mainGrid;
+            _mainGrid = MainGrid;
             _activityType = activityType;
             _moduleName = moduleName;
             _accountGrowthModeHeader = accountGrowthModeHeader;

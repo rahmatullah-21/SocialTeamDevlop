@@ -12,7 +12,7 @@ using DominatorHouseCore.Models;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
-using EmbeddedBrowser;
+//using EmbeddedBrowser;
 
 namespace DominatorHouse.DominatorCores
 {
@@ -44,6 +44,7 @@ namespace DominatorHouse.DominatorCores
 
         private void InitializeAllTabs()
         {
+
             NetworkTabs= new List<TabItemTemplates>
             {
                 new TabItemTemplates

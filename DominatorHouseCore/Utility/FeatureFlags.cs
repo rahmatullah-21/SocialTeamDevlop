@@ -14,7 +14,7 @@ namespace DominatorHouseCore.Utility
                 // for now we do this on code
                 Instance = new FeatureFlags() {
                     {"SocinatorInitializer", true },
-                    {"Twitter", true },
+                    {"Instagram", true },
                     {"Social", true}
                 };
             }

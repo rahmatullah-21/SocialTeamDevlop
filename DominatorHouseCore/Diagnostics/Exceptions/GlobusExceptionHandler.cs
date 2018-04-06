@@ -90,7 +90,10 @@ namespace DominatorHouseCore.Diagnostics
                 {
                     HandleGlobalException(e.ExceptionObject as Exception, o.ToString());
                 }
-                catch { }
+                catch
+                {
+
+                }
             };            
 
             TaskScheduler.UnobservedTaskException += (o, e) =>

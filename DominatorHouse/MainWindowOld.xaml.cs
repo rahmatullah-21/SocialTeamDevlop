@@ -7,8 +7,13 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Management;
+
+using System.Net;
+using System.Threading;
+
 using System.Reflection;
 using System.Runtime.CompilerServices;
+
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +23,7 @@ using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
 using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -28,8 +34,7 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
-using EmbeddedBrowser;
-// using EmbeddedBrowser;
+
 using FluentScheduler;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -43,6 +48,9 @@ namespace DominatorHouse
     /// </summary>
     public partial class MainWindow : MetroWindow, ILoggableWindow, INotifyPropertyChanged
     {
+
+
+
         private static readonly string RamSize = GetRamsize();
 
         private HashSet<SocialNetworks> _availableNetworks;
@@ -51,28 +59,128 @@ namespace DominatorHouse
 
         private bool IsClickedFromMainWindow { get; set; } = true;
 
+
         private DominatorAccountViewModel.AccessorStrategies _strategies;
 
         public MainWindow()
         {
 
+            InitializeComponent();
+            DominatorHouseInitializer.Init(this,
+                DominatorJobProcessFactory.Instance,
+                DominatorScraperFactory.Instance,
+                SocialNetworks.Social);
+
+            MainTabControl.ItemsSource = InitializeAllTabs();
+
+            // Init UI delegates            
+            CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
+                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg,
+                                    MessageDialogStyle.Affirmative) == MessageDialogResult.Affirmative;
+
+            TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
+           // TabSwitcher.SelectMainTab = SelectMainIndex;
+          //  AccountAddUpdate.UpdateGDAccount = GramDominatorCore.GDViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount;
+           // AccountAddUpdate.UpdateQDAccount = QuoraDominatorCore.ViewModel.Accounts.AccountManagerViewModel.GetAccountManagerViewModel().UpdateAccount;
+            // Log strated
+            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Dominator social");
+
+            TabSwitcher.ChangeTabIndex = (mainTabIndex, subTabIndex) =>
+
             _strategies = new DominatorAccountViewModel.AccessorStrategies
+
             {
                 ActionCheckAccount = AccountStatusChecker,
                 AccountBrowserLogin = AccountBrowserLogin,
                 _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
                 _inform_warnings = GlobusLogHelper.log.Warn
             };
-
             DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
+
+
+            TabSwitcher.GoToCampaign = ()
+                => MainTabControl.SelectedIndex = TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
+            ConfigFileManager.ApplyTheme();
+
+            var performanceTask = new Task(StartbindMemory,TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
+            performanceTask.Start();
+
+            Task.Factory.StartNew(() =>
+            {             
+                JobManager.AddJob(() => InitializeJobCores("License"),x=>x.ToRunNow());                                              
+            });
+
+            DialogParticipation.SetRegister(this, this);
+            List<TemplateModel> lstTemplateDetails = BinFileHelper.GetTemplateDetails();
+
+
+            //var model = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == template);
+
+            //DominatorScheduler.RunActivity();
+
+
+            Closed += (o, e) => Process.GetCurrentProcess().Kill();
+
+
+
+        }
+
+
+
+        private void InitializeAllTabs()
+        {
+            NetworkTabs = new List<TabItemTemplates>
+            {
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("langAccountsManager") == null? "Account Manager" : Application.Current.FindResource("langAccountsManager")?.ToString(),
+                    Content = new Lazy<UserControl>(() => new AccountTab(_strategies))
+                },
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("langDashBoard") == null? "Dash Board" : Application.Current.FindResource("langDashBoard")?.ToString(),
+                    //Content=new Lazy<UserControl>(()=>new DashBoard())
+                },
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("langAutoActivity") == null? "Auto Activity" : Application.Current.FindResource("langAutoActivity")?.ToString(),
+                    Content = new Lazy<UserControl>(() =>
+                        DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
+                },
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("langPublisher") == null? "Publisher" : Application.Current.FindResource("langPublisher")?.ToString(),
+                    Content = new Lazy<UserControl>(Home.GetSingletonHome)
+                },
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("langProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("langProxyManager")?.ToString(),
+                    Content = new Lazy<UserControl>(() => new ProxyManager(_strategies))
+                },
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("langSettings") == null? "Settings" : Application.Current.FindResource("langSettings")?.ToString(),
+                    Content = new Lazy<UserControl>(() => new Social.Settings.View.Home())
+                },
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("langOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("langOtherConfigurations")?.ToString(),
+                      Content=new Lazy<UserControl>(()=>new OtherConfigurationTab())
+                }
+            };
+        }
+
+
+        private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
+        {
+            MainTabControl.SelectedIndex = index;
+            SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
 
             SocinatorInitialize.LogInitializer(this);
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");
             InitializeComponent();
             SocinatorWindow.DataContext = this;
-           // FeatureFlags.Check("Instagram", SocinatorInitializer);
             FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
-
 
         }
 
@@ -200,11 +308,12 @@ namespace DominatorHouse
         }
 
 
-        private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
-        {
-            SelectedViewIndex = index;
-            SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
-        }
+        //private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
+        //{
+        //    SelectedViewIndex = index;
+        //    SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
+        //}
+
 
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -229,7 +338,7 @@ namespace DominatorHouse
                 tabHandler.UpdateAccountCustomControl(network);
                 SocinatorInitialize.SetAsActiveNetwork(network);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 TabDock = Dock.Left;
                 
@@ -370,8 +479,8 @@ namespace DominatorHouse
         {
             try
             {
-                var browserWindow = new BrowserWindow(dominatorAccountModel);
-                browserWindow.Show();
+                //var browserWindow = new BrowserWindow(dominatorAccountModel);
+               // browserWindow.Show();
             }
             catch (Exception ex)
             {

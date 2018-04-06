@@ -153,13 +153,10 @@ namespace DominatorHouseCore.Process
         protected virtual bool CheckJobProcessLimitsReached()
         {
 
-
             var currentTime = DateTimeUtilities.GetEpochTime();
 
-
-            // Check weekly limit. If reached, Stop task and wait for next days.
-
             var getStartDateofWeek = DateTime.Now.GetStartOfWeek();
+
             var getTodayDate = DateTime.Today;
 
             NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<DatabaseHandler.TdTables.Accounts.InteractedUsers>(x => x.InteractionDateTime >= getStartDateofWeek).Count();
@@ -178,16 +175,14 @@ namespace DominatorHouseCore.Process
                 return true;
             }
 
-<<<<<<< HEAD
 
 
             // Check hourly limit. Wait a hour.
             // TODO: implement schedule holder on a weekly basis and extract next hours job from there.
-            NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<InteractedUsers>(x => currentTime - x.Date <= 3600).Count;
-=======
+
             NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<DatabaseHandler.TdTables.Accounts.InteractedUsers>(x => x.InteractionDateTime.Hour == DateTime.Now.Hour && x.InteractionDateTime.Date == getTodayDate.Date).Count;
 
->>>>>>> ef4b7d29c98222607df6555df79a5cd3b271a12d
+
             if (NoOfActionPerformedCurrentHour >= MaxNoOfActionPerHour)
             {
                 // schedule next job on next hour

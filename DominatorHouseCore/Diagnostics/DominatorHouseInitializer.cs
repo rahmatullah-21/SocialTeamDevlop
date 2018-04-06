@@ -36,7 +36,7 @@ namespace DominatorHouseCore.Diagnostics
             /// <summary>
             /// Scraps data from social network feed based on query (queries)
             /// </summary>
-            public IScraperFactory QueryScraperFactory { get;  set; }
+            public IQueryScraperFactory QueryQueryScraperFactory { get;  set; }
 
             /// <summary>
             /// Library main window
@@ -65,7 +65,7 @@ namespace DominatorHouseCore.Diagnostics
         /// <param name="mainWindow"></param>
         public static void Init(Window mainWindow, 
                 IJobProcessFactory jobProcessFactory,
-                IScraperFactory queryScrapperFactory,
+                IQueryScraperFactory queryScrapperFactory,
                 Enums.SocialNetworks network)
         {
             if (_registeredLibraries.ContainsKey(network))
@@ -81,7 +81,7 @@ namespace DominatorHouseCore.Diagnostics
                 Network = network,
                 MainWindow = mainWindow,
                 JobProcessFactory = jobProcessFactory,
-                QueryScraperFactory = queryScrapperFactory,
+                QueryQueryScraperFactory = queryScrapperFactory,
             };
 
 

@@ -55,11 +55,13 @@ namespace DominatorHouseCore.Diagnostics
 
         public Task<T> Start<T>(Func<T> action, TaskCreationOptions options)
         {
+
             var task = new Task<T>(action, options);
 
             task.ContinueWith(t => InvokeError(t, t.Exception.InnerException),
                                 TaskContinuationOptions.OnlyOnFaulted |
                                 TaskContinuationOptions.ExecuteSynchronously);
+
             task.Start();
 
             return task;
