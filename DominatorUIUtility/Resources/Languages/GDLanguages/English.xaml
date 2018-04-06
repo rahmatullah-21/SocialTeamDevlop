@@ -1208,6 +1208,34 @@
     <system:String x:Key="GdlangLiveChat">LiveChat</system:String>
     <system:String x:Key="DHlangCollapseAll">Collapse All</system:String>
 
+    
+    <system:String x:Key="DHWhatInMind">What's on your mind?</system:String>
+    
+    <system:String x:Key="GDlangFollowBack">Follow Back</system:String>
+    
+    <system:String x:Key="GDlangLikeComments">Like Comments</system:String>
+    
+    <system:String x:Key="GDlangBlockFollower">Block Follower</system:String>
+
+    <system:String x:Key="GDlangNumberOfHashtagsPerJob">Number of Hashtags per job</system:String>
+    
+    <system:String x:Key="GDlangNumberOfHashtagsPerHour">Number of Hashtags per hour</system:String>
+    
+    <system:String x:Key="GDlangNumberOfHashtagsPerDay">Number of Hashtags per day</system:String>
+    
+    <system:String x:Key="GDlangNumberOfHashtagsPerWeek">Number of Hashtags per week</system:String>
+    
+    <system:String x:Key="GDlangMaxHashtagsDay">Max Hashtags per day</system:String>
+    
+    <system:String x:Key="GDlangScrape">Scrape</system:String>
+    
+    <system:String x:Key="GDlangHashtagsScrape">Hashtags Scraper</system:String>
+
+    <system:String x:Key="GDlangHashtagScraperWarning">These account(s) are already running with HashtagScraper configuration from another campaign. Saving this settings will override previous settings and will remove this account from the campaign.</system:String>
+    <system:String x:Key="GDlangFollowBackWarning">These accounts are already running with FollowBack configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="GDlangBlockFollowerWarning">These accounts are already running with BlockFollower configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="GDlangDeletePostWarning">These accounts are already running with DeletePost configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+   
     <!--End Gram Dominator-->
 
     <!--Start Twt Dominator-->

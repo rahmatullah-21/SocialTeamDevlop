@@ -77,7 +77,6 @@ namespace DominatorHouseCore.Process
             DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks, DatabaseType.AccountType);
         }
 
-
         protected void ScheduleNextJob(DateTime dateTime)
         {
             Stop();

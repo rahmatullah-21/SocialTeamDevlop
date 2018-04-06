@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DominatorHouseCore.Enums;
 using SQLite.CodeFirst;
 
 namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
@@ -43,6 +44,15 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
         [Column(Order = 8)]
         public int ViewCount
         { get; set; }
+
+        [Column(Order = 9)]
+        public string MediaId { get; set; }
+
+        [Column(Order = 10)]
+        public MediaType MediaType { get; set; }
+
+        [Column(Order = 11)]
+        public string MediaCode { get; set; }
 
     }
 }

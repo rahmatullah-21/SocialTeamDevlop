@@ -5,37 +5,30 @@ using SQLite.CodeFirst;
 
 namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
 {
-    public class InteractedPosts
+    public class HashtagScrape
     {
         [Key]
         [Column(Order = 1)]
         [Index]
-        [Autoincrement]
+        [Autoincrement]  
         public int Id { get; set; }
-
+ 
         [Column(Order = 2)]
-        public int InteractionDate { get; set; }
-
+        public int Date { get; set; }
+ 
         [Column(Order = 3)]
-        public MediaType MediaType { get; set; }
-
-        [Column(Order = 4)]
         public ActivityType ActivityType { get; set; }
-
+ 
+        [Column(Order = 4)]
+        public string HashtagName { get; set; }
+ 
         [Column(Order = 5)]
-        public string PkOwner { get; set; }
-
+        public string HashtagId { get; set; }
+ 
         [Column(Order = 6)]
-        public int TakenAt { get; set; }
-
+        public string MediaCount { get; set; }
+ 
         [Column(Order = 7)]
-        public string UsernameOwner { get; set; }
-
-
-        [Column(Order = 8)]
-        public string Username { get; set; }
-
-        [Column(Order = 9)]
-        public string Comment { get; set; }
+        public string AccountUsername { get; set; }
     }
 }

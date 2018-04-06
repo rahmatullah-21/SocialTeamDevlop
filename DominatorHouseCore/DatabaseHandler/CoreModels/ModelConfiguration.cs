@@ -24,6 +24,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<InteractedPosts>();
                     modelBuilder.Entity<InteractedUsers>();
                     modelBuilder.Entity<UnfollowedUsers>();
+                    modelBuilder.Entity<HashtagScrape>();
                     break;
                 case SocialNetworks.Twitter:
                     modelBuilder.Entity<TdTables.Accounts.FeedInfoes>();

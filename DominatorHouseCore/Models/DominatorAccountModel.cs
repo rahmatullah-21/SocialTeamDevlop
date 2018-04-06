@@ -212,8 +212,6 @@ namespace DominatorHouseCore.Models
             {
                 var cookieCollection = new CookieCollection();
 
-                if (IsUserLoggedIn)
-                {
                     foreach (var cookieHelper in _cookieHelperList)
                         cookieCollection.Add(new Cookie()
                         {
@@ -221,7 +219,7 @@ namespace DominatorHouseCore.Models
                             Name = cookieHelper.Name,
                             Value = cookieHelper.Value
                         });
-                }
+                
                 return cookieCollection;
             }
             set

@@ -82,7 +82,7 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
 
 
         [Column(Order = 15)]
-        public int IsBusiness
+        public bool IsBusiness
         { get; set; }
 
 

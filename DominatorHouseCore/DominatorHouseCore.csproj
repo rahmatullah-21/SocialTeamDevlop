@@ -162,6 +162,7 @@
     <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
+    <Compile Include="DatabaseHandler\AccountDB\Tables\HashtagScrape.cs" />
     <Compile Include="DatabaseHandler\CoreModels\ModelConfiguration.cs" />
     <Compile Include="DatabaseHandler\AccountDB\Tables\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\AccountDB\Tables\FeedInfo.cs" />
