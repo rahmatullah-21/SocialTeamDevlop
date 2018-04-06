@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -317,7 +318,7 @@ namespace DominatorUIUtility.ViewModel
 
                 dialogWindow.Close();
 
-                AddAccount(objDominatorAccountBaseModel);
+                AddAccount(objDominatorAccountBaseModel, act => new Thread(() => act()) { IsBackground = true }.Start());
                 
             };
 
@@ -330,6 +331,9 @@ namespace DominatorUIUtility.ViewModel
         {
             return true;
         }
+
+        ImmutableQueue<Action> pending = ImmutableQueue<Action>.Empty;
+        bool allAccountsQueued;
 
         /// <summary>
         ///LoadMultipleAccountsExecute is used to load multiple accounts at a time
@@ -348,7 +352,25 @@ namespace DominatorUIUtility.ViewModel
             //if loaded text or csv contains no accounts then return
             if (loadedAccountlist == null) return;
 
-            #region Add to bin files which are valid accounts 
+            #region Add to bin files which are valid accounts
+
+            ////add the account to DominatorAccountModel list and bin file
+            allAccountsQueued = false;
+            new Thread(() =>
+            {
+                while (!allAccountsQueued)
+                {
+                    Thread.Sleep(50);
+                    while (!pending.IsEmpty)
+                    {
+                        Action act;
+                        pending = pending.Dequeue(out act);
+                        act();
+                    }
+                }
+            })
+            { IsBackground = true }.Start();
+
 
             //Iterate the all accounts one by one
             foreach (var singleAccount in loadedAccountlist)
@@ -420,13 +442,7 @@ namespace DominatorUIUtility.ViewModel
 
                     if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                     {
-                        ////add the account to DominatorAccountModel list and bin file
-                        var addAccounThread = new Thread(() => AddAccount(objDominatorAccountBaseModel))
-                        {
-                            Name = objDominatorAccountBaseModel.UserName + "_addingthread",
-                            IsBackground = true
-                        };
-                        addAccounThread.Start();
+                        pending = pending.Enqueue(() => AddAccount(objDominatorAccountBaseModel, (action) => pending = pending.Enqueue(action)));
                     }
                     else
                     {
@@ -443,11 +459,13 @@ namespace DominatorUIUtility.ViewModel
                 }
             }
 
+            allAccountsQueued = true;
+
             #endregion
 
         }
 
-        public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel)
+        public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, Action<Action> secondaryTaskStrategy)
         {
             #region Add Account
             //check the account is already present or not
@@ -485,12 +503,7 @@ namespace DominatorUIUtility.ViewModel
                 RowNo = LstDominatorAccountModel.Count + 1
             };
 
-            var updatingProxyAccounThread = new Thread(() => UpdateProxy(objDominatorAccountBaseModel))
-            {
-                Name = objDominatorAccountBaseModel.UserName + "_updatingproxythread",
-                IsBackground = true
-            };
-            updatingProxyAccounThread.Start();
+            secondaryTaskStrategy(() => UpdateProxy(objDominatorAccountBaseModel));
 
             //serialize the given account, if its success then add to account model list
             if (AccountsFileManager.Add(dominatorAccountModel))
@@ -515,7 +528,7 @@ namespace DominatorUIUtility.ViewModel
                 GlobusLogHelper.log.Info($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
             }
 
-            DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork);
+            DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType, secondaryTaskStrategy);
 
             #endregion
 
@@ -526,7 +539,7 @@ namespace DominatorUIUtility.ViewModel
                 var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
                     .GetNetworkCoreFactory().AccountUpdateFactory;
 
-                Task.Factory.StartNew(() =>
+                secondaryTaskStrategy(() =>
                 {
                     accountFactory.CheckStatus(dominatorAccountModel);
                     accountFactory.UpdateDetails(dominatorAccountModel);
