@@ -16,7 +16,8 @@ namespace DominatorHouseCore.Utility
                     {"SocinatorInitializer", true },
                     {"Twitter", true },
                     {"Social", true},
-                    {"Instagram",true }
+                    {"Instagram",true },
+                    {"Gplus",true }
                 };
             }
 
