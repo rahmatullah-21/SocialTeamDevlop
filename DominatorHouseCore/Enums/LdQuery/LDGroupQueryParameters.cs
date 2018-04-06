@@ -4,9 +4,9 @@ namespace DominatorHouseCore.Enums.LdQuery
 {
     public enum LDGroupQueryParameters
     {
-        [Description("langKeywords")]
-        Keywords,
-        [Description("langJoinedGroupUrl")]
+        [Description("LDlangKeyword")]
+        Keyword,
+        [Description("LDlangJoinedGroupUrl")]
         JoinedGroupUrl,
-    }
+    }  
 }

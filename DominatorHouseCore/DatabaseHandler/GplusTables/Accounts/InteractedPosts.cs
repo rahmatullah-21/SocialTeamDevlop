@@ -23,17 +23,29 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public ActivityType OperationType{ get; set; }
 
         [Column(Order = 5)]
-        public string PkOwner { get; set; }
+        public string PostId { get; set; }
 
         [Column(Order = 6)]
-        public int TakenAt { get; set; }
+        public int UploadedDate { get; set; }
 
         [Column(Order = 7)]
-        public string UsernameOwner { get; set; }
-
+        public string PostOwnerId { get; set; }
 
         [Column(Order = 8)]
-        public string Username { get; set; }
+        public string PostOwnerName { get; set; }
+
+
+        [Column(Order = 9)]
+        public string Caption { get; set; }
+
+        [Column(Order = 10)]
+        public int LikeCount { get; set; }
+
+        [Column(Order = 11)]
+        public int CommentCount { get; set; }
+
+        [Column(Order = 12)]
+        public int ShareCount { get; set; }
 
 
     }

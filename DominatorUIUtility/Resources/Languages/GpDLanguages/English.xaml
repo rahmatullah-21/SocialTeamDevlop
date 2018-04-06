@@ -89,4 +89,32 @@
     <system:String x:Key="langScrapingPeoplePerDay">Number of Scraping People per day</system:String>
     <system:String x:Key="langScrapingPeoplePerWeek">Number of Scraping People per week</system:String>
     <system:String x:Key="langMaxScrapingPeopleDay">Max Number of Scraping People per day</system:String>
+    <system:String x:Key="langFromUser">Custom User</system:String>
+    <system:String x:Key="langFromCommunity">Custom Community</system:String>
+    <system:String x:Key="langCustomPost">Custom Post</system:String>
+    <system:String x:Key="langScrapingPostsPerJob">Number of Scraping Posts per job</system:String>
+    <system:String x:Key="langScrapingPostsPerHour">Number of Scraping Posts per hour</system:String>
+    <system:String x:Key="langScrapingPostsPerDay">Number of Scraping Posts per day</system:String>
+    <system:String x:Key="langScrapingPostsPerWeek">Number of Scraping Posts per week</system:String>
+    <system:String x:Key="langMaxScrapingPostsDay">Max Number of Scraping Posts per day</system:String>
+    <system:String x:Key="langScrapingCommunitiesPerJob">Number of Scraping Communities per job</system:String>
+    <system:String x:Key="langScrapingCommunitiesPerHour">Number of Scraping Communities per hour</system:String>
+    <system:String x:Key="langScrapingCommunitiesPerDay">Number of Scraping Communities per day</system:String>
+    <system:String x:Key="langScrapingCommunitiesPerWeek">Number of Scraping Communities per week</system:String>
+    <system:String x:Key="langMaxScrapingCommunitiesDay">Max Number of Scraping Communities per day</system:String>
+    <system:String x:Key="langLikesPerJob">Number of Likes per job</system:String>
+    <system:String x:Key="langLikesPerHour">Number of Likes per hour</system:String>
+    <system:String x:Key="langLikesPerDay">Number of Likes per day</system:String>
+    <system:String x:Key="langLikesPerWeek">Number of Likes per week</system:String>
+    <system:String x:Key="langMaxLikesDay">Max Number of Likes per day</system:String>
+    <system:String x:Key="langCommentsPerJob">Number of Comments per job</system:String>
+    <system:String x:Key="langCommentsPerHour">Number of Comments per hour</system:String>
+    <system:String x:Key="langCommentsPerDay">Number of Comments per day</system:String>
+    <system:String x:Key="langCommentsPerWeek">Number of Comments per week</system:String>
+    <system:String x:Key="langMaxCommentsDay">Max Number of Comments per day</system:String>
+    <system:String x:Key="langKeywords">Keywords</system:String>
+    <system:String x:Key="langCustomCommunity">Custom Community</system:String>
+    <system:String x:Key="langManageComments">Manage Comments</system:String>
+
+    <system:String x:Key="langRefresh">Refresh</system:String>
 </ResourceDictionary>

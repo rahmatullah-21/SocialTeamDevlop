@@ -56,14 +56,14 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         /// </summary>
         
         [Column(Order = 8)]
-        public bool IsRetweet { get; set; }
+        public int IsRetweet { get; set; }
 
         /// <summary>
         /// Time when the tweet has been posted in TimeStamp
         /// </summary>
         
         [Column(Order = 9)]
-        public double TweetedTimeStamp { get; set; }
+        public int TweetedTimeStamp { get; set; }
 
         /// <summary>
         /// Duration of the video tweets

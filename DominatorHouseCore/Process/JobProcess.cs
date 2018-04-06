@@ -77,7 +77,6 @@ namespace DominatorHouseCore.Process
             DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks, DatabaseType.AccountType);
         }
 
-
         protected void ScheduleNextJob(DateTime dateTime)
         {
             Stop();
@@ -239,7 +238,6 @@ namespace DominatorHouseCore.Process
                 scraper.ScrapeWithoutQueries(ActivityType.ToString());
             else
                 scraper.ScrapeWithQueries();
-
         }
 
         #region Required Properties
@@ -380,8 +378,7 @@ namespace DominatorHouseCore.Process
 
                 JobCancellationTokenSource.Token.Register(() =>
                 {
-                    
-
+                    Console.WriteLine("Cancellation requested!");
                 });
             }
         }

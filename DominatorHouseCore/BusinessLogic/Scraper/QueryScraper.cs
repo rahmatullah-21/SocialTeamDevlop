@@ -49,16 +49,23 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
             _jobProcess.SavedQueries.Shuffle();
 
-            foreach (var query in _jobProcess.SavedQueries)
+            try
             {
-                try
+                foreach (var query in _jobProcess.SavedQueries)
                 {
-                    ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
+                    try
+                    {
+                        ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
+                    }
+                    catch (KeyNotFoundException ex)
+                    {
+                        ex.ErrorLog($"Unable to find key for query type - {query.QueryType}. {ex.Message}");
+                    }
                 }
-                catch (KeyNotFoundException ex)
-                {
-                    ex.ErrorLog($"Unable to find key for query type - {query.QueryType}. {ex.Message}");
-                }
+            }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine(@"Cancellation Requested !");
             }
         }
     }

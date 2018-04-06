@@ -91,7 +91,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         CommentScraper = 29,
 
-        [Description("Facebook")]
+        [Description("Facebook,Gplus")]
         PostScraper = 30,
 
         [Description("Facebook,LinkedIn")]
@@ -143,14 +143,14 @@ namespace DominatorHouseCore.Enums
         WebpageLikerCommentor = 47,
 
         [Description("Twitter")]
-        TweetScraper =48,
-         
+        TweetScraper = 48,
+
         [Description("Facebook")]
-        MakeAdmin=49,
+        MakeAdmin = 49,
 
         [Description("LinkedIn")]
         ConnectionRequest = 50,
-          
+
         [Description("YouTube")]
         Subscribe = 51,
 
@@ -179,7 +179,7 @@ namespace DominatorHouseCore.Enums
         [Description("Pinterest")]
         CreateBoard = 56,
 
-        [Description("Twitter")]
+        [Description("Twitter,Instagram")]
         FollowBack = 57,
 
         [Description("Twitter")]
@@ -188,5 +188,30 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter")]
         Mute = 59,
 
+        [Description("Gplus")]
+        CommunityScraper = 60,
+
+        [Description("Instagram")]
+        HashtagsScraper = 61,
+
+        [Description("Instagram")]
+        BlockFollower = 62,
+
+        [Description("Instagram")]
+        LikeComment = 63,
+
+        [Description("LinkedIn")]
+        JobScraper=64,
+
+        [Description("LinkedIn")]
+        CompanyScraper = 65,
+
+        [Description("LinkedIn")]
+        GroupMemberScraper = 66,
+
+        [Description("LinkedIn")]
+        SalesNavigatorUserScraper = 67,
+
+        
     }
 }
