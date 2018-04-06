@@ -650,19 +650,18 @@ namespace DominatorUIUtility.ViewModel
             return false;
         }
 
-
-
         public void DeleteAccountByContextMenu(object sender)
         {
             var selectedRow = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
 
             var selectedAccount = LstDominatorAccountModel.FirstOrDefault<DominatorAccountModel>(x => selectedRow != null && x.AccountBaseModel.AccountId == selectedRow.AccountBaseModel.AccountId);
 
+            if (selectedAccount == null)
+                return;
+
             DeleteAccounts(new List<DominatorAccountModel> { selectedAccount });
-
-            GlobusLogHelper.log.Info(selectedAccount + " Deleted");         
+            GlobusLogHelper.log.Info($"Account : {selectedAccount.AccountBaseModel.UserName} deleted !");
         }
-
 
         #endregion
 
