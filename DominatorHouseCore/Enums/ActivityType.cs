@@ -190,6 +190,18 @@ namespace DominatorHouseCore.Enums
         [Description("Instagram")]
         LikeComment = 63,
 
+        [Description("LinkedIn")]
+        JobScraper=64,
 
+        [Description("LinkedIn")]
+        CompanyScraper = 65,
+
+        [Description("LinkedIn")]
+        GroupMemberScraper = 66,
+
+        [Description("LinkedIn")]
+        SalesNavigatorUserScraper = 67,
+
+        
     }
 }
