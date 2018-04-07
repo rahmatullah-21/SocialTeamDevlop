@@ -197,6 +197,18 @@ namespace DominatorHouseCore.Enums
 
 
 
+        [Description("LinkedIn")]
+        JobScraper=64,
 
+        [Description("LinkedIn")]
+        CompanyScraper = 65,
+
+        [Description("LinkedIn")]
+        GroupMemberScraper = 66,
+
+        [Description("LinkedIn")]
+        SalesNavigatorUserScraper = 67,
+
+        
     }
 }

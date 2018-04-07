@@ -10,9 +10,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
         {
             ConfigureAccountdataBaseEntity(modelBuilder, network);
         }
-
-      
-
+    
         public static void ConfigureAccountdataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
         {
             switch (networks)

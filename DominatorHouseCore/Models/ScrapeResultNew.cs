@@ -17,5 +17,6 @@ namespace DominatorHouseCore.Models
         public QueryInfo QueryInfo { get; set; }
         public bool IsAccountLocked { get; set; }
         public ICommunity ResultCommunity { get; set; }
+        public IJob ResultJob { get; set; }
     }
 }
