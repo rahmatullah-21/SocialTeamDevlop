@@ -98,4 +98,23 @@
     <system:String x:Key="DHlangTumblr">Tumblr</system:String>
     <system:String x:Key="DHlangPinterest">Pinterest</system:String>
     <system:String x:Key="DHlangTwitter">Twitter</system:String>
+    <system:String x:Key="DHlangEnableRagularCheckForNewMessage﻿">Enable the option if you want to Dominator to regularly check for new direct messages received and create new message on the send message tab to auto reply to them</system:String>
+    <system:String x:Key="DHlangMessageText﻿">Message text (multi-level spin syntax is allow)</system:String>
+    <system:String x:Key="DHlangMessageTextWaterMark﻿" xml:space="preserve">The text contain the following tokens:
+[FULLNAME] [FIRSTNAME] [LASTNAME] [GROUPNAME] 
+[USERNAME] [MYUSERNAME] [MYNAME] [MYFIRSTNAME]
+They are replaced with user info.</system:String>
+    <system:String x:Key="DHlangReplyToMessagesThatContainSpecificWord﻿">Reply to messages that contain specific word (saperate the words using comma e.g Hi,Hello)</system:String>
+    <system:String x:Key="DHlangReplyToPendingMessages">Reply to new pending messages (reply only message sent by users that that don't follow your account)</system:String>
+    <system:String x:Key="DHlangReplyToAllMessage">Reply to all messages.</system:String>
+    <system:String x:Key="DHlangPrioritizeMessages">Prioritize messages for auto reply (add them at the top of the pending send messege list)</system:String>
+    <system:String x:Key="DHlangSendSecondaryMessageAfter">Send secondary messages after</system:String>
+    <system:String x:Key="DHlangSendIfUserHasReplied">Send only if the user has replied</system:String>
+    <system:String x:Key="DHlangSendIfUserHasNotReplied">Send only if the user has not replied</system:String>
+    <system:String x:Key="DHlangEditSecondaryMessages">Edit secondary messages</system:String>
+    <system:String x:Key="DHlangCheckForNewMessages">Check for new messages around every</system:String>
+    <system:String x:Key="DHlangExtractNow">Extract Now</system:String>
+    <system:String x:Key="DHlangMessageTaxt">Message text</system:String>
+    <system:String x:Key="DHlangAddMoreMessageTaxt">Add more Messages</system:String>
+    <system:String x:Key="DHlangMoreMessages">more messages</system:String>
 </ResourceDictionary>

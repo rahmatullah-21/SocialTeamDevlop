@@ -178,6 +178,9 @@
     <Compile Include="CustomControl\AutoActivityModuleDetails.xaml.cs">
       <DependentUpon>AutoActivityModuleDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\AutoReplyMessege.xaml.cs">
+      <DependentUpon>AutoReplyMessege.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\Campaigns.xaml.cs">
       <DependentUpon>Campaigns.xaml</DependentUpon>
     </Compile>
@@ -200,6 +203,9 @@
       <DependentUpon>ManageComment.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\ModuleSettingsUserControl.cs" />
+    <Compile Include="CustomControl\MultiMessage.xaml.cs">
+      <DependentUpon>MultiMessage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\ProxyManager.xaml.cs">
       <DependentUpon>ProxyManager.xaml</DependentUpon>
     </Compile>
@@ -338,6 +344,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CustomControl\AutoReplyMessege.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CustomControl\BlacklistUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -379,6 +389,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\ManageComment.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\MultiMessage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -14,6 +14,10 @@ namespace DominatorUIUtility.CustomControl
         {
             InitializeComponent();
             MainGrid.DataContext = this;
+            SaveVisiblity = Visibility.Visible;
+            ImportVisiblity = Visibility.Visible;
+            RefreshVisiblity = Visibility.Visible;
+            Height = 80;
         }
 
         public string InputText
@@ -78,5 +82,91 @@ namespace DominatorUIUtility.CustomControl
             InputCollection.Clear();
             InputText = string.Empty;
         }
+        public Visibility SaveVisiblity
+        {
+            get
+            {
+                return (Visibility)GetValue(SaveVisiblityProperty);
+            }
+            set
+            {
+                SetValue(SaveVisiblityProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty SaveVisiblityProperty =
+            DependencyProperty.Register("SaveVisiblity", typeof(Visibility), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            {
+                BindsTwoWayByDefault = true
+            });
+        public Visibility ImportVisiblity
+        {
+            get
+            {
+                return (Visibility)GetValue(ImportVisiblityProperty);
+            }
+            set
+            {
+                SetValue(ImportVisiblityProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ImportVisiblityProperty =
+            DependencyProperty.Register("ImportVisiblity", typeof(Visibility), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            {
+                BindsTwoWayByDefault = true
+            });
+        public Visibility RefreshVisiblity
+        {
+            get
+            {
+                return (Visibility)GetValue(RefreshVisiblityProperty);
+            }
+            set
+            {
+                SetValue(RefreshVisiblityProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty RefreshVisiblityProperty =
+            DependencyProperty.Register("RefreshVisiblity", typeof(Visibility), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            {
+                BindsTwoWayByDefault = true
+            });
+        public string WaterMarkText
+        {
+            get
+            {
+                return (string)GetValue(WaterMarkProperty);
+            }
+            set
+            {
+                SetValue(WaterMarkProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty WaterMarkProperty =
+            DependencyProperty.Register("WaterMarkText", typeof(string), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            {
+                BindsTwoWayByDefault = true
+            });
+
+        public int Height
+        {
+            get
+            {
+                return (int)GetValue(HeightProperty);
+            }
+            set
+            {
+                SetValue(HeightProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty HeightProperty =
+            DependencyProperty.Register("Height", typeof(int), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            {
+                BindsTwoWayByDefault = true
+            });
     }
 }

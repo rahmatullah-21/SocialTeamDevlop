@@ -289,6 +289,7 @@
     <Compile Include="Diagnostics\LogHelper\ILoggableWindow.cs" />
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
     <Compile Include="Models\AddPostModel.cs" />
+    <Compile Include="Models\AutoReplyMessegeModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ContentSelectGroup.cs" />
@@ -307,6 +308,7 @@
     <Compile Include="Models\LiveChatModel.cs" />
     <Compile Include="Models\ManageCommentModel.cs" />
     <Compile Include="Models\ManageDestinationModel.cs" />
+    <Compile Include="Models\MultiMessagesModel.cs" />
     <Compile Include="Models\PinterestModel.cs" />
     <Compile Include="Models\ProxyManagerModel.cs" />
     <Compile Include="Models\ReportDetails.cs" />
