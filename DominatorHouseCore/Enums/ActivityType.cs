@@ -25,8 +25,9 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Twitter,Instagram")]
         Post = 7,
 
-        [Description("Twitter,Instagram")]
-        Repost = 8,
+        // INFO : Ambiguous between Repost(8) and Reposter(13), so deleted, if any one used please with Reposter(13)
+        // [Description("Twitter,Instagram")]
+        // Repost = 8,
 
         [Description("Facebook,Twitter,Instagram")]
         DeletePost = 9,
@@ -192,7 +193,7 @@ namespace DominatorHouseCore.Enums
 
 
         [Description("LinkedIn")]
-        JobScraper=64,
+        JobScraper = 64,
 
         [Description("LinkedIn")]
         CompanyScraper = 65,
@@ -203,6 +204,6 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         SalesNavigatorUserScraper = 67,
 
-        
+
     }
 }

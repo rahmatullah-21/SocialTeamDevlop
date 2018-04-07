@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using DominatorHouseCore.DatabaseHandler.AccountDB;
 using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
@@ -12,36 +13,30 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
         #region database Helper Method
 
-        public static void CreateDataBase(string DBName,SocialNetworks networks, DatabaseType? databaseType = DatabaseType.AccountType)
+
+        static Dictionary<SocialNetworks, Action<DataBaseConnection>> _dbCounters = new Dictionary<SocialNetworks, Action<DataBaseConnection>>
         {
+            {SocialNetworks.Twitter, db => db.Count<DominatorHouseCore.DatabaseHandler.TdTables.Accounts.Friendships>() },
+            {SocialNetworks.Gplus, db => db.Count<Friendships>() },
+            {SocialNetworks.Facebook, db => db.Count<Friendships>() },
+            {SocialNetworks.Instagram, db => db.Count<Friendships>() },
+            {SocialNetworks.Quora, db => db.Count<Friendships>() },
+            {SocialNetworks.Pinterest, db => db.Count<PdTables.Accounts.Friendships>() },
+        };
+
+        public static void NewThread(Action act)
+        {
+            new Thread(() => act()) { IsBackground = true }.Start();
+        }
+
+        public static void CreateDataBase(string DBName, SocialNetworks networks, DatabaseType? databaseType = DatabaseType.AccountType, Action<Action> executionStrategy = null)
+        {
+            if (executionStrategy == null) executionStrategy = NewThread;
             try
             {
                 DataBaseConnection databaseConnection =
                     GetDataBaseConnectionInstance(DBName, networks,databaseType);
-
-                switch (networks)
-                {
-                    case SocialNetworks.Twitter:                       
-                        var initiaThread = new Thread(() => databaseConnection.Count<DominatorHouseCore.DatabaseHandler.TdTables.Accounts.Friendships>()) { IsBackground = true };
-                        initiaThread.Start();
-                        break;
-                    case SocialNetworks.Gplus:
-                        var initialGplusThread = new Thread(() => databaseConnection.Count<Friendships>()) { IsBackground = true };
-                        initialGplusThread.Start();
-                        break;
-                    case SocialNetworks.Instagram:
-                        var initialGdThread = new Thread(() => databaseConnection.Count<Friendships>()) { IsBackground = true };
-                        initialGdThread.Start();
-                        break;
-                    case SocialNetworks.Quora:
-                        var initialQdThread = new Thread(() => databaseConnection.Count<Friendships>()) { IsBackground = true };
-                        initialQdThread.Start();
-                        break;
-                    case SocialNetworks.Pinterest:
-                        var initialPdThread = new Thread(() => databaseConnection.Count<PdTables.Accounts.Friendships>()) { IsBackground = true };
-                        initialPdThread.Start();
-                        break;
-                }
+                executionStrategy(() => _dbCounters[networks](databaseConnection));
             }
             catch (Exception ex)
             {
