@@ -25,8 +25,9 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Twitter,Instagram")]
         Post = 7,
 
-        [Description("Twitter,Instagram")]
-        Repost = 8,
+        // INFO : Ambiguous between Repost(8) and Reposter(13), so deleted, if any one used please with Reposter(13)
+        // [Description("Twitter,Instagram")]
+        // Repost = 8,
 
         [Description("Facebook,Twitter,Instagram")]
         DeletePost = 9,
@@ -166,39 +167,33 @@ namespace DominatorHouseCore.Enums
         [Description("YouTube")]
         ViewIncreaser = 55,
 
+        [Description("Instagram")]
+        BlockFollower = 56,
 
         [Description("Instagram")]
-        BlockFollower = 57,
+        LikeComment = 57,
 
         [Description("Instagram")]
-        LikeComment = 58,
-
-        [Description("Instagram")]
-        HashtagsScraper = 59,
+        HashtagsScraper = 58,
 
         [Description("Pinterest")]
-        CreateBoard = 56,
+        CreateBoard = 59,
 
         [Description("Twitter,Instagram")]
-        FollowBack = 57,
+        FollowBack = 60,
 
         [Description("Twitter")]
-        DeleteTweet = 58,
+        DeleteTweet = 61,
 
         [Description("Twitter")]
-        Mute = 59,
+        Mute = 62,
 
         [Description("Gplus")]
-        CommunityScraper = 60,
-
-
-
-
-
+        CommunityScraper = 63,
 
 
         [Description("LinkedIn")]
-        JobScraper=64,
+        JobScraper = 64,
 
         [Description("LinkedIn")]
         CompanyScraper = 65,
@@ -209,6 +204,6 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         SalesNavigatorUserScraper = 67,
 
-        
+
     }
 }

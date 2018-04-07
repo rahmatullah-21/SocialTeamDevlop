@@ -46,7 +46,7 @@
                 <StackPanel Margin="20,5" Visibility="{Binding IsEnableGlobalNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel  Orientation="Horizontal">
                         <Label Margin="5" Content="{DynamicResource DHlangApplicationWillNotExecuteAnyActions}"/>
-                        <Controls:NumericUpDown Margin="5" Value="{Binding ExecuteAnyActionsBetween.StartValue}"/>
+                        <Controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding ExecuteAnyActionsBetween.StartValue}"/>
                         <Label Content="{DynamicResource langAnd}" Margin="5"/>
                         <Controls:NumericUpDown Margin="5" Minimum="{Binding ExecuteAnyActionsBetween.StartValue}"
                                                 Value="{Binding ExecuteAnyActionsBetween.EndValue}"/>
@@ -81,7 +81,7 @@
                          Text="{Binding GlobalFindReplaceText}"/>
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="5" Content="{DynamicResource DHlangWaitMinimumOf}"/>
-                    <Controls:NumericUpDown Margin="5" Value="{Binding WaitMinimumOf}"/>
+                    <Controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
                     <Label Margin="5" Content="{DynamicResource DHlangHoursBeforeExecuting}"/>
                 </StackPanel>
                 <CheckBox Margin="5" Content="{DynamicResource DHlangUseTabInsteadOfComma}"

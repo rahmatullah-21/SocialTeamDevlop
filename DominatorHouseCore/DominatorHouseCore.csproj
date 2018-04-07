@@ -207,6 +207,17 @@
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\Friendship.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteracteractedAnswers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteracteractedQuestion.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\Friendship.cs" />

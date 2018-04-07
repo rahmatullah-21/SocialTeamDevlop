@@ -72,12 +72,14 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<LdTables.Campaign.InteractedUsers>();
                     break;
                 case SocialNetworks.Quora:
-                    modelBuilder.Entity<FeedInfoes>();
-                    modelBuilder.Entity<Friendships>();
-                    modelBuilder.Entity<DailyStatitics>();
-                    modelBuilder.Entity<InteractedPosts>();
-                    modelBuilder.Entity<InteractedUsers>();
-                    modelBuilder.Entity<UnfollowedUsers>();
+                    modelBuilder.Entity<QdTables.Accounts.FeedInfoes>();
+                    modelBuilder.Entity<QdTables.Accounts.Friendships>();
+                    modelBuilder.Entity<QdTables.Accounts.DailyStatitics>();                    
+                    modelBuilder.Entity<QdTables.Accounts.InteractedUsers>();
+                    modelBuilder.Entity<QdTables.Accounts.UnfollowedUsers>();
+                    modelBuilder.Entity<QdTables.Campaigns.InteractedPosts>();
+                    modelBuilder.Entity<QdTables.Campaigns.InteracteractedAnswers>();
+                    modelBuilder.Entity<QdTables.Campaigns.InteracteractedQuestion>();
                     break;
                 case SocialNetworks.Reddit:
                     break;
