@@ -234,7 +234,7 @@ namespace DominatorHouse
             {
                 TabDock = Dock.Left;
                 
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Fetal Error",
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Fatal Error",
                     $"Please purchase access of {network} automation features!");
 
                 SelectedNetworkIndex = 0;

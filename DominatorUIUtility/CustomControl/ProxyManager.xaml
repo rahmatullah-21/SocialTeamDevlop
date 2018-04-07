@@ -264,14 +264,8 @@
         
     </UserControl.Resources>
 
-    <Grid x:Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="3*"/>
-        </Grid.RowDefinitions>
-        
+    <StackPanel x:Name="MainGrid">
         <StackPanel>
-            
             <StackPanel Orientation="Horizontal">
                 
                 <Button Height="30"   x:Name="btnImportProxies" Margin="10,5" Click="btnImportProxies_Click"
@@ -576,6 +570,6 @@
             
         </ListView>
         
-    </Grid>
+    </StackPanel>
     
 </UserControl>

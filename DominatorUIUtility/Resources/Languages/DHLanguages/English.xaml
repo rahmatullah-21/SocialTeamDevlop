@@ -38,7 +38,7 @@
     <system:String x:Key="DHlangLimitNumberOfRecords">Limit the number of records in any list to</system:String>
     <system:String x:Key="DHlangLimitNumberOfDeshboardSummary">Limit the number of Deshboard - summary items to</system:String>
     <system:String x:Key="DHlangLimitNumberOfPost">Limit the number of posts in campaigns to</system:String>
-    <system:String x:Key="DHlangRecreateDeshboardWindow">Recreate the Deshboard window each time its visited (check this if you have issues with the graph from statistics</system:String>
+    <system:String x:Key="DHlangRecreateDeshboardWindow">Recreate the Dashboard window each time its visited (check this if you have issues with the graph from statistics</system:String>
     <system:String x:Key="DHlangForceCampaignsToKeepSameCreationDate">Force campaigns to keep the same creation date on posts sent from drafts</system:String>
     <system:String x:Key="DHlangEnablePerformanceAnalysis">Enable performance analysis</system:String>
     <system:String x:Key="DHlangEmbaddedBrowserUserAgent">Embadded Browser User Agent</system:String>
@@ -47,7 +47,7 @@
     <system:String x:Key="DHlangDatabaseIntegrityCheck">Database integrity check (Advanced setting)</system:String>
     <system:String x:Key="DHlangFull">Full</system:String>
     <system:String x:Key="DHlangNormal">Normal</system:String>
-    <system:String x:Key="DHlangMaximumNumberOfSemultaneousConnections">maximum number of semultaneous connections</system:String>
+    <system:String x:Key="DHlangMaximumNumberOfSemultaneousConnections">maximum number of simultaneous connections</system:String>
     <system:String x:Key="DHlangMaximizeEmbaddedBrowser">Maximize the embadded browser window when they are open</system:String>
     <system:String x:Key="DHlangSecondsBeforeIssuingError">seconds before issuing a 505 error.</system:String>
     <system:String x:Key="DHlangForceKillEmbeddedBrowsers">Force kill embedded browsers (Experimental - use when embedded browser processes are not correctly killed)</system:String>
