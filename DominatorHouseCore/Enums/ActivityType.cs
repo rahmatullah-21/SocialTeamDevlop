@@ -25,9 +25,9 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Twitter,Instagram")]
         Post = 7,
 
-        // INFO : Ambiguous between Repost(8) and Reposter(13), so deleted, if any one used please with Reposter(13)
-        // [Description("Twitter,Instagram")]
-        // Repost = 8,
+        // INFO : Ambiguous between Repost(8) and Reposter(13), so dont use, if any one used please with Reposter(13)
+        [Description("Twitter,Instagram")]
+        Repost = 8,
 
         [Description("Facebook,Twitter,Instagram")]
         DeletePost = 9,

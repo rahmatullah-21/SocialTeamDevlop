@@ -95,7 +95,6 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-
         public ObservableCollection<DominatorAccountModel> LstDominatorAccountModel { get; set; } = new ObservableCollection<DominatorAccountModel>();
 
         public ObservableCollection<ContentSelectGroup> Groups { get; set; } = new ObservableCollection<ContentSelectGroup>();
@@ -118,27 +117,6 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private int _displayColumnValue1 = 0;
-
-        public int DisplayColumnValue1
-        {
-            get
-            {
-                return _displayColumnValue1;
-            }
-            set
-            {
-                if (_displayColumnValue1 == value)
-                    return;
-
-                SetProperty(ref _displayColumnValue1, value);
-
-            }
-        }
-
-
-
-
         private GridViewHeader _gridHeaderColumn2 = new GridViewHeader();
 
         public GridViewHeader GridHeaderColumn2
@@ -155,26 +133,6 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _gridHeaderColumn2, value);
             }
         }
-
-
-        private int _displayColumnValue2 = 0;
-
-        public int DisplayColumnValue2
-        {
-            get
-            {
-                return _displayColumnValue2;
-            }
-            set
-            {
-                if (_displayColumnValue2 == value)
-                    return;
-
-                SetProperty(ref _displayColumnValue2, value);
-
-            }
-        }
-
 
         private GridViewHeader _gridHeaderColumn3 = new GridViewHeader();
 
@@ -193,26 +151,6 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-
-        private int _displayColumnValue3 = 0;
-
-        public int DisplayColumnValue3
-        {
-            get
-            {
-                return _displayColumnValue3;
-            }
-            set
-            {
-                if (_displayColumnValue3 == value)
-                    return;
-
-                SetProperty(ref _displayColumnValue3, value);
-
-            }
-        }
-
-
         private GridViewHeader _gridHeaderColumn4 = new GridViewHeader();
 
         public GridViewHeader GridHeaderColumn4
@@ -229,26 +167,6 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _gridHeaderColumn4, value);
             }
         }
-
-
-        private int _displayColumnValue4 = 0;
-
-        public int DisplayColumnValue4
-        {
-            get
-            {
-                return _displayColumnValue4;
-            }
-            set
-            {
-                if (_displayColumnValue4 == value)
-                    return;
-
-                SetProperty(ref _displayColumnValue4, value);
-
-            }
-        }
-
 
         private SocialNetworks _socialNetwork = SocialNetworks.Facebook;
 
@@ -1023,6 +941,9 @@ namespace DominatorUIUtility.ViewModel
 
         public void ActionCheckAccount(DominatorAccountModel model)
             => strategyPack.ActionCheckAccount(model);
+
+        public void ActionUpdateAccount(DominatorAccountModel model)
+            => strategyPack.action_UpdateFollower(model);
 
     }
 

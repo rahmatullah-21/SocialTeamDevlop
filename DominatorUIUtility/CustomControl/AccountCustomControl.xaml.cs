@@ -235,6 +235,19 @@ namespace DominatorUIUtility.CustomControl
             };
             menuOptions.Add(loginStatusMenu);
 
+
+            var updateMenu = new MenuItem { Header = "Update Friendship" };
+            updateMenu.Click += UpdateFriendshipCount;
+            updateMenu.DataContext = dominatorAccountModel;
+            updateMenu.Icon = new Image
+            {
+                Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
+                Width = 25,
+                Height = 25
+            };
+            menuOptions.Add(updateMenu);
+
+            //
             switch (socialNetwork)
             {
                 case "Facebook":
@@ -338,6 +351,19 @@ namespace DominatorUIUtility.CustomControl
             {
                 DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
                 DominatorAccountViewModel.ActionCheckAccount(dominatorAccountModel);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+        }
+
+        public void UpdateFriendshipCount(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+                DominatorAccountViewModel.ActionUpdateAccount(dominatorAccountModel);
             }
             catch (Exception exception)
             {

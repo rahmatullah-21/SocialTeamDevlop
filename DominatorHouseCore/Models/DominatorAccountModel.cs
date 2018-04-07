@@ -182,7 +182,7 @@ namespace DominatorHouseCore.Models
         public int DisplayColumnValue1 { get; set; }
 
         [ProtoIgnore]
-        public int DisplayColumnValue2 { get; set; }
+        public int DisplayColumnValue2 { get; set; } 
 
         [ProtoIgnore]
         public int DisplayColumnValue3 { get; set; }

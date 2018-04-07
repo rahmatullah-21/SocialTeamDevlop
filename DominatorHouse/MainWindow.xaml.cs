@@ -61,7 +61,8 @@ namespace DominatorHouse
                 ActionCheckAccount = AccountStatusChecker,
                 AccountBrowserLogin = AccountBrowserLogin,
                 _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
-                _inform_warnings = GlobusLogHelper.log.Warn
+                _inform_warnings = GlobusLogHelper.log.Warn,
+                action_UpdateFollower= AccountUpdate
             };
 
             DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
@@ -365,6 +366,14 @@ namespace DominatorHouse
                 .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
                 .GetNetworkCoreFactory().AccountUpdateFactory;
             accountUpdateFactory.CheckStatus(dominatorAccountModel);
+        }
+
+        public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
+        {
+            var accountUpdateFactory = SocinatorInitialize
+                .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                .GetNetworkCoreFactory().AccountUpdateFactory;
+            accountUpdateFactory.UpdateDetails(dominatorAccountModel);
         }
 
         public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)

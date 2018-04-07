@@ -449,21 +449,21 @@
 
                         </GridViewColumn>
 
-                        <GridViewColumn  DisplayMemberBinding="{Binding DataContext.DisplayColumnValue2 ,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+                        <GridViewColumn  DisplayMemberBinding="{Binding DisplayColumnValue2}">
                             <GridViewColumnHeader Width="130"
                                                   Content="{Binding DataContext.GridHeaderColumn2.Header,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                                   Visibility="{Binding DataContext.GridHeaderColumn2.HeaderVisible,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                   utility:GridViewBehaviors.CollapseableColumn="True" />
 
                         </GridViewColumn>
-                        <GridViewColumn  DisplayMemberBinding="{Binding DataContext.DisplayColumnValue3 ,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+                        <GridViewColumn  DisplayMemberBinding="{Binding DisplayColumnValue3}">
                             <GridViewColumnHeader Width="130"
                                                   Content="{Binding DataContext.GridHeaderColumn3.Header,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                                   Visibility="{Binding DataContext.GridHeaderColumn3.HeaderVisible,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                   utility:GridViewBehaviors.CollapseableColumn="True" />
                         </GridViewColumn>
 
-                        <GridViewColumn  DisplayMemberBinding="{Binding DataContext.DisplayColumnValue4 ,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+                        <GridViewColumn  DisplayMemberBinding="{Binding DisplayColumnValue4}">
                             <GridViewColumnHeader Width="130"
                                                   Content="{Binding DataContext.GridHeaderColumn4.Header,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                                   Visibility="{Binding DataContext.GridHeaderColumn4.HeaderVisible,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -472,7 +472,7 @@
                         </GridViewColumn>
 
 
-                        <GridViewColumn  DisplayMemberBinding="{Binding DataContext.DisplayColumnValue1}">
+                        <GridViewColumn  DisplayMemberBinding="{Binding DisplayColumnValue1}">
                             <GridViewColumnHeader Width="130"
                                                   Content="{Binding GridHeaderColumn1.Header }"
                                                   Visibility="{Binding GridHeaderColumn1.HeaderVisible}"
