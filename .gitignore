@@ -9,3 +9,4 @@ gramUISetup/Debug/
 gramUISetup/Release/
 CodeMap1.dgml
 *.msi
+**/UpgradeLog*.htm
