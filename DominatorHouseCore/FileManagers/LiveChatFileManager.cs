@@ -41,7 +41,6 @@ namespace DominatorHouseCore.FileManagers
             {
                 return false;
             }
-            return false;
         }
         public static Dictionary<string, ObservableCollection<ChatDetails>> GetAllChatDetails()
         {
