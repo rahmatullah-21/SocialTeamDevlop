@@ -14,12 +14,13 @@ namespace DominatorHouseCore.Utility
 {
     public class BinFileHelper
     {
-        private static readonly object _accountDetailsFileLocker = new object();
-        private static readonly object _campaignsFileLocker = new object();
-        private static readonly object _templatesFileLocker = new object();
-        private static readonly object _proxyFileLocker = new object();
-        private static readonly object _postFileLocker = new object();
-        private static readonly object _configFileLocker = new object();
+        //private static readonly object _accountDetailsFileLocker = new object();
+        //private static readonly object _campaignsFileLocker = new object();
+        //private static readonly object _templatesFileLocker = new object();
+        //private static readonly object _proxyFileLocker = new object();
+        //private static readonly object _postFileLocker = new object();
+        //private static readonly object _configFileLocker = new object();
+
         public static ObservableCollectionBase<string> GetUsers()
             => new ObservableCollectionBase<string>(GetAccountDetails().Select(x => x.AccountBaseModel.UserName).ToList());
 
@@ -30,30 +31,52 @@ namespace DominatorHouseCore.Utility
         public static ObservableCollectionBase<string> GetUsers<T>() where T : class
             => new ObservableCollectionBase<string>(GetAccountDetailsFor<T>().Select(x => (x as dynamic).UserName as string).ToList());
 
+        static Dictionary<Type, Tuple<object, Func<string>>> __lockAndFileByType = new Dictionary<Type, Tuple<object, Func<string>>>
+        {
+            {typeof(CampaignDetails), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetIndexCampaignFile) },
+            {typeof(TemplateModel), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetTemplatesFile) },
+            {typeof(ProxyManagerModel), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherProxyFile) },
+            {typeof(AddPostModel), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherPostsFile) },
+            {typeof(Configuration), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherConfigFile) },
+            {typeof(object), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetIndexAccountFile) }
+        };
+
+        /// <summary>
+        /// Do something while locking the file that is the repository for the corresponding class
+        /// </summary>
+        /// <typeparam name="T">subject</typeparam>
+        /// <typeparam name="R">return type</typeparam>
+        /// <param name="act">action to perform</param>
+        /// <returns>repeats the action returned value</returns>
+        static R WithFile<T,R>(Func<string, R> act) {
+            Tuple<object, Func<string>> typeConfig;
+            // first, try the actual type
+            if (!__lockAndFileByType.TryGetValue(typeof(T), out typeConfig))
+            {
+                // second, try to see if it's an assignable type
+                var presentBaseClass = __lockAndFileByType.Keys.Except(new Type[] { typeof(object) }).FirstOrDefault(
+                    candidateBase => candidateBase.IsAssignableFrom(typeof(T)));
+                if (presentBaseClass == default(Type))
+                {
+                    presentBaseClass = typeof(object);
+                }
+                typeConfig = __lockAndFileByType[presentBaseClass];
+            }
+            lock(typeConfig.Item1)
+            {
+                return act(typeConfig.Item2());
+            }
+        }
 
         public static bool Append<T>(T obj)
         {
-
-            object locker = _accountDetailsFileLocker;
-            string filePath = ConstantVariable.GetIndexAccountFile();
-
-            if (typeof(T) == typeof(CampaignDetails))
-            {
-                locker = _campaignsFileLocker;
-                filePath = ConstantVariable.GetIndexCampaignFile();
-            }
-
-            else if (typeof(T) == typeof(TemplateModel))
-            {
-                locker = _templatesFileLocker;
-                filePath = ConstantVariable.GetTemplatesFile();
-            }
-
             try
             {
-                lock (locker)
+                return WithFile<T,bool>(filePath =>
+                {
                     ProtoBuffBase.AppendObject<T>(obj, filePath);
-                return true;
+                    return true;
+                });
             }
             catch (Exception ex)
             {
@@ -64,13 +87,9 @@ namespace DominatorHouseCore.Utility
 
         public static List<DominatorAccountModel> GetAccountDetails()
         {
-            lock (_accountDetailsFileLocker)
-            {
-                var indexAccountPath = ConstantVariable.GetIndexAccountFile();
-                return File.Exists(indexAccountPath) ? 
-                    ProtoBuffBase.DeserializeList<DominatorAccountModel>(indexAccountPath) : 
-                    new List<DominatorAccountModel>();
-            }
+            return WithFile<DominatorAccountModel, List<DominatorAccountModel>>(indexAccountPath => File.Exists(indexAccountPath) ?
+                    ProtoBuffBase.DeserializeList<DominatorAccountModel>(indexAccountPath) :
+                    new List<DominatorAccountModel>());
         }
 
 
@@ -78,27 +97,29 @@ namespace DominatorHouseCore.Utility
         // Modify index account path. Uses only for testing purposes of PD, TWD and others.
         public static List<T> GetAccountDetailsFor<T>() where T : class
         {
-            lock (_accountDetailsFileLocker)
-                return ProtoBuffBase.DeserializeList<T>(ConstantVariable.GetIndexAccountFile());
+            return WithFile<T,List<T>>(file => ProtoBuffBase.DeserializeList<T>(file));
         }
 
 
         // Get all campigns 
         public static List<CampaignDetails> GetCampaignDetail()
         {
-            lock (_campaignsFileLocker)
-                return ProtoBuffBase.DeserializeList<CampaignDetails>(ConstantVariable.GetIndexCampaignFile());
+            return WithFile<CampaignDetails, List<CampaignDetails>>(file => ProtoBuffBase.DeserializeList<CampaignDetails>(file));
         }
 
 
         // Get all templates 
         public static List<TemplateModel> GetTemplateDetails()
         {
-            lock (_templatesFileLocker)
-                return ProtoBuffBase.DeserializeList<TemplateModel>(ConstantVariable.GetTemplatesFile());
+            return WithFile<TemplateModel, List<TemplateModel>>(file => ProtoBuffBase.DeserializeList<TemplateModel>(file));
         }
 
+        public static int FindAccountIndex(List<DominatorAccountModel> accounts, string id)
+        {
+            return accounts.FindIndex(candidate => candidate.AccountId == id);
+        }
 
+        [Obsolete("This method is not safe")]
         public static int FindAccountIndex<T>(List<T> accounts, string id)
         {
             return typeof(T) == typeof(DominatorAccountModel) ?
@@ -115,7 +136,7 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                lock (_accountDetailsFileLocker)
+                return WithFile<DominatorAccountModel,bool>(file =>
                 {
                     int indexOfAccountToUpdate = 0;
                     var accountDetailsList = GetAccountDetails();
@@ -130,12 +151,11 @@ namespace DominatorHouseCore.Utility
                         accountDetailsList = new List<DominatorAccountModel>();
                         accountDetailsList.Add(accountModel);
                     }
-                    bool result = ProtoBuffBase.SerializeList(accountDetailsList, ConstantVariable.GetIndexAccountFile());
-
+                    bool result = ProtoBuffBase.SerializeList(accountDetailsList, file);
 
                     GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
                     return result;
-                }
+                });
             }
             catch (Exception ex)
             {
@@ -146,26 +166,26 @@ namespace DominatorHouseCore.Utility
         }
 
         // TODO: backward compatibility
+        [Obsolete("This code is unsafe")]
         internal static bool UpdateAccount<T>(T accountModel) where T : class
         {
             try
             {
-                lock (_accountDetailsFileLocker)
-                {
-                    List<T> accountDetailsList = GetAccountDetailsFor<T>();
-                    int indexOfAccountToUpdate = FindAccountIndex(accountDetailsList, (accountModel as dynamic).AccountId);
+                return WithFile<T, bool>(file =>
+                     {
+                         List<T> accountDetailsList = GetAccountDetailsFor<T>();
+                         int indexOfAccountToUpdate = FindAccountIndex(accountDetailsList, (accountModel as dynamic).AccountId);
 
-                    if (indexOfAccountToUpdate == -1)
-                        return false;
+                         if (indexOfAccountToUpdate == -1)
+                             return false;
 
-                    accountDetailsList[indexOfAccountToUpdate] = accountModel;
+                         accountDetailsList[indexOfAccountToUpdate] = accountModel;
 
-                    bool result = ProtoBuffBase.SerializeList(accountDetailsList,
-                                                                ConstantVariable.GetIndexAccountFile());
+                         bool result = ProtoBuffBase.SerializeList(accountDetailsList, file);
 
-                    GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
-                    return result;
-                }
+                         GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
+                         return result;
+                     });
             }
             catch (Exception ex)
             {
@@ -185,64 +205,61 @@ namespace DominatorHouseCore.Utility
         // TODO: back compatibility to save old AccountModel. Have to be replaced with IList<DominatorAccountModel>
         public static bool UpdateAllAccounts<T>(List<T> accountDetailsList) where T : class
         {
-            lock (_accountDetailsFileLocker)
+            try
             {
-                try
-                {
-                    bool result = ProtoBuffBase.SerializeList(accountDetailsList,
-                                                                 ConstantVariable.GetIndexAccountFile());
-
-                    GlobusLogHelper.log.Debug("Accounts succesfully saved");
-
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    GlobusLogHelper.log.Error("Update All Accounts error - " + ex.Message);
-                    ex.DebugLog();
-                    return false;
-                }
+                return WithFile<T, bool>(file =>
+                 {
+                     bool result = ProtoBuffBase.SerializeList(accountDetailsList, file);
+                     GlobusLogHelper.log.Debug("Accounts succesfully saved");
+                     return result;
+                 });
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error("Update All Accounts error - " + ex.Message);
+                ex.DebugLog();
+                return false;
             }
         }
 
 
         public static void UpdateCampaigns(List<CampaignDetails> campaignList)
         {
-            lock (_campaignsFileLocker)
+            try
             {
-                try
-                {
-                    ProtoBuffBase.SerializeList(campaignList, ConstantVariable.GetIndexCampaignFile());
-                }
-                catch (Exception ex)
-                {
-                    GlobusLogHelper.log.Error("Update campaigns error - " + ex.Message);
-                }
+                WithFile<CampaignDetails,bool>(file =>
+                    ProtoBuffBase.SerializeList(campaignList, file));
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error("Update campaigns error - " + ex.Message);
             }
         }
 
         public static void UpdateTemplates(List<TemplateModel> templatesList)
         {
-            lock (_templatesFileLocker)
+            try
             {
-                try
-                {
-                    ProtoBuffBase.SerializeList(templatesList, ConstantVariable.GetTemplatesFile());
-                }
-                catch (Exception ex)
-                {
-                    GlobusLogHelper.log.Error("Update campaigns error - " + ex.Message);
-                }
+                WithFile<TemplateModel,bool>(file =>
+                    ProtoBuffBase.SerializeList(templatesList, file));
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error("Update campaigns error - " + ex.Message);
             }
         }
-        public static void SaveProxy<T>(T ProxyManagerModel) where T : class
+        public static void SaveProxy(ProxyManagerModel model)
         {
-            ProtoBuffBase.AppendObject(ProxyManagerModel, ConstantVariable.GetOtherProxyFile());
+            WithFile<ProxyManagerModel, bool>(file =>
+             {
+                 ProtoBuffBase.AppendObject(model, file);
+                 return true;
+             });
         }
-        public static List<T> GetProxyDetails<T>() where T : class
+        public static List<ProxyManagerModel> GetProxyDetails()
         {
-            lock (_proxyFileLocker)
-                return ProtoBuffBase.DeserializeList<T>(ConstantVariable.GetOtherProxyFile());
+            return WithFile<ProxyManagerModel, List<ProxyManagerModel>>( file =>
+                ProtoBuffBase.DeserializeList<ProxyManagerModel>(file));
         }
         public static int FindProxyIndex<T>(List<T> proxy, string ProxyName)
         {
@@ -250,26 +267,26 @@ namespace DominatorHouseCore.Utility
                 proxy.FindIndex(a => (a as ProxyManagerModel).AccountProxy.ProxyName == ProxyName) :
                 proxy.FindIndex(a => (a as dynamic).AccountProxy.ProxyName == ProxyName);
         }
-        internal static bool UpdateProxy<T>(T proxy) where T : class
+
+        internal static bool UpdateProxy(ProxyManagerModel proxy)
         {
             try
             {
-                lock (_proxyFileLocker)
-                {
-                    List<T> proxyDetailsList = GetProxyDetails<T>();
-                    int indexOfProxyToUpdate = FindProxyIndex(proxyDetailsList, (proxy as dynamic).AccountProxy.ProxyName);
+                return WithFile<ProxyManagerModel, bool>(file =>
+                 {
+                     var proxyDetailsList = GetProxyDetails();
+                     var indexOfProxyToUpdate = FindProxyIndex(proxyDetailsList, proxy.AccountProxy.ProxyName);
 
-                    if (indexOfProxyToUpdate == -1)
-                        return false;
+                     if (indexOfProxyToUpdate == -1)
+                         return false;
 
-                    proxyDetailsList[indexOfProxyToUpdate] = proxy;
+                     proxyDetailsList[indexOfProxyToUpdate] = proxy;
 
-                    bool result = ProtoBuffBase.SerializeList(proxyDetailsList,
-                                                                ConstantVariable.GetOtherProxyFile());
+                     bool result = ProtoBuffBase.SerializeList(proxyDetailsList, file);
 
-                    GlobusLogHelper.log.Trace($"Update Proxy - [{result}]");
-                    return result;
-                }
+                     GlobusLogHelper.log.Trace($"Update Proxy - [{result}]");
+                     return result;
+                 });
             }
             catch (Exception ex)
             {
@@ -278,43 +295,40 @@ namespace DominatorHouseCore.Utility
                 return false;
             }
         }
-        public static bool UpdateAllProxy<T>(List<T> proxyDetailsList) where T : class
+        public static bool UpdateAllProxy(List<ProxyManagerModel> proxyDetailsList)
         {
-            lock (_proxyFileLocker)
+            try
             {
-                try
-                {
-                    bool result = ProtoBuffBase.SerializeList(proxyDetailsList, ConstantVariable.GetOtherProxyFile());
-
-                    GlobusLogHelper.log.Debug("Proxy succesfully saved");
-
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    GlobusLogHelper.log.Error("Update All Proxy error - " + ex.Message);
-                    ex.DebugLog();
-                    return false;
-                }
+                return WithFile<ProxyManagerModel, bool>(file =>
+                    {
+                        bool result = ProtoBuffBase.SerializeList(proxyDetailsList, file);
+                        GlobusLogHelper.log.Debug("Proxy succesfully saved");
+                        return result;
+                    });
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error("Update All Proxy error - " + ex.Message);
+                ex.DebugLog();
+                return false;
             }
         }
         public static void SavePosts<T>(T PostModel) where T : class
         {
             ProtoBuffBase.AppendObject(PostModel, ConstantVariable.GetOtherPostsFile());
         }
-        public static List<T> GetPostDetails<T>() where T : class
+        public static List<AddPostModel> GetPostDetails()
         {
-            lock (_postFileLocker)
-                return ProtoBuffBase.DeserializeList<T>(ConstantVariable.GetOtherPostsFile());
+            return WithFile<AddPostModel,List<AddPostModel>>(file => ProtoBuffBase.DeserializeList<AddPostModel>(file));
         }
-        internal static bool UpdatePost<T>(T post) where T : class
+        internal static bool UpdatePost(AddPostModel post)
         {
             try
             {
-                lock (_postFileLocker)
+                return WithFile<AddPostModel, bool>(file =>
                 {
-                    List<T> postDetailsList = GetPostDetails<T>();
-                    int indexOfPostToUpdate = FindPostIndex(postDetailsList, (post as dynamic).CampaignDetails.CampaignName);
+                    var postDetailsList = GetPostDetails();
+                    int indexOfPostToUpdate = FindPostIndex(postDetailsList, post.CampaignDetails.CampaignName);
 
                     if (indexOfPostToUpdate == -1)
                         return false;
@@ -325,7 +339,7 @@ namespace DominatorHouseCore.Utility
 
                     GlobusLogHelper.log.Trace($"Update Posts - [{result}]");
                     return result;
-                }
+                });
             }
             catch (Exception ex)
             {
@@ -334,24 +348,22 @@ namespace DominatorHouseCore.Utility
                 return false;
             }
         }
-        public static bool UpdateAllPosts<T>(List<T> postDetailsList) where T : class
+        public static bool UpdateAllPosts(List<AddPostModel> postDetailsList)
         {
-            lock (_proxyFileLocker)
+            try
             {
-                try
-                {
-                    bool result = ProtoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
-
-                    GlobusLogHelper.log.Debug("Posts succesfully saved");
-
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    GlobusLogHelper.log.Error("Update All Posts error - " + ex.Message);
-                    ex.DebugLog();
-                    return false;
-                }
+                return WithFile<AddPostModel, bool>(file =>
+                 {
+                     bool result = ProtoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
+                     GlobusLogHelper.log.Debug("Posts succesfully saved");
+                     return result;
+                 });
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error("Update All Posts error - " + ex.Message);
+                ex.DebugLog();
+                return false;
             }
         }
         public static int FindPostIndex<T>(List<T> posts, string CampaignName)
@@ -360,26 +372,28 @@ namespace DominatorHouseCore.Utility
                 posts.FindIndex(a => (a as AddPostModel).CampaignDetails.CampaignName == CampaignName) :
                 posts.FindIndex(a => (a as dynamic).AccountProxy.ProxyName == CampaignName);
         }
-        public static void SaveConfig<T>(T Config) where T : class
+        public static void SaveConfig(Configuration config)
         {
-            ProtoBuffBase.AppendObject(Config, ConstantVariable.GetOtherConfigFile());
+            WithFile<Configuration, bool>(file => {
+                ProtoBuffBase.AppendObject(config, file);
+                return true;
+            });
         }
-        public static List<T> GetConfigDetails<T>() where T : class
+        public static List<Configuration> GetConfigDetails<T>()
         {
             try
             {
-                lock (_configFileLocker)
-                {
-                    var configDetailsPath = ConstantVariable.GetOtherConfigFile();
-                    if (File.Exists(configDetailsPath)) {
-                        return ProtoBuffBase.DeserializeList<T>(configDetailsPath);
-                    }
-                    return new List<T>();
-                }
+                return WithFile<Configuration, List<Configuration>>(file =>
+                 {
+                     if (File.Exists(file))
+                     {
+                         return ProtoBuffBase.DeserializeList<Configuration>(file);
+                     }
+                     return new List<Configuration>();
+                 });
             }
             catch (Exception )
             {
-
 
             }
             return null;

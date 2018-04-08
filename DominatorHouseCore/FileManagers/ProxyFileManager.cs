@@ -11,7 +11,7 @@ namespace DominatorHouseCore.FileManagers
 {
     public static class ProxyFileManager
     {
-        public static bool SaveProxy<T>(T proxy) where T : class
+        public static bool SaveProxy(ProxyManagerModel proxy)
         {
             try
             {
@@ -27,15 +27,15 @@ namespace DominatorHouseCore.FileManagers
         }
         public static List<ProxyManagerModel> GetAllProxy()
         {
-            return BinFileHelper.GetProxyDetails<ProxyManagerModel>();
+            return BinFileHelper.GetProxyDetails();
         }
       
 
-        public static void EditProxy<TModel>(TModel proxy) where TModel : class => BinFileHelper.UpdateProxy(proxy);
+        public static void EditProxy(ProxyManagerModel proxy) => BinFileHelper.UpdateProxy(proxy);
 
-        public static void Delete<PModel>(Predicate<PModel> match) where PModel : class
+        public static void Delete(Predicate<ProxyManagerModel> match)
         {
-            var proxy = BinFileHelper.GetProxyDetails<PModel>();
+            var proxy = BinFileHelper.GetProxyDetails();
             var toDelete = proxy.FindAll(match);
             proxy.RemoveAll(match);
             BinFileHelper.UpdateAllProxy(proxy);

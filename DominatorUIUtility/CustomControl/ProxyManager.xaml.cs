@@ -121,7 +121,7 @@ namespace DominatorUIUtility.CustomControl
 
             proxy.AccountsAssignedto.Remove(accountToDelete);
 
-            ProxyFileManager.EditProxy<ProxyManagerModel>(proxy);
+            ProxyFileManager.EditProxy(proxy);
 
             var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == proxy.AccountProxy.ProxyName);
             int indexToUpdate = ProxyDetail.IndexOf(item);
@@ -142,7 +142,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var currentProxy = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
 
-            ProxyFileManager.Delete<ProxyManagerModel>(proxy => proxy.AccountProxy.ProxyName == currentProxy.AccountProxy.ProxyName);
+            ProxyFileManager.Delete(proxy => proxy.AccountProxy.ProxyName == currentProxy.AccountProxy.ProxyName);
 
             ProxyDetail.Remove(currentProxy);
 
@@ -234,7 +234,7 @@ namespace DominatorUIUtility.CustomControl
             List<ProxyManagerModel> SelectedProxies = ProxyDetail.Where(proxy => proxy.IsProxySelected == true).ToList();
             SelectedProxies.ForEach(selectedProxy =>
             {
-                ProxyFileManager.Delete<ProxyManagerModel>(proxy => proxy.AccountProxy.ProxyName == selectedProxy.AccountProxy.ProxyName);
+                ProxyFileManager.Delete(proxy => proxy.AccountProxy.ProxyName == selectedProxy.AccountProxy.ProxyName);
                 ProxyDetail.Remove(selectedProxy);
             });
         }
@@ -317,7 +317,7 @@ namespace DominatorUIUtility.CustomControl
             var accountToAdd = currentProxyManagerModel.AccountsToBeAssign.FirstOrDefault(x => x.UserName == account.UserName);
             currentProxyManagerModel.AccountsToBeAssign.Remove(accountToAdd);
             currentProxyManagerModel.AccountsAssignedto.Add(accountToAdd);
-            ProxyFileManager.EditProxy<ProxyManagerModel>(currentProxyManagerModel);
+            ProxyFileManager.EditProxy(currentProxyManagerModel);
             var AccountToUpdateProxy = AccountsFileManager.GetAccount(account.UserName);
             AccountToUpdateProxy.AccountBaseModel.AccountProxy = currentProxyManagerModel.AccountProxy;
             AccountsFileManager.Edit(AccountToUpdateProxy);

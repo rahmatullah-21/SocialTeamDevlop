@@ -23,19 +23,18 @@ namespace DominatorHouseCore.FileManagers
             {
                 return false;
             }
-            return false;
         }
         public static List<AddPostModel> GetAllPost()
         {
-            return BinFileHelper.GetPostDetails<AddPostModel>();
+            return BinFileHelper.GetPostDetails();
         }
 
 
-        public static void EditPost<TModel>(TModel post) where TModel : class => BinFileHelper.UpdatePost(post);
+        public static void EditPost(AddPostModel post) => BinFileHelper.UpdatePost(post);
 
-        public static void Delete<PModel>(Predicate<PModel> match) where PModel : class
+        public static void Delete(Predicate<AddPostModel> match)
         {
-            var posts = BinFileHelper.GetPostDetails<PModel>();
+            var posts = BinFileHelper.GetPostDetails();
             var toDelete = posts.FindAll(match);
             posts.RemoveAll(match);
             BinFileHelper.UpdateAllPosts(posts);

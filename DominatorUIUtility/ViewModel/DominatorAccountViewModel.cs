@@ -491,7 +491,7 @@ namespace DominatorUIUtility.ViewModel
                         if (account2 != null)
                         {
                             proxy2.AccountsAssignedto.Remove(account2);
-                            ProxyFileManager.EditProxy<ProxyManagerModel>(proxy2);
+                            ProxyFileManager.EditProxy(proxy2);
                             break;
                         }
                     }
@@ -503,7 +503,7 @@ namespace DominatorUIUtility.ViewModel
                             UserName = objDominatorAccountBaseModel.UserName,
                             AccountNetwork = objDominatorAccountBaseModel.AccountNetwork
                         });
-                        ProxyFileManager.EditProxy<ProxyManagerModel>(proxy);
+                        ProxyFileManager.EditProxy(proxy);
                     }
 
                     break;
@@ -527,7 +527,7 @@ namespace DominatorUIUtility.ViewModel
                     UserName = objDominatorAccountBaseModel.UserName,
                     AccountNetwork = objDominatorAccountBaseModel.AccountNetwork
                 });
-                ProxyFileManager.SaveProxy<ProxyManagerModel>(ProxyManagerModel);
+                ProxyFileManager.SaveProxy(ProxyManagerModel);
             }
         }
   

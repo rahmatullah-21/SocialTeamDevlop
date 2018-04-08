@@ -13,11 +13,11 @@ namespace DominatorHouseCore.FileManagers
 {
     public class ConfigFileManager
     {
-        public static bool SaveConfig<T>(T Config) where T : class
+        public static bool SaveConfig(Configuration config)
         {
             try
             {
-                BinFileHelper.SaveConfig(Config);
+                BinFileHelper.SaveConfig(config);
                 GlobusLogHelper.log.Debug($"Configuration successfully saved");
                 return true;
             }
