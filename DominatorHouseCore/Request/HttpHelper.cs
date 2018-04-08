@@ -487,14 +487,15 @@ namespace DominatorHouseCore.Request
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <returns></returns>
-        public virtual async Task<IResponseParameter> PostRequestAsync(string url, string postData)
-        {
-            this.Request = (HttpWebRequest)WebRequest.Create(url);
-            this.Response = null;
-            SetRequestParametersToWebRequest(ref Request, RequestParameters);
-            WritePostData(ref Request, postData);
-            return GetFinalResponse();
-        }
+        //public virtual async Task<IResponseParameter> PostRequestAsync(string url, string postData)
+        //{
+        //    throw new NotImplementedException();
+        //    //this.Request = (HttpWebRequest)WebRequest.Create(url);
+        //    //this.Response = null;
+        //    //SetRequestParametersToWebRequest(ref Request, RequestParameters);
+        //    //WritePostData(ref Request, postData);
+        //    //return GetFinalResponse();
+        //}
 
 
         /// <summary>
@@ -504,15 +505,16 @@ namespace DominatorHouseCore.Request
         /// <param name="postData"></param>
         /// <param name="RequestParameters"></param>
         /// <returns></returns>
-        public virtual async Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters RequestParameters)
-        {
-            Request = (HttpWebRequest)WebRequest.Create(url);
-            this.Response = null;
-            string Reponce = string.Empty;
-            SetRequestParametersToWebRequest(ref Request, this.RequestParameters);
-            WritePostData(ref Request, postData);
-            return GetFinalResponse();
-        }
+        //public virtual async Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters RequestParameters)
+        //{
+        //    throw new NotImplementedException();
+        //    //Request = (HttpWebRequest)WebRequest.Create(url);
+        //    //this.Response = null;
+        //    //string Reponce = string.Empty;
+        //    //SetRequestParametersToWebRequest(ref Request, this.RequestParameters);
+        //    //WritePostData(ref Request, postData);
+        //    //return GetFinalResponse();
+        //}
 
 
         #endregion

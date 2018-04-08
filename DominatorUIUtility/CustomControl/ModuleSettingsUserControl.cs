@@ -367,7 +367,7 @@ namespace DominatorUIUtility.CustomControl
         
 
             // TODO: implement saving and add campaign
-            if (false) CampaignGlobalRoutines.Instance.Create((TModel)Model, _activityType, CampaignName, _footerControl.list_SelectedAccounts);
+            // CampaignGlobalRoutines.Instance.Create((TModel)Model, _activityType, CampaignName, _footerControl.list_SelectedAccounts);
 
             TemplateId = TemplateModel.SaveTemplate((TModel)Model,
                 _activityType.ToString(), _socialNetwork,
