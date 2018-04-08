@@ -66,7 +66,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 string connectionString = directoryName + $"\\{DBName}.db";
                 return new DataBaseConnection(connectionString, networks, ModelConfiguration.ConfigureAccountdataBaseEntity);
             }
-            catch (Exception Ex)
+            catch (Exception )
             {
                 return null;
             }

@@ -94,7 +94,7 @@ namespace DominatorHouseCore.Utility
                         break;
                 }
             }
-            catch (Exception E)
+            catch (Exception )
             {
 
             }

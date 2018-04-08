@@ -91,7 +91,7 @@ namespace DominatorUIUtility.CustomControl
                     LiveChatViewModel.lstAccountModel.FirstOrDefault(x =>
                         x.UserName == LiveChatViewModel.lstAccountModel[0].UserName.ToString());
             }
-            catch (Exception Ex)
+            catch (Exception )
             {
             }
 

@@ -21,7 +21,7 @@ namespace DominatorHouseCore.FileManagers
                 GlobusLogHelper.log.Debug($"Configuration successfully saved");
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 return false;
             }         

@@ -19,7 +19,7 @@ namespace DominatorHouseCore.FileManagers
                 GlobusLogHelper.log.Debug($"Post successfully saved");
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 return false;
             }

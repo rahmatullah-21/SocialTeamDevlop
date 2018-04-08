@@ -44,6 +44,10 @@ namespace DominatorHouseCore.Command
 
         }
 
+        public void NotifyCanExecuteChanged()
+        {
+            CanExecuteChanged.Invoke(this, EventArgs.Empty);
+        }
 
         public void Execute(object parameter)
         {

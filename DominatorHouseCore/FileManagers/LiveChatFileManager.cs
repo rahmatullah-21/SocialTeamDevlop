@@ -30,14 +30,14 @@ namespace DominatorHouseCore.FileManagers
 
                     Serializer.Serialize(stream, chat);
                 }
-                catch (Exception ex)
+                catch (Exception )
                 { }
                 stream.Close();
           
                 GlobusLogHelper.log.Debug($"Chat successfully saved");
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 return false;
             }

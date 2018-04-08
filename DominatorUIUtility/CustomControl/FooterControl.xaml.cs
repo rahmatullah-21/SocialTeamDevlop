@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore;
+using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -183,7 +184,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                if (CampaignManager.Equals("Create Campaign", StringComparison.CurrentCultureIgnoreCase))
+                if (CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
                 {
                     CreateCampaignChangedEventHandler();
                 }

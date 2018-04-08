@@ -59,7 +59,7 @@ namespace DominatorHouse.Social.Settings.View
                 {
                     ThemeName = "Base" + (lsttheme.SelectedItem as ThemeCollection).Name;
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     ThemeName = "BaseLight";
                 }

@@ -78,7 +78,7 @@ namespace DominatorHouseCore.Diagnostics
             {
                 return ActiveNetwork.GetNetworkCoreFactory().Network;
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 return SocialNetworks.Social;
             }

@@ -15,7 +15,7 @@ namespace DominatorHouseCore.Converters
             {
                 return DateTimeHelper.EpochToDateTimeUtc(int.Parse(value.ToString()));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

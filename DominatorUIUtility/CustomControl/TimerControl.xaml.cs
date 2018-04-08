@@ -275,7 +275,7 @@ namespace DominatorUIUtility.CustomControl
              
                 objRunningTimeSpanModel.Timings.Remove(objRunningTimeSpanModel.Timings.Where(x => x.StartTime == timeToDelete.StartTime && x.EndTime == timeToDelete.EndTime).Single());
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
                

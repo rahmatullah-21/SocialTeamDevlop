@@ -43,7 +43,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     }
                 }               
             }
-            catch (Exception Ex)
+            catch (Exception )
             {
                 return 0;
             }
@@ -65,7 +65,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 }
                 return true;
             }
-            catch (Exception Ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -84,7 +84,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     }
                 }
             }
-            catch (Exception Ex)
+            catch (Exception )
             {
                 return null;
             }
@@ -109,7 +109,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                });
 
             }
-            catch (Exception Ex)
+            catch (Exception )
             {
                 return lstData;
             }
@@ -130,7 +130,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     }
                 }
             }
-            catch (Exception Ex)
+            catch (Exception )
             {
                 return null;
             }
@@ -152,7 +152,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 }
                 return true;
             }
-            catch (Exception Ex)
+            catch (Exception )
             {
                 return false;
             }
@@ -174,7 +174,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 }
                 return true;
             }
-            catch (Exception Ex)
+            catch (Exception )
             {
                 return false;
             }

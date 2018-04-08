@@ -231,7 +231,7 @@ namespace DominatorHouse
                 tabHandler.UpdateAccountCustomControl(network);
                 SocinatorInitialize.SetAsActiveNetwork(network);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 TabDock = Dock.Left;
                 
@@ -383,7 +383,7 @@ namespace DominatorHouse
                 var browserWindow = new BrowserWindow(dominatorAccountModel);
                 browserWindow.Show();
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
             }

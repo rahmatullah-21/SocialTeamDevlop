@@ -43,7 +43,7 @@ namespace DominatorUIUtility.CustomControl
                 ((Button)sender).ContextMenu.DataContext = ((Button)sender).DataContext;
                 ((Button)sender).ContextMenu.IsOpen = true;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
             }

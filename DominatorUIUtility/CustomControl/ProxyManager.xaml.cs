@@ -186,7 +186,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 ProxyManagerModel.ProxyManagerCollection.GroupDescriptions.Clear();
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
         }
@@ -212,7 +212,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 ProxyDetail.Select(proxy => { proxy.IsProxySelected = true; return proxy; }).ToList();
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
         }
@@ -223,7 +223,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 ProxyDetail.Select(proxy => { proxy.IsProxySelected = false; return proxy; }).ToList();
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
             }
@@ -303,7 +303,7 @@ namespace DominatorUIUtility.CustomControl
                     ProxyDetail.Add(ProxyManagerModel);
                     ProxyId++;
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
 
                 }
@@ -364,7 +364,7 @@ namespace DominatorUIUtility.CustomControl
                     currentProxyManager.Status = "Not Working";
 
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 currentProxyManager.Status = "Fail";
                 currentProxyManager.Failures = 1;
@@ -400,7 +400,7 @@ namespace DominatorUIUtility.CustomControl
                 ProxyManagerModel ProxyGroup = GroupName as ProxyManagerModel;
                 return ProxyGroup.AccountProxy.ProxyGroup.IndexOf(Group.SelectedValue.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
             return true;
@@ -414,7 +414,7 @@ namespace DominatorUIUtility.CustomControl
                 return ProxyGroup.AccountProxy.ProxyIp.IndexOf(txtfilter.Text, StringComparison.InvariantCultureIgnoreCase) >= 0
                     || ProxyGroup.AccountProxy.ProxyName.IndexOf(txtfilter.Text, StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
             return true;
@@ -427,7 +427,7 @@ namespace DominatorUIUtility.CustomControl
                 ProxyManagerModel ProxyGroup = GroupName as ProxyManagerModel;
                 return ProxyGroup.Status.IndexOf("Fail", StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
             return true;
@@ -469,7 +469,7 @@ namespace DominatorUIUtility.CustomControl
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
 
                     GlobusLogHelper.log.Error("Error in Export Proxies");
