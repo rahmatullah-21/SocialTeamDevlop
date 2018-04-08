@@ -22,7 +22,8 @@ namespace DominatorUIUtility.Behaviours
                 ShowCloseButton = true,
                 WindowTransitionsEnabled = false,
                 Background = dialog.Background,
-                EnableDWMDropShadow = true
+                BorderThickness = new Thickness(0),
+                GlowBrush = Brushes.Black
 
             };
 
@@ -55,8 +56,8 @@ namespace DominatorUIUtility.Behaviours
                 ShowCloseButton = true,
                 WindowTransitionsEnabled = false,
                 Title=title,
-                EnableDWMDropShadow=true
-
+                BorderThickness = new Thickness(0),
+                GlowBrush = Brushes.Black
             };
 
             try

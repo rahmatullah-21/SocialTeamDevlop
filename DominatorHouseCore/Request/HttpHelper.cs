@@ -490,7 +490,6 @@ namespace DominatorHouseCore.Request
         public virtual async Task<IResponseParameter> PostRequestAsync(string url, string postData)
         {
             this.Request = (HttpWebRequest)WebRequest.Create(url);
-            string Reponce = string.Empty;
             this.Response = null;
             SetRequestParametersToWebRequest(ref Request, RequestParameters);
             WritePostData(ref Request, postData);

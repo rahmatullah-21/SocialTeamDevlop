@@ -23,7 +23,6 @@ namespace DominatorHouseCore.FileManagers
             {
                 return false;
             }
-            return false;
         }
         public static List<ProxyManagerModel> GetAllProxy()
         {

@@ -150,23 +150,5 @@ namespace DominatorUIUtility.CustomControl
             {
                 BindsTwoWayByDefault = true
             });
-
-        public int Height
-        {
-            get
-            {
-                return (int)GetValue(HeightProperty);
-            }
-            set
-            {
-                SetValue(HeightProperty, value);
-            }
-        }
-
-        public static readonly DependencyProperty HeightProperty =
-            DependencyProperty.Register("Height", typeof(int), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
     }
 }
