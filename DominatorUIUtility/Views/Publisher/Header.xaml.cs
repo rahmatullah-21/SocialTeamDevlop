@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using DominatorHouseCore.FileManagers;
 
 namespace DominatorUIUtility.Views.Publisher
 {
@@ -24,39 +13,32 @@ namespace DominatorUIUtility.Views.Publisher
         {
             InitializeComponent();
             MainGrid.DataContext = this;
+            cmbAccounts.ItemsSource = AccountsFileManager.GetUsers();
         }
 
-
-       
-         
-            public string HeaderText
+        public string HeaderText
+        {
+            get
             {
-                get
-                {
-                    return (string)GetValue(HeaderTextProperty);
-                }
-                set
-                {
-                    SetValue(HeaderTextProperty, value);
-                }
+                return (string)GetValue(HeaderTextProperty);
             }
-            public static readonly DependencyProperty HeaderTextProperty =
-                DependencyProperty.Register("HeaderText", typeof(string), typeof(Header), new FrameworkPropertyMetadata()
-                {
-                    BindsTwoWayByDefault = true
-                });
-
-            private void BtnBackToCampaign_Click(object sender, RoutedEventArgs e)
+            set
             {
-                Home ObjPublisher = Home.GetSingletonHome();
-                ObjPublisher.managePosts.Visibility = Visibility.Collapsed;
-                // ObjPublisher.btnBackToCampaign.Visibility = Visibility.Collapsed;
-                ObjPublisher.createCampign.Visibility = Visibility.Collapsed;
-                ObjPublisher.manageDestination.Visibility = Visibility.Collapsed;
-                ObjPublisher.publisherDetail.Visibility = Visibility.Visible;
-                ObjPublisher.publisherPageButtons.Visibility = Visibility.Visible;
+                SetValue(HeaderTextProperty, value);
             }
+        }
+        public static readonly DependencyProperty HeaderTextProperty =
+            DependencyProperty.Register("HeaderText", typeof(string), typeof(Header), new FrameworkPropertyMetadata()
+            {
+                BindsTwoWayByDefault = true
+            });
+
+        private void BtnBackToCampaign_Click(object sender, RoutedEventArgs e)
+        {
+            var objPublisher = PublisherIndexPage.Instance;
+            objPublisher.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
 
         }
-    
+    }
+
 }

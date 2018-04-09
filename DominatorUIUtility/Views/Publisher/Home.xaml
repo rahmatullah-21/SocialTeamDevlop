@@ -52,9 +52,9 @@
 
 
         <Grid Grid.Row="1">
-            <local:Campaigns  x:Name="createCampign" Visibility="Collapsed" x:FieldModifier="public"/>
+            <!--<local:Campaigns  x:Name="createCampign" Visibility="Collapsed" x:FieldModifier="public"/>
             <publisher:ManageDestination  x:Name="manageDestination" Visibility="Collapsed" x:FieldModifier="public"/>
-            <publisher:ManagePosts x:Name="managePosts" Visibility="Collapsed" x:FieldModifier="public"/>
+            <publisher:ManagePosts x:Name="managePosts" Visibility="Collapsed" x:FieldModifier="public"/>-->
 
             <ListView x:Name="publisherDetail" x:FieldModifier="public"
                   ScrollViewer.VerticalScrollBarVisibility="Auto" >

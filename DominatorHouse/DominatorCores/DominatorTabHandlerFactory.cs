@@ -66,7 +66,7 @@ namespace DominatorHouse.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("langPublisher") == null? "Publisher" : Application.Current.FindResource("langPublisher")?.ToString(),
-                    Content = new Lazy<UserControl>(Home.GetSingletonHome)
+                    Content = new Lazy<UserControl>(()=> PublisherIndexPage.Instance)
                 },
                 new TabItemTemplates
                 {

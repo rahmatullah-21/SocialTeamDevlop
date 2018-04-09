@@ -40,6 +40,8 @@ namespace DominatorHouseCore.Utility
 
         //"Instagram 10.33.0 Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})"
         //"Instagram 6.21.2 Android 23/6.0.1; 640dpi; 1440x2560; ZTE; ZTE A2017U; ailsa_ii; qcom;en_US";
+        //Instagram 37.0.0.5.97 Android (23/6.0.1; 480dpi; 1080x1920; Samsung;a8hplte;SM-A800IZ; qcom; en_US)
+
         [ProtoMember(8)]
         private string Brand { get; set; }
 

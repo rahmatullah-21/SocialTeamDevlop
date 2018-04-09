@@ -167,7 +167,6 @@ namespace DominatorUIUtility.CustomControl
 
             AccountsFileManager.SaveAll(lstAccountDetails);
 
-
             // Run/Stop job process in campaigns
             try
             {
@@ -188,7 +187,7 @@ namespace DominatorUIUtility.CustomControl
                         GlobusLogHelper.log.Info($"Starting campaign {campaign.CampaignName}");
                         foreach (var accountModel in lstAccountDetails.Where(x => selectedCampaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
                         {
-                            DominatorScheduler.ScheduleTodayJobs(accountModel, SocialNetworks.Instagram, module);
+                            DominatorScheduler.ScheduleTodayJobs(accountModel, accountModel.AccountBaseModel.AccountNetwork, module);
                         }
                     }
                     else
@@ -200,7 +199,6 @@ namespace DominatorUIUtility.CustomControl
                             DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId, campaign.SubModule, campaign.TemplateId);
                         }
                     }
-
                 }
 
                 CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());

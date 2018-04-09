@@ -16,7 +16,7 @@
             <ComboBox VerticalAlignment="Center" x:Name="cmbAccounts" x:FieldModifier="public"
                       Margin="15,0" Background="Transparent" Foreground="White"  BorderThickness="1"
                       BorderBrush="AntiqueWhite" SelectedIndex="0" Width="200"/>
-            <Button x:Name="BtnBackToCampaign" Content="{DynamicResource langBackToCampaign}"   Background="{DynamicResource AccentBaseColorBrush}"
+            <Button x:Name="BtnBackToCampaign" Content="{DynamicResource DHlangBack}"   Background="{DynamicResource AccentBaseColorBrush}"
                     Foreground="White" VerticalAlignment="Center" Click="BtnBackToCampaign_Click"/>
         </StackPanel>
     </Grid>

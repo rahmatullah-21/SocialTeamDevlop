@@ -117,4 +117,6 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangMessageTaxt">Message text</system:String>
     <system:String x:Key="DHlangAddMoreMessageTaxt">Add more Messages</system:String>
     <system:String x:Key="DHlangMoreMessages">more messages</system:String>
+    
+   <system:String x:Key="DHlangBack">Back</system:String>
 </ResourceDictionary>

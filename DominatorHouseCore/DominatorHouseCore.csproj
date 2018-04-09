@@ -406,6 +406,9 @@
     <Folder Include="DatabaseHandler\FdTables\" />
     <Folder Include="DatabaseHandler\GplusTables\Campaigns\" />
     <Folder Include="Enums\GdQuery\" />
+    <Folder Include="Enums\PdQuery\" />
+    <Folder Include="Enums\RdQuery\" />
+    <Folder Include="Enums\YdQuery\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">

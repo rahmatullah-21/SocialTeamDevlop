@@ -28,6 +28,7 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
+using DominatorUIUtility.Views.Publisher;
 using EmbeddedBrowser;
 // using EmbeddedBrowser;
 using FluentScheduler;
@@ -253,6 +254,11 @@ namespace DominatorHouse
                 var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
                     .AccountUserControlTools;
                 accountUi.GetStartupToolsView();
+            }
+
+            if (textBlockDetails.Text == FindResource("langPublisher").ToString())
+            {
+                PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
             }
         }
 

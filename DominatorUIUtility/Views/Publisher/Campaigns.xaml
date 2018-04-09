@@ -4,35 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher"          
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:header="clr-namespace:DominatorUIUtility.Views.Publisher"
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" 
-            >
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"          
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d"    >
     <UserControl.Resources>
         <converters:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
     </UserControl.Resources>
-    <Grid x:Name="createCampign" Margin="0,-50,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto">
-        <header:Header x:Name="publishersHeader" VerticalAlignment="Top"/>
-        <ScrollViewer   Margin="0,50,0,0">
+    <Grid x:Name="createCampign" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <local:Header x:Name="publishersHeader" VerticalAlignment="Top"/>
+        <ScrollViewer  Margin="0,50,0,0">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5" >
                     <Label Content="{DynamicResource langCampaign}"/>
                     <ComboBox x:Name="cmbCampaign" Height="25" Width="250" ItemsSource="{Binding LstCampaign}" DisplayMemberPath="CampaignName" 
-                            Controls:TextBoxHelper.ClearTextButton="True"   SelectionChanged="cmbCampaign_SelectionChanged" SelectedIndex="-1"/>
+                            controls:TextBoxHelper.ClearTextButton="True"   SelectionChanged="cmbCampaign_SelectionChanged" SelectedIndex="-1"/>
                     <Label Content="{DynamicResource langType}" Margin="10,0"/>
                     <ComboBox x:Name="cmbStatus"  Height="25" Width="200"  ItemsSource="{Binding LstStatus}" SelectedItem="{Binding SelectedStatus}"/>
                 </StackPanel>
-                <TextBox Controls:TextBoxHelper.Watermark="{DynamicResource langCampaign}" 
+                <TextBox controls:TextBoxHelper.Watermark="{DynamicResource langCampaign}" 
                  Name="txtCampaign" Width="310" HorizontalAlignment="Left" Margin="10,5"
                  Text="{Binding CampaignName,UpdateSourceTrigger=PropertyChanged}"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <Label Content="{DynamicResource langStatus}" VerticalAlignment="Center"/>
-                    <Controls:ToggleSwitch VerticalAlignment="Center" x:Name="tglStatus" HorizontalContentAlignment="Center"
+                    <controls:ToggleSwitch VerticalAlignment="Center" x:Name="tglStatus" HorizontalContentAlignment="Center"
                                   FontSize="12"   OnLabel="{Binding Status}" OffLabel="{Binding Status}" Margin="10,0"                
                                   IsCheckedChanged="tglStatus_IsCheckedChanged">
-                        <Controls:ToggleSwitch.Style>
-                            <Style TargetType="Controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
+                        <controls:ToggleSwitch.Style>
+                            <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
                                 <Style.Triggers>
                                     <Trigger Property="OnLabel" Value="Active">
                                         <Setter Property="OffSwitchBrush" Value="LightGreen"/>
@@ -52,12 +50,12 @@
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
-                        </Controls:ToggleSwitch.Style>
-                    </Controls:ToggleSwitch>
+                        </controls:ToggleSwitch.Style>
+                    </controls:ToggleSwitch>
                 </StackPanel>
                 <TabControl x:Name="CreateCampaignTabs" TabStripPlacement="Top" Grid.Row="1" Margin="5"
-                    Controls:TabControlHelper.IsUnderlined="True" 
-                 Controls:TabControlHelper.Underlined="SelectedTabItem">
+                    controls:TabControlHelper.IsUnderlined="True" 
+                 controls:TabControlHelper.Underlined="SelectedTabItem">
                     <TabControl.ItemTemplate  >
                         <DataTemplate>
                             <TextBlock  Text="{Binding Title}" FontSize="16" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
@@ -75,3 +73,4 @@
         </ScrollViewer>
     </Grid>
 </UserControl>
+

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 
@@ -28,8 +29,7 @@ namespace DominatorUIUtility.Views.Publisher
             InitializeComponent();
             publishersHeader.HeaderText = FindResource("langManagePosts").ToString();
             MainGrid.DataContext = ObjAddPostViewModel.AddPostModel;
-            string PostDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
-            ObjAddPostViewModel.AddPostModel.PostsDetailCollection = CollectionViewSource.GetDefaultView(PostDetailFilePath);
+            ObjAddPostViewModel.AddPostModel.PostsDetailCollection = CollectionViewSource.GetDefaultView(PostFileManager.GetAllPost());
         }
 
         private void btnContinue_Click(object sender, RoutedEventArgs e)

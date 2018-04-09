@@ -30,18 +30,16 @@ namespace DominatorUIUtility.Views.Publisher
 
         private static PublisherIndexPage _indexPage;
 
-        public static PublisherIndexPage Instance
+        public static PublisherIndexPage Instance { get; set; }
             = _indexPage ?? (_indexPage = new PublisherIndexPage());
 
         public PublisherIndexPageViewModel PublisherIndexPageViewModel { get; set; }
-
-
 
     }
 
     public class PublisherIndexPageViewModel : BindableBase
     {
-        private UserControl _selectedUserControl;
+        private UserControl _selectedUserControl = Home.GetSingletonHome();
 
         public UserControl SelectedUserControl
         {
@@ -51,15 +49,12 @@ namespace DominatorUIUtility.Views.Publisher
             }
             set
             {
-                if(_selectedUserControl!=null && Equals(_selectedUserControl, value))
+                if (_selectedUserControl != null && Equals(_selectedUserControl, value))
                     return;
 
                 SetProperty(ref _selectedUserControl, value);
             }
         }
-
-        public string LastVisitedPage { get; set; }
-
     }
 
 }

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher"
              mc:Ignorable="d" x:Name="PublisherIndex"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <StackPanel>
         <ContentControl Content="{Binding SelectedUserControl}"></ContentControl>
-    </Grid>
+    </StackPanel>
 </UserControl>

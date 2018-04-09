@@ -46,48 +46,25 @@ namespace DominatorUIUtility.Views.Publisher
 
         private void btnCreateCampaign_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            createCampign.Visibility = Visibility.Visible;
-            publisherDetail.Visibility = Visibility.Collapsed;
-            publisherPageButtons.Visibility = Visibility.Collapsed;
+            //createCampign.Visibility = Visibility.Visible;
+            //publisherDetail.Visibility = Visibility.Collapsed;
+            //publisherPageButtons.Visibility = Visibility.Collapsed;
+
+            PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = new Campaigns();
+
         }
 
-        private void btnManageDestination_Click(object sender, RoutedEventArgs e)
-        {
-            manageDestination.createDestination.Visibility = Visibility.Collapsed;
-            manageDestination.manageDestination.Visibility = Visibility.Visible;
-            manageDestination.Visibility = Visibility.Visible;
-
-            managePosts.Visibility = Visibility.Collapsed;
-            createCampign.Visibility = Visibility.Collapsed;
-            publisherDetail.Visibility = Visibility.Collapsed;
-            publisherPageButtons.Visibility = Visibility.Collapsed;
-        }
+        private void btnManageDestination_Click(object sender, RoutedEventArgs e) 
+            => PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = new ManageDestination();
 
         private void btnManagePosts_Click(object sender, RoutedEventArgs e)
         {
 
-            manageDestination.Visibility = Visibility.Collapsed;
-            createCampign.Visibility = Visibility.Collapsed;
-            publisherDetail.Visibility = Visibility.Collapsed;
-            publisherPageButtons.Visibility = Visibility.Collapsed;
-            managePosts.Visibility = Visibility.Visible;
-
+            var managePosts = new ManagePosts();
             AddPostViewModel ObjAddPostViewModel = new AddPostViewModel();
             managePosts.MainGrid.DataContext = ObjAddPostViewModel.AddPostModel;
+            PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = new ManagePosts();
 
-            string PostDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
-            //   var postDetails = ProtoBuffBase.DeserializeObjects<AddPostModel>(PostDetailFilePath);
-            //  ObjAddPostViewModel.AddPostModel.PostsDetailCollection = CollectionViewSource.GetDefaultView(postDetails);
         }
-
-        private void btnBackToCampaign_Click(object sender, RoutedEventArgs e)
-        {
-            managePosts.Visibility = Visibility.Collapsed;
-            createCampign.Visibility = Visibility.Collapsed;
-            manageDestination.Visibility = Visibility.Collapsed;
-            publisherDetail.Visibility = Visibility.Visible;
-            publisherPageButtons.Visibility = Visibility.Visible;
-        }
-
     }
 }
