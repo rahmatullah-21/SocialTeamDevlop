@@ -310,6 +310,7 @@
     <Compile Include="Models\ManageCommentModel.cs" />
     <Compile Include="Models\ManageDestinationModel.cs" />
     <Compile Include="Models\MultiMessagesModel.cs" />
+    <Compile Include="Models\OtherConfigModel.cs" />
     <Compile Include="Models\PinterestModel.cs" />
     <Compile Include="Models\ProxyManagerModel.cs" />
     <Compile Include="Models\ReportDetails.cs" />

@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.OtherConfig"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
+             mc:Ignorable="d" 
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
+    <StackPanel x:Name="MainGrid" Margin="5">
+        <StackPanel Orientation="Horizontal">
+            <CheckBox Content="{DynamicResource DHlangSendSecondaryMessageAfter}"
+                  VerticalAlignment="Center" Margin="5"
+                  IsChecked="{Binding OtherConfigFilter.IsSendSecondaryMessagesAfterChecked}"/>
+            <Controls:NumericUpDown Minimum="0" IsEnabled="{Binding OtherConfigFilter.IsSendSecondaryMessagesAfterChecked}"
+                                                Value="{Binding OtherConfigFilter.SendSecondaryMessages.StartValue}"/>
+            <Label Content="{DynamicResource langTo}"/>
+            <Controls:NumericUpDown
+                            IsEnabled="{Binding OtherConfigFilter.IsSendSecondaryMessagesAfterChecked}"
+                            Minimum="{Binding OtherConfigFilter.SendSecondaryMessages.StartValue}"
+                                     Value="{Binding OtherConfigFilter.SendSecondaryMessages.EndValue}"/>
+            <Label Content="{DynamicResource langHours}"/>
+        </StackPanel>
+        <StackPanel Margin="5" 
+                    Visibility="{Binding OtherConfigFilter.IsSendSecondaryMessagesAfterChecked,
+                    Converter={StaticResource BooleanToVisibilityConverter}}">
+          
+                <CheckBox Content="{DynamicResource DHlangSendIfUserHasReplied}"
+                                  VerticalAlignment="Center" 
+                                  IsChecked="{Binding OtherConfigFilter.IsSendIfUserHasRepliedChecked}"/>
+                <Button Content="{DynamicResource DHlangEditSecondaryMessages}"
+                        Background="Transparent" HorizontalAlignment="Left"
+                        Foreground="{DynamicResource AccentBaseColorBrush}" 
+                        FontWeight="SemiBold" Name="BtnSendIfUserHasReplied"
+                        Visibility="{Binding OtherConfigFilter.IsSendIfUserHasRepliedChecked,
+                        Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Click="BtnSendIfUserHasReplied_OnClick"/>
+          
+                <CheckBox Content="{DynamicResource DHlangSendIfUserHasNotReplied}"
+                           VerticalAlignment="Center" Margin="0,5,0,0"
+                           IsChecked="{Binding OtherConfigFilter.IsSendIfUserHasRepliedNotChecked}"/>
+                <Button Content="{DynamicResource DHlangEditSecondaryMessages}"
+                        Background="Transparent" HorizontalAlignment="Left"
+                        Foreground="{DynamicResource AccentBaseColorBrush}" FontWeight="SemiBold"
+                        Name="BtnSendIfUserHasNotReplied"
+                        Visibility="{Binding OtherConfigFilter.IsSendIfUserHasRepliedNotChecked,
+                        Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Click="BtnSendIfUserHasNotReplied_OnClick"  />
+           
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"  Margin="5">
+            <CheckBox Content="{DynamicResource DHlangCheckForNewMessages}"
+                      VerticalAlignment="Center"
+                      IsChecked="{Binding OtherConfigFilter.IsCheckForNewMessagesChecked}"/>
+            <Controls:NumericUpDown Minimum="0" Value="{Binding CheckMessagesMinutes}"
+                                    IsEnabled="{Binding OtherConfigFilter.IsCheckForNewMessagesChecked}"/>
+            <Label Content="{DynamicResource langMinutes}"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>
