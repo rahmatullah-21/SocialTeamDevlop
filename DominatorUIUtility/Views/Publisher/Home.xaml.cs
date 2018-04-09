@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 
@@ -23,26 +25,23 @@ namespace DominatorUIUtility.Views.Publisher
     /// </summary>
     public partial class Home : UserControl
     {
-        public Home()
+        private Home()
         {
-           
             InitializeComponent();
-            string PostDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\PostsDetail.bin";
+           
+            PublisherDetailCollection = CollectionViewSource.GetDefaultView(PostFileManager.GetAllPost());
 
-            // PublisherDetailCollection = CollectionViewSource.GetDefaultView(ProtoBuffBase.DeserializeObjects<AddPostModel>(PostDetailFilePath));
             publisherDetail.ItemsSource = PublisherDetailCollection;
         }
+
         public ICollectionView PublisherDetailCollection { get; set; }
 
 
-
-        static Home objHome { get; set; } = null;
+        static Home ObjHome { get; set; } = null;
 
         public static Home GetSingletonHome()
         {
-            if (objHome == null)
-                objHome = new Home();
-            return objHome;
+            return ObjHome ?? (ObjHome = new Home());
         }
 
         private void btnCreateCampaign_Click(object sender, System.Windows.RoutedEventArgs e)

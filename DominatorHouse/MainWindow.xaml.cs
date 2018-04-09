@@ -55,7 +55,6 @@ namespace DominatorHouse
 
         public MainWindow()
         {
-
             _strategies = new DominatorAccountViewModel.AccessorStrategies
             {
                 ActionCheckAccount = AccountStatusChecker,

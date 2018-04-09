@@ -191,7 +191,6 @@ namespace DominatorHouseCore.Enums
         [Description("Gplus")]
         CommunityScraper = 63,
 
-
         [Description("LinkedIn")]
         JobScraper = 64,
 
@@ -204,6 +203,7 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         SalesNavigatorUserScraper = 67,
 
-
+        [Description("Youtube")]
+        ChannelScraper = 68
     }
 }

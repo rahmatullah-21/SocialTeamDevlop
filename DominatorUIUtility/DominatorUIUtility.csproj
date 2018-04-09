@@ -280,6 +280,9 @@
     <Compile Include="Views\Publisher\ManagePosts.xaml.cs">
       <DependentUpon>ManagePosts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Publisher\PublisherIndexPage.xaml.cs">
+      <DependentUpon>PublisherIndexPage.xaml</DependentUpon>
+    </Compile>
     <Page Include="Behaviours\ErrorModelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -580,6 +583,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Publisher\ManagePosts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\PublisherIndexPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

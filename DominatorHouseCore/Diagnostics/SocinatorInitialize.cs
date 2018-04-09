@@ -9,6 +9,7 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
 using System.Net.Http;
+using DominatorHouseCore.Request;
 using ProtectedCommon;
 
 namespace DominatorHouseCore.Diagnostics
@@ -23,7 +24,7 @@ namespace DominatorHouseCore.Diagnostics
         public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();
 
         public static HashSet<SocialNetworks> GetAvailableSocialNetworks(string license)
-        {
+        {           
             try
             {
                 // Get all available networks from license  
@@ -45,7 +46,7 @@ namespace DominatorHouseCore.Diagnostics
             }
             return AvailableNetworks;
         }
-            
+
         private static Dictionary<SocialNetworks, string> NetworksNamespace { get; set; } = new Dictionary<SocialNetworks, string>()
         {
             {SocialNetworks.Social,"DominatorHouse" },
@@ -78,7 +79,7 @@ namespace DominatorHouseCore.Diagnostics
             {
                 return ActiveNetwork.GetNetworkCoreFactory().Network;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return SocialNetworks.Social;
             }
@@ -117,7 +118,7 @@ namespace DominatorHouseCore.Diagnostics
             RegisteredNetworks.Add(networks, networkCollectionFactory);
         }
 
-   
+
 
         private static void GlobalExceptionInitializer()
         {

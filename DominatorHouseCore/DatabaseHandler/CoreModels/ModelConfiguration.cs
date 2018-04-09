@@ -85,11 +85,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     break;
                 case SocialNetworks.Youtube:
                     break;
-
-
-            }
-
-          
+            }       
         }
 
     }
