@@ -51,22 +51,40 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         public string CompanyName { get; set; }
 
         /// <summary>
-        /// CompanyUrl Id of the Company being interacted
+        /// Contains Id of the Company being interacted
         /// </summary>
         [Index("Pk_AccountEmail_ActivityType_CompanyUrl", 3, IsUnique = true)]
         [Column(Order = 7)]
         public string CompanyUrl { get; set; }
-        
+
+        /// <summary>
+        /// Contains TotalEmployees in the Company being interacted
+        /// </summary>
+        [Column(Order = 8)]
+        public string TotalEmployees { get; set; }
+
+        /// <summary>
+        /// Describes Industry of the Company being interacted
+        /// </summary>
+        [Column(Order = 9)]
+        public string Industry { get; set; }
+
+        /// <summary>
+        /// Describes Follow Status For this Account in the Company being interacted
+        /// </summary>
+        [Column(Order = 10)]
+        public string IsFollowed { get; set; }
+
         /// <summary>
         /// Contains DetailedInfo Regarding Interacted Company In Jason String Form
         /// </summary>
-        [Column(Order = 8)]
+        [Column(Order = 11)]
         public string DetailedInfo { get; set; }
 
         /// <summary>
         /// TimeStamp when interacted with the Company
         /// </summary>
-        [Column(Order = 9)]
+        [Column(Order = 12)]
         public int InteractionTimeStamp { get; set; }
     }
 }

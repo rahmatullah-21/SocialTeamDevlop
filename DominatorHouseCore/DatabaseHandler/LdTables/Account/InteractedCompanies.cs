@@ -44,22 +44,40 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         public string CompanyName { get; set; }
 
         /// <summary>
-        /// Contains CompanyUrl of the Company being interacted
+        /// Contains Id of the Company being interacted
         /// </summary>
         [Index("Pk_ActivityType_CompanyUrl", 2, IsUnique = true)]
         [Column(Order = 6)]
         public string CompanyUrl { get; set; }
 
         /// <summary>
-        /// Contains DetailedInfo Regarding Interacted Company In Jason String Form
+        /// Contains TotalEmployees in the Company being interacted
         /// </summary>
         [Column(Order = 7)]
+        public string TotalEmployees { get; set; }
+
+        /// <summary>
+        /// Describes Industry of the Company being interacted
+        /// </summary>
+        [Column(Order = 8)]
+        public string Industry { get; set; }
+
+        /// <summary>
+        /// Describes Follow Status For this Account in the Company being interacted
+        /// </summary>
+        [Column(Order = 9)]
+        public string IsFollowed { get; set; }
+
+        /// <summary>
+        /// Contains DetailedInfo Regarding Interacted Company In Jason String Form
+        /// </summary>
+        [Column(Order = 10)]
         public string DetailedInfo { get; set; }
 
         /// <summary>
-        /// TimeStamp when interacted with the Company
+        /// TimeStamp when Interacted with the Company
         /// </summary>
-        [Column(Order = 8)]
+        [Column(Order = 11)]
         public int InteractionTimeStamp { get; set; }
     }
 }

@@ -18,5 +18,6 @@ namespace DominatorHouseCore.Models
         public bool IsAccountLocked { get; set; }
         public ICommunity ResultCommunity { get; set; }
         public IJob ResultJob { get; set; }
+        public ICompany ResultCompany { get; set; }
     }
 }

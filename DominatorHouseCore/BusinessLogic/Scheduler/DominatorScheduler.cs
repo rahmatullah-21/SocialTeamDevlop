@@ -18,18 +18,18 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public partial class DominatorScheduler
     {
-       
+
         private static IJobProcessFactory _activeJobProcessFactory;
 
         public static object RunStopActivityLocker = new object();
 
-       /// <summary>
-       /// To start the activity of template for the given account at specified time range
-       /// </summary>
-       /// <param name="account"></param>
-       /// <param name="templateId"></param>
-       /// <param name="currentJobTimeRange"></param>
-       /// <param name="module"></param>
+        /// <summary>
+        /// To start the activity of template for the given account at specified time range
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="templateId"></param>
+        /// <param name="currentJobTimeRange"></param>
+        /// <param name="module"></param>
         public static void RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange, string module)
         {
             _activeJobProcessFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).GetNetworkCoreFactory().JobProcessFactory;
@@ -38,14 +38,14 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
             var scheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
 
-           
+
 
             if (scheduledJob != null && scheduledJob.Disabled)
                 return;
 
-            var jobProcess = _activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId, currentJobTimeRange, module,account.AccountBaseModel.AccountNetwork);
+            var jobProcess = _activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId, currentJobTimeRange, module, account.AccountBaseModel.AccountNetwork);
 
-           
+
 
             jobProcess.StartProcessAsync();
         }
@@ -54,7 +54,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         public static void StopActivity(string accountId, string module, string templateId)
         {
             lock (RunStopActivityLocker)
-            {                
+            {
                 JobProcess.Stop(accountId, templateId);
 
                 var id = JobProcess.AsId(accountId, templateId);
@@ -207,7 +207,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     if (activity != moduleToIgnore)
                     {
                         var moduleRunningTimes = GetRunningTimes(account, activity);
-                        if (moduleRunningTimes.Count> 0)
+                        if (moduleRunningTimes.Count > 0)
                         {
                             account.ActivityManager.RunningTime = moduleRunningTimes;
                             foreach (var timing in account.ActivityManager.RunningTime)
@@ -234,16 +234,19 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="moduleType"></param>
         /// <returns></returns>
         public static List<RunningTimes> GetRunningTimes(DominatorAccountModel item, ActivityType moduleType)
-        {
-            var activitySetting = string.Empty;
+        {          
             var runningTime = new List<RunningTimes>();
             try
             {
                 var moduleConfiguration = item.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == moduleType);
-                activitySetting = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId).ActivitySettings;
+                if (moduleConfiguration != null)
+                {
+                    var  activitySetting = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
 
-                dynamic obj = JsonConvert.DeserializeObject(activitySetting);
-                runningTime = obj.JobConfiguration.RunningTime;
+                    dynamic obj = JsonConvert.DeserializeObject(activitySetting);
+                    runningTime = obj.JobConfiguration.RunningTime;
+                }
+                   
 
                 #region Commented
                 //switch (moduleType)

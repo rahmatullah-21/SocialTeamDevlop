@@ -63,7 +63,8 @@ namespace DominatorHouseCore.Utility
             DirectoryUtilities.CreateDirectory(dir);            
             return dir;
         }
-        public static string GetIndexAccountFile() => GetIndexAccountDir() + @"\AccountDetails.bin";
+        public static string GetIndexAccountFile() 
+            => GetIndexAccountDir() + @"\AccountDetails.bin";
 
 
         public static string GetIndexCampaignDir()

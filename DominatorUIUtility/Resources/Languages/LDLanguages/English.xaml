@@ -3,12 +3,12 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="LDlangKeyword">Keyword</system:String>
-    <system:String x:Key="LDlangEmail">Keyword</system:String>
-    <system:String x:Key="LDlangProfileUrl">Keyword</system:String>
-    <system:String x:Key="LDlangSearchUrl">Keyword</system:String>
-    <system:String x:Key="LDlangInput">Keyword</system:String>
-    <system:String x:Key="LDlangOnly1stConnection">Keyword</system:String>
-    <system:String x:Key="LDlangJoinedGroupUrl">Keyword</system:String>
+    <system:String x:Key="LDlangEmail">Email</system:String>
+    <system:String x:Key="LDlangProfileUrl">ProfileUrl</system:String>
+    <system:String x:Key="LDlangSearchUrl">SearchUrl</system:String>
+    <system:String x:Key="LDlangInput">Input</system:String>
+    <system:String x:Key="LDlangOnly1stConnection">Only1stConnection</system:String>
+    <system:String x:Key="LDlangJoinedGroupUrl">JoinedGroupUrl</system:String>
 
 
     <system:String x:Key="LDlangNoOfConnections"># Connections</system:String>
@@ -35,8 +35,6 @@
     <system:String x:Key="LDlangAllCampaign">All Campaigns</system:String>
     <system:String x:Key="LDlangLicensingDetails">Licensing Details</system:String>
     <system:String x:Key="LDlangGeneralSettings">General Settings</system:String>
-    <system:String x:Key="LDlangConnectionRequestConfiguration">Configuration</system:String>
-    <system:String x:Key="LDlangConnectionRequestReports">ConnectionRequest Reports</system:String>
     <system:String x:Key="LDlangAddPersonalNote">Add Personal Note</system:String>
     <system:String x:Key="LDlangConnectionRequestsPerJob">Number of Connection Requests per job</system:String>
     <system:String x:Key="LDlangConnectionRequestsPerDay">Number of Connection Requests per day</system:String>
@@ -92,6 +90,9 @@
     <system:String x:Key="LDlangCompanyScraperWarning">These accounts are already running with CompanyScraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangGroupMemberScraperWarning">These accounts are already running with GroupMemberScraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangSalesNavigatorUserScraperWarning">These accounts are already running with SalesNavigator_UserScraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+
+    <system:String x:Key="LDlangInputPersonalNote">Input Personal Note</system:String>
+
 
 
 

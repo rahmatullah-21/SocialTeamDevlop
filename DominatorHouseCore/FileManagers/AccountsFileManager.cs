@@ -93,7 +93,7 @@ namespace DominatorHouseCore.FileManagers
 
         // for internal user to prevent overwriting all accounts after GetAll
         internal static List<DominatorAccountModel> GetAll(SocialNetworks network)
-        {
+        {          
             return BinFileHelper.GetAccountDetails().Where(a => a.AccountBaseModel.AccountNetwork == network).ToList();
         }
 

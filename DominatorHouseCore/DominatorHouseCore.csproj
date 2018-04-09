@@ -246,6 +246,7 @@
     <Compile Include="FileManagers\TwitterFileManager.cs" />
     <Compile Include="FileManagers\YoutubeFileManager.cs" />
     <Compile Include="Interfaces\ICommunity.cs" />
+    <Compile Include="Interfaces\ICompany.cs" />
     <Compile Include="Interfaces\IJob.cs" />
     <Compile Include="Interfaces\INetworkCollectionFactory.cs" />
     <Compile Include="Interfaces\INetworkCoreFactory.cs" />
