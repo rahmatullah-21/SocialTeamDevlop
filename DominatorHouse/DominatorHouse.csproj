@@ -238,6 +238,14 @@
       <Project>{8a858cd7-7834-4365-8f4d-4faa0361de7f}</Project>
       <Name>LinkedDominatorUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj">
+      <Project>{21b1d90e-f201-4ef0-b4e9-a99315945f1d}</Project>
+      <Name>QuoraDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorUI\QuoraDominatorUI.csproj">
+      <Project>{164cddcd-db12-4998-b822-3adc9c8a7072}</Project>
+      <Name>QuoraDominatorUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\twtdominator-library\TwtDominatorCore\TwtDominatorCore.csproj">
       <Project>{e41bf7d2-231f-4d58-ad45-95f7146e1979}</Project>
       <Name>TwtDominatorCore</Name>
