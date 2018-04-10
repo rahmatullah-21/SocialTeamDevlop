@@ -10,25 +10,28 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
         [Key]
         [Column(Order = 1)]
         [Index]
-        [Autoincrement]  
+        [Autoincrement]
         public int Id { get; set; }
- 
+
         [Column(Order = 2)]
-        public int Date { get; set; }
- 
+        public string AccountUsername { get; set; }
+
         [Column(Order = 3)]
         public ActivityType ActivityType { get; set; }
- 
+
         [Column(Order = 4)]
-        public string HashtagName { get; set; }
- 
+        public string Keyword { get; set; }
+
         [Column(Order = 5)]
-        public string HashtagId { get; set; }
- 
+        public string HashtagName { get; set; }
+
         [Column(Order = 6)]
-        public string MediaCount { get; set; }
- 
+        public string HashtagId { get; set; }
+
         [Column(Order = 7)]
-        public string AccountUsername { get; set; }
+        public string MediaCount { get; set; }
+
+        [Column(Order = 8)]
+        public int Date { get; set; }
     }
 }

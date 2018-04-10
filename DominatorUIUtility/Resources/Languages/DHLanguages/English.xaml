@@ -122,4 +122,8 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangBroadcastMessages">Broadcast Messages</system:String>
     <system:String x:Key="DHlangAutoReplyToNewMessage">Auto Reply To New Message</system:String>
     <system:String x:Key="DHlangSendMessageToNewFollowers">Send Message To New Followers</system:String>
+    <system:String x:Key="DHlangMessageList">Messages List</system:String>
+    <system:String x:Key="DHlangManageMessages">Manage Messages</system:String>
+    <system:String x:Key="DHlangAddMessageToList">Add Message To List</system:String>
+    <system:String x:Key="DHlangMessageText">Message Text</system:String>
 </ResourceDictionary>

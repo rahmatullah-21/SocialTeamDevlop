@@ -1235,7 +1235,15 @@
     <system:String x:Key="GDlangFollowBackWarning">These accounts are already running with FollowBack configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="GDlangBlockFollowerWarning">These accounts are already running with BlockFollower configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="GDlangDeletePostWarning">These accounts are already running with DeletePost configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
-   
+
+
+    <system:String x:Key="GDlangMessageFilter">Message Filter</system:String>
+    <system:String x:Key="GDlangMessagesPerJob">Number of messages per job</system:String>
+    <system:String x:Key="GDlangMessagesPerDay">Number of messages per day</system:String>
+    <system:String x:Key="GDlangMessagesPerHour">Number of messages per hour</system:String>
+    <system:String x:Key="GDlangMessagesPerWeek">Number of messages per week</system:String>
+    <system:String x:Key="GDlangMaxMessagesDay">max messages per day</system:String>
+
     <!--End Gram Dominator-->
 
     <!--Start Twt Dominator-->

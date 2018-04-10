@@ -37,5 +37,11 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
 
         [Column(Order = 9)]
         public string Comment { get; set; }
+
+        [Column(Order = 10)]
+        public string OriginalMediaCode { get; set; }
+
+        [Column(Order = 11)]
+        public string OriginalMediaOwner { get; set; }
     }
 }

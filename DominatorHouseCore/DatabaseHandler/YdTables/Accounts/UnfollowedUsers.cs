@@ -1,0 +1,61 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using SQLite.CodeFirst;
+
+namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
+{
+    public class UnfollowedUsers
+    {
+        [Key]
+        [Autoincrement]
+        [Index]
+        [Column(Order = 1)]
+        public int Id { get; set; }
+
+        [Column(Order = 2)]
+        public string SinAccUsername { get; set; }
+
+
+        [Column(Order = 3)]
+        public string UnfollowSource
+        { get; set; }
+
+
+        [Column(Order = 4)]
+        public string SourceType
+        { get; set; }
+
+        [Column(Order = 5)]
+        public int SourceFilter
+        { get; set; }
+
+
+        [Column(Order = 6)]
+        public string Username
+        { get; set; }
+
+        [Column(Order = 7)]
+        public string UserId { get; set; }
+
+        [Column(Order = 8)]
+        public int FollowBackStatus
+        { get; set; }
+
+
+        [Column(Order = 9)]
+        public int FollowedBackDate
+        { get; set; }
+
+        [Column(Order = 10)]
+        public int InteractionTimeStamp
+        { get; set; }
+
+        [Column(Order = 11)]
+        public DateTime InteractionDate
+        { get; set; }
+
+        [Column(Order = 12)]
+        public string ProcessType { get; set; }
+    }
+}

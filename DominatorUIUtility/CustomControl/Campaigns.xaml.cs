@@ -21,6 +21,7 @@ using DominatorHouseCore.BusinessLogic.Scheduler;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.DatabaseHandler;
 using System.IO;
+using System.Text.RegularExpressions;
 using DominatorHouseCore.Converters;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Diagnostics;
@@ -357,7 +358,12 @@ namespace DominatorUIUtility.CustomControl
                 if (string.IsNullOrEmpty(exportPath))
                     return;
 
-                var filename = $"{exportPath}\\{campName.CampaignName}-Reports [{ConstantVariable.DateasFileName}].csv";
+                var filename = Regex.Replace(
+                    input: $"{ campName.CampaignName }-Reports[{ ConstantVariable.DateasFileName}]",
+                    pattern: "[\\/:*?<>|\"]",
+                    replacement: "-");
+
+                 filename = $"{exportPath}\\{filename}.csv";
 
                 //Header for csv file columns
                 string header = ReportManager.GetHeader();

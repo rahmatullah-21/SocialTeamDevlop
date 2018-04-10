@@ -48,7 +48,7 @@
         </Grid.RowDefinitions>
 
         <!--Account Growth Mode Tabs-->
-        <TabControl  controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedIndex="{Binding SelectedViewIndex}"
+        <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedIndex="{Binding SelectedViewIndex}"
                    Name="MainTabControl" VerticalAlignment="Stretch" ItemsSource="{Binding TabItems}">
 
             <TabControl.Resources>
@@ -57,7 +57,7 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TabItem}">
                                 <Grid>
-                                    <Border Name="Border">
+                                    <Border Name="Border" CornerRadius="5">
                                         <ContentPresenter  VerticalAlignment="Center" Margin="5" HorizontalAlignment="Stretch"  ContentSource="Header" TextBlock.FontSize="18">
                                         </ContentPresenter>
                                     </Border>

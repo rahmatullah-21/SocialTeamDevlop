@@ -19,5 +19,7 @@ namespace DominatorHouseCore.Models
         public ICommunity ResultCommunity { get; set; }
         public IJob ResultJob { get; set; }
         public ICompany ResultCompany { get; set; }
+
+        public IChannel ResultChannel { get; set; }
     }
 }

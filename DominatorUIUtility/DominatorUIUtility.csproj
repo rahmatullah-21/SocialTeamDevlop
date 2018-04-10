@@ -202,6 +202,12 @@
     <Compile Include="CustomControl\ManageComment.xaml.cs">
       <DependentUpon>ManageComment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\ManageMessages.xaml.cs">
+      <DependentUpon>ManageMessages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\MessagesControl.xaml.cs">
+      <DependentUpon>MessagesControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\ModuleSettingsUserControl.cs" />
     <Compile Include="CustomControl\MultiMessage.xaml.cs">
       <DependentUpon>MultiMessage.xaml</DependentUpon>
@@ -398,6 +404,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="CustomControl\ManageMessages.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\MessagesControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CustomControl\MultiMessage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -516,6 +530,10 @@
     <Page Include="Resources\Languages\QDLanguages\English.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Languages\YdLanguages\English.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\BaseStyles.xaml">
       <SubType>Designer</SubType>
@@ -702,7 +720,6 @@
   <ItemGroup>
     <Folder Include="Resources\Languages\PdLanguages\" />
     <Folder Include="Resources\Languages\RdLanguages\" />
-    <Folder Include="Resources\Languages\YdLanguages\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
