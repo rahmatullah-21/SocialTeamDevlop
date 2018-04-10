@@ -282,10 +282,15 @@ namespace DominatorHouseCore.Request
         /// <returns><see cref="IResponseParameter"/></returns>
         protected virtual IResponseParameter GetFinalResponse()
         {
+            return GetFinalResponseAsync().Result;
+        }
+
+        protected virtual async Task<IResponseParameter> GetFinalResponseAsync()
+        {
             try
             {
                 // Get the reponse from request
-                return GetReponse((HttpWebResponse)Request.GetResponse());
+                return GetReponse((HttpWebResponse) await Request.GetResponseAsync());
             }
             catch (WebException ex)
             {
@@ -388,15 +393,11 @@ namespace DominatorHouseCore.Request
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public virtual async Task<IResponseParameter> GetRequestAsync(string url)
+        public virtual Task<IResponseParameter> GetRequestAsync(string url)
         {
             Request = (HttpWebRequest)WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref Request, this.RequestParameters);
-            await Task.Factory.StartNew(() =>
-            {
-                return GetFinalResponse();
-            });
-            return new ResponseParameter();
+            return GetFinalResponseAsync();
         }
 
 
@@ -407,16 +408,11 @@ namespace DominatorHouseCore.Request
         /// <param name="url"></param>
         /// <param name="requestParameters"></param>
         /// <returns></returns>
-        public virtual async Task<IResponseParameter> GetRequestAsync(string url, IRequestParameters requestParameters)
+        public virtual Task<IResponseParameter> GetRequestAsync(string url, IRequestParameters requestParameters)
         {
             Request = (HttpWebRequest)WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref Request, requestParameters);
-            await Task.Factory.StartNew(() =>
-            {
-                return GetFinalResponse();
-            });
-            return new ResponseParameter();
-
+            return GetFinalResponseAsync();
         }
 
 
@@ -443,10 +439,14 @@ namespace DominatorHouseCore.Request
         /// <returns><see cref="IResponseParameter"/></returns>
         public virtual IResponseParameter PostRequest(string url, byte[] postData)
         {
+            return PostRequestAsync(url, postData).Result;
+        }
+        public virtual Task<IResponseParameter> PostRequestAsync(string url, byte[] postData)
+        {
             Request = (HttpWebRequest)WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref Request, RequestParameters);
             WritePostData(ref Request, postData);
-            return GetFinalResponse();
+            return GetFinalResponseAsync();
         }
 
         /// <summary>
@@ -458,12 +458,18 @@ namespace DominatorHouseCore.Request
         /// <returns><see cref="IResponseParameter"/></returns>
         public virtual IResponseParameter PostRequest(string url, string postData, IRequestParameters requestParamater)
         {
-            this.Request = (HttpWebRequest)WebRequest.Create(url);
+            return PostRequestAsync(url, postData, requestParamater).Result;
+        }
+
+        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters requestParamater)
+        {
+            Request = (HttpWebRequest)WebRequest.Create(url);
             Request.Host = Request.RequestUri.Host;
             SetRequestParametersToWebRequest(ref Request, requestParamater);
             WritePostData(ref Request, postData);
-            return GetFinalResponse();
+            return GetFinalResponseAsync();
         }
+
 
         /// <summary>
         /// Post Request with url and postdata as sequences of bytes with new RequestParameter
@@ -487,15 +493,14 @@ namespace DominatorHouseCore.Request
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <returns></returns>
-        //public virtual async Task<IResponseParameter> PostRequestAsync(string url, string postData)
-        //{
-        //    throw new NotImplementedException();
-        //    //this.Request = (HttpWebRequest)WebRequest.Create(url);
-        //    //this.Response = null;
-        //    //SetRequestParametersToWebRequest(ref Request, RequestParameters);
-        //    //WritePostData(ref Request, postData);
-        //    //return GetFinalResponse();
-        //}
+        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData)
+        {
+            this.Request = (HttpWebRequest)WebRequest.Create(url);
+            this.Response = null;
+            SetRequestParametersToWebRequest(ref Request, RequestParameters);
+            WritePostData(ref Request, postData);
+            return GetFinalResponseAsync();
+        }
 
 
         /// <summary>
