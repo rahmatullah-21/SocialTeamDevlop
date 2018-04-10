@@ -206,6 +206,9 @@
     <Compile Include="CustomControl\MultiMessage.xaml.cs">
       <DependentUpon>MultiMessage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\OtherConfig.xaml.cs">
+      <DependentUpon>OtherConfig.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\ProxyManager.xaml.cs">
       <DependentUpon>ProxyManager.xaml</DependentUpon>
     </Compile>
@@ -396,6 +399,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\MultiMessage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\OtherConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

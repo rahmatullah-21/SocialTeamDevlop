@@ -9,6 +9,7 @@ using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -49,6 +50,7 @@ namespace DominatorHouse
         private HashSet<SocialNetworks> _availableNetworks;
         private Dock _tabDock = Dock.Left;
         private ObservableCollection<TabItemTemplates> _tabItems;
+        private Dictionary<string, CancellationToken> _accountUpdater = new Dictionary<string, CancellationToken>();
 
         private bool IsClickedFromMainWindow { get; set; } = true;
 
@@ -62,7 +64,7 @@ namespace DominatorHouse
                 AccountBrowserLogin = AccountBrowserLogin,
                 _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
                 _inform_warnings = GlobusLogHelper.log.Warn,
-                action_UpdateFollower= AccountUpdate
+                action_UpdateFollower = AccountUpdate
             };
 
             DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
@@ -71,7 +73,7 @@ namespace DominatorHouse
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");
             InitializeComponent();
             SocinatorWindow.DataContext = this;
-           // FeatureFlags.Check("Instagram", SocinatorInitializer);
+            // FeatureFlags.Check("Instagram", SocinatorInitializer);
             FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
 
 
@@ -231,15 +233,15 @@ namespace DominatorHouse
                 tabHandler.UpdateAccountCustomControl(network);
                 SocinatorInitialize.SetAsActiveNetwork(network);
             }
-            catch (Exception )
+            catch (Exception)
             {
                 TabDock = Dock.Left;
-                
+
                 DialogCoordinator.Instance.ShowModalMessageExternal(this, "Fatal Error",
                     $"Please purchase access of {network} automation features!");
 
                 SelectedNetworkIndex = 0;
-            }            
+            }
         }
 
         private void TabItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -367,18 +369,29 @@ namespace DominatorHouse
 
         public void AccountStatusChecker(DominatorAccountModel dominatorAccountModel)
         {
-            var accountUpdateFactory = SocinatorInitialize
-                .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                .GetNetworkCoreFactory().AccountUpdateFactory;
-            accountUpdateFactory.CheckStatus(dominatorAccountModel);
+            var cancellationTokenSource = new CancellationTokenSource();
+            var token = cancellationTokenSource.Token;
+
+            Task.Factory.StartNew(() =>
+            {
+                var accountUpdateFactory = SocinatorInitialize
+                    .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                    .GetNetworkCoreFactory().AccountUpdateFactory;
+                accountUpdateFactory.CheckStatus(dominatorAccountModel);
+            }, token);
         }
 
         public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
         {
-            var accountUpdateFactory = SocinatorInitialize
+            var cancellationTokenSource = new CancellationTokenSource();
+            var token = cancellationTokenSource.Token;
+            Task.Factory.StartNew(() =>
+            {
+                var accountUpdateFactory = SocinatorInitialize
                 .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
                 .GetNetworkCoreFactory().AccountUpdateFactory;
-            accountUpdateFactory.UpdateDetails(dominatorAccountModel);
+                accountUpdateFactory.UpdateDetails(dominatorAccountModel);
+            }, token);
         }
 
         public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
@@ -388,7 +401,7 @@ namespace DominatorHouse
                 var browserWindow = new BrowserWindow(dominatorAccountModel);
                 browserWindow.Show();
             }
-            catch (Exception )
+            catch (Exception)
             {
 
             }

@@ -449,9 +449,7 @@ namespace DominatorUIUtility.ViewModel
             DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType, secondaryTaskStrategy);
 
             #endregion
-
-         
-
+       
             try
             {
                 var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)

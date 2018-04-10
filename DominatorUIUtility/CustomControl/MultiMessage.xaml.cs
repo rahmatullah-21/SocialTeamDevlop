@@ -41,15 +41,20 @@ namespace DominatorUIUtility.CustomControl
                     for (double? i = e.OldValue; i > e.NewValue; i--)
                         MultiMessagesModel.LstMessages.RemoveAt(MultiMessagesModel.LstMessages.Count - 1);
                 else if (e.OldValue < e.NewValue)
-                    for (int i = 0; i < e.NewValue; i++)
-                        MultiMessagesModel.LstMessages.Add("");
-            }
-            else
                 {
-                    for(int i=0;i<e.NewValue;i++)
+                    MultiMessagesModel.LstMessages.Clear();
+                    for (int i = 0; i < e.NewValue; i++)
                         MultiMessagesModel.LstMessages.Add("");
 
                 }
+            }
+            else
+            {
+                MultiMessagesModel.LstMessages.Clear();
+                for (int i = 0; i < e.NewValue; i++)
+                    MultiMessagesModel.LstMessages.Add("");
+
+            }
         }
     }
 }

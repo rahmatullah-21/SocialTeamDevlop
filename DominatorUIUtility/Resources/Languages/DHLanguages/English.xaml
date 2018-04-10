@@ -104,19 +104,23 @@
 [FULLNAME] [FIRSTNAME] [LASTNAME] [GROUPNAME] 
 [USERNAME] [MYUSERNAME] [MYNAME] [MYFIRSTNAME]
 They are replaced with user info.</system:String>
-    <system:String x:Key="DHlangReplyToMessagesThatContainSpecificWord﻿">Reply to messages that contain specific word (saperate the words using comma e.g Hi,Hello)</system:String>
-    <system:String x:Key="DHlangReplyToPendingMessages">Reply to new pending messages (reply only message sent by users that that don't follow your account)</system:String>
+
+    <system:String x:Key="DHlangReplyToMessagesThatContainSpecificWord﻿">Reply to messages that contain specific word.</system:String>
+    <system:String x:Key="DHlangReplyToMessagesWaterMark﻿">Separate the words using comma e.g Hi,Hello</system:String>
+    <system:String x:Key="DHlangReplyToPendingMessages">Reply to new pending messages (reply only message sent by users that don't follow your account)</system:String>
     <system:String x:Key="DHlangReplyToAllMessage">Reply to all messages.</system:String>
     <system:String x:Key="DHlangPrioritizeMessages">Prioritize messages for auto reply (add them at the top of the pending send messege list)</system:String>
     <system:String x:Key="DHlangSendSecondaryMessageAfter">Send secondary messages after</system:String>
     <system:String x:Key="DHlangSendIfUserHasReplied">Send only if the user has replied</system:String>
     <system:String x:Key="DHlangSendIfUserHasNotReplied">Send only if the user has not replied</system:String>
-    <system:String x:Key="DHlangEditSecondaryMessages">Edit secondary messages</system:String>
+    <system:String x:Key="DHlangEditSecondaryMessages">Manage secondary messages</system:String>
     <system:String x:Key="DHlangCheckForNewMessages">Check for new messages around every</system:String>
     <system:String x:Key="DHlangExtractNow">Extract Now</system:String>
     <system:String x:Key="DHlangMessageTaxt">Message text</system:String>
     <system:String x:Key="DHlangAddMoreMessageTaxt">Add more Messages</system:String>
-    <system:String x:Key="DHlangMoreMessages">more messages</system:String>
-    
-   <system:String x:Key="DHlangBack">Back</system:String>
+    <system:String x:Key="DHlangBack">Back</system:String>
+    <system:String x:Key="DHlangMessages">messages</system:String>
+    <system:String x:Key="DHlangBroadcastMessages">Broadcast Messages</system:String>
+    <system:String x:Key="DHlangAutoReplyToNewMessage">Auto Reply To New Message</system:String>
+    <system:String x:Key="DHlangSendMessageToNewFollowers">Send Message To New Followers</system:String>
 </ResourceDictionary>
