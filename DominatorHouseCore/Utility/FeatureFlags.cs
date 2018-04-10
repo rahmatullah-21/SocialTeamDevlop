@@ -19,6 +19,9 @@ namespace DominatorHouseCore.Utility
                     {"Instagram",true },
                     {"Gplus",true },
                     {"LinkedIn",true },
+                    {"Quora",true },
+                    {"Facebook",true},
+                    {"Youtube",true}
                 };
             }
 

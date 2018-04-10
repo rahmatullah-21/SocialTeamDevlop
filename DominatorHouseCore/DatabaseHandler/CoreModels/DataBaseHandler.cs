@@ -35,7 +35,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             try
             {
                 DataBaseConnection databaseConnection =
-                    GetDataBaseConnectionInstance(DBName, networks,databaseType);
+                    GetDataBaseConnectionInstance(DBName, networks, databaseType);
                 executionStrategy(() => _dbCounters[networks](databaseConnection));
             }
             catch (Exception ex)
@@ -64,9 +64,13 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
                 DirectoryUtilities.CreateDirectory(directoryName);
                 string connectionString = directoryName + $"\\{DBName}.db";
-                return new DataBaseConnection(connectionString, networks, ModelConfiguration.ConfigureAccountdataBaseEntity);
+
+                if (databaseType == DatabaseType.AccountType)
+                    return new DataBaseConnection(connectionString, networks, ModelConfiguration.ConfigureAccountdataBaseEntity);
+
+                return new DataBaseConnection(connectionString, networks, ModelConfiguration.ConfigureCampaignDataBaseEntity);
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return null;
             }

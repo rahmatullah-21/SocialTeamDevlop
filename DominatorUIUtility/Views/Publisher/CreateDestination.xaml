@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="DominatorUIUtility.Views.Publisher.CreateDestination"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <StackPanel Margin="15" >
+
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="{DynamicResource langName}" VerticalAlignment="Center"/>
+                    <TextBox Margin="20,0" VerticalAlignment="Center" Width="200" Text="{Binding Name}"/>
+                </StackPanel>
+
+                <CheckBox Content="{DynamicResource langAutoSelectNewGroups}" Margin="5" IsChecked="{Binding IsAutoSelectNewGroupsChecked}"/>
+
+                <CheckBox Content="{DynamicResource langUncheckGroups}" Margin="5" IsChecked="{Binding IsUncheckGroupsChecked}"/>
+
+                <Button Content="{DynamicResource langSaveDestination}" Height="30" x:Name="SaveDestination" Margin="5,5,20,5" HorizontalAlignment="Left" Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+
+                <ListView  ItemContainerStyle="{StaticResource ListViewItems}" Margin="5" ItemsSource="{Binding DestinationCollection}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListView.Resources>
+                        <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </ListView.Resources>
+
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn Header="{DynamicResource langSelected}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource langName}" Width="100" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Header="{DynamicResource langPlatform}" DisplayMemberBinding="{Binding Platform}"/>
+                                <GridViewColumn Header="{DynamicResource langGroup}" DisplayMemberBinding="{Binding Groups}"/>
+                                <GridViewColumn Header="{DynamicResource langPagesBoards}" DisplayMemberBinding="{Binding PagesBoards}"/>
+                                <GridViewColumn Header="{DynamicResource langWallsProfiles}" DisplayMemberBinding="{Binding WallsProfiles}"/>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

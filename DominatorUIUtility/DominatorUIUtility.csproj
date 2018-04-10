@@ -202,6 +202,12 @@
     <Compile Include="CustomControl\ManageComment.xaml.cs">
       <DependentUpon>ManageComment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\ManageMessages.xaml.cs">
+      <DependentUpon>ManageMessages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\MessagesControl.xaml.cs">
+      <DependentUpon>MessagesControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\ModuleSettingsUserControl.cs" />
     <Compile Include="CustomControl\MultiMessage.xaml.cs">
       <DependentUpon>MultiMessage.xaml</DependentUpon>
@@ -268,6 +274,9 @@
     <Compile Include="Views\Publisher\CampaignsAdvanceSetting.xaml.cs">
       <DependentUpon>CampaignsAdvanceSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Publisher\CreateDestination.xaml.cs">
+      <DependentUpon>CreateDestination.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Publisher\Header.xaml.cs">
       <DependentUpon>Header.xaml</DependentUpon>
     </Compile>
@@ -276,6 +285,9 @@
     </Compile>
     <Compile Include="Views\Publisher\ManageDestination.xaml.cs">
       <DependentUpon>ManageDestination.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\ManageDestinationIndex.xaml.cs">
+      <DependentUpon>ManageDestinationIndex.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Publisher\ManageDraft.xaml.cs">
       <DependentUpon>ManageDraft.xaml</DependentUpon>
@@ -398,6 +410,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="CustomControl\ManageMessages.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\MessagesControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CustomControl\MultiMessage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -517,6 +537,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\Languages\YdLanguages\English.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\BaseStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -573,6 +597,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Publisher\CreateDestination.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Publisher\Header.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -582,6 +610,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Publisher\ManageDestination.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\ManageDestinationIndex.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -702,7 +734,6 @@
   <ItemGroup>
     <Folder Include="Resources\Languages\PdLanguages\" />
     <Folder Include="Resources\Languages\RdLanguages\" />
-    <Folder Include="Resources\Languages\YdLanguages\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -98,8 +98,8 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,LinkedIn")]
         GroupJoiner = 31,
 
-        [Description("Facebook")]
-        GroupUnjoiner = 32,
+        [Description("Facebook,LinkedIn")]
+        GroupUnJoiner = 32,
 
         [Description("Facebook")]
         GroupInviter = 34,
@@ -204,6 +204,27 @@ namespace DominatorHouseCore.Enums
         SalesNavigatorUserScraper = 67,
 
         [Description("Youtube")]
-        ChannelScraper = 68
+        ChannelScraper = 68,
+
+        [Description("Youtube")]
+        Unsubscribe =69,
+
+        [Description("Instagram")]
+        BroadcastMessages = 70,
+
+        [Description("Instagram")]
+        SendMessageToFollower = 71,
+
+        [Description("Instagram")]
+        AutoReplyToNewMessage = 72,
+
+        [Description("LinkedIn")]
+        AcceptConnectionRequest = 73,
+
+        [Description("LinkedIn")]
+        RemoveConnections = 74,
+
+        [Description("LinkedIn")]
+        ProfileEndorsement = 75
     }
 }

@@ -5,7 +5,7 @@ using SQLite.CodeFirst;
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
-    class InteractedBoards
+    public class InteractedBoards
     {
         [Key]
         [Column(Order = 1)]

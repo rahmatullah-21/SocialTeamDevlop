@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.Models;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -6,6 +7,12 @@ namespace DominatorHouseCore.Interfaces
     {
         bool CheckStatus(DominatorAccountModel accountModel);
 
-        void UpdateDetails(DominatorAccountModel accountModel);      
+        void UpdateDetails(DominatorAccountModel accountModel);
+    }
+    public interface IAccountUpdateFactoryAsync: IAccountUpdateFactory
+    {
+        Task<bool> CheckStatusAsync(DominatorAccountModel accountModel);
+
+        Task UpdateDetailsAsync(DominatorAccountModel accountModel);
     }
 }

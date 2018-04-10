@@ -227,6 +227,17 @@
     <Compile Include="DatabaseHandler\TdTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TdTables\Campaign\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\TdTables\Campaign\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Accounts\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Accounts\FeedInfos.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Accounts\Friendships.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedChannels.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedChannels.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Campaign\UnfollowedUsers.cs" />
     <Compile Include="Diagnostics\DominatorHouseInitializer.cs" />
     <Compile Include="Diagnostics\Exceptions\ExceptionExtensions.cs" />
     <Compile Include="Diagnostics\Exceptions\GlobusExceptionHandler.cs" />
@@ -245,6 +256,7 @@
     <Compile Include="FileManagers\TumblrFileManager.cs" />
     <Compile Include="FileManagers\TwitterFileManager.cs" />
     <Compile Include="FileManagers\YoutubeFileManager.cs" />
+    <Compile Include="Interfaces\IChannel.cs" />
     <Compile Include="Interfaces\ICommunity.cs" />
     <Compile Include="Interfaces\ICompany.cs" />
     <Compile Include="Interfaces\IJob.cs" />
@@ -309,6 +321,7 @@
     <Compile Include="Models\LiveChatModel.cs" />
     <Compile Include="Models\ManageCommentModel.cs" />
     <Compile Include="Models\ManageDestinationModel.cs" />
+    <Compile Include="Models\ManageMessagesModel.cs" />
     <Compile Include="Models\MultiMessagesModel.cs" />
     <Compile Include="Models\OtherConfigModel.cs" />
     <Compile Include="Models\PinterestModel.cs" />

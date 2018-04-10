@@ -13,7 +13,7 @@ namespace DominatorUIUtility.Views.Publisher
         {
             InitializeComponent();
             MainGrid.DataContext = this;
-            cmbAccounts.ItemsSource = AccountsFileManager.GetUsers();
+           // cmbAccounts.ItemsSource = AccountsFileManager.GetUsers();
         }
 
         public string HeaderText
@@ -27,6 +27,7 @@ namespace DominatorUIUtility.Views.Publisher
                 SetValue(HeaderTextProperty, value);
             }
         }
+
         public static readonly DependencyProperty HeaderTextProperty =
             DependencyProperty.Register("HeaderText", typeof(string), typeof(Header), new FrameworkPropertyMetadata()
             {

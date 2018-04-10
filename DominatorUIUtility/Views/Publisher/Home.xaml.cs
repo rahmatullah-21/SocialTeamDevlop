@@ -28,7 +28,7 @@ namespace DominatorUIUtility.Views.Publisher
         private Home()
         {
             InitializeComponent();
-           
+
             PublisherDetailCollection = CollectionViewSource.GetDefaultView(PostFileManager.GetAllPost());
 
             publisherDetail.ItemsSource = PublisherDetailCollection;
@@ -54,8 +54,12 @@ namespace DominatorUIUtility.Views.Publisher
 
         }
 
-        private void btnManageDestination_Click(object sender, RoutedEventArgs e) 
-            => PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = new ManageDestination();
+        private void btnManageDestination_Click(object sender, RoutedEventArgs e)
+        {
+            var manageDestination = ManageDestinationIndex.Instance;
+            manageDestination.SelectedControl = new ManageDestination();
+            PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = manageDestination;
+        }
 
         private void btnManagePosts_Click(object sender, RoutedEventArgs e)
         {

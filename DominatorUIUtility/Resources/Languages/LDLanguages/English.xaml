@@ -15,57 +15,93 @@
     <system:String x:Key="LDlangNoOfLinkedinGroups"># Linkedin Groups</system:String>
     <system:String x:Key="LDlangByNosOfLinkedinGroups">No of LinkedinGroups</system:String>
     <system:String x:Key="LDlangLinkedDominator">Linked Dominator</system:String>
+
     <system:String x:Key="LDlangGrowConnection">Grow Connection</system:String>
     <system:String x:Key="LDlangConnectionRequest">Connection Request</system:String>
+    <system:String x:Key="LDlangAcceptConnectionRequest">Accept Connection Request</system:String>
     <system:String x:Key="LDlangWithdrawConnectionRequest">Withdraw Connection Request</system:String>
     <system:String x:Key="LDlangRemoveConnections">Remove Connections</system:String>
+
     <system:String x:Key="LDlangMessenger">Messenger</system:String>
     <system:String x:Key="LDlangLinkedinMesenger">Linkedin Mesenger</system:String>
+
     <system:String x:Key="LDlangLinkedinPoster">Linkedin Poster</system:String>
+
     <system:String x:Key="LDlangGroupJoiner">Group Joiner</system:String>
+    <system:String x:Key="LDlangGroupUnJoiner">Group UnJoiner</system:String>
     <system:String x:Key="LDlangGroupInviter">Group Inviter</system:String>
+
     <system:String x:Key="LDlangScraper">Scraper</system:String>
     <system:String x:Key="LDlangUserScraper">User Scraper</system:String>
     <system:String x:Key="LDlangJobScraper">Job Scraper</system:String>
     <system:String x:Key="LDlangCompanyScraper">Company Scraper</system:String>
     <system:String x:Key="LDlangGroupMemberScraper">GroupMember Scraper</system:String>
     <system:String x:Key="LDlangSalesNavigtor">SalesNavigator</system:String>
+
     <system:String x:Key="LDlangProfilling">Profilling</system:String>
     <system:String x:Key="LDlangProfileEndorsement">Profile Endorsement</system:String>
+
     <system:String x:Key="LDlangAllCampaign">All Campaigns</system:String>
     <system:String x:Key="LDlangLicensingDetails">Licensing Details</system:String>
     <system:String x:Key="LDlangGeneralSettings">General Settings</system:String>
     <system:String x:Key="LDlangAddPersonalNote">Add Personal Note</system:String>
+
     <system:String x:Key="LDlangConnectionRequestsPerJob">Number of Connection Requests per job</system:String>
     <system:String x:Key="LDlangConnectionRequestsPerDay">Number of Connection Requests per day</system:String>
     <system:String x:Key="LDlangConnectionRequestsPerHour">Number of Connection Requests per hour</system:String>
     <system:String x:Key="LDlangConnectionRequestsPerWeek">Number of Connection Requests per week</system:String>
-    <system:String x:Key="LDlangMaxConnectionRequestsDay">max Connection Requests per day</system:String>
+    <system:String x:Key="LDlangMaxConnectionRequestsDay">Max Connection Requests per day</system:String>
+
+    <system:String x:Key="LDlangAcceptConnectionRequestsPerJob">Number of Connection Requests to Accept per job</system:String>
+    <system:String x:Key="LDlangAcceptConnectionRequestsPerDay">Number of Connection Requests to Accept per day</system:String>
+    <system:String x:Key="LDlangAcceptConnectionRequestsPerHour">Number of Connection Requests to Accept per hour</system:String>
+    <system:String x:Key="LDlangAcceptConnectionRequestsPerWeek">Number of Connection Requests to Accept per week</system:String>
+    <system:String x:Key="LDlangMaxAcceptConnectionRequestsDay">Max Connection Requests to Accept per day</system:String>
+
     <system:String x:Key="LDlangWithdrawConnRequestsPerJob">Number of Connection Request Withdrawals per job</system:String>
     <system:String x:Key="LDlangWithdrawConnRequestsPerDay">Number of Connection Request Withdrawals per day</system:String>
     <system:String x:Key="LDlangWithdrawConnRequestsPerHour">Number of Connection Request Withdrawals per hour</system:String>
     <system:String x:Key="LDlangWithdrawConnRequestsPerWeek">Number of Connection Request Withdrawals per week</system:String>
-    <system:String x:Key="LDlangMaxWithdrawConnRequestsDay">max Connection Request Withdrawals per day</system:String>
+    <system:String x:Key="LDlangMaxWithdrawConnRequestsDay">Max Connection Request Withdrawals per day</system:String>
+
     <system:String x:Key="LDlangRemoveConnectionsPerJob">Number of Connections to Remove per job</system:String>
     <system:String x:Key="LDlangRemoveConnectionsPerDay">Number of Connections to Remove per day</system:String>
     <system:String x:Key="LDlangRemoveConnectionsPerHour">Number of Connections to Remove per hour</system:String>
     <system:String x:Key="LDlangRemoveConnectionsPerWeek">Number of Connections to Remove per week</system:String>
-    <system:String x:Key="LDlangRemoveConnectionsDay">max Connections to Remove per day</system:String>
-    <system:String x:Key="LDlangScrapePerJob">Number of Scraping per Job</system:String>
-    <system:String x:Key="LDlangScrapePerHour">Number of Scraping per day</system:String>
-    <system:String x:Key="LDlangScrapePerDay">Number of Scraping per hour</system:String>
-    <system:String x:Key="LDlangScrapePerWeek">Number of Scraping per week</system:String>
-    <system:String x:Key="LDlangMaxScrapeDay">max Scraping per day</system:String>
+    <system:String x:Key="LDlangRemoveConnectionsDay">Max Connections to Remove per day</system:String>
+
     <system:String x:Key="LDlangGroupInvitesPerJob">Number of Group Invites per job</system:String>
     <system:String x:Key="LDlangGroupInvitesPerHour">Number of Group Invites per day</system:String>
     <system:String x:Key="LDlangGroupInvitesPerDay">Number of Group Invites per hour</system:String>
     <system:String x:Key="LDlangGroupInvitesPerWeek">Number of Group Invites per week</system:String>
-    <system:String x:Key="LDlangMaxGroupInvitesDay">max Group Invites per day</system:String>
+    <system:String x:Key="LDlangMaxGroupInvitesDay">Max Group Invites per day</system:String>
+
     <system:String x:Key="LDlangGroupJoinsPerJob">Number of Group Joins per job</system:String>
     <system:String x:Key="LDlangGroupJoinsPerHour">Number of Group Joins per day</system:String>
     <system:String x:Key="LDlangGroupJoinsPerDay">Number of Group Joins per hour</system:String>
     <system:String x:Key="LDlangGroupJoinsPerWeek">Number of Group Joins per week</system:String>
-    <system:String x:Key="LDlangMaxGroupJoinsDay">max Group Joins per day</system:String>
+    <system:String x:Key="LDlangMaxGroupJoinsDay">Max Group Joins per day</system:String>
+
+    <system:String x:Key="LDlangGroupUnJoinsPerJob">Number of Group UnJoins per job</system:String>
+    <system:String x:Key="LDlangGroupUnJoinsPerHour">Number of Group UnJoins per day</system:String>
+    <system:String x:Key="LDlangGroupUnJoinsPerDay">Number of Group UnJoins per hour</system:String>
+    <system:String x:Key="LDlangGroupUnJoinsPerWeek">Number of Group UnJoins per week</system:String>
+    <system:String x:Key="LDlangMaxGroupUnJoinsDay">Max Group UnJoins per day</system:String>
+
+    <system:String x:Key="LDlangScrapePerJob">Number of Scraping per Job</system:String>
+    <system:String x:Key="LDlangScrapePerHour">Number of Scraping per day</system:String>
+    <system:String x:Key="LDlangScrapePerDay">Number of Scraping per hour</system:String>
+    <system:String x:Key="LDlangScrapePerWeek">Number of Scraping per week</system:String>
+    <system:String x:Key="LDlangMaxScrapeDay">Max Scraping per day</system:String>
+
+    <system:String x:Key="LDlangProfileEndorsementsPerJob">Number of Profile Endorsements per job</system:String>
+    <system:String x:Key="LDlangProfileEndorsementsPerHour">Number of Profile Endorsements per day</system:String>
+    <system:String x:Key="LDlangProfileEndorsementsPerDay">Number of Profile Endorsements per hour</system:String>
+    <system:String x:Key="LDlangProfileEndorsementsPerWeek">Number of Profile Endorsements per week</system:String>
+    <system:String x:Key="LDlangMaxProfileEndorsementsDay">Max Profile Endorsements per day</system:String>
+
+
+
     <system:String x:Key="LDlangByEmails">By Searching With Uploaded Email(s)</system:String>
     <system:String x:Key="LDlangByProfileUrls">By Searching With Profile Url(s)</system:String>
     <system:String x:Key="LDlangToSecondDegreeConn">To Second Degree Connection(s)</system:String>
@@ -76,27 +112,31 @@
     <system:String x:Key="LDlangCustomConnectionReqList">Custom Connection Request Sent List</system:String>
     <system:String x:Key="LDlangConnectionReqSentBefore">Connection Request Sent Before</system:String>
     <system:String x:Key="LDlangRemoveConnectionSource">Remove Connection Source</system:String>
+    <system:String x:Key="LDlangAcceptConnectionRequestSource">Accept Connection Source</system:String>
+    <system:String x:Key="LDlangAllInvitations">All Invitations</system:String>
+
     <system:String x:Key="LDlangByKeywordOrJoTitle">By Keyword OR JoTitle</system:String>
     <system:String x:Key="LDlangByCustomFirstConnectionList">By Custom First Connection List</system:String>
     <system:String x:Key="LDlangConnectedBefore">Connected Before</system:String>
     <system:String x:Key="LDlangConnections">Connections</system:String>
     <system:String x:Key="LDlangByNosOfConnections">No of Connections</system:String>
+    <system:String x:Key="LDlangInputPersonalNote">Input Personal Note</system:String>
 
     <system:String x:Key="LDlangConnectionRequestWarning">These accounts are already running with ConnectionRequest configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="LDlangAcceptConnectionRequestWarning">These accounts are already running with AcceptConnectionRequest configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="LDlangWithdrawConnectionRequestWarning">These accounts are already running with WithdrawConnectionRequest configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="LDlangRemoveConnectionsWarning">These accounts are already running with RemoveConnections configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+
     <system:String x:Key="LDlangGroupJoinerWarning">These accounts are already running with GroupJoiner configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="LDlangGroupUnJoinerWarning">These accounts are already running with GroupUnJoiner configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangGroupInviterWarning">These accounts are already running with GroupInviter configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+
     <system:String x:Key="LDlangUserScraperWarning">These accounts are already running with UserScraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangJobScraperWarning">These accounts are already running with JobScraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangCompanyScraperWarning">These accounts are already running with CompanyScraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangGroupMemberScraperWarning">These accounts are already running with GroupMemberScraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
-    <system:String x:Key="LDlangSalesNavigatorUserScraperWarning">These accounts are already running with SalesNavigator_UserScraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="LDlangSalesNavigatorUserScraperWarning">These accounts are already running with SalesNavigatorUserScraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
 
-    <system:String x:Key="LDlangInputPersonalNote">Input Personal Note</system:String>
-
-
-
-
-
-
+    <system:String x:Key="LDlangProfileEndorsementWarning">These accounts are already running with ProfileEndorsement configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
 
 </ResourceDictionary>

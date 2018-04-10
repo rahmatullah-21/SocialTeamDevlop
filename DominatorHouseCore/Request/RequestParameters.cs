@@ -346,8 +346,9 @@ namespace DominatorHouseCore.Request
                 byte[] bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
                 memoryStream.Write(bytes1, 0, bytes1.Length);
 
-                AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
+                //AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
 
+                this.ContentType = $"multipart/form-data; boundary={multipartBoundary}";
                 return memoryStream.ToArray();
             }
         }
@@ -395,8 +396,8 @@ namespace DominatorHouseCore.Request
                 byte[] bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
                 memoryStream.Write(bytes1, 0, bytes1.Length);
 
-                AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
-
+             //   AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
+                this.ContentType = $"multipart/form-data; boundary={multipartBoundary}";
                 return memoryStream.ToArray();
             }
         }
@@ -452,8 +453,8 @@ namespace DominatorHouseCore.Request
                 byte[] bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
                 memoryStream.Write(bytes1, 0, bytes1.Length);
 
-                AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
-
+                //AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
+                this.ContentType = $"multipart/form-data; boundary={multipartBoundary}";
                 return memoryStream.ToArray();
             }
         }

@@ -379,12 +379,15 @@ namespace DominatorHouse
                     .GetNetworkCoreFactory().AccountUpdateFactory;
                 accountUpdateFactory.CheckStatus(dominatorAccountModel);
             }, token);
+
         }
 
         public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
         {
+
             var cancellationTokenSource = new CancellationTokenSource();
             var token = cancellationTokenSource.Token;
+
             Task.Factory.StartNew(() =>
             {
                 var accountUpdateFactory = SocinatorInitialize
@@ -392,6 +395,7 @@ namespace DominatorHouse
                 .GetNetworkCoreFactory().AccountUpdateFactory;
                 accountUpdateFactory.UpdateDetails(dominatorAccountModel);
             }, token);
+
         }
 
         public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
