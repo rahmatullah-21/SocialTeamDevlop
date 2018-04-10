@@ -61,7 +61,7 @@ namespace DominatorHouse
                 AccountBrowserLogin = AccountBrowserLogin,
                 _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
                 _inform_warnings = GlobusLogHelper.log.Warn,
-                action_UpdateFollower= AccountUpdate
+                action_UpdateFollower = AccountUpdate
             };
 
             DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
@@ -70,7 +70,7 @@ namespace DominatorHouse
             Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");
             InitializeComponent();
             SocinatorWindow.DataContext = this;
-           // FeatureFlags.Check("Instagram", SocinatorInitializer);
+            // FeatureFlags.Check("Instagram", SocinatorInitializer);
             FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
 
 
@@ -230,15 +230,15 @@ namespace DominatorHouse
                 tabHandler.UpdateAccountCustomControl(network);
                 SocinatorInitialize.SetAsActiveNetwork(network);
             }
-            catch (Exception )
+            catch (Exception)
             {
                 TabDock = Dock.Left;
-                
+
                 DialogCoordinator.Instance.ShowModalMessageExternal(this, "Fatal Error",
                     $"Please purchase access of {network} automation features!");
 
                 SelectedNetworkIndex = 0;
-            }            
+            }
         }
 
         private void TabItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -361,18 +361,26 @@ namespace DominatorHouse
 
         public void AccountStatusChecker(DominatorAccountModel dominatorAccountModel)
         {
-            var accountUpdateFactory = SocinatorInitialize
-                .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                .GetNetworkCoreFactory().AccountUpdateFactory;
-            accountUpdateFactory.CheckStatus(dominatorAccountModel);
+            Task.Factory.StartNew(() =>
+            {
+                var accountUpdateFactory = SocinatorInitialize
+                    .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                    .GetNetworkCoreFactory().AccountUpdateFactory;
+                accountUpdateFactory.CheckStatus(dominatorAccountModel);
+            });
+
+
         }
 
         public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
         {
-            var accountUpdateFactory = SocinatorInitialize
+            Task.Factory.StartNew(() =>
+            {
+                var accountUpdateFactory = SocinatorInitialize
                 .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
                 .GetNetworkCoreFactory().AccountUpdateFactory;
-            accountUpdateFactory.UpdateDetails(dominatorAccountModel);
+                accountUpdateFactory.UpdateDetails(dominatorAccountModel);
+            });
         }
 
         public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
@@ -382,7 +390,7 @@ namespace DominatorHouse
                 var browserWindow = new BrowserWindow(dominatorAccountModel);
                 browserWindow.Show();
             }
-            catch (Exception )
+            catch (Exception)
             {
 
             }

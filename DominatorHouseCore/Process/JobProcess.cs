@@ -144,69 +144,11 @@ namespace DominatorHouseCore.Process
 
 
         /// <summary>
-        ///     Checks wheter time limits(per hour/day/week) or activities count reached
+        /// Implement the functionality for checking the Job Process count
+        /// 
         /// </summary>
-        /// <returns>
-        ///     true if limits reached and caller needds to process with Other Configuration
-        /// </returns>
-        protected virtual bool CheckJobProcessLimitsReached()
-        {
-
-            var currentTime = DateTimeUtilities.GetEpochTime();
-
-            var getStartDateofWeek = DateTime.Now.GetStartOfWeek();
-
-            var getTodayDate = DateTime.Today;
-
-            NoOfActionPerformedCurrentWeek = DataBaseConnectionCampaign.Get<DatabaseHandler.TdTables.Accounts.InteractedUsers>(x => x.InteractionDateTime >= getStartDateofWeek).Count();
-
-            if (NoOfActionPerformedCurrentWeek >= MaxNoOfActionPerWeek)
-            {
-                Stop();
-                return true;
-            }
-
-            NoOfActionPerformedCurrentDay = DataBaseConnectionCampaign.Get<DatabaseHandler.TdTables.Accounts.InteractedUsers>(x => x.InteractionDateTime >= getTodayDate).Count();
-
-            if (NoOfActionPerformedCurrentDay >= MaxNoOfActionPerDay)
-            {
-                Stop();
-                return true;
-            }
-
-
-
-            // Check hourly limit. Wait a hour.
-            // TODO: implement schedule holder on a weekly basis and extract next hours job from there.
-
-            NoOfActionPerformedCurrentHour = DataBaseConnectionCampaign.Get<DatabaseHandler.TdTables.Accounts.InteractedUsers>(x => x.InteractionDateTime.Hour == DateTime.Now.Hour && x.InteractionDateTime.Date == getTodayDate.Date).Count;
-
-
-            if (NoOfActionPerformedCurrentHour >= MaxNoOfActionPerHour)
-            {
-                // schedule next job on next hour
-                ScheduleNextJob(DateTime.Now.AddHours(1));
-                return true;
-            }
-
-
-            // Finally check max number of jobs limit
-            if (NoOfActionPerformedCurrentJob >= MaxNoOfActionPerJob)
-            {
-                GlobusLogHelper.log.Info($"Number of {ActivityType} per job limit reached. Scheduling next job.");
-
-                // Next job have to be after X minutes, e.g 10-20 minutes.
-                // TODO: implement via DominatorScheduler
-                var nextJobTime = DateTime.Now.AddMinutes(JobConfiguration.DelayBetweenJobs.GetRandom());
-
-                GlobusLogHelper.log.Info($"Next job scheduled to {nextJobTime.ToString("hh:mm")}");
-                ScheduleNextJob(nextJobTime);
-                return true;
-            }
-
-            return false;
-        }
-
+        /// <returns></returns>
+        protected abstract bool CheckJobProcessLimitsReached();
 
         protected void StopFollow()
         {
@@ -226,6 +168,7 @@ namespace DominatorHouseCore.Process
         ///     2. Creates Scraper
         ///     3. Executes scraping based on queries for certain social network and job process
         /// </summary>
+
         public void RunScrapper()
         {
             //var scraperFactory1 = DominatorHouseInitializer.ActiveNetwork.QueryScraperFactory;
