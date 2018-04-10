@@ -71,7 +71,9 @@ namespace DominatorHouseCore.LogHelper
                     if (list.Items.Count > 1000)
                         list.Items.RemoveAt(list.Items.Count - 1);
 
-                    list.Items.Insert(0, $"{DateTime.Now.ToString()}\tGram Dominator 3.0\t{message.Replace("\t", " ")}");
+                   // list.Items.Insert(0, $"{DateTime.Now.ToString()}\tGram Dominator 3.0\t{message.Replace("\t", " ")}");
+
+                    list.Items.Insert(0, $"{DateTime.Now.ToString()}\tSocinator\t{message.Replace("\t", " ")}");
                 }
                 catch (Exception ex)
                 {

@@ -457,11 +457,28 @@ namespace DominatorUIUtility.ViewModel
                 var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
                     .GetNetworkCoreFactory().AccountUpdateFactory;
 
-                secondaryTaskStrategy(() =>
+                if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
                 {
-                    accountFactory.CheckStatus(dominatorAccountModel);
-                    accountFactory.UpdateDetails(dominatorAccountModel);
-                });
+                    // this account supports async
+                    var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
+                    asyncAccount.CheckStatusAsync(dominatorAccountModel).ContinueWith(checkSucceeded =>
+                    {
+                        if (checkSucceeded.Result)
+                        {
+                            return asyncAccount.UpdateDetailsAsync(dominatorAccountModel);
+                        }
+                        return new Task(() => { });
+                    })
+                    .Start();
+                }
+                else
+                {
+                    secondaryTaskStrategy(() =>
+                    {
+                        accountFactory.CheckStatus(dominatorAccountModel);
+                        accountFactory.UpdateDetails(dominatorAccountModel);
+                    });
+                }
             }
             catch (Exception ex)
             {
