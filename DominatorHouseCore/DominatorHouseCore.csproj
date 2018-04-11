@@ -249,6 +249,7 @@
     <Compile Include="Enums\GpDQuery\GplusUsersQueries.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
+    <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
     <Compile Include="FileManagers\PinFileManager.cs" />
@@ -420,6 +421,8 @@
     <Folder Include="DatabaseHandler\FdTables\" />
     <Folder Include="DatabaseHandler\GplusTables\Campaigns\" />
     <Folder Include="Enums\GdQuery\" />
+    <Folder Include="Enums\PdQuery\" />
+    <Folder Include="Enums\RdQuery\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">

@@ -34,18 +34,22 @@ namespace DominatorUIUtility.CustomControl
 
             accountModels.ForEach(x =>
             {
-                _objAccountViewModel.LstSelectAccount.Add(new SelectAccountViewModel
+                //add only account status should be success
+                if (x.AccountBaseModel.Status == "Success")
                 {
-                    UserName = x.UserName,
-                    GroupName = x.AccountBaseModel.AccountGroup.Content
-                });
+                    _objAccountViewModel.LstSelectAccount.Add(new SelectAccountViewModel
+                    {
+                        UserName = x.UserName,
+                        GroupName = x.AccountBaseModel.AccountGroup.Content
+                    });
 
-                if (_objAccountViewModel.Groups.Any(group => group.Content == x.AccountBaseModel.AccountGroup.Content) == false)
-                    _objAccountViewModel.Groups.Add(
-                        new ContentSelectGroup
-                        {
-                            Content = x.AccountBaseModel.AccountGroup.Content
-                        });
+                    if (_objAccountViewModel.Groups.Any(group => group.Content == x.AccountBaseModel.AccountGroup.Content) == false)
+                        _objAccountViewModel.Groups.Add(
+                            new ContentSelectGroup
+                            {
+                                Content = x.AccountBaseModel.AccountGroup.Content
+                            });
+                }
             });
 
             //Select the account which is already selected
