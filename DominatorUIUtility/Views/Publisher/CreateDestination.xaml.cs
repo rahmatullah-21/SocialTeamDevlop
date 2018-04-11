@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using DominatorUIUtility.Behaviours;
 
 namespace DominatorUIUtility.Views.Publisher
 {
@@ -11,6 +12,12 @@ namespace DominatorUIUtility.Views.Publisher
         {
             InitializeComponent();
         }
+
+        private void OpenContextMenu_OnClick(object sender, System.Windows.RoutedEventArgs e)
+            => ViewUtilites.OpenContextMenu(sender);
+
+        private void BtnBackToCampaign_Click(object sender, System.Windows.RoutedEventArgs e)
+            => ManageDestinationIndex.Instance.SelectedControl = new ManageDestination();
     }
 
     public class CreateDestinationViewModel

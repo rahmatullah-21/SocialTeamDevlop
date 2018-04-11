@@ -1,0 +1,20 @@
+﻿using DominatorHouseCore.Enums;
+
+namespace DominatorHouseCore.ViewModel
+{
+    public class DestinationCollection
+    {
+        public int Id { get; set; }
+
+        public string AccountName { get; set; }
+
+        public SocialNetworks AccountNetwork { get; set; }
+
+        public DestinationSelectionList GroupsCollection { get; set; }
+
+        public DestinationSelectionList PagesOrBoardsCollections { get; set; }
+
+        public bool IsWallOrProfileSelected { get; set; }
+
+    }
+}

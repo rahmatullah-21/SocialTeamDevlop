@@ -127,4 +127,13 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangManageMessages">Manage Messages</system:String>
     <system:String x:Key="DHlangAddMessageToList">Add Message To List</system:String>
     <system:String x:Key="DHlangMessageText">Message Text</system:String>
+    
+    <system:String x:Key="DHlangSelectAll">Select All</system:String>
+    <system:String x:Key="DHlangSelectNone">Select None</system:String>
+    <system:String x:Key="DHlangSelectAllWallsAndProfile">Select All Walls/Profiles</system:String>
+    <system:String x:Key="DHlangSelectAllPagesAndBoards">Select All Pages/Boards</system:String>
+    <system:String x:Key="DHlangSelectAllGroups">Select All Groups</system:String>
+    <system:String x:Key="DHlangCreateDestination">Create Destination</system:String>
+
+
 </ResourceDictionary>

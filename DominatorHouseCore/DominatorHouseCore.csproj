@@ -401,6 +401,9 @@
     <Compile Include="Utility\Utilities.cs" />
     <Compile Include="Utility\ValidationHelper.cs" />
     <Compile Include="ViewModel\AddPostViewModel.cs" />
+    <Compile Include="ViewModel\DestinationCollection.cs" />
+    <Compile Include="ViewModel\DestinationDetailsCollection.cs" />
+    <Compile Include="ViewModel\DestinationSelectionList.cs" />
     <Compile Include="ViewModel\LiveChatViewModel.cs" />
     <Compile Include="ViewModel\ManageDestinationViewModel.cs" />
     <Compile Include="ViewModel\UserControlSwitchViewModel.cs" />

@@ -5,49 +5,160 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid>
-            <StackPanel Margin="15" >
+             >
+    <Grid>
 
-                <StackPanel Orientation="Horizontal" >
-                    <TextBlock Text="{DynamicResource langName}" VerticalAlignment="Center"/>
-                    <TextBox Margin="20,0" VerticalAlignment="Center" Width="200" Text="{Binding Name}"/>
-                </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
 
-                <CheckBox Content="{DynamicResource langAutoSelectNewGroups}" Margin="5" IsChecked="{Binding IsAutoSelectNewGroupsChecked}"/>
+        <Grid Background="{DynamicResource AccentBaseColorBrush}" Name="HeaderGrid">
 
-                <CheckBox Content="{DynamicResource langUncheckGroups}" Margin="5" IsChecked="{Binding IsUncheckGroupsChecked}"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-                <Button Content="{DynamicResource langSaveDestination}" Height="30" x:Name="SaveDestination" Margin="5,5,20,5" HorizontalAlignment="Left" Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource DHlangCreateDestination}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
 
-                <ListView  ItemContainerStyle="{StaticResource ListViewItems}" Margin="5" ItemsSource="{Binding DestinationCollection}" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <ListView.Resources>
-                        <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                    </ListView.Resources>
+            <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
-                    <ListView.View>
-                        <GridView>
-                            <GridView.Columns>
-                                <GridViewColumn Header="{DynamicResource langSelected}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <CheckBox/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="{DynamicResource langName}" Width="100" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Header="{DynamicResource langPlatform}" DisplayMemberBinding="{Binding Platform}"/>
-                                <GridViewColumn Header="{DynamicResource langGroup}" DisplayMemberBinding="{Binding Groups}"/>
-                                <GridViewColumn Header="{DynamicResource langPagesBoards}" DisplayMemberBinding="{Binding PagesBoards}"/>
-                                <GridViewColumn Header="{DynamicResource langWallsProfiles}" DisplayMemberBinding="{Binding WallsProfiles}"/>
-                            </GridView.Columns>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect" Margin="5" Click="OpenContextMenu_OnClick">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
+                                    <Label Content="{DynamicResource langSelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="SelectAllAccounts" >
+                                <MenuItem.Icon>
+                                    <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="15" Height="15"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="SelectNoneAccounts" >
+                                <MenuItem.Icon>
+                                    <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="15" Height="15"  />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="{DynamicResource DHlangSelectAllWallsAndProfile}" Name="SelectAllWallsOrProfiles" >
+                                <MenuItem.Icon>
+                                    <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="15" Height="15"  />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+
+                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="ButtonSelectAllPagesAndBoards" Margin="5">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="15" Height="20" Fill="White">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangSelectAllPagesAndBoards}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="ButtonSelectAllGroups" Margin="5">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="15" Height="20" Fill="White">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangSelectAllGroups}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <Button x:Name="BtnBackToCampaign"  Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center" Click="BtnBackToCampaign_Click" Margin="5">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="15" Height="15" Fill="White" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
             </StackPanel>
+
         </Grid>
-    </ScrollViewer>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5" >
+                        <TextBlock Text="{DynamicResource langName}" VerticalAlignment="Center"/>
+                        <TextBox Margin="20,0" VerticalAlignment="Center" Width="200" Text="{Binding Name}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="{DynamicResource langAutoSelectNewGroups}" Margin="5" IsChecked="{Binding IsAutoSelectNewGroupsChecked}"/>
+                        <CheckBox Content="{DynamicResource langUncheckGroups}" Margin="5" IsChecked="{Binding IsUncheckGroupsChecked}"/>
+                    </StackPanel>
+                    
+                    <Button Content="{DynamicResource langSaveDestination}" Height="30" x:Name="SaveDestination" Margin="5,5,20,5" HorizontalAlignment="Left" Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+
+                    <ListView  ItemContainerStyle="{StaticResource ListViewItems}" Margin="5" ItemsSource="{Binding DestinationCollection}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </ListView.Resources>
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="{DynamicResource langSelected}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource langName}" Width="100" DisplayMemberBinding="{Binding Name}" />
+                                    <GridViewColumn Header="{DynamicResource langPlatform}" DisplayMemberBinding="{Binding Platform}"/>
+                                    <GridViewColumn Header="{DynamicResource langGroup}" DisplayMemberBinding="{Binding Groups}"/>
+                                    <GridViewColumn Header="{DynamicResource langPagesBoards}" DisplayMemberBinding="{Binding PagesBoards}"/>
+                                    <GridViewColumn Header="{DynamicResource langWallsProfiles}" DisplayMemberBinding="{Binding WallsProfiles}"/>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+    </Grid>
+
+
 </UserControl>
