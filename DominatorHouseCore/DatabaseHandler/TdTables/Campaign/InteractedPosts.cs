@@ -13,11 +13,11 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
         [Index]
         [Autoincrement]
         public int Id { get; set; }
-       
+
         /// <summary>
         /// UserName of the Account from which Interaction is done
         /// </summary>
-
+        [Index("IX_AccountTweetIdActivityType", 1, IsUnique = true)]
         [Column(Order = 2)]
         public string SinAccUsername { get; set; }
 
@@ -27,17 +27,17 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
 
         [Column(Order = 4)]
         public string QueryValue { get; set; }
-
+        [Index("IX_AccountTweetIdActivityType", 2, IsUnique = true)]
         [Column(Order = 5)]
         public string ActivityType { get; set; }
 
         [Column(Order = 6)]
         public int InteractionTimeStamp { get; set; }
-       
+
         /// <summary>
         /// Id of the tweet
         /// </summary>
-
+        [Index("IX_AccountTweetIdActivityType", 3, IsUnique = true)]
         [Column(Order = 7)]
         public string TweetId { get; set; }
 
@@ -61,7 +61,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
 
         [Column(Order = 10)]
         public string MediaId { get; set; }
-       
+
         /// <summary>
         /// Message/Description of the tweet
         /// </summary>
@@ -107,7 +107,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
         /// <summary>
         /// Duration of the video tweets
         /// </summary>
-        
+
         [Column(Order = 17)]
         public double VideoDuration
         { get; set; }
@@ -138,11 +138,11 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
         /// <summary>
         /// 1(true) if following Tweet Owner 
         /// </summary>
-        
+
         [Column(Order = 21)]
-        public int  FollowStatus
+        public int FollowStatus
         { get; set; }
-       
+
         /// <summary>
         /// 1(true) Tweet Owner follows back
         /// </summary>
@@ -151,13 +151,23 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
         public int FollowBackStatus
         { get; set; }
 
+        [Column(Order = 23)]
+        public int IsAlreadyLiked
+        { get; set; }
+
+
+        [Column(Order = 24)]
+        public int IsAlreadyRetweeted
+        { get; set; }
+
         /// <summary>
         /// Describes wheather the activity is done in Activity process or after activity process
         /// </summary>
-        [Column(Order = 23)]
+        [Column(Order = 25)]
         public string ProcessType { get; set; }
 
-        [Column(Order = 24)]
+        [Column(Order = 26)]
         public DateTime InteractionDate { get; set; }
+
     }
 }
