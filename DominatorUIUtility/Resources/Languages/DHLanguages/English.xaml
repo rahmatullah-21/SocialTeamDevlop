@@ -10,6 +10,7 @@
     <system:String x:Key="DHlangStartAppMinimized">Start the app minimized</system:String>
     <system:String x:Key="DHlangShowSameAccounts">Show same accounts in social profile details and tools details as in social profile and Tools</system:String>
     <system:String x:Key="DHlangEnableGlobalNightMode">Enable global night mode</system:String>
+    <system:String x:Key="DHlangAllowParallel">Run different activities on the same account at once (risks implied)</system:String>
     <system:String x:Key="DHlangApplicationWillNotExecuteAnyActions">The application will not execute any actions between</system:String>
     <system:String x:Key="DHlangRandomiseNightMode">Randomise night mode</system:String>
     <system:String x:Key="DHlangStartBetween">Start between</system:String>
