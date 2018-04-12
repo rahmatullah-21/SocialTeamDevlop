@@ -10,21 +10,23 @@ namespace DominatorHouseCore.Enums.TdQuery
         Hashtags = 2,
         [Description("langLocationUsers")]
         LocationUsers = 3,
+        [Description("langNearMyLocation")]
+        NearMyLocation = 4,
         [Description("langCustomUsersList")]
-        CustomUsersList = 4,
+        CustomUsersList = 5,
         [Description("langSomeonesFollowers")]
-        SomeonesFollowers = 5,
+        SomeonesFollowers = 6,
         [Description("langSomeonesFollowings")]
-        SomeonesFollowings = 6,
+        SomeonesFollowings = 7,
         [Description("langFollowersOfSomeonesFollowings")]
-        FollowersOfFollowings = 7,
+        FollowersOfFollowings = 8,
         [Description("langFollowersOfSomeonesFollowers")]
-        FollowersOfFollowers = 8,
+        FollowersOfFollowers = 9,
         [Description("langUsersWhoLikedTweet")]
-        UsersWhoLikedOnTweet = 9,
+        UsersWhoLikedOnTweet = 10,
         [Description("langUsersWhoCommentedOnTweet")]
-        UsersWhoCommentedOnTweet = 10,
+        UsersWhoCommentedOnTweet = 11,
         [Description("langUsersWhoRetweetedTweet")]
-        UsersWhoRetweetedTweet = 11,
+        UsersWhoRetweetedTweet = 12,
     }
 }
