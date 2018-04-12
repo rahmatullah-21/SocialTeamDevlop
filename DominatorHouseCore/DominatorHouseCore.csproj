@@ -249,9 +249,11 @@
     <Compile Include="Enums\GpDQuery\GplusUsersQueries.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
+    <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
     <Compile Include="FileManagers\PinFileManager.cs" />
+    <Compile Include="FileManagers\PublisherFileManager.cs" />
     <Compile Include="FileManagers\SoftwareSettingsFileManager.cs" />
     <Compile Include="FileManagers\TumblrFileManager.cs" />
     <Compile Include="FileManagers\TwitterFileManager.cs" />
@@ -326,6 +328,7 @@
     <Compile Include="Models\OtherConfigModel.cs" />
     <Compile Include="Models\PinterestModel.cs" />
     <Compile Include="Models\ProxyManagerModel.cs" />
+    <Compile Include="Models\PublisherAccountDetails.cs" />
     <Compile Include="Models\ReportDetails.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\RunningTimes.cs" />
@@ -401,6 +404,7 @@
     <Compile Include="Utility\Utilities.cs" />
     <Compile Include="Utility\ValidationHelper.cs" />
     <Compile Include="ViewModel\AddPostViewModel.cs" />
+    <Compile Include="ViewModel\CreateDestination.cs" />
     <Compile Include="ViewModel\DestinationCollection.cs" />
     <Compile Include="ViewModel\DestinationDetailsCollection.cs" />
     <Compile Include="ViewModel\DestinationSelectionList.cs" />
@@ -425,7 +429,6 @@
     <Folder Include="Enums\GdQuery\" />
     <Folder Include="Enums\PdQuery\" />
     <Folder Include="Enums\RdQuery\" />
-    <Folder Include="Enums\YdQuery\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">

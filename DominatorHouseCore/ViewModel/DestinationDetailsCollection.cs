@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Utility;
+﻿using System;
+using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -25,5 +26,9 @@ namespace DominatorHouseCore.ViewModel
                 SetProperty(ref _isSelected, value);
             }
         }
+
+        public string Status { get; set; }
+
+        public DateTime AddedDateTime { get; set; }
     }
 }

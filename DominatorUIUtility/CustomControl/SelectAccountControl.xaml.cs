@@ -29,11 +29,14 @@ namespace DominatorUIUtility.CustomControl
             var accountModels = filterForActiveSocialNetwork
                 ? AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork)
                 : AccountsFileManager.GetAll();
-          
+
             _objAccountViewModel.LstSelectAccount.Clear();
 
             accountModels.ForEach(x =>
             {
+
+                //add only account status should be success
+
                 if (x.AccountBaseModel.Status == "Success")
                 {
                     _objAccountViewModel.LstSelectAccount.Add(new SelectAccountViewModel
@@ -41,7 +44,6 @@ namespace DominatorUIUtility.CustomControl
                         UserName = x.UserName,
                         GroupName = x.AccountBaseModel.AccountGroup.Content
                     });
-
                     if (_objAccountViewModel.Groups.Any(group => group.Content == x.AccountBaseModel.AccountGroup.Content) == false)
                         _objAccountViewModel.Groups.Add(
                             new ContentSelectGroup
@@ -49,7 +51,6 @@ namespace DominatorUIUtility.CustomControl
                                 Content = x.AccountBaseModel.AccountGroup.Content
                             });
                 }
-
             });
 
             //Select the account which is already selected
@@ -221,7 +222,7 @@ namespace DominatorUIUtility.CustomControl
         {
             if (!_objAccountViewModel.IsAllAccountSelected)
                 return;
-            if (GroupCheck!=null)
+            if (GroupCheck != null)
             {
                 GroupCheck.Unchecked -= chkgroup_Unchecked;
                 _objAccountViewModel.LstSelectAccount.ForEach(account =>
@@ -234,7 +235,7 @@ namespace DominatorUIUtility.CustomControl
                         });
                 });
                 AccountGroupSelected();
-                GroupCheck.Unchecked += chkgroup_Unchecked; 
+                GroupCheck.Unchecked += chkgroup_Unchecked;
             }
             AllAccount.Unchecked -= AllAccount_OnUnchecked;
             _objAccountViewModel.IsAllAccountSelected = false;

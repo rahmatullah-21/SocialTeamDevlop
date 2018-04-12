@@ -6,6 +6,7 @@ using NLog.Targets;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.LogHelper
 {
@@ -73,7 +74,7 @@ namespace DominatorHouseCore.LogHelper
 
                    // list.Items.Insert(0, $"{DateTime.Now.ToString()}\tGram Dominator 3.0\t{message.Replace("\t", " ")}");
 
-                    list.Items.Insert(0, $"{DateTime.Now.ToString()}\tSocinator\t{message.Replace("\t", " ")}");
+                    list.Items.Insert(0, $"{DateTime.Now.ToString()}\t{ConstantVariable.ApplicationName}\t{message.Replace("\t", " ")}");
                 }
                 catch (Exception ex)
                 {

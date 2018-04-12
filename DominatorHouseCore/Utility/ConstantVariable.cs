@@ -9,7 +9,6 @@ namespace DominatorHouseCore.Utility
 {
     public static class ConstantVariable
     {
-
         public static string UseragentCommonFormat { get; } = "Instagram {0} Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})";
 
         public static string UseragentLocale { get; } = "en_US";
@@ -103,6 +102,9 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherProxyFile() => GetOtherDir() + @"\Proxy.bin";
         public static string GetOtherPostsFile() => GetOtherDir() + @"\Posts.bin";
         public static string GetOtherConfigFile() => GetOtherDir() + @"\Config.bin";
+
+        public static string GetPublisherFile() => GetOtherDir() + @"\PublisherAccountDetails.bin";
+
         public static string GetChatDir()
         {
             string dir = $"{GetPlatformBaseDirectory()}\\Chat";

@@ -60,6 +60,7 @@ namespace DominatorHouseCore.Process
             ActivityType = activityType;
 
             InitializeActivityCount(account);
+
         }
 
         protected void InitializeActivityCount(string account)

@@ -38,6 +38,7 @@ namespace DominatorHouseCore.Utility
             {typeof(ProxyManagerModel), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherProxyFile) },
             {typeof(AddPostModel), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherPostsFile) },
             {typeof(Configuration), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherConfigFile) },
+            {typeof(PublisherAccountDetails),Tuple.Create(new object(), (Func<string>)ConstantVariable.GetPublisherFile) },
             {typeof(object), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetIndexAccountFile) }
         };
 
