@@ -65,7 +65,7 @@ namespace DominatorHouse.Social.AutoActivity.Views
                 ObjSocialAutoActivity.DominatorAutoActivityViewModel.CallRespectiveView(soicalNetworks);
                 return true;
             }
-            catch (Exception )
+            catch (Exception ex)
             {
                 return false;
             }

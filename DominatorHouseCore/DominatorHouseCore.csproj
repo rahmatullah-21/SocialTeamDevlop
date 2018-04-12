@@ -175,18 +175,37 @@
     <Compile Include="DatabaseHandler\CoreModels\CustomHistory.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DataBaseConnection.cs" />
     <Compile Include="DatabaseHandler\CoreModels\SQLiteConfiguration.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\Friends.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedGroups.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedPages.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\LikedPages.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\OwnGroups.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\OwnPages.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\PostCommets.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedGroups.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPages.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\PostCommets.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Communities.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Friendship.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedCommunities.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedPosts.cs" />
-    <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUserReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedCommunitiesReport.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedPostsReport.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedUsersReport.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\Connections.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\LdTables\Account\Groups.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedCompanies.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedGroups.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedJobs.cs" />
@@ -244,6 +263,12 @@
     <Compile Include="Diagnostics\Exceptions\ThreadFactory.cs" />
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
+    <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdGroupJoinerQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdPosterQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdProfileScraperQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
     <Compile Include="Enums\GpDQuery\GplusCommunitiesQueries.cs" />
     <Compile Include="Enums\GpDQuery\GplusPostsQueries.cs" />
     <Compile Include="Enums\GpDQuery\GplusUsersQueries.cs" />
@@ -266,12 +291,6 @@
     <Compile Include="Diagnostics\SocinatorInitialize.cs" />
     <Compile Include="Diagnostics\UI\UIDiagnostic.cs" />
     <Compile Include="Enums\ActivityType.cs" />
-    <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdGroupJoinerQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdPosterQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdProfileScraperQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
     <Compile Include="Enums\Gender.cs" />
     <Compile Include="Enums\LdQuery\LDGroupQueryParameters.cs" />
     <Compile Include="Enums\LdQuery\LDGrowConnectionUserQueryParameters.cs" />
@@ -296,6 +315,7 @@
     <Compile Include="Interfaces\IJobConfiguration.cs" />
     <Compile Include="Interfaces\IGeneralSettings.cs" />
     <Compile Include="BusinessLogic\Scheduler\IJobProcessFactory.cs" />
+    <Compile Include="Interfaces\IPage.cs" />
     <Compile Include="Interfaces\ITabHandlerFactory.cs" />
     <Compile Include="Interfaces\IPost.cs" />
     <Compile Include="Interfaces\IUser.cs" />
@@ -418,8 +438,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DatabaseHandler\FdTables\" />
-    <Folder Include="DatabaseHandler\GplusTables\Campaigns\" />
     <Folder Include="Enums\GdQuery\" />
     <Folder Include="Enums\PdQuery\" />
     <Folder Include="Enums\RdQuery\" />

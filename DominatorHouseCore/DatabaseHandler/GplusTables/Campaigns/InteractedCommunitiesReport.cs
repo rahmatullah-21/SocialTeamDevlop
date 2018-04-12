@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SQLite.CodeFirst;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SQLite.CodeFirst;
+using static DominatorHouseCore.DatabaseHandler.GplusTables.Accounts.Communities;
 
-namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
+namespace DominatorHouseCore.DatabaseHandler.GplusTables.Campaigns
 {
-    public class InteractedUserReport
+   public class InteractedCommunitiesReport
     {
         [Key]
         [Autoincrement]
@@ -20,56 +21,48 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         { get; set; }
 
         [Column(Order = 4)]
-        public int FollowedBack
-        { get; set; }
-
-        [Column(Order = 5)]
-        public int Date
-        { get; set; }
-
-        [Column(Order = 6)]
         public string ActivityType
         { get; set; }
 
+        [Column(Order = 5)]
+        public string CommunityId { get; set; }
+
+
+        [Column(Order = 6)]
+        public string CommunityUrl { get; set; }
+
         [Column(Order = 7)]
-        public string UserId
+        public string CommunityName
         { get; set; }
 
         [Column(Order = 8)]
-        public string InteractedUserId
+        public int InteractionDate
         { get; set; }
 
         [Column(Order = 9)]
-        public string InteractedUserName
+        public JoinType joinType
         { get; set; }
 
         [Column(Order = 10)]
-        public int Time
+        public int MemberCounts
         { get; set; }
 
         [Column(Order = 11)]
-        public string FullName
+        public int MuteStatus
         { get; set; }
-
 
         [Column(Order = 12)]
-        public bool HasAnonymousProfilePicture
+        public string InteractedUserId
         { get; set; }
-
 
         [Column(Order = 13)]
-        public bool IsVerified
+        public string OwnerName
         { get; set; }
-
 
         [Column(Order = 14)]
-        public string ProfilePicUrl
+        public string OwnerId
         { get; set; }
 
-
-        [Column(Order = 15)]
-        public FollowType FollowType
-        { get; set; }
 
     }
 }

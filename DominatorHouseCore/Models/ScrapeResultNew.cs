@@ -21,5 +21,7 @@ namespace DominatorHouseCore.Models
         public ICompany ResultCompany { get; set; }
 
         public IChannel ResultChannel { get; set; }
+
+        public IPage ResultPage { get; set; }
     }
 }

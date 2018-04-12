@@ -21,14 +21,14 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Describes if Detailed UserInfo has been stored atlest once or not
         /// </summary>
         [Column(Order = 2)]
-        public string IsDetailedUserInfoStored
+        public bool IsDetailedUserInfoStored
         { get; set; }
 
         /// <summary>
         /// Describes if Detailed UserInfo Is Visible 
         /// </summary>
         [Column(Order = 3)]
-        public string IsDetailedUserInfoVisible
+        public bool IsDetailedUserInfoVisible
         { get; set; }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Describes if Connection Has Anonymous Profile Picture or not
         /// </summary>
         [Column(Order = 6)]
-        public string HasAnonymousProfilePicture { get; set; }
+        public bool HasAnonymousProfilePicture { get; set; }
 
         /// <summary>
         /// Contains Profile Picture Url Of the Connection

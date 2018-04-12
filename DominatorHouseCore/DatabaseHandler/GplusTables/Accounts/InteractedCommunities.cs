@@ -26,31 +26,46 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         { get; set; }
 
         [Column(Order = 4)]
-        public string CommunityId { get; set; }
-
-
-        [Column(Order = 5)]
-        public string CommunityUrl { get; set; }
-
-
-
-        [Column(Order = 6)]
-        public int Date
-        { get; set; }
-
-        [Column(Order = 7)]
         public string ActivityType
         { get; set; }
 
+        [Column(Order = 5)]
+        public string CommunityId { get; set; }
 
+
+        [Column(Order = 6)]
+        public string CommunityUrl { get; set; }
+
+        [Column(Order = 7)]
+        public string CommunityName
+        { get; set; }
 
         [Column(Order = 8)]
-        public JoinType joinType
+        public int InteractionDate
         { get; set; }
 
         [Column(Order = 9)]
-        public int MemberCounts
+        public JoinType joinType
         { get; set; }
+
+        [Column(Order = 10)]
+       public int MemberCounts
+        { get; set; }
+
+        [Column(Order = 11)]
+        public int MuteStatus
+        { get; set; }
+
+        [Column(Order = 12)]
+        public string OwnerName
+        { get; set; }
+
+        [Column(Order = 13)]
+        public string OwnerId
+        { get; set; }
+
+
+
 
 
 

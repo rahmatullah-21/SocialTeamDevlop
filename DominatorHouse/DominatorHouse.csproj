@@ -254,14 +254,6 @@
       <Project>{b91d5616-eafd-4bf8-aaf5-051675592714}</Project>
       <Name>TwtDominatorUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\youtubedominator-library\YoutubeDominatorCore\YoutubeDominatorCore.csproj">
-      <Project>{9c42c9b5-331e-4ec5-b47f-ae9da1c89ad6}</Project>
-      <Name>YoutubeDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\youtubedominator-library\YoutubeDominatorUI\YoutubeDominatorUI.csproj">
-      <Project>{7a02118a-50ac-4ed5-8247-0899782ddd2f}</Project>
-      <Name>YoutubeDominatorUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
       <Name>DominatorHouseCore</Name>

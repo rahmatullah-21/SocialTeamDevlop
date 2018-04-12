@@ -16,12 +16,64 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
         static Dictionary<SocialNetworks, Action<DataBaseConnection>> _dbCounters = new Dictionary<SocialNetworks, Action<DataBaseConnection>>
         {
-            {SocialNetworks.Twitter, db => db.Count<DominatorHouseCore.DatabaseHandler.TdTables.Accounts.Friendships>() },
-            {SocialNetworks.Gplus, db => db.Count<Friendships>() },
-            {SocialNetworks.Facebook, db => db.Count<Friendships>() },
-            {SocialNetworks.Instagram, db => db.Count<Friendships>() },
-            {SocialNetworks.Quora, db => db.Count<Friendships>() },
-            {SocialNetworks.Pinterest, db => db.Count<PdTables.Accounts.Friendships>() },
+
+            {SocialNetworks.Gplus,
+                db =>
+                {
+                    db.Count<GplusTables.Accounts.Friendships>();
+                    db.Count<GplusTables.Campaigns.InteractedUsersReport>();
+                }
+            },
+
+            {SocialNetworks.Twitter,
+                db =>
+                {
+                    db.Count<TdTables.Accounts.Friendships>();
+                    db.Count<TdTables.Campaign.InteractedUsers>();
+                }
+            },
+            {SocialNetworks.Facebook,
+                db =>
+                {
+                    db.Count<FdTables.Accounts.Friends>();
+                    db.Count<FdTables.Campaigns.InteractedUsers>();
+                }
+            },
+            {SocialNetworks.Instagram,
+                db =>
+                {
+                    db.Count<Friendships>();
+                    db.Count<InteractedUsers>();
+                }
+            },
+            {SocialNetworks.Pinterest,
+                db =>
+                {
+                    db.Count<PdTables.Accounts.Friendships>();
+                    db.Count<PdTables.Campaigns.InteractedUsers>();
+                }
+            },
+            {SocialNetworks.Quora,
+                db =>
+                {
+                    db.Count<QdTables.Accounts.Friendships>();
+                    db.Count<QdTables.Campaigns.InteractedUsers>();
+                }
+            },
+            {SocialNetworks.LinkedIn,
+                db =>
+                {
+                    db.Count<LdTables.Account.Connections>();
+                    db.Count<LdTables.Campaign.InteractedUsers>();
+                }
+            },
+            {SocialNetworks.Youtube,
+            db =>
+            {
+                db.Count<YdTables.Accounts.Friendships>();
+                db.Count<YdTables.Campaign.InteractedUsers>();
+            }
+            }
         };
 
         public static void NewThread(Action act)

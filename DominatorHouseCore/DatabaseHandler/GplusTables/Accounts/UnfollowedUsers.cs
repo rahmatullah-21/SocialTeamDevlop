@@ -12,7 +12,6 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         [Column(Order =1)]
         public int Id { get; set; } 
 
-
         [Column(Order = 2)]
         public string FilterArgument
         { get; set; }
@@ -39,7 +38,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 
 
         [Column(Order = 7)]
-        public int OperationType
+        public string ActivityType
         { get; set; }
 
 
@@ -50,6 +49,17 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         [Column(Order = 9)]
         public string FullName
         { get; set; }
+
+        [Column(Order = 10)]
+        public string QueryType
+        { get; set; }
+
+        [Column(Order = 11)]
+        public int BlockedStatus
+        { get; set; }
+
+
+       
 
     }
 }

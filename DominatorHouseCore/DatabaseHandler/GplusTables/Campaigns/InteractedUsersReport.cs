@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
 
-namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
+namespace DominatorHouseCore.DatabaseHandler.GplusTables.Campaigns
 {
-    public class InteractedUsers
+    public class InteractedUsersReport
     {
         [Key]
         [Autoincrement]
@@ -35,7 +35,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public int FollowedBack
         { get; set; }
 
-        
+
 
         [Column(Order = 8)]
         public int Date
@@ -77,6 +77,10 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 
         [Column(Order = 17)]
         public int BlockedStatus
+        { get; set; }
+
+        [Column(Order = 18)]
+        public string InteractedUserId
         { get; set; }
     }
 }

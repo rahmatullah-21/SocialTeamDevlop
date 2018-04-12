@@ -1,11 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
 using SQLite.CodeFirst;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
+namespace DominatorHouseCore.DatabaseHandler.GplusTables.Campaigns
 {
-    public class InteractedPosts
+  public  class InteractedPostsReport
     {
         [Key]
         [Column(Order = 1)]
@@ -58,9 +63,14 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public string PostUrl { get; set; }
 
         [Column(Order = 16)]
-        public string Comment { get; set; }
+        public string Comment
+        { get; set; }
 
         [Column(Order = 17)]
+        public string InteractedUserId
+        { get; set; }
+
+        [Column(Order = 18)]
         public int IsLiked { get; set; }
 
 

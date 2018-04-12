@@ -117,57 +117,69 @@
     <system:String x:Key="FdlangUnfriendPerJob">Number of Unfriend per job</system:String>
     <system:String x:Key="FdlangUnfriendPerHour">Number of Unfriend per hour</system:String>
     <system:String x:Key="FdlangUnfriendPerDay">Number of Unfriend per Day</system:String>
-    <system:String x:Key="FdlangMaxUnfriendPerDay">max unfriend per day</system:String>
+    <system:String x:Key="FdlangMaxUnfriendPerDay">Max unfriend per day</system:String>
     <system:String x:Key="FdlangUnfriendPerWeek">Number of Unfriend per Week</system:String>
 
     <system:String x:Key="FdlangLikesPerJob">Number of Likes per job</system:String>
     <system:String x:Key="FdlangLikesPerHour">Number of Likes per hour</system:String>
     <system:String x:Key="FdlangLikesPerDay">Number of Likes per Day</system:String>
-    <system:String x:Key="FdlangMaxLikesPerDay">max Likes per day</system:String>
+    <system:String x:Key="FdlangMaxLikesPerDay">Max Likes per day</system:String>
     <system:String x:Key="FdlangLikesPerWeek">Number of Likes per Week</system:String>
 
     <system:String x:Key="FdlangCommentsPerJob">Number of Comments per job</system:String>
     <system:String x:Key="FdlangCommentsPerHour">Number of Comments per hour</system:String>
     <system:String x:Key="FdlangCommentsPerDay">Number of Comments per Day</system:String>
-    <system:String x:Key="FdlangMaxCommentsPerDay">max Comments per day</system:String>
+    <system:String x:Key="FdlangMaxCommentsPerDay">Max Comments per day</system:String>
     <system:String x:Key="FdlangCommentsPerWeek">Number of Comments per Week</system:String>
 
-    <system:String x:Key="FdlangScrapProfilesPerJob">Scrap Number of Profiles per job</system:String>
-    <system:String x:Key="FdlangScrapProfilesPerHour">Scrap Number of Profiles per hour</system:String>
-    <system:String x:Key="FdlangScrapProfilesPerDay">Scrap Number of Profiles per Day</system:String>
+    <system:String x:Key="FdlangScrapProfilesPerJob">Scrap number of Profiles per job</system:String>
+    <system:String x:Key="FdlangScrapProfilesPerHour">Scrap number of Profiles per hour</system:String>
+    <system:String x:Key="FdlangScrapProfilesPerDay">Scrap number of Profiles per Day</system:String>
     <system:String x:Key="FdlangMaxScrapProfilesPerDay">Scrap max Profiles per day</system:String>
-    <system:String x:Key="FdlangScrapProfilesPerWeek">Scrap Number of Profiles per Week</system:String>
+    <system:String x:Key="FdlangScrapProfilesPerWeek">Scrap number of Profiles per Week</system:String>
 
-    <system:String x:Key="FdlangScrapFanpagePerJob">Scrap Number of Fanpages per job</system:String>
-    <system:String x:Key="FdlangScrapFanpagePerHour">Scrap Number of Fanpages per hour</system:String>
-    <system:String x:Key="FdlangScrapFanpagePerDay">Scrap Number of Profiles per Day</system:String>
+    <system:String x:Key="FdlangScrapFanpagePerJob">Scrap number of Fanpages per job</system:String>
+    <system:String x:Key="FdlangScrapFanpagePerHour">Scrap number of Fanpages per hour</system:String>
+    <system:String x:Key="FdlangScrapFanpagePerDay">Scrap number of Profiles per Day</system:String>
     <system:String x:Key="FdlangMaxScrapFanpagePerDay">Scrap max Fanpages per day</system:String>
-    <system:String x:Key="FdlangScrapFanpagePerWeek">Scrap Number of Fanpages per Week</system:String>
+    <system:String x:Key="FdlangScrapFanpagePerWeek">Scrap number of Fanpages per Week</system:String>
 
-    <system:String x:Key="FdlangScrapGroupPerJob">Scrap Number of Groups per job</system:String>
-    <system:String x:Key="FdlangScrapGroupPerHour">Scrap Number of Groups per hour</system:String>
-    <system:String x:Key="FdlangScrapGroupPerDay">Scrap Number of Groups per Day</system:String>
+    <system:String x:Key="FdlangScrapGroupPerJob">Scrap number of Groups per job</system:String>
+    <system:String x:Key="FdlangScrapGroupPerHour">Scrap number of Groups per hour</system:String>
+    <system:String x:Key="FdlangScrapGroupPerDay">Scrap number of Groups per Day</system:String>
     <system:String x:Key="FdlangMaxScrapGroupPerDay">Scrap max Groups per day</system:String>
-    <system:String x:Key="FdlangScrapGroupPerWeek">Scrap Number of Groups per Week</system:String>
+    <system:String x:Key="FdlangScrapGroupPerWeek">Scrap number of Groups per Week</system:String>
 
-    <system:String x:Key="FdlangScrapCommentPerJob">Scrap Number of Comments per job</system:String>
-    <system:String x:Key="FdlangScrapCommentPerHour">Scrap Number of Comments per hour</system:String>
-    <system:String x:Key="FdlangScrapCommentPerDay">Scrap Number of Comments per Day</system:String>
+    <system:String x:Key="FdlangScrapCommentPerJob">Scrap number of Comments per job</system:String>
+    <system:String x:Key="FdlangScrapCommentPerHour">Scrap number of Comments per hour</system:String>
+    <system:String x:Key="FdlangScrapCommentPerDay">Scrap number of Comments per Day</system:String>
     <system:String x:Key="FdlangMaxScrapCommentPerDay">Scrap max Comments per day</system:String>
-    <system:String x:Key="FdlangScrapCommentPerWeek">Scrap Number of Comments per Week</system:String>
+    <system:String x:Key="FdlangScrapCommentPerWeek">Scrap number of Comments per Week</system:String>
 
-    <system:String x:Key="FdlangScrapPostPerJob">Scrap Number of Posts per job</system:String>
-    <system:String x:Key="FdlangScrapPostPerHour">Scrap Number of Posts per hour</system:String>
-    <system:String x:Key="FdlangScrapPostPerDay">Scrap Number of Posts per Day</system:String>
+    <system:String x:Key="FdlangScrapPostPerJob">Scrap number of Posts per job</system:String>
+    <system:String x:Key="FdlangScrapPostPerHour">Scrap number of Posts per hour</system:String>
+    <system:String x:Key="FdlangScrapPostPerDay">Scrap number of Posts per Day</system:String>
     <system:String x:Key="FdlangMaxScrapPostPerDay">Scrap max Posts per day</system:String>
-    <system:String x:Key="FdlangScrapPostPerWeek">Scrap Number of Posts per Week</system:String>
+    <system:String x:Key="FdlangScrapPostPerWeek">Scrap number of Posts per Week</system:String>
+
+    <system:String x:Key="FdlangMakeAdminPerJob">Make admin to number of profiles per job</system:String>
+    <system:String x:Key="FdlangMakeAdminPerHour">Make admin to number of profiles per hour</system:String>
+    <system:String x:Key="FdlangMakeAdminPerDay">Make admin to number of profiles per Day</system:String>
+    <system:String x:Key="FdlangMaxMakeAdminPerDay">Make admin to max profiles per day</system:String>
+    <system:String x:Key="FdlangMakeAdminPerWeek">Make admin to number of profiles per Week</system:String>
+
+    <system:String x:Key="FdlangInviterPerJob">Invite number of profiles per job</system:String>
+    <system:String x:Key="FdlangInviterPerHour">Invite number of profiles per hour</system:String>
+    <system:String x:Key="FdlangInviterPerDay">Invite number of profiles per Day</system:String>
+    <system:String x:Key="FdlangMaxInviterPerDay">Invite max profiles per day</system:String>
+    <system:String x:Key="FdlangInviterPerWeek">Invite to number of profiles per Week</system:String>
 
 
     <system:String x:Key="FdlangPostFilters">POST FILTER</system:String>
     <system:String x:Key="FdlangLikeFilter">LIKE FILTER</system:String>
 
 
-    <system:String x:Key="FdlangCustomGroupUrl">Custom group url(s)</system:String>
+
 
     <system:String x:Key="FdEventName">Event Name</system:String>
 
@@ -187,8 +199,16 @@
     <system:String x:Key="FdlangLoadGroups">Load group url(s)</system:String>
     <system:String x:Key="FdlangLoadProfiles">Load profile url(s)</system:String>
     <system:String x:Key="FdlangGroupActivity">Group activity type</system:String>
-    <system:String x:Key="FdlangMakeAdmin">Make Admin</system:String>
+    <system:String x:Key="FdlangMakeAdmin">Make admin</system:String>
     <system:String x:Key="FdlangMakeModerator">Make Moderator</system:String>
+
+    <system:String x:Key="FdlangCustomEventUrl">Custom event url(s)</system:String>
+    <system:String x:Key="FdlangCustomPageUrl">Custom page url(s)</system:String>
+    <system:String x:Key="FdlangCustomGroupUrl">Custom group url(s)</system:String>
+    <system:String x:Key="FdlangByEmails">Email(s)</system:String>
+    <system:String x:Key="FdlangByProfile">Profile url(s)</system:String>
+    <system:String x:Key="FdlangInviteBy">Invite by</system:String>
+
 
     <system:String x:Key="FdlangFanpageByKeyword">Scrape fanpage(s) by keyword</system:String>
     <system:String x:Key="FdlangGroupByKeyword">Scrape group(s) by keyword</system:String>
@@ -202,5 +222,6 @@
     <system:String x:Key="FdlangFanpageLiker">Fan Page Liker</system:String>
     <system:String x:Key="FdlangWebpageLikerCommentor">Webpage Like &amp; Comment</system:String>
 
-  
+    <system:String x:Key="FdlangGroupFilter">Group Filter</system:String>
+
 </ResourceDictionary>
