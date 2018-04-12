@@ -73,8 +73,8 @@ namespace DominatorHouseCore.Process
 
         private void InitializeDatabaseConnection()
         {
-            DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionInstance(CampaignId, SocialNetworks, DatabaseType.CampaignType);
-            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks, DatabaseType.AccountType);
+            DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionCampaignInstance(CampaignId, SocialNetworks);
+            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);
         }
 
         protected void ScheduleNextJob(DateTime dateTime)
@@ -262,7 +262,7 @@ namespace DominatorHouseCore.Process
 
         public CancellationTokenSource JobCancellationTokenSource { get; set; }
 
-        protected DataBaseConnection DataBaseConnectionCampaign { get; set; }
+        protected DataBaseConnectionCampaign DataBaseConnectionCampaign { get; set; }
 
         protected DataBaseConnection DataBaseConnectionAccount { get; set; }
 

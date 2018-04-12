@@ -13,68 +13,34 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
         #region database Helper Method
 
-
-        static Dictionary<SocialNetworks, Action<DataBaseConnection>> _dbCounters = new Dictionary<SocialNetworks, Action<DataBaseConnection>>
+        private static Dictionary<SocialNetworks, Action<DataBaseConnection>> _dbCounters = new Dictionary<SocialNetworks, Action<DataBaseConnection>>
         {
 
-            {SocialNetworks.Gplus,
-                db =>
-                {
-                    db.Count<GplusTables.Accounts.Friendships>();
-                    db.Count<GplusTables.Campaigns.InteractedUsersReport>();
-                }
-            },
-
-            {SocialNetworks.Twitter,
-                db =>
-                {
-                    db.Count<TdTables.Accounts.Friendships>();
-                    db.Count<TdTables.Campaign.InteractedUsers>();
-                }
-            },
-            {SocialNetworks.Facebook,
-                db =>
-                {
-                    db.Count<FdTables.Accounts.Friends>();
-                    db.Count<FdTables.Campaigns.InteractedUsers>();
-                }
-            },
-            {SocialNetworks.Instagram,
-                db =>
-                {
-                    db.Count<Friendships>();
-                    db.Count<InteractedUsers>();
-                }
-            },
-            {SocialNetworks.Pinterest,
-                db =>
-                {
-                    db.Count<PdTables.Accounts.Friendships>();
-                    db.Count<PdTables.Campaigns.InteractedUsers>();
-                }
-            },
-            {SocialNetworks.Quora,
-                db =>
-                {
-                    db.Count<QdTables.Accounts.Friendships>();
-                    db.Count<QdTables.Campaigns.InteractedUsers>();
-                }
-            },
-            {SocialNetworks.LinkedIn,
-                db =>
-                {
-                    db.Count<LdTables.Account.Connections>();
-                    db.Count<LdTables.Campaign.InteractedUsers>();
-                }
-            },
-            {SocialNetworks.Youtube,
-            db =>
-            {
-                db.Count<YdTables.Accounts.Friendships>();
-                db.Count<YdTables.Campaign.InteractedUsers>();
-            }
-            }
+            {SocialNetworks.Gplus,  db => {  db.Count<GplusTables.Accounts.Friendships>();}},
+            {SocialNetworks.Twitter,   db =>  {  db.Count<TdTables.Accounts.Friendships>();}},
+            {SocialNetworks.Facebook,  db =>  {  db.Count<FdTables.Accounts.Friends>();} },
+            {SocialNetworks.Instagram, db => {  db.Count<Friendships>();  } },
+            {SocialNetworks.Pinterest, db => {db.Count<PdTables.Accounts.Friendships>();} },
+            {SocialNetworks.Quora,db => { db.Count<QdTables.Accounts.Friendships>(); } },
+            {SocialNetworks.LinkedIn,  db => {  db.Count<LdTables.Account.Connections>();} },
+            {SocialNetworks.Youtube,  db =>{    db.Count<YdTables.Accounts.Friendships>(); }}
         };
+
+
+        static Dictionary<SocialNetworks, Action<DataBaseConnectionCampaign>> _dbCampaignCounters = new Dictionary<SocialNetworks, Action<DataBaseConnectionCampaign>>
+        {
+
+            {SocialNetworks.Gplus,  db => { db.Count<GplusTables.Campaigns.InteractedUsersReport>();}},
+            {SocialNetworks.Twitter,   db =>  {  db.Count<TdTables.Campaign.InteractedUsers>();}},
+            {SocialNetworks.Facebook,  db =>  { db.Count<FdTables.Campaigns.InteractedUsers>();} },
+            {SocialNetworks.Instagram, db => {  db.Count<Friendships>();  db.Count<InteractedUsers>(); } },
+            {SocialNetworks.Pinterest, db => { db.Count<PdTables.Campaigns.InteractedUsers>();} },
+            {SocialNetworks.Quora,db => { db.Count<QdTables.Campaigns.InteractedUsers>(); } },
+            {SocialNetworks.LinkedIn,  db => {  db.Count<LdTables.Campaign.InteractedUsers>();} },
+            {SocialNetworks.Youtube,  db =>{   db.Count<YdTables.Campaign.InteractedUsers>(); }}
+        };
+
+
 
         public static void NewThread(Action act)
         {
@@ -86,9 +52,16 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             if (executionStrategy == null) executionStrategy = NewThread;
             try
             {
-                DataBaseConnection databaseConnection =
-                    GetDataBaseConnectionInstance(DBName, networks, databaseType);
-                executionStrategy(() => _dbCounters[networks](databaseConnection));
+                if (databaseType == DatabaseType.AccountType)
+                {
+                    DataBaseConnection databaseConnection = GetDataBaseConnectionInstance(DBName, networks);
+                    executionStrategy(() => _dbCounters[networks](databaseConnection));
+                }
+                else if (databaseType  == DatabaseType.CampaignType)
+                {
+                    DataBaseConnectionCampaign databaseConnection = GetDataBaseConnectionCampaignInstance(DBName, networks);
+                    _dbCampaignCounters[networks](databaseConnection);
+                }
             }
             catch (Exception ex)
             {
@@ -96,31 +69,33 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             }
         }
 
-        public static DataBaseConnection GetDataBaseConnectionInstance(string DBName, SocialNetworks networks, DatabaseType? databaseType = DatabaseType.AccountType)
+        public static DataBaseConnection GetDataBaseConnectionInstance(string DBName, SocialNetworks networks)
         {
             try
             {
-                string directoryName = string.Empty;
-                switch (databaseType)
-                {
-                    case DatabaseType.CampaignType:
-                        directoryName = ConstantVariable.GetIndexCampaignDir() + $"\\DB";
-                        break;
-                    case DatabaseType.AccountType:
-                        directoryName = ConstantVariable.GetIndexAccountDir() + $"\\DB";
-                        break;
-                    default:
-                        directoryName = ConstantVariable.GetIndexAccountDir() + $"\\DB";
-                        break;
-                }
-
+                var objModelConfiguration = new ModelConfiguration();
+                var directoryName = ConstantVariable.GetIndexAccountDir() + $"\\DB";
                 DirectoryUtilities.CreateDirectory(directoryName);
-                string connectionString = directoryName + $"\\{DBName}.db";
+                var connectionString = directoryName + $"\\{DBName}.db";
+                return new DataBaseConnection(connectionString, networks, objModelConfiguration.ConfigureAccountdataBaseEntity);
 
-                if (databaseType == DatabaseType.AccountType)
-                    return new DataBaseConnection(connectionString, networks, ModelConfiguration.ConfigureAccountdataBaseEntity);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
-                return new DataBaseConnection(connectionString, networks, ModelConfiguration.ConfigureCampaignDataBaseEntity);
+        public static DataBaseConnectionCampaign GetDataBaseConnectionCampaignInstance(string DBName, SocialNetworks networks)
+        {
+            try
+            {
+                var objModelConfiguration = new ModelConfiguration();
+
+                var directoryName = ConstantVariable.GetIndexCampaignDir() + $"\\DB";
+                DirectoryUtilities.CreateDirectory(directoryName);
+                var connectionString = directoryName + $"\\{DBName}.db";
+                return new DataBaseConnectionCampaign(connectionString, networks, objModelConfiguration.ConfigureCampaignDataBaseEntity);
             }
             catch (Exception)
             {
