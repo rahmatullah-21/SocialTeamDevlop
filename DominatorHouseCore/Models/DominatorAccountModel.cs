@@ -179,16 +179,16 @@ namespace DominatorHouseCore.Models
         // TODO: move those properties to DominatorAccountViewModel
 
         [ProtoIgnore]
-        public int DisplayColumnValue1 { get; set; }
+        public int? DisplayColumnValue1 { get; set; }
 
         [ProtoIgnore]
-        public int DisplayColumnValue2 { get; set; } 
+        public int? DisplayColumnValue2 { get; set; } 
 
         [ProtoIgnore]
-        public int DisplayColumnValue3 { get; set; }
+        public int? DisplayColumnValue3 { get; set; }
 
         [ProtoIgnore]
-        public int DisplayColumnValue4 { get; set; }
+        public int? DisplayColumnValue4 { get; set; }
 
         #endregion
 

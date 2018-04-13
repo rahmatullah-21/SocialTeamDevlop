@@ -100,83 +100,21 @@ namespace DominatorUIUtility.ViewModel
         public ObservableCollection<ContentSelectGroup> Groups { get; set; } = new ObservableCollection<ContentSelectGroup>();
 
 
-        private GridViewHeader[] _gridHeaders = new[] {
-                new GridViewHeader(),
-                new GridViewHeader(),
-                new GridViewHeader(),
-                new GridViewHeader()
-            };
+        private List<string> _visibleColumns = new List<string>();
 
-        public void SetVisibleColumns(IEnumerable<string> columnValues)
+        public IEnumerable<string> VisibleColumns
         {
-            _gridHeaders.Except(
-                _gridHeaders.Zip(columnValues, (hdr, val) =>
+            get
+            {
+                return _visibleColumns;
+            }
+            set
+            {
+                if (value != null && !value.SequenceEqual(_visibleColumns))
                 {
-                    hdr.Header = val;
-                    hdr.HeaderVisible = true;
-                    return hdr;
-                }))
-           .ToList()
-           .ForEach(hdr => hdr.HeaderVisible = false);
-        }
-
-        public GridViewHeader GridHeaderColumn1
-        {
-            get
-            {
-                return _gridHeaders[0];
-            }
-            set
-            {
-                if (_gridHeaders[0] == value)
-                    return;
-
-                SetProperty(ref _gridHeaders[0], value);
-            }
-        }
-
-        public GridViewHeader GridHeaderColumn2
-        {
-            get
-            {
-                return _gridHeaders[1];
-            }
-            set
-            {
-                if (_gridHeaders[1] == value)
-                    return;
-
-                SetProperty(ref _gridHeaders[1], value);
-            }
-        }
-
-        public GridViewHeader GridHeaderColumn3
-        {
-            get
-            {
-                return _gridHeaders[2];
-            }
-            set
-            {
-                if (_gridHeaders[2] == value)
-                    return;
-
-                SetProperty(ref _gridHeaders[2], value);
-            }
-        }
-
-        public GridViewHeader GridHeaderColumn4
-        {
-            get
-            {
-                return _gridHeaders[3];
-            }
-            set
-            {
-                if (_gridHeaders[3] == value)
-                    return;
-
-                SetProperty(ref _gridHeaders[3], value);
+                    _visibleColumns = value.ToList();
+                    OnPropertyChanged();
+                }
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -47,6 +48,32 @@ namespace DominatorUIUtility.CustomControl
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;
+            DominatorAccountViewModel.PropertyChanged += DominatorAccountViewModel_PropertyChanged;
+        }
+
+        List<GridViewColumn> _addedColumns = new List<GridViewColumn>();
+
+        private void DominatorAccountViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "VisibleColumns")
+            {
+                // create a new layout correspondingly
+                // remove existing columns
+                GridView gv = (GridView)AccountListView.View;
+                _addedColumns.ForEach(gvc => gv.Columns.Remove(gvc));
+                _addedColumns.Clear();
+
+                // add one column for each needed
+                var colIndex = 0;
+                _addedColumns = _dominatorAccountViewModel.VisibleColumns
+                    .Select(name => new GridViewColumn
+                    {
+                        DisplayMemberBinding = new Binding($"DisplayColumnValue{++colIndex}"),
+                        Header = name,
+                        Width = 130
+                    }).ToList();
+                _addedColumns.ForEach(gv.Columns.Add);
+            }
         }
 
         private static AccountCustomControl _accountCustomInstance = null;
@@ -82,15 +109,12 @@ namespace DominatorUIUtility.CustomControl
             if (socialNetworks == SocialNetworks.Social)
                 listCollection.Filter = null;
 
-            var spec = DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider();
-            if (socialNetworks != SocialNetworks.Social)
-            {
-                spec = spec
-                    .Combine(SocinatorInitialize.GetSocialLibrary(socialNetworks)
+            var spec = (socialNetworks == SocialNetworks.Social) ?
+                DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
+                SocinatorInitialize.GetSocialLibrary(socialNetworks)
                       .GetNetworkCoreFactory()
-                      .AccountCountFactory.GetColumnSpecificationProvider());
-            }
-            DominatorAccountViewModel.SetVisibleColumns(spec.VisibleHeaders);
+                      .AccountCountFactory.GetColumnSpecificationProvider();
+            DominatorAccountViewModel.VisibleColumns = spec.VisibleHeaders;
             DominatorAccountViewModel.SocialNetwork = socialNetworks;
         }
 
