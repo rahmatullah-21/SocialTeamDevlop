@@ -145,6 +145,7 @@
     <Compile Include="BusinessLogic\Scheduler\DominatorJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.Helpers.cs" />
+    <Compile Include="BusinessLogic\Scheduler\RunningActivityManager.cs" />
     <Compile Include="BusinessLogic\Scraper\IQueryScraperFactory.cs" />
     <Compile Include="BusinessLogic\Scraper\NotImplementedQueryScraper.cs" />
     <Compile Include="BusinessLogic\Scraper\DominatorScraperFactory.cs" />

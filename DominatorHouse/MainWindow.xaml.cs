@@ -343,14 +343,8 @@ namespace DominatorHouse
 
             var accountDetails = AccountsFileManager.GetAll();
 
-            foreach (var account in accountDetails)
-                foreach (var modulesConfiguration in account.ActivityManager.LstModuleConfiguration)
-                {
-                    DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork,
-                        modulesConfiguration.ActivityType);
-                    DominatorScheduler.ScheduleForEachModule(modulesConfiguration.ActivityType, account,
-                        account.AccountBaseModel.AccountNetwork);
-                }
+            RunningActivityManager.Initialize(accountDetails);
+
         }
 
         [NotifyPropertyChangedInvocator]
