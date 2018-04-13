@@ -12,7 +12,7 @@ namespace DominatorUIUtility.Behaviours
         public static Func<string, string, ObservableCollectionBase<QueryInfo>> GetSavedQuery { get; set; }
 
         public static
-            Func<Reports, Dictionary<string, string>, DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnection, CampaignDetails, int>
+            Func<Reports, Dictionary<string, string>, DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnectionCampaign, CampaignDetails, int>
             GetReportDetail { get; set; }
 
         public static Func<string> GetHeader { get; set; }

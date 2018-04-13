@@ -38,4 +38,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public int Boards { get; set; }
 
     }
+
+
+
 }

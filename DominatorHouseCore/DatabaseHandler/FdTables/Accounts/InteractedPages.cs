@@ -83,6 +83,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// </summary>
         [Column(Order = 12)]
         public int InteractionTimeStamp { get; set; }
+        public string PageFullDetails { get; set; }
     }
 
     public enum PageMemberShip

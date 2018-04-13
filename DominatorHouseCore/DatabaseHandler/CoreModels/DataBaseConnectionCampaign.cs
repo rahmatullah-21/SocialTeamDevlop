@@ -1,6 +1,4 @@
-﻿//using BaseLib;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SQLite;
@@ -11,11 +9,7 @@ using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.DatabaseHandler.CoreModels
 {
-    /// <summary>
-    /// Database connection with sqlite - code first approach
-    /// Assign ConnectionString and DbModelBuilder (database schema) in the constroctor to create the database if doesn't exist at the first connection
-    /// </summary>
-    public class DataBaseConnection
+    public class DataBaseConnectionCampaign
     {
         private string ConnectionString { get; set; } = string.Empty;
 
@@ -23,7 +17,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
         private SocialNetworks Network { get; set; }
 
-        public DataBaseConnection(string connectionString,SocialNetworks networks, Action<DbModelBuilder,SocialNetworks> ConfigureDbModelBuilder = null)
+        public DataBaseConnectionCampaign(string connectionString, SocialNetworks networks, Action<DbModelBuilder, SocialNetworks> ConfigureDbModelBuilder = null)
         {
             this.ConnectionString = connectionString;
             this.ConfigureDbModelBuilder = ConfigureDbModelBuilder;
@@ -37,11 +31,11 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
+                    using (var context = new CampaignDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
-                        return expression == null ? context.Set<T>().Count() : context.Set<T>().Where(expression).Count();                       
+                        return expression == null ? context.Set<T>().Count() : context.Set<T>().Where(expression).Count();
                     }
-                }               
+                }
             }
             catch (Exception ex)
             {
@@ -57,7 +51,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
+                    using (var context = new CampaignDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
                         context.Set<T>().Add(data);
                         context.SaveChanges();
@@ -78,13 +72,13 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, Network,this.ConfigureDbModelBuilder))
+                    using (var context = new CampaignDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
                         return Expression == null ? context.Set<T>().ToList() : context.Set<T>().Where(Expression).ToList();
                     }
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return null;
             }
@@ -97,19 +91,19 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             try
             {
                 lstData = await Task.Factory.StartNew(() =>
-               {
-                   using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
-                   {
-                       sqLiteConnection.Open();
-                       using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
-                       {
-                           return Expression == null ? context.Set<T>().ToList() : context.Set<T>().Where(Expression).ToList();
-                       }
-                   }
-               });
+                {
+                    using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
+                    {
+                        sqLiteConnection.Open();
+                        using (var context = new CampaignDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
+                        {
+                            return Expression == null ? context.Set<T>().ToList() : context.Set<T>().Where(Expression).ToList();
+                        }
+                    }
+                });
 
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return lstData;
             }
@@ -124,13 +118,13 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
+                    using (var context = new CampaignDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
                         return context.Set<T>().FirstOrDefault(Expression);
                     }
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return null;
             }
@@ -143,7 +137,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
+                    using (var context = new CampaignDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
                         context.Entry<T>(t).State = System.Data.Entity.EntityState.Deleted;
                         context.SaveChanges();
@@ -152,7 +146,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 }
                 return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
             }
@@ -165,7 +159,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
+                    using (var context = new CampaignDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
                         context.Entry<T>(t).State = EntityState.Modified;
                         context.SaveChanges();
@@ -174,7 +168,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 }
                 return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
             }

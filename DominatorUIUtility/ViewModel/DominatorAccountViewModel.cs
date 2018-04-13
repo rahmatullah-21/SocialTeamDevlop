@@ -362,13 +362,15 @@ namespace DominatorUIUtility.ViewModel
                     ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword
                 },
                 Status = ConstantVariable.NotChecked,
-                AccountNetwork = objDominatorAccountBaseModel.AccountNetwork
+                AccountNetwork = objDominatorAccountBaseModel.AccountNetwork,
+                AccountId = objDominatorAccountBaseModel.AccountId
             };
 
             var dominatorAccountModel = new DominatorAccountModel
             {
                 AccountBaseModel = dominatorAccountBaseModel,
-                RowNo = LstDominatorAccountModel.Count + 1
+                RowNo = LstDominatorAccountModel.Count + 1 ,
+                AccountId = dominatorAccountBaseModel.AccountId
             };
 
             secondaryTaskStrategy(() => UpdateProxy(objDominatorAccountBaseModel));
@@ -545,7 +547,7 @@ namespace DominatorUIUtility.ViewModel
             // remove from file
             AccountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);
 
-            // also delete the associated files
+            //also delete the associated files
             DataBaseHandler.DeleteDatabase(selectAccounts.Select(acct => acct.AccountId));
 
 

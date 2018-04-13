@@ -176,26 +176,58 @@ namespace DominatorHouseCore.Models
 
         #region Display column values
 
-        // TODO: move those properties to DominatorAccountViewModel
+        // TODO: change the way we store and display module-specific data
 
         [ProtoIgnore]
-        public int? DisplayColumnValue1 { get; set; }
+        public int DisplayColumnValue1
+        {
+            get
+            {
+                return _displayColumnValue1;
+            }
+            set
+            {
+                SetProperty(ref _displayColumnValue1, value);
+              
+            }
+        }
 
         [ProtoIgnore]
-        public int? DisplayColumnValue2 { get; set; } 
+        public int DisplayColumnValue2
+        {
+            get { return _displayColumnValue2; }
+            set
+            {
+                SetProperty(ref _displayColumnValue2, value);
+            }
+        }
 
         [ProtoIgnore]
-        public int? DisplayColumnValue3 { get; set; }
+        public int DisplayColumnValue3
+        {
+            get { return _displayColumnValue3; }
+            set
+            {
+                SetProperty(ref _displayColumnValue3, value);
+            }
+        }
 
         [ProtoIgnore]
-        public int? DisplayColumnValue4 { get; set; }
+        public int DisplayColumnValue4
+        {
+            get { return _displayColumnValue4; }
+            set
+            {
+                SetProperty(ref _displayColumnValue4, value);
+            }
+        }
 
         #endregion
 
         #region Aliases of AccountBaseModel
 
-        [ProtoIgnore]
-        public string AccountId => AccountBaseModel?.AccountId;
+        [ProtoMember(15)]
+        public string AccountId { get; set; }
 
         [ProtoIgnore]
         public string UserName => AccountBaseModel?.UserName;
@@ -204,6 +236,11 @@ namespace DominatorHouseCore.Models
 
         [ProtoMember(13)]
         private HashSet<CookieHelper> _cookieHelperList = new HashSet<CookieHelper>();
+
+        private int _displayColumnValue1;
+        private int _displayColumnValue2;
+        private int _displayColumnValue3;
+        private int _displayColumnValue4;
 
         [ProtoIgnore]
         public CookieCollection Cookies

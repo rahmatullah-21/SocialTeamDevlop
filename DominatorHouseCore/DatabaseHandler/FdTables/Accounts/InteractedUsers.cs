@@ -64,5 +64,6 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// </summary>
         [Column(Order = 8)]
         public int InteractionTimeStamp { get; set; }
+        public string Username { get; set; }
     }
 }

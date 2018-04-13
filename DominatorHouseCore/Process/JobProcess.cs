@@ -56,6 +56,7 @@ namespace DominatorHouseCore.Process
             }
 
             TemplateId = template;
+            var campaigns = CampaignsFileManager.Get();
             CampaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == TemplateId)?.CampaignId;
             ActivityType = activityType;
 
@@ -73,8 +74,18 @@ namespace DominatorHouseCore.Process
 
         private void InitializeDatabaseConnection()
         {
-            DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionInstance(CampaignId, SocialNetworks, DatabaseType.CampaignType);
-            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks, DatabaseType.AccountType);
+            if (CampaignId != null)
+            {
+                DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionCampaignInstance(CampaignId, SocialNetworks);
+            }
+
+            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);
+        }
+
+
+        protected DataBaseConnectionCampaign GetDatabaseConnectionForCampaign()
+        {
+            return DataBaseHandler.GetDataBaseConnectionCampaignInstance(CampaignId, SocialNetworks);
         }
 
         protected void ScheduleNextJob(DateTime dateTime)
@@ -171,6 +182,7 @@ namespace DominatorHouseCore.Process
 
         public void RunScrapper()
         {
+
             //var scraperFactory1 = DominatorHouseInitializer.ActiveNetwork.QueryScraperFactory;
 
             var scraperFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().QueryScraperFactory;
@@ -262,7 +274,7 @@ namespace DominatorHouseCore.Process
 
         public CancellationTokenSource JobCancellationTokenSource { get; set; }
 
-        protected DataBaseConnection DataBaseConnectionCampaign { get; set; }
+        protected DataBaseConnectionCampaign DataBaseConnectionCampaign { get; set; }
 
         protected DataBaseConnection DataBaseConnectionAccount { get; set; }
 

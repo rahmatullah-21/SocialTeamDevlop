@@ -4,10 +4,10 @@ namespace DominatorHouseCore.Enums
 {
     public enum ActivityType
     {
-        [Description("Twitter,Instagram,Gplus")]
+        [Description("Twitter,Instagram,Gplus,Quora")]
         Follow = 1,
 
-        [Description("Twitter,Instagram,Gplus")]
+        [Description("Twitter,Instagram,Gplus,Quora")]
         Unfollow = 2,
 
         [Description("Facebook,Twitter,Instagram,Gplus")]
@@ -209,13 +209,13 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube")]
         Unsubscribe =69,
 
-        [Description("Instagram")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest")]
         BroadcastMessages = 70,
 
-        [Description("Instagram")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest")]
         SendMessageToFollower = 71,
 
-        [Description("Instagram")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest")]
         AutoReplyToNewMessage = 72,
 
         [Description("LinkedIn")]

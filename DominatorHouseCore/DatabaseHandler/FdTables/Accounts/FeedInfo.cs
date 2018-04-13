@@ -79,7 +79,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 10)]
+        [Column(Order = 2)]
         public string DetailedPostInfo { get; set; }
     }
 }
