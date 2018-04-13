@@ -179,7 +179,7 @@ namespace DominatorHouseCore.Models
         // TODO: change the way we store and display module-specific data
 
         [ProtoIgnore]
-        public int DisplayColumnValue1
+        public int? DisplayColumnValue1
         {
             get
             {
@@ -193,7 +193,7 @@ namespace DominatorHouseCore.Models
         }
 
         [ProtoIgnore]
-        public int DisplayColumnValue2
+        public int? DisplayColumnValue2
         {
             get { return _displayColumnValue2; }
             set
@@ -203,7 +203,7 @@ namespace DominatorHouseCore.Models
         }
 
         [ProtoIgnore]
-        public int DisplayColumnValue3
+        public int? DisplayColumnValue3
         {
             get { return _displayColumnValue3; }
             set
@@ -213,7 +213,7 @@ namespace DominatorHouseCore.Models
         }
 
         [ProtoIgnore]
-        public int DisplayColumnValue4
+        public int? DisplayColumnValue4
         {
             get { return _displayColumnValue4; }
             set
@@ -237,10 +237,10 @@ namespace DominatorHouseCore.Models
         [ProtoMember(13)]
         private HashSet<CookieHelper> _cookieHelperList = new HashSet<CookieHelper>();
 
-        private int _displayColumnValue1;
-        private int _displayColumnValue2;
-        private int _displayColumnValue3;
-        private int _displayColumnValue4;
+        private int? _displayColumnValue1;
+        private int? _displayColumnValue2;
+        private int? _displayColumnValue3;
+        private int? _displayColumnValue4;
 
         [ProtoIgnore]
         public CookieCollection Cookies
