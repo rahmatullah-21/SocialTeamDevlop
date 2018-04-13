@@ -4,10 +4,10 @@ namespace DominatorHouseCore.Enums
 {
     public enum ActivityType
     {
-        [Description("Twitter,Instagram,Gplus")]
+        [Description("Twitter,Instagram,Gplus,Quora")]
         Follow = 1,
 
-        [Description("Twitter,Instagram,Gplus")]
+        [Description("Twitter,Instagram,Gplus,Quora")]
         Unfollow = 2,
 
         [Description("Facebook,Twitter,Instagram,Gplus")]

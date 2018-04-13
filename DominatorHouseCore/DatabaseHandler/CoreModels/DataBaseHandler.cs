@@ -16,29 +16,27 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
         private static Dictionary<SocialNetworks, Action<DataBaseConnection>> _dbCounters = new Dictionary<SocialNetworks, Action<DataBaseConnection>>
         {
-
-            {SocialNetworks.Gplus,  db => {  db.Count<GplusTables.Accounts.Friendships>();}},
-            {SocialNetworks.Twitter,   db =>  {  db.Count<TdTables.Accounts.Friendships>();}},
-            {SocialNetworks.Facebook,  db =>  {  db.Count<FdTables.Accounts.Friends>();} },
-            {SocialNetworks.Instagram, db => {  db.Count<Friendships>();  } },
-            {SocialNetworks.Pinterest, db => {db.Count<PdTables.Accounts.Friendships>();} },
-            {SocialNetworks.Quora,db => { db.Count<QdTables.Accounts.Friendships>(); } },
-            {SocialNetworks.LinkedIn,  db => {  db.Count<LdTables.Account.Connections>();} },
-            {SocialNetworks.Youtube,  db =>{    db.Count<YdTables.Accounts.Friendships>(); }}
+            {SocialNetworks.Gplus,db =>{db.Count<GplusTables.Accounts.Friendships>();}},
+            {SocialNetworks.Twitter,db =>{db.Count<TdTables.Accounts.Friendships>();}},
+            {SocialNetworks.Facebook,db=>{db.Count<FdTables.Accounts.Friends>();} },
+            {SocialNetworks.Instagram,db=>{db.Count<Friendships>();}},
+            {SocialNetworks.Pinterest,db =>{db.Count<PdTables.Accounts.Friendships>();} },
+            {SocialNetworks.Quora,db =>{db.Count<QdTables.Accounts.Friendships>(); } },
+            {SocialNetworks.LinkedIn,db => {db.Count<LdTables.Account.Connections>();} },
+            {SocialNetworks.Youtube,db=>{db.Count<YdTables.Accounts.Friendships>(); }}
         };
 
 
         static Dictionary<SocialNetworks, Action<DataBaseConnectionCampaign>> _dbCampaignCounters = new Dictionary<SocialNetworks, Action<DataBaseConnectionCampaign>>
         {
-
-            {SocialNetworks.Gplus,  db => { db.Count<GplusTables.Campaigns.InteractedUsersReport>();}},
-            {SocialNetworks.Twitter,   db =>  {db.Count<TdTables.Campaign.InteractedUsers>();}},
-            {SocialNetworks.Facebook,  db =>  { db.Count<FdTables.Campaigns.InteractedUsers>();} },
-            {SocialNetworks.Instagram, db => {  db.Count<Friendships>();  db.Count<InteractedUsers>(); } },
-            {SocialNetworks.Pinterest, db => { db.Count<PdTables.Campaigns.InteractedUsers>();} },
-            {SocialNetworks.Quora,db => { db.Count<QdTables.Campaigns.InteractedUsers>(); } },
-            {SocialNetworks.LinkedIn,  db => {  db.Count<LdTables.Campaign.InteractedUsers>();} },
-            {SocialNetworks.Youtube,  db =>{   db.Count<YdTables.Campaign.InteractedUsers>(); }}
+            {SocialNetworks.Gplus,db=>{ db.Count<GplusTables.Campaigns.InteractedUsersReport>();}},
+            {SocialNetworks.Twitter,db=>{db.Count<TdTables.Campaign.InteractedUsers>();}},
+            {SocialNetworks.Facebook,db=>{db.Count<FdTables.Campaigns.InteractedUsers>();} },
+            {SocialNetworks.Instagram,db=>{db.Count<Friendships>();  db.Count<InteractedUsers>(); } },
+            {SocialNetworks.Pinterest,db =>{db.Count<PdTables.Campaigns.InteractedUsers>();} },
+            {SocialNetworks.Quora,db =>{ db.Count<QdTables.Campaigns.InteractedUsers>(); } },
+            {SocialNetworks.LinkedIn,db=>{db.Count<LdTables.Campaign.InteractedUsers>();} },
+            {SocialNetworks.Youtube,db=>{db.Count<YdTables.Campaign.InteractedUsers>(); }}
         };
 
 
