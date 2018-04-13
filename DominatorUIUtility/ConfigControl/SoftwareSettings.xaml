@@ -43,6 +43,8 @@
                           IsChecked="{Binding IsShowSameAccountsChecked}"/>
                 <CheckBox Margin="5" Content="{DynamicResource DHlangEnableGlobalNightMode}"
                           IsChecked="{Binding IsEnableGlobalNightModeChecked}"/>
+                <CheckBox Margin="5" Content="{DynamicResource DHlangAllowParallel}"
+                          IsChecked="{Binding IsEnableParallelActivitiesChecked}"/>
                 <StackPanel Margin="20,5" Visibility="{Binding IsEnableGlobalNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel  Orientation="Horizontal">
                         <Label Margin="5" Content="{DynamicResource DHlangApplicationWillNotExecuteAnyActions}"/>

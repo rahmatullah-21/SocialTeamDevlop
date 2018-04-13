@@ -166,7 +166,7 @@ namespace DominatorHouseCore.Request
         /// </summary>
         /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
         /// <param name="requestParameter"><see cref="IRequestParameters"/></param>
-        private static void SetProxy(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
+        protected void SetProxy(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
         {
             try
             {

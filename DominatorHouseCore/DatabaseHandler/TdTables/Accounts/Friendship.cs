@@ -85,6 +85,9 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 
         [Column(Order = 20)]
         public string Bio { get; set; }
+
+        [Column(Order = 21)]
+        public int IsMuted { get; set; }
     }
 
     
