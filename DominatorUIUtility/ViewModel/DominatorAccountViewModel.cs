@@ -593,7 +593,11 @@ namespace DominatorUIUtility.ViewModel
             selectAccounts.ForEach(item => LstDominatorAccountModel.Remove(item));
 
             // remove from file
-            AccountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);            
+            AccountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);
+
+            // also delete the associated files
+            DataBaseHandler.DeleteDatabase(selectAccounts.Select(acct => acct.AccountId));
+
 
             return false;
         }
