@@ -194,7 +194,7 @@ namespace DominatorHouseCore.Models
 
         #region Aliases of AccountBaseModel
 
-        [ProtoIgnore]
+        [ProtoMember(15)]
         public string AccountId { get; set; }
 
         [ProtoIgnore]

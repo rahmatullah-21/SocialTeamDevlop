@@ -89,5 +89,11 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// </summary>
         [Column(Order = 12)]
         public int InteractionTimeStamp { get; set; }
+
+        /// <summary>
+        /// TimeStamp when interacted with the Post
+        /// </summary>
+        [Column(Order = 13)]
+        public string LikeType { get; set; }
     }
 }

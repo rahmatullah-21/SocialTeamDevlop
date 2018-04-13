@@ -73,5 +73,6 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
 
         [Column(Order = 10)]
         public string Username { get; set; }
+
     }
 }

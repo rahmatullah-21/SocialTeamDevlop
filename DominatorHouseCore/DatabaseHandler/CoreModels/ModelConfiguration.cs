@@ -117,17 +117,12 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<PdTables.Campaigns.InteractedPosts>();
                     modelBuilder.Entity<PdTables.Campaigns.InteractedUsers>();
                     modelBuilder.Entity<PdTables.Campaigns.UnfollowedUsers>();
+                    modelBuilder.Entity<PdTables.Campaigns.InteractedBoards>();
                     break;
                 case SocialNetworks.Gplus:
-                    // still not added campaign DB
-                    modelBuilder.Entity<GplusTables.Accounts.FeedInfoes>();
-                    modelBuilder.Entity<GplusTables.Accounts.Friendships>();
-                    modelBuilder.Entity<GplusTables.Accounts.DailyStatitics>();
-                    modelBuilder.Entity<GplusTables.Accounts.InteractedPosts>();
-                    modelBuilder.Entity<GplusTables.Accounts.InteractedUsers>();
-                    modelBuilder.Entity<GplusTables.Accounts.UnfollowedUsers>();
-                    modelBuilder.Entity<GplusTables.Accounts.Communities>();
-                    modelBuilder.Entity<GplusTables.Accounts.InteractedCommunities>();
+                    modelBuilder.Entity<GplusTables.Campaigns.InteractedUsersReport>();
+                    modelBuilder.Entity<GplusTables.Campaigns.InteractedPostsReport>();
+                    modelBuilder.Entity<GplusTables.Campaigns.InteractedCommunitiesReport>();
                     break;
                 case SocialNetworks.Facebook:
                     modelBuilder.Entity<FdTables.Campaigns.PostCommets>();

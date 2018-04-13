@@ -94,5 +94,12 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         /// </summary>
         [Column(Order = 13)]
         public int InteractionTimeStamp { get; set; }
+
+
+        /// <summary>
+        /// TimeStamp when interacted with the Post
+        /// </summary>
+        [Column(Order = 14)]
+        public string LikeType { get; set; }
     }
 }

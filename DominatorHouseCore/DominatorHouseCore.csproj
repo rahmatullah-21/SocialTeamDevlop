@@ -227,6 +227,7 @@
     <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\UnfollowedUsers.cs" />
@@ -400,6 +401,7 @@
     <Compile Include="Utility\IEnumerableExtensions.cs" />
     <Compile Include="Utility\JsonHelper.cs" />
     <Compile Include="Utility\ListHelper.cs" />
+    <Compile Include="Utility\Log.cs" />
     <Compile Include="Utility\LoggerHelper.cs" />
     <Compile Include="Utility\ModuleConfiguration.cs" />
     <Compile Include="Utility\ObservableCollectionCustom.cs" />
