@@ -178,17 +178,60 @@ namespace DominatorHouseCore.Models
 
         // TODO: move those properties to DominatorAccountViewModel
 
-        [ProtoIgnore]
-        public int DisplayColumnValue1 { get; set; }
+        [ProtoMember(16)]
+        public int DisplayColumnValue1
+        {
+            get
+            {
+                return _displayColumnValue1;
+            }
+            set
+            {
+                if ( _displayColumnValue1 == value)
+                    return;
+                SetProperty(ref _displayColumnValue1, value);
+              
+            }
+        }
 
-        [ProtoIgnore]
-        public int DisplayColumnValue2 { get; set; } 
+        [ProtoMember(17)]
 
-        [ProtoIgnore]
-        public int DisplayColumnValue3 { get; set; }
+        public int DisplayColumnValue2
+        {
+            get { return _displayColumnValue2; }
+            set
+            {
+                if (_displayColumnValue2 == value)
+                    return;
+                SetProperty(ref _displayColumnValue2, value);
+            }
+        }
 
-        [ProtoIgnore]
-        public int DisplayColumnValue4 { get; set; }
+        [ProtoMember(18)]
+
+        public int DisplayColumnValue3
+        {
+            get { return _displayColumnValue3; }
+            set
+            {
+                if (_displayColumnValue3 == value)
+                    return;
+                SetProperty(ref _displayColumnValue3, value);
+            }
+        }
+
+        [ProtoMember(19)]
+
+        public int DisplayColumnValue4
+        {
+            get { return _displayColumnValue4; }
+            set
+            {
+                if (_displayColumnValue4 == value)
+                    return;
+                SetProperty(ref _displayColumnValue4, value);
+            }
+        }
 
         #endregion
 
@@ -204,6 +247,11 @@ namespace DominatorHouseCore.Models
 
         [ProtoMember(13)]
         private HashSet<CookieHelper> _cookieHelperList = new HashSet<CookieHelper>();
+
+        private int _displayColumnValue1;
+        private int _displayColumnValue2;
+        private int _displayColumnValue3;
+        private int _displayColumnValue4;
 
         [ProtoIgnore]
         public CookieCollection Cookies

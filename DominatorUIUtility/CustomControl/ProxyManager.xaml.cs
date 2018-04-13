@@ -16,6 +16,7 @@ using DominatorHouseCore.LogHelper;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
+using DominatorHouseCore.Request;
 using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
@@ -347,11 +348,21 @@ namespace DominatorUIUtility.CustomControl
 
         private void btnVerifyProxy_Click(object sender, RoutedEventArgs e)
         {
+           
 
+            VerifyProxy(sender);
+
+        }
+
+        private void VerifyProxy(object sender)
+        {
             var currentProxyManager = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
             currentProxyManager.URLToUseToVerifyProxies = ProxyManagerModel.URLToUseToVerifyProxies;
             try
             {
+
+                var httpHelper = new HttpHelper();
+
                 Uri url = new Uri(txtURLToUseToVerifyProxies.Text);
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 
@@ -364,7 +375,7 @@ namespace DominatorUIUtility.CustomControl
                     currentProxyManager.Status = "Not Working";
 
             }
-            catch (Exception )
+            catch (Exception)
             {
                 currentProxyManager.Status = "Fail";
                 currentProxyManager.Failures = 1;
@@ -374,7 +385,6 @@ namespace DominatorUIUtility.CustomControl
             var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == currentProxyManager.AccountProxy.ProxyName);
             int indexToUpdate = ProxyDetail.IndexOf(item);
             ProxyDetail[indexToUpdate].Status = currentProxyManager.Status;
-
         }
 
         private void ShowProxiesWithError_Checked(object sender, RoutedEventArgs e)
