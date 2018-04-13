@@ -56,6 +56,7 @@ namespace DominatorHouseCore.Process
             }
 
             TemplateId = template;
+            var campaigns = CampaignsFileManager.Get();
             CampaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == TemplateId)?.CampaignId;
             ActivityType = activityType;
 
@@ -73,8 +74,18 @@ namespace DominatorHouseCore.Process
 
         private void InitializeDatabaseConnection()
         {
-            DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionCampaignInstance(CampaignId, SocialNetworks);
+            if (CampaignId != null)
+            {
+                DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionCampaignInstance(CampaignId, SocialNetworks);
+            }
+
             DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);
+        }
+
+
+        protected DataBaseConnectionCampaign GetDatabaseConnectionForCampaign()
+        {
+            return DataBaseHandler.GetDataBaseConnectionCampaignInstance(CampaignId, SocialNetworks);
         }
 
         protected void ScheduleNextJob(DateTime dateTime)

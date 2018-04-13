@@ -335,8 +335,8 @@ namespace DominatorUIUtility.CustomControl
                 });
                 #endregion
 
-                DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnection dataBase =
-                   DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, SocialNetworks,DatabaseType.CampaignType);
+                DataBaseConnectionCampaign dataBase =
+                   DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
                 
                 if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
                 {

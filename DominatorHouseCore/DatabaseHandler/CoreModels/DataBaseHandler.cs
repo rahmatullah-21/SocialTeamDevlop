@@ -31,7 +31,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
         {
 
             {SocialNetworks.Gplus,  db => { db.Count<GplusTables.Campaigns.InteractedUsersReport>();}},
-            {SocialNetworks.Twitter,   db =>  {  db.Count<TdTables.Campaign.InteractedUsers>();}},
+            {SocialNetworks.Twitter,   db =>  {db.Count<TdTables.Campaign.InteractedUsers>();}},
             {SocialNetworks.Facebook,  db =>  { db.Count<FdTables.Campaigns.InteractedUsers>();} },
             {SocialNetworks.Instagram, db => {  db.Count<Friendships>();  db.Count<InteractedUsers>(); } },
             {SocialNetworks.Pinterest, db => { db.Count<PdTables.Campaigns.InteractedUsers>();} },
@@ -47,19 +47,19 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             new Thread(() => act()) { IsBackground = true }.Start();
         }
 
-        public static void CreateDataBase(string DBName, SocialNetworks networks, DatabaseType? databaseType = DatabaseType.AccountType, Action<Action> executionStrategy = null)
+        public static void CreateDataBase(string dbName, SocialNetworks networks, DatabaseType? databaseType = DatabaseType.AccountType, Action<Action> executionStrategy = null)
         {
             if (executionStrategy == null) executionStrategy = NewThread;
             try
             {
                 if (databaseType == DatabaseType.AccountType)
                 {
-                    DataBaseConnection databaseConnection = GetDataBaseConnectionInstance(DBName, networks);
+                    var databaseConnection = GetDataBaseConnectionInstance(dbName, networks);
                     executionStrategy(() => _dbCounters[networks](databaseConnection));
                 }
                 else if (databaseType  == DatabaseType.CampaignType)
                 {
-                    DataBaseConnectionCampaign databaseConnection = GetDataBaseConnectionCampaignInstance(DBName, networks);
+                    var databaseConnection = GetDataBaseConnectionCampaignInstance(dbName, networks);
                     _dbCampaignCounters[networks](databaseConnection);
                 }
             }
@@ -69,14 +69,14 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             }
         }
 
-        public static DataBaseConnection GetDataBaseConnectionInstance(string DBName, SocialNetworks networks)
+        public static DataBaseConnection GetDataBaseConnectionInstance(string dbName, SocialNetworks networks)
         {
             try
             {
                 var objModelConfiguration = new ModelConfiguration();
                 var directoryName = ConstantVariable.GetIndexAccountDir() + $"\\DB";
                 DirectoryUtilities.CreateDirectory(directoryName);
-                var connectionString = directoryName + $"\\{DBName}.db";
+                var connectionString = directoryName + $"\\{dbName}.db";
                 return new DataBaseConnection(connectionString, networks, objModelConfiguration.ConfigureAccountdataBaseEntity);
 
             }
@@ -86,15 +86,14 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             }
         }
 
-        public static DataBaseConnectionCampaign GetDataBaseConnectionCampaignInstance(string DBName, SocialNetworks networks)
+        public static DataBaseConnectionCampaign GetDataBaseConnectionCampaignInstance(string dbName, SocialNetworks networks)
         {
             try
             {
                 var objModelConfiguration = new ModelConfiguration();
-
                 var directoryName = ConstantVariable.GetIndexCampaignDir() + $"\\DB";
                 DirectoryUtilities.CreateDirectory(directoryName);
-                var connectionString = directoryName + $"\\{DBName}.db";
+                var connectionString = directoryName + $"\\{dbName}.db";
                 return new DataBaseConnectionCampaign(connectionString, networks, objModelConfiguration.ConfigureCampaignDataBaseEntity);
             }
             catch (Exception)
