@@ -209,13 +209,13 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube")]
         Unsubscribe =69,
 
-        [Description("Instagram,Twitter")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest")]
         BroadcastMessages = 70,
 
-        [Description("Instagram,Twitter")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest")]
         SendMessageToFollower = 71,
 
-        [Description("Instagram,Twitter")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest")]
         AutoReplyToNewMessage = 72,
 
         [Description("LinkedIn")]
