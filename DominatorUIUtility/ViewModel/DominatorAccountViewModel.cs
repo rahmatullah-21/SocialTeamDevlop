@@ -100,71 +100,83 @@ namespace DominatorUIUtility.ViewModel
         public ObservableCollection<ContentSelectGroup> Groups { get; set; } = new ObservableCollection<ContentSelectGroup>();
 
 
-        private GridViewHeader _gridHeaderColumn1 = new GridViewHeader();
+        private GridViewHeader[] _gridHeaders = new[] {
+                new GridViewHeader(),
+                new GridViewHeader(),
+                new GridViewHeader(),
+                new GridViewHeader()
+            };
+
+        public void SetVisibleColumns(IEnumerable<string> columnValues)
+        {
+            _gridHeaders.Except(
+                _gridHeaders.Zip(columnValues, (hdr, val) =>
+                {
+                    hdr.Header = val;
+                    hdr.HeaderVisible = true;
+                    return hdr;
+                }))
+           .ToList()
+           .ForEach(hdr => hdr.HeaderVisible = false);
+        }
 
         public GridViewHeader GridHeaderColumn1
         {
             get
             {
-                return _gridHeaderColumn1;
+                return _gridHeaders[0];
             }
             set
             {
-                if (_gridHeaderColumn1 != null && _gridHeaderColumn1 == value)
+                if (_gridHeaders[0] == value)
                     return;
 
-                SetProperty(ref _gridHeaderColumn1, value);
+                SetProperty(ref _gridHeaders[0], value);
             }
         }
-
-        private GridViewHeader _gridHeaderColumn2 = new GridViewHeader();
 
         public GridViewHeader GridHeaderColumn2
         {
             get
             {
-                return _gridHeaderColumn2;
+                return _gridHeaders[1];
             }
             set
             {
-                if (_gridHeaderColumn2 != null && _gridHeaderColumn2 == value)
+                if (_gridHeaders[1] == value)
                     return;
 
-                SetProperty(ref _gridHeaderColumn2, value);
+                SetProperty(ref _gridHeaders[1], value);
             }
         }
-
-        private GridViewHeader _gridHeaderColumn3 = new GridViewHeader();
 
         public GridViewHeader GridHeaderColumn3
         {
             get
             {
-                return _gridHeaderColumn3;
+                return _gridHeaders[2];
             }
             set
             {
-                if (_gridHeaderColumn3 != null && _gridHeaderColumn3 == value)
+                if (_gridHeaders[2] == value)
                     return;
 
-                SetProperty(ref _gridHeaderColumn3, value);
+                SetProperty(ref _gridHeaders[2], value);
             }
         }
-
-        private GridViewHeader _gridHeaderColumn4 = new GridViewHeader();
 
         public GridViewHeader GridHeaderColumn4
         {
             get
             {
-                return _gridHeaderColumn4;
+                return _gridHeaders[3];
             }
             set
             {
-                if (_gridHeaderColumn4 != null && _gridHeaderColumn4 == value)
+                if (_gridHeaders[3] == value)
                     return;
 
-                SetProperty(ref _gridHeaderColumn4, value);
+                SetProperty(ref _gridHeaders[3], value);
             }
         }
 
