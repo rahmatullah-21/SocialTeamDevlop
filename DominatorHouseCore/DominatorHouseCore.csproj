@@ -164,6 +164,9 @@
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="DatabaseHandler\AccountDB\Tables\HashtagScrape.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\CampaignDbContext.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\CampaignDbInitializer.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\DataBaseConnectionCampaign.cs" />
     <Compile Include="DatabaseHandler\CoreModels\ModelConfiguration.cs" />
     <Compile Include="DatabaseHandler\AccountDB\Tables\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\AccountDB\Tables\FeedInfo.cs" />

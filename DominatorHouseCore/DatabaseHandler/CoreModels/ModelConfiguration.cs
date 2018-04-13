@@ -8,10 +8,10 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
     {
         public static void Configure(DbModelBuilder modelBuilder, SocialNetworks network )
         {
-            ConfigureAccountdataBaseEntity(modelBuilder, network);
+           
         }
     
-        public static void ConfigureAccountdataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
+        public  void ConfigureAccountdataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
         {
             switch (networks)
             {
@@ -95,7 +95,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
         }
 
 
-        public static void ConfigureCampaignDataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
+        public void ConfigureCampaignDataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
         {
             switch (networks)
             {

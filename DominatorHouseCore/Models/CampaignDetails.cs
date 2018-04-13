@@ -19,11 +19,11 @@ namespace DominatorHouseCore.Models
     {
         public CampaignDetails()
         {
-
+            CampaignId = Utilities.GetGuid(true);
         }
 
         [ProtoMember(10)]
-        public string CampaignId { get; } = Utilities.GetGuid(true);
+        public string CampaignId { get; }
 
 
         [ProtoMember(1)]
