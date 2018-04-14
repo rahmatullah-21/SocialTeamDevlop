@@ -1,6 +1,6 @@
 ﻿namespace DominatorHouseCore.Utility
 {
-    public class Log
+    public static class Log
     {
         public static string StartingJob { get; set; } = "{0}\t {1}\t Started job to {2}.";
         public static string JobCompleted { get; set; } = "{0}\t {1}\t successfully complete job to {2}";

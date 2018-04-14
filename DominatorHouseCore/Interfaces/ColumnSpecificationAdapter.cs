@@ -13,6 +13,7 @@ namespace DominatorHouseCore.Interfaces
             if (misnamed_factory.HeaderColumn1Visiblity) names.Add(misnamed_factory.HeaderColumn1Value);
             if (misnamed_factory.HeaderColumn2Visiblity) names.Add(misnamed_factory.HeaderColumn2Value);
             if (misnamed_factory.HeaderColumn3Visiblity) names.Add(misnamed_factory.HeaderColumn3Value);
+            if (misnamed_factory.HeaderColumn4Visiblity) names.Add(misnamed_factory.HeaderColumn4Value);
         }
 
         public ColumnSpecificationAdapter(IColumnSpecificationProvider prov1, IColumnSpecificationProvider prov2)

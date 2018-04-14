@@ -4,8 +4,8 @@ namespace DominatorHouseCore.Interfaces
 {
     /// <summary>
     /// IAccountCountFactory is used to specify the account count details with their respective visiblity
-    /// such as for instagram - FollowerCount (HeaderColumn2Value) , FollowingCount (HeaderColumn3Value) , PostCount(HeaderColumn4Value)
-    /// NOTE : HeaderColumn1Value is reserved for only dominator
+    /// such as for instagram - FollowerCount (HeaderColumn1Value) , FollowingCount (HeaderColumn2Value) , PostCount(HeaderColumn3Value)
+    /// NOTE : HeaderColumn1Value is available for all dominator 
     /// </summary>
     public interface IAccountCountFactory
     {
