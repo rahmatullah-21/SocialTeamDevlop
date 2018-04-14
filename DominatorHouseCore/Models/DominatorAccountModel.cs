@@ -10,6 +10,7 @@ using System.Linq;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Request;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace DominatorHouseCore.Models
 {
@@ -277,5 +278,19 @@ namespace DominatorHouseCore.Models
         [ProtoIgnore]
         public FeatureFlags FeatureLists { get; set; } = new FeatureFlags();
 
+        private CancellationTokenSource _cancellationSource = new CancellationTokenSource();
+
+        public CancellationToken Token
+        {
+            get
+            {
+                return _cancellationSource.Token;
+            }
+        }
+
+        public void NotifyDeleted()
+        {
+            _cancellationSource.Cancel();
+        }
     }
 }

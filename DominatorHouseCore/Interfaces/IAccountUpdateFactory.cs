@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.Models;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Interfaces
@@ -11,8 +12,8 @@ namespace DominatorHouseCore.Interfaces
     }
     public interface IAccountUpdateFactoryAsync: IAccountUpdateFactory
     {
-        Task<bool> CheckStatusAsync(DominatorAccountModel accountModel);
+        Task<bool> CheckStatusAsync(DominatorAccountModel accountModel, CancellationToken token);
 
-        Task UpdateDetailsAsync(DominatorAccountModel accountModel);
+        Task UpdateDetailsAsync(DominatorAccountModel accountModel, CancellationToken token);
     }
 }

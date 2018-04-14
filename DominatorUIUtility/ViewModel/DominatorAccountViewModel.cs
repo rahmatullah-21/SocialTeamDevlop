@@ -186,7 +186,12 @@ namespace DominatorUIUtility.ViewModel
 
                 dialogWindow.Close();
 
-                AddAccount(objDominatorAccountBaseModel, act => new Thread(() => act()) { IsBackground = true }.Start());
+                AddAccount(objDominatorAccountBaseModel, act =>
+                {
+                    var th = new Thread(() => act()) { IsBackground = true };
+                    th.Start();
+                    return () => th.Abort();
+                });
                 
             };
 
@@ -310,7 +315,18 @@ namespace DominatorUIUtility.ViewModel
 
                     if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                     {
-                        pending = pending.Enqueue(() => AddAccount(objDominatorAccountBaseModel, (action) => pending = pending.Enqueue(action)));
+                        pending = pending.Enqueue(() => AddAccount(objDominatorAccountBaseModel, 
+                            (action) => {
+                                pending = pending.Enqueue(action);
+                            return () =>
+                            {
+                                var oldqueue = pending;
+                                pending = ImmutableQueue<Action>.Empty;
+                                oldqueue
+                                    .Except(new[] { action })
+                                    .ForEach(it => pending = pending.Enqueue(it));
+                            };
+                        }));
                     }
                     else
                     {
@@ -333,7 +349,7 @@ namespace DominatorUIUtility.ViewModel
 
         }
 
-        public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, Action<Action> secondaryTaskStrategy)
+        public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, Func<Action,Action> secondaryTaskStrategyReturningCancellation)
         {
             #region Add Account
             //check the account is already present or not
@@ -373,7 +389,8 @@ namespace DominatorUIUtility.ViewModel
                 AccountId = dominatorAccountBaseModel.AccountId
             };
 
-            secondaryTaskStrategy(() => UpdateProxy(objDominatorAccountBaseModel));
+            var cancel = secondaryTaskStrategyReturningCancellation(() => UpdateProxy(objDominatorAccountBaseModel));
+            dominatorAccountModel.Token.Register(cancel);
 
             //serialize the given account, if its success then add to account model list
             if (AccountsFileManager.Add(dominatorAccountModel))
@@ -398,7 +415,7 @@ namespace DominatorUIUtility.ViewModel
                 GlobusLogHelper.log.Info($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
             }
 
-            DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType, secondaryTaskStrategy);
+            DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType);
 
             #endregion
 
@@ -411,13 +428,15 @@ namespace DominatorUIUtility.ViewModel
 
                 if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
                 {
-                    // this account supports async
+                    // this account supports async modules
                     var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
-                    asyncAccount.CheckStatusAsync(dominatorAccountModel).ContinueWith(checkSucceeded =>
+                    asyncAccount
+                        .CheckStatusAsync(dominatorAccountModel, dominatorAccountModel.Token)
+                        .ContinueWith(checkSucceeded =>
                     {
                         if (checkSucceeded.Result)
                         {
-                            return asyncAccount.UpdateDetailsAsync(dominatorAccountModel);
+                            return asyncAccount.UpdateDetailsAsync(dominatorAccountModel, dominatorAccountModel.Token);
                         }
                         return new Task(() => { });
                     })
@@ -425,19 +444,19 @@ namespace DominatorUIUtility.ViewModel
                 }
                 else
                 {
-                    secondaryTaskStrategy(() =>
+                    // TODO: Add on-deleted cancellation mechanics for non-async modules 
+                    var cancelUpdate = secondaryTaskStrategyReturningCancellation(() =>
                     {
                         accountFactory.CheckStatus(dominatorAccountModel);
                         accountFactory.UpdateDetails(dominatorAccountModel);
                     });
+                    dominatorAccountModel.Token.Register(cancelUpdate);
                 }
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-
-           
         }
 
         public  void UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
@@ -536,22 +555,20 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private bool DeleteAccounts(List<DominatorAccountModel> selectAccounts)
+        private void DeleteAccounts(IEnumerable<DominatorAccountModel> selectAccounts)
         {
-            //if selectedaccount count is zero, it wont delete the bin file
-            if (selectAccounts.Count == 0) return true;
-
             //remove the selected accounts from account model
-            selectAccounts.ForEach(item => LstDominatorAccountModel.Remove(item));
+            selectAccounts.ForEach(item =>
+            {
+                LstDominatorAccountModel.Remove(item);
+                item.NotifyDeleted();
+            });
 
             // remove from file
             AccountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);
 
             //also delete the associated files
             DataBaseHandler.DeleteDatabase(selectAccounts.Select(acct => acct.AccountId));
-
-
-            return false;
         }
 
         public void DeleteAccountByContextMenu(object sender)
@@ -563,7 +580,7 @@ namespace DominatorUIUtility.ViewModel
             if (selectedAccount == null)
                 return;
 
-            DeleteAccounts(new List<DominatorAccountModel> { selectedAccount });
+            DeleteAccounts(new []{ selectedAccount });
             GlobusLogHelper.log.Info($"Account : {selectedAccount.AccountBaseModel.UserName} deleted !");
         }
 
