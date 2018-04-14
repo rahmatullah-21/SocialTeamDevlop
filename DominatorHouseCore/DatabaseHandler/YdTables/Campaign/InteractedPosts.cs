@@ -39,7 +39,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
         /// </summary>
 
         [Column(Order = 7)]
-        public string ChannelId { get; set; }
+        public string Channel { get; set; }
 
         /// <summary>
         /// UserId of the tweet Owner

@@ -14,6 +14,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
         [Column(Order = 1)]
         public int Id { get; set; }
 
+        public string ChannelID { get; set; }
         [Column(Order = 2)]
         public string SinAccUsername { get; set; }
 
@@ -84,11 +85,14 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
         [Column(Order = 19)]
         public int IsPrivate
         { get; set; }
-        
+
+
+
         [Column(Order = 20)]
         public string ProfilePicUrl
         { get; set; }
-        
+
+
         [Column(Order = 21)]
         public int JoinedDate { get; set; }
 
@@ -101,14 +105,22 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
         [Column(Order = 24)]
         public string Bio { get; set; }
 
-        /// <summary>
-        /// Describes wheather the activity is done in Activity process or after activity process
-        /// </summary>
+        
         [Column(Order = 25)]
         public string ProcessType { get; set; }
 
         [Column(Order = 26)]
         public DateTime InteractionDateTime { get; set; }
+
+
+        [Column(Order = 27)]
+        public string ChannelId { get; set; }
+
+        [Column(Order = 29)]
+        public string ChannelUrl { get; set; }
+
+        [Column(Order = 30)]
+        public string ChannelTitle { get; set; }
 
     }
 }

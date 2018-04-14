@@ -26,10 +26,9 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         [Column(Order = 5)]
         public string ActivityType { get; set; }
 
-
         [Column(Order = 6)]
         public string InteractedUsername { get; set; }
-        
+
         [Column(Order = 7)]
         public string InteractedUserId { get; set; }
 
@@ -70,11 +69,8 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         [Column(Order = 19)]
         public int IsPrivate { get; set; }
 
-
-
         [Column(Order = 20)]
         public string ProfilePicUrl { get; set; }
-
 
         [Column(Order = 21)]
         public int JoinedDate { get; set; }
@@ -107,6 +103,15 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 
         [Column(Order = 29)]
         public string Username { get; set; }
+
+        [Column(Order = 30)]
+        public string ChannelId { get; set; }
+
+        [Column(Order = 31)]
+        public string ChannelUrl { get; set; }
+
+        [Column(Order = 32)]
+        public string ChannelTitle { get; set; }
 
     }
 }

@@ -43,7 +43,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         public string Username { get; set; }
         
         [Column(Order = 10)]
-        public string ChannelId { get; set; }
+        public string Channel { get; set; }
 
         [Column(Order = 11)]
         public string ChannelUrl { get; set; }
