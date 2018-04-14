@@ -127,4 +127,5 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangManageMessages">Manage Messages</system:String>
     <system:String x:Key="DHlangAddMessageToList">Add Message To List</system:String>
     <system:String x:Key="DHlangMessageText">Message Text</system:String>
+    <system:String x:Key="DHlangShowByGroup">Show by group</system:String>
 </ResourceDictionary>

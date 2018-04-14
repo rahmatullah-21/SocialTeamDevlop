@@ -75,16 +75,16 @@ namespace DominatorUIUtility.CustomControl
 
         private void btnAddProxy_Click(object sender, RoutedEventArgs e)
         {
-            AddOrUpdateProxyControl ObjAddProxyControl = new AddOrUpdateProxyControl();
-            ObjAddProxyControl.btnSave.Content = FindResource("langSave").ToString();
-            ObjAddProxyControl.MainGrid.DataContext = ProxyManagerModel;
+            AddOrUpdateProxyControl objAddProxyControl = new AddOrUpdateProxyControl();
+            objAddProxyControl.btnSave.Content = FindResource("langSave").ToString();
+            objAddProxyControl.MainGrid.DataContext = ProxyManagerModel;
 
             int ProxyID = ProxyDetail.Count > 0 ? ProxyDetail.Max(Proxy => Proxy.Id) + 1 : 1;
             ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyID}";
             Dialog dialog = new Dialog();
-            Window window = dialog.GetMetroWindow(ObjAddProxyControl, FindResource("langAddProxy").ToString());
+            Window window = dialog.GetMetroWindow(objAddProxyControl, FindResource("langAddProxy").ToString());
             DialogParticipation.SetRegister(window, window);
-            ObjAddProxyControl.btnSave.Click += (o, ex) =>
+            objAddProxyControl.btnSave.Click += (o, ex) =>
             {
                 var AvailableProxy = ProxyFileManager.GetProxyByName(ProxyManagerModel.AccountProxy.ProxyName);
                 if (AvailableProxy != null && !string.IsNullOrEmpty(AvailableProxy.AccountProxy.ProxyName))
@@ -100,14 +100,11 @@ namespace DominatorUIUtility.CustomControl
                         DialogCoordinator.Instance.ShowModalMessageExternal(window, "Proxy Warning", "Proxy already exist !!!");
                         return;
                     }
-
                 }
                 ProxyManagerModel.Id = ProxyID;
                 ProxyFileManager.SaveProxy(ProxyManagerModel);
                 ProxyDetail.Add(ProxyManagerModel);
-
                 window.Close();
-
             };
             window.Show();
 
@@ -152,7 +149,6 @@ namespace DominatorUIUtility.CustomControl
         private void dropdown_Click(object sender, RoutedEventArgs e)
         {
             currentProxyManagerModel = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
-
         }
 
         private void chkShowUnassignedProxies_Checked(object sender, RoutedEventArgs e)
@@ -166,7 +162,6 @@ namespace DominatorUIUtility.CustomControl
                     proxy.AccountsToBeAssign = proxy.AccountsToBeAssign;
                     unassignedProxies.Add(proxy);
                 }
-
             }
             ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(unassignedProxies);
         }
@@ -430,15 +425,16 @@ namespace DominatorUIUtility.CustomControl
             return true;
         }
 
-        private bool FilterByProxiesWithError(object GroupName)
+        private bool FilterByProxiesWithError(object groupName)
         {
             try
             {
-                ProxyManagerModel ProxyGroup = GroupName as ProxyManagerModel;
-                return ProxyGroup.Status.IndexOf("Fail", StringComparison.InvariantCultureIgnoreCase) >= 0;
+                var proxyGroup = groupName as ProxyManagerModel;
+                return proxyGroup != null && proxyGroup.Status.IndexOf("Fail", StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
-            catch (Exception )
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.StackTrace);
             }
             return true;
         }

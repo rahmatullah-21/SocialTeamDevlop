@@ -319,7 +319,7 @@
                 <CheckBox Margin="5" IsChecked="{Binding IsHideUsernameAndPasswordoperty}" 
                           Content="{DynamicResource langHideUsernameAndPassword}"/>
                 <CheckBox Margin="5" IsChecked="{Binding IsShowByGroup}" 
-                          Content="{DynamicResource langShowByGroup}"
+                          Content="{DynamicResource DHlangShowByGroup}"
                           x:Name="ShowByGroup" Checked="ShowByGroup_Checked" Unchecked="ShowByGroup_Unchecked"/>
                 <CheckBox Margin="5" IsChecked="{Binding FilterByGroup}"
                           Content="{DynamicResource langFilterByGroup}" x:Name="FilterByGroup"
