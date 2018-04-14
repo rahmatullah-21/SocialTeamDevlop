@@ -225,6 +225,15 @@ namespace DominatorHouseCore.Enums
         RemoveConnections = 74,
 
         [Description("LinkedIn")]
-        ProfileEndorsement = 75
+        ProfileEndorsement = 75,
+
+        [Description("Youtube")]
+        LikeToComment = 76,
+
+        [Description("Youtube")]
+        DislikeToComment = 77,
+
+        [Description("Youtube")]
+        ReplyToComment = 78
     }
 }

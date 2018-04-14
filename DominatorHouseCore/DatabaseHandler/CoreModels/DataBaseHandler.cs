@@ -39,22 +39,14 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             {SocialNetworks.Youtube,db=>{db.Count<YdTables.Campaign.InteractedUsers>(); }}
         };
 
-
-
-        public static void NewThread(Action act)
+        public static void CreateDataBase(string dbName, SocialNetworks networks, DatabaseType? databaseType = DatabaseType.AccountType)
         {
-            new Thread(() => act()) { IsBackground = true }.Start();
-        }
-
-        public static void CreateDataBase(string dbName, SocialNetworks networks, DatabaseType? databaseType = DatabaseType.AccountType, Action<Action> executionStrategy = null)
-        {
-            if (executionStrategy == null) executionStrategy = NewThread;
             try
             {
                 if (databaseType == DatabaseType.AccountType)
                 {
                     var databaseConnection = GetDataBaseConnectionInstance(dbName, networks);
-                    executionStrategy(() => _dbCounters[networks](databaseConnection));
+                    _dbCounters[networks](databaseConnection);
                 }
                 else if (databaseType  == DatabaseType.CampaignType)
                 {
