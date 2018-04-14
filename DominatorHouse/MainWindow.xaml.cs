@@ -53,26 +53,53 @@ namespace DominatorHouse
 
         private DominatorAccountViewModel.AccessorStrategies _strategies;
 
+        private string _licenseKey;
+
         public MainWindow()
         {
-            _strategies = new DominatorAccountViewModel.AccessorStrategies
+
+            DialogParticipation.SetRegister(this, this);
+            Dispatcher.Invoke(async () => { await LicenseCheck(); });
+        }
+
+        private async Task LicenseCheck()
+        {
+            var license = await this.ShowInputAsync("Socinator", "License");
+            if (!string.IsNullOrEmpty(license))
             {
-                ActionCheckAccount = AccountStatusChecker,
-                AccountBrowserLogin = AccountBrowserLogin,
-                _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
-                _inform_warnings = GlobusLogHelper.log.Warn,
-                action_UpdateFollower = AccountUpdate
-            };
+                _licenseKey = license;
 
-            DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
+                var networks = SocinatorInitialize.GetAvailableSocialNetworks(_licenseKey);
 
-            SocinatorInitialize.LogInitializer(this);
-            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");
-            InitializeComponent();
-            SocinatorWindow.DataContext = this;
-            // FeatureFlags.Check("Instagram", SocinatorInitializer);
-            FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
+                if (networks.Count <= 1)
+                {
+                    Close();
+                    return;
+                }
+                InitializeComponent();
+                SocinatorWindow.DataContext = this;
 
+                _strategies = new DominatorAccountViewModel.AccessorStrategies
+                {
+                    ActionCheckAccount = AccountStatusChecker,
+                    AccountBrowserLogin = AccountBrowserLogin,
+                    _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
+                    _inform_warnings = GlobusLogHelper.log.Warn,
+                    action_UpdateFollower = AccountUpdate
+                };
+
+                DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
+
+                SocinatorInitialize.LogInitializer(this);
+                Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");
+
+                // FeatureFlags.Check("Instagram", SocinatorInitializer);
+                FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
+            }
+            else
+            {
+                Close();
+            }
 
         }
 
@@ -164,7 +191,7 @@ namespace DominatorHouse
         {
             var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);
 
-            Task.Factory.StartNew(() => { JobManager.AddJob(() => InitializeJobCores("License"), x => x.ToRunNow()); });
+            Task.Factory.StartNew(() => { JobManager.AddJob(() => InitializeJobCores(_licenseKey), x => x.ToRunNow()); });
 
             //Init UI delegates            
             CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
@@ -290,12 +317,12 @@ namespace DominatorHouse
             {
                 var nextDayTime = DateTime.Now.AddDays(1);
 
-                JobManager.AddJob(() => InitializeJobCores("License"),
+                JobManager.AddJob(() => InitializeJobCores(license),
                     x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1))
                         .AndEvery(1).Days());
             });
 
-            AvailableNetworks = SocinatorInitialize.GetAvailableSocialNetworks(license);
+            AvailableNetworks = SocinatorInitialize.AvailableNetworks;
             var to_remove = new List<SocialNetworks>();
             foreach (var network in AvailableNetworks)
             {

@@ -9,6 +9,7 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using DominatorHouseCore.Request;
 using ProtectedCommon;
 
@@ -24,27 +25,67 @@ namespace DominatorHouseCore.Diagnostics
         public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();
 
         public static HashSet<SocialNetworks> GetAvailableSocialNetworks(string license)
-        {           
+        {
             try
             {
-                // Get all available networks from license  
-                AvailableNetworks.Add(SocialNetworks.Social);
-                AvailableNetworks.Add(SocialNetworks.Twitter);
-                AvailableNetworks.Add(SocialNetworks.Facebook);
-                AvailableNetworks.Add(SocialNetworks.Gplus);
-                AvailableNetworks.Add(SocialNetworks.Instagram);
-                AvailableNetworks.Add(SocialNetworks.LinkedIn);
-                AvailableNetworks.Add(SocialNetworks.Quora);
-                AvailableNetworks.Add(SocialNetworks.Pinterest);
-                AvailableNetworks.Add(SocialNetworks.Tumblr);
-                AvailableNetworks.Add(SocialNetworks.Youtube);
-                AvailableNetworks.Add(SocialNetworks.Reddit);
+                if (string.IsNullOrEmpty(license))                
+                    return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
+                
+                var httphelper = new HttpHelper();
+                var macId = GetMacId();
+
+                var response = httphelper.GetRequest(
+                      $"https://socinator.com/amember/softsale/api/activate?key={license}&request[hardware-id]={macId}");
+
+                if (response.Response.Contains("Sorry"))
+                {
+                    return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
+                }
+
+                if (response.Response.Contains("Ok"))
+                {
+                    // Get all available networks from license  
+                    AvailableNetworks.Add(SocialNetworks.Social);
+                    AvailableNetworks.Add(SocialNetworks.Twitter);
+                    AvailableNetworks.Add(SocialNetworks.Facebook);
+                    AvailableNetworks.Add(SocialNetworks.Gplus);
+                    AvailableNetworks.Add(SocialNetworks.Instagram);
+                    AvailableNetworks.Add(SocialNetworks.LinkedIn);
+                    AvailableNetworks.Add(SocialNetworks.Quora);
+                    AvailableNetworks.Add(SocialNetworks.Pinterest);
+                    AvailableNetworks.Add(SocialNetworks.Tumblr);
+                    AvailableNetworks.Add(SocialNetworks.Youtube);
+                    AvailableNetworks.Add(SocialNetworks.Reddit);
+                }             
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
             return AvailableNetworks;
+        }
+
+        public static string GetMacId()
+        {
+            var macAddresses = string.Empty;
+            try
+            {
+                foreach (var nic in NetworkInterface.GetAllNetworkInterfaces())
+                {
+                    if (nic.OperationalStatus != OperationalStatus.Up)
+                        continue;
+
+                    if (!string.IsNullOrEmpty(macAddresses))
+                        break;
+
+                    macAddresses += nic.GetPhysicalAddress().ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return macAddresses;
         }
 
         private static Dictionary<SocialNetworks, string> NetworksNamespace { get; set; } = new Dictionary<SocialNetworks, string>()
