@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Net;
 using System.Windows;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
@@ -10,6 +11,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
 using System.Net.Http;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 using DominatorHouseCore.Request;
 using ProtectedCommon;
 
@@ -28,11 +30,33 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
-                if (string.IsNullOrEmpty(license))                
+                if (string.IsNullOrEmpty(license))
                     return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
-                
                 var httphelper = new HttpHelper();
                 var macId = GetMacId();
+                var requestParameters = new RequestParameters
+                {
+                    Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+                    UserAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"
+                };
+                requestParameters.AddHeader("Accept-Language", "en-US,en;q=0.9");
+                requestParameters.AddHeader("Host", "socinator.com");
+                httphelper.SetRequestParameter(requestParameters);
+
+                var url =
+                    $"https://socinator.com/amember/softsale/api/activate?key={license}&request[hardware-id]={macId}";
+
+               var licenseTask = new Task( async () =>
+               {
+                   var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+
+                   using (var licenseresponse = (HttpWebResponse)await request.GetResponseAsync())
+                   {
+                       var status = licenseresponse.StatusCode.ToString() == "OK" ? "Working" : "Not Working";
+                   }
+               });
+                licenseTask.Start();
+                licenseTask.Wait();
 
                 var response = httphelper.GetRequest(
                       $"https://socinator.com/amember/softsale/api/activate?key={license}&request[hardware-id]={macId}");
@@ -56,7 +80,7 @@ namespace DominatorHouseCore.Diagnostics
                     AvailableNetworks.Add(SocialNetworks.Tumblr);
                     AvailableNetworks.Add(SocialNetworks.Youtube);
                     AvailableNetworks.Add(SocialNetworks.Reddit);
-                }             
+                }
             }
             catch (Exception ex)
             {
@@ -64,6 +88,7 @@ namespace DominatorHouseCore.Diagnostics
             }
             return AvailableNetworks;
         }
+
 
         public static string GetMacId()
         {
