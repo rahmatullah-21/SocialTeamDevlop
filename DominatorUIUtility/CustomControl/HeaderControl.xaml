@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             mc:Ignorable="d">
+             mc:Ignorable="d" MinHeight="40">
     <Grid Name="mainGrid"  Background="{DynamicResource AccentBaseColorBrush}"  Margin="5,0,5,0">
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="{DynamicResource langNameCampaign}"  Margin="10,0" Foreground="White" VerticalAlignment="Center"  FontSize="13" FontWeight="SemiBold"/>
@@ -42,29 +42,14 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
-            
+            <Rectangle Width="25" Height="25" Fill="White" 
+                       x:Name="Info"
+                       MouseDown="Info_OnMouseDown" Margin="10,0" ToolTip="{DynamicResource langInfo}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
 
-            <!--<Button Width="130" Height="24" 
-                        VerticalAlignment="Center" Grid.Column="2" Margin="0,0,10,0"
-                        BorderBrush="Black" BorderThickness="0" Style="{StaticResource Button_style}" Background="#F44236"  Name="btnCancelEdit" 
-                        Visibility="{Binding IsCancelEditVisible}" Click="BtnCancelEdit_OnClick"
-                       >
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Image Width="30" Height="35" HorizontalAlignment="Left" VerticalAlignment="Center" Source="/DominatorUIUtility;component/Images/remove.png" />
-                    <TextBlock Text="{DynamicResource langCancelEdit}" VerticalAlignment="Center" HorizontalAlignment="Left"  FontSize="12" FontWeight="DemiBold" />
-                </StackPanel>
-            </Button>-->
-
-            <Button Background="Transparent" Name="btnInfo" VerticalAlignment="Center" Margin="0,0,15,0" ToolTip="{DynamicResource langInfo}" Click="btnInfo_Click">
-                <Rectangle Width="25" Height="25" Fill="White" >
-                    <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-             
-                </Button>
-           
         </StackPanel>
-       
     </Grid>
 </UserControl>

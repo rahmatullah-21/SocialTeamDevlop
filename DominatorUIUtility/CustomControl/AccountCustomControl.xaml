@@ -18,8 +18,8 @@
     
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.8*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -239,12 +239,30 @@
 
         <!--Data grid view-->
         <Grid Grid.Row="1">
-
-
             <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
                         <EventSetter Event="ContextMenu.ContextMenuOpening" Handler="Row_ContextMenuOpening"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="logging....">
+                                <Setter Property="Background" Value="BlueViolet" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Success">
+                                <Setter Property="Background" Value="Green" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Failed">
+                                <Setter Property="Background" Value="DarkRed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Invalid Credentials">
+                                <Setter Property="Background" Value="Red" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Email">
+                                <Setter Property="Background" Value="Coral" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Not Checked">
+                                <Setter Property="Background" Value="Maroon" />
+                            </DataTrigger>
+                        </Style.Triggers>
                     </Style>
                 </ListView.ItemContainerStyle>
 

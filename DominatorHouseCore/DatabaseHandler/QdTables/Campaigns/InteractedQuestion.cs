@@ -5,7 +5,7 @@ using SQLite.CodeFirst;
 
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
 {
-    public class InteracteractedQuestion
+    public class InteractedQuestion
     {
         [Key]
         [Column(Order = 1)]

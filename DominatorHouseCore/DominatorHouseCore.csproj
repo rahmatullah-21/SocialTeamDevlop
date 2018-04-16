@@ -234,13 +234,15 @@
     <Compile Include="DatabaseHandler\QdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\Friendship.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedAnswers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedAnswers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedUsers.cs" />
-    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteracteractedAnswers.cs" />
-    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteracteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\FeedInfo.cs" />
@@ -331,6 +333,7 @@
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
+    <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ContentSelectGroup.cs" />

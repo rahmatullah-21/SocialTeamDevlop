@@ -2,15 +2,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
-
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
 {
     public class InteractedUsers
     {
         [Key]
-        [Autoincrement]
-        [Index]
         [Column(Order = 1)]
+        [Index]
+        [Autoincrement]
         public int Id { get; set; }
 
         [Column(Order = 2)]

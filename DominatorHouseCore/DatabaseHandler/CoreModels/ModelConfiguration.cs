@@ -79,6 +79,9 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<QdTables.Accounts.DailyStatitics>();                    
                     modelBuilder.Entity<QdTables.Accounts.InteractedUsers>();
                     modelBuilder.Entity<QdTables.Accounts.UnfollowedUsers>();
+                    modelBuilder.Entity<QdTables.Accounts.InteractedAnswers>();
+                    modelBuilder.Entity<QdTables.Accounts.InteractedQuestion>();
+                    modelBuilder.Entity<QdTables.Accounts.InteractedPosts>();
                     break;
                 case SocialNetworks.Reddit:
                     break;
@@ -142,8 +145,8 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 case SocialNetworks.Quora:                
                     modelBuilder.Entity<QdTables.Campaigns.InteractedPosts>();
                     modelBuilder.Entity<QdTables.Campaigns.InteractedUsers>();
-                    modelBuilder.Entity<QdTables.Campaigns.InteracteractedAnswers>();
-                    modelBuilder.Entity<QdTables.Campaigns.InteracteractedQuestion>();
+                    modelBuilder.Entity<QdTables.Campaigns.InteractedAnswers>();
+                    modelBuilder.Entity<QdTables.Campaigns.InteractedQuestion>();
                     modelBuilder.Entity<QdTables.Campaigns.UnfollowedUsers>();
                     break;
                 case SocialNetworks.Reddit:

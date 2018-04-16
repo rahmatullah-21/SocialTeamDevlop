@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
 
-namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
+namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 {
-    public class InteracteractedAnswers
+    public class InteractedAnswers
     {
         [Key]
         [Column(Order = 1)]

@@ -987,6 +987,47 @@ namespace DominatorUIUtility.CustomControl
 
             return isAccountDetailsUpdated;
         }
+        protected void ScheduleJobFromGrowthMode(bool isStart, string selectedAccount, SocialNetworks socialNetworks)
+        {
+            var accountModel = AccountsFileManager.GetAccount(selectedAccount);
+            var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
+
+            var accountstemplateId = moduleConfiguration.TemplateId;
+            if (isStart)
+            {
+                moduleConfiguration.IsEnabled = true;
+                DominatorScheduler.ScheduleTodayJobs(accountModel, socialNetworks, _activityType);
+            }
+            else
+            {
+                moduleConfiguration.IsEnabled = false;
+                DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId,
+                    _activityType.ToString(), accountstemplateId);
+            }
+            UpdateAccountAndTemplate(accountModel, accountstemplateId);
+        }
+
+        private void UpdateAccountAndTemplate(DominatorAccountModel accountModel, string accountstemplateId)
+        {
+            if (accountModel.IsCretedFromNormalMode)
+            {
+                accountModel.IsCretedFromNormalMode = false;
+                CampaignsFileManager.DeleteSelectedAccount(accountstemplateId, _accountGrowthModeHeader.SelectedItem);
+                AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, accountModel);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(accountstemplateId))
+                    AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, accountModel);
+
+                // Updating existing template
+                else
+                    TemplatesFileManager.UpdateActivitySettings(accountstemplateId,
+                        JsonConvert.SerializeObject((TModel)Model));
+            }
+
+            AccountsFileManager.Edit(accountModel);
+        }
 
 
         #region IAccountGrowthModeHeader
