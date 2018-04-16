@@ -83,7 +83,14 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         /// </summary>
         [Column(Order = 12)]
         public int InteractionTimeStamp { get; set; }
+
+
+        [Column(Order = 13)]
         public string PageFullDetails { get; set; }
+
+        [Column(Order = 14)]
+        public DateTime InteractionDateTime { get; set; }
+
     }
 
     public enum PageMemberShip

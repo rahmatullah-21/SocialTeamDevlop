@@ -95,5 +95,14 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// </summary>
         [Column(Order = 13)]
         public string LikeType { get; set; }
+
+
+
+        [Column(Order = 14)]
+        public DateTime InteractionDateTime { get; set; }
+
+        [Column(Order = 15)]
+        public string Comment { get; set; }
+
     }
 }

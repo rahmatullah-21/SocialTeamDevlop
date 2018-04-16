@@ -23,5 +23,7 @@ namespace DominatorHouseCore.Models
         public IChannel ResultChannel { get; set; }
 
         public IPage ResultPage { get; set; }
+
+        public IComments ResultComment { get; set; }
     }
 }
