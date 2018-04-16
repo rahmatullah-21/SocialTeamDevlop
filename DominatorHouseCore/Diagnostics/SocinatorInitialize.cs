@@ -32,13 +32,18 @@ namespace DominatorHouseCore.Diagnostics
             try
             {
                 if (string.IsNullOrEmpty(license))
+                {                   
+                    FeatureFlags.Instance = new FeatureFlags()
+                    {
+                        {"SocinatorInitializer", true}
+                    };
                     return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
-
+                }
+                    
                 var macId = GetMacId();
 
                 var url =
                     $"https://socinator.com/amember/softsale/api/activate?key={license}&request[hardware-id]={macId}";
-
 
                 string finalResponse;
                 var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
@@ -47,15 +52,35 @@ namespace DominatorHouseCore.Diagnostics
                 var responseStream = licenseresponse.GetResponseStream();
 
                 if (responseStream == null)
+                {
+                    FeatureFlags.Instance = new FeatureFlags()
+                    {
+                        {"SocinatorInitializer", true}
+                    };
                     return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
-
+                }
+                  
                 using (var streamReader = new StreamReader(responseStream))
                 {
                     finalResponse = streamReader.ReadToEnd();
                 }
+
+                if (finalResponse.Contains("License Key not found"))
+                {
+                    FeatureFlags.Instance = new FeatureFlags()
+                    {
+                        {"SocinatorInitializer", true}
+                    };
+                    return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
+                }
+
                 if (finalResponse.Contains("Ok"))
                 {
-                    AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
+                    FeatureFlags.Instance = new FeatureFlags()
+                    {
+                        {"SocinatorInitializer", true}
+                    };
+                    return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
                 }
 
                 if (finalResponse.Contains("Sorry"))
@@ -72,6 +97,21 @@ namespace DominatorHouseCore.Diagnostics
                     AvailableNetworks.Add(SocialNetworks.Tumblr);
                     AvailableNetworks.Add(SocialNetworks.Youtube);
                     AvailableNetworks.Add(SocialNetworks.Reddit);
+
+                    FeatureFlags.Instance = new FeatureFlags() {
+                        {"SocinatorInitializer", true },
+                        {"Twitter", true },
+                        {"Social", true},
+                        {"Instagram",true },
+                        {"Gplus",true },
+                        {"LinkedIn",true },
+                        {"Quora",true },
+                        {"Facebook",true },
+                        {"Youtube",true },
+                        {"Reddit",true },
+                        {"Tumblr",true },
+                        {"Pinterest",true}
+                    };
                 }
             }
             catch (Exception ex)

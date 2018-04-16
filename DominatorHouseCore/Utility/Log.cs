@@ -34,6 +34,8 @@
         public static string ManagedBlacklist { get; set; } = "{0}\t {1}\t removed {2} users belonging to blacklist to process {3}";
         public static string AddedToBlacklist { get; set; } = "{0}\t {1}\t successfully added {2} to blacklist.";
 
+        public static string NoMoreDataToPerform { get; set; } = "{0}\t {1}\t No more data available to perform {2}";
+
         public static string FoundXResults { get; set; } = "{0}\t {1}\t Found {2} results by Query type {3} and Query value {4} to {5}";
 
         public static string AccountNeedsVerification { get; set; } = "{0}\t {1}\t needs to verified to perform next activities.";
