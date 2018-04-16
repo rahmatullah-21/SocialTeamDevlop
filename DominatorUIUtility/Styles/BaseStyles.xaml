@@ -250,7 +250,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
                     <Grid>
-                        <Border Name="Border" >
+                        <Border Name="Border" CornerRadius="5">
                             <ContentPresenter  VerticalAlignment="Center" Margin="5" HorizontalAlignment="Stretch"  ContentSource="Header" TextBlock.FontSize="18">
                             </ContentPresenter>
                         </Border>

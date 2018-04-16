@@ -58,8 +58,9 @@ namespace DominatorHouse
         public MainWindow()
         {
             InitializeComponent();
+            SocinatorInitialize.LogInitializer(this);
             SocinatorWindow.DataContext = this;
-            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");           
+            Loaded += (o, e) => GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");           
             DialogParticipation.SetRegister(this, this);
             Dispatcher.Invoke(async () => { await LicenseCheck(); });                
         }
@@ -87,7 +88,7 @@ namespace DominatorHouse
                     action_UpdateFollower = AccountUpdate
                 };
                 DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
-                SocinatorInitialize.LogInitializer(this);
+               
                 FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
                 await controller.CloseAsync();
             }
@@ -183,6 +184,7 @@ namespace DominatorHouse
 
         private void SocinatorInitializer()
         {
+
             var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);
 
             Task.Factory.StartNew(() => { JobManager.AddJob(() => InitializeJobCores(_licenseKey), x => x.ToRunNow()); });

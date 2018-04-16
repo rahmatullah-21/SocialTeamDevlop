@@ -15,7 +15,7 @@
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converters:BooleanToVisibilityConverter>
         <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
     </UserControl.Resources>
-    
+
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -243,24 +243,55 @@
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
                         <EventSetter Event="ContextMenu.ContextMenuOpening" Handler="Row_ContextMenuOpening"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Border
+                                        Background="{TemplateBinding Background}">
+                                        <GridViewRowPresenter HorizontalAlignment="Stretch"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       Width="Auto" Margin="0" Content="{TemplateBinding Content}"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="logging....">
-                                <Setter Property="Background" Value="BlueViolet" />
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Email not found">
+                                <Setter Property="Background" Value="#722f37" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Logging....">
+                                <Setter Property="Background" Value="MediumSeaGreen" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Success">
-                                <Setter Property="Background" Value="Green" />
+                                <Setter Property="Background" Value="DarkGreen" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Failed">
-                                <Setter Property="Background" Value="DarkRed" />
+                                <Setter Property="Background" Value="#830303" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Invalid Credentials">
-                                <Setter Property="Background" Value="Red" />
+                                <Setter Property="Background" Value="#b22222" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Incorrect password">
+                                <Setter Property="Background" Value="#b22222" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Email">
-                                <Setter Property="Background" Value="Coral" />
+                                <Setter Property="Background" Value=" #701f28" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Phone Number">
+                                <Setter Property="Background" Value=" #701f28" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Email">
+                                <Setter Property="Background" Value=" #701f28" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Phone Number or Email">
+                                <Setter Property="Background" Value=" #701f28" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Not Checked">
-                                <Setter Property="Background" Value="Maroon" />
+                                <Setter Property="Background" Value="#778899" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Proxy is Not Working">
+                                <Setter Property="Background" Value="#9b111e" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -271,14 +302,14 @@
                         <GridViewColumn Header="{DynamicResource langSelectSocialNetwork}" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    
+
 
                                     <ContentControl>
                                         <ContentControl.Style>
                                             <Style TargetType="{x:Type ContentControl}">
                                                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                                                 <Style.Triggers>
-                                                
+
                                                     <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
                                                         <Setter Property="Content" >
                                                             <Setter.Value>
@@ -354,7 +385,7 @@
                                                         </Setter>
                                                     </DataTrigger>
 
-                                                   
+
 
                                                     <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
                                                         <Setter Property="Content" >
@@ -414,8 +445,8 @@
                                                             </Setter.Value>
                                                         </Setter>
                                                     </DataTrigger>
-                                                    
-                                                    
+
+
                                                 </Style.Triggers>
                                             </Style>
                                         </ContentControl.Style>
@@ -428,31 +459,36 @@
                         </GridViewColumn>
 
 
-                        <GridViewColumn Header="Select" >
+                        <GridViewColumn Header="{DynamicResource langSelect}" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}"></CheckBox>
-                                        
-                                        <Label Margin="4 0 0 0" Content="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                    <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}"
+                                                  Content="{Binding RelativeSource={RelativeSource FindAncestor, 
                                                    AncestorType={x:Type ListViewItem}}, 
-                                                   Converter={StaticResource ListViewItemIndexConverter}}"/>
+                                                   Converter={StaticResource ListViewItemIndexConverter}}" Foreground="White"/>
 
-                                    </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn  Header="User Name" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
+                        <GridViewColumn  Header="{DynamicResource langUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
 
-                        <GridViewColumn  Header="Status" DisplayMemberBinding="{Binding AccountBaseModel.Status}"/>
+                        <GridViewColumn  Header="{DynamicResource langStatus}" DisplayMemberBinding="{Binding AccountBaseModel.Status}"/>
 
-                        <GridViewColumn  Header="Group Name" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
+                        <GridViewColumn  Header="{DynamicResource langGroupName}" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
 
-                        <GridViewColumn  Header="Proxy" Width="130">
+                        <GridViewColumn  Header="{DynamicResource langProxyAddress}" Width="130">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type ListViewItem}">
-                                    <TextBlock Name="TextBlockName" Text="{Binding Path=AccountBaseModel.AccountProxy.ProxyIp}"></TextBlock>
+                                    <TextBlock Name="TextBlockName">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}:{1}">
+                                                <Binding Path="AccountBaseModel.AccountProxy.ProxyIp" />
+                                                <Binding Path="AccountBaseModel.AccountProxy.ProxyPort" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                   
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="">
                                             <Setter TargetName="TextBlockName" Property="Text" Value="Local Ip" />

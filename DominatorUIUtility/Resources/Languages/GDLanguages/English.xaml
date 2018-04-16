@@ -213,7 +213,7 @@
     <system:String x:Key="langUpdateFollowers">Update Followers</system:String>
     <system:String x:Key="langStopUpdate">Stop Update(s)</system:String>
     <system:String x:Key="langSNo">S.No</system:String>
-    <system:String x:Key="langUsername">Username</system:String>
+    <system:String x:Key="langUsername">User Name</system:String>
     <system:String x:Key="langPassword">Password</system:String>
     <system:String x:Key="langAccountGroup">Account Group</system:String>
     <system:String x:Key="langNoOfFollower">#Follower</system:String>

@@ -19,149 +19,149 @@ namespace DominatorHouseCore.Diagnostics
     /// 
     /// Use it in every particular application in main window
     /// </summary>
-    public static class DominatorHouseInitializer
-    {
-        public class LibraryCoreObjects
-        {
-            /// <summary>
-            /// Network ID
-            /// </summary>
-            public SocialNetworks Network { get;  set; }
+//    public static class DominatorHouseInitializer
+//    {
+//        public class LibraryCoreObjects
+//        {
+//            /// <summary>
+//            /// Network ID
+//            /// </summary>
+//            public SocialNetworks Network { get;  set; }
 
-            /// <summary>
-            /// reates job process based on social network and module
-            /// </summary>
-            public IJobProcessFactory JobProcessFactory { get;  set; }       
+//            /// <summary>
+//            /// reates job process based on social network and module
+//            /// </summary>
+//            public IJobProcessFactory JobProcessFactory { get;  set; }       
 
-            /// <summary>
-            /// Scraps data from social network feed based on query (queries)
-            /// </summary>
-            public IQueryScraperFactory QueryQueryScraperFactory { get;  set; }
+//            /// <summary>
+//            /// Scraps data from social network feed based on query (queries)
+//            /// </summary>
+//            public IQueryScraperFactory QueryQueryScraperFactory { get;  set; }
 
-            /// <summary>
-            /// Library main window
-            /// </summary>
-            public Window MainWindow { get; set; }
-        }
+//            /// <summary>
+//            /// Library main window
+//            /// </summary>
+//            public Window MainWindow { get; set; }
+//        }
 
-        static bool _isInitialized = false;
+//        static bool _isInitialized = false;
 
-        private static Dictionary<SocialNetworks, LibraryCoreObjects> _registeredLibraries  =
-            new Dictionary<SocialNetworks, LibraryCoreObjects>();
+//        private static Dictionary<SocialNetworks, LibraryCoreObjects> _registeredLibraries  =
+//            new Dictionary<SocialNetworks, LibraryCoreObjects>();
 
-        public static LibraryCoreObjects ActiveLibrary { get; private set; }
+//        public static LibraryCoreObjects ActiveLibrary { get; private set; }
 
-        public static SocialNetworks ActiveSocialNetwork => ActiveLibrary.Network;
+//        public static SocialNetworks ActiveSocialNetwork => ActiveLibrary.Network;
 
-        // Platform sets only once on first initialization. May be DominatorHouseSocial for DH, or GramDominator for standalone exe.
-        public static string PlatformName { get; private set; }
+//        // Platform sets only once on first initialization. May be DominatorHouseSocial for DH, or GramDominator for standalone exe.
+//        public static string PlatformName { get; private set; }
 
-        public static LibraryCoreObjects GetSocialLibrary(SocialNetworks networks) 
-            => _registeredLibraries[networks];
+//        public static LibraryCoreObjects GetSocialLibrary(SocialNetworks networks) 
+//            => _registeredLibraries[networks];
         
-        /// <summary>
-        /// Call this method in ctor of particular main window of library
-        /// </summary>
-        /// <param name="mainWindow"></param>
-        public static void Init(Window mainWindow, 
-                IJobProcessFactory jobProcessFactory,
-                IQueryScraperFactory queryScrapperFactory,
-                Enums.SocialNetworks network)
-        {
-            if (_registeredLibraries.ContainsKey(network))
-            {
-                ActiveLibrary = _registeredLibraries[network];
+//        /// <summary>
+//        /// Call this method in ctor of particular main window of library
+//        /// </summary>
+//        /// <param name="mainWindow"></param>
+//        public static void Init(Window mainWindow, 
+//                IJobProcessFactory jobProcessFactory,
+//                IQueryScraperFactory queryScrapperFactory,
+//                Enums.SocialNetworks network)
+//        {
+//            if (_registeredLibraries.ContainsKey(network))
+//            {
+//                ActiveLibrary = _registeredLibraries[network];
 
-                return;
-            }
+//                return;
+//            }
 
-            // Save data of active library
-            ActiveLibrary = new LibraryCoreObjects()
-            {
-                Network = network,
-                MainWindow = mainWindow,
-                JobProcessFactory = jobProcessFactory,
-                QueryQueryScraperFactory = queryScrapperFactory,
-            };
-
-
-            _registeredLibraries.Add(network, ActiveLibrary);
+//            // Save data of active library
+//            ActiveLibrary = new LibraryCoreObjects()
+//            {
+//                Network = network,
+//                MainWindow = mainWindow,
+//                JobProcessFactory = jobProcessFactory,
+//                QueryQueryScraperFactory = queryScrapperFactory,
+//            };
 
 
-            // Do this initialization only once
-            if (!_isInitialized)
-            {
-                // Save platform for paths
-                PlatformName = PlatformNameFromEnum(network);
+//            _registeredLibraries.Add(network, ActiveLibrary);
 
-                // initialize global exception handler
-                GlobusExceptionHandler.SetupGlobalExceptionHandlers();
-                GlobusExceptionHandler.DisableErrorDialog();
 
-                _isInitialized = true;
-            }            
+//            // Do this initialization only once
+//            if (!_isInitialized)
+//            {
+//                // Save platform for paths
+//                PlatformName = PlatformNameFromEnum(network);
 
-            // initialize logging to UI
-            if (mainWindow is ILoggableWindow)
-                GlobusLogHelper.InitializeLoggerUI((ILoggableWindow)mainWindow);
+//                // initialize global exception handler
+//                GlobusExceptionHandler.SetupGlobalExceptionHandlers();
+//                GlobusExceptionHandler.DisableErrorDialog();
+
+//                _isInitialized = true;
+//            }            
+
+//            // initialize logging to UI
+//            if (mainWindow is ILoggableWindow)
+//                GlobusLogHelper.InitializeLoggerUI((ILoggableWindow)mainWindow);
             
-#if DEBUG && ATTACH_CONSOLE
-            ConsoleManager.Show();
-#endif            
-        }
+//#if DEBUG && ATTACH_CONSOLE
+//            ConsoleManager.Show();
+//#endif            
+//        }
 
-        public static void SocialNetworkRegister(List<LibraryCoreObjects> networkObjects)
-        {
-            foreach (var socialNetworkObjects in networkObjects)
-            {
-                try
-                {
-                    if (_registeredLibraries.ContainsKey(socialNetworkObjects.Network))
-                        continue;
+//        public static void SocialNetworkRegister(List<LibraryCoreObjects> networkObjects)
+//        {
+//            foreach (var socialNetworkObjects in networkObjects)
+//            {
+//                try
+//                {
+//                    if (_registeredLibraries.ContainsKey(socialNetworkObjects.Network))
+//                        continue;
 
-                    _registeredLibraries.Add(socialNetworkObjects.Network, socialNetworkObjects);
-                }
-                catch (Exception e)
-                {
-                    e.DebugLog();
-                }
-            }
-        }
+//                    _registeredLibraries.Add(socialNetworkObjects.Network, socialNetworkObjects);
+//                }
+//                catch (Exception e)
+//                {
+//                    e.DebugLog();
+//                }
+//            }
+//        }
 
-        public static string PlatformNameFromEnum(SocialNetworks network)
-        {
-            switch (network)
-            {
-                case SocialNetworks.Facebook:
-                    return "FaceDominator";
+//        public static string PlatformNameFromEnum(SocialNetworks network)
+//        {
+//            switch (network)
+//            {
+//                case SocialNetworks.Facebook:
+//                    return "FaceDominator";
 
-                case SocialNetworks.Instagram:
-                    return "GramDominator";
+//                case SocialNetworks.Instagram:
+//                    return "GramDominator";
 
-                case SocialNetworks.Twitter:
-                    return "TwtDominator";
+//                case SocialNetworks.Twitter:
+//                    return "TwtDominator";
 
-                case SocialNetworks.Pinterest:
-                    return "PinDominator";
+//                case SocialNetworks.Pinterest:
+//                    return "PinDominator";
 
-                case SocialNetworks.LinkedIn:
-                    return "LinkedDominator";
+//                case SocialNetworks.LinkedIn:
+//                    return "LinkedDominator";
 
-                case SocialNetworks.Reddit:
-                    return "RedditDominator";
+//                case SocialNetworks.Reddit:
+//                    return "RedditDominator";
 
-                //case SocialNetworks.Craglist:
-                //    return "CraglistDominator";
+//                //case SocialNetworks.Craglist:
+//                //    return "CraglistDominator";
 
-                //case SocialNetworks.Backpage:
-                //    return "BackpageDominator";
+//                //case SocialNetworks.Backpage:
+//                //    return "BackpageDominator";
 
-                case SocialNetworks.Social:
-                    return "DominatorHouseSocial";
+//                case SocialNetworks.Social:
+//                    return "DominatorHouseSocial";
 
-                default:
-                    throw new ArgumentException($"{nameof(network)} - unknown network");
-            }
-        }
-    }
+//                default:
+//                    throw new ArgumentException($"{nameof(network)} - unknown network");
+//            }
+//        }
+//    }
 }
