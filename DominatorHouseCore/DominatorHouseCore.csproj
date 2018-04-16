@@ -288,6 +288,8 @@
     <Compile Include="Enums\FdQuery\FdPosterQuery.cs" />
     <Compile Include="Enums\FdQuery\FdProfileScraperQuery.cs" />
     <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
+    <Compile Include="Enums\GdQuery\GdPostQuery.cs" />
+    <Compile Include="Enums\GdQuery\GdUserQuery.cs" />
     <Compile Include="Enums\GpDQuery\GplusCommunitiesQueries.cs" />
     <Compile Include="Enums\GpDQuery\GplusPostsQueries.cs" />
     <Compile Include="Enums\GpDQuery\GplusUsersQueries.cs" />
@@ -460,7 +462,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Enums\GdQuery\" />
     <Folder Include="Enums\PdQuery\" />
     <Folder Include="Enums\RdQuery\" />
   </ItemGroup>
