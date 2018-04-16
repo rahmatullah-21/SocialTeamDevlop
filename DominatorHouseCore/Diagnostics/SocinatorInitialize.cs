@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Windows;
 using DominatorHouseCore.BusinessLogic.Scheduler;
@@ -26,47 +27,38 @@ namespace DominatorHouseCore.Diagnostics
 
         public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();
 
-        public static HashSet<SocialNetworks> GetAvailableSocialNetworks(string license)
+        public static async Task<HashSet<SocialNetworks>> GetAvailableSocialNetworks(string license)
         {
             try
             {
                 if (string.IsNullOrEmpty(license))
                     return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
-                var httphelper = new HttpHelper();
+
                 var macId = GetMacId();
-                var requestParameters = new RequestParameters
-                {
-                    Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-                    UserAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"
-                };
-                requestParameters.AddHeader("Accept-Language", "en-US,en;q=0.9");
-                requestParameters.AddHeader("Host", "socinator.com");
-                httphelper.SetRequestParameter(requestParameters);
 
                 var url =
                     $"https://socinator.com/amember/softsale/api/activate?key={license}&request[hardware-id]={macId}";
 
-               var licenseTask = new Task( async () =>
-               {
-                   var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
 
-                   using (var licenseresponse = (HttpWebResponse)await request.GetResponseAsync())
-                   {
-                       var status = licenseresponse.StatusCode.ToString() == "OK" ? "Working" : "Not Working";
-                   }
-               });
-                licenseTask.Start();
-                licenseTask.Wait();
+                string finalResponse;
+                var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+                var licenseresponse = (HttpWebResponse)await request.GetResponseAsync();
 
-                var response = httphelper.GetRequest(
-                      $"https://socinator.com/amember/softsale/api/activate?key={license}&request[hardware-id]={macId}");
+                var responseStream = licenseresponse.GetResponseStream();
 
-                if (response.Response.Contains("Sorry"))
-                {
+                if (responseStream == null)
                     return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
+
+                using (var streamReader = new StreamReader(responseStream))
+                {
+                    finalResponse = streamReader.ReadToEnd();
+                }
+                if (finalResponse.Contains("Ok"))
+                {
+                    AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
                 }
 
-                if (response.Response.Contains("Ok"))
+                if (finalResponse.Contains("Sorry"))
                 {
                     // Get all available networks from license  
                     AvailableNetworks.Add(SocialNetworks.Social);

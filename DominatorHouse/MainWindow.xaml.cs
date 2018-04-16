@@ -57,9 +57,11 @@ namespace DominatorHouse
 
         public MainWindow()
         {
-
+            InitializeComponent();
+            SocinatorWindow.DataContext = this;
+            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");           
             DialogParticipation.SetRegister(this, this);
-            Dispatcher.Invoke(async () => { await LicenseCheck(); });
+            Dispatcher.Invoke(async () => { await LicenseCheck(); });                
         }
 
         private async Task LicenseCheck()
@@ -67,18 +69,15 @@ namespace DominatorHouse
             var license = await this.ShowInputAsync("Socinator", "License");
             if (!string.IsNullOrEmpty(license))
             {
+                var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating in process !", "Please wait for a while...");
+                controller.SetIndeterminate();
                 _licenseKey = license;
-
-                var networks = SocinatorInitialize.GetAvailableSocialNetworks(_licenseKey);
-
+                var networks = await SocinatorInitialize.GetAvailableSocialNetworks(_licenseKey);
                 if (networks.Count <= 1)
                 {
                     Close();
                     return;
-                }
-                InitializeComponent();
-                SocinatorWindow.DataContext = this;
-
+                }              
                 _strategies = new DominatorAccountViewModel.AccessorStrategies
                 {
                     ActionCheckAccount = AccountStatusChecker,
@@ -87,20 +86,15 @@ namespace DominatorHouse
                     _inform_warnings = GlobusLogHelper.log.Warn,
                     action_UpdateFollower = AccountUpdate
                 };
-
                 DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
-
                 SocinatorInitialize.LogInitializer(this);
-                Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");
-
-                // FeatureFlags.Check("Instagram", SocinatorInitializer);
                 FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
+                await controller.CloseAsync();
             }
             else
             {
                 Close();
             }
-
         }
 
         public ObservableCollection<TabItemTemplates> TabItems
