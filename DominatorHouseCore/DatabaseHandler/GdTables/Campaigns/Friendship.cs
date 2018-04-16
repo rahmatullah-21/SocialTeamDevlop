@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
 
-namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
+namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
 {
     public class Friendships
     {
@@ -75,7 +75,7 @@ namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
 
 
         [Column(Order = 14)]
-        [Unique]
+        // [Unique]
         public string Username
         { get; set; }
 

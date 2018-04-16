@@ -1,9 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using DominatorHouseCore.Enums;
 using SQLite.CodeFirst;
 
-namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
+namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
 {
     public class HashtagScrape
     {

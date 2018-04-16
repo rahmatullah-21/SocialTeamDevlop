@@ -1244,6 +1244,20 @@
     <system:String x:Key="GDlangMessagesPerWeek">Number of messages per week</system:String>
     <system:String x:Key="GDlangMaxMessagesDay">max messages per day</system:String>
 
+    <system:String x:Key="GDlangInputMessages">Input Message(s)</system:String>
+
+    <system:String x:Key="GDlangHashTagUsersPost">Hashtag User's post(s)</system:String>
+    <system:String x:Key="GDlangSomeonesFollowersPost">Someone's Followers Post(s)</system:String>
+    <system:String x:Key="GDlangSomeonesFollowingsPost">Someone's Followings Post(s)</system:String>
+    <system:String x:Key="GDlangFollowersOfSomeonesFollowersPosts">Followers Of Someone's Followers Post(s)</system:String>
+    <system:String x:Key="GDlangFollowersOfSomeonesFollowingsPosts">Followers Of Someone's Followings Post(s)</system:String>
+    <system:String x:Key="GDlangLocationUsersPosts">Location User's Posts</system:String>
+    <system:String x:Key="GDlangSuggestedUsersPosts">Suggested User's Posts</system:String>
+    <system:String x:Key="GDlangPostsOfUsersWhoLikedPost">Posts of Users who liked post</system:String>
+    <system:String x:Key="GDlangPostsOfUsersWhoCommentedOnPost">Posts of Users who commented on Post</system:String>
+    <system:String x:Key="GDlangOwnFollowersPosts">Own Followers Posts</system:String>
+    <system:String x:Key="GDlangOwnFollowingPosts">Own Followings Posts</system:String>
+    
     <!--End Gram Dominator-->
 
     <!--Start Twt Dominator-->

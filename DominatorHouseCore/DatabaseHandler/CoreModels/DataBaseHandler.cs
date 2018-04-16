@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Linq;
-using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
+using DominatorHouseCore.DatabaseHandler.GdTables.Accounts;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 
@@ -19,7 +19,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             {SocialNetworks.Gplus,db =>{db.Count<GplusTables.Accounts.Friendships>();}},
             {SocialNetworks.Twitter,db =>{db.Count<TdTables.Accounts.Friendships>();}},
             {SocialNetworks.Facebook,db=>{db.Count<FdTables.Accounts.Friends>();} },
-            {SocialNetworks.Instagram,db=>{db.Count<Friendships>();}},
+            {SocialNetworks.Instagram,db=>{db.Count<GdTables.Campaigns.Friendships>();}},
             {SocialNetworks.Pinterest,db =>{db.Count<PdTables.Accounts.Friendships>();} },
             {SocialNetworks.Quora,db =>{db.Count<QdTables.Accounts.Friendships>(); } },
             {SocialNetworks.LinkedIn,db => {db.Count<LdTables.Account.Connections>();} },
@@ -32,7 +32,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             {SocialNetworks.Gplus,db=>{ db.Count<GplusTables.Campaigns.InteractedUsersReport>();}},
             {SocialNetworks.Twitter,db=>{db.Count<TdTables.Campaign.InteractedUsers>();}},
             {SocialNetworks.Facebook,db=>{db.Count<FdTables.Campaigns.InteractedUsers>();} },
-            {SocialNetworks.Instagram,db=>{db.Count<Friendships>();  db.Count<InteractedUsers>(); } },
+            {SocialNetworks.Instagram,db=>{db.Count<Friendships>(); } },
             {SocialNetworks.Pinterest,db =>{db.Count<PdTables.Campaigns.InteractedUsers>();} },
             {SocialNetworks.Quora,db =>{ db.Count<QdTables.Campaigns.InteractedUsers>(); } },
             {SocialNetworks.LinkedIn,db=>{db.Count<LdTables.Campaign.InteractedUsers>();} },

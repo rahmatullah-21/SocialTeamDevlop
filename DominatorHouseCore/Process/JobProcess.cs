@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using DominatorHouseCore.BusinessLogic.ActivitiesWorkflow;
 using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
