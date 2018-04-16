@@ -2,31 +2,128 @@
 {
     public static class Log
     {
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// 2 = ActivityType
+        /// </summary>
         public static string StartingJob { get; set; } = "{0}\t {1}\t Started job to {2}.";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// 2 = ActivityType
+        /// </summary>
         public static string JobCompleted { get; set; } = "{0}\t {1}\t successfully complete job to {2}";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// </summary>
         public static string AccountLogin { get; set; } = "{0}\t {1}\t Attempt to login";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// </summary>
         public static string SuccessfulLogin { get; set; } = "{0}\t {1}\t Login successful.";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// 2 = ActivityType
+        /// </summary>
         public static string LoginFailed { get; set; } = "{0}\t {1}\t Login failed with error: {2}";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// 2 = ActivityType
+        /// 3 = ObjectId
+        /// </summary>
         public static string StartedActivity { get; set; } = "{0}\t {1}\t Trying to {2} {3}";
+
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// 2 = ActivityType
+        /// 3 = ObjectId
+        /// </summary>
         public static string ActivitySuccessful { get; set; } = "{0}\t {1}\t successful to {2} {3}";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// 2 = ActivityType
+        /// 3 = ObjectId
+        /// 4 = SocialNetworkError
+        /// </summary>
         public static string ActivityFailed { get; set; } = "{0}\t {1}\t failed to {2} {3} with error: {4}";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// 2 = ActivityType
+        /// 3 = ReasonToPause 
+        /// </summary>
         public static string JobPaused { get; set; } = "{0}\t {1}\t stopped current job to {2} as {3}";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = CampaignName
+        /// </summary>
         public static string SavedCampaign { get; set; } = "{0}\t {1}\t successfully saved";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = CampaignName
+        /// </summary>
         public static string CampaignDeleted { get; set; } = "{0}\t {1}\t successfully deleted.";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = CampaignName
+        /// </summary>
         public static string CampaignUpdated { get; set; } = "{0}\t {1}\t successfully updated.";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = CampaignName
+        /// </summary>
         public static string CampaignPaused { get; set; } = "{0}\t {1}\t successfully paused.";
+       
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = CampaignName
+        /// </summary>
         public static string ActivatedCampaign { get; set; } = "{0}\t {1}\t actived successfully.";
+
+
         public static string UpdatingDetails { get; set; } = "{0}\t {1}\t Started {2} synchronization.";
         public static string DetailsUpdated { get; set; } = "{0}\t {1}\t synchronizing {2} Successful.";
         public static string UploadedAccount { get; set; } = "Successfully added {0} account to {1}";
         public static string DeletedAccounts { get; set; } = "Deleted {0} accounts from {1}";
         public static string AccountEdited { get; set; } = "{0}\t {1}\t details updated successfully.";
+
+        /// <summary>
+        /// 0 = account.SocialNetwork
+        /// 1 = account.Username
+        /// 2 = ActivityType
+        /// 3 = DelaySeconds
+        /// </summary>
         public static string DelayBetweenActivity { get; set; } = "{0}\t {1}\t Next operation to {2} will perform in {3} seconds.";
         public static string NextScheduledJob { get; set; } = "{0}\t {1}\t Next job to {2} is scheduled to run by {3}";
         public static string JobLimitReached { get; set; } = "{0}\t {1}\t has reached per job limit of {2}";
         public static string DailyLimitReached { get; set; } = "{0}\t {1}\t has reached per day limit of {2}";
         public static string HourlyLimitReached { get; set; } = "{0}\t {1}\t has reached per hour limit of {2}";
         public static string WeeklyLimitReached { get; set; } = "{0}\t {1}\t has reached per week limit of {2}";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// 2 = ActivityType
+        /// </summary>
         public static string OtherConfigurationStarted { get; set; } = "{0}\t {1}\t other configuration for {2} is started";
         public static string OtherCongigurationCompleted { get; set; } = "{0}\t {1}\t other configuration for {2} is completed.";
         public static string FilterApplied { get; set; } = "{0}\t {1}\t applied filter to {2} search results";
@@ -42,5 +139,27 @@
 
         public static string CustomMessage { get; set; } = "{0}\t {1}\t {2}";
 
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// 2 = ActivityType
+        /// </summary>
+        public static string ProcessCompleted { get; set; } = "{0}\t {1}\t successfully complete process to {2}";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// 2 = ActivityType
+        /// </summary>
+        public static string ProcessStarted { get; set; } = "{0}\t {1}\t Started process to {2}.";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// 2 = ActivityType
+        /// </summary>
+        public static string ProcessStopped { get; set; } = "{0}\t {1}\t Stopped process to {2}.";
+
+        public static string CampaignNotSet { get; set; } = "{0}\t {1}\t Stopped process to {2}.";
     }
 }

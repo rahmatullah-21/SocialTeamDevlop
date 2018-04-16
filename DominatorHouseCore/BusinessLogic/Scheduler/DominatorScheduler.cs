@@ -152,15 +152,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
-
         private static bool TimeBetween(TimeSpan now, TimeSpan start, TimeSpan end)
         {
             if (start < end)
                 if (now <= end || start > now)
                     return true;
-            return !(end < now && now < start);
+            return false;
         }
-
 
         private static void ScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, bool isDelayed)
         {

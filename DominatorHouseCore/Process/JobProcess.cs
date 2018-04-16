@@ -77,10 +77,8 @@ namespace DominatorHouseCore.Process
             {
                 DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionCampaignInstance(CampaignId, SocialNetworks);
             }
-
             DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);
         }
-
 
         protected DataBaseConnectionCampaign GetDatabaseConnectionForCampaign()
         {
@@ -124,8 +122,7 @@ namespace DominatorHouseCore.Process
         /// <param name="scrapeResult"></param>
         public virtual void StartOtherConfiguration(ScrapeResultNew scrapeResult)
         {
-            GlobusLogHelper.log.Info($"Started other configuration with account => " +
-                                     $"{DominatorAccountModel.AccountBaseModel.UserName} module => {ActivityType}");
+            GlobusLogHelper.log.Info(Log.OtherConfigurationStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
         }
 
         /// <summary>
@@ -143,9 +140,8 @@ namespace DominatorHouseCore.Process
             if (jobProcessResult.IsProcessCompleted)
             {
                 StartOtherConfiguration(scrapedResult);
-                GlobusLogHelper.log.Info("Process completed with account => " +
-                                         DominatorAccountModel.AccountBaseModel.UserName + " module => " +
-                                         ActivityType);
+              
+                GlobusLogHelper.log.Info(Log.ProcessCompleted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName,ActivityType);
             }
 
             return jobProcessResult;
@@ -322,8 +318,8 @@ namespace DominatorHouseCore.Process
 
                 var task = ThreadFactory.Instance.Start(() =>
                 {
-                    GlobusLogHelper.log.Info(
-                        $"{ActivityType} process started with {SocinatorInitialize.ActiveSocialNetwork} account [{AccountName}]");
+                   
+                    GlobusLogHelper.log.Info(Log.ProcessStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
                     // Login and run scraper/poster from derived concrete classes
                     if (Login())
@@ -355,7 +351,8 @@ namespace DominatorHouseCore.Process
                     return;
 
                 JobCancellationTokenSource.Cancel();
-                GlobusLogHelper.log.Info($"{ActivityType} process stopped for {AccountName}");
+             
+                GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
                 RunningJobProcesses.Remove(Id);
                 JobCancellationTokenSource = null;
@@ -414,25 +411,18 @@ namespace DominatorHouseCore.Process
                     return false;
                 }
 
-                GlobusLogHelper.log.Info("Process started with account => " +
-                                         DominatorAccountModel.AccountBaseModel.UserName + " module => " +
-                                         ActivityType);
+                GlobusLogHelper.log.Info(Log.StartingJob, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
                 if (!DominatorAccountModel.IsUserLoggedIn || (DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies == null))
                 {
-                    GlobusLogHelper.log.Info("Logging in with account => " +
-                                             DominatorAccountModel.AccountBaseModel.UserName + " module => " +
-                                             ActivityType);
+                    GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
                     logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
                 }
 
                 if (DominatorAccountModel.IsUserLoggedIn)
-                {
-                    GlobusLogHelper.log.Info("Logged in successfully with account => " +
-                                             DominatorAccountModel.AccountBaseModel.UserName + " module => " +
-                                             ActivityType);
-
+                {                    
+                    GlobusLogHelper.log.Info(Log.SuccessfulLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
                     return true;
                 }
             }
@@ -464,7 +454,7 @@ namespace DominatorHouseCore.Process
 
             var seconds = JobConfiguration.DelayBetweenActivity.GetRandom();
 
-            GlobusLogHelper.log.Info($"{seconds} seconds Delay before next {ActivityType}");
+            GlobusLogHelper.log.Info(Log.DelayBetweenActivity, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, seconds);
 
             Thread.Sleep(seconds * 1000);
         }
