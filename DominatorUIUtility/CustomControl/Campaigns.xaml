@@ -56,15 +56,11 @@
                                           Unchecked="AllCampaignChecked_Unchecked"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <CheckBox IsChecked="{Binding IsChecked,ElementName=AllCampaignChecked,Mode=OneWay}" 
-                                                      Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"
-                                                      Margin="5,0,0,0" />
-                                            <Label Content="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                                   AncestorType={x:Type ListViewItem}}, 
-                                                   Converter={StaticResource ListViewItemIndexConverter}}"/>
-
-                                        </StackPanel>
+                                        <CheckBox IsChecked="{Binding IsChecked,ElementName=AllCampaignChecked,Mode=OneWay}" 
+                                                  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"
+                                                  Margin="5,0,0,0" Content="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                  AncestorType={x:Type ListViewItem}}, 
+                                                  Converter={StaticResource ListViewItemIndexConverter}}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
