@@ -177,17 +177,21 @@ namespace DominatorHouseCore.Process
 
         public void RunScrapper()
         {
+            try
+            {
+                var scraperFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().QueryScraperFactory;
 
-            //var scraperFactory1 = DominatorHouseInitializer.ActiveNetwork.QueryScraperFactory;
+                var scraper = scraperFactory.Create(this);
 
-            var scraperFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().QueryScraperFactory;
-
-            var scraper = scraperFactory.Create(this);
-
-            if (SavedQueries.Count == 0)
-                scraper.ScrapeWithoutQueries(ActivityType.ToString());
-            else
-                scraper.ScrapeWithQueries();
+                if (SavedQueries.Count == 0)
+                    scraper.ScrapeWithoutQueries(ActivityType.ToString());
+                else
+                    scraper.ScrapeWithQueries();
+            }
+            catch(NullReferenceException ex)
+            {
+                ex.DebugLog("Cancellation requested before initialization!");
+            }
         }
 
         #region Required Properties

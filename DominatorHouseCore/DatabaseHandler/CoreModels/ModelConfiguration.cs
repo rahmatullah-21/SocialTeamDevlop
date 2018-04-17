@@ -94,6 +94,12 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<YdTables.Accounts.InteractedUsers>();
                     modelBuilder.Entity<YdTables.Accounts.UnfollowedUsers>();
                     break;
+                case SocialNetworks.Tumblr:
+                    modelBuilder.Entity<TumblrTables.Account.DailyStatitics>();
+                    modelBuilder.Entity<TumblrTables.Account.FeedInfo>();
+                    modelBuilder.Entity<TumblrTables.Account.InteractedPosts>();
+                    modelBuilder.Entity<TumblrTables.Account.InteractedUser>();                   
+                    break;
             }       
         }
 
@@ -155,6 +161,10 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<YdTables.Campaign.UnfollowedUsers>();
                     modelBuilder.Entity<YdTables.Campaign.InteractedPosts>();
                     modelBuilder.Entity<YdTables.Campaign.InteractedChannels>();
+                    break;
+                case SocialNetworks.Tumblr:
+                    modelBuilder.Entity<TumblrTables.Campaign.InteractedPosts>();
+                    modelBuilder.Entity<TumblrTables.Campaign.InteractedUser>();
                     break;
             }
 

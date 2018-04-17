@@ -63,7 +63,7 @@ namespace DominatorHouse
             InitializeComponent();
             SocinatorInitialize.LogInitializer(this);
             SocinatorWindow.DataContext = this;
-            Loaded += (o, e) => GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");                                     
+            Loaded += (o, e) => GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
         }
 
         private async Task LicenseCheck()
@@ -79,7 +79,7 @@ namespace DominatorHouse
                 {
                     Close();
                     return;
-                }              
+                }
                 _strategies = new DominatorAccountViewModel.AccessorStrategies
                 {
                     ActionCheckAccount = AccountStatusChecker,
@@ -90,10 +90,8 @@ namespace DominatorHouse
                 };
                 DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
 
-                await controller.CloseAsync();
-
                 FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
-              
+                await controller.CloseAsync();
             }
             else
             {
@@ -188,40 +186,56 @@ namespace DominatorHouse
         private void SocinatorInitializer()
         {
 
-            var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);
-
-            Task.Factory.StartNew(() => { JobManager.AddJob(() => InitializeJobCores(_licenseKey), x => x.ToRunNow()); });
-
-            //Init UI delegates            
-            CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg) == MessageDialogResult.Affirmative;
-
-            TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
-
-            ConfigFileManager.ApplyTheme();
-
-            var performanceTask = new Task(StartbindMemory,
-                TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
-            performanceTask.Start();
-
-            TabSwitcher.ChangeTabIndex = (mainTabIndex, subTabIndex) =>
+            try
             {
-                SelectedViewIndex = mainTabIndex;
+                var accountCustomControl =
+                    AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);
 
-                if (subTabIndex == null)
-                    return;
+                Task.Factory.StartNew(() =>
+                {
+                    JobManager.AddJob(() => InitializeJobCores(_licenseKey), x => x.ToRunNow());
+                });
 
-                var selectedTabObject = (MainTabControl.SelectedContent as TabItemTemplates)?.Content.Value;
+                //Init UI delegates            
+                CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
+                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg) ==
+                    MessageDialogResult.Affirmative;
 
-                ((dynamic)selectedTabObject)?.setIndex((int)subTabIndex);
-            };
+                TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
 
-            // Go to campaign from respective module after campaign saved
-            TabSwitcher.GoToCampaign = ()
-                => SelectedViewIndex =
-                    TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
+                ConfigFileManager.ApplyTheme();
 
-            Closed += (o, e) => Process.GetCurrentProcess().Kill();
+                var performanceTask = new Task(StartbindMemory,
+                    TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
+                performanceTask.Start();
+
+                TabSwitcher.ChangeTabIndex = (mainTabIndex, subTabIndex) =>
+                {
+                    SelectedViewIndex = mainTabIndex;
+
+                    if (subTabIndex == null)
+                        return;
+
+                    var selectedTabObject = (MainTabControl.SelectedContent as TabItemTemplates)?.Content.Value;
+
+                    ((dynamic) selectedTabObject)?.setIndex((int) subTabIndex);
+                };
+
+                // Go to campaign from respective module after campaign saved
+                TabSwitcher.GoToCampaign = ()
+                    => SelectedViewIndex =
+                        TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
+
+                Closed += (o, e) => Process.GetCurrentProcess().Kill();
+            }
+            catch (AggregateException ex)
+            {
+                
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
 
@@ -340,21 +354,27 @@ namespace DominatorHouse
                             var selectedConstructor = constructors.FirstOrDefault(ci =>
                             {
                                 var pars = ci.GetParameters();
-                                return pars.Length == 1 && pars[0].ParameterType == typeof(DominatorAccountViewModel.AccessorStrategies);
+                                return pars.Length == 1 && pars[0].ParameterType ==
+                                       typeof(DominatorAccountViewModel.AccessorStrategies);
                             });
                             if (selectedConstructor != default(ConstructorInfo))
                             {
-                                networkCoreFactory = (INetworkCollectionFactory)selectedConstructor.Invoke(new object[] { _strategies });
+                                networkCoreFactory =
+                                    (INetworkCollectionFactory) selectedConstructor.Invoke(new object[] {_strategies});
                             }
                             else
                             {
                                 // if not, do we have a constructor with no parameters?
                                 selectedConstructor = constructors.First(ci => ci.GetParameters().Length == 0);
-                                networkCoreFactory = (INetworkCollectionFactory)selectedConstructor.Invoke(null);
+                                networkCoreFactory = (INetworkCollectionFactory) selectedConstructor.Invoke(null);
                             }
                             SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);
                         }
                     }
+                    catch (AggregateException ex)
+                    {
+                        
+                    }                   
                     catch (Exception ex)
                     {
                         to_remove.Add(network);
