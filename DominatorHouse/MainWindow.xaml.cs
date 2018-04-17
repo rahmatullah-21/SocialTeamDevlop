@@ -57,12 +57,13 @@ namespace DominatorHouse
 
         public MainWindow()
         {
+            DialogParticipation.SetRegister(this, this);
+            Dispatcher.Invoke(async () => { await LicenseCheck(); });
+
             InitializeComponent();
             SocinatorInitialize.LogInitializer(this);
             SocinatorWindow.DataContext = this;
-            Loaded += (o, e) => GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");           
-            DialogParticipation.SetRegister(this, this);
-            Dispatcher.Invoke(async () => { await LicenseCheck(); });                
+            Loaded += (o, e) => GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");                                     
         }
 
         private async Task LicenseCheck()
@@ -70,7 +71,7 @@ namespace DominatorHouse
             var license = await this.ShowInputAsync("Socinator", "License");
             if (!string.IsNullOrEmpty(license))
             {
-                var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating in process !", "Please wait for a while...");
+                var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating is in process !", "Please wait for a while...");
                 controller.SetIndeterminate();
                 _licenseKey = license;
                 var networks = await SocinatorInitialize.GetAvailableSocialNetworks(_licenseKey);
@@ -88,9 +89,11 @@ namespace DominatorHouse
                     action_UpdateFollower = AccountUpdate
                 };
                 DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
-               
-                FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
+
                 await controller.CloseAsync();
+
+                FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
+              
             }
             else
             {
@@ -217,8 +220,6 @@ namespace DominatorHouse
             TabSwitcher.GoToCampaign = ()
                 => SelectedViewIndex =
                     TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
-
-            DialogParticipation.SetRegister(this, this);
 
             Closed += (o, e) => Process.GetCurrentProcess().Kill();
         }

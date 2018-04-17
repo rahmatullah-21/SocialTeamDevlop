@@ -242,13 +242,15 @@
     <Compile Include="DatabaseHandler\QdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\Friendship.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedAnswers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedAnswers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedUsers.cs" />
-    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteracteractedAnswers.cs" />
-    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteracteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedPost.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedSubreddit.cs" />

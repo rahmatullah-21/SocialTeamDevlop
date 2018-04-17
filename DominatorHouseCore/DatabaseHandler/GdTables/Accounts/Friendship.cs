@@ -25,11 +25,10 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
         public int DetailedInfoWillNotBeRetrieved
         { get; set; }
 
-
+        
         [Column(Order = 5)]
         public int Followers
         { get; set; }
-
 
         [Column(Order = 6)]
         public int Followings
@@ -38,8 +37,6 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
         [Column(Order = 7)]
         public int PostsPerWeek
         { get; set; }
-
-
 
         [Column(Order = 8)]
         public int Uploads
