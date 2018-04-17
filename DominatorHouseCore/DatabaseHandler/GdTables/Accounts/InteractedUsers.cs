@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
 
-namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
+namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 {
     public class InteractedUsers
     {

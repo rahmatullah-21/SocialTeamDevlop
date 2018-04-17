@@ -88,6 +88,9 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 
         [Column(Order = 21)]
         public int IsMuted { get; set; }
+
+        [Column(Order = 22)]
+        public int FirstMessageStatus { get; set; }
     }
 
     

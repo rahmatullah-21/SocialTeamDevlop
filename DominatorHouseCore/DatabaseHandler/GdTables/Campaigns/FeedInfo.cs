@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using DominatorHouseCore.Enums;
 using SQLite.CodeFirst;
 
-namespace DominatorHouseCore.DatabaseHandler.AccountDB.Tables
+namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
 {
     public class FeedInfoes
     {

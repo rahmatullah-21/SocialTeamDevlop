@@ -163,17 +163,18 @@
     <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\HashtagScrape.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\Friendship.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\HashtagScrape.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\GdTables\FollowType.cs" />
     <Compile Include="DatabaseHandler\CoreModels\CampaignDbContext.cs" />
     <Compile Include="DatabaseHandler\CoreModels\CampaignDbInitializer.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DataBaseConnectionCampaign.cs" />
     <Compile Include="DatabaseHandler\CoreModels\ModelConfiguration.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\DailyStatitics.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\FeedInfo.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\Friendship.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\InteractedPosts.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\InteractedUsers.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\CoreModels\CommonDbContext.cs" />
     <Compile Include="DatabaseHandler\CoreModels\CommonDbInitializer.cs" />
     <Compile Include="DatabaseHandler\CoreModels\CustomHistory.cs" />
@@ -195,6 +196,13 @@
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\PostCommets.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\Friendship.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\HashtagScrape.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Communities.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\FeedInfo.cs" />
@@ -244,6 +252,12 @@
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedPost.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedSubreddit.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedPost.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedSubreddit.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\Friendship.cs" />
@@ -276,6 +290,8 @@
     <Compile Include="Enums\FdQuery\FdPosterQuery.cs" />
     <Compile Include="Enums\FdQuery\FdProfileScraperQuery.cs" />
     <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
+    <Compile Include="Enums\GdQuery\GdPostQuery.cs" />
+    <Compile Include="Enums\GdQuery\GdUserQuery.cs" />
     <Compile Include="Enums\GpDQuery\GplusCommunitiesQueries.cs" />
     <Compile Include="Enums\GpDQuery\GplusPostsQueries.cs" />
     <Compile Include="Enums\GpDQuery\GplusUsersQueries.cs" />
@@ -449,7 +465,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Enums\GdQuery\" />
     <Folder Include="Enums\PdQuery\" />
     <Folder Include="Enums\RdQuery\" />
   </ItemGroup>

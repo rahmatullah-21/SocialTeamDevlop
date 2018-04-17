@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
 using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.DatabaseHandler.CoreModels
@@ -16,13 +15,13 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             switch (networks)
             {
                 case SocialNetworks.Instagram:
-                    modelBuilder.Entity<FeedInfoes>();
-                    modelBuilder.Entity<Friendships>();
-                    modelBuilder.Entity<DailyStatitics>();
-                    modelBuilder.Entity<InteractedPosts>();
-                    modelBuilder.Entity<InteractedUsers>();
-                    modelBuilder.Entity<UnfollowedUsers>();
-                    modelBuilder.Entity<HashtagScrape>();
+                    modelBuilder.Entity<GdTables.Accounts.FeedInfoes>();
+                    modelBuilder.Entity<GdTables.Accounts.Friendships>();
+                    modelBuilder.Entity<GdTables.Accounts.DailyStatitics>();
+                    modelBuilder.Entity<GdTables.Accounts.InteractedPosts>();
+                    modelBuilder.Entity<GdTables.Accounts.InteractedUsers>();
+                    modelBuilder.Entity<GdTables.Accounts.UnfollowedUsers>();
+                    modelBuilder.Entity<GdTables.Accounts.HashtagScrape>();
                     break;
                 case SocialNetworks.Twitter:
                     modelBuilder.Entity<TdTables.Accounts.FeedInfoes>();
@@ -103,13 +102,13 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             switch (networks)
             {
                 case SocialNetworks.Instagram:
-                    modelBuilder.Entity<FeedInfoes>();
-                    modelBuilder.Entity<Friendships>();
-                    modelBuilder.Entity<DailyStatitics>();
-                    modelBuilder.Entity<InteractedPosts>();
-                    modelBuilder.Entity<InteractedUsers>();
-                    modelBuilder.Entity<UnfollowedUsers>();
-                    modelBuilder.Entity<HashtagScrape>();
+                    modelBuilder.Entity<GdTables.Campaigns.FeedInfoes>();
+                    modelBuilder.Entity<GdTables.Campaigns.Friendships>();
+                    modelBuilder.Entity<GdTables.Campaigns.DailyStatitics>();
+                    modelBuilder.Entity<GdTables.Campaigns.InteractedPosts>();
+                    modelBuilder.Entity<GdTables.Campaigns.InteractedUsers>();
+                    modelBuilder.Entity<GdTables.Campaigns.UnfollowedUsers>();
+                    modelBuilder.Entity<GdTables.Campaigns.HashtagScrape>();
                     break;
                 case SocialNetworks.Twitter:
                     modelBuilder.Entity<TdTables.Campaign.InteractedPosts>();
