@@ -135,5 +135,22 @@ namespace DominatorHouseCore.Utility
         public static string FromResourceDictionary(this string resourceDictionaryKey)
             => Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ?? resourceDictionaryKey;
 
+
+        public static string GetUrlFormPostData(object obj)
+        {
+            string urlFormData = string.Empty;
+            string serializedPostData = JsonConvert.SerializeObject(obj, new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(serializedPostData);
+
+            foreach (var dictKey in dict.Keys)
+            {
+                urlFormData += (urlFormData == string.Empty ? string.Empty : "&") + dictKey + "=" + dict[dictKey];
+            }
+            return urlFormData;
+        }
     }
 }

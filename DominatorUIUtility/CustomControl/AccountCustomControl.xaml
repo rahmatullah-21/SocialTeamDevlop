@@ -396,8 +396,23 @@
                                                             </Setter.Value>
                                                         </Setter>
                                                     </DataTrigger>
-                                                    
-                                                    
+
+                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
+                                                        <Setter Property="Content" >
+                                                            <Setter.Value>
+                                                                <Rectangle Fill="DimGray" Width="16" Height="20">
+                                                                    <Rectangle.Resources>
+                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                    </Rectangle.Resources>
+                                                                    <Rectangle.OpacityMask>
+                                                                        <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
+                                                                    </Rectangle.OpacityMask>
+                                                                </Rectangle>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+
+
                                                 </Style.Triggers>
                                             </Style>
                                         </ContentControl.Style>
