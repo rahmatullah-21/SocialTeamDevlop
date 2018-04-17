@@ -221,7 +221,17 @@
     <system:String x:Key="FdlangPostLikerCommentor">Post Like &amp; Comment</system:String>
     <system:String x:Key="FdlangFanpageLiker">Fan Page Liker</system:String>
     <system:String x:Key="FdlangWebpageLikerCommentor">Webpage Like &amp; Comment</system:String>
-
     <system:String x:Key="FdlangGroupFilter">Group Filter</system:String>
+
+    <system:String x:Key="FdlangGroupName">By Group Filters</system:String>
+
+    <system:String x:Key="FdlangManageMessage">Manage Messages</system:String>
+
+    <system:String x:Key="FdlangGroupUnJoiner">Group Unjoiner</system:String>
+
+    <system:String x:Key="FdlangBrodcastMessage">Brodcast Message</system:String>
+
+    <system:String x:Key="FdlangPostUrl">Post Url</system:String>
+
 
 </ResourceDictionary>

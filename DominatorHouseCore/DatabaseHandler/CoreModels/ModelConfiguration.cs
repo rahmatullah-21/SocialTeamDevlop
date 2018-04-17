@@ -61,6 +61,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<FdTables.Accounts.LikedPages>();
                     modelBuilder.Entity<FdTables.Accounts.OwnGroups>();
                     modelBuilder.Entity<FdTables.Accounts.OwnPages>();
+                    modelBuilder.Entity<FdTables.Accounts.InteractedComments>();                   
                     break;
                 case SocialNetworks.LinkedIn:
                     modelBuilder.Entity<LdTables.Account.Connections>();
@@ -126,13 +127,12 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<GplusTables.Campaigns.InteractedPostsReport>();
                     modelBuilder.Entity<GplusTables.Campaigns.InteractedCommunitiesReport>();
                     break;
-                case SocialNetworks.Facebook:
-                    modelBuilder.Entity<FdTables.Campaigns.PostCommets>();
+                case SocialNetworks.Facebook:             
                     modelBuilder.Entity<FdTables.Campaigns.InteractedPages>();
                     modelBuilder.Entity<FdTables.Campaigns.InteractedGroups>();
                     modelBuilder.Entity<FdTables.Campaigns.InteractedPosts>();
-                    modelBuilder.Entity<FdTables.Campaigns.InteractedUsers>();
-                    modelBuilder.Entity<FdTables.Campaigns.PostCommets>();
+                    modelBuilder.Entity<FdTables.Campaigns.InteractedUsers>();               
+                    modelBuilder.Entity<FdTables.Campaigns.InteractedComments>();
                     break;
                 case SocialNetworks.LinkedIn:
                     modelBuilder.Entity<LdTables.Campaign.InteractedCompanies>();

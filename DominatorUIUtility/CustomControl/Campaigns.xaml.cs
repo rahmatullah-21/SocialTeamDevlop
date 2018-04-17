@@ -380,7 +380,10 @@ namespace DominatorUIUtility.CustomControl
                 ReportManager.ExportReports(campName.SubModule, filename);
 
             };
-
+            ObjReports.CmbQueries.SelectionChanged += (senders, events) =>
+            {
+                ReportManager.FilterByQueryType(ObjReports.CmbQueries.SelectedItem.ToString(), ReportModel);
+            };
             win.ShowDialog();
         }
 

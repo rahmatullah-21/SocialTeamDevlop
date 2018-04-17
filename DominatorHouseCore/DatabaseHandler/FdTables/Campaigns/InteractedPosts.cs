@@ -101,5 +101,13 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         /// </summary>
         [Column(Order = 14)]
         public string LikeType { get; set; }
+
+
+        [Column(Order = 16)]
+        public string Comment { get; set; }
+
+        [Column(Order = 15)]
+        public DateTime InteractionDateTime { get; set; }
+
     }
 }
