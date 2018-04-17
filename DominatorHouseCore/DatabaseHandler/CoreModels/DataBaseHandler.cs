@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Linq;
 using DominatorHouseCore.DatabaseHandler.GdTables.Accounts;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 
@@ -39,6 +40,14 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             {SocialNetworks.Youtube,db=>{db.Count<YdTables.Campaign.InteractedUsers>(); }}
         };
 
+        private static Action<DataBaseConnectionGlobal> _dbGlobalCounters { get; set; } =InitilizeGlobalDb;
+      
+
+        public static void InitilizeGlobalDb(DataBaseConnectionGlobal db)
+        {
+            db.Count<DHTables.AccountDetails>();
+            db.Count<DHTables.BlackWhiteListUser>();
+        }
         public static void CreateDataBase(string dbName, SocialNetworks networks, DatabaseType? databaseType = DatabaseType.AccountType)
         {
             try
@@ -52,6 +61,11 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 {
                     var databaseConnection = GetDataBaseConnectionCampaignInstance(dbName, networks);
                     _dbCampaignCounters[networks](databaseConnection);
+                }
+                else
+                {
+                    var databaseConnection = GetDataBaseConnectionGlobalInstance(dbName);
+                    _dbGlobalCounters(databaseConnection);
                 }
             }
             catch (Exception ex)
@@ -98,6 +112,21 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             }
         }
 
+        public static DataBaseConnectionGlobal GetDataBaseConnectionGlobalInstance(string dbName)
+        {
+            try
+            {
+                string directoryName, connectionString;
+                GetDbPath(dbName, DatabaseType.GlobalType, out directoryName, out connectionString);
+                DirectoryUtilities.CreateDirectory(directoryName);
+                var objModelConfiguration = new ModelConfiguration();
+                return new DataBaseConnectionGlobal(connectionString,  objModelConfiguration.ConfigureGlobalDataBaseEntity);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
         private static void GetDbPath(string DBName, DatabaseType? databaseType, out string directoryName, out string connectionString)
         {
             directoryName = GetDirectory(databaseType);
@@ -121,7 +150,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     directoryName = ConstantVariable.GetIndexAccountDir() + $"\\DB";
                     break;
                 default:
-                    directoryName = ConstantVariable.GetIndexAccountDir() + $"\\DB";
+                    directoryName = ConstantVariable.GetPlatformBaseDirectory() + @"\Index\Global\DB";
                     break;
             }
 

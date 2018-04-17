@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using DominatorHouseCore.Utility;
-using ProtoBuf;
 
 namespace DominatorHouseCore.Models
 {
-   
-   public class BlacklistUserModel : BindableBase
+
+    public class BlacklistUserModel : BindableBase
     {
         public ObservableCollection<BlacklistUserModel> LstBlackListUsers { get; set; }=new ObservableCollection<BlacklistUserModel>();
 

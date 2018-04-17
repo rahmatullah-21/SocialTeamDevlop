@@ -161,5 +161,10 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
         }
 
+        public void ConfigureGlobalDataBaseEntity(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<DHTables.AccountDetails>();
+            modelBuilder.Entity<DHTables.BlackWhiteListUser>();
+        }
     }
 }

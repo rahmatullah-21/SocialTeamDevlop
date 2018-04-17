@@ -56,7 +56,7 @@
                     <Label  Content="{DynamicResource langBlacklistedUsers}" Foreground="White"
                                 VerticalAlignment="Center" FontSize="30" FontWeight="SemiBold"/>
                     <CheckBox Name="SelectAll" Grid.Column="1" Foreground="White" IsChecked="{Binding IsAllBlackListUserChecked}"
-                                  VerticalAlignment="Center" HorizontalAlignment="Right" Content="{DynamicResource langSelectAll}"
+                              Margin="10,0"    VerticalAlignment="Center" HorizontalAlignment="Right" Content="{DynamicResource langSelectAll}"
                               Checked="SelectAll_OnChecked" Unchecked="SelectAll_OnUnchecked"/>
                 </Grid>
             </GroupBox.Header>
@@ -75,9 +75,22 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
                 <Button Grid.Row="1" Name="DeletedSelected" Content="{DynamicResource langRemoveSelectedFromBlacklist}"
-                        Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" 
+                        Background="{DynamicResource AccentBaseColorBrush}" 
                         Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
-                        Click="DeletedSelected_OnClick"/>
+                        Click="DeletedSelected_OnClick">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Setter Property="Foreground" Value="White" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=LstBlackListUsers.Count}" Value="0">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="Foreground" Value="DarkGray" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </Grid>
         </GroupBox>
 

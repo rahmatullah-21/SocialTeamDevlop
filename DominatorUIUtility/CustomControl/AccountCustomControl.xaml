@@ -239,11 +239,12 @@
 
         <!--Data grid view-->
         <Grid Grid.Row="1">
-            <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" >
+            <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
                         <EventSetter Event="ContextMenu.ContextMenuOpening" Handler="Row_ContextMenuOpening"/>
                         <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Height" Value="30"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -298,174 +299,164 @@
                 </ListView.ItemContainerStyle>
 
                 <ListView.View>
-                    <GridView>
+                    <GridView >
                         <GridViewColumn Header="{DynamicResource langSelectSocialNetwork}" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
 
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <ContentControl>
+                                            <ContentControl.Style>
+                                                <Style TargetType="{x:Type ContentControl}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                    <Style.Triggers>
 
-                                    <ContentControl>
-                                        <ContentControl.Style>
-                                            <Style TargetType="{x:Type ContentControl}">
-                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#003569" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#003569" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#3897F0" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#3897F0" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-
-
-
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="OrangeRed" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="DodgerBlue" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-
-
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ContentControl.Style>
-                                    </ContentControl>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
 
 
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="OrangeRed" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="DodgerBlue" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
 
-                        <GridViewColumn Header="{DynamicResource langSelect}" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}"
-                                                  Content="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+                                        <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
+                                              Content="{Binding RelativeSource={RelativeSource FindAncestor, 
                                                    AncestorType={x:Type ListViewItem}}, 
                                                    Converter={StaticResource ListViewItemIndexConverter}}" Foreground="White"/>
+                                    </StackPanel>
 
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

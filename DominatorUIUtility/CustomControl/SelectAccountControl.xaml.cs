@@ -18,6 +18,7 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class SelectAccountControl : UserControl
     {
+        private bool IsUnCheckedFromAccountDetails { get; set; }
         private readonly SelectAccountViewModel _objAccountViewModel = new SelectAccountViewModel();
 
         public SelectAccountControl(ICollection<string> lstSelectedAccount, bool filterForActiveSocialNetwork = true)
@@ -63,17 +64,19 @@ namespace DominatorUIUtility.CustomControl
                 CollectionViewSource.GetDefaultView(_objAccountViewModel.LstSelectAccount.ToList());
         }
 
-        private CheckBox GroupCheck { get; set; }
-
         private void chkgroup_Checked(object sender, RoutedEventArgs e)
         {
-            GroupCheck = sender as CheckBox;
+            
             SelectDeselectAccountByGroup(true);
             AccountGroupSelected();
         }
 
         private void chkgroup_Unchecked(object sender, RoutedEventArgs e)
         {
+
+            if (IsUnCheckedFromAccountDetails)
+                return;
+
             SelectDeselectAccountByGroup(false);
             AccountGroupSelected();
         }
@@ -219,26 +222,28 @@ namespace DominatorUIUtility.CustomControl
 
         private void SingleAccount_OnUnchecked(object sender, RoutedEventArgs e)
         {
+            _objAccountViewModel.LstSelectAccount.ForEach(account =>
+            {
+
+                if (!account.IsAccountSelected)
+                    _objAccountViewModel.Groups.ForEach(group =>
+                    {
+                        if (account.GroupName == group.Content && group.IsContentSelected)
+                        {
+                            IsUnCheckedFromAccountDetails = true;
+                            group.IsContentSelected = false;
+
+                        }
+                    });
+            });
+            AccountGroupSelected();
+            IsUnCheckedFromAccountDetails = false;
             if (!_objAccountViewModel.IsAllAccountSelected)
                 return;
-            if (GroupCheck!=null)
-            {
-                GroupCheck.Unchecked -= chkgroup_Unchecked;
-                _objAccountViewModel.LstSelectAccount.ForEach(account =>
-                {
-                    if (!account.IsAccountSelected)
-                        _objAccountViewModel.Groups.ForEach(group =>
-                        {
-                            if (account.GroupName == group.Content && group.IsContentSelected)
-                                group.IsContentSelected = false;
-                        });
-                });
-                AccountGroupSelected();
-                GroupCheck.Unchecked += chkgroup_Unchecked; 
-            }
             AllAccount.Unchecked -= AllAccount_OnUnchecked;
             _objAccountViewModel.IsAllAccountSelected = false;
             AllAccount.Unchecked += AllAccount_OnUnchecked;
+
         }
     }
 }

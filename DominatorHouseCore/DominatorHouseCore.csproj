@@ -163,6 +163,10 @@
     <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\DataBaseConnectionGlobal.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\GlobalDbContext.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\GlobalDbInitializer.cs" />
+    <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackWhiteListUser.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\FeedInfo.cs" />
@@ -285,6 +289,7 @@
     <Compile Include="Diagnostics\Exceptions\ThreadFactory.cs" />
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
+    <Compile Include="Enums\DHEnum\UserType.cs" />
     <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
     <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
     <Compile Include="Enums\FdQuery\FdGroupJoinerQuery.cs" />
@@ -385,6 +390,7 @@
     <Compile Include="BusinessLogic\ActivitiesWorkflow\ILoginProcess.cs" />
     <Compile Include="Models\TumblrModel.cs" />
     <Compile Include="Models\TwitterModel.cs" />
+    <Compile Include="Models\WhitelistUserModel.cs" />
     <Compile Include="Models\YoutubeModel.cs" />
     <Compile Include="Process\JobProcess.cs" />
     <Compile Include="Process\JobProcessResult.cs" />
