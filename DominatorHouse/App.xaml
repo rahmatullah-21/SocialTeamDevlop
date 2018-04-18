@@ -9,6 +9,7 @@
 
                 <!--<ResourceDictionary Source="/EmbeddedBrowser;component/Language/BrowserContent.xaml"/>
                 --><!--<ResourceDictionary Source="/PinDominatorCore;component/PDLanguages/English.xaml" />-->
+                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/TumblrLanguage/English.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/PdLanguages/English.xaml"/>
                 <!--<ResourceDictionary Source="/TwtDominatorCore;component/Languages/TDLanguages/English.xaml"/>-->
 

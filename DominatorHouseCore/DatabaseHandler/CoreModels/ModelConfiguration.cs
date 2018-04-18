@@ -79,9 +79,15 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<QdTables.Accounts.DailyStatitics>();                    
                     modelBuilder.Entity<QdTables.Accounts.InteractedUsers>();
                     modelBuilder.Entity<QdTables.Accounts.UnfollowedUsers>();
+<<<<<<< HEAD
                     modelBuilder.Entity<QdTables.Accounts.InteractedAnswers>();
                     modelBuilder.Entity<QdTables.Accounts.InteractedQuestion>();
                     modelBuilder.Entity<QdTables.Accounts.InteractedPosts>();
+=======
+                    modelBuilder.Entity < QdTables.Accounts.InteractedAnswers>();
+                    modelBuilder.Entity < QdTables.Accounts.InteractedQuestion>();
+                    modelBuilder.Entity < QdTables.Accounts.InteractedPosts>();
+>>>>>>> e28bd2afd3028b6cc70f025d1aed245c91bd414a
                     break;
                 case SocialNetworks.Reddit:
                     break;
@@ -93,6 +99,12 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<YdTables.Accounts.InteractedChannels>();
                     modelBuilder.Entity<YdTables.Accounts.InteractedUsers>();
                     modelBuilder.Entity<YdTables.Accounts.UnfollowedUsers>();
+                    break;
+                case SocialNetworks.Tumblr:
+                    modelBuilder.Entity<TumblrTables.Account.DailyStatitics>();
+                    modelBuilder.Entity<TumblrTables.Account.FeedInfo>();
+                    modelBuilder.Entity<TumblrTables.Account.InteractedPosts>();
+                    modelBuilder.Entity<TumblrTables.Account.InteractedUser>();                   
                     break;
             }       
         }
@@ -155,6 +167,10 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<YdTables.Campaign.UnfollowedUsers>();
                     modelBuilder.Entity<YdTables.Campaign.InteractedPosts>();
                     modelBuilder.Entity<YdTables.Campaign.InteractedChannels>();
+                    break;
+                case SocialNetworks.Tumblr:
+                    modelBuilder.Entity<TumblrTables.Campaign.InteractedPosts>();
+                    modelBuilder.Entity<TumblrTables.Campaign.InteractedUser>();
                     break;
             }
 
