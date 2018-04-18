@@ -5,12 +5,12 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 {
     public class ModelConfiguration
     {
-        public static void Configure(DbModelBuilder modelBuilder, SocialNetworks network )
+        public static void Configure(DbModelBuilder modelBuilder, SocialNetworks network)
         {
-           
+
         }
-    
-        public  void ConfigureAccountdataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
+
+        public void ConfigureAccountdataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
         {
             switch (networks)
             {
@@ -61,7 +61,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<FdTables.Accounts.LikedPages>();
                     modelBuilder.Entity<FdTables.Accounts.OwnGroups>();
                     modelBuilder.Entity<FdTables.Accounts.OwnPages>();
-                    modelBuilder.Entity<FdTables.Accounts.InteractedComments>();                   
+                    modelBuilder.Entity<FdTables.Accounts.InteractedComments>();
                     break;
                 case SocialNetworks.LinkedIn:
                     modelBuilder.Entity<LdTables.Account.Connections>();
@@ -76,18 +76,13 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 case SocialNetworks.Quora:
                     modelBuilder.Entity<QdTables.Accounts.FeedInfoes>();
                     modelBuilder.Entity<QdTables.Accounts.Friendships>();
-                    modelBuilder.Entity<QdTables.Accounts.DailyStatitics>();                    
+                    modelBuilder.Entity<QdTables.Accounts.DailyStatitics>();
                     modelBuilder.Entity<QdTables.Accounts.InteractedUsers>();
                     modelBuilder.Entity<QdTables.Accounts.UnfollowedUsers>();
-<<<<<<< HEAD
                     modelBuilder.Entity<QdTables.Accounts.InteractedAnswers>();
                     modelBuilder.Entity<QdTables.Accounts.InteractedQuestion>();
                     modelBuilder.Entity<QdTables.Accounts.InteractedPosts>();
-=======
-                    modelBuilder.Entity < QdTables.Accounts.InteractedAnswers>();
-                    modelBuilder.Entity < QdTables.Accounts.InteractedQuestion>();
-                    modelBuilder.Entity < QdTables.Accounts.InteractedPosts>();
->>>>>>> e28bd2afd3028b6cc70f025d1aed245c91bd414a
+
                     break;
                 case SocialNetworks.Reddit:
                     break;
@@ -104,9 +99,9 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<TumblrTables.Account.DailyStatitics>();
                     modelBuilder.Entity<TumblrTables.Account.FeedInfo>();
                     modelBuilder.Entity<TumblrTables.Account.InteractedPosts>();
-                    modelBuilder.Entity<TumblrTables.Account.InteractedUser>();                   
+                    modelBuilder.Entity<TumblrTables.Account.InteractedUser>();
                     break;
-            }       
+            }
         }
 
 
@@ -139,11 +134,11 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<GplusTables.Campaigns.InteractedPostsReport>();
                     modelBuilder.Entity<GplusTables.Campaigns.InteractedCommunitiesReport>();
                     break;
-                case SocialNetworks.Facebook:             
+                case SocialNetworks.Facebook:
                     modelBuilder.Entity<FdTables.Campaigns.InteractedPages>();
                     modelBuilder.Entity<FdTables.Campaigns.InteractedGroups>();
                     modelBuilder.Entity<FdTables.Campaigns.InteractedPosts>();
-                    modelBuilder.Entity<FdTables.Campaigns.InteractedUsers>();               
+                    modelBuilder.Entity<FdTables.Campaigns.InteractedUsers>();
                     modelBuilder.Entity<FdTables.Campaigns.InteractedComments>();
                     break;
                 case SocialNetworks.LinkedIn:
@@ -153,7 +148,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<LdTables.Campaign.InteractedPosts>();
                     modelBuilder.Entity<LdTables.Campaign.InteractedUsers>();
                     break;
-                case SocialNetworks.Quora:                
+                case SocialNetworks.Quora:
                     modelBuilder.Entity<QdTables.Campaigns.InteractedPosts>();
                     modelBuilder.Entity<QdTables.Campaigns.InteractedUsers>();
                     modelBuilder.Entity<QdTables.Campaigns.InteractedAnswers>();
