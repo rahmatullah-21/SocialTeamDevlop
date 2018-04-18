@@ -14,7 +14,7 @@ namespace DominatorUIUtility.Behaviours
             {
                 ShowInTaskbar = false,
                 ShowActivated = true,
-                Topmost = true,
+                Topmost = false,
                 ResizeMode = ResizeMode.NoResize,
                 WindowStyle = WindowStyle.SingleBorderWindow,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,

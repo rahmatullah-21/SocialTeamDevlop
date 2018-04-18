@@ -28,7 +28,7 @@ namespace DominatorHouseCore.DatabaseHandler.DHTables
         [Column(Order = 9)]
         public string ProxyIP { get; set; }
         [Column(Order = 10)]
-        public int ProxyPort { get; set; }
+        public string ProxyPort { get; set; }
         [Column(Order = 11)]
         public string ProxyUserName { get; set; }
         [Column(Order = 12)]

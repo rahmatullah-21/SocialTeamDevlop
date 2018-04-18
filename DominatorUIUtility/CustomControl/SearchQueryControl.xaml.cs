@@ -12,6 +12,8 @@ using DominatorUIUtility.Behaviours;
 using System.Windows.Data;
 using System.Reflection;
 using System.ComponentModel;
+using DominatorHouseCore.LogHelper;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.CustomControl
 {    
@@ -123,7 +125,20 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="e"></param>
         private void BtnImportQuery_OnClick(object sender, RoutedEventArgs e)
         {
-            QueryCollection.AddRange(FileUtilities.FileBrowseAndReader());
+            try
+            {
+                QueryCollection.AddRange(FileUtilities.FileBrowseAndReader());
+
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
+                    "Queries are ready to add !!");
+                GlobusLogHelper.log.Info("Query sucessfully uploaded !!");
+            }
+            catch (Exception ex)
+            {
+
+                GlobusLogHelper.log.Info("There is error in uploading query !!");
+            }
+           
             GetQueryClickEventHandler();
         }
 

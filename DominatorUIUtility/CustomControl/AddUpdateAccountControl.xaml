@@ -8,7 +8,10 @@
              xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"  
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" x:Name="UserControlAddUpdateAccount"
-             >
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid VerticalAlignment="Top">
         <Grid.Resources>
             <ControlTemplate x:Key="ErrorTemplate">
@@ -88,10 +91,11 @@
 
             </PasswordBox>
         </Grid>
-        <Grid  Grid.Row="5">
-            <CheckBox Name="CheckBoxShowAdvance" Content="Show Advance" HorizontalAlignment="Left"  Width="120" FontWeight="SemiBold" Margin="6,0,0,5" Checked="CheckBoxShowAdvance_OnChecked" Unchecked="CheckBoxShowAdvance_OnUnchecked" />
-        </Grid>
-        <Grid Grid.Row="6"  Name="GridAdvanceOption" Margin="0,0,0,10" >
+
+        <CheckBox Name="CheckBoxShowAdvance" IsChecked="False" Grid.Row="5" Content="Show Advance" HorizontalAlignment="Left"  Width="120" FontWeight="SemiBold" Margin="6,0,0,5"/>
+
+        <Grid Grid.Row="6"  Name="GridAdvanceOption" Margin="0,0,0,10" 
+              Visibility="{Binding IsChecked,ElementName=CheckBoxShowAdvance,Converter={StaticResource BooleanToVisibilityConverter},Mode=TwoWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />

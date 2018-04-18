@@ -5,7 +5,10 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
+using Newtonsoft.Json;
 
 namespace DominatorHouseCore.DatabaseHandler.CoreModels
 {
@@ -16,13 +19,13 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
         {
             ConnectionString = connectionString;
             this.ConfigureDbModelBuilder = ConfigureDbModelBuilder;
-          
+
         }
 
         private string ConnectionString { get; } = string.Empty;
 
         private Action<DbModelBuilder> ConfigureDbModelBuilder { get; }
-        
+
 
         public int Count<T>(Expression<Func<T, bool>> expression = null) where T : class
         {
@@ -175,7 +178,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             }
             catch (Exception ex)
             {
-              
+
             }
         }
         public bool Update<T>(T t) where T : class
@@ -188,7 +191,34 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     using (var context = new GlobalDbContext(sqLiteConnection, false, ConfigureDbModelBuilder))
                     {
                         context.Entry(t).State = EntityState.Modified;
-                        context.SaveChanges();
+                        context.SaveChangesAsync();
+                    }
+
+                    sqLiteConnection.Close();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public bool UpdateAccountDetails(DominatorAccountModel dominatorAccountModel) 
+        {
+            try
+            {
+                using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
+                {
+                    sqLiteConnection.Open();
+                    using (var context = new GlobalDbContext(sqLiteConnection, false, ConfigureDbModelBuilder))
+                    {
+                        var dataToUpdate = context.Set<AccountDetails>().FirstOrDefault(x => x.AccountId == dominatorAccountModel.AccountId);
+                        dataToUpdate.AccountNetwork = dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString();
+                        dataToUpdate.UserFullName = dominatorAccountModel.AccountBaseModel.UserFullName;
+                        dataToUpdate.Status = dominatorAccountModel.AccountBaseModel.Status;
+                        dataToUpdate.Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies);
+                        context.SaveChangesAsync();
                     }
 
                     sqLiteConnection.Close();

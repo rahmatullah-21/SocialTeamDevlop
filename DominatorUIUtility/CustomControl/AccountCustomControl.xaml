@@ -261,7 +261,7 @@
                             <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Email not found">
                                 <Setter Property="Background" Value="#722f37" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Logging....">
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Logging...">
                                 <Setter Property="Background" Value="MediumSeaGreen" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Success">
