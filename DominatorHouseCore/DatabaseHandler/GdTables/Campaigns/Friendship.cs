@@ -105,9 +105,5 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
         public bool IsFollowBySoftware
         { get; set; }
     }
-
-    public enum FollowType
-    {
-        Following, NotFollowing, Unfollowed
-    }       
+ 
 }
