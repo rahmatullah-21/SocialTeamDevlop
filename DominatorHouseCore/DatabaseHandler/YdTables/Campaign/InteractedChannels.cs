@@ -14,113 +14,58 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
         [Column(Order = 1)]
         public int Id { get; set; }
 
-        public string ChannelID { get; set; }
         [Column(Order = 2)]
-        public string SinAccUsername { get; set; }
+        public string AccountUsername { get; set; }
 
         [Column(Order = 3)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         [Column(Order = 4)]
         public string QueryValue { get; set; }
 
         [Column(Order = 5)]
-        public string ActivityType
-        { get; set; }
-
+        public string ActivityType { get; set; }
 
         [Column(Order = 6)]
-        public string InteractedUsername
-        { get; set; }
+        public string InteractedChannelName { get; set; }
 
         [Column(Order = 7)]
-        public string InteractedUserId
-        { get; set; }
+        public string InteractedChannelId { get; set; }
 
         [Column(Order = 8)]
-        public string InteractedUserFullName
-        { get; set; }
+        public int InteractionTimeStamp { get; set; }
 
         [Column(Order = 9)]
-        public int FollowStatus
-        { get; set; }
+        public string SubscriberCount { get; set; }
 
         [Column(Order = 10)]
-        public int FollowBackStatus
-        { get; set; }
+        public string SubscribeStatus { get; set; }
 
         [Column(Order = 11)]
-        public int InteractionTimeStamp
-        { get; set; }
+        public string ViewsCount { get; set; }
 
         [Column(Order = 12)]
-        public string DirectMessage
-        { get; set; }
-
+        public string ChannelProfilePic { get; set; }
 
         [Column(Order = 13)]
-        public int UpdatedTime
-        { get; set; }
+        public string ChannelLocation { get; set; }
 
         [Column(Order = 14)]
-        public int FollowersCount
-        { get; set; }
+        public string VideosCount { get; set; }
 
         [Column(Order = 15)]
-        public int FollowingsCount
-        { get; set; }
+        public string ChannelDescription { get; set; }
 
         [Column(Order = 16)]
-        public int TweetsCount
-        { get; set; }
+        public string ChannelJoinedDate { get; set; }
 
         [Column(Order = 17)]
-        public int LikesCount { get; set; }
+        public string ExternalLinks { get; set; }
 
         [Column(Order = 18)]
-        public int HasAnonymousProfilePicture
-        { get; set; }
-
-        [Column(Order = 19)]
-        public int IsPrivate
-        { get; set; }
-
-
-
-        [Column(Order = 20)]
-        public string ProfilePicUrl
-        { get; set; }
-
-
-        [Column(Order = 21)]
-        public int JoinedDate { get; set; }
-
-        [Column(Order = 22)]
-        public string Location { get; set; }
-
-        [Column(Order = 23)]
-        public string Website { get; set; }
-
-        [Column(Order = 24)]
-        public string Bio { get; set; }
-
-        
-        [Column(Order = 25)]
-        public string ProcessType { get; set; }
-
-        [Column(Order = 26)]
-        public DateTime InteractionDateTime { get; set; }
-
-
-        [Column(Order = 27)]
-        public string ChannelId { get; set; }
-
-        [Column(Order = 29)]
         public string ChannelUrl { get; set; }
 
-        [Column(Order = 30)]
-        public string ChannelTitle { get; set; }
-
+        [Column(Order = 19)]
+        public string MessageToChannelOwner { get; set; }
     }
 }

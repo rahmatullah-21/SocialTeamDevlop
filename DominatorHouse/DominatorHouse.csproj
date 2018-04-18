@@ -238,6 +238,14 @@
       <Project>{654340fb-7bc9-427a-9439-1091bdb15c84}</Project>
       <Name>GplusDominatorUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\gramdominator-library\GramDominatorCore\GramDominatorCore.csproj">
+      <Project>{b04813ea-a4b5-40ae-b705-743687f74770}</Project>
+      <Name>GramDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\gramdominator-library\GramDominatorUI\GramDominatorUI.csproj">
+      <Project>{317a142c-6ae2-4cc1-90a7-5752b9ed76f3}</Project>
+      <Name>GramDominatorUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorCore\LinkedDominatorCore.csproj">
       <Project>{9df3cac5-0c31-49f0-a71e-27b9cefc6553}</Project>
       <Name>LinkedDominatorCore</Name>
