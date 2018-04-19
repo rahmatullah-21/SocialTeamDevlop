@@ -181,6 +181,9 @@
     <Compile Include="CustomControl\AutoReplyMessege.xaml.cs">
       <DependentUpon>AutoReplyMessege.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\BlacklistUserControl.xaml.cs">
+      <DependentUpon>BlacklistUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\Campaigns.xaml.cs">
       <DependentUpon>Campaigns.xaml</DependentUpon>
     </Compile>
@@ -361,8 +364,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\BlacklistUserControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\Campaigns.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -490,9 +493,6 @@
     </Compile>
     <Compile Include="CustomControl\AdvanceFilterControl.xaml.cs">
       <DependentUpon>AdvanceFilterControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControl\BlacklistUserControl.xaml.cs">
-      <DependentUpon>BlacklistUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\FooterControl.xaml.cs">
       <DependentUpon>FooterControl.xaml</DependentUpon>

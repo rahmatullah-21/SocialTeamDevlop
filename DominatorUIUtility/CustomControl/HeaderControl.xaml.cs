@@ -95,10 +95,6 @@ namespace DominatorUIUtility.CustomControl
             RaiseEvent(objRoutedEventArgs);
         }
 
-        private void btnInfo_Click(object sender, RoutedEventArgs e)
-        {
-            RaiseInfoEventHandler();
-        }
         static readonly RoutedEvent CancelEditRoutedEvent = EventManager.RegisterRoutedEvent("CancelEditClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(HeaderControl));
 
         public event RoutedEventHandler CancelEditClick
@@ -129,6 +125,11 @@ namespace DominatorUIUtility.CustomControl
             {
                 BindsTwoWayByDefault = true
             });
+
+        private void Info_OnMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            RaiseInfoEventHandler();
+        }
     }
     
 }

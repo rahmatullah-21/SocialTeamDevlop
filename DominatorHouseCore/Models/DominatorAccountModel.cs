@@ -179,7 +179,7 @@ namespace DominatorHouseCore.Models
 
         // TODO: change the way we store and display module-specific data
 
-        [ProtoIgnore]
+        [ProtoMember(16)]
         public int? DisplayColumnValue1
         {
             get
@@ -193,7 +193,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        [ProtoIgnore]
+        [ProtoMember(17)]
         public int? DisplayColumnValue2
         {
             get { return _displayColumnValue2; }
@@ -203,7 +203,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        [ProtoIgnore]
+        [ProtoMember(18)]
         public int? DisplayColumnValue3
         {
             get { return _displayColumnValue3; }
@@ -213,7 +213,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        [ProtoIgnore]
+        [ProtoMember(19)]
         public int? DisplayColumnValue4
         {
             get { return _displayColumnValue4; }

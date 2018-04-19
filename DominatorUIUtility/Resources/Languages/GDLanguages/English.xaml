@@ -213,7 +213,7 @@
     <system:String x:Key="langUpdateFollowers">Update Followers</system:String>
     <system:String x:Key="langStopUpdate">Stop Update(s)</system:String>
     <system:String x:Key="langSNo">S.No</system:String>
-    <system:String x:Key="langUsername">Username</system:String>
+    <system:String x:Key="langUsername">User Name</system:String>
     <system:String x:Key="langPassword">Password</system:String>
     <system:String x:Key="langAccountGroup">Account Group</system:String>
     <system:String x:Key="langNoOfFollower">#Follower</system:String>
@@ -375,7 +375,7 @@
     <system:String x:Key="langWhitelistedUsers">Whitelisted Users</system:String>
     <system:String x:Key="langRemoveSelectedFromWhitelist">Remove Selected from Whitelist</system:String>
     <system:String x:Key="langUsernameWhiteListTag">Please enter usernames to add to WhiteListed. One username per line</system:String>
-    <system:String x:Key="langAddToWhitelist">Add To Whitelist</system:String>
+    <system:String x:Key="langAddToWhitelist">Add Users To Whitelist</system:String>
     <system:String x:Key="langRefreshWhitelistedUsersList">Refresh Whitelisted Users List</system:String>
     <system:String x:Key="langSelectFolders">Select Folders</system:String>
     <system:String x:Key="langBrowse">Browse...</system:String>

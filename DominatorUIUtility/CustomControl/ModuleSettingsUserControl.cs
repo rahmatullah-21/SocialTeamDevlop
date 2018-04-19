@@ -1002,7 +1002,6 @@ namespace DominatorUIUtility.CustomControl
 
             return isAccountDetailsUpdated;
         }
-
         protected void ScheduleJobFromGrowthMode(bool isStart, string selectedAccount, SocialNetworks socialNetworks)
         {
             var accountModel = AccountsFileManager.GetAccount(selectedAccount);
@@ -1045,6 +1044,7 @@ namespace DominatorUIUtility.CustomControl
             AccountsFileManager.Edit(accountModel);
         }
 
+      
         #region IAccountGrowthModeHeader
 
         public ObservableCollectionBase<string> AccountItemSource
