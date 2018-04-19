@@ -57,7 +57,7 @@ namespace DominatorUIUtility.ViewModel
 
             LoadMultipleAccountsCommand = new BaseCommand<object>(LoadMultipleAccountsCanExecute, (o) => LoadMultipleAccountsExecute(o, this.strategyPack._determine_available, this.strategyPack._inform_warnings));
 
-            // InfoCommand = new BaseCommand<object>(InfoCommandCanExecute, InfoCommandExecute);
+             InfoCommand = new BaseCommand<object>(InfoCommandCanExecute, InfoCommandExecute);
 
             ContextMenuOpenCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
 
@@ -139,6 +139,18 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+        private bool _isOpenHelpControl;
+
+        public bool IsOpenHelpControl
+        {
+            get { return _isOpenHelpControl; }
+            set
+            {
+                if (_isOpenHelpControl == value)
+                    return;
+                SetProperty(ref _isOpenHelpControl, value);
+            }
+        }
 
 
 
@@ -728,9 +740,13 @@ namespace DominatorUIUtility.ViewModel
         {
 
             var selectedAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected == true).ToList();
-
-            if (selectedAccounts.Count <= 0)
+            if (selectedAccounts.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                    "Please select atleast one acount !!");
                 return;
+            }
+            
 
             var exportPath = FileUtilities.GetExportPath();
 
@@ -777,9 +793,9 @@ namespace DominatorUIUtility.ViewModel
 
         #region Help Methods
 
-        //private bool InfoCommandCanExecute(object sender) => true;
+        private bool InfoCommandCanExecute(object sender) => true;
 
-        //private void InfoCommandExecute(object sender) => IsOpenHelpControl = true;
+        private void InfoCommandExecute(object sender) => IsOpenHelpControl = true;
 
         #endregion
 

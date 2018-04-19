@@ -17,9 +17,6 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         [Column(Order = 1)]
         public int Id { get; set; }
 
-        /// <summary>
-        /// EmailId of the Account from which Interaction has been done
-        /// </summary>
         [Column(Order = 2)]
         public string AccountEmail { get; set; }
 

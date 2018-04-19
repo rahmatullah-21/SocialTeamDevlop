@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"           
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"           
              xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
@@ -212,7 +212,9 @@
                     </Button>
 
                     <Button Background="Transparent" Name="btnInfo" VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource langInfo}" Command="{Binding InfoCommand}">
-                        <Rectangle Width="25" Height="25" Fill="White" >
+                        <Rectangle Width="25" Height="25" Fill="White" x:Name="Info"
+                                   VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource langInfo}" 
+                                   >
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
                             </Rectangle.OpacityMask>
@@ -505,8 +507,16 @@
 
 
             </ListView>
-
+            <!--Help section-->
+            <Controls:FlyoutsControl>
+                <Controls:Flyout Header="{DynamicResource langModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
+                                 Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
+                    <local:HelpControl ModuleDescription="Text for account"
+                                                 VideoTutorial="{Binding VideoTutorialLink}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
+                                                 ContactSupportLink="{Binding ContactSupportLink}" />
+                </Controls:Flyout>
+            </Controls:FlyoutsControl>
         </Grid>
-
+       
     </Grid>
 </UserControl>
