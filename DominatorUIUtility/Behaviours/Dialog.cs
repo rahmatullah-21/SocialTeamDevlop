@@ -12,7 +12,7 @@ namespace DominatorUIUtility.Behaviours
         {
             var dialogWindow = new MetroWindow
             {
-                ShowInTaskbar = false,
+                ShowInTaskbar = true,
                 ShowActivated = true,
                 Topmost = false,
                 ResizeMode = ResizeMode.NoResize,

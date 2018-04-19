@@ -53,7 +53,7 @@ namespace DominatorUIUtility.ViewModel
             DataBaseConnectionGlb = DataBaseHandler.GetDataBaseConnectionGlobalInstance("AccountDetails");
             #region Command Initialization
 
-            AddSingleAccountCommand = new BaseCommand<object>(AddSingleAccountCanExecute, AddSingleAccountExecute);
+            AddSingleAccountCommand = new BaseCommand<object>(AddSingleAccountCanExecute, (o) => AddSingleAccountExecute(o, this.strategyPack._determine_available, this.strategyPack._inform_warnings));
 
             LoadMultipleAccountsCommand = new BaseCommand<object>(LoadMultipleAccountsCanExecute, (o) => LoadMultipleAccountsExecute(o, this.strategyPack._determine_available, this.strategyPack._inform_warnings));
 
@@ -162,7 +162,7 @@ namespace DominatorUIUtility.ViewModel
 
         private bool AddSingleAccountCanExecute(object sender) => true;
 
-        private void AddSingleAccountExecute(object sender)
+        private void AddSingleAccountExecute(object sender, Func<SocialNetworks, bool> isNetworkAvailable, Action<string> warn)
         {
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
 
@@ -179,21 +179,31 @@ namespace DominatorUIUtility.ViewModel
 
             objAddUpdateAccountControl.btnSave.Click += (senders, events) =>
             {
-                if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||
-                    string.IsNullOrEmpty(objDominatorAccountBaseModel.Password)) return;
-
-                if (objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString() != objDominatorAccountBaseModel.AccountNetwork.ToString())
-                    objDominatorAccountBaseModel.AccountNetwork =
-                        (SocialNetworks)Enum.Parse(typeof(SocialNetworks), objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString());
-
-                dialogWindow.Close();
-
-                AddAccount(objDominatorAccountBaseModel, act =>
+                try
                 {
-                    var th = new Thread(() => act()) { IsBackground = true };
-                    th.Start();
-                    return () => th.Abort();
-                });
+                    if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||
+                               string.IsNullOrEmpty(objDominatorAccountBaseModel.Password)) return;
+
+                    if (objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString() != objDominatorAccountBaseModel.AccountNetwork.ToString())
+                        objDominatorAccountBaseModel.AccountNetwork =
+                            (SocialNetworks)Enum.Parse(typeof(SocialNetworks), objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString());
+
+                    dialogWindow.Close();
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        AddAccount(objDominatorAccountBaseModel, act =>
+                        {
+                            var th = new Thread(() => act()) { IsBackground = true };
+                            th.Start();
+                            return () => th.Abort();
+                        });
+                    });
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
 
             };
 
@@ -222,154 +232,170 @@ namespace DominatorUIUtility.ViewModel
         private void LoadMultipleAccountsExecute(object sender, Func<SocialNetworks, bool> isNetworkAvailable, Action<string> warn)
         {
             //Read the accounts from text or csv files
-            var loadedAccountlist = FileUtilities.FileBrowseAndReader();
-
-            //if loaded text or csv contains no accounts then return
-            if (loadedAccountlist == null) return;
-
-            #region Add to bin files which are valid accounts
-
-            ////add the account to DominatorAccountModel list and bin file
-            allAccountsQueued = false;
-            new Thread(() =>
+            try
             {
-                while (!allAccountsQueued)
-                {
-                    Thread.Sleep(50);
-                    while (!pending.IsEmpty)
-                    {
-                        Action act;
-                        pending = pending.Dequeue(out act);
-                        act();
-                    }
-                }
-            })
-            { IsBackground = true }.Start();
+                var loadedAccountlist = FileUtilities.FileBrowseAndReader();
 
+                //if loaded text or csv contains no accounts then return
+                if (loadedAccountlist == null) return;
 
-            //Iterate the all accounts one by one
-            foreach (var singleAccount in loadedAccountlist)
-            {
+                #region Add to bin files which are valid accounts
+
+                ////add the account to DominatorAccountModel list and bin file
+                allAccountsQueued = false;
+
                 try
                 {
-                    var finalAccount = singleAccount.Replace(",", ":").Replace("NA", "");
-                    var splitAccount = Regex.Split(finalAccount, ":");
-                    if (splitAccount.Length <= 1) continue;
+                    new Thread(() =>
+                       {
+                           while (!allAccountsQueued)
+                           {
+                               Thread.Sleep(50);
+                               while (!pending.IsEmpty)
+                               {
+                                   Action act;
+                                   pending = pending.Dequeue(out act);
+                                   act();
+                               }
+                           }
+                       })
+                    { IsBackground = true }.Start();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
 
-                    //assign the username, password and groupname
-                    var groupname = splitAccount[0];
 
-                    var socialNetwork = splitAccount[1];
-                    var username = splitAccount[2];
-                    var password = splitAccount[3];
-
-                    if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                        continue;
-
-                    var proxyaddress = string.Empty;
-                    var proxyport = string.Empty;
-                    var proxyusername = string.Empty;
-                    var proxypassword = string.Empty;
-
-                    switch (splitAccount.Length)
+                //Iterate the all accounts one by one
+                foreach (var singleAccount in loadedAccountlist)
+                {
+                    try
                     {
-                        case 6:
-                            proxyaddress = splitAccount[4];
-                            proxyport = splitAccount[5];
-                            break;
-                        case 8:
-                            proxyaddress = splitAccount[4];
-                            proxyport = splitAccount[5];
-                            proxyusername = splitAccount[6];
-                            proxypassword = splitAccount[7];
-                            break;
-                    }
+                        var finalAccount = singleAccount.Replace(",", ":").Replace("NA", "");
+                        var splitAccount = Regex.Split(finalAccount, ":");
+                        if (splitAccount.Length <= 1) continue;
 
-                    if (splitAccount.Length > 4)
-                    {
-                        if (string.IsNullOrEmpty(proxyaddress) || string.IsNullOrEmpty(proxyport))
-                        {
-                            proxyaddress = proxyport = proxyusername = proxypassword = string.Empty;
-                        }
-                        //valid the proxy ip and port
-                        else if (!Proxy.IsValidProxyIp(proxyaddress) || !Proxy.IsValidProxyPort(proxyport))
+                        //assign the username, password and groupname
+                        var groupname = splitAccount[0];
+
+                        var socialNetwork = splitAccount[1];
+                        var username = splitAccount[2];
+                        var password = splitAccount[3];
+
+                        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                             continue;
-                    }
+
+                        var proxyaddress = string.Empty;
+                        var proxyport = string.Empty;
+                        var proxyusername = string.Empty;
+                        var proxypassword = string.Empty;
+
+                        switch (splitAccount.Length)
+                        {
+                            case 6:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                break;
+                            case 8:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                proxyusername = splitAccount[6];
+                                proxypassword = splitAccount[7];
+                                break;
+                        }
+
+                        if (splitAccount.Length > 4)
+                        {
+                            if (string.IsNullOrEmpty(proxyaddress) || string.IsNullOrEmpty(proxyport))
+                            {
+                                proxyaddress = proxyport = proxyusername = proxypassword = string.Empty;
+                            }
+                            //valid the proxy ip and port
+                            else if (!Proxy.IsValidProxyIp(proxyaddress) || !Proxy.IsValidProxyPort(proxyport))
+                                continue;
+                        }
 
 
-                    var objDominatorAccountBaseModel = new DominatorAccountBaseModel
-                    {
-                        AccountGroup =
+                        var objDominatorAccountBaseModel = new DominatorAccountBaseModel
+                        {
+                            AccountGroup =
                         {
                             Content = groupname ?? ConstantVariable.UnGrouped
                         },
-                        UserName = username,
-                        Password = password,
-                        AccountProxy =
+                            UserName = username,
+                            Password = password,
+                            AccountProxy =
                             {
                                 ProxyIp = proxyaddress,
                                 ProxyPort = proxyport,
                                 ProxyUsername = proxyusername,
                                 ProxyPassword = proxypassword
                             },
-                        AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork)
-                    };
+                            AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork)
+                        };
 
-                    if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
-                    {
-                        pending = pending.Enqueue(() => AddAccount(objDominatorAccountBaseModel,
-                            (action) =>
-                            {
-                                pending = pending.Enqueue(action);
-                                return () =>
+                        if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
+                        {
+                            pending = pending.Enqueue(() => AddAccount(objDominatorAccountBaseModel,
+                                (action) =>
                                 {
-                                    var oldqueue = pending;
-                                    pending = ImmutableQueue<Action>.Empty;
-                                    oldqueue
-                                        .Except(new[] { action })
-                                        .ForEach(it => pending = pending.Enqueue(it));
-                                };
-                            }));
+                                    pending = pending.Enqueue(action);
+                                    return () =>
+                                    {
+                                        var oldqueue = pending;
+                                        pending = ImmutableQueue<Action>.Empty;
+                                        oldqueue
+                                            .Except(new[] { action })
+                                            .ForEach(it => pending = pending.Enqueue(it));
+                                    };
+                                }));
+                        }
+                        else
+                        {
+                            warn(string.Format("The account {0} cannot be imported because {1} is not available.",
+                                objDominatorAccountBaseModel,
+                                objDominatorAccountBaseModel.AccountNetwork));
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        warn(string.Format("The account {0} cannot be imported because {1} is not available.",
-                            objDominatorAccountBaseModel,
-                            objDominatorAccountBaseModel.AccountNetwork));
+                        /*INFO*/
+                        Console.WriteLine(ex.StackTrace);
+                        GlobusLogHelper.log.Error(ex.Message);
                     }
                 }
-                catch (Exception ex)
-                {
-                    /*INFO*/
-                    Console.WriteLine(ex.StackTrace);
-                    GlobusLogHelper.log.Error(ex.Message);
-                }
+
+                allAccountsQueued = true;
+
+                #endregion
+
             }
-
-            allAccountsQueued = true;
-
-            #endregion
-
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, Func<Action, Action> secondaryTaskStrategyReturningCancellation)
         {
             #region Add Account
             //check the account is already present or not
-            if (LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == objDominatorAccountBaseModel.UserName && x.AccountBaseModel.AccountId == objDominatorAccountBaseModel.AccountId))
+            if (LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == objDominatorAccountBaseModel.UserName && x.AccountBaseModel.AccountNetwork == objDominatorAccountBaseModel.AccountNetwork))
             {
                 /*INFO*/
-                Console.WriteLine($@"Account [{objDominatorAccountBaseModel.UserName}] already added!");
-                GlobusLogHelper.log.Info($@"Account [{objDominatorAccountBaseModel.UserName}] already added!");
+                GlobusLogHelper.log.Info(Log.AlreadyAddedAccount, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
                 return;
             }
+
+            objDominatorAccountBaseModel.AccountGroup.Content = string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountGroup.Content) ? ConstantVariable.UnGrouped : objDominatorAccountBaseModel.AccountGroup.Content;
 
             //Initialize the given account to account model
             var dominatorAccountBaseModel = new DominatorAccountBaseModel
             {
                 AccountGroup =
                 {
-                    Content = objDominatorAccountBaseModel.AccountGroup.Content ?? ConstantVariable.UnGrouped
+                    Content = string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountGroup.Content) ? ConstantVariable.UnGrouped : objDominatorAccountBaseModel.AccountGroup.Content
                 },
                 UserName = objDominatorAccountBaseModel.UserName,
                 Password = objDominatorAccountBaseModel.Password,
@@ -409,38 +435,45 @@ namespace DominatorUIUtility.ViewModel
                 {
                     LstDominatorAccountModel.Add(dominatorAccountModel);
                 }
-                GlobusLogHelper.log.Info($@"Account [{objDominatorAccountBaseModel.UserName}] added !!");
+
+                GlobusLogHelper.log.Info(Log.AddedAccount, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
             }
             else
             {
                 /*INFO*/
-                Console.WriteLine($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
-                GlobusLogHelper.log.Info($@"Account [{dominatorAccountModel.AccountBaseModel.UserName}] isn't saved!");
+                GlobusLogHelper.log.Info(Log.NotAddedAccount, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
+
             }
 
-            DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType);
-         
-           
-            #region Saving Account detail to AccountDetails database
-            DataBaseConnectionGlb.Add<AccountDetails>(new AccountDetails
+            var databaseCreation = secondaryTaskStrategyReturningCancellation(() =>
             {
-                AccountNetwork = objDominatorAccountBaseModel.AccountNetwork.ToString(),
-                AccountId = objDominatorAccountBaseModel.AccountId,
-                AccountGroup = objDominatorAccountBaseModel.AccountGroup.Content,
-                UserName = objDominatorAccountBaseModel.UserName,
-                Password = objDominatorAccountBaseModel.Password,
-                UserFullName = objDominatorAccountBaseModel.UserFullName,
-                Status = objDominatorAccountBaseModel.Status,
-                ProxyIP = objDominatorAccountBaseModel.AccountProxy.ProxyIp,
-                ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort,
-                ProxyUserName = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
-                ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword
-            }); 
-            #endregion
+
+                DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType);
+
+                #region Saving Account detail to AccountDetails database
+
+                DataBaseConnectionGlb.Add<AccountDetails>(new AccountDetails
+                {
+                    AccountNetwork = objDominatorAccountBaseModel.AccountNetwork.ToString(),
+                    AccountId = objDominatorAccountBaseModel.AccountId,
+                    AccountGroup = dominatorAccountBaseModel.AccountGroup.Content,
+                    UserName = objDominatorAccountBaseModel.UserName,
+                    Password = objDominatorAccountBaseModel.Password,
+                    UserFullName = objDominatorAccountBaseModel.UserFullName,
+                    Status = objDominatorAccountBaseModel.Status,
+                    ProxyIP = objDominatorAccountBaseModel.AccountProxy.ProxyIp,
+                    ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort,
+                    ProxyUserName = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
+                    ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword,
+                    UserAgent = dominatorAccountModel.UserAgentWeb,
+                    AddedDate =  DateTime.Now
+                });
+
+                #endregion
+            });
+            dominatorAccountModel.Token.Register(databaseCreation);
 
             #endregion
-
-
 
             try
             {
@@ -565,9 +598,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 //collect the selected account
                 var selectAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected == true).ToList();
-
-                DeleteAccounts(selectAccounts);
-
+                Task.Factory.StartNew(() => { DeleteAccounts(selectAccounts); });
             }
             catch (Exception ex)
             {
@@ -578,23 +609,28 @@ namespace DominatorUIUtility.ViewModel
 
         private void DeleteAccounts(IEnumerable<DominatorAccountModel> selectAccounts)
         {
+
             //remove the selected accounts from account model
             selectAccounts.ForEach(item =>
             {
-                LstDominatorAccountModel.Remove(item);
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    LstDominatorAccountModel.Remove(item);
+                });
                 DataBaseConnectionGlb.Remove<AccountDetails>(user =>
                     user.AccountNetwork == item.AccountBaseModel.AccountNetwork.ToString() &&
                     user.UserName == item.UserName);
-                GlobusLogHelper.log.Info($"Account : {item.AccountBaseModel.UserName} deleted !");
+                GlobusLogHelper.log.Info(Log.DeleteAccount, item.AccountBaseModel.AccountNetwork, item.AccountBaseModel.UserName);
                 item.NotifyDeleted();
             });
+
 
             // remove from file
             AccountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);
 
             //also delete the associated files
             DataBaseHandler.DeleteDatabase(selectAccounts.Select(acct => acct.AccountId));
-          
+
         }
 
         public void DeleteAccountByContextMenu(object sender)
@@ -607,7 +643,8 @@ namespace DominatorUIUtility.ViewModel
                 return;
 
             DeleteAccounts(new[] { selectedAccount });
-            GlobusLogHelper.log.Info($"Account : {selectedAccount.AccountBaseModel.UserName} deleted !");
+
+            GlobusLogHelper.log.Info(Log.DeleteAccount, selectedAccount.AccountBaseModel.AccountNetwork, selectedAccount.AccountBaseModel.UserName);
         }
 
         #endregion
@@ -682,7 +719,7 @@ namespace DominatorUIUtility.ViewModel
             if (string.IsNullOrEmpty(exportPath))
                 return;
 
-            const string header = "Username,Password,Account Group,Status,Follower,Followings,Posts,Proxy Address,Proxy Port,Proxy Username,Proxy Password";
+            const string header = "Username,Password,Account Group,Status,Proxy Address,Proxy Port,Proxy Username,Proxy Password";
 
             var filename = $"{exportPath}\\AccountExport {ConstantVariable.DateasFileName}.csv";
 
@@ -693,18 +730,23 @@ namespace DominatorUIUtility.ViewModel
                     streamWriter.WriteLine(header);
                 }
             }
-
             selectedAccounts.ForEach(account =>
             {
                 try
                 {
-                    //var csvData = account.AccountBaseModel.UserName + "," + account.AccountBaseModel.Password + "," + account.AccountBaseModel.AccountGroup.Content + "," + account.AccountBaseModel.Status + "," + account.FollowersCount + "," +
-                    //              account.FollowingCount + "," + account.PostsCount + "," + account.AccountBaseModel.AccountProxy.ProxyIp + "," + account.AccountBaseModel.AccountProxy.ProxyPort + "," + account.AccountBaseModel.AccountProxy.ProxyUsername + "," + account.AccountBaseModel.AccountProxy.ProxyPassword;
+                    var csvData = account.AccountBaseModel.UserName + ","
+                    + account.AccountBaseModel.Password + ","
+                    + account.AccountBaseModel.AccountGroup.Content + ","
+                    + account.AccountBaseModel.Status + ","
+                    + account.AccountBaseModel.AccountProxy.ProxyIp + ","
+                    + account.AccountBaseModel.AccountProxy.ProxyPort + ","
+                    + account.AccountBaseModel.AccountProxy.ProxyUsername + ","
+                    + account.AccountBaseModel.AccountProxy.ProxyPassword;
 
-                    //using (var streamWriter = new StreamWriter(filename, true))
-                    //{
-                    //    streamWriter.WriteLine(csvData);
-                    //}
+                    using (var streamWriter = new StreamWriter(filename, true))
+                    {
+                        streamWriter.WriteLine(csvData);
+                    }
                 }
                 catch (Exception ex)
                 {
