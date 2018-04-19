@@ -218,6 +218,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                         dataToUpdate.UserFullName = dominatorAccountModel.AccountBaseModel.UserFullName;
                         dataToUpdate.Status = dominatorAccountModel.AccountBaseModel.Status;
                         dataToUpdate.Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies);
+                        dataToUpdate.ProfilePictureUrl = dominatorAccountModel.AccountBaseModel.ProfilePictureUrl;
                         context.SaveChangesAsync();
                     }
 

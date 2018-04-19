@@ -375,6 +375,9 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
+        protected virtual bool ValidateExtraProperty() => true;
+        
+
         /// <summary>
         /// Event handler called when user Creates or Updates campaign
         /// </summary>
@@ -382,10 +385,9 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="e"></param>
         protected void FooterControl_OnCreateCampaignChanged(object sender, RoutedEventArgs e)
         {
-            if (!ValidateCampaign())
-                return;
+            if (!ValidateCampaign()) return;
 
-
+            if (!ValidateExtraProperty()) return;
 
             // TODO: implement saving and add campaign
             // CampaignGlobalRoutines.Instance.Create((TModel)Model, _activityType, CampaignName, _footerControl.list_SelectedAccounts);
@@ -667,6 +669,8 @@ namespace DominatorUIUtility.CustomControl
 
         protected void AccountGrowthHeader_OnSaveClick(object sender, RoutedEventArgs e)
         {
+            if (!ValidateExtraProperty()) return;
+
             // Getting details of account
             var accounts = AccountsFileManager.GetAll();
 
@@ -700,7 +704,7 @@ namespace DominatorUIUtility.CustomControl
             AccountsFileManager.Edit(selectedAccountDetails);
 
             if (!ValidateRunningTime()) return;
-
+           
             UpdateRunningTime(Model.JobConfiguration, selectedAccountDetails);
 
             DominatorScheduler.ScheduleTodayJobs(selectedAccountDetails, SocialNetworks.Instagram, _activityType);
@@ -740,6 +744,9 @@ namespace DominatorUIUtility.CustomControl
         protected void FooterControl_OnUpdateCampaignChanged(object sender, RoutedEventArgs e)
         {
             if (!ValidateCampaign())
+                return;
+
+            if(!ValidateExtraProperty())
                 return;
 
             var Module = _activityType.ToString();

@@ -28,7 +28,7 @@ namespace DominatorUIUtility.CustomControl
         public BlacklistUserControl()
         {
             InitializeComponent();
-            DataBaseConnectionGlb = DataBaseHandler.GetDataBaseConnectionGlobalInstance("BlakWhiteListUser");
+            DataBaseConnectionGlb = DataBaseHandler.GetDataBaseConnectionGlobalInstance("Global");
             DataBaseConnectionGlb.Get<BlackWhiteListUser>()?.Where(
                 x => x.Network == SocinatorInitialize.ActiveSocialNetwork.ToString() && x.CategoryType == UserType.BlackListedUser.ToString()).ForEach(user =>
                 {

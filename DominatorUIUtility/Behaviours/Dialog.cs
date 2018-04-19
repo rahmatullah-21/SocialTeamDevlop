@@ -69,12 +69,14 @@ namespace DominatorUIUtility.Behaviours
             {
 
             }
-            MetroWindow.MinHeight = SystemParameters.PrimaryScreenHeight / 4.0;
+            MetroWindow.MinHeight = (SystemParameters.PrimaryScreenHeight / 4.0)-80;
             MetroWindow.MinWidth = SystemParameters.PrimaryScreenHeight / 1.3;
             MetroWindow.SizeToContent = SizeToContent.WidthAndHeight;
             MetroWindow.Content = window;
+            MetroWindow.MaxHeight = SystemParameters.PrimaryScreenHeight - 100;
+            MetroWindow.MaxWidth = SystemParameters.PrimaryScreenWidth - 100;
 
-       
+
             return MetroWindow;
         }
 

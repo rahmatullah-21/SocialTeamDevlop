@@ -158,6 +158,7 @@
     <Compile Include="Converters\BooleanToWidthConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\EpochToDateTimeConverter.cs" />
+    <Compile Include="Converters\IndexToRowNoConverter.cs" />
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Converters\ListCountBoolConverter.cs" />
     <Compile Include="Converters\ListCountVisiblityConverter.cs" />
