@@ -50,7 +50,7 @@ namespace DominatorUIUtility.ViewModel
             this.strategyPack = strategyPack;
 
             InitialAccountDetails();
-            DataBaseConnectionGlb = DataBaseHandler.GetDataBaseConnectionGlobalInstance("AccountDetails");
+            DataBaseConnectionGlb = DataBaseHandler.GetDataBaseConnectionGlobalInstance("Global");
             #region Command Initialization
 
             AddSingleAccountCommand = new BaseCommand<object>(AddSingleAccountCanExecute, (o) => AddSingleAccountExecute(o, this.strategyPack._determine_available, this.strategyPack._inform_warnings));
@@ -74,9 +74,12 @@ namespace DominatorUIUtility.ViewModel
             SingleAccountEditCommand = new BaseCommand<object>(SingleAccountEditCanExecute, SingleAccountEditExecute);
 
             SingleAccountDeleteCommand = new BaseCommand<object>(SingleAccountDeleteCanExecute, SingleAccountDeleteExecute);
+            UpdateAccountDetailsCommand = new BaseCommand<object>(UpdateAccountDetailsCanExecute, UpdateAccountDetailsExecute);
 
             #endregion
         }
+
+       
 
         #region Property
 
@@ -155,7 +158,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand SelectAccountByGroupCommand { get; set; }
         public ICommand SingleAccountEditCommand { get; set; }
         public ICommand SingleAccountDeleteCommand { get; set; }
-
+        public ICommand UpdateAccountDetailsCommand { get; set; }
         #endregion
 
         #region Add accounts
@@ -598,7 +601,19 @@ namespace DominatorUIUtility.ViewModel
             {
                 //collect the selected account
                 var selectAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected == true).ToList();
+          
+                if (selectAccounts.Count == 0)
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                        "Please select atleast one acount !!");
+                    return;
+                }
+                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete all selected account permanently \nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+                if (dialogResult != MessageDialogResult.Affirmative)
+                    return;
+
                 Task.Factory.StartNew(() => { DeleteAccounts(selectAccounts); });
+
             }
             catch (Exception ex)
             {
@@ -641,7 +656,9 @@ namespace DominatorUIUtility.ViewModel
 
             if (selectedAccount == null)
                 return;
-
+            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete all selected account permanently \nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+            if (dialogResult != MessageDialogResult.Affirmative)
+                return;
             DeleteAccounts(new[] { selectedAccount });
 
             GlobusLogHelper.log.Info(Log.DeleteAccount, selectedAccount.AccountBaseModel.AccountNetwork, selectedAccount.AccountBaseModel.UserName);
@@ -1003,6 +1020,31 @@ namespace DominatorUIUtility.ViewModel
             return this.MemberwiseClone();
         }
 
+        #endregion
+
+
+        #region Update Account status & details
+        private void UpdateAccountDetailsExecute(object sender)
+        {
+            var updateMenuItem = sender as string;
+
+            if (updateMenuItem == "UpdateAllDetail") { }
+            //update selected account;
+            else
+            {
+                switch (updateMenuItem)
+                {
+                    case "CheckAccountStatus":
+                      
+                        break;
+                    case "StopProcess":
+                        break;
+                    
+                }
+            }
+        }
+
+        private bool UpdateAccountDetailsCanExecute(object sender) => true;
         #endregion
 
         public void AccountBrowserLogin(DominatorAccountModel model)

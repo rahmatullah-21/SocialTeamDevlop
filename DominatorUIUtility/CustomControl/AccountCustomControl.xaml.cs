@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -50,8 +51,9 @@ namespace DominatorUIUtility.CustomControl
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;
             DominatorAccountViewModel.PropertyChanged += DominatorAccountViewModel_PropertyChanged;
+           
         }
-
+       
         List<GridViewColumn> _addedColumns = new List<GridViewColumn>();
 
         private void DominatorAccountViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -338,8 +340,8 @@ namespace DominatorUIUtility.CustomControl
 
             if (dataContext != null)
                 DominatorAccountViewModel.DeleteAccountByContextMenu(sender);
-
             AccountListView.ItemsSource = DominatorAccountViewModel.AccountCollectionView;
+
         }
 
         public void GotoTools(object sender, RoutedEventArgs e)

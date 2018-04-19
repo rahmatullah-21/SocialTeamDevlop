@@ -10,10 +10,8 @@
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
              Name="AccountModule"
              mc:Ignorable="d">
-
     <UserControl.Resources>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
+        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
     </UserControl.Resources>
 
     <Grid Name="MainGrid">
@@ -28,17 +26,17 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
-                <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
-                    <Label  
+
+            <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
+                <Label  
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center" 
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="White" Margin="5,0,0,0"
                                Content="{DynamicResource langAccountDetails}" />
-                </StackPanel>
-            </Grid>
+            </StackPanel>
+
 
             <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
                 <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right">
@@ -123,7 +121,11 @@
                                         </MenuItem.Icon>
                                         <MenuItem.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox Content="{Binding AccountGroupName}" Name="chkgroup" IsChecked="{Binding IsAccountGroupSelected}"  />
+                                                <CheckBox Content="{Binding Content}" Name="chkgroup" IsChecked="{Binding IsContentSelected}" 
+                                                        Command="{Binding DataContext.SelectAccountByGroupCommand,
+                                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                                                        CommandParameter="{Binding ElementName=chkgroup}">
+                                                </CheckBox>
                                             </DataTemplate>
                                         </MenuItem.ItemTemplate>
                                     </MenuItem>
@@ -161,21 +163,15 @@
                                         </MenuItem.Icon>
                                     </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource langUpdateFollowing}" Name="UpdateFollowing" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateFollowing">
+                                    <MenuItem Header="{DynamicResource DHlangCheckAccountStatus}" Name="CheckAccountStatus" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
                                         <MenuItem.Icon>
                                             <Image Source="/DominatorUIUtility;component/Images/friendupdate.png" Width="20" Height="20"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource langUpdateFollower}" Name="UpdateFollower" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateFollower">
+                                    <MenuItem Header="{DynamicResource DHlangStopProcess}" Name="StopProcess" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
                                         <MenuItem.Icon>
                                             <Image Source="/DominatorUIUtility;component/Images/groupupdate.png" Width="20" Height="20"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-
-                                    <MenuItem Header="{DynamicResource langUpdatePosts}" Name="UpdatePosts"  Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdatePosts">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/postsUpdate.png" Width="20" Height="20" />
                                         </MenuItem.Icon>
                                     </MenuItem>
 
@@ -239,7 +235,8 @@
 
         <!--Data grid view-->
         <Grid Grid.Row="1">
-            <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}">
+            <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" 
+                      AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
                         <EventSetter Event="ContextMenu.ContextMenuOpening" Handler="Row_ContextMenuOpening"/>
@@ -466,9 +463,9 @@
                                             </ContentControl.Style>
                                         </ContentControl>
                                         <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
-                                              Content="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                                   AncestorType={x:Type ListViewItem}}, 
-                                                   Converter={StaticResource ListViewItemIndexConverter}}" Foreground="White"/>
+                                                  Content="{Binding (ItemsControl.AlternationIndex),
+                                                  RelativeSource={RelativeSource AncestorType=ListViewItem},
+                                                  Converter={StaticResource IndexToRowNoConverter}}"/>
                                     </StackPanel>
 
                                 </DataTemplate>
@@ -492,7 +489,7 @@
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
-                                   
+
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="">
                                             <Setter TargetName="TextBlockName" Property="Text" Value="Local Ip" />
