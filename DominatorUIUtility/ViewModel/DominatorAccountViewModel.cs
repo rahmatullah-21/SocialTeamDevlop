@@ -17,6 +17,7 @@ using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
+using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -36,19 +37,20 @@ namespace DominatorUIUtility.ViewModel
     {
         public class AccessorStrategies
         {
-            public Func<SocialNetworks,bool> _determine_available;
+            public Func<SocialNetworks, bool> _determine_available;
             public Action<string> _inform_warnings;
             public Action<DominatorAccountModel> ActionCheckAccount;
             public Action<DominatorAccountModel> AccountBrowserLogin;
             public Action<DominatorAccountModel> action_UpdateFollower;
         }
+        private DataBaseConnectionGlobal DataBaseConnectionGlb { get; set; }
 
         public DominatorAccountViewModel(AccessorStrategies strategyPack)
         {
             this.strategyPack = strategyPack;
 
             InitialAccountDetails();
-
+            DataBaseConnectionGlb = DataBaseHandler.GetDataBaseConnectionGlobalInstance("AccountDetails");
             #region Command Initialization
 
             AddSingleAccountCommand = new BaseCommand<object>(AddSingleAccountCanExecute, AddSingleAccountExecute);
@@ -192,7 +194,7 @@ namespace DominatorUIUtility.ViewModel
                     th.Start();
                     return () => th.Abort();
                 });
-                
+
             };
 
             objAddUpdateAccountControl.btnCancel.Click += (senders, events) => dialogWindow.Close();
@@ -217,7 +219,7 @@ namespace DominatorUIUtility.ViewModel
         ///If any values are null, we can use NA        
         /// </summary>
         /// <param name="sender"></param>
-        private void LoadMultipleAccountsExecute(object sender, Func<SocialNetworks,bool> isNetworkAvailable, Action<string> warn)
+        private void LoadMultipleAccountsExecute(object sender, Func<SocialNetworks, bool> isNetworkAvailable, Action<string> warn)
         {
             //Read the accounts from text or csv files
             var loadedAccountlist = FileUtilities.FileBrowseAndReader();
@@ -315,18 +317,19 @@ namespace DominatorUIUtility.ViewModel
 
                     if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                     {
-                        pending = pending.Enqueue(() => AddAccount(objDominatorAccountBaseModel, 
-                            (action) => {
-                                pending = pending.Enqueue(action);
-                            return () =>
+                        pending = pending.Enqueue(() => AddAccount(objDominatorAccountBaseModel,
+                            (action) =>
                             {
-                                var oldqueue = pending;
-                                pending = ImmutableQueue<Action>.Empty;
-                                oldqueue
-                                    .Except(new[] { action })
-                                    .ForEach(it => pending = pending.Enqueue(it));
-                            };
-                        }));
+                                pending = pending.Enqueue(action);
+                                return () =>
+                                {
+                                    var oldqueue = pending;
+                                    pending = ImmutableQueue<Action>.Empty;
+                                    oldqueue
+                                        .Except(new[] { action })
+                                        .ForEach(it => pending = pending.Enqueue(it));
+                                };
+                            }));
                     }
                     else
                     {
@@ -349,7 +352,7 @@ namespace DominatorUIUtility.ViewModel
 
         }
 
-        public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, Func<Action,Action> secondaryTaskStrategyReturningCancellation)
+        public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, Func<Action, Action> secondaryTaskStrategyReturningCancellation)
         {
             #region Add Account
             //check the account is already present or not
@@ -385,7 +388,7 @@ namespace DominatorUIUtility.ViewModel
             var dominatorAccountModel = new DominatorAccountModel
             {
                 AccountBaseModel = dominatorAccountBaseModel,
-                RowNo = LstDominatorAccountModel.Count + 1 ,
+                RowNo = LstDominatorAccountModel.Count + 1,
                 AccountId = dominatorAccountBaseModel.AccountId
             };
 
@@ -395,7 +398,6 @@ namespace DominatorUIUtility.ViewModel
             //serialize the given account, if its success then add to account model list
             if (AccountsFileManager.Add(dominatorAccountModel))
             {
-               
                 if (!Application.Current.Dispatcher.CheckAccess())
                 {
                     Application.Current.Dispatcher.Invoke(new Action(delegate
@@ -407,6 +409,7 @@ namespace DominatorUIUtility.ViewModel
                 {
                     LstDominatorAccountModel.Add(dominatorAccountModel);
                 }
+                GlobusLogHelper.log.Info($@"Account [{objDominatorAccountBaseModel.UserName}] added !!");
             }
             else
             {
@@ -416,10 +419,28 @@ namespace DominatorUIUtility.ViewModel
             }
 
             DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType);
+         
+           
+            #region Saving Account detail to AccountDetails database
+            DataBaseConnectionGlb.Add<AccountDetails>(new AccountDetails
+            {
+                AccountNetwork = objDominatorAccountBaseModel.AccountNetwork.ToString(),
+                AccountId = objDominatorAccountBaseModel.AccountId,
+                AccountGroup = objDominatorAccountBaseModel.AccountGroup.Content,
+                UserName = objDominatorAccountBaseModel.UserName,
+                Password = objDominatorAccountBaseModel.Password,
+                UserFullName = objDominatorAccountBaseModel.UserFullName,
+                Status = objDominatorAccountBaseModel.Status,
+                ProxyIP = objDominatorAccountBaseModel.AccountProxy.ProxyIp,
+                ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort,
+                ProxyUserName = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
+                ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword
+            }); 
+            #endregion
 
             #endregion
 
-         
+
 
             try
             {
@@ -459,7 +480,7 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        public  void UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
+        public void UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
         {
             if (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) && string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort))
                 return;
@@ -518,9 +539,9 @@ namespace DominatorUIUtility.ViewModel
                 ProxyFileManager.SaveProxy(ProxyManagerModel);
             }
         }
-  
 
-     
+
+
 
         #endregion
 
@@ -561,6 +582,10 @@ namespace DominatorUIUtility.ViewModel
             selectAccounts.ForEach(item =>
             {
                 LstDominatorAccountModel.Remove(item);
+                DataBaseConnectionGlb.Remove<AccountDetails>(user =>
+                    user.AccountNetwork == item.AccountBaseModel.AccountNetwork.ToString() &&
+                    user.UserName == item.UserName);
+                GlobusLogHelper.log.Info($"Account : {item.AccountBaseModel.UserName} deleted !");
                 item.NotifyDeleted();
             });
 
@@ -569,6 +594,7 @@ namespace DominatorUIUtility.ViewModel
 
             //also delete the associated files
             DataBaseHandler.DeleteDatabase(selectAccounts.Select(acct => acct.AccountId));
+          
         }
 
         public void DeleteAccountByContextMenu(object sender)
@@ -580,7 +606,7 @@ namespace DominatorUIUtility.ViewModel
             if (selectedAccount == null)
                 return;
 
-            DeleteAccounts(new []{ selectedAccount });
+            DeleteAccounts(new[] { selectedAccount });
             GlobusLogHelper.log.Info($"Account : {selectedAccount.AccountBaseModel.UserName} deleted !");
         }
 
@@ -756,7 +782,7 @@ namespace DominatorUIUtility.ViewModel
                 selectedAccount.AccountBaseModel.AccountProxy.ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername;
                 selectedAccount.AccountBaseModel.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
                 selectedAccount.AccountBaseModel.AccountNetwork = objDominatorAccountBaseModel.AccountNetwork;
-                
+
                 AccountsFileManager.Edit(selectedAccount);
                 UpdateProxy(objDominatorAccountBaseModel);
                 dialogWindow.Close();
@@ -827,11 +853,22 @@ namespace DominatorUIUtility.ViewModel
                     }).ToList();
                     break;
                 case "NotWorking":
-                    LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == "Failed").Select(x =>
+
+                    LstDominatorAccountModel.ForEach(x =>
                     {
-                        x.IsAccountManagerAccountSelected = true;
-                        return x;
-                    }).ToList();
+                        switch (x.AccountBaseModel.Status)
+                        {
+                            case "Success":
+                            case "Not Checked":
+                            case "Logging...":
+                                break;
+                            default:
+                                x.IsAccountManagerAccountSelected = true;
+                                break;
+                        }
+
+                    });
+
                     break;
                 case "NotChecked":
                     LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == "Not Checked").Select(x =>
@@ -926,7 +963,7 @@ namespace DominatorUIUtility.ViewModel
 
         #endregion
 
-        public void AccountBrowserLogin(DominatorAccountModel model) 
+        public void AccountBrowserLogin(DominatorAccountModel model)
             => strategyPack.AccountBrowserLogin(model);
 
         public void ActionCheckAccount(DominatorAccountModel model)

@@ -237,6 +237,8 @@ namespace DominatorUIUtility.CustomControl
 
                     currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
 
+                    if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
+
                     Model.SavedQueries.Add(currentQuery);
 
                 });
@@ -250,6 +252,8 @@ namespace DominatorUIUtility.CustomControl
                 if (currentQuery == null) return;
 
                 currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
 
                 Model.SavedQueries.Add(currentQuery);
 
@@ -281,6 +285,8 @@ namespace DominatorUIUtility.CustomControl
 
                     currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
 
+                    if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
+
                     Model.SavedQueries.Add(currentQuery);
 
                 });
@@ -295,11 +301,26 @@ namespace DominatorUIUtility.CustomControl
 
                 currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
 
+                if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
+
                 Model.SavedQueries.Add(currentQuery);
 
                 _queryControl.CurrentQuery = new QueryInfo();
 
             }
+        }
+
+        private bool IsQueryExist(QueryInfo currentQuery,  ObservableCollectionBase<QueryInfo> queryToSave)
+        {
+            if (queryToSave.Any(x =>
+                x.QueryType == currentQuery.QueryType && x.QueryValue == currentQuery.QueryValue))
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                    "Query already Exist !!");
+                return true;
+            }
+
+            return false;
         }
 
 
