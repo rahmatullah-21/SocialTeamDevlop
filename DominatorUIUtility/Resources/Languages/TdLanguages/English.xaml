@@ -68,7 +68,7 @@
     <system:String x:Key="TdLangUnfollowsPerHour">Number of unfollows per hour</system:String>
     <system:String x:Key="TdLangUnfollowsPerWeek">Number of unfollows per week</system:String>
     <system:String x:Key="TdLangMaxUnfollowDay">max unfollow per day</system:String>
-    
+
     <system:String x:Key="TdLangRetweetsPerJob">Number of retweets per job</system:String>
     <system:String x:Key="TdLangRetweetsPerDay">Number of retweets per day</system:String>
     <system:String x:Key="TdLangRetweetsPerHour">Number of retweets per hour</system:String>
@@ -733,7 +733,7 @@
     <system:String x:Key="TdLangTwtBlaster﻿">Twt Blaster</system:String>
     <system:String x:Key="TdLangTwtEngage﻿">Twt Engage</system:String>
     <system:String x:Key="TdLangDirectMessage">Direct Message</system:String>
-    
+
     <system:String x:Key="TdLangPoster">Poster</system:String>
     <system:String x:Key="TdLangCreateAccounts﻿">Create Accounts</system:String>
     <system:String x:Key="TdLangReposter﻿">Reposter</system:String>
@@ -898,7 +898,7 @@
     <system:String x:Key="TdLangNumberOfUnfollowPerHour">Number of Unfollow per hour</system:String>
     <system:String x:Key="TdLangNumberOfUnfollowPerWeek">Number of Unfollow per week</system:String>
     <system:String x:Key="TdLangMaxUnfollowPerDay">max unfollow per day</system:String>
-    
+
     <system:String x:Key="TdLangAutoPhoneVerifyAccount">Automatically phone verify account when needed.</system:String>
     <system:String x:Key="TdLangMinutesBeforeVerifiyingAccount">minutes before verifiying the account.</system:String>
     <system:String x:Key="TdLangAutoLoginAfterPhoneVerification">Automatically login after phone verification</system:String>
@@ -926,7 +926,8 @@
     <system:String x:Key="TdLangFollowerWarning">These accounts are already running with follow configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="TdLangMessageWarning">These accounts are already running with message configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
 
-    
+
+    <system:String x:Key="TdLangCommentWarning">These accounts are already running with comment configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="TdLangFollowBackWarning">These accounts are already running with follow back configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="TdLangDeleteWarning">These accounts are already running with Delete configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="TdLangUnFollowerWarning">These accounts are already running with Unfollow configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
@@ -1123,7 +1124,7 @@
     <system:String x:Key="TdLangRandomFollowers">Random Followers</system:String>
     <system:String x:Key="TdLangCustomFollowersList">Custom followers list</system:String>
     <system:String x:Key="TdLangBroadcastMessage">Broadcast Message</system:String>
-    <system:String x:Key="TdLangAutoReplyToNewMessages">Auto reply </system:String>
+    <system:String x:Key="TdLangAutoReplyToNewMessages">Auto reply</system:String>
     <system:String x:Key="TdLangSendMessagesToNewFollowers">Message to new followers</system:String>
     <system:String x:Key="TdLangAutoReply">AutoReply</system:String>
     <system:String x:Key="TdLangBroadcastMessageConfig">Message</system:String>

@@ -4,7 +4,7 @@
     {
         string ChannelId { get; set; }
 
-        string Channelname { get; set; }
+        string ChannelName { get; set; }
 
         string FullName { get; set; }
 
