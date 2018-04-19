@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"           
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"           
              xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
@@ -39,194 +39,187 @@
 
 
             <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
-                <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right">
-                    <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
-                        <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/AddSingleAccount.png"  />
-                                            <Label Content="{DynamicResource langAddAccount}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
-                        <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnLoadMultipleAccounts" Command="{Binding LoadMultipleAccountsCommand}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Rectangle Width="20" Height="18" Fill="White" >
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                            <Label Content="{DynamicResource btnImportMultipleAccounts}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
 
-                        <Button Background="Transparent" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect" Command="{Binding ContextMenuOpenCommand}" CommandParameter="{Binding ElementName=BtnSelect}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                            <Label Content="{DynamicResource langSelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
+                    <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/AddSingleAccount.png"  />
+                                        <Label Content="{DynamicResource langAddAccount}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
 
-                            <Button.ContextMenu>
-                                <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                                    <MenuItem Header="{DynamicResource langAllAccounts}" Name="TitleMenu_AllAccounts"  Command="{Binding SelectAccountCommand}" CommandParameter="SelectAll">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                    <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccounts" Command="{Binding LoadMultipleAccountsCommand}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="20" Height="18" Fill="White" >
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <Label Content="{DynamicResource btnImportMultipleAccounts}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
 
-                                    <Separator />
+                    <Button Background="Transparent"  Margin="10,0,0,0" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect" Command="{Binding ContextMenuOpenCommand}" CommandParameter="{Binding ElementName=BtnSelect}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
+                                        <Label Content="{DynamicResource langSelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
 
-                                    <MenuItem Header="{DynamicResource langWorkingAccounts}" Name="TitleMenuWorkingAccounts" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                        <Button.ContextMenu>
+                            <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="{DynamicResource langAllAccounts}" Name="TitleMenu_AllAccounts"  Command="{Binding SelectAccountCommand}" CommandParameter="SelectAll">
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
 
-                                    <Separator />
-                                    <MenuItem Header="{DynamicResource langNotWorkingAccounts}" Name="TitleMenuNotWorkingAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotWorking" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/notworking.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                <Separator />
 
-                                    <MenuItem Header="{DynamicResource langNotCheckedAccounts}" Name="TitleMenuNotCheckedAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotChecked" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                <MenuItem Header="{DynamicResource langWorkingAccounts}" Name="TitleMenuWorkingAccounts" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
 
-                                    <MenuItem Name="MenuTitleGroups"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource langSelectAccountsByGroups}"   >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
-                                        </MenuItem.Icon>
-                                        <MenuItem.ItemTemplate>
-                                            <DataTemplate>
-                                                <CheckBox Content="{Binding Content}" Name="chkgroup" IsChecked="{Binding IsContentSelected}" 
+                                <Separator />
+                                <MenuItem Header="{DynamicResource langNotWorkingAccounts}" Name="TitleMenuNotWorkingAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotWorking" >
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/notworking.png" Width="20" Height="20" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem Header="{DynamicResource langNotCheckedAccounts}" Name="TitleMenuNotCheckedAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotChecked" >
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem Name="MenuTitleGroups"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource langSelectAccountsByGroups}"   >
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
+                                    </MenuItem.Icon>
+                                    <MenuItem.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Content="{Binding Content}" Name="chkgroup" IsChecked="{Binding IsContentSelected}" 
                                                         Command="{Binding DataContext.SelectAccountByGroupCommand,
                                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
                                                         CommandParameter="{Binding ElementName=chkgroup}">
-                                                </CheckBox>
-                                            </DataTemplate>
-                                        </MenuItem.ItemTemplate>
-                                    </MenuItem>
+                                            </CheckBox>
+                                        </DataTemplate>
+                                    </MenuItem.ItemTemplate>
+                                </MenuItem>
 
-                                    <Separator />
+                                <Separator />
 
-                                    <MenuItem Header="{DynamicResource langDeselectAll}" Name="TitleMenu_DeselectAll"  Command="{Binding SelectAccountCommand}" CommandParameter="DeselectAll">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                <MenuItem Header="{DynamicResource langDeselectAll}" Name="TitleMenu_DeselectAll"  Command="{Binding SelectAccountCommand}" CommandParameter="DeselectAll">
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
+                                    </MenuItem.Icon>
+                                </MenuItem>
 
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Margin="10,0,0,0"  Orientation="Horizontal">
-                        <Button Name="btnUpdate" Background="Transparent" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Command="{Binding ContextMenuOpenCommand}" CommandParameter="{Binding ElementName=btnUpdate}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
-                                            <Label Content="{DynamicResource langUpdate}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                            <Button.ContextMenu>
-                                <ContextMenu  DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
 
-                                    <MenuItem Header="{DynamicResource langUpdateAllDetails}" Name="UpdateAllDetailsMenu" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/edit.png" Width="20" Height="20"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                    <Button Name="btnUpdate" Background="Transparent"  Margin="10,0,0,0" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Command="{Binding ContextMenuOpenCommand}" CommandParameter="{Binding ElementName=btnUpdate}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
+                                        <Label Content="{DynamicResource langUpdate}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Button.ContextMenu>
+                            <ContextMenu  DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
 
-                                    <MenuItem Header="{DynamicResource DHlangCheckAccountStatus}" Name="CheckAccountStatus" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/friendupdate.png" Width="20" Height="20"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                <MenuItem Header="{DynamicResource langUpdateAllDetails}" Name="UpdateAllDetailsMenu" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/edit.png" Width="20" Height="20"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource DHlangStopProcess}" Name="StopProcess" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/groupupdate.png" Width="20" Height="20"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                <MenuItem Header="{DynamicResource DHlangCheckAccountStatus}" Name="CheckAccountStatus" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/friendupdate.png" Width="20" Height="20"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
 
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
-                        <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnExport" Command="{Binding ExportCommand}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
-                                            <Label Content="{DynamicResource langExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
+                                <MenuItem Header="{DynamicResource DHlangStopProcess}" Name="StopProcess" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/groupupdate.png" Width="20" Height="20"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+
+                    <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0" Name="btnExport" Command="{Binding ExportCommand}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
+                                        <Label Content="{DynamicResource langExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
 
 
-                                    </Border>
+                                </Border>
 
-                                </ControlTemplate>
-                            </Button.Template>
+                            </ControlTemplate>
+                        </Button.Template>
 
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Margin="10,0,0,0"  Orientation="Horizontal">
-                        <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccounts" Command="{Binding DeleteAccountsCommand}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Rectangle Width="15" Height="20" Fill="White">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
+                    </Button>
 
-                                            <Label Content="{DynamicResource langDelete}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
+                    <Button Background="Transparent" Cursor="Hand"  Margin="10,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccounts" Command="{Binding DeleteAccountsCommand}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="15" Height="20" Fill="White">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
 
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Margin="10,0,0,0"  Orientation="Horizontal">
+                                        <Label Content="{DynamicResource langDelete}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
 
-                        <Button Background="Transparent" Name="btnInfo" VerticalAlignment="Center" ToolTip="{DynamicResource langInfo}" Command="{Binding InfoCommand}">
-                            <Rectangle Width="25" Height="25" Fill="White" >
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button>
-                    </StackPanel>
+                    </Button>
+
+                    <Button Background="Transparent" Name="btnInfo" VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource langInfo}" Command="{Binding InfoCommand}">
+                        <Rectangle Width="25" Height="25" Fill="White" x:Name="Info"
+                                   VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource langInfo}" 
+                                   >
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
 
                 </StackPanel>
             </Grid>
@@ -514,8 +507,16 @@
 
 
             </ListView>
-
+            <!--Help section-->
+            <Controls:FlyoutsControl>
+                <Controls:Flyout Header="{DynamicResource langModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
+                                 Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
+                    <local:HelpControl ModuleDescription="Text for account"
+                                                 VideoTutorial="{Binding VideoTutorialLink}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
+                                                 ContactSupportLink="{Binding ContactSupportLink}" />
+                </Controls:Flyout>
+            </Controls:FlyoutsControl>
         </Grid>
-
+       
     </Grid>
 </UserControl>
