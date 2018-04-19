@@ -79,7 +79,7 @@ namespace DominatorUIUtility.ViewModel
             #endregion
         }
 
-       
+
 
         #region Property
 
@@ -422,8 +422,8 @@ namespace DominatorUIUtility.ViewModel
             }
 
             DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType);
-         
-           
+
+
             #region Saving Account detail to AccountDetails database
             DataBaseConnectionGlb.Add<AccountDetails>(new AccountDetails
             {
@@ -438,7 +438,7 @@ namespace DominatorUIUtility.ViewModel
                 ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort,
                 ProxyUserName = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
                 ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword
-            }); 
+            });
             #endregion
 
             #endregion
@@ -605,7 +605,7 @@ namespace DominatorUIUtility.ViewModel
 
             //also delete the associated files
             DataBaseHandler.DeleteDatabase(selectAccounts.Select(acct => acct.AccountId));
-          
+
         }
 
         public void DeleteAccountByContextMenu(object sender)
@@ -980,22 +980,56 @@ namespace DominatorUIUtility.ViewModel
         #region Update Account status & details
         private void UpdateAccountDetailsExecute(object sender)
         {
+            var selectedAccount = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList();
+            if (selectedAccount.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                    "Please select account to update !!");
+                return;
+            }
             var updateMenuItem = sender as string;
 
-            if (updateMenuItem == "UpdateAllDetail") { }
-            //update selected account;
-            else
+
+            selectedAccount.ForEach(account =>
             {
-                switch (updateMenuItem)
+                var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                    .GetNetworkCoreFactory().AccountUpdateFactory;
+
+                try
                 {
-                    case "CheckAccountStatus":
-                      
-                        break;
-                    case "StopProcess":
-                        break;
-                    
+                    if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
+                    {
+                        // this account supports async modules
+                        var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
+                        if (updateMenuItem == "UpdateAllDetail")
+                        {
+                            asyncAccount.CheckStatusAsync(account, account.Token)
+                                        .ContinueWith(checkSucceeded =>
+                                        {
+                                            if (checkSucceeded.Result)
+                                                return asyncAccount.UpdateDetailsAsync(account, account.Token);
+                                            return new Task(() => { });
+                                        })
+                                        .Start();
+                        }
+                        else if (updateMenuItem == "CheckAccountStatus")
+                        {
+                            asyncAccount
+                                .CheckStatusAsync(account, account.Token);
+                        }
+
+                        else if (updateMenuItem == "StopProcess")
+                        {
+
+                        }
+                    }
                 }
-            }
+                catch (Exception ex)
+                {
+
+                }
+            });
+
         }
 
         private bool UpdateAccountDetailsCanExecute(object sender) => true;
