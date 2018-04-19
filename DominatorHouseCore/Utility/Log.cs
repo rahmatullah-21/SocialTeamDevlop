@@ -103,7 +103,17 @@
         public static string UpdatingDetails { get; set; } = "{0}\t {1}\t Started {2} synchronization.";
         public static string DetailsUpdated { get; set; } = "{0}\t {1}\t synchronizing {2} Successful.";
         public static string UploadedAccount { get; set; } = "Successfully added {0} account to {1}";
+
+        /// <summary>
+        /// 0 = NumberOfAccounts
+        /// 1 = PlatformName
+        /// </summary>
         public static string DeletedAccounts { get; set; } = "Deleted {0} accounts from {1}";
+
+        /// <summary>
+        /// 0 = account.SocialNetwork
+        /// 1 = account.Username
+        /// </summary>
         public static string AccountEdited { get; set; } = "{0}\t {1}\t details updated successfully.";
 
         /// <summary>
@@ -161,5 +171,30 @@
         public static string ProcessStopped { get; set; } = "{0}\t {1}\t Stopped process to {2}.";
 
         public static string CampaignNotSet { get; set; } = "{0}\t {1}\t Stopped process to {2}.";
+
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// </summary>
+        public static string DeleteAccount { get; set; } = "{0}\t {1}\t Deleted successfully!";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// </summary>
+        public static string AddedAccount { get; set; } = "{0}\t {1}\t Added successfully!";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// </summary>
+        public static string NotAddedAccount { get; set; } = "{0}\t {1}\t Having issues to add!";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// </summary>
+        public static string AlreadyAddedAccount { get; set; } = "{0}\t {1}\t Already added!";
     }
 }

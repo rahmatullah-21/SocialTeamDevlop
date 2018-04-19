@@ -293,7 +293,6 @@
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\UnfollowedUsers.cs" />
-    <Compile Include="Diagnostics\DominatorHouseInitializer.cs" />
     <Compile Include="Diagnostics\Exceptions\ExceptionExtensions.cs" />
     <Compile Include="Diagnostics\Exceptions\GlobusExceptionHandler.cs" />
     <Compile Include="Diagnostics\Exceptions\ThreadFactory.cs" />
@@ -319,6 +318,7 @@
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
     <Compile Include="FileManagers\PinFileManager.cs" />
+    <Compile Include="FileManagers\SocinatorKeyHelper.cs" />
     <Compile Include="FileManagers\SoftwareSettingsFileManager.cs" />
     <Compile Include="FileManagers\TumblrFileManager.cs" />
     <Compile Include="FileManagers\TwitterFileManager.cs" />
@@ -383,6 +383,7 @@
     <Compile Include="Models\JobActivityManager.cs" />
     <Compile Include="Models\JobConfiguration.cs" />
     <Compile Include="Models\JsonElements.cs" />
+    <Compile Include="Models\LicenseManager.cs" />
     <Compile Include="Models\LiveChatModel.cs" />
     <Compile Include="Models\ManageCommentModel.cs" />
     <Compile Include="Models\ManageDestinationModel.cs" />

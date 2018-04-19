@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
 
@@ -37,5 +38,10 @@ namespace DominatorHouseCore.DatabaseHandler.DHTables
         public string ProfilePictureUrl { get; set; }
         [Column(Order = 14)]
         public string Cookies { get; set; }
+        [Column(Order = 15)]
+        public string  UserAgent { get; set; }
+        [Column(Order = 16)]
+        public DateTime AddedDate { get; set; }
+
     }
 }

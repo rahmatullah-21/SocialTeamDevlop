@@ -118,6 +118,6 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherEmbeddedBrowserSettingsFile() => GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
         public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";
         public static string GetOtherFacebookSettingsFile() => GetOtherDir() + @"\Facebook.bin";
-     
+        public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
     }
 }
