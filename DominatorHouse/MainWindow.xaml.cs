@@ -75,7 +75,22 @@ namespace DominatorHouse
 
         private async Task LicenseCheck()
         {
-            var license = await this.ShowInputAsync("Socinator", "License");
+            
+
+            string license;
+            var key = SocinatorKeyHelper.GetKey();
+            if (key != null)
+            {
+                var settings = new MetroDialogSettings()
+                {
+                    DefaultText = string.IsNullOrEmpty(key.LicenseKey) ? "" : key.LicenseKey,
+                    AffirmativeButtonText = "Validate"
+                };
+                license = await this.ShowInputAsync("Socinator", "License", settings);
+            }
+            else
+                license = await this.ShowInputAsync("Socinator", "License");
+
             if (!string.IsNullOrEmpty(license))
             {
                 var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating is in process !", "Please wait for a while...");
@@ -97,6 +112,8 @@ namespace DominatorHouse
                 };
                 DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
 
+                var licenseManager = new DominatorHouseCore.Models.LicenseManager { LicenseKey = license, LicenseAddedDate = DateTime.Now, LicensedNetworks = networks };
+                SocinatorKeyHelper.SaveKey(licenseManager);
                 FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
                 await controller.CloseAsync();
             }
@@ -225,7 +242,7 @@ namespace DominatorHouse
 
                     var selectedTabObject = (MainTabControl.SelectedContent as TabItemTemplates)?.Content.Value;
 
-                    ((dynamic) selectedTabObject)?.setIndex((int) subTabIndex);
+                    ((dynamic)selectedTabObject)?.setIndex((int)subTabIndex);
                 };
 
                 // Go to campaign from respective module after campaign saved
@@ -368,18 +385,18 @@ namespace DominatorHouse
                             var networkAssembly = Assembly.Load(networkNamespace);
                             var networkFullNameSpace = $"{networkNamespace}.Factories.{network}NetworkCollectionFactory";
                             var networkType = networkAssembly.GetType(networkFullNameSpace);
-                        // is this a correct type?
-                        if (typeof(INetworkCollectionFactory).IsAssignableFrom(networkType))
+                            // is this a correct type?
+                            if (typeof(INetworkCollectionFactory).IsAssignableFrom(networkType))
                             {
                                 INetworkCollectionFactory networkCoreFactory;
                                 var constructors = networkType.GetConstructors();
-                            // do we have a constructor taking a strategy object?
-                            var selectedConstructor = constructors.FirstOrDefault(ci =>
-                                {
-                                    var pars = ci.GetParameters();
-                                    return pars.Length == 1 && pars[0].ParameterType ==
-                                           typeof(DominatorAccountViewModel.AccessorStrategies);
-                                });
+                                // do we have a constructor taking a strategy object?
+                                var selectedConstructor = constructors.FirstOrDefault(ci =>
+                                    {
+                                        var pars = ci.GetParameters();
+                                        return pars.Length == 1 && pars[0].ParameterType ==
+                                               typeof(DominatorAccountViewModel.AccessorStrategies);
+                                    });
                                 if (selectedConstructor != default(ConstructorInfo))
                                 {
                                     networkCoreFactory =
@@ -387,8 +404,8 @@ namespace DominatorHouse
                                 }
                                 else
                                 {
-                                // if not, do we have a constructor with no parameters?
-                                selectedConstructor = constructors.First(ci => ci.GetParameters().Length == 0);
+                                    // if not, do we have a constructor with no parameters?
+                                    selectedConstructor = constructors.First(ci => ci.GetParameters().Length == 0);
                                     networkCoreFactory = (INetworkCollectionFactory)selectedConstructor.Invoke(null);
                                 }
                                 SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);

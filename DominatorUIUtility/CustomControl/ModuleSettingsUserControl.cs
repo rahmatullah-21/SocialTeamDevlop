@@ -231,7 +231,7 @@ namespace DominatorUIUtility.CustomControl
 
                     if (currentQuery == null) return;
 
-                    currentQuery.QueryValue = query;
+                    currentQuery.QueryValue = query.Trim();
 
                     currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName();
 
@@ -252,6 +252,8 @@ namespace DominatorUIUtility.CustomControl
                 if (currentQuery == null) return;
 
                 currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                currentQuery.QueryValue = currentQuery.QueryValue.Trim();
 
                 if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
 
