@@ -20,55 +20,63 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         { get; set; }
 
         [Column(Order = 4)]
-        public int FollowedBack
-        { get; set; }
-
-        [Column(Order = 5)]
-        public int Date
-        { get; set; }
-
-        [Column(Order = 6)]
         public string ActivityType
         { get; set; }
 
-        [Column(Order = 7)]
+        [Column(Order = 5)]
         public string UserId
         { get; set; }
 
-        [Column(Order = 8)]
-        public string InteractedUserId
-        { get; set; }
-
-        [Column(Order = 9)]
-        public string InteractedUserName
-        { get; set; }
-
-        [Column(Order = 10)]
-        public int Time
-        { get; set; }
-
-        [Column(Order = 11)]
+        [Column(Order = 6)]
         public string FullName
         { get; set; }
 
+        [Column(Order = 7)]
+        public int FollowedBack
+        { get; set; }
+
+        
+
+        [Column(Order = 8)]
+        public int Date
+        { get; set; }
+
+        [Column(Order = 9)]
+        public int FollowerCount
+        { get; set; }
+
+        [Column(Order = 10)]
+        public int FollowType
+        { get; set; }
+
+
+        [Column(Order = 11)]
+        public bool? HasAnonymousProfilePicture
+        { get; set; }
 
         [Column(Order = 12)]
-        public bool? HasAnonymousProfilePicture
+        public string ProfilePicUrl
         { get; set; }
 
 
         [Column(Order = 13)]
-        public bool IsVerified
+        public int IsVerified
         { get; set; }
-
 
         [Column(Order = 14)]
-        public string ProfilePicUrl
+        public string Biography
         { get; set; }
 
-       
         [Column(Order = 15)]
-        public FollowType FollowType
+        public int Gender
+        { get; set; }
+
+        [Column(Order = 16)]
+        public string ProfileUrl
+        { get; set; }
+
+        [Column(Order = 17)]
+        public int BlockedStatus
         { get; set; }
     }
 }

@@ -59,10 +59,10 @@ namespace DominatorHouseCore.Utility
         public static string GetIndexAccountDir()
         {
             string dir = GetPlatformBaseDirectory() + @"\Index\AC";
-            DirectoryUtilities.CreateDirectory(dir);            
+            DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        public static string GetIndexAccountFile() 
+        public static string GetIndexAccountFile()
             => GetIndexAccountDir() + @"\AccountDetails.bin";
 
 
@@ -120,5 +120,6 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherEmbeddedBrowserSettingsFile() => GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
         public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";
         public static string GetOtherFacebookSettingsFile() => GetOtherDir() + @"\Facebook.bin";
+        public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
     }
 }

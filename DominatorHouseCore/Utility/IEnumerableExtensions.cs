@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,20 @@ namespace DominatorHouseCore.Utility
         public static void ForEach<T>(this IEnumerable<T> items, Action<T> action)
         {
             foreach (var item in items)
-                action(item);            
+            {
+                try
+                {
+                    action(item);
+                }
+                catch (IOException io)
+                {
+                    io.DebugLog();
+                }
+                catch (Exception e)
+                {               
+                    e.DebugLog();
+                }              
+            }                            
         }
     }
 }

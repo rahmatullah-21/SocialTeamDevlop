@@ -11,20 +11,22 @@
     </UserControl.Resources>
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.6*" />
-            <RowDefinition Height="8*" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid  Background="{DynamicResource AccentBaseColorBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                <Button Height="30" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Margin="30,0" Click="DeleteMultipleCampaign_Click"
-                        VerticalContentAlignment="Center" Background="Transparent" ToolTip="Delete selected">
+                <Button Height="30" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Click="DeleteMultipleCampaign_Click"
+                        VerticalContentAlignment="Center" Background="Transparent" ToolTip="{DynamicResource langDeleteSelected}">
                     <Button.Content>
-                        <Rectangle Width="15" Height="20" Fill="White">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-
+                        <StackPanel Orientation="Horizontal" >
+                            <Rectangle Width="15" Height="20" Fill="White">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Text="{DynamicResource langDeleteSelected}" Margin="5,0" VerticalAlignment="Center" Foreground="White" FontSize="13" FontWeight="SemiBold" />
+                        </StackPanel>
                     </Button.Content>
                 </Button>
                 <Label Foreground="White" FontSize="12" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -54,15 +56,11 @@
                                           Unchecked="AllCampaignChecked_Unchecked"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <CheckBox IsChecked="{Binding IsChecked,ElementName=AllCampaignChecked,Mode=OneWay}" 
-                                                      Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"
-                                                      Margin="5,0,0,0" />
-                                            <Label Content="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                                   AncestorType={x:Type ListViewItem}}, 
-                                                   Converter={StaticResource ListViewItemIndexConverter}}"/>
-
-                                        </StackPanel>
+                                        <CheckBox IsChecked="{Binding IsChecked,ElementName=AllCampaignChecked,Mode=OneWay}" 
+                                                  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"
+                                                  Margin="5,0,0,0" Content="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                  AncestorType={x:Type ListViewItem}}, 
+                                                  Converter={StaticResource ListViewItemIndexConverter}}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using DominatorHouseCore.Requests;
 
 namespace DominatorHouseCore.Interfaces
@@ -8,8 +9,8 @@ namespace DominatorHouseCore.Interfaces
     /// </summary>
     public interface IHttpHelper : IRequestHelper
     {
-        Task<IResponseParameter> GetRequestAsync(string url);
-        Task<IResponseParameter> GetRequestAsync(string url, IRequestParameters requestParameters);
+        Task<IResponseParameter> GetRequestAsync(string url, CancellationToken cancellationToken);
+        Task<IResponseParameter> GetRequestAsync(string url, IRequestParameters requestParameters, CancellationToken cancellationToken);
         //Task<IResponseParameter> PostRequestAsync(string url, string postData);
         //Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters requestParameters);
         IResponseParameter GetRequest(string url);

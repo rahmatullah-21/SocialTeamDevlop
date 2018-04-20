@@ -333,8 +333,8 @@ namespace DominatorUIUtility.CustomControl
                 });
                 #endregion
 
-                DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnection dataBase =
-                   DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, SocialNetworks,DatabaseType.CampaignType);
+                DataBaseConnectionCampaign dataBase =
+                   DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
                 
                 if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
                 {
@@ -378,7 +378,10 @@ namespace DominatorUIUtility.CustomControl
                 ReportManager.ExportReports(campName.SubModule, filename);
 
             };
-
+            ObjReports.CmbQueries.SelectionChanged += (senders, events) =>
+            {
+                ReportManager.FilterByQueryType(ObjReports.CmbQueries.SelectedItem.ToString(), ReportModel);
+            };
             win.ShowDialog();
         }
 

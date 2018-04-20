@@ -213,7 +213,7 @@
     <system:String x:Key="langUpdateFollowers">Update Followers</system:String>
     <system:String x:Key="langStopUpdate">Stop Update(s)</system:String>
     <system:String x:Key="langSNo">S.No</system:String>
-    <system:String x:Key="langUsername">Username</system:String>
+    <system:String x:Key="langUsername">User Name</system:String>
     <system:String x:Key="langPassword">Password</system:String>
     <system:String x:Key="langAccountGroup">Account Group</system:String>
     <system:String x:Key="langNoOfFollower">#Follower</system:String>
@@ -375,7 +375,7 @@
     <system:String x:Key="langWhitelistedUsers">Whitelisted Users</system:String>
     <system:String x:Key="langRemoveSelectedFromWhitelist">Remove Selected from Whitelist</system:String>
     <system:String x:Key="langUsernameWhiteListTag">Please enter usernames to add to WhiteListed. One username per line</system:String>
-    <system:String x:Key="langAddToWhitelist">Add To Whitelist</system:String>
+    <system:String x:Key="langAddToWhitelist">Add Users To Whitelist</system:String>
     <system:String x:Key="langRefreshWhitelistedUsersList">Refresh Whitelisted Users List</system:String>
     <system:String x:Key="langSelectFolders">Select Folders</system:String>
     <system:String x:Key="langBrowse">Browse...</system:String>
@@ -1026,8 +1026,8 @@
     <system:String x:Key="langAddProxy">Add Proxy</system:String>
     <system:String x:Key="langHideAssignedSocialProfiles">Hide Assigned social profiles</system:String>
     <system:String x:Key="langHideUsernameAndPassword">Hide username and password</system:String>
-    <system:String x:Key="langShowProxiesWithError">show only proxies with error</system:String>
-    <system:String x:Key="langShowUnassignedProxies">show only unassigned proxies</system:String>
+    <system:String x:Key="langShowProxiesWithError">Show only proxies with error</system:String>
+    <system:String x:Key="langShowUnassignedProxies">Show only unassigned proxies</system:String>
     <system:String x:Key="langURLToUseToVerifyProxies">URL to use to verify the proxies</system:String>
     <system:String x:Key="langSelectNone">Select None</system:String>
     <system:String x:Key="langDeleteSelected">Delete Selected</system:String>
@@ -1244,6 +1244,20 @@
     <system:String x:Key="GDlangMessagesPerWeek">Number of messages per week</system:String>
     <system:String x:Key="GDlangMaxMessagesDay">max messages per day</system:String>
 
+    <system:String x:Key="GDlangInputMessages">Input Message(s)</system:String>
+
+    <system:String x:Key="GDlangHashTagUsersPost">Hashtag User's post(s)</system:String>
+    <system:String x:Key="GDlangSomeonesFollowersPost">Someone's Followers Post(s)</system:String>
+    <system:String x:Key="GDlangSomeonesFollowingsPost">Someone's Followings Post(s)</system:String>
+    <system:String x:Key="GDlangFollowersOfSomeonesFollowersPosts">Followers Of Someone's Followers Post(s)</system:String>
+    <system:String x:Key="GDlangFollowersOfSomeonesFollowingsPosts">Followers Of Someone's Followings Post(s)</system:String>
+    <system:String x:Key="GDlangLocationUsersPosts">Location User's Posts</system:String>
+    <system:String x:Key="GDlangSuggestedUsersPosts">Suggested User's Posts</system:String>
+    <system:String x:Key="GDlangPostsOfUsersWhoLikedPost">Posts of Users who liked post</system:String>
+    <system:String x:Key="GDlangPostsOfUsersWhoCommentedOnPost">Posts of Users who commented on Post</system:String>
+    <system:String x:Key="GDlangOwnFollowersPosts">Own Followers Posts</system:String>
+    <system:String x:Key="GDlangOwnFollowingPosts">Own Followings Posts</system:String>
+    
     <!--End Gram Dominator-->
 
     <!--Start Twt Dominator-->

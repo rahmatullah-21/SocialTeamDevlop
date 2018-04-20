@@ -96,16 +96,5 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        private void CheckBoxShowAdvance_OnChecked(object sender, RoutedEventArgs e)
-        {
-            GridAdvanceOption.Visibility = Visibility.Visible;
-        }
-
-        private void CheckBoxShowAdvance_OnUnchecked(object sender, RoutedEventArgs e)
-        {
-            GridAdvanceOption.Visibility = Visibility.Collapsed;
-        }
-
-
     }
 }

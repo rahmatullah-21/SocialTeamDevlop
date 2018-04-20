@@ -6,10 +6,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/DHLanguages/English.xaml"/>
-                <!--<ResourceDictionary Source="/EmbeddedBrowser;component/Language/BrowserContent.xaml"/>
-                --><!--<ResourceDictionary Source="/PinDominatorCore;component/PDLanguages/English.xaml" />--><!--
-                <ResourceDictionary Source="/TwtDominatorCore;component/Languages/TDLanguages/English.xaml"/>-->
-
+                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/TumblrLanguage/English.xaml"/>
+                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/PdLanguages/English.xaml"/>
+                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/TdLanguages/English.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/YDLanguages/English.xaml"/>
 
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/LDLanguages/English.xaml"/>
@@ -17,6 +16,7 @@
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/QDLanguages/English.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/FDLanguages/English.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/GDLanguages/English.xaml"/>
+                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/RdLanguages/English.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Styles/BaseStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>

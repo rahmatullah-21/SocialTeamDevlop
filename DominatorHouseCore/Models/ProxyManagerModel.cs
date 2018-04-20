@@ -42,6 +42,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _accountProxy, value);
             }
         }
+
         private bool _isHideAssignedSocialProfiles;
         [ProtoMember(2)]
         public bool IsHideAssignedSocialProfiles
@@ -55,9 +56,9 @@ namespace DominatorHouseCore.Models
                 if (_isHideAssignedSocialProfiles == value)
                     return;
                 SetProperty(ref _isHideAssignedSocialProfiles, value);
-
             }
         }
+
         private bool _isHideUsernameAndPassword;
         [ProtoMember(3)]
         public bool IsHideUsernameAndPasswordoperty

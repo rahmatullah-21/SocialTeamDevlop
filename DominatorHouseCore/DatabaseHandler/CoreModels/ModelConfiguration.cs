@@ -1,28 +1,27 @@
 ﻿using System.Data.Entity;
-using DominatorHouseCore.DatabaseHandler.AccountDB.Tables;
 using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.DatabaseHandler.CoreModels
 {
     public class ModelConfiguration
     {
-        public static void Configure(DbModelBuilder modelBuilder, SocialNetworks network )
+        public static void Configure(DbModelBuilder modelBuilder, SocialNetworks network)
         {
-            ConfigureAccountdataBaseEntity(modelBuilder, network);
+
         }
-    
-        public static void ConfigureAccountdataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
+
+        public void ConfigureAccountdataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
         {
             switch (networks)
             {
                 case SocialNetworks.Instagram:
-                    modelBuilder.Entity<FeedInfoes>();
-                    modelBuilder.Entity<Friendships>();
-                    modelBuilder.Entity<DailyStatitics>();
-                    modelBuilder.Entity<InteractedPosts>();
-                    modelBuilder.Entity<InteractedUsers>();
-                    modelBuilder.Entity<UnfollowedUsers>();
-                    modelBuilder.Entity<HashtagScrape>();
+                    modelBuilder.Entity<GdTables.Accounts.FeedInfoes>();
+                    modelBuilder.Entity<GdTables.Accounts.Friendships>();
+                    modelBuilder.Entity<GdTables.Accounts.DailyStatitics>();
+                    modelBuilder.Entity<GdTables.Accounts.InteractedPosts>();
+                    modelBuilder.Entity<GdTables.Accounts.InteractedUsers>();
+                    modelBuilder.Entity<GdTables.Accounts.UnfollowedUsers>();
+                    modelBuilder.Entity<GdTables.Accounts.HashtagScrape>();
                     break;
                 case SocialNetworks.Twitter:
                     modelBuilder.Entity<TdTables.Accounts.FeedInfoes>();
@@ -52,6 +51,17 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<GplusTables.Accounts.InteractedCommunities>();
                     break;
                 case SocialNetworks.Facebook:
+                    modelBuilder.Entity<FdTables.Accounts.Friends>();
+                    modelBuilder.Entity<FdTables.Accounts.DailyStatitics>();
+                    modelBuilder.Entity<FdTables.Accounts.FeedInfo>();
+                    modelBuilder.Entity<FdTables.Accounts.InteractedPages>();
+                    modelBuilder.Entity<FdTables.Accounts.InteractedGroups>();
+                    modelBuilder.Entity<FdTables.Accounts.InteractedPosts>();
+                    modelBuilder.Entity<FdTables.Accounts.InteractedUsers>();
+                    modelBuilder.Entity<FdTables.Accounts.LikedPages>();
+                    modelBuilder.Entity<FdTables.Accounts.OwnGroups>();
+                    modelBuilder.Entity<FdTables.Accounts.OwnPages>();
+                    modelBuilder.Entity<FdTables.Accounts.InteractedComments>();
                     break;
                 case SocialNetworks.LinkedIn:
                     modelBuilder.Entity<LdTables.Account.Connections>();
@@ -66,9 +76,13 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 case SocialNetworks.Quora:
                     modelBuilder.Entity<QdTables.Accounts.FeedInfoes>();
                     modelBuilder.Entity<QdTables.Accounts.Friendships>();
-                    modelBuilder.Entity<QdTables.Accounts.DailyStatitics>();                    
+                    modelBuilder.Entity<QdTables.Accounts.DailyStatitics>();
                     modelBuilder.Entity<QdTables.Accounts.InteractedUsers>();
                     modelBuilder.Entity<QdTables.Accounts.UnfollowedUsers>();
+                    modelBuilder.Entity<QdTables.Accounts.InteractedAnswers>();
+                    modelBuilder.Entity<QdTables.Accounts.InteractedQuestion>();
+                    modelBuilder.Entity<QdTables.Accounts.InteractedPosts>();
+
                     break;
                 case SocialNetworks.Reddit:
                     break;
@@ -81,22 +95,28 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<YdTables.Accounts.InteractedUsers>();
                     modelBuilder.Entity<YdTables.Accounts.UnfollowedUsers>();
                     break;
-            }       
+                case SocialNetworks.Tumblr:
+                    modelBuilder.Entity<TumblrTables.Account.DailyStatitics>();
+                    modelBuilder.Entity<TumblrTables.Account.FeedInfo>();
+                    modelBuilder.Entity<TumblrTables.Account.InteractedPosts>();
+                    modelBuilder.Entity<TumblrTables.Account.InteractedUser>();
+                    break;
+            }
         }
 
 
-        public static void ConfigureCampaignDataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
+        public void ConfigureCampaignDataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
         {
             switch (networks)
             {
                 case SocialNetworks.Instagram:
-                    modelBuilder.Entity<FeedInfoes>();
-                    modelBuilder.Entity<Friendships>();
-                    modelBuilder.Entity<DailyStatitics>();
-                    modelBuilder.Entity<InteractedPosts>();
-                    modelBuilder.Entity<InteractedUsers>();
-                    modelBuilder.Entity<UnfollowedUsers>();
-                    modelBuilder.Entity<HashtagScrape>();
+                    modelBuilder.Entity<GdTables.Campaigns.FeedInfoes>();
+                    modelBuilder.Entity<GdTables.Campaigns.Friendships>();
+                    modelBuilder.Entity<GdTables.Campaigns.DailyStatitics>();
+                    modelBuilder.Entity<GdTables.Campaigns.InteractedPosts>();
+                    modelBuilder.Entity<GdTables.Campaigns.InteractedUsers>();
+                    modelBuilder.Entity<GdTables.Campaigns.UnfollowedUsers>();
+                    modelBuilder.Entity<GdTables.Campaigns.HashtagScrape>();
                     break;
                 case SocialNetworks.Twitter:
                     modelBuilder.Entity<TdTables.Campaign.InteractedPosts>();
@@ -107,19 +127,19 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<PdTables.Campaigns.InteractedPosts>();
                     modelBuilder.Entity<PdTables.Campaigns.InteractedUsers>();
                     modelBuilder.Entity<PdTables.Campaigns.UnfollowedUsers>();
+                    modelBuilder.Entity<PdTables.Campaigns.InteractedBoards>();
                     break;
                 case SocialNetworks.Gplus:
-                    // still not added campaign DB
-                    modelBuilder.Entity<GplusTables.Accounts.FeedInfoes>();
-                    modelBuilder.Entity<GplusTables.Accounts.Friendships>();
-                    modelBuilder.Entity<GplusTables.Accounts.DailyStatitics>();
-                    modelBuilder.Entity<GplusTables.Accounts.InteractedPosts>();
-                    modelBuilder.Entity<GplusTables.Accounts.InteractedUsers>();
-                    modelBuilder.Entity<GplusTables.Accounts.UnfollowedUsers>();
-                    modelBuilder.Entity<GplusTables.Accounts.Communities>();
-                    modelBuilder.Entity<GplusTables.Accounts.InteractedCommunities>();
+                    modelBuilder.Entity<GplusTables.Campaigns.InteractedUsersReport>();
+                    modelBuilder.Entity<GplusTables.Campaigns.InteractedPostsReport>();
+                    modelBuilder.Entity<GplusTables.Campaigns.InteractedCommunitiesReport>();
                     break;
                 case SocialNetworks.Facebook:
+                    modelBuilder.Entity<FdTables.Campaigns.InteractedPages>();
+                    modelBuilder.Entity<FdTables.Campaigns.InteractedGroups>();
+                    modelBuilder.Entity<FdTables.Campaigns.InteractedPosts>();
+                    modelBuilder.Entity<FdTables.Campaigns.InteractedUsers>();
+                    modelBuilder.Entity<FdTables.Campaigns.InteractedComments>();
                     break;
                 case SocialNetworks.LinkedIn:
                     modelBuilder.Entity<LdTables.Campaign.InteractedCompanies>();
@@ -128,11 +148,11 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<LdTables.Campaign.InteractedPosts>();
                     modelBuilder.Entity<LdTables.Campaign.InteractedUsers>();
                     break;
-                case SocialNetworks.Quora:                
+                case SocialNetworks.Quora:
                     modelBuilder.Entity<QdTables.Campaigns.InteractedPosts>();
                     modelBuilder.Entity<QdTables.Campaigns.InteractedUsers>();
-                    modelBuilder.Entity<QdTables.Campaigns.InteracteractedAnswers>();
-                    modelBuilder.Entity<QdTables.Campaigns.InteracteractedQuestion>();
+                    modelBuilder.Entity<QdTables.Campaigns.InteractedAnswers>();
+                    modelBuilder.Entity<QdTables.Campaigns.InteractedQuestion>();
                     modelBuilder.Entity<QdTables.Campaigns.UnfollowedUsers>();
                     break;
                 case SocialNetworks.Reddit:
@@ -143,10 +163,19 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<YdTables.Campaign.InteractedPosts>();
                     modelBuilder.Entity<YdTables.Campaign.InteractedChannels>();
                     break;
+                case SocialNetworks.Tumblr:
+                    modelBuilder.Entity<TumblrTables.Campaign.InteractedPosts>();
+                    modelBuilder.Entity<TumblrTables.Campaign.InteractedUser>();
+                    break;
             }
 
 
         }
 
+        public void ConfigureGlobalDataBaseEntity(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<DHTables.AccountDetails>();
+            modelBuilder.Entity<DHTables.BlackWhiteListUser>();
+        }
     }
 }

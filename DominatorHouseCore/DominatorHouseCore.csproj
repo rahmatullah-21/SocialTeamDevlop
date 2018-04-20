@@ -84,6 +84,9 @@
       <HintPath>..\packages\FluentScheduler.5.3.0\lib\net40\FluentScheduler.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.7.2\lib\Net40\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.0.362, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MahApps.Metro.1.6.0\lib\net45\MahApps.Metro.dll</HintPath>
@@ -145,6 +148,7 @@
     <Compile Include="BusinessLogic\Scheduler\DominatorJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.Helpers.cs" />
+    <Compile Include="BusinessLogic\Scheduler\RunningActivityManager.cs" />
     <Compile Include="BusinessLogic\Scraper\IQueryScraperFactory.cs" />
     <Compile Include="BusinessLogic\Scraper\NotImplementedQueryScraper.cs" />
     <Compile Include="BusinessLogic\Scraper\DominatorScraperFactory.cs" />
@@ -154,6 +158,7 @@
     <Compile Include="Converters\BooleanToWidthConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\EpochToDateTimeConverter.cs" />
+    <Compile Include="Converters\IndexToRowNoConverter.cs" />
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Converters\ListCountBoolConverter.cs" />
     <Compile Include="Converters\ListCountVisiblityConverter.cs" />
@@ -162,31 +167,66 @@
     <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\HashtagScrape.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\DataBaseConnectionGlobal.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\GlobalDbContext.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\GlobalDbInitializer.cs" />
+    <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
+    <Compile Include="DatabaseHandler\DHTables\BlackWhiteListUser.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\Friends.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedComments.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedGroups.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedPages.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\LikedPages.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\OwnGroups.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\OwnPages.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedComments.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedGroups.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPages.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\Friendship.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\HashtagScrape.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Campaigns\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\GdTables\FollowType.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\CampaignDbContext.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\CampaignDbInitializer.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\DataBaseConnectionCampaign.cs" />
     <Compile Include="DatabaseHandler\CoreModels\ModelConfiguration.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\DailyStatitics.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\FeedInfo.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\Friendship.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\InteractedPosts.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\InteractedUsers.cs" />
-    <Compile Include="DatabaseHandler\AccountDB\Tables\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\CoreModels\CommonDbContext.cs" />
     <Compile Include="DatabaseHandler\CoreModels\CommonDbInitializer.cs" />
     <Compile Include="DatabaseHandler\CoreModels\CustomHistory.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DataBaseConnection.cs" />
     <Compile Include="DatabaseHandler\CoreModels\SQLiteConfiguration.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\Friendship.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\HashtagScrape.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Communities.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Friendship.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedCommunities.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedPosts.cs" />
-    <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUserReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedCommunitiesReport.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedPostsReport.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedUsersReport.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\Connections.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\LdTables\Account\Groups.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedCompanies.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedGroups.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedJobs.cs" />
@@ -204,20 +244,29 @@
     <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\Friendship.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedAnswers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedAnswers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedUsers.cs" />
-    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteracteractedAnswers.cs" />
-    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteracteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedPost.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedSubreddit.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedPost.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedSubreddit.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\Friendship.cs" />
@@ -227,6 +276,12 @@
     <Compile Include="DatabaseHandler\TdTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TdTables\Campaign\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\TdTables\Campaign\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Account\DailyStatitics.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Account\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Account\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Account\InteractedUser.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedUser.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\FeedInfos.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\Friendships.cs" />
@@ -238,27 +293,40 @@
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\UnfollowedUsers.cs" />
-    <Compile Include="Diagnostics\DominatorHouseInitializer.cs" />
     <Compile Include="Diagnostics\Exceptions\ExceptionExtensions.cs" />
     <Compile Include="Diagnostics\Exceptions\GlobusExceptionHandler.cs" />
     <Compile Include="Diagnostics\Exceptions\ThreadFactory.cs" />
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
+    <Compile Include="Enums\DHEnum\UserType.cs" />
+    <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdGroupJoinerQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdPosterQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdProfileScraperQuery.cs" />
+    <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
+    <Compile Include="Enums\GdQuery\GdPostQuery.cs" />
+    <Compile Include="Enums\GdQuery\GdUserQuery.cs" />
     <Compile Include="Enums\GpDQuery\GplusCommunitiesQueries.cs" />
     <Compile Include="Enums\GpDQuery\GplusPostsQueries.cs" />
     <Compile Include="Enums\GpDQuery\GplusUsersQueries.cs" />
+    <Compile Include="Enums\LdQuery\LDMessengerQueryParameters.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
+    <Compile Include="Enums\TumblrQuery\TumblrFollowerQuery.cs" />
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
     <Compile Include="FileManagers\PinFileManager.cs" />
     <Compile Include="FileManagers\PublisherFileManager.cs" />
+    <Compile Include="FileManagers\SocinatorKeyHelper.cs" />
     <Compile Include="FileManagers\SoftwareSettingsFileManager.cs" />
     <Compile Include="FileManagers\TumblrFileManager.cs" />
     <Compile Include="FileManagers\TwitterFileManager.cs" />
     <Compile Include="FileManagers\YoutubeFileManager.cs" />
+    <Compile Include="Interfaces\ColumnSpecificationAdapter.cs" />
     <Compile Include="Interfaces\IChannel.cs" />
+    <Compile Include="Interfaces\IComments.cs" />
     <Compile Include="Interfaces\ICommunity.cs" />
     <Compile Include="Interfaces\ICompany.cs" />
     <Compile Include="Interfaces\IJob.cs" />
@@ -267,12 +335,6 @@
     <Compile Include="Diagnostics\SocinatorInitialize.cs" />
     <Compile Include="Diagnostics\UI\UIDiagnostic.cs" />
     <Compile Include="Enums\ActivityType.cs" />
-    <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdGroupJoinerQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdPosterQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdProfileScraperQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
     <Compile Include="Enums\Gender.cs" />
     <Compile Include="Enums\LdQuery\LDGroupQueryParameters.cs" />
     <Compile Include="Enums\LdQuery\LDGrowConnectionUserQueryParameters.cs" />
@@ -297,6 +359,7 @@
     <Compile Include="Interfaces\IJobConfiguration.cs" />
     <Compile Include="Interfaces\IGeneralSettings.cs" />
     <Compile Include="BusinessLogic\Scheduler\IJobProcessFactory.cs" />
+    <Compile Include="Interfaces\IPage.cs" />
     <Compile Include="Interfaces\ITabHandlerFactory.cs" />
     <Compile Include="Interfaces\IPost.cs" />
     <Compile Include="Interfaces\IUser.cs" />
@@ -305,6 +368,7 @@
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
+    <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ContentSelectGroup.cs" />
@@ -320,6 +384,7 @@
     <Compile Include="Models\JobActivityManager.cs" />
     <Compile Include="Models\JobConfiguration.cs" />
     <Compile Include="Models\JsonElements.cs" />
+    <Compile Include="Models\LicenseManager.cs" />
     <Compile Include="Models\LiveChatModel.cs" />
     <Compile Include="Models\ManageCommentModel.cs" />
     <Compile Include="Models\ManageDestinationModel.cs" />
@@ -339,6 +404,7 @@
     <Compile Include="BusinessLogic\ActivitiesWorkflow\ILoginProcess.cs" />
     <Compile Include="Models\TumblrModel.cs" />
     <Compile Include="Models\TwitterModel.cs" />
+    <Compile Include="Models\WhitelistUserModel.cs" />
     <Compile Include="Models\YoutubeModel.cs" />
     <Compile Include="Process\JobProcess.cs" />
     <Compile Include="Process\JobProcessResult.cs" />
@@ -375,9 +441,11 @@
     <Compile Include="Utility\FeatureFlags.cs" />
     <Compile Include="Utility\GridViewBehaviors.cs" />
     <Compile Include="Utility\GridViewColumns.cs" />
+    <Compile Include="Utility\HtmlParseUtility.cs" />
     <Compile Include="Utility\IEnumerableExtensions.cs" />
     <Compile Include="Utility\JsonHelper.cs" />
     <Compile Include="Utility\ListHelper.cs" />
+    <Compile Include="Utility\Log.cs" />
     <Compile Include="Utility\LoggerHelper.cs" />
     <Compile Include="Utility\ModuleConfiguration.cs" />
     <Compile Include="Utility\ObservableCollectionCustom.cs" />
@@ -424,9 +492,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DatabaseHandler\FdTables\" />
-    <Folder Include="DatabaseHandler\GplusTables\Campaigns\" />
-    <Folder Include="Enums\GdQuery\" />
     <Folder Include="Enums\PdQuery\" />
     <Folder Include="Enums\RdQuery\" />
   </ItemGroup>

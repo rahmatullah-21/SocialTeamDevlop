@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.Factories;
@@ -47,6 +50,33 @@ namespace DominatorUIUtility.CustomControl
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;
+            DominatorAccountViewModel.PropertyChanged += DominatorAccountViewModel_PropertyChanged;
+           
+        }
+       
+        List<GridViewColumn> _addedColumns = new List<GridViewColumn>();
+
+        private void DominatorAccountViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "VisibleColumns")
+            {
+                // create a new layout correspondingly
+                // remove existing columns
+                GridView gv = (GridView)AccountListView.View;
+                _addedColumns.ForEach(gvc => gv.Columns.Remove(gvc));
+                _addedColumns.Clear();
+
+                // add one column for each needed
+                var colIndex = 0;
+                _addedColumns = _dominatorAccountViewModel.VisibleColumns
+                    .Select(name => new GridViewColumn
+                    {
+                        DisplayMemberBinding = new Binding($"DisplayColumnValue{++colIndex}"),
+                        Header = name,
+                        Width = 130
+                    }).ToList();
+                _addedColumns.ForEach(gv.Columns.Add);
+            }
         }
 
         private static AccountCustomControl _accountCustomInstance = null;
@@ -82,20 +112,12 @@ namespace DominatorUIUtility.CustomControl
             if (socialNetworks == SocialNetworks.Social)
                 listCollection.Filter = null;
 
-            var networkAccountCountFactory = socialNetworks == SocialNetworks.Social
-                  ? DominatorAccountCountFactory.Instance
-                  : SocinatorInitialize.GetSocialLibrary(socialNetworks)
-                  .GetNetworkCoreFactory()
-                  .AccountCountFactory;
-
-            DominatorAccountViewModel.GridHeaderColumn1.HeaderVisible = networkAccountCountFactory.HeaderColumn1Visiblity;
-            DominatorAccountViewModel.GridHeaderColumn1.Header = networkAccountCountFactory.HeaderColumn1Value;
-            DominatorAccountViewModel.GridHeaderColumn2.HeaderVisible = networkAccountCountFactory.HeaderColumn2Visiblity;
-            DominatorAccountViewModel.GridHeaderColumn2.Header = networkAccountCountFactory.HeaderColumn2Value;
-            DominatorAccountViewModel.GridHeaderColumn3.HeaderVisible = networkAccountCountFactory.HeaderColumn3Visiblity;
-            DominatorAccountViewModel.GridHeaderColumn3.Header = networkAccountCountFactory.HeaderColumn3Value;
-            DominatorAccountViewModel.GridHeaderColumn4.HeaderVisible = networkAccountCountFactory.HeaderColumn4Visiblity;
-            DominatorAccountViewModel.GridHeaderColumn4.Header = networkAccountCountFactory.HeaderColumn4Value;
+            var spec = (socialNetworks == SocialNetworks.Social) ?
+                DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
+                SocinatorInitialize.GetSocialLibrary(socialNetworks)
+                      .GetNetworkCoreFactory()
+                      .AccountCountFactory.GetColumnSpecificationProvider();
+            DominatorAccountViewModel.VisibleColumns = spec.VisibleHeaders;
             DominatorAccountViewModel.SocialNetwork = socialNetworks;
         }
 
@@ -318,8 +340,8 @@ namespace DominatorUIUtility.CustomControl
 
             if (dataContext != null)
                 DominatorAccountViewModel.DeleteAccountByContextMenu(sender);
-
             AccountListView.ItemsSource = DominatorAccountViewModel.AccountCollectionView;
+
         }
 
         public void GotoTools(object sender, RoutedEventArgs e)
@@ -412,6 +434,7 @@ namespace DominatorUIUtility.CustomControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
+      
+       
     }
 }

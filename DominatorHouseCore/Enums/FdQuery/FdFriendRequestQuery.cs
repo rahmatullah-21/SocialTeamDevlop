@@ -8,10 +8,10 @@ namespace DominatorHouseCore.Enums.FdQuery
         Keywords = 1,
         [Description("FdlangLocation")]
         Location = 2,
-        [Description("FdlangCustomUsersList")]
-        CustomUserList = 3,
-        [Description("FdlangSuggestedFriends")]
-        SuggsetedFriends = 4,
+        //[Description("FdlangCustomUsersList")]
+        //CustomUserList = 3,
+        ////[Description("FdlangSuggestedFriends")]
+        ////SuggsetedFriends = 4,
         [Description("FdlangGroupMembers")]
         GroupMembers = 5,
         [Description("FdlangPageMembers")]

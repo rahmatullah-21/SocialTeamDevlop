@@ -43,7 +43,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     }
                 }               
             }
-            catch (Exception )
+            catch (Exception ex)
             {
                 return 0;
             }
@@ -65,7 +65,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }

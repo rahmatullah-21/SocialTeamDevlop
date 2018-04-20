@@ -56,27 +56,74 @@ namespace DominatorHouse
 
         private DominatorAccountViewModel.AccessorStrategies _strategies;
 
+        private string _licenseKey;
+
         public MainWindow()
         {
-            _strategies = new DominatorAccountViewModel.AccessorStrategies
+            try
             {
-                ActionCheckAccount = AccountStatusChecker,
-                AccountBrowserLogin = AccountBrowserLogin,
-                _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
-                _inform_warnings = GlobusLogHelper.log.Warn,
-                action_UpdateFollower = AccountUpdate
-            };
+                DialogParticipation.SetRegister(this, this);
+                Dispatcher.Invoke(async () => { await LicenseCheck(); });
 
-            DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
+                InitializeComponent();
+                SocinatorInitialize.LogInitializer(this);
+                SocinatorWindow.DataContext = this;
+                Loaded += (o, e) => GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
 
-            SocinatorInitialize.LogInitializer(this);
-            Loaded += (o, e) => GlobusLogHelper.log.Info("Welcome to Socinator!");
-            InitializeComponent();
-            SocinatorWindow.DataContext = this;
-            // FeatureFlags.Check("Instagram", SocinatorInitializer);
-            FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
+        private async Task LicenseCheck()
+        {
+            
 
+            string license;
+            var key = SocinatorKeyHelper.GetKey();
+            if (key != null)
+            {
+                var settings = new MetroDialogSettings()
+                {
+                    DefaultText = string.IsNullOrEmpty(key.LicenseKey) ? "" : key.LicenseKey,
+                    AffirmativeButtonText = "Validate"
+                };
+                license = await this.ShowInputAsync("Socinator", "License", settings);
+            }
+            else
+                license = await this.ShowInputAsync("Socinator", "License");
 
+            if (!string.IsNullOrEmpty(license))
+            {
+                var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating is in process !", "Please wait for a while...");
+                controller.SetIndeterminate();
+                _licenseKey = license;
+                var networks = await SocinatorInitialize.GetAvailableSocialNetworks(_licenseKey);
+                if (networks.Count <= 1)
+                {
+                    Close();
+                    return;
+                }
+                _strategies = new DominatorAccountViewModel.AccessorStrategies
+                {
+                    ActionCheckAccount = AccountStatusChecker,
+                    AccountBrowserLogin = AccountBrowserLogin,
+                    _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
+                    _inform_warnings = GlobusLogHelper.log.Warn,
+                    action_UpdateFollower = AccountUpdate
+                };
+                DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
+
+                var licenseManager = new DominatorHouseCore.Models.LicenseManager { LicenseKey = license, LicenseAddedDate = DateTime.Now, LicensedNetworks = networks };
+                SocinatorKeyHelper.SaveKey(licenseManager);
+                FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
+                await controller.CloseAsync();
+            }
+            else
+            {
+                Close();
+            }
         }
 
         public ObservableCollection<TabItemTemplates> TabItems
@@ -165,42 +212,57 @@ namespace DominatorHouse
 
         private void SocinatorInitializer()
         {
-            var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);
 
-            Task.Factory.StartNew(() => { JobManager.AddJob(() => InitializeJobCores("License"), x => x.ToRunNow()); });
-
-            //Init UI delegates            
-            CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg) == MessageDialogResult.Affirmative;
-
-            TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
-
-            ConfigFileManager.ApplyTheme();
-
-            var performanceTask = new Task(StartbindMemory,
-                TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
-            performanceTask.Start();
-
-            TabSwitcher.ChangeTabIndex = (mainTabIndex, subTabIndex) =>
+            try
             {
-                SelectedViewIndex = mainTabIndex;
+                var accountCustomControl =
+                    AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);
 
-                if (subTabIndex == null)
-                    return;
+                Task.Factory.StartNew(() =>
+                {
+                    JobManager.AddJob(() => InitializeJobCores(_licenseKey), x => x.ToRunNow());
+                });
 
-                var selectedTabObject = (MainTabControl.SelectedContent as TabItemTemplates)?.Content.Value;
+                //Init UI delegates            
+                CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
+                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg) ==
+                    MessageDialogResult.Affirmative;
 
-                ((dynamic)selectedTabObject)?.setIndex((int)subTabIndex);
-            };
+                TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
 
-            // Go to campaign from respective module after campaign saved
-            TabSwitcher.GoToCampaign = ()
-                => SelectedViewIndex =
-                    TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
+                ConfigFileManager.ApplyTheme();
 
-            DialogParticipation.SetRegister(this, this);
+                var performanceTask = new Task(StartbindMemory,
+                    TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
+                performanceTask.Start();
 
-            Closed += (o, e) => Process.GetCurrentProcess().Kill();
+                TabSwitcher.ChangeTabIndex = (mainTabIndex, subTabIndex) =>
+                {
+                    SelectedViewIndex = mainTabIndex;
+
+                    if (subTabIndex == null)
+                        return;
+
+                    var selectedTabObject = (MainTabControl.SelectedContent as TabItemTemplates)?.Content.Value;
+
+                    ((dynamic)selectedTabObject)?.setIndex((int)subTabIndex);
+                };
+
+                // Go to campaign from respective module after campaign saved
+                TabSwitcher.GoToCampaign = ()
+                    => SelectedViewIndex =
+                        TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
+
+                Closed += (o, e) => Process.GetCurrentProcess().Kill();
+            }
+            catch (AggregateException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
 
@@ -212,14 +274,21 @@ namespace DominatorHouse
 
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (MainTabControl == null)
-                return;
-            TabDock = Dock.Top;
-            var selectedSocialNetwork =
-                (SocialNetworks)Enum.Parse(typeof(SocialNetworks), cmbSocialNetwork.SelectedItem.ToString());
-            if (selectedSocialNetwork == SocialNetworks.Social)
-                TabDock = Dock.Left;
-            TabInitialize(selectedSocialNetwork);
+            try
+            {
+                if (MainTabControl == null)
+                    return;
+                TabDock = Dock.Top;
+                var selectedSocialNetwork =
+                    (SocialNetworks)Enum.Parse(typeof(SocialNetworks), cmbSocialNetwork.SelectedItem.ToString());
+                if (selectedSocialNetwork == SocialNetworks.Social)
+                    TabDock = Dock.Left;
+                TabInitialize(selectedSocialNetwork);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public void TabInitialize(SocialNetworks network)
@@ -246,22 +315,30 @@ namespace DominatorHouse
 
         private void TabItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var textBlockDetails = (FrameworkElement)sender as TextBlock;
-
-            if (textBlockDetails == null)
-                return;
-
-            if (textBlockDetails.Text == FindResource("langAutoActivity").ToString())
+            try
             {
-                var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
-                    .AccountUserControlTools;
-                accountUi.GetStartupToolsView();
+                var textBlockDetails = (FrameworkElement)sender as TextBlock;
+
+                if (textBlockDetails == null)
+                    return;
+
+                if (textBlockDetails.Text == FindResource("langAutoActivity").ToString())
+                {
+                    var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
+                        .AccountUserControlTools;
+                    accountUi.GetStartupToolsView();
+                }
+                if (textBlockDetails.Text == FindResource("langPublisher").ToString())
+                {
+                    PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
 
-            if (textBlockDetails.Text == FindResource("langPublisher").ToString())
-            {
-                PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
-            }
+          
         }
 
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -294,71 +371,77 @@ namespace DominatorHouse
 
         public void InitializeJobCores(string license)
         {
-            Task.Factory.StartNew(() =>
+            try
             {
-                var nextDayTime = DateTime.Now.AddDays(1);
-
-                JobManager.AddJob(() => InitializeJobCores("License"),
-                    x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1))
-                        .AndEvery(1).Days());
-            });
-
-            AvailableNetworks = SocinatorInitialize.GetAvailableSocialNetworks(license);
-            var to_remove = new List<SocialNetworks>();
-            foreach (var network in AvailableNetworks)
-            {
-                FeatureFlags.Check(network.ToString(), () =>
-                {
-                    try
+                Task.Factory.StartNew(() =>
                     {
-                        var networkNamespace = SocinatorInitialize.GetNetworksNamespace(network);
-                        var networkAssembly = Assembly.Load(networkNamespace);
-                        var networkFullNameSpace = $"{networkNamespace}.Factories.{network}NetworkCollectionFactory";
-                        var networkType = networkAssembly.GetType(networkFullNameSpace);
-                        // is this a correct type?
-                        if (typeof(INetworkCollectionFactory).IsAssignableFrom(networkType))
+                        var nextDayTime = DateTime.Now.AddDays(1);
+
+                        JobManager.AddJob(() => InitializeJobCores(license),
+                            x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1))
+                                .AndEvery(1).Days());
+                    });
+
+                AvailableNetworks = SocinatorInitialize.AvailableNetworks;
+                var to_remove = new List<SocialNetworks>();
+                foreach (var network in AvailableNetworks)
+                {
+                    FeatureFlags.Check(network.ToString(), () =>
+                    {
+                        try
                         {
-                            INetworkCollectionFactory networkCoreFactory;
-                            var constructors = networkType.GetConstructors();
-                            // do we have a constructor taking a strategy object?
-                            var selectedConstructor = constructors.FirstOrDefault(ci =>
+                            var networkNamespace = SocinatorInitialize.GetNetworksNamespace(network);
+                            var networkAssembly = Assembly.Load(networkNamespace);
+                            var networkFullNameSpace = $"{networkNamespace}.Factories.{network}NetworkCollectionFactory";
+                            var networkType = networkAssembly.GetType(networkFullNameSpace);
+                            // is this a correct type?
+                            if (typeof(INetworkCollectionFactory).IsAssignableFrom(networkType))
                             {
-                                var pars = ci.GetParameters();
-                                return pars.Length == 1 && pars[0].ParameterType == typeof(DominatorAccountViewModel.AccessorStrategies);
-                            });
-                            if (selectedConstructor != default(ConstructorInfo))
-                            {
-                                networkCoreFactory = (INetworkCollectionFactory)selectedConstructor.Invoke(new object[] { _strategies });
+                                INetworkCollectionFactory networkCoreFactory;
+                                var constructors = networkType.GetConstructors();
+                                // do we have a constructor taking a strategy object?
+                                var selectedConstructor = constructors.FirstOrDefault(ci =>
+                                    {
+                                        var pars = ci.GetParameters();
+                                        return pars.Length == 1 && pars[0].ParameterType ==
+                                               typeof(DominatorAccountViewModel.AccessorStrategies);
+                                    });
+                                if (selectedConstructor != default(ConstructorInfo))
+                                {
+                                    networkCoreFactory =
+                                        (INetworkCollectionFactory)selectedConstructor.Invoke(new object[] { _strategies });
+                                }
+                                else
+                                {
+                                    // if not, do we have a constructor with no parameters?
+                                    selectedConstructor = constructors.First(ci => ci.GetParameters().Length == 0);
+                                    networkCoreFactory = (INetworkCollectionFactory)selectedConstructor.Invoke(null);
+                                }
+                                SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);
                             }
-                            else
-                            {
-                                // if not, do we have a constructor with no parameters?
-                                selectedConstructor = constructors.First(ci => ci.GetParameters().Length == 0);
-                                networkCoreFactory = (INetworkCollectionFactory)selectedConstructor.Invoke(null);
-                            }
-                            SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        to_remove.Add(network);
-                        ex.DebugLog();
-                    }
-                });
-            }
+                        catch (AggregateException ex)
+                        {
 
-            AvailableNetworks.ExceptWith(to_remove);
-
-            var accountDetails = AccountsFileManager.GetAll();
-
-            foreach (var account in accountDetails)
-                foreach (var modulesConfiguration in account.ActivityManager.LstModuleConfiguration)
-                {
-                    DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork,
-                        modulesConfiguration.ActivityType);
-                    DominatorScheduler.ScheduleForEachModule(modulesConfiguration.ActivityType, account,
-                        account.AccountBaseModel.AccountNetwork);
+                        }
+                        catch (Exception ex)
+                        {
+                            to_remove.Add(network);
+                            ex.DebugLog();
+                        }
+                    });
                 }
+
+                AvailableNetworks.ExceptWith(to_remove);
+
+                var accountDetails = AccountsFileManager.GetAll();
+
+                RunningActivityManager.Initialize(accountDetails);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         [NotifyPropertyChangedInvocator]
@@ -369,33 +452,38 @@ namespace DominatorHouse
 
         public void AccountStatusChecker(DominatorAccountModel dominatorAccountModel)
         {
-            var cancellationTokenSource = new CancellationTokenSource();
-            var token = cancellationTokenSource.Token;
-
-            Task.Factory.StartNew(() =>
+            try
             {
-                var accountUpdateFactory = SocinatorInitialize
-                    .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                    .GetNetworkCoreFactory().AccountUpdateFactory;
-                accountUpdateFactory.CheckStatus(dominatorAccountModel);
-            }, token);
-
+                Task.Factory.StartNew(() =>
+                {
+                    var accountUpdateFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+                    accountUpdateFactory.CheckStatus(dominatorAccountModel);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
         {
-
-            var cancellationTokenSource = new CancellationTokenSource();
-            var token = cancellationTokenSource.Token;
-
-            Task.Factory.StartNew(() =>
+            try
             {
-                var accountUpdateFactory = SocinatorInitialize
-                .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                .GetNetworkCoreFactory().AccountUpdateFactory;
-                accountUpdateFactory.UpdateDetails(dominatorAccountModel);
-            }, token);
-
+                Task.Factory.StartNew(() =>
+                {
+                    var accountUpdateFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+                    accountUpdateFactory.UpdateDetails(dominatorAccountModel);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)

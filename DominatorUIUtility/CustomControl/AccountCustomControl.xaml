@@ -4,22 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"           
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"           
              xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
              Name="AccountModule"
              mc:Ignorable="d">
-
     <UserControl.Resources>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converters:BooleanToVisibilityConverter>
-        <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
+        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
     </UserControl.Resources>
-    
+
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.8*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -28,209 +26,200 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
-                <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
-                    <Label  
+
+            <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
+                <Label  
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center" 
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="White" Margin="5,0,0,0"
                                Content="{DynamicResource langAccountDetails}" />
-                </StackPanel>
-            </Grid>
+            </StackPanel>
+
 
             <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
-                <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right">
-                    <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
-                        <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/AddSingleAccount.png"  />
-                                            <Label Content="{DynamicResource langAddAccount}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
-                        <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnLoadMultipleAccounts" Command="{Binding LoadMultipleAccountsCommand}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Rectangle Width="20" Height="18" Fill="White" >
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                            <Label Content="{DynamicResource btnImportMultipleAccounts}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
 
-                        <Button Background="Transparent" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect" Command="{Binding ContextMenuOpenCommand}" CommandParameter="{Binding ElementName=BtnSelect}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                            <Label Content="{DynamicResource langSelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
+                    <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/AddSingleAccount.png"  />
+                                        <Label Content="{DynamicResource langAddAccount}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
 
-                            <Button.ContextMenu>
-                                <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                                    <MenuItem Header="{DynamicResource langAllAccounts}" Name="TitleMenu_AllAccounts"  Command="{Binding SelectAccountCommand}" CommandParameter="SelectAll">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                    <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccounts" Command="{Binding LoadMultipleAccountsCommand}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="20" Height="18" Fill="White" >
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <Label Content="{DynamicResource btnImportMultipleAccounts}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
 
-                                    <Separator />
+                    <Button Background="Transparent"  Margin="10,0,0,0" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect" Command="{Binding ContextMenuOpenCommand}" CommandParameter="{Binding ElementName=BtnSelect}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
+                                        <Label Content="{DynamicResource langSelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
 
-                                    <MenuItem Header="{DynamicResource langWorkingAccounts}" Name="TitleMenuWorkingAccounts" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                        <Button.ContextMenu>
+                            <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="{DynamicResource langAllAccounts}" Name="TitleMenu_AllAccounts"  Command="{Binding SelectAccountCommand}" CommandParameter="SelectAll">
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
 
-                                    <Separator />
-                                    <MenuItem Header="{DynamicResource langNotWorkingAccounts}" Name="TitleMenuNotWorkingAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotWorking" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/notworking.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                <Separator />
 
-                                    <MenuItem Header="{DynamicResource langNotCheckedAccounts}" Name="TitleMenuNotCheckedAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotChecked" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                <MenuItem Header="{DynamicResource langWorkingAccounts}" Name="TitleMenuWorkingAccounts" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
 
-                                    <MenuItem Name="MenuTitleGroups"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource langSelectAccountsByGroups}"   >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
-                                        </MenuItem.Icon>
-                                        <MenuItem.ItemTemplate>
-                                            <DataTemplate>
-                                                <CheckBox Content="{Binding AccountGroupName}" Name="chkgroup" IsChecked="{Binding IsAccountGroupSelected}"  />
-                                            </DataTemplate>
-                                        </MenuItem.ItemTemplate>
-                                    </MenuItem>
+                                <Separator />
+                                <MenuItem Header="{DynamicResource langNotWorkingAccounts}" Name="TitleMenuNotWorkingAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotWorking" >
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/notworking.png" Width="20" Height="20" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
 
-                                    <Separator />
+                                <MenuItem Header="{DynamicResource langNotCheckedAccounts}" Name="TitleMenuNotCheckedAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotChecked" >
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource langDeselectAll}" Name="TitleMenu_DeselectAll"  Command="{Binding SelectAccountCommand}" CommandParameter="DeselectAll">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                <MenuItem Name="MenuTitleGroups"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource langSelectAccountsByGroups}"   >
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
+                                    </MenuItem.Icon>
+                                    <MenuItem.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Content="{Binding Content}" Name="chkgroup" IsChecked="{Binding IsContentSelected}" 
+                                                        Command="{Binding DataContext.SelectAccountByGroupCommand,
+                                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                                                        CommandParameter="{Binding ElementName=chkgroup}">
+                                            </CheckBox>
+                                        </DataTemplate>
+                                    </MenuItem.ItemTemplate>
+                                </MenuItem>
 
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Margin="10,0,0,0"  Orientation="Horizontal">
-                        <Button Name="btnUpdate" Background="Transparent" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Command="{Binding ContextMenuOpenCommand}" CommandParameter="{Binding ElementName=btnUpdate}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
-                                            <Label Content="{DynamicResource langUpdate}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                            <Button.ContextMenu>
-                                <ContextMenu  DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                <Separator />
 
-                                    <MenuItem Header="{DynamicResource langUpdateAllDetails}" Name="UpdateAllDetailsMenu" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/edit.png" Width="20" Height="20"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                <MenuItem Header="{DynamicResource langDeselectAll}" Name="TitleMenu_DeselectAll"  Command="{Binding SelectAccountCommand}" CommandParameter="DeselectAll">
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
+                                    </MenuItem.Icon>
+                                </MenuItem>
 
-                                    <MenuItem Header="{DynamicResource langUpdateFollowing}" Name="UpdateFollowing" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateFollowing">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/friendupdate.png" Width="20" Height="20"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
 
-                                    <MenuItem Header="{DynamicResource langUpdateFollower}" Name="UpdateFollower" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateFollower">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/groupupdate.png" Width="20" Height="20"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                    <Button Name="btnUpdate" Background="Transparent"  Margin="10,0,0,0" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Command="{Binding ContextMenuOpenCommand}" CommandParameter="{Binding ElementName=btnUpdate}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
+                                        <Label Content="{DynamicResource langUpdate}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Button.ContextMenu>
+                            <ContextMenu  DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
 
-                                    <MenuItem Header="{DynamicResource langUpdatePosts}" Name="UpdatePosts"  Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdatePosts">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/postsUpdate.png" Width="20" Height="20" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                <MenuItem Header="{DynamicResource langUpdateAllDetails}" Name="UpdateAllDetailsMenu" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/edit.png" Width="20" Height="20"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
 
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
-                        <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnExport" Command="{Binding ExportCommand}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
-                                            <Label Content="{DynamicResource langExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
+                                <MenuItem Header="{DynamicResource DHlangCheckAccountStatus}" Name="CheckAccountStatus" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/friendupdate.png" Width="20" Height="20"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem Header="{DynamicResource DHlangStopProcess}" Name="StopProcess" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
+                                    <MenuItem.Icon>
+                                        <Image Source="/DominatorUIUtility;component/Images/groupupdate.png" Width="20" Height="20"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+
+                    <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0" Name="btnExport" Command="{Binding ExportCommand}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
+                                        <Label Content="{DynamicResource langExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
 
 
-                                    </Border>
+                                </Border>
 
-                                </ControlTemplate>
-                            </Button.Template>
+                            </ControlTemplate>
+                        </Button.Template>
 
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Margin="10,0,0,0"  Orientation="Horizontal">
-                        <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccounts" Command="{Binding DeleteAccountsCommand}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Rectangle Width="15" Height="20" Fill="White">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
+                    </Button>
 
-                                            <Label Content="{DynamicResource langDelete}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
+                    <Button Background="Transparent" Cursor="Hand"  Margin="10,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccounts" Command="{Binding DeleteAccountsCommand}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="15" Height="20" Fill="White">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
 
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Margin="10,0,0,0"  Orientation="Horizontal">
+                                        <Label Content="{DynamicResource langDelete}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
 
-                        <Button Background="Transparent" Name="btnInfo" VerticalAlignment="Center" ToolTip="{DynamicResource langInfo}" Command="{Binding InfoCommand}">
-                            <Rectangle Width="25" Height="25" Fill="White" >
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button>
-                    </StackPanel>
+                    </Button>
+
+                    <Button Background="Transparent" Name="btnInfo" VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource langInfo}" Command="{Binding InfoCommand}">
+                        <Rectangle Width="25" Height="25" Fill="White" x:Name="Info"
+                                   VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource langInfo}" 
+                                   >
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
 
                 </StackPanel>
             </Grid>
@@ -239,202 +228,261 @@
 
         <!--Data grid view-->
         <Grid Grid.Row="1">
-
-
-            <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" >
+            <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" 
+                      AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
                         <EventSetter Event="ContextMenu.ContextMenuOpening" Handler="Row_ContextMenuOpening"/>
+                        <!--<Setter Property="Foreground" Value="White"/>-->
+                        <Setter Property="Height" Value="30"/>
+                        <!--<Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Border
+                                        Background="{TemplateBinding Background}">
+                                        <GridViewRowPresenter HorizontalAlignment="Stretch"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       Width="Auto" Margin="0" Content="{TemplateBinding Content}"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>-->
+                        <!--<Style.Triggers>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Email not found">
+                                <Setter Property="Background" Value="#722f37" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Logging...">
+                                <Setter Property="Background" Value="MediumSeaGreen" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Success">
+                                <Setter Property="Background" Value="DarkGreen" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Failed">
+                                <Setter Property="Background" Value="#830303" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Invalid Credentials">
+                                <Setter Property="Background" Value="#b22222" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Incorrect password">
+                                <Setter Property="Background" Value="#b22222" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Email">
+                                <Setter Property="Background" Value=" #701f28" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Phone Number">
+                                <Setter Property="Background" Value=" #701f28" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Email">
+                                <Setter Property="Background" Value=" #701f28" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Phone Number or Email">
+                                <Setter Property="Background" Value=" #701f28" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Not Checked">
+                                <Setter Property="Background" Value="#778899" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Proxy is Not Working">
+                                <Setter Property="Background" Value="#9b111e" />
+                            </DataTrigger>
+                        </Style.Triggers>-->
                     </Style>
                 </ListView.ItemContainerStyle>
 
                 <ListView.View>
-                    <GridView>
+                    <GridView >
                         <GridViewColumn Header="{DynamicResource langSelectSocialNetwork}" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    
 
-                                    <ContentControl>
-                                        <ContentControl.Style>
-                                            <Style TargetType="{x:Type ContentControl}">
-                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                <Style.Triggers>
-                                                
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#003569" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <ContentControl>
+                                            <ContentControl.Style>
+                                                <Style TargetType="{x:Type ContentControl}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                    <Style.Triggers>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#003569" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#3897F0" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#3897F0" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                   
-
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="OrangeRed" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="DodgerBlue" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-
-                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-                                                    
-                                                    
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ContentControl.Style>
-                                    </ContentControl>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
 
 
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="OrangeRed" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="DodgerBlue" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                        <GridViewColumn Header="Select" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}"></CheckBox>
-                                        
-                                        <Label Margin="4 0 0 0" Content="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                                   AncestorType={x:Type ListViewItem}}, 
-                                                   Converter={StaticResource ListViewItemIndexConverter}}"/>
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
+                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="DimGray" Width="16" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+                                        <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
+                                                  Content="{Binding (ItemsControl.AlternationIndex),
+                                                  RelativeSource={RelativeSource AncestorType=ListViewItem},
+                                                  Converter={StaticResource IndexToRowNoConverter}}"/>
                                     </StackPanel>
+
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn  Header="User Name" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
+                        <GridViewColumn  Header="{DynamicResource langUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
 
-                        <GridViewColumn  Header="Status" DisplayMemberBinding="{Binding AccountBaseModel.Status}"/>
+                        <GridViewColumn  Header="{DynamicResource langStatus}" DisplayMemberBinding="{Binding AccountBaseModel.Status}"/>
 
-                        <GridViewColumn  Header="Group Name" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
+                        <GridViewColumn  Header="{DynamicResource langGroupName}" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
 
-                        <GridViewColumn  Header="Proxy" Width="130">
+                        <GridViewColumn  Header="{DynamicResource langProxyAddress}" Width="130">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type ListViewItem}">
-                                    <TextBlock Name="TextBlockName" Text="{Binding Path=AccountBaseModel.AccountProxy.ProxyIp}"></TextBlock>
+                                    <TextBlock Name="TextBlockName">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}:{1}">
+                                                <Binding Path="AccountBaseModel.AccountProxy.ProxyIp" />
+                                                <Binding Path="AccountBaseModel.AccountProxy.ProxyPort" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="">
                                             <Setter TargetName="TextBlockName" Property="Text" Value="Local Ip" />
@@ -449,35 +497,6 @@
 
                         </GridViewColumn>
 
-                        <GridViewColumn  DisplayMemberBinding="{Binding DisplayColumnValue2}">
-                            <GridViewColumnHeader Width="130"
-                                                  Content="{Binding DataContext.GridHeaderColumn2.Header,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                                                  Visibility="{Binding DataContext.GridHeaderColumn2.HeaderVisible,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                  utility:GridViewBehaviors.CollapseableColumn="True" />
-
-                        </GridViewColumn>
-                        <GridViewColumn  DisplayMemberBinding="{Binding DisplayColumnValue3}">
-                            <GridViewColumnHeader Width="130"
-                                                  Content="{Binding DataContext.GridHeaderColumn3.Header,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                                                  Visibility="{Binding DataContext.GridHeaderColumn3.HeaderVisible,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                  utility:GridViewBehaviors.CollapseableColumn="True" />
-                        </GridViewColumn>
-
-                        <GridViewColumn  DisplayMemberBinding="{Binding DisplayColumnValue4}">
-                            <GridViewColumnHeader Width="130"
-                                                  Content="{Binding DataContext.GridHeaderColumn4.Header,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                                                  Visibility="{Binding DataContext.GridHeaderColumn4.HeaderVisible,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                  utility:GridViewBehaviors.CollapseableColumn="True" />
-
-                        </GridViewColumn>
-
-
-                        <GridViewColumn  DisplayMemberBinding="{Binding DisplayColumnValue1}">
-                            <GridViewColumnHeader Width="130"
-                                                  Content="{Binding GridHeaderColumn1.Header }"
-                                                  Visibility="{Binding GridHeaderColumn1.HeaderVisible}"
-                                                  utility:GridViewBehaviors.CollapseableColumn="False" />
-                        </GridViewColumn>
                     </GridView>
 
 
@@ -488,8 +507,16 @@
 
 
             </ListView>
-
+            <!--Help section-->
+            <Controls:FlyoutsControl>
+                <Controls:Flyout Header="{DynamicResource langModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
+                                 Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
+                    <local:HelpControl ModuleDescription="Text for account"
+                                                 VideoTutorial="{Binding VideoTutorialLink}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
+                                                 ContactSupportLink="{Binding ContactSupportLink}" />
+                </Controls:Flyout>
+            </Controls:FlyoutsControl>
         </Grid>
-
+       
     </Grid>
 </UserControl>

@@ -41,6 +41,10 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             {
                 ex.ErrorLog($"Unable to find key for given module - {module}. {ex.Message}");
             }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine(@"Cancellation Requested !");
+            }
         }
 
         public void ScrapeWithQueries()

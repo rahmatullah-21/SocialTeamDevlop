@@ -4,13 +4,13 @@ namespace DominatorHouseCore.Enums
 {
     public enum ActivityType
     {
-        [Description("Twitter,Instagram,Gplus")]
+        [Description("Twitter,Instagram,Gplus,Quora,Tumblr")]
         Follow = 1,
 
-        [Description("Twitter,Instagram,Gplus")]
+        [Description("Twitter,Instagram,Gplus,Quora,Tumblr")]
         Unfollow = 2,
 
-        [Description("Facebook,Twitter,Instagram,Gplus")]
+        [Description("Facebook,Twitter,Instagram,Gplus,Tumblr")]
         Like = 3,
 
         [Description("Twitter,Instagram,Gplus")]
@@ -207,15 +207,15 @@ namespace DominatorHouseCore.Enums
         ChannelScraper = 68,
 
         [Description("Youtube")]
-        Unsubscribe =69,
+        Unsubscribe = 69,
 
-        [Description("Instagram")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest")]
         BroadcastMessages = 70,
 
-        [Description("Instagram")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest")]
         SendMessageToFollower = 71,
 
-        [Description("Instagram")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest")]
         AutoReplyToNewMessage = 72,
 
         [Description("LinkedIn")]
@@ -225,6 +225,18 @@ namespace DominatorHouseCore.Enums
         RemoveConnections = 74,
 
         [Description("LinkedIn")]
-        ProfileEndorsement = 75
+        ProfileEndorsement = 75,
+
+        [Description("Youtube")]
+        LikeToComment = 76,
+
+        [Description("Youtube")]
+        DislikeToComment = 77,
+
+        [Description("Youtube")]
+        ReplyToComment = 78,
+
+        [Description("Tumblr")]
+        Reblog = 79
     }
 }

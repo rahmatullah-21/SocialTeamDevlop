@@ -526,5 +526,8 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _globalFindReplaceText, value);
             }
         }
+
+        [ProtoMember(35, IsRequired = false)]
+        public bool IsEnableParallelActivitiesChecked { get; set; }
     }
 }

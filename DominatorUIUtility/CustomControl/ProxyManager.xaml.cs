@@ -16,6 +16,9 @@ using DominatorHouseCore.LogHelper;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using DominatorHouseCore.Request;
 using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
@@ -186,7 +189,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 ProxyManagerModel.ProxyManagerCollection.GroupDescriptions.Clear();
             }
-            catch (Exception )
+            catch (Exception)
             {
             }
         }
@@ -212,7 +215,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 ProxyDetail.Select(proxy => { proxy.IsProxySelected = true; return proxy; }).ToList();
             }
-            catch (Exception )
+            catch (Exception)
             {
             }
         }
@@ -223,7 +226,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 ProxyDetail.Select(proxy => { proxy.IsProxySelected = false; return proxy; }).ToList();
             }
-            catch (Exception )
+            catch (Exception)
             {
 
             }
@@ -254,44 +257,37 @@ namespace DominatorUIUtility.CustomControl
             if (loadedProxylist == null)
                 return;
 
-            int ProxyId = ProxyFileManager.GetAllProxy().Count + 1;
+            int proxyId = ProxyFileManager.GetAllProxy().Count + 1;
 
-            foreach (var Proxy in loadedProxylist)
+            foreach (var proxy in loadedProxylist)
             {
-                var selectedProxy = Regex.Split(Proxy, ":");
+                var selectedProxy = Regex.Split(proxy, ":");
                 if (selectedProxy.Length < 4)
                     continue;
 
-                var AlreadyExistProxy = ProxyFileManager.GetProxyByName(selectedProxy[1]);
+                var alreadyExistProxy = ProxyFileManager.GetProxyByName(selectedProxy[1]);
 
-                if (AlreadyExistProxy != null)
-                    continue;
-
-                if (AlreadyExistProxy != null && (AlreadyExistProxy.AccountProxy.ProxyIp == selectedProxy[2]
-                    && AlreadyExistProxy.AccountProxy.ProxyPort == selectedProxy[3]))
+                if (alreadyExistProxy != null && alreadyExistProxy.AccountProxy.ProxyIp == selectedProxy[2]
+                    && alreadyExistProxy.AccountProxy.ProxyPort == selectedProxy[3])
                     continue;
 
                 ProxyManagerModel = new ProxyManagerModel();
                 try
                 {
-                    ProxyManagerModel.Id = ProxyId;
+                    ProxyManagerModel.Id = proxyId;
                     ProxyManagerModel.AccountProxy.ProxyGroup = selectedProxy[0];
                     ProxyManagerModel.AccountProxy.ProxyName = selectedProxy[1];
                     ProxyManagerModel.AccountProxy.ProxyIp = selectedProxy[2];
                     ProxyManagerModel.AccountProxy.ProxyPort = selectedProxy[3];
 
-                    switch (selectedProxy.Length)
+                    if (selectedProxy.Length == 6)
                     {
-                        case 5:
-                            ProxyManagerModel.AccountProxy.ProxyUsername = selectedProxy[4];
-                            break;
-                        case 6:
-                            ProxyManagerModel.AccountProxy.ProxyUsername = selectedProxy[4];
-                            ProxyManagerModel.AccountProxy.ProxyPassword = selectedProxy[5];
-                            break;
+                        ProxyManagerModel.AccountProxy.ProxyUsername = selectedProxy[4];
+                        ProxyManagerModel.AccountProxy.ProxyPassword = selectedProxy[5];
                     }
 
                     ProxyFileManager.SaveProxy(ProxyManagerModel);
+
                     AccountsFileManager.GetAll().ForEach(user =>
                     {
                         ProxyManagerModel.AccountsToBeAssign.Add(new AccountAssign
@@ -301,11 +297,11 @@ namespace DominatorUIUtility.CustomControl
                         });
                     });
                     ProxyDetail.Add(ProxyManagerModel);
-                    ProxyId++;
+                    proxyId++;
                 }
-                catch (Exception )
+                catch (Exception ex)
                 {
-
+                    Console.WriteLine(ex.StackTrace);
                 }
             }
         }
@@ -332,7 +328,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        private static void UpdateAccountsProxy( DominatorAccountModel accountToUpdateProxy, DominatorAccountViewModel.AccessorStrategies strategies)
+        private static void UpdateAccountsProxy(DominatorAccountModel accountToUpdateProxy, DominatorAccountViewModel.AccessorStrategies strategies)
         {
             var objAccountCustomControl = AccountCustomControl.GetAccountCustomControl(strategies);
 
@@ -347,11 +343,75 @@ namespace DominatorUIUtility.CustomControl
 
         private void btnVerifyProxy_Click(object sender, RoutedEventArgs e)
         {
+            var currentProxyManager = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
+            Task.Factory.StartNew(async () =>
+            {
+                await CheckProxyAsync(currentProxyManager);
+            });
+        }
 
+        private async Task CheckProxyAsync(ProxyManagerModel currentProxyManager)
+        {
+            try
+            {
+                var request = (HttpWebRequest)WebRequest.Create(new Uri(ProxyManagerModel.URLToUseToVerifyProxies));
+
+                if (currentProxyManager != null)
+                {
+                    var webProxy = new WebProxy(currentProxyManager.AccountProxy.ProxyIp, int.Parse(currentProxyManager.AccountProxy.ProxyPort))
+                    {
+                        BypassProxyOnLocal = true
+                    };
+                    if (!string.IsNullOrEmpty(currentProxyManager.AccountProxy.ProxyUsername)
+                        && !string.IsNullOrEmpty(currentProxyManager.AccountProxy.ProxyPassword))
+                    {
+                        webProxy.Credentials = new NetworkCredential(currentProxyManager.AccountProxy.ProxyUsername, currentProxyManager.AccountProxy.ProxyPassword);
+                    }
+
+                    request.Proxy = webProxy;
+
+                    var stopWatch = new Stopwatch();
+                    stopWatch.Start();
+
+                    using (var response = (HttpWebResponse)await request.GetResponseAsync())
+                    {
+                        currentProxyManager.Status = response.StatusCode.ToString() == "OK" ? "Working" : "Not Working";
+                    }
+
+                    stopWatch.Stop();
+                    var ts = stopWatch.Elapsed;
+                    currentProxyManager.ResponseTime = $"{ts.Milliseconds} milli seconds";
+                }
+            }
+            catch (Exception)
+            {
+                if (currentProxyManager != null)
+                {
+                    currentProxyManager.Status = "Fail";
+                    currentProxyManager.Failures = 1;
+                }
+            }
+
+            ProxyFileManager.EditProxy(currentProxyManager);
+
+            var item = ProxyDetail.FirstOrDefault(proxy =>
+                        proxy.AccountProxy.ProxyName == currentProxyManager?.AccountProxy.ProxyName);
+
+            var indexToUpdate = ProxyDetail.IndexOf(item);
+
+            if (currentProxyManager != null)
+                ProxyDetail[indexToUpdate].Status = currentProxyManager.Status;
+        }
+
+        private void VerifyProxy(object sender)
+        {
             var currentProxyManager = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
             currentProxyManager.URLToUseToVerifyProxies = ProxyManagerModel.URLToUseToVerifyProxies;
             try
             {
+
+
+
                 Uri url = new Uri(txtURLToUseToVerifyProxies.Text);
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 
@@ -364,7 +424,7 @@ namespace DominatorUIUtility.CustomControl
                     currentProxyManager.Status = "Not Working";
 
             }
-            catch (Exception )
+            catch (Exception)
             {
                 currentProxyManager.Status = "Fail";
                 currentProxyManager.Failures = 1;
@@ -374,7 +434,6 @@ namespace DominatorUIUtility.CustomControl
             var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == currentProxyManager.AccountProxy.ProxyName);
             int indexToUpdate = ProxyDetail.IndexOf(item);
             ProxyDetail[indexToUpdate].Status = currentProxyManager.Status;
-
         }
 
         private void ShowProxiesWithError_Checked(object sender, RoutedEventArgs e)
@@ -400,7 +459,7 @@ namespace DominatorUIUtility.CustomControl
                 ProxyManagerModel ProxyGroup = GroupName as ProxyManagerModel;
                 return ProxyGroup.AccountProxy.ProxyGroup.IndexOf(Group.SelectedValue.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
-            catch (Exception )
+            catch (Exception)
             {
             }
             return true;
@@ -414,7 +473,7 @@ namespace DominatorUIUtility.CustomControl
                 return ProxyGroup.AccountProxy.ProxyIp.IndexOf(txtfilter.Text, StringComparison.InvariantCultureIgnoreCase) >= 0
                     || ProxyGroup.AccountProxy.ProxyName.IndexOf(txtfilter.Text, StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
-            catch (Exception )
+            catch (Exception)
             {
             }
             return true;
@@ -427,7 +486,7 @@ namespace DominatorUIUtility.CustomControl
                 ProxyManagerModel ProxyGroup = GroupName as ProxyManagerModel;
                 return ProxyGroup.Status.IndexOf("Fail", StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
-            catch (Exception )
+            catch (Exception)
             {
             }
             return true;
@@ -469,7 +528,7 @@ namespace DominatorUIUtility.CustomControl
                     }
 
                 }
-                catch (Exception )
+                catch (Exception)
                 {
 
                     GlobusLogHelper.log.Error("Error in Export Proxies");

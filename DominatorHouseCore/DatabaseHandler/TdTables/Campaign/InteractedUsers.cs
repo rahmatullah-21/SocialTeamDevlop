@@ -29,14 +29,13 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
 
 
         [Column(Order = 6)]
-        public string InteractedUsername
-        { get; set; }
+        public string InteractedUsername { get; set; }
+
 
         [Column(Order = 7)]
-        public string InteractedUserId
-        { get; set; }
+        public string InteractedUserId { get; set; }
 
-        [Column(Order =8)]
+        [Column(Order = 8)]
         public string InteractedUserFullName
         { get; set; }
 
@@ -103,6 +102,8 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
         [Column(Order = 24)]
         public string Bio { get; set; }
 
+
+
         /// <summary>
         /// Describes wheather the activity is done in Activity process or after activity process
         /// </summary>
@@ -111,6 +112,9 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
 
         [Column(Order = 26)]
         public DateTime InteractionDateTime { get; set; }
+
+        [Column(Order = 27)]
+        public int IsVerified { get; set; }
 
     }
 }

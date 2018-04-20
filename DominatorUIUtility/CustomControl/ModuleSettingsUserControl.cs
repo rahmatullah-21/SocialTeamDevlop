@@ -48,7 +48,7 @@ namespace DominatorUIUtility.CustomControl
         SocialNetworks _socialNetwork => SocinatorInitialize.ActiveSocialNetwork;
 
         bool _initialized = false;
-
+        private bool _isCancelledUpdate = false;
         protected ModuleSettingsUserControl()
         {
         }
@@ -231,11 +231,13 @@ namespace DominatorUIUtility.CustomControl
 
                     if (currentQuery == null) return;
 
-                    currentQuery.QueryValue = query;
+                    currentQuery.QueryValue = query.Trim();
 
                     currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName();
 
                     currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                    if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
 
                     Model.SavedQueries.Add(currentQuery);
 
@@ -250,6 +252,10 @@ namespace DominatorUIUtility.CustomControl
                 if (currentQuery == null) return;
 
                 currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                currentQuery.QueryValue = currentQuery.QueryValue.Trim();
+
+                if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
 
                 Model.SavedQueries.Add(currentQuery);
 
@@ -281,6 +287,8 @@ namespace DominatorUIUtility.CustomControl
 
                     currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
 
+                    if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
+
                     Model.SavedQueries.Add(currentQuery);
 
                 });
@@ -295,11 +303,26 @@ namespace DominatorUIUtility.CustomControl
 
                 currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
 
+                if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
+
                 Model.SavedQueries.Add(currentQuery);
 
                 _queryControl.CurrentQuery = new QueryInfo();
 
             }
+        }
+
+        private bool IsQueryExist(QueryInfo currentQuery,  ObservableCollectionBase<QueryInfo> queryToSave)
+        {
+            if (queryToSave.Any(x =>
+                x.QueryType == currentQuery.QueryType && x.QueryValue == currentQuery.QueryValue))
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                    "Query already Exist !!");
+                return true;
+            }
+
+            return false;
         }
 
 
@@ -354,6 +377,9 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
+        protected virtual bool ValidateExtraProperty() => true;
+        
+
         /// <summary>
         /// Event handler called when user Creates or Updates campaign
         /// </summary>
@@ -361,10 +387,9 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="e"></param>
         protected void FooterControl_OnCreateCampaignChanged(object sender, RoutedEventArgs e)
         {
-            if (!ValidateCampaign())
-                return;
+            if (!ValidateCampaign()) return;
 
-        
+            if (!ValidateExtraProperty()) return;
 
             // TODO: implement saving and add campaign
             // CampaignGlobalRoutines.Instance.Create((TModel)Model, _activityType, CampaignName, _footerControl.list_SelectedAccounts);
@@ -380,7 +405,7 @@ namespace DominatorUIUtility.CustomControl
 
             SetDataContext();
 
-            TabSwitcher.GoToCampaign();            
+            TabSwitcher.GoToCampaign();
         }
 
 
@@ -395,12 +420,16 @@ namespace DominatorUIUtility.CustomControl
                 _activityType.ToString(), _socialNetwork,
                 CampaignName);
 
+            _isCancelledUpdate = false;
+
             SaveCampaign(_footerControl.list_SelectedAccounts, _activityType, _socialNetwork, errorMessage, runningTime);
 
-            AddNewCampaign(_footerControl.list_SelectedAccounts);
+            if (!_isCancelledUpdate)
+                AddNewCampaign(_footerControl.list_SelectedAccounts);
 
             SetDataContext();
 
+            TabSwitcher.GoToCampaign();
         }
 
         public void SaveCampaign(List<string> selectedAccounts, ActivityType moduleType, SocialNetworks network, string errorMessage, List<RunningTimes> runningTime)
@@ -460,6 +489,7 @@ namespace DominatorUIUtility.CustomControl
                         };
                         objErrorModelControl.BtnCancel.Click += (senders, events) =>
                         {
+                            _isCancelledUpdate = true;
                             warningWindow.Close();
                         };
                         warningWindow.ShowDialog();
@@ -570,7 +600,7 @@ namespace DominatorUIUtility.CustomControl
                     var templateId = dominatorAccountModel.ActivityManager.LstModuleConfiguration
                         .FirstOrDefault(y => y.ActivityType == _activityType)?.TemplateId;
 
-                  //  DominatorScheduler.StopActivity(dominatorAccountModel.AccountBaseModel.AccountId, _activityType.ToString(), TemplateId);
+                    //  DominatorScheduler.StopActivity(dominatorAccountModel.AccountBaseModel.AccountId, _activityType.ToString(), TemplateId);
 
                     foreach (var campaign in campaignsList)
                         if (templateId != null && campaign.TemplateId == templateId)
@@ -641,6 +671,8 @@ namespace DominatorUIUtility.CustomControl
 
         protected void AccountGrowthHeader_OnSaveClick(object sender, RoutedEventArgs e)
         {
+            if (!ValidateExtraProperty()) return;
+
             // Getting details of account
             var accounts = AccountsFileManager.GetAll();
 
@@ -674,7 +706,7 @@ namespace DominatorUIUtility.CustomControl
             AccountsFileManager.Edit(selectedAccountDetails);
 
             if (!ValidateRunningTime()) return;
-
+           
             UpdateRunningTime(Model.JobConfiguration, selectedAccountDetails);
 
             DominatorScheduler.ScheduleTodayJobs(selectedAccountDetails, SocialNetworks.Instagram, _activityType);
@@ -698,14 +730,14 @@ namespace DominatorUIUtility.CustomControl
 
         private static void AddNewTemplate<T>(T moduleToSave, string userName, ActivityType moduleType, DominatorAccountModel account) where T : class
         {
-            
+
             var first = account.ActivityManager?.LstModuleConfiguration.FirstOrDefault
                 (x => x.ActivityType == moduleType);
 
             if (first != null)
                 first.TemplateId =
                     TemplateModel.SaveTemplate(moduleToSave,
-                        moduleType.ToString(), account.AccountBaseModel.AccountNetwork ,
+                        moduleType.ToString(), account.AccountBaseModel.AccountNetwork,
                         userName + "_" + moduleType + "_Template");
         }
 
@@ -714,6 +746,9 @@ namespace DominatorUIUtility.CustomControl
         protected void FooterControl_OnUpdateCampaignChanged(object sender, RoutedEventArgs e)
         {
             if (!ValidateCampaign())
+                return;
+
+            if(!ValidateExtraProperty())
                 return;
 
             var Module = _activityType.ToString();
@@ -735,9 +770,9 @@ namespace DominatorUIUtility.CustomControl
                     {
                         var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
 
-                        foreach (var accountModel in lstAccountDetails.Where(x => _footerControl.list_SelectedAccounts.Contains(x.AccountBaseModel.UserName)))                       
+                        foreach (var accountModel in lstAccountDetails.Where(x => _footerControl.list_SelectedAccounts.Contains(x.AccountBaseModel.UserName)))
                             DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId, Module, TemplateId);
-                        
+
                         //foreach (var acc in _footerControl.list_SelectedAccounts)
                         //    DominatorScheduler.StopActivity(acc, Module, TemplateId);
                     }
@@ -828,17 +863,21 @@ namespace DominatorUIUtility.CustomControl
 
         protected void HeaderControl_OnCancelEditClick(object sender, RoutedEventArgs e)
         {
-            IsEditCampaignName = true;
-            CancelEditVisibility = Visibility.Collapsed;
-            _footerControl.CampaignManager = ConstantVariable.CreateCampaign;
             SetDataContext();
         }
 
-
         protected virtual void SetDataContext()
         {
+            IsEditCampaignName = true;
+
+            CancelEditVisibility = Visibility.Collapsed;
+
+            _footerControl.CampaignManager = ConstantVariable.CreateCampaign;
+
             this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+
             ObjViewModel = new TViewModel();
+
             _footerControl.list_SelectedAccounts = new List<string>();
 
             _mainGrid.DataContext = Model as TModel;
@@ -847,7 +886,6 @@ namespace DominatorUIUtility.CustomControl
 
             CampaignName = $"{_socialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
         }
-
 
         protected virtual void SetAccountModeDataContext()
         {
@@ -895,7 +933,7 @@ namespace DominatorUIUtility.CustomControl
         public void SetSelectedAccounts(SocialNetworks networks, string selectedAccounts)
         {
             var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
-            _accountGrowthModeHeader.AccountItemSource = accounts;         
+            _accountGrowthModeHeader.AccountItemSource = accounts;
             switch (networks)
             {
                 case SocialNetworks.Facebook:
@@ -905,7 +943,7 @@ namespace DominatorUIUtility.CustomControl
                     SelectedDominatorAccounts.GdAccounts = selectedAccounts;
                     break;
                 case SocialNetworks.Twitter:
-                    SelectedDominatorAccounts.TdAccounts = selectedAccounts;                    
+                    SelectedDominatorAccounts.TdAccounts = selectedAccounts;
                     break;
                 case SocialNetworks.Pinterest:
                     SelectedDominatorAccounts.PdAccounts = selectedAccounts;
@@ -987,8 +1025,49 @@ namespace DominatorUIUtility.CustomControl
 
             return isAccountDetailsUpdated;
         }
+        protected void ScheduleJobFromGrowthMode(bool isStart, string selectedAccount, SocialNetworks socialNetworks)
+        {
+            var accountModel = AccountsFileManager.GetAccount(selectedAccount);
+            var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
 
+            var accountstemplateId = moduleConfiguration.TemplateId;
+            if (isStart)
+            {
+                moduleConfiguration.IsEnabled = true;
+                DominatorScheduler.ScheduleTodayJobs(accountModel, socialNetworks, _activityType);
+            }
+            else
+            {
+                moduleConfiguration.IsEnabled = false;
+                DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId,
+                    _activityType.ToString(), accountstemplateId);
+            }
+            UpdateAccountAndTemplate(accountModel, accountstemplateId);
+        }
 
+        private void UpdateAccountAndTemplate(DominatorAccountModel accountModel, string accountstemplateId)
+        {
+            if (accountModel.IsCretedFromNormalMode)
+            {
+                accountModel.IsCretedFromNormalMode = false;
+                CampaignsFileManager.DeleteSelectedAccount(accountstemplateId, _accountGrowthModeHeader.SelectedItem);
+                AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, accountModel);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(accountstemplateId))
+                    AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, accountModel);
+
+                // Updating existing template
+                else
+                    TemplatesFileManager.UpdateActivitySettings(accountstemplateId,
+                        JsonConvert.SerializeObject((TModel)Model));
+            }
+
+            AccountsFileManager.Edit(accountModel);
+        }
+
+      
         #region IAccountGrowthModeHeader
 
         public ObservableCollectionBase<string> AccountItemSource
@@ -1018,7 +1097,6 @@ namespace DominatorUIUtility.CustomControl
         }
 
         #endregion
-
     }
 
 

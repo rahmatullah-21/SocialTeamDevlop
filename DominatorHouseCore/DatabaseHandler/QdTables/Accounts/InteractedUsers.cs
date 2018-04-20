@@ -7,9 +7,9 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
     public class InteractedUsers
     {
         [Key]
-        [Autoincrement]
-        [Index]
         [Column(Order = 1)]
+        [Index]
+        [Autoincrement]
         public int Id { get; set; }
 
         [Column(Order = 2)]

@@ -14,16 +14,11 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
         [Autoincrement]
         public int Id { get; set; }
 
-        /// <summary>
-        /// UserName of the Account from which Interaction is done
-        /// </summary>
-
         [Column(Order = 2)]
-        public string SinAccUsername { get; set; }
+        public string AccountUsername { get; set; }
 
         [Column(Order = 3)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         [Column(Order = 4)]
         public string QueryValue { get; set; }
@@ -34,138 +29,58 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
         [Column(Order = 6)]
         public int InteractionTimeStamp { get; set; }
 
-        /// <summary>
-        /// Id of the tweet
-        /// </summary>
-
         [Column(Order = 7)]
-        public string ChannelId { get; set; }
-
-        /// <summary>
-        /// UserId of the tweet Owner
-        /// </summary>
+        public string ChannelName { get; set; }
 
         [Column(Order = 8)]
-        public string UserId { get; set; }
-
-        /// <summary>
-        /// UserName of the tweet owner
-        /// </summary>
+        public string ChannelId { get; set; }
 
         [Column(Order = 9)]
-        public string Username { get; set; }
-
-        /// <summary>
-        ///Image/Video url of tweet
-        /// </summary>
+        public string ChannelUserName { get; set; }
 
         [Column(Order = 10)]
-        public string MediaId { get; set; }
-
-        /// <summary>
-        /// Message/Description of the tweet
-        /// </summary>
+        public string ChannelUserId { get; set; }
 
         [Column(Order = 11)]
-        public string ChannelUrl { get; set; }
-
-        /// <summary>
-        /// Like Count Of The Tweet
-        /// </summary>
+        public string ViewsCount { get; set; }
 
         [Column(Order = 12)]
-        public int LikeCount { get; set; }
-
-        /// <summary>
-        /// Retweet Count Of The Tweet
-        /// </summary>
+        public string LikeCount { get; set; }
 
         [Column(Order = 13)]
-        public string ChannelTitle { get; set; }
-
-        /// <summary>
-        /// Comment Count Of The Tweet
-        /// </summary>
+        public string DislikeCount { get; set; }
 
         [Column(Order = 14)]
-        public int CommentCount { get; set; }
-
-        /// <summary>
-        /// True if the tweet has been retweeted
-        /// </summary>
+        public string LikeStatus { get; set; }
 
         [Column(Order = 15)]
-        public int IsRetweet { get; set; }
-
-        /// <summary>
-        /// Time when the tweet has been posted in TimeStamp
-        /// </summary>
+        public string PublishedDate { get; set; }
 
         [Column(Order = 16)]
-        public int TweetedTimeStamp { get; set; }
-
-        /// <summary>
-        /// Duration of the video tweets
-        /// </summary>
+        public string PostDescription { get; set; }
 
         [Column(Order = 17)]
-        public string VideoDuration
-        { get; set; }
-
-        /// <summary>
-        /// View Count of the video tweets
-        /// </summary>
+        public string SubscribeCount { get; set; }
 
         [Column(Order = 18)]
-        public int ViewCount
-        { get; set; }
-
-        /// <summary>
-        /// Image or Video or Text
-        /// </summary>
+        public string CommentCount { get; set; }
 
         [Column(Order = 19)]
-        public MediaType MediaType { get; set; }
-
-        /// <summary>
-        /// If Interaction Type is Comment Interaction
-        /// </summary>
+        public string VideoUrl { get; set; }
 
         [Column(Order = 20)]
-        public string CommentedText
-        { get; set; }
-
-        /// <summary>
-        /// 1(true) if following Tweet Owner 
-        /// </summary>
+        public string VideoDuration { get; set; }
 
         [Column(Order = 21)]
-        public int FollowStatus
-        { get; set; }
-
-        /// <summary>
-        /// 1(true) Tweet Owner follows back
-        /// </summary>
+        public string SubscribeStatus { get; set; }
 
         [Column(Order = 22)]
-        public int FollowBackStatus
-        { get; set; }
+        public string CommentsPresent { get; set; }
 
-        /// <summary>
-        /// Describes wheather the activity is done in Activity process or after activity process
-        /// </summary>
         [Column(Order = 23)]
-        public string ProcessType { get; set; }
+        public string CommentToVideo { get; set; }
 
         [Column(Order = 24)]
-        public DateTime InteractionDate { get; set; }
-
-        [Column(Order = 25)]
-        public string VideoId { get; set; }
-
-        [Column(Order = 26)]
-        public string Query { get; set; }
-
-
+        public string ReplyToComment { get; set; }
     }
 }

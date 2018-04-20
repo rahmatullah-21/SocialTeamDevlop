@@ -7,9 +7,9 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
     public class UnfollowedUsers
     {
         [Key]
-        [Autoincrement]
+        [Column(Order = 1)]
         [Index]
-        [Column(Order =1)]
+        [Autoincrement]
         public int Id { get; set; } 
 
 

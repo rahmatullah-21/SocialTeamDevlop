@@ -8,5 +8,5 @@ namespace DominatorHouseCore.Enums.LdQuery
         Keyword,
         [Description("LDlangJoinedGroupUrl")]
         JoinedGroupUrl,
-    }  
+    }
 }

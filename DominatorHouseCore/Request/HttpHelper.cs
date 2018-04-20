@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
@@ -166,7 +167,7 @@ namespace DominatorHouseCore.Request
         /// </summary>
         /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
         /// <param name="requestParameter"><see cref="IRequestParameters"/></param>
-        private static void SetProxy(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
+        protected void SetProxy(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
         {
             try
             {
@@ -282,23 +283,42 @@ namespace DominatorHouseCore.Request
         /// <returns><see cref="IResponseParameter"/></returns>
         protected virtual IResponseParameter GetFinalResponse()
         {
-            return GetFinalResponseAsync().Result;
+            return GetFinalResponseAsync(default(CancellationToken)).Result;
         }
 
-        protected virtual async Task<IResponseParameter> GetFinalResponseAsync()
+        protected virtual async Task<IResponseParameter> GetFinalResponseAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken == default(CancellationToken))
+            {
+                return await DoGetFinalResponseAsync();
+            }
+            else
+            {
+                using (cancellationToken.Register(() => Request.Abort()))
+                {
+                    return await DoGetFinalResponseAsync(() => cancellationToken.IsCancellationRequested);
+                }
+            }
+        }
+
+        private async Task<IResponseParameter> DoGetFinalResponseAsync(Func<bool> wasCancelled = null)
         {
             try
             {
                 // Get the reponse from request
-                return GetReponse((HttpWebResponse) await Request.GetResponseAsync());
+                return GetReponse((HttpWebResponse)await Request.GetResponseAsync());
             }
             catch (WebException ex)
             {
+                if (wasCancelled != null && wasCancelled())
+                {
+                    throw new OperationCanceledException();
+                }
                 try
                 {
                     // Get error message from the response
                     return ex.Response != null
-                        ? GetReponse((HttpWebResponse) ex.Response)
+                        ? GetReponse((HttpWebResponse)ex.Response)
                         : new ResponseParameter
                         {
                             HasError = true,
@@ -393,11 +413,11 @@ namespace DominatorHouseCore.Request
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public virtual Task<IResponseParameter> GetRequestAsync(string url)
+        public virtual Task<IResponseParameter> GetRequestAsync(string url, CancellationToken cancellationToken)
         {
             Request = (HttpWebRequest)WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref Request, this.RequestParameters);
-            return GetFinalResponseAsync();
+            return GetFinalResponseAsync(cancellationToken);
         }
 
 
@@ -408,11 +428,11 @@ namespace DominatorHouseCore.Request
         /// <param name="url"></param>
         /// <param name="requestParameters"></param>
         /// <returns></returns>
-        public virtual Task<IResponseParameter> GetRequestAsync(string url, IRequestParameters requestParameters)
+        public virtual Task<IResponseParameter> GetRequestAsync(string url, IRequestParameters requestParameters, CancellationToken cancellationToken)
         {
             Request = (HttpWebRequest)WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref Request, requestParameters);
-            return GetFinalResponseAsync();
+            return GetFinalResponseAsync(cancellationToken);
         }
 
 
@@ -439,14 +459,14 @@ namespace DominatorHouseCore.Request
         /// <returns><see cref="IResponseParameter"/></returns>
         public virtual IResponseParameter PostRequest(string url, byte[] postData)
         {
-            return PostRequestAsync(url, postData).Result;
+            return PostRequestAsync(url, postData, default(CancellationToken)).Result;
         }
-        public virtual Task<IResponseParameter> PostRequestAsync(string url, byte[] postData)
+        public virtual Task<IResponseParameter> PostRequestAsync(string url, byte[] postData, CancellationToken cancellationToken)
         {
             Request = (HttpWebRequest)WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref Request, RequestParameters);
             WritePostData(ref Request, postData);
-            return GetFinalResponseAsync();
+            return GetFinalResponseAsync(cancellationToken);
         }
 
         /// <summary>
@@ -458,16 +478,16 @@ namespace DominatorHouseCore.Request
         /// <returns><see cref="IResponseParameter"/></returns>
         public virtual IResponseParameter PostRequest(string url, string postData, IRequestParameters requestParamater)
         {
-            return PostRequestAsync(url, postData, requestParamater).Result;
+            return PostRequestAsync(url, postData, requestParamater, default(CancellationToken)).Result;
         }
 
-        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters requestParamater)
+        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters requestParamater, CancellationToken cancellationToken)
         {
             Request = (HttpWebRequest)WebRequest.Create(url);
             Request.Host = Request.RequestUri.Host;
             SetRequestParametersToWebRequest(ref Request, requestParamater);
             WritePostData(ref Request, postData);
-            return GetFinalResponseAsync();
+            return GetFinalResponseAsync(cancellationToken);
         }
 
 
@@ -493,13 +513,13 @@ namespace DominatorHouseCore.Request
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <returns></returns>
-        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData)
+        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData, CancellationToken cancellationToken)
         {
             this.Request = (HttpWebRequest)WebRequest.Create(url);
             this.Response = null;
             SetRequestParametersToWebRequest(ref Request, RequestParameters);
             WritePostData(ref Request, postData);
-            return GetFinalResponseAsync();
+            return GetFinalResponseAsync(cancellationToken);
         }
 
 

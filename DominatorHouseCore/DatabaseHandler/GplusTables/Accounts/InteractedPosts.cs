@@ -14,38 +14,54 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public int Id { get; set; }
 
         [Column(Order = 2)]
-        public int InteractionDate { get; set; }
+        public string Query { get; set; }
 
         [Column(Order = 3)]
-        public MediaType MediaType { get; set; }
+        public string QueryType
+        { get; set; }
 
         [Column(Order = 4)]
-        public ActivityType OperationType{ get; set; }
+        public string ActivityType { get; set; }
 
         [Column(Order = 5)]
-        public string PostId { get; set; }
+        public int InteractionDate { get; set; }
 
         [Column(Order = 6)]
-        public int UploadedDate { get; set; }
+        public MediaType MediaType { get; set; }
 
         [Column(Order = 7)]
-        public string PostOwnerId { get; set; }
+        public string PostId { get; set; }
 
         [Column(Order = 8)]
+        public int UploadedDate { get; set; }
+
+        [Column(Order = 9)]
+        public string PostOwnerId { get; set; }
+
+        [Column(Order = 10)]
         public string PostOwnerName { get; set; }
 
 
-        [Column(Order = 9)]
+        [Column(Order = 11)]
         public string Caption { get; set; }
 
-        [Column(Order = 10)]
+        [Column(Order = 12)]
         public int LikeCount { get; set; }
 
-        [Column(Order = 11)]
+        [Column(Order = 13)]
         public int CommentCount { get; set; }
 
-        [Column(Order = 12)]
+        [Column(Order = 14)]
         public int ShareCount { get; set; }
+
+        [Column(Order = 15)]
+        public string PostUrl { get; set; }
+
+        [Column(Order = 16)]
+        public string Comment { get; set; }
+
+        [Column(Order = 17)]
+        public int IsLiked { get; set; }
 
 
     }
