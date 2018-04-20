@@ -416,6 +416,8 @@ namespace DominatorUIUtility.CustomControl
             if (!ValidateCampaign())
                 return;
 
+            if (!ValidateExtraProperty()) return;
+
             TemplateId = TemplateModel.SaveTemplate((TModel)Model,
                 _activityType.ToString(), _socialNetwork,
                 CampaignName);
