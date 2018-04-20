@@ -75,51 +75,58 @@ namespace DominatorHouse
 
         private async Task LicenseCheck()
         {
-            
 
-            string license;
-            var key = SocinatorKeyHelper.GetKey();
-            if (key != null)
+
+            try
             {
-                var settings = new MetroDialogSettings()
+                string license;
+                var key = SocinatorKeyHelper.GetKey();
+                if (key != null)
                 {
-                    DefaultText = string.IsNullOrEmpty(key.LicenseKey) ? "" : key.LicenseKey,
-                    AffirmativeButtonText = "Validate"
-                };
-                license = await this.ShowInputAsync("Socinator", "License", settings);
-            }
-            else
-                license = await this.ShowInputAsync("Socinator", "License");
+                    var settings = new MetroDialogSettings()
+                    {
+                        DefaultText = string.IsNullOrEmpty(key.LicenseKey) ? "" : key.LicenseKey,
+                        AffirmativeButtonText = "Validate"
+                    };
+                    license = await this.ShowInputAsync("Socinator", "License", settings);
+                }
+                else
+                    license = await this.ShowInputAsync("Socinator", "License");
 
-            if (!string.IsNullOrEmpty(license))
-            {
-                var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating is in process !", "Please wait for a while...");
-                controller.SetIndeterminate();
-                _licenseKey = license;
-                var networks = await SocinatorInitialize.GetAvailableSocialNetworks(_licenseKey);
-                if (networks.Count <= 1)
+                if (!string.IsNullOrEmpty(license))
+                {
+                    var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating is in process !", "Please wait for a while...");
+                    controller.SetIndeterminate();
+                    _licenseKey = license;
+                    var networks = await SocinatorInitialize.GetAvailableSocialNetworks(_licenseKey);
+                    if (networks.Count <= 1)
+                    {
+                        Close();
+                        return;
+                    }
+                    _strategies = new DominatorAccountViewModel.AccessorStrategies
+                    {
+                        ActionCheckAccount = AccountStatusChecker,
+                        AccountBrowserLogin = AccountBrowserLogin,
+                        _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
+                        _inform_warnings = GlobusLogHelper.log.Warn,
+                        action_UpdateFollower = AccountUpdate
+                    };
+                    DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
+
+                    var licenseManager = new DominatorHouseCore.Models.LicenseManager { LicenseKey = license, LicenseAddedDate = DateTime.Now, LicensedNetworks = networks };
+                    SocinatorKeyHelper.SaveKey(licenseManager);
+                    FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
+                    await controller.CloseAsync();
+                }
+                else
                 {
                     Close();
-                    return;
                 }
-                _strategies = new DominatorAccountViewModel.AccessorStrategies
-                {
-                    ActionCheckAccount = AccountStatusChecker,
-                    AccountBrowserLogin = AccountBrowserLogin,
-                    _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
-                    _inform_warnings = GlobusLogHelper.log.Warn,
-                    action_UpdateFollower = AccountUpdate
-                };
-                DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
-
-                var licenseManager = new DominatorHouseCore.Models.LicenseManager { LicenseKey = license, LicenseAddedDate = DateTime.Now, LicensedNetworks = networks };
-                SocinatorKeyHelper.SaveKey(licenseManager);
-                FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
-                await controller.CloseAsync();
             }
-            else
+            catch (Exception ex)
             {
-                Close();
+                ex.DebugLog();
             }
         }
 

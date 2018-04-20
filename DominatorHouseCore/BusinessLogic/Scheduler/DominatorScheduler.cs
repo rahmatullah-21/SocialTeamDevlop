@@ -102,15 +102,15 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             try
             {
                 // Check that at least one timing was set up before creating campaign
-                if (dominatorAccount.ActivityManager.RunningTime == null ||
-                    dominatorAccount.ActivityManager.RunningTime.All(rt => rt.Timings.Count == 0))
+                if (moduleConfiguration.LstRunningTimes == null ||
+                    moduleConfiguration.LstRunningTimes.All(rt => rt.Timings.Count == 0))
                     throw new InvalidOperationException($"Running time for activity {activityType} wasn't set");
 
                 var today = DateTimeUtilities.GetDayOfWeek();
 
                 // retrieve the account's todays scheduled modules.
                 // TODO: check not only first but all running times                
-                var timeScheduleModel = dominatorAccount.ActivityManager.RunningTime.First(x => x.DayOfWeek == today);
+                var timeScheduleModel = moduleConfiguration.LstRunningTimes.First(x => x.DayOfWeek == today);
 
                 if (!timeScheduleModel.IsEnabled)
                 {
