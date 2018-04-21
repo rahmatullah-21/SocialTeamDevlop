@@ -366,6 +366,7 @@
     <Compile Include="Diagnostics\LogHelper\GlobusLogHelper.cs" />
     <Compile Include="Diagnostics\LogHelper\ILoggableWindow.cs" />
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
+    <Compile Include="Interfaces\Publisher\IGeneral.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
     <Compile Include="Models\BlacklistUserModel.cs" />

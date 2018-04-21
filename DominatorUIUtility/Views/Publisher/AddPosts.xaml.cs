@@ -24,6 +24,7 @@ using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.Publisher.AdvancedOptions;
 using MahApps.Metro.Controls;
 using DominatorHouseCore.FileManagers;
+using Microsoft.Win32;
 
 namespace DominatorUIUtility.Views.Publisher
 {
@@ -32,7 +33,7 @@ namespace DominatorUIUtility.Views.Publisher
     /// </summary>
     public partial class AddPosts : UserControl, INotifyPropertyChanged
     {
-       
+
         private AddPosts()
         {
             InitializeComponent();
@@ -59,10 +60,10 @@ namespace DominatorUIUtility.Views.Publisher
             MainGrid.DataContext = AddPostViewModel.AddPostModel;
 
             Campaigns ObjCampaigns = Campaigns.GetSingltonCreateCampaignObject();
-            
+
             ObjCampaigns.createCampign.DataContext = AddPostViewModel.AddPostModel.CampaignDetails;
 
-           Home ObjPublisher = Home.GetSingletonHome();
+            Home ObjPublisher = Home.GetSingletonHome();
             ObjPublisher.PublisherDetailCollection = CollectionViewSource.GetDefaultView(postDetails);
             ObjPublisher.publisherDetail.ItemsSource = ObjPublisher.PublisherDetailCollection;
 
@@ -73,9 +74,9 @@ namespace DominatorUIUtility.Views.Publisher
             Campaigns ObjCampaigns = Campaigns.GetSingltonCreateCampaignObject();
 
             //  AddPostViewModel.AddPostModel.SerialNo = ProtoBuffBase.DeserializeObjects<AddPostModel>(PostDetailFilePath).Count + 1;
-              AddPostViewModel.AddPostModel.SerialNo =PostFileManager.GetAllPost().Count + 1;
+            AddPostViewModel.AddPostModel.SerialNo = PostFileManager.GetAllPost().Count + 1;
             AddPostViewModel.AddPostModel.Status = AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus;
-          //  PostFileManager.SavePost(AddPostViewModel.AddPostModel);
+            //  PostFileManager.SavePost(AddPostViewModel.AddPostModel);
 
             // ProtoBuffBase.SerializeObjects(AddPostViewModel.AddPostModel, PostDetailFilePath);
             //manageDraft.Visibility = Visibility.Visible;
@@ -117,16 +118,15 @@ namespace DominatorUIUtility.Views.Publisher
             var openFileDialog = new Microsoft.Win32.OpenFileDialog
             {
                 Multiselect = true,
-                Filter = "Jpg (.jpg)|*.jpg|Png (*.png)|*.png|All files (*.*)|*.*"
+                Filter = "Jpg images|*.jpg|Png images|*.png|All files (*.*)|*.*"
             };
             var openFileDialogResult = openFileDialog.ShowDialog();
             if (openFileDialogResult != true)
                 return;
 
-            foreach (var fileName in openFileDialog.FileNames)
-            {
-                AddPostViewModel.AddPostModel.PhotoUrl.Add(fileName);
-            }
+            AddMediaSourcesToList(openFileDialog, AddPostViewModel.AddPostModel.PhotoUrl);
+            AddPostViewModel.AddPostModel.ImageCount = AddPostViewModel.AddPostModel.PhotoUrl.Count;
+
         }
 
         private void btnVideo_Click(object sender, RoutedEventArgs e)
@@ -134,15 +134,25 @@ namespace DominatorUIUtility.Views.Publisher
             var openFileDialog = new Microsoft.Win32.OpenFileDialog
             {
                 Multiselect = true,
-                Filter = "Mp4 (.mp4)|*.mp4|Avi (*.avi)|*.avi|All files (*.*)|*.*"
+                Filter = "Mp4 videos|*.mp4|Avi videos|*.avi|All files (*.*)|*.*"
             };
             var openFileDialogResult = openFileDialog.ShowDialog();
             if (openFileDialogResult != true)
                 return;
+            AddMediaSourcesToList(openFileDialog, AddPostViewModel.AddPostModel.VideoUrl);
+           
+            AddPostViewModel.AddPostModel.VideoCount = AddPostViewModel.AddPostModel.VideoUrl.Count;
 
+        }
+
+        protected void AddMediaSourcesToList(OpenFileDialog openFileDialog, List<string> sourceUrl)
+        {
             foreach (var fileName in openFileDialog.FileNames)
             {
-                AddPostViewModel.AddPostModel.VideoUrl.Add(fileName);
+                if (sourceUrl.Contains(fileName))
+                    continue;
+                sourceUrl.Add(fileName);
+                AddPostViewModel.AddPostModel.LstMediaSources.Add(fileName);
             }
         }
 
@@ -161,11 +171,11 @@ namespace DominatorUIUtility.Views.Publisher
             int PublishedCount = 0;
             if (!string.IsNullOrEmpty(ObjCampaigns.cmbCampaign.Text) && ObjCampaigns.cmbCampaign.Text == AddPostViewModel.AddPostModel.CampaignDetails.CampaignName)
             {
-                var postToupdate= portDetails.FirstOrDefault(post => post.CampaignDetails.CampaignName == AddPostViewModel.AddPostModel.CampaignDetails.CampaignName);
+                var postToupdate = portDetails.FirstOrDefault(post => post.CampaignDetails.CampaignName == AddPostViewModel.AddPostModel.CampaignDetails.CampaignName);
                 PendingCount = postToupdate.PostStatus.PendingCount;
                 DraftCount = postToupdate.PostStatus.DraftCount;
                 PublishedCount = postToupdate.PostStatus.PublishedCount;
-            
+
 
                 if (AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == FindResource("langAll").ToString())
                 {
@@ -178,14 +188,14 @@ namespace DominatorUIUtility.Views.Publisher
                 }
                 else
                 {
-                    AddPostViewModel.AddPostModel.PostStatus.PendingCount = 
-                        AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Pending" ? PendingCount+1 : PendingCount;
+                    AddPostViewModel.AddPostModel.PostStatus.PendingCount =
+                        AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Pending" ? PendingCount + 1 : PendingCount;
 
                     AddPostViewModel.AddPostModel.PostStatus.DraftCount =
-                        AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Draft" ? DraftCount+ 1 : DraftCount;
+                        AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Draft" ? DraftCount + 1 : DraftCount;
 
                     AddPostViewModel.AddPostModel.PostStatus.PublishedCount =
-                        AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Published" ? PublishedCount +1 : PublishedCount;
+                        AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == "Published" ? PublishedCount + 1 : PublishedCount;
                 }
                 AddPostViewModel.AddPostModel.CampaignDetails.SelectedAccount = ObjCampaigns.publishersHeader.cmbAccounts.SelectedValue.ToString();
                 PostFileManager.EditPost(AddPostViewModel.AddPostModel);
@@ -217,7 +227,7 @@ namespace DominatorUIUtility.Views.Publisher
                 }
                 AddPostViewModel.AddPostModel.CampaignDetails.LstCampaign.Add(
                     new Campaign { CampaignName = AddPostViewModel.AddPostModel.CampaignDetails.CampaignName });
-            
+
                 PostFileManager.SavePost(AddPostViewModel.AddPostModel);
             }
             SetDataContext();
@@ -273,6 +283,20 @@ namespace DominatorUIUtility.Views.Publisher
             window.Show();
         }
 
-       
+        private void MenuDeleteSingle_OnClick(object sender, RoutedEventArgs e)
+        {
+            var selectedUrl = ((FrameworkElement)sender).DataContext as string;
+            if (AddPostViewModel.AddPostModel.VideoUrl.Contains(selectedUrl))
+            {
+                AddPostViewModel.AddPostModel.VideoUrl.Remove(selectedUrl);
+                AddPostViewModel.AddPostModel.VideoCount -= 1;
+            }
+            else
+            {
+                AddPostViewModel.AddPostModel.PhotoUrl.Remove(selectedUrl);
+                AddPostViewModel.AddPostModel.ImageCount -= 1;
+            }
+            AddPostViewModel.AddPostModel.LstMediaSources.Remove(selectedUrl);
+        }
     }
 }

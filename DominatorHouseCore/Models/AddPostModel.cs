@@ -1062,8 +1062,50 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _locationDetailsCollection, value);
             }
         }
+        private int _imageCount;
 
+        public int ImageCount
+        {
+            get
+            {
+                return _imageCount;
+            }
+            set
+            {
+                if (value == _imageCount)
+                    return;
+                SetProperty(ref _imageCount, value);
+            }
+        }
+        private int _videoCount;
 
+        public int VideoCount
+        {
+            get
+            {
+                return _videoCount;
+            }
+            set
+            {
+                if (value == _videoCount)
+                    return;
+                SetProperty(ref _videoCount, value);
+            }
+        }
+        private ObservableCollectionBase<string> _lstMediaSources = new ObservableCollectionBase<string>();
+        public ObservableCollectionBase<string> LstMediaSources
+        {
+            get
+            {
+                return _lstMediaSources;
+            }
+            set
+            {
+                if (value == _lstMediaSources)
+                    return;
+                SetProperty(ref _lstMediaSources, value);
+            }
+        }
 
     }
 

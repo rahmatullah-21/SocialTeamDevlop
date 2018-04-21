@@ -6,14 +6,17 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" x:Name="addPost"
+             mc:Ignorable="d" x:Name="addPost"   
              >
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
-    
-    <Grid x:Name="MainGrid" >
-            <StackPanel>
+
+    <Grid x:Name="MainGrid" Height="400">
+        <ScrollViewer Margin="5" VerticalScrollBarVisibility="Auto" 
+                      HorizontalScrollBarVisibility="Auto" >
+
+                <StackPanel>
                 <StackPanel x:Name="createCampaign">
                     <Label Content="{DynamicResource langAddSinglePost}" FontWeight="SemiBold" Margin="5"/>
                     <TextBox x:Name="txtMessege" Text="{Binding Messeges,Mode=TwoWay}" AcceptsReturn="True" controls:TextBoxHelper.Watermark="{DynamicResource langTypeMessageHere}"
@@ -29,6 +32,17 @@
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                     <TextBlock Text="{DynamicResource langPhoto}" Margin="6,0"/>
+                                    <TextBlock Text="{Binding ImageCount,StringFormat={} ( {0} )}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ImageCount}" Value="0">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -41,10 +55,65 @@
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                     <TextBlock Text="{DynamicResource langVideos}" Margin="6,0"/>
+                                    <TextBlock Text="{Binding VideoCount,StringFormat={} ( {0} )}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding VideoCount}" Value="0">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+
+                                    </TextBlock>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
                     </StackPanel>
+
+                    <ListView ItemsSource="{Binding LstMediaSources}" Name="LstviewImages" Margin="10,5">
+                        <ListView.Style>
+                            <Style TargetType="{x:Type ListView}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=LstMediaSources.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Style>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="8">
+                                    <MediaElement Source="{Binding}" Width="50" Height="50">
+                                        <MediaElement.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Name="MenuDeleteSingle" VerticalContentAlignment="Center" Click="MenuDeleteSingle_OnClick">
+                                                    <MenuItem.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Rectangle Width="15" Height="20" Fill="Black" >
+                                                                <Rectangle.OpacityMask>
+                                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                                </Rectangle.OpacityMask>
+                                                            </Rectangle>
+                                                            <TextBlock Text="{DynamicResource langDelete}" Margin="5,0"/>
+                                                        </StackPanel>
+                                                    </MenuItem.Header>
+                                                </MenuItem>
+                                            </ContextMenu>
+                                        </MediaElement.ContextMenu>
+                                    </MediaElement>
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <Label Content="{DynamicResource langTitle}"/>
                         <TextBox Text="{Binding Titles}" Width="400" HorizontalAlignment="Right" controls:TextBoxHelper.Watermark="{DynamicResource langTitleWaterMark}" x:Name="txtTitle"/>
@@ -199,5 +268,7 @@
                 </StackPanel>
                 <local:ManageDraft x:Name="manageDraft" Visibility="Collapsed" />
             </StackPanel>
+           </ScrollViewer >
     </Grid>
+
 </UserControl>
