@@ -88,6 +88,8 @@ namespace DominatorUIUtility.CustomControl
                 _accountCustomInstance = new AccountCustomControl(strategies);
             }
 
+
+          
             _accountCustomInstance.GetRespectiveAccounts(socialNetworks);
 
             return _accountCustomInstance;
@@ -119,6 +121,7 @@ namespace DominatorUIUtility.CustomControl
                       .AccountCountFactory.GetColumnSpecificationProvider();
             DominatorAccountViewModel.VisibleColumns = spec.VisibleHeaders;
             DominatorAccountViewModel.SocialNetwork = socialNetworks;
+            
         }
 
         private void MangeblacklistedContextMenu_Click(object sender, RoutedEventArgs e)

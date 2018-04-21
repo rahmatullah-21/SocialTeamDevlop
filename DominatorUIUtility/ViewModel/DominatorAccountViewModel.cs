@@ -57,7 +57,7 @@ namespace DominatorUIUtility.ViewModel
 
             LoadMultipleAccountsCommand = new BaseCommand<object>(LoadMultipleAccountsCanExecute, (o) => LoadMultipleAccountsExecute(o, this.strategyPack._determine_available, this.strategyPack._inform_warnings));
 
-             InfoCommand = new BaseCommand<object>(InfoCommandCanExecute, InfoCommandExecute);
+            InfoCommand = new BaseCommand<object>(InfoCommandCanExecute, InfoCommandExecute);
 
             ContextMenuOpenCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
 
@@ -74,7 +74,10 @@ namespace DominatorUIUtility.ViewModel
             SingleAccountEditCommand = new BaseCommand<object>(SingleAccountEditCanExecute, SingleAccountEditExecute);
 
             SingleAccountDeleteCommand = new BaseCommand<object>(SingleAccountDeleteCanExecute, SingleAccountDeleteExecute);
+
             UpdateAccountDetailsCommand = new BaseCommand<object>(UpdateAccountDetailsCanExecute, UpdateAccountDetailsExecute);
+
+            UpdateGroupCommand = new BaseCommand<object>(UpdateGroupDetailsCanExecute, UpdateGroupDetailsExecute);
 
             #endregion
         }
@@ -102,7 +105,18 @@ namespace DominatorUIUtility.ViewModel
 
         public ObservableCollection<DominatorAccountModel> LstDominatorAccountModel { get; set; } = new ObservableCollection<DominatorAccountModel>();
 
-        public ObservableCollection<ContentSelectGroup> Groups { get; set; } = new ObservableCollection<ContentSelectGroup>();
+        public ObservableCollection<ContentSelectGroup> Groups
+        {
+            get
+            {
+                return _groups;
+            }
+            set
+            {
+                _groups = value;
+                OnPropertyChanged(nameof(Groups));
+            }
+        }
 
 
         private List<string> _visibleColumns = new List<string>();
@@ -171,6 +185,8 @@ namespace DominatorUIUtility.ViewModel
         public ICommand SingleAccountEditCommand { get; set; }
         public ICommand SingleAccountDeleteCommand { get; set; }
         public ICommand UpdateAccountDetailsCommand { get; set; }
+
+        public ICommand UpdateGroupCommand { get; set; }
         #endregion
 
         #region Add accounts
@@ -480,7 +496,7 @@ namespace DominatorUIUtility.ViewModel
                     ProxyUserName = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
                     ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword,
                     UserAgent = dominatorAccountModel.UserAgentWeb,
-                    AddedDate =  DateTime.Now
+                    AddedDate = DateTime.Now
                 });
 
                 #endregion
@@ -613,7 +629,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 //collect the selected account
                 var selectAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected == true).ToList();
-          
+
                 if (selectAccounts.Count == 0)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
@@ -745,7 +761,7 @@ namespace DominatorUIUtility.ViewModel
                     "Please select atleast one acount !!");
                 return;
             }
-            
+
 
             var exportPath = FileUtilities.GetExportPath();
 
@@ -897,18 +913,39 @@ namespace DominatorUIUtility.ViewModel
 
         public void SelectAllAccounts()
         {
-            LstDominatorAccountModel.Select(x =>
+            if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
             {
-                x.IsAccountManagerAccountSelected = true; return x;
-            }).ToList();
+                LstDominatorAccountModel.Select(x =>
+                {
+                    x.IsAccountManagerAccountSelected = true; return x;
+                }).ToList();
+            }
+            else
+            {
+                LstDominatorAccountModel.Where(x => x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).Select(x =>
+                 {
+                     x.IsAccountManagerAccountSelected = true; return x;
+                 }).ToList();
+
+            }
         }
 
         public void DeselectAllAccounts()
         {
-            LstDominatorAccountModel.Select(x =>
+            if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
             {
-                x.IsAccountManagerAccountSelected = false; return x;
-            }).ToList();
+                LstDominatorAccountModel.Select(x =>
+                {
+                    x.IsAccountManagerAccountSelected = false; return x;
+                }).ToList();
+            }
+            else
+            {
+                LstDominatorAccountModel.Where(x => x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).Select(x =>
+                {
+                    x.IsAccountManagerAccountSelected = false; return x;
+                }).ToList();
+            }
         }
 
         public void SelectAccount(object sender)
@@ -921,36 +958,75 @@ namespace DominatorUIUtility.ViewModel
             switch (menu)
             {
                 case "Working":
-                    LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == "Success").Select(x =>
+                    if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
                     {
-                        x.IsAccountManagerAccountSelected = true;
-                        return x;
-                    }).ToList();
+                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == "Success").Select(x =>
+                        {
+                            x.IsAccountManagerAccountSelected = true;
+                            return x;
+                        }).ToList();
+                    }
+                    else
+                    {
+                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == "Success" && x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).Select(x =>
+                       {
+                           x.IsAccountManagerAccountSelected = true;
+                           return x;
+                       }).ToList();
+                    }
                     break;
                 case "NotWorking":
 
-                    LstDominatorAccountModel.ForEach(x =>
+                    if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
                     {
-                        switch (x.AccountBaseModel.Status)
+                        LstDominatorAccountModel.ForEach(x =>
                         {
-                            case "Success":
-                            case "Not Checked":
-                            case "Logging...":
-                                break;
-                            default:
-                                x.IsAccountManagerAccountSelected = true;
-                                break;
-                        }
-
-                    });
-
+                            switch (x.AccountBaseModel.Status)
+                            {
+                                case "Success":
+                                case "Not Checked":
+                                case "Logging...":
+                                    break;
+                                default:
+                                    x.IsAccountManagerAccountSelected = true;
+                                    break;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).ForEach(x =>
+                         {
+                             switch (x.AccountBaseModel.Status)
+                             {
+                                 case "Success":
+                                 case "Not Checked":
+                                 case "Logging...":
+                                     break;
+                                 default:
+                                     x.IsAccountManagerAccountSelected = true;
+                                     break;
+                             }
+                         });
+                    }
                     break;
                 case "NotChecked":
-                    LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == "Not Checked").Select(x =>
+                    if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
                     {
-                        x.IsAccountManagerAccountSelected = true;
-                        return x;
-                    }).ToList();
+                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == "Not Checked").Select(x =>
+                        {
+                            x.IsAccountManagerAccountSelected = true;
+                            return x;
+                        }).ToList();
+                    }
+                    else
+                    {
+                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == "Not Checked" && x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).Select(x =>
+                        {
+                            x.IsAccountManagerAccountSelected = true;
+                            return x;
+                        }).ToList();
+                    }
                     break;
             }
         }
@@ -971,6 +1047,8 @@ namespace DominatorUIUtility.ViewModel
                 if (checkedItem == null) return;
 
                 var currentGroup = ((FrameworkElement)sender).DataContext as ContentSelectGroup;
+
+
 
                 Groups.Where(x => currentGroup != null && x.Content == currentGroup.Content.ToString()).Select(x =>
                 {
@@ -995,33 +1073,23 @@ namespace DominatorUIUtility.ViewModel
 
         private object syncLoadAccounts = new object();
         private AccessorStrategies strategyPack;
+        private ObservableCollection<ContentSelectGroup> _groups = new ObservableCollection<ContentSelectGroup>();
 
         public void InitialAccountDetails()
         {
             lock (syncLoadAccounts)
             {
                 var savedAccounts = AccountsFileManager.GetAll();
-
-                var allGroups = new List<ContentSelectGroup>();
-
                 try
                 {
                     LstDominatorAccountModel.Clear();
                     savedAccounts.ForEach(account =>
                     {
                         LstDominatorAccountModel.Add(account);
-                        allGroups.Add(account.AccountBaseModel.AccountGroup);
 
                         AccountCollectionView = CollectionViewSource.GetDefaultView(LstDominatorAccountModel);
                         //Global.ScheduleForEachModule(null, account);
                     });
-
-                    foreach (var group in allGroups)
-                    {
-                        if (Groups.Any(x => x.Content.Equals
-                                (group.Content, StringComparison.CurrentCultureIgnoreCase)) == false)
-                            Groups.Add(group);
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -1030,6 +1098,8 @@ namespace DominatorUIUtility.ViewModel
                 }
             }
         }
+
+
 
         public object Clone()
         {
@@ -1095,6 +1165,56 @@ namespace DominatorUIUtility.ViewModel
         }
 
         private bool UpdateAccountDetailsCanExecute(object sender) => true;
+        #endregion
+
+
+        #region Update Group
+
+        private void UpdateGroupDetailsExecute(object sender)
+        {
+            lock (syncLoadAccounts)
+            {
+                if (!Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(() => { Groups.Clear(); });
+                }
+                else
+                    Groups.Clear();
+
+                var allGroups = new List<ContentSelectGroup>();
+                try
+                {
+                    if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+                    {
+                        LstDominatorAccountModel.ForEach(account =>
+                        {
+                            allGroups.Add(account.AccountBaseModel.AccountGroup);
+                        });
+                    }
+                    else
+                    {
+                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).ForEach(account =>
+                        {
+                            allGroups.Add(account.AccountBaseModel.AccountGroup);
+                        });
+                    }
+                    foreach (var group in allGroups)
+                    {
+                        if (Groups.Any(x => x.Content.Equals
+                                (group.Content, StringComparison.CurrentCultureIgnoreCase)) == false)
+                            Groups.Add(group);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    /*DEBUG*/
+                    Console.WriteLine(ex.StackTrace);
+                }
+            }
+        }
+
+        private bool UpdateGroupDetailsCanExecute(object sender) => true;
+
         #endregion
 
         public void AccountBrowserLogin(DominatorAccountModel model)

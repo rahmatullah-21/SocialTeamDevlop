@@ -416,6 +416,8 @@ namespace DominatorUIUtility.CustomControl
             if (!ValidateCampaign())
                 return;
 
+            if (!ValidateExtraProperty()) return;
+
             TemplateId = TemplateModel.SaveTemplate((TModel)Model,
                 _activityType.ToString(), _socialNetwork,
                 CampaignName);
@@ -549,7 +551,7 @@ namespace DominatorUIUtility.CustomControl
                     moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
                     moduleConfiguration.IsEnabled = true;
                     moduleConfiguration.Status = "Active";
-                    moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
+                    
                     moduleConfiguration.TemplateId = TemplateId;
                     runningTime.ForEach(x =>
                     {
@@ -559,7 +561,7 @@ namespace DominatorUIUtility.CustomControl
                         }
                     });
                     account.ActivityManager.RunningTime = runningTime;
-
+                    moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
                     account.IsCretedFromNormalMode = true;
 
                     selectedAccounts.Add(account);
