@@ -233,31 +233,7 @@ namespace DominatorUIUtility.Views.Publisher
             SetDataContext();
         }
 
-        private void numericMaxPost_ValueDecremented(object sender, NumericUpDownChangedRoutedEventArgs args)
-        {
-            try
-            {
-                AddPostViewModel.AddPostModel.LstTimer.RemoveAt((int)numericMaxPost.Value - 1);
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Error(ex.Message + ex.StackTrace);
-            }
-
-        }
-
-        private void numericMaxPost_ValueIncremented(object sender, NumericUpDownChangedRoutedEventArgs args)
-        {
-            try
-            {
-                AddPostViewModel.AddPostModel.LstTimer.Add(new lstTimeSpan() { TimeSpan = new TimeSpan(12, 0, 0) });
-            }
-            catch (Exception ex)
-            {
-
-                GlobusLogHelper.log.Error(ex.Message + ex.StackTrace);
-            }
-        }
+      
 
         private void btnInstagramAdvancedOptions_Click(object sender, RoutedEventArgs e)
         {
@@ -272,14 +248,6 @@ namespace DominatorUIUtility.Views.Publisher
             AdvancedOption objAdvancedOption = new AdvancedOption();
             Dialog dialog = new Dialog();
             Window window = dialog.GetMetroWindow(objAdvancedOption, "Advanced Options");
-            window.Show();
-        }
-
-        private void btnAdvancedSettings_Click(object sender, RoutedEventArgs e)
-        {
-            CampaignsAdvanceSetting ObjCampaignsAdvanceSetting = new CampaignsAdvanceSetting();
-            Dialog dialog = new Dialog();
-            Window window = dialog.GetMetroWindow(ObjCampaignsAdvanceSetting, "Campaign - Advanced Settings");
             window.Show();
         }
 

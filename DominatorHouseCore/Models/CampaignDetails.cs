@@ -104,6 +104,7 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isCampaignChecked;
+        [ProtoIgnore]
         public bool IsCampaignChecked
         {
             get

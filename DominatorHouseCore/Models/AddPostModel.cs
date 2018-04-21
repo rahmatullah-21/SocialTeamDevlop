@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Windows;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using DominatorHouseCore.Models.Publisher;
 
 namespace DominatorHouseCore.Models
 {
@@ -121,372 +122,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private int _maxPost;
-        [ProtoMember(7)]
-        public int MaxPost
-        {
-            get
-            {
-                return _maxPost;
-            }
-            set
-            {
-                if (value == _maxPost)
-                    return;
-                SetProperty(ref _maxPost, value);
-
-            }
-        }
-        private TimeSpan _startTime = new TimeSpan();
-        [ProtoMember(8)]
-        public TimeSpan StartTime
-        {
-            get
-            {
-                return _startTime;
-            }
-            set
-            {
-                if (value == _startTime)
-                    return;
-                SetProperty(ref _startTime, value);
-            }
-        }
-        private TimeSpan _endTime = new TimeSpan();
-        [ProtoMember(9)]
-        public TimeSpan EndTime
-        {
-            get
-            {
-                return _endTime;
-            }
-            set
-            {
-                if (value == _endTime)
-                    return;
-                SetProperty(ref _endTime, value);
-
-            }
-        }
-        private bool _isSpecifyPostingIntervalChecked;
-        [ProtoMember(10)]
-        public bool IsSpecifyPostingIntervalChecked
-        {
-            get
-            {
-                return _isSpecifyPostingIntervalChecked;
-            }
-            set
-            {
-                if (value == _isSpecifyPostingIntervalChecked)
-                    return;
-                SetProperty(ref _isSpecifyPostingIntervalChecked, value);
-            }
-        }
-        private bool _isRandomizePublishingTimerChecked;
-        [ProtoMember(11)]
-        public bool IsRandomizePublishingTimerChecked
-        {
-            get
-            {
-                return _isRandomizePublishingTimerChecked;
-            }
-            set
-            {
-                if (value == _isRandomizePublishingTimerChecked)
-                    return;
-                SetProperty(ref _isRandomizePublishingTimerChecked, value);
-
-            }
-        }
-        private bool _isRandomizeNumberOfPostsChecked;
-        [ProtoMember(12)]
-        public bool IsRandomizeNumberOfPostsChecked
-        {
-            get
-            {
-                return _isRandomizeNumberOfPostsChecked;
-            }
-            set
-            {
-                if (value == _isRandomizeNumberOfPostsChecked)
-                    return;
-                SetProperty(ref _isRandomizeNumberOfPostsChecked, value);
-            }
-        }
-        private RangeUtilities _postBetween = new RangeUtilities();
-        [ProtoMember(13)]
-        public RangeUtilities PostBetween
-        {
-            get
-            {
-                return _postBetween;
-            }
-            set
-            {
-                if (value == _postBetween)
-                    return;
-                SetProperty(ref _postBetween, value);
-            }
-        }
-        private RangeUtilities _increaseEachDay = new RangeUtilities();
-        [ProtoMember(14)]
-        public RangeUtilities IncreaseEachDay
-        {
-            get
-            {
-                return _increaseEachDay;
-            }
-            set
-            {
-                if (value == _increaseEachDay)
-                    return;
-                SetProperty(ref _increaseEachDay, value);
-            }
-        }
-        private bool _isPublishPostOnDestinationsChecked;
-        [ProtoMember(15)]
-        public bool IsPublishPostOnDestinationsChecked
-        {
-            get
-            {
-                return _isPublishPostOnDestinationsChecked;
-            }
-            set
-            {
-                if (value == _isPublishPostOnDestinationsChecked)
-                    return;
-                SetProperty(ref _isPublishPostOnDestinationsChecked, value);
-
-            }
-        }
-        private bool _isAddRandomSleepTimeWhilePublishingChecked;
-        [ProtoMember(16)]
-        public bool IsAddRandomSleepTimeWhilePublishingChecked
-        {
-            get
-            {
-                return _isAddRandomSleepTimeWhilePublishingChecked;
-            }
-            set
-            {
-                if (value == _isAddRandomSleepTimeWhilePublishingChecked)
-                    return;
-                SetProperty(ref _isAddRandomSleepTimeWhilePublishingChecked, value);
-
-            }
-        }
-        private bool _isSleepBetweenChecked;
-        [ProtoMember(17)]
-        public bool IsSleepBetweenChecked
-        {
-            get
-            {
-                return _isSleepBetweenChecked;
-            }
-            set
-            {
-                if (value == _isSleepBetweenChecked)
-                    return;
-                SetProperty(ref _isSleepBetweenChecked, value);
-            }
-        }
-        private RangeUtilities _sleepBetween = new RangeUtilities();
-        [ProtoMember(18)]
-        public RangeUtilities SleepBetween
-        {
-            get
-            {
-                return _sleepBetween;
-            }
-            set
-            {
-                if (value == _sleepBetween)
-                    return;
-                SetProperty(ref _sleepBetween, value);
-            }
-        }
-        private RangeUtilities _sendingBetween;
-        [ProtoMember(19)]
-        public RangeUtilities SendingBetween
-        {
-            get
-            {
-                return _sendingBetween;
-            }
-            set
-            {
-                if (value == _sendingBetween)
-                    return;
-                SetProperty(ref _sendingBetween, value);
-            }
-        }
-        private bool _isCampaignHasStartDateChecked;
-        [ProtoMember(20)]
-        public bool IsCampaignHasStartDateChecked
-        {
-            get
-            {
-                return _isCampaignHasStartDateChecked;
-            }
-            set
-            {
-                if (value == _isCampaignHasStartDateChecked)
-                    return;
-                SetProperty(ref _isCampaignHasStartDateChecked, value);
-            }
-        }
-        private bool _isCampaignHasEndDateChecked;
-        [ProtoMember(21)]
-        public bool IsCampaignHasEndDateChecked
-        {
-            get
-            {
-                return _isCampaignHasEndDateChecked;
-            }
-            set
-            {
-                if (value == _isCampaignHasEndDateChecked)
-                    return;
-                SetProperty(ref _isCampaignHasEndDateChecked, value);
-            }
-        }
-        private int _waitAround;
-        [ProtoMember(22)]
-        public int WaitAround
-        {
-            get
-            {
-                return _waitAround;
-            }
-            set
-            {
-                if (value == _waitAround)
-                    return;
-                SetProperty(ref _waitAround, value);
-
-            }
-        }
-        private bool _isSundayChecked;
-        [ProtoMember(23)]
-        public bool IsSundayChecked
-        {
-            get
-            {
-                return _isSundayChecked;
-            }
-            set
-            {
-                if (value == _isSundayChecked)
-                    return;
-                SetProperty(ref _isSundayChecked, value);
-            }
-        }
-        private bool _isMondayChecked;
-        [ProtoMember(24)]
-        public bool IsMondayChecked
-        {
-            get
-            {
-                return _isMondayChecked;
-            }
-            set
-            {
-                if (value == _isMondayChecked)
-                    return;
-                SetProperty(ref _isMondayChecked, value);
-            }
-        }
-        private bool _isTuesdayChecked;
-        [ProtoMember(25)]
-        public bool IsTuesdayChecked
-        {
-            get
-            {
-                return _isTuesdayChecked;
-            }
-            set
-            {
-                if (value == _isTuesdayChecked)
-                    return;
-                SetProperty(ref _isTuesdayChecked, value);
-            }
-        }
-        private bool _isWednesdayChecked;
-        [ProtoMember(26)]
-        public bool IsWednesdayChecked
-        {
-            get
-            {
-                return _isWednesdayChecked;
-            }
-            set
-            {
-                if (value == _isWednesdayChecked)
-                    return;
-                SetProperty(ref _isWednesdayChecked, value);
-            }
-        }
-        private bool _isThursdayChecked;
-        [ProtoMember(27)]
-        public bool IsThursdayChecked
-        {
-            get
-            {
-                return _isThursdayChecked;
-            }
-            set
-            {
-                if (value == _isThursdayChecked)
-                    return;
-                SetProperty(ref _isThursdayChecked, value);
-            }
-        }
-        private bool _isFridayChecked;
-        [ProtoMember(28)]
-        public bool IsFridayChecked
-        {
-            get
-            {
-                return _isFridayChecked;
-            }
-            set
-            {
-                if (value == _isFridayChecked)
-                    return;
-                SetProperty(ref _isFridayChecked, value);
-            }
-        }
-        private bool _isSaturdayChecked;
-        [ProtoMember(29)]
-        public bool IsSaturdayChecked
-        {
-            get
-            {
-                return _isSaturdayChecked;
-            }
-            set
-            {
-                if (value == _isSaturdayChecked)
-                    return;
-                SetProperty(ref _isSaturdayChecked, value);
-            }
-        }
-        private bool _isRotateDayChecked;
-        [ProtoMember(30)]
-        public bool IsRotateDayChecked
-        {
-            get
-            {
-                return _isRotateDayChecked;
-            }
-            set
-            {
-                if (value == _isRotateDayChecked)
-                    return;
-                SetProperty(ref _isRotateDayChecked, value);
-            }
-        }
+      
         private string _campaign;
         [ProtoMember(31)]
         public string Campaign
@@ -502,142 +138,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _campaign, value);
             }
         }
-        private string _campaigntTag;
-        [ProtoMember(32)]
-        public string CampaignTag
-        {
-            get
-            {
-                return _campaigntTag;
-            }
-            set
-            {
-                if (value == _campaigntTag)
-                    return;
-                SetProperty(ref _campaigntTag, value);
-            }
-        }
-        private bool _isEnableSignatureChecked;
-        [ProtoMember(33)]
-        public bool IsEnableSignatureChecked
-        {
-            get
-            {
-                return _isEnableSignatureChecked;
-            }
-            set
-            {
-                if (value == _isEnableSignatureChecked)
-                    return;
-                SetProperty(ref _isEnableSignatureChecked, value);
-            }
-        }
-        private bool _isShortenURLsChecked;
-        [ProtoMember(34)]
-        public bool IsShortenURLsChecked
-        {
-            get
-            {
-                return _isShortenURLsChecked;
-            }
-            set
-            {
-                if (value == _isShortenURLsChecked)
-                    return;
-                SetProperty(ref _isShortenURLsChecked, value);
-            }
-        }
-        private bool _isPostTextChecked;
-        [ProtoMember(35)]
-        public bool IsPostTextChecked
-        {
-            get
-            {
-                return _isPostTextChecked;
-            }
-            set
-            {
-                if (value == _isPostTextChecked)
-                    return;
-                SetProperty(ref _isPostTextChecked, value);
-            }
-        }
-        private bool _isAllowPublishingPinterestChecked;
-        [ProtoMember(36)]
-        public bool IsAllowPublishingPinterestChecked
-        {
-            get
-            {
-                return _isAllowPublishingPinterestChecked;
-            }
-            set
-            {
-                if (value == _isAllowPublishingPinterestChecked)
-                    return;
-                SetProperty(ref _isAllowPublishingPinterestChecked, value);
-            }
-        }
-        private bool _isPostAsStoryChecked;
-        [ProtoMember(37)]
-        public bool IsPostAsStoryChecked
-        {
-            get
-            {
-                return _isPostAsStoryChecked;
-            }
-            set
-            {
-                if (value == _isPostAsStoryChecked)
-                    return;
-                SetProperty(ref _isPostAsStoryChecked, value);
-            }
-        }
-        private bool _isMakeImagesUniqueChecked;
-        [ProtoMember(38)]
-        public bool IsMakeImagesUniqueChecked
-        {
-            get
-            {
-                return _isMakeImagesUniqueChecked;
-            }
-            set
-            {
-                if (value == _isMakeImagesUniqueChecked)
-                    return;
-                SetProperty(ref _isMakeImagesUniqueChecked, value);
-            }
-        }
-        private bool _isEnableWatermarkChecked;
-        [ProtoMember(39)]
-        public bool IsEnableWatermarkChecked
-        {
-            get
-            {
-                return _isEnableWatermarkChecked;
-            }
-            set
-            {
-                if (value == _isEnableWatermarkChecked)
-                    return;
-                SetProperty(ref _isEnableWatermarkChecked, value);
-            }
-        }
-
-        private bool _isEnableCustomTokensChecked;
-        [ProtoMember(40)]
-        public bool IsEnableCustomTokensChecked
-        {
-            get
-            {
-                return _isEnableCustomTokensChecked;
-            }
-            set
-            {
-                if (value == _isEnableCustomTokensChecked)
-                    return;
-                SetProperty(ref _isEnableCustomTokensChecked, value);
-            }
-        }
+       
         private string _importedText;
         [ProtoMember(41)]
         public string ImportedText
@@ -759,21 +260,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private ObservableCollection<lstTimeSpan> _lstTimer = new ObservableCollection<lstTimeSpan>();
-        [ProtoMember(49)]
-        public ObservableCollection<lstTimeSpan> LstTimer
-        {
-            get
-            {
-                return _lstTimer;
-            }
-            set
-            {
-                if (value == _lstTimer)
-                    return;
-                SetProperty(ref _lstTimer, value);
-            }
-        }
+       
         private bool _isExpireDateChecked;
         [ProtoMember(50)]
         public bool IsExpireDateChecked
@@ -1032,6 +519,30 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _postStatus, value);
             }
         }
+        private JobConfigurationModel _jobConfigurations=new JobConfigurationModel();
+        [ProtoMember(67)]
+        public JobConfigurationModel JobConfigurations
+        {
+            get { return _jobConfigurations; }
+            set
+            {
+                if (value == _jobConfigurations)
+                    return;
+                SetProperty(ref _jobConfigurations, value);
+            }
+        }
+        private OtherConfigurationModel _otherConfiguration = new OtherConfigurationModel();
+        [ProtoMember(68)]
+        public OtherConfigurationModel OtherConfiguration
+        {
+            get { return _otherConfiguration; }
+            set
+            {
+                if (value == _otherConfiguration)
+                    return;
+                SetProperty(ref _otherConfiguration, value);
+            }
+        }
 
         private LocationDetails _locationDetails = new LocationDetails();
         public LocationDetails LocationDetails
@@ -1106,7 +617,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _lstMediaSources, value);
             }
         }
-
+       
     }
 
 

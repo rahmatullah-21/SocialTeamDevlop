@@ -67,7 +67,7 @@ namespace DominatorHouseCore.Models
 
         private bool _IsAccountManagerAccountSelected;
 
-        [ProtoMember(5)]
+        [ProtoIgnore]
         public bool IsAccountManagerAccountSelected
         {
             get { return _IsAccountManagerAccountSelected; }

@@ -93,6 +93,7 @@
     <system:String x:Key="QDlangDownvoteAnswersWarning">These accounts are already running with Downvote Answer configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="QDlangDownvoteQuestionsWarning">These accounts are already running with Downvote Questions configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="QDlangUpvoteAnswersWarning">These accounts are already running with Upvote Answers configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="QDlangAnswersScraperWarning">These accounts are already running with Answers Scraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
 
 
     <system:String x:Key="QDlangScrapeUserPerJob">Scrape user per job</system:String>
@@ -112,4 +113,5 @@
     <system:String x:Key="QDlangQuestionScraperPerWeek">Question scrape per week</system:String>
     <system:String x:Key="QDlangMaxQuestionScraperDay">Max question scrape per day</system:String>
     <system:String x:Key="QDlangAfterQuestionsScraper">After Questions Scraper</system:String>
+
 </ResourceDictionary>

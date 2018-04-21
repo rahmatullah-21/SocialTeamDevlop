@@ -705,8 +705,15 @@ namespace DominatorUIUtility.ViewModel
             ContextMenuOpen(sender);
             var button = sender as Button;
             if (button == null || button.Name != "BtnSelect") return;
+            var currentGroups = new List<string>();
 
-            var currentGroups = LstDominatorAccountModel.Select(x => x.AccountBaseModel.AccountGroup.Content).Distinct().ToList();
+            if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+                currentGroups = LstDominatorAccountModel.Select(x => x.AccountBaseModel.AccountGroup.Content).Distinct().ToList();
+            else
+            {
+                currentGroups = LstDominatorAccountModel.Where(x => x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).Select(x => x.AccountBaseModel.AccountGroup.Content).Distinct().ToList();
+
+            }
 
             Groups.Clear();
 
@@ -1169,7 +1176,7 @@ namespace DominatorUIUtility.ViewModel
 
 
         #region Update Group
-
+       
         private void UpdateGroupDetailsExecute(object sender)
         {
             lock (syncLoadAccounts)

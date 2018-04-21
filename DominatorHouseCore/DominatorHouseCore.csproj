@@ -366,7 +366,6 @@
     <Compile Include="Diagnostics\LogHelper\GlobusLogHelper.cs" />
     <Compile Include="Diagnostics\LogHelper\ILoggableWindow.cs" />
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
-    <Compile Include="Interfaces\Publisher\IGeneral.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
     <Compile Include="Models\BlacklistUserModel.cs" />
@@ -395,6 +394,8 @@
     <Compile Include="Models\PinterestModel.cs" />
     <Compile Include="Models\ProxyManagerModel.cs" />
     <Compile Include="Models\PublisherAccountDetails.cs" />
+    <Compile Include="Models\Publisher\JobConfigurationModel.cs" />
+    <Compile Include="Models\Publisher\OtherConfigurationModel.cs" />
     <Compile Include="Models\ReportDetails.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\RunningTimes.cs" />

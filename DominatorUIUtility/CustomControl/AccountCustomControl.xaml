@@ -112,7 +112,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
 
-                                <MenuItem Name="MenuTitleGroups"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource langSelectAccountsByGroups}"  Command="{Binding SelectAccountByStatusCommand}" >
+                                <MenuItem Name="MenuTitleGroups"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource langSelectAccountsByGroups}"  Command="{Binding UpdateGroupCommand}">
                                     <MenuItem.Icon>
                                         <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
                                     </MenuItem.Icon>
