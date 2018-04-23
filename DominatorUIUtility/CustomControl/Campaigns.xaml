@@ -56,7 +56,7 @@
                                           Unchecked="AllCampaignChecked_Unchecked"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsChecked,ElementName=AllCampaignChecked,Mode=OneWay}" 
+                                        <CheckBox IsChecked="{Binding IsChecked,ElementName=AllCampaignChecked}" 
                                                   Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"
                                                   Margin="5,0,0,0" Content="{Binding RelativeSource={RelativeSource FindAncestor, 
                                                   AncestorType={x:Type ListViewItem}}, 

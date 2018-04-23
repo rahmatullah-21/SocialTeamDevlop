@@ -246,30 +246,15 @@ namespace DominatorUIUtility.CustomControl
             var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete [ " + campaign.CampaignName + " ] Campaign permanently from campaign\nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Delete Anyways","Don't delete"));
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
-
+            var selectedAccount = campaign.SelectedAccountList;
+           
             CampaignsFileManager.Delete(campaign);
-
+           
             objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(
                 CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
 
             var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
-
-            // remove template from each account
-            allAccounts.ForEach(x =>
-            {
-                var moduleConfig = x.ActivityManager.LstModuleConfiguration.FirstOrDefault(mc => mc.TemplateId == campaign.TemplateId);
-
-                if (moduleConfig != null)
-                {
-                    // Stop active task related to campaign
-                    JobProcess.Stop(x.AccountId, campaign.TemplateId);
-
-                    // Remove task from list
-                    x.ActivityManager.LstModuleConfiguration.RemoveAll(y => y.TemplateId == campaign.TemplateId);
-                }
-            });
-
-            AccountsFileManager.SaveAll(allAccounts);
+            UpdateAccount(allAccounts, campaign, selectedAccount);
 
             GlobusLogHelper.log.Info(campaign.CampaignName + "  Campaign deleted permanently from campaigns.");
             SetDataContext();
@@ -461,13 +446,51 @@ namespace DominatorUIUtility.CustomControl
                 "Confirmation", "If you delete it will delete from Campaign permanently\nAre you sure You want to delete selected Campaign?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton());
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
+            var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
             campaign.ForEach(camp =>
             {
+                var selectedAccount = camp.SelectedAccountList;
                 CampaignsFileManager.Delete(camp);
+
+                UpdateAccount(allAccounts, camp, selectedAccount);
                 objCampaignDetails.ObjCampaignDetails.Remove(camp);
+                GlobusLogHelper.log.Info(camp.CampaignName + "  Campaign deleted permanently from campaigns.");
+
             });
+
+          
             objCampaignDetails.IsCampaignChecked = false;
             SetDefaultView();
+        }
+
+        private static void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
+        {
+            try
+            {
+                // remove template from each account
+                allAccounts.ForEach(x =>
+                {
+                    var moduleConfig =
+                        x.ActivityManager.LstModuleConfiguration.FirstOrDefault(mc => mc.TemplateId == camp.TemplateId);
+
+                    if (moduleConfig != null)
+                    {
+                        // Stop active task related to campaign
+                        JobProcess.Stop(x.AccountId, camp.TemplateId);
+
+                        // Remove task from list
+                        x.ActivityManager.LstModuleConfiguration.RemoveAll(y => y.TemplateId == camp.TemplateId);
+                    }
+
+                    if (selectedAccount.Contains(x.UserName))
+                        moduleConfig.IsEnabled = false;
+                });
+                AccountsFileManager.SaveAll(allAccounts);
+            }
+            catch (Exception ex)
+            {
+            }
+            
         }
 
         private void SetDefaultView()

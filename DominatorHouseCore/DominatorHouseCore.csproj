@@ -100,8 +100,7 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="protobuf-net, Version=2.3.6.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="protobuf-net">
       <HintPath>..\packages\protobuf-net.2.3.6\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="SQLite.CodeFirst">
@@ -394,6 +393,7 @@
     <Compile Include="Models\PinterestModel.cs" />
     <Compile Include="Models\ProxyManagerModel.cs" />
     <Compile Include="Models\PublisherAccountDetails.cs" />
+    <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GeneralModel.cs" />
     <Compile Include="Models\Publisher\JobConfigurationModel.cs" />
     <Compile Include="Models\Publisher\OtherConfigurationModel.cs" />
     <Compile Include="Models\ReportDetails.cs" />
@@ -496,7 +496,6 @@
   <ItemGroup>
     <Folder Include="Enums\PdQuery\" />
     <Folder Include="Enums\RdQuery\" />
-    <Folder Include="Models\Publisher\CampaignsAdvanceSetting\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">

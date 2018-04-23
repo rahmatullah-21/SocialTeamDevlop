@@ -450,12 +450,28 @@ namespace DominatorUIUtility.CustomControl
                     WarningText = errorMessage
                 };
 
-                foreach (var account in selectedAccounts)
-                    objErrorModelControl.Accounts.Add(new ErrorModelControl
+                try
+                {
+                    foreach (var account in selectedAccounts)
                     {
-                        UserName = accountHavingTemplates.FirstOrDefault(x => x.AccountBaseModel.UserName == account)?.AccountBaseModel.UserName
-                    });
+                        accountDetails.ForEach(accountDetail =>
+                        {
+                            var moduleConfig = accountDetail.ActivityManager.LstModuleConfiguration.FirstOrDefault(mc => mc.ActivityType == _activityType);
 
+                               if(moduleConfig.IsEnabled)
+                                   objErrorModelControl.Accounts.Add(new ErrorModelControl
+                               {
+                                   UserName = accountHavingTemplates
+                                       .FirstOrDefault(x => x.AccountBaseModel.UserName == account)?.AccountBaseModel.UserName
+                               });
+                        });
+                       
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                }
                 try
                 {
                     //Check if account is running with campaign or not if any account running with campaign then it will show ErrorModel
