@@ -34,7 +34,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
 
         [Column(Order = 6)]
-        public string InteractionDate
+        public int InteractionDate
         { get; set; }
 
 

@@ -816,7 +816,7 @@ namespace DominatorUIUtility.CustomControl
                 DialogCoordinator.Instance.ShowModalMessageExternal(this, "Update", "Update Successfull", MessageDialogStyle.Affirmative);
 
             SetDataContext();
-            DominatorHouseCore.Utility.TabSwitcher.ChangeTabIndex(6, 0);
+            TabSwitcher.GoToCampaign();
         }
 
 

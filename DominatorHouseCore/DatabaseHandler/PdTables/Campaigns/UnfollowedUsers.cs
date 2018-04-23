@@ -11,8 +11,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         [Index]
         [Column(Order = 1)]
         public int Id { get; set; }
-
-
+        
         [Column(Order = 2)]
         public string FilterArgument
         { get; set; }
@@ -34,7 +33,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 
 
         [Column(Order = 6)]
-        public string InteractionDate
+        public int InteractionDate
         { get; set; }
 
 

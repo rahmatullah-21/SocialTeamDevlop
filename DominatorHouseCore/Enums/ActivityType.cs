@@ -237,6 +237,9 @@ namespace DominatorHouseCore.Enums
         ReplyToComment = 78,
 
         [Description("Tumblr")]
-        Reblog = 79
+        Reblog = 79,
+
+        [Description("Pinterest")]
+        Try = 80
     }
 }
