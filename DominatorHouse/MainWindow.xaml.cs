@@ -258,7 +258,7 @@ namespace DominatorHouse
                 // Go to campaign from respective module after campaign saved
                 TabSwitcher.GoToCampaign = ()
                     => SelectedViewIndex =
-                        TabItems.FindIndex(x => x.Title == FindResource("langCampaigns").ToString());
+                        TabItems.FindIndex(x => x.Title == FindResource("DHlangCampaigns").ToString());
 
                 Closed += (o, e) => Process.GetCurrentProcess().Kill();
             }

@@ -496,6 +496,7 @@
   <ItemGroup>
     <Folder Include="Enums\PdQuery\" />
     <Folder Include="Enums\RdQuery\" />
+    <Folder Include="Models\Publisher\CampaignsAdvanceSetting\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">

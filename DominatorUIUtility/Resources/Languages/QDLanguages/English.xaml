@@ -113,5 +113,6 @@
     <system:String x:Key="QDlangQuestionScraperPerWeek">Question scrape per week</system:String>
     <system:String x:Key="QDlangMaxQuestionScraperDay">Max question scrape per day</system:String>
     <system:String x:Key="QDlangAfterQuestionsScraper">After Questions Scraper</system:String>
+    <system:String x:Key="QDlangMessages">Messages</system:String>
 
 </ResourceDictionary>
