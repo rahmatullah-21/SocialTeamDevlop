@@ -23,7 +23,6 @@ namespace DominatorHouseCore.Models
 
         public static readonly QueryInfo NoQuery = new QueryInfo();
 
-
         /// <summary>
         /// Id is the unique id for the query, which contains guid without dashes
         /// </summary>
@@ -162,11 +161,19 @@ namespace DominatorHouseCore.Models
 
         public string QueryTypeAsDisplayName(Type queryParameterType)
         {
-            var value = Enum.Parse(queryParameterType, QueryType);
+            try
+            {
+                var value = Enum.Parse(queryParameterType, QueryType);
 
-            var descrKey = EnumUtility.GetDescriptionAttr((Enum)Enum.Parse(queryParameterType, value.ToString()));
+                var descrKey = EnumUtility.GetDescriptionAttr((Enum)Enum.Parse(queryParameterType, value.ToString()));
 
-            return descrKey.FromResourceDictionary();
+                return descrKey.FromResourceDictionary();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return string.Empty;
         }
 
 
@@ -211,7 +218,7 @@ namespace DominatorHouseCore.Models
 
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return (QueryInfo)MemberwiseClone();
         }
     }
 

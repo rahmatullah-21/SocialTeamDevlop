@@ -1,10 +1,11 @@
-﻿using DominatorHouseCore.Models;
+﻿using System.Collections.ObjectModel;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.Interfaces
 {
     public interface ISearchQueryControl
     {        
-        ObservableCollectionBase<QueryInfo> SavedQueries { get; set; }
+        ObservableCollection<QueryInfo> SavedQueries { get; set; }
     }
 }

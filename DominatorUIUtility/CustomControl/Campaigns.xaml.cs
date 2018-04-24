@@ -38,8 +38,8 @@ namespace DominatorUIUtility.CustomControl
     {
         private CampaignDetails objCampaignDetails;
 
-        public static Action<TemplateModel, CampaignDetails, bool, Visibility, string, string> EditOrDuplicateCampaign { get; set; } =
-            (t, c, b, v, s, s2) => GlobusLogHelper.log.Error($"Campaigns.EditOrDuplicateCampaign action handler wasn't set");
+        public static Action<TemplateModel, CampaignDetails, bool, string, string> EditOrDuplicateCampaign { get; set; } =
+            (t, c, b, s, s2) => GlobusLogHelper.log.Error($"Campaigns.EditOrDuplicateCampaign action handler wasn't set");
 
         public SocialNetworks SocialNetworks { get; set; }
 
@@ -222,7 +222,7 @@ namespace DominatorUIUtility.CustomControl
 
             var templateDetails = TemplatesFileManager.GetTemplateById(campaignDetails.TemplateId);
 
-            EditOrDuplicateCampaign(templateDetails, campaignDetails, false, Visibility.Visible, ConstantVariable.UpdateCampaign, campaignDetails.TemplateId);
+            EditOrDuplicateCampaign(templateDetails, campaignDetails, false, ConstantVariable.UpdateCampaign, campaignDetails.TemplateId);
         }
 
         private void DuplicateCampaign_OnClick(object sender, RoutedEventArgs e)
@@ -235,7 +235,7 @@ namespace DominatorUIUtility.CustomControl
 
             campaignDetails.CampaignName = campName.CampaignName.Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
 
-            EditOrDuplicateCampaign(templateDetails, campaignDetails, true, Visibility.Collapsed, ConstantVariable.CreateCampaign, campaignDetails.TemplateId);
+            EditOrDuplicateCampaign(templateDetails, campaignDetails, true, ConstantVariable.CreateCampaign, campaignDetails.TemplateId);
 
         }
 
@@ -274,7 +274,7 @@ namespace DominatorUIUtility.CustomControl
 
             var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
 
-            ObservableCollectionBase<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
+            ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
 
 
             Dictionary<string, string> lstCurrentQueries = new Dictionary<string, string>();

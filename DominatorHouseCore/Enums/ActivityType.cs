@@ -240,6 +240,9 @@ namespace DominatorHouseCore.Enums
         Reblog = 79,
 
         [Description("Pinterest")]
-        Try = 80
+        Try = 80,
+
+        [Description("LinkedIn")]
+        SendMessageToNewConnection = 81
     }
 }

@@ -36,21 +36,28 @@ namespace DominatorHouseCore.Utility
         // string description = x.GetDescriptionAttr();            
         public static string GetDescriptionAttr(this Enum value)
         {
-            Type type = value.GetType();
-            string name = Enum.GetName(type, value);
-            if (name != null)
+            try
             {
-                FieldInfo field = type.GetField(name);
-                if (field != null)
+                Type type = value.GetType();
+                string name = Enum.GetName(type, value);
+                if (name != null)
                 {
-                    DescriptionAttribute attr = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
-                    if (attr != null)
+                    FieldInfo field = type.GetField(name);
+                    if (field != null)
                     {
-                        return attr.Description;
+                        DescriptionAttribute attr = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+                        if (attr != null)
+                        {
+                            return attr.Description;
+                        }
                     }
                 }
-            }
 
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
             return null;            
         }
 

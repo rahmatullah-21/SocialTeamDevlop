@@ -14,12 +14,14 @@ using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -223,44 +225,51 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="e"></param>
         protected void SearchQueryControl_OnAddQuery(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue))
+            try
             {
-                _queryControl.QueryCollection.ForEach(query =>
+                if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue))
                 {
+                    _queryControl.QueryCollection.ForEach(query =>
+                    {
+                        var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
+
+                        if (currentQuery == null) return;
+
+                        currentQuery.QueryValue = query.Trim();
+
+                        currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName();
+
+                        currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                        if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
+
+                        Model.SavedQueries.Add(currentQuery);
+
+                    });
+                }
+                else
+                {
+                    _queryControl.CurrentQuery.QueryTypeDisplayName = _queryControl.CurrentQuery.QueryTypeAsDisplayName();
+
                     var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
 
                     if (currentQuery == null) return;
 
-                    currentQuery.QueryValue = query.Trim();
-
-                    currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName();
-
                     currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                    currentQuery.QueryValue = currentQuery.QueryValue.Trim();
 
                     if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
 
                     Model.SavedQueries.Add(currentQuery);
 
-                });
+                    _queryControl.CurrentQuery = new QueryInfo();
+
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _queryControl.CurrentQuery.QueryTypeDisplayName = _queryControl.CurrentQuery.QueryTypeAsDisplayName();
-
-                var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
-
-                if (currentQuery == null) return;
-
-                currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
-
-                currentQuery.QueryValue = currentQuery.QueryValue.Trim();
-
-                if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
-
-                Model.SavedQueries.Add(currentQuery);
-
-                _queryControl.CurrentQuery = new QueryInfo();
-
+                ex.DebugLog();
             }
         }
 
@@ -273,17 +282,36 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="queryParameterType"></param>
         protected void SearchQueryControl_OnAddQuery(object sender, RoutedEventArgs e, Type queryParameterType)
         {
-            if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue))
+            try
             {
-                _queryControl.QueryCollection.ForEach(query =>
+                if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue))
                 {
+                    _queryControl.QueryCollection.ForEach(query =>
+                    {
+                        var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
+
+                        if (currentQuery == null) return;
+
+                        currentQuery.QueryValue = query;
+
+                        currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName(queryParameterType);
+
+                        currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                        if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
+
+                        Model.SavedQueries.Add(currentQuery);
+
+                    });
+                }
+                else
+                {
+
+                    _queryControl.CurrentQuery.QueryTypeDisplayName = _queryControl.CurrentQuery.QueryTypeAsDisplayName(queryParameterType);
+
                     var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
 
                     if (currentQuery == null) return;
-
-                    currentQuery.QueryValue = query;
-
-                    currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName(queryParameterType);
 
                     currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
 
@@ -291,37 +319,38 @@ namespace DominatorUIUtility.CustomControl
 
                     Model.SavedQueries.Add(currentQuery);
 
-                });
+                    _queryControl.CurrentQuery = new QueryInfo();
+                    var listQueryInfo = _queryControl.ListQueryInfo;
+                    var listQueryType = _queryControl.ListQueryType;
+                    var queryCollection = _queryControl.QueryCollection;
+                    var selectedIndex = _queryControl.SelectedIndex;
+                    var searchQueries = _queryControl.SearchQueries;
+                    var ModelSavedQueries = Model.SavedQueries;
+                    var datagridItemSource = _queryControl.SearchQueries.ItemsSource;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _queryControl.CurrentQuery.QueryTypeDisplayName = _queryControl.CurrentQuery.QueryTypeAsDisplayName(queryParameterType);
-
-                var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
-
-                if (currentQuery == null) return;
-
-                currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
-
-                if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
-
-                Model.SavedQueries.Add(currentQuery);
-
-                _queryControl.CurrentQuery = new QueryInfo();
-
+                ex.DebugLog();
             }
         }
 
-        private bool IsQueryExist(QueryInfo currentQuery,  ObservableCollectionBase<QueryInfo> queryToSave)
+        private bool IsQueryExist(QueryInfo currentQuery, ObservableCollection<QueryInfo> queryToSave)
         {
-            if (queryToSave.Any(x =>
-                x.QueryType == currentQuery.QueryType && x.QueryValue == currentQuery.QueryValue))
+            try
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                    "Query already Exist !!");
-                return true;
+                if (queryToSave.Any(x =>
+                        x.QueryType == currentQuery.QueryType && x.QueryValue == currentQuery.QueryValue))
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                        "Query already Exist !!");
+                    return true;
+                }
             }
-
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
             return false;
         }
 
@@ -378,7 +407,7 @@ namespace DominatorUIUtility.CustomControl
 
 
         protected virtual bool ValidateExtraProperty() => true;
-        
+
 
         /// <summary>
         /// Event handler called when user Creates or Updates campaign
@@ -567,7 +596,7 @@ namespace DominatorUIUtility.CustomControl
                     moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
                     moduleConfiguration.IsEnabled = true;
                     moduleConfiguration.Status = "Active";
-                    
+
                     moduleConfiguration.TemplateId = TemplateId;
                     runningTime.ForEach(x =>
                     {
@@ -724,7 +753,7 @@ namespace DominatorUIUtility.CustomControl
             AccountsFileManager.Edit(selectedAccountDetails);
 
             if (!ValidateRunningTime()) return;
-           
+
             UpdateRunningTime(Model.JobConfiguration, selectedAccountDetails);
 
             DominatorScheduler.ScheduleTodayJobs(selectedAccountDetails, SocialNetworks.Instagram, _activityType);
@@ -766,7 +795,7 @@ namespace DominatorUIUtility.CustomControl
             if (!ValidateCampaign())
                 return;
 
-            if(!ValidateExtraProperty())
+            if (!ValidateExtraProperty())
                 return;
 
             var Module = _activityType.ToString();
@@ -1085,7 +1114,7 @@ namespace DominatorUIUtility.CustomControl
             AccountsFileManager.Edit(accountModel);
         }
 
-      
+
         #region IAccountGrowthModeHeader
 
         public ObservableCollectionBase<string> AccountItemSource

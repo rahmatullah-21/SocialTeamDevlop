@@ -27,7 +27,7 @@ namespace DominatorHouseCore.Converters
                 var desc = GetDescription(v);
                 return desc.FromResourceDictionary();
             }
-            catch
+            catch(Exception ex)
             {
                 return value;
             }

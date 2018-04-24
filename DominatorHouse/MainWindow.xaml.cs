@@ -275,11 +275,26 @@ namespace DominatorHouse
 
         private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
         {
-            SelectedViewIndex = index;
-            SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
+            if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+            {
+                SelectedViewIndex = index;
+                SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
+            }
+            else
+            {
+                GlobusLogHelper.log.Info("Goto Tools options only for social mode !");
+                //NetworkSelectionChanges("Social");
+                //SelectedViewIndex = index;
+                //SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
+            }
         }
 
         private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            NetworkSelectionChanges(cmbSocialNetwork.SelectedItem.ToString());
+        }
+
+        private void NetworkSelectionChanges(string network)
         {
             try
             {
@@ -287,7 +302,7 @@ namespace DominatorHouse
                     return;
                 TabDock = Dock.Top;
                 var selectedSocialNetwork =
-                    (SocialNetworks)Enum.Parse(typeof(SocialNetworks), cmbSocialNetwork.SelectedItem.ToString());
+                    (SocialNetworks)Enum.Parse(typeof(SocialNetworks), network);
                 if (selectedSocialNetwork == SocialNetworks.Social)
                     TabDock = Dock.Left;
                 TabInitialize(selectedSocialNetwork);
