@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,12 +13,15 @@ using DominatorUIUtility.Behaviours;
 using System.Windows.Data;
 using System.Reflection;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
 using DominatorHouseCore.LogHelper;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.CustomControl
 {    
-    public partial class SearchQueryControl : UserControl
+    public partial class SearchQueryControl : UserControl , INotifyPropertyChanged
     {
 
         public SearchQueryControl()
@@ -26,11 +30,28 @@ namespace DominatorUIUtility.CustomControl
             CurrentQuery = new QueryInfo();          
             MainGrid.DataContext = this;
             IsExpanded = true;
-         AddQueryCommand = new BaseCommand<object>(CanExecute, Execute);
-           
+            AddQueryCommand = new BaseCommand<object>(CanExecute, Execute);
+            SelectedIndex = 0;
+            ListQueryType = new List<string>();           
+            ListQueryInfo = new ObservableCollection<QueryInfo>();
         }
 
         #region Variables
+
+        private int _selectedIndex;
+
+        public int SelectedIndex
+        {
+            get
+            {
+                return _selectedIndex;
+            }
+            set
+            {
+                _selectedIndex = value;
+                OnPropertyChanged(nameof(SelectedIndex));
+            }
+        }
 
         public IEnumerable<string> ListQueryType
         {
@@ -52,11 +73,6 @@ namespace DominatorUIUtility.CustomControl
             set { SetValue(CurrentQueryProperty, value); }
         }
 
-
-
-
-
-
         // Using a DependencyProperty as the backing store for CurrentQuery.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurrentQueryProperty =
             DependencyProperty.Register("CurrentQuery", typeof(QueryInfo), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
@@ -66,9 +82,9 @@ namespace DominatorUIUtility.CustomControl
 
 
 
-        public ObservableCollectionBase<QueryInfo> ListQueryInfo
+        public ObservableCollection<QueryInfo> ListQueryInfo
         {
-            get { return (ObservableCollectionBase<QueryInfo>)GetValue(ListQueryInfoProperty); }
+            get { return (ObservableCollection<QueryInfo>)GetValue(ListQueryInfoProperty); }
             set { SetValue(ListQueryInfoProperty, value); }
         }
 
@@ -76,7 +92,7 @@ namespace DominatorUIUtility.CustomControl
 
         // Using a DependencyProperty as the backing store for ListQueryInfo.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ListQueryInfoProperty =
-            DependencyProperty.Register("ListQueryInfo", typeof(ObservableCollectionBase<QueryInfo>), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            DependencyProperty.Register("ListQueryInfo", typeof(ObservableCollection<QueryInfo>), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
             {
                 BindsTwoWayByDefault = true
             });
@@ -88,9 +104,6 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public List<string> QueryCollection { get; set; } = new List<string>();
-
-       
-
 
         #endregion
 
@@ -164,7 +177,6 @@ namespace DominatorUIUtility.CustomControl
 
         private void btnFilter_Click(object sender, RoutedEventArgs e)
         {
-
             CustomFilterEventHandler();
         }
 
@@ -207,14 +219,6 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        private void btnAddToList_Click(object sender, RoutedEventArgs e)
-        {
-            CurrentQuery.QueryValue= TxtInputQuery.Text.ToString();
-            TxtInputQuery.Text = string.Empty;
-            CmbboxQueryTypeLists.SelectedIndex = 0;
-            AddQueryEventHandler();
-        }
-
         #endregion
 
         #region Delete the query from query list
@@ -237,17 +241,25 @@ namespace DominatorUIUtility.CustomControl
         private void DeleteSingle_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             //var currentRow = ((FrameworkElement)sender).DataContext as QueryInfo;
-
             //if (ListQueryInfo.Any(x => currentRow != null && x.Id == currentRow.Id))
             //{
             //    ListQueryInfo.Remove(currentRow);
             //}
             //DeleteQueryEventHandler();
-            CurrentQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
-            DeleteQueryEventHandler();
-            if (ListQueryInfo.Any(x => CurrentQuery != null && x.Id == CurrentQuery.Id))
+            try
             {
-                ListQueryInfo.Remove(CurrentQuery);
+              var  selectedQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
+                DeleteQueryEventHandler();
+                if (ListQueryInfo.Any(x => selectedQuery != null && x.Id == selectedQuery.Id))
+                {
+                    ListQueryInfo.Remove(selectedQuery);
+
+                    // SearchQueries.ItemsSource = ListQueryInfo.Count == 0 ? null : ListQueryInfo;
+                }
+            }
+            catch (Exception ex) 
+            {
+                ex.DebugLog();
             }
         }
 
@@ -258,10 +270,13 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var selectedvalue = (ComboBox)(FrameworkElement)sender;
+                CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
 
-                if (selectedvalue != null)
-                    CurrentQuery.QueryType = selectedvalue.SelectedItem.ToString();
+            
+                //var selectedvalue = (ComboBox)(FrameworkElement)sender;
+
+                //if (selectedvalue != null)
+                //    CurrentQuery.QueryType = selectedvalue.SelectedItem.ToString();
             }
             catch (Exception ex)
             {
@@ -278,11 +293,18 @@ namespace DominatorUIUtility.CustomControl
 
         public void Execute(object parameter)
         {
-            CurrentQuery.QueryValue = TxtInputQuery.Text.ToString();
-            CurrentQuery.QueryType = CmbboxQueryTypeLists.SelectedItem.ToString();
-            TxtInputQuery.Text = string.Empty;
-            CmbboxQueryTypeLists.SelectedIndex = 0;
-            AddQueryEventHandler();
+            try
+            {
+                CurrentQuery.QueryValue = TxtInputQuery.Text.ToString();
+                CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
+                TxtInputQuery.Text = string.Empty;
+                SelectedIndex = 0;
+                AddQueryEventHandler();
+            }
+            catch (Exception ex)
+            {
+               ex.DebugLog();
+            }
         }
 
         public bool IsExpanded
@@ -297,6 +319,14 @@ namespace DominatorUIUtility.CustomControl
             {
                 BindsTwoWayByDefault = true
             });
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
     

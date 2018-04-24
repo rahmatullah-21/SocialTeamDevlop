@@ -21,7 +21,7 @@
     <system:String x:Key="LDlangMessenger">Messenger</system:String>
     <system:String x:Key="LDlangLinkedinMesenger">Linkedin Mesenger</system:String>
     <system:String x:Key="LDlangBroadcastMessages">Broadcast Messages</system:String>
-    <system:String x:Key="LDlangSendMessageToConnections">Send Message To Connections</system:String>
+    <system:String x:Key="LDLangSendMessageToNewConnection">Send Message To New Connection</system:String>
     <system:String x:Key="LDlangAutoReplyToNewMessages">Auto Reply New Messages</system:String>
     <system:String x:Key="LDlangSendGreetingsToConnections">Send Greetings To Connections</system:String>
     <system:String x:Key="LDlangSendMessageToGroupMembers">Send Message To GroupMembers</system:String>
@@ -61,6 +61,8 @@
     <system:String x:Key="LDlangRemoveConnectionsPerHour">Number of Connections to Remove per hour</system:String>
     <system:String x:Key="LDlangRemoveConnectionsPerWeek">Number of Connections to Remove per week</system:String>
     <system:String x:Key="LDlangMaxRemoveConnectionsDay">Max Connections to Remove per day</system:String>
+    <system:String x:Key="LDlangInputMessages">Input Message(s)</system:String>
+    <system:String x:Key="LDlangMessageFilter">Message Filter</system:String>
     <system:String x:Key="LDlangMessagesPerJob">Number of connections to message per job</system:String>
     <system:String x:Key="LDlangMessagesPerHour">Number of connections to message per hour</system:String>
     <system:String x:Key="LDlangMessagesPerDay">Number of connections to message per day</system:String>
@@ -119,7 +121,7 @@
     <system:String x:Key="LDlangWithdrawConnectionRequestWarning">These accounts are already running with WithdrawConnectionRequest configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangRemoveConnectionsWarning">These accounts are already running with RemoveConnections configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangBroadCastMessagesWarning">These accounts are already running with BroadCastMessages configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
-    <system:String x:Key="LDlangSendMessageToConnectionsWarning">These accounts are already running with SendMessageToConnections configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="LDlangSendMessageToNewConnectionWarning">These accounts are already running with SendMessageToNewConnection configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangAutoReplyToNewMessagesWarning">These accounts are already running with AutoReplyToNewMessages configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangSendGreetingsToConnectionsWarning">These accounts are already running with SendGreetingsToConnections configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangSendMessageToGroupMembersWarning">These accounts are already running with SendMessageToGroupMembers configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>

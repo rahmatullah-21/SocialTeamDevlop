@@ -291,7 +291,7 @@ namespace DominatorUIUtility.CustomControl
 
             var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
 
-            ObservableCollectionBase<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
+            ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
 
 
             Dictionary<string, string> lstCurrentQueries = new Dictionary<string, string>();

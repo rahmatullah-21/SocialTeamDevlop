@@ -39,9 +39,16 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         { get; set; }
 
         /// <summary>
-        /// Contains ProfileUrl Of the Connection
+        /// Contains ProfileId Of the Connection
         /// </summary>
         [Column(Order = 5)]
+        public string ProfileId
+        { get; set; }
+
+        /// <summary>
+        /// Contains ProfileUrl Of the Connection
+        /// </summary>
+        [Column(Order = 6)]
         [Unique]
         public string ProfileUrl
         { get; set; }
@@ -49,51 +56,51 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// <summary>
         /// Describes if Connection Has Anonymous Profile Picture or not
         /// </summary>
-        [Column(Order = 6)]
+        [Column(Order = 7)]
         public bool HasAnonymousProfilePicture { get; set; }
 
         /// <summary>
         /// Contains Profile Picture Url Of the Connection
         /// </summary>
-        [Column(Order = 7)]
+        [Column(Order = 8)]
         public string ProfilePicUrl { get; set; }
 
         /// <summary>
         /// Describe Connection Type If FirstDegree,SecondDegree Or ThirdPlusDegree
         /// </summary>
-        [Column(Order = 8)]
+        [Column(Order = 9)]
         public ConnectionType ConnectionType
         { get; set; }
 
         /// <summary>
         /// Contains Connected TimeStamp with this Account
         /// </summary>
-        [Column(Order = 9)]
+        [Column(Order = 10)]
         public Int64 ConnectedTimeStamp { get; set; }
 
         /// <summary>
         /// Contains Occupation Of the Connection
         /// </summary>
-        [Column(Order = 10)]
+        [Column(Order = 11)]
         public string Occupation { get; set; }
 
 
         /// <summary>
         /// Contains CompanyName Of the Connection
         /// </summary>
-        [Column(Order = 11)]
+        [Column(Order = 12)]
         public string CompanyName { get; set; }
 
         /// <summary>
         /// Contains Detailed Info int JasonString Of the Connection
         /// </summary>
-        [Column(Order = 12)]
+        [Column(Order = 13)]
         public string DetailedUserInfo { get; set; }
 
         /// <summary>
         /// Contains Interaction Time Stamp
         /// </summary>
-        [Column(Order = 13)]
+        [Column(Order = 14)]
         public int InteractionTimeStamp { get; set; }
     }
 

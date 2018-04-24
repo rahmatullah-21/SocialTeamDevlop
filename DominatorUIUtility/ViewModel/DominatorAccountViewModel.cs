@@ -297,13 +297,13 @@ namespace DominatorUIUtility.ViewModel
                     ex.DebugLog();
                 }
 
-
+                Thread.Sleep(50);
                 //Iterate the all accounts one by one
                 foreach (var singleAccount in loadedAccountlist)
                 {
                     try
                     {
-                        var finalAccount = singleAccount.Replace(",", ":").Replace("NA", "");
+                        var finalAccount = singleAccount.Replace(",", ":").Replace("<NA>", "");
                         var splitAccount = Regex.Split(finalAccount, ":");
                         if (splitAccount.Length <= 1) continue;
 
