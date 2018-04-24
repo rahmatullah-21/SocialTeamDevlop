@@ -196,5 +196,23 @@
         /// 1 = Account's Username
         /// </summary>
         public static string AlreadyAddedAccount { get; set; } = "{0}\t {1}\t Already added!";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// </summary>
+        public static string AlreadyStoppedUpdatingAccount { get; set; } = "{0}\t {1}\t Already Stopped!";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// </summary>
+        public static string AlreadyUpdatingAccount { get; set; } = "{0}\t {1}\t Already started!";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// </summary>
+        public static string StopUpdatingAccount { get; set; } = "{0}\t {1}\t Stopped for further friendship update!";
     }
 }

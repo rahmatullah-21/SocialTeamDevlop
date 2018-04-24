@@ -321,7 +321,7 @@ namespace DominatorHouse
                 tabHandler.UpdateAccountCustomControl(network);
                 SocinatorInitialize.SetAsActiveNetwork(network);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 TabDock = Dock.Left;
 

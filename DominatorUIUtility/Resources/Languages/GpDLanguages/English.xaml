@@ -117,4 +117,7 @@
     <system:String x:Key="langManageComments">Manage Comments</system:String>
 
     <system:String x:Key="langRefresh">Refresh</system:String>
+    <system:String x:Key="langFollowUserAfterLike">Follow User After Like</system:String>
+    <system:String x:Key="GpluslangStopAtMaxCommentsFailed">Stop The Comment Action If Number of Continuous Failed Comments</system:String>
+    <system:String x:Key="GpluslangStopAtMaxLikesFailed">Stop The Like Action If Number of Continuous Failed Likes</system:String>
 </ResourceDictionary>

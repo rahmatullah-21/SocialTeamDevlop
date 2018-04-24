@@ -3,95 +3,54 @@
                     xmlns:local="clr-namespace:PinDominatorCore.PDLanguages"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <system:String x:Key="langAddAccount">Add Account</system:String>
-    <system:String x:Key="langCPUUsage">CPU Usage :</system:String>
-    <system:String x:Key="langLoadedMemory">Loaded Memory :</system:String>
-    <system:String x:Key="langZeroMB">0 MB</system:String>
-    <system:String x:Key="langAvailableMemory">Available Memory :</system:String>
-    <system:String x:Key="langSave">Save</system:String>
-    <system:String x:Key="langCancel">Cancel</system:String>
-    <system:String x:Key="btnImportMultipleAccounts">Import Multiple Accounts</system:String>
-    <system:String x:Key="langSelect">Select</system:String>
-    <system:String x:Key="langUpdate">Update</system:String>
-    <system:String x:Key="langExport">Export</system:String>
-    <system:String x:Key="langAccountDetails">Account Details</system:String>
-    <system:String x:Key="langModuleDescription">Module description</system:String>
-    <system:String x:Key="langNameCampaign">Name Your Campaign</system:String>
-    <system:String x:Key="langKeyword">Keyword</system:String>
-    <system:String x:Key="langFlwLeaveComment">Leave comment once followed</system:String>
-    <system:String x:Key="langFlwLikePosts">Like posts once followed</system:String>
-    <system:String x:Key="langJobConfiguration">Job Configuration</system:String>
-    <system:String x:Key="langConfiguration">Configuration</system:String>
-    <system:String x:Key="langReports">Reports</system:String>
-    <system:String x:Key="langJobDelay">Set Delay for New Job</system:String>
-    <system:String x:Key="langFollowsPerJob">Number of follows per job</system:String>
-    <system:String x:Key="langFollowsPerDay">Number of follows per day</system:String>
-    <system:String x:Key="langFollowsPerHour">Number of follows per hour</system:String>
-    <system:String x:Key="langFollowsPerWeek">Number of follows per week</system:String>
-   
-    <system:String x:Key="langRepostPerJob">Number of Repost per job</system:String>
-    <system:String x:Key="langRepostPerDay">Number of Repost per day</system:String>
-    <system:String x:Key="langRepostPerHour">Number of Repost per hour</system:String>
-    <system:String x:Key="langRepostPerWeek">Number of Repost per week</system:String>
+    <system:String x:Key="PDlangAddAccount">Add Account</system:String>
+    <system:String x:Key="PDlangCPUUsage">CPU Usage :</system:String>
+    <system:String x:Key="PDlangLoadedMemory">Loaded Memory :</system:String>
+    <system:String x:Key="PDlangZeroMB">0 MB</system:String>
+    <system:String x:Key="PDlangAvailableMemory">Available Memory :</system:String>
+    <system:String x:Key="PDlangSave">Save</system:String>
+    <system:String x:Key="PDlangCancel">Cancel</system:String>
+    <system:String x:Key="PDbtnImportMultipleAccounts">Import Multiple Accounts</system:String>
+    <system:String x:Key="PDlangSelect">Select</system:String>
+    <system:String x:Key="PDlangUpdate">Update</system:String>
+    <system:String x:Key="PDlangExport">Export</system:String>
+    <system:String x:Key="PDlangAccountDetails">Account Details</system:String>
+    <system:String x:Key="PDlangModuleDescription">Module description</system:String>
+    <system:String x:Key="PDlangKeyword">Keyword</system:String>
+    <system:String x:Key="PDlangJobConfiguration">Job Configuration</system:String>
+    <system:String x:Key="PDlangConfiguration">Configuration</system:String>
+    <system:String x:Key="PDlangReports">Reports</system:String>
+    <system:String x:Key="PDlangFollowsPerJob">Number of follows per job</system:String>
+    <system:String x:Key="PDlangFollowsPerDay">Number of follows per day</system:String>
+    <system:String x:Key="PDlangFollowsPerHour">Number of follows per hour</system:String>
+    <system:String x:Key="PDlangFollowsPerWeek">Number of follows per week</system:String>
+    <system:String x:Key="PDlangMaxFollowDay">max follow per day</system:String>
 
+    <system:String x:Key="PDlangRepinPerJob">Number of Repost per job</system:String>
+    <system:String x:Key="PDlangRepinPerDay">Number of Repost per day</system:String>
+    <system:String x:Key="PDlangRepinPerHour">Number of Repost per hour</system:String>
+    <system:String x:Key="PDlangRepinPerWeek">Number of Repost per week</system:String>
+    <system:String x:Key="PDlangMaxRepinDay">max Repost per day</system:String>
 
-    <system:String x:Key="langIncreaseEachDay">Increase each day with</system:String>
-    <system:String x:Key="langUntilReach">until it reaches</system:String>
-    <system:String x:Key="langMaxFollowDay">max follow per day</system:String>
-    <system:String x:Key="langUnfollowPrevious">Unfollow Previously Followed Users</system:String>
-    <system:String x:Key="langSelectAction">Select Action</system:String>
-    <system:String x:Key="langHashtags">Hashtags</system:String>
-    <system:String x:Key="langSomeonesFollowers">Someone's followers</system:String>
-    <system:String x:Key="langCustomUser">Custom users</system:String>
-    <system:String x:Key="langCustomPhotos">Custom Photos</system:String>
-    <system:String x:Key="langInfo">Informations</system:String>
+    <system:String x:Key="PDlangUnfollowPrevious">Unfollow Previously Followed Users</system:String>
+    <system:String x:Key="PDlangInfo">Informations</system:String>
 
-    <system:String x:Key="langSomeonesFollowings">Someone's followings</system:String>
-    <system:String x:Key="langFollowersOfSomeonesFollowings">Followers Of Someones Followings</system:String>
-    <system:String x:Key="langFollowersOfSomeonesFollowers">Followers Of Someones Followers</system:String>
-    <system:String x:Key="langEngagedUsers">Engaged users</system:String>
-    <system:String x:Key="langUsersWhoLiked">Users who liked posts</system:String>
-    <system:String x:Key="langUsersWhoCommented">Users who commented on posts</system:String>
-    <system:String x:Key="langHours">hours</system:String>
-    <system:String x:Key="langHour">Hour</system:String>
-    <system:String x:Key="langFollowUnique">Follow unique users from each selected account</system:String>
-    <system:String x:Key="langFlwAvoidBlacklisted">Do not follow blacklisted users</system:String>
-    <system:String x:Key="langFlwAvoidPrivate">Do not follow private users</system:String>
-    <system:String x:Key="langShowFilters">Show advanced filter options</system:String>
-    <system:String x:Key="langHaveProfilePicture">Should have profile picture</system:String>
-    <system:String x:Key="langMinimumPosts">Minimum posts</system:String>
-    <system:String x:Key="langMinimumCharacters">Minimum characters in bio</system:String>
-    <system:String x:Key="langFollowings">Followings</system:String>
-    <system:String x:Key="langFollowers">Followers</system:String>
-    <system:String x:Key="langAvoidWords">Must not contain specific words</system:String>
-    <system:String x:Key="langAddWordsFilter">Add words for filteration</system:String>
-    <system:String x:Key="langHaveSpecificWords">Must have at least one post with a caption containing specific words</system:String>
-    <system:String x:Key="langFollowRatioLess">Must have a follow ratio less than</system:String>
-    <system:String x:Key="langFollowRatioGreater">Must have a follow ratio greater than</system:String>
-    <system:String x:Key="langFollowRatioSpecific">Should have follow ratio in a specific range</system:String>
-    <system:String x:Key="langDays">Days</system:String>
-    <system:String x:Key="langSkipFollowers">Should not be already following this account(skip followers)</system:String>
-    <system:String x:Key="langThreads">Threads :</system:String>
-    <system:String x:Key="langDelayFollows">Delay between follows</system:String>
-    <system:String x:Key="langDelayUnfollows">Delay between unfollows</system:String>
-    <system:String x:Key="langTo">to</system:String>
-    <system:String x:Key="langSeconds">seconds</system:String>
-    <system:String x:Key="langGDTagline">Lets dominate Instagram with GramDominator</system:String>
-    <system:String x:Key="langRunNow">Run Now</system:String>
-    <system:String x:Key="langMinimum">Minimum</system:String>
-    <system:String x:Key="langMaximum">Maximum</system:String>
-    <system:String x:Key="langSelectAccount">Select account(s)</system:String>
-    <system:String x:Key="langFollowBy">Follow By</system:String>
-    <system:String x:Key="langImportFile">Import from .csv/.txt</system:String>
-    <system:String x:Key="langCancelEdit">Cancel Editing</system:String>
-    <system:String x:Key="langSelectRandomProfile">Select random profiles</system:String>
-    <system:String x:Key="langNotFollowingBack">Who are not following back</system:String>
-    <system:String x:Key="langFollowingBack">Who are following back</system:String>
-    <system:String x:Key="langAll">All</system:String>
-    <system:String x:Key="langAddToBlacklist">Add to blacklist once unfollowed</system:String>
-    <system:String x:Key="langSkipWhiteListed">Do not unfollow whitelisted users</system:String>
-    <system:String x:Key="langUnfFollowedBySoftware">Only unfollow people followed by software</system:String>
-    <system:String x:Key="langUnfOutsideSoftware">Only unfollow people followed outside software</system:String>
+    <system:String x:Key="PDlangHours">hours</system:String>
+    <system:String x:Key="PDlangHaveProfilePicture">Should have profile picture</system:String>
+    <system:String x:Key="PDlangMinimumCharacters">Minimum characters in bio</system:String>
+    <system:String x:Key="PDlangFollowings">Followings</system:String>
+    <system:String x:Key="PDlangFollowers">Followers</system:String>
+    <system:String x:Key="PDlangAvoidWords">Must not contain specific words</system:String>
+    <system:String x:Key="PDlangFollowRatioLess">Must have a follow ratio less than</system:String>
+    <system:String x:Key="PDlangFollowRatioGreater">Must have a follow ratio greater than</system:String>
+    <system:String x:Key="PDlangFollowRatioSpecific">Should have follow ratio in a specific range</system:String>
+    <system:String x:Key="PDlangDays">Days</system:String>
+    <system:String x:Key="PDlangTo">to</system:String>
+    <system:String x:Key="PDlangSeconds">seconds</system:String>
+    <system:String x:Key="PDlangMinimum">Minimum</system:String>
+    <system:String x:Key="PDlangMaximum">Maximum</system:String>
+    <system:String x:Key="PDlangAll">All</system:String>
+    <system:String x:Key="PDlangAddToBlacklist">Add to blacklist once unfollowed</system:String>
     <system:String x:Key="days">Should have posted within the last</system:String>
     <system:String x:Key="langFilters">Filters</system:String>
     <system:String x:Key="langCreateSinglePost">Create single post</system:String>
@@ -290,7 +249,7 @@
     <system:String x:Key="langLikeCommentBetween">Like/Comment between :</system:String>
     <system:String x:Key="langLikeCommentAMaximumOf">Like/Comment a maximum of :</system:String>
     <system:String x:Key="langPostsPerDay">posts  per day</system:String>
-    <system:String x:Key="langInstaLikeCommentSliderText">This module helps you to like or comment or do both on your custom list of posts, or on posts of your own followers, followings or can find by keywords.
+    <system:String x:Key="langPinTryCommentSliderText">This module helps you to Try or comment or do both on your custom list of Pins, or on Pins of your own followers, followings or can find by keywords.
          It also allows you to mention your followings or your custom lists in comments.
     </system:String>
     <system:String x:Key="langMaxLikeCommentPerDay">max like comment per day</system:String>
@@ -316,12 +275,36 @@
     <system:String x:Key="langWhohasnotfollowedback">Who has not followed back</system:String>
     <system:String x:Key="langAddinvalidwords">Add invalid words</system:String>
     <system:String x:Key="langAcceptpendingfriendrequests">Accept pending friend requests (applies only for private users)</system:String>
-    <system:String x:Key="langUserControlFollowerSliderText">Follow single or multiple users using this feature.
-        It comes with multiple options to find and follow users like with keywords, hashtags, your own custom lists etc.
+    <system:String x:Key="PDlangUserControlFollowerSliderText">Follow single or multiple users using this feature.
+        It comes with multiple options to find and follow users like with keywords, Board followers, your own custom lists etc.
         You can like or leave comment on users posts once followed.
     </system:String>
     <system:String x:Key="langUserControlUnFollowerSliderText">Unfollow single or multiple users at once.
          Also gives you an ability to unfollow all your followings or only those who are not following you back.
+    </system:String>
+    <system:String x:Key="langUserControlFollowBackSliderText">FollowBack single or multiple users at once.
+         Also gives you an ability to followBack all your followers.
+    </system:String>
+    <system:String x:Key="langUserControlAutoReplyToNewMessagesSliderText">Auto Reply To New Messages to single or multiple users at once.
+         Also gives you an ability to reply all new messages.
+    </system:String>
+    <system:String x:Key="langUserControlBroadcastMessagesSliderText">Broadcast Messages to single or multiple users using this feature.
+        It comes with multiple options to find and Broadcast Messages to users like with Someone's followers, Board followers, your own custom lists etc.
+    </system:String>
+    <system:String x:Key="langUserControlSendMessageToNewFollowersSliderText">Send Messages To New Followers gives you an ability to
+        send messages to all your new followers.
+    </system:String>
+    <system:String x:Key="langUserControlBoardScraperSliderText">Scrape single or multiple boards using this feature.
+         It gives you an ability to find and scrape boards with keywords.
+    </system:String>
+    <system:String x:Key="langUserControlPinScraperSliderText">Scrape single or multiple pins using this feature.
+        It comes with multiple options to find and scrap pins like with Keywords, Custom Boards, your own custom lists etc.
+    </system:String>
+    <system:String x:Key="langUserControlUserScraperSliderText">Scrape single or multiple users using this feature.
+        It comes with multiple options to find and scrap users like with Keywords, someone's followers etc.
+    </system:String>
+    <system:String x:Key="langUserControlCreateBoardsSliderText">Create Boards gives an ability
+        to create board with description and category.
     </system:String>
     <system:String x:Key="langScrapeUsersBy">Scrape users by</system:String>
     <system:String x:Key="langUserFollower">User Follower</system:String>
@@ -685,6 +668,7 @@
     <system:String x:Key="langInstachat">Instachat</system:String>
     <system:String x:Key="langBroadCastMesseges">BroadCast Messeges</system:String>
     <system:String x:Key="langAutoReplyToNewMessege">Auto Reply To New Messege</system:String>
+    <system:String x:Key="langSendMessageToNewFollowers">Send Message To New Followers</system:String>
     <system:String x:Key="langStartFollowBack">Start Follow Back</system:String>
     <system:String x:Key="langPinDominator">Pin Dominator</system:String>
     <system:String x:Key="langDashboardBeta">Dashboard Beta</system:String>
@@ -696,7 +680,8 @@
     <system:String x:Key="langPinScrape">PinScrape</system:String>
     <system:String x:Key="langUserScraper">User Scraper</system:String>
     <system:String x:Key="langBoardScraper">Board Scraper</system:String>
-    <system:String x:Key="langCreateBoard">CreateBoard</system:String>
+    <system:String x:Key="langPinMessenger">Pin Messenger</system:String>
+    <system:String x:Key="langCreateBoard">Create Board</system:String>
     <system:String x:Key="langPinScraper">Pin Scraper</system:String>
     <system:String x:Key="langInstaPoster﻿">InstaPoster</system:String>
     <system:String x:Key="langPinPoster﻿">PinPoster</system:String>
@@ -870,7 +855,6 @@
     <system:String x:Key="langDoNotStopUnfollowToolJustStartFollowTool">Do not stop  unfollow tool, just start follow tool</system:String>
     <system:String x:Key="langLikeWhileUnfollowing">Like while unfollowing</system:String>
     <system:String x:Key="langTryWhileUnfollowing">Try while unfollowing</system:String>
-    <system:String x:Key="langAddToBlackList">Add to blacklist</system:String>
 
     <system:String x:Key="langNumberOfUnfollowPerJob">Number of Unfollow per job</system:String>
     <system:String x:Key="langNumberOfUnfollowPerDay">Number of Unfollow per day</system:String>
@@ -879,7 +863,6 @@
     <system:String x:Key="langMaxUnfollowPerDay">max unfollow per day</system:String>
     <system:String x:Key="langMaxLikeDay">max Like per day</system:String>
     <system:String x:Key="langMaxTryDay">max Try per day</system:String>
-    <system:String x:Key="langMaxRepostDay">max Repost per day</system:String>
     <system:String x:Key="langNumberOfCommentPerJob">Number of Comment per job</system:String>
     <system:String x:Key="langNumberOfCommentPerDay">Number of Comment per day</system:String>
     <system:String x:Key="langNumberOfCommentPerHour">Number of Comment per hour</system:String>
@@ -931,6 +914,7 @@
     <system:String x:Key="langFollowerWarning">These accounts are already running with follow configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="langBroadcastMessegesWarning">These accounts are already running with Broadcast Messeges configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="langAutoReplyToNewMessageWarning">These accounts are already running with Auto Reply To New Message configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="langSendMessageToNewFollowersWarning">These accounts are already running with Send Message To New Followers configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="langCreateBoardWarning">These accounts are already running with Create Board configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="langUnFollowerWarning">These accounts are already running with Unfollow configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="langRepostWarning">These accounts are already running with Repost configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
@@ -1036,7 +1020,7 @@
 
     <system:String x:Key="langUnFollowsPerHour">Number of unfollows per hour</system:String>
     <system:String x:Key="langUnFollowsPerWeek">Number of unfollows per week</system:String>
-   
+
     <system:String x:Key="langTryPerDay">Try per day</system:String>
 
     <system:String x:Key="langCreateBoardsPerJob">Number of Boards Create per job</system:String>
@@ -1067,7 +1051,7 @@
     <system:String x:Key="langFollowBack﻿">FollowBack﻿</system:String>
     <system:String x:Key="langFollowUserAfterTry">Follow user after try</system:String>
     <system:String x:Key="langUploadNotes">Upload notes</system:String>
-    
+
     <system:String x:Key="PDlangFollowBackWarning">These accounts are already running with FollowBack configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
 
     <system:String x:Key="langManageMessege">Manage Messege</system:String>
