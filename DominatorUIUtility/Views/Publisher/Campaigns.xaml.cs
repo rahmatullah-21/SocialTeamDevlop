@@ -29,14 +29,18 @@ namespace DominatorUIUtility.Views.Publisher
         {
             InitializeComponent();
             publishersHeader.HeaderText = FindResource("langCreateCampaign").ToString();
+            CreateCampaignTabs.ItemsSource = InitializeTabs();
+            _objCreateCampaign = this;
+        }
 
-            #region Initialize Tabs
-            var TabItems = new List<TabItemTemplates>
+        private IEnumerable<TabItemTemplates> InitializeTabs()
+        {
+            var tabItems = new List<TabItemTemplates>
             {
                 new TabItemTemplates
                 {
                     Title=FindResource("langAddPosts").ToString(),
-                    Content=new Lazy<UserControl>(()=>AddPosts.GetSingeltonAddPosts())
+                    Content=new Lazy<UserControl>(AddPosts.GetSingeltonAddPosts)
                 },
                 new TabItemTemplates
                 {
@@ -49,19 +53,14 @@ namespace DominatorUIUtility.Views.Publisher
                     // Content=new Lazy<UserControl>(()=>new AddPosts())
                 }
             };
-            #endregion
-
-            CreateCampaignTabs.ItemsSource = TabItems;
-            ObjCreateCampaign = this;
-          
+            return tabItems;
         }
 
-     
-        static Campaigns ObjCreateCampaign = null;
-        public static Campaigns GetSingltonCreateCampaignObject()
-        {
-            return ObjCreateCampaign ?? (ObjCreateCampaign = new Campaigns());
-        }
+        private static Campaigns _objCreateCampaign;
+
+        public static Campaigns GetSingltonCreateCampaignObject() 
+            => _objCreateCampaign ?? (_objCreateCampaign = new Campaigns());
+
         private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             AddPosts ObjAddPosts = AddPosts.GetSingeltonAddPosts();
@@ -72,7 +71,6 @@ namespace DominatorUIUtility.Views.Publisher
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-
         /// <summary>
         /// OnPropertyChanged is used to notify that some property are changed 
         /// </summary>
@@ -80,6 +78,7 @@ namespace DominatorUIUtility.Views.Publisher
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
 
         private void cmbCampaign_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -120,6 +119,8 @@ namespace DominatorUIUtility.Views.Publisher
             }
         }
     }
+
+
 
 
 }

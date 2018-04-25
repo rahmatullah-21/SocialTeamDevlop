@@ -75,12 +75,12 @@
     <system:String x:Key="DHlangAllowDoubleRepin">Allow double repin (if checked the same pin can be repinned multiple time on the same board)</system:String>
     <system:String x:Key="DHlangLimitNumberOfSimultaneousWatchVideos">Limit the number of simultaneous watch videos to</system:String>
     <system:String x:Key="DHlangEnableEmailNotifications">Enable email notifications</system:String>
-   <system:String x:Key="DHlangEmailToReceiveNotifications">Email to receive notifications</system:String>
-   <system:String x:Key="DHlangTimeToReceiveEmail">Time to receive Email</system:String>
-   <system:String x:Key="DHlangNotifyAboutInvalidProxies">Notify about invalid proxies</system:String>
+    <system:String x:Key="DHlangEmailToReceiveNotifications">Email to receive notifications</system:String>
+    <system:String x:Key="DHlangTimeToReceiveEmail">Time to receive Email</system:String>
+    <system:String x:Key="DHlangNotifyAboutInvalidProxies">Notify about invalid proxies</system:String>
     <system:String x:Key="DHlangNotifyAboutInvalidSocialProfiles">Notify about invalid social profiles that have any of following statuses</system:String>
     <system:String x:Key="DHlangEmailConfirmation">Email Confirmation</system:String>
-   <system:String x:Key="DHlangBlocked">Blocked</system:String>
+    <system:String x:Key="DHlangBlocked">Blocked</system:String>
     <system:String x:Key="DHlangActionRequired">Action required</system:String>
     <system:String x:Key="DHlangAccountDisabled">Account disabled</system:String>
     <system:String x:Key="DHlangSuspended">Suspended</system:String>
@@ -133,10 +133,26 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangSelectAllWallsAndProfile">Select All Walls/Profiles</system:String>
     <system:String x:Key="DHlangSelectAllPagesAndBoards">Select All Pages/Boards</system:String>
     <system:String x:Key="DHlangSelectAllGroups">Select All Groups</system:String>
-    <system:String x:Key="DHlangCreateDestination">Create Destination</system:String>
     <system:String x:Key="DHlangShowByGroup">Show by group</system:String>
     <system:String x:Key="DHlangCheckAccountStatus">Check Account Status</system:String>
     <system:String x:Key="DHlangStopProcess">Stop Process</system:String>
     <system:String x:Key="DHlangCampaigns">Campaigns</system:String>
-
+    
+    <!--Publiser Language Begin-->
+    <system:String x:Key="DHlangSocioPublisher">SocioPublisher</system:String>
+    <system:String x:Key="DHlangPublisher">Publisher</system:String>
+    <system:String x:Key="DHlangManageDestinations">Manage Destinations</system:String>
+    <system:String x:Key="DHlangManagePosts">Manage Posts</system:String>
+    <system:String x:Key="DHlangCreateCampaign">Create Campaigns</system:String>
+    <system:String x:Key="DHlangCreateDestination">Create Destinations</system:String>
+    <system:String x:Key="DHlangSelect">Select</system:String>
+    <system:String x:Key="DHlangAction">Actions</system:String>
+    <system:String x:Key="DHlangSwitchToActive">Switch to Active</system:String>
+    <system:String x:Key="DHlangSwitchToPause">Switch to Pause</system:String>
+    <system:String x:Key="DHlangSwitchToPending">Switch to Pending</system:String>
+    <system:String x:Key="DHlangDelete">Delete</system:String>
+    <system:String x:Key="DHlangDuplicate">Duplicate</system:String>
+    <system:String x:Key="DHlangPublishNow">Publish Now</system:String>
+    <!--Publiser Language End-->
+    
 </ResourceDictionary>

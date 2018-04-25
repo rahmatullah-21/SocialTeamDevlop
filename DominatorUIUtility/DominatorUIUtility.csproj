@@ -248,6 +248,10 @@
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\SelectAccountViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherCreateDestinationsViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherDefaultViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherHomeViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherManageDestinationViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
     </Compile>
@@ -307,6 +311,24 @@
     </Compile>
     <Compile Include="Views\Publisher\PublisherIndexPage.xaml.cs">
       <DependentUpon>PublisherIndexPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherCreateCampaigns.xaml.cs">
+      <DependentUpon>PublisherCreateCampaigns.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherCreateDestination.xaml.cs">
+      <DependentUpon>PublisherCreateDestination.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherDefaultPage.xaml.cs">
+      <DependentUpon>PublisherDefaultPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherHome.xaml.cs">
+      <DependentUpon>PublisherHome.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherManageDestinations.xaml.cs">
+      <DependentUpon>PublisherManageDestinations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherManagePosts.xaml.cs">
+      <DependentUpon>PublisherManagePosts.xaml</DependentUpon>
     </Compile>
     <Page Include="Behaviours\ErrorModelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -657,6 +679,30 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Publisher\PublisherIndexPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherCreateCampaigns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherCreateDestination.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherDefaultPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherHome.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherManageDestinations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherManagePosts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

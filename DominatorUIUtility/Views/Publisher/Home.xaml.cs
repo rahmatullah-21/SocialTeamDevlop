@@ -37,22 +37,15 @@ namespace DominatorUIUtility.Views.Publisher
         public ICollectionView PublisherDetailCollection { get; set; }
 
 
-        static Home ObjHome { get; set; } = null;
+        private static Home ObjHome { get; set; }
 
-        public static Home GetSingletonHome()
-        {
-            return ObjHome ?? (ObjHome = new Home());
-        }
+        public static Home GetSingletonHome() 
+            => ObjHome ?? (ObjHome = new Home());
 
-        private void btnCreateCampaign_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            //createCampign.Visibility = Visibility.Visible;
-            //publisherDetail.Visibility = Visibility.Collapsed;
-            //publisherPageButtons.Visibility = Visibility.Collapsed;
+        private void btnCreateCampaign_Click(object sender,RoutedEventArgs e) 
+            => PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = new Campaigns();
 
-            PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = new Campaigns();
-
-        }
+        
 
         private void btnManageDestination_Click(object sender, RoutedEventArgs e)
         {

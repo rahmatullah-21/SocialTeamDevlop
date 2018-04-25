@@ -41,7 +41,6 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" x:FieldModifier="public" x:Name="publisherPageButtons"  Margin="5" VerticalAlignment="Top">
-
             <Button Content="{DynamicResource langManageDestination}" Height="30" x:Name="btnManageDestination" Margin="5,5,20,5" HorizontalAlignment="Left"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Click="btnManageDestination_Click"/>
             <Button Content="{DynamicResource langManagePosts}" Height="30" x:Name="btnManagePosts" Margin="20,5" HorizontalAlignment="Left"
@@ -52,9 +51,6 @@
 
 
         <Grid Grid.Row="1">
-            <!--<local:Campaigns  x:Name="createCampign" Visibility="Collapsed" x:FieldModifier="public"/>
-            <publisher:ManageDestination  x:Name="manageDestination" Visibility="Collapsed" x:FieldModifier="public"/>
-            <publisher:ManagePosts x:Name="managePosts" Visibility="Collapsed" x:FieldModifier="public"/>-->
 
             <ListView x:Name="publisherDetail" x:FieldModifier="public"
                   ScrollViewer.VerticalScrollBarVisibility="Auto" >
@@ -70,11 +66,10 @@
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView >
-                        <GridViewColumn   Header="{DynamicResource langSrno}" Width="auto" DisplayMemberBinding="{Binding SerialNo}" />
+                        <GridViewColumn Header="{DynamicResource langSrno}" Width="auto" DisplayMemberBinding="{Binding SerialNo}" />
                         <GridViewColumn Header="{DynamicResource langCampaignName}" Width="auto"  DisplayMemberBinding="{Binding CampaignDetails.CampaignName}"/>
                         <GridViewColumn Header="{DynamicResource langStatus}" Width="auto" DisplayMemberBinding="{Binding CampaignDetails.Status}" />
-                        <GridViewColumn Width="300" Header="{DynamicResource langPostStatus}"  HeaderTemplate="{StaticResource MultiColumnHeaderTemplate}"
-                            CellTemplate="{StaticResource MultiColumnCellTemplate}" />
+                        <GridViewColumn Width="300" Header="{DynamicResource langPostStatus}"  HeaderTemplate="{StaticResource MultiColumnHeaderTemplate}" CellTemplate="{StaticResource MultiColumnCellTemplate}" />
                         <GridViewColumn Header="{DynamicResource langCreatedDate}" Width="auto" DisplayMemberBinding="{Binding CampaignStartDate}" />
                         <GridViewColumn Header="{DynamicResource langStartDate}" Width="auto"   DisplayMemberBinding="{Binding CampaignStartDate}"/>
                         <GridViewColumn Header="{DynamicResource langEndDate}" Width="auto"   DisplayMemberBinding="{Binding CampaignEndDate}"/>
