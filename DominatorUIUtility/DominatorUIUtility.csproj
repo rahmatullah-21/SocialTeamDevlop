@@ -245,10 +245,12 @@
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\SelectAccountViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherCreateCampaignViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherCreateDestinationsViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherDefaultViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherHomeViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManageDestinationViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherManagePostsViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
     </Compile>

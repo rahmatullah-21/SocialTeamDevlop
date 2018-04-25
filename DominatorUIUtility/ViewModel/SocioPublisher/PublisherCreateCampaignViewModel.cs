@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using DominatorHouseCore.Command;
 using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
-    public class PublisherCreateDestinationsViewModel
+    public class PublisherCreateCampaignViewModel
     {
-        public PublisherCreateDestinationsViewModel()
+        public PublisherCreateCampaignViewModel()
         {
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
         }
@@ -27,9 +22,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 case "Back":
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
-                        = PublisherManageDestinations.Instance;
+                        = PublisherDefaultPage.Instance;
                     break;
             }
         }
+
     }
 }
