@@ -64,7 +64,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 }
                 else
                 {
-                    var databaseConnection = GetDataBaseConnectionGlobalInstance(dbName);
+                    var databaseConnection = GetDataBaseConnectionGlobalInstance();
                     _dbGlobalCounters(databaseConnection);
                 }
             }
@@ -112,17 +112,17 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             }
         }
 
-        public static DataBaseConnectionGlobal GetDataBaseConnectionGlobalInstance(string dbName)
+        public static DataBaseConnectionGlobal GetDataBaseConnectionGlobalInstance()
         {
             try
             {
                 string directoryName, connectionString;
-                GetDbPath(dbName, DatabaseType.GlobalType, out directoryName, out connectionString);
+                GetDbPath("Global", DatabaseType.GlobalType, out directoryName, out connectionString);
                 DirectoryUtilities.CreateDirectory(directoryName);
                 var objModelConfiguration = new ModelConfiguration();
                 return new DataBaseConnectionGlobal(connectionString,  objModelConfiguration.ConfigureGlobalDataBaseEntity);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return null;
             }

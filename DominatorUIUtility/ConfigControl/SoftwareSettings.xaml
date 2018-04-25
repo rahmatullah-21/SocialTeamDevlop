@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.ConfigControl"
              mc:Ignorable="d" 
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls" xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
@@ -48,9 +48,9 @@
                 <StackPanel Margin="20,5" Visibility="{Binding IsEnableGlobalNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel  Orientation="Horizontal">
                         <Label Margin="5" Content="{DynamicResource DHlangApplicationWillNotExecuteAnyActions}"/>
-                        <Controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding ExecuteAnyActionsBetween.StartValue}"/>
+                        <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding ExecuteAnyActionsBetween.StartValue}"/>
                         <Label Content="{DynamicResource langAnd}" Margin="5"/>
-                        <Controls:NumericUpDown Margin="5" Minimum="{Binding ExecuteAnyActionsBetween.StartValue}"
+                        <controls:NumericUpDown  Margin="5" Minimum="{Binding ExecuteAnyActionsBetween.StartValue}"
                                                 Value="{Binding ExecuteAnyActionsBetween.EndValue}"/>
                     </StackPanel>
                     <CheckBox Margin="5" Content="{DynamicResource DHlangRandomiseNightMode}"
@@ -58,16 +58,16 @@
                     <StackPanel Margin="20,5" Visibility="{Binding IsRandomiseNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel Orientation="Horizontal">
                             <Label Margin="5" Content="{DynamicResource DHlangStartBetween}"/>
-                            <Controls:NumericUpDown Margin="5" Value="{Binding StartBetween.StartValue}"/>
+                            <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding StartBetween.StartValue}"/>
                             <Label Content="{DynamicResource langAnd}" Margin="5"/>
-                            <Controls:NumericUpDown Margin="5" Minimum="{Binding StartBetween.StartValue}"
+                            <controls:NumericUpDown  Margin="5" Minimum="{Binding StartBetween.StartValue}"
                                                     Value="{Binding StartBetween.EndValue}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5">
                             <Label Margin="5" Content="{DynamicResource DHlangEndBetween}"/>
-                            <Controls:NumericUpDown Margin="5" Value="{Binding EndBetween.StartValue}"/>
+                            <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding EndBetween.StartValue}"/>
                             <Label Content="{DynamicResource langAnd}" Margin="5"/>
-                            <Controls:NumericUpDown Margin="5" Minimum="{Binding EndBetween.StartValue}"
+                            <controls:NumericUpDown Margin="5" Minimum="{Binding EndBetween.StartValue}"
                                                     Value="{Binding EndBetween.EndValue}"/>
                         </StackPanel>
                         <Label Margin="5" Content="{DynamicResource DHlangNightModeNote}"/>
@@ -78,12 +78,12 @@
                 <CheckBox Margin="5" Content="{DynamicResource DHlangEnableGlobalFindReplace}"
                           IsChecked="{Binding IsEnableGlobalFindReplaceChecked}"/>
                 <TextBox TextWrapping="Wrap" Margin="30,5" Height="120" Width="350" HorizontalAlignment="Left"
-                 Controls:TextBoxHelper.Watermark="{DynamicResource DHlangEnableGlobalFindReplaceWaterMark}"
+                 controls:TextBoxHelper.Watermark="{DynamicResource DHlangEnableGlobalFindReplaceWaterMark}"
                          Visibility="{Binding IsEnableGlobalFindReplaceChecked,Converter={StaticResource BooleanToVisibilityConverter}}"
                          Text="{Binding GlobalFindReplaceText}"/>
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="5" Content="{DynamicResource DHlangWaitMinimumOf}"/>
-                    <Controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
+                    <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
                     <Label Margin="5" Content="{DynamicResource DHlangHoursBeforeExecuting}"/>
                 </StackPanel>
                 <CheckBox Margin="5" Content="{DynamicResource DHlangUseTabInsteadOfComma}"
@@ -101,28 +101,28 @@
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content="{DynamicResource DHlangEnableAutoRestartSocinator}"
                               IsChecked="{Binding IsEnableAutoRestartSocinatorChecked}"/>
-                    <Controls:NumericUpDown Margin="5" IsEnabled="{Binding IsEnableAutoRestartSocinatorChecked}"
+                    <controls:NumericUpDown Minimum="0" Margin="5" IsEnabled="{Binding IsEnableAutoRestartSocinatorChecked}"
                                             Value="{Binding MinHour}"/>
                     <Label Margin="5" Content="{DynamicResource langHours}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="5" Content="{DynamicResource DHlangInstallNnewAvailableUpdates}"/>
-                    <Controls:NumericUpDown Margin="5" Value="{Binding AvailableUpdatesBetween.StartValue}"/>
+                    <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding AvailableUpdatesBetween.StartValue}"/>
                     <Label Content="{DynamicResource langAnd}" Margin="5"/>
-                    <Controls:NumericUpDown Margin="5" Minimum="{Binding AvailableUpdatesBetween.StartValue}"
+                    <controls:NumericUpDown  Margin="5" Minimum="{Binding AvailableUpdatesBetween.StartValue}"
                                             Value="{Binding AvailableUpdatesBetween.EndValue}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="5" Content="{DynamicResource DHlangLimitNumberOfRecords}"/>
-                    <Controls:NumericUpDown Margin="5" Value="{Binding LimitNumberOfRecords}"/>
+                    <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding LimitNumberOfRecords}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="5" Content="{DynamicResource DHlangLimitNumberOfDeshboardSummary}"/>
-                    <Controls:NumericUpDown Margin="5" Value="{Binding LimitNumberOfDeshboardSummary}"/>
+                    <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding LimitNumberOfDeshboardSummary}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="5" Content="{DynamicResource DHlangLimitNumberOfPost}"/>
-                    <Controls:NumericUpDown Margin="5" Value="{Binding LimitNumberOfPost}"/>
+                    <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding LimitNumberOfPost}"/>
                 </StackPanel>
 
                 <CheckBox Margin="5" Content="{DynamicResource DHlangRecreateDeshboardWindow}"

@@ -19,15 +19,17 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using DominatorHouseCore.DatabaseHandler;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Converters;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Process;
-
-
+using System.Collections.Specialized;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -36,10 +38,13 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class Campaigns : UserControl
     {
-        private CampaignDetails objCampaignDetails;
 
-        public static Action<TemplateModel, CampaignDetails, bool, Visibility ,string, string> EditOrDuplicateCampaign { get; set; } =
-            (t, c, b,v, s, s2) => GlobusLogHelper.log.Error($"Campaigns.EditOrDuplicateCampaign action handler wasn't set");
+        private readonly CampaignDetails objCampaignDetails;
+        private bool IsUnCheckedFromCampaignDetails { get; set; }
+
+
+        public static Action<TemplateModel, CampaignDetails, bool, Visibility, string, string> EditOrDuplicateCampaign { get; set; } =
+            (t, c, b, v, s, s2) => GlobusLogHelper.log.Error($"Campaigns.EditOrDuplicateCampaign action handler wasn't set");
 
         public SocialNetworks SocialNetworks { get; set; }
 
@@ -50,18 +55,6 @@ namespace DominatorUIUtility.CustomControl
             this.SocialNetworks = socialNetworks;
             objCampaignDetails = new CampaignDetails();
         }
-
-        private void SetDataContext()
-        {
-            var data = CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork);
-
-            SetComboBoxItemSource(SocinatorInitialize.ActiveSocialNetwork.ToString());
-
-            MainGrid.DataContext = objCampaignDetails;
-
-            objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(data);
-        }
-
 
         private void SetComboBoxItemSource(string networks)
         {
@@ -147,8 +140,9 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="e"></param>
         private void ToggleActivatePause_Campaign(object sender, EventArgs e)
         {
+            var objCampaignDetailsBeforeSave = objCampaignDetails.ObjCampaignDetails;
             objCampaignDetails.ObjCampaignDetails =
-                new ObservableCollectionBase<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
+                new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
             var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
 
             var selectedCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
@@ -194,7 +188,7 @@ namespace DominatorUIUtility.CustomControl
                     else
                     {
                         campaign.Status = "Paused";
-                       
+
                         foreach (var accountModel in lstAccountDetails.Where(x => campaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
                         {
                             DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId, campaign.SubModule, campaign.TemplateId);
@@ -209,8 +203,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-
-            var testResult = CampaignsFileManager.Get();
+            objCampaignDetails.ObjCampaignDetails = objCampaignDetailsBeforeSave;
         }
 
 
@@ -243,26 +236,26 @@ namespace DominatorUIUtility.CustomControl
         private void DeleteSingleCampaign_OnClick(object sender, RoutedEventArgs e)
         {
             CampaignDetails campaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
-            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete [ " + campaign.CampaignName + " ] Campaign permanently from campaign\nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Delete Anyways","Don't delete"));
+            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete [ " + campaign.CampaignName + " ] Campaign permanently from campaign\nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
             var selectedAccount = campaign.SelectedAccountList;
-           
+
             CampaignsFileManager.Delete(campaign);
-           
-            objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(
+
+            objCampaignDetails.ObjCampaignDetails = new ObservableCollection<CampaignDetails>(
                 CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
 
             var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
             UpdateAccount(allAccounts, campaign, selectedAccount);
 
             GlobusLogHelper.log.Info(campaign.CampaignName + "  Campaign deleted permanently from campaigns.");
-            SetDataContext();
+            SetDefaultView();
         }
 
         private void CampaignReports_OnClick(object sender, RoutedEventArgs e)
         {
-            ReportModel ReportModel =  new ReportModel();
+            ReportModel ReportModel = new ReportModel();
             Reports ObjReports = new Reports(ReportModel);
 
             Dialog objDialog = new Dialog();
@@ -320,7 +313,7 @@ namespace DominatorUIUtility.CustomControl
 
                 DataBaseConnectionCampaign dataBase =
                    DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
-                
+
                 if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Report", "Reports for " + campName.CampaignName + " Campaign not available", MessageDialogStyle.Affirmative);
@@ -346,7 +339,7 @@ namespace DominatorUIUtility.CustomControl
                     pattern: "[\\/:*?<>|\"]",
                     replacement: "-");
 
-                 filename = $"{exportPath}\\{filename}.csv";
+                filename = $"{exportPath}\\{filename}.csv";
 
                 //Header for csv file columns
                 string header = ReportManager.GetHeader();
@@ -374,12 +367,18 @@ namespace DominatorUIUtility.CustomControl
 
         private void Campaign_Loaded(object sender, RoutedEventArgs e)
         {
-            SetDataContext();
+            var data = CampaignsFileManager.GetCampaignByNetwork(SocialNetworks);
+
+            SetComboBoxItemSource(SocialNetworks.ToString());
+
+            MainGrid.DataContext = objCampaignDetails;
+
+            objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(data);
         }
 
         private void list_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-          //  GridViewColumns.SetGridViewColumnsWidthToStartWidth(list, e);
+            //  GridViewColumns.SetGridViewColumnsWidthToStartWidth(list, e);
         }
 
         private void CmbCampaignType_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -396,7 +395,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 moduleWiseDetail = CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork);
             }
-            objCampaignDetails.ObjCampaignDetails = new ObservableCollectionBase<CampaignDetails>(moduleWiseDetail);
+            objCampaignDetails.ObjCampaignDetails = new ObservableCollection<CampaignDetails>(moduleWiseDetail);
             objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(objCampaignDetails.ObjCampaignDetails);
 
         }
@@ -404,18 +403,13 @@ namespace DominatorUIUtility.CustomControl
         private void AllCampaignChecked_Checked(object sender, RoutedEventArgs e)
         {
             AllCampaignCheckUncheck(true);
-           
+
         }
 
         private void AllCampaignChecked_Unchecked(object sender, RoutedEventArgs e)
         {
             AllCampaignCheckUncheck(false);
-            
-        }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            CheckUncheckCampaign(sender, true);
         }
 
         private void CheckUncheckCampaign(object sender, bool Ischecked)
@@ -427,23 +421,33 @@ namespace DominatorUIUtility.CustomControl
                     x.IsCampaignChecked = Ischecked;
                 return x;
             }).ToList();
+
         }
         private void AllCampaignCheckUncheck(bool isChecked)
         {
             objCampaignDetails.ObjCampaignDetails.Select(x => { x.IsCampaignChecked = isChecked; return x; }).ToList();
+            SetDefaultView();
         }
         private void DeleteMultipleCampaign_Click(object sender, RoutedEventArgs e)
         {
-            var campaign = objCampaignDetails.ObjCampaignDetails.Where(x => x.IsCampaignChecked).ToList();
+            List<CampaignDetails> campaign = new List<CampaignDetails>();
+            objCampaignDetails.CampaignCollection.SourceCollection.Cast<CampaignDetails>().ToList().ForEach(item =>
+            {
+                if (item.IsCampaignChecked)
+                    campaign.Add(item);
+            });
+
             if (campaign.Count == 0)
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    "Warning", "To delete Campaign please select atleast one Campaign !!!", MessageDialogStyle.Affirmative);
+                    "Warning", "To delete Campaign please select atleast one Campaign !");
                 return;
             }
 
             var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                "Confirmation", "If you delete it will delete from Campaign permanently\nAre you sure You want to delete selected Campaign?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton());
+                "Confirmation", "If you delete it will delete from Campaign permanently\nAre you sure You want to delete selected Campaign ?",
+                MessageDialogStyle.AffirmativeAndNegative,
+                Dialog.SetMetroDialogButton("Delete Anyway", "Cancel"));
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
             var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
@@ -453,13 +457,14 @@ namespace DominatorUIUtility.CustomControl
                 CampaignsFileManager.Delete(camp);
 
                 UpdateAccount(allAccounts, camp, selectedAccount);
-                objCampaignDetails.ObjCampaignDetails.Remove(camp);
+                objCampaignDetails.ObjCampaignDetails.Remove(objCampaignDetails.ObjCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
+
                 GlobusLogHelper.log.Info(camp.CampaignName + "  Campaign deleted permanently from campaigns.");
 
             });
 
-          
-            objCampaignDetails.IsCampaignChecked = false;
+            if (objCampaignDetails.ObjCampaignDetails.Count == 0 || !objCampaignDetails.ObjCampaignDetails.All(x => x.IsCampaignChecked))
+                objCampaignDetails.IsAllCampaignChecked = false;
             SetDefaultView();
         }
 
@@ -490,7 +495,7 @@ namespace DominatorUIUtility.CustomControl
             catch (Exception ex)
             {
             }
-            
+
         }
 
         private void SetDefaultView()
@@ -499,10 +504,22 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void ChkSingleCampaign_OnChecked(object sender, RoutedEventArgs e)
         {
-        
-            CheckUncheckCampaign(sender, true);
+            if (objCampaignDetails.CampaignCollection.SourceCollection.Cast<CampaignDetails>().ToList()
+                .All(x => x.IsCampaignChecked))
+                objCampaignDetails.IsAllCampaignChecked = true;
+        }
+
+        private void ChkSingleCampaign_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            CheckUncheckCampaign(sender, false);
+            IsUnCheckedFromCampaignDetails = true;
+            if (!objCampaignDetails.IsAllCampaignChecked)
+                return;
+            AllCampaign.Unchecked -= AllCampaignChecked_Unchecked;
+            objCampaignDetails.IsAllCampaignChecked = false;
+            AllCampaign.Unchecked += AllCampaignChecked_Unchecked;
         }
     }
 }

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.ConfigControl"
              mc:Ignorable="d" 
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
     <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
         <GroupBox.Header>
             <Grid>
@@ -28,14 +28,14 @@
         <StackPanel Margin="10" x:Name="MainGrid">
             <StackPanel Orientation="Horizontal">
                 <Label Margin="5" Content="{DynamicResource DHlangWaitMinimumOf}"/>
-                <Controls:NumericUpDown Margin="5" Value="{Binding WaitMinimumOf}"/>
+                <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
                 <Label Content="{DynamicResource DHlangHoursBeforeRefreshing}"/>
             </StackPanel>
             <CheckBox Margin="5" Content="{DynamicResource DHlangDisableSyncForNewAccounts}"
                       IsChecked="{Binding IsDisableSyncForNewAccountsChecked}"/>
             <StackPanel Orientation="Horizontal">
                 <Label Margin="5" Content="{DynamicResource DHlangAllowSyncsToExecute}"/>
-                <Controls:NumericUpDown Margin="5" Value="{Binding MaxOfFbAccount}"/>
+                <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding MaxOfFbAccount}"/>
                 <Label Content="{DynamicResource DHlangFacebookAccountsAtSameTime}"/>
             </StackPanel>
 

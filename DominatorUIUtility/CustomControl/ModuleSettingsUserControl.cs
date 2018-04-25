@@ -672,7 +672,7 @@ namespace DominatorUIUtility.CustomControl
                 var warningMessege = "This account is already running with " + _activityType + " configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.\r\nWould you still like to proceed?";
 
                 var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                        warningMessege, MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton());
+                        warningMessege, MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Yes","No"));
 
                 if (dialogResult == MessageDialogResult.Negative)
                     return;

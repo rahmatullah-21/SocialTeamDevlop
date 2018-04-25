@@ -5,16 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              mc:Ignorable="d" 
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
     <StackPanel x:Name="MainGrid" Margin="5">
         <StackPanel Orientation="Horizontal">
             <CheckBox Content="{DynamicResource DHlangSendSecondaryMessageAfter}"
                   VerticalAlignment="Center" Margin="5"
                   IsChecked="{Binding OtherConfigFilter.IsSendSecondaryMessagesAfterChecked}"/>
-            <Controls:NumericUpDown Minimum="0" IsEnabled="{Binding OtherConfigFilter.IsSendSecondaryMessagesAfterChecked}"
+            <controls:NumericUpDown Minimum="0" IsEnabled="{Binding OtherConfigFilter.IsSendSecondaryMessagesAfterChecked}"
                                                 Value="{Binding OtherConfigFilter.SendSecondaryMessages.StartValue}"/>
             <Label Content="{DynamicResource langTo}"/>
-            <Controls:NumericUpDown
+            <controls:NumericUpDown
                             IsEnabled="{Binding OtherConfigFilter.IsSendSecondaryMessagesAfterChecked}"
                             Minimum="{Binding OtherConfigFilter.SendSecondaryMessages.StartValue}"
                                      Value="{Binding OtherConfigFilter.SendSecondaryMessages.EndValue}"/>
@@ -51,7 +51,7 @@
             <CheckBox Content="{DynamicResource DHlangCheckForNewMessages}"
                       VerticalAlignment="Center"
                       IsChecked="{Binding OtherConfigFilter.IsCheckForNewMessagesChecked}"/>
-            <Controls:NumericUpDown Minimum="0" Value="{Binding CheckMessagesMinutes}"
+            <controls:NumericUpDown  Minimum="0" Value="{Binding CheckMessagesMinutes}"
                                     IsEnabled="{Binding OtherConfigFilter.IsCheckForNewMessagesChecked}"/>
             <Label Content="{DynamicResource langMinutes}"/>
         </StackPanel>

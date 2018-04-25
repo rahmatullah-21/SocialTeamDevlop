@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              mc:Ignorable="d"
-            xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+            xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
          >
     <Grid>
       
@@ -15,7 +15,7 @@
                     <CheckBox   Margin="20,5,0,0" Name="Chk_userHasMinimumPosts" IsChecked="{Binding FilterIsMinimumPostChecked}" Content="{DynamicResource langMinimumPosts}"  />
 
                     <StackPanel VerticalAlignment="Center" Margin="10,0,0,0" >
-                        <Controls:NumericUpDown Margin="5,10,5,0" Minimum="1" Value="{Binding MinimumPostCount }" Name="txtUsersMinimumPosts" Visibility="Collapsed"/>
+                        <controls:NumericUpDown  Margin="5,10,5,0" Minimum="1" Value="{Binding MinimumPostCount }" Name="txtUsersMinimumPosts" Visibility="Collapsed"/>
                     </StackPanel>
 
                 </StackPanel>
@@ -24,7 +24,7 @@
                                                          Content="{DynamicResource langMinimumCharacters}"/>
 
                     <StackPanel>
-                        <Controls:NumericUpDown Visibility="Collapsed" Margin="10,10,0,0"  Maximum="100" Value="{Binding MinimumCharacterCount }" Name="txtUserBioMinimumCharacters" />
+                        <controls:NumericUpDown Minimum="0" Visibility="Collapsed" Margin="10,10,0,0"  Maximum="100" Value="{Binding MinimumCharacterCount }" Name="txtUserBioMinimumCharacters" />
                     </StackPanel>
                 </StackPanel>
 
@@ -33,12 +33,12 @@
                                                         IsChecked="{Binding FilterIsMinimumFollowingChecked}"   Content="{DynamicResource langFollowings}" />
                     <Label Content="{DynamicResource langMinimum}" Margin="0,5,0,0"   VerticalContentAlignment="Center" />
                     <StackPanel>
-                        <Controls:NumericUpDown Name="txtMinimumFollowingCount"  TextAlignment="Center" Margin="10,10,0,0"  Value="{Binding MinimumFollowingCount }" />
+                        <controls:NumericUpDown Minimum="0" Name="txtMinimumFollowingCount"  TextAlignment="Center" Margin="10,10,0,0"  Value="{Binding MinimumFollowingCount }" />
                     </StackPanel>
                     <Label Content="{DynamicResource langMaximum}" Name="lblMinimumFollowing"   Margin="0,5,0,0" VerticalContentAlignment="Center" />
 
                     <StackPanel>
-                        <Controls:NumericUpDown Name="txtMaxFollowingCount"  TextAlignment="Center" Margin="5,10,0,0" Value="{Binding MaxFollowingCount }" />
+                        <controls:NumericUpDown Minimum="0" Name="txtMaxFollowingCount"  TextAlignment="Center" Margin="5,10,0,0" Value="{Binding MaxFollowingCount }" />
                     </StackPanel>
 
                 </StackPanel>
@@ -49,12 +49,12 @@
                                                        Content="{DynamicResource langFollowers}"/>
                     <Label Content="{DynamicResource langMinimum}"  VerticalContentAlignment="Center" Margin="0,5,0,0"/>
                     <StackPanel>
-                        <Controls:NumericUpDown Name="txtMinimumFollowerCount"  TextAlignment="Center" Margin="10,10,0,0" Value="{Binding MinimumFollowerCount }" />
+                        <controls:NumericUpDown Minimum="0" Name="txtMinimumFollowerCount"  TextAlignment="Center" Margin="10,10,0,0" Value="{Binding MinimumFollowerCount }" />
                     </StackPanel>
 
                     <Label Content="{DynamicResource langMaximum}" Name="lbltxtMinimumFollower" Margin="0,5,0,0"  VerticalContentAlignment="Center" />
                     <StackPanel>
-                        <Controls:NumericUpDown Name="txtMaxFollowerCount" TextAlignment="Center"  Margin="5,10,0,0" Value="{Binding MaxFollowerCount }" />
+                        <controls:NumericUpDown Minimum="0" Name="txtMaxFollowerCount" TextAlignment="Center"  Margin="5,10,0,0" Value="{Binding MaxFollowerCount }" />
                     </StackPanel>
 
                 </StackPanel>
@@ -86,7 +86,7 @@
                 <StackPanel Orientation="Horizontal">
                     <CheckBox   Margin="20,5,0,0"  Name="Chk_userHasMinimumFollowerFollowingRatio" IsChecked="{Binding FilterIsFollowRadioLesserChecked}"    Content="{DynamicResource langFollowRatioLess}"/>
                     <StackPanel>
-                        <Controls:NumericUpDown Name="txtUsersMinimumFollowerFollowingRatio" TextAlignment="Center"  Margin="10,10,0,0" Visibility="Collapsed" Value="{Binding LesserFollowRatio }" Maximum="500" Interval="0.1"  StringFormat=".00"  HasDecimals="True"/>
+                        <controls:NumericUpDown Minimum="0" Name="txtUsersMinimumFollowerFollowingRatio" TextAlignment="Center"  Margin="10,10,0,0" Visibility="Collapsed" Value="{Binding LesserFollowRatio }" Maximum="500" Interval="0.1"  StringFormat=".00"  HasDecimals="True"/>
 
 
                     </StackPanel>
@@ -97,7 +97,7 @@
                     <CheckBox  Margin="20,5,0,0"  Name="Chk_userHasMaximumFollowerFollowingRatio" IsChecked="{Binding FilterIsFollowRadioGreaterChecked}"
                                                        Content="{DynamicResource langFollowRatioGreater}" />
                     <StackPanel>
-                        <Controls:NumericUpDown Name="txtUsersMaximumFollowerFollowingRatio" TextAlignment="Center"  Margin="10,10,0,0" Visibility="Collapsed" Value="{Binding GreaterFollowRatio }" Maximum="500" Interval="0.1"  HasDecimals="True"/>
+                        <controls:NumericUpDown Minimum="0" Name="txtUsersMaximumFollowerFollowingRatio" TextAlignment="Center"  Margin="10,10,0,0" Visibility="Collapsed" Value="{Binding GreaterFollowRatio }" Maximum="500" Interval="0.1"  HasDecimals="True"/>
                     </StackPanel>
 
                 </StackPanel>
@@ -105,13 +105,13 @@
                     <CheckBox  Margin="20,5,0,0" Name="Chk_userHasFollowerFollowingRange" IsChecked="{Binding FilterIsFollowRadioSpecificChecked}" 
                                                        Content="{DynamicResource langFollowRatioSpecific}"/>
                     <StackPanel>
-                        <Controls:NumericUpDown Name="txtMinimumFollowerFollowingRange" TextAlignment="Center"  Margin="10,10,0,0" Visibility="Collapsed" Value="{Binding MinSpecificFollowRatio }" Maximum="500" Interval="0.1"  HasDecimals="True"/>
+                        <controls:NumericUpDown Minimum="0" Name="txtMinimumFollowerFollowingRange" TextAlignment="Center"  Margin="10,10,0,0" Visibility="Collapsed" Value="{Binding MinSpecificFollowRatio }" Maximum="500" Interval="0.1"  HasDecimals="True"/>
                     </StackPanel>
 
                     <Label Name="toFollowerFollowingRange" Content="{DynamicResource langTo}" VerticalAlignment="Center" Margin="10,10,0,0"  Visibility="Collapsed" />
 
                     <StackPanel>
-                        <Controls:NumericUpDown Name="txtMaximumFollowerFollowingRange" TextAlignment="Center"  Margin="10,10,0,0" Visibility="Collapsed" Value="{Binding MaxSpecificFollowRatio }" Maximum="500" Interval="0.1"  HasDecimals="True"/>
+                        <controls:NumericUpDown Minimum="0" Name="txtMaximumFollowerFollowingRange" TextAlignment="Center"  Margin="10,10,0,0" Visibility="Collapsed" Value="{Binding MaxSpecificFollowRatio }" Maximum="500" Interval="0.1"  HasDecimals="True"/>
                     </StackPanel>
 
                 </StackPanel>
@@ -120,7 +120,7 @@
                                                       Content="{DynamicResource langLastPostDay}" />
 
                     <StackPanel>
-                        <Controls:NumericUpDown Name="txtUserPostedInLastXDays"   Margin="10,10,0,0" Visibility="Collapsed" Value="{Binding LastPostedDayCount }" Maximum="100" />
+                        <controls:NumericUpDown Minimum="0" Name="txtUserPostedInLastXDays"   Margin="10,10,0,0" Visibility="Collapsed" Value="{Binding LastPostedDayCount }" Maximum="100" />
                     </StackPanel>
                     <Label Name="lblLastXDays" Content="{DynamicResource langDays}" VerticalAlignment="Center" Margin="10,10,0,0"  Visibility="Visible" />
                 </StackPanel>

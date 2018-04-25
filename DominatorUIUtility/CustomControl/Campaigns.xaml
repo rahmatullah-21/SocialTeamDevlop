@@ -52,15 +52,19 @@
                     <GridView>
                         <GridView.Columns>
                             <GridViewColumn Width="100">
-                                <CheckBox x:Name="AllCampaignChecked" IsChecked="{Binding IsCampaignChecked}" Content=" #" Checked="AllCampaignChecked_Checked"
+                                <CheckBox x:Name="AllCampaign" IsChecked="{Binding IsAllCampaignChecked}" Content=" #"
+                                          Checked="AllCampaignChecked_Checked"
                                           Unchecked="AllCampaignChecked_Unchecked"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsChecked,ElementName=AllCampaignChecked}" 
-                                                  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"
+                                        <CheckBox IsChecked="{Binding IsCampaignChecked}" 
+                                                  x:Name="ChkSingleCampaign"
+                                                  Checked="ChkSingleCampaign_OnChecked"
+                                                  Unchecked="ChkSingleCampaign_OnUnchecked"
                                                   Margin="5,0,0,0" Content="{Binding RelativeSource={RelativeSource FindAncestor, 
                                                   AncestorType={x:Type ListViewItem}}, 
                                                   Converter={StaticResource ListViewItemIndexConverter}}" />
+                                        
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

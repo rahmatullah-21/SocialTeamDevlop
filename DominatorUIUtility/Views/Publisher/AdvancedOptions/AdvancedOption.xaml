@@ -21,7 +21,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
             <CheckBox IsChecked="{Binding IsEnableReAddPostChecked}" Content="{DynamicResource langEnableReAddPostToPostList}" VerticalAlignment="Center"/>
-            <controls:NumericUpDown Value="{Binding Times}" IsEnabled="{Binding IsEnableReAddPostChecked}" Margin="10,0" VerticalAlignment="Center"/>
+            <controls:NumericUpDown Minimum="0" Value="{Binding Times}" IsEnabled="{Binding IsEnableReAddPostChecked}" Margin="10,0" VerticalAlignment="Center"/>
             <TextBlock VerticalAlignment="Center" Text="{DynamicResource langTimes}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="5">

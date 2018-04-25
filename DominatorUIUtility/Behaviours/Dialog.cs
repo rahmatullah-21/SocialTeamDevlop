@@ -80,18 +80,6 @@ namespace DominatorUIUtility.Behaviours
             return MetroWindow;
         }
 
-        public static MetroDialogSettings SetMetroDialogButton()
-        {
-            var MetroDialogButton = new MetroDialogSettings()
-            {
-                AffirmativeButtonText = "Yes",
-                NegativeButtonText = "No",
-                AnimateShow = true,
-                AnimateHide = false
-            };
-            return MetroDialogButton;
-        }
-
         public static MetroDialogSettings SetMetroDialogButton(string affirmativeText, string negativeText)
         {
             var metroDialogButton = new MetroDialogSettings()
@@ -99,7 +87,8 @@ namespace DominatorUIUtility.Behaviours
                 AffirmativeButtonText = affirmativeText,
                 NegativeButtonText = negativeText,
                 AnimateShow = true,
-                AnimateHide = false
+                AnimateHide = false,
+                DefaultButtonFocus=MessageDialogResult.Affirmative
             };
             return metroDialogButton;
         }

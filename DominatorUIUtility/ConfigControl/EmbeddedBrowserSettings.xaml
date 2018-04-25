@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.ConfigControl"
              mc:Ignorable="d" 
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -32,14 +32,14 @@
         <StackPanel Margin="10"  x:Name="MainGrid">
             <StackPanel Orientation="Horizontal">
                 <Label Content="{DynamicResource DHlangMaximumNumberOfSemultaneousConnections}"/>
-                <Controls:NumericUpDown Margin="5" Value="{Binding MaxSemultaneousConnections}"/>
+                <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding MaxSemultaneousConnections}"/>
             </StackPanel>
             <CheckBox Margin="5" Content="{DynamicResource DHlangMaximizeEmbaddedBrowser}"
                       IsChecked="{Binding IsMaximizeEmbaddedBrowserChecked}"/>
             <StackPanel Orientation="Horizontal">
                 <CheckBox Margin="5" Content="{DynamicResource DHlangWaitMinimumOf}"
                           IsChecked="{Binding IsWaitMinOfChecked}"/>
-                <Controls:NumericUpDown Margin="5" IsEnabled="{Binding IsWaitMinOfChecked}"
+                <controls:NumericUpDown Minimum="0" Margin="5" IsEnabled="{Binding IsWaitMinOfChecked}"
                                         Value="{Binding WaitMinOf}"/>
                 <Label Content="{DynamicResource DHlangSecondsBeforeIssuingError}"/>
             </StackPanel>
@@ -63,13 +63,13 @@
             <StackPanel Orientation="Horizontal">
                 <CheckBox Margin="5" Content="{DynamicResource DHlangOpenMaximumOf}"
                           IsChecked="{Binding IsOpenMaxOfChecked}"/>
-                <Controls:NumericUpDown Margin="5" IsEnabled="{Binding IsOpenMaxOfChecked}"
+                <controls:NumericUpDown Minimum="0" Margin="5" IsEnabled="{Binding IsOpenMaxOfChecked}"
                                         Value="{Binding OpenMaxOf}"/>
                 <Label Content="{DynamicResource DHlangEmbeddedBrowserAtSameTime}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Margin="5" Content="{DynamicResource DHlangDeleteupTo}"/>
-                <Controls:NumericUpDown Margin="5" Value="{Binding DeleteupTo}"/>
+                <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding DeleteupTo}"/>
                 <Label  Margin="5" Content="{DynamicResource DHlangCookieCacheFiles}"/>
             </StackPanel>
             <!--<Button Content="{DynamicResource langDeleteAll}" Margin="10,0" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" HorizontalAlignment="Left"/>-->

@@ -29,7 +29,7 @@
                             <TextBox x:Name="txtFilter" Margin="5" Width="200"/>
                             <CheckBox Margin="20,5,5,5" Content="{DynamicResource langAutomaticallySendHistoryPosts}"/>
                             <TextBlock Text="{DynamicResource langDeletePostsOlderThen}" VerticalAlignment="Center" Margin="30,5,5,5"/>
-                            <controls:NumericUpDown VerticalAlignment="Center" />
+                            <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
                             <TextBlock Text="{DynamicResource langDaysOld}" VerticalAlignment="Center" Margin="5"/>
                             <Button Content="{DynamicResource langDelete}"   x:Name="btnDelete" Margin="10,5"
                 Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
