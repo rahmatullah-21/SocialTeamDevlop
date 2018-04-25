@@ -111,7 +111,22 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 return null;
             }
         }
-
+        [Obsolete("Don't use GetDataBaseConnectionGlobalInstance with parameter instead use GetDataBaseConnectionGlobalInstance without parameter ")]
+        public static DataBaseConnectionGlobal GetDataBaseConnectionGlobalInstance(string DBName)
+        {
+            try
+            {
+                string directoryName, connectionString;
+                GetDbPath(DBName, DatabaseType.GlobalType, out directoryName, out connectionString);
+                DirectoryUtilities.CreateDirectory(directoryName);
+                var objModelConfiguration = new ModelConfiguration();
+                return new DataBaseConnectionGlobal(connectionString, objModelConfiguration.ConfigureGlobalDataBaseEntity);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public static DataBaseConnectionGlobal GetDataBaseConnectionGlobalInstance()
         {
             try
