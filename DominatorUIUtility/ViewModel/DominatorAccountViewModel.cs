@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
+using ControlzEx.Standard;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.DatabaseHandler;
@@ -1117,9 +1118,19 @@ namespace DominatorUIUtility.ViewModel
 
 
         #region Update Account status & details
+
+        ImmutableQueue<Action> _checkPendingList = ImmutableQueue<Action>.Empty;
+
+        bool _allSelectedAccountsQueued;
+
+        private List<string> _updateAccountList = new List<string>();
+
         private void UpdateAccountDetailsExecute(object sender)
         {
             var selectedAccount = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList();
+
+            if (selectedAccount == null) return;
+
             if (selectedAccount.Count == 0)
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
@@ -1129,46 +1140,126 @@ namespace DominatorUIUtility.ViewModel
             var updateMenuItem = sender as string;
 
 
+            if (updateMenuItem== "StopProcess")
+            {
+                StopProcess();
+                return;
+            }
+
+            try
+            {
+
+                _allSelectedAccountsQueued = false;
+                new Thread(() =>
+                    {
+                        while (!_allSelectedAccountsQueued)
+                        {
+                            Thread.Sleep(50);
+                            while (!_checkPendingList.IsEmpty)
+                            {
+                                Action act;
+                                _checkPendingList = _checkPendingList.Dequeue(out act);
+                                act();
+                            }
+                        }
+                    })
+                { IsBackground = true }.Start();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            Thread.Sleep(50);
+
             selectedAccount.ForEach(account =>
             {
                 var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
                     .GetNetworkCoreFactory().AccountUpdateFactory;
-
                 try
                 {
-                    if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
-                    {
-                        // this account supports async modules
-                        var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
-                        if (updateMenuItem == "UpdateAllDetail")
-                        {
-                            asyncAccount.CheckStatusAsync(account, account.Token)
-                                        .ContinueWith(checkSucceeded =>
-                                        {
-                                            if (checkSucceeded.Result)
-                                                return asyncAccount.UpdateDetailsAsync(account, account.Token);
-                                            return new Task(() => { });
-                                        })
-                                        .Start();
-                        }
-                        else if (updateMenuItem == "CheckAccountStatus")
-                        {
-                            asyncAccount
-                                .CheckStatusAsync(account, account.Token);
-                        }
-
-                        else if (updateMenuItem == "StopProcess")
-                        {
-
-                        }
-                    }
+                    if (!_updateAccountList.Contains(account.AccountBaseModel.UserName))
+                        _checkPendingList = _checkPendingList.Enqueue(() =>
+                            MultipleUpdate(account, updateMenuItem, accountFactory));
+                    else
+                        GlobusLogHelper.log.Info(Log.AlreadyUpdatingAccount, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
                 }
                 catch (Exception ex)
                 {
-
+                    ex.DebugLog();
                 }
             });
 
+            _allSelectedAccountsQueued = true;
+        }
+
+        private void MultipleUpdate(DominatorAccountModel account, string updateMenuItem, IAccountUpdateFactory accountFactory)
+        {
+            if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
+            {
+                // this account supports async modules
+                var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
+                if (updateMenuItem == "UpdateAllDetail")
+                {
+                    if (account.Token.IsCancellationRequested)                   
+                        account.CancellationSource = new CancellationTokenSource();
+                    
+                    var updateAccount = new Task(() =>
+                    {
+                        try
+                        {
+                            _updateAccountList.Add(account.UserName);
+                            account.Token.ThrowIfCancellationRequested();
+                            var checkResult = asyncAccount.CheckStatusAsync(account, account.Token).Result;
+                            if (checkResult)
+                            {
+                                account.Token.ThrowIfCancellationRequested();
+                                asyncAccount.UpdateDetailsAsync(account, account.Token);
+                            }
+                        }
+                        catch (OperationCanceledException ex)
+                        {
+                            ex.DebugLog("Cancellation Requested!");
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+
+                    }, account.Token);
+                    updateAccount.Start();
+                }
+                else if (updateMenuItem == "CheckAccountStatus")
+                {
+                    var checkAccount = new Task(() =>
+                    {
+                        asyncAccount.CheckStatusAsync(account, account.Token);
+                    }, account.Token);
+                    checkAccount.Start();
+                }
+
+                else if (updateMenuItem == "StopProcess")
+                {
+                    StopProcess();
+                }
+            }
+        }
+
+        private void StopProcess()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                _updateAccountList.ForEach(accountSelected =>
+                {
+                    var accountFullDetails = LstDominatorAccountModel.FirstOrDefault(x => x.UserName == accountSelected);
+
+                    accountFullDetails?.NotifyDeleted();
+
+                    if (accountFullDetails != null)
+                        GlobusLogHelper.log.Info(Log.StopUpdatingAccount, accountFullDetails.AccountBaseModel.AccountNetwork,  accountFullDetails.AccountBaseModel.UserName);
+                });
+                _updateAccountList.Clear();
+            });
         }
 
         private bool UpdateAccountDetailsCanExecute(object sender) => true;

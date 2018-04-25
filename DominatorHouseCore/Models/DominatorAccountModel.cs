@@ -278,19 +278,19 @@ namespace DominatorHouseCore.Models
         [ProtoIgnore]
         public FeatureFlags FeatureLists { get; set; } = new FeatureFlags();
 
-        private CancellationTokenSource _cancellationSource = new CancellationTokenSource();
+        public CancellationTokenSource CancellationSource = new CancellationTokenSource();
 
         public CancellationToken Token
         {
             get
             {
-                return _cancellationSource.Token;
+                return CancellationSource.Token;
             }
         }
 
         public void NotifyDeleted()
         {
-            _cancellationSource.Cancel();
+            CancellationSource.Cancel();
         }
     }
 }

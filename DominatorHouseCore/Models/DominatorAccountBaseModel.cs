@@ -206,5 +206,7 @@ namespace DominatorHouseCore.Models
         {
             return string.Format("{0} on {1}", _userName, _accountNetwork);
         }
+
+
     }
 }

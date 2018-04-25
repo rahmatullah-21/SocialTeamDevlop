@@ -88,8 +88,6 @@ namespace DominatorUIUtility.CustomControl
             set { SetValue(ListQueryInfoProperty, value); }
         }
 
-
-
         // Using a DependencyProperty as the backing store for ListQueryInfo.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ListQueryInfoProperty =
             DependencyProperty.Register("ListQueryInfo", typeof(ObservableCollection<QueryInfo>), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
