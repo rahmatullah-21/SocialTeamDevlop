@@ -87,9 +87,9 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _campaignCollection, value);
             }
         }
-        private ObservableCollectionBase<CampaignDetails> _campaignDetails = new ObservableCollectionBase<CampaignDetails>();
+        private ObservableCollection<CampaignDetails> _campaignDetails = new ObservableCollection<CampaignDetails>();
 
-        public ObservableCollectionBase<CampaignDetails> ObjCampaignDetails
+        public ObservableCollection<CampaignDetails> ObjCampaignDetails
         {
             get
             {
@@ -104,7 +104,7 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isCampaignChecked;
-        [ProtoIgnore]
+  
         public bool IsCampaignChecked
         {
             get
@@ -116,6 +116,21 @@ namespace DominatorHouseCore.Models
                 if (_isCampaignChecked == value)
                     return;
                 SetProperty(ref _isCampaignChecked, value);
+            }
+        }
+        private bool _isAllCampaignChecked;
+
+        public bool IsAllCampaignChecked
+        {
+            get
+            {
+                return _isAllCampaignChecked;
+            }
+            set
+            {
+                if (_isAllCampaignChecked == value)
+                    return;
+                SetProperty(ref _isAllCampaignChecked, value);
             }
         }
     }

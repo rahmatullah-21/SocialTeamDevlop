@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              mc:Ignorable="d" 
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     
     <UserControl.Resources>
@@ -17,10 +17,10 @@
             <TextBlock Text="{DynamicResource DHlangEnableRagularCheckForNewMessage﻿}"/>
             <StackPanel Orientation="Horizontal" Margin="10">
                 <TextBlock Text="{DynamicResource langStatus}" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,10,0"/>
-                <Controls:ToggleSwitch OnLabel="{DynamicResource langActive}" OffLabel="{DynamicResource langPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                <controls:ToggleSwitch OnLabel="{DynamicResource langActive}" OffLabel="{DynamicResource langPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
                              x:Name="AutoReplyStatus"  IsCheckedChanged="AutoReplyStatus_OnIsCheckedChanged" FontSize="12" >
-                    <Controls:ToggleSwitch.Style>
-                        <Style TargetType="Controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
+                    <controls:ToggleSwitch.Style>
+                        <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
                             <Style.Triggers>
                                 <Trigger Property="Tag" Value="Active">
                                     <Setter Property="IsChecked" Value="True" />
@@ -30,8 +30,8 @@
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
-                    </Controls:ToggleSwitch.Style>
-                </Controls:ToggleSwitch>
+                    </controls:ToggleSwitch.Style>
+                </controls:ToggleSwitch>
 
             </StackPanel>
             <TextBlock Text="{DynamicResource DHlangMessageText﻿}" FontWeight="Bold" Margin="5"/>
@@ -59,10 +59,10 @@
                         <CheckBox Content="{DynamicResource DHlangSendSecondaryMessageAfter}"
                   VerticalAlignment="Center" Margin="5"
                   IsChecked="{Binding IsSendSecondaryMessagesAfterChecked}"/>
-                        <Controls:NumericUpDown Minimum="0" IsEnabled="{Binding IsSendSecondaryMessagesAfterChecked}"
+                        <controls:NumericUpDown  Minimum="0" IsEnabled="{Binding IsSendSecondaryMessagesAfterChecked}"
                                                 Value="{Binding SendSecondaryMessages.StartValue}"/>
                         <Label Content="{DynamicResource langTo}"/>
-                        <Controls:NumericUpDown
+                        <controls:NumericUpDown 
                             IsEnabled="{Binding IsSendSecondaryMessagesAfterChecked}"
                             Minimum="{Binding SendSecondaryMessages.StartValue}"
                                      Value="{Binding SendSecondaryMessages.EndValue}"/>
@@ -99,7 +99,7 @@
                 <CheckBox Content="{DynamicResource DHlangCheckForNewMessages}"
                   VerticalAlignment="Center" Margin="5"
                   IsChecked="{Binding IsCheckForNewMessagesChecked}"/>
-                <Controls:NumericUpDown Minimum="0" Value="{Binding CheckMessagesMinutes}"/>
+                <controls:NumericUpDown  Minimum="0" Value="{Binding CheckMessagesMinutes}"/>
                 <Label Content="{DynamicResource langMinutes}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">

@@ -20,19 +20,19 @@ using DominatorHouseCore.LogHelper;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.CustomControl
-{    
-    public partial class SearchQueryControl : UserControl , INotifyPropertyChanged
+{
+    public partial class SearchQueryControl : UserControl, INotifyPropertyChanged
     {
 
         public SearchQueryControl()
         {
-            InitializeComponent();           
-            CurrentQuery = new QueryInfo();          
+            InitializeComponent();
+            CurrentQuery = new QueryInfo();
             MainGrid.DataContext = this;
             IsExpanded = true;
             AddQueryCommand = new BaseCommand<object>(CanExecute, Execute);
             SelectedIndex = 0;
-            ListQueryType = new List<string>();           
+            ListQueryType = new List<string>();
             ListQueryInfo = new ObservableCollection<QueryInfo>();
         }
 
@@ -140,16 +140,21 @@ namespace DominatorUIUtility.CustomControl
             {
                 QueryCollection.AddRange(FileUtilities.FileBrowseAndReader());
 
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
-                    "Queries are ready to add !!");
-                GlobusLogHelper.log.Info("Query sucessfully uploaded !!");
+                if (QueryCollection.Count != 0)
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
+                           "Queries are ready to add !!");
+                    GlobusLogHelper.log.Info("Query sucessfully uploaded !!");
+                }
+                else
+                    GlobusLogHelper.log.Info("You did not upload any query !!");
             }
             catch (Exception ex)
             {
 
                 GlobusLogHelper.log.Info("There is error in uploading query !!");
             }
-           
+
             GetQueryClickEventHandler();
         }
 
@@ -199,7 +204,7 @@ namespace DominatorUIUtility.CustomControl
             RaiseEvent(routedEventArgs);
         }
 
-      
+
 
         private static readonly DependencyProperty AddQueryCommandProperty
             = DependencyProperty.Register("AddQueryCommand", typeof(ICommand), typeof(SearchQueryControl));
@@ -246,7 +251,7 @@ namespace DominatorUIUtility.CustomControl
             //DeleteQueryEventHandler();
             try
             {
-              var  selectedQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
+                var selectedQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
                 DeleteQueryEventHandler();
                 if (ListQueryInfo.Any(x => selectedQuery != null && x.Id == selectedQuery.Id))
                 {
@@ -255,7 +260,7 @@ namespace DominatorUIUtility.CustomControl
                     // SearchQueries.ItemsSource = ListQueryInfo.Count == 0 ? null : ListQueryInfo;
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 ex.DebugLog();
             }
@@ -270,7 +275,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
 
-            
+
                 //var selectedvalue = (ComboBox)(FrameworkElement)sender;
 
                 //if (selectedvalue != null)
@@ -301,7 +306,7 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception ex)
             {
-               ex.DebugLog();
+                ex.DebugLog();
             }
         }
 
@@ -327,5 +332,5 @@ namespace DominatorUIUtility.CustomControl
         }
     }
 
-    
+
 }

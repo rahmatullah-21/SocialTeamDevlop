@@ -51,7 +51,7 @@ namespace DominatorUIUtility.ViewModel
             this.strategyPack = strategyPack;
 
             InitialAccountDetails();
-            DataBaseConnectionGlb = DataBaseHandler.GetDataBaseConnectionGlobalInstance("Global");
+            DataBaseConnectionGlb = DataBaseHandler.GetDataBaseConnectionGlobalInstance();
             #region Command Initialization
 
             AddSingleAccountCommand = new BaseCommand<object>(AddSingleAccountCanExecute, (o) => AddSingleAccountExecute(o, this.strategyPack._determine_available, this.strategyPack._inform_warnings));

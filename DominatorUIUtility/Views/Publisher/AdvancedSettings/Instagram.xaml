@@ -16,7 +16,7 @@
                 <CheckBox Content="{DynamicResource langPostOnWallAndInStory}" VerticalAlignment="Center" Margin="5"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock Text="{DynamicResource langDeleteAfter}" VerticalAlignment="Center" Margin="5"/>
-                    <controls:NumericUpDown VerticalAlignment="Center" />
+                    <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
                     <TextBlock Text="{DynamicResource langHours}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
                 <CheckBox Content="{DynamicResource langArchivePostInsteadOfDeletingItOnlyForIGPost}" VerticalAlignment="Center" Margin="5"/>
@@ -27,7 +27,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock Text="{DynamicResource langMaxNumberOfUsersToTag}" VerticalAlignment="Center" Margin="5"/>
-                    <controls:NumericUpDown VerticalAlignment="Center" />
+                    <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
                 </StackPanel>
                 <CheckBox Content="{DynamicResource langRemoveUserFromListAfterHeIsTagged}" VerticalAlignment="Center" Margin="5"/>
                 <Button Margin="10,5" x:Name="btnDeleteAll" Content="{DynamicResource langDeleteAll}" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>

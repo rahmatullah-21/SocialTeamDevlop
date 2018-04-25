@@ -137,7 +137,7 @@
                                         <GridViewColumn Header="{DynamicResource langOrder}" >
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <controls:NumericUpDown Value="{Binding Order}"/>
+                                                    <controls:NumericUpDown Minimum="0" Value="{Binding Order}"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>

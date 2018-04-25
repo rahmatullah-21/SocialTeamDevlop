@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher.AdvancedOptions"
              mc:Ignorable="d" 
-              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore" >
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -15,7 +15,7 @@
             <CheckBox Content="{DynamicResource langPostAsPartOfStory}" IsChecked="{Binding IsPostAsPartOfStoryChecked}" VerticalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" Margin="0,5">
                 <CheckBox Content="{DynamicResource langDeletePostAfter}" IsChecked="{Binding IsDeletePostAfterChecked}" VerticalAlignment="Center"/>
-                <Controls:NumericUpDown Margin="10,0" IsEnabled="{Binding IsDeletePostAfterChecked}" VerticalAlignment="Center"/>
+                <controls:NumericUpDown Minimum="0" Margin="10,0" IsEnabled="{Binding IsDeletePostAfterChecked}" VerticalAlignment="Center"/>
                 <TextBlock Text="{DynamicResource langHours}" Margin="0,0,15,0" VerticalAlignment="Center"/>
                 <CheckBox Content="{DynamicResource langArchivePost}" VerticalAlignment="Center"/>
             </StackPanel>

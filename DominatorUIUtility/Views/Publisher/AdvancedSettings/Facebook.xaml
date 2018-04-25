@@ -23,7 +23,7 @@
                 <CheckBox Content="{DynamicResource langRemoveLocationForSellPosts}" VerticalAlignment="Center" Margin="5"/>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Content="{DynamicResource langAllowMaximumOf}" VerticalAlignment="Center" Margin="5"/>
-                    <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0"/>
+                    <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Margin="5,0"/>
                     <TextBlock Text="{DynamicResource langPendingPostsInGroups}" VerticalAlignment="Center"/>
                 </StackPanel>
                 <CheckBox Content="{DynamicResource langRefreshPageAndRetryPost}" VerticalAlignment="Center" Margin="5"/>
@@ -42,9 +42,9 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource langPublishOnBetween}" VerticalAlignment="Center" Margin="5"/>
-                    <controls:NumericUpDown VerticalAlignment="Center" />
+                    <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
                     <TextBlock Text="{DynamicResource langAnd}" VerticalAlignment="Center" Margin="5"/>
-                    <controls:NumericUpDown VerticalAlignment="Center" />
+                    <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
                     <TextBlock Text="{DynamicResource langSellGroupsAtSameTime}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
             </StackPanel>

@@ -17,17 +17,17 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langWaitMaximumOf}" Margin="0,0,10,0"/>
-                    <controls:NumericUpDown VerticalAlignment="Center" Minimum="0" Value="{Binding WaitMaxOf}" />
+                    <controls:NumericUpDown  VerticalAlignment="Center" Minimum="0" Value="{Binding WaitMaxOf}" />
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langTimeoutState}" Margin="10,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langKeepMaximumOf}" Margin="0,0,10,0"/>
-                    <controls:NumericUpDown VerticalAlignment="Center" Minimum="0" Value="{Binding KeepMaxOf}"/>
+                    <controls:NumericUpDown  VerticalAlignment="Center" Minimum="0" Value="{Binding KeepMaxOf}"/>
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langCampaignHistory}" Margin="10,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langCheckRSSFeeds}" Margin="0,0,10,0"/>
-                    <controls:NumericUpDown VerticalAlignment="Center" Minimum="0" Margin="{Binding CheckRssFeedsminutes}"/>
+                    <controls:NumericUpDown  VerticalAlignment="Center" Minimum="0" Margin="{Binding CheckRssFeedsminutes}"/>
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langMinutes}" Margin="10,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -42,7 +42,7 @@
                 <CheckBox Content="{DynamicResource langChooseOnlyFirstImage}" Margin="5" IsChecked="{Binding IsChooseOnlyFirstImageChecked}"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <CheckBox Content="{DynamicResource langChooseBetween}" VerticalAlignment="Center" IsChecked="{Binding IsChooseBetweenChecked}"/>
-                    <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" Minimum="0" Value="{Binding ChooseBetween.StartValue}"/>
+                    <controls:NumericUpDown  VerticalAlignment="Center" Margin="5,0" Minimum="0" Value="{Binding ChooseBetween.StartValue}"/>
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langAnd}" Margin="0,0,10,0"/>
                     <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" Minimum="{Binding ChooseBetween.StartValue}"
                                             Value="{Binding ChooseBetween.EndValue}"/>
@@ -65,7 +65,7 @@
                           VerticalAlignment="Center" Margin="5"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <CheckBox Content="{DynamicResource langWaitToStartNewPost}" VerticalAlignment="Center" />
-                    <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" Minimum="0"/>
+                    <controls:NumericUpDown  VerticalAlignment="Center" Margin="5,0" Minimum="0"/>
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langActiveInHistory}" Margin="0,0,10,0"/>
                 </StackPanel>
                 <CheckBox Content="{DynamicResource langUnselectDestination}" VerticalAlignment="Center" Margin="5"/>
@@ -74,13 +74,13 @@
                 <CheckBox Content="{DynamicResource langAutoTagFriends}" VerticalAlignment="Center" Margin="5"/>
                 <StackPanel Margin="25,5">
                     <StackPanel Orientation="Horizontal">
-                        <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" Minimum="0"/>
+                        <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Margin="5,0" />
                         <TextBlock VerticalAlignment="Center" Text="{DynamicResource langTo}" Margin="0,0,5,0"/>
-                        <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" />
+                        <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Margin="5,0" />
                         <TextBlock VerticalAlignment="Center" Text="{DynamicResource langFriendsForEachPosts}" Margin="0,0,10,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" Minimum="0"/>
+                        <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Margin="5,0"/>
                         <TextBlock VerticalAlignment="Center" Text="{DynamicResource langPercentageOfTaggingPost}" Margin="0,0,10,0"/>
                     </StackPanel>
                 </StackPanel>

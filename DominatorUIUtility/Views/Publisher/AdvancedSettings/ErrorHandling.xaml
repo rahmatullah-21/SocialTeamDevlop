@@ -15,7 +15,7 @@
                 <TextBox Width="220" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0"/>
                 <StackPanel Orientation="Horizontal"  Margin="30,5">
                     <TextBlock Text="{DynamicResource langStopAfter}" VerticalAlignment="Center"/>
-                    <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0"/>
+                    <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Margin="5,0"/>
                     <TextBlock  Text="{DynamicResource langPostsWithSameError}" VerticalAlignment="Center"/>
                 </StackPanel>
             </StackPanel>

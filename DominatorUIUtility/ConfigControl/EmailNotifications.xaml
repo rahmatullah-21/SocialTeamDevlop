@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.ConfigControl"
              mc:Ignorable="d" 
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -39,7 +39,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="5" Content="{DynamicResource DHlangTimeToReceiveEmail}"/>
-                    <Controls:NumericUpDown Margin="5" Value="{Binding EmailRecieveTime}"/>
+                    <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding EmailRecieveTime}"/>
                 </StackPanel>
             </StackPanel>
             <CheckBox Margin="5" Content="{DynamicResource DHlangNotifyAboutInvalidProxies}"
