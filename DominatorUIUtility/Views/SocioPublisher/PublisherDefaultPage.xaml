@@ -6,7 +6,49 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              x:Name="PublisherDefault"
              mc:Ignorable="d" 
-            >
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+
+    <UserControl.Resources>
+
+        <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
+
+        <GridViewColumnCollection x:Key="ColumnSubHeading">
+            <GridViewColumn  Width="80" DisplayMemberBinding="{Binding PostStatus.DraftCount}">
+                <GridViewColumn.Header>
+                    <TextBlock Text="{DynamicResource DHlangDraft}" />
+                </GridViewColumn.Header>
+            </GridViewColumn>
+            <GridViewColumn  Width="80" DisplayMemberBinding="{Binding PostStatus.PendingCount}">
+                <GridViewColumn.Header>
+                    <TextBlock Text="{DynamicResource DHlangPending}" />
+                </GridViewColumn.Header>
+            </GridViewColumn>
+            <GridViewColumn Width="80" DisplayMemberBinding="{Binding PostStatus.PublishedCount}">
+                <GridViewColumn.Header>
+                    <TextBlock Text="{DynamicResource DHlangPublished}" />
+                </GridViewColumn.Header>
+            </GridViewColumn>
+        </GridViewColumnCollection>
+
+        <DataTemplate x:Key="MultiColumnHeaderTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="{DynamicResource langPostStatus}" HorizontalAlignment="Center"/>
+                <GridViewHeaderRowPresenter HorizontalAlignment="Stretch" Grid.Row="1" Columns="{StaticResource ColumnSubHeading}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MultiColumnCellTemplate">
+            <Grid>
+                <GridViewRowPresenter HorizontalAlignment="Stretch"  Columns="{DynamicResource ColumnSubHeading}"/>
+            </Grid>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.8*"></RowDefinition>
@@ -32,7 +74,7 @@
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManageDestinations" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManageDestinations">
+                <Button Background="Transparent" ToolTip="{DynamicResource DHlangToolTipGotoManagerDestination}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManageDestinations" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManageDestinations">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -49,7 +91,7 @@
                     </Button.Template>
                 </Button>
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManagePosts" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManagePosts">
+                <Button Background="Transparent" Cursor="Hand" ToolTip="{DynamicResource DHlangToolTipGotoManagePosts}" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManagePosts" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManagePosts">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -65,7 +107,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonCreateCampaigns" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="CreateCampaigns">
+                <Button Background="Transparent" ToolTip="{DynamicResource DHlangToolTipGotoCreateCampaign}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonCreateCampaigns" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="CreateCampaigns">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -83,7 +125,7 @@
                 </Button>
 
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect" Margin="5">
+                <Button Background="Transparent" ToolTip="{DynamicResource DHlangToolTipSelectWhatTodo}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect" Margin="5">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -97,22 +139,29 @@
 
                     <Button.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="{DynamicResource langAllAccounts}" Name="SelectAllAccounts" >
+                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllCampaigns" >
                                 <MenuItem.Icon>
-                                    <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="15" Height="15"/>
+                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <Separator/>
-                            <MenuItem Header="{DynamicResource langDeselectAll}" Name="DeselectAllAccounts" >
+                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuDeselectAllCampaigns" >
                                 <MenuItem.Icon>
-                                    <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="15" Height="15"  />
+                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick_unchecked}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="PublisherAction" Margin="5">
+                <Button Background="Transparent" ToolTip="{DynamicResource DHlangToolTipSelectActions}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="PublisherAction" Margin="5">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
@@ -161,10 +210,9 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <Separator/>
                             <MenuItem Header="{DynamicResource DHlangDelete}" Name="MenuDelete" >
                                 <MenuItem.Icon>
-                                    <Rectangle Width="15" Height="18" Fill="Black">
+                                    <Rectangle Width="12" Height="15" Fill="Black">
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                         </Rectangle.OpacityMask>
@@ -180,7 +228,6 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <Separator/>
                             <MenuItem Header="{DynamicResource DHlangPublishNow}" Name="MenuPublishNow" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black">
@@ -199,9 +246,92 @@
 
         </Grid>
 
-
         <Grid Grid.Row="1">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <ListView x:Name="CampaignStatusList"   >
+                    <ListView.Resources>
+                        <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </ListView.Resources>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView >
 
+                            <GridViewColumn Width="80">
+                                <CheckBox x:Name="AllCampaign" IsChecked="{Binding IsAllCampaignChecked}" Content=" #"/>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsCampaignChecked}" 
+                                              x:Name="ChkSingleCampaign"
+                                              Margin="5,0,0,0" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},  Converter={StaticResource ListViewItemIndexConverter}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+
+                            <GridViewColumn  Width="200" DisplayMemberBinding="{Binding CampaignDetails.CampaignName}">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{DynamicResource langCampaignName}"></TextBlock>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+
+                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding CampaignDetails.Status}">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{DynamicResource langStatus}"></TextBlock>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+
+                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding CampaignDetails.Status}">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{DynamicResource DHlangDestination}"></TextBlock>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+
+                            <GridViewColumn Width="240"   HeaderTemplate="{StaticResource MultiColumnHeaderTemplate}" CellTemplate="{StaticResource MultiColumnCellTemplate}" />
+
+                            <GridViewColumn Width="120" DisplayMemberBinding="{Binding CampaignStartDate}" >
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{DynamicResource langCreatedDate}"></TextBlock>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn Width="120"   DisplayMemberBinding="{Binding CampaignStartDate}">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{DynamicResource langStartDate}"></TextBlock>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn  Width="120"   DisplayMemberBinding="{Binding CampaignEndDate}">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{DynamicResource langEndDate}"></TextBlock>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+
+                            <GridViewColumn Width="200" Header="{DynamicResource DHlangAction}" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Cursor="Hand" Content="{DynamicResource DHlangEdit}" x:Name="ButtonEditCampaign" 
+                                                    FontWeight="SemiBold" 
+                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
+                                            <Button Cursor="Hand" Content="{DynamicResource DHlangDuplicate}"  x:Name="ButtonDuplicateCampaign" 
+                                                    FontWeight="SemiBold" 
+                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent"/>
+                                            <Button Cursor="Hand" Content="{DynamicResource DHlangDelete}"  x:Name="ButtonDeleteCampaign"  FontWeight="SemiBold"
+                                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

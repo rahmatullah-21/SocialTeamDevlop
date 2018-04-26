@@ -128,8 +128,6 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangManageMessages">Manage Messages</system:String>
     <system:String x:Key="DHlangAddMessageToList">Add Message To List</system:String>
     <system:String x:Key="DHlangMessageText">Message Text</system:String>
-    <system:String x:Key="DHlangSelectAll">Select All</system:String>
-    <system:String x:Key="DHlangSelectNone">Select None</system:String>
     <system:String x:Key="DHlangSelectAllWallsAndProfile">Select All Walls/Profiles</system:String>
     <system:String x:Key="DHlangSelectAllPagesAndBoards">Select All Pages/Boards</system:String>
     <system:String x:Key="DHlangSelectAllGroups">Select All Groups</system:String>
@@ -153,6 +151,24 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangDelete">Delete</system:String>
     <system:String x:Key="DHlangDuplicate">Duplicate</system:String>
     <system:String x:Key="DHlangPublishNow">Publish Now</system:String>
+    <system:String x:Key="DHlangSelectAll">Select All</system:String>
+    <system:String x:Key="DHlangSelectNone">Select None</system:String>
+    <system:String x:Key="DHlangSelectAllWallsProfiles">Select Walls/Profiles(all)</system:String>
+    <system:String x:Key="DHlangSelectAllPagesBoard">Select Pages/Boards(all)</system:String>
+    <system:String x:Key="DHlangSelectAllGroup">Select Groups(all)</system:String>
+    
+    <system:String x:Key="DHlangToolTipGotoManagerDestination">Go to Manage Destination</system:String>
+    <system:String x:Key="DHlangToolTipGotoManagePosts">Go to Manage Posts</system:String>
+    <system:String x:Key="DHlangToolTipGotoCreateCampaign">Go to Create Campaign</system:String>
+    <system:String x:Key="DHlangToolTipSelectWhatTodo">Select me before next action!</system:String>
+    <system:String x:Key="DHlangToolTipSelectActions">Select yours action!</system:String>
+
+    <system:String x:Key="DHlangDestination">Destination</system:String>
+    <system:String x:Key="DHlangDraft">Draft</system:String>
+    <system:String x:Key="DHlangPending">Pending</system:String>
+    <system:String x:Key="DHlangPublished">Published</system:String>
+    <system:String x:Key="DHlangEdit">Edit</system:String>
+
     <!--Publiser Language End-->
     
 </ResourceDictionary>

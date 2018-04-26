@@ -400,6 +400,8 @@
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\RunningTimes.cs" />
     <Compile Include="Models\ScrapeResultNew.cs" />
+    <Compile Include="Models\SocioPublisher\PublisherCampaignDetailsModel.cs" />
+    <Compile Include="Models\SocioPublisher\PublisherCampaignStatusModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherHomeModel.cs" />
     <Compile Include="Models\SoftwareSettingsModel.cs" />
     <Compile Include="Models\TabItem.cs" />

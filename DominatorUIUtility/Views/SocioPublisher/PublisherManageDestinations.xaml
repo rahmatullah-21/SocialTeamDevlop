@@ -63,15 +63,22 @@
 
                     <Button.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="{DynamicResource langAllAccounts}" Name="SelectAllAccounts" >
+                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllDestination" >
                                 <MenuItem.Icon>
-                                    <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="15" Height="15"/>
+                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <Separator/>
-                            <MenuItem Header="{DynamicResource langDeselectAll}" Name="DeselectAllAccounts" >
+                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuDeselectAllDestinations" >
                                 <MenuItem.Icon>
-                                    <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="15" Height="15"  />
+                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick_unchecked}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
                         </ContextMenu>

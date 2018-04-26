@@ -50,8 +50,7 @@
 
         <Grid Grid.Row="1">
 
-            <ListView x:Name="publisherDetail" x:FieldModifier="public"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto" >
+            <ListView x:Name="publisherDetail" x:FieldModifier="public" ScrollViewer.VerticalScrollBarVisibility="Auto" >
                 <ListView.Resources>
                     <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
                         <Setter Property="HorizontalContentAlignment" Value="Center" />

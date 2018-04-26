@@ -31,6 +31,41 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
+
+                #region Error
+
+                // Get all available networks from license  
+                AvailableNetworks.Add(SocialNetworks.Social);
+                AvailableNetworks.Add(SocialNetworks.Twitter);
+                AvailableNetworks.Add(SocialNetworks.Facebook);
+                AvailableNetworks.Add(SocialNetworks.Gplus);
+                AvailableNetworks.Add(SocialNetworks.Instagram);
+                AvailableNetworks.Add(SocialNetworks.LinkedIn);
+                AvailableNetworks.Add(SocialNetworks.Quora);
+                AvailableNetworks.Add(SocialNetworks.Pinterest);
+                AvailableNetworks.Add(SocialNetworks.Tumblr);
+                AvailableNetworks.Add(SocialNetworks.Youtube);
+                AvailableNetworks.Add(SocialNetworks.Reddit);
+
+                FeatureFlags.Instance = new FeatureFlags() {
+                    {"SocinatorInitializer", true },
+                    {"Twitter", true },
+                    {"Social", true},
+                    {"Instagram",true },
+                    {"Gplus",true },
+                    {"LinkedIn",true },
+                    {"Quora",true },
+                    {"Facebook",true },
+                    {"Youtube",true },
+                    {"Reddit",true },
+                    {"Tumblr",true },
+                    {"Pinterest",true}
+                };
+
+                return AvailableNetworks;
+
+                #endregion
+
                 if (string.IsNullOrEmpty(license))
                 {                   
                     FeatureFlags.Instance = new FeatureFlags()
