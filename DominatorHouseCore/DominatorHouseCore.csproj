@@ -251,11 +251,13 @@
     <Compile Include="DatabaseHandler\QdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\Friendship.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedAnswers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedMessage.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedAnswers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedMessage.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedUsers.cs" />

@@ -107,6 +107,34 @@ namespace DominatorUIUtility.CustomControl
                             lstCampaignType.Add(name);
                     }
                     break;
+                case "LinkedIn":
+                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
+                    {
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("LinkedIn"))
+                            lstCampaignType.Add(name);
+                    }
+                    break;
+                case "Tumblr":
+                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
+                    {
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Tumblr"))
+                            lstCampaignType.Add(name);
+                    }
+                    break;
+                case "Youtube":
+                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
+                    {
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Youtube"))
+                            lstCampaignType.Add(name);
+                    }
+                    break;
+                case "Reddit":
+                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
+                    {
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Reddit"))
+                            lstCampaignType.Add(name);
+                    }
+                    break;
             }
 
             CmbCampaignType.ItemsSource = lstCampaignType;
@@ -425,6 +453,8 @@ namespace DominatorUIUtility.CustomControl
         }
         private void AllCampaignCheckUncheck(bool isChecked)
         {
+            objCampaignDetails.ObjCampaignDetails =
+                new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocialNetworks));
             objCampaignDetails.ObjCampaignDetails.Select(x => { x.IsCampaignChecked = isChecked; return x; }).ToList();
             SetDefaultView();
         }

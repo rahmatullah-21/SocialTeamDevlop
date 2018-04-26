@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
 {
+  
     public class InteractedJobs
     {
         [Key]
@@ -16,7 +17,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         [Index]
         [Column(Order = 1)]
         public int Id { get; set; }
-        
+
         /// <summary>
         /// Contains QueryType For Interaction
         /// </summary>
@@ -36,7 +37,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         [Index("Pk_ActivityType_JobPostUrl", 1, IsUnique = true)]
         [Column(Order = 4)]
         public string ActivityType { get; set; }
-        
+
         /// <summary>
         /// Contains Url of the JobPost being interacted
         /// </summary>
@@ -45,15 +46,21 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         public string JobPostUrl { get; set; }
 
         /// <summary>
-        /// Contains DetailedInfo Regarding Interacted Job In Jason String Form
+        /// Contains title of the JobPost being interacted
         /// </summary>
         [Column(Order = 6)]
+        public string JobTitle { get; set; }
+
+        /// <summary>
+        /// Contains DetailedInfo Regarding Interacted Job In Jason String Form
+        /// </summary>
+        [Column(Order = 7)]
         public string DetailedInfo { get; set; }
 
         /// <summary>
         /// TimeStamp when interacted with the JobPost
         /// </summary>
-        [Column(Order = 7)]
-        public int InteractionTimeStamp { get; set; }
+        [Column(Order = 8)]
+        public DateTime InteractionDatetime { get; set; }
     }
 }

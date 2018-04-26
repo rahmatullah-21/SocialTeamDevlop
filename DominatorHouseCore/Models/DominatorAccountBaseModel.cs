@@ -201,7 +201,24 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _status, value);
             }
         }
-
+        private string _profileId;
+        /// <summary>
+        /// To define network profile username
+        /// </summary>
+        [ProtoMember(11)]
+        public string ProfileId
+        {
+            get
+            {
+                return _profileId;
+            }
+            set
+            {
+                if (_profileId != null && _profileId == value)
+                    return;
+                SetProperty(ref _profileId, value);
+            }
+        }
         public override string ToString()
         {
             return string.Format("{0} on {1}", _userName, _accountNetwork);
