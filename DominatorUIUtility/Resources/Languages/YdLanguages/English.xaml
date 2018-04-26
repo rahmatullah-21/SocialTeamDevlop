@@ -70,6 +70,34 @@
     <system:String x:Key="YdlangSpintaxMessage">SpinMessage</system:String>
     <system:String x:Key="YdlangKeywords">Keywords</system:String>
     <system:String x:Key="YdlangCustomUrls">CustomUrls</system:String>
+    <system:String x:Key="YdlangVideoFilter">Video Filter</system:String>
+    <system:String x:Key="YdlangTo">to</system:String>
+    <system:String x:Key="YdlangViewsCount">Views count</system:String>
+    <system:String x:Key="YdlangCommentsCount">Comments count</system:String>
+    <system:String x:Key="YdlangLikesCount">Likes count</system:String>
+    <system:String x:Key="YdlangDislikesCount">Dislikes count</system:String>
+    <system:String x:Key="YdlangVideoLength">Video length</system:String>
+    <system:String x:Key="YdlangSubscribersCount">Subscribers count</system:String>
+    <system:String x:Key="YdlangPublishedDaysBefore">Published on days before</system:String>
+    <system:String x:Key="YdlangTitleShouldContainsWordsOrPhrasesLike">Title should contains words or phrases like</system:String>
+    <system:String x:Key="YdlangDescriptionShouldContainsWordsOrPhrasesLike">Description should contains words or phrases like</system:String>
+    <system:String x:Key="YdlangTitleShouldNotContainsWordsOrPhrasesLike">Title should not contains words or phrases like</system:String>
+    <system:String x:Key="YdlangDescriptionShouldNotContainsWordsOrPhrasesLike">Description should not contains words or phrases like</system:String>
+    <system:String x:Key="YdlangIgnoreAds">Ignore ads</system:String>
 
+
+    <system:String x:Key="YdlangChannelFilters">Channel Filter</system:String>
+    <system:String x:Key="YdlangJobConfiguration">Job Configuration</system:String>
+
+    <system:String x:Key="YdlangAfterLikeAction">After Like Action</system:String>
+    <system:String x:Key="YdlangAfterDislikeAction">After Dislike Action</system:String>
+    <system:String x:Key="YdlangAfterCommentAction">After Comment Action</system:String>
+    <system:String x:Key="YdlangAfterLikeCommentAction">After LikeComment Action</system:String>
+    <system:String x:Key="langAfterLikeToCommentAction">After LikeToComment Action</system:String>
+
+    <system:String x:Key="YdlangDelayEachOperation">Delay between each operation</system:String>
+    <system:String x:Key="YdlangSeconds">seconds</system:String>
+    <system:String x:Key="YdlangDelayJob">Delay between jobs</system:String>
+    <system:String x:Key="YdlangMinutes">minutes</system:String>
 
 </ResourceDictionary>

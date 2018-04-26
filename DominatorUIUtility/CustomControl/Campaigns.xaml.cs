@@ -85,10 +85,10 @@ namespace DominatorUIUtility.CustomControl
                             lstCampaignType.Add(name);
                     }
                     break;
-                case "PinInterest":
+                case "Pinterest":
                     foreach (var name in Enum.GetNames(typeof(ActivityType)))
                     {
-                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("PinInterest"))
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Pinterest"))
                             lstCampaignType.Add(name);
                     }
                     break;
