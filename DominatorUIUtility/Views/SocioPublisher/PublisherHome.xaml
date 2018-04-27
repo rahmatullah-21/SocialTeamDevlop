@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" x:Name="UserControlPublisherHome"
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              mc:Ignorable="d">
-    <StackPanel>
+    <Grid>
         <ContentControl Content="{Binding SelectedUserControl}"></ContentControl>
-    </StackPanel>
-
+    </Grid>
 </UserControl>

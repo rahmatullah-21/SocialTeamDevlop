@@ -1,14 +1,38 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Patterns;
+using DominatorHouseCore.Utility;
+using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
-    public class PublisherCampaignStatusModel
-    {
-        public int CampaignId { get; set; }
+
+    [Serializable]
+    [ProtoContract]
+    public class PublisherCampaignStatusModel : INotifyPropertyChanged
+    {    
+        public string CampaignId { get; set; }
+
+        private bool _isSelected;
+
+        public bool IsSelected
+        {
+            get
+            {
+                return _isSelected;
+            }
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
 
         public string CampaignName { get; set; }
 
-        public string Status { get; set; }
+        public PublisherCampaignStatus Status { get; set; } = PublisherCampaignStatus.Completed;
 
         public int DestinationCount { get; set; }
 
@@ -24,5 +48,33 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public DateTime EndDate { get; set; }
 
+
+        public void GenerateCampaign()
+        {
+            CampaignName = $"Campaign-{ConstantVariable.GetDateTime()}";
+            CampaignId = Utilities.GetGuid();
+            CreatedDate = DateTime.Today;
+            StartDate = DateTime.Today;
+            EndDate = DateTime.Today.AddDays(7);
+        }
+
+        public void GenerateCloneCampaign(string name)
+        {           
+            CampaignName = $"{name}-clone";
+            CampaignId = Utilities.GetGuid();
+            CreatedDate = DateTime.Today;           
+        }
+
+        public bool ValidDateTime() 
+            => StartDate < EndDate;
+
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

@@ -1,12 +1,16 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using DominatorHouseCore.Annotations;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for PublisherDefaultPage.xaml
-    /// </summary>
-    public partial class PublisherDefaultPage : UserControl
+    /// </summary>   
+    public partial class PublisherDefaultPage : UserControl , INotifyPropertyChanged
     {
         private PublisherDefaultPage()
         {
@@ -14,13 +18,36 @@ namespace DominatorUIUtility.Views.SocioPublisher
             PublisherDefault.DataContext = PublisherDefaultViewModel;
         }
 
-        public PublisherDefaultViewModel PublisherDefaultViewModel { get; set; } = new PublisherDefaultViewModel();
+        private PublisherDefaultViewModel _publisherDefaultViewModel = new PublisherDefaultViewModel();
+
+        public PublisherDefaultViewModel PublisherDefaultViewModel
+        {
+            get
+            {
+                return _publisherDefaultViewModel;
+            }
+            set
+            {
+                _publisherDefaultViewModel = value;
+                OnPropertyChanged(nameof(PublisherDefaultViewModel));
+            }
+        }
 
         private static PublisherDefaultPage _indexPage;
+      
 
         public static PublisherDefaultPage Instance { get; set; }
             = _indexPage ?? (_indexPage = new PublisherDefaultPage());
 
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
     

@@ -4,55 +4,74 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
-             x:Name="PublisherDefault"
+             Name="PublisherDefault"
              mc:Ignorable="d" 
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
-
     <UserControl.Resources>
-
         <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
-
+        <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
         <GridViewColumnCollection x:Key="ColumnSubHeading">
-            <GridViewColumn  Width="80" DisplayMemberBinding="{Binding PostStatus.DraftCount}">
+            <GridViewColumn Width="80">
                 <GridViewColumn.Header>
                     <TextBlock Text="{DynamicResource DHlangDraft}" />
                 </GridViewColumn.Header>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="0,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,2,6,2" Text="{Binding DraftCount}"></TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
             </GridViewColumn>
-            <GridViewColumn  Width="80" DisplayMemberBinding="{Binding PostStatus.PendingCount}">
+            <GridViewColumn  Width="80">
                 <GridViewColumn.Header>
                     <TextBlock Text="{DynamicResource DHlangPending}" />
                 </GridViewColumn.Header>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                            <TextBlock  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,2,6,2" Text="{Binding PendingCount}"></TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
             </GridViewColumn>
-            <GridViewColumn Width="80" DisplayMemberBinding="{Binding PostStatus.PublishedCount}">
+            <GridViewColumn Width="80" >
                 <GridViewColumn.Header>
                     <TextBlock Text="{DynamicResource DHlangPublished}" />
                 </GridViewColumn.Header>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,2,6,2" Text="{Binding PublishedCount}"></TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
             </GridViewColumn>
         </GridViewColumnCollection>
-
         <DataTemplate x:Key="MultiColumnHeaderTemplate">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="{DynamicResource langPostStatus}" HorizontalAlignment="Center"/>
-                <GridViewHeaderRowPresenter HorizontalAlignment="Stretch" Grid.Row="1" Columns="{StaticResource ColumnSubHeading}"/>
+                <TextBlock Grid.Row="0" Margin="2" Text="{DynamicResource langPostStatus}" HorizontalAlignment="Center"/>
+                <Border Grid.Row="1"  BorderThickness="0,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                    <GridViewHeaderRowPresenter VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Columns="{StaticResource ColumnSubHeading}"/>
+                </Border>
             </Grid>
         </DataTemplate>
-
         <DataTemplate x:Key="MultiColumnCellTemplate">
-            <Grid>
-                <GridViewRowPresenter HorizontalAlignment="Stretch"  Columns="{DynamicResource ColumnSubHeading}"/>
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                    <GridViewRowPresenter HorizontalAlignment="Stretch"  Columns="{DynamicResource ColumnSubHeading}"/>
+                </Border>
             </Grid>
         </DataTemplate>
-
     </UserControl.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.8*"></RowDefinition>
-            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
         <Grid Background="{DynamicResource AccentBaseColorBrush}" Name="HeaderGrid">
@@ -125,11 +144,11 @@
                 </Button>
 
 
-                <Button Background="Transparent" ToolTip="{DynamicResource DHlangToolTipSelectWhatTodo}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect" Margin="5">
+                <Button Name="BtnSelect" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=BtnSelect}" Background="Transparent" ToolTip="{DynamicResource DHlangToolTipSelectWhatTodo}"  Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Margin="5" >
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                <StackPanel Orientation="Horizontal" >
+                                <StackPanel Orientation="Horizontal">
                                     <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
                                     <Label Content="{DynamicResource DHlangSelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
@@ -138,8 +157,8 @@
                     </Button.Template>
 
                     <Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllCampaigns" >
+                        <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllCampaigns" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -148,7 +167,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuDeselectAllCampaigns" >
+                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuDeselectAllCampaigns" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -161,7 +180,7 @@
                     </Button.ContextMenu>
                 </Button>
 
-                <Button Background="Transparent" ToolTip="{DynamicResource DHlangToolTipSelectActions}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="PublisherAction" Margin="5">
+                <Button Background="Transparent" Name="PublisherAction" ToolTip="{DynamicResource DHlangToolTipSelectActions}" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=PublisherAction}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"   Margin="5">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
@@ -246,92 +265,157 @@
 
         </Grid>
 
-        <Grid Grid.Row="1">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <ListView x:Name="CampaignStatusList"   >
-                    <ListView.Resources>
-                        <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                    </ListView.Resources>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.View>
-                        <GridView >
 
-                            <GridViewColumn Width="80">
-                                <CheckBox x:Name="AllCampaign" IsChecked="{Binding IsAllCampaignChecked}" Content=" #"/>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsCampaignChecked}" 
+        <ListView Grid.Row="1"
+                  x:Name="CampaignStatusList"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"                  
+                  ItemsSource="{Binding PublisherCampaignStatusModelView}"
+                  VerticalAlignment="Stretch" >
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}" 
+                       BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Style>
+                <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="80">
+                        <GridViewColumn.Header>
+                            <Border BorderThickness="1,0,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                <CheckBox x:Name="AllCampaign"  IsChecked="{Binding IsAllCampaignSelected}" Content=" #" Command="{Binding SelectionExecute}" CommandParameter="{Binding IsAllCampaignSelected,Converter={StaticResource BooleanToStringSelectConverter}}"/>
+                            </Border>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <CheckBox IsChecked="{Binding IsSelected}" 
                                               x:Name="ChkSingleCampaign"
-                                              Margin="5,0,0,0" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},  Converter={StaticResource ListViewItemIndexConverter}}" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                          Margin="6,2,6,2" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},  Converter={StaticResource ListViewItemIndexConverter}}" />
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
+                    <GridViewColumn  Width="250">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource langCampaignName}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <TextBlock  Margin="6,2,6,2" Text="{Binding CampaignName}"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
-                            <GridViewColumn  Width="200" DisplayMemberBinding="{Binding CampaignDetails.CampaignName}">
-                                <GridViewColumn.Header>
-                                    <TextBlock Text="{DynamicResource langCampaignName}"></TextBlock>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
+                    <GridViewColumn Width="100">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource langStatus}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <TextBlock Margin="6,2,6,2" Text="{Binding Status}"></TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
-                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding CampaignDetails.Status}">
-                                <GridViewColumn.Header>
-                                    <TextBlock Text="{DynamicResource langStatus}"></TextBlock>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
+                    <GridViewColumn Width="100">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangDestination}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <TextBlock Margin="6,2,6,2" Text="{Binding DestinationCount}"></TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
-                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding CampaignDetails.Status}">
-                                <GridViewColumn.Header>
-                                    <TextBlock Text="{DynamicResource DHlangDestination}"></TextBlock>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
+                    <GridViewColumn Width="240"  HeaderTemplate="{StaticResource MultiColumnHeaderTemplate}" CellTemplate="{StaticResource MultiColumnCellTemplate}" />
 
-                            <GridViewColumn Width="240"   HeaderTemplate="{StaticResource MultiColumnHeaderTemplate}" CellTemplate="{StaticResource MultiColumnCellTemplate}" />
-
-                            <GridViewColumn Width="120" DisplayMemberBinding="{Binding CampaignStartDate}" >
-                                <GridViewColumn.Header>
-                                    <TextBlock Text="{DynamicResource langCreatedDate}"></TextBlock>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
-                            <GridViewColumn Width="120"   DisplayMemberBinding="{Binding CampaignStartDate}">
-                                <GridViewColumn.Header>
-                                    <TextBlock Text="{DynamicResource langStartDate}"></TextBlock>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
-                            <GridViewColumn  Width="120"   DisplayMemberBinding="{Binding CampaignEndDate}">
-                                <GridViewColumn.Header>
-                                    <TextBlock Text="{DynamicResource langEndDate}"></TextBlock>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
-
-                            <GridViewColumn Width="200" Header="{DynamicResource DHlangAction}" >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Cursor="Hand" Content="{DynamicResource DHlangEdit}" x:Name="ButtonEditCampaign" 
+                    <GridViewColumn Width="200">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangAction}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel Orientation="Horizontal" Margin="6,2,6,2">
+                                        <Button Cursor="Hand" Content="{DynamicResource DHlangEdit}" x:Name="ButtonEditCampaign" 
                                                     FontWeight="SemiBold" 
-                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                            <Button Cursor="Hand" Content="{DynamicResource DHlangDuplicate}"  x:Name="ButtonDuplicateCampaign" 
-                                                    FontWeight="SemiBold" 
-                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent"/>
-                                            <Button Cursor="Hand" Content="{DynamicResource DHlangDelete}"  x:Name="ButtonDeleteCampaign"  FontWeight="SemiBold"
-                                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
+                                                     Background="Transparent" />
+                                        <Button Cursor="Hand" Content="{DynamicResource DHlangDuplicate}"  x:Name="ButtonDuplicateCampaign" 
+                                                    FontWeight="SemiBold"   Command="{Binding Path=DataContext.SingleCloneCommand, 
+                  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                     Background="Transparent"/>
+                                        <Button Cursor="Hand" Content="{DynamicResource DHlangDelete}"  x:Name="ButtonDeleteCampaign"  FontWeight="SemiBold"
+                                                     Background="Transparent" />
 
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </ScrollViewer>
-        </Grid>
+                    <GridViewColumn Width="150">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource langCreatedDate}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <TextBlock Margin="6,2,6,2" Text="{Binding CreatedDate}"></TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="150">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource langStartDate}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <TextBlock Margin="6,2,6,2" Text="{Binding StartDate}"></TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="150">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource langEndDate}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <TextBlock  Margin="6,2,6,2" Text="{Binding EndDate}"></TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+
     </Grid>
 </UserControl>

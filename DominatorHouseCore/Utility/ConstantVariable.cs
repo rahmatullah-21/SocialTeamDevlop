@@ -93,6 +93,10 @@ namespace DominatorHouseCore.Utility
         public const string NotChecked = "Not Checked";
 
         public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
+
+        public static string GetDateTime() => DateTime.Now.ToString("ddMMyyyyHmmss");
+
+
         public static string GetOtherDir()
         {
             string dir = $"{GetPlatformBaseDirectory()}\\Other";

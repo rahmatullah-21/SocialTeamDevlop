@@ -78,8 +78,6 @@ namespace DominatorHouse
 
         private async Task LicenseCheck()
         {
-
-
             try
             {
                 string license;
