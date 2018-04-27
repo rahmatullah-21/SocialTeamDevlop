@@ -500,6 +500,8 @@ namespace DominatorUIUtility.CustomControl
 
         private static void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
         {
+           
+
             try
             {
                 // remove template from each account

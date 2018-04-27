@@ -1106,7 +1106,7 @@
     <system:String x:Key="TdLangLikedUsersTweets">Liked user's tweets</system:String>
     <system:String x:Key="TdLangCommentedUsersTweets">Commented user's tweets</system:String>
     <system:String x:Key="TdLangRetweetedUsersTweets">Retweeted user's tweets</system:String>
-    <system:String x:Key="TdLangCommentedTweets">Comments on custom tweet</system:String>
+    <system:String x:Key="TdLangCommentedTweets">Commented tweets</system:String>
     <system:String x:Key="TdLangUndoRetweet">Undo retweets</system:String>
     <system:String x:Key="TdLangDeleteComments">Delete comments</system:String>
     <system:String x:Key="TdLangTweetedDateMustBeWithin">Tweeted date must be within</system:String>
@@ -1129,5 +1129,5 @@
     <system:String x:Key="TdLangAutoReply">AutoReply</system:String>
     <system:String x:Key="TdLangBroadcastMessageConfig">Message</system:String>
     <system:String x:Key="TdLangMessageToNewFollowers">MsgToNewFollowers</system:String>
-
+    
 </ResourceDictionary>

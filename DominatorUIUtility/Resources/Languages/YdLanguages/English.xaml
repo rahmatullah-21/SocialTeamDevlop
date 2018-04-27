@@ -100,4 +100,90 @@
     <system:String x:Key="YdlangDelayJob">Delay between jobs</system:String>
     <system:String x:Key="YdlangMinutes">minutes</system:String>
 
+    <system:String x:Key="YdLangCommentsPerJob">Comments per job</system:String>
+    <system:String x:Key="YdLangCommentsPerHour">Comments per hour</system:String>
+    <system:String x:Key="YdLangCommentsPerDay">Comments per day</system:String>
+    <system:String x:Key="YdLangCommentsPerWeek">Comments per week</system:String>
+    <system:String x:Key="YdLangMaxCommentsDay">Maximum comments per day</system:String>
+
+    <system:String x:Key="YdLangDeleteCommentsPerJob">Delete comments per job</system:String>
+    <system:String x:Key="YdLangDeleteCommentsPerHour">Delete comments per hour</system:String>
+    <system:String x:Key="YdLangDeleteCommentsPerDay">Delete comments per day</system:String>
+    <system:String x:Key="YdLangDeleteCommentsPerWeek">Delete comments per week</system:String>
+    <system:String x:Key="YdLangMaxDeleteCommentsDay">Maximum delete comments per day</system:String>
+
+
+    <system:String x:Key="YdLangLikeCommentsPerJob">Like comments per job</system:String>
+    <system:String x:Key="YdLangLikeCommentsPerHour">Like comments per hour</system:String>
+    <system:String x:Key="YdLangLikeCommentsPerDay">Like comments per day</system:String>
+    <system:String x:Key="YdLangLikeCommentsPerWeek">Like comments per week</system:String>
+    <system:String x:Key="YdLangMaxLikeCommentsDay">Maximum like comments per day</system:String>
+
+    <system:String x:Key="YdLangDislikesPerJob">Dislikes per job</system:String>
+    <system:String x:Key="YdLangDislikesPerHour">Dislikes per hour</system:String>
+    <system:String x:Key="YdLangDislikesPerDay">Dislikes per day</system:String>
+    <system:String x:Key="YdLangDislikesPerWeek">Dislikes per week</system:String>
+    <system:String x:Key="YdLangMaxDislikesDay">Maximum Dislikes per day</system:String>
+
+    <system:String x:Key="YdLangLikesPerJob">Likes per job</system:String>
+    <system:String x:Key="YdLangLikesPerHour">Likes per hour</system:String>
+    <system:String x:Key="YdLangLikesPerDay">Likes per day</system:String>
+    <system:String x:Key="YdLangLikesPerWeek">Likes per week</system:String>
+    <system:String x:Key="YdLangMaxLikesDay">Maximum Likes per day</system:String>
+
+    <system:String x:Key="YdLangLikeToCommentsPerJob">Like to comments per job</system:String>
+    <system:String x:Key="YdLangLikeToCommentsPerHour">Like to comments per hour</system:String>
+    <system:String x:Key="YdLangLikeToCommentsPerDay">Like to comments per day</system:String>
+    <system:String x:Key="YdLangLikeToCommentsPerWeek">Like to comments per week</system:String>
+    <system:String x:Key="YdLangMaxLikeToCommentsDay">Maximum like to comments per day</system:String>
+
+    <system:String x:Key="YdLangSharesPerJob">Shares per job</system:String>
+    <system:String x:Key="YdLangSharesPerHour">Shares per hour</system:String>
+    <system:String x:Key="YdLangSharesPerDay">Shares per day</system:String>
+    <system:String x:Key="YdLangSharesPerWeek">Shares per week</system:String>
+    <system:String x:Key="YdLangMaxSharesDay">Maximum shares per day</system:String>
+
+
+    <system:String x:Key="YdLangMessagesPerJob">Messages per job</system:String>
+    <system:String x:Key="YdLangMessagesPerHour">Messages per hour</system:String>
+    <system:String x:Key="YdLangMessagesPerDay">Messages per day</system:String>
+    <system:String x:Key="YdLangMessagesPerWeek">Messages per week</system:String>
+    <system:String x:Key="YdLangMaxMessagesDay">Maximum messages per day</system:String>
+
+    <system:String x:Key="YdLangSubscribesPerJob">Subscribes per job</system:String>
+    <system:String x:Key="YdLangSubscribesPerHour">Subscribes per hour</system:String>
+    <system:String x:Key="YdLangSubscribesPerDay">Subscribes per day</system:String>
+    <system:String x:Key="YdLangSubscribesPerWeek">Subscribes per week</system:String>
+    <system:String x:Key="YdLangMaxSubscribesDay">Maximum subscribes per day</system:String>
+
+    <system:String x:Key="YdLangUnsubscribesPerJob">Unsubscribes per job</system:String>
+    <system:String x:Key="YdLangUnsubscribesPerHour">Unsubscribes per hour</system:String>
+    <system:String x:Key="YdLangUnsubscribesPerDay">Unsubscribes per day</system:String>
+    <system:String x:Key="YdLangUnsubscribesPerWeek">Unsubscribes per week</system:String>
+    <system:String x:Key="YdLangMaxUnsubscribesDay">Maximum unsubscribes per day</system:String>
+
+    <system:String x:Key="YdLangChannelsScrapPerJob">Channels scrap per job</system:String>
+    <system:String x:Key="YdLangChannelsScrapPerHour">Channels scrap per hour</system:String>
+    <system:String x:Key="YdLangChannelsScrapPerDay">Channels scrap per day</system:String>
+    <system:String x:Key="YdLangChannelsScrapPerWeek">Channels scrap per week</system:String>
+    <system:String x:Key="YdLangMaxChannelsScrapDay">Maximum channels scrap per day</system:String>
+
+    <system:String x:Key="YdLangUsersScrapPerJob">Users scrap per job</system:String>
+    <system:String x:Key="YdLangUsersScrapPerHour">Users scrap per hour</system:String>
+    <system:String x:Key="YdLangUsersScrapPerDay">Users scrap per day</system:String>
+    <system:String x:Key="YdLangUsersScrapPerWeek">Users scrap per week</system:String>
+    <system:String x:Key="YdLangMaxUsersScrapDay">Maximum users scrap per day</system:String>
+
+    <system:String x:Key="YdLangPostsScrapPerJob">Posts scrap per job</system:String>
+    <system:String x:Key="YdLangPostsScrapPerHour">Posts scrap per hour</system:String>
+    <system:String x:Key="YdLangPostsScrapPerDay">Posts scrap per day</system:String>
+    <system:String x:Key="YdLangPostsScrapPerWeek">Posts scrap per week</system:String>
+    <system:String x:Key="YdLangMaxPostsScrapDay">Maximum posts scrap per day</system:String>
+
+    <system:String x:Key="YdLangViewIncreasePerJob">View increase per job</system:String>
+    <system:String x:Key="YdLangViewIncreasePerHour">View increase per hour</system:String>
+    <system:String x:Key="YdLangViewIncreasePerDay">View increase per day</system:String>
+    <system:String x:Key="YdLangViewIncreasePerWeek">View increase per week</system:String>
+    <system:String x:Key="YdLangMaxViewIncreaseDay">Maximum view increase per day</system:String>
+
 </ResourceDictionary>
