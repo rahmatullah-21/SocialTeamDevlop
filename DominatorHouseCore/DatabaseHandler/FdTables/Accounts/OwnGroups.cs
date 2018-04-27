@@ -23,6 +23,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// 
         /// </summary>
         [Column(Order = 2)]
+        [Unique]
         public string GroupId { get; set; }
 
 
@@ -43,6 +44,6 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// </summary>
         [Column(Order = 5)]
         public string GroupType { get; set; }
-            
+
     }
 }

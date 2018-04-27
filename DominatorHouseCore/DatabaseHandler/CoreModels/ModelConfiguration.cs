@@ -82,6 +82,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<QdTables.Accounts.InteractedAnswers>();
                     modelBuilder.Entity<QdTables.Accounts.InteractedQuestion>();
                     modelBuilder.Entity<QdTables.Accounts.InteractedPosts>();
+                    modelBuilder.Entity<QdTables.Accounts.InteractedMessage>();
 
                     break;
                 case SocialNetworks.Reddit:
@@ -154,6 +155,8 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<QdTables.Campaigns.InteractedAnswers>();
                     modelBuilder.Entity<QdTables.Campaigns.InteractedQuestion>();
                     modelBuilder.Entity<QdTables.Campaigns.UnfollowedUsers>();
+                    modelBuilder.Entity<QdTables.Campaigns.InteractedMessage>();
+
                     break;
                 case SocialNetworks.Reddit:
                     break;
