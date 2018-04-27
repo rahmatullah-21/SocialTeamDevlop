@@ -15,6 +15,11 @@ namespace DominatorUIUtility.Behaviours
             Func<Reports, Dictionary<string, string>, DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnectionCampaign, CampaignDetails, int>
             GetReportDetail { get; set; }
 
+
+        //public static
+        //    Func<Reports, List<KeyValuePair<string, string>>, DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnectionCampaign, CampaignDetails, int>
+        //    GetReportDetail { get; set; }
+
         public static Func<string> GetHeader { get; set; }
         public static Action<string, string> ExportReports { get; set; }
         public static Func<string, ReportModel, bool> FilterByQueryType { get; set; }
