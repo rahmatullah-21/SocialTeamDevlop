@@ -120,24 +120,36 @@ namespace DominatorUIUtility.CustomControl
             AccountAssign account = ((FrameworkElement)sender).DataContext as AccountAssign;
             var proxy = ProxyFileManager.GetProxyByName(currentProxyManagerModel.AccountProxy.ProxyName);
 
-            var accountToDelete = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName);
+            try
+            {
+                var accountToDelete = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName);
 
-            proxy.AccountsAssignedto.Remove(accountToDelete);
+                proxy.AccountsAssignedto.Remove(accountToDelete);
 
-            ProxyFileManager.EditProxy(proxy);
+                ProxyFileManager.EditProxy(proxy);
 
-            var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == proxy.AccountProxy.ProxyName);
-            int indexToUpdate = ProxyDetail.IndexOf(item);
-            ProxyDetail[indexToUpdate].AccountsAssignedto = proxy.AccountsAssignedto;
-            ProxyDetail[indexToUpdate].AccountsToBeAssign.Add(accountToDelete);
+                var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == proxy.AccountProxy.ProxyName);
+                int indexToUpdate = ProxyDetail.IndexOf(item);
+                ProxyDetail[indexToUpdate].AccountsAssignedto = proxy.AccountsAssignedto;
+                ProxyDetail[indexToUpdate].AccountsToBeAssign.Add(accountToDelete);
 
+                try
+                {
+                    var AccountToDeleteProxy = AccountsFileManager.GetAccount(account.UserName);
+                    AccountToDeleteProxy.AccountBaseModel.AccountProxy = new Proxy();
 
-            var AccountToDeleteProxy = AccountsFileManager.GetAccount(account.UserName);
-            AccountToDeleteProxy.AccountBaseModel.AccountProxy = new Proxy();
-            AccountsFileManager.Edit(AccountToDeleteProxy);
+                    AccountsFileManager.Edit(AccountToDeleteProxy);
+                    UpdateAccountsProxy(AccountToDeleteProxy, _strategies);
+                }
+                catch (Exception ex)
+                {
 
+                }
+            }
+            catch (Exception ex)
+            {
 
-            UpdateAccountsProxy(AccountToDeleteProxy, _strategies);
+            }
 
         }
 
@@ -154,7 +166,6 @@ namespace DominatorUIUtility.CustomControl
         private void dropdown_Click(object sender, RoutedEventArgs e)
         {
             currentProxyManagerModel = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
-
         }
 
         private void chkShowUnassignedProxies_Checked(object sender, RoutedEventArgs e)
@@ -310,21 +321,31 @@ namespace DominatorUIUtility.CustomControl
         {
             AccountAssign account = ((FrameworkElement)sender).DataContext as AccountAssign;
 
-            var accountToAdd = currentProxyManagerModel.AccountsToBeAssign.FirstOrDefault(x => x.UserName == account.UserName);
-            currentProxyManagerModel.AccountsToBeAssign.Remove(accountToAdd);
-            currentProxyManagerModel.AccountsAssignedto.Add(accountToAdd);
-            ProxyFileManager.EditProxy(currentProxyManagerModel);
-            var AccountToUpdateProxy = AccountsFileManager.GetAccount(account.UserName);
-            AccountToUpdateProxy.AccountBaseModel.AccountProxy = currentProxyManagerModel.AccountProxy;
-            AccountsFileManager.Edit(AccountToUpdateProxy);
+            try
+            {
+                var accountToAdd = currentProxyManagerModel.AccountsToBeAssign.FirstOrDefault(x => x.UserName == account.UserName);
+                ProxyDetail.ForEach(proxy =>
+                {
+                    proxy.AccountsToBeAssign.Remove(proxy.AccountsToBeAssign.FirstOrDefault(x => x.UserName == accountToAdd.UserName
+                                                                                               && x.AccountNetwork == accountToAdd.AccountNetwork));
+                });
 
+                currentProxyManagerModel.AccountsAssignedto.Add(accountToAdd);
+                ProxyFileManager.EditProxy(currentProxyManagerModel);
+                var AccountToUpdateProxy = AccountsFileManager.GetAccount(account.UserName);
+                AccountToUpdateProxy.AccountBaseModel.AccountProxy = currentProxyManagerModel.AccountProxy;
+                AccountsFileManager.Edit(AccountToUpdateProxy);
 
-            var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == currentProxyManagerModel.AccountProxy.ProxyName);
-            int indexToUpdate = ProxyDetail.IndexOf(item);
-            ProxyDetail[indexToUpdate].AccountsAssignedto = currentProxyManagerModel.AccountsAssignedto;
-            ProxyDetail[indexToUpdate].AccountsToBeAssign = currentProxyManagerModel.AccountsToBeAssign;
+                var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == currentProxyManagerModel.AccountProxy.ProxyName);
+                int indexToUpdate = ProxyDetail.IndexOf(item);
+                ProxyDetail[indexToUpdate].AccountsAssignedto = currentProxyManagerModel.AccountsAssignedto;
+                ProxyDetail[indexToUpdate].AccountsToBeAssign = currentProxyManagerModel.AccountsToBeAssign;
 
-            UpdateAccountsProxy(AccountToUpdateProxy, _strategies);
+                UpdateAccountsProxy(AccountToUpdateProxy, _strategies);
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
 
@@ -332,22 +353,35 @@ namespace DominatorUIUtility.CustomControl
         {
             var objAccountCustomControl = AccountCustomControl.GetAccountCustomControl(strategies);
 
-            var updateAccountsDetails = objAccountCustomControl.DominatorAccountViewModel.LstDominatorAccountModel.FirstOrDefault(x =>
-                  x.AccountBaseModel.AccountId == accountToUpdateProxy.AccountBaseModel.AccountId);
+            try
+            {
+                var updateAccountsDetails = objAccountCustomControl.DominatorAccountViewModel.LstDominatorAccountModel.FirstOrDefault(x =>
+                        x.AccountBaseModel.AccountId == accountToUpdateProxy.AccountBaseModel.AccountId);
 
-            if (updateAccountsDetails != null)
-                updateAccountsDetails.AccountBaseModel.AccountProxy =
-                    accountToUpdateProxy.AccountBaseModel.AccountProxy;
+                if (updateAccountsDetails != null)
+                    updateAccountsDetails.AccountBaseModel.AccountProxy =
+                        accountToUpdateProxy.AccountBaseModel.AccountProxy;
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
 
         private void btnVerifyProxy_Click(object sender, RoutedEventArgs e)
         {
             var currentProxyManager = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
-            Task.Factory.StartNew(async () =>
+            try
             {
-                await CheckProxyAsync(currentProxyManager);
-            });
+                Task.Factory.StartNew(async () =>
+                   {
+                       await CheckProxyAsync(currentProxyManager);
+                   });
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         private async Task CheckProxyAsync(ProxyManagerModel currentProxyManager)
@@ -534,6 +568,11 @@ namespace DominatorUIUtility.CustomControl
                     GlobusLogHelper.log.Error("Error in Export Proxies");
                 }
             });
+        }
+
+        private void ProxyManager_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            SetDataContext();
         }
     }
 }
