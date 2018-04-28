@@ -36,7 +36,6 @@ namespace DominatorHouseCore.FileManagers
         internal static void SaveAll(List<DominatorAccountModel> lstAccountModel)
         {
             // Warning: make sure lstAccountModel contains all accounts            
-
             BinFileHelper.UpdateAllAccounts(lstAccountModel);
             GlobusLogHelper.log.Debug($"{lstAccountModel.Count} Accounts successfully saved");
         }
@@ -75,6 +74,9 @@ namespace DominatorHouseCore.FileManagers
             return savedStatus;
         }
 
+        // alias
+        public static void Edit(DominatorAccountModel account)
+            => SaveAccount(account);
 
         public static void FillList<T>(ObservableCollection<T> lstAccountModel) where T : class
         {
@@ -86,21 +88,14 @@ namespace DominatorHouseCore.FileManagers
             });
         }
 
-        public static List<DominatorAccountModel> GetAll()
-        {
-            return BinFileHelper.GetAccountDetails();
-        }
+        public static List<DominatorAccountModel> GetAll()  => BinFileHelper.GetAccountDetails();
 
         // for internal user to prevent overwriting all accounts after GetAll
         internal static List<DominatorAccountModel> GetAll(SocialNetworks network)
-        {          
-            return BinFileHelper.GetAccountDetails().Where(a => a.AccountBaseModel.AccountNetwork == network).ToList();
-        }
+            => BinFileHelper.GetAccountDetails().Where(a => a.AccountBaseModel.AccountNetwork == network).ToList();
 
-        internal static List<DominatorAccountModel> GetAll(List<string> neededAccountList)
-        {
-            return BinFileHelper.GetAccountDetails().Where(a => neededAccountList.Contains(a.AccountBaseModel.UserName)).ToList();
-        }
+        internal static List<DominatorAccountModel> GetAll(List<string> neededAccountList) 
+            => BinFileHelper.GetAccountDetails().Where(a => neededAccountList.Contains(a.AccountBaseModel.UserName)).ToList();
 
         // backward compatibility for TD, PD
         public static bool Add(DominatorAccountModel account)
@@ -108,7 +103,6 @@ namespace DominatorHouseCore.FileManagers
             var lst = GetAll() ?? new List<DominatorAccountModel>();
             lst.Add(account);
             BinFileHelper.UpdateAllAccounts(lst);
-
             return true;
         }
 
@@ -131,43 +125,26 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper.UpdateAllAccounts(accs);
         }
 
-
-        // alias
-        public static void Edit(DominatorAccountModel account) => SaveAccount(account);
-
-
+      
         public static DominatorAccountModel GetAccount(string userName)
         {
             var accounts = GetAll();
             var result = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == userName);
-
             return result;
         }
 
-
-        public static ObservableCollectionBase<string> GetUsers()
+        public static IEnumerable<string> GetUsers()
         {
-            var result = BinFileHelper.GetUsers();
-
+            var accounts = GetAll();
+            var result = accounts.Select(x => x.AccountBaseModel.UserName);
             return result;
         }
 
-        public static ObservableCollectionBase<string> GetUsers(SocialNetworks networks)
+        public static IEnumerable<string> GetUsers(SocialNetworks networks)
         {
-            var result = BinFileHelper.GetUsers(networks);
+            var accounts = GetAll();
+            var result = accounts.Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.AccountBaseModel.UserName);
             return result;
         }
-
-        // TODO: remove. backward compatibility for old account models
-        public static ObservableCollectionBase<string> GetUsersFor<T>() where T : class
-        {
-            var result = BinFileHelper.GetUsers<T>();
-
-            return result;
-        }
-
-
-
-
     }
 }

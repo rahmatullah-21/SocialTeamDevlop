@@ -374,7 +374,7 @@ namespace DominatorUIUtility.CustomControl
             //FilterWindow.ShowDialog();
         }
 
-        public virtual void SaveDetails(List<string> lstSelectedAccounts, ActivityType moduleType) {  }
+        public virtual void SaveDetails(List<string> lstSelectedAccounts, ActivityType moduleType) { }
 
         public virtual void AddNewCampaign(List<string> lstSelectedAccounts, ActivityType moduleType) { }
 
@@ -472,9 +472,9 @@ namespace DominatorUIUtility.CustomControl
 
             if (!ValidateExtraProperty())
                 return;
-        
+
             if (IsNeedToSaveTemplate(errorMessage))
-            {                
+            {
                 TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), _socialNetwork, CampaignName);
 
                 SaveTemplateToAccounts(TemplateId, runningTime);
@@ -488,7 +488,7 @@ namespace DominatorUIUtility.CustomControl
                 foreach (var account in accountDetails)
                 {
                     DominatorScheduler.ScheduleTodayJobs(account, _socialNetwork, _activityType);
-                    DominatorScheduler.ScheduleForEachModule( _activityType,  account, _socialNetwork);
+                    DominatorScheduler.ScheduleForEachModule(_activityType, account, _socialNetwork);
                 }
 
                 TabSwitcher.GoToCampaign();
@@ -526,9 +526,7 @@ namespace DominatorUIUtility.CustomControl
             var warningWindow = new Dialog().GetMetroWindow(objErrorModelControl, "Warning");
 
             #endregion
-
-            var campaignsList = CampaignsFileManager.Get();
-
+           
             #region Warning windows save button event
 
             objErrorModelControl.BtnSave.Click += (senders, events) =>
@@ -564,9 +562,7 @@ namespace DominatorUIUtility.CustomControl
                     if (moduleSettings == null)
                         return;
 
-                    var campaign = campaignsList.FirstOrDefault(x => x.TemplateId == moduleSettings.TemplateId);
-
-                    campaign?.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
+                    CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId, account.AccountBaseModel.UserName);
 
                     DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings.TemplateId);
 
@@ -574,15 +570,12 @@ namespace DominatorUIUtility.CustomControl
 
                 });
 
-                AccountsFileManager.SaveAll(accountDetails);
-
-                CampaignsFileManager.Save(campaignsList);
+                AccountsFileManager.UpdateAccounts(accountDetails);
 
                 warningWindow.Close();
             };
 
             #endregion
-
 
             objErrorModelControl.BtnCancel.Click += (senders, events) =>
             {

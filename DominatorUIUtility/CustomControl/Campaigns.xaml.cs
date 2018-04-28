@@ -188,7 +188,9 @@ namespace DominatorUIUtility.CustomControl
                     moduleConfiguration.IsEnabled = (bool)(sender as ToggleSwitch).IsChecked;
             }
 
-            AccountsFileManager.SaveAll(lstAccountDetails);
+           // AccountsFileManager.SaveAll(lstAccountDetails);
+
+            AccountsFileManager.UpdateAccounts(lstAccountDetails);
 
             // Run/Stop job process in campaigns
             try
@@ -636,7 +638,8 @@ namespace DominatorUIUtility.CustomControl
                     if (selectedAccount.Contains(x.UserName))
                         moduleConfig.IsEnabled = false;
                 });
-                AccountsFileManager.SaveAll(allAccounts);
+
+                AccountsFileManager.UpdateAccounts(allAccounts);
             }
             catch (Exception ex)
             {

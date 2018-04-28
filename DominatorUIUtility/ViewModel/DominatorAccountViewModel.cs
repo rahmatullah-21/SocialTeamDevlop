@@ -477,6 +477,9 @@ namespace DominatorUIUtility.ViewModel
 
             }
 
+            //Testing 
+            var accountDetails = AccountsFileManager.GetAll();
+
             var databaseCreation = secondaryTaskStrategyReturningCancellation(() =>
             {
                 DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType);
@@ -1087,7 +1090,10 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (syncLoadAccounts)
             {
-                var savedAccounts = AccountsFileManager.GetAll();
+                var accountList = new ObservableCollection<DominatorAccountModel>();
+                AccountsFileManager.FillList(accountList);
+                var savedAccounts = accountList.ToList();
+
                 try
                 {
                     LstDominatorAccountModel.Clear();
@@ -1140,7 +1146,7 @@ namespace DominatorUIUtility.ViewModel
             var updateMenuItem = sender as string;
 
 
-            if (updateMenuItem== "StopProcess")
+            if (updateMenuItem == "StopProcess")
             {
                 StopProcess();
                 return;
@@ -1201,9 +1207,9 @@ namespace DominatorUIUtility.ViewModel
                 var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
                 if (updateMenuItem == "UpdateAllDetail")
                 {
-                    if (account.Token.IsCancellationRequested)                   
+                    if (account.Token.IsCancellationRequested)
                         account.CancellationSource = new CancellationTokenSource();
-                    
+
                     var updateAccount = new Task(() =>
                     {
                         try
@@ -1256,7 +1262,7 @@ namespace DominatorUIUtility.ViewModel
                     accountFullDetails?.NotifyDeleted();
 
                     if (accountFullDetails != null)
-                        GlobusLogHelper.log.Info(Log.StopUpdatingAccount, accountFullDetails.AccountBaseModel.AccountNetwork,  accountFullDetails.AccountBaseModel.UserName);
+                        GlobusLogHelper.log.Info(Log.StopUpdatingAccount, accountFullDetails.AccountBaseModel.AccountNetwork, accountFullDetails.AccountBaseModel.UserName);
                 });
                 _updateAccountList.Clear();
             });
@@ -1267,7 +1273,7 @@ namespace DominatorUIUtility.ViewModel
 
 
         #region Update Group
-       
+
         private void UpdateGroupDetailsExecute(object sender)
         {
             lock (syncLoadAccounts)
