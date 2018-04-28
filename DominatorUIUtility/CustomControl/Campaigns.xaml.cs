@@ -226,7 +226,9 @@ namespace DominatorUIUtility.CustomControl
                     }
                 }
 
-                CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());
+               // CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());
+
+                 CampaignsFileManager.UpdateCampaigns(objCampaignDetails.ObjCampaignDetails.ToList());
             }
 
             catch (Exception ex)
@@ -393,122 +395,6 @@ namespace DominatorUIUtility.CustomControl
             win.ShowDialog();
         }
 
-
-        #region Added new Keyvalue pair
-
-        //private void CampaignReports_OnClick(object sender, RoutedEventArgs e)
-        //{
-        //    ReportModel ReportModel = new ReportModel();
-        //    Reports ObjReports = new Reports(ReportModel);
-
-        //    Dialog objDialog = new Dialog();
-
-
-        //    CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
-
-        //    ObjReports.ReportModel.ModuleType = campName.SubModule;
-
-        //    var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
-
-        //    ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
-
-
-        //    List<KeyValuePair<string, string>> lstCurrentQueries = new List<KeyValuePair<string, string>>();
-
-
-        //    lstSavedQuery?.ToList().ForEach(x =>
-        //    {
-        //        lstCurrentQueries.Add(new KeyValuePair<string, string>(x.QueryValue, x.QueryType.ToString()));
-        //        #region Update QueryList for combobox
-
-        //        if (ObjReports.ReportModel.QueryList.Any(query => query.Content == x.QueryType) == false)
-        //            ObjReports.ReportModel.QueryList.Add(new ContentSelectGroup() { IsContentSelected = false, Content = x.QueryType });
-
-        //        #endregion
-
-        //    });
-
-        //    try
-        //    {
-        //        #region Update AccountList & StatusList for combobox
-
-        //        campName.SelectedAccountList.ToList().ForEach(acc =>
-        //        {
-        //            DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc);
-
-        //            ObjReports.ReportModel.AccountList.Add(new ContentSelectGroup()
-        //            {
-        //                IsContentSelected = false,
-        //                Content = objDominatorAccountModel.AccountBaseModel.UserName
-        //            });
-
-        //            if (ObjReports.ReportModel.StatusList.Count > 1 &&
-        //                ObjReports.ReportModel.StatusList.Any(status => status.Content == objDominatorAccountModel.AccountBaseModel.Status) ==
-        //                false)
-        //                ObjReports.ReportModel.StatusList.Add(new ContentSelectGroup()
-        //                {
-        //                    IsContentSelected = false,
-        //                    Content = objDominatorAccountModel.AccountBaseModel.Status
-        //                });
-
-        //        });
-        //        #endregion
-
-        //        DataBaseConnectionCampaign dataBase =
-        //           DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
-
-        //        if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
-        //        {
-        //            DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Report", "Reports for " + campName.CampaignName + " Campaign not available", MessageDialogStyle.Affirmative);
-        //            return;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        GlobusLogHelper.log.Error(ex.Message);
-        //    }
-
-        //    Window win = objDialog.GetMetroWindow(ObjReports, "Reports");
-
-        //    ObjReports.ExportReport.Click += (senders, events) =>
-        //    {
-        //        var exportPath = FileUtilities.GetExportPath();
-
-        //        if (string.IsNullOrEmpty(exportPath))
-        //            return;
-
-        //        var filename = Regex.Replace(
-        //            input: $"{ campName.CampaignName }-Reports[{ ConstantVariable.DateasFileName}]",
-        //            pattern: "[\\/:*?<>|\"]",
-        //            replacement: "-");
-
-        //        filename = $"{exportPath}\\{filename}.csv";
-
-        //        //Header for csv file columns
-        //        string header = ReportManager.GetHeader();
-
-        //        if (!File.Exists(filename))
-        //        {
-        //            using (var streamWriter = new StreamWriter(filename, true))
-        //            {
-        //                streamWriter.WriteLine(header);
-        //            }
-        //        }
-
-        //        //Export Reports to csv File
-        //        ReportManager.ExportReports(campName.SubModule, filename);
-
-        //    };
-        //    ObjReports.CmbQueries.SelectionChanged += (senders, events) =>
-        //    {
-        //        ReportManager.FilterByQueryType(ObjReports.CmbQueries.SelectedItem.ToString(), ReportModel);
-        //    };
-        //    win.ShowDialog();
-        //}
-
-        #endregion
-
-
         private void Campaign_Loaded(object sender, RoutedEventArgs e)
         {
             var data = CampaignsFileManager.GetCampaignByNetwork(SocialNetworks);
@@ -615,9 +501,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         private static void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
-        {
-           
-
+        {         
             try
             {
                 // remove template from each account
@@ -637,6 +521,7 @@ namespace DominatorUIUtility.CustomControl
 
                     if (selectedAccount.Contains(x.UserName))
                         moduleConfig.IsEnabled = false;
+                    
                 });
 
                 AccountsFileManager.UpdateAccounts(allAccounts);

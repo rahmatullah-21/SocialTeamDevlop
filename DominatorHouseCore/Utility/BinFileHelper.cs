@@ -230,6 +230,7 @@ namespace DominatorHouseCore.Utility
             {
                 WithFile<CampaignDetails,bool>(file =>
                     ProtoBuffBase.SerializeList(campaignList, file));
+                GlobusLogHelper.log.Debug("Campaigns succesfully saved");
             }
             catch (Exception ex)
             {

@@ -14,13 +14,15 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 {
     public class DataBaseConnectionGlobal
     {
-        public DataBaseConnectionGlobal(string connectionString,
-            Action<DbModelBuilder> ConfigureDbModelBuilder = null)
+        public DataBaseConnectionGlobal(string connectionString, Action<DbModelBuilder> ConfigureDbModelBuilder = null)
         {
             ConnectionString = connectionString;
             this.ConfigureDbModelBuilder = ConfigureDbModelBuilder;
 
         }
+
+
+
 
         private string ConnectionString { get; } = string.Empty;
 

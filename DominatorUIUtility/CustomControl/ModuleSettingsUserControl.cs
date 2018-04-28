@@ -14,6 +14,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -465,13 +466,17 @@ namespace DominatorUIUtility.CustomControl
         /// Sathish added 
         #region Campaign Implementations
 
-        protected void FooterControl_OnCreateCampaignChanged(string errorMessage, List<RunningTimes> runningTime)
+        protected void CreateCampaign(string errorMessage, List<RunningTimes> runningTime)
         {
             if (!ValidateCampaign())
                 return;
 
             if (!ValidateExtraProperty())
                 return;
+
+            var schedulePending = ImmutableQueue<Action>.Empty;
+
+            bool allScheduleQueued;
 
             if (IsNeedToSaveTemplate(errorMessage))
             {
@@ -481,15 +486,47 @@ namespace DominatorUIUtility.CustomControl
 
                 SaveTemplateToCampaigns();
 
-                SetDataContext();
-
                 var accountDetails = AccountsFileManager.GetAll(_footerControl.list_SelectedAccounts);
+
+                allScheduleQueued = false;
+
+                try
+                {
+                    new Thread(() =>
+                        {
+                            while (!allScheduleQueued)
+                            {
+                                Thread.Sleep(50);
+                                while (!schedulePending.IsEmpty)
+                                {
+                                    Action startSchedule;
+                                    schedulePending = schedulePending.Dequeue(out startSchedule);
+                                    startSchedule();
+                                }
+                            }
+                        })
+                    { IsBackground = true }.Start();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+
+                Thread.Sleep(50);
 
                 foreach (var account in accountDetails)
                 {
-                    DominatorScheduler.ScheduleTodayJobs(account, _socialNetwork, _activityType);
-                    DominatorScheduler.ScheduleForEachModule(_activityType, account, _socialNetwork);
+                    Action scheduleAccount = () =>
+                    {
+                        DominatorScheduler.ScheduleTodayJobs(account, _socialNetwork, _activityType);
+                        DominatorScheduler.ScheduleForEachModule(_activityType, account, _socialNetwork);
+                    };
+                    schedulePending = schedulePending.Enqueue(scheduleAccount);
                 }
+
+                allScheduleQueued = true;
+
+                SetDataContext();
 
                 TabSwitcher.GoToCampaign();
             }
@@ -526,7 +563,7 @@ namespace DominatorUIUtility.CustomControl
             var warningWindow = new Dialog().GetMetroWindow(objErrorModelControl, "Warning");
 
             #endregion
-           
+
             #region Warning windows save button event
 
             objErrorModelControl.BtnSave.Click += (senders, events) =>
@@ -542,7 +579,6 @@ namespace DominatorUIUtility.CustomControl
                 });
 
                 #endregion
-
 
                 var selectedAccount = objErrorModelControl.Accounts.Where(x => x.IsChecked).Select(x => x.UserName).ToList();
 
@@ -577,6 +613,8 @@ namespace DominatorUIUtility.CustomControl
 
             #endregion
 
+            #region Warning windows cancel button event
+
             objErrorModelControl.BtnCancel.Click += (senders, events) =>
             {
 
@@ -594,6 +632,8 @@ namespace DominatorUIUtility.CustomControl
 
                 warningWindow.Close();
             };
+
+            #endregion
 
             warningWindow.ShowDialog();
 
@@ -667,7 +707,27 @@ namespace DominatorUIUtility.CustomControl
             DataBaseHandler.CreateDataBase(campaignDetails.CampaignId, _socialNetwork, DatabaseType.CampaignType);
 
             CampaignsFileManager.Add(campaignDetails);
+        }
 
+
+        public async Task SaveTemplateToCampaignsAsync()
+        {
+            var campaignDetails = new CampaignDetails
+            {
+                CampaignName = CampaignName,
+                MainModule = _moduleName,
+                SubModule = _activityType.ToString(),
+                SocialNetworks = _socialNetwork,
+                SelectedAccountList = _footerControl.list_SelectedAccounts,
+                TemplateId = TemplateId,
+                CreationDate = DateTimeUtilities.GetEpochTime(),
+                Status = "Active",
+                LastEditedDate = DateTimeUtilities.GetEpochTime(),
+            };
+
+            await DataBaseHandler.CreateDataBaseAsync(campaignDetails.CampaignId, _socialNetwork, DatabaseType.CampaignType);
+
+            CampaignsFileManager.Add(campaignDetails);
         }
 
         #endregion
@@ -871,7 +931,7 @@ namespace DominatorUIUtility.CustomControl
                 ex.ErrorLog();
             }
 
-            CampaignsFileManager.Save(campaignsList);
+            CampaignsFileManager.UpdateCampaigns(campaignsList);
         }
 
         public void AddNewCampaign(List<string> listSelectedAccounts)
