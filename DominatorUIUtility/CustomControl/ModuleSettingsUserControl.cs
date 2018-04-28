@@ -710,26 +710,6 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        public async Task SaveTemplateToCampaignsAsync()
-        {
-            var campaignDetails = new CampaignDetails
-            {
-                CampaignName = CampaignName,
-                MainModule = _moduleName,
-                SubModule = _activityType.ToString(),
-                SocialNetworks = _socialNetwork,
-                SelectedAccountList = _footerControl.list_SelectedAccounts,
-                TemplateId = TemplateId,
-                CreationDate = DateTimeUtilities.GetEpochTime(),
-                Status = "Active",
-                LastEditedDate = DateTimeUtilities.GetEpochTime(),
-            };
-
-            await DataBaseHandler.CreateDataBaseAsync(campaignDetails.CampaignId, _socialNetwork, DatabaseType.CampaignType);
-
-            CampaignsFileManager.Add(campaignDetails);
-        }
-
         #endregion
 
 
