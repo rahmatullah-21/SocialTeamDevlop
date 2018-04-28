@@ -10,10 +10,8 @@ namespace DominatorUIUtility.Behaviours
     public class ReportManager
     {
         public static Func<string, string, ObservableCollection<QueryInfo>> GetSavedQuery { get; set; }
-
-        public static
-            Func<Reports, Dictionary<string, string>, DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnectionCampaign, CampaignDetails, int>
-            GetReportDetail { get; set; }
+        public static Func<Reports, List<KeyValuePair<string, string>>,
+                DominatorHouseCore.DatabaseHandler.CoreModels.DataBaseConnectionCampaign, CampaignDetails, int>  GetReportDetail { get; set; }
 
         public static Func<string> GetHeader { get; set; }
         public static Action<string, string> ExportReports { get; set; }

@@ -4,16 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl" Name="proxyManager" 
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" Loaded="ProxyManager_OnLoaded"
              xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
 
     <UserControl.Resources>
 
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <converter:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
+        <converter:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
         <converter:BooleanToWidthConverter x:Key="BooleanToWidthConverter"/>
-        <DataTemplate x:Key="ProxyAccountImageWithName">
+        <DataTemplate x:Key="AccountsAssignedToTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
@@ -143,8 +143,30 @@
                                             </Setter.Value>
                                         </Setter>
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                        <Setter Property="Content" >
+                                            <Setter.Value>
+                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                        <Setter Property="Content" >
+                                            <Setter.Value>
+                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
 
-                                    
+
                                 </Style.Triggers>
                             </Style>
                         </ContentControl.Style>
@@ -158,7 +180,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="ProxyAccountImage">
+        <DataTemplate x:Key="AccountsToBeAssignTemplate">
             <StackPanel Orientation="Horizontal">
                 <CheckBox x:Name="Account" Checked="Account_Checked"/>
                 <ContentControl Margin="10,0" VerticalAlignment="Center">
@@ -284,6 +306,29 @@
                                         </Setter.Value>
                                     </Setter>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                    <Setter Property="Content" >
+                                        <Setter.Value>
+                                            <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                    <Setter Property="Content" >
+                                        <Setter.Value>
+                                            <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                               <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+
                             </Style.Triggers>
                         </Style>
                     </ContentControl.Style>
@@ -418,7 +463,7 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <Grid >
                 <ListView Grid.Row="1"  Margin="0,5" ItemsSource="{Binding ProxyManagerCollection}"
-                   ItemContainerStyle="{StaticResource ListViewItems}"  >
+                   ItemContainerStyle="{StaticResource ListViewItems}"  AlternationCount="{Binding Items.Count,RelativeSource={RelativeSource Self}}">
 
                     <ListView.Resources>
                         <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
@@ -451,17 +496,18 @@
 
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Width="40">
-                                <CheckBox Name="AllProxyChecked" Content=" #" Checked="AllProxyChecked_Checked" 
-                                  Unchecked="AllProxyChecked_Unchecked"/>
+                            <GridViewColumn Width="100">
+                                <CheckBox Name="AllProxyChecked" Content=" #"
+                                          IsChecked="{Binding IsAllProxySelected}"
+                                          Checked="AllProxyChecked_Checked" 
+                                          Unchecked="AllProxyChecked_Unchecked"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <CheckBox IsChecked="{Binding IsProxySelected}" Margin="5,0,0,0"/>
-                                            <Label Margin="4 0 0 0" Content="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                                   AncestorType={x:Type ListViewItem}}, 
-                                                   Converter={StaticResource ListViewItemIndexConverter}}"/>
-                                        </StackPanel>
+                                        <CheckBox IsChecked="{Binding IsProxySelected}"
+                                                  Margin="5,0,0,0" Content="{Binding (ItemsControl.AlternationIndex),
+                                                  RelativeSource={RelativeSource AncestorType=ListViewItem},
+                                                  Converter={StaticResource IndexToRowNoConverter}}"/>
+
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -529,7 +575,7 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Controls:DropDownButton x:Name="dropdown" Width="40" Height="20"
-                                                             ItemTemplate="{StaticResource ProxyAccountImageWithName}" 
+                                                             ItemTemplate="{StaticResource AccountsAssignedToTemplate}" 
                                                              ItemsSource="{Binding AccountsAssignedto}" 
                                                              Content="{Binding Path=AccountsAssignedto.Count}"
                                                              Click="dropdown_Click" >
@@ -546,7 +592,7 @@
                                             </Controls:DropDownButton>
 
                                             <Controls:DropDownButton x:Name="AddDropdown" Width="40" Height="20" Margin="10,0"
-                                                             ItemTemplate="{StaticResource ProxyAccountImage}" 
+                                                             ItemTemplate="{StaticResource AccountsToBeAssignTemplate}" 
                                                              ItemsSource="{Binding AccountsToBeAssign}" 
                                                              Content="{DynamicResource langAdd}"
                                                              Click="dropdown_Click" >

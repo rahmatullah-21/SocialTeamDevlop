@@ -197,7 +197,7 @@ namespace DominatorHouseCore.Models
             }
         }
         private bool _isProxySelected;
-        [ProtoMember(11)]
+    
         public bool IsProxySelected
         {
             get
@@ -209,6 +209,21 @@ namespace DominatorHouseCore.Models
                 if (_isProxySelected == value)
                     return;
                 SetProperty(ref _isProxySelected, value);
+            }
+        }
+        private bool _isAllProxySelected;
+
+        public bool IsAllProxySelected
+        {
+            get
+            {
+                return _isAllProxySelected;
+            }
+            set
+            {
+                if (_isAllProxySelected == value)
+                    return;
+                SetProperty(ref _isAllProxySelected, value);
             }
         }
         private string _status="Not Checked";

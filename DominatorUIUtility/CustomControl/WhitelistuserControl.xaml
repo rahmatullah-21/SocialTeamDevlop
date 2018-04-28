@@ -35,7 +35,7 @@
                 </Grid.RowDefinitions>
                 <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource langUsernameWhiteListTag}"  
                               TextWrapping="Wrap" AcceptsReturn="True"
-                              ToolTip="{DynamicResource langUsernameBlacklistTag}"  
+                              ToolTip="{DynamicResource langUsernameWhiteListTag}"  
                               Name="Txtusername"  VerticalScrollBarVisibility="Auto" 
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                               BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>

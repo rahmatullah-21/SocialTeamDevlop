@@ -543,6 +543,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 ex.DebugLog();
             }
+    
         }
 
         public void UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
@@ -612,6 +613,31 @@ namespace DominatorUIUtility.ViewModel
 
         #region Delete Accounts
 
+
+        public void DeleteAccountFromProxy(List<DominatorAccountModel> objDominatorAccountBaseModel)
+        {
+          var allProxy= ProxyFileManager.GetAllProxy();
+            allProxy?.ForEach(proxy =>
+            {
+                try
+                {
+                    objDominatorAccountBaseModel.ForEach(account =>
+                           {
+                               var assignedAccount = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName);
+                               proxy.AccountsAssignedto.Remove(proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName));
+                               proxy.AccountsToBeAssign.Add(proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName));
+                               
+                           });
+                }
+                catch (Exception ex)
+                {
+                }
+                ProxyFileManager.EditProxy(proxy);
+            });
+            allProxy = ProxyFileManager.GetAllProxy();
+            var v = AccountsFileManager.GetAll();
+        }
+
         private bool SingleAccountDeleteCanExecute(object sender) => true;
 
         private void SingleAccountDeleteExecute(object sender)
@@ -671,7 +697,8 @@ namespace DominatorUIUtility.ViewModel
 
             // remove from file
             AccountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);
-
+            Task.Factory.StartNew(() => { DeleteAccountFromProxy(selectAccounts.ToList()); });
+          
             //also delete the associated files
             DataBaseHandler.DeleteDatabase(selectAccounts.Select(acct => acct.AccountId));
 
