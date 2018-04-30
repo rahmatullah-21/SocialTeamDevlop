@@ -539,4 +539,14 @@
 
     <system:String x:Key="PDlangManageMessege﻿">Manage Messege</system:String>
 
+    <system:String x:Key="PDlangKeywords">Keywords</system:String>
+    <system:String x:Key="PDlangSomeonesFollowers">SomeonesFollowers</system:String>
+    <system:String x:Key="PDlangSomeonesFollowings">SomeonesFollowings</system:String>
+    <system:String x:Key="PDlangFollowersOfSomeonesFollowings">FollowersOfSomeonesFollowings</system:String>
+    <system:String x:Key="PDlangFollowersOfSomeonesFollowers">FollowersOfSomeonesFollowers</system:String>
+    <system:String x:Key="PDlangUsersWhoTried">UserswhoTriedposts</system:String>
+    <system:String x:Key="PDlangCustomUser">Customusers</system:String>
+    <system:String x:Key="PDlangBoardFollowers">BoardFollowers</system:String>
+    <system:String x:Key="PDlangCustomBoard">CustomBoard</system:String>
+    <system:String x:Key="PDlangCustomPin">CustomPin</system:String>
 </ResourceDictionary>

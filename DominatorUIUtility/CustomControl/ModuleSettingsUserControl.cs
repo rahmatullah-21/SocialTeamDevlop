@@ -1125,7 +1125,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var accountModel = AccountsFileManager.GetAccount(selectedAccount);
             var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
-            if (moduleConfiguration.IsEnabled)
+            if (moduleConfiguration.IsEnabled && isStart)
                 return;
             var accountstemplateId = moduleConfiguration.TemplateId;
             if (isStart)

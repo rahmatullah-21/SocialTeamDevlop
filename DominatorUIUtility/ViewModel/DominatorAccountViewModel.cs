@@ -660,7 +660,7 @@ namespace DominatorUIUtility.ViewModel
                 if (selectAccounts.Count == 0)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                        "Please select atleast one acount !!");
+                        "Please select atleast one account !!");
                     return;
                 }
                 var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete all selected account permanently \nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
@@ -793,7 +793,7 @@ namespace DominatorUIUtility.ViewModel
             if (selectedAccounts.Count == 0)
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                    "Please select atleast one acount !!");
+                    "Please select atleast one account !!");
                 return;
             }
 
@@ -911,6 +911,8 @@ namespace DominatorUIUtility.ViewModel
 
                 AccountsFileManager.Edit(selectedAccount);
                 UpdateProxy(objDominatorAccountBaseModel);
+                GlobusLogHelper.log.Info($"Successfully updated {objDominatorAccountBaseModel.UserName}");
+
                 dialogWindow.Close();
 
             };
