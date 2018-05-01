@@ -1129,5 +1129,4 @@
     <system:String x:Key="TdLangAutoReply">AutoReply</system:String>
     <system:String x:Key="TdLangBroadcastMessageConfig">BroadCastMessage</system:String>
     <system:String x:Key="TdLangMessageToNewFollowers">MessageToNewFollowers</system:String>
-
 </ResourceDictionary>

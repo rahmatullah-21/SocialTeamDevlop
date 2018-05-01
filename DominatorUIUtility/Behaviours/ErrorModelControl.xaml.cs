@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,46 +17,9 @@ namespace DominatorUIUtility.Behaviours
             InitializeComponent();
             MainGrid.DataContext = this;
         }
-        private ObservableCollectionBase<ErrorModelControl> _accounts=new ObservableCollectionBase<ErrorModelControl>();
 
-        public ObservableCollectionBase<ErrorModelControl> Accounts
-        {
-            get
-            {
-                return _accounts;
-            }
-            set
-            {
-                _accounts = value; OnPropertyChanged(nameof(_accounts));
-            }
-        }
-        private string _userName;
+        #region Properties
 
-        public string UserName
-        {
-            get
-            {
-                return _userName;
-            }
-            set
-            {
-                _userName = value; OnPropertyChanged(nameof(_userName));
-            }
-        }
-
-        private bool _isChecked;
-
-        public bool IsChecked
-        {
-            get
-            {
-                return _isChecked;
-            }
-            set
-            {
-                _isChecked = value; OnPropertyChanged(nameof(_isChecked));
-            }
-        }
 
         /// <summary>
         /// Implement the INotifyPropertyChanged
@@ -70,50 +34,53 @@ namespace DominatorUIUtility.Behaviours
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
 
-        private static readonly RoutedEvent SaveEvent =
-            EventManager.RegisterRoutedEvent("SaveEventHandler", RoutingStrategy.Bubble,
-                typeof(RoutedEventHandler), typeof(ErrorModelControl));
 
-        public event RoutedEventHandler SaveEventHandler
+
+        private ObservableCollection<ErrorModelControl> _accounts = new ObservableCollection<ErrorModelControl>();
+
+        public ObservableCollection<ErrorModelControl> Accounts
         {
-            add { AddHandler(SaveEvent, value); }
-            remove { RemoveHandler(SaveEvent, value); }
+            get
+            {
+                return _accounts;
+            }
+            set
+            {
+                _accounts = value; OnPropertyChanged(nameof(Accounts));
+            }
         }
 
 
-        void SaveEventArgsHandler()
-        {
-            var rountedargs = new RoutedEventArgs(SaveEvent);
-            RaiseEvent(rountedargs);
+        private string _userName;
 
-        }
-
-        private void BtnSave_OnClick(object sender, RoutedEventArgs e)
+        public string UserName
         {
-            SaveEventArgsHandler();
-        }
-        private static readonly RoutedEvent CancelEvent =
-            EventManager.RegisterRoutedEvent("CancelEventHandler", RoutingStrategy.Bubble,
-                typeof(RoutedEventHandler), typeof(ErrorModelControl));
-
-        public event RoutedEventHandler CancelEventHandler
-        {
-            add { AddHandler(CancelEvent, value); }
-            remove { RemoveHandler(CancelEvent, value); }
+            get
+            {
+                return _userName;
+            }
+            set
+            {
+                _userName = value; OnPropertyChanged(nameof(UserName));
+            }
         }
 
 
-        void CancelEventArgsHandler()
-        {
-            var rountedargs = new RoutedEventArgs(CancelEvent);
-            RaiseEvent(rountedargs);
 
+        private bool _isChecked;
+
+        public bool IsChecked
+        {
+            get
+            {
+                return _isChecked;
+            }
+            set
+            {
+                _isChecked = value; OnPropertyChanged(nameof(IsChecked));
+            }
         }
 
-        private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
-        {
-            CancelEventArgsHandler();
-        }
         public string WarningText
         {
             get
@@ -131,6 +98,62 @@ namespace DominatorUIUtility.Behaviours
             {
                 BindsTwoWayByDefault = true
             });
+
+        #endregion
+
+        #region Save button
+
+        private static readonly RoutedEvent SaveEvent =
+            EventManager.RegisterRoutedEvent("SaveEventHandler", RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler), typeof(ErrorModelControl));
+
+        public event RoutedEventHandler SaveEventHandler
+        {
+            add { AddHandler(SaveEvent, value); }
+            remove { RemoveHandler(SaveEvent, value); }
+        }
+
+        void SaveEventArgsHandler()
+        {
+            var rountedargs = new RoutedEventArgs(SaveEvent);
+            RaiseEvent(rountedargs);
+        }
+
+        private void BtnSave_OnClick(object sender, RoutedEventArgs e)
+        {
+            SaveEventArgsHandler();
+        }
+
+        #endregion
+
+        #region Cancel button
+
+        private static readonly RoutedEvent CancelEvent =
+            EventManager.RegisterRoutedEvent("CancelEventHandler", RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler), typeof(ErrorModelControl));
+
+        public event RoutedEventHandler CancelEventHandler
+        {
+            add { AddHandler(CancelEvent, value); }
+            remove { RemoveHandler(CancelEvent, value); }
+        }
+
+
+        void CancelEventArgsHandler()
+        {
+            var rountedargs = new RoutedEventArgs(CancelEvent);
+            RaiseEvent(rountedargs);
+        }
+
+
+        private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            CancelEventArgsHandler();
+        }
+
+
+        #endregion
+
 
     }
 }

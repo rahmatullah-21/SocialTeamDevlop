@@ -188,7 +188,9 @@ namespace DominatorUIUtility.CustomControl
                     moduleConfiguration.IsEnabled = (bool)(sender as ToggleSwitch).IsChecked;
             }
 
-            AccountsFileManager.SaveAll(lstAccountDetails);
+           // AccountsFileManager.SaveAll(lstAccountDetails);
+
+            AccountsFileManager.UpdateAccounts(lstAccountDetails);
 
             // Run/Stop job process in campaigns
             try
@@ -224,7 +226,9 @@ namespace DominatorUIUtility.CustomControl
                     }
                 }
 
-                CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());
+               // CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());
+
+                 CampaignsFileManager.UpdateCampaigns(objCampaignDetails.ObjCampaignDetails.ToList());
             }
 
             catch (Exception ex)
@@ -394,8 +398,6 @@ namespace DominatorUIUtility.CustomControl
 
         }
 
-
-
         private void Campaign_Loaded(object sender, RoutedEventArgs e)
         {
             var data = CampaignsFileManager.GetCampaignByNetwork(SocialNetworks);
@@ -502,9 +504,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         private static void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
-        {
-           
-
+        {         
             try
             {
                 // remove template from each account
@@ -524,8 +524,10 @@ namespace DominatorUIUtility.CustomControl
 
                     if (selectedAccount.Contains(x.UserName))
                         moduleConfig.IsEnabled = false;
+                    
                 });
-                AccountsFileManager.SaveAll(allAccounts);
+
+                AccountsFileManager.UpdateAccounts(allAccounts);
             }
             catch (Exception ex)
             {

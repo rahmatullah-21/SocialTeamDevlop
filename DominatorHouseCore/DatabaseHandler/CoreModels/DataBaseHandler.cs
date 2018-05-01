@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Linq;
+using System.Threading.Tasks;
 using DominatorHouseCore.DatabaseHandler.GdTables.Accounts;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -127,6 +128,10 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 return null;
             }
         }
+
+
+       
+
         public static DataBaseConnectionGlobal GetDataBaseConnectionGlobalInstance()
         {
             try

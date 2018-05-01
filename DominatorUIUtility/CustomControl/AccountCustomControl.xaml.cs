@@ -88,8 +88,6 @@ namespace DominatorUIUtility.CustomControl
                 _accountCustomInstance = new AccountCustomControl(strategies);
             }
 
-
-          
             _accountCustomInstance.GetRespectiveAccounts(socialNetworks);
 
             return _accountCustomInstance;
