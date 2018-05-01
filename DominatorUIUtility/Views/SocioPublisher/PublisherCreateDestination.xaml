@@ -4,7 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher" x:Name="CreateDestination"
-             mc:Ignorable="d"  >
+             mc:Ignorable="d"  
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+    <UserControl.Resources>
+        <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
+        <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.8*"></RowDefinition>
@@ -29,6 +34,23 @@
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
+                <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="15" Height="15" Fill="White" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangSaveDestination}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                
                 <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect" Margin="5">
                     <Button.Template>
                         <ControlTemplate>
@@ -111,6 +133,139 @@
 
             </StackPanel>
 
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource DHlangDestinationName}" VerticalAlignment="Center"/>
+                    <TextBox Margin="20,5" VerticalAlignment="Center" Width="250" Text="{Binding Name}"/>
+                </StackPanel>
+
+                <TextBlock Text="{DynamicResource DHlangSettings}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                <CheckBox Content="{DynamicResource langAutoSelectNewGroups}" Margin="5" IsChecked="{Binding IsAutoSelectNewGroupsChecked}"/>
+                <CheckBox Content="{DynamicResource langUncheckGroups}" Margin="5" IsChecked="{Binding IsUncheckGroupsChecked}"/>
+
+                <TextBlock Text="{DynamicResource DHlangSelectDestinations}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+
+                <ListView 
+                  x:Name="CampaignStatusList"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"                  
+                  ItemsSource="{Binding ListPublisherManageDestinationModels}"
+                  VerticalAlignment="Stretch" >
+                    <ListView.Resources>
+                        <Style TargetType="{x:Type GridViewColumnHeader}" 
+                       BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="Height" Value="30"></Setter>
+                            <Setter Property="Margin" Value="0,2,0,0"></Setter>
+                        </Style>
+                        <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
+                    </ListView.Resources>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            <Setter Property="Height" Value="30"></Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="80">
+                                <GridViewColumn.Header>
+                                    <Border BorderThickness="1,0,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <CheckBox x:Name="AllCampaign"  IsChecked="{Binding IsAllDestinationSelected}" Content=" #" Command="{Binding SelectionExecute}" CommandParameter="{Binding IsAllDestinationSelected,Converter={StaticResource BooleanToStringSelectConverter}}"/>
+                                    </Border>
+                                </GridViewColumn.Header>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                            <CheckBox IsChecked="{Binding IsSelected}" 
+                                              x:Name="ChkSingleCampaign"
+                                          Margin="6,2,6,2" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},  Converter={StaticResource ListViewItemIndexConverter}}" />
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn  Width="250">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{DynamicResource DHlangUsername}"/>
+                                </GridViewColumn.Header>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                            <TextBlock  Margin="6,2,6,2" Text="{Binding DestinationName}"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Width="130">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{DynamicResource DHlangPlatform}"/>
+                                </GridViewColumn.Header>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                            <TextBlock Margin="6,2,6,2" Text="{Binding AccountCount}"></TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Width="130">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{DynamicResource DHlangGroups}"/>
+                                </GridViewColumn.Header>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                            <TextBlock Margin="6,2,6,2" Text="{Binding PagesOrBoardsCount}"></TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+
+
+
+
+                            <GridViewColumn Width="130">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{DynamicResource DHlangPagesBoard}"/>
+                                </GridViewColumn.Header>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                            <TextBlock Margin="6,2,6,2" Text="{Binding GroupsCount}"></TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Width="150">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{DynamicResource DHlangWallsProfiles}"/>
+                                </GridViewColumn.Header>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                            <TextBlock Margin="6,2,6,2" Text="{Binding WallsOrProfilesCount}"></TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

@@ -48,7 +48,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public DateTime EndDate { get; set; }
 
-
         public void GenerateCampaign()
         {
             CampaignName = $"Campaign-{ConstantVariable.GetDateTime()}";
@@ -56,13 +55,15 @@ namespace DominatorHouseCore.Models.SocioPublisher
             CreatedDate = DateTime.Today;
             StartDate = DateTime.Today;
             EndDate = DateTime.Today.AddDays(7);
+            
         }
 
         public void GenerateCloneCampaign(string name)
         {           
             CampaignName = $"{name}-clone";
             CampaignId = Utilities.GetGuid();
-            CreatedDate = DateTime.Today;           
+            CreatedDate = DateTime.Today;
+            IsSelected = false;
         }
 
         public bool ValidDateTime() 

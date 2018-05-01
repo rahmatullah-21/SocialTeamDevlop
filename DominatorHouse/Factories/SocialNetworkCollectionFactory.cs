@@ -2,7 +2,8 @@
 using DominatorHouseCore.Interfaces;
 using DominatorUIUtility.ViewModel;
 
-namespace DominatorHouse.Factories
+
+namespace Socinator.Factories
 {
     internal class SocialNetworkCollectionFactory : INetworkCollectionFactory
     {

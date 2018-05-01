@@ -109,6 +109,8 @@ namespace DominatorHouseCore.Utility
 
         public static string GetPublisherFile() => GetOtherDir() + @"\PublisherAccountDetails.bin";
 
+        public static string GetPublisherDestinationsFile() => GetOtherDir() + @"\PublisherDestinations.bin";
+      
         public static string GetChatDir()
         {
             string dir = $"{GetPlatformBaseDirectory()}\\Chat";

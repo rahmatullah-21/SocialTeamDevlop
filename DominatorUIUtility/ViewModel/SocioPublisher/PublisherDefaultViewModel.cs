@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -16,9 +17,11 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using DominatorHouseCore;
 using DominatorHouseCore.Patterns;
+using DominatorUIUtility.Behaviours;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
-{   
+{
     public class PublisherDefaultViewModel : BindableBase
     {
         public PublisherDefaultViewModel()
@@ -26,7 +29,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             SelectionCommand = new BaseCommand<object>(SelectionCanExecute, SelectionExecute);
             OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
-            SingleCloneCommand = new BaseCommand<object>(SingleCloneCanExecute, SingleCloneExecute);
+            CampaignCloneCommand = new BaseCommand<object>(CampaignCloneCanExecute, CampaignCloneExecute);
+            DeleteCampaignCommand = new BaseCommand<object>(DeleteCampaignCanExecute, DeleteCampaignExecute);
             InitializeDefaultCampaignStatus();
         }
 
@@ -36,9 +40,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public ICommand SelectionCommand { get; set; }
 
-        public ICommand SingleCloneCommand { get; set; }
+        public ICommand CampaignCloneCommand { get; set; }
 
-        [field: NonSerialized]
+        public ICommand DeleteCampaignCommand { get; set; }
+
         public ObservableCollection<PublisherCampaignStatusModel> ListPublisherCampaignStatusModels { get; set; } = new ObservableCollection<PublisherCampaignStatusModel>();
 
         private ICollectionView _publisherCampaignStatusModelView;
@@ -134,21 +139,35 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private bool SingleCloneCanExecute(object sender) => true;
-     
-        private void SingleCloneExecute(object sender)
+        private bool CampaignCloneCanExecute(object sender) => true;
+
+        private void CampaignCloneExecute(object sender)
         {
             try
             {
-                var campaignStatus = (PublisherCampaignStatusModel)sender;
+                var isSingleDuplicate = sender is PublisherCampaignStatusModel;
 
-                if (campaignStatus == null) return;
+                if (isSingleDuplicate)
+                {
+                    var campaignStatus = (PublisherCampaignStatusModel)sender;
 
-                var clonedCampaignStatus = GetCampaginDeepClone(campaignStatus);
+                    var clonedCampaignStatus = GetCampaginDeepClone(campaignStatus);
 
-                clonedCampaignStatus.GenerateCloneCampaign(campaignStatus.CampaignName);
+                    clonedCampaignStatus.GenerateCloneCampaign(campaignStatus.CampaignName);
 
-                AddCampaignDetails(clonedCampaignStatus);
+                    AddCampaignDetails(clonedCampaignStatus);
+                }
+                else
+                {
+                    GetSelectedCampaigns().ForEach(campaign =>
+                    {
+                        var clonedCampaignStatus = GetCampaginDeepClone(campaign);
+
+                        clonedCampaignStatus.GenerateCloneCampaign(campaign.CampaignName);
+
+                        AddCampaignDetails(clonedCampaignStatus);
+                    });
+                }             
             }
             catch (Exception ex)
             {
@@ -171,6 +190,55 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 x.IsSelected = false; return x;
             }).ToList();
         }
+
+
+        public bool DeleteCampaignCanExecute(object sender) => true;
+
+        public void DeleteCampaignExecute(object sender)
+        {
+
+            var isIndividualDelete = sender is PublisherCampaignStatusModel;
+
+            if (isIndividualDelete)
+            {
+                var campaign = (PublisherCampaignStatusModel) sender;
+
+                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                    "Confirmation", "If you delete it, cant recover back \nAre you sure ?",
+                    MessageDialogStyle.AffirmativeAndNegative,
+                    Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+
+                if (dialogResult != MessageDialogResult.Affirmative)
+                    return;
+
+
+                ListPublisherCampaignStatusModels.Remove(campaign);
+            }
+            else
+            {
+               var publisherCampaignStatusModels = GetSelectedCampaigns();
+
+                if (publisherCampaignStatusModels.Count == 0)
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                        "Please select atleast one campaign !!");
+                    return;
+                }
+
+                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                    "Confirmation", "If you delete it will delete all selected campaign permanently \nAre you sure ?",
+                    MessageDialogStyle.AffirmativeAndNegative,
+                    Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+
+                if (dialogResult != MessageDialogResult.Affirmative)
+                    return;
+
+                publisherCampaignStatusModels.ForEach(x => ListPublisherCampaignStatusModels.Remove(x));
+            }
+        }
+
+        private List<PublisherCampaignStatusModel> GetSelectedCampaigns() 
+            => ListPublisherCampaignStatusModels.Where(x => x.IsSelected).ToList();
 
         public void InitializeDefaultCampaignStatus()
         {

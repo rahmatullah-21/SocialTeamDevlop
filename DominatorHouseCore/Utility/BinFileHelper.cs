@@ -10,6 +10,7 @@ using System.IO;
 using System.Diagnostics;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.SocioPublisher;
 
 namespace DominatorHouseCore.Utility
 {
@@ -38,7 +39,11 @@ namespace DominatorHouseCore.Utility
             {typeof(ProxyManagerModel), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherProxyFile) },
             {typeof(AddPostModel), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherPostsFile) },
             {typeof(Configuration), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherConfigFile) },
+          
+            //Todo: Following line need to delete
             {typeof(PublisherAccountDetails),Tuple.Create(new object(), (Func<string>)ConstantVariable.GetPublisherFile) },
+
+            { typeof(PublisherDestinationDetails),Tuple.Create(new object(), (Func<string>)ConstantVariable.GetPublisherDestinationsFile) },
             {typeof(object), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetIndexAccountFile) }
         };
 
@@ -91,6 +96,13 @@ namespace DominatorHouseCore.Utility
             return WithFile<DominatorAccountModel, List<DominatorAccountModel>>(indexAccountPath => File.Exists(indexAccountPath) ?
                     ProtoBuffBase.DeserializeList<DominatorAccountModel>(indexAccountPath) :
                     new List<DominatorAccountModel>());
+        }
+
+        public static List<PublisherDestinationDetails> GetPublisherDestinationDetails()
+        {
+            return WithFile<PublisherDestinationDetails, List<PublisherDestinationDetails>>(publisherDestinationPath => File.Exists(publisherDestinationPath) ?
+                ProtoBuffBase.DeserializeList<PublisherDestinationDetails>(publisherDestinationPath) :
+                new List<PublisherDestinationDetails>());
         }
 
 
@@ -218,6 +230,31 @@ namespace DominatorHouseCore.Utility
             catch (Exception ex)
             {
                 GlobusLogHelper.log.Error("Update All Accounts error - " + ex.Message);
+                ex.DebugLog();
+                return false;
+            }
+        }
+
+
+        public static bool UpdateAllPublishDestination(List<PublisherDestinationDetails> publisherDestinationList)
+        {
+            return UpdateAllPublisherDestination(publisherDestinationList);
+        }
+
+        public static bool UpdateAllPublisherDestination<T>(List<T> publishDestinations) where T : class
+        {
+            try
+            {
+                return WithFile<T, bool>(file =>
+                {
+                    bool result = ProtoBuffBase.SerializeList(publishDestinations, file);
+                    GlobusLogHelper.log.Debug("Publisher destination saved");
+                    return result;
+                });
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error("Update all publisher destination error - " + ex.Message);
                 ex.DebugLog();
                 return false;
             }

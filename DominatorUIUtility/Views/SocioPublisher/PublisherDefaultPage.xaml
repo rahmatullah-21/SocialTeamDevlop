@@ -197,7 +197,7 @@
                     </Button.Template>
 
                     <Button.ContextMenu>
-                        <ContextMenu>
+                        <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
                             <MenuItem Header="{DynamicResource DHlangSwitchToActive}" Name="MenuSwitchToActive" >
                                 <MenuItem.Icon>
                                     <StackPanel>
@@ -229,7 +229,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangDelete}" Name="MenuDelete" >
+                            <MenuItem Header="{DynamicResource DHlangDelete}" Name="MenuDelete" Command="{Binding DeleteCampaignCommand}" CommandParameter="MenuDelete">
                                 <MenuItem.Icon>
                                     <Rectangle Width="12" Height="15" Fill="Black">
                                         <Rectangle.OpacityMask>
@@ -238,7 +238,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangDuplicate}" Name="MenuDuplicate" >
+                            <MenuItem Header="{DynamicResource DHlangDuplicate}" Name="MenuDuplicate" Command="{Binding CampaignCloneCommand}" CommandParameter="MenuClone">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black">
                                         <Rectangle.OpacityMask>
@@ -360,12 +360,18 @@
                                         <Button Cursor="Hand" Content="{DynamicResource DHlangEdit}" x:Name="ButtonEditCampaign" 
                                                     FontWeight="SemiBold" 
                                                      Background="Transparent" />
-                                        <Button Cursor="Hand" Content="{DynamicResource DHlangDuplicate}"  x:Name="ButtonDuplicateCampaign" 
-                                                    FontWeight="SemiBold"   Command="{Binding Path=DataContext.SingleCloneCommand, 
-                  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                        <Button Cursor="Hand" 
+                                                Content="{DynamicResource DHlangDuplicate}" 
+                                                x:Name="ButtonDuplicateCampaign" 
+                                                    FontWeight="SemiBold"  
+                                                Command="{Binding Path=DataContext.CampaignCloneCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                      Background="Transparent"/>
-                                        <Button Cursor="Hand" Content="{DynamicResource DHlangDelete}"  x:Name="ButtonDeleteCampaign"  FontWeight="SemiBold"
-                                                     Background="Transparent" />
+                                        <Button Cursor="Hand" Content="{DynamicResource DHlangDelete}" 
+                                                x:Name="ButtonDeleteCampaign" 
+                                                FontWeight="SemiBold"
+                                                Command="{Binding Path=DataContext.DeleteCampaignCommand,  RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding}"  
+                                                Background="Transparent" />
 
                                     </StackPanel>
                                 </Border>
