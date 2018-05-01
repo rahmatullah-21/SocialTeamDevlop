@@ -58,30 +58,13 @@ namespace DominatorHouse
 
         private string _licenseKey;
 
+
         public MainWindow()
         {
             try
             {
                 DialogParticipation.SetRegister(this, this);
-                //Dispatcher.Invoke(async () => { await LicenseCheck(); });
-
-
-                var cts = new CancellationTokenSource();
-                try
-                {
-                    Task.Run(() =>
-                          {
-                              LicenseCheck();
-                              cts.CancelAfter(TimeSpan.FromSeconds(60));
-
-                          }, cts.Token);
-                }
-                catch (Exception ex)
-                {
-
-                  
-                }
-
+                Dispatcher.Invoke(async () => { await LicenseCheck(); });
 
                 InitializeComponent();
                 SocinatorInitialize.LogInitializer(this);
@@ -96,8 +79,6 @@ namespace DominatorHouse
 
         private async Task LicenseCheck()
         {
-
-
             try
             {
                 string license;
@@ -123,6 +104,8 @@ namespace DominatorHouse
                     if (networks.Count <= 1)
                     {
                         Close();
+                        await controller.CloseAsync();
+                        await LicenseCheck();
                         return;
                     }
                     _strategies = new DominatorAccountViewModel.AccessorStrategies
@@ -378,7 +361,7 @@ namespace DominatorHouse
                 ex.DebugLog();
             }
 
-          
+
         }
 
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)

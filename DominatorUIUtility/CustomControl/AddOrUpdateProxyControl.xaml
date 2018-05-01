@@ -8,6 +8,7 @@
              xmlns:passwordHelper="clr-namespace:DominatorUIUtility.Behaviours"
              xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"  
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
+    
     <Grid VerticalAlignment="Center" Name="MainGrid" Margin="0,30">
         <Grid.Resources>
             <ControlTemplate x:Key="ErrorTemplate">
@@ -46,29 +47,15 @@
             <TextBlock Name="txtblockProxyName" Text="{DynamicResource langProxyName}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
             <TextBox Name="txtProxyName" Text="{Binding AccountProxy.ProxyName}"   Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"/>
         </Grid>
+        
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Name="txtblockProxyUserName" Text="{DynamicResource langProxyUsername}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-            <TextBox Name="txtProxyUserName" Text="{Binding AccountProxy.ProxyUsername}" controls:TextBoxHelper.Watermark="Type Proxy User Name" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"/>
-        </Grid>
-        <Grid Grid.Row="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="2.5*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Name="txtblockProxyPassword" Text="{DynamicResource langProxyPassword}" Width="120" FontSize="13" Margin="5,11" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-            <TextBox Name="txtProxyPassword"  Text="{Binding AccountProxy.ProxyPassword}" controls:TextBoxHelper.Watermark="Type Proxy Password" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1" Grid.ColumnSpan="2"/>
-        </Grid>
-        <Grid Grid.Row="4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="2.5*" />
-            </Grid.ColumnDefinitions>
             <TextBlock Name="txtblockProxyAddress" Text="{DynamicResource langProxyAddress}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-            <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  controls:TextBoxHelper.Watermark="Format:{XXX.XXX.XXX.XXX}" Width="230" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
+            <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
+                     controls:TextBoxHelper.Watermark="Format:{255.255.255.255}" Width="230" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                 <TextBox.Text>
                     <Binding Path="AccountProxy.ProxyIp" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -78,13 +65,16 @@
                 </TextBox.Text>
             </TextBox>
         </Grid>
-        <Grid Grid.Row="5">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
             <TextBlock Name="txtblockProxyPort" Text="{DynamicResource langProxyPort}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-            <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}" controls:TextBoxHelper.Watermark="Type Proxy Port" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
+            <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
+                     controls:TextBoxHelper.Watermark="Type Proxy Port" Width="230" 
+                     FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center" 
+                     Height="30" Grid.Column="1" >
                 <TextBox.Text>
                     <Binding Path="AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -94,7 +84,36 @@
                 </TextBox.Text>
             </TextBox>
         </Grid>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2.5*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="txtblockProxyUserName" Text="{DynamicResource langProxyUsername}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+            <TextBox Name="txtProxyUserName" Text="{Binding AccountProxy.ProxyUsername}" 
+                     controls:TextBoxHelper.Watermark="Type Proxy User Name" Width="230" 
+                     FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" 
+                     VerticalAlignment="Center"  Height="30" Grid.Column="1" IsEnabled="{Binding IsEnabled,ElementName=btnSave}"/>
+        </Grid>
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2.5*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="txtblockProxyPassword" Text="{DynamicResource langProxyPassword}" Width="120" FontSize="13" Margin="5,11" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+            <PasswordBox Name="txtProxyPassword"  passwordHelper:PasswordBoxHelper.Attach="True"
+                         Style="{StaticResource  MetroButtonRevealedPasswordBox}"
+                         controls:TextBoxHelper.Watermark="Enter proxy password" 
+                         Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5"
+                         Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
+                         Grid.ColumnSpan="2" IsEnabled="{Binding IsEnabled,ElementName=btnSave}">
+               
+                <passwordHelper:PasswordBoxHelper.Password>
+                    <Binding Path="AccountProxy.ProxyPassword" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay"/>
+                </passwordHelper:PasswordBoxHelper.Password>
+            </PasswordBox>
 
+        </Grid>
         <Grid Grid.Row="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
