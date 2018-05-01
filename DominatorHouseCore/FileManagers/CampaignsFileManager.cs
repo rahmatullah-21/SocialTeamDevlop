@@ -64,6 +64,25 @@ namespace DominatorHouseCore.FileManagers
         }
 
 
+
+        public static void UpdateCampaigns(IList<CampaignDetails> libraryCampaign)
+        {
+            var all = BinFileHelper.GetCampaignDetail();
+
+            // Update all entries that exists in libraryAccount, and add that does not exists
+            for (int i = 0; i < libraryCampaign.Count; i++)
+            {
+                var campaign = libraryCampaign[i];
+                var ix = all.FindIndex(a => campaign.CampaignId == a.CampaignId);
+                if (ix == -1)
+                    all.Add(campaign);
+                else
+                    all[ix] = campaign;
+            }
+
+            BinFileHelper.UpdateCampaigns(all);
+        }
+
         public static void Add(CampaignDetails campaign) => BinFileHelper.Append(campaign);
 
         // finds by id and delete
