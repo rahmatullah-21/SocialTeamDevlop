@@ -18,27 +18,32 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         [Column(Order = 1)]
         public int Id { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [Column(Order = 2)]
-        public string IsDetailedUserInfoStored
-        { get; set; }
 
-        
+        [Column(Order = 2)]
+        [Unique]
+        public string FriendId { get; set; }
+
 
         /// <summary>
         /// 
         /// </summary>
         [Column(Order = 3)]
+        public string IsDetailedUserInfoStored
+        { get; set; }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Column(Order = 4)]
         public string FullName
         { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 4)]
-        [Unique]
+        [Column(Order = 5)]
         public string ProfileUrl
         { get; set; }
 
@@ -46,8 +51,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 5)]
-        [Unique]
+        [Column(Order = 6)]
         public string Location
         { get; set; }
 
@@ -55,9 +59,9 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 6)]
+        [Column(Order = 7)]
         public string DetailedUserInfo { get; set; }
 
-        
+
     }
 }

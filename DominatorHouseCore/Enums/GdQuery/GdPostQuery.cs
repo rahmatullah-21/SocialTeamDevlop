@@ -4,10 +4,6 @@ namespace DominatorHouseCore.Enums.GdQuery
 {
     public enum GdPostQuery
     {
-        [Description("GDlangOwnFollowersPosts")]
-        OwnFollowersPost,
-        [Description("GDlangOwnFollowingPosts")]
-        OwnFollowingsPost,
         [Description("GDlangSuggestedUsersPosts")]
         SuggestedUsersPosts,
         [Description("langHashTagPost")]

@@ -6,10 +6,6 @@ namespace DominatorHouseCore.Enums.GdQuery
     {
         [Description("langKeywords")]
         Keywords,
-        [Description("langOwnFollowers")]
-        OwnFollowers,
-        [Description("langOwnFollowing")]
-        OwnFollowing,
         [Description("langSuggestedUsers")]
         SuggestedUsers,
         [Description("langHashtagusers")]

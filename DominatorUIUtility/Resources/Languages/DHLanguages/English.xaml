@@ -37,7 +37,7 @@
     <system:String x:Key="DHlangEnableAutoRestartSocinator">Enable auto restart Socinator after a minimum of</system:String>
     <system:String x:Key="DHlangInstallNnewAvailableUpdates">Install new available updates between</system:String>
     <system:String x:Key="DHlangLimitNumberOfRecords">Limit the number of records in any list to</system:String>
-    <system:String x:Key="DHlangLimitNumberOfDeshboardSummary">Limit the number of Deshboard - summary items to</system:String>
+    <system:String x:Key="DHlangLimitNumberOfDeshboardSummary">Limit the number of Dashboard - summary items to</system:String>
     <system:String x:Key="DHlangLimitNumberOfPost">Limit the number of posts in campaigns to</system:String>
     <system:String x:Key="DHlangRecreateDeshboardWindow">Recreate the Dashboard window each time its visited (check this if you have issues with the graph from statistics</system:String>
     <system:String x:Key="DHlangForceCampaignsToKeepSameCreationDate">Force campaigns to keep the same creation date on posts sent from drafts</system:String>

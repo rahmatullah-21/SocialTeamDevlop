@@ -72,7 +72,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// TimeStamp when interacted with the Group
         /// </summary>
         [Column(Order = 10)]
-        public int InteractionTimeStamp { get; set; }
+        public DateTime InteractionDatetime { get; set; }
 
     }
 }

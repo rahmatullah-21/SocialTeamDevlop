@@ -80,6 +80,6 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// TimeStamp when interacted with the Post
         /// </summary>
         [Column(Order = 11)]
-        public int InteractionTimeStamp { get; set; }
+        public DateTime InteractionDatetime { get; set; }
     }
 }

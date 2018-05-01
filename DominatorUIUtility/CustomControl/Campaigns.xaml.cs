@@ -85,10 +85,10 @@ namespace DominatorUIUtility.CustomControl
                             lstCampaignType.Add(name);
                     }
                     break;
-                case "PinInterest":
+                case "Pinterest":
                     foreach (var name in Enum.GetNames(typeof(ActivityType)))
                     {
-                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("PinInterest"))
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Pinterest"))
                             lstCampaignType.Add(name);
                     }
                     break;
@@ -104,6 +104,34 @@ namespace DominatorUIUtility.CustomControl
                     foreach (var name in Enum.GetNames(typeof(ActivityType)))
                     {
                         if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Gplus"))
+                            lstCampaignType.Add(name);
+                    }
+                    break;
+                case "LinkedIn":
+                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
+                    {
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("LinkedIn"))
+                            lstCampaignType.Add(name);
+                    }
+                    break;
+                case "Tumblr":
+                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
+                    {
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Tumblr"))
+                            lstCampaignType.Add(name);
+                    }
+                    break;
+                case "Youtube":
+                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
+                    {
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Youtube"))
+                            lstCampaignType.Add(name);
+                    }
+                    break;
+                case "Reddit":
+                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
+                    {
+                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Reddit"))
                             lstCampaignType.Add(name);
                     }
                     break;
@@ -215,7 +243,7 @@ namespace DominatorUIUtility.CustomControl
 
             var templateDetails = TemplatesFileManager.GetTemplateById(campaignDetails.TemplateId);
 
-            EditOrDuplicateCampaign(templateDetails, campaignDetails, false, Visibility.Visible, ConstantVariable.UpdateCampaign, campaignDetails.TemplateId);
+            EditOrDuplicateCampaign(templateDetails, campaignDetails, true, Visibility.Visible, ConstantVariable.UpdateCampaign, campaignDetails.TemplateId);
         }
 
         private void DuplicateCampaign_OnClick(object sender, RoutedEventArgs e)
@@ -255,6 +283,7 @@ namespace DominatorUIUtility.CustomControl
 
         private void CampaignReports_OnClick(object sender, RoutedEventArgs e)
         {
+
             ReportModel ReportModel = new ReportModel();
             Reports ObjReports = new Reports(ReportModel);
 
@@ -270,12 +299,12 @@ namespace DominatorUIUtility.CustomControl
             ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
 
 
-            Dictionary<string, string> lstCurrentQueries = new Dictionary<string, string>();
+            List<KeyValuePair<string, string>> lstCurrentQueries = new List<KeyValuePair<string, string>>();
+
 
             lstSavedQuery?.ToList().ForEach(x =>
             {
-                lstCurrentQueries.Add(x.QueryValue, x.QueryType.ToString());
-
+                lstCurrentQueries.Add(new KeyValuePair<string, string>(x.QueryValue, x.QueryType.ToString()));
                 #region Update QueryList for combobox
 
                 if (ObjReports.ReportModel.QueryList.Any(query => query.Content == x.QueryType) == false)
@@ -361,6 +390,8 @@ namespace DominatorUIUtility.CustomControl
                 ReportManager.FilterByQueryType(ObjReports.CmbQueries.SelectedItem.ToString(), ReportModel);
             };
             win.ShowDialog();
+
+
         }
 
 
@@ -425,6 +456,8 @@ namespace DominatorUIUtility.CustomControl
         }
         private void AllCampaignCheckUncheck(bool isChecked)
         {
+            objCampaignDetails.ObjCampaignDetails =
+                new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocialNetworks));
             objCampaignDetails.ObjCampaignDetails.Select(x => { x.IsCampaignChecked = isChecked; return x; }).ToList();
             SetDefaultView();
         }
@@ -470,6 +503,8 @@ namespace DominatorUIUtility.CustomControl
 
         private static void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
         {
+           
+
             try
             {
                 // remove template from each account
@@ -520,6 +555,101 @@ namespace DominatorUIUtility.CustomControl
             AllCampaign.Unchecked -= AllCampaignChecked_Unchecked;
             objCampaignDetails.IsAllCampaignChecked = false;
             AllCampaign.Unchecked += AllCampaignChecked_Unchecked;
+        }
+
+        private void AccountWiseDetails_OnClick(object sender, RoutedEventArgs e)
+        {
+            AccountWiseReportModel accountWiseReportModel = new AccountWiseReportModel();
+            CampaignAccountWiseReport campaignAccountWiseReport = new CampaignAccountWiseReport(accountWiseReportModel);
+
+            Dialog objDialog = new Dialog();
+
+            CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
+
+            campaignAccountWiseReport.AccountWiseReport.ModuleType = campName.SubModule;
+         
+            try
+            {
+                #region Update AccountList
+
+                campName.SelectedAccountList.ToList().ForEach(acc =>
+                {
+                    DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc);
+
+                    campaignAccountWiseReport.AccountWiseReport.AccountList.Add(new ContentSelectGroup()
+                    {
+                        IsContentSelected = false,
+                        Content = objDominatorAccountModel.AccountBaseModel.UserName
+                    });
+
+                  
+                });
+                #endregion
+
+              
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error(ex.Message);
+            }
+
+            Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Reports");
+
+            campaignAccountWiseReport.BtnExport.Click += (senders, events) =>
+            {
+                var exportPath = FileUtilities.GetExportPath();
+
+                if (string.IsNullOrEmpty(exportPath))
+                    return;
+
+                var filename = Regex.Replace(
+                    input: $"{ campName.CampaignName }-Reports[{ ConstantVariable.DateasFileName}]",
+                    pattern: "[\\/:*?<>|\"]",
+                    replacement: "-");
+
+                filename = $"{exportPath}\\{filename}.csv";
+
+                //Header for csv file columns
+                string header = ReportManager.GetHeader();
+
+                if (!File.Exists(filename))
+                {
+                    using (var streamWriter = new StreamWriter(filename, true))
+                    {
+                        streamWriter.WriteLine(header);
+                    }
+                }
+
+                //Export Reports to csv File
+                ReportManager.ExportReports(campName.SubModule, filename);
+
+            };
+
+            campaignAccountWiseReport.CmbAccounts.SelectionChanged += (senders, events) =>
+            {
+                try
+                {
+                    var accountId = AccountsFileManager.GetAll().FirstOrDefault(x =>
+                                x.AccountBaseModel.AccountNetwork == campName.SocialNetworks &&
+                                x.UserName == campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString()).AccountId;
+                    DataBaseConnection dataBase =
+                        DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, SocialNetworks);
+
+                    if (ReportManager.GetAccountWiseReportDetail(campaignAccountWiseReport, dataBase, accountId) == 0)
+                    {
+                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Account Wise Report", "Reports for "
+                            + campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString() + " Campaign not available");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            };
+             win.ShowDialog();
+
+
         }
     }
 }

@@ -252,11 +252,13 @@
     <Compile Include="DatabaseHandler\QdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\Friendship.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedAnswers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedMessage.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedAnswers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedMessage.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedUsers.cs" />
@@ -311,6 +313,8 @@
     <Compile Include="Enums\GpDQuery\GplusPostsQueries.cs" />
     <Compile Include="Enums\GpDQuery\GplusUsersQueries.cs" />
     <Compile Include="Enums\LdQuery\LDMessengerQueryParameters.cs" />
+    <Compile Include="Enums\PdQuery\PDPinQueries.cs" />
+    <Compile Include="Enums\PdQuery\PDUsersQueries.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
     <Compile Include="Enums\TumblrQuery\TumblrFollowerQuery.cs" />
@@ -366,6 +370,7 @@
     <Compile Include="Diagnostics\LogHelper\GlobusLogHelper.cs" />
     <Compile Include="Diagnostics\LogHelper\ILoggableWindow.cs" />
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
+    <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
     <Compile Include="Models\BlacklistUserModel.cs" />
@@ -500,7 +505,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Enums\PdQuery\" />
     <Folder Include="Enums\RdQuery\" />
   </ItemGroup>
   <ItemGroup>

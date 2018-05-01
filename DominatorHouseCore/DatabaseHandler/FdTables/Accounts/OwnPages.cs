@@ -23,6 +23,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// 
         /// </summary>
         [Column(Order = 2)]
+        [Unique]
         public string PageId { get; set; }
 
 

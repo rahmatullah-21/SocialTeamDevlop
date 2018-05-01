@@ -70,8 +70,8 @@ namespace DominatorHouseCore.Models
         [JsonProperty(PropertyName = "feed_view_info")]
         public string FeedViewInfo { get; set; }
 
-        [JsonProperty(PropertyName = "first_name")]
-        public string FirstName { get; set; }
+        [JsonProperty(PropertyName = "full_name")]
+        public string FullName { get; set; }
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore, PropertyName = "gender")]
         public int Gender { get; set; }

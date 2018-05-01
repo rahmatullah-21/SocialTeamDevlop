@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
 {
+
     public class InteractedJobs
     {
         [Key]
@@ -58,15 +59,21 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         public string JobPostUrl { get; set; }
 
         /// <summary>
-        /// Contains DetailedInfo Regarding Interacted JobPost In Jason String Form
+        /// Contains title of the JobPost being interacted
         /// </summary>
         [Column(Order = 7)]
+        public string JobTitle { get; set; }
+
+        /// <summary>
+        /// Contains DetailedInfo Regarding Interacted JobPost In Jason String Form
+        /// </summary>
+        [Column(Order = 8)]
         public string DetailedInfo { get; set; }
 
         /// <summary>
         /// TimeStamp when interacted with the JobPost
         /// </summary>
-        [Column(Order = 8)]
+        [Column(Order = 9)]
         public int InteractionTimeStamp { get; set; }
     }
 }

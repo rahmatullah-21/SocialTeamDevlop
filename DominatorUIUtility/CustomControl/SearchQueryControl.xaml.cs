@@ -243,27 +243,33 @@ namespace DominatorUIUtility.CustomControl
 
         private void DeleteSingle_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            CurrentQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
+            DeleteQueryEventHandler();
+            if (ListQueryInfo.Any(x => CurrentQuery != null && x.Id == CurrentQuery.Id))
+            {
+                ListQueryInfo.Remove(CurrentQuery);
+            }
             //var currentRow = ((FrameworkElement)sender).DataContext as QueryInfo;
             //if (ListQueryInfo.Any(x => currentRow != null && x.Id == currentRow.Id))
             //{
             //    ListQueryInfo.Remove(currentRow);
             //}
             //DeleteQueryEventHandler();
-            try
-            {
-                var selectedQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
-                DeleteQueryEventHandler();
-                if (ListQueryInfo.Any(x => selectedQuery != null && x.Id == selectedQuery.Id))
-                {
-                    ListQueryInfo.Remove(selectedQuery);
+            //try
+            //{
+            //    var selectedQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
+            //    DeleteQueryEventHandler();
+            //    if (ListQueryInfo.Any(x => selectedQuery != null && x.Id == selectedQuery.Id))
+            //    {
+            //        ListQueryInfo.Remove(selectedQuery);
 
-                    // SearchQueries.ItemsSource = ListQueryInfo.Count == 0 ? null : ListQueryInfo;
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
+            //        // SearchQueries.ItemsSource = ListQueryInfo.Count == 0 ? null : ListQueryInfo;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ex.DebugLog();
+            //}
         }
 
         #endregion

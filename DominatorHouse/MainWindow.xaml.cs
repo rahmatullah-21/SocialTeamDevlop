@@ -99,7 +99,7 @@ namespace DominatorHouse
                     var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating is in process !", "Please wait for a while...");
                     controller.SetIndeterminate();
                     _licenseKey = license;
-                    var networks = await SocinatorInitialize.GetAvailableSocialNetworks(_licenseKey);
+                    var networks = await SocinatorInitialize.SetAvailableSocialNetworks(_licenseKey);
                     if (networks.Count <= 1)
                     {
                         Close();

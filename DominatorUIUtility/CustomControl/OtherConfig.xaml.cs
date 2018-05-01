@@ -22,10 +22,10 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class OtherConfig : UserControl
     {
-        readonly MultiMessage MultiMessageForUserHasNotReplied = new MultiMessage();
-        readonly MultiMessage MultiMessageForUserHasReplied = new MultiMessage();
-        readonly Dialog dialog = new Dialog();
-       
+        public MultiMessage MultiMessageForUserHasNotReplied = new MultiMessage();
+        public MultiMessage MultiMessageForUserHasReplied = new MultiMessage();
+        Dialog dialog = new Dialog();
+
         public OtherConfig()
         {
             InitializeComponent();

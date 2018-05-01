@@ -134,5 +134,5 @@
     <system:String x:Key="LDlangGroupMemberScraperWarning">These accounts are already running with GroupMemberScraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangSalesNavigatorUserScraperWarning">These accounts are already running with SalesNavigatorUserScraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangProfileEndorsementWarning">These accounts are already running with ProfileEndorsement configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
-
+    <system:String x:Key="LDlangRefresh">Refresh</system:String>
 </ResourceDictionary>

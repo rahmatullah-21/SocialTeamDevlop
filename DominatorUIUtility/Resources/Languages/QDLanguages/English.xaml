@@ -113,4 +113,25 @@
     <system:String x:Key="QDlangMaxQuestionScraperDay">Max question scrape per day</system:String>
     <system:String x:Key="QDlangAfterQuestionsScraper">After Questions Scraper</system:String>
     <system:String x:Key="QDlangMessages">Messages</system:String>
+    <system:String x:Key="QDlangUpvoteUsersLatestPosts">Upvote users latest posts</system:String>
+    <system:String x:Key="QDlangUpvoteRandomPosts">Upvote random posts</system:String>
+    <system:String x:Key="QDlangUpvoteMaximumOf">Upvote a maximum of</system:String>
+    <system:String x:Key="QDlangUpvoteBetween">Upvote Between</system:String>
+    <system:String x:Key="QDlangSendMessegesToNewFollowerPerJob">Number of Send Messeges To New Follower per job</system:String>
+    <system:String x:Key="QDlangSendMessegesToNewFollowerPerDay">Number of Send Messeges To New Follower per day</system:String>
+    <system:String x:Key="QDlangSendMessegesToNewFollowerPerHour">Number of Send Messeges To NewFollower per hour</system:String>
+    <system:String x:Key="QDlangSendMessegesToNewFollowerPerWeek">Number of Send Messeges To New Follower per week</system:String>
+    <system:String x:Key="QDlangSendMessegesToNewFollowerDay">max SendMessegesToNewFollower per day</system:String>
+    <system:String x:Key="QDlangStopFollowToolWhenReach">Enable automatic follow/unfollow. Stop follow tool when reaching</system:String>
+
+    <system:String x:Key="langBroadcastMessegesPerJob">Number of BroadcastMesseges per job</system:String>
+    <system:String x:Key="langBroadcastMessegesPerDay">Number of BroadcastMesseges per day</system:String>
+    <system:String x:Key="langBroadcastMessegesPerHour">Number of BroadcastMesseges per hour</system:String>
+    <system:String x:Key="langBroadcastMessegesPerWeek">Number of BroadcastMesseges per week</system:String>
+    <system:String x:Key="langMaxBroadcastMessegesDay">max BroadcastMesseges per day</system:String>
+    <system:String x:Key="langAutoReplyToNewMessegeJob">Number of Auto Reply To New Messege per job</system:String>
+    <system:String x:Key="langAutoReplyToNewMessegeDay">Number of Auto Reply To New Messege per day</system:String>
+    <system:String x:Key="langAutoReplyToNewMessegeHour">Number of Auto Reply To New Messege per hour</system:String>
+    <system:String x:Key="langAutoReplyToNewMessegeWeek">Number of Auto Reply To New Messege per week</system:String>
+    <system:String x:Key="langMaxAutoReplyToNewMessegeDay">max Auto Reply To New Messege per day</system:String>
 </ResourceDictionary>

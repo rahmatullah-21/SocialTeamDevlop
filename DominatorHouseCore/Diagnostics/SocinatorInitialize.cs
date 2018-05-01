@@ -14,6 +14,9 @@ using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using DominatorHouseCore.Request;
+using MahApps.Metro.Controls.Dialogs;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProtectedCommon;
 
 namespace DominatorHouseCore.Diagnostics
@@ -27,7 +30,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();
 
-        public static async Task<HashSet<SocialNetworks>> GetAvailableSocialNetworks(string license)
+        public static async Task<HashSet<SocialNetworks>> SetAvailableSocialNetworks(string license)
         {
             try
             {
@@ -67,26 +70,6 @@ namespace DominatorHouseCore.Diagnostics
                 #endregion
 
                 if (string.IsNullOrEmpty(license))
-                {                   
-                    FeatureFlags.Instance = new FeatureFlags()
-                    {
-                        {"SocinatorInitializer", true}
-                    };
-                    return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
-                }
-                    
-                var macId = GetMacId();
-
-                var url =
-                    $"https://socinator.com/amember/softsale/api/activate?key={license}&request[hardware-id]={macId}";
-
-                string finalResponse;
-                var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
-                var licenseresponse = (HttpWebResponse)await request.GetResponseAsync();
-
-                var responseStream = licenseresponse.GetResponseStream();
-
-                if (responseStream == null)
                 {
                     FeatureFlags.Instance = new FeatureFlags()
                     {
@@ -94,60 +77,54 @@ namespace DominatorHouseCore.Diagnostics
                     };
                     return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
                 }
-                  
+
+                var macId = GetMacId();
+
+                string finalResponse;
+                Stream responseStream = await CheckLicenseActivation(license, macId);
                 using (var streamReader = new StreamReader(responseStream))
                 {
                     finalResponse = streamReader.ReadToEnd();
                 }
+                
+               await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
 
-                if (finalResponse.Contains("License Key not found"))
-                {
-                    FeatureFlags.Instance = new FeatureFlags()
-                    {
-                        {"SocinatorInitializer", true}
-                    };
-                    return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
-                }
 
-                if (finalResponse.Contains("Ok"))
-                {
-                    FeatureFlags.Instance = new FeatureFlags()
-                    {
-                        {"SocinatorInitializer", true}
-                    };
-                    return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
-                }
+                #region Comented
 
-                if (finalResponse.Contains("Sorry"))
-                {
-                    // Get all available networks from license  
-                    AvailableNetworks.Add(SocialNetworks.Social);
-                    AvailableNetworks.Add(SocialNetworks.Twitter);
-                    AvailableNetworks.Add(SocialNetworks.Facebook);
-                    AvailableNetworks.Add(SocialNetworks.Gplus);
-                    AvailableNetworks.Add(SocialNetworks.Instagram);
-                    AvailableNetworks.Add(SocialNetworks.LinkedIn);
-                    AvailableNetworks.Add(SocialNetworks.Quora);
-                    AvailableNetworks.Add(SocialNetworks.Pinterest);
-                    AvailableNetworks.Add(SocialNetworks.Tumblr);
-                    AvailableNetworks.Add(SocialNetworks.Youtube);
-                    AvailableNetworks.Add(SocialNetworks.Reddit);
+                //if (responseStream == null)
+                //{
+                //    FeatureFlags.Instance = new FeatureFlags()
+                //    {
+                //        {"SocinatorInitializer", true}
+                //    };
+                //    return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
+                //}
 
-                    FeatureFlags.Instance = new FeatureFlags() {
-                        {"SocinatorInitializer", true },
-                        {"Twitter", true },
-                        {"Social", true},
-                        {"Instagram",true },
-                        {"Gplus",true },
-                        {"LinkedIn",true },
-                        {"Quora",true },
-                        {"Facebook",true },
-                        {"Youtube",true },
-                        {"Reddit",true },
-                        {"Tumblr",true },
-                        {"Pinterest",true}
-                    };
-                }
+
+
+                //if (finalResponse.Contains("License Key not found"))
+                //{
+                //    FeatureFlags.Instance = new FeatureFlags()
+                //    {
+                //        {"SocinatorInitializer", true}
+                //    };
+                //    return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
+                //}
+
+                //if (finalResponse.Contains("Ok"))
+                //{
+
+
+                //}
+
+                //if (finalResponse.Contains("Sorry"))
+                //{
+                //    // Get all available networks from license  
+
+                //} 
+
+                #endregion
             }
             catch (Exception ex)
             {
@@ -156,7 +133,150 @@ namespace DominatorHouseCore.Diagnostics
             return AvailableNetworks;
         }
 
+        private static HashSet<SocialNetworks> SetLicensedSocialNetworks()
+        {
+            FeatureFlags.Instance = new FeatureFlags()
+            {
+                {"SocinatorInitializer", true}
+            };
+            AvailableNetworks.Add(SocialNetworks.Social);
+            AvailableNetworks.Add(SocialNetworks.Twitter);
+            AvailableNetworks.Add(SocialNetworks.Facebook);
+            AvailableNetworks.Add(SocialNetworks.Gplus);
+            AvailableNetworks.Add(SocialNetworks.Instagram);
+            AvailableNetworks.Add(SocialNetworks.LinkedIn);
+            AvailableNetworks.Add(SocialNetworks.Quora);
+            AvailableNetworks.Add(SocialNetworks.Pinterest);
+            AvailableNetworks.Add(SocialNetworks.Tumblr);
+            AvailableNetworks.Add(SocialNetworks.Youtube);
+            AvailableNetworks.Add(SocialNetworks.Reddit);
 
+            FeatureFlags.Instance = new FeatureFlags()
+            {
+                {"SocinatorInitializer", true},
+                {"Twitter", true},
+                {"Social", true},
+                {"Instagram", true},
+                {"Gplus", true},
+                {"LinkedIn", true},
+                {"Quora", true},
+                {"Facebook", true},
+                {"Youtube", true},
+                {"Reddit", true},
+                {"Tumblr", true},
+                {"Pinterest", true}
+            };
+            return AvailableNetworks;
+        }
+
+        private static async Task<HashSet<SocialNetworks>> SetAllLicensedSocialNetworks(string code, string license,string macId)
+        {
+            switch (code)
+            {
+                case "no_activation_found":
+                    string finalResponse;
+                    using (var streamReader = new StreamReader(await ActivateLicense(license, macId)))
+                    {
+                        finalResponse = streamReader.ReadToEnd();
+                    }
+                    return await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
+                  
+                case "license_empty":
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        "License Error",
+                        "Empty or invalid license key submitted, Please check your license key and enter again.");
+
+                    break;
+                case "license_not_found":
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        "License Error",
+                        "Oops, we are unable to find key you have entered, please recheck once at your end or contact support.");
+                    break;
+                case "license_disabled":
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        "License Error",
+                        "Your License key has been disabled, please contact support for more information.");
+                    break;
+                case "license_expired":
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        "License Error",
+                        "Your license key has got expired, please renew your subscription or contact support");
+                    break;
+                case "invalid_input":
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        "License Error",
+                        "Your entered license key is invalid, please check your license key and enter again.");
+                    break;
+                case "no_spare_activations":
+                    //var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                    //      "License Error",
+                    //      "You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation."
+                    // , MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
+                    // {
+                    //     AffirmativeButtonText = "Deactivate Previous Activation"
+                    // });
+                    //if (dialogResult == MessageDialogResult.Affirmative)
+                    //{
+                    //    using (var streamReader = new StreamReader( await DeActivateLicense(license, macId)))
+                    //    {
+                    //        finalResponse = streamReader.ReadToEnd();
+                    //    }
+                    //    if(JObject.Parse(finalResponse)["code"].ToString()=="ok")
+                    //    {
+                    //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                    //            "License", "Sucessfully Deactivated.");
+                    //        var licence =
+                    //            DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow,
+                    //                "Socinator", "License");
+                    //        return await SetAvailableSocialNetworks(license);
+                    //    }
+                    //}
+                    break;
+                case "no_reactivation_allowed":
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        "License Error",
+                        "Sorry, but we are unable to reactivate your license key, please contact support.");
+                    break;
+                case "ok":
+                    return SetLicensedSocialNetworks();
+                case "other_error":
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        "License Error",
+                        "Sorry, some unknown error occured, please contact support.");
+                    break;
+
+
+            }
+            return new HashSet<SocialNetworks>();
+        }
+        private static async Task<Stream> CheckLicenseActivation(string license, string macId)
+        {
+            var url = $"https://socinator.com/amember/softsale/api/check-activation?key={license}&request[hardware-id]={macId}";
+            var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+            var licenseresponse = (HttpWebResponse)await request.GetResponseAsync();
+
+            var responseStream = licenseresponse.GetResponseStream();
+            return responseStream;
+        }
+
+        private static async Task<Stream> ActivateLicense(string license, string macId)
+        {
+            var url = $"https://socinator.com/amember/softsale/api/activate?key={license}&request[hardware-id]={macId}";
+            var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+            var licenseresponse = (HttpWebResponse)await request.GetResponseAsync();
+
+            var responseStream = licenseresponse.GetResponseStream();
+            return responseStream;
+        }
+        private static async Task<Stream> DeActivateLicense(string license, string macId)
+        {
+            var url = $"https://socinator.com/amember/softsale/api/deactivate?key={license}&request[hardware-id]={macId}";
+            var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+            var licenseresponse = (HttpWebResponse)await request.GetResponseAsync();
+
+            var responseStream = licenseresponse.GetResponseStream();
+            return responseStream;
+        }
         public static string GetMacId()
         {
             var macAddresses = string.Empty;

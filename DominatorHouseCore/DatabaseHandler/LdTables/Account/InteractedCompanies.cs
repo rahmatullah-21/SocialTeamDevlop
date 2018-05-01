@@ -78,6 +78,6 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// TimeStamp when Interacted with the Company
         /// </summary>
         [Column(Order = 11)]
-        public int InteractionTimeStamp { get; set; }
+        public DateTime InteractionDatetime { get; set; }
     }
 }

@@ -1089,8 +1089,8 @@
     <system:String x:Key="TdLangCustomUsersList">Custom users list</system:String>
     <system:String x:Key="TdLangSomeonesFollowers">Someone's followers</system:String>
     <system:String x:Key="TdLangSomeonesFollowings">Someone's followings</system:String>
-    <system:String x:Key="TdLangFollowersOfSomeonesFollowings">Followers of someone's followers</system:String>
-    <system:String x:Key="TdLangFollowersOfSomeonesFollowers">Followers of someone's followings</system:String>
+    <system:String x:Key="TdLangFollowersOfSomeonesFollowings">Followers of someone's followings</system:String>
+    <system:String x:Key="TdLangFollowersOfSomeonesFollowers">Followers of someone's followers</system:String>
     <system:String x:Key="TdLangUsersWhoLikedTweet">Users who liked tweet</system:String>
     <system:String x:Key="TdLangUsersWhoCommentedOnTweet">Users who commented on tweet</system:String>
     <system:String x:Key="TdLangUsersWhoRetweetedTweet">Users who retweeted tweet</system:String>
@@ -1106,7 +1106,7 @@
     <system:String x:Key="TdLangLikedUsersTweets">Liked user's tweets</system:String>
     <system:String x:Key="TdLangCommentedUsersTweets">Commented user's tweets</system:String>
     <system:String x:Key="TdLangRetweetedUsersTweets">Retweeted user's tweets</system:String>
-    <system:String x:Key="TdLangCommentedTweets">Comments on custom tweet</system:String>
+    <system:String x:Key="TdLangCommentedTweets">Commented tweets</system:String>
     <system:String x:Key="TdLangUndoRetweet">Undo retweets</system:String>
     <system:String x:Key="TdLangDeleteComments">Delete comments</system:String>
     <system:String x:Key="TdLangTweetedDateMustBeWithin">Tweeted date must be within</system:String>
@@ -1127,7 +1127,7 @@
     <system:String x:Key="TdLangAutoReplyToNewMessages">Auto reply</system:String>
     <system:String x:Key="TdLangSendMessagesToNewFollowers">Message to new followers</system:String>
     <system:String x:Key="TdLangAutoReply">AutoReply</system:String>
-    <system:String x:Key="TdLangBroadcastMessageConfig">Message</system:String>
-    <system:String x:Key="TdLangMessageToNewFollowers">MsgToNewFollowers</system:String>
+    <system:String x:Key="TdLangBroadcastMessageConfig">BroadCastMessage</system:String>
+    <system:String x:Key="TdLangMessageToNewFollowers">MessageToNewFollowers</system:String>
 
 </ResourceDictionary>
