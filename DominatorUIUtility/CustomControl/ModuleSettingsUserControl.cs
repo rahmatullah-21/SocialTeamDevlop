@@ -463,7 +463,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        /// Sathish added 
+     
         #region Campaign Implementations
 
         protected void CreateCampaign(string errorMessage, List<RunningTimes> runningTime)
@@ -708,7 +708,6 @@ namespace DominatorUIUtility.CustomControl
 
             CampaignsFileManager.Add(campaignDetails);
         }
-
 
         #endregion
 
