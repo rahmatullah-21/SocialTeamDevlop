@@ -444,6 +444,7 @@
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DataBaseHandler.cs" />
     <Compile Include="Utility\DateTimeHelper.cs" />
+    <Compile Include="Utility\Dialog.cs" />
     <Compile Include="Utility\EnumUtility.cs" />
     <Compile Include="Utility\FeatureFlags.cs" />
     <Compile Include="Utility\GridViewBehaviors.cs" />

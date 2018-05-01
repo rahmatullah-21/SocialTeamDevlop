@@ -51,11 +51,11 @@ namespace DominatorHouseCore.Diagnostics
                 {
                     finalResponse = streamReader.ReadToEnd();
                 }
-                
-               await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
+
+                await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
 
 
-                #region Comented
+                #region Commented
 
                 //if (responseStream == null)
                 //{
@@ -134,8 +134,9 @@ namespace DominatorHouseCore.Diagnostics
             return AvailableNetworks;
         }
 
-        private static async Task<HashSet<SocialNetworks>> SetAllLicensedSocialNetworks(string code, string license,string macId)
+        private static async Task<HashSet<SocialNetworks>> SetAllLicensedSocialNetworks(string code, string license, string macId)
         {
+            string message = "Oops something went wrong";
             switch (code)
             {
                 case "no_activation_found":
@@ -145,34 +146,26 @@ namespace DominatorHouseCore.Diagnostics
                         finalResponse = streamReader.ReadToEnd();
                     }
                     return await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
-                  
-                case "license_empty":
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "License Error",
-                        "Empty or invalid license key submitted, Please check your license key and enter again.");
 
+                case "license_empty":
+                    message = "Empty or invalid license key submitted, Please check your license key and enter again.";
                     break;
                 case "license_not_found":
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "License Error",
-                        "Oops, we are unable to find key you have entered, please recheck once at your end or contact support.");
+                    message =
+                        "Oops, we are unable to find key you have entered, please recheck once at your end or contact support.";
                     break;
                 case "license_disabled":
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "License Error",
-                        "Your License key has been disabled, please contact support for more information.");
+                    message = "Your License key has been disabled, please contact support for more information.";
                     break;
                 case "license_expired":
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "License Error",
-                        "Your license key has got expired, please renew your subscription or contact support");
+                    message = "Your license key has got expired, please renew your subscription or contact support";
                     break;
                 case "invalid_input":
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "License Error",
-                        "Your entered license key is invalid, please check your license key and enter again.");
+                    message = "Your entered license key is invalid, please check your license key and enter again.";
                     break;
                 case "no_spare_activations":
+                    message =
+                        "You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation.";
                     //var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
                     //      "License Error",
                     //      "You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation."
@@ -198,49 +191,32 @@ namespace DominatorHouseCore.Diagnostics
                     //}
                     break;
                 case "no_reactivation_allowed":
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "License Error",
-                        "Sorry, but we are unable to reactivate your license key, please contact support.");
+                    message = "Sorry, but we are unable to reactivate your license key, please contact support.";
                     break;
                 case "ok":
                     return SetLicensedSocialNetworks();
                 case "other_error":
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "License Error",
-                        "Sorry, some unknown error occured, please contact support.");
+                    message = "Sorry, some unknown error occured, please contact support.";
                     break;
-
-
             }
+            Dialog.ShowDialog("License Error", message);
             return new HashSet<SocialNetworks>();
         }
         private static async Task<Stream> CheckLicenseActivation(string license, string macId)
         {
             var url = $"https://socinator.com/amember/softsale/api/check-activation?key={license}&request[hardware-id]={macId}";
-            var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
-            var licenseresponse = (HttpWebResponse)await request.GetResponseAsync();
-
-            var responseStream = licenseresponse.GetResponseStream();
-            return responseStream;
+            return await HttpHelper.GetResponseStreamAsync(url);
         }
 
         private static async Task<Stream> ActivateLicense(string license, string macId)
         {
             var url = $"https://socinator.com/amember/softsale/api/activate?key={license}&request[hardware-id]={macId}";
-            var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
-            var licenseresponse = (HttpWebResponse)await request.GetResponseAsync();
-
-            var responseStream = licenseresponse.GetResponseStream();
-            return responseStream;
+            return await HttpHelper.GetResponseStreamAsync(url);
         }
         private static async Task<Stream> DeActivateLicense(string license, string macId)
         {
             var url = $"https://socinator.com/amember/softsale/api/deactivate?key={license}&request[hardware-id]={macId}";
-            var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
-            var licenseresponse = (HttpWebResponse)await request.GetResponseAsync();
-
-            var responseStream = licenseresponse.GetResponseStream();
-            return responseStream;
+            return await HttpHelper.GetResponseStreamAsync(url);
         }
         public static string GetMacId()
         {

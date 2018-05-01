@@ -63,7 +63,25 @@ namespace DominatorHouse
             try
             {
                 DialogParticipation.SetRegister(this, this);
-                Dispatcher.Invoke(async () => { await LicenseCheck(); });
+                //Dispatcher.Invoke(async () => { await LicenseCheck(); });
+
+
+                var cts = new CancellationTokenSource();
+                try
+                {
+                    Task.Run(() =>
+                          {
+                              LicenseCheck();
+                              cts.CancelAfter(TimeSpan.FromSeconds(60));
+
+                          }, cts.Token);
+                }
+                catch (Exception ex)
+                {
+
+                  
+                }
+
 
                 InitializeComponent();
                 SocinatorInitialize.LogInitializer(this);
