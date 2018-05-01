@@ -266,6 +266,8 @@ namespace DominatorHouseCore.Models
         [Description("langCustomPin")]
         CustomPin = 20,
         [Description("langNewsFeedPins")]
-        NewsFeedPins = 21
+        NewsFeedPins = 21,
+        [Description("langCustomUrl")]
+        CustomUrl = 22
     }
 }

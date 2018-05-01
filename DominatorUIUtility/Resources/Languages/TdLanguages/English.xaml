@@ -1127,8 +1127,6 @@
     <system:String x:Key="TdLangAutoReplyToNewMessages">Auto reply</system:String>
     <system:String x:Key="TdLangSendMessagesToNewFollowers">Message to new followers</system:String>
     <system:String x:Key="TdLangAutoReply">AutoReply</system:String>
-    <system:String x:Key="TdLangBroadcastMessageConfig">Message</system:String>
-    <system:String x:Key="TdLangMessageToNewFollowers">MsgToNewFollowers</system:String>
-    <system:String x:Key="TdLangOwnfollwers">Own Followers</system:String>
-    <system:String x:Key="TdLangOwnfollowings">Own Followings</system:String>
+    <system:String x:Key="TdLangBroadcastMessageConfig">BroadCastMessage</system:String>
+    <system:String x:Key="TdLangMessageToNewFollowers">MessageToNewFollowers</system:String>
 </ResourceDictionary>

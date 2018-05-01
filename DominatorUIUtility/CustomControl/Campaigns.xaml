@@ -137,16 +137,12 @@
                                                                 <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
                                                             </MenuItem.Icon>
                                                         </MenuItem>
-                                                        <MenuItem Header="{DynamicResource langAccountWiseDetails}" VerticalContentAlignment="Center" Height="30" x:Name="AccountWiseDetails" >
+                                                        <MenuItem Header="{DynamicResource langAccountWiseDetails}" VerticalContentAlignment="Center" Height="30" x:Name="AccountWiseDetails" Click="AccountWiseDetails_OnClick">
                                                             <MenuItem.Icon>
                                                                 <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
                                                             </MenuItem.Icon>
                                                         </MenuItem>
-                                                        <MenuItem Header="{DynamicResource langMarkCampaignCompleted}" Height="30" Name="btnMarkCampaignCompleted"   VerticalContentAlignment="Center" >
-                                                            <MenuItem.Icon>
-                                                                <Image Source="/DominatorUIUtility;component/Images/edit.png"  />
-                                                            </MenuItem.Icon>
-                                                        </MenuItem>
+                                                       
                                                     </ContextMenu>
                                                 </Button.ContextMenu>
 

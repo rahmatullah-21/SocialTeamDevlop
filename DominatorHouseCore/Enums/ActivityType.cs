@@ -243,6 +243,8 @@ namespace DominatorHouseCore.Enums
         Try = 80,
 
         [Description("LinkedIn")]
-        SendMessageToNewConnection = 81
+        SendMessageToNewConnection = 81,
+        [Description("Reddit")]
+        UrlScraper = 82,
     }
 }

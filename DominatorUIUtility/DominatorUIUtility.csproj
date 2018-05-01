@@ -194,6 +194,9 @@
     <Compile Include="CustomControl\DayTimerControl.xaml.cs">
       <DependentUpon>DayTimerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\ExtraFooterControl.xaml.cs">
+      <DependentUpon>ExtraFooterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\InputBoxControl.xaml.cs">
       <DependentUpon>InputBoxControl.xaml</DependentUpon>
     </Compile>
@@ -221,6 +224,9 @@
     </Compile>
     <Compile Include="CustomControl\ProxyManager.xaml.cs">
       <DependentUpon>ProxyManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CampaignAccountWiseReport.xaml.cs">
+      <DependentUpon>CampaignAccountWiseReport.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\Publisher\JobConfiguration.xaml.cs">
       <DependentUpon>JobConfiguration.xaml</DependentUpon>
@@ -389,6 +395,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CustomControl\ExtraFooterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomControl\FooterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -438,6 +448,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\ProxyManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CampaignAccountWiseReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

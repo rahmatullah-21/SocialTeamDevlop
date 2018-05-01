@@ -65,6 +65,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     break;
                 case SocialNetworks.LinkedIn:
                     modelBuilder.Entity<LdTables.Account.Connections>();
+                    modelBuilder.Entity<LdTables.Account.Groups>();
                     modelBuilder.Entity<LdTables.Account.DailyStatitics>();
                     modelBuilder.Entity<LdTables.Account.FeedInfo>();
                     modelBuilder.Entity<LdTables.Account.InteractedCompanies>();
