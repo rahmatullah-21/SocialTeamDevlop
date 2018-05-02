@@ -39,7 +39,7 @@ namespace DominatorUIUtility.CustomControl
         {
             _strategies = strategies;
             InitializeComponent();
-            SetDataContext();
+
         }
 
         private void SetDataContext()
@@ -50,24 +50,10 @@ namespace DominatorUIUtility.CustomControl
 
             ProxyDetail = new ObservableCollection<ProxyManagerModel>(ProxyFileManager.GetAllProxy());
 
-            var AllAccounts = AccountsFileManager.GetAll();
-
             ProxyDetail.ForEach(proxy =>
             {
                 if (ProxyManagerModel.Groups.Any(ProxyGroup => ProxyGroup == proxy.AccountProxy.ProxyGroup) == false)
                     ProxyManagerModel.Groups.Add(proxy.AccountProxy.ProxyGroup);
-
-                AllAccounts.ForEach(user =>
-                {
-                    if (!proxy.AccountsAssignedto.Any(account => account.UserName == user.UserName))
-                    {
-                        proxy.AccountsToBeAssign.Add(new AccountAssign
-                        {
-                            UserName = user.UserName,
-                            AccountNetwork = user.AccountBaseModel.AccountNetwork
-                        });
-                    }
-                });
 
             }
             );
@@ -119,11 +105,9 @@ namespace DominatorUIUtility.CustomControl
         {
             AccountAssign account = ((FrameworkElement)sender).DataContext as AccountAssign;
             var proxy = ProxyFileManager.GetProxyByName(currentProxyManagerModel.AccountProxy.ProxyName);
-
+            var accountToDelete = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName);
             try
             {
-                var accountToDelete = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName);
-
                 proxy.AccountsAssignedto.Remove(accountToDelete);
 
                 ProxyFileManager.EditProxy(proxy);
@@ -133,18 +117,18 @@ namespace DominatorUIUtility.CustomControl
                 ProxyDetail[indexToUpdate].AccountsAssignedto = proxy.AccountsAssignedto;
                 ProxyDetail[indexToUpdate].AccountsToBeAssign.Add(accountToDelete);
 
-                try
-                {
-                    var AccountToDeleteProxy = AccountsFileManager.GetAccount(account.UserName);
-                    AccountToDeleteProxy.AccountBaseModel.AccountProxy = new Proxy();
+                var AccountToDeleteProxy = AccountsFileManager.GetAccount(account.UserName);
+                AccountToDeleteProxy.AccountBaseModel.AccountProxy = new Proxy();
 
-                    AccountsFileManager.Edit(AccountToDeleteProxy);
-                    UpdateAccountsProxy(AccountToDeleteProxy, _strategies);
-                }
-                catch (Exception ex)
+                AccountsFileManager.Edit(AccountToDeleteProxy);
+                UpdateAccountsProxy(AccountToDeleteProxy, _strategies);
+                ProxyDetail.ForEach(oldProxy =>
                 {
-
-                }
+                    if (!oldProxy.AccountsToBeAssign.Any(x => x.UserName == accountToDelete.UserName && x.AccountNetwork == accountToDelete.AccountNetwork))
+                        oldProxy.AccountsToBeAssign.Add(accountToDelete);
+                    ProxyFileManager.EditProxy(oldProxy);
+                });
+                var v = ProxyFileManager.GetAllProxy();
             }
             catch (Exception ex)
             {

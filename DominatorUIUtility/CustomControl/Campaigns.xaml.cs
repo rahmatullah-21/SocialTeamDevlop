@@ -61,7 +61,7 @@ namespace DominatorUIUtility.CustomControl
             List<string> lstCampaignType = new List<string>();
 
             lstCampaignType.Add("All");
-
+            CmbCampaignType.SelectedIndex = 0;
             switch (networks)
             {
                 case "Instagram":

@@ -222,6 +222,22 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\gramdominator-library\GramDominatorCore\GramDominatorCore.csproj">
+      <Project>{b04813ea-a4b5-40ae-b705-743687f74770}</Project>
+      <Name>GramDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\gramdominator-library\GramDominatorUI\GramDominatorUI.csproj">
+      <Project>{317a142c-6ae2-4cc1-90a7-5752b9ed76f3}</Project>
+      <Name>GramDominatorUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorCore\LinkedDominatorCore.csproj">
+      <Project>{9df3cac5-0c31-49f0-a71e-27b9cefc6553}</Project>
+      <Name>LinkedDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorUI\LinkedDominatorUI.csproj">
+      <Project>{8a858cd7-7834-4365-8f4d-4faa0361de7f}</Project>
+      <Name>LinkedDominatorUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\pindominator-library\PinDominatorCore\PinDominatorCore.csproj">
       <Project>{68ef34bf-36c9-4e33-9acd-7b9d7b746f29}</Project>
       <Name>PinDominatorCore</Name>
@@ -237,6 +253,22 @@
     <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorUI\QuoraDominatorUI.csproj">
       <Project>{164cddcd-db12-4998-b822-3adc9c8a7072}</Project>
       <Name>QuoraDominatorUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\reddit-dominator-library\RedditDominatorCore\RedditDominatorCore.csproj">
+      <Project>{6d1bc42e-ffea-4f4a-9375-328d0de7269d}</Project>
+      <Name>RedditDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\reddit-dominator-library\RedditDominatorUI\RedditDominatorUI.csproj">
+      <Project>{30754f3c-6ebc-4021-b0b7-53ea312da707}</Project>
+      <Name>RedditDominatorUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorCore\TwtDominatorCore.csproj">
+      <Project>{e41bf7d2-231f-4d58-ad45-95f7146e1979}</Project>
+      <Name>TwtDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorUI\TwtDominatorUI.csproj">
+      <Project>{b91d5616-eafd-4bf8-aaf5-051675592714}</Project>
+      <Name>TwtDominatorUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>

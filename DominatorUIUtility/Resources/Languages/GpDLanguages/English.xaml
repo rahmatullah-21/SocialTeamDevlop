@@ -120,4 +120,5 @@
     <system:String x:Key="langFollowUserAfterLike">Follow User After Like</system:String>
     <system:String x:Key="GpluslangStopAtMaxCommentsFailed">Stop The Comment Action If Number of Continuous Failed Comments</system:String>
     <system:String x:Key="GpluslangStopAtMaxLikesFailed">Stop The Like Action If Number of Continuous Failed Likes</system:String>
+    <system:String x:Key="GplusLangWarning">These accounts are already running with other configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
 </ResourceDictionary>

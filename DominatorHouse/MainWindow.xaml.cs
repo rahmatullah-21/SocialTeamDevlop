@@ -90,48 +90,82 @@ namespace DominatorHouse
                         DefaultText = string.IsNullOrEmpty(key.LicenseKey) ? "" : key.LicenseKey,
                         AffirmativeButtonText = "Validate"
                     };
-                    license = await this.ShowInputAsync("Socinator", "License", settings);
-                }
-                else
-                    license = await this.ShowInputAsync("Socinator", "License");
-
-                if (!string.IsNullOrEmpty(license))
-                {
-                    var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating is in process !", "Please wait for a while...");
-                    controller.SetIndeterminate();
-                    _licenseKey = license;
-                    var networks = await SocinatorInitialize.SetAvailableSocialNetworks(_licenseKey);
-                    if (networks.Count <= 1)
+                    while (true)
                     {
-                        Close();
-                        await controller.CloseAsync();
-                        await LicenseCheck();
-                        return;
+                        license = await this.ShowInputAsync("Socinator", "License", settings);
+                        if (await IsValidateAgain(license))
+                            continue;
+                        else break;
+
                     }
-                    _strategies = new DominatorAccountViewModel.AccessorStrategies
-                    {
-                        ActionCheckAccount = AccountStatusChecker,
-                        AccountBrowserLogin = AccountBrowserLogin,
-                        _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
-                        _inform_warnings = GlobusLogHelper.log.Warn,
-                        action_UpdateFollower = AccountUpdate
-                    };
-                    DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
-
-                    var licenseManager = new DominatorHouseCore.Models.LicenseManager { LicenseKey = license, LicenseAddedDate = DateTime.Now, LicensedNetworks = networks };
-                    SocinatorKeyHelper.SaveKey(licenseManager);
-                    FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
-                    await controller.CloseAsync();
                 }
                 else
-                {
-                    Close();
-                }
+                    while (true)
+                    {
+                        license = await this.ShowInputAsync("Socinator", "License");
+                        if (await IsValidateAgain(license))
+                            continue;
+                        else break;
+                    }
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+        }
+
+        private async Task<bool> ValidateLicense(string license)
+        {
+            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating is in process !",
+                "Please wait for a while...");
+            controller.SetIndeterminate();
+            _licenseKey = license;
+            var networks = await SocinatorInitialize.SetAvailableSocialNetworks(_licenseKey);
+            if (networks.Count <= 1)
+            {
+                Close();
+                await controller.CloseAsync();
+                await LicenseCheck();
+                return true;
+            }
+
+            _strategies = new DominatorAccountViewModel.AccessorStrategies
+            {
+                ActionCheckAccount = AccountStatusChecker,
+                AccountBrowserLogin = AccountBrowserLogin,
+                _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
+                _inform_warnings = GlobusLogHelper.log.Warn,
+                action_UpdateFollower = AccountUpdate
+            };
+            DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
+
+            var licenseManager = new DominatorHouseCore.Models.LicenseManager
+            {
+                LicenseKey = license,
+                LicenseAddedDate = DateTime.Now,
+                LicensedNetworks = networks
+            };
+            SocinatorKeyHelper.SaveKey(licenseManager);
+            FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
+            await controller.CloseAsync();
+            return true;
+        }
+
+        private async Task<bool> IsValidateAgain(string license)
+        {
+            if (!string.IsNullOrEmpty(license) && await ValidateLicense(license))
+                return false;
+            else if (license == null)
+                Close();
+            else
+            {
+                if (this.ShowModalMessageExternal("License", "Please validate Socinator !!", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+                    return true;
+                else
+                    Close();
+            }
+
+            return false;
         }
 
         public ObservableCollection<TabItemTemplates> TabItems
@@ -587,5 +621,18 @@ namespace DominatorHouse
         }
 
         #endregion
+
+        private void SocinatorWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            if (this.ShowModalMessageExternal("Warning", "Are you sure ?", MessageDialogStyle.AffirmativeAndNegative) ==
+                MessageDialogResult.Affirmative)
+            {
+                Application.Current.Shutdown();
+                Process.GetCurrentProcess().Kill();
+            }
+            else return;
+        }
+
+       
     }
 }

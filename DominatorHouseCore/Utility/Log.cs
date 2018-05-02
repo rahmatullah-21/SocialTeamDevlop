@@ -103,7 +103,7 @@
         public static string UpdatingDetails { get; set; } = "{0}\t {1}\t Started {2} synchronization.";
         public static string DetailsUpdated { get; set; } = "{0}\t {1}\t synchronizing {2} Successful.";
         public static string UploadedAccount { get; set; } = "Successfully added {0} account to {1}";
-
+        public static string SelectedAccount { get; set; } = "{0}\t Successfully added {1} account to {2}";
         /// <summary>
         /// 0 = NumberOfAccounts
         /// 1 = PlatformName
@@ -144,6 +144,8 @@
         public static string NoMoreDataToPerform { get; set; } = "{0}\t {1}\t No more data available to perform {2}";
 
         public static string FoundXResults { get; set; } = "{0}\t {1}\t Found {2} results by Query type {3} and Query value {4} to {5}";
+        public static string AlreadyExistQuery { get; set; } = "{0}\t {1} index(ies) are already added in {2} search query(ies)";
+        public static string AlreadyExistQueryCount { get; set; } = "{0}\t {1} are already added in {2} search query(ies)";
 
         public static string AccountNeedsVerification { get; set; } = "{0}\t {1}\t needs to verified to perform next activities.";
 

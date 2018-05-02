@@ -4,10 +4,10 @@ namespace DominatorHouseCore.Enums
 {
     public enum ActivityType
     {
-        [Description("Twitter,Instagram,Gplus,Quora,Tumblr")]
+        [Description("Twitter,Instagram,Gplus,Quora,Tumblr,Pinterest,Reddit")]
         Follow = 1,
 
-        [Description("Twitter,Instagram,Gplus,Quora,Tumblr")]
+        [Description("Twitter,Instagram,Gplus,Quora,Tumblr,Pinterest,Reddit")]
         Unfollow = 2,
 
         [Description("Facebook,Twitter,Instagram,Gplus,Tumblr")]
@@ -16,10 +16,10 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus")]
         Unlike = 4,
 
-        [Description("Facebook,Twitter,Instagram,Gplus")]
+        [Description("Facebook,Twitter,Instagram,Gplus,Pinterest,Reddit")]
         Comment = 5,
 
-        [Description("Twitter,Instagram")]
+        [Description("Twitter,Instagram,Reddit")]
         DeleteComment = 6,
 
         [Description("Facebook,Twitter,Instagram,Quora")]
@@ -35,7 +35,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Twitter,Instagram")]
         Message = 10,
 
-        [Description("Facebook,Twitter,Instagram,Gplus,LinkedIn")]
+        [Description("Facebook,Twitter,Instagram,Gplus,LinkedIn,Pinterest")]
         UserScraper = 11,
 
         [Description("Twitter,Instagram")]
@@ -56,7 +56,7 @@ namespace DominatorHouseCore.Enums
         [Description("Quora")]
         VoteAnswers = 17,
 
-        [Description("Quora")]
+        [Description("Quora,Reddit")]
         DownvoteAnswers = 18,
 
         [Description("Quora")]
@@ -125,7 +125,7 @@ namespace DominatorHouseCore.Enums
         [Description("Quora")]
         DownvoteQuestions = 41,
 
-        [Description("Quora")]
+        [Description("Quora,Reddit")]
         UpvoteAnswers = 42,
 
         [Description("Gplus")]
@@ -179,7 +179,7 @@ namespace DominatorHouseCore.Enums
         [Description("Pinterest")]
         CreateBoard = 59,
 
-        [Description("Twitter,Instagram")]
+        [Description("Twitter,Instagram,Pinterest")]
         FollowBack = 60,
 
         [Description("Twitter")]
@@ -244,7 +244,14 @@ namespace DominatorHouseCore.Enums
 
         [Description("LinkedIn")]
         SendMessageToNewConnection = 81,
+
         [Description("Reddit")]
         UrlScraper = 82,
+
+        [Description("LinkedIn")]
+        SendGreetingsToConnections = 83,
+
+        [Description("Twitter,Reddit")]
+        Reply = 84,
     }
 }

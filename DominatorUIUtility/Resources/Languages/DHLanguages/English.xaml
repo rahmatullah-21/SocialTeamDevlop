@@ -138,5 +138,6 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangCheckAccountStatus">Check Account Status</system:String>
     <system:String x:Key="DHlangStopProcess">Stop Process</system:String>
     <system:String x:Key="DHlangCampaigns">Campaigns</system:String>
-
+    <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>
+    <system:String x:Key="DHlangSocinator">Socinator</system:String>
 </ResourceDictionary>

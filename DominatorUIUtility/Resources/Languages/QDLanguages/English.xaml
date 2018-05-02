@@ -134,4 +134,7 @@
     <system:String x:Key="QDlangAutoReplyToNewMessegeHour">Number of Auto Reply To New Messege per hour</system:String>
     <system:String x:Key="QDlangAutoReplyToNewMessegeWeek">Number of Auto Reply To New Messege per week</system:String>
     <system:String x:Key="QDlangMaxAutoReplyToNewMessegeDay">max Auto Reply To New Messege per day</system:String>
+    <system:String x:Key="QDlangBroadCastMessagesWarning">These accounts are already running with BroadCastMessages configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="QDlangSendMessageToNewConnectionWarning">These accounts are already running with SendMessageToNewConnection configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="QDlangAutoReplyToNewMessagesWarning">These accounts are already running with AutoReplyToNewMessages configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
 </ResourceDictionary>

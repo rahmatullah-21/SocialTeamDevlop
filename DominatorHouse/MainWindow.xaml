@@ -10,13 +10,14 @@
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
         BorderThickness="1" Icon="Images/SociNator.ico"
-        Title="{DynamicResource langDominatorSocial}" 
+        Title="{DynamicResource DHlangSocinator}" 
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"
         GlowBrush="{DynamicResource AccentColorBrush}"
         ShowIconOnTitleBar="True" 
     Name="SocinatorWindow"
-    WindowState="Maximized">
+    WindowState="Maximized" 
+    Closing="SocinatorWindow_OnClosing">
 
     <Window.Resources>
         <ResourceDictionary>
