@@ -58,6 +58,7 @@ namespace DominatorHouse
 
         private string _licenseKey;
 
+
         public MainWindow()
         {
             try
@@ -103,6 +104,8 @@ namespace DominatorHouse
                     if (networks.Count <= 1)
                     {
                         Close();
+                        await controller.CloseAsync();
+                        await LicenseCheck();
                         return;
                     }
                     _strategies = new DominatorAccountViewModel.AccessorStrategies
@@ -358,7 +361,7 @@ namespace DominatorHouse
                 ex.DebugLog();
             }
 
-          
+
         }
 
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)

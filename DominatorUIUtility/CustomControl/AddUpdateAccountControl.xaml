@@ -11,6 +11,7 @@
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:StringLengthToBooleanConverter x:Key="LengthToBooleanConverter"/>
     </UserControl.Resources>
     <Grid VerticalAlignment="Top">
         <Grid.Resources>
@@ -108,7 +109,8 @@
                     <ColumnDefinition Width="2.5*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="txtblockProxyAddress" Text="{DynamicResource langProxyAddress}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  controls:TextBoxHelper.Watermark="Format:{XXX.XXX.XXX.XXX}" Width="230" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
+                <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" 
+                         controls:TextBoxHelper.Watermark="Format:{255.255.255.255}" Width="230" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                     <TextBox.Text>
                         <Binding Path="AccountProxy.ProxyIp" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -140,7 +142,29 @@
                     <ColumnDefinition Width="2.5*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="txtblockProxyUserName" Text="{DynamicResource langProxyUsername}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                <TextBox Name="txtProxyUserName" Text="{Binding AccountProxy.ProxyUsername}" controls:TextBoxHelper.Watermark="Type Proxy User Name" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"/>
+                <TextBox Name="txtProxyUserName" Text="{Binding AccountProxy.ProxyUsername}"
+                         controls:TextBoxHelper.Watermark="Type Proxy User Name" Width="230"
+                         FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black"
+                         VerticalAlignment="Center"  Height="30" Grid.Column="1">
+                    <TextBox.Style>
+                        <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+                            <Setter Property="IsEnabled" Value="false" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=txtProxyAddress, Path=(Validation.HasError)}" Value="false" />
+                                        <Condition Binding="{Binding ElementName=txtProxyPort, Path=(Validation.HasError)}" Value="false" />
+                                        <Condition Binding="{Binding ElementName=txtProxyAddress, 
+                                            Path=Text.Length,Converter={StaticResource LengthToBooleanConverter}}" Value="true" />
+                                        <Condition Binding="{Binding ElementName=txtProxyPort, Path=Text.Length,
+                                            Converter={StaticResource LengthToBooleanConverter}}" Value="true" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="true" />
+                                </MultiDataTrigger>
+                               </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
             </Grid>
             <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
@@ -148,7 +172,33 @@
                     <ColumnDefinition Width="2.5*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="txtblockProxyPassword" Text="{DynamicResource langProxyPassword}" Width="120" FontSize="13" Margin="5,11" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                <TextBox Name="txtProxyPassword"  Text="{Binding AccountProxy.ProxyPassword}" controls:TextBoxHelper.Watermark="Type Proxy Password" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1" Grid.ColumnSpan="2"/>
+                <PasswordBox Name="txtProxyPassword"  passwordHelper:PasswordBoxHelper.Attach="True"
+                             controls:TextBoxHelper.Watermark="Type proxy password" 
+                             Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5"
+                             Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
+                             Grid.ColumnSpan="2">
+                    <PasswordBox.Style>
+                        <Style BasedOn="{StaticResource MetroButtonRevealedPasswordBox}" TargetType="PasswordBox">
+                            <Setter Property="IsEnabled" Value="false" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=txtProxyAddress, Path=(Validation.HasError)}" Value="false" />
+                                        <Condition Binding="{Binding ElementName=txtProxyPort, Path=(Validation.HasError)}" Value="false" />
+                                        <Condition Binding="{Binding ElementName=txtProxyAddress, 
+                                            Path=Text.Length,Converter={StaticResource LengthToBooleanConverter}}" Value="true" />
+                                        <Condition Binding="{Binding ElementName=txtProxyPort, Path=Text.Length,
+                                            Converter={StaticResource LengthToBooleanConverter}}" Value="true" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="true" />
+                                </MultiDataTrigger>
+                               </Style.Triggers>
+                        </Style>
+                    </PasswordBox.Style>
+                    <passwordHelper:PasswordBoxHelper.Password>
+                        <Binding Path="AccountProxy.ProxyPassword" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay"/>
+                    </passwordHelper:PasswordBoxHelper.Password>
+                </PasswordBox>
             </Grid>
         </Grid>
         <Grid Grid.Row="7">

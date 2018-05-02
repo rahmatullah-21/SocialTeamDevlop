@@ -544,5 +544,15 @@ namespace DominatorHouseCore.Request
 
         #endregion
 
+
+        public static async Task<Stream> GetResponseStreamAsync(string url)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+            var licenseresponse = (HttpWebResponse)await request.GetResponseAsync();
+
+            var responseStream = licenseresponse.GetResponseStream();
+            return responseStream;
+        }
+
     }
 }

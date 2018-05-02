@@ -124,14 +124,14 @@
     <system:String x:Key="QDlangSendMessegesToNewFollowerDay">max SendMessegesToNewFollower per day</system:String>
     <system:String x:Key="QDlangStopFollowToolWhenReach">Enable automatic follow/unfollow. Stop follow tool when reaching</system:String>
 
-    <system:String x:Key="langBroadcastMessegesPerJob">Number of BroadcastMesseges per job</system:String>
-    <system:String x:Key="langBroadcastMessegesPerDay">Number of BroadcastMesseges per day</system:String>
-    <system:String x:Key="langBroadcastMessegesPerHour">Number of BroadcastMesseges per hour</system:String>
-    <system:String x:Key="langBroadcastMessegesPerWeek">Number of BroadcastMesseges per week</system:String>
-    <system:String x:Key="langMaxBroadcastMessegesDay">max BroadcastMesseges per day</system:String>
-    <system:String x:Key="langAutoReplyToNewMessegeJob">Number of Auto Reply To New Messege per job</system:String>
-    <system:String x:Key="langAutoReplyToNewMessegeDay">Number of Auto Reply To New Messege per day</system:String>
-    <system:String x:Key="langAutoReplyToNewMessegeHour">Number of Auto Reply To New Messege per hour</system:String>
-    <system:String x:Key="langAutoReplyToNewMessegeWeek">Number of Auto Reply To New Messege per week</system:String>
-    <system:String x:Key="langMaxAutoReplyToNewMessegeDay">max Auto Reply To New Messege per day</system:String>
+    <system:String x:Key="QDlangBroadcastMessegesPerJob">Number of BroadcastMesseges per job</system:String>
+    <system:String x:Key="QDlangBroadcastMessegesPerDay">Number of BroadcastMesseges per day</system:String>
+    <system:String x:Key="QDlangBroadcastMessegesPerHour">Number of BroadcastMesseges per hour</system:String>
+    <system:String x:Key="QDlangBroadcastMessegesPerWeek">Number of BroadcastMesseges per week</system:String>
+    <system:String x:Key="QDlangMaxBroadcastMessegesDay">max BroadcastMesseges per day</system:String>
+    <system:String x:Key="QDlangAutoReplyToNewMessegeJob">Number of Auto Reply To New Messege per job</system:String>
+    <system:String x:Key="QDlangAutoReplyToNewMessegeDay">Number of Auto Reply To New Messege per day</system:String>
+    <system:String x:Key="QDlangAutoReplyToNewMessegeHour">Number of Auto Reply To New Messege per hour</system:String>
+    <system:String x:Key="QDlangAutoReplyToNewMessegeWeek">Number of Auto Reply To New Messege per week</system:String>
+    <system:String x:Key="QDlangMaxAutoReplyToNewMessegeDay">max Auto Reply To New Messege per day</system:String>
 </ResourceDictionary>

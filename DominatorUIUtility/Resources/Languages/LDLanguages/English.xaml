@@ -135,4 +135,17 @@
     <system:String x:Key="LDlangSalesNavigatorUserScraperWarning">These accounts are already running with SalesNavigatorUserScraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangProfileEndorsementWarning">These accounts are already running with ProfileEndorsement configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangRefresh">Refresh</system:String>
+    <system:String x:Key="LDlangMustHaveProfilePicture">Must have profile picture</system:String>
+    <system:String x:Key="LDlangMustHave500PlusConnections">Must have (500+) connections</system:String>
+    <system:String x:Key="LDlangMinimumCharacters">Minimum characters in bio</system:String>
+    <system:String x:Key="LDlangAddWordsFilter">Add words for filteration</system:String>
+    <system:String x:Key="LDlangAvoidWords">Must not contain specific words</system:String>
+    <system:String x:Key="LDlangMinimumSkillsCount">Minimum Skills count</system:String>
+    <system:String x:Key="LDlangMustHaveExperienceDetails">Must have experience details</system:String>
+    <system:String x:Key="LDlangMustHaveEducationDetails">Must have education details</system:String>
+    <system:String x:Key="LDlangFilterUsersContainingInvalidWordsInBio">Separate the words using comma e.g Hi,Hello</system:String>
+    <system:String x:Key="LDlangGreetingOptions">Greeting Options :</system:String>
+    <system:String x:Key="LDlangBirthdayGreeting">Birthday Greeting</system:String>
+    <system:String x:Key="LDlangNewJobGreeting">New Job Greeting</system:String>
+    <system:String x:Key="LDlangJobAnniversaryGreeting">Job Anniversary Greeting</system:String>
 </ResourceDictionary>
