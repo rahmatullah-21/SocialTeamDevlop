@@ -10,49 +10,48 @@ using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.FileManagers
 {
-    public static class PublishDestinationFileManager
+    public static class ManageDestinationFileManager
     {
-
-        private static List<PublisherDestinationDetails> _allDestinationsCache = new List<PublisherDestinationDetails>();
+        private static List<PublisherManageDestinationModel> _allDestinationsCache = new List<PublisherManageDestinationModel>();
 
         // Same as above, but Func must return true if file needs to be overwritten        
-        public static void ApplyFunc(Func<PublisherDestinationDetails, bool> funcToApply)
+        public static void ApplyFunc(Func<PublisherManageDestinationModel, bool> funcToApply)
         {
             bool updated = false;
-            var destinations = BinFileHelper.GetPublisherDestinationDetails();
+            var destinations = BinFileHelper.GetPublisherManageDestinationModels();
 
             foreach (var a in destinations)
                 updated |= funcToApply(a);
 
             if (updated)
-                BinFileHelper.UpdateAllPublishDestination(destinations);
+                BinFileHelper.UpdateAllManageDestination(destinations);
         }
 
         // Saves all destinations. Have to work Only in Social library. Otherwise use UpdateDestinations() method to update PublisherDestinations.bin
         // NOTE: make sure lstPublisherDetails contains all destinations
-        internal static void SaveAll(List<PublisherDestinationDetails> lstPublisherDetails)
+        internal static void SaveAll(List<PublisherManageDestinationModel> lstPublisherDetails)
         {
             // Warning: make sure lstPublisherDetails contains all publisher            
-            BinFileHelper.UpdateAllPublishDestination(lstPublisherDetails);
+            BinFileHelper.UpdateAllManageDestination(lstPublisherDetails);
             GlobusLogHelper.log.Debug($"{lstPublisherDetails.Count} Destination successfully saved");
         }
 
         // Update publisher entries and save to PublisherDestinations.bin        
-        public static void UpdateDestinations(IList<PublisherDestinationDetails> libraryDestinations)
+        public static void UpdateDestinations(IList<PublisherManageDestinationModel> libraryDestinations)
         {
-            var all = BinFileHelper.GetPublisherDestinationDetails();
+            var all = BinFileHelper.GetPublisherManageDestinationModels();
 
             // Update all entries that exists in libraryDestinations, and add that does not exists
             for (int i = 0; i < libraryDestinations.Count; i++)
             {
                 var acc = libraryDestinations[i];
-                var ix = all.FindIndex(a => acc.DetailsUrl == a.DetailsUrl);
+                var ix = all.FindIndex(a => acc.DestinationId == a.DestinationId);
                 if (ix == -1)
                     all.Add(acc);
                 else
                     all[ix] = acc;
             }
-            BinFileHelper.UpdateAllPublishDestination(all);
+            BinFileHelper.UpdateAllManageDestination(all);
         }
        
 
@@ -66,34 +65,32 @@ namespace DominatorHouseCore.FileManagers
             });
         }
 
-        public static List<PublisherDestinationDetails> GetAll() => BinFileHelper.GetPublisherDestinationDetails();
+        public static List<PublisherManageDestinationModel> GetAll() => BinFileHelper.GetPublisherManageDestinationModels();
    
-        internal static List<PublisherDestinationDetails> GetAll(string accountId, DestinationCategory category)
-            => GetAll().Where(a => a.AccountId == accountId && a.Category == category).ToList();
-         
-        public static bool Add(PublisherDestinationDetails account)
+       
+        public static bool Add(PublisherManageDestinationModel account)
         {
-            var lst = GetAll() ?? new List<PublisherDestinationDetails>();
+            var lst = GetAll() ?? new List<PublisherManageDestinationModel>();
             lst.Add(account);
-            BinFileHelper.UpdateAllPublishDestination(lst);
+            BinFileHelper.UpdateAllManageDestination(lst);
             return true;
         }
 
-        public static bool AddRange(List<PublisherDestinationDetails> destinationList)
+        public static bool AddRange(List<PublisherManageDestinationModel> destinationList)
         {
-            var lst = GetAll() ?? new List<PublisherDestinationDetails>();          
+            var lst = GetAll() ?? new List<PublisherManageDestinationModel>();          
             lst.AddRange(destinationList);
-            BinFileHelper.UpdateAllPublishDestination(lst);
+            BinFileHelper.UpdateAllManageDestination(lst);
             return true;
         }
 
-        public static void DeleteSelected(List<PublisherDestinationDetails> accs)
+        public static void DeleteSelected(List<PublisherManageDestinationModel> accs)
         {
-            var all = GetAll().Where(a => accs.FirstOrDefault(p => p.AccountId == a.AccountId && p.DetailsUrl == a.DetailsUrl && p.Category == a.Category) == null).ToList();
+            var all = GetAll().Where(a => accs.FirstOrDefault(p => p.DestinationId == a.DestinationId) == null).ToList();
             SaveAll(all);
         }
 
-        public static void Delete(Predicate<PublisherDestinationDetails> match)
+        public static void Delete(Predicate<PublisherManageDestinationModel> match)
         {
             var accs = GetAll();
             accs.RemoveAll(match);

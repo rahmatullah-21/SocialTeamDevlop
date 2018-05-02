@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Utility;
@@ -12,6 +10,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
     [ProtoContract]
     public class PublisherManageDestinationModel : INotifyPropertyChanged
     {
+        private bool _isSelected;
+        private int _accountCount;
+        private int _pagesOrBoardsCount;
+        private int _groupsCount;
+        private int _wallsOrProfilesCount;
+        private int _campaignsCount;
+
         [ProtoMember(1)]
         public string DestinationId { get; set; }
 
@@ -19,37 +24,106 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public string DestinationName { get; set; }
 
         [ProtoMember(3)]
-        public int AccountCount { get; set; }
+        public int AccountCount
+        {
+            get
+            {
+                return _accountCount;
+            }
+            set
+            {
+                if (_accountCount == value)
+                    return;
+                _accountCount = value;
+                OnPropertyChanged(nameof(AccountCount));
+            }
+        }
 
         [ProtoMember(4)]
-        public int PagesOrBoardsCount { get; set; }
+        public int PagesOrBoardsCount
+        {
+            get
+            {
+                return _pagesOrBoardsCount;
+            }
+            set
+            {
+                if (_pagesOrBoardsCount == value)
+                    return;
+                _pagesOrBoardsCount = value;
+                OnPropertyChanged(nameof(PagesOrBoardsCount));
+            }
+        }
 
         [ProtoMember(5)]
-        public int GroupsCount { get; set; }
+        public int GroupsCount
+        {
+            get
+            {
+                return _groupsCount;
+            }
+            set
+            {
+                if (_groupsCount == value)
+                    return;
+                _groupsCount = value;
+                OnPropertyChanged(nameof(GroupsCount));
+            }
+        }
 
         [ProtoMember(6)]
-        public int WallsOrProfilesCount { get; set; }
+        public int WallsOrProfilesCount
+        {
+            get
+            {
+                return _wallsOrProfilesCount;
+            }
+            set
+            {
+                if (_wallsOrProfilesCount == value)
+                    return;
+                _wallsOrProfilesCount = value;
+                OnPropertyChanged(nameof(WallsOrProfilesCount));
+            }
+        }
 
         [ProtoMember(7)]
-        public int  CampaignsCount { get; set; }
+        public int CampaignsCount
+        {
+            get
+            {
+                return _campaignsCount;
+            }
+            set
+            {
+                if (_campaignsCount == value)
+                    return;
+                _campaignsCount = value;
+                OnPropertyChanged(nameof(CampaignsCount));
+            }
+        }
 
         [ProtoMember(8)]
         public DateTime CreatedDate { get; set; }
 
-        [ProtoMember(9)]
-        public bool IsRemoveGroupsRequiresApproval { get; set; }
 
-        [ProtoMember(10)]
-        public bool IsAddedNewGroups { get; set; }
 
-        [ProtoMember(11)]
-        public List<string> SelectedAccountId { get; set; }
 
-        [ProtoMember(12)]
-        public List<string> SelectedGroupUrls { get; set; }
-
-        [ProtoMember(13)]
-        public List<string> SelectedPagesOrBoardsUrls { get; set; }
+        [ProtoIgnore]
+        public bool IsSelected
+        {
+            get
+            {
+                return _isSelected;
+            }
+            set
+            {
+                if (_isSelected == value)
+                    return;
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
 
         public void GenerateDestinations()
         {
@@ -65,47 +139,5 @@ namespace DominatorHouseCore.Models.SocioPublisher
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
-
-    public class DestinationCollection : BindableBase
-    {
-        private bool _isAccountSelected;
-        private int _selectedGroupCount;
-
-        public bool IsAccountSelected
-        {
-            get
-            {
-                return _isAccountSelected;
-            }
-            set
-            {
-                _isAccountSelected = value;
-                OnPropertyChanged(nameof(IsAccountSelected));
-            }
-        }
-
-        public string AccountName { get; set; }
-
-        public int SelectedGroupCount
-        {
-            get
-            {
-                return _selectedGroupCount;
-            }
-            set
-            {
-                _selectedGroupCount = value;
-                OnPropertyChanged(nameof(SelectedGroupCount));
-            }
-        }
-
-        public int TotalGroupCount { get; set; }
-
-        public int SelectedBoardOrPageCount { get; set; }
-
-        public int TotalBoardOrPageCount { get; set; }
-
-        public bool IsWallOrProfileSelected { get; set; }
     }
 }

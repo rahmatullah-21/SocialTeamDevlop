@@ -167,6 +167,9 @@
     <Compile Include="CustomControl\AccountCustomControl.xaml.cs">
       <DependentUpon>AccountCustomControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\AccountDetailsSelector.xaml.cs">
+      <DependentUpon>AccountDetailsSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\AccountTabCustomControl.xaml.cs">
       <DependentUpon>AccountTabCustomControl.xaml</DependentUpon>
     </Compile>
@@ -251,6 +254,7 @@
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\SelectAccountViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\AccountDetailsSelectorViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherCreateCampaignViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherCreateDestinationsViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherDefaultViewModel.cs" />
@@ -372,6 +376,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\AccountCustomControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\AccountDetailsSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -43,8 +43,9 @@ namespace DominatorHouseCore.Utility
             //Todo: Following line need to delete
             {typeof(PublisherAccountDetails),Tuple.Create(new object(), (Func<string>)ConstantVariable.GetPublisherFile) },
 
-            { typeof(PublisherDestinationDetails),Tuple.Create(new object(), (Func<string>)ConstantVariable.GetPublisherDestinationsFile) },
-            {typeof(object), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetIndexAccountFile) }
+            { typeof(PublisherManageDestinationModel),Tuple.Create(new object(), (Func<string>)ConstantVariable.GetPublisherDestinationsFile) },
+            { typeof(PublisherCreateDestinationModel),Tuple.Create(new object(), (Func<string>)ConstantVariable.GetPublisherCreateDestinationsFolder) },
+            { typeof(object), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetIndexAccountFile) }
         };
 
         /// <summary>
@@ -91,6 +92,27 @@ namespace DominatorHouseCore.Utility
             }
         }
 
+        public static bool AddDestination(PublisherCreateDestinationModel publisherCreateDestination)
+        {
+            try
+            {
+                return WithFile<PublisherCreateDestinationModel, bool>(filePath =>
+                {
+                    ProtoBuffBase.AppendObject(publisherCreateDestination, filePath+$"{publisherCreateDestination.DestinationId}.bin");
+                    return true;
+                });
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error($"Error caught while adding the destination " + ex.StackTrace);
+                return false;
+            }
+        }
+
+        public static List<PublisherCreateDestinationModel> GetDestination(string destinationId)
+            => ProtoBuffBase.DeserializeList<PublisherCreateDestinationModel>( $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
+
+
         public static List<DominatorAccountModel> GetAccountDetails()
         {
             return WithFile<DominatorAccountModel, List<DominatorAccountModel>>(indexAccountPath => File.Exists(indexAccountPath) ?
@@ -98,11 +120,11 @@ namespace DominatorHouseCore.Utility
                     new List<DominatorAccountModel>());
         }
 
-        public static List<PublisherDestinationDetails> GetPublisherDestinationDetails()
+        public static List<PublisherManageDestinationModel> GetPublisherManageDestinationModels()
         {
-            return WithFile<PublisherDestinationDetails, List<PublisherDestinationDetails>>(publisherDestinationPath => File.Exists(publisherDestinationPath) ?
-                ProtoBuffBase.DeserializeList<PublisherDestinationDetails>(publisherDestinationPath) :
-                new List<PublisherDestinationDetails>());
+            return WithFile<PublisherManageDestinationModel, List<PublisherManageDestinationModel>>(publisherDestinationPath => File.Exists(publisherDestinationPath) ?
+                ProtoBuffBase.DeserializeList<PublisherManageDestinationModel>(publisherDestinationPath) :
+                new List<PublisherManageDestinationModel>());
         }
 
 
@@ -236,7 +258,7 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public static bool UpdateAllPublishDestination(List<PublisherDestinationDetails> publisherDestinationList)
+        public static bool UpdateAllManageDestination(List<PublisherManageDestinationModel> publisherDestinationList)
         {
             return UpdateAllPublisherDestination(publisherDestinationList);
         }

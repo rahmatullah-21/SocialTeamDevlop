@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 

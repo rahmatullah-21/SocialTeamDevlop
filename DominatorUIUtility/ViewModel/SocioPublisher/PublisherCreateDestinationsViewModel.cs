@@ -1,29 +1,92 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
+using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
-    public class PublisherCreateDestinationsViewModel
+    public class PublisherCreateDestinationsViewModel : BindableBase
     {
+
         public PublisherCreateDestinationsViewModel()
         {
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
+            GetAccountGroupsCommand = new BaseCommand<object>(GetAccountGroupsCanExecute, GetAccountGroupsExecute);
+            GetAccountPagesOrBoardsCommand = new BaseCommand<object>(GetAccountPagesOrBoardsCanExecute, GetAccountPagesOrBoardsExecute);
             InitializeDestinationList();
+        }
+
+        private PublisherCreateDestinationModel _publisherCreateDestinationModel = PublisherCreateDestinationModel.DestinationDefaultBuilder();
+
+        public PublisherCreateDestinationModel PublisherCreateDestinationModel
+        {
+            get
+            {
+                return _publisherCreateDestinationModel;
+            }
+            set
+            {
+                if (_publisherCreateDestinationModel == value)
+                    return;
+                _publisherCreateDestinationModel = value;
+                OnPropertyChanged(nameof(PublisherCreateDestinationModel));
+            }
+        }
+
+        private ObservableCollection<PublisherCreateDestinationSelectModel> _listSelectDestination = new ObservableCollection<PublisherCreateDestinationSelectModel>();
+
+        public ObservableCollection<PublisherCreateDestinationSelectModel> ListSelectDestination
+        {
+            get
+            {
+                return _listSelectDestination;
+            }
+            set
+            {
+                if (_listSelectDestination == value)
+                    return;
+                _listSelectDestination = value;
+                OnPropertyChanged(nameof(ListSelectDestination));
+            }
+        }
+
+        private ICollectionView _destinationCollectionView;
+
+        public ICollectionView DestinationCollectionView
+        {
+            get
+            {
+                return _destinationCollectionView;
+            }
+            set
+            {
+                if (_destinationCollectionView != null && _destinationCollectionView == value)
+                    return;
+                SetProperty(ref _destinationCollectionView, value);
+
+            }
         }
 
         public ICommand NavigationCommand { get; set; }
 
-        private bool NavigationCanExecute(object sender) => true;
+        public ICommand GetAccountGroupsCommand { get; set; }
+        public ICommand GetAccountPagesOrBoardsCommand { get; set; }
 
-        public List<PublisherDestinationDetails> DestinationList = new List<PublisherDestinationDetails>();
+        private bool NavigationCanExecute(object sender) => true;
 
         private void NavigationExecute(object sender)
         {
@@ -37,11 +100,60 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        private bool GetAccountGroupsCanExecute(object sender) => true;
+
+        private void GetAccountGroupsExecute(object sender)
+        {
+            var publisherCreateDestinationSelectModel = (PublisherCreateDestinationSelectModel)sender;
+
+            var accountsDetailsSelector = SocinatorInitialize
+                .GetSocialLibrary(publisherCreateDestinationSelectModel.SocialNetworks)
+                .GetNetworkCoreFactory().AccountDetailsSelectors;
+
+            var selected = accountsDetailsSelector.GetGroupsPair(publisherCreateDestinationSelectModel.AccountId, publisherCreateDestinationSelectModel.AccountName);
+            PublisherCreateDestinationModel.AccountGroupPair.AddRange(selected);
+        }
+
+       
+
+        private bool GetAccountPagesOrBoardsCanExecute(object sender) => true;
+
+        private void GetAccountPagesOrBoardsExecute(object sender)
+        {
+            var publisherCreateDestinationSelectModel = (PublisherCreateDestinationSelectModel)sender;
+
+            var accountsDetailsSelector = SocinatorInitialize
+                .GetSocialLibrary(publisherCreateDestinationSelectModel.SocialNetworks)
+                .GetNetworkCoreFactory().AccountDetailsSelectors;
+
+
+            accountsDetailsSelector.GetPagesOrBoardsPair(publisherCreateDestinationSelectModel.AccountId, publisherCreateDestinationSelectModel.AccountName);
+        }
+
         public void InitializeDestinationList()
         {
-            DestinationList = PublishDestinationFileManager.GetAll();
+            var accounts = AccountsFileManager.GetAll();
 
+            accounts.ForEach(x =>
+            {
+                var publisherCreateDestinationSelectModel = new PublisherCreateDestinationSelectModel()
+                {
+                    AccountId = x.AccountBaseModel.AccountId,
+                    AccountName = x.AccountBaseModel.UserName,
+                    IsGroupsAvailable = x.DisplayColumnValue2 != null,
+                    IsPagesOrBoardsAvailable = x.DisplayColumnValue3 != null,
+                    PublishonOwnWall = false,
+                    SelectedGroups = 0,
+                    TotalGroups = x.DisplayColumnValue2 ?? 0,
+                    TotalPagesOrBoards = x.DisplayColumnValue3 ?? 0,
+                    SocialNetworks = x.AccountBaseModel.AccountNetwork
+                };
+                ListSelectDestination.Add(publisherCreateDestinationSelectModel);
+            });
 
+            DestinationCollectionView = CollectionViewSource.GetDefaultView(ListSelectDestination);
         }
+
+
     }
 }

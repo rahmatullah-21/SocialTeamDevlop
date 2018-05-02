@@ -31,5 +31,7 @@ namespace DominatorHouseCore.Interfaces
 
         IAccountToolsFactory AccountUserControlTools { get; set; }
 
+        IDestinationSelectors AccountDetailsSelectors { get; set; }
+
     }
 }

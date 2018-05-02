@@ -322,7 +322,7 @@
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
     <Compile Include="FileManagers\PinFileManager.cs" />
-    <Compile Include="FileManagers\PublishDestinationFileManager.cs" />
+    <Compile Include="FileManagers\ManageDestinationFileManager.cs" />
     <Compile Include="FileManagers\PublisherFileManager.cs" />
     <Compile Include="FileManagers\SocinatorKeyHelper.cs" />
     <Compile Include="FileManagers\SoftwareSettingsFileManager.cs" />
@@ -334,6 +334,7 @@
     <Compile Include="Interfaces\IComments.cs" />
     <Compile Include="Interfaces\ICommunity.cs" />
     <Compile Include="Interfaces\ICompany.cs" />
+    <Compile Include="Interfaces\IDestinationSelectors.cs" />
     <Compile Include="Interfaces\IJob.cs" />
     <Compile Include="Interfaces\INetworkCollectionFactory.cs" />
     <Compile Include="Interfaces\INetworkCoreFactory.cs" />
@@ -407,9 +408,11 @@
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\RunningTimes.cs" />
     <Compile Include="Models\ScrapeResultNew.cs" />
+    <Compile Include="Models\SocioPublisher\AccountDetailsSelectorModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCampaignDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCampaignStatus.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCampaignStatusModel.cs" />
+    <Compile Include="Models\SocioPublisher\PublisherCreateDestinationModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherDestinationDetails.cs" />
     <Compile Include="Models\SocioPublisher\PublisherHomeModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherManageDestinationModel.cs" />

@@ -30,5 +30,7 @@ namespace DominatorHouse.DominatorCores
         public IAccountCountFactory AccountCountFactory { get; set; }
 
         public IAccountToolsFactory AccountUserControlTools { get; set; }
+
+        public IDestinationSelectors AccountDetailsSelectors { get; set; }
     }
 }

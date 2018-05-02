@@ -380,5 +380,12 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.AccountUserControlTools = accountUserControl;
             return this;
         }
+
+        public NetworkCoreLibraryBuilder AddAccountSelectors(IDestinationSelectors destinationSelectors)
+        {
+            NetworkCoreFactory.AccountDetailsSelectors = destinationSelectors;
+            return this;
+        }
+       
     }
 }

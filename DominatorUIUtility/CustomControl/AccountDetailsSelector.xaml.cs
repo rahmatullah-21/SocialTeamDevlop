@@ -1,0 +1,60 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorUIUtility.ViewModel.SocioPublisher;
+
+namespace DominatorUIUtility.CustomControl
+{
+    /// <summary>
+    /// Interaction logic for AccountDetailsSelector.xaml
+    /// </summary>
+    public partial class AccountDetailsSelector : UserControl, INotifyPropertyChanged
+    {
+        public AccountDetailsSelector(Action<string, string, AccountDetailsSelector> updateUiData, string accountId, string accountName)
+        {
+            InitializeComponent();
+            AccountDetailsSelectors.DataContext = AccountDetailsSelectorViewModel;
+            _accountId = accountId;
+            _accountName = accountName;
+            _updateUiDetails = updateUiData;
+            //Task.Factory.StartNew(UpdateUi);
+        }
+
+        private readonly string _accountId;
+        private readonly string _accountName;
+
+        private readonly Action<string, string, AccountDetailsSelector> _updateUiDetails;
+
+        private AccountDetailsSelectorViewModel _accountDetailsSelectorViewModel = new AccountDetailsSelectorViewModel();
+
+        public AccountDetailsSelectorViewModel AccountDetailsSelectorViewModel
+        {
+            get
+            {
+                return _accountDetailsSelectorViewModel;
+            }
+            set
+            {
+                if (AccountDetailsSelectorViewModel == value)
+                    return;
+                _accountDetailsSelectorViewModel = value;
+                OnPropertyChanged(nameof(AccountDetailsSelectorViewModel));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void UpdateUi() => Task.Factory.StartNew(() => _updateUiDetails.Invoke(_accountId, _accountName, this));
+    }
+}

@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher" x:Name="CreateDestination"
              mc:Ignorable="d"  
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
         <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
@@ -50,7 +51,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                
+
                 <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect" Margin="5">
                     <Button.Template>
                         <ControlTemplate>
@@ -136,136 +137,317 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource DHlangDestinationName}" VerticalAlignment="Center"/>
-                    <TextBox Margin="20,5" VerticalAlignment="Center" Width="250" Text="{Binding Name}"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource DHlangDestinationName}" VerticalAlignment="Center"/>
+                        <TextBox Margin="20,5" VerticalAlignment="Center" Width="250" Text="{Binding PublisherCreateDestinationModel.DestinationName}"/>
+                    </StackPanel>
+
+                    <TextBlock Text="{DynamicResource DHlangSettings}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                    <CheckBox Content="{DynamicResource langAutoSelectNewGroups}" Margin="5" IsChecked="{Binding PublisherCreateDestinationModel.IsAddedNewGroups}"/>
+                    <CheckBox Content="{DynamicResource langUncheckGroups}" Margin="5" IsChecked="{Binding PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval}"/>
+
+                    <TextBlock Text="{DynamicResource DHlangSelectDestinations}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
                 </StackPanel>
+            </Grid>
 
-                <TextBlock Text="{DynamicResource DHlangSettings}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
-                <CheckBox Content="{DynamicResource langAutoSelectNewGroups}" Margin="5" IsChecked="{Binding IsAutoSelectNewGroupsChecked}"/>
-                <CheckBox Content="{DynamicResource langUncheckGroups}" Margin="5" IsChecked="{Binding IsUncheckGroupsChecked}"/>
-
-                <TextBlock Text="{DynamicResource DHlangSelectDestinations}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
-
-                <ListView 
+            <ListView Grid.Row="1"
                   x:Name="CampaignStatusList"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"                  
-                  ItemsSource="{Binding ListPublisherManageDestinationModels}"
+                  ItemsSource="{Binding DestinationCollectionView}"
                   VerticalAlignment="Stretch" >
-                    <ListView.Resources>
-                        <Style TargetType="{x:Type GridViewColumnHeader}" 
+                <ListView.Resources>
+                    <Style TargetType="{x:Type GridViewColumnHeader}" 
                        BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            <Setter Property="Height" Value="30"></Setter>
-                            <Setter Property="Margin" Value="0,2,0,0"></Setter>
-                        </Style>
-                        <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
-                    </ListView.Resources>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                            <Setter Property="Height" Value="30"></Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="80">
-                                <GridViewColumn.Header>
-                                    <Border BorderThickness="1,0,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <CheckBox x:Name="AllCampaign"  IsChecked="{Binding IsAllDestinationSelected}" Content=" #" Command="{Binding SelectionExecute}" CommandParameter="{Binding IsAllDestinationSelected,Converter={StaticResource BooleanToStringSelectConverter}}"/>
-                                    </Border>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                            <CheckBox IsChecked="{Binding IsSelected}" 
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="Margin" Value="0,2,0,0"></Setter>
+                    </Style>
+                    <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
+                </ListView.Resources>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <Setter Property="Height" Value="30"></Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="80">
+                            <GridViewColumn.Header>
+                                <Border BorderThickness="1,0,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <CheckBox x:Name="AllCampaign"  IsChecked="{Binding IsAllDestinationSelected}" Content=" #" Command="{Binding SelectionExecute}" CommandParameter="{Binding IsAllDestinationSelected,Converter={StaticResource BooleanToStringSelectConverter}}"/>
+                                </Border>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <CheckBox IsChecked="{Binding IsSelected}" 
                                               x:Name="ChkSingleCampaign"
                                           Margin="6,2,6,2" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},  Converter={StaticResource ListViewItemIndexConverter}}" />
-                                        </Border>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                            <GridViewColumn  Width="250">
-                                <GridViewColumn.Header>
-                                    <TextBlock Text="{DynamicResource DHlangUsername}"/>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                            <TextBlock  Margin="6,2,6,2" Text="{Binding DestinationName}"/>
-                                        </Border>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                        <GridViewColumn  Width="250">
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{DynamicResource DHlangUsername}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <TextBlock  Margin="6,2,6,2" Text="{Binding AccountName}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                            <GridViewColumn Width="130">
-                                <GridViewColumn.Header>
-                                    <TextBlock Text="{DynamicResource DHlangPlatform}"/>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                            <TextBlock Margin="6,2,6,2" Text="{Binding AccountCount}"></TextBlock>
-                                        </Border>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                        <GridViewColumn Width="130">
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{DynamicResource DHlangPlatform}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <ContentControl>
+                                                <ContentControl.Style>
+                                                    <Style TargetType="{x:Type ContentControl}">
+                                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                        <Style.Triggers>
 
-                            <GridViewColumn Width="130">
-                                <GridViewColumn.Header>
-                                    <TextBlock Text="{DynamicResource DHlangGroups}"/>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                            <TextBlock Margin="6,2,6,2" Text="{Binding PagesOrBoardsCount}"></TextBlock>
-                                        </Border>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Facebook}">
+                                                                <Setter Property="Content" >
+                                                                    <Setter.Value>
+                                                                        <Rectangle Fill="#003569" Width="20" Height="20">
+                                                                            <Rectangle.Resources>
+                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                            </Rectangle.Resources>
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+
+                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Instagram}">
+                                                                <Setter Property="Content" >
+                                                                    <Setter.Value>
+                                                                        <Rectangle Fill="Red" Width="20" Height="20">
+                                                                            <Rectangle.Resources>
+                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                            </Rectangle.Resources>
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+
+                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Twitter}">
+                                                                <Setter Property="Content" >
+                                                                    <Setter.Value>
+                                                                        <Rectangle Fill="#3897F0" Width="20" Height="20">
+                                                                            <Rectangle.Resources>
+                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                            </Rectangle.Resources>
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+
+                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Pinterest}">
+                                                                <Setter Property="Content" >
+                                                                    <Setter.Value>
+                                                                        <Rectangle Fill="Red" Width="20" Height="20">
+                                                                            <Rectangle.Resources>
+                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                            </Rectangle.Resources>
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+
+                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Quora}">
+                                                                <Setter Property="Content" >
+                                                                    <Setter.Value>
+                                                                        <Rectangle Fill="Red" Width="20" Height="20">
+                                                                            <Rectangle.Resources>
+                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                            </Rectangle.Resources>
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+
+
+
+                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Reddit}">
+                                                                <Setter Property="Content" >
+                                                                    <Setter.Value>
+                                                                        <Rectangle Fill="OrangeRed" Width="20" Height="20">
+                                                                            <Rectangle.Resources>
+                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                            </Rectangle.Resources>
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+
+                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
+                                                                <Setter Property="Content" >
+                                                                    <Setter.Value>
+                                                                        <Rectangle Fill="DodgerBlue" Width="20" Height="20">
+                                                                            <Rectangle.Resources>
+                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                            </Rectangle.Resources>
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                                                <Setter Property="Content" >
+                                                                    <Setter.Value>
+                                                                        <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                            <Rectangle.Resources>
+                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                            </Rectangle.Resources>
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+
+                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                                                <Setter Property="Content" >
+                                                                    <Setter.Value>
+                                                                        <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                            <Rectangle.Resources>
+                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                            </Rectangle.Resources>
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+
+                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Tumblr}">
+                                                                <Setter Property="Content" >
+                                                                    <Setter.Value>
+                                                                        <Rectangle Fill="DimGray" Width="16" Height="20">
+                                                                            <Rectangle.Resources>
+                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                            </Rectangle.Resources>
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ContentControl.Style>
+                                            </ContentControl>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+
+
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="130">
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{DynamicResource DHlangGroups}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <Button Cursor="Hand" Margin="6,2,6,2" IsEnabled="{Binding IsGroupsAvailable}"
+                                                    Content="{Binding GroupSelectorText}" 
+                                                    x:Name="ButtonSelectGroups" 
+                                                    FontWeight="SemiBold"       
+                                                    Command="{Binding Path=DataContext.GetAccountGroupsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                    Background="Transparent"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
 
 
 
 
-                            <GridViewColumn Width="130">
-                                <GridViewColumn.Header>
-                                    <TextBlock Text="{DynamicResource DHlangPagesBoard}"/>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                            <TextBlock Margin="6,2,6,2" Text="{Binding GroupsCount}"></TextBlock>
-                                        </Border>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                        <GridViewColumn Width="130">
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{DynamicResource DHlangPagesBoard}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <Button Cursor="Hand" Margin="6,2,6,2" IsEnabled="{Binding IsPagesOrBoardsAvailable}"
+                                                    Content="{Binding PagesOrBoardsSelectorText}" 
+                                                    x:Name="ButtonSelectGroups" 
+                                                    FontWeight="SemiBold"      
+                                                    Command="{Binding Path=DataContext.GetAccountPagesOrBoardsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                    Background="Transparent"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                            <GridViewColumn Width="150">
-                                <GridViewColumn.Header>
-                                    <TextBlock Text="{DynamicResource DHlangWallsProfiles}"/>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                            <TextBlock Margin="6,2,6,2" Text="{Binding WallsOrProfilesCount}"></TextBlock>
-                                        </Border>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                        <GridViewColumn Width="150">
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{DynamicResource DHlangWallsProfiles}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,1,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <StackPanel Margin="6,2,6,2" HorizontalAlignment="Center">
+                                            <CheckBox  IsChecked="{Binding PublishonOwnWall}"></CheckBox>
+                                        </StackPanel>
 
-            </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
     </Grid>
 </UserControl>

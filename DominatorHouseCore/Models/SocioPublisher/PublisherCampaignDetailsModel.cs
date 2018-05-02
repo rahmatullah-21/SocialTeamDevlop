@@ -2,8 +2,6 @@
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
-
-
     public class PublisherCampaignDetailsModel
     {
         public int CampaignId { get; set; }
