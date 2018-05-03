@@ -44,6 +44,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public ICommand DeleteCampaignCommand { get; set; }
 
+      
         public ObservableCollection<PublisherCampaignStatusModel> ListPublisherCampaignStatusModels { get; set; } = new ObservableCollection<PublisherCampaignStatusModel>();
 
         private ICollectionView _publisherCampaignStatusModelView;

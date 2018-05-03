@@ -52,7 +52,7 @@
                     </Button.Template>
                 </Button>
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect" Margin="5">
+                <Button Background="Transparent" Name="BtnSelect" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=BtnSelect}"  Margin="5">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -65,8 +65,8 @@
                     </Button.Template>
 
                     <Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllDestinations" >
+                        <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllDestinations" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -75,7 +75,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuSelectNoneOfDestination" >
+                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuSelectNoneOfDestination" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -84,7 +84,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllWallsProfiles}" Name="MenuSelectAllWallsProfiles" >
+                            <MenuItem Header="{DynamicResource DHlangSelectAllWallsProfiles}" Name="MenuSelectAllWallsProfiles"  Command="{Binding SelectAccountDetailsCommand}" CommandParameter="OwnProfile" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -93,7 +93,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllPagesBoard}" Name="MenuSelectPagesBoards" >
+                            <MenuItem Header="{DynamicResource DHlangSelectAllPagesBoard}" Name="MenuSelectPagesBoards" Command="{Binding SelectAccountDetailsCommand}" CommandParameter="Pages" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -102,7 +102,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllGroup}" Name="MenuSelectGroups" >
+                            <MenuItem Header="{DynamicResource DHlangSelectAllGroup}" Name="MenuSelectGroups" Command="{Binding SelectAccountDetailsCommand}" CommandParameter="Groups" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -193,7 +193,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <CheckBox IsChecked="{Binding IsSelected}" 
+                                        <CheckBox IsChecked="{Binding IsAccountSelected}" 
                                               x:Name="ChkSingleCampaign"
                                           Margin="6,2,6,2" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},  Converter={StaticResource ListViewItemIndexConverter}}" />
                                     </Border>

@@ -78,9 +78,6 @@ namespace DominatorHouseCore.Utility
         }
 
 
-    
-
-
         [Obsolete("SetMetroDialogButton without parameter is deprecated, please use SetMetroDialogButton(AffirmativeText,NegativeText) instead.")]
         public static MetroDialogSettings SetMetroDialogButton()
         {
