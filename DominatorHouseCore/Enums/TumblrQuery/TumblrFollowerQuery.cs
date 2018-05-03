@@ -9,6 +9,9 @@ namespace DominatorHouseCore.Enums.TumblrQuery
         [Description("TumlangUserFollower")]
         UserFollower,
         [Description("TumlangUserFollowing")]
-        UserFollowing
+        UserFollowing,
+        [Description("TumlangHashTag")]
+        HashtagUsers
     }
+   
 }

@@ -4,13 +4,13 @@ namespace DominatorHouseCore.Enums.QdQuery
 {
     public enum AnswerQueryParameters
     {
-        [Description("langCustomURL")]
+        [Description("QDlangCustomURL")]
         CustomUrl,
-        [Description("langKeywords")]
+        [Description("QDlangKeywords")]
         Keywords,
-        [Description("langCustomUser")]
+        [Description("QDlangCustomUser")]
         CustomUser,
-        [Description("langTopicList")]
+        [Description("QDlangTopicList")]
         TopicList
     }
 }

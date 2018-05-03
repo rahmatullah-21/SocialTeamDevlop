@@ -56,13 +56,43 @@ namespace DominatorHouse.Social.AutoActivity.Views
         }
 
 
-        public static bool NewAutoActivityObject(SocialNetworks soicalNetworks,string selectedAccouts)
+        public static bool NewAutoActivityObject(SocialNetworks soicalNetworks,string selectedAccounts)
         {
             try
             {
                 ObjSocialAutoActivity = new SocialAutoActivity();
                 ObjSocialAutoActivity.SetDataContext();
                 ObjSocialAutoActivity.DominatorAutoActivityViewModel.CallRespectiveView(soicalNetworks);
+                switch (soicalNetworks)
+                {
+                    case SocialNetworks.Facebook:
+                        SelectedDominatorAccounts.FdAccounts = selectedAccounts;
+                        break;
+                    case SocialNetworks.Instagram:
+                        SelectedDominatorAccounts.GdAccounts = selectedAccounts;
+                        break;
+                    case SocialNetworks.Twitter:
+                        SelectedDominatorAccounts.TdAccounts = selectedAccounts;
+                        break;
+                    case SocialNetworks.Pinterest:
+                        SelectedDominatorAccounts.PdAccounts = selectedAccounts;
+                        break;
+                    case SocialNetworks.LinkedIn:
+                        SelectedDominatorAccounts.LdAccounts = selectedAccounts;
+                        break;
+                    case SocialNetworks.Reddit:
+                        SelectedDominatorAccounts.RdAccounts = selectedAccounts;
+                        break;
+                    case SocialNetworks.Quora:
+                        SelectedDominatorAccounts.QdAccounts = selectedAccounts;
+                        break;
+                    case SocialNetworks.Gplus:
+                        SelectedDominatorAccounts.GplusAccounts = selectedAccounts;
+                        break;
+                    case SocialNetworks.Youtube:
+                        SelectedDominatorAccounts.YdAccounts = selectedAccounts;
+                        break;
+                }
                 return true;
             }
             catch (Exception ex)

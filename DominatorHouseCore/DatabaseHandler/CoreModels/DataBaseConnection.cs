@@ -179,6 +179,28 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 return false;
             }
         }
+        public bool RemoveAll<T>() where T : class
+        {
+            try
+            {
+                using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
+                {
+                    sqLiteConnection.Open();
+                    using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
+                    {
+                        var dataList = context.Set<T>().ToList();
+                        context.Set<T>().RemoveRange(dataList);
+                        context.SaveChanges();
 
+                    }
+                    sqLiteConnection.Close();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

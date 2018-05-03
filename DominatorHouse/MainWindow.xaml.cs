@@ -624,13 +624,16 @@ namespace DominatorHouse
 
         private void SocinatorWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            if (this.ShowModalMessageExternal("Warning", "Are you sure ?", MessageDialogStyle.AffirmativeAndNegative) ==
-                MessageDialogResult.Affirmative)
+            e.Cancel =true;
+
+            bool isClose = this.ShowModalMessageExternal("Confirmation", "Are you sure to close Socinator?", MessageDialogStyle.AffirmativeAndNegative,
+                                 Dialog.SetMetroDialogButton("Yes", "No")) == MessageDialogResult.Affirmative;
+            if (isClose)
             {
                 Application.Current.Shutdown();
                 Process.GetCurrentProcess().Kill();
             }
-            else return;
+           
         }
 
        

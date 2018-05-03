@@ -314,6 +314,8 @@
     <Compile Include="Enums\LdQuery\LDMessengerQueryParameters.cs" />
     <Compile Include="Enums\PdQuery\PDPinQueries.cs" />
     <Compile Include="Enums\PdQuery\PDUsersQueries.cs" />
+    <Compile Include="Enums\QdQuery\BroadcastMessageQuery.cs" />
+    <Compile Include="Enums\QdQuery\FollowerQuery.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
     <Compile Include="Enums\TumblrQuery\TumblrFollowerQuery.cs" />

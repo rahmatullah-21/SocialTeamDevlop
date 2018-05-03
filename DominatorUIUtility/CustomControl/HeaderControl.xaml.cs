@@ -1,5 +1,9 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using DominatorUIUtility.Behaviours;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -130,6 +134,13 @@ namespace DominatorUIUtility.CustomControl
         {
             RaiseInfoEventHandler();
         }
+
+        private void ClpsExpnd_OnClick(object sender, RoutedEventArgs e)
+        {
+            HeaderHelper.ExpandCollapseAllExpander(sender, IsExpanded);
+            
+        }
+       
     }
     
 }

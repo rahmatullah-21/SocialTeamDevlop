@@ -72,5 +72,10 @@ namespace DominatorHouseCore.Utility
         {
             return langResourceKeys.Select(l => Application.Current.FindResource(l)?.ToString() ?? l).ToList();
         }
+
+        public static string GetQueryFromEnum(Enum queryType)
+        {
+            return Application.Current.FindResource(EnumUtility.GetDescriptionAttr(queryType)).ToString();
+        }
     }
 }

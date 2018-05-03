@@ -19,7 +19,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <ToggleButton VerticalAlignment="Center"  Foreground="White" >
+                <ToggleButton VerticalAlignment="Center"  Foreground="White"  Name="ClpsExpnd" Click="ClpsExpnd_OnClick">
                     <ToggleButton.Style>
                         <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MetroFlatToggleButton}">
                             <Setter Property="IsChecked" Value="{Binding IsExpanded}" />
