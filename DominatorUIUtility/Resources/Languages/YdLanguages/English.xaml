@@ -186,4 +186,8 @@
     <system:String x:Key="YdLangViewIncreasePerWeek">View increase per week</system:String>
     <system:String x:Key="YdLangMaxViewIncreaseDay">Maximum view increase per day</system:String>
 
+    <system:String x:Key="YdlangVideoLengthInSeconds">Video length in Seconds</system:String>
+
+
+
 </ResourceDictionary>

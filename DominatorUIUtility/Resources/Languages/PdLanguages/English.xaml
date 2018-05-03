@@ -275,7 +275,7 @@
     <system:String x:Key="PDlangRepost">Repost</system:String>
     <system:String x:Key="PDlangBroadCastMesseges">BroadCast Messeges</system:String>
     <system:String x:Key="PDlangAutoReplyToNewMessege">Auto Reply To New Messege</system:String>
-    <system:String x:Key="PDlangSendMessageToNewFollowers">Send Message To New Followers</system:String>
+    <system:String x:Key="PDlangSendMessageToNewFollowers">Message To New Followers</system:String>
     <system:String x:Key="PDlangPinDominator">Pin Dominator</system:String>
     <system:String x:Key="PDlangDashboardBeta">Dashboard Beta</system:String>
     <system:String x:Key="PDlangAccountsManager">Accounts Manager</system:String>

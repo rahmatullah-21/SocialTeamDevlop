@@ -28,6 +28,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
+using DominatorHouseCore.LogHelper;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -242,11 +243,13 @@ namespace DominatorUIUtility.CustomControl
 
                         currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
 
-                        if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
+                        if (IsQueryExistWithoutDialog(currentQuery, Model.SavedQueries)) return;
 
                         Model.SavedQueries.Add(currentQuery);
 
                     });
+
+
                 }
                 else
                 {
@@ -285,6 +288,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                List<int> queryValuIndex=new List<int>();
                 if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue))
                 {
                     _queryControl.QueryCollection.ForEach(query =>
@@ -299,11 +303,27 @@ namespace DominatorUIUtility.CustomControl
 
                         currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
 
-                        if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
+                        if (IsQueryExistWithoutDialog(currentQuery, Model.SavedQueries))
+                        {
+                            queryValuIndex.Add(_queryControl.QueryCollection.IndexOf(query));
+                            return;
+                        }
 
                         Model.SavedQueries.Add(currentQuery);
 
                     });
+                    if (queryValuIndex.Count > 0)
+                    {
+                        if (queryValuIndex.Count <= 10)
+                        {
+                            GlobusLogHelper.log.Info(Log.AlreadyExistQuery, SocinatorInitialize.ActiveSocialNetwork, "{ "+ string.Join(" },{ ", queryValuIndex.ToArray())+" }", _activityType);
+                        }
+                        else
+                        {
+                            GlobusLogHelper.log.Info(Log.AlreadyExistQueryCount, SocinatorInitialize.ActiveSocialNetwork, queryValuIndex.Count, _activityType);
+
+                        } 
+                    }
                 }
                 else
                 {
@@ -354,7 +374,20 @@ namespace DominatorUIUtility.CustomControl
             }
             return false;
         }
-
+        private bool IsQueryExistWithoutDialog(QueryInfo currentQuery, ObservableCollection<QueryInfo> queryToSave)
+        {
+            try
+            {
+                if (queryToSave.Any(x =>
+                    x.QueryType == currentQuery.QueryType && x.QueryValue == currentQuery.QueryValue))
+                    return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
 
         /// <summary>
         /// On Custom filter  changed
@@ -1190,6 +1223,7 @@ namespace DominatorUIUtility.CustomControl
                     {
                         _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
                         this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+                        GlobusLogHelper.log.Info(Log.SelectedAccount,SocinatorInitialize.ActiveSocialNetwork, _footerControl.list_SelectedAccounts.Count,_activityType);
                     }
                     else
                     {

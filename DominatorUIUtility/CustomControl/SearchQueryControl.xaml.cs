@@ -138,6 +138,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                QueryCollection.Clear();
                 QueryCollection.AddRange(FileUtilities.FileBrowseAndReader());
 
                 if (QueryCollection.Count != 0)

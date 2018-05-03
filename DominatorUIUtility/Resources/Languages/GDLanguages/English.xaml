@@ -401,7 +401,7 @@
     <system:String x:Key="langLetsDominateInstaWithGD">Lets dominate Instagram with GramDominator</system:String>
     <system:String x:Key="langFindPhotosSliderText">Use this module to find photos of your customize users list or with hashtags and save them to your computer.</system:String>
     <system:String x:Key="langHashTag">Hashtags</system:String>
-    <system:String x:Key="langLastPostDay">Should have posted within the last</system:String>
+    <system:String x:Key="langLastPostDay">Should not posted within the last</system:String>
     <system:String x:Key="langSelectMonitoredFolder">Select Monitored Folder</system:String>
     <system:String x:Key="langAddToFD">Add to FD+</system:String>
     <system:String x:Key="langPosterSliderText">Use this module to upload latest profile picture OR post new photos from multiple accounts on Instagram.</system:String>
@@ -1257,7 +1257,7 @@
     <system:String x:Key="GDlangPostsOfUsersWhoCommentedOnPost">Posts of Users who commented on Post</system:String>
     <system:String x:Key="GDlangOwnFollowersPosts">Own Followers Posts</system:String>
     <system:String x:Key="GDlangOwnFollowingPosts">Own Followings Posts</system:String>
-    
+   
     <!--End Gram Dominator-->
 
     <!--Start Twt Dominator-->

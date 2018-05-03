@@ -1129,4 +1129,18 @@
     <system:String x:Key="TdLangAutoReply">AutoReply</system:String>
     <system:String x:Key="TdLangBroadcastMessageConfig">BroadCastMessage</system:String>
     <system:String x:Key="TdLangMessageToNewFollowers">MessageToNewFollowers</system:String>
+
+    <system:String x:Key="TdLangDownload">Download</system:String>
+    <system:String x:Key="TdLangCategory">Category</system:String>
+    <system:String x:Key="TdLangVideo">Video</system:String>
+    <system:String x:Key="TdLangImage">Image</system:String>
+    <system:String x:Key="TdLangQuality">Quality</system:String>
+    <system:String x:Key="TdLangHigh">High</system:String>
+    <system:String x:Key="TdLangNormal">Normal</system:String>
+    <system:String x:Key="TdLangDownloadPerJob">Number of download per job</system:String>
+    <system:String x:Key="TdLangDownloadPerDay">Number of download per day</system:String>
+    <system:String x:Key="TdLangDownloadPerHour">Number of download per hour</system:String>
+    <system:String x:Key="TdLangDownloadPerWeek">Number of download per week</system:String>
+    <system:String x:Key="TdLangMaxDownloadPerDay">max download per day</system:String>
+    <system:String x:Key="TdLangMessageToNewFollowersShort">MsgToNewFollowers</system:String>
 </ResourceDictionary>

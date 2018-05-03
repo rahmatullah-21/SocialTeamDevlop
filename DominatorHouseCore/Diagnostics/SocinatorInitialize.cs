@@ -53,43 +53,7 @@ namespace DominatorHouseCore.Diagnostics
                 }
 
                 await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
-
-
-                #region Commented
-
-                //if (responseStream == null)
-                //{
-                //    FeatureFlags.Instance = new FeatureFlags()
-                //    {
-                //        {"SocinatorInitializer", true}
-                //    };
-                //    return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
-                //}
-
-
-
-                //if (finalResponse.Contains("License Key not found"))
-                //{
-                //    FeatureFlags.Instance = new FeatureFlags()
-                //    {
-                //        {"SocinatorInitializer", true}
-                //    };
-                //    return AvailableNetworks = new[] { SocialNetworks.Social }.ToHashSet();
-                //}
-
-                //if (finalResponse.Contains("Ok"))
-                //{
-
-
-                //}
-
-                //if (finalResponse.Contains("Sorry"))
-                //{
-                //    // Get all available networks from license  
-
-                //} 
-
-                #endregion
+                
             }
             catch (Exception ex)
             {

@@ -62,7 +62,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Name="txtblockUserName" Text="{DynamicResource langUsername}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+            <TextBlock Name="txtblockUserName" Text="{DynamicResource DHlangEmailIdUsername}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
             <TextBox Name="txtUserName"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}" controls:TextBoxHelper.Watermark="Type User Name" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1" >
                 <TextBox.Text>
                     <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged">
@@ -207,7 +207,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-                <Button x:Name="btnSave" x:FieldModifier="public" Margin="0,0,10,10">
+                <Button x:Name="btnSave" x:FieldModifier="public" Margin="0,0,10,10" Background="Green" Foreground="White">
                     <Button.Style>
                         <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                             <Setter Property="IsEnabled" Value="false" />
@@ -226,7 +226,18 @@
                     </Button.Style>
                 </Button>
 
-                <Button x:Name="btnCancel" x:FieldModifier="public" Margin="0,0,8,10"  Content="{DynamicResource langCancel}" />
+                <Button x:Name="btnCancel" x:FieldModifier="public" Margin="0,0,8,10" Background="#ef1d1d" >
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Width="15" Height="15" Fill="White">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Text="{DynamicResource langCancel}" Margin="6,0" Foreground="White"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
 
             </StackPanel>
         </Grid>

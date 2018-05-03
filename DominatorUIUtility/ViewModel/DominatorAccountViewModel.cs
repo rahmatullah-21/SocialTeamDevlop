@@ -607,6 +607,7 @@ namespace DominatorUIUtility.ViewModel
                 });
                 ProxyFileManager.SaveProxy(ProxyManagerModel);
             }
+            ProxyDetail = ProxyFileManager.GetAllProxy();
         }
 
 
@@ -700,7 +701,7 @@ namespace DominatorUIUtility.ViewModel
 
             // remove from file
             AccountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);
-            Task.Factory.StartNew(() => { DeleteAccountFromProxy(selectAccounts.ToList()); });
+             DeleteAccountFromProxy(selectAccounts.ToList()); 
           
             //also delete the associated files
             DataBaseHandler.DeleteDatabase(selectAccounts.Select(acct => acct.AccountId));
@@ -720,7 +721,7 @@ namespace DominatorUIUtility.ViewModel
                 return;
             DeleteAccounts(new[] { selectedAccount });
 
-            GlobusLogHelper.log.Info(Log.DeleteAccount, selectedAccount.AccountBaseModel.AccountNetwork, selectedAccount.AccountBaseModel.UserName);
+           
         }
 
         #endregion
