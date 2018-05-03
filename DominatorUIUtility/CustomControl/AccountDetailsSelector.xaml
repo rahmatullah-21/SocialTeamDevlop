@@ -4,34 +4,50 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             mc:Ignorable="d" x:Name="AccountDetailsSelectors" Width="700"
+             mc:Ignorable="d" x:Name="AccountDetailsSelectors" Width="700" Height="600"
                xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
                xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
     <UserControl.Resources>
         <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     <Border BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="1" Margin="10">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition  Height="35" />
-                <RowDefinition  Height="*" />
+                <RowDefinition  Height="0.8*" />
+                <RowDefinition  Height="10*" />
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0"  Background="{DynamicResource AccentBaseColorBrush}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
                 <!--Filter Section-->
+               
+                <StackPanel Orientation="Horizontal">
+                    <mah:ProgressRing IsActive="{Binding IsProgressRingActive}" HorizontalAlignment="Left" Visibility="{Binding IsProgressRingActive,Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="White" Height="30" Width="30" />
+                    <TextBlock Text="{Binding StatusText}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13" FontWeight="SemiBold"  />
+                </StackPanel>
+                
+                    
+                
                 <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource langSearch}" 
-                              VerticalAlignment="Center" Height="28"  HorizontalAlignment="Right" Width="250"
-                              Style="{StaticResource SearchMetroTextBox}" Name="TextSearch"/>
+                         VerticalAlignment="Center" Height="28" Grid.Column="1"  HorizontalAlignment="Right" Width="250"
+                         Style="{StaticResource SearchMetroTextBox}" Name="TextSearch"/>
+                
             </Grid>
 
+            
             <!--Account detail list-->
             <Grid Grid.Row="1" Margin="0,10,0,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="0.8*" />
                 </Grid.RowDefinitions>
 
-                <ListView ItemsSource="{Binding AccountDetailsSelectorView}" ItemContainerStyle="{StaticResource ListViewItems}"                         
+
+                <ListView Grid.Row="0" ItemsSource="{Binding AccountDetailsSelectorView}" ItemContainerStyle="{StaticResource ListViewItems}"                         
                           mah:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="False">
                     <ListView.Resources>
                         <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">

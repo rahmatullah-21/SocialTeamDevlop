@@ -186,8 +186,8 @@
                     <GridView>
                         <GridViewColumn Width="80">
                             <GridViewColumn.Header>
-                                <Border BorderThickness="1,0,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <CheckBox x:Name="AllCampaign"  IsChecked="{Binding IsAllDestinationSelected}" Content=" #" Command="{Binding SelectionExecute}" CommandParameter="{Binding IsAllDestinationSelected,Converter={StaticResource BooleanToStringSelectConverter}}"/>
+                                <Border  BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <CheckBox x:Name="AllCampaign" Margin="6,2,6,2" IsChecked="{Binding IsAllDestinationSelected}" Content=" #" Command="{Binding SelectionExecute}" CommandParameter="{Binding IsAllDestinationSelected,Converter={StaticResource BooleanToStringSelectConverter}}"/>
                                 </Border>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>

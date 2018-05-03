@@ -63,11 +63,10 @@ namespace DominatorHouseCore.Utility
             try
             {
                 MetroWindow.GlowBrush = MetroWindow.FindResource("AccentColorBrush") as SolidColorBrush;
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
             MetroWindow.MinHeight = (SystemParameters.PrimaryScreenHeight / 4.0) - 80;
             MetroWindow.MinWidth = SystemParameters.PrimaryScreenHeight / 1.3;
@@ -75,10 +74,13 @@ namespace DominatorHouseCore.Utility
             MetroWindow.Content = window;
             MetroWindow.MaxHeight = SystemParameters.PrimaryScreenHeight - 100;
             MetroWindow.MaxWidth = SystemParameters.PrimaryScreenWidth - 100;
-
-
             return MetroWindow;
         }
+
+
+    
+
+
         [Obsolete("SetMetroDialogButton without parameter is deprecated, please use SetMetroDialogButton(AffirmativeText,NegativeText) instead.")]
         public static MetroDialogSettings SetMetroDialogButton()
         {

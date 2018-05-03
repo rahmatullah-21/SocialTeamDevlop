@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -21,8 +22,7 @@ namespace DominatorUIUtility.CustomControl
             AccountDetailsSelectors.DataContext = AccountDetailsSelectorViewModel;
             _accountId = accountId;
             _accountName = accountName;
-            _updateUiDetails = updateUiData;
-            //Task.Factory.StartNew(UpdateUi);
+            _updateUiDetails = updateUiData;           
         }
 
         private readonly string _accountId;
@@ -55,6 +55,12 @@ namespace DominatorUIUtility.CustomControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void UpdateUi() => Task.Factory.StartNew(() => _updateUiDetails.Invoke(_accountId, _accountName, this));
+        public void UpdateUi() => Task.Factory.StartNew(() =>
+        {
+            _updateUiDetails.Invoke(_accountId, _accountName, this);           
+        });
+
+      
+
     }
 }

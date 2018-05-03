@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
-using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.FileManagers;
@@ -110,11 +104,26 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 .GetSocialLibrary(publisherCreateDestinationSelectModel.SocialNetworks)
                 .GetNetworkCoreFactory().AccountDetailsSelectors;
 
+           var alreadySelectedGroups = PublisherCreateDestinationModel.AccountGroupPair
+                .Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).Select(x => x.Value).ToList();
+
             var selected = accountsDetailsSelector.GetGroupsPair(publisherCreateDestinationSelectModel.AccountId, publisherCreateDestinationSelectModel.AccountName);
+
             PublisherCreateDestinationModel.AccountGroupPair.AddRange(selected);
+
+            alreadySelectedGroups = PublisherCreateDestinationModel.AccountGroupPair
+                .Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).Select(x => x.Value).ToList();
+
+            var createDestinationSelectModel = ListSelectDestination.FirstOrDefault(x => x.AccountId == publisherCreateDestinationSelectModel.AccountId);
+
+            var account = AccountsFileManager.GetAccountById(publisherCreateDestinationSelectModel.AccountId);
+
+            if (createDestinationSelectModel != null)
+                createDestinationSelectModel.GroupSelectorText =
+                    $"{alreadySelectedGroups.Count}/{account.DisplayColumnValue3}";
         }
 
-       
+
 
         private bool GetAccountPagesOrBoardsCanExecute(object sender) => true;
 
@@ -126,9 +135,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 .GetSocialLibrary(publisherCreateDestinationSelectModel.SocialNetworks)
                 .GetNetworkCoreFactory().AccountDetailsSelectors;
 
-
-            accountsDetailsSelector.GetPagesOrBoardsPair(publisherCreateDestinationSelectModel.AccountId, publisherCreateDestinationSelectModel.AccountName);
+            var selectedPages = accountsDetailsSelector.GetPagesOrBoardsPair(publisherCreateDestinationSelectModel.AccountId, publisherCreateDestinationSelectModel.AccountName);
+            PublisherCreateDestinationModel.AccountPagesBoardsPair.AddRange(selectedPages);
         }
+
+        public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn" };
+
+        public List<string> PagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest", "LinkedIn", "Gplus" };
 
         public void InitializeDestinationList()
         {
@@ -140,13 +153,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     AccountId = x.AccountBaseModel.AccountId,
                     AccountName = x.AccountBaseModel.UserName,
-                    IsGroupsAvailable = x.DisplayColumnValue2 != null,
-                    IsPagesOrBoardsAvailable = x.DisplayColumnValue3 != null,
+                    SocialNetworks = x.AccountBaseModel.AccountNetwork,
+                    IsGroupsAvailable = GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
+                    IsPagesOrBoardsAvailable = PagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     PublishonOwnWall = false,
                     SelectedGroups = 0,
                     TotalGroups = x.DisplayColumnValue2 ?? 0,
                     TotalPagesOrBoards = x.DisplayColumnValue3 ?? 0,
-                    SocialNetworks = x.AccountBaseModel.AccountNetwork
                 };
                 ListSelectDestination.Add(publisherCreateDestinationSelectModel);
             });

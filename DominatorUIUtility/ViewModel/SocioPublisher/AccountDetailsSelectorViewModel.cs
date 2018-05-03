@@ -9,6 +9,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class AccountDetailsSelectorViewModel : BindableBase
     {
+        public AccountDetailsSelectorViewModel()
+        {
+            AccountDetailsSelectorView = CollectionViewSource.GetDefaultView(ListAccountDetailsSelectorModels);
+        }
+
         private ObservableCollection<AccountDetailsSelectorModel> _listAccountDetailsSelectorModels = new ObservableCollection<AccountDetailsSelectorModel>();
 
         public ObservableCollection<AccountDetailsSelectorModel> ListAccountDetailsSelectorModels
@@ -25,6 +30,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(ListAccountDetailsSelectorModels));
             }
         }
+
+        private bool _isProgressRingActive=true;
+
+        public bool IsProgressRingActive
+        {
+            get
+            {
+                return _isProgressRingActive;
+            }
+            set
+            {
+                if (_isProgressRingActive == value)
+                    return;
+                _isProgressRingActive = value;
+                OnPropertyChanged(nameof(IsProgressRingActive));
+            }
+        }
+
 
         private ICollectionView _accountDetailsSelectorView;
 
@@ -59,7 +82,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(DetailsNameHeader));
             }
         }
-
 
         private string _detailsUrlHeader= string.Empty;
 
@@ -97,14 +119,23 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
 
-        public void AccountDetailsBuilder(IEnumerable<AccountDetailsSelectorModel> accountDetails, string title,string detailNameHeader,string detaildUrlHeader)
+        private string _statusText = "Fetching..";
+
+        public string StatusText
         {
-            ListAccountDetailsSelectorModels = new ObservableCollection<AccountDetailsSelectorModel>(accountDetails);
-            AccountDetailsSelectorView = CollectionViewSource.GetDefaultView(ListAccountDetailsSelectorModels);
-            Title = title;
-            DetailsUrlHeader = detaildUrlHeader;
-            DetailsNameHeader = detailNameHeader;
+            get
+            {
+                return _statusText;
+            }
+            set
+            {
+                if (_statusText == value)
+                    return;
+                _statusText = value;
+                OnPropertyChanged(nameof(StatusText));
+            }
         }
+
 
         public IEnumerable<KeyValuePair<string, string>> GetSelectedItems()
         {

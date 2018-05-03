@@ -12,7 +12,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 {
     public class PublisherCreateDestinationModel : INotifyPropertyChanged
     {
-        private List<KeyValuePair<string, string>> _accountBoardsPagesPair = new List<KeyValuePair<string, string>>();
+        private List<KeyValuePair<string, string>> _accountPagesBoardsPair = new List<KeyValuePair<string, string>>();
         private List<KeyValuePair<string, string>> _accountGroupPair = new List<KeyValuePair<string, string>>();
         private List<string> _selectedAccountIds = new List<string>();
         private List<string> _publishOwnWallAccount = new List<string>();
@@ -88,18 +88,18 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         [ProtoMember(5)]
-        public List<KeyValuePair<string, string>> AccountBoardsPagesPair
+        public List<KeyValuePair<string, string>> AccountPagesBoardsPair
         {
             get
             {
-                return _accountBoardsPagesPair;
+                return _accountPagesBoardsPair;
             }
             set
             {
-                if (_accountBoardsPagesPair == value)
+                if (_accountPagesBoardsPair == value)
                     return;
-                _accountBoardsPagesPair = value;
-                OnPropertyChanged(nameof(AccountBoardsPagesPair));
+                _accountPagesBoardsPair = value;
+                OnPropertyChanged(nameof(AccountPagesBoardsPair));
             }
         }
 
@@ -168,7 +168,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 DestinationName = $"Default-{ConstantVariable.GetDateTime()}",
                 DestinationId = Utilities.GetGuid(),
-                AccountBoardsPagesPair = new List<KeyValuePair<string, string>>(),
+                AccountPagesBoardsPair = new List<KeyValuePair<string, string>>(),
                 AccountGroupPair = new List<KeyValuePair<string, string>>(),
                 PublishOwnWallAccount = new List<string>(),
                 SelectedAccountIds = new List<string>(),
@@ -239,7 +239,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public bool IsPagesOrBoardsAvailable { get; set; }
 
 
-        private string _groupSelectorText = "0 / 0";
+        private string _groupSelectorText = "NA";
 
         public string GroupSelectorText
         {
@@ -257,7 +257,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private string _pagesOrBoardsSelectorText = "0 / 0";
+        private string _pagesOrBoardsSelectorText = "NA";
 
         public string PagesOrBoardsSelectorText
         {
@@ -366,12 +366,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private void UpdateGroupText() 
-            => GroupSelectorText = SelectedGroups + " / " + TotalGroups;
+        private void UpdateGroupText() => 
+            GroupSelectorText = IsGroupsAvailable ? SelectedGroups + "/" + TotalGroups : "NA";
 
 
-        private void UpdatePagesOrBoardsText()
-            => PagesOrBoardsSelectorText = SelectedPagesOrBoards + " / " + TotalPagesOrBoards;
+        private void UpdatePagesOrBoardsText() => 
+            PagesOrBoardsSelectorText = IsPagesOrBoardsAvailable ? SelectedPagesOrBoards + "/" + TotalPagesOrBoards : "NA";
     }
    
 }
