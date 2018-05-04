@@ -4,21 +4,23 @@ namespace DominatorHouseCore.Enums.QdQuery
 {   
     public enum UserQueryParameters
     {
-        [Description("langKeywords")]
+        [Description("QDlangKeywords")]
         Keywords,
         [Description("langSomeonesFollowers")]
         SomeonesFollowers,
-        [Description("langSomeonesFollowings")]
+        [Description("QDlangSomeonesFollowings")]
         SomeonesFollowings,
-        [Description("langCustomUsers")]
+        [Description("QDlangCustomUsers")]
         CustomUsers,
-        [Description("langEngagedUsers")]
+        [Description("QDlangEngagedUsers")]
         EngagedUsers,
-        [Description("langOwnFollowers")]
-        OwnFollowers,
-        [Description("langTopicFollowers")]
+        //[Description("QDlangOwnFollowers")]
+        //OwnFollowers,
+        [Description("QDlangTopicFollowers")]
         TopicFollowers,
-        [Description("langAnswerUpvoters")]
+        [Description("QDlangAnswerUpvoters")]
         AnswerUpvoters
     }
+
+    
 }

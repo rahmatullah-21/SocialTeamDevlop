@@ -1,6 +1,7 @@
 ﻿using DominatorHouseCore.Utility;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorUIUtility.Behaviours;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -114,5 +115,10 @@ namespace DominatorUIUtility.CustomControl
             {
                 BindsTwoWayByDefault = true
             });
+
+        private void ClpsExpnd_OnClick(object sender, RoutedEventArgs e)
+        {
+            HeaderHelper.ExpandCollapseAllExpander(sender, IsExpanded);
+        }
     }
 }
