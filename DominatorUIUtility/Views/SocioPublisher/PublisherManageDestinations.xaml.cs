@@ -30,9 +30,10 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
         }
 
-        private static PublisherManageDestinations _indexPage;
+    
         private PublisherManageDestinationViewModel _publisherManageDestinationViewModel = new PublisherManageDestinationViewModel();
 
+        private static PublisherManageDestinations _indexPage;
         public static PublisherManageDestinations Instance { get; set; }
             = _indexPage ?? (_indexPage = new PublisherManageDestinations());
 

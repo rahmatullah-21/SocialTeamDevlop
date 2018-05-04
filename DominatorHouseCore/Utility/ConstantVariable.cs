@@ -111,7 +111,7 @@ namespace DominatorHouseCore.Utility
 
         public static string GetPublisherDestinationsFile() => GetOtherDir() + @"\PublisherManageDestinations.bin";
 
-        public static string GetPublisherCreateDestinationsFolder() => GetOtherDir() + @"\DestinationList";
+        public static string GetPublisherCreateDestinationsFolder() => GetOtherDir() + @"\DestinationList\";
 
         public static string GetChatDir()
         {

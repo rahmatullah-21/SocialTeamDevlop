@@ -10,6 +10,7 @@ using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
+    [ProtoContract]
     public class PublisherCreateDestinationModel : INotifyPropertyChanged
     {
         private List<KeyValuePair<string, string>> _accountPagesBoardsPair = new List<KeyValuePair<string, string>>();

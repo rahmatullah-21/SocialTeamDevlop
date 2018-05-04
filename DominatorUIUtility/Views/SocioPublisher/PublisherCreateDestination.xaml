@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher" x:Name="CreateDestination"
              mc:Ignorable="d"  
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             Loaded="PublisherCreateDestination_OnLoaded"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
@@ -35,7 +36,7 @@
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
-                <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" >
+                <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnSave}" >
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -84,7 +85,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllWallsProfiles}" Name="MenuSelectAllWallsProfiles"  Command="{Binding SelectAccountDetailsCommand}" CommandParameter="OwnProfile" >
+                            <MenuItem Header="{DynamicResource DHlangSelectAllWallsProfiles}" Name="MenuSelectAllWallsProfiles"  Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="OwnProfile" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -93,7 +94,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllPagesBoard}" Name="MenuSelectPagesBoards" Command="{Binding SelectAccountDetailsCommand}" CommandParameter="Pages" >
+                            <MenuItem Header="{DynamicResource DHlangSelectAllPagesBoard}" Name="MenuSelectPagesBoards" Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="Pages" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -102,7 +103,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllGroup}" Name="MenuSelectGroups" Command="{Binding SelectAccountDetailsCommand}" CommandParameter="Groups" >
+                            <MenuItem Header="{DynamicResource DHlangSelectAllGroup}" Name="MenuSelectGroups" Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="Groups" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -187,7 +188,7 @@
                         <GridViewColumn Width="80">
                             <GridViewColumn.Header>
                                 <Border  BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <CheckBox x:Name="AllCampaign" Margin="6,2,6,2" IsChecked="{Binding IsAllDestinationSelected}" Content=" #" Command="{Binding SelectionExecute}" CommandParameter="{Binding IsAllDestinationSelected,Converter={StaticResource BooleanToStringSelectConverter}}"/>
+                                    <CheckBox x:Name="AllAccountsDestination" Margin="6,2,6,2"  IsChecked="{Binding IsAllDestinationSelected}"  Content=" #" Command="{Binding SelectionExecute}" CommandParameter="{Binding IsAllDestinationSelected,Converter={StaticResource BooleanToStringSelectConverter}}"/>
                                 </Border>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
@@ -401,7 +402,7 @@
                                                     Content="{Binding GroupSelectorText}" 
                                                     x:Name="ButtonSelectGroups" 
                                                     FontWeight="SemiBold"       
-                                                    Command="{Binding Path=DataContext.GetAccountGroupsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                    Command="{Binding Path=DataContext.GetSingleAccountGroupsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                     Background="Transparent"/>
                                     </Border>
                                 </DataTemplate>
@@ -423,7 +424,7 @@
                                                     Content="{Binding PagesOrBoardsSelectorText}" 
                                                     x:Name="ButtonSelectGroups" 
                                                     FontWeight="SemiBold"      
-                                                    Command="{Binding Path=DataContext.GetAccountPagesOrBoardsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                    Command="{Binding Path=DataContext.GetSingleAccountPagesOrBoardsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                     Background="Transparent"/>
                                     </Border>
                                 </DataTemplate>
@@ -438,7 +439,7 @@
                                 <DataTemplate>
                                     <Border BorderThickness="1,1,1,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                         <StackPanel Margin="6,2,6,2" HorizontalAlignment="Center">
-                                            <CheckBox  IsChecked="{Binding PublishonOwnWall}"></CheckBox>
+                                            <CheckBox  IsChecked="{Binding PublishonOwnWall}" ></CheckBox>
                                         </StackPanel>
 
                                     </Border>

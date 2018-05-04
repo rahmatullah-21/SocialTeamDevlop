@@ -37,12 +37,23 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
+        public AccountDetailsSelector(Func<AccountDetailsSelector, PublisherCreateDestinationSelectModel,Task> updateSingleData, PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel)
+        {
+            InitializeComponent();
+            AccountDetailsSelectors.DataContext = AccountDetailsSelectorViewModel;
+            _updateSinlgeDetails = updateSingleData;
+            _publisherCreateDestinationSelectModel = publisherCreateDestinationSelectModel;
+        }
+
         private readonly string _accountId;
         private readonly string _accountName;
+        private PublisherCreateDestinationSelectModel _publisherCreateDestinationSelectModel = new PublisherCreateDestinationSelectModel();
 
         private readonly Func<string, string, AccountDetailsSelector,Task> _updateUiDetails;
 
         private readonly Action<AccountDetailsSelector> _updateAllDetails;
+
+        private readonly Func<AccountDetailsSelector, PublisherCreateDestinationSelectModel, Task> _updateSinlgeDetails;
 
         private AccountDetailsSelectorViewModel _accountDetailsSelectorViewModel = new AccountDetailsSelectorViewModel();
 
@@ -78,6 +89,11 @@ namespace DominatorUIUtility.CustomControl
         public void UpdateUiAllData() => Task.Factory.StartNew(() =>
         {
             _updateAllDetails.Invoke(this);
+        });
+
+        public void UpdateUiSingleData() => Task.Factory.StartNew(() =>
+        {
+            _updateSinlgeDetails.Invoke(this, _publisherCreateDestinationSelectModel);
         });
     }
 }

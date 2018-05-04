@@ -194,7 +194,9 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <TextBlock Margin="6,2,6,2" Text="{Binding AccountCount}"></TextBlock>
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock Margin="6,2,6,2" Text="{Binding AccountCount}"/>
+                                    </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -207,7 +209,9 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <TextBlock Margin="6,2,6,2" Text="{Binding PagesOrBoardsCount}"></TextBlock>
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock Margin="6,2,6,2" Text="{Binding PagesOrBoardsCount}"/>
+                                    </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -224,7 +228,9 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <TextBlock Margin="6,2,6,2" Text="{Binding GroupsCount}"></TextBlock>
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock Margin="6,2,6,2" Text="{Binding GroupsCount}"/>
+                                    </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -237,7 +243,9 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <TextBlock Margin="6,2,6,2" Text="{Binding WallsOrProfilesCount}"></TextBlock>
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock Margin="6,2,6,2" Text="{Binding WallsOrProfilesCount}"/>
+                                    </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -250,7 +258,9 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,1,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <TextBlock  Margin="6,2,6,2" Text="{Binding CampaignsCount}"></TextBlock>
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock Margin="6,2,6,2" Text="{Binding CampaignsCount}"/>
+                                    </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

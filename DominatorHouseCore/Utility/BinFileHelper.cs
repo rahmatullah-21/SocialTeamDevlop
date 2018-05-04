@@ -98,6 +98,8 @@ namespace DominatorHouseCore.Utility
             {
                 return WithFile<PublisherCreateDestinationModel, bool>(filePath =>
                 {
+                    DirectoryUtilities.CreateDirectory(filePath);
+
                     ProtoBuffBase.AppendObject(publisherCreateDestination, filePath+$"{publisherCreateDestination.DestinationId}.bin");
                     return true;
                 });

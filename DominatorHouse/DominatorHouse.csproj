@@ -269,14 +269,6 @@
       <Project>{164cddcd-db12-4998-b822-3adc9c8a7072}</Project>
       <Name>QuoraDominatorUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\reddit-dominator-library\RedditDominatorCore\RedditDominatorCore.csproj">
-      <Project>{6d1bc42e-ffea-4f4a-9375-328d0de7269d}</Project>
-      <Name>RedditDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\reddit-dominator-library\RedditDominatorUI\RedditDominatorUI.csproj">
-      <Project>{30754f3c-6ebc-4021-b0b7-53ea312da707}</Project>
-      <Name>RedditDominatorUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\tumblrdominator-library\TumblrDominatorCore\TumblrDominatorCore.csproj">
       <Project>{5898e952-8c43-40b7-9527-eb814650d50f}</Project>
       <Name>TumblrDominatorCore</Name>

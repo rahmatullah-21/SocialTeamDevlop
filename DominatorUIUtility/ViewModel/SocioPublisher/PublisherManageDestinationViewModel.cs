@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
@@ -107,7 +108,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     break;
                 case "CreateDestination":
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
-                        = new PublisherCreateDestination();
+                        =  PublisherCreateDestination.Instance;                   
                     break;
             }
         }
@@ -183,24 +184,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public void InitializeDefaultDestinations()
         {
             PublisherManageDestinationModelView = CollectionViewSource.GetDefaultView(ListPublisherManageDestinationModels);
-
-            for (int i = 0; i < 5; i++)
-            {
-                var publisherManageDestinationModel = new PublisherManageDestinationModel();
-                publisherManageDestinationModel.GenerateDestinations();
-                publisherManageDestinationModel.DestinationName = publisherManageDestinationModel.DestinationName + RandomUtilties.GetRandomNumber(100);
-                AddDestinations(publisherManageDestinationModel);
-            }
+            var savedDestinations = ManageDestinationFileManager.GetAll();
+            savedDestinations.ForEach(x => { AddDestinations(x, false); });
         }
 
-        public bool AddDestinations(PublisherManageDestinationModel publisherManageDestinationModel)
+        public bool AddDestinations(PublisherManageDestinationModel publisherManageDestinationModel, bool isNewDestination)
         {
             if (ListPublisherManageDestinationModels.Any(x => x.DestinationName == publisherManageDestinationModel.DestinationName))
             {
                 GlobusLogHelper.log.Info("Campaign name already present!");
                 return false;
             }
-
             try
             {
                 if (!Application.Current.Dispatcher.CheckAccess())
@@ -210,19 +204,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     });
                 else
                     ListPublisherManageDestinationModels.Add(publisherManageDestinationModel);
+
+                if (isNewDestination)
+                    ManageDestinationFileManager.Add(publisherManageDestinationModel);
             }
             catch (Exception)
             {
                 return false;
             }
-
             return true;
-
-            
         }
-
-        public PublisherCampaignStatusModel GetCampaginDeepClone(PublisherCampaignStatusModel publisherCampaignStatusModel)
-            => publisherCampaignStatusModel.DeepClone();
 
     }
 }
