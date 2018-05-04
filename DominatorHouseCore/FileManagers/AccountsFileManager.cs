@@ -132,7 +132,12 @@ namespace DominatorHouseCore.FileManagers
             var result = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == userName);
             return result;
         }
-
+        public static DominatorAccountModel GetAccount(string userName, SocialNetworks networks)
+        {
+            var accounts = GetAll();
+            var result = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == userName && x.AccountBaseModel.AccountNetwork == networks);
+            return result;
+        }
         public static IEnumerable<string> GetUsers()
         {
             var accounts = GetAll();

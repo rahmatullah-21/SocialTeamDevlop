@@ -57,7 +57,19 @@ namespace DominatorHouseCore.Diagnostics
             }
             catch (Exception ex)
             {
-                ex.DebugLog();
+               ex.DebugLog();
+                if (ex.Message == "The remote name could not be resolved: \'socinator.com\'")
+                {
+                    var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                          "Network Error",
+                          "Please check your Internet connection and try again !!"
+                     , MessageDialogStyle.AffirmativeAndNegative,Dialog.SetMetroDialogButton("Try Again","Cancel"));
+                    if (dialogResult == MessageDialogResult.Affirmative)
+                    {
+                        return null;
+                    }
+                }
+               
             }
             return AvailableNetworks;
         }

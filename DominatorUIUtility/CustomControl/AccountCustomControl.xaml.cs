@@ -106,7 +106,11 @@ namespace DominatorUIUtility.CustomControl
         private void GetRespectiveAccounts(SocialNetworks socialNetworks)
         {
             var listCollection = (ListCollectionView)DominatorAccountViewModel.AccountCollectionView;
-
+            DominatorAccountViewModel.LstDominatorAccountModel.Select(x =>
+            {
+                x.IsAccountManagerAccountSelected = false;
+                return x;
+            }).ToList();
             listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == socialNetworks;
 
             if (socialNetworks == SocialNetworks.Social)

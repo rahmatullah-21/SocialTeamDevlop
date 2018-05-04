@@ -129,6 +129,8 @@ namespace DominatorHouse
                 return true;
             }
 
+            if (networks == null)
+                ValidateLicense(license);
             _strategies = new DominatorAccountViewModel.AccessorStrategies
             {
                 ActionCheckAccount = AccountStatusChecker,
