@@ -161,7 +161,7 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="true" />
                                 </MultiDataTrigger>
-                               </Style.Triggers>
+                            </Style.Triggers>
                         </Style>
                     </TextBox.Style>
                 </TextBox>
@@ -192,7 +192,7 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="true" />
                                 </MultiDataTrigger>
-                               </Style.Triggers>
+                            </Style.Triggers>
                         </Style>
                     </PasswordBox.Style>
                     <passwordHelper:PasswordBoxHelper.Password>

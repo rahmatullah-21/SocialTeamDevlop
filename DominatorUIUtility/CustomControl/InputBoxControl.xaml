@@ -9,7 +9,7 @@
     <Grid x:Name="MainGrid">
         <StackPanel Orientation="Horizontal"  >
             <TextBox  TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding InputText}" Controls:TextBoxHelper.Watermark="{Binding WaterMarkText}"
-                              Name="TxtInvalidWord"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="300" Height="{Binding Height}" Background="White" BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
+                              Name="TxtInvalidWord"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="300" Height="{Binding Height}"  BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
             <StackPanel VerticalAlignment="Center">
                 <Button Name="BtnImportBlacklistsText" Visibility="{Binding ImportVisiblity}" Foreground="White"  Background="{DynamicResource AccentBaseColorBrush}" Click="BtnImportBlacklistsText_OnClick"
                                 HorizontalAlignment="Right"  Height="25" Width="35" VerticalAlignment="Center" >

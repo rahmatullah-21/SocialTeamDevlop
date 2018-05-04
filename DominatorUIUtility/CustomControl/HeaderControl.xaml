@@ -11,7 +11,7 @@
             <TextBox Name="txtblkCampaignName" Margin="100,0,0,0" IsEnabled="{Binding IsCampaignNameEditable}" Foreground="White" Text="{Binding CampaignName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="White" CaretBrush="White" VerticalAlignment="Center"  FontSize="13" Background="Transparent" Width="300" FontWeight="SemiBold" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <ToggleButton VerticalAlignment="Center"  Foreground="White" Name="ClpsExpnd" Click="ClpsExpnd_OnClick">
+            <ToggleButton VerticalAlignment="Center"  Foreground="White" Name="ClpsExpnd" Click="ClpsExpnd_OnClick" Height="24">
                 <ToggleButton.Style>
                     <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MetroFlatToggleButton}">
                         <Setter Property="IsChecked" Value="{Binding IsExpanded}" />
@@ -28,7 +28,7 @@
                 </ToggleButton.Style>
             </ToggleButton>
             <Button Width="130" Height="24"
-                    Margin="0,0,10,0"
+                    Margin="7,0,10,0"
                     BorderBrush="Black" BorderThickness="0" Style="{StaticResource ButtonStyle}" Background="#ef1d1d" Name="btnCancelEdit" 
                     Visibility="{Binding IsCancelEditVisible}" Click="BtnCancelEdit_OnClick">
                 <Button.Content>
