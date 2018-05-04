@@ -4,35 +4,31 @@ namespace DominatorHouseCore.Enums.TdQuery
 {
     public enum TdTweetInteractionQueryEnum
     {
-        [Description("TdLangOwnFollwers")]
-        OwnFollowers = 1,
-        [Description("TdLangOwnFollowings")]
-        OwnFollowings = 2,
         [Description("TdLangKeywords")]
-        Keywords = 3,
+        Keywords = 1,
         [Description("TdLangHashtags")]
-        Hashtags = 4,
+        Hashtags = 2,
         [Description("TdLangLocationTweets")]
-        LocationTweets = 5,
+        LocationTweets = 3,
         [Description("TdLangNearMyLocation")]
-        NearMyLocation = 6,
+        NearMyLocation = 4,
         [Description("TdLangCustomTweetsList")]
-        CustomTweetsList = 7,
+        CustomTweetsList = 5,
         [Description("TdLangSomeonesFollowersTweets")]
-        SomeonesFollowers = 8,
+        SomeonesFollowers = 6,
         [Description("TdLangSomeonesFollowingsTweets")]
-        SomeonesFollowings = 9,
+        SomeonesFollowings = 7,
         [Description("TdLangFollowersOfSomeonesFollowingsTweets")]
-        FollowersOfFollowings = 10,
+        FollowersOfFollowings = 8,
         [Description("TdLangFollowersOfSomeonesFollowersTweets")]
-        FollowersOfFollowers = 11,
+        FollowersOfFollowers = 9,
         [Description("TdLangLikedUsersTweets")]
-        UsersWhoLikedOnTweet = 12,
+        UsersWhoLikedOnTweet = 10,
         [Description("TdLangCommentedUsersTweets")]
-        UsersWhoCommentedOnTweet = 13,
+        UsersWhoCommentedOnTweet = 11,
         [Description("TdLangRetweetedUsersTweets")]
-        UsersWhoRetweetedTweet = 14,
+        UsersWhoRetweetedTweet = 12,
         [Description("TdLangCommentedTweets")]
-        CommentedTweet = 15,
+        CommentedTweet = 13,
     }
 }

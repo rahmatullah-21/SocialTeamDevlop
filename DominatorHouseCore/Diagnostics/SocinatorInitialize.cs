@@ -53,23 +53,23 @@ namespace DominatorHouseCore.Diagnostics
                 }
 
                 await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
-                
+
             }
             catch (Exception ex)
             {
-               ex.DebugLog();
-                if (ex.Message == "The remote name could not be resolved: \'socinator.com\'")
+                ex.DebugLog();
+                if (ex.Message == "The remote name could not be resolved: 'socinator.com'")
                 {
                     var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
                           "Network Error",
                           "Please check your Internet connection and try again !!"
-                     , MessageDialogStyle.AffirmativeAndNegative,Dialog.SetMetroDialogButton("Try Again","Cancel"));
+                     , MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Try Again", "Cancel"));
                     if (dialogResult == MessageDialogResult.Affirmative)
                     {
                         return null;
                     }
                 }
-               
+
             }
             return AvailableNetworks;
         }
@@ -113,69 +113,76 @@ namespace DominatorHouseCore.Diagnostics
         private static async Task<HashSet<SocialNetworks>> SetAllLicensedSocialNetworks(string code, string license, string macId)
         {
             string message = "Oops something went wrong";
-            switch (code)
+            try
             {
-                case "no_activation_found":
-                    string finalResponse;
-                    using (var streamReader = new StreamReader(await ActivateLicense(license, macId)))
-                    {
-                        finalResponse = streamReader.ReadToEnd();
-                    }
-                    return await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
+                switch (code)
+                {
+                    case "no_activation_found":
+                        string finalResponse;
+                        using (var streamReader = new StreamReader(await ActivateLicense(license, macId)))
+                        {
+                            finalResponse = streamReader.ReadToEnd();
+                        }
+                        return await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
 
-                case "license_empty":
-                    message = "Empty or invalid license key submitted, Please check your license key and enter again.";
-                    break;
-                case "license_not_found":
-                    message =
-                        "Oops, we are unable to find key you have entered, please recheck once at your end or contact support.";
-                    break;
-                case "license_disabled":
-                    message = "Your License key has been disabled, please contact support for more information.";
-                    break;
-                case "license_expired":
-                    message = "Your license key has got expired, please renew your subscription or contact support";
-                    break;
-                case "invalid_input":
-                    message = "Your entered license key is invalid, please check your license key and enter again.";
-                    break;
-                case "no_spare_activations":
-                    message =
-                        "You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation.";
-                    //var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    //      "License Error",
-                    //      "You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation."
-                    // , MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
-                    // {
-                    //     AffirmativeButtonText = "Deactivate Previous Activation"
-                    // });
-                    //if (dialogResult == MessageDialogResult.Affirmative)
-                    //{
-                    //    using (var streamReader = new StreamReader( await DeActivateLicense(license, macId)))
-                    //    {
-                    //        finalResponse = streamReader.ReadToEnd();
-                    //    }
-                    //    if(JObject.Parse(finalResponse)["code"].ToString()=="ok")
-                    //    {
-                    //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    //            "License", "Sucessfully Deactivated.");
-                    //        var licence =
-                    //            DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow,
-                    //                "Socinator", "License");
-                    //        return await SetAvailableSocialNetworks(license);
-                    //    }
-                    //}
-                    break;
-                case "no_reactivation_allowed":
-                    message = "Sorry, but we are unable to reactivate your license key, please contact support.";
-                    break;
-                case "ok":
-                    return SetLicensedSocialNetworks();
-                case "other_error":
-                    message = "Sorry, some unknown error occured, please contact support.";
-                    break;
+                    case "license_empty":
+                        message = "Empty or invalid license key submitted, Please check your license key and enter again.";
+                        break;
+                    case "license_not_found":
+                        message =
+                            "Oops, we are unable to find key you have entered, please recheck once at your end or contact support.";
+                        break;
+                    case "license_disabled":
+                        message = "Your License key has been disabled, please contact support for more information.";
+                        break;
+                    case "license_expired":
+                        message = "Your license key has got expired, please renew your subscription or contact support";
+                        break;
+                    case "invalid_input":
+                        message = "Your entered license key is invalid, please check your license key and enter again.";
+                        break;
+                    case "no_spare_activations":
+                        message =
+                            "You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation.";
+                        //var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        //      "License Error",
+                        //      "You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation."
+                        // , MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
+                        // {
+                        //     AffirmativeButtonText = "Deactivate Previous Activation"
+                        // });
+                        //if (dialogResult == MessageDialogResult.Affirmative)
+                        //{
+                        //    using (var streamReader = new StreamReader( await DeActivateLicense(license, macId)))
+                        //    {
+                        //        finalResponse = streamReader.ReadToEnd();
+                        //    }
+                        //    if(JObject.Parse(finalResponse)["code"].ToString()=="ok")
+                        //    {
+                        //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        //            "License", "Sucessfully Deactivated.");
+                        //        var licence =
+                        //            DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow,
+                        //                "Socinator", "License");
+                        //        return await SetAvailableSocialNetworks(license);
+                        //    }
+                        //}
+                        break;
+                    case "no_reactivation_allowed":
+                        message = "Sorry, but we are unable to reactivate your license key, please contact support.";
+                        break;
+                    case "ok":
+                        return SetLicensedSocialNetworks();
+                    case "other_error":
+                        message = "Sorry, some unknown error occured, please contact support.";
+                        break;
+                }
+                Dialog.ShowDialog("License Error", message);
             }
-            Dialog.ShowDialog("License Error", message);
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error(ex.Message);
+            }
             return new HashSet<SocialNetworks>();
         }
         private static async Task<Stream> CheckLicenseActivation(string license, string macId)

@@ -92,6 +92,9 @@ namespace DominatorHouse.Social.AutoActivity.Views
                     case SocialNetworks.Youtube:
                         SelectedDominatorAccounts.YdAccounts = selectedAccounts;
                         break;
+                    case SocialNetworks.Tumblr:
+                        SelectedDominatorAccounts.TumblrAccounts = selectedAccounts;
+                        break;
                 }
                 return true;
             }

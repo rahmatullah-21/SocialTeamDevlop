@@ -1268,7 +1268,7 @@ namespace DominatorUIUtility.CustomControl
 
             CampaignName = $"{_socialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
         }
-        [Obsolete("This method is going to remove, use instead with name but pass network as the parameter from respective configuration module",true)]
+        [Obsolete("This method is going to remove, use instead with name but pass network as the parameter from respective configuration module")]
         protected virtual void SetAccountModeDataContext()
         {
             try
@@ -1385,6 +1385,9 @@ namespace DominatorUIUtility.CustomControl
                     break;
                 case SocialNetworks.Youtube:
                     SelectedDominatorAccounts.YdAccounts = selectedAccounts;
+                    break;
+                case SocialNetworks.Tumblr:
+                    SelectedDominatorAccounts.TumblrAccounts = selectedAccounts;
                     break;
             }
             _accountGrowthModeHeader.SelectedItem = selectedAccounts ?? (!string.IsNullOrEmpty(accounts[0]) ? accounts[0] : "");

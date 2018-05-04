@@ -121,6 +121,11 @@ namespace DominatorHouse
             controller.SetIndeterminate();
             _licenseKey = license;
             var networks = await SocinatorInitialize.SetAvailableSocialNetworks(_licenseKey);
+            if (networks == null)
+            {
+                await controller.CloseAsync();
+                return await ValidateLicense(license);
+            }
             if (networks.Count <= 1)
             {
                 Close();
@@ -128,9 +133,8 @@ namespace DominatorHouse
                 await LicenseCheck();
                 return true;
             }
+            
 
-            if (networks == null)
-                ValidateLicense(license);
             _strategies = new DominatorAccountViewModel.AccessorStrategies
             {
                 ActionCheckAccount = AccountStatusChecker,
