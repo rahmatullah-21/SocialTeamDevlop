@@ -2,7 +2,9 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.SocioPublisher;
@@ -51,8 +53,27 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             if (!PublisherCreateDestinationsViewModel.IsSavedDestination)
                 return;
-            PublisherCreateDestinationsViewModel = new PublisherCreateDestinationsViewModel();
-            CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
+
+            if (!string.IsNullOrEmpty(PublisherCreateDestinationsViewModel.EditDestinationId))
+            {
+                PublisherCreateDestinationsViewModel.Title = "Edit Destination"; 
+                              
+                PublisherCreateDestinationsViewModel.PublisherCreateDestinationModel =
+                    PublisherCreateDestinationsViewModel.PublisherCreateDestinationModel.GetDestination(PublisherCreateDestinationsViewModel.EditDestinationId);
+
+                PublisherCreateDestinationsViewModel.DestinationCollectionView = CollectionViewSource.GetDefaultView(
+                    PublisherCreateDestinationsViewModel.PublisherCreateDestinationModel.ListSelectDestination);
+
+                CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
+            }
+            else
+            {
+                PublisherCreateDestinationsViewModel.Title = "Create Destination";
+                PublisherCreateDestinationsViewModel = new PublisherCreateDestinationsViewModel();
+                CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
+            }          
         }
+
+
     }
 }

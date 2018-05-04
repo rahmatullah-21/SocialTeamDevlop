@@ -145,6 +145,7 @@
             </ListView.Resources>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
+                    <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="VerticalContentAlignment" Value="Stretch" />
                     <Setter Property="Height" Value="30"></Setter>

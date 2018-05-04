@@ -65,7 +65,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 return _publisherManageDestinationModelView;
             }
             set
-            {              
+            {
                 SetProperty(ref _publisherManageDestinationModelView, value);
             }
         }
@@ -211,7 +211,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 ListPublisherManageDestinationModels.Remove(x)
                 );
                 ManageDestinationFileManager.DeleteSelected(publisherManageDestinationModel);
-            }           
+            }
         }
 
         private List<PublisherManageDestinationModel> GetSelectedDestinations()
@@ -219,7 +219,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
 
         public void InitializeDefaultDestinations()
-        {          
+        {
             PublisherManageDestinationModelView = CollectionViewSource.GetDefaultView(ListPublisherManageDestinationModels);
             var savedDestinations = ManageDestinationFileManager.GetAll();
             savedDestinations.ForEach(x => { AddDestinations(x, false); });
@@ -244,6 +244,54 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (isNewDestination)
                     ManageDestinationFileManager.Add(publisherManageDestinationModel);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool UpdateDestinations(PublisherManageDestinationModel publisherManageDestinationModel)
+        {                   
+            try
+            {
+                if (!Application.Current.Dispatcher.CheckAccess())
+                    Application.Current.Dispatcher.Invoke(delegate
+                    {
+                        var destination = ListPublisherManageDestinationModels.FirstOrDefault(x =>   x.DestinationId == publisherManageDestinationModel.DestinationId);
+
+                        if (destination == null)
+                            return;
+
+                        destination.AccountCount = publisherManageDestinationModel.AccountCount;
+                        destination.CampaignsCount = publisherManageDestinationModel.CampaignsCount;
+                        destination.CreatedDate = publisherManageDestinationModel.CreatedDate;
+                        destination.DestinationId = publisherManageDestinationModel.DestinationId;
+                        destination.DestinationName = publisherManageDestinationModel.DestinationName;
+                        destination.GroupsCount = publisherManageDestinationModel.GroupsCount;
+                        destination.IsSelected = publisherManageDestinationModel.IsSelected;
+                        destination.PagesOrBoardsCount = publisherManageDestinationModel.PagesOrBoardsCount;
+                        destination.WallsOrProfilesCount = publisherManageDestinationModel.WallsOrProfilesCount;
+                    });
+                else
+                {
+                    var destination = ListPublisherManageDestinationModels.FirstOrDefault(x =>  x.DestinationId == publisherManageDestinationModel.DestinationId);
+                    if (destination != null)
+                    {
+                        destination.AccountCount = publisherManageDestinationModel.AccountCount;
+                        destination.CampaignsCount = publisherManageDestinationModel.CampaignsCount;
+                        destination.CreatedDate = publisherManageDestinationModel.CreatedDate;
+                        destination.DestinationId = publisherManageDestinationModel.DestinationId;
+                        destination.DestinationName = publisherManageDestinationModel.DestinationName;
+                        destination.GroupsCount = publisherManageDestinationModel.GroupsCount;
+                        destination.IsSelected = publisherManageDestinationModel.IsSelected;
+                        destination.PagesOrBoardsCount = publisherManageDestinationModel.PagesOrBoardsCount;
+                        destination.WallsOrProfilesCount = publisherManageDestinationModel.WallsOrProfilesCount;
+                    }
+                }
+
+                ManageDestinationFileManager.UpdateDestinations(ListPublisherManageDestinationModels);
             }
             catch (Exception)
             {

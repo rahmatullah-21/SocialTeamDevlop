@@ -106,10 +106,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(8)]
         public DateTime CreatedDate { get; set; }
 
-
-
-
-        [ProtoIgnore]
+        [ProtoMember(9)]
         public bool IsSelected
         {
             get

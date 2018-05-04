@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
@@ -156,6 +157,27 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public DateTime CreatedDate { get; set; }
 
 
+
+        private ObservableCollection<PublisherCreateDestinationSelectModel> _listSelectDestination = new ObservableCollection<PublisherCreateDestinationSelectModel>();
+        [ProtoMember(10)]
+        public ObservableCollection<PublisherCreateDestinationSelectModel> ListSelectDestination
+        {
+            get
+            {
+                return _listSelectDestination;
+            }
+            set
+            {
+                if (_listSelectDestination == value)
+                    return;
+                _listSelectDestination = value;
+                OnPropertyChanged(nameof(ListSelectDestination));
+            }
+        }
+
+
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -179,14 +201,21 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public bool AddDestination(PublisherCreateDestinationModel publisherCreateDestinationModel) 
             => BinFileHelper.AddDestination(publisherCreateDestinationModel);
 
-        public static PublisherCreateDestinationModel GetDestination(string destinationId)
-            => BinFileHelper.GetDestination(destinationId)[0];
+        public bool UpdateDestination(PublisherCreateDestinationModel publisherCreateDestinationModel)
+            => BinFileHelper.UpdateDestination(publisherCreateDestinationModel);
+
+        public PublisherCreateDestinationModel GetDestination(string destinationId)
+        {
+            var publisherCreateDestinationModel = BinFileHelper.GetDestination(destinationId);
+            return publisherCreateDestinationModel[0];
+        }
     }
 
+    [ProtoContract]
     public class PublisherCreateDestinationSelectModel : BindableBase
     {
         private bool _isAccountSelected;
-
+        [ProtoMember(1)]
         public bool IsAccountSelected
         {
             get
@@ -204,6 +233,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private string _accountId;
+        [ProtoMember(2)]
 
         public string AccountId
         {
@@ -219,6 +249,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private string _accountName;
+        [ProtoMember(3)]
 
         public string AccountName
         {
@@ -233,14 +264,21 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        [ProtoMember(4)]
+
         public SocialNetworks SocialNetworks { get; set; }
 
+        [ProtoMember(5)]
+
         public bool IsGroupsAvailable { get; set; }
+
+        [ProtoMember(6)]
 
         public bool IsPagesOrBoardsAvailable { get; set; }
 
 
         private string _groupSelectorText = "NA";
+        [ProtoMember(7)]
 
         public string GroupSelectorText
         {
@@ -259,6 +297,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private string _pagesOrBoardsSelectorText = "NA";
+        [ProtoMember(8)]
 
         public string PagesOrBoardsSelectorText
         {
@@ -276,6 +315,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private int _totalGroups;
+        [ProtoMember(9)]
 
         public int TotalGroups
         {
@@ -294,6 +334,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private int _selectedGroups;
+        [ProtoMember(10)]
 
         public int SelectedGroups
         {
@@ -313,6 +354,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private int _totalPagesOrBoards;
+        [ProtoMember(11)]
 
         public int TotalPagesOrBoards
         {
@@ -331,6 +373,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private int _selectedPagesOrBoards;
+        [ProtoMember(12)]
 
         public int SelectedPagesOrBoards
         {
@@ -350,6 +393,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private bool _publishonOwnWall;
+        [ProtoMember(13)]
 
         public bool PublishonOwnWall
         {

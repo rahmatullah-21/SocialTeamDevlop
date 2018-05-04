@@ -66,8 +66,14 @@ namespace DominatorHouseCore.FileManagers
         }
 
         public static List<PublisherManageDestinationModel> GetAll() => BinFileHelper.GetPublisherManageDestinationModels();
-   
-       
+
+        public static PublisherManageDestinationModel GetByDestinationId(string destinationId)
+        {
+            var lst = GetAll();
+            return lst.FirstOrDefault(x => x.DestinationId == destinationId);
+        }
+
+
         public static bool Add(PublisherManageDestinationModel account)
         {
             var lst = GetAll() ?? new List<PublisherManageDestinationModel>();
