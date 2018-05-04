@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
@@ -28,7 +29,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             SelectionCommand = new BaseCommand<object>(SelectionCanExecute, SelectionExecute);
             DeleteDestinationCommand = new BaseCommand<object>(DeleteDestinationCanExecute, DeleteDestinationExecute);
-
+            OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
             InitializeDefaultDestinations();
         }
 
@@ -38,7 +39,22 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public ICommand DeleteDestinationCommand { get; set; }
 
-        public ObservableCollection<PublisherManageDestinationModel> ListPublisherManageDestinationModels { get; set; } = new ObservableCollection<PublisherManageDestinationModel>();
+        public ICommand OpenContextMenuCommand { get; set; }
+
+        public ObservableCollection<PublisherManageDestinationModel> ListPublisherManageDestinationModels
+        {
+            get
+            {
+                return _listPublisherManageDestinationModels;
+            }
+            set
+            {
+                if (_listPublisherManageDestinationModels == value)
+                    return;
+                _listPublisherManageDestinationModels = value;
+                SetProperty(ref _listPublisherManageDestinationModels, value);
+            }
+        }
 
         private ICollectionView _publisherManageDestinationModelView;
 
@@ -49,15 +65,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 return _publisherManageDestinationModelView;
             }
             set
-            {
-                if (_publisherManageDestinationModelView != null && _publisherManageDestinationModelView == value)
-                    return;
+            {              
                 SetProperty(ref _publisherManageDestinationModelView, value);
             }
         }
 
 
         private bool _isAllDestinationSelected;
+        private ObservableCollection<PublisherManageDestinationModel> _listPublisherManageDestinationModels = new ObservableCollection<PublisherManageDestinationModel>();
 
         public bool IsAllDestinationSelected
         {
@@ -108,7 +123,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     break;
                 case "CreateDestination":
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
-                        =  PublisherCreateDestination.Instance;                   
+                        = PublisherCreateDestination.Instance;
                     break;
             }
         }
@@ -133,6 +148,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        private bool OpenContextMenuCanExecute(object sender) => true;
+
+        private void OpenContextMenuExecute(object sender)
+        {
+            try
+            {
+                var contextMenu = ((Button)sender).ContextMenu;
+                if (contextMenu == null) return;
+                contextMenu.DataContext = ((Button)sender).DataContext;
+                contextMenu.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error(ex.Message);
+            }
+        }
+
+
 
         public bool DeleteDestinationCanExecute(object sender) => true;
 
@@ -153,6 +186,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
 
                 ListPublisherManageDestinationModels.Remove(destination);
+                ManageDestinationFileManager.Delete(d => d.DestinationId != null);
             }
             else
             {
@@ -173,8 +207,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
-                publisherManageDestinationModel.ForEach(x => ListPublisherManageDestinationModels.Remove(x));
-            }
+                publisherManageDestinationModel.ForEach(x =>
+                ListPublisherManageDestinationModels.Remove(x)
+                );
+                ManageDestinationFileManager.DeleteSelected(publisherManageDestinationModel);
+            }           
         }
 
         private List<PublisherManageDestinationModel> GetSelectedDestinations()
@@ -182,7 +219,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
 
         public void InitializeDefaultDestinations()
-        {
+        {          
             PublisherManageDestinationModelView = CollectionViewSource.GetDefaultView(ListPublisherManageDestinationModels);
             var savedDestinations = ManageDestinationFileManager.GetAll();
             savedDestinations.ForEach(x => { AddDestinations(x, false); });

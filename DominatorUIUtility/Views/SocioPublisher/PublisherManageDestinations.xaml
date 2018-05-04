@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              >
     <UserControl.Resources>
-        <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
+        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
         <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
     </UserControl.Resources>
     <Grid>
@@ -133,7 +133,7 @@
                   x:Name="CampaignStatusList"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"                  
                   ItemsSource="{Binding ListPublisherManageDestinationModels}"
-                  VerticalAlignment="Stretch" >
+                  VerticalAlignment="Stretch"  AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" >
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}" 
                        BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
@@ -168,7 +168,9 @@
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                     <CheckBox IsChecked="{Binding IsSelected}" 
                                               x:Name="ChkSingleCampaign"
-                                          Margin="6,2,6,2" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},  Converter={StaticResource ListViewItemIndexConverter}}" />
+                                          Margin="6,2,6,2"  Content="{Binding (ItemsControl.AlternationIndex),
+                                                  RelativeSource={RelativeSource AncestorType=ListViewItem},
+                                                  Converter={StaticResource IndexToRowNoConverter}}" />
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -181,7 +183,10 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <TextBlock  Margin="6,2,6,2" Text="{Binding DestinationName}"/>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock  Margin="6,2,6,2" Text="{Binding DestinationName}"/>
+                                    </StackPanel>
+                                    
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -194,7 +199,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <StackPanel HorizontalAlignment="Center">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <TextBlock Margin="6,2,6,2" Text="{Binding AccountCount}"/>
                                     </StackPanel>
                                 </Border>
@@ -209,7 +214,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <StackPanel HorizontalAlignment="Center">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <TextBlock Margin="6,2,6,2" Text="{Binding PagesOrBoardsCount}"/>
                                     </StackPanel>
                                 </Border>
@@ -228,7 +233,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <StackPanel HorizontalAlignment="Center">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <TextBlock Margin="6,2,6,2" Text="{Binding GroupsCount}"/>
                                     </StackPanel>
                                 </Border>
@@ -243,7 +248,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <StackPanel HorizontalAlignment="Center">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <TextBlock Margin="6,2,6,2" Text="{Binding WallsOrProfilesCount}"/>
                                     </StackPanel>
                                 </Border>
@@ -258,7 +263,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,1,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <StackPanel HorizontalAlignment="Center">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <TextBlock Margin="6,2,6,2" Text="{Binding CampaignsCount}"/>
                                     </StackPanel>
                                 </Border>

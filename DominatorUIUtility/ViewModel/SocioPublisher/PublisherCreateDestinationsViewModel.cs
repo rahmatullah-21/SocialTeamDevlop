@@ -22,6 +22,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.SocioPublisher;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -388,7 +389,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             ListSelectDestination.Select(x =>
             {
-                x.IsAccountSelected = true;                
+                x.IsAccountSelected = true;
                 return x;
             }).ToList();
         }
@@ -397,7 +398,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             ListSelectDestination.Select(x =>
             {
-                x.IsAccountSelected = false;             
+                x.IsAccountSelected = false;
                 return x;
             }).ToList();
         }
@@ -413,7 +414,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 case "OwnProfile":
                     ListSelectDestination.Select(x =>
                     {
-                        x.PublishonOwnWall = true;                                           
+                        x.PublishonOwnWall = true;
                         return x;
                     }).ToList();
                     break;
@@ -666,7 +667,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
         #endregion
-      
+
         #region Validate Destinations
 
         public bool IsValidateFailed()
@@ -694,23 +695,42 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
         #endregion
-     
+
         #region Save Destinations
 
         private bool SaveDestinationCanExecute(object sender) => true;
 
         private void SaveDestinationExecute(object sender)
         {
+
             if (!IsValidateFailed())
             {
                 ListSelectDestination.ForEach(x =>
                 {
-                   if(x.IsAccountSelected)
-                       PublisherCreateDestinationModel.SelectedAccountIds.Add(x.AccountId);
+                    if (x.IsAccountSelected)
+                        PublisherCreateDestinationModel.SelectedAccountIds.Add(x.AccountId);
 
-                   if(x.PublishonOwnWall)
-                       PublisherCreateDestinationModel.PublishOwnWallAccount.Add(x.AccountId);
+                    if (x.PublishonOwnWall)
+                        PublisherCreateDestinationModel.PublishOwnWallAccount.Add(x.AccountId);
                 });
+
+
+                if (PublisherCreateDestinationModel.AccountGroupPair.Count == 0 &&
+                    PublisherCreateDestinationModel.AccountPagesBoardsPair.Count == 0 &&
+                    PublisherCreateDestinationModel.PublishOwnWallAccount.Count == 0)
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        "Warning", "Please select destination!");
+                    return;
+                }
+
+                if (PublisherCreateDestinationModel.SelectedAccountIds.Count == 0)
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        "Warning", "Please select accounts, You have selected only destinations !");
+                    return;
+                }
+
 
                 PublisherCreateDestinationModel.AddDestination(PublisherCreateDestinationModel);
                 var publisherManageDestinationModel = new PublisherManageDestinationModel
@@ -727,7 +747,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 };
 
                 PublisherManageDestinations.Instance.PublisherManageDestinationViewModel.AddDestinations(
-                    publisherManageDestinationModel,true);
+                    publisherManageDestinationModel, true);
 
                 IsSavedDestination = true;
 
