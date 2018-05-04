@@ -45,5 +45,8 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         [Column(Order = 5)]
         public string GroupType { get; set; }
 
+        [Column(Order = 6)]
+        public DateTime InteractionDate { get; set; }
+
     }
 }

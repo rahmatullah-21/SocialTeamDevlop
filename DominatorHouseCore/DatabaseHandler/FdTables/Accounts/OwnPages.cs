@@ -58,5 +58,8 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         [Column(Order = 7)]
         [Unique]
         public string CoverPicUrl { get; set; }
+
+        [Column(Order = 8)]
+        public DateTime InteractionDate { get; set; }
     }
 }
