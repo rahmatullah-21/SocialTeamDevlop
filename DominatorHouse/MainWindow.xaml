@@ -33,10 +33,11 @@
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <ComboBox Background="Transparent" ItemsSource="{Binding AvailableNetworks}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="{Binding SelectedNetworkIndex}" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" />
-            <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" Name="cmbLanguage" >
-                <ComboBoxItem>English</ComboBoxItem>
-                <ComboBoxItem>Portuguese</ComboBoxItem>
-            </ComboBox>
+            <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" 
+                      Name="cmbLanguage" ItemsSource="{Binding Languages}"/>
+                <!--<ComboBoxItem>English</ComboBoxItem>
+                --><!--<ComboBoxItem>Portuguese</ComboBoxItem>--><!--
+            </ComboBox>-->
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <Grid Name="MainGrid" >

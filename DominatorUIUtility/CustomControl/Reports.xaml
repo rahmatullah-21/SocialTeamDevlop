@@ -61,7 +61,7 @@
             </ComboBox>
         </StackPanel>
 
-        <ListView ItemsSource="{Binding ReportModel.ReportCollection}" Margin="10" Name="ReportsListView" Grid.Row="2">
+        <ListView ItemsSource="{Binding ReportModel.ReportCollection}" Margin="10" Name="ReportsListView" Grid.Row="2" Foreground="{DynamicResource AccentBaseColorBrush}">
             <ListView.View>
                 <GridView utility:GridViewColumns.ColumnHeader="ColumnHeaderText"
                           utility:GridViewColumns.ColumnBinding="ColumnBindingText" 

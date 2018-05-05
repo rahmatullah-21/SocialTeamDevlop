@@ -110,8 +110,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 proxy.AccountsAssignedto.Remove(accountToDelete);
 
-                ProxyFileManager.EditProxy(proxy);
-
                 var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == proxy.AccountProxy.ProxyName);
                 int indexToUpdate = ProxyDetail.IndexOf(item);
                 ProxyDetail[indexToUpdate].AccountsAssignedto = proxy.AccountsAssignedto;
@@ -126,9 +124,10 @@ namespace DominatorUIUtility.CustomControl
                 {
                     if (!oldProxy.AccountsToBeAssign.Any(x => x.UserName == accountToDelete.UserName && x.AccountNetwork == accountToDelete.AccountNetwork))
                         oldProxy.AccountsToBeAssign.Add(accountToDelete);
-                    ProxyFileManager.EditProxy(oldProxy);
                 });
+                ProxyFileManager.EditAllProxy(ProxyDetail.ToList());
                 var v = ProxyFileManager.GetAllProxy();
+
             }
             catch (Exception ex)
             {
@@ -326,6 +325,8 @@ namespace DominatorUIUtility.CustomControl
                 ProxyDetail[indexToUpdate].AccountsToBeAssign = currentProxyManagerModel.AccountsToBeAssign;
 
                 UpdateAccountsProxy(AccountToUpdateProxy, _strategies);
+                ProxyFileManager.EditAllProxy(ProxyDetail.ToList());
+                var v= ProxyFileManager.GetAllProxy();
             }
             catch (Exception ex)
             {

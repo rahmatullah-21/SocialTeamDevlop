@@ -61,6 +61,8 @@
         /// </summary>
         public static string ActivityFailed { get; set; } = "{0}\t {1}\t failed to {2} {3} with error: {4}";
 
+        public static string ImportFailed { get; set; } = "{0}\t {1}\t failed because of {2} is/are not correct ";
+
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username

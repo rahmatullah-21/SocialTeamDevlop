@@ -287,7 +287,7 @@ namespace DominatorHouseCore.Models
             }
         }
         private ObservableCollection<AccountAssign> _accountsToBeAssign = new ObservableCollection<AccountAssign>();
-       
+        [ProtoMember(16)]
         public ObservableCollection<AccountAssign> AccountsToBeAssign
         {
             get
@@ -302,7 +302,7 @@ namespace DominatorHouseCore.Models
             }
         }
         private string _group ;
-        [ProtoMember(16)]
+        [ProtoMember(17)]
         public string Group
         {
             get

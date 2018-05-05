@@ -50,6 +50,7 @@ namespace DominatorHouse
         private HashSet<SocialNetworks> _availableNetworks;
         private Dock _tabDock = Dock.Left;
         private ObservableCollection<TabItemTemplates> _tabItems;
+        private ObservableCollection<string> _languages;
         private Dictionary<string, CancellationToken> _accountUpdater = new Dictionary<string, CancellationToken>();
 
         private bool IsClickedFromMainWindow { get; set; } = true;
@@ -65,7 +66,8 @@ namespace DominatorHouse
             {
                 DialogParticipation.SetRegister(this, this);
                 Dispatcher.Invoke(async () => { await LicenseCheck(); });
-
+                _languages = new ObservableCollection<string>();
+                _languages.Add("English");
                 InitializeComponent();
                 SocinatorInitialize.LogInitializer(this);
                 SocinatorWindow.DataContext = this;
@@ -173,7 +175,19 @@ namespace DominatorHouse
 
             return false;
         }
+        public ObservableCollection<string> Languages
+        {
+            get
+            {
+                return _languages;
+            }
+            set
+            {
+                _languages = value;
+                OnPropertyChanged(nameof(Languages));
+            }
 
+        }
         public ObservableCollection<TabItemTemplates> TabItems
         {
             get
