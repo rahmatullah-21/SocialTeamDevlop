@@ -418,6 +418,7 @@
     <Compile Include="Models\SocioPublisher\PublisherCampaignStatus.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCampaignStatusModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCreateDestinationModel.cs" />
+    <Compile Include="Models\SocioPublisher\PublisherCreateDestinationSelectModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherDestinationDetails.cs" />
     <Compile Include="Models\SocioPublisher\PublisherHomeModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherManageDestinationModel.cs" />

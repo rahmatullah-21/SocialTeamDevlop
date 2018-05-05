@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using DominatorHouseCore;
 using DominatorHouseCore.Command;
-using DominatorHouseCore.DatabaseHandler.CoreModels;
-using DominatorHouseCore.DatabaseHandler.FdTables.Accounts;
 using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -28,6 +22,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherCreateDestinationsViewModel : BindableBase
     {
+        //Constructor
         public PublisherCreateDestinationsViewModel()
         {
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
@@ -37,9 +32,22 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
             SelectAllAccountDetailsCommand = new BaseCommand<object>(SelectAccountDetailsCanExecute, SelectAccountDetailsExecute);
             SaveDestinationCommand = new BaseCommand<object>(SaveDestinationCanExecute, SaveDestinationExecute);
+            ClearCommand = new BaseCommand<object>(ClearCanExecute, ClearExecute);
+            InitializeProperties();
             InitializeDestinationList();
             IsSavedDestination = false;
         }
+
+        public void InitializeProperties()
+        {
+            Title = "Create Destination";
+            IsAllDestinationSelected = false;
+            EditDestinationId = string.Empty;
+            IsSavedDestination = false;
+            PublisherCreateDestinationModel = PublisherCreateDestinationModel.DestinationDefaultBuilder();
+            NotificationVisible = Visibility.Collapsed;
+        }
+
 
         #region Properties
 
@@ -60,7 +68,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-     
         private ICollectionView _destinationCollectionView;
 
         public ICollectionView DestinationCollectionView
@@ -78,9 +85,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private bool _isAllDestinationSelected;
-        private string _title = "Create Destination";
+        public string EditDestinationId { get; set; } = string.Empty;
 
+        public bool IsSavedDestination { get; set; }
+
+        private string _title = string.Empty;
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                _title = value;
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+
+        private bool _isAllDestinationSelected;
         public bool IsAllDestinationSelected
         {
             get
@@ -101,6 +124,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        public ICommand ClearCommand { get; set; }
 
         public ICommand NavigationCommand { get; set; }
 
@@ -119,24 +143,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn" };
 
         public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest", "LinkedIn", "Gplus" };
-
-        public string EditDestinationId { get; set; } = string.Empty;
-
-        public bool IsSavedDestination { get; set; }
-
-        public string Title
-        {
-            get
-            {
-                return _title;
-            }
-            set
-            {
-                _title = value;
-                OnPropertyChanged(nameof(Title));
-            }
-        }
-
 
         #endregion
 
@@ -384,11 +390,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void SelectAllDestination()
         {
-            PublisherCreateDestinationModel. ListSelectDestination.Select(x =>
-            {
-                x.IsAccountSelected = true;
-                return x;
-            }).ToList();
+            PublisherCreateDestinationModel.ListSelectDestination.Select(x =>
+           {
+               x.IsAccountSelected = true;
+               return x;
+           }).ToList();
         }
 
         public void SelectNoneDestination()
@@ -578,7 +584,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var count = PublisherCreateDestinationModel.ListSelectDestination.Count;
 
-
             PublisherCreateDestinationModel.ListSelectDestination.ForEach(async x =>
             {
                 if (BoardsOrPagesAvailableInNetworks.Contains(x.SocialNetworks.ToString()))
@@ -647,6 +652,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     TotalGroups = x.DisplayColumnValue2 ?? 0,
                     TotalPagesOrBoards = x.DisplayColumnValue3 ?? 0,
                 };
+
                 publisherCreateDestinationSelectModel.GroupSelectorText =
                     GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                         ? "0" + "/" + publisherCreateDestinationSelectModel.TotalGroups
@@ -658,6 +664,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         : "NA";
 
                 PublisherCreateDestinationModel.ListSelectDestination.Add(publisherCreateDestinationSelectModel);
+
             });
 
             DestinationCollectionView = CollectionViewSource.GetDefaultView(PublisherCreateDestinationModel.ListSelectDestination);
@@ -703,25 +710,41 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SaveDestinationExecute(object sender)
         {
+            // Check whether destination name is already present or not 
             if (!IsDuplicate())
             {
+                // Clear all pre saved selected accounts Id and own wall profile
+                PublisherCreateDestinationModel.SelectedAccountIds.Clear();
+                PublisherCreateDestinationModel.PublishOwnWallAccount.Clear();
+               
                 PublisherCreateDestinationModel.ListSelectDestination.ForEach(x =>
                 {
                     if (x.IsAccountSelected)
+                    {
                         PublisherCreateDestinationModel.SelectedAccountIds.Add(x.AccountId);
 
-                    if (x.PublishonOwnWall)
-                        PublisherCreateDestinationModel.PublishOwnWallAccount.Add(x.AccountId);
+                        if (x.PublishonOwnWall)
+                            PublisherCreateDestinationModel.PublishOwnWallAccount.Add(x.AccountId);
+                    }
+                    else
+                    {
+                        var unwantedGroups = PublisherCreateDestinationModel.AccountGroupPair.Where(y => y.Key == x.AccountId).Select(y => y.Key);
+                        PublisherCreateDestinationModel.AccountGroupPair.RemoveAll(z => unwantedGroups.Contains(z.Key));
+                        PublisherCreateDestinationModel.AccountPagesBoardsPair.RemoveAll(z => unwantedGroups.Contains(z.Key));
+                    }
                 });
 
-
-                PublisherCreateDestinationModel.AccountGroupPair= 
+                PublisherCreateDestinationModel.AccountGroupPair =
                     PublisherCreateDestinationModel.AccountGroupPair.Distinct().ToList();
+
                 PublisherCreateDestinationModel.PublishOwnWallAccount =
                     PublisherCreateDestinationModel.PublishOwnWallAccount.Distinct().ToList();
+
                 PublisherCreateDestinationModel.SelectedAccountIds =
                     PublisherCreateDestinationModel.SelectedAccountIds.Distinct().ToList();
 
+                PublisherCreateDestinationModel.AccountPagesBoardsPair =
+                    PublisherCreateDestinationModel.AccountPagesBoardsPair.Distinct().ToList();
 
                 if (PublisherCreateDestinationModel.AccountGroupPair.Count == 0 &&
                     PublisherCreateDestinationModel.AccountPagesBoardsPair.Count == 0 &&
@@ -739,6 +762,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
                 }
 
+                // New Destination
                 if (string.IsNullOrEmpty(EditDestinationId))
                 {
                     PublisherCreateDestinationModel.AddDestination(PublisherCreateDestinationModel);
@@ -759,27 +783,42 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherManageDestinations.Instance.PublisherManageDestinationViewModel.AddDestinations(
                         publisherManageDestinationModel, true);
                 }
+                // Edit Destination
                 else
                 {
                     PublisherCreateDestinationModel.UpdateDestination(PublisherCreateDestinationModel);
 
-                    var publisherManageDestinationModel = new PublisherManageDestinationModel
-                    {
-                        AccountCount = PublisherCreateDestinationModel.SelectedAccountIds.Count,
-                        DestinationId = PublisherCreateDestinationModel.DestinationId,
-                        DestinationName = PublisherCreateDestinationModel.DestinationName,
-                        GroupsCount = PublisherCreateDestinationModel.AccountGroupPair.Count,                      
-                        PagesOrBoardsCount = PublisherCreateDestinationModel.AccountPagesBoardsPair.Count,
-                        WallsOrProfilesCount = PublisherCreateDestinationModel.PublishOwnWallAccount.Count
-                    };
+                    var publisherManageDestinationModel = PublisherManageDestinations.Instance.PublisherManageDestinationViewModel.GetManageDestination(EditDestinationId);
 
+                    // To update the destination name
+                    publisherManageDestinationModel.DestinationName
+                        = PublisherCreateDestinationModel.DestinationName;
+
+                    // To update the selected account count
+                    publisherManageDestinationModel.AccountCount =
+                        PublisherCreateDestinationModel.SelectedAccountIds.Count;
+
+                    // To update the group count
+                    publisherManageDestinationModel.GroupsCount =
+                        PublisherCreateDestinationModel.AccountGroupPair.Count;
+
+                    // To update the page or boards counts
+                    publisherManageDestinationModel.PagesOrBoardsCount =
+                        PublisherCreateDestinationModel.AccountPagesBoardsPair.Count;
+
+                    // To update the wall count 
+                    publisherManageDestinationModel.WallsOrProfilesCount =
+                        PublisherCreateDestinationModel.PublishOwnWallAccount.Count;
+
+                    // To call a method to update the manage destination user interface
                     PublisherManageDestinations.Instance.PublisherManageDestinationViewModel.UpdateDestinations(
                         publisherManageDestinationModel);
                 }
 
+                InitializeProperties();
+
                 IsSavedDestination = true;
-                EditDestinationId = string.Empty;
-                Title = "Create Destination";
+
                 PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
                     = PublisherManageDestinations.Instance;
             }
@@ -790,5 +829,88 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
         #endregion
+
+        #region Clear Destination
+
+        private bool ClearCanExecute(object sender) => true;
+
+        private void ClearExecute(object sender)
+        {
+            try
+            {
+                InitializeProperties();
+                InitializeDestinationList();
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error(ex.Message);
+            }
+        }
+
+        #endregion
+
+        private List<string> _needToUpdateAccounts = new List<string>();
+
+        private Visibility _notificationVisible=Visibility.Collapsed;
+
+        public Visibility NotificationVisible
+        {
+            get
+            {
+                return _notificationVisible;
+            }
+            set
+            {
+                _notificationVisible = value;
+                OnPropertyChanged(nameof(NotificationVisible));
+            }
+        }
+
+        private int _accountErrorCount;
+
+        public int AccountErrorCount
+        {
+            get
+            {
+                return _accountErrorCount;
+            }
+            set
+            {
+                _accountErrorCount = value;
+                OnPropertyChanged(nameof(AccountErrorCount));
+            }
+        }
+
+        #region Edit Destination
+
+        public void EditDestination()
+        {
+            Title = "Edit Destination";
+
+            var saveDestination = PublisherCreateDestinationModel.GetDestination(EditDestinationId);
+
+            _needToUpdateAccounts = new List<string>();
+            foreach (var accountId in saveDestination.SelectedAccountIds)
+            {
+                var accountDetails = PublisherCreateDestinationModel.ListSelectDestination.FirstOrDefault(x => x.AccountId == accountId);
+
+                if (accountDetails?.TotalGroups <= saveDestination.AccountGroupPair.Count(x => x.Key == accountId) ||
+                    accountDetails?.TotalPagesOrBoards <= saveDestination.AccountPagesBoardsPair.Count(x => x.Key == accountId))
+                {
+                    _needToUpdateAccounts.Add(accountId);
+                }
+            }
+
+            NotificationVisible = _needToUpdateAccounts.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+            AccountErrorCount = _needToUpdateAccounts.Count;
+
+            PublisherCreateDestinationModel = saveDestination;
+
+            DestinationCollectionView = CollectionViewSource.GetDefaultView(PublisherCreateDestinationModel.ListSelectDestination);
+
+        }
+
+        #endregion   
     }
 }

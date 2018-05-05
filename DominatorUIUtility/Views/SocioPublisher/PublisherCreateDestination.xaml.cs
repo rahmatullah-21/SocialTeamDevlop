@@ -56,14 +56,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
             if (!string.IsNullOrEmpty(PublisherCreateDestinationsViewModel.EditDestinationId))
             {
-                PublisherCreateDestinationsViewModel.Title = "Edit Destination"; 
-                              
-                PublisherCreateDestinationsViewModel.PublisherCreateDestinationModel =
-                    PublisherCreateDestinationsViewModel.PublisherCreateDestinationModel.GetDestination(PublisherCreateDestinationsViewModel.EditDestinationId);
-
-                PublisherCreateDestinationsViewModel.DestinationCollectionView = CollectionViewSource.GetDefaultView(
-                    PublisherCreateDestinationsViewModel.PublisherCreateDestinationModel.ListSelectDestination);
-
+                PublisherCreateDestinationsViewModel.EditDestination();
                 CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
             }
             else

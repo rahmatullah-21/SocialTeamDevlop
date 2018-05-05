@@ -4,13 +4,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
+    /// <summary>
+    /// To hold the all neccessary data for creating destination 
+    /// </summary>
     [ProtoContract]
     public class PublisherCreateDestinationModel : INotifyPropertyChanged
     {
@@ -23,6 +24,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private string _destinationId;
         private string _destinationName;
 
+        /// <summary>
+        /// To specify the destination Id 
+        /// </summary>
         [ProtoMember(1)]
         public string DestinationId
         {
@@ -40,6 +44,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
+        /// <summary>
+        /// To specify the destination name
+        /// </summary>
         [ProtoMember(2)]
         public string DestinationName
         {
@@ -56,6 +63,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// To specify the groups should be remove if its requires admin verification
+        /// </summary>
         [ProtoMember(3)]
         public bool IsRemoveGroupsRequiresApproval
         {
@@ -72,6 +82,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+
+        /// <summary>
+        /// To specify whether need to consider newly added groups to destination list 
+        /// </summary>
         [ProtoMember(4)]
         public bool IsAddedNewGroups
         {
@@ -88,7 +102,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-
+        /// <summary>
+        /// To hold all selected pages or boards along with account Id
+        /// Key should be account Id and value should be page or board Url
+        /// </summary>
         [ProtoMember(5)]
         public List<KeyValuePair<string, string>> AccountPagesBoardsPair
         {
@@ -105,6 +122,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// To hold all selected groups along with account Id
+        /// Key should be account Id and value should be group Url
+        /// </summary>
         [ProtoMember(6)]
         public List<KeyValuePair<string, string>> AccountGroupPair
         {
@@ -121,6 +142,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// To hold all selected account Id
+        /// </summary>
         [ProtoMember(7)]
         public List<string> SelectedAccountIds
         {
@@ -137,6 +161,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// To hold account Id which should post on own wall
+        /// </summary>
         [ProtoMember(8)]
         public List<string> PublishOwnWallAccount
         {
@@ -153,12 +180,19 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+
+        /// <summary>
+        /// To specify the date when destination created
+        /// </summary>
         [ProtoMember(9)]
         public DateTime CreatedDate { get; set; }
 
 
-
         private ObservableCollection<PublisherCreateDestinationSelectModel> _listSelectDestination = new ObservableCollection<PublisherCreateDestinationSelectModel>();
+
+        /// <summary>
+        /// To hold all destination list which holds all group,page count both selected and total
+        /// </summary>     
         [ProtoMember(10)]
         public ObservableCollection<PublisherCreateDestinationSelectModel> ListSelectDestination
         {
@@ -176,8 +210,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -186,6 +218,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// To assign the default for the destination
+        /// </summary>
+        /// <returns>returns as filled default value of  <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel"/></returns>
         public static PublisherCreateDestinationModel DestinationDefaultBuilder()
             => new PublisherCreateDestinationModel
             {
@@ -197,13 +233,29 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SelectedAccountIds = new List<string>(),
                 CreatedDate = DateTime.Now
             };
-    
+
+
+        /// <summary>
+        /// To add the given destination to bin file
+        /// </summary>
+        /// <param name="publisherCreateDestinationModel">pass parameter as filled default value of  <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel"/></param>
+        /// <returns></returns>
         public bool AddDestination(PublisherCreateDestinationModel publisherCreateDestinationModel) 
             => BinFileHelper.AddDestination(publisherCreateDestinationModel);
 
+        /// <summary>
+        /// To update the given destination to list
+        /// </summary>
+        /// <param name="publisherCreateDestinationModel">pass parameter as update value of  <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel"/></param>
+        /// <returns></returns>
         public bool UpdateDestination(PublisherCreateDestinationModel publisherCreateDestinationModel)
             => BinFileHelper.UpdateDestination(publisherCreateDestinationModel);
 
+        /// <summary>
+        /// To get the destination details
+        /// </summary>
+        /// <param name="destinationId">Id of the destination</param>
+        /// <returns>returns as matched condition of  <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel"/></returns>
         public PublisherCreateDestinationModel GetDestination(string destinationId)
         {
             var publisherCreateDestinationModel = BinFileHelper.GetDestination(destinationId);
@@ -211,212 +263,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
     }
 
-    [ProtoContract]
-    public class PublisherCreateDestinationSelectModel : BindableBase
-    {
-        private bool _isAccountSelected;
-        [ProtoMember(1)]
-        public bool IsAccountSelected
-        {
-            get
-            {
-                return _isAccountSelected;
-            }
-            set
-            {
-                if(_isAccountSelected==value)
-                    return;
-                _isAccountSelected = value;
-                OnPropertyChanged(nameof(IsAccountSelected));
-            }
-        }
 
 
-        private string _accountId;
-        [ProtoMember(2)]
 
-        public string AccountId
-        {
-            get
-            {
-                return _accountId;
-            }
-            set
-            {
-                _accountId = value;
-                OnPropertyChanged(nameof(AccountId));
-            }
-        }
-
-        private string _accountName;
-        [ProtoMember(3)]
-
-        public string AccountName
-        {
-            get
-            {
-                return _accountName;
-            }
-            set
-            {
-                _accountName = value;
-                OnPropertyChanged(nameof(AccountName));
-            }
-        }
-
-        [ProtoMember(4)]
-
-        public SocialNetworks SocialNetworks { get; set; }
-
-        [ProtoMember(5)]
-
-        public bool IsGroupsAvailable { get; set; }
-
-        [ProtoMember(6)]
-
-        public bool IsPagesOrBoardsAvailable { get; set; }
-
-
-        private string _groupSelectorText = "NA";
-        [ProtoMember(7)]
-
-        public string GroupSelectorText
-        {
-            get
-            {
-                return _groupSelectorText;
-            }
-            set
-            {
-                if (_groupSelectorText == value)
-                    return;
-                _groupSelectorText = value;
-                OnPropertyChanged(nameof(GroupSelectorText));
-            }
-        }
-
-
-        private string _pagesOrBoardsSelectorText = "NA";
-        [ProtoMember(8)]
-
-        public string PagesOrBoardsSelectorText
-        {
-            get
-            {
-                return _pagesOrBoardsSelectorText;
-            }
-            set
-            {
-                if (_pagesOrBoardsSelectorText == value)
-                    return;
-                _pagesOrBoardsSelectorText = value;
-                OnPropertyChanged(nameof(PagesOrBoardsSelectorText));
-            }
-        }
-
-        private int _totalGroups;
-        [ProtoMember(9)]
-
-        public int TotalGroups
-        {
-            get
-            {
-                return _totalGroups;
-            }
-            set
-            {
-                if(_totalGroups == value)
-                    return;
-                _totalGroups = value;
-                UpdateGroupText();
-                OnPropertyChanged(nameof(TotalGroups));
-            }
-        }
-
-        private int _selectedGroups;
-        [ProtoMember(10)]
-
-        public int SelectedGroups
-        {
-            get
-            {
-                return _selectedGroups;
-            }
-            set
-            {
-                if (_selectedGroups == value)
-                    return;
-                _selectedGroups = value;
-                UpdateGroupText();
-                OnPropertyChanged(nameof(SelectedGroups));
-            }
-        }
-
-
-        private int _totalPagesOrBoards;
-        [ProtoMember(11)]
-
-        public int TotalPagesOrBoards
-        {
-            get
-            {
-                return _totalPagesOrBoards;
-            }
-            set
-            {
-                if (_totalPagesOrBoards == value)
-                    return;
-                _totalPagesOrBoards = value;
-                UpdatePagesOrBoardsText();
-                OnPropertyChanged(nameof(TotalPagesOrBoards));
-            }
-        }
-
-        private int _selectedPagesOrBoards;
-        [ProtoMember(12)]
-
-        public int SelectedPagesOrBoards
-        {
-            get
-            {
-                return _selectedPagesOrBoards;
-            }
-            set
-            {
-                if (_selectedPagesOrBoards == value)
-                    return;
-                _selectedPagesOrBoards = value;
-                UpdatePagesOrBoardsText();
-                OnPropertyChanged(nameof(SelectedPagesOrBoards));
-
-            }
-        }
-
-        private bool _publishonOwnWall;
-        [ProtoMember(13)]
-
-        public bool PublishonOwnWall
-        {
-            get
-            {
-                return _publishonOwnWall;
-            }
-            set
-            {
-                if(_publishonOwnWall == value)
-                    return;
-                _publishonOwnWall = value;
-                OnPropertyChanged(nameof(PublishonOwnWall));
-            }
-        }
-
-
-        private void UpdateGroupText() => 
-            GroupSelectorText = IsGroupsAvailable ? SelectedGroups + "/" + TotalGroups : "NA";
-
-
-        private void UpdatePagesOrBoardsText() => 
-            PagesOrBoardsSelectorText = IsPagesOrBoardsAvailable ? SelectedPagesOrBoards + "/" + TotalPagesOrBoards : "NA";
-    }
-   
 }

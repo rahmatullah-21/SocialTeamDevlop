@@ -300,5 +300,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             return true;
         }
 
+        public PublisherManageDestinationModel GetManageDestination(string destinationId)
+        {
+            return ListPublisherManageDestinationModels.FirstOrDefault(x => x.DestinationId == destinationId);
+        }
     }
 }

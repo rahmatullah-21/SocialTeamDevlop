@@ -185,6 +185,8 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangGroups">Groups</system:String>
     <system:String x:Key="DHlangWallsProfiles">Walls/Profiles</system:String>
     <system:String x:Key="DHlangSaveDestination">Save</system:String>
+    <system:String x:Key="DHlangClearDestination">Clear</system:String>
+    <system:String x:Key="DHlangNotification">Notification</system:String>
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>

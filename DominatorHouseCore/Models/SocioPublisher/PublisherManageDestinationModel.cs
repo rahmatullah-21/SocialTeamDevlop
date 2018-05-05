@@ -16,12 +16,26 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private int _groupsCount;
         private int _wallsOrProfilesCount;
         private int _campaignsCount;
+        private string _destinationName;
 
         [ProtoMember(1)]
         public string DestinationId { get; set; }
 
         [ProtoMember(2)]
-        public string DestinationName { get; set; }
+        public string DestinationName
+        {
+            get
+            {
+                return _destinationName;
+            }
+            set
+            {
+                if (_destinationName == value)
+                    return;
+                _destinationName = value;
+                OnPropertyChanged(nameof(DestinationName));
+            }
+        }
 
         [ProtoMember(3)]
         public int AccountCount

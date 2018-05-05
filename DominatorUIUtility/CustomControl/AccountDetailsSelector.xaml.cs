@@ -37,7 +37,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        public AccountDetailsSelector(Func<AccountDetailsSelector, PublisherCreateDestinationSelectModel,Task> updateSingleData, PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel)
+        public AccountDetailsSelector(Func<AccountDetailsSelector, PublisherCreateDestinationSelectModel, Task> updateSingleData, PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel)
         {
             InitializeComponent();
             AccountDetailsSelectors.DataContext = AccountDetailsSelectorViewModel;

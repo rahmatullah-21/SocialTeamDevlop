@@ -7,7 +7,8 @@
              mc:Ignorable="d"  
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              Loaded="PublisherCreateDestination_OnLoaded"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
     <UserControl.Resources>
         <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
         <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
@@ -32,11 +33,34 @@
                     </Rectangle.OpacityMask>
                 </Rectangle> 
                 <Label Content="{Binding Title}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+            
+                <mah:Badged    HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               BadgePlacementMode="TopRight"                   
+                               Badge="{Binding AccountErrorCount}">
+                    
+                    <Button x:Name="BtnErrorNotification" Visibility="{Binding NotificationVisible}" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnErrorNotification}" >
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="15" Height="15" Fill="White" >
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_notification_above}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </mah:Badged>
             </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
-                <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnSave}" >
+               <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnSave}" >
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -52,6 +76,26 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+
+                <Button x:Name="BtnClear" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding ClearCommand}"  CommandParameter="{Binding ElementName=BtnClear}" >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="15" Height="15" Fill="White" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_clean}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangClearDestination}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+
+                
 
                 <Button Background="Transparent" Name="BtnSelect" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=BtnSelect}"  Margin="5">
                     <Button.Template>
@@ -399,7 +443,7 @@
                                 <DataTemplate>
                                     <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                         <Button Cursor="Hand" Margin="6,2,6,2" IsEnabled="{Binding IsGroupsAvailable}"
-                                                    Content="{Binding GroupSelectorText}" 
+                                                    Content="{Binding GroupSelectorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                     x:Name="ButtonSelectGroups" 
                                                     FontWeight="SemiBold"       
                                                     Command="{Binding Path=DataContext.GetSingleAccountGroupsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
