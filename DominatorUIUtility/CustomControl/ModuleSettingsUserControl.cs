@@ -1268,7 +1268,7 @@ namespace DominatorUIUtility.CustomControl
 
             CampaignName = $"{_socialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
         }
-
+        [Obsolete("This method is going to remove, use instead with name but pass network as the parameter from respective configuration module")]
         protected virtual void SetAccountModeDataContext()
         {
             try
@@ -1311,7 +1311,48 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
+        protected virtual void SetAccountModeDataContext(SocialNetworks network)
+        {
+            try
+            {
+                var accountDetails = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, network);
 
+                var moduleConfiguration = accountDetails.ActivityManager.LstModuleConfiguration
+                    .FirstOrDefault(y => y.ActivityType == _activityType);
+
+                if (moduleConfiguration == null)
+                {
+                    if (accountDetails.ActivityManager.RunningTime == null)
+                        accountDetails.ActivityManager.RunningTime = RunningTimes.DayWiseRunningTimes;
+
+                    moduleConfiguration = new ModuleConfiguration() { ActivityType = _activityType };
+                    accountDetails.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
+
+                    moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
+                    moduleConfiguration.IsEnabled = true;
+                    moduleConfiguration.Status = "Active";
+                    AccountsFileManager.Edit(accountDetails);
+                    SetModuleValues(false, null);
+                }
+
+                else
+                {
+                    var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
+                    SetModuleValues(moduleConfiguration.IsEnabled, templateDetails);
+                }
+
+                _mainGrid.DataContext = Model as TModel;
+                _accountGrowthModeHeader.DataContext = this;
+                SetSelectedAccounts(accountDetails.AccountBaseModel.AccountNetwork, _accountGrowthModeHeader.SelectedItem);
+
+
+            }
+
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
         public void SetSelectedAccounts(SocialNetworks networks, string selectedAccounts)
         {
             var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
@@ -1344,6 +1385,9 @@ namespace DominatorUIUtility.CustomControl
                     break;
                 case SocialNetworks.Youtube:
                     SelectedDominatorAccounts.YdAccounts = selectedAccounts;
+                    break;
+                case SocialNetworks.Tumblr:
+                    SelectedDominatorAccounts.TumblrAccounts = selectedAccounts;
                     break;
             }
             _accountGrowthModeHeader.SelectedItem = selectedAccounts ?? (!string.IsNullOrEmpty(accounts[0]) ? accounts[0] : "");

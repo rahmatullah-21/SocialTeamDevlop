@@ -1101,7 +1101,7 @@
     <system:String x:Key="TdLangCustomTweetsList">Custom tweet lists</system:String>
     <system:String x:Key="TdLangSomeonesFollowersTweets">Someone's followers tweets</system:String>
     <system:String x:Key="TdLangSomeonesFollowingsTweets">Someone's followings tweets</system:String>
-    <system:String x:Key="TdLangFollowersOfSomeonesFollowingsTweets">Followes of someone's followings tweets</system:String>
+    <system:String x:Key="TdLangFollowersOfSomeonesFollowingsTweets">Followers of someone's followings tweets</system:String>
     <system:String x:Key="TdLangFollowersOfSomeonesFollowersTweets">Followers of someone's followers tweets</system:String>
     <system:String x:Key="TdLangLikedUsersTweets">Liked user's tweets</system:String>
     <system:String x:Key="TdLangCommentedUsersTweets">Commented user's tweets</system:String>
@@ -1143,4 +1143,5 @@
     <system:String x:Key="TdLangDownloadPerWeek">Number of download per week</system:String>
     <system:String x:Key="TdLangMaxDownloadPerDay">max download per day</system:String>
     <system:String x:Key="TdLangMessageToNewFollowersShort">MsgToNewFollowers</system:String>
+  
 </ResourceDictionary>

@@ -25,6 +25,9 @@
                 <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+            <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MetroExpander}">
+                <Setter Property="IsExpanded" Value="True"/>
+            </Style>
+            </ResourceDictionary>
     </Application.Resources>
 </Application>

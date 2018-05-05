@@ -245,6 +245,22 @@
       <Project>{1c0beb70-f243-4a53-983e-ce25a1b722f6}</Project>
       <Name>FaceDominatorUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorCore\GplusDominatorCore.csproj">
+      <Project>{eaffb84c-f492-4ee5-aa11-c285aaf4e154}</Project>
+      <Name>GplusDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorUI\GplusDominatorUI.csproj">
+      <Project>{654340fb-7bc9-427a-9439-1091bdb15c84}</Project>
+      <Name>GplusDominatorUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\gramdominator-library\GramDominatorCore\GramDominatorCore.csproj">
+      <Project>{b04813ea-a4b5-40ae-b705-743687f74770}</Project>
+      <Name>GramDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\facedominator-library\FaceDominatorUI\FaceDominatorUI.csproj">
+      <Project>{1c0beb70-f243-4a53-983e-ce25a1b722f6}</Project>
+      <Name>FaceDominatorUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorCore\LinkedDominatorCore.csproj">
       <Project>{9df3cac5-0c31-49f0-a71e-27b9cefc6553}</Project>
       <Name>LinkedDominatorCore</Name>
@@ -252,14 +268,6 @@
     <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorUI\LinkedDominatorUI.csproj">
       <Project>{8a858cd7-7834-4365-8f4d-4faa0361de7f}</Project>
       <Name>LinkedDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\pindominator-library\PinDominatorCore\PinDominatorCore.csproj">
-      <Project>{68ef34bf-36c9-4e33-9acd-7b9d7b746f29}</Project>
-      <Name>PinDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\pindominator-library\PinDominator\PinDominatorUI.csproj">
-      <Project>{107cebc6-409b-47ca-a248-4a5e03d86e66}</Project>
-      <Name>PinDominatorUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj">
       <Project>{21b1d90e-f201-4ef0-b4e9-a99315945f1d}</Project>
@@ -296,6 +304,14 @@
     <ProjectReference Include="..\EmbeddedBrowser\EmbeddedBrowser.csproj">
       <Project>{21f00635-aaf7-466b-9214-a830ea9c8963}</Project>
       <Name>EmbeddedBrowser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">
+      <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>
+      <Name>ProtectedCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProtectedServerApp\ProtectedServerApp.csproj">
+      <Project>{0771a96c-af77-497a-a6fa-2dc4c94cbae9}</Project>
+      <Name>ProtectedServerApp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

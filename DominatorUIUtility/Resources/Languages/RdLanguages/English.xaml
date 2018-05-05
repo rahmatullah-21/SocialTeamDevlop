@@ -10,6 +10,16 @@
     <system:String x:Key="langActivityLog">Activity Log</system:String>
     <system:String x:Key="langCPUUsage">CPU Usage :</system:String>
     <system:String x:Key="langDate">Date</system:String>
+
+    <system:String x:Key="langUnFollowsPerJob">Number of UnFollows PerJob</system:String>
+
+
+    <system:String x:Key="langReplyPerJob">Number of Reply per job</system:String>
+    <system:String x:Key="langReplyPerHour">Number of Reply per Hour</system:String>
+    <system:String x:Key="langReplyPerDay">Number of Reply per Day</system:String>
+    <system:String x:Key="langReplyPerWeek">Number of Reply Per Week</system:String>
+    <system:String x:Key="langMaxReplyDay">Number of MaxReply Per Day</system:String>
+
     <system:String x:Key="lang_Account_Tab">Accounts</system:String>
     <system:String x:Key="lang_Account_CustomControl">Account Manager</system:String>
     <system:String x:Key="lang_Account_DashBoard">DashBoard</system:String>
@@ -131,10 +141,30 @@
     <system:String x:Key="langEngageDelete">Delete Comment</system:String>
     <system:String x:Key="langEngageUpvote">Upvote</system:String>
     <system:String x:Key="langUrlScraper">UrlScraper</system:String>
+
+    <system:String x:Key="langUrlScraperPerJob">Number of UrlScraper Per Job</system:String>
+    <system:String x:Key="langUrlScraperPerHour">Number of UrlScraper Per Hour</system:String>
+    <system:String x:Key="langUrlScraperPerDay">Number of UrlScraper PerDay</system:String>
+    <system:String x:Key="langUrlScraperPerWeek">Number of UrlScraper  PerWeek</system:String>
+    <system:String x:Key="langMaxUrlScraperDay">Number of MaxUrlScra perDay</system:String>
+
     <system:String x:Key="langEngageDownvote">Downvote</system:String>
     <system:String x:Key="langFollow">Follow</system:String>
     <system:String x:Key="langUnFollow">UnFollow</system:String>
     <system:String x:Key="langVote">Voter</system:String>
+
+    <system:String x:Key="langUpvotePerJob">Number of Upvote Per Job</system:String>
+    <system:String x:Key="langUpvotePerHour">Number of Upvote Per Hour</system:String>
+    <system:String x:Key="langUpvotePerDay">Number of Upvote Per Day</system:String>
+    <system:String x:Key="langUpvotePerWeek">Number of Upvote Per Week</system:String>
+    <system:String x:Key="langMaxUpvoteDay">Number of MaxUpvote Per Day</system:String>
+
+    <system:String x:Key="langDownvotePerJob">Number of Downvote Per Job</system:String>
+    <system:String x:Key="langDownvotePerHour">Number of Downvote Per Hour</system:String>
+    <system:String x:Key="langDownvotePerDay">Number of Downvote Per Day</system:String>
+    <system:String x:Key="langDownvotePerWeek">Number of Downvote Per Week</system:String>
+    <system:String x:Key="langMaxDownvoteDay">Number of Downvote Per Day</system:String>
+
     <system:String x:Key="langScraper">Scraper</system:String>
     <system:String x:Key="lanUpvoteWarning">These accounts are already running with Upvote configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="langDeletePerJob">Number of Deletes per job</system:String>

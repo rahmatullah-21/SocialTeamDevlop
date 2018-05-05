@@ -188,6 +188,7 @@
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\FdTables\FdGlobals\FdAccountDetails.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\Friendship.cs" />
@@ -232,6 +233,8 @@
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedJobs.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\LdTables\Account\RemovedConnections.cs" />
+    <Compile Include="DatabaseHandler\LdTables\Account\UnjoinedGroups.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedCompanies.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedGroups.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedJobs.cs" />

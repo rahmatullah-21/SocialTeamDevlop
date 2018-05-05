@@ -7,61 +7,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
+namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
 {
-    public class LikedPages
+    public class UnjoinedGroups
     {
         [Key]
         [Autoincrement]
         [Index]
-
         [Column(Order = 1)]
         public int Id { get; set; }
 
-
         /// <summary>
-        /// 
+        /// Contains Name Of the Group
         /// </summary>
         [Column(Order = 2)]
-        [Unique]
-        public string PageId { get; set; }
-
+        public string GroupName
+        { get; set; }
 
         /// <summary>
-        /// 
+        /// Contains Url Of the Group
         /// </summary>
         [Column(Order = 3)]
-        public string PageUrl { get; set; }
+        [Unique]
+        public string GroupUrl
+        { get; set; }
 
         /// <summary>
-        /// 
+        /// Contains Profile Picture Url Of the Connection
         /// </summary>
         [Column(Order = 4)]
-        public string PageName { get; set; }
+        public string TotalMembers { get; set; }
 
         /// <summary>
-        /// 
+        /// Describe Connection Type If FirstDegree,SecondDegree Or ThirdPlusDegree
         /// </summary>
         [Column(Order = 5)]
-        public string PageType { get; set; }
+        public string CommunityType
+        { get; set; }
 
         /// <summary>
-        /// 
+        /// Contains Connected TimeStamp with this Account
         /// </summary>
         [Column(Order = 6)]
-        public string ProfilePicUrl { get; set; }
-
+        public string MembershipStatus { get; set; }
 
         /// <summary>
-        /// 
+        /// Contains Interaction Time Stamp
         /// </summary>
         [Column(Order = 7)]
-        [Unique]
-        public string CoverPicUrl { get; set; }
-
-        [Column(Order = 8)]
-        public DateTime InteractionDate { get; set; }
-
-
+        public int UnjoinedTimeStamp { get; set; }
     }
 }

@@ -22,6 +22,6 @@
         public static string PdAccounts { get; set; } = string.Empty;
 
         public static string LdAccounts { get; set; } = string.Empty;
-
+        public static string TumblrAccounts { get; set; } = string.Empty;
     }
 }

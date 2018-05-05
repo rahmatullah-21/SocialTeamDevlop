@@ -78,34 +78,19 @@
 
                         <DataGrid x:Name="SearchQueries" Width="auto" Background="White" AutoGenerateColumns="False"  CanUserAddRows="false"
                                   ItemsSource="{Binding ListQueryInfo}" CanUserDeleteRows="False"  MaxHeight="150" MinHeight="150" MinWidth="400" MaxWidth="800"  >
-                            <!---->
-                            <DataGrid.Resources>
-                                <Style x:Key="NotFocusable" TargetType="{x:Type DataGridCell}">
-                                    <Setter Property="Focusable" Value="False"/>
-                                </Style>
-                            </DataGrid.Resources>
-
+                           
                             <DataGrid.Columns>
                                 <DataGridTextColumn Width="*" FontSize="12" Binding ="{Binding QueryTypeDisplayName}">
-                                    <DataGridTextColumn.CellStyle>
-                                        <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource NotFocusable}"/>
-                                    </DataGridTextColumn.CellStyle>
                                     <DataGridTextColumn.Header>
                                         <TextBlock Text="{DynamicResource langType}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
                                 <DataGridTextColumn  Width="*"  FontSize="12"  Binding="{Binding QueryValue}" >
-                                    <DataGridTextColumn.CellStyle>
-                                        <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource NotFocusable}"/>
-                                    </DataGridTextColumn.CellStyle>
-                                    <DataGridTextColumn.Header>
+                                      <DataGridTextColumn.Header>
                                         <TextBlock Text="{DynamicResource langQuery}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
                                 <DataGridTextColumn  Width="*"  FontSize="12"   Binding="{Binding IsCustomFilterSelected}">
-                                    <DataGridTextColumn.CellStyle>
-                                        <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource NotFocusable}"/>
-                                    </DataGridTextColumn.CellStyle>
                                     <DataGridTextColumn.Header>
                                         <TextBlock Text="{DynamicResource langCustomFilters}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </DataGridTextColumn.Header>

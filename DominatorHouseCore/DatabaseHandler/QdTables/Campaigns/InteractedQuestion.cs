@@ -28,6 +28,7 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
         public string QuestionUrl { get; set; }
         [Column(Order = 7)]
         public string InteractedUser { get; set; }
-
+        [Column(Order = 8)]
+        public string Accountusername { get; set; }
     }
 }

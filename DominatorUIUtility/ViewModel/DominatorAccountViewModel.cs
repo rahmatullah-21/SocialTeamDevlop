@@ -216,6 +216,16 @@ namespace DominatorUIUtility.ViewModel
                     if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||
                                string.IsNullOrEmpty(objDominatorAccountBaseModel.Password)) return;
 
+                    if ((!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
+                        string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort))
+                        || (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
+                            !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort))) return;
+
+                    if ((!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyUsername) &&
+                         string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPassword))
+                        || (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyUsername) &&
+                            !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPassword))) return;
+
                     if (objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString() != objDominatorAccountBaseModel.AccountNetwork.ToString())
                         objDominatorAccountBaseModel.AccountNetwork =
                             (SocialNetworks)Enum.Parse(typeof(SocialNetworks), objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString());
@@ -904,6 +914,17 @@ namespace DominatorUIUtility.ViewModel
                 if (string.IsNullOrEmpty(objDominatorAccountBaseModel.UserName) ||
                     string.IsNullOrEmpty(objDominatorAccountBaseModel.Password)) return;
 
+
+                if ((!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
+                     string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort))
+                    || (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) &&
+                        !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort))) return;
+
+                if ((!string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyUsername) &&
+                     string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPassword))
+                    || (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyUsername) &&
+                        !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPassword))) return;
+
                 selectedAccount.AccountBaseModel.AccountGroup.Content = objDominatorAccountBaseModel.AccountGroup.Content;
                 selectedAccount.AccountBaseModel.UserName = objDominatorAccountBaseModel.UserName;
                 selectedAccount.AccountBaseModel.Password = objDominatorAccountBaseModel.Password;
@@ -915,7 +936,7 @@ namespace DominatorUIUtility.ViewModel
 
                 AccountsFileManager.Edit(selectedAccount);
                 UpdateProxy(objDominatorAccountBaseModel);
-                GlobusLogHelper.log.Info($"Successfully updated {objDominatorAccountBaseModel.UserName}");
+                GlobusLogHelper.log.Info(Log.AccountEdited, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
 
                 dialogWindow.Close();
 
