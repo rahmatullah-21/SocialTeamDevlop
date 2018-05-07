@@ -220,7 +220,7 @@
 
     <system:String x:Key="PDlangBio">Bio</system:String>
     <system:String x:Key="PDlangDate">Date</system:String>
-    <system:String x:Key="PDlangPosts">Posts</system:String>
+    <system:String x:Key="PDlangPins">Pins</system:String>
     <system:String x:Key="PDlangGroupName">Group Name</system:String>
     <system:String x:Key="PDlangCopy">Copy</system:String>
     <system:String x:Key="PDlangAccountGrowthMode">Switch to Account Growth Mode</system:String>
@@ -319,7 +319,7 @@
     <system:String x:Key="PDlangGroupBlacklists">Group blacklist</system:String>
     <system:String x:Key="PDlangAddGroupBlacklists">Add Group Blacklist</system:String>
     <system:String x:Key="PDlangPinFilter">Pin Filter</system:String>
-    <system:String x:Key="PDlangPostType">Post Type</system:String>
+    <system:String x:Key="PDlangPinType">Pin Type</system:String>
     <system:String x:Key="PDlangIgnoreImages">Ignore images</system:String>
     <system:String x:Key="PDlangIgnoreVideos">Ignore videos</system:String>
     <system:String x:Key="PDlangUserFilters">User Filters</system:String>
