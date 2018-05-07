@@ -56,8 +56,7 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-               // return "0443b39a54b05f064a4917a3d1da4d6524a3fb0878eacabf1424515051674daa";//25eace5393646842f0d0c3fb2ac7d3cfa15c052436ee86b5406a8433f54d24a5
-                return "25eace5393646842f0d0c3fb2ac7d3cfa15c052436ee86b5406a8433f54d24a5";
+                return "9cf2daac9a7802e9d199ad5dc6e221fe8da535359b58b60a1265a281b2a30a83";
             }
         }
 
@@ -65,7 +64,7 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                return "10.33.0";
+                return "40.0.0.14.95";
             }
         }
 
@@ -81,7 +80,7 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                return "ig_android_flexible_sampling_universe,ig_android_me_profile_prefill_in_reg,ig_android_allow_phone_reg_selectable,ig_android_analytics_data_loss,ig_android_set_contact_triage_tab_to_available_prefill,ig_android_gmail_oauth_in_reg,ig_android_focus_fullname_registration,ig_android_universal_instagram_deep_links_universe,ig_android_make_sure_next_button_is_visible_in_reg,ig_android_phone_id_phone_prefill_in_reg,ig_fbns_push,ig_profile_account_dropdown_universe,ig_android_background_phone_confirmation_v2,ig_android_reg_omnibox,ig_android_skip_signup_from_one_tap_if_no_fb_sso,ig_android_remove_icons_in_reg,ig_periodic_username_check_in_reg,ig_android_use_in_app_browser_for_deep_links_universe,ig_android_password_toggle_on_login_universe,ig_android_run_device_verification,ig_android_remove_sms_password_reset_deep_link,ig_android_async_probe,ig_android_fb_family_navigation_badging,ig_restore_focus_on_reg_textbox_universe,ig_android_abandoned_reg_flow,ig_android_phoneid_sync_interval,ig_android_2fac_auto_fill_sms_universe,ig_android_family_apps_user_values_provider_universe,ig_android_run_fb_reauth_on_background,ig_android_country_code_fix_excluding_hsite_in_reg,ig_android_login_autocomplete_autologin_universe,ig_android_show_password_in_reg_universe,ig_fbns_blocked,ig_android_access_redesign,ig_android_ui_cleanup_in_reg";
+                return "ig_android_hsite_prefill_new_carrier,ig_android_me_profile_prefill_in_reg,ig_android_allow_phone_reg_selectable,ig_android_background_voice_phone_confirmation_prefilled_phone_number_only,ig_android_gmail_oauth_in_reg,ig_android_access_redesign_v2,ig_android_run_account_nux_on_server_cue_device,ig_android_sim_info_upload,ig_android_background_voice_confirmation_block_argentinian_numbers,ig_android_background_phone_confirmation_v2,ig_android_multi_tap_login,ig_challenge_kill_switch,ig_android_run_device_verification,ig_android_phone_id_email_prefill_in_reg,ig_android_phoneid_sync_interval,ig_android_family_apps_user_values_provider_universe,ig_android_security_intent_switchoff,ig_android_enter_to_login,ig_android_remove_icons_in_reg_v2,ig_android_ui_cleanup_in_reg_v2,ig_android_login_bad_password_autologin_universe,ig_android_phone_auto_login_during_reg";
             }
         }
 
@@ -139,8 +138,7 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                //return "4";
-                return "6";
+                return "4";
             }
         }
 

@@ -63,7 +63,11 @@ namespace DominatorHouseCore.Utility
 
         [ProtoMember(11)]
         private string Resolution { get; set; }
+        [ProtoMember(12)]
+        public string AdId { get; set; }
 
+        [ProtoMember(13)]
+        public string Guid { get; set; }
 
         public void GenerateDetails()
         {
@@ -84,8 +88,9 @@ namespace DominatorHouseCore.Utility
             this.Device = splitDeviceDetails[5];
             this.Cpu = splitDeviceDetails[6];
             this.PhoneId = Utilities.GetGuid(true); ;
-            this.DeviceId = Utilities.GetMobileDeviceId(this.PhoneId);
-       
+            this.DeviceId = Utilities.GetMobileDeviceId();
+            this.AdId = Utilities.GetGuid(true);
+            this.Guid = Utilities.GetGuid(true);
         }
 
         /// <summary>
@@ -137,9 +142,8 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
 
         public static string GenerateSignature(string data)
-        {//0443b39a54b05f064a4917a3d1da4d6524a3fb0878eacabf1424515051674daa (new)
-            //25eace5393646842f0d0c3fb2ac7d3cfa15c052436ee86b5406a8433f54d24a5 (old)
-            string secret = "25eace5393646842f0d0c3fb2ac7d3cfa15c052436ee86b5406a8433f54d24a5";
+        {
+            string secret = Constants.IG_SIG_KEY;
             var secretBytes = Encoding.UTF8.GetBytes(secret);
             var dataBytes = Encoding.UTF8.GetBytes(data);
             string signature = "";

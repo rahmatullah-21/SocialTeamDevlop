@@ -251,6 +251,15 @@ namespace DominatorHouseCore.Models
         [JsonProperty(PropertyName = "parent_cid")]
         public string ParentCid { get; set; }
 
+        [JsonProperty(PropertyName = "usage")]
+        public string Usage { get; set; }
+
+        [JsonProperty(PropertyName = "security_code")]
+        public string SecurityCode { get; set; }
+
+        [JsonProperty(PropertyName = "choice")]
+        public string Choice { get; set; }
+
 
         public class DeviceJson
         {
