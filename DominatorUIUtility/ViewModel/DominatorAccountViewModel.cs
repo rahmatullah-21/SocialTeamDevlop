@@ -276,6 +276,7 @@ namespace DominatorUIUtility.ViewModel
             //Read the accounts from text or csv files
             try
             {
+
                 var loadedAccountlist = FileUtilities.FileBrowseAndReader();
 
                 //if loaded text or csv contains no accounts then return
@@ -355,7 +356,11 @@ namespace DominatorUIUtility.ViewModel
                             }
                             //valid the proxy ip and port
                             else if (!Proxy.IsValidProxyIp(proxyaddress) || !Proxy.IsValidProxyPort(proxyport))
+                            {
+                                GlobusLogHelper.log.Info(Log.ImportFailed, socialNetwork, username, "Proxy address or Proxy port");
                                 continue;
+
+                            }
                         }
 
 
@@ -556,7 +561,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 ex.DebugLog();
             }
-    
+
         }
 
         public void UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
@@ -630,7 +635,7 @@ namespace DominatorUIUtility.ViewModel
 
         public void DeleteAccountFromProxy(List<DominatorAccountModel> objDominatorAccountBaseModel)
         {
-          var allProxy= ProxyFileManager.GetAllProxy();
+            var allProxy = ProxyFileManager.GetAllProxy();
             allProxy?.ForEach(proxy =>
             {
                 try
@@ -639,8 +644,9 @@ namespace DominatorUIUtility.ViewModel
                            {
                                var assignedAccount = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName);
                                proxy.AccountsAssignedto.Remove(proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName));
-                               proxy.AccountsToBeAssign.Add(proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName));
-                               
+                               proxy.AccountsToBeAssign.Remove(proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName));
+
+
                            });
                 }
                 catch (Exception ex)
@@ -711,8 +717,8 @@ namespace DominatorUIUtility.ViewModel
 
             // remove from file
             AccountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);
-             DeleteAccountFromProxy(selectAccounts.ToList()); 
-          
+            DeleteAccountFromProxy(selectAccounts.ToList());
+
             //also delete the associated files
             DataBaseHandler.DeleteDatabase(selectAccounts.Select(acct => acct.AccountId));
 
@@ -731,7 +737,7 @@ namespace DominatorUIUtility.ViewModel
                 return;
             DeleteAccounts(new[] { selectedAccount });
 
-           
+
         }
 
         #endregion

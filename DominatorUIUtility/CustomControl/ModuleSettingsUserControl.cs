@@ -288,7 +288,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                List<int> queryValuIndex=new List<int>();
+                List<int> queryValuIndex = new List<int>();
                 if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue))
                 {
                     _queryControl.QueryCollection.ForEach(query =>
@@ -299,7 +299,7 @@ namespace DominatorUIUtility.CustomControl
 
                         currentQuery.QueryValue = query;
                         currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
-                      //  currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName(queryParameterType);
+                        //  currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName(queryParameterType);
 
                         currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
 
@@ -316,20 +316,20 @@ namespace DominatorUIUtility.CustomControl
                     {
                         if (queryValuIndex.Count <= 10)
                         {
-                            GlobusLogHelper.log.Info(Log.AlreadyExistQuery, SocinatorInitialize.ActiveSocialNetwork, "{ "+ string.Join(" },{ ", queryValuIndex.ToArray())+" }", _activityType);
+                            GlobusLogHelper.log.Info(Log.AlreadyExistQuery, SocinatorInitialize.ActiveSocialNetwork, "{ " + string.Join(" },{ ", queryValuIndex.ToArray()) + " }", _activityType);
                         }
                         else
                         {
                             GlobusLogHelper.log.Info(Log.AlreadyExistQueryCount, SocinatorInitialize.ActiveSocialNetwork, queryValuIndex.Count, _activityType);
 
-                        } 
+                        }
                     }
                 }
                 else
                 {
                     _queryControl.CurrentQuery.QueryTypeDisplayName = _queryControl.CurrentQuery.QueryType;
 
-                   // _queryControl.CurrentQuery.QueryTypeDisplayName = _queryControl.CurrentQuery.QueryTypeAsDisplayName(queryParameterType);
+                    // _queryControl.CurrentQuery.QueryTypeDisplayName = _queryControl.CurrentQuery.QueryTypeAsDisplayName(queryParameterType);
 
                     var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
 
@@ -497,7 +497,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-     
+
         #region Campaign Implementations
 
         protected void CreateCampaign(string errorMessage, List<RunningTimes> runningTime)
@@ -668,8 +668,8 @@ namespace DominatorUIUtility.CustomControl
             };
 
             #endregion
-
-            warningWindow.ShowDialog();
+            if (objErrorModelControl.Accounts.Count != 0)
+                warningWindow.ShowDialog();
 
             if (_footerControl.list_SelectedAccounts.Count == 0)
             {
@@ -1224,7 +1224,7 @@ namespace DominatorUIUtility.CustomControl
                     {
                         _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
                         this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
-                        GlobusLogHelper.log.Info(Log.SelectedAccount,SocinatorInitialize.ActiveSocialNetwork, _footerControl.list_SelectedAccounts.Count,_activityType);
+                        GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, _footerControl.list_SelectedAccounts.Count, _activityType);
                     }
                     else
                     {

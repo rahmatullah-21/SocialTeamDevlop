@@ -31,6 +31,8 @@ namespace DominatorHouseCore.FileManagers
       
 
         public static void EditProxy(ProxyManagerModel proxy) => BinFileHelper.UpdateProxy(proxy);
+        public static void EditAllProxy(List<ProxyManagerModel> proxy) => BinFileHelper.UpdateAllProxy(proxy);
+
 
         public static void Delete(Predicate<ProxyManagerModel> match)
         {

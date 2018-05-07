@@ -54,7 +54,8 @@
                         </Button.Template>
                     </Button>
 
-                    <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccounts" Command="{Binding LoadMultipleAccountsCommand}">
+                    <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccounts" 
+                            Command="{Binding LoadMultipleAccountsCommand}" ToolTip="{DynamicResource DHImportDescription}">
                         <Button.Template>
                             <ControlTemplate>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -229,7 +230,7 @@
         <!--Data grid view-->
         <Grid Grid.Row="1">
             <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" 
-                      AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}">
+                      AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
                         <EventSetter Event="ContextMenu.ContextMenuOpening" Handler="Row_ContextMenuOpening"/>
@@ -458,7 +459,7 @@
                                         <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
                                                   Content="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
-                                                  Converter={StaticResource IndexToRowNoConverter}}"/>
+                                                  Converter={StaticResource IndexToRowNoConverter}}" Foreground="{DynamicResource AccentBaseColorBrush}"/>
                                     </StackPanel>
 
                                 </DataTemplate>

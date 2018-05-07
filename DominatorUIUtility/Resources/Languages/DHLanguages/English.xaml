@@ -192,4 +192,10 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>
     <system:String x:Key="DHlangSocinator">Socinator</system:String>
 
+    <system:String x:Key="DHImportDescription"  xml:space="preserve">Format :
+Type 1. [Group Name]:[SocialNetwork]:[User Name]:[Password]
+Type 2. [Group Name]:[SocialNetwork]:[User Name]:[Password]:[Proxy Address]:[Proxy Port]
+Type 3. [Group Name]:[SocialNetwork]:[User Name]:[Password]:[Proxy Address]:[Proxy Port]:[Proxy User Name]:[Proxy Password]
+    </system:String>
+
 </ResourceDictionary>
