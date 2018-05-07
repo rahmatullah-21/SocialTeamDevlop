@@ -40,8 +40,6 @@ namespace DominatorHouseCore.Command
         public bool CanExecute(object parameter)
         {
             return this.CanExecuteMethod(parameter);
-
-
         }
 
         public void NotifyCanExecuteChanged()

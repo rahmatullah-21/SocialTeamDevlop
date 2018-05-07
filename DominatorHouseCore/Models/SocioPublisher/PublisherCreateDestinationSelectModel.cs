@@ -198,6 +198,41 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        private bool _isEnableStatusSync;
+
+        public bool IsEnableStatusSync
+        {
+            get
+            {
+                return _isEnableStatusSync;
+            }
+            set
+            {
+                if (_isEnableStatusSync == value)
+                    return;
+                _isEnableStatusSync = value;
+                OnPropertyChanged(nameof(IsEnableStatusSync));
+            }
+        }
+
+        private string _statusSyncContent = ConstantVariable.FineStatusSync;
+
+        public string StatusSyncContent
+        {
+            get
+            {
+                return _statusSyncContent;
+            }
+            set
+            {
+                if (_statusSyncContent == value)
+                    return;
+                _statusSyncContent = value;
+                OnPropertyChanged(nameof(StatusSyncContent));
+            }
+        }
+
+
         public void UpdateGroupText() => 
             GroupSelectorText = IsGroupsAvailable ? SelectedGroups + "/" + TotalGroups : "NA";
 

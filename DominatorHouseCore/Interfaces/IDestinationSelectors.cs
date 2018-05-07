@@ -24,5 +24,9 @@ namespace DominatorHouseCore.Interfaces
         Task<List<AccountDetailsSelectorModel>> GetPagesDetails(string accountId, string accountName,
             List<string> alreadySelectedList);
 
+        Task<List<string>> GetGroupsUrls(string accountId, string accountName);
+
+        Task<List<string>> GetPageOrBoardUrls(string accountId, string accountName);
+
     }
 }

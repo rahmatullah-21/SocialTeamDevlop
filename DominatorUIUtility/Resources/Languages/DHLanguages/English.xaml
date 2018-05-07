@@ -187,6 +187,16 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangSaveDestination">Save</system:String>
     <system:String x:Key="DHlangClearDestination">Clear</system:String>
     <system:String x:Key="DHlangNotification">Notification</system:String>
+
+    <system:String x:Key="DHlangStatus">Status</system:String>
+    <system:String x:Key="DHlangAddNewAccounts">Click to add fresh accounts</system:String>
+    <system:String x:Key="DHlangToolTipForSync" xml:space="preserve">Click to start sync the account destination with current database data, 
+you may loss the selected item from previous destination
+due to absence of the particular item in your current database.
+    </system:String>
+
+    <system:String x:Key="DHlangSelectCampaign">Select Campaign</system:String>
+    
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>
@@ -197,5 +207,7 @@ Type 1. [Group Name]:[SocialNetwork]:[User Name]:[Password]
 Type 2. [Group Name]:[SocialNetwork]:[User Name]:[Password]:[Proxy Address]:[Proxy Port]
 Type 3. [Group Name]:[SocialNetwork]:[User Name]:[Password]:[Proxy Address]:[Proxy Port]:[Proxy User Name]:[Proxy Password]
     </system:String>
+    
+    
 
 </ResourceDictionary>

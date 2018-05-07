@@ -165,6 +165,7 @@
     <Compile Include="Converters\ListViewItemIndexConverter.cs" />
     <Compile Include="Converters\MessegeTypeToHorizontalAlignmentConverter.cs" />
     <Compile Include="Converters\PercentageToColorConverter.cs" />
+    <Compile Include="Converters\PublisherSyncStringToBooleanConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DataBaseConnectionGlobal.cs" />
@@ -417,6 +418,7 @@
     <Compile Include="Models\SocioPublisher\PublisherCampaignDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCampaignStatus.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCampaignStatusModel.cs" />
+    <Compile Include="Models\SocioPublisher\PublisherCreateCampaignModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCreateDestinationModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCreateDestinationSelectModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherDestinationDetails.cs" />

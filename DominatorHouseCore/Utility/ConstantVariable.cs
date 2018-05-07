@@ -4,6 +4,7 @@ using DominatorHouseCore.Enums;
 using System.Reflection;
 using DominatorHouseCore.Diagnostics;
 using System.IO;
+using DominatorHouseCore.Models.SocioPublisher;
 
 namespace DominatorHouseCore.Utility
 {
@@ -129,5 +130,11 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";
         public static string GetOtherFacebookSettingsFile() => GetOtherDir() + @"\Facebook.bin";
         public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
+
+        public static string FineStatusSync = "Already up to date";
+
+        public static string NeedUpdateStatusSync = "Click to Sync";
+
+        public static string NotAvailableAccountSync = "Account not available";
     }
 }

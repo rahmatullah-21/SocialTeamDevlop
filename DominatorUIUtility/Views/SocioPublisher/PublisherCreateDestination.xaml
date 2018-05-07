@@ -8,10 +8,12 @@
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              Loaded="PublisherCreateDestination_OnLoaded"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
-             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
         <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
+        <converters:PublisherSyncStringToBooleanConverter x:Key="SyncStringToBooleanConverter"></converters:PublisherSyncStringToBooleanConverter>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -33,34 +35,12 @@
                     </Rectangle.OpacityMask>
                 </Rectangle> 
                 <Label Content="{Binding Title}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-            
-                <mah:Badged    HorizontalAlignment="Right"
-                               VerticalAlignment="Center"
-                               BadgePlacementMode="TopRight"                   
-                               Badge="{Binding AccountErrorCount}">
-                    
-                    <Button x:Name="BtnErrorNotification" Visibility="{Binding NotificationVisible}" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnErrorNotification}" >
-                        <Button.Template>
-                            <ControlTemplate>
-                                <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Rectangle Width="15" Height="15" Fill="White" >
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_notification_above}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                        
-                                    </StackPanel>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-                </mah:Badged>
+
             </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
-               <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnSave}" >
+                <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnSave}" >
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -95,7 +75,7 @@
                 </Button>
 
 
-                
+
 
                 <Button Background="Transparent" Name="BtnSelect" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=BtnSelect}"  Margin="5">
                     <Button.Template>
@@ -197,7 +177,21 @@
                     <CheckBox Content="{DynamicResource langAutoSelectNewGroups}" Margin="5" IsChecked="{Binding PublisherCreateDestinationModel.IsAddedNewGroups}"/>
                     <CheckBox Content="{DynamicResource langUncheckGroups}" Margin="5" IsChecked="{Binding PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval}"/>
 
-                    <TextBlock Text="{DynamicResource DHlangSelectDestinations}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource DHlangSelectDestinations}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                        <Button Cursor="Hand" Margin="2"                               
+                                x:Name="ButtonAddFreshAccount" 
+                                FontSize="12"                         
+                                Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding AddFreshAccounts}"  CommandParameter="{Binding ElementName=ButtonAddFreshAccount}"                              
+                                Background="Transparent">
+                            <TextBlock Text="{DynamicResource DHlangAddNewAccounts}" >
+                                <TextBlock.TextDecorations>
+                                    <TextDecoration Location="Underline" PenOffset="1"/>
+                                </TextBlock.TextDecorations>
+                            </TextBlock>
+                        </Button>
+                    </StackPanel>
+
                 </StackPanel>
             </Grid>
 
@@ -475,13 +469,13 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="150">
+                        <GridViewColumn Width="130">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource DHlangWallsProfiles}"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="1,1,1,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                         <StackPanel Margin="6,2,6,2" HorizontalAlignment="Center">
                                             <CheckBox  IsChecked="{Binding PublishonOwnWall}" ></CheckBox>
                                         </StackPanel>
@@ -490,6 +484,26 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+
+                        <GridViewColumn Width="150">
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{DynamicResource DHlangStatus}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,1,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <Button Cursor="Hand" Margin="6,2,6,2" IsEnabled="{Binding StatusSyncContent, Converter={StaticResource SyncStringToBooleanConverter}}"
+                                                Content="{Binding StatusSyncContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                x:Name="ButtonStatusSync" FontSize="12"   ToolTip="{DynamicResource DHlangToolTipForSync}"                                            
+                                                Command="{Binding Path=DataContext.StatusSyncCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Background="Transparent">
+                                        </Button>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+
                     </GridView>
                 </ListView.View>
             </ListView>
