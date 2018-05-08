@@ -23,5 +23,6 @@ namespace DominatorHouseCore.Utility
 
 
         public static Action<int, SocialNetworks, string> ChangeTabWithNetwork { get; set; }
+        public static Action<int> HintSwitch;
     }
 }

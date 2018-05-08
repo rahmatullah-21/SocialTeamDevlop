@@ -291,6 +291,13 @@ namespace DominatorHouse
                     MessageDialogResult.Affirmative;
 
                 TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
+                TabSwitcher.HintSwitch = v =>
+                {
+                    if (TabItems != null && TabItems.Count > 1)
+                    {
+                        var prepare = TabItems[2].Content.Value;
+                    }
+                };
 
                 ConfigFileManager.ApplyTheme();
 

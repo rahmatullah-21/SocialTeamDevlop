@@ -51,9 +51,14 @@ namespace DominatorUIUtility.CustomControl
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;
             DominatorAccountViewModel.PropertyChanged += DominatorAccountViewModel_PropertyChanged;
-           
         }
-       
+
+        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            // hint the receiving model that we may want to open certain options
+            DominatorHouseCore.Utility.TabSwitcher.HintSwitch?.Invoke(2);
+        }
+
         List<GridViewColumn> _addedColumns = new List<GridViewColumn>();
 
         private void DominatorAccountViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -182,6 +187,7 @@ namespace DominatorUIUtility.CustomControl
             if (sourceRow != null)
             {
                 sourceRow.ContextMenu = new ContextMenu();
+                sourceRow.ContextMenu.Opened += ContextMenu_Opened;
 
                 if (dominatorAccountModelSelected != null)
                 {
