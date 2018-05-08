@@ -270,6 +270,7 @@
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedPost.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedSubreddit.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedPost.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedSubreddit.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedUsers.cs" />

@@ -823,7 +823,7 @@ namespace DominatorUIUtility.ViewModel
             if (string.IsNullOrEmpty(exportPath))
                 return;
 
-            const string header = "Username,Password,Account Group,Status,Proxy Address,Proxy Port,Proxy Username,Proxy Password";
+            const string header = "AccountNetwok,Username,Password,Account Group,Status,Proxy Address,Proxy Port,Proxy Username,Proxy Password";
 
             var filename = $"{exportPath}\\AccountExport {ConstantVariable.DateasFileName}.csv";
 
@@ -838,7 +838,8 @@ namespace DominatorUIUtility.ViewModel
             {
                 try
                 {
-                    var csvData = account.AccountBaseModel.UserName + ","
+                    var csvData = account.AccountBaseModel.AccountNetwork + ","
+                    + account.AccountBaseModel.UserName + ","
                     + account.AccountBaseModel.Password + ","
                     + account.AccountBaseModel.AccountGroup.Content + ","
                     + account.AccountBaseModel.Status + ","

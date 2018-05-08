@@ -19,15 +19,15 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
         public string RedditDescription { get; set; }
 
         [Column(Order = 4)]
-        public int TryCount { get; set; }
+        public string SubRedditUrl { get; set; }
 
         [Column(Order = 5)]
-        public int CommentCount { get; set; }
+        public string header { get; set; }
 
-        [Column(Order = 7)]
+        [Column(Order = 6)]
         public double RedditTimeStamp { get; set; }
 
-        [Column(Order = 8)]
+        [Column(Order = 7)]
         public int InteractionDate { get; set; }
 
        

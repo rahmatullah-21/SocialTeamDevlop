@@ -1143,5 +1143,25 @@
     <system:String x:Key="TdLangDownloadPerWeek">Number of download per week</system:String>
     <system:String x:Key="TdLangMaxDownloadPerDay">max download per day</system:String>
     <system:String x:Key="TdLangMessageToNewFollowersShort">MsgToNewFollowers</system:String>
-  
+
+
+    <system:String x:Key="TdLangFollowUniqueUsersfromEachAccount">Follow unique users from each account</system:String>
+    <system:String x:Key="TdLangLikeUniqueTweetsfromEachAccount">Like unique tweets from each account</system:String>
+    <system:String x:Key="TdLangCommentUniqueTweetsfromEachAccount">Comment on unique tweets from each account</system:String>
+    <system:String x:Key="TdLangRetweetUniqueTweetsfromEachAccount">Retweet unique tweets from each account</system:String>
+    <system:String x:Key="TdLangScrapeUniqueTweetsfromEachAccount">Scrape unique tweets from each account</system:String>
+    <system:String x:Key="TdLangRepostUniqueTweetsfromEachAccount">Repost unique tweets from each account</system:String>
+    <system:String x:Key="TdLangMessageUniqueUsersfromEachAccount">Message unique users from each account</system:String>
+    <system:String x:Key="TdLangUnfollowUniqueUsersfromEachAccount">Unfollow unique users from each account</system:String>
+    <system:String x:Key="TdLangScrapeUniqueUsersfromEachAccount">Scrape unique users from each account</system:String>
+
+    <system:String x:Key="TdLangMuteUniqueUsersfromEachAccount">Mute unique users from each account</system:String>
+    <system:String x:Key="TdLangMute">Mute</system:String>
+    <system:String x:Key="TdLangMutesPerJob">Number of mutes per job</system:String>
+    <system:String x:Key="TdLangMutesPerDay">Number of mutes per day</system:String>
+    <system:String x:Key="TdLangMutesPerHour">Number of mutes per hour</system:String>
+    <system:String x:Key="TdLangMutesPerWeek">Number of mutes per week</system:String>
+    <system:String x:Key="TdLangMaxMuteDay">max mute per day</system:String>
+    <system:String x:Key="TdLangMuteWarning">These accounts are already running with mute configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+
 </ResourceDictionary>
