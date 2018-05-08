@@ -42,6 +42,62 @@ namespace DominatorHouseCore.Utility
             {typeof(object), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetIndexAccountFile) }
         };
 
+
+        static Dictionary<object, Tuple<string, object>> _cacheByType = new Dictionary<object, Tuple<string, object>>();
+
+        static string ModificationEtag(string fileName)
+        {
+            if (File.Exists(fileName))
+            {
+                return File.GetLastWriteTime(fileName).ToFileTime().ToString();
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Do something while locking the file that is the repository for the corresponding class
+        /// </summary>
+        /// <typeparam name="T">subject</typeparam>
+        /// <typeparam name="R">return type</typeparam>
+        /// <param name="act">action to perform</param>
+        /// <param name="etagFn">function for the etag (null will use the last modification time)</param>
+        /// <returns>repeats the action returned value</returns>
+        static R CachedWithFile<T, R>(Func<string, R> act, Func<string, string> etagFn = null) where R : class
+        {
+            if (etagFn == null) etagFn = ModificationEtag;
+            Tuple<object, Func<string>> typeConfig;
+            // first, try the actual type
+            if (!__lockAndFileByType.TryGetValue(typeof(T), out typeConfig))
+            {
+                // second, try to see if it's an assignable type
+                var presentBaseClass = __lockAndFileByType.Keys.Except(new Type[] { typeof(object) }).FirstOrDefault(
+                    candidateBase => candidateBase.IsAssignableFrom(typeof(T)));
+                if (presentBaseClass == default(Type))
+                {
+                    presentBaseClass = typeof(object);
+                }
+                typeConfig = __lockAndFileByType[presentBaseClass];
+            }
+            lock (typeConfig.Item1)
+            {
+                var fileName = typeConfig.Item2();
+                var etag = etagFn(fileName);
+                if (string.IsNullOrEmpty(etag))
+                {
+                    return act(fileName);
+                }
+                Tuple<string, object> cacheEntry;
+                if (_cacheByType.TryGetValue(typeConfig.Item1, out cacheEntry) && cacheEntry.Item1 == etag)
+                {
+                    return (R)cacheEntry.Item2;
+                }
+                cacheEntry = Tuple.Create(etag, (object)act(fileName));
+                _cacheByType[typeConfig.Item1] = cacheEntry;
+                return (R)cacheEntry.Item2;
+            }
+        }
+
+
         /// <summary>
         /// Do something while locking the file that is the repository for the corresponding class
         /// </summary>
@@ -88,7 +144,7 @@ namespace DominatorHouseCore.Utility
 
         public static List<DominatorAccountModel> GetAccountDetails()
         {
-            return WithFile<DominatorAccountModel, List<DominatorAccountModel>>(indexAccountPath => File.Exists(indexAccountPath) ?
+            return CachedWithFile<DominatorAccountModel, List<DominatorAccountModel>>(indexAccountPath => File.Exists(indexAccountPath) ?
                     ProtoBuffBase.DeserializeList<DominatorAccountModel>(indexAccountPath) :
                     new List<DominatorAccountModel>());
         }
@@ -98,21 +154,21 @@ namespace DominatorHouseCore.Utility
         // Modify index account path. Uses only for testing purposes of PD, TWD and others.
         public static List<T> GetAccountDetailsFor<T>() where T : class
         {
-            return WithFile<T,List<T>>(file => ProtoBuffBase.DeserializeList<T>(file));
+            return CachedWithFile<T,List<T>>(file => ProtoBuffBase.DeserializeList<T>(file));
         }
 
 
         // Get all campigns 
         public static List<CampaignDetails> GetCampaignDetail()
         {
-            return WithFile<CampaignDetails, List<CampaignDetails>>(file => ProtoBuffBase.DeserializeList<CampaignDetails>(file));
+            return CachedWithFile<CampaignDetails, List<CampaignDetails>>(file => ProtoBuffBase.DeserializeList<CampaignDetails>(file));
         }
 
 
         // Get all templates 
         public static List<TemplateModel> GetTemplateDetails()
         {
-            return WithFile<TemplateModel, List<TemplateModel>>(file => ProtoBuffBase.DeserializeList<TemplateModel>(file));
+            return CachedWithFile<TemplateModel, List<TemplateModel>>(file => ProtoBuffBase.DeserializeList<TemplateModel>(file));
         }
 
         public static int FindAccountIndex(List<DominatorAccountModel> accounts, string id)
@@ -385,7 +441,7 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                return WithFile<Configuration, List<Configuration>>(file =>
+                return CachedWithFile<Configuration, List<Configuration>>(file =>
                  {
                      if (File.Exists(file))
                      {
