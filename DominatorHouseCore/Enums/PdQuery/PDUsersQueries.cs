@@ -24,7 +24,7 @@ namespace DominatorHouseCore.Enums.PdQuery
         [Description("PDlangBoardFollowers")]
         BoardFollowers = 7,
         [Description("PDlangUsersWhoTried")]
-        UserswhoTriedposts = 8,
+        UsersWhoTriedPins = 8,
         [Description("PDlangCustomBoard")]
         CustomBoard = 9
     }
