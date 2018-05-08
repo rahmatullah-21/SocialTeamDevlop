@@ -67,9 +67,11 @@ namespace DominatorUIUtility.CustomControl
         private void BtnImportBlacklistsText_OnClick(object sender, RoutedEventArgs e)
         {
             InputCollection.AddRange(FileUtilities.FileBrowseAndReader());
-        
-            InputCollection.ForEach(x=>
-                InputText = InputText + "\r\n" + x);
+
+            InputCollection.ForEach(x =>
+            {
+                InputText = string.IsNullOrEmpty(InputText) ? x : InputText + "\r\n" + x;
+            });
         }
 
         private void BtnSaveBlacklistsText_OnClick(object sender, RoutedEventArgs e)

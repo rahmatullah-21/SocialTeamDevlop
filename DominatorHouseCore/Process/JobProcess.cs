@@ -102,15 +102,23 @@ namespace DominatorHouseCore.Process
 
             if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
             {
-                var templateId = DominatorAccountModel.ActivityManager.LstModuleConfiguration
-                    .FirstOrDefault(x => x.ActivityType == ActivityType)
-                    ?.TemplateId;
+                var moduleConfiguration = DominatorAccountModel.ActivityManager.LstModuleConfiguration
+                    .FirstOrDefault(x => x.ActivityType == ActivityType);
 
-                JobManager.AddJob(
-                    () =>
-                    {
-                        DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());
-                    }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
+                if (moduleConfiguration != null)
+                {
+                    var templateId = moduleConfiguration.TemplateId;
+                    JobManager.AddJob(
+                        () =>
+                        {
+                            var account = AccountsFileManager.GetAccount(DominatorAccountModel.AccountBaseModel.UserName, DominatorAccountModel.AccountBaseModel.AccountNetwork);
+
+                            moduleConfiguration = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType);
+                            var isEnabled = moduleConfiguration.IsEnabled;
+                            if (isEnabled)
+                                DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());
+                        }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
+                }
             }
         }
 
