@@ -359,10 +359,10 @@ namespace DominatorUIUtility.CustomControl
             }
 
             Window win = objDialog.GetMetroWindow(ObjReports, "Reports");
-
+            win.Owner = Application.Current.MainWindow;
             ObjReports.ExportReport.Click += (senders, events) =>
             {
-                var exportPath = FileUtilities.GetExportPath();
+                var exportPath = FileUtilities.GetExportPath(win);
 
                 if (string.IsNullOrEmpty(exportPath))
                     return;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace DominatorHouseCore.Utility
 {
@@ -115,8 +116,8 @@ namespace DominatorHouseCore.Utility
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
-
-            var result = openBrowserDialog.ShowDialog();
+            
+            var result = openBrowserDialog.ShowDialog(Application.Current.MainWindow);
 
             if (result == true)
             {
@@ -126,5 +127,24 @@ namespace DominatorHouseCore.Utility
             return exportPath;
         }
 
+        public static string GetExportPath(Window OwnerWindow)
+        {
+
+            var exportPath = string.Empty;
+
+            var openBrowserDialog = new WPFFolderBrowser.WPFFolderBrowserDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
+
+            var result = openBrowserDialog.ShowDialog(OwnerWindow);
+
+            if (result == true)
+            {
+                exportPath = openBrowserDialog.FileName;
+            }
+
+            return exportPath;
+        }
     }
 }
