@@ -35,45 +35,66 @@
                 <StackPanel >
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <Label Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}" Foreground="White" FontSize="13" FontWeight="Black"/>
-                        <ComboBox x:Name="ComboCampaignList" Height="25" Width="250"  metroControls:TextBoxHelper.ClearTextButton="True" SelectionChanged="ComboCampaignList_OnSelectionChanged"/>
+                        <ComboBox x:Name="ComboCampaignList" ItemsSource="{Binding CampaignList}" Height="25" Width="250"  metroControls:TextBoxHelper.ClearTextButton="True" />
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel  Orientation="Horizontal">
-                    <Button Cursor="Hand" Margin="2"                               
-                                x:Name="ButtonDraft" FontWeight="SemiBold"
-                                FontSize="14" Foreground="White"                    
-                                Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding TabChangeCommand}"  CommandParameter="Draft"                              
-                                Background="Transparent">
-                        <TextBlock Text="{DynamicResource DHlangManagePostDraft}" >
-                            <TextBlock.TextDecorations>
-                                <TextDecoration Location="Underline" PenOffset="1"/>
-                            </TextBlock.TextDecorations>
-                        </TextBlock>
-                    </Button>
-                    <Button Cursor="Hand" Margin="2"                               
-                                x:Name="ButtonPending" FontWeight="SemiBold"
-                                FontSize="14" Foreground="White"                        
-                                Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding TabChangeCommand}"  CommandParameter="Pending"                              
-                                Background="Transparent">
-                        <TextBlock Text="{DynamicResource DHlangManagePostPending}" >
-                            <TextBlock.TextDecorations>
-                                <TextDecoration Location="Underline" PenOffset="1.5"/>
-                            </TextBlock.TextDecorations>
-                        </TextBlock>
-                    </Button>
-                    <Button Cursor="Hand" Margin="2"                               
-                                x:Name="ButtonPublished" FontWeight="SemiBold"
-                                FontSize="14" Foreground="White"                        
-                                Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding TabChangeCommand}"  CommandParameter="Published"                              
-                                Background="Transparent">
-                        <TextBlock Text="{DynamicResource DHlangManagePostPublished}" >
-                            <TextBlock.TextDecorations>
-                                <TextDecoration Location="Underline" PenOffset="1"/>
-                            </TextBlock.TextDecorations>
-                        </TextBlock>
-                    </Button>
-                </StackPanel>
+            
+
+                <Button x:Name="ButtonDraft" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding TabChangeCommand}"  CommandParameter="Draft" >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="15" Height="15" Fill="White" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_pin}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangManagePostDraft}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+
+                <Button x:Name="ButtonPending" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding TabChangeCommand}"  CommandParameter="Pending" >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="15" Height="15" Fill="White" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_network_port}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangManagePostPending}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                
+
+                <Button x:Name="ButtonPublished" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding TabChangeCommand}"  CommandParameter="Published" >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="12" Height="20" Fill="White" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_rocket}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangManagePostPublished}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                
                 <Button x:Name="BtnBackToCampaign" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding NavigationCommand}" CommandParameter="Back">
                     <Button.Template>
                         <ControlTemplate>

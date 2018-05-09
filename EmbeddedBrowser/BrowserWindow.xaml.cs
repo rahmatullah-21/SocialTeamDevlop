@@ -41,19 +41,21 @@ namespace EmbeddedBrowser
         public BrowserWindow(DominatorAccountModel dominatorAccountModel)
             : this()
         {
-            DominatorAccountModel = dominatorAccountModel;
+            
+                DominatorAccountModel = dominatorAccountModel;
 
-            InitializeComponent();
+                InitializeComponent();
 
-            Browser.RequestContext = new RequestContext(new RequestContextSettings
-            {
-                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
-            });
+                Browser.RequestContext = new RequestContext(new RequestContextSettings
+                {
+                    CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
+                });
 
-            Browser.RequestHandler = new RequestHandlerCustom(this);
-            var url = GetNetworksHomeUrl();
-            Browser.Address = url;
-            Browser.IsBrowserInitializedChanged += LoadSettings;
+                Browser.RequestHandler = new RequestHandlerCustom(this);
+                var url = GetNetworksHomeUrl();
+                Browser.Address = url;
+                Browser.IsBrowserInitializedChanged += LoadSettings;
+
         }
 
 

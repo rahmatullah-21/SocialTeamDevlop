@@ -26,16 +26,5 @@ namespace DominatorUIUtility.Views.SocioPublisher
         public static PublisherManagePosts Instance { get; set; }
             = _instance ?? (_instance = new PublisherManagePosts());
 
-
-        private void TabsSelection_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var dataContext = ((FrameworkElement)sender).DataContext as TabItemTemplates;
-            PublisherManagePostsViewModel.SelectedTabs = dataContext?.Title;
-        }
-
-        private void ComboCampaignList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-           
-        }
     }
 }

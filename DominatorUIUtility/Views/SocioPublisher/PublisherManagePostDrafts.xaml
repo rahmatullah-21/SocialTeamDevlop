@@ -7,6 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-           <TextBlock Text="Draft"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <TextBlock Margin="5" Text="{DynamicResource DHlangSelectDestinations}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+        </Grid>
     </Grid>
 </UserControl>

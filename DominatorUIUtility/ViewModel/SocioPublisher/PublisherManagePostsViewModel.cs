@@ -29,6 +29,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public string SelectedTabs { get; set; } = ConstantVariable.DraftPostList;
 
+        public List<string> CampaignList { get; set; } = new List<string>();
+
 
         private UserControl _selectedTabsUserControls= PublisherManagePostDrafts.Instance;
 
@@ -54,7 +56,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             ManagePostTabItems.Add(Application.Current.FindResource("DHlangManagePostDraft")?.ToString());
             ManagePostTabItems.Add(Application.Current.FindResource("DHlangManagePostPending")?.ToString());
-            ManagePostTabItems.Add(Application.Current.FindResource("DHlangManagePostPublished")?.ToString());         
+            ManagePostTabItems.Add(Application.Current.FindResource("DHlangManagePostPublished")?.ToString());
+
+            CampaignList.Add("Campaign1");
+            CampaignList.Add("Campaign2");
+            CampaignList.Add("Campaign3");
+
         }
 
 
