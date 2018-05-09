@@ -108,23 +108,10 @@ namespace DominatorHouseCore.Process
                 if (moduleConfiguration != null)
                 {
                     var templateId = moduleConfiguration.TemplateId;
-<<<<<<< HEAD
-
-                    var isEnabled = moduleConfiguration.IsEnabled;
 
                     JobManager.AddJob(
                         () =>
-                        {
-                            if (isEnabled)
-                                DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());                            
-                        }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
-                }
-
-                
-=======
-                    JobManager.AddJob(
-                        () =>
-                        {
+                        {                          
                             var account = AccountsFileManager.GetAccount(DominatorAccountModel.AccountBaseModel.UserName, DominatorAccountModel.AccountBaseModel.AccountNetwork);
 
                             moduleConfiguration = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType);
@@ -133,7 +120,6 @@ namespace DominatorHouseCore.Process
                                 DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());
                         }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
                 }
->>>>>>> ca8dadc448cec0f4f0a13af91fce8dac171fbacd
             }
         }
 

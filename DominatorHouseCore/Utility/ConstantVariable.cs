@@ -131,10 +131,23 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherFacebookSettingsFile() => GetOtherDir() + @"\Facebook.bin";
         public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
 
+
+        #region Publisher
+
         public static string FineStatusSync = "Already up to date";
 
         public static string NeedUpdateStatusSync = "Click to Sync";
 
         public static string NotAvailableAccountSync = "Account not available";
+
+        public static string DraftPostList { get; set; } = "Draft";
+
+        public static string PendingPostList { get; set; } = "Pending";
+
+        public static string PublishedPostList { get; set; } = "Published";
+
+        #endregion
+
+
     }
 }

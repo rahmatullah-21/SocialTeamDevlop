@@ -340,6 +340,15 @@
     <Compile Include="Views\SocioPublisher\PublisherManageDestinations.xaml.cs">
       <DependentUpon>PublisherManageDestinations.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherManagePostDrafts.xaml.cs">
+      <DependentUpon>PublisherManagePostDrafts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherManagePostPending.xaml.cs">
+      <DependentUpon>PublisherManagePostPending.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherManagePostPublished.xaml.cs">
+      <DependentUpon>PublisherManagePostPublished.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublisherManagePosts.xaml.cs">
       <DependentUpon>PublisherManagePosts.xaml</DependentUpon>
     </Compile>
@@ -735,6 +744,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherManageDestinations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherManagePostDrafts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherManagePostPending.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherManagePostPublished.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
