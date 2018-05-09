@@ -151,7 +151,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _filter, value);
             }
         }
-        private string _uRLToUseToVerifyProxies;
+        private string _uRLToUseToVerifyProxies = "https://www.google.com";
         [ProtoMember(9)]
         public string URLToUseToVerifyProxies
         {

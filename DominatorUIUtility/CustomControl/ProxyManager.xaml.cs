@@ -256,6 +256,7 @@ namespace DominatorUIUtility.CustomControl
             foreach (var proxy in loadedProxylist)
             {
                 var selectedProxy = Regex.Split(proxy, ":");
+            
                 if (selectedProxy.Length < 4)
                     continue;
 
@@ -271,6 +272,15 @@ namespace DominatorUIUtility.CustomControl
                     ProxyManagerModel.Id = proxyId;
                     ProxyManagerModel.AccountProxy.ProxyGroup = selectedProxy[0];
                     ProxyManagerModel.AccountProxy.ProxyName = selectedProxy[1];
+
+                    if (string.IsNullOrEmpty(ProxyManagerModel.AccountProxy.ProxyGroup))
+                        ProxyManagerModel.AccountProxy.ProxyGroup = ConstantVariable.UnGrouped;
+
+                    if (string.IsNullOrEmpty(ProxyManagerModel.AccountProxy.ProxyName))
+                        ProxyManagerModel.AccountProxy.ProxyName =
+                            string.IsNullOrEmpty(selectedProxy[2]) ? "Un-named" : selectedProxy[2];
+
+
                     ProxyManagerModel.AccountProxy.ProxyIp = selectedProxy[2];
                     ProxyManagerModel.AccountProxy.ProxyPort = selectedProxy[3];
 
@@ -373,6 +383,12 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                if (string.IsNullOrEmpty(ProxyManagerModel.URLToUseToVerifyProxies))
+                {
+                    GlobusLogHelper.log.Info(
+                        "Please enter some URL in the input field, which will be used to verify the proxy.");
+                    return;
+                }
                 var request = (HttpWebRequest)WebRequest.Create(new Uri(ProxyManagerModel.URLToUseToVerifyProxies));
 
                 if (currentProxyManager != null)
@@ -402,7 +418,7 @@ namespace DominatorUIUtility.CustomControl
                     currentProxyManager.ResponseTime = $"{ts.Milliseconds} milli seconds";
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 if (currentProxyManager != null)
                 {
