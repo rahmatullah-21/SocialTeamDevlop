@@ -24,8 +24,9 @@ namespace DominatorHouseCore.Utility
                 Background = dialog.Background,
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black
-
             };
+
+            
 
             try
             {

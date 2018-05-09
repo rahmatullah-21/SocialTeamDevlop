@@ -322,6 +322,9 @@
     <Compile Include="Views\Publisher\PublisherIndexPage.xaml.cs">
       <DependentUpon>PublisherIndexPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherAddPost.xaml.cs">
+      <DependentUpon>PublisherAddPost.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublisherCreateCampaigns.xaml.cs">
       <DependentUpon>PublisherCreateCampaigns.xaml</DependentUpon>
     </Compile>
@@ -339,6 +342,18 @@
     </Compile>
     <Compile Include="Views\SocioPublisher\PublisherManagePosts.xaml.cs">
       <DependentUpon>PublisherManagePosts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherMonitorFolder.xaml.cs">
+      <DependentUpon>PublisherMonitorFolder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherRssFeed.xaml.cs">
+      <DependentUpon>PublisherRssFeed.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherScrapePost.xaml.cs">
+      <DependentUpon>PublisherScrapePost.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherSharePost.xaml.cs">
+      <DependentUpon>PublisherSharePost.xaml</DependentUpon>
     </Compile>
     <Page Include="Behaviours\ErrorModelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -699,6 +714,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SocioPublisher\PublisherAddPost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SocioPublisher\PublisherCreateCampaigns.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -720,6 +739,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherManagePosts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherMonitorFolder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherRssFeed.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherScrapePost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherSharePost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

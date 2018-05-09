@@ -197,6 +197,11 @@ due to absence of the particular item in your current database.
 
     <system:String x:Key="DHlangSelectCampaign">Select Campaign</system:String>
     
+    <system:String x:Key="DHlangCreatePost">Create Post</system:String>
+    <system:String x:Key="DHlangScrapePost">Scrape Post</system:String>
+    <system:String x:Key="DHlangRssFeed">RSS Feed</system:String>
+    <system:String x:Key="DHlangMonitorFolder">Monitor Folder</system:String>
+    <system:String x:Key="DHlangSharePost">Scarpe Post</system:String>
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>

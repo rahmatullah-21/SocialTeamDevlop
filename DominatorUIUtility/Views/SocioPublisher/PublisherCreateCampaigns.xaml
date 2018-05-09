@@ -7,10 +7,8 @@
              xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:publisher="clr-namespace:DominatorUIUtility.CustomControl.Publisher"
              x:Name="CreateCampaign"
-             mc:Ignorable="d" 
-             >
+             mc:Ignorable="d"  >
     <Grid>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="0.8*"></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
@@ -70,15 +68,25 @@
 
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <Label Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}"/>
-                    <ComboBox x:Name="ComboCampaignList" Height="25" Width="250" ItemsSource="{Binding PublisherCreateCampaignModel.CampaignList}" DisplayMemberPath="CampaignName" metroControls:TextBoxHelper.ClearTextButton="True" />
+                    <ComboBox x:Name="ComboCampaignList" Height="25" Width="250" ItemsSource="{Binding PublisherCreateCampaignModel.CampaignList}"  metroControls:TextBoxHelper.ClearTextButton="True" />
                 </StackPanel>
            
                 <StackPanel Orientation="Horizontal" Margin="5">
+                    
                     <TextBox metroControls:TextBoxHelper.Watermark="{DynamicResource langCampaign}" 
-                             Name="txtCampaign" Width="310" HorizontalAlignment="Left" Margin="10,5"
+                             Name="TextBoxCampaignName" 
+                             Width="250" 
+                             HorizontalAlignment="Left" 
+                             Margin="10,5"
                              Text="{Binding CampaignName,UpdateSourceTrigger=PropertyChanged}"/>
-                    <metroControls:ToggleSwitch VerticalAlignment="Center" x:Name="tglStatus" HorizontalContentAlignment="Center"
-                                                FontSize="12"   OnLabel="{Binding Status}" OffLabel="{Binding Status}" Margin="10,0"                 >
+                    
+                    <metroControls:ToggleSwitch VerticalAlignment="Center" 
+                                                x:Name="ToggleCampaignStatus" 
+                                                HorizontalContentAlignment="Center"
+                                                FontSize="12" 
+                                                OnLabel="{Binding CampaignStatus}" 
+                                                OffLabel="{Binding CampaignStatus}" 
+                                                Margin="10,0">
                         <metroControls:ToggleSwitch.Style>
                             <Style TargetType="metroControls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
                                 <Style.Triggers>
@@ -114,7 +122,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <TabControl x:Name="CreateCampaignTabs" TabStripPlacement="Top"  Margin="5"
+                    <TabControl x:Name="CreateCampaignTabs" ItemsSource="{Binding PostTabItems}" TabStripPlacement="Top"  Margin="10,5,5,5"
                                 metroControls:TabControlHelper.IsUnderlined="True" 
                                 metroControls:TabControlHelper.Underlined="SelectedTabItem">
                         <TabControl.ItemTemplate >
@@ -124,9 +132,7 @@
                         </TabControl.ItemTemplate>
                         <TabControl.ContentTemplate>
                             <DataTemplate>
-                                <!--<Border BorderThickness="2"  BorderBrush="{DynamicResource AccentBaseColorBrush}" Margin="0,5">-->
-                                <UserControl Content="{Binding Content.Value}"/>
-                                <!--</Border>-->
+                                <ContentControl Content="{Binding Content.Value}"/>
                             </DataTemplate>
                         </TabControl.ContentTemplate>
                     </TabControl>
@@ -136,10 +142,10 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Expander Grid.Row="0" Header="{DynamicResource langJobConfiguration}" Margin="5">
+                        <Expander Grid.Row="0" Header="{DynamicResource langJobConfiguration}" Margin="15,5,5,5">
                             <publisher:JobConfiguration JobConfigurations="{Binding JobConfigurations}"/>
                         </Expander>
-                        <Expander Grid.Row="1" Header="{DynamicResource langOtherConfigurations}" Margin="5">
+                        <Expander Grid.Row="1" Header="{DynamicResource langOtherConfigurations}" Margin="15,5,5,5">
                             <publisher:OtherConfiguration OtherConfigurations="{Binding OtherConfiguration}"/>
                         </Expander>
 

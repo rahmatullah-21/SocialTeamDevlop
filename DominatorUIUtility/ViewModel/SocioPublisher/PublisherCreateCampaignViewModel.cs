@@ -1,8 +1,13 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher;
 
@@ -14,7 +19,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
         }
-
 
         #region Properties
 
@@ -40,8 +44,43 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private bool NavigationCanExecute(object sender) => true;
 
+        public List<TabItemTemplates> PostTabItems { get; set; } = InitializeTabs();
+
+
         #endregion
 
+        private static List<TabItemTemplates> InitializeTabs()
+        {
+            var tabItems = new List<TabItemTemplates>
+            {
+                new TabItemTemplates
+                {
+                    Title= Application.Current.FindResource("DHlangCreatePost")?.ToString(),
+                    Content=new Lazy<UserControl>(()=> new PublisherAddPost())
+                },
+                new TabItemTemplates
+                {
+                    Title=Application.Current.FindResource("DHlangScrapePost")?.ToString(),
+                    Content=new Lazy<UserControl>(()=>new PublisherAddPost())
+                },
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("DHlangRssFeed")?.ToString(),
+                    Content=new Lazy<UserControl>(()=>new PublisherAddPost())
+                },
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("DHlangMonitorFolder")?.ToString(),
+                    Content=new Lazy<UserControl>(()=>new PublisherAddPost())
+                },
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("DHlangSharePost")?.ToString(),
+                    Content=new Lazy<UserControl>(()=>new PublisherAddPost())
+                }
+            };
+            return tabItems;
+        }
 
 
         private void NavigationExecute(object sender)
