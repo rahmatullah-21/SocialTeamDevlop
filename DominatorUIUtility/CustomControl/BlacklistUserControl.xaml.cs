@@ -65,9 +65,12 @@ namespace DominatorUIUtility.CustomControl
 
         private void BtnAddtoBlacklist_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(Txtusername.Text.Trim()))
+            if (string.IsNullOrEmpty(Txtusername.Text.Trim()))
             {
-
+                GlobusLogHelper.log.Info("Error:- Please enter an username to add to the Blacklist.");
+            }
+            else
+            {
                 Txtusername.Text.Split('\n').ForEach(user =>
                 {
                     var userName = user.Trim();
@@ -92,9 +95,11 @@ namespace DominatorUIUtility.CustomControl
                             GlobusLogHelper.log.Info($"{userName} already added to Blacklist");
                     }
                 });
+                Txtusername.Clear();
             }
-            Txtusername.Clear();
+
         }
+
 
         private void SelectAll_OnChecked(object sender, RoutedEventArgs e)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace DominatorHouseCore.Utility
 {
@@ -82,7 +83,9 @@ namespace DominatorHouseCore.Utility
 
                         var contentArray = stringBuilder.ToString().Split('\r', '\n');
 
-                        listFileContent.AddRange(contentArray.Select(line => line.EndsWith("\0") ? line.Replace("\0", "") : line));
+                        var data = contentArray.Select(line => line.EndsWith("\0") ? line.Replace("\0", "") : line);
+                  
+                        listFileContent.AddRange(data);
 
                         listFileContent.RemoveAll(string.IsNullOrEmpty);
                     }
@@ -113,8 +116,8 @@ namespace DominatorHouseCore.Utility
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
-
-            var result = openBrowserDialog.ShowDialog();
+            
+            var result = openBrowserDialog.ShowDialog(Application.Current.MainWindow);
 
             if (result == true)
             {
@@ -124,5 +127,24 @@ namespace DominatorHouseCore.Utility
             return exportPath;
         }
 
+        public static string GetExportPath(Window OwnerWindow)
+        {
+
+            var exportPath = string.Empty;
+
+            var openBrowserDialog = new WPFFolderBrowser.WPFFolderBrowserDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
+
+            var result = openBrowserDialog.ShowDialog(OwnerWindow);
+
+            if (result == true)
+            {
+                exportPath = openBrowserDialog.FileName;
+            }
+
+            return exportPath;
+        }
     }
 }
