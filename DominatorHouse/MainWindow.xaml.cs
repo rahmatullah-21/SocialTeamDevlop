@@ -570,7 +570,7 @@ namespace DominatorHouse
                 var browserWindow = new BrowserWindow(dominatorAccountModel);
                 browserWindow.Show();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
             }
