@@ -205,7 +205,7 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangManagePostDraft">Draft</system:String>
     <system:String x:Key="DHlangManagePostPending">Pending</system:String>
     <system:String x:Key="DHlangManagePostPublished">Published</system:String>
-
+   
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>
