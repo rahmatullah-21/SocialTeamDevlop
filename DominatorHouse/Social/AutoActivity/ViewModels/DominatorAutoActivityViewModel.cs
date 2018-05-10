@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
-using DominatorHouse.Social.AutoActivity.Views;
+using Socinator.Social.AutoActivity.Views;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -14,7 +14,7 @@ using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 
 
-namespace DominatorHouse.Social.AutoActivity.ViewModels
+namespace Socinator.Social.AutoActivity.ViewModels
 {
     public class DominatorAutoActivityViewModel : BindableBase
     {

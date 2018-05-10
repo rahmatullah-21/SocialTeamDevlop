@@ -366,6 +366,7 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception exception)
             {
+                MessageBox.Show(exception.Message);
                 Console.WriteLine(exception);
             }
         }

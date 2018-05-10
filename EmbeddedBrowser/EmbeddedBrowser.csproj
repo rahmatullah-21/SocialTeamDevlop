@@ -22,6 +22,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <CefSharpAnyCpuSupport>true</CefSharpAnyCpuSupport>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -50,7 +51,7 @@
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
@@ -64,6 +65,24 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>1990048D0DA21F988A15304F68B1204C0C068A95</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>COMODO DOM.pfx</ManifestKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CefSharp, Version=63.0.3.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86">
@@ -166,16 +185,32 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="CefSharpFiles\Libs\cef.pak" />
-    <None Include="CefSharpFiles\Libs\cef_100_percent.pak" />
+    <Content Include="CefSharpFiles\Libs\cef.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\cef_100_percent.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="CefSharpFiles\Libs\cef_200_percent.pak" />
-    <None Include="CefSharpFiles\Libs\cef_extensions.pak" />
-    <None Include="CefSharpFiles\Libs\devtools_resources.pak" />
-    <None Include="CefSharpFiles\Libs\icudtl.dat" />
-    <None Include="CefSharpFiles\Libs\natives_blob.bin" />
-    <None Include="CefSharpFiles\Libs\snapshot_blob.bin" />
-    <None Include="CefSharpFiles\Libs\v8_context_snapshot.bin" />
+    <Content Include="CefSharpFiles\Libs\cef_extensions.pak" />
+    <None Include="CefSharpFiles\Libs\devtools_resources.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="CefSharpFiles\Libs\icudtl.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\natives_blob.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\snapshot_blob.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\v8_context_snapshot.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="COMODO DOM.pfx" />
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -196,13 +231,35 @@
     <Resource Include="Resources\Entypo-license.txt" />
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Content Include="CefSharpFiles\Libs\chrome_elf.dll" />
-    <Content Include="CefSharpFiles\Libs\d3dcompiler_47.dll" />
-    <Content Include="CefSharpFiles\Libs\libcef.dll" />
-    <Content Include="CefSharpFiles\Libs\libEGL.dll" />
-    <Content Include="CefSharpFiles\Libs\libGLESv2.dll" />
-    <Content Include="CefSharpFiles\Libs\widevinecdmadapter.dll" />
+    <Content Include="CefSharpFiles\Libs\CefSharp.BrowserSubprocess.Core.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\CefSharp.BrowserSubprocess.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\CefSharp.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\chrome_elf.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\d3dcompiler_47.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\libcef.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\libEGL.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\libGLESv2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharpFiles\Libs\widevinecdmadapter.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

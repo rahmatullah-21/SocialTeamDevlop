@@ -8,7 +8,7 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DominatorHouse.Helpers
+namespace Socinator.Helpers
 {
     /// <summary>
     /// Utility class to attach console to application for viewing logs at runtime

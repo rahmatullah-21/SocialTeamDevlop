@@ -4,7 +4,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 
-namespace DominatorHouse.Social.Settings.ViewModel
+namespace Socinator.Social.Settings.ViewModel
 {
     public class AppearanceViewModel : BindableBase
     {

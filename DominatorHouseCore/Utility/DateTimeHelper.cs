@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace DominatorHouse.UsefullUtilitiesLibrary
+namespace Socinator.UsefullUtilitiesLibrary
 {
     public static class DateTimeHelper
     {

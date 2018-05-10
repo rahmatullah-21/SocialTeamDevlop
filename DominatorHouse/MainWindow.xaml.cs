@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouse.Social.AutoActivity.Views;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
@@ -35,10 +34,11 @@ using EmbeddedBrowser;
 using FluentScheduler;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Socinator.Social.AutoActivity.Views;
 
 #endregion
 
-namespace DominatorHouse
+namespace Socinator
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
@@ -572,7 +572,7 @@ namespace DominatorHouse
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
         }
 

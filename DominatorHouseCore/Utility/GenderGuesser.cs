@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using DominatorHouseCore;
 
-namespace DominatorHouse.UsefullUtilitiesLibrary
+namespace Socinator.UsefullUtilitiesLibrary
 {
     public static class GenderGuesser
     {
