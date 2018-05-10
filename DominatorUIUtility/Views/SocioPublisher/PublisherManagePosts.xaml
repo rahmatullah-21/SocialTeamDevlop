@@ -39,7 +39,7 @@
                     </StackPanel>
                 </StackPanel>
 
-            
+
 
                 <Button x:Name="ButtonDraft" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding TabChangeCommand}"  CommandParameter="Draft" >
                     <Button.Template>
@@ -76,7 +76,7 @@
                     </Button.Template>
                 </Button>
 
-                
+
 
                 <Button x:Name="ButtonPublished" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding TabChangeCommand}"  CommandParameter="Published" >
                     <Button.Template>
@@ -94,7 +94,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                
+
                 <Button x:Name="BtnBackToCampaign" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding NavigationCommand}" CommandParameter="Back">
                     <Button.Template>
                         <ControlTemplate>
@@ -113,10 +113,10 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <ScrollViewer Grid.Row="1">
-            <Grid >
-                <ContentControl Content="{Binding SelectedTabsUserControls}"></ContentControl>
-            </Grid>
-        </ScrollViewer>
+
+        <Grid Grid.Row="1">
+            <ContentControl Content="{Binding SelectedTabsUserControls}"></ContentControl>
+        </Grid>
+
     </Grid>
 </UserControl>

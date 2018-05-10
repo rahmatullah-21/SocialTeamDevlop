@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
@@ -23,7 +24,11 @@ namespace DominatorUIUtility.Views.SocioPublisher
         private PublisherManagePostPublished()
         {
             InitializeComponent();
+            PublishedPostList.DataContext = PublisherManagePostPublishedViewModel;
         }
+
+        public PublisherManagePostPublishedViewModel PublisherManagePostPublishedViewModel { get; set; } =
+            new PublisherManagePostPublishedViewModel();
 
         private static PublisherManagePostPublished _instance;
 

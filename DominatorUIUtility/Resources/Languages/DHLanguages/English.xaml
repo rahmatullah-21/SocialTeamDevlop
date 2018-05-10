@@ -205,7 +205,11 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangManagePostDraft">Draft</system:String>
     <system:String x:Key="DHlangManagePostPending">Pending</system:String>
     <system:String x:Key="DHlangManagePostPublished">Published</system:String>
-   
+
+    <system:String x:Key="DHlangManagePostDraftPostList">Draft Postlists</system:String>
+    <system:String x:Key="DHlangManagePostPendingPostList">Pending Postlists</system:String>
+    <system:String x:Key="DHlangManagePostPublishedPostList">Published Postlists</system:String>
+    <system:String x:Key="DHlangExport">Export</system:String>
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>

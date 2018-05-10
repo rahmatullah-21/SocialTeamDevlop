@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+             x:Name="DraftPostList"
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -11,7 +12,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Background="White" Name="HeaderGrid" Grid.Row="0">
+        <Grid Name="HeaderGrid" Grid.Row="0">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -19,26 +20,24 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock HorizontalAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource AccentBaseColorBrush}">
-                <Rectangle Width="30" Height="25" Fill="{DynamicResource AccentBaseColorBrush}" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Rectangle Width="24" Height="24" Fill="{DynamicResource AccentBaseColorBrush}" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_pin}" />
                     </Rectangle.OpacityMask>
                 </Rectangle> 
-                <Label Content="{DynamicResource DHlangManagePostDraft}"  Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                <Label  Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="16" FontWeight="SemiBold" VerticalContentAlignment="Center">
+                    <TextBlock Text="{DynamicResource DHlangManagePostDraftPostList}" TextDecorations="Underline"></TextBlock>
+                </Label>
 
             </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
-
-
-
-               
                 <Button Background="Transparent" Name="BtnSelect" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=BtnSelect}"  Margin="5">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="15" Height="15" Fill="{DynamicResource IdealForegroundColorBrush}" >
+                                    <Rectangle Width="20" Height="20" Fill="{DynamicResource AccentBaseColorBrush}" >
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick}" />
                                         </Rectangle.OpacityMask>
@@ -69,43 +68,16 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllWallsProfiles}" Name="MenuSelectAllWallsProfiles"  Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="OwnProfile" >
-                                <MenuItem.Icon>
-                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_people_profile}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllPagesBoard}" Name="MenuSelectPagesBoards" Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="Pages" >
-                                <MenuItem.Icon>
-                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_newspaper}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllGroup}" Name="MenuSelectGroups" Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="Groups" >
-                                <MenuItem.Icon>
-                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_people_multiple}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </MenuItem.Icon>
-                            </MenuItem>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="EditDraftPosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=DeleteAccounts}">
+                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="EditPosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=EditPosts}">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
                                 <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="15" Height="20" Fill="{DynamicResource AccentBaseColorBrush}">
+                                    <Rectangle Width="20" Height="20" Fill="{DynamicResource AccentBaseColorBrush}">
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
                                         </Rectangle.OpacityMask>
@@ -117,7 +89,7 @@
                     </Button.Template>
                 </Button>
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="DeleteAccounts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=DeleteAccounts}">
+                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="DeletePosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=DeletePosts}">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
@@ -134,12 +106,12 @@
                     </Button.Template>
                 </Button>
 
-                <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnSave}" >
+                <Button x:Name="BtnSettings" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnSettings}" >
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="15" Height="15" Fill="{DynamicResource AccentBaseColorBrush}" >
+                                    <Rectangle Width="20" Height="20" Fill="{DynamicResource AccentBaseColorBrush}" >
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
                                         </Rectangle.OpacityMask>
@@ -155,5 +127,8 @@
 
         </Grid>
 
+        <Grid Grid.Row="1">
+
+        </Grid>
     </Grid>
 </UserControl>

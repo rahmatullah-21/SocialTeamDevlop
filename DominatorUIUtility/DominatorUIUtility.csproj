@@ -261,6 +261,9 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherDefaultViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherHomeViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManageDestinationViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherManagePostDraftsViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPendingViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPublishedViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostsViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
