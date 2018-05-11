@@ -27,12 +27,26 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public List<string> ManagePostTabItems { get; set; } = new List<string>();
 
-        public string SelectedTabs { get; set; } = ConstantVariable.DraftPostList;
+        public string SelectedTabs
+        {
+            get
+            {
+                return _selectedTabs;
+            }
+            set
+            {
+                if(_selectedTabs==value)
+                    return;
+                _selectedTabs = value;
+                OnPropertyChanged(nameof(SelectedTabs));
+            }
+        }
 
         public List<string> CampaignList { get; set; } = new List<string>();
 
 
         private UserControl _selectedTabsUserControls= PublisherManagePostDrafts.Instance;
+        private string _selectedTabs = ConstantVariable.DraftPostList;
 
         public UserControl SelectedTabsUserControls
         {

@@ -5,130 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              x:Name="DraftPostList"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
+        <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
+    </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-        <Grid Name="HeaderGrid" Grid.Row="0">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock HorizontalAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource AccentBaseColorBrush}">
-                <Rectangle Width="24" Height="24" Fill="{DynamicResource AccentBaseColorBrush}" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_pin}" />
-                    </Rectangle.OpacityMask>
-                </Rectangle> 
-                <Label  Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="16" FontWeight="SemiBold" VerticalContentAlignment="Center">
-                    <TextBlock Text="{DynamicResource DHlangManagePostDraftPostList}" TextDecorations="Underline"></TextBlock>
-                </Label>
-
-            </TextBlock>
-
-            <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
-                <Button Background="Transparent" Name="BtnSelect" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=BtnSelect}"  Margin="5">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="20" Height="20" Fill="{DynamicResource AccentBaseColorBrush}" >
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <Label Content="{DynamicResource DHlangSelect}" Margin="5,0,0,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-
-                    <Button.ContextMenu>
-                        <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllDestinations" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
-                                <MenuItem.Icon>
-                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuSelectNoneOfDestination" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
-                                <MenuItem.Icon>
-                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick_unchecked}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                </Button>
-
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="EditPosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=EditPosts}">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
-                                <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="20" Height="20" Fill="{DynamicResource AccentBaseColorBrush}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <Label Content="{DynamicResource DHlangEdit}" Margin="0,0,0,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="DeletePosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=DeletePosts}">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
-                                <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="15" Height="20" Fill="{DynamicResource AccentBaseColorBrush}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <Label Content="{DynamicResource langDelete}" Margin="0,0,0,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
-                <Button x:Name="BtnSettings" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnSettings}" >
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="20" Height="20" Fill="{DynamicResource AccentBaseColorBrush}" >
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <Label Content="{DynamicResource DHlangSettings}" Margin="0,0,0,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
-            </StackPanel>
-
-        </Grid>
-
-        <ListView Grid.Row="1"
+        <ListView Grid.Row="0"
                   x:Name="CampaignStatusList"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"                  
                   ItemsSource="{Binding DestinationCollectionView}"
@@ -175,7 +65,7 @@
 
                     <GridViewColumn  Width="250">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangUsername}"/>
+                            <TextBlock Text="{DynamicResource DHlangDescription}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -188,183 +78,20 @@
 
                     <GridViewColumn Width="130">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangPlatform}"/>
+                            <TextBlock Text="{DynamicResource DHlangImage}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <ContentControl>
-                                            <ContentControl.Style>
-                                                <Style TargetType="{x:Type ContentControl}">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                    <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Facebook}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="#003569" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-
-                                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Instagram}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="Red" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-
-                                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Twitter}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="#3897F0" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-
-                                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Pinterest}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="Red" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-
-                                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Quora}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="Red" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-
-
-
-                                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Reddit}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="OrangeRed" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-
-                                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="DodgerBlue" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Gplus}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-
-                                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Youtube}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-
-                                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Tumblr}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="DimGray" Width="16" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </ContentControl.Style>
-                                        </ContentControl>
-                                    </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
-
-
                     </GridViewColumn>
 
                     <GridViewColumn Width="130">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangGroups}"/>
+                            <TextBlock Text="{DynamicResource DHlangCreatedDate}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -380,31 +107,9 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-
-
-
-
-                    <GridViewColumn Width="130">
+                    <GridViewColumn Width="250">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangPagesBoard}"/>
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <Button Cursor="Hand" Margin="6,2,6,2" IsEnabled="{Binding IsPagesOrBoardsAvailable}"
-                                                    Content="{Binding PagesOrBoardsSelectorText}" 
-                                                    x:Name="ButtonSelectGroups" 
-                                                    FontWeight="SemiBold"      
-                                                    Command="{Binding Path=DataContext.GetSingleAccountPagesOrBoardsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                                    Background="Transparent"/>
-                                </Border>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <GridViewColumn Width="130">
-                        <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangWallsProfiles}"/>
+                            <TextBlock Text="{DynamicResource DHlangAction}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -418,27 +123,106 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="150">
-                        <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangStatus}"/>
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="1,1,1,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <Button Cursor="Hand" Margin="6,2,6,2" IsEnabled="{Binding StatusSyncContent, Converter={StaticResource SyncStringToBooleanConverter}}"
-                                                Content="{Binding StatusSyncContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                x:Name="ButtonStatusSync" FontSize="12"   ToolTip="{DynamicResource DHlangToolTipForSync}"                                            
-                                                Command="{Binding Path=DataContext.StatusSyncCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                                Background="Transparent">
-                                    </Button>
-                                </Border>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-
                 </GridView>
             </ListView.View>
         </ListView>
+
+        <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left">
+
+            <Button Background="Transparent" Name="BtnSelect" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=BtnSelect}"  Margin="5">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" CornerRadius="10"  BorderBrush="{DynamicResource AccentBaseColorBrush}">
+                            <StackPanel  Width="60" Orientation="Vertical" >
+                                <Rectangle Width="20" Height="20" Margin="0,5,0,0" Fill="{DynamicResource AccentBaseColorBrush}" >
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Label Content="{DynamicResource DHlangSelect}" Margin="5,0,0,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+
+                <Button.ContextMenu>
+                    <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                        <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllDestinations" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
+                            <MenuItem.Icon>
+                                <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuSelectNoneOfDestination" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
+                            <MenuItem.Icon>
+                                <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick_unchecked}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+
+            <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="EditPosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=EditPosts}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" BorderThickness="1"  BorderBrush="{DynamicResource AccentBaseColorBrush}" >
+                            <StackPanel Width="60" Orientation="Vertical" >
+                                <Rectangle Width="20" Height="20" Margin="0,5,0,0" Fill="{DynamicResource AccentBaseColorBrush}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Label Content="{DynamicResource DHlangEdit}" Margin="0,0,0,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="13" FontWeight="SemiBold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="DeletePosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=DeletePosts}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border HorizontalAlignment="Center" BorderThickness="1" BorderBrush="{DynamicResource AccentBaseColorBrush}" VerticalAlignment="Center" CornerRadius="10" >
+                            <StackPanel Width="60" Orientation="Vertical" >
+                                <Rectangle Width="15" Height="20" Margin="0,5,0,0" Fill="{DynamicResource AccentBaseColorBrush}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Label Content="{DynamicResource langDelete}" Margin="0,0,0,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button Width="70" x:Name="BtnSettings" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnSettings}" >
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center"  BorderThickness="1" CornerRadius="10"  BorderBrush="{DynamicResource AccentBaseColorBrush}">
+                            <StackPanel Width="60" Orientation="Vertical" >
+                                <Rectangle Width="20" Height="20" Margin="0,5,0,0" Fill="{DynamicResource AccentBaseColorBrush}" >
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Label Content="{DynamicResource DHlangSettings}" Margin="0,0,0,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+        </StackPanel>
+
     </Grid>
+
+
 </UserControl>

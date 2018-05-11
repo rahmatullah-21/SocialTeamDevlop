@@ -39,8 +39,6 @@
                     </StackPanel>
                 </StackPanel>
 
-
-
                 <Button x:Name="ButtonDraft" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding TabChangeCommand}"  CommandParameter="Draft" >
                     <Button.Template>
                         <ControlTemplate>
@@ -51,7 +49,19 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_pin}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangManagePostDraft}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center">
+                                        <TextBlock Text="{DynamicResource DHlangManagePostDraft}">
+                                           <TextBlock.Style>
+                                               <Style TargetType="TextBlock">
+                                                   <Style.Triggers>
+                                                       <DataTrigger Binding="{Binding SelectedTabs}" Value="Draft">
+                                                           <Setter Property="TextDecorations" Value="Underline" />
+                                                       </DataTrigger>
+                                                   </Style.Triggers>
+                                               </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Label>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -69,7 +79,19 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_network_port}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangManagePostPending}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label  Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center">
+                                        <TextBlock Text="{DynamicResource DHlangManagePostPending}">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding SelectedTabs}" Value="Pending">
+                                                            <Setter Property="TextDecorations" Value="Underline" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Label>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -88,7 +110,19 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_rocket}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangManagePostPublished}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center">
+                                        <TextBlock Text="{DynamicResource DHlangManagePostPublished}">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding SelectedTabs}" Value="Published">
+                                                            <Setter Property="TextDecorations" Value="Underline"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Label>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>

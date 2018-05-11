@@ -210,6 +210,12 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangManagePostPendingPostList">Pending Postlists</system:String>
     <system:String x:Key="DHlangManagePostPublishedPostList">Published Postlists</system:String>
     <system:String x:Key="DHlangExport">Export</system:String>
+    
+    <system:String x:Key="DHlangDescription">Description</system:String>
+    <system:String x:Key="DHlangImage">Image</system:String>
+    <system:String x:Key="DHlangCreatedDate">Created Date</system:String>
+    <system:String x:Key="DHlangEndDate">End Date</system:String>
+  
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>
