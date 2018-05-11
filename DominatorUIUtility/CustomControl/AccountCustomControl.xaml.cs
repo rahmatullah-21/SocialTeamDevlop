@@ -14,6 +14,7 @@ using DominatorHouseCore.BusinessLogic.Factories;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.ViewModel;
 
@@ -366,7 +367,8 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                GlobusLogHelper.log.Error(exception.Message);
+                //MessageBox.Show(exception.Message);
                 Console.WriteLine(exception);
             }
         }

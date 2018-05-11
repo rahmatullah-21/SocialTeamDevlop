@@ -104,6 +104,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<TumblrTables.Account.FeedInfo>();
                     modelBuilder.Entity<TumblrTables.Account.InteractedPosts>();
                     modelBuilder.Entity<TumblrTables.Account.InteractedUser>();
+                    modelBuilder.Entity<TumblrTables.Account.UnFollowedUser>();
                     break;
             }
         }
@@ -114,9 +115,6 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             switch (networks)
             {
                 case SocialNetworks.Instagram:
-                    modelBuilder.Entity<GdTables.Campaigns.FeedInfoes>();
-                    modelBuilder.Entity<GdTables.Campaigns.Friendships>();
-                    modelBuilder.Entity<GdTables.Campaigns.DailyStatitics>();
                     modelBuilder.Entity<GdTables.Campaigns.InteractedPosts>();
                     modelBuilder.Entity<GdTables.Campaigns.InteractedUsers>();
                     modelBuilder.Entity<GdTables.Campaigns.UnfollowedUsers>();
@@ -172,6 +170,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 case SocialNetworks.Tumblr:
                     modelBuilder.Entity<TumblrTables.Campaign.InteractedPosts>();
                     modelBuilder.Entity<TumblrTables.Campaign.InteractedUser>();
+                    modelBuilder.Entity<TumblrTables.Campaign.UnFollowedUser>();
                     break;
             }
 

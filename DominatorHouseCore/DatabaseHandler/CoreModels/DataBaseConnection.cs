@@ -84,7 +84,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     }
                 }
             }
-            catch (Exception )
+            catch (Exception ex)
             {
                 return null;
             }

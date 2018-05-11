@@ -572,7 +572,8 @@ namespace Socinator
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                GlobusLogHelper.log.Error(ex.Message);
+                //MessageBox.Show(ex.Message);
             }
         }
 

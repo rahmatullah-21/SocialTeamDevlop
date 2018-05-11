@@ -106,5 +106,10 @@ namespace DominatorHouseCore.Utility
                 num += 7;
             return date.AddDays((double)(-1 * num)).Date;
         }
+        public static Int64 GetCurrentEpochTimeMilliSeconds(this DateTime date)
+        {
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            return Convert.ToInt64(Math.Floor((date.ToUniversalTime() - dateTime).TotalMilliseconds));
+        }
     }
 }

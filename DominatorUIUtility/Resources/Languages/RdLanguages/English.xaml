@@ -171,4 +171,6 @@
     <system:String x:Key="langDeletePerDay">Number of Deletes per day</system:String>
     <system:String x:Key="langDeletePerHour">Number of Deletes per hour</system:String>
     <system:String x:Key="langDeletePerWeek">Number of Deletes per week</system:String>
+
+    <system:String x:Key="RDlangUrlScraperWarning">These accounts are already running with Url Scraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
 </ResourceDictionary>

@@ -188,9 +188,6 @@
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\FdTables\FdGlobals\FdAccountDetails.cs" />
-    <Compile Include="DatabaseHandler\GdTables\Campaigns\DailyStatitics.cs" />
-    <Compile Include="DatabaseHandler\GdTables\Campaigns\FeedInfo.cs" />
-    <Compile Include="DatabaseHandler\GdTables\Campaigns\Friendship.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\HashtagScrape.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedUsers.cs" />
@@ -285,8 +282,10 @@
     <Compile Include="DatabaseHandler\TumblrTables\Account\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\InteractedUser.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Account\UnFollowedUser.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedUser.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Campaign\UnFollowedUser.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\FeedInfos.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\Friendships.cs" />
@@ -323,6 +322,7 @@
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
     <Compile Include="Enums\TumblrQuery\TumblrFollowerQuery.cs" />
+    <Compile Include="Enums\TumblrQuery\TumblrLikerQuery.cs" />
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />

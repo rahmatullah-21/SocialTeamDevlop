@@ -28,10 +28,12 @@
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://108.168.189.30/soc/</InstallUrl>
     <UpdateUrl>http://108.168.189.30/soc/</UpdateUrl>
+    <SupportUrl>https://socinator.com/contact-us/</SupportUrl>
+    <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <ApplicationRevision>4</ApplicationRevision>
-    <ApplicationVersion>0.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>0.0.0.2</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -249,6 +251,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="SociNator.ico" />
+    <Content Include="SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="widevinecdmadapter.dll" />
     <Content Include="cef.pak">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
