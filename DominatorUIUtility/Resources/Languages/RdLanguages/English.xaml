@@ -13,7 +13,6 @@
 
     <system:String x:Key="langUnFollowsPerJob">Number of UnFollows PerJob</system:String>
 
-
     <system:String x:Key="langReplyPerJob">Number of Reply per job</system:String>
     <system:String x:Key="langReplyPerHour">Number of Reply per Hour</system:String>
     <system:String x:Key="langReplyPerDay">Number of Reply per Day</system:String>
@@ -150,6 +149,8 @@
 
     <system:String x:Key="langEngageDownvote">Downvote</system:String>
     <system:String x:Key="langFollow">Follow</system:String>
+    <system:String x:Key="langComment">Comment</system:String>
+    <system:String x:Key="langReply">Reply</system:String>
     <system:String x:Key="langUnFollow">UnFollow</system:String>
     <system:String x:Key="langVote">Voter</system:String>
 
@@ -171,4 +172,7 @@
     <system:String x:Key="langDeletePerDay">Number of Deletes per day</system:String>
     <system:String x:Key="langDeletePerHour">Number of Deletes per hour</system:String>
     <system:String x:Key="langDeletePerWeek">Number of Deletes per week</system:String>
+
+    <system:String x:Key="RDlangUrlScraperWarning">These accounts are already running with Url Scraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+
 </ResourceDictionary>
