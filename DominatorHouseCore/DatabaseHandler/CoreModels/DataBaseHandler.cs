@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Threading;
 using System.Linq;
 using System.Threading.Tasks;
 using DominatorHouseCore.DatabaseHandler.GdTables.Accounts;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
@@ -14,14 +16,29 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
     public class DataBaseHandler
     {
 
-        #region database Helper Method
+        #region database Helper Methodtext,
 
-        private static Dictionary<SocialNetworks, Action<DataBaseConnection>> _dbCounters = new Dictionary<SocialNetworks, Action<DataBaseConnection>>
+
+        public static Dictionary<SocialNetworks, Action<DbContext,DbOperations>> DbInitialCounters { get; set; } = new Dictionary<SocialNetworks, Action<DbContext, DbOperations>>
+        {
+            {SocialNetworks.Gplus,(context,operation) => {operation.Count<GplusTables.Accounts.Friendships>(context);}},
+            {SocialNetworks.Twitter,(context,operation) =>{operation.Count<TdTables.Accounts.Friendships>(context);}},
+            {SocialNetworks.Facebook,(context,operation)=>{operation.Count<FdTables.Accounts.Friends>(context);} },
+            {SocialNetworks.Instagram,(context,operation)=>{operation.Count<GdTables.Accounts.Friendships>(context);}},
+            {SocialNetworks.Pinterest,(context,operation) =>{operation.Count<PdTables.Accounts.Friendships>(context);} },
+            {SocialNetworks.Quora,(context,operation) =>{operation.Count<QdTables.Accounts.Friendships>(context); } },
+            {SocialNetworks.LinkedIn,(context,operation) => {operation.Count<LdTables.Account.Connections>(context);} },
+            {SocialNetworks.Youtube,(context,operation)=>{operation.Count<YdTables.Accounts.Friendships>(context); }}
+        };
+
+
+
+        private static Dictionary<SocialNetworks, Action<DataBaseConnection>> _dbCounters { get; set; } = new Dictionary<SocialNetworks, Action<DataBaseConnection>>
         {
             {SocialNetworks.Gplus,db =>{db.Count<GplusTables.Accounts.Friendships>();}},
             {SocialNetworks.Twitter,db =>{db.Count<TdTables.Accounts.Friendships>();}},
             {SocialNetworks.Facebook,db=>{db.Count<FdTables.Accounts.Friends>();} },
-            {SocialNetworks.Instagram,db=>{db.Count<GdTables.Campaigns.Friendships>();}},
+            {SocialNetworks.Instagram,db=>{db.Count<GdTables.Accounts.Friendships>();}},
             {SocialNetworks.Pinterest,db =>{db.Count<PdTables.Accounts.Friendships>();} },
             {SocialNetworks.Quora,db =>{db.Count<QdTables.Accounts.Friendships>(); } },
             {SocialNetworks.LinkedIn,db => {db.Count<LdTables.Account.Connections>();} },
@@ -34,7 +51,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             {SocialNetworks.Gplus,db=>{ db.Count<GplusTables.Campaigns.InteractedUsersReport>();}},
             {SocialNetworks.Twitter,db=>{db.Count<TdTables.Campaign.InteractedUsers>();}},
             {SocialNetworks.Facebook,db=>{db.Count<FdTables.Campaigns.InteractedUsers>();} },
-            {SocialNetworks.Instagram,db=>{db.Count<Friendships>(); } },
+            {SocialNetworks.Instagram,db=>{db.Count<GdTables.Campaigns.InteractedUsers>(); } },
             {SocialNetworks.Pinterest,db =>{db.Count<PdTables.Campaigns.InteractedUsers>();} },
             {SocialNetworks.Quora,db =>{ db.Count<QdTables.Campaigns.InteractedUsers>(); } },
             {SocialNetworks.LinkedIn,db=>{db.Count<LdTables.Campaign.InteractedUsers>();} },
@@ -49,6 +66,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             db.Count<DHTables.AccountDetails>();
             db.Count<DHTables.BlackWhiteListUser>();
         }
+
         public static void CreateDataBase(string dbName, SocialNetworks networks, DatabaseType? databaseType = DatabaseType.AccountType)
         {
             try
@@ -75,6 +93,31 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             }
         }
 
+
+        public DataBaseConnection GetDataBaseConnection(string dbName, SocialNetworks networks)
+        {
+            try
+            {
+
+                string directoryName, connectionString;
+                GetDbPath(dbName, DatabaseType.AccountType, out directoryName, out connectionString);
+                DirectoryUtilities.CreateDirectory(directoryName);
+                var objModelConfiguration = new ModelConfiguration();
+
+                //var directoryName = ConstantVariable.GetIndexAccountDir() + $"\\DB";
+                //DirectoryUtilities.CreateDirectory(directoryName);
+                //var connectionString = directoryName + $"\\{dbName}.db";
+                return new DataBaseConnection(connectionString, networks, objModelConfiguration.ConfigureAccountdataBaseEntity);
+
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+
+
         public static DataBaseConnection GetDataBaseConnectionInstance(string dbName, SocialNetworks networks)
         {
             try
@@ -96,6 +139,24 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 return null;
             }
         }
+
+
+        public DataBaseConnectionCampaign GetDataBaseConnectionCampaign(string dbName, SocialNetworks networks)
+        {
+            try
+            {
+                string directoryName, connectionString;
+                GetDbPath(dbName, DatabaseType.CampaignType, out directoryName, out connectionString);
+                DirectoryUtilities.CreateDirectory(directoryName);
+                var objModelConfiguration = new ModelConfiguration();
+                return new DataBaseConnectionCampaign(connectionString, networks, objModelConfiguration.ConfigureCampaignDataBaseEntity);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
 
         public static DataBaseConnectionCampaign GetDataBaseConnectionCampaignInstance(string dbName, SocialNetworks networks)
         {

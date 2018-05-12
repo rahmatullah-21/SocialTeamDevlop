@@ -109,7 +109,6 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             }
         }
 
-
         public void ConfigureCampaignDataBaseEntity(DbModelBuilder modelBuilder, SocialNetworks networks)
         {
             switch (networks)

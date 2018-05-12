@@ -19,6 +19,7 @@ using DominatorHouseCore.Command;
 using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.DatabaseHandler.DHTables;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -497,7 +498,17 @@ namespace DominatorUIUtility.ViewModel
 
             var databaseCreation = secondaryTaskStrategyReturningCancellation(() =>
             {
-                DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType);
+                IDatabaseConnection databaseConnection = SocinatorInitialize
+                    .GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork).GetNetworkCoreFactory()
+                    .AccountDatabase;
+
+                var dbContext = databaseConnection.GetContext(objDominatorAccountBaseModel.AccountId);
+
+                var dbOperations = new DbOperations();
+
+                DataBaseHandler.DbInitialCounters[objDominatorAccountBaseModel.AccountNetwork](dbContext, dbOperations);
+
+                // DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType);
 
                 #region Saving Account detail to AccountDetails database
 

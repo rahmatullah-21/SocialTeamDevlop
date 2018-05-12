@@ -14,6 +14,7 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Newtonsoft.Json;
+using DominatorHouseCore.Interfaces;
 
 namespace DominatorHouseCore.Process
 {
@@ -74,11 +75,16 @@ namespace DominatorHouseCore.Process
 
         private void InitializeDatabaseConnection()
         {
+            var objDatabaseHandler = new DataBaseHandler();
+
             if (CampaignId != null)
             {
-                DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionCampaignInstance(CampaignId, SocialNetworks);
+                DataBaseConnectionCampaign = objDatabaseHandler.GetDataBaseConnectionCampaign(CampaignId, SocialNetworks);
             }
-            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);
+
+            DataBaseConnectionAccount = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().AccountDatabase;
+
+          //  DataBaseConnectionAccount = objDatabaseHandler.GetDataBaseConnection(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);            
         }
 
         protected DataBaseConnectionCampaign GetDatabaseConnectionForCampaign()
@@ -284,7 +290,7 @@ namespace DominatorHouseCore.Process
 
         protected DataBaseConnectionCampaign DataBaseConnectionCampaign { get; set; }
 
-        protected DataBaseConnection DataBaseConnectionAccount { get; set; }
+        protected IDatabaseConnection DataBaseConnectionAccount { get; set; }
 
         public string AccountName => DominatorAccountModel?.UserName;
 

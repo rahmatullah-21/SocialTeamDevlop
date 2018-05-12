@@ -289,6 +289,7 @@
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedUser.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\UnFollowedUser.cs" />
+    <Compile Include="DatabaseHandler\Utility\DbOperations.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\FeedInfos.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\Friendships.cs" />
@@ -341,7 +342,9 @@
     <Compile Include="Interfaces\IComments.cs" />
     <Compile Include="Interfaces\ICommunity.cs" />
     <Compile Include="Interfaces\ICompany.cs" />
+    <Compile Include="Interfaces\IDatabaseConnection.cs" />
     <Compile Include="Interfaces\IJob.cs" />
+    <Compile Include="Interfaces\IModuleConfiguration.cs" />
     <Compile Include="Interfaces\INetworkCollectionFactory.cs" />
     <Compile Include="Interfaces\INetworkCoreFactory.cs" />
     <Compile Include="Diagnostics\SocinatorInitialize.cs" />
@@ -498,7 +501,9 @@
     <Compile Include="ViewModel\UserControlSwitchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

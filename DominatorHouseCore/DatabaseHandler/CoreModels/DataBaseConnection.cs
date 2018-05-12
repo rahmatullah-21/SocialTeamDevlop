@@ -15,20 +15,40 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
     /// Database connection with sqlite - code first approach
     /// Assign ConnectionString and DbModelBuilder (database schema) in the constroctor to create the database if doesn't exist at the first connection
     /// </summary>
-    public class DataBaseConnection
+    public class DataBaseConnection 
     {
         private string ConnectionString { get; set; } = string.Empty;
 
         private Action<DbModelBuilder, SocialNetworks> ConfigureDbModelBuilder { get; set; }
 
+        private readonly CommonDbContext _dbContext;
+
         private SocialNetworks Network { get; set; }
 
-        public DataBaseConnection(string connectionString,SocialNetworks networks, Action<DbModelBuilder,SocialNetworks> ConfigureDbModelBuilder = null)
+        public DataBaseConnection(string connectionString, SocialNetworks networks, Action<DbModelBuilder, SocialNetworks> ConfigureDbModelBuilder = null)
         {
             this.ConnectionString = connectionString;
             this.ConfigureDbModelBuilder = ConfigureDbModelBuilder;
             this.Network = networks;
+            var dbConnection = new SQLiteConnection(@"data source=" + ConnectionString);
+            _dbContext = new CommonDbContext(dbConnection, true, Network, this.ConfigureDbModelBuilder);
         }
+
+        public CommonDbContext GetContext() => _dbContext;
+
+
+        public int CountWithContext<T>(Expression<Func<T, bool>> expression = null) where T : class
+        {
+            try
+            {               
+                 return expression == null ? _dbContext.Set<T>().Count() : _dbContext.Set<T>().Where(expression).Count();                  
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+
 
         public int Count<T>(Expression<Func<T, bool>> expression = null) where T : class
         {
@@ -36,12 +56,13 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             {
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
-                    sqLiteConnection.Open();
+                    // sqLiteConnection.Open();
                     using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
-                        return expression == null ? context.Set<T>().Count() : context.Set<T>().Where(expression).Count();                       
+                        return expression == null ? context.Set<T>().Count() : context.Set<T>().Where(expression).Count();
                     }
-                }               
+                    //sqLiteConnection.Close();
+                }
             }
             catch (Exception ex)
             {
@@ -78,13 +99,13 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 using (var sqLiteConnection = new SQLiteConnection(@"data source=" + ConnectionString))
                 {
                     sqLiteConnection.Open();
-                    using (var context = new CommonDbContext(sqLiteConnection, false, Network,this.ConfigureDbModelBuilder))
+                    using (var context = new CommonDbContext(sqLiteConnection, false, Network, this.ConfigureDbModelBuilder))
                     {
                         return Expression == null ? context.Set<T>().ToList() : context.Set<T>().Where(Expression).ToList();
                     }
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return null;
             }
@@ -109,7 +130,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                });
 
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return lstData;
             }
@@ -130,7 +151,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     }
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return null;
             }
@@ -152,7 +173,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 }
                 return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
             }
@@ -174,7 +195,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 }
                 return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
             }

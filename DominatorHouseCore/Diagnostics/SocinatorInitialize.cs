@@ -372,5 +372,17 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.AccountUserControlTools = accountUserControl;
             return this;
         }
+
+        public NetworkCoreLibraryBuilder AddAccountDbConnection(IDatabaseConnection accountDbConnection)
+        {
+            NetworkCoreFactory.AccountDatabase = accountDbConnection;
+            return this;
+        }
+
+        //public NetworkCoreLibraryBuilder AddCampaignDbConnection(ICampaignDbConnection campaignDbConnection)
+        //{
+        //    NetworkCoreFactory.CampaignDbConnection = campaignDbConnection;
+        //    return this;
+        //}
     }
 }
