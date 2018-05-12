@@ -118,8 +118,8 @@ namespace Socinator
 
         private async Task<bool> ValidateLicense(string license)
         {
-            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating is in process !",
-                "Please wait for a while...");
+            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "Hang On! Checking your license status",
+                "this will take few momemnts...");
             controller.SetIndeterminate();
             _licenseKey = license;
             var networks = await SocinatorInitialize.SetAvailableSocialNetworks(_licenseKey);

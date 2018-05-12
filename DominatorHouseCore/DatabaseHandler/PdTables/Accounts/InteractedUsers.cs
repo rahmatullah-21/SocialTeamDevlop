@@ -94,21 +94,6 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         [Column(Order = 22)]
         public string Bio { get; set; }
-        [Column(Order = 23)]
-        public string BoardDescription { get; set; }
-
-        [Column(Order = 24)]
-        public string BoardUrl { get; set; }
-
-        [Column(Order = 25)]
-        public string BoardName { get; set; }
-
-        [Column(Order = 26)]
-        public string Type { get; set; }
-
-        [Column(Order = 27)]
-        public string DirectMessage
-        { get; set; }
 
         [Column(Order = 23)]
         public string BoardDescription { get; set; }
