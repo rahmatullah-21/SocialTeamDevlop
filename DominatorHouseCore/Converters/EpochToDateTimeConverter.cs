@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using DominatorHouse.UsefullUtilitiesLibrary;
 using DominatorHouseCore.Utility;
-using Socinator.UsefullUtilitiesLibrary;
 
 namespace DominatorHouseCore.Converters
 {

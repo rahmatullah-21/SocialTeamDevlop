@@ -23,13 +23,13 @@ namespace DominatorHouseCore.Diagnostics
         {
             string message = string.Format(format, args);
             GlobusLogHelper.log.Error(message);
-            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            //MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
         }
 
         public static void Error(string message)
         {
             GlobusLogHelper.log.Error(message);
-            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            //MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
         }
 
         public static void Error(Exception ex, string message)
@@ -46,13 +46,13 @@ namespace DominatorHouseCore.Diagnostics
         {
             string message = string.Format(format, args);
             GlobusLogHelper.log.Info(message);
-            MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+            //MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
         }
 
         public static void Info(string message)
         {
             GlobusLogHelper.log.Info(message);
-            MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+            //MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
         }
 
         public static void Fatal(Exception ex, string format, params object[] args)

@@ -104,7 +104,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 
         [Column(Order = 25)]
         public string BoardName { get; set; }
-
+        
         [Column(Order = 26)]
         public string Type { get; set; }
 

@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace DominatorHouseCore.Utility
 {
-    [Obsolete("This class will no longer be present, instead use DateTimeUtilities class",true)]
+    [Obsolete("This class will no longer be present, instead use DateTimeUtilities class", true)]
     public static class DateTimeHelper
     {
 

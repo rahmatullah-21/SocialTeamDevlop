@@ -1257,6 +1257,7 @@
     <system:String x:Key="GDlangPostsOfUsersWhoCommentedOnPost">Posts of Users who commented on Post</system:String>
     <system:String x:Key="GDlangOwnFollowersPosts">Own Followers Posts</system:String>
     <system:String x:Key="GDlangOwnFollowingPosts">Own Followings Posts</system:String>
+
     <system:String x:Key="GDlangNumberOfUsersPerJob">Number of Users per job</system:String>
     <system:String x:Key="GDlangNumberOfUsersPerHour">Number of Users per hour</system:String>
     <system:String x:Key="GDlangNumberOfUsersPerDay">Number of Users per day</system:String>
@@ -1269,6 +1270,7 @@
     <system:String x:Key="GDlangNumberOfMediaPerDay">Number of media per day</system:String>
     <system:String x:Key="GDlangNumberOfMediaPerWeek">Number of media per week</system:String>
     <system:String x:Key="GDlangMaxMediaDay">Max media per day</system:String>
+
     <!--End Gram Dominator-->
 
     <!--Start Twt Dominator-->
@@ -1359,8 +1361,6 @@
     <system:String x:Key="langDownvoteQuestionsPerDay">Number of Questions to Downvote per day</system:String>
     <system:String x:Key="langDownvoteQuestionsPerWeek">Number of Questions to Downvote per day</system:String>
     <system:String x:Key="langMaxDownvoteQuestionsDay">Max Questions to Downvote per day</system:String>
-   
-    
     <!--End Quora Dominator-->
 
 
