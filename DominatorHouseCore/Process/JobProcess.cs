@@ -79,7 +79,7 @@ namespace DominatorHouseCore.Process
 
             if (CampaignId != null)
             {
-                DataBaseConnectionCampaign = objDatabaseHandler.GetDataBaseConnectionCampaign(CampaignId, SocialNetworks);
+                DataBaseConnectionCampaign = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignDatabase;
             }
 
             DataBaseConnectionAccount = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().AccountDatabase;
@@ -288,7 +288,7 @@ namespace DominatorHouseCore.Process
 
         public CancellationTokenSource JobCancellationTokenSource { get; set; }
 
-        protected DataBaseConnectionCampaign DataBaseConnectionCampaign { get; set; }
+        protected IDatabaseConnection DataBaseConnectionCampaign { get; set; }
 
         protected IDatabaseConnection DataBaseConnectionAccount { get; set; }
 

@@ -634,8 +634,9 @@ namespace DominatorUIUtility.CustomControl
                     var accountId = AccountsFileManager.GetAll().FirstOrDefault(x =>
                                 x.AccountBaseModel.AccountNetwork == campName.SocialNetworks &&
                                 x.UserName == campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString()).AccountId;
-                    DataBaseConnection dataBase =
-                        DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, SocialNetworks);
+
+                    DataBaseConnection dataBase = null;
+                       // DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, SocialNetworks);
 
                     if (ReportManager.GetAccountWiseReportDetail(campaignAccountWiseReport, dataBase, accountId) == 0)
                     {

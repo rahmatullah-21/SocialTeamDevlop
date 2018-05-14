@@ -8,11 +8,37 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
 {
     public class DbOperations
     {
-        public int Count<T>(DbContext context, Expression<Func<T, bool>> expression = null) where T : class
+
+        private DbContext _context;
+
+        public DbOperations(DbContext context)
+        {
+            _context = context;
+        }
+
+        #region Create operations
+
+        public bool Add<T>(T data) where T : class
         {
             try
             {
-                return expression == null ? context.Set<T>().Count() : context.Set<T>().Where(expression).Count();
+                _context.Set<T>().Add(data);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        #endregion
+   
+        #region Read Operations
+        public int Count<T>(Expression<Func<T, bool>> expression = null) where T : class
+        {
+            try
+            {
+                return expression == null ? _context.Set<T>().Count() : _context.Set<T>().Where(expression).Count();
             }
             catch (Exception ex)
             {
@@ -20,25 +46,11 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
         }
 
-        public bool Add<T>(DbContext context, T data) where T : class
+        public List<T> Get<T>( Expression<Func<T, bool>> expression = null) where T : class
         {
             try
             {
-                context.Set<T>().Add(data);
-                context.SaveChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
-        public List<T> Get<T>(DbContext context, Expression<Func<T, bool>> expression = null) where T : class
-        {
-            try
-            {
-                return expression == null ? context.Set<T>().ToList() : context.Set<T>().Where(expression).ToList();
+                return expression == null ? _context.Set<T>().ToList() : _context.Set<T>().Where(expression).ToList();
             }
             catch (Exception ex)
             {
@@ -46,11 +58,11 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
         }
 
-        public T GetSingle<T>(DbContext context, Expression<Func<T, bool>> expression) where T : class
+        public T GetSingle<T>(Expression<Func<T, bool>> expression) where T : class
         {
             try
             {
-                return context.Set<T>().FirstOrDefault(expression);
+                return _context.Set<T>().FirstOrDefault(expression);
             }
             catch (Exception ex)
             {
@@ -58,12 +70,16 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
         }
 
-        public bool Remove<T>(DbContext context, T t) where T : class
+        #endregion
+
+        #region Update Operations
+
+        public bool Update<T>(T t) where T : class
         {
             try
             {
-                context.Entry<T>(t).State = EntityState.Deleted;
-                context.SaveChanges();
+                _context.Entry<T>(t).State = EntityState.Modified;
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception ex)
@@ -72,12 +88,16 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
         }
 
-        public bool Update<T>(DbContext context, T t) where T : class
+        #endregion
+
+        #region Delete Operations
+
+        public bool Remove<T>( T t) where T : class
         {
             try
             {
-                context.Entry<T>(t).State = EntityState.Modified;
-                context.SaveChanges();
+                _context.Entry<T>(t).State = EntityState.Deleted;
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception ex)
@@ -85,13 +105,13 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 return false;
             }
         }
-        public bool RemoveAll<T>(DbContext context) where T : class
+        public bool RemoveAll<T>() where T : class
         {
             try
             {
-                var dataList = context.Set<T>().ToList();
-                context.Set<T>().RemoveRange(dataList);
-                context.SaveChanges();
+                var dataList = _context.Set<T>().ToList();
+                _context.Set<T>().RemoveRange(dataList);
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception ex)
@@ -99,6 +119,8 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 return false;
             }
         }
+
+        #endregion
 
     }
 }

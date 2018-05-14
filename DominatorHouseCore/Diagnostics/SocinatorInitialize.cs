@@ -379,10 +379,10 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
-        //public NetworkCoreLibraryBuilder AddCampaignDbConnection(ICampaignDbConnection campaignDbConnection)
-        //{
-        //    NetworkCoreFactory.CampaignDbConnection = campaignDbConnection;
-        //    return this;
-        //}
+        public NetworkCoreLibraryBuilder AddCampaignDbConnection(IDatabaseConnection campaignDbConnection)
+        {
+            NetworkCoreFactory.CampaignDatabase = campaignDbConnection;
+            return this;
+        }
     }
 }

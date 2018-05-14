@@ -18,18 +18,36 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
         #region database Helper Methodtext,
 
-
-        public static Dictionary<SocialNetworks, Action<DbContext,DbOperations>> DbInitialCounters { get; set; } = new Dictionary<SocialNetworks, Action<DbContext, DbOperations>>
+        public static Dictionary<SocialNetworks, Action<DbOperations>> DbInitialCounters { get; set; } = new Dictionary<SocialNetworks, Action< DbOperations>>
         {
-            {SocialNetworks.Gplus,(context,operation) => {operation.Count<GplusTables.Accounts.Friendships>(context);}},
-            {SocialNetworks.Twitter,(context,operation) =>{operation.Count<TdTables.Accounts.Friendships>(context);}},
-            {SocialNetworks.Facebook,(context,operation)=>{operation.Count<FdTables.Accounts.Friends>(context);} },
-            {SocialNetworks.Instagram,(context,operation)=>{operation.Count<GdTables.Accounts.Friendships>(context);}},
-            {SocialNetworks.Pinterest,(context,operation) =>{operation.Count<PdTables.Accounts.Friendships>(context);} },
-            {SocialNetworks.Quora,(context,operation) =>{operation.Count<QdTables.Accounts.Friendships>(context); } },
-            {SocialNetworks.LinkedIn,(context,operation) => {operation.Count<LdTables.Account.Connections>(context);} },
-            {SocialNetworks.Youtube,(context,operation)=>{operation.Count<YdTables.Accounts.Friendships>(context); }}
+            {SocialNetworks.Gplus,(operation) => {operation.Count<GplusTables.Accounts.Friendships>();}},
+            {SocialNetworks.Twitter,(operation) =>{operation.Count<TdTables.Accounts.Friendships>();}},
+            {SocialNetworks.Facebook,(operation)=>{operation.Count<FdTables.Accounts.Friends>();} },
+            {SocialNetworks.Instagram,(operation)=>{operation.Count<GdTables.Accounts.Friendships>();}},
+            {SocialNetworks.Pinterest,(operation) =>{operation.Count<PdTables.Accounts.Friendships>();} },
+            {SocialNetworks.Quora,(operation) =>{operation.Count<QdTables.Accounts.Friendships>(); } },
+            {SocialNetworks.LinkedIn,(operation) => {operation.Count<LdTables.Account.Connections>();} },
+            {SocialNetworks.Youtube,(operation)=>{operation.Count<YdTables.Accounts.Friendships>(); }},
+            {SocialNetworks.Reddit,(operation) => {operation.Count<RdTables.Accounts.InteractedUsers>();} },
+            {SocialNetworks.Tumblr,(operation)=>{operation.Count<TumblrTables.Account.InteractedUser>(); }}
         };
+
+        static Dictionary<SocialNetworks, Action<DbOperations>> _dbCampaignInitialCounters = new Dictionary<SocialNetworks, Action<DbOperations>>
+        {
+            {SocialNetworks.Gplus,operation=>{ operation.Count<GplusTables.Campaigns.InteractedUsersReport>();}},
+            {SocialNetworks.Twitter,operation=>{operation.Count<TdTables.Campaign.InteractedUsers>();}},
+            {SocialNetworks.Facebook,operation=>{operation.Count<FdTables.Campaigns.InteractedUsers>();} },
+            {SocialNetworks.Instagram,operation=>{operation.Count<GdTables.Campaigns.InteractedUsers>(); } },
+            {SocialNetworks.Pinterest,operation =>{operation.Count<PdTables.Campaigns.InteractedUsers>();} },
+            {SocialNetworks.Quora,operation =>{ operation.Count<QdTables.Campaigns.InteractedUsers>(); } },
+            {SocialNetworks.LinkedIn,operation=>{operation.Count<LdTables.Campaign.InteractedUsers>();} },
+            {SocialNetworks.Youtube,operation=>{operation.Count<YdTables.Campaign.InteractedUsers>(); }},
+            {SocialNetworks.Reddit,(operation) => {operation.Count<RdTables.Campaigns.InteractedUsers>();} },
+            {SocialNetworks.Tumblr,(operation)=>{operation.Count<TumblrTables.Campaign.InteractedUser>(); }}
+        };
+
+
+
 
 
 
@@ -46,7 +64,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
         };
 
 
-        static Dictionary<SocialNetworks, Action<DataBaseConnectionCampaign>> _dbCampaignCounters = new Dictionary<SocialNetworks, Action<DataBaseConnectionCampaign>>
+        private static Dictionary<SocialNetworks, Action<DataBaseConnectionCampaign>> _dbCampaignCounters { get; set; } = new Dictionary<SocialNetworks, Action<DataBaseConnectionCampaign>>
         {
             {SocialNetworks.Gplus,db=>{ db.Count<GplusTables.Campaigns.InteractedUsersReport>();}},
             {SocialNetworks.Twitter,db=>{db.Count<TdTables.Campaign.InteractedUsers>();}},
@@ -67,19 +85,21 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             db.Count<DHTables.BlackWhiteListUser>();
         }
 
+
+
         public static void CreateDataBase(string dbName, SocialNetworks networks, DatabaseType? databaseType = DatabaseType.AccountType)
         {
             try
             {
                 if (databaseType == DatabaseType.AccountType)
                 {
-                    var databaseConnection = GetDataBaseConnectionInstance(dbName, networks);
-                    _dbCounters[networks](databaseConnection);
+                   // var databaseConnection = GetDataBaseConnectionInstance(dbName, networks);
+                   // _dbCounters[networks](databaseConnection);
                 }
                 else if (databaseType  == DatabaseType.CampaignType)
                 {
-                    var databaseConnection = GetDataBaseConnectionCampaignInstance(dbName, networks);
-                    _dbCampaignCounters[networks](databaseConnection);
+                 //   var databaseConnection = GetDataBaseConnectionCampaignInstance(dbName, networks);
+                 //   _dbCampaignCounters[networks](databaseConnection);
                 }
                 else
                 {
@@ -173,6 +193,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                 return null;
             }
         }
+
         [Obsolete("Don't use GetDataBaseConnectionGlobalInstance with parameter instead use GetDataBaseConnectionGlobalInstance without parameter ")]
         public static DataBaseConnectionGlobal GetDataBaseConnectionGlobalInstance(string DBName)
         {

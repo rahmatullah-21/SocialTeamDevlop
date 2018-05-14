@@ -46,7 +46,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             {
                 this.ConfigureDbModelBuilder(modelBuilder, Networks);
                 var initializer = new CampaignDbInitializer(modelBuilder, this.SeedDataBase);
-                Database.SetInitializer(initializer);
+              //  Database.SetInitializer(initializer);
             }
         }
     }

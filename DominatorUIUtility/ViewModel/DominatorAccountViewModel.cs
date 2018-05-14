@@ -504,9 +504,9 @@ namespace DominatorUIUtility.ViewModel
 
                 var dbContext = databaseConnection.GetContext(objDominatorAccountBaseModel.AccountId);
 
-                var dbOperations = new DbOperations();
+                var dbOperations = new DbOperations(dbContext);
 
-                DataBaseHandler.DbInitialCounters[objDominatorAccountBaseModel.AccountNetwork](dbContext, dbOperations);
+                DataBaseHandler.DbInitialCounters[objDominatorAccountBaseModel.AccountNetwork](dbOperations);
 
                 // DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType);
 
