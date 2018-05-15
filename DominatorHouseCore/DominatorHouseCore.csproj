@@ -519,7 +519,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DatabaseHandler\Model\" />
     <Folder Include="Enums\RdQuery\" />
   </ItemGroup>
   <ItemGroup>

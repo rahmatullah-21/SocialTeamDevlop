@@ -121,5 +121,10 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";
         public static string GetOtherFacebookSettingsFile() => GetOtherDir() + @"\Facebook.bin";
         public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
+
+
+        public static string GetAccountDb = "AccountDb";
+        public static string GetCampaignDb = "CampaignDb";
+
     }
 }

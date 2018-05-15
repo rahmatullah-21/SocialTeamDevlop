@@ -89,6 +89,10 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
                     break;
                 case SocialNetworks.Reddit:
+                    modelBuilder.Entity<RdTables.Accounts.InteractedPost>();                  
+                    modelBuilder.Entity<RdTables.Accounts.InteractedUsers>();
+                    modelBuilder.Entity<RdTables.Accounts.UnfollowedUsers>();
+
                     break;
                 case SocialNetworks.Youtube:
                     modelBuilder.Entity<YdTables.Accounts.FeedInfos>();
@@ -159,6 +163,9 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
                     break;
                 case SocialNetworks.Reddit:
+                    modelBuilder.Entity<RdTables.Campaigns.InteractedUsers>();
+                    modelBuilder.Entity<RdTables.Campaigns.InteractedPost>();
+                   
                     break;
                 case SocialNetworks.Youtube:
                     modelBuilder.Entity<YdTables.Campaign.InteractedUsers>();

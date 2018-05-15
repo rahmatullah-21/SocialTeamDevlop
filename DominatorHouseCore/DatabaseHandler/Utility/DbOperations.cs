@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.DatabaseHandler.Utility
 {
@@ -14,6 +19,26 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         public DbOperations(DbContext context)
         {
             _context = context;
+        }
+
+        /// <summary>
+        /// To Get the database operation with auto generated dbcontext for your account or campaigns
+        /// </summary>
+        /// <param name="id">If you need to perform with account, then pass id as account id where as in campaign case pass campaign id</param>
+        /// <param name="networks">Accounts or campaign which belongs to which social network</param>
+        /// <param name="type">Specify whether you account id or campaign id in <see cref="DominatorHouseCore.Utility.ConstantVariable.GetAccountDb"/> or <see cref="DominatorHouseCore.Utility.ConstantVariable.GetCampaignDb"/> </param>
+        public DbOperations(string id, SocialNetworks networks, string type)
+        {
+            if (type == ConstantVariable.GetAccountDb)
+            {
+                var databaseConnection = SocinatorInitialize .GetSocialLibrary(networks).GetNetworkCoreFactory() .AccountDatabase;
+                _context = databaseConnection.GetContext(id);
+            }
+            if (type == ConstantVariable.GetCampaignDb)
+            {
+                var databaseConnection = SocinatorInitialize.GetSocialLibrary(networks).GetNetworkCoreFactory().CampaignDatabase;
+                _context = databaseConnection.GetContext(id);
+            }
         }
 
         #region Create operations
