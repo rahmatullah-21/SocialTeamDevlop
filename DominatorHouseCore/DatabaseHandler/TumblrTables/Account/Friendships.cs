@@ -1,10 +1,15 @@
-﻿using System;
+﻿using SQLite.CodeFirst;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SQLite.CodeFirst;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
+namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 {
+
     public class Friendships
     {
         [Key]
@@ -28,19 +33,17 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public int Followers
         { get; set; }
 
-
         [Column(Order = 5)]
         public int Followings
         { get; set; }
 
-
-
         [Column(Order = 6)]
-        public int PinsCount
+        public int PostsPerWeek
         { get; set; }
 
         [Column(Order = 7)]
-        public int BoardsCount { get; set; }
+        public int Uploads
+        { get; set; }
 
 
         [Column(Order = 8)]
@@ -49,7 +52,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
 
         [Column(Order = 9)]
-        public bool ? HasAnonymousProfilePicture
+        public bool? HasAnonymousProfilePicture
         { get; set; }
 
 
@@ -63,7 +66,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public bool IsVerified
         { get; set; }
 
-  
+
         [Column(Order = 12)]
         public string ProfilePicUrl
         { get; set; }
@@ -72,37 +75,34 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
 
         [Column(Order = 13)]
+        // [Unique]
         public string Username
         { get; set; }
 
 
+
         [Column(Order = 14)]
+        public bool IsBusiness
+        { get; set; }
+
+
+        [Column(Order = 15)]
         public string UserId
         { get; set; }
 
 
 
-        [Column(Order = 15)]
+        [Column(Order = 16)]
         public int Time
         { get; set; }
 
 
-        [Column(Order = 16)]
+        [Column(Order = 17)]
         public FollowType FollowType
         { get; set; }
 
-        [Column(Order = 17)]
-        public string Website { get; set; }
-
         [Column(Order = 18)]
-        public string Bio { get; set; }
+        public bool IsFollowBySoftware
+        { get; set; }
     }
-
-    [Flags]
-    public enum FollowType : int
-    {
-        Following = 1,
-        FollowingBack  = 2,
-        Pending = 4
-    }       
 }

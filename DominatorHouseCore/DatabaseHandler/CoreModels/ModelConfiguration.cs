@@ -105,6 +105,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     modelBuilder.Entity<TumblrTables.Account.InteractedPosts>();
                     modelBuilder.Entity<TumblrTables.Account.InteractedUser>();
                     modelBuilder.Entity<TumblrTables.Account.UnFollowedUser>();
+                    modelBuilder.Entity<TumblrTables.Account.Friendships>();
                     break;
             }
         }
