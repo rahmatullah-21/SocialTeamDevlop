@@ -161,12 +161,12 @@ namespace DominatorHouseCore.Models
         public string ThreadId { get; set; }
 
 
-        public bool more_available_min { get; set; }
+        public bool MoreAvailableMax { get; set; }
 
-        public bool more_available_max { get; set; }
+        public bool MoreAvailableMin { get; set; }
 
-        public string next_max_id { get; set; }
-        public string next_min_id { get; set; }
+        public string NextMaxId { get; set; }
+        public string NextMinId { get; set; }
     }
 
     [ProtoContract]
