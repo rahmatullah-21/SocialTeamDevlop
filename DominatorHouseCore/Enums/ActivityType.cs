@@ -222,7 +222,7 @@ namespace DominatorHouseCore.Enums
         AcceptConnectionRequest = 73,
 
         [Description("LinkedIn")]
-        RemoveConnections = 74,
+        RemoveOrWithdrawConnections = 74,
 
         [Description("LinkedIn")]
         ProfileEndorsement = 75,
@@ -253,7 +253,17 @@ namespace DominatorHouseCore.Enums
 
         [Description("Twitter,Reddit")]
         Reply = 84,
+
         [Description("Reddit")]
-        Delete = 85
+        Delete = 85,
+
+        [Description("Facebook")]
+        IncommingFriendRequest = 86,
+
+        [Description("Reddit")]
+        Downvote = 87,
+
+        [Description("Reddit")]
+        Upvote = 88
     }
 }
