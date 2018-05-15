@@ -59,7 +59,6 @@ namespace DominatorHouse
 
         private string _licenseKey;
 
-
         public MainWindow()
         {
             try
@@ -98,7 +97,6 @@ namespace DominatorHouse
                         if (await IsValidateAgain(license))
                             continue;
                         else break;
-
                     }
                 }
                 else

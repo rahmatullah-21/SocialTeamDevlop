@@ -1,45 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using DominatorHouseCore.Models;
+﻿using System.Collections.ObjectModel;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 
 namespace DominatorUIUtility.ViewModel
 {
-
     public class AccountsActivityDetailModel :BindableBase
     {
-       
-        public DominatorAccountModel DominatorAccountModel { get; set; }
+        public string AccountName { get; set; }
+
+        public string AccountId { get; set; }
+
+        public SocialNetworks  AccountNetwork { get; set; }
 
         public ObservableCollection<AutoActivityModuleDetails> AutoActivityModuleDetailsCollections { get; set; }
 
-        private bool _isExpand;
-        public bool IsExpand
-        {
-            get
-            {
-                return _isExpand;
-            }
-            set
-            {
-                if(_isExpand==value)
-                    return;
-              SetProperty(ref _isExpand,value);
-            }
-        }
-
     }
-
 
     public class ActivityDetailsModel : BindableBase
     {
-
         private string _title;
         public string Title
         {
@@ -69,79 +48,8 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _status, value);
             }
         }
-
-        private ActivityRatio _ratio = new ActivityRatio();
-        public ActivityRatio Ratio
-        {
-            get
-            {
-                return _ratio;
-            }
-            set
-            {
-                if (_ratio == value)
-                    return;
-                SetProperty(ref _ratio, value);
-            }
-        }
-
-
     }
 
-    public class ActivityRatio : BindableBase
-    {
-        private int _total;
-        private int _completed;
-        private double _percentage;
-
-        public int Total
-        {
-            get
-            {
-                return _total;
-            }
-            set
-            {
-                if (_total == value)
-                    return;
-                SetProperty(ref _total, value);
-              
-            }
-        }
-
-        public int Completed
-        {
-            get
-            {
-                return _completed;
-            }
-            set
-            {
-                if (_completed == value)
-                    return;
-                SetProperty(ref _completed, value);
-              
-            }
-        }
-
-        public double Percentage
-        {
-            get
-            {
-                return _percentage;
-            }
-            set
-            {
-                SetProperty(ref _percentage, value);
-
-            }
-        }
-
-        private void GetPercentages()
-        {
-            var value = (double)(((double)Completed / (double)Total) * 100);
-            Percentage = System.Math.Round(value, 0);
-        }
-    }
+  
 
 }

@@ -1363,5 +1363,7 @@
     <system:String x:Key="langMaxDownvoteQuestionsDay">Max Questions to Downvote per day</system:String>
     <!--End Quora Dominator-->
 
+    
+    <system:String x:Key="langActivity">Activity Status</system:String>
 
 </ResourceDictionary>
