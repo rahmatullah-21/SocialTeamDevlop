@@ -13,6 +13,7 @@ using DominatorHouseCore.Utility;
 using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Request;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
@@ -34,6 +35,7 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
+              
                 if (string.IsNullOrEmpty(license))
                 {
                     FeatureFlags.Instance = new FeatureFlags()
@@ -314,6 +316,11 @@ namespace DominatorHouseCore.Diagnostics
             GlobusExceptionHandler.SetupGlobalExceptionHandlers();
             GlobusExceptionHandler.DisableErrorDialog();
             _isInitialized = true;
+        }
+
+        public static IGlobalDatabaseConnection GetGlobalDatabase()
+        {
+            return new GlobalDatabaseConnection();
         }
     }
 

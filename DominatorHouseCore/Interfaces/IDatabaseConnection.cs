@@ -11,4 +11,12 @@ namespace DominatorHouseCore.Interfaces
         DbContext GetContext(string connectionString);
 
     }
+
+    public interface IGlobalDatabaseConnection
+    {
+        string ConnectionString { get; set; }
+
+        DbContext GetDbContext();
+
+    }
 }

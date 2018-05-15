@@ -13,7 +13,6 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
 {
     public class DbOperations
     {
-
         private DbContext _context;
 
         public DbOperations(DbContext context)
@@ -31,7 +30,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         {
             if (type == ConstantVariable.GetAccountDb)
             {
-                var databaseConnection = SocinatorInitialize .GetSocialLibrary(networks).GetNetworkCoreFactory() .AccountDatabase;
+                var databaseConnection = SocinatorInitialize.GetSocialLibrary(networks).GetNetworkCoreFactory().AccountDatabase;
                 _context = databaseConnection.GetContext(id);
             }
             if (type == ConstantVariable.GetCampaignDb)
@@ -57,7 +56,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
         }
         #endregion
-   
+
         #region Read Operations
         public int Count<T>(Expression<Func<T, bool>> expression = null) where T : class
         {
@@ -71,7 +70,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
         }
 
-        public List<T> Get<T>( Expression<Func<T, bool>> expression = null) where T : class
+        public List<T> Get<T>(Expression<Func<T, bool>> expression = null) where T : class
         {
             try
             {
@@ -117,7 +116,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
 
         #region Delete Operations
 
-        public bool Remove<T>( T t) where T : class
+        public bool Remove<T>(T t) where T : class
         {
             try
             {
@@ -127,6 +126,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
             catch (Exception ex)
             {
+                ex.DebugLog();
                 return false;
             }
         }
@@ -141,7 +141,36 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
             catch (Exception ex)
             {
+                ex.DebugLog();
                 return false;
+            }
+        }
+
+
+        public void Remove<T>(Expression<Func<T, bool>> expression) where T : class
+        {
+            try
+            {
+                Remove(_context.Set<T>().FirstOrDefault(expression));
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+
+        public void RemoveMatch<T>(Expression<Func<T, bool>> expression) where T : class
+        {
+            try
+            {
+                var matchedItems = _context.Set<T>().Where(expression);
+                foreach(var items in matchedItems)
+                    Remove(items);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
         }
 

@@ -344,10 +344,8 @@ namespace DominatorUIUtility.CustomControl
                 });
                 #endregion
 
-                DataBaseConnectionCampaign dataBase =
-                   DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
 
-                if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
+                if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, campName) == 0)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Report", "Reports for " + campName.CampaignName + " Campaign not available", MessageDialogStyle.Affirmative);
                     return;
@@ -629,26 +627,30 @@ namespace DominatorUIUtility.CustomControl
 
             campaignAccountWiseReport.CmbAccounts.SelectionChanged += (senders, events) =>
             {
-                try
-                {
-                    var accountId = AccountsFileManager.GetAll().FirstOrDefault(x =>
-                                x.AccountBaseModel.AccountNetwork == campName.SocialNetworks &&
-                                x.UserName == campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString()).AccountId;
+                #region Need to make changes
 
-                    DataBaseConnection dataBase = null;
-                       // DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, SocialNetworks);
+                //try
+                //{
+                //    var accountId = AccountsFileManager.GetAll().FirstOrDefault(x =>
+                //                x.AccountBaseModel.AccountNetwork == campName.SocialNetworks &&
+                //                x.UserName == campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString()).AccountId;
 
-                    if (ReportManager.GetAccountWiseReportDetail(campaignAccountWiseReport, dataBase, accountId) == 0)
-                    {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Account Wise Report", "Reports for "
-                            + campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString() + " Campaign not available");
-                        return;
-                    }
-                }
-                catch (Exception ex)
-                {
+                //    DataBaseConnection dataBase = null;
+                //       // DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, SocialNetworks);
 
-                }
+                //    if (ReportManager.GetAccountWiseReportDetail(campaignAccountWiseReport, dataBase, accountId) == 0)
+                //    {
+                //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Account Wise Report", "Reports for "
+                //            + campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString() + " Campaign not available");
+                //        return;
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+
+                //} 
+
+                #endregion
             };
              win.ShowDialog();
 
