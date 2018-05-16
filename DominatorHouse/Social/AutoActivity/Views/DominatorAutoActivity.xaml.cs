@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Threading.Tasks;
+using System.Windows.Controls;
 using DominatorHouse.Social.AutoActivity.ViewModels;
 using DominatorHouseCore.Enums;
 
@@ -24,9 +25,12 @@ namespace DominatorHouse.Social.AutoActivity.Views
         {
             if (ObjDominatorAutoActivity == null)            
                 ObjDominatorAutoActivity = new DominatorAutoActivity();
-            
+
             ObjDominatorAutoActivity.DominatorAutoActivityViewModel.CallRespectiveView(networks);
+
             return ObjDominatorAutoActivity;
         }
+
+        
     }
 }

@@ -49,13 +49,15 @@ namespace DominatorHouse.Social.AutoActivity.Views
             return ObjSocialAutoActivity;
         }
 
-        public static bool NewAutoActivityObject(SocialNetworks soicalNetworks, string selectedAccounts)
+        public bool NewAutoActivityObject(SocialNetworks soicalNetworks, string selectedAccounts)
         {
             try
             {
                 ObjSocialAutoActivity = new SocialAutoActivity();
                 ObjSocialAutoActivity.SetDataContext();
+
                 ObjSocialAutoActivity.DominatorAutoActivityViewModel.CallRespectiveView(soicalNetworks);
+
                 switch (soicalNetworks)
                 {
                     case SocialNetworks.Facebook:
@@ -99,7 +101,19 @@ namespace DominatorHouse.Social.AutoActivity.Views
         }
 
         private void SetDataContext()
-            => SocialActivity.DataContext = DominatorAutoActivityViewModel;
+        {
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        SocialActivity.DataContext = DominatorAutoActivityViewModel;
+                    });
+            }
+            else
+            {
+                SocialActivity.DataContext = DominatorAutoActivityViewModel;
+            }          
+        }
 
         private void GotoTools(object sender)
         {
@@ -108,6 +122,7 @@ namespace DominatorHouse.Social.AutoActivity.Views
 
             if (accountsActivityDetailModel == null)
                 return;
+
             DominatorAutoActivityViewModel =
                 DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
 
@@ -116,8 +131,10 @@ namespace DominatorHouse.Social.AutoActivity.Views
 
         private void SocialAutoActivity_OnLoaded(object sender, RoutedEventArgs e)
         {
-            DominatorAutoActivityViewModel.InitializeAccounts();
-            SetDataContext();
+            Task.Factory.StartNew(()=> {
+                DominatorAutoActivityViewModel.InitializeAccounts();
+                SetDataContext();
+            });
         }
 
         private void ActivityStatusChanged_OnIsCheckedChanged(object sender, EventArgs e)
@@ -131,6 +148,6 @@ namespace DominatorHouse.Social.AutoActivity.Views
         private void ButtonViewActivityStatus_OnClick(object sender, RoutedEventArgs e)
             => GotoTools(sender);
 
-        
+
     }
 }

@@ -60,8 +60,7 @@ namespace DominatorHouse.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("langAutoActivity") == null? "Auto Activity" : Application.Current.FindResource("langAutoActivity")?.ToString(),
-                    Content = new Lazy<UserControl>(() =>
-                        DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
+                    Content = new Lazy<UserControl>(() => DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
                 },
                 new TabItemTemplates
                 {

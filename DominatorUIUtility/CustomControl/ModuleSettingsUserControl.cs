@@ -1463,23 +1463,30 @@ namespace DominatorUIUtility.CustomControl
         }
         protected void ScheduleJobFromGrowthMode(bool isStart, string selectedAccount, SocialNetworks socialNetworks)
         {
-            var accountModel = AccountsFileManager.GetAccount(selectedAccount);
-            var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
-            if (moduleConfiguration.IsEnabled && isStart)
-                return;
-            var accountstemplateId = moduleConfiguration.TemplateId;
-            if (isStart)
+            try
             {
-                moduleConfiguration.IsEnabled = true;
-                DominatorScheduler.ScheduleTodayJobs(accountModel, socialNetworks, _activityType);
+                var accountModel = AccountsFileManager.GetAccount(selectedAccount);
+                var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
+                if (moduleConfiguration.IsEnabled && isStart)
+                    return;
+                var accountstemplateId = moduleConfiguration.TemplateId;
+                if (isStart)
+                {
+                    moduleConfiguration.IsEnabled = true;
+                    DominatorScheduler.ScheduleTodayJobs(accountModel, socialNetworks, _activityType);
+                }
+                else
+                {
+                    moduleConfiguration.IsEnabled = false;
+                    DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId,
+                        _activityType.ToString(), accountstemplateId);
+                }
+                UpdateAccountAndTemplate(accountModel, accountstemplateId);
             }
-            else
+            catch (Exception ex)
             {
-                moduleConfiguration.IsEnabled = false;
-                DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId,
-                    _activityType.ToString(), accountstemplateId);
+                ex.DebugLog();
             }
-            UpdateAccountAndTemplate(accountModel, accountstemplateId);
         }
 
         private void UpdateAccountAndTemplate(DominatorAccountModel accountModel, string accountstemplateId)

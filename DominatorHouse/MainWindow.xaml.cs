@@ -133,7 +133,7 @@ namespace DominatorHouse
                 await LicenseCheck();
                 return true;
             }
-            
+
 
             _strategies = new DominatorAccountViewModel.AccessorStrategies
             {
@@ -331,11 +331,18 @@ namespace DominatorHouse
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
             {
                 SelectedViewIndex = index;
-                SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
+                SocialAutoActivity.GetSingletonSocialAutoActivity().NewAutoActivityObject(network, selectedAccount);
+
             }
             else
             {
-                GlobusLogHelper.log.Info("Goto Tools options only for social mode !");
+                SelectedViewIndex = index;
+
+                DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+                SocialAutoActivity.GetSingletonSocialAutoActivity().NewAutoActivityObject(network, selectedAccount);
+
+
+                //GlobusLogHelper.log.Info("Goto Tools options only for social mode !");
                 //NetworkSelectionChanges("Social");
                 //SelectedViewIndex = index;
                 //SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
@@ -401,7 +408,7 @@ namespace DominatorHouse
                 {
                     DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
 
-                  // var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
+                    // var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
                     //    .AccountUserControlTools;
                     //accountUi.GetStartupToolsView();
                 }
@@ -644,7 +651,7 @@ namespace DominatorHouse
 
         private void SocinatorWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            e.Cancel =true;
+            e.Cancel = true;
 
             bool isClose = this.ShowModalMessageExternal("Confirmation", "Are you sure to close Socinator?", MessageDialogStyle.AffirmativeAndNegative,
                                  Dialog.SetMetroDialogButton("Yes", "No")) == MessageDialogResult.Affirmative;
@@ -653,9 +660,9 @@ namespace DominatorHouse
                 Application.Current.Shutdown();
                 Process.GetCurrentProcess().Kill();
             }
-           
+
         }
 
-       
+
     }
 }
