@@ -35,9 +35,6 @@ namespace DominatorHouseCore.Diagnostics
         {
            try
             {
-
-                return SetLicensedSocialNetworks();
-
                 if (string.IsNullOrEmpty(license))
                 {
                     FeatureFlags.Instance = new FeatureFlags()
