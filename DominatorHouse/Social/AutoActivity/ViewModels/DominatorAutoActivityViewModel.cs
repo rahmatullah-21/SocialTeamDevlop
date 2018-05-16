@@ -1,9 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
 using DominatorHouse.Social.AutoActivity.Views;
+using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -27,11 +29,23 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         private static DominatorAutoActivityViewModel ObjDominatorAutoActivityViewModel { get; set; } = null;
 
         public static DominatorAutoActivityViewModel GetSingletonDominatorAutoActivityViewModel()
-        {
-            return ObjDominatorAutoActivityViewModel ?? (ObjDominatorAutoActivityViewModel = new DominatorAutoActivityViewModel());
-        }
+            => ObjDominatorAutoActivityViewModel ?? (ObjDominatorAutoActivityViewModel = new DominatorAutoActivityViewModel());
 
-        public ICollectionView AccountsCollectionView { get; set; }
+        private ICollectionView _accountsCollectionView;
+
+        public ICollectionView AccountsCollectionView
+        {
+            get
+            {
+                return _accountsCollectionView;
+            }
+            set
+            {
+                if (Equals(_accountsCollectionView, value))
+                    return;
+                SetProperty(ref _accountsCollectionView, value);
+            }
+        }
 
         private UserControl _selectedUserControl;
 
@@ -49,17 +63,38 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             }
         }
 
-        public void CallRespectiveView(SocialNetworks networks)
-        {
-            var accountToolsView = SocinatorInitialize.GetSocialLibrary(networks).GetNetworkCoreFactory().AccountUserControlTools;
-            SelectedUserControl = accountToolsView.GetStartupToolsView();
 
-            if (networks == SocialNetworks.Social)
-                InitializeAccounts();
+        private ObservableCollection<AccountsActivityDetailModel> _accountsCollection;
+
+        public ObservableCollection<AccountsActivityDetailModel> AccountsCollection
+        {
+            get
+            {
+                return _accountsCollection;
+            }
+            set
+            {
+                if (Equals(_accountsCollection, value))
+                    return;
+                SetProperty(ref _accountsCollection, value);
+            }
         }
 
-        public ObservableCollection<AccountsActivityDetailModel> AccountsCollection { get; set; }
+        public void CallRespectiveView(SocialNetworks networks)
+        {
+            try
+            {
+                var accountToolsView = SocinatorInitialize.GetSocialLibrary(networks).GetNetworkCoreFactory().AccountUserControlTools;
+                SelectedUserControl = accountToolsView.GetStartupToolsView();
 
+                if (networks == SocialNetworks.Social)
+                    InitializeAccounts();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
 
         public void InitializeAccounts()
         {
@@ -75,7 +110,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                         AccountName = account.AccountBaseModel.UserName,
                         AccountId = account.AccountBaseModel.AccountId,
                         AccountNetwork = account.AccountBaseModel.AccountNetwork,
-                        AutoActivityModuleDetailsCollections = new ObservableCollection<AutoActivityModuleDetails>()
+                        ActivityDetailsCollections = new ObservableCollection<ActivityDetailsModel>()
                     };
 
                     account.ActivityManager.LstModuleConfiguration.ForEach(x =>
@@ -83,19 +118,17 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                         var activityDetailsModel = new ActivityDetailsModel()
                         {
                             Title = x.ActivityType.ToString(),
-                            Status = x.IsEnabled ? "Active" : "InActive",
+                            Status = x.IsEnabled,
                         };
-                        var autoActivityModuleDetails = new AutoActivityModuleDetails
-                        {
-                            ActivityDetailsModel = activityDetailsModel
-                        };
-                        accountsActivityDetailModel.AutoActivityModuleDetailsCollections.Add(autoActivityModuleDetails);
+
+                        if (accountsActivityDetailModel.ActivityDetailsCollections.Count <= 5)
+                            accountsActivityDetailModel.ActivityDetailsCollections.Add(activityDetailsModel);
                     });
 
                     var accountModuleList = EnumUtility.GetEnums(account.AccountBaseModel.AccountNetwork.ToString());
 
                     if (accountModuleList.Count >
-                        accountsActivityDetailModel.AutoActivityModuleDetailsCollections.Count)
+                        accountsActivityDetailModel.ActivityDetailsCollections.Count)
                     {
                         var alreadyAddedActivity = account.ActivityManager.LstModuleConfiguration
                             .Select(x => x.ActivityType).ToList();
@@ -104,27 +137,20 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
                         notAddedList.ForEach(x =>
                         {
-                            var activityDetailsModel = new ActivityDetailsModel()
+                            var activityDetailsModel = new ActivityDetailsModel
                             {
                                 Title = x.ToString(),
-                                Status = "InActive",
+                                Status = false,
                             };
-
-                            var autoActivityModuleDetails = new AutoActivityModuleDetails
-                            {
-                                ActivityDetailsModel = activityDetailsModel
-                            };
-
-                            accountsActivityDetailModel.AutoActivityModuleDetailsCollections.Add(
-                                autoActivityModuleDetails);
+                            if (accountsActivityDetailModel.ActivityDetailsCollections.Count <= 5)
+                                accountsActivityDetailModel.ActivityDetailsCollections.Add(activityDetailsModel);
                         });
                     }
+
                     AccountsCollection.Add(accountsActivityDetailModel);
                 }
             AccountsCollectionView = CollectionViewSource.GetDefaultView(AccountsCollection);
 
         }
-
-
     }
 }

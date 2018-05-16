@@ -34,10 +34,7 @@ namespace DominatorHouseCore.Diagnostics
         public static async Task<HashSet<SocialNetworks>> SetAvailableSocialNetworks(string license)
         {
             try
-            {
-
-                return SetLicensedSocialNetworks();
-
+            {              
                 if (string.IsNullOrEmpty(license))
                 {
                     FeatureFlags.Instance = new FeatureFlags()
@@ -50,7 +47,7 @@ namespace DominatorHouseCore.Diagnostics
                 var macId = GetMacId();
 
                 string finalResponse;
-                Stream responseStream = await CheckLicenseActivation(license, macId);
+                var responseStream = await CheckLicenseActivation(license, macId);
                 using (var streamReader = new StreamReader(responseStream))
                 {
                     finalResponse = streamReader.ReadToEnd();

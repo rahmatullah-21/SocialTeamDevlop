@@ -13,8 +13,7 @@ namespace DominatorUIUtility.ViewModel
 
         public SocialNetworks  AccountNetwork { get; set; }
 
-        public ObservableCollection<AutoActivityModuleDetails> AutoActivityModuleDetailsCollections { get; set; }
-
+        public ObservableCollection<ActivityDetailsModel> ActivityDetailsCollections { get; set; }
     }
 
     public class ActivityDetailsModel : BindableBase
@@ -34,8 +33,8 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private string _status;
-        public string Status
+        private bool _status;
+        public bool Status
         {
             get
             {

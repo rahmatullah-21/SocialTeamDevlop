@@ -1377,5 +1377,8 @@
 
     
     <system:String x:Key="langActivity">Activity Status</system:String>
+    <system:String x:Key="langActions">Actions</system:String>
 
+    <system:String x:Key="langMore">more</system:String>
+    <system:String x:Key="langGotoTools">Goto to tools</system:String>
 </ResourceDictionary>

@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouse.Social.AutoActivity.ViewModels;
+using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
@@ -37,13 +38,7 @@ namespace DominatorHouse.Social.AutoActivity.Views
             DominatorAutoActivityViewModel = DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
             InitializeComponent();
         }
-
-        private void ClickButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            DominatorAutoActivityViewModel = DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
-            DominatorAutoActivityViewModel.CallRespectiveView(SocialNetworks.Instagram);
-        }
-
+     
         private static SocialAutoActivity ObjSocialAutoActivity { get; set; } = null;
 
         public static SocialAutoActivity GetSingletonSocialAutoActivity()
@@ -54,7 +49,6 @@ namespace DominatorHouse.Social.AutoActivity.Views
             ObjSocialAutoActivity.SetDataContext();
             return ObjSocialAutoActivity;
         }
-
 
         public static bool NewAutoActivityObject(SocialNetworks soicalNetworks,string selectedAccounts)
         {
@@ -100,21 +94,18 @@ namespace DominatorHouse.Social.AutoActivity.Views
             }
             catch (Exception ex)
             {
+                ex.DebugLog();
                 return false;
             }
         }
+     
+        private void SetDataContext() 
+            => SocialActivity.DataContext = DominatorAutoActivityViewModel;
 
-       
-        private void SetDataContext()
-        {
-            SocialActivity.DataContext = DominatorAutoActivityViewModel;
-        }
-
-
-        private void UserName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void GotoTools(object sender)
         {
             var accountsActivityDetailModel =
-                ((FrameworkElement) sender).DataContext as AccountsActivityDetailModel;
+                ((FrameworkElement)sender).DataContext as AccountsActivityDetailModel;
 
             if (accountsActivityDetailModel == null)
                 return;
@@ -124,22 +115,21 @@ namespace DominatorHouse.Social.AutoActivity.Views
             DominatorAutoActivityViewModel.CallRespectiveView(accountsActivityDetailModel.AccountNetwork);
         }
 
-
-
-        private void BtnSelect_OnClick(object sender, RoutedEventArgs e)
-        {
-            var contextMenu = ((Button) sender).ContextMenu;
-            if (contextMenu != null)
-            {
-                contextMenu.DataContext = ((Button) sender).DataContext;
-                contextMenu.IsOpen = true;
-            }
-        }
-
         private void SocialAutoActivity_OnLoaded(object sender, RoutedEventArgs e)
         {
             DominatorAutoActivityViewModel.InitializeAccounts();
             SetDataContext();
         }
+
+        private void ActivityStatusChanged_OnIsCheckedChanged(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void GotoToolsByName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) 
+            => GotoTools(sender);
+
+        private void ButtonViewActivityStatus_OnClick(object sender, RoutedEventArgs e)
+            => GotoTools(sender);
     }
 }
