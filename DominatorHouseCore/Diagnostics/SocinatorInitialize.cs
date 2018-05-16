@@ -236,7 +236,7 @@ namespace DominatorHouseCore.Diagnostics
 
         private static Dictionary<SocialNetworks, string> NetworksNamespace { get; set; } = new Dictionary<SocialNetworks, string>()
         {
-            {SocialNetworks.Social,"DominatorHouse" },
+            {SocialNetworks.Social,"Socinator" },
             {SocialNetworks.Facebook,"FaceDominatorUI"},
             {SocialNetworks.Twitter,"TwtDominatorUI"},
             { SocialNetworks.Gplus,"GplusDominatorUI"},

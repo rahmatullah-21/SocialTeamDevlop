@@ -5,12 +5,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DominatorHouse")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Socinator")]
+[assembly: AssemblyDescription("The Social Dominator")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("DominatorHouse")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2017")]
+[assembly: AssemblyCompany("Socinator")]
+[assembly: AssemblyProduct("Socinator")]
+[assembly: AssemblyCopyright("Copyright © Socinator 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

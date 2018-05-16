@@ -1,30 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DominatorHouse.Social.AutoActivity.ViewModels;
 using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
 
-namespace DominatorHouse.Social.AutoActivity.Views
+namespace Socinator.Social.AutoActivity.Views
 {
     /// <summary>
     /// Interaction logic for SocialAutoActivity.xaml

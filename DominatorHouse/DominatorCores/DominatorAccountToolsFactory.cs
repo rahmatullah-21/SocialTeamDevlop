@@ -1,10 +1,11 @@
+
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
-using DominatorHouse.Social.AutoActivity.Views;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
+using Socinator.Social.AutoActivity.Views;
 
-namespace DominatorHouse.DominatorCores
+namespace Socinator.DominatorCores
 {
     public class DominatorAccountToolsFactory : IAccountToolsFactory
     {

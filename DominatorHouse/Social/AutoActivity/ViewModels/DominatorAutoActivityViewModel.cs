@@ -6,17 +6,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using DominatorHouse.Social.AutoActivity.Views;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorHouseCore.ViewModel;
-using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
-
 
 namespace DominatorHouse.Social.AutoActivity.ViewModels
 {

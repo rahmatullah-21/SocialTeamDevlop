@@ -1,9 +1,11 @@
+
 ﻿using System.Threading.Tasks;
 using System.Windows.Controls;
 using DominatorHouse.Social.AutoActivity.ViewModels;
+
 using DominatorHouseCore.Enums;
 
-namespace DominatorHouse.Social.AutoActivity.Views
+namespace Socinator.Social.AutoActivity.Views
 {
     /// <summary>
     /// Interaction logic for DominatorAutoActivity.xaml
