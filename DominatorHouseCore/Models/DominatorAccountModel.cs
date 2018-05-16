@@ -218,22 +218,6 @@ namespace DominatorHouseCore.Models
         [ProtoIgnore]
         public string UserName => AccountBaseModel?.UserName;
 
-        private DataBaseConnection AccountDatabase { get; set; }
-
-        public DataBaseConnection GetAccountDatabase()
-        {
-
-            var objModelConfiguration = new ModelConfiguration();
-            var directoryName = ConstantVariable.GetIndexAccountDir() + $"\\DB";
-            DirectoryUtilities.CreateDirectory(directoryName);
-            var connectionString = directoryName + $"\\{AccountBaseModel?.AccountId}.db";
-
-            if (AccountBaseModel == null)
-                return null;
-
-            return AccountDatabase ?? (AccountDatabase = new DataBaseConnection(connectionString, AccountBaseModel.AccountNetwork, objModelConfiguration.ConfigureAccountdataBaseEntity));
-        }
-
         #endregion
 
         [ProtoMember(13)]

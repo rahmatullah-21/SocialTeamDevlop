@@ -28,6 +28,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.LogHelper;
 
 namespace DominatorUIUtility.CustomControl
@@ -738,7 +739,10 @@ namespace DominatorUIUtility.CustomControl
                 LastEditedDate = DateTimeUtilities.GetEpochTime(),
             };
 
-            DataBaseHandler.CreateDataBase(campaignDetails.CampaignId, _socialNetwork, DatabaseType.CampaignType);
+            var dbOperations =
+                new DbOperations(campaignDetails.CampaignId, _socialNetwork, ConstantVariable.GetCampaignDb);
+
+            DataBaseHandler.DbCampaignInitialCounters[_socialNetwork](dbOperations);
 
             CampaignsFileManager.Add(campaignDetails);
         }
@@ -994,7 +998,13 @@ namespace DominatorUIUtility.CustomControl
                 };
 
                 // create new database for campaign
-                DataBaseHandler.CreateDataBase(newCampaign.CampaignId, _socialNetwork, DatabaseType.CampaignType);
+                var dbOperations =
+                    new DbOperations(newCampaign.CampaignId, _socialNetwork, ConstantVariable.GetCampaignDb);
+
+                DataBaseHandler.DbCampaignInitialCounters[_socialNetwork](dbOperations);
+
+               
+                
                 CampaignsFileManager.Add(newCampaign);
             }
         }

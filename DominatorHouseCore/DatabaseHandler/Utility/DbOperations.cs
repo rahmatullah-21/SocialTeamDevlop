@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using Newtonsoft.Json;
 
 namespace DominatorHouseCore.DatabaseHandler.Utility
 {
     public class DbOperations
     {
-
         private DbContext _context;
 
         public DbOperations(DbContext context)
@@ -31,7 +32,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         {
             if (type == ConstantVariable.GetAccountDb)
             {
-                var databaseConnection = SocinatorInitialize .GetSocialLibrary(networks).GetNetworkCoreFactory() .AccountDatabase;
+                var databaseConnection = SocinatorInitialize.GetSocialLibrary(networks).GetNetworkCoreFactory().AccountDatabase;
                 _context = databaseConnection.GetContext(id);
             }
             if (type == ConstantVariable.GetCampaignDb)
@@ -57,7 +58,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
         }
         #endregion
-   
+
         #region Read Operations
         public int Count<T>(Expression<Func<T, bool>> expression = null) where T : class
         {
@@ -71,7 +72,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
         }
 
-        public List<T> Get<T>( Expression<Func<T, bool>> expression = null) where T : class
+        public List<T> Get<T>(Expression<Func<T, bool>> expression = null) where T : class
         {
             try
             {
@@ -113,11 +114,37 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
         }
 
+
+
+        public bool UpdateAccountDetails(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                var dataToUpdate = _context.Set<AccountDetails>().FirstOrDefault(x => x.AccountId == dominatorAccountModel.AccountId);
+
+                if (dataToUpdate == null)
+                    return false;
+
+                dataToUpdate.AccountNetwork = dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString();
+                dataToUpdate.UserFullName = dominatorAccountModel.AccountBaseModel.UserFullName;
+                dataToUpdate.Status = dominatorAccountModel.AccountBaseModel.Status;
+                dataToUpdate.Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies);
+                dataToUpdate.ProfilePictureUrl = dominatorAccountModel.AccountBaseModel.ProfilePictureUrl;
+                _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+        }
         #endregion
 
         #region Delete Operations
 
-        public bool Remove<T>( T t) where T : class
+        public bool Remove<T>(T t) where T : class
         {
             try
             {
@@ -127,6 +154,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
             catch (Exception ex)
             {
+                ex.DebugLog();
                 return false;
             }
         }
@@ -141,7 +169,36 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
             catch (Exception ex)
             {
+                ex.DebugLog();
                 return false;
+            }
+        }
+
+
+        public void Remove<T>(Expression<Func<T, bool>> expression) where T : class
+        {
+            try
+            {
+                Remove(_context.Set<T>().FirstOrDefault(expression));
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+
+        public void RemoveMatch<T>(Expression<Func<T, bool>> expression) where T : class
+        {
+            try
+            {
+                var matchedItems = _context.Set<T>().Where(expression);
+                foreach (var items in matchedItems)
+                    Remove(items);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
         }
 

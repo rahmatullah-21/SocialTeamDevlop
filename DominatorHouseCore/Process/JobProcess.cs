@@ -87,10 +87,6 @@ namespace DominatorHouseCore.Process
           //  DataBaseConnectionAccount = objDatabaseHandler.GetDataBaseConnection(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);            
         }
 
-        protected DataBaseConnectionCampaign GetDatabaseConnectionForCampaign()
-        {
-            return DataBaseHandler.GetDataBaseConnectionCampaignInstance(CampaignId, SocialNetworks);
-        }
 
         protected void ScheduleNextJob(DateTime dateTime)
         {

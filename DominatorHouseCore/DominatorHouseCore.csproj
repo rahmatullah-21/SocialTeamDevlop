@@ -173,9 +173,6 @@
     <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\DataBaseConnectionGlobal.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\GlobalDbContext.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\GlobalDbInitializer.cs" />
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackWhiteListUser.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\DailyStatitics.cs" />
@@ -203,14 +200,6 @@
     <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\GdTables\FollowType.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\CampaignDbContext.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\CampaignDbInitializer.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\DataBaseConnectionCampaign.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\ModelConfiguration.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\CommonDbContext.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\CommonDbInitializer.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\CustomHistory.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\DataBaseConnection.cs" />
     <Compile Include="DatabaseHandler\CoreModels\SQLiteConfiguration.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\FeedInfo.cs" />
@@ -290,6 +279,8 @@
     <Compile Include="DatabaseHandler\TdTables\Campaign\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Account\FollowType.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Account\Friendships.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\InteractedUser.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\UnFollowedUser.cs" />
@@ -297,6 +288,7 @@
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedUser.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\UnFollowedUser.cs" />
     <Compile Include="DatabaseHandler\Utility\DbOperations.cs" />
+    <Compile Include="DatabaseHandler\Utility\GlobalDatabaseConnection.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\FeedInfos.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\Friendships.cs" />
@@ -332,8 +324,7 @@
     <Compile Include="Enums\QdQuery\FollowerQuery.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
-    <Compile Include="Enums\TumblrQuery\TumblrFollowerQuery.cs" />
-    <Compile Include="Enums\TumblrQuery\TumblrLikerQuery.cs" />
+    <Compile Include="Enums\TumblrQuery\TumblrQuery.cs" />
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />

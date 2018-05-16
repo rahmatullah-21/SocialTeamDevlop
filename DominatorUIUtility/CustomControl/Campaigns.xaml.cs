@@ -344,10 +344,12 @@ namespace DominatorUIUtility.CustomControl
 
                 });
                 #endregion
+
                 var dataBase = new DbOperations(campName.CampaignId, SocialNetworks,
                     ConstantVariable.GetCampaignDb);
                 //DataBaseConnectionCampaign dataBase =
                 //   DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
+
 
                 if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
                 {
@@ -676,7 +678,7 @@ namespace DominatorUIUtility.CustomControl
 
             win.ShowDialog();
 
-
+           
         }
     }
 }
