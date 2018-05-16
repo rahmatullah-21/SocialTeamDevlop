@@ -399,9 +399,11 @@ namespace DominatorHouse
 
                 if (textBlockDetails.Text == FindResource("langAutoActivity").ToString())
                 {
-                    var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
-                        .AccountUserControlTools;
-                    accountUi.GetStartupToolsView();
+                    DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+
+                  // var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
+                    //    .AccountUserControlTools;
+                    //accountUi.GetStartupToolsView();
                 }
                 if (textBlockDetails.Text == FindResource("langPublisher").ToString())
                 {

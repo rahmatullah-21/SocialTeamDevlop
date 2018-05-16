@@ -31,8 +31,12 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         public static DominatorAutoActivityViewModel GetSingletonDominatorAutoActivityViewModel()
           => ObjDominatorAutoActivityViewModel ?? (ObjDominatorAutoActivityViewModel = new DominatorAutoActivityViewModel());
 
-        private ICollectionView _accountsCollectionView;
 
+
+        private ICollectionView _accountsCollectionView;
+        /// <summary>
+        /// To give the itemsource for account details
+        /// </summary>
         public ICollectionView AccountsCollectionView
         {
             get
@@ -47,8 +51,12 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             }
         }
 
-        private UserControl _selectedUserControl;
 
+
+        private UserControl _selectedUserControl;
+        /// <summary>
+        /// To bind the initial view for each dominator
+        /// </summary>
         public UserControl SelectedUserControl
         {
             get
@@ -65,7 +73,9 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
 
         private ObservableCollection<AccountsActivityDetailModel> _accountsCollection;
-
+        /// <summary>
+        /// To hold all accounts important activities enable status
+        /// </summary>
         public ObservableCollection<AccountsActivityDetailModel> AccountsCollection
         {
             get
@@ -80,13 +90,19 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             }
         }
 
+        /// <summary>
+        /// To bind the respective network view for auto activity
+        /// </summary>
+        /// <param name="networks">pass the social network for which UI gets bind </param>
         public void CallRespectiveView(SocialNetworks networks)
         {
             try
             {
+                // collect the UI
                 var accountToolsView = SocinatorInitialize.GetSocialLibrary(networks).GetNetworkCoreFactory().AccountUserControlTools;
                 SelectedUserControl = accountToolsView.GetStartupToolsView();
 
+                // If passed network is social then initialize the account details
                 if (networks == SocialNetworks.Social)
                     InitializeAccounts();
             }
@@ -96,17 +112,24 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             }
         }
 
+        /// <summary>
+        /// To Initialize the account details with enable status 
+        /// </summary>
         public void InitializeAccounts()
         {
+            // read from bin file for getting all accounts
             var accounts = AccountsFileManager.GetAll();
 
-            AccountsCollection = new ObservableCollection<AccountsActivityDetailModel>();
+            // clear saved account details
+            AccountsCollection.Clear();
 
+            // if accounts count more than one means generate the activities
             if (accounts != null)
                 foreach (var account in accounts)
                 {
                     try
                     {
+                        // initialize the activity details
                         var accountsActivityDetailModel = new AccountsActivityDetailModel
                         {
                             AccountName = account.AccountBaseModel.UserName,
@@ -115,6 +138,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                             ActivityDetailsCollections = new ObservableCollection<ActivityDetailsModel>()
                         };
 
+                        // get the respective network details
                         var activities = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
                             .GetNetworkCoreFactory()
                             .AccountUserControlTools
@@ -123,10 +147,12 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                         activities.ForEach(x =>
                         {
                             try
-                            {                              
+                            {
+                                // get the activity details                    
                                 var activityData = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(y =>
                                     y.ActivityType == x);
 
+                                // if activity present then add to list with status
                                 if (activityData != null)
                                 {
                                     accountsActivityDetailModel.ActivityDetailsCollections
@@ -136,6 +162,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                                             Title = x.ToString()
                                         });
                                 }
+                                // if activity not present then add to list with default status
                                 else
                                 {
                                     accountsActivityDetailModel.ActivityDetailsCollections
@@ -151,7 +178,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                                 ex.DebugLog();
                             }
                         });
-
+                        // add the item to account collection
                         AccountsCollection.Add(accountsActivityDetailModel);
                     }
                     catch (Exception ex)
@@ -159,6 +186,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                         ex.DebugLog();
                     }
                 }
+            // Initialize to collection viewS
             AccountsCollectionView = CollectionViewSource.GetDefaultView(AccountsCollection);
 
         }
