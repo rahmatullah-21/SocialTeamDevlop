@@ -85,7 +85,7 @@ namespace DominatorHouseCore.Utility
 
                         var data = contentArray.Select(line => line.EndsWith("\0") ? line.Replace("\0", "") : line);
                   
-                        listFileContent.AddRange(data);
+                        listFileContent.AddRange(data.Distinct(StringComparer.CurrentCultureIgnoreCase));
 
                         listFileContent.RemoveAll(string.IsNullOrEmpty);
                     }

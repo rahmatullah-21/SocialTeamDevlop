@@ -255,6 +255,14 @@
       <Project>{164cddcd-db12-4998-b822-3adc9c8a7072}</Project>
       <Name>QuoraDominatorUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\tumblrdominator-library\TumblrDominatorCore\TumblrDominatorCore.csproj">
+      <Project>{5898e952-8c43-40b7-9527-eb814650d50f}</Project>
+      <Name>TumblrDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\tumblrdominator-library\TumblrDominatorUI\TumblrDominatorUI.csproj">
+      <Project>{82af3b95-2454-4866-816d-2ee690349ef0}</Project>
+      <Name>TumblrDominatorUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
       <Name>DominatorHouseCore</Name>

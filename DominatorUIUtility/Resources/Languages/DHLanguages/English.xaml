@@ -145,5 +145,9 @@ Type 1. [Group Name]:[SocialNetwork]:[User Name]:[Password]
 Type 2. [Group Name]:[SocialNetwork]:[User Name]:[Password]:[Proxy Address]:[Proxy Port]
 Type 3. [Group Name]:[SocialNetwork]:[User Name]:[Password]:[Proxy Address]:[Proxy Port]:[Proxy User Name]:[Proxy Password]
     </system:String>
-    
+    <system:String x:Key="DHImportProxyDescription"  xml:space="preserve">Format :
+Type 1. [Group Name]:[Proxy Name]:[IP]:[Port]:[Proxy User Name]:[Proxy Password]
+Type 2. [IP]:[Port]:[Proxy User Name]:[Proxy Password]
+Type 3. [IP]:[Port]
+    </system:String>
 </ResourceDictionary>

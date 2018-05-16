@@ -349,7 +349,7 @@
             <StackPanel Orientation="Horizontal">
 
                 <Button Height="30"   x:Name="btnImportProxies" Margin="10,5" Click="btnImportProxies_Click"
-                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" >
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" ToolTip="{DynamicResource DHImportProxyDescription}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
@@ -463,7 +463,8 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <Grid >
                 <ListView Grid.Row="1"  Margin="0,5" ItemsSource="{Binding ProxyManagerCollection}"
-                   ItemContainerStyle="{StaticResource ListViewItems}"  AlternationCount="{Binding Items.Count,RelativeSource={RelativeSource Self}}">
+                   ItemContainerStyle="{StaticResource ListViewItems}"  AlternationCount="{Binding Items.Count,RelativeSource={RelativeSource Self}}"
+                          Foreground="{DynamicResource AccentBaseColorBrush}">
 
                     <ListView.Resources>
                         <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
@@ -523,7 +524,7 @@
                             <GridViewColumn Header="{DynamicResource langProxyIpPort}" Width="150">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Width="120">
+                                        <TextBox Width="120" x:Name="txtProxyPort">
                                             <TextBox.Text>
                                                 <MultiBinding StringFormat="{}{0}:{1}">
                                                     <Binding Path="AccountProxy.ProxyIp" />
@@ -629,6 +630,24 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
+                                            <Button Content="{DynamicResource langUpdateProxy}" x:Name="btnUpdateProxy" 
+                                                    FontWeight="SemiBold" 
+                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" >
+                                                <Button.Style>
+                                                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                        <Style.Triggers>
+                                                           <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=txtProxyPort,Path=Text,UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}" />
+                                                                    <Condition Binding="{Binding ElementName=txtProxyPort,Path=Text,UpdateSourceTrigger=PropertyChanged}" Value="" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="IsEnabled" Value="True" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
                                             <Button Content="{DynamicResource langDelete}" x:Name="btnDeletesProxy" 
                                             FontWeight="SemiBold" Click="btnDeletesProxy_Click"
                                             Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />

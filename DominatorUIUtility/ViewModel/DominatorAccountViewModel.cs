@@ -498,7 +498,7 @@ namespace DominatorUIUtility.ViewModel
                     LstDominatorAccountModel.Add(dominatorAccountModel);
                 }
 
-                GlobusLogHelper.log.Info(Log.AddedAccount, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
+                GlobusLogHelper.log.Info(Log.Added, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
             }
             else
             {
@@ -735,7 +735,7 @@ namespace DominatorUIUtility.ViewModel
                 dbOperations.Remove<AccountDetails>(user =>
                     user.AccountNetwork == item.AccountBaseModel.AccountNetwork.ToString() &&
                     user.UserName == item.UserName);
-                GlobusLogHelper.log.Info(Log.DeleteAccount, item.AccountBaseModel.AccountNetwork, item.AccountBaseModel.UserName);
+                GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork, item.AccountBaseModel.UserName);
                 item.NotifyDeleted();
             });
 

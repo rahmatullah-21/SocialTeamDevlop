@@ -94,7 +94,7 @@
         /// 1 = CampaignName
         /// </summary>
         public static string CampaignPaused { get; set; } = "{0}\t {1}\t successfully paused.";
-       
+
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = CampaignName
@@ -178,17 +178,21 @@
 
 
         /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = Account's Username
+        /// 0 = SocialNetwork
+        /// 1 = Content
         /// </summary>
-        public static string DeleteAccount { get; set; } = "{0}\t {1}\t Deleted successfully!";
+        public static string Deleted { get; set; } = "{0}\t {1}\t successfully Deleted";
 
         /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = Account's Username
+        /// 0 = SocialNetwork
+        /// 1 = Content
         /// </summary>
-        public static string AddedAccount { get; set; } = "{0}\t {1}\t Added successfully!";
-
+        public static string Added { get; set; } = "{0}\t {1}\t successfully Added";
+        /// <summary>
+        /// 0 =  SocialNetwork
+        /// 1 = Content
+        /// </summary>
+        public static string Exported { get; set; } = "{0}\t {1}\t successfully Exported";
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
