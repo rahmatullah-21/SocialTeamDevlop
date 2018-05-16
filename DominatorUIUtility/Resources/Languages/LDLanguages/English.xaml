@@ -150,15 +150,33 @@
    <system:String x:Key="LDlangWorkAnniversaryGreeting">Work Anniversary Greeting</system:String>
     <system:String x:Key="LDlangSyntaxForGreetingInput">&lt;BG&gt; Enter Birthday Greeting &lt;/BG&gt; &#xD;&#xA; &lt;NG&gt; Enter New Job Greeting &lt;/NG&gt; &#xD;&#xA; &lt;WG&gt; Enter Work Anniversary Greeting &lt;/WG&gt;
     </system:String>
-    <system:String x:Key="LDlangConnectionSources">Connection sources :</system:String>
+    
     <system:String x:Key="LDlangAllConnections">All connections</system:String>
     <system:String x:Key="LDlangCustomConnectionUrls">Custom connection url(s)</system:String>
+   
+    <system:String x:Key="LDlangCustomGroupUrls">Custom Group url(s)</system:String>
+   
+
+    <system:String x:Key="LDlangRemoveOrWithdrawConnections">Remove Or Withdraw</system:String>
+    <system:String x:Key="LDlangConnectionSources">Connection sources :</system:String>
     <system:String x:Key="LDlangWaterMarkTextForCustomConnectionUrls">Enter your connection url(s).</system:String>
     <system:String x:Key="LDlangGroupSources">Group sources :</system:String>
     <system:String x:Key="LDlangAllGroups">All Groups</system:String>
-    <system:String x:Key="LDlangCustomGroupUrls">Custom Group url(s)</system:String>
+    <system:String x:Key="LDlangCustomGroupList">Custom Group List</system:String>
     <system:String x:Key="LDlangWaterMarkTextForCustomGroupUrls">Enter your Group url(s).</system:String>
     <system:String x:Key="LDlangEndorsementCriteria">Endorsement Criteria :</system:String>
     <system:String x:Key="LDlangNumberOfSkillsToBeEndorsed">Number of skills to be endorsed</system:String>
+    <system:String x:Key="LDlangConnectedOrRequestedUserSources">Connected or requested user sources :</system:String>
+    <system:String x:Key="LDlangBySoftware">By software</system:String>
+    <system:String x:Key="LDlangOutSideSoftware">Outside software</system:String>
+    <system:String x:Key="LDlangCustomUserList">Custom user list</system:String>
+    <system:String x:Key="LDlangWaterMarkTextForCustomUserProfileUrls">Enter profile url(s)..</system:String>
+    <system:String x:Key="LDlangSourceType">Source Type :</system:String>
+    <system:String x:Key="LDlangPendingConnectionRequest">Pending connection request (Withdraw)</system:String>
+    <system:String x:Key="LDlangAlreadyConnected">Already connected (Remove)</system:String>
+    <system:String x:Key="LDlangSelectedSourceTypeBefore">Selected source type before</system:String>
+    <system:String x:Key="LDlangDays">days</system:String>
+    <system:String x:Key="LDlangAnd">and</system:String>
+    <system:String x:Key="langHours">hours</system:String>
 
 </ResourceDictionary>

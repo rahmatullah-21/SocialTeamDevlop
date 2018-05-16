@@ -1271,6 +1271,16 @@
     <system:String x:Key="GDlangNumberOfMediaPerWeek">Number of media per week</system:String>
     <system:String x:Key="GDlangMaxMediaDay">Max media per day</system:String>
 
+
+    <system:String x:Key="GDlangNumberOfPostDeletePerJob">Number of posts delete per job</system:String>
+    <system:String x:Key="GDlangNumberOfPostDeletePerHour">Number of posts delete per hour</system:String>
+    <system:String x:Key="GDlangNumberOfPostDeletePerDay">Number of posts delete per day</system:String>
+    <system:String x:Key="GDlangNumberOfPostDeletePerWeek">Number of posts delete per week</system:String>
+    <system:String x:Key="GDlangMaxPostDeleteDay">Max posts delete per day</system:String>
+
+
+    <system:String x:Key="GDlangBroadcastMessageWarning">These accounts are already running with BroadcastMessages configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="GDlangAutoReplyToNewMessagesWarning">These accounts are already running with AutoReplyToNewMessages configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <!--End Gram Dominator-->
 
     <!--Start Twt Dominator-->
@@ -1361,6 +1371,8 @@
     <system:String x:Key="langDownvoteQuestionsPerDay">Number of Questions to Downvote per day</system:String>
     <system:String x:Key="langDownvoteQuestionsPerWeek">Number of Questions to Downvote per day</system:String>
     <system:String x:Key="langMaxDownvoteQuestionsDay">Max Questions to Downvote per day</system:String>
+    
+    
     <!--End Quora Dominator-->
 
     
