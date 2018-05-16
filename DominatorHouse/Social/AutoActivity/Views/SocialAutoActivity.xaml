@@ -24,7 +24,6 @@
                                Content="{DynamicResource langAutoActivityTitle}" />
             </StackPanel>
         </Grid>
-
         <ListView Grid.Row="1"
                   x:Name="CampaignStatusList"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"                  
@@ -52,9 +51,9 @@
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>
-                
+
                 <GridView>
-                    
+
                     <GridViewColumn Width="50">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource DHlangPlatform}"/>
@@ -260,7 +259,7 @@
                                             </ListBox.ItemsPanel>
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Border BorderThickness="0,0,1,0" Padding="1" BorderBrush="{DynamicResource AccentBaseColorBrush}">
+                                                    <Border BorderThickness="0,0,0,0" Padding="1" BorderBrush="{DynamicResource AccentBaseColorBrush}">
                                                         <StackPanel Orientation="Horizontal" Width="130">
                                                             <mah:ToggleSwitch OnLabel="" OffLabel="" IsChecked="{Binding Status}" Margin="1,0,0,0" HorizontalAlignment="Center" IsCheckedChanged="ActivityStatusChanged_OnIsCheckedChanged" VerticalAlignment="Center" >
                                                                 <mah:ToggleSwitch.Style>
@@ -278,7 +277,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    
+
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource langActions}"/>

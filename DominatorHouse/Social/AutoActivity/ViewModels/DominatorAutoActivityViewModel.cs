@@ -29,7 +29,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         private static DominatorAutoActivityViewModel ObjDominatorAutoActivityViewModel { get; set; } = null;
 
         public static DominatorAutoActivityViewModel GetSingletonDominatorAutoActivityViewModel()
-            => ObjDominatorAutoActivityViewModel ?? (ObjDominatorAutoActivityViewModel = new DominatorAutoActivityViewModel());
+          => ObjDominatorAutoActivityViewModel ?? (ObjDominatorAutoActivityViewModel = new DominatorAutoActivityViewModel());
 
         private ICollectionView _accountsCollectionView;
 
@@ -105,49 +105,59 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             if (accounts != null)
                 foreach (var account in accounts)
                 {
-                    var accountsActivityDetailModel = new AccountsActivityDetailModel
+                    try
                     {
-                        AccountName = account.AccountBaseModel.UserName,
-                        AccountId = account.AccountBaseModel.AccountId,
-                        AccountNetwork = account.AccountBaseModel.AccountNetwork,
-                        ActivityDetailsCollections = new ObservableCollection<ActivityDetailsModel>()
-                    };
-
-                    account.ActivityManager.LstModuleConfiguration.ForEach(x =>
-                    {
-                        var activityDetailsModel = new ActivityDetailsModel()
+                        var accountsActivityDetailModel = new AccountsActivityDetailModel
                         {
-                            Title = x.ActivityType.ToString(),
-                            Status = x.IsEnabled,
+                            AccountName = account.AccountBaseModel.UserName,
+                            AccountId = account.AccountBaseModel.AccountId,
+                            AccountNetwork = account.AccountBaseModel.AccountNetwork,
+                            ActivityDetailsCollections = new ObservableCollection<ActivityDetailsModel>()
                         };
 
-                        if (accountsActivityDetailModel.ActivityDetailsCollections.Count <= 5)
-                            accountsActivityDetailModel.ActivityDetailsCollections.Add(activityDetailsModel);
-                    });
+                        var activities = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                            .GetNetworkCoreFactory()
+                            .AccountUserControlTools
+                            .GetImportantActivityTypes().ToList();
 
-                    var accountModuleList = EnumUtility.GetEnums(account.AccountBaseModel.AccountNetwork.ToString());
-
-                    if (accountModuleList.Count >
-                        accountsActivityDetailModel.ActivityDetailsCollections.Count)
-                    {
-                        var alreadyAddedActivity = account.ActivityManager.LstModuleConfiguration
-                            .Select(x => x.ActivityType).ToList();
-
-                        var notAddedList = accountModuleList.Except(alreadyAddedActivity);
-
-                        notAddedList.ForEach(x =>
+                        activities.ForEach(x =>
                         {
-                            var activityDetailsModel = new ActivityDetailsModel
-                            {
-                                Title = x.ToString(),
-                                Status = false,
-                            };
-                            if (accountsActivityDetailModel.ActivityDetailsCollections.Count <= 5)
-                                accountsActivityDetailModel.ActivityDetailsCollections.Add(activityDetailsModel);
-                        });
-                    }
+                            try
+                            {                              
+                                var activityData = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(y =>
+                                    y.ActivityType == x);
 
-                    AccountsCollection.Add(accountsActivityDetailModel);
+                                if (activityData != null)
+                                {
+                                    accountsActivityDetailModel.ActivityDetailsCollections
+                                        .Add(new ActivityDetailsModel
+                                        {
+                                            Status = activityData.IsEnabled,
+                                            Title = x.ToString()
+                                        });
+                                }
+                                else
+                                {
+                                    accountsActivityDetailModel.ActivityDetailsCollections
+                                        .Add(new ActivityDetailsModel
+                                        {
+                                            Status = false,
+                                            Title = x.ToString()
+                                        });
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.DebugLog();
+                            }
+                        });
+
+                        AccountsCollection.Add(accountsActivityDetailModel);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
                 }
             AccountsCollectionView = CollectionViewSource.GetDefaultView(AccountsCollection);
 

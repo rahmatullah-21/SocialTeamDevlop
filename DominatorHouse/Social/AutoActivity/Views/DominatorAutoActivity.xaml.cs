@@ -14,7 +14,7 @@ namespace DominatorHouse.Social.AutoActivity.Views
         private DominatorAutoActivity()
         {
             InitializeComponent();
-            DominatorAutoActivityViewModel = DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
+            DominatorAutoActivityViewModel =  DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
             DominatorActivityPage.DataContext = DominatorAutoActivityViewModel;
         }
 

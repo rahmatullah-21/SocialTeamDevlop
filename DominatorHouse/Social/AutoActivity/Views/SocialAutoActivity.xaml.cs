@@ -38,19 +38,18 @@ namespace DominatorHouse.Social.AutoActivity.Views
             DominatorAutoActivityViewModel = DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
             InitializeComponent();
         }
-     
+
         private static SocialAutoActivity ObjSocialAutoActivity { get; set; } = null;
 
         public static SocialAutoActivity GetSingletonSocialAutoActivity()
         {
-            if (ObjSocialAutoActivity == null)           
+            if (ObjSocialAutoActivity == null)
                 ObjSocialAutoActivity = new SocialAutoActivity();
-            
             ObjSocialAutoActivity.SetDataContext();
             return ObjSocialAutoActivity;
         }
 
-        public static bool NewAutoActivityObject(SocialNetworks soicalNetworks,string selectedAccounts)
+        public static bool NewAutoActivityObject(SocialNetworks soicalNetworks, string selectedAccounts)
         {
             try
             {
@@ -98,8 +97,8 @@ namespace DominatorHouse.Social.AutoActivity.Views
                 return false;
             }
         }
-     
-        private void SetDataContext() 
+
+        private void SetDataContext()
             => SocialActivity.DataContext = DominatorAutoActivityViewModel;
 
         private void GotoTools(object sender)
@@ -123,13 +122,15 @@ namespace DominatorHouse.Social.AutoActivity.Views
 
         private void ActivityStatusChanged_OnIsCheckedChanged(object sender, EventArgs e)
         {
-          
+
         }
 
-        private void GotoToolsByName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) 
+        private void GotoToolsByName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
             => GotoTools(sender);
 
         private void ButtonViewActivityStatus_OnClick(object sender, RoutedEventArgs e)
             => GotoTools(sender);
+
+        
     }
 }
