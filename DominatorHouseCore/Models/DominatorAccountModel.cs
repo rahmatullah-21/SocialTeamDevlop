@@ -11,6 +11,7 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Request;
 using Newtonsoft.Json;
 using System.Threading;
+using DominatorHouseCore.DatabaseHandler.CoreModels;
 
 namespace DominatorHouseCore.Models
 {
@@ -22,16 +23,14 @@ namespace DominatorHouseCore.Models
     public sealed class DominatorAccountModel : BindableBase
     {
         private DominatorAccountBaseModel _accountBaseModel;
+
         /// <summary>
         /// AccountBaseModel contains the base information of the account
         /// </summary>
         [ProtoMember(1)]
         public DominatorAccountBaseModel AccountBaseModel
         {
-            get
-            {
-                return _accountBaseModel;
-            }
+            get { return _accountBaseModel; }
             set
             {
                 if (_accountBaseModel != null && _accountBaseModel == value)
@@ -135,7 +134,9 @@ namespace DominatorHouseCore.Models
         {
             try
             {
-                return ModulePrivateDetails == null ? null : JObject.Parse(ModulePrivateDetails)[PropertyName].ToString();
+                return ModulePrivateDetails == null
+                    ? null
+                    : JObject.Parse(ModulePrivateDetails)[PropertyName].ToString();
             }
             catch (Exception e)
             {
@@ -159,7 +160,7 @@ namespace DominatorHouseCore.Models
         }
 
 
-        public void SetModulePrivateDetailsValue(object value, [CallerMemberName]string PropertyName = "")
+        public void SetModulePrivateDetailsValue(object value, [CallerMemberName] string PropertyName = "")
         {
             try
             {
@@ -182,45 +183,29 @@ namespace DominatorHouseCore.Models
         [ProtoMember(16)]
         public int? DisplayColumnValue1
         {
-            get
-            {
-                return _displayColumnValue1;
-            }
-            set
-            {
-                SetProperty(ref _displayColumnValue1, value);
-              
-            }
+            get { return _displayColumnValue1; }
+            set { SetProperty(ref _displayColumnValue1, value); }
         }
 
         [ProtoMember(17)]
         public int? DisplayColumnValue2
         {
             get { return _displayColumnValue2; }
-            set
-            {
-                SetProperty(ref _displayColumnValue2, value);
-            }
+            set { SetProperty(ref _displayColumnValue2, value); }
         }
 
         [ProtoMember(18)]
         public int? DisplayColumnValue3
         {
             get { return _displayColumnValue3; }
-            set
-            {
-                SetProperty(ref _displayColumnValue3, value);
-            }
+            set { SetProperty(ref _displayColumnValue3, value); }
         }
 
         [ProtoMember(19)]
         public int? DisplayColumnValue4
         {
             get { return _displayColumnValue4; }
-            set
-            {
-                SetProperty(ref _displayColumnValue4, value);
-            }
+            set { SetProperty(ref _displayColumnValue4, value); }
         }
 
         #endregion
@@ -250,14 +235,14 @@ namespace DominatorHouseCore.Models
             {
                 var cookieCollection = new CookieCollection();
 
-                    foreach (var cookieHelper in _cookieHelperList)
-                        cookieCollection.Add(new Cookie()
-                        {
-                            Domain = cookieHelper.Domain,
-                            Name = cookieHelper.Name,
-                            Value = cookieHelper.Value
-                        });
-                
+                foreach (var cookieHelper in _cookieHelperList)
+                    cookieCollection.Add(new Cookie()
+                    {
+                        Domain = cookieHelper.Domain,
+                        Name = cookieHelper.Name,
+                        Value = cookieHelper.Value
+                    });
+
                 return cookieCollection;
             }
             set

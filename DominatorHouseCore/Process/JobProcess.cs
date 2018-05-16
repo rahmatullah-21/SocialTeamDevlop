@@ -14,6 +14,7 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Newtonsoft.Json;
+using DominatorHouseCore.Interfaces;
 
 namespace DominatorHouseCore.Process
 {
@@ -74,17 +75,18 @@ namespace DominatorHouseCore.Process
 
         private void InitializeDatabaseConnection()
         {
+            var objDatabaseHandler = new DataBaseHandler();
+
             if (CampaignId != null)
             {
-                DataBaseConnectionCampaign = DataBaseHandler.GetDataBaseConnectionCampaignInstance(CampaignId, SocialNetworks);
+                DataBaseConnectionCampaign = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignDatabase;
             }
-            DataBaseConnectionAccount = DataBaseHandler.GetDataBaseConnectionInstance(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);
+
+            DataBaseConnectionAccount = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().AccountDatabase;
+
+          //  DataBaseConnectionAccount = objDatabaseHandler.GetDataBaseConnection(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);            
         }
 
-        protected DataBaseConnectionCampaign GetDatabaseConnectionForCampaign()
-        {
-            return DataBaseHandler.GetDataBaseConnectionCampaignInstance(CampaignId, SocialNetworks);
-        }
 
         protected void ScheduleNextJob(DateTime dateTime)
         {
@@ -282,9 +284,9 @@ namespace DominatorHouseCore.Process
 
         public CancellationTokenSource JobCancellationTokenSource { get; set; }
 
-        protected DataBaseConnectionCampaign DataBaseConnectionCampaign { get; set; }
+        protected IDatabaseConnection DataBaseConnectionCampaign { get; set; }
 
-        protected DataBaseConnection DataBaseConnectionAccount { get; set; }
+        protected IDatabaseConnection DataBaseConnectionAccount { get; set; }
 
         public string AccountName => DominatorAccountModel?.UserName;
 

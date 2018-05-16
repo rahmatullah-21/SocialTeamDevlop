@@ -5,198 +5,273 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Socinator.Social.AutoActivity.Views"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"         
-             mc:Ignorable="d" Name="SocialActivity" Loaded="SocialAutoActivity_OnLoaded"
-            >
+             mc:Ignorable="d" Name="SocialActivity" 
+             Loaded="SocialAutoActivity_OnLoaded">
     <Grid>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="0.8*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
-
         <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.35*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="0">
-                <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
-                    <Label  
+            <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
+                <Label  
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center" 
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="White" Margin="5,0,0,0"
                                Content="{DynamicResource langAutoActivityTitle}" />
-                </StackPanel>
-            </Grid>
-
-            <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
-                <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right">
-                   
-                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-
-                        <Button Background="Transparent"  Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect" >
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-
-                            <Button.ContextMenu>
-                                <ContextMenu>
-
-                                    <MenuItem Header="{DynamicResource langExpandAll}" Name="TitleMenuExpandAll" Click="ExpandAll_OnClick">
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                  
-                                    <Separator />
-
-                                    <MenuItem Header="{DynamicResource langShrinkAll}" Name="TitleMenuShrinkAll" Click="MenuShrinkAll_OnClick" >
-                                        <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                    </StackPanel>
-
-
-                </StackPanel>
-            </Grid>
-
+            </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="1">
-            <ListBox ItemsSource="{Binding AccountsCollectionView}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Expander Margin="7" HorizontalAlignment="Stretch" BorderThickness="2" Name="AccountDetailsExpander" IsExpanded="{Binding IsExpand}" Background="AliceBlue" >
-                            <Expander.Header>
-                                <StackPanel Orientation="Horizontal">
+        <ListView Grid.Row="1"
+                  x:Name="CampaignStatusList"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"                  
+                  ItemsSource="{Binding AccountsCollectionView}"
+                  VerticalAlignment="Stretch">
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}" 
+                       BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="Height" Value="30"></Setter>
+                    <Setter Property="Margin" Value="0,2,0,0"></Setter>
+                </Style>
+                <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="Height" Value="30"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="50">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangPlatform}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <ContentControl>
+                                            <ContentControl.Style>
+                                                <Style TargetType="{x:Type ContentControl}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                    <Style.Triggers>
 
-                                    <ContentControl MouseDoubleClick="UserName_OnMouseDoubleClick">
-                                        <ContentControl.Style>
-                                            <Style TargetType="{x:Type ContentControl}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#003569" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#003569" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="#3897F0" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#3897F0" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
-                                                        <Setter Property="Content" >
-                                                            <Setter.Value>
-                                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                                    <Rectangle.Resources>
-                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                    </Rectangle.Resources>
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ContentControl.Style>
-                                    </ContentControl>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="OrangeRed" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                    <TextBlock FontSize="15" FontWeight="DemiBold" Margin="10 0 0 0" Text="{Binding DominatorAccountModel.RowNo}" />
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="DodgerBlue" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                    <TextBlock FontSize="15" FontWeight="DemiBold" Margin="10 0 0 0" Text="{Binding DominatorAccountModel.AccountBaseModel.UserName}" />
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
 
-                                </StackPanel>
-                            </Expander.Header>
-                            <Grid>
-                                <ListView BorderThickness="0" ItemsSource="{Binding Path=AutoActivityModuleDetailsCollections}">
-                                    <ListView.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <UniformGrid Columns="4" />
-                                        </ItemsPanelTemplate>
-                                    </ListView.ItemsPanel>
-                                    <ListView.ItemContainerStyle>
-                                        <Style TargetType="ListViewItem">
-                                            <Setter Property="Margin" Value="2"/>
-                                            <Setter Property="HorizontalAlignment" Value="Center" />
-                                            <Setter Property="VerticalAlignment" Value="Center" />
-                                        </Style>
-                                    </ListView.ItemContainerStyle>
-                                </ListView>
-                            </Grid>
-                        </Expander>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="DimGray" Width="16" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
 
 
+                    </GridViewColumn>
+                    
+                    <GridViewColumn  Width="250">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource langUsername}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <TextBlock  Margin="6,2,6,2" Text="{Binding AccountName}"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource langActivity}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel Margin="6,2,6,2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <ListView BorderThickness="0" ItemsSource="{Binding Path=AutoActivityModuleDetailsCollections}">
+                                            <ListView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <UniformGrid Columns="6" />
+                                                </ItemsPanelTemplate>
+                                            </ListView.ItemsPanel>
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="Margin" Value="2"/>
+                                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                        </ListView>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
     </Grid>
 </UserControl>

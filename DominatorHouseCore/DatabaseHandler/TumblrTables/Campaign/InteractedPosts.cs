@@ -83,7 +83,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         /// </summary>
         [Column(Order = 11)]
         public string Comments { get; set; }
-        
+
         /// <summary>
         /// TimeStamp when interacted with the Post
         /// </summary>

@@ -54,54 +54,41 @@ namespace Socinator.Social.AutoActivity.ViewModels
             var accountToolsView = SocinatorInitialize.GetSocialLibrary(networks).GetNetworkCoreFactory().AccountUserControlTools;
             SelectedUserControl = accountToolsView.GetStartupToolsView();
 
-            if(networks==SocialNetworks.Social)
+            if (networks == SocialNetworks.Social)
                 InitializeAccounts();
         }
 
         public ObservableCollection<AccountsActivityDetailModel> AccountsCollection { get; set; }
 
+
         public void InitializeAccounts()
         {
             var accounts = AccountsFileManager.GetAll();
 
-            AccountsCollection =
-                new ObservableCollection<AccountsActivityDetailModel>();
+            AccountsCollection = new ObservableCollection<AccountsActivityDetailModel>();
 
             if (accounts != null)
                 foreach (var account in accounts)
                 {
                     var accountsActivityDetailModel = new AccountsActivityDetailModel
                     {
-                        DominatorAccountModel = account,
+                        AccountName = account.AccountBaseModel.UserName,
+                        AccountId = account.AccountBaseModel.AccountId,
+                        AccountNetwork = account.AccountBaseModel.AccountNetwork,
                         AutoActivityModuleDetailsCollections = new ObservableCollection<AutoActivityModuleDetails>()
                     };
 
                     account.ActivityManager.LstModuleConfiguration.ForEach(x =>
                     {
-                        var randomTotal = RandomUtilties.GetRandomNumber(100, 0);
-                        var randomCompleted = RandomUtilties.GetRandomNumber(randomTotal, 0);
-
                         var activityDetailsModel = new ActivityDetailsModel()
                         {
                             Title = x.ActivityType.ToString(),
                             Status = x.IsEnabled ? "Active" : "InActive",
-                            Ratio = new ActivityRatio()
-                            {
-                                // Once total and Completed value are binded then remove the following two lines                               
-                                Total = randomTotal,
-                                Completed = randomCompleted
-
-                                // Uncomment once done
-                                //    Total = x.MaximumCountPerDay,
-                                //    Completed = x.MaximumCountPerDay - 1 <= 0 ? x.MaximumCountPerDay : x.MaximumCountPerDay - 1
-                            }
                         };
-
                         var autoActivityModuleDetails = new AutoActivityModuleDetails
                         {
                             ActivityDetailsModel = activityDetailsModel
                         };
-
                         accountsActivityDetailModel.AutoActivityModuleDetailsCollections.Add(autoActivityModuleDetails);
                     });
 
@@ -117,23 +104,10 @@ namespace Socinator.Social.AutoActivity.ViewModels
 
                         notAddedList.ForEach(x =>
                         {
-                            var randomTotal = RandomUtilties.GetRandomNumber(100, 0);
-                            var randomCompleted = RandomUtilties.GetRandomNumber(randomTotal, 0);
-
                             var activityDetailsModel = new ActivityDetailsModel()
                             {
                                 Title = x.ToString(),
                                 Status = "InActive",
-                                Ratio = new ActivityRatio()
-                                {
-                                    // Once total and Completed value are binded then remove the following two lines                               
-                                    Total = randomTotal,
-                                    Completed = randomCompleted
-
-                                    // Uncomment once done
-                                    //    Total = x.MaximumCountPerDay,
-                                    //    Completed = x.MaximumCountPerDay - 1 <= 0 ? x.MaximumCountPerDay : x.MaximumCountPerDay - 1
-                                }
                             };
 
                             var autoActivityModuleDetails = new AutoActivityModuleDetails
@@ -145,8 +119,6 @@ namespace Socinator.Social.AutoActivity.ViewModels
                                 autoActivityModuleDetails);
                         });
                     }
-
-                    accountsActivityDetailModel.IsExpand = true;
                     AccountsCollection.Add(accountsActivityDetailModel);
                 }
             AccountsCollectionView = CollectionViewSource.GetDefaultView(AccountsCollection);

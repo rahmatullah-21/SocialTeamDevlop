@@ -30,5 +30,10 @@ namespace Socinator.DominatorCores
         public IAccountCountFactory AccountCountFactory { get; set; }
 
         public IAccountToolsFactory AccountUserControlTools { get; set; }
+
+        public IDatabaseConnection AccountDatabase { get; set; }
+
+        public IDatabaseConnection CampaignDatabase { get; set; }
+
     }
 }

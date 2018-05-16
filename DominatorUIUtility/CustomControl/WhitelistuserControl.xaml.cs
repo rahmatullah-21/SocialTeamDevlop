@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.DatabaseHandler.DHTables;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.DHEnum;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -20,15 +23,23 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class WhitelistuserControl : UserControl
     {
-        private DataBaseConnectionGlobal DataBaseConnectionGlb { get; set; }
+        private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
+
+        private DbContext dbContext { get; set; }
+
+        private DbOperations dbOperations { get; set; }
 
         private bool IsUnCheckedFromUser { get; set; }
         WhitelistUserModel WhitelistUserModel { get; set; } = new WhitelistUserModel();
         public WhitelistuserControl()
         {
             InitializeComponent();
-            DataBaseConnectionGlb = DataBaseHandler.GetDataBaseConnectionGlobalInstance();
-            DataBaseConnectionGlb.Get<BlackWhiteListUser>()?.Where(x=>
+
+            DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
+            dbContext = DataBaseConnectionGlb.GetDbContext();
+            dbOperations = new DbOperations(dbContext);
+
+            dbOperations.Get<BlackWhiteListUser>()?.Where(x=>
                 x.Network==SocinatorInitialize.ActiveSocialNetwork.ToString()&&x.CategoryType==UserType.WhiteListedUser.ToString()).ForEach(user =>
             {
                 WhitelistUserModel.LstWhiteListUsers.Add(new WhitelistUserModel
@@ -81,7 +92,7 @@ namespace DominatorUIUtility.CustomControl
                                 {
                                     WhitelistUser = userName
                                 });
-                            DataBaseConnectionGlb.Add<BlackWhiteListUser>(new BlackWhiteListUser()
+                            dbOperations.Add<BlackWhiteListUser>(new BlackWhiteListUser()
                             {
                                 UserName = userName,
                                 CategoryType = UserType.WhiteListedUser.ToString(),
@@ -153,7 +164,7 @@ namespace DominatorUIUtility.CustomControl
             selectedUser.ForEach(x =>
             {
                 WhitelistUserModel.LstWhiteListUsers.Remove(x);
-                DataBaseConnectionGlb.Remove<BlackWhiteListUser>(user => 
+                dbOperations.Remove<BlackWhiteListUser>(user => 
                     user.Network == SocinatorInitialize.ActiveSocialNetwork.ToString() && user.UserName == x.WhitelistUser);
             });
         }

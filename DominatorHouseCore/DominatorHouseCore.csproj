@@ -23,6 +23,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +42,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -49,6 +52,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-fast-test|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -58,6 +62,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-fast-test|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -67,6 +72,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx">
@@ -103,23 +109,24 @@
     <Reference Include="protobuf-net">
       <HintPath>..\packages\protobuf-net.2.3.6\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
-    <Reference Include="SQLite.CodeFirst">
+    <Reference Include="SQLite.CodeFirst, Version=1.5.1.25, Culture=neutral, PublicKeyToken=eb96ba0a78d831a7, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLite.CodeFirst.1.5.1.25\lib\net45\SQLite.CodeFirst.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.106.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.106.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    <Reference Include="System.Data.SQLite, Version=1.0.108.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.108.0\lib\net40\System.Data.SQLite.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Data.SQLite.EF6, Version=1.0.106.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.106.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.108.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.108.0\lib\net40\System.Data.SQLite.EF6.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.106.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.106.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.108.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.108.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
@@ -166,9 +173,6 @@
     <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\DataBaseConnectionGlobal.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\GlobalDbContext.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\GlobalDbInitializer.cs" />
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackWhiteListUser.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\DailyStatitics.cs" />
@@ -193,14 +197,6 @@
     <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\GdTables\FollowType.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\CampaignDbContext.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\CampaignDbInitializer.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\DataBaseConnectionCampaign.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\ModelConfiguration.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\CommonDbContext.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\CommonDbInitializer.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\CustomHistory.cs" />
-    <Compile Include="DatabaseHandler\CoreModels\DataBaseConnection.cs" />
     <Compile Include="DatabaseHandler\CoreModels\SQLiteConfiguration.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\FeedInfo.cs" />
@@ -280,12 +276,16 @@
     <Compile Include="DatabaseHandler\TdTables\Campaign\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\FeedInfo.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Account\FollowType.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Account\Friendships.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\InteractedUser.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\UnFollowedUser.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedUser.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\UnFollowedUser.cs" />
+    <Compile Include="DatabaseHandler\Utility\DbOperations.cs" />
+    <Compile Include="DatabaseHandler\Utility\GlobalDatabaseConnection.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\FeedInfos.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\Friendships.cs" />
@@ -321,8 +321,7 @@
     <Compile Include="Enums\QdQuery\FollowerQuery.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
-    <Compile Include="Enums\TumblrQuery\TumblrFollowerQuery.cs" />
-    <Compile Include="Enums\TumblrQuery\TumblrLikerQuery.cs" />
+    <Compile Include="Enums\TumblrQuery\TumblrQuery.cs" />
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
@@ -338,7 +337,9 @@
     <Compile Include="Interfaces\IComments.cs" />
     <Compile Include="Interfaces\ICommunity.cs" />
     <Compile Include="Interfaces\ICompany.cs" />
+    <Compile Include="Interfaces\IDatabaseConnection.cs" />
     <Compile Include="Interfaces\IJob.cs" />
+    <Compile Include="Interfaces\IModuleConfiguration.cs" />
     <Compile Include="Interfaces\INetworkCollectionFactory.cs" />
     <Compile Include="Interfaces\INetworkCoreFactory.cs" />
     <Compile Include="Diagnostics\SocinatorInitialize.cs" />
@@ -515,12 +516,12 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets')" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.108.0\build\net40\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.108.0\build\net40\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.108.0\build\net40\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.108.0\build\net40\System.Data.SQLite.Core.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

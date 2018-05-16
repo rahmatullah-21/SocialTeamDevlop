@@ -13,6 +13,7 @@ using DominatorHouseCore.Utility;
 using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Request;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
@@ -32,7 +33,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static async Task<HashSet<SocialNetworks>> SetAvailableSocialNetworks(string license)
         {
-            try
+           try
             {
                 if (string.IsNullOrEmpty(license))
                 {
@@ -315,6 +316,11 @@ namespace DominatorHouseCore.Diagnostics
             GlobusExceptionHandler.DisableErrorDialog();
             _isInitialized = true;
         }
+
+        public static IGlobalDatabaseConnection GetGlobalDatabase()
+        {
+            return new GlobalDatabaseConnection();
+        }
     }
 
 
@@ -370,6 +376,18 @@ namespace DominatorHouseCore.Diagnostics
         public NetworkCoreLibraryBuilder AddAccountUiTools(IAccountToolsFactory accountUserControl)
         {
             NetworkCoreFactory.AccountUserControlTools = accountUserControl;
+            return this;
+        }
+
+        public NetworkCoreLibraryBuilder AddAccountDbConnection(IDatabaseConnection accountDbConnection)
+        {
+            NetworkCoreFactory.AccountDatabase = accountDbConnection;
+            return this;
+        }
+
+        public NetworkCoreLibraryBuilder AddCampaignDbConnection(IDatabaseConnection campaignDbConnection)
+        {
+            NetworkCoreFactory.CampaignDatabase = campaignDbConnection;
             return this;
         }
     }

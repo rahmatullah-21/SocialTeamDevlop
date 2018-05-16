@@ -59,7 +59,6 @@ namespace Socinator
 
         private string _licenseKey;
 
-
         public MainWindow()
         {
             try
@@ -98,7 +97,6 @@ namespace Socinator
                         if (await IsValidateAgain(license))
                             continue;
                         else break;
-
                     }
                 }
                 else
@@ -441,7 +439,7 @@ namespace Socinator
                     MainGrid.RowDefinitions[2].Height = new GridLength(200);
                     IsClickedFromMainWindow = true;
                 };
-                MainGrid.RowDefinitions[2].Height = new GridLength(25);
+                MainGrid.RowDefinitions[2].Height = new GridLength(0);
                 activityLogWindow.ShowDialog();
             }
         }

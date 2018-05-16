@@ -116,53 +116,15 @@ namespace Socinator.Social.AutoActivity.Views
             var accountsActivityDetailModel =
                 ((FrameworkElement) sender).DataContext as AccountsActivityDetailModel;
 
-            var dominatorAccountModel = accountsActivityDetailModel?.DominatorAccountModel;
+            if (accountsActivityDetailModel == null)
+                return;
+            DominatorAutoActivityViewModel =
+                DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
 
-            if (dominatorAccountModel == null) return;
-
-            switch (dominatorAccountModel.AccountBaseModel.AccountNetwork)
-            {
-
-                case SocialNetworks.Instagram:
-                    DominatorAutoActivityViewModel =
-                        DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
-                    DominatorAutoActivityViewModel.CallRespectiveView(SocialNetworks.Instagram);
-                    break;
-
-                case SocialNetworks.Twitter:
-                    DominatorAutoActivityViewModel =
-                        DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
-                    DominatorAutoActivityViewModel.CallRespectiveView(SocialNetworks.Twitter);
-                    break;
-            }
+            DominatorAutoActivityViewModel.CallRespectiveView(accountsActivityDetailModel.AccountNetwork);
         }
 
-        private void Expander_OnExpanded(object sender, RoutedEventArgs e)
-        {
-            var data = ((FrameworkElement) sender).DataContext as AccountsActivityDetailModel;
-          
-            if (data == null || data.AutoActivityModuleDetailsCollections.Count != 0) return;
 
-            var currentExpander = sender as Expander;
-
-            if (currentExpander != null)
-              currentExpander.IsExpanded = false;
-            GlobusLogHelper.log.Info($"No acvitity details are found {data.DominatorAccountModel.AccountBaseModel.UserName}");
-        }
-
-        private void ExpandAll_OnClick(object sender, RoutedEventArgs e)
-        {
-            var data = ((FrameworkElement)sender).DataContext as DominatorAutoActivityViewModel;
-
-            data?.AccountsCollection.ForEach(x => { x.IsExpand = true; });
-        }
-
-        private void MenuShrinkAll_OnClick(object sender, RoutedEventArgs e)
-        {
-            var data = ((FrameworkElement) sender).DataContext as DominatorAutoActivityViewModel;
-
-            data?.AccountsCollection.ForEach(x => { x.IsExpand = false; });
-        }
 
         private void BtnSelect_OnClick(object sender, RoutedEventArgs e)
         {
@@ -179,7 +141,5 @@ namespace Socinator.Social.AutoActivity.Views
             DominatorAutoActivityViewModel.InitializeAccounts();
             SetDataContext();
         }
-
-
     }
 }

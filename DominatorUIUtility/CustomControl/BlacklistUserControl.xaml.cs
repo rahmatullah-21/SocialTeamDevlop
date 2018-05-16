@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.DatabaseHandler.DHTables;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.DHEnum;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -21,15 +24,25 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class BlacklistUserControl : UserControl
     {
-        private DataBaseConnectionGlobal DataBaseConnectionGlb { get; set; }
+        private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
+
+        private DbContext dbContext { get; set; }
+
+        private DbOperations dbOperations { get; set; }
 
         private bool IsUnCheckedFromUser { get; set; }
+
         BlacklistUserModel BlacklistUserModel { get; set; } = new BlacklistUserModel();
+
         public BlacklistUserControl()
         {
             InitializeComponent();
-            DataBaseConnectionGlb = DataBaseHandler.GetDataBaseConnectionGlobalInstance();
-            DataBaseConnectionGlb.Get<BlackWhiteListUser>()?.Where(
+
+            DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
+            dbContext = DataBaseConnectionGlb.GetDbContext();
+            dbOperations = new DbOperations(dbContext);
+
+            dbOperations.Get<BlackWhiteListUser>()?.Where(
                 x => x.Network == SocinatorInitialize.ActiveSocialNetwork.ToString() && x.CategoryType == UserType.BlackListedUser.ToString()).ForEach(user =>
                 {
                     BlacklistUserModel.LstBlackListUsers.Add(new BlacklistUserModel
@@ -83,7 +96,7 @@ namespace DominatorUIUtility.CustomControl
                                 {
                                     BlacklistUser = userName
                                 });
-                            DataBaseConnectionGlb.Add<BlackWhiteListUser>(new BlackWhiteListUser()
+                            dbOperations.Add<BlackWhiteListUser>(new BlackWhiteListUser()
                             {
                                 UserName = userName,
                                 CategoryType = UserType.BlackListedUser.ToString(),
@@ -134,7 +147,7 @@ namespace DominatorUIUtility.CustomControl
             selectedUser.ForEach(x =>
             {
                 BlacklistUserModel.LstBlackListUsers.Remove(x);
-                DataBaseConnectionGlb.Remove<BlackWhiteListUser>(user =>
+                dbOperations.Remove<BlackWhiteListUser>(user =>
                     user.Network == SocinatorInitialize.ActiveSocialNetwork.ToString() && user.UserName == x.BlacklistUser);
             });
 

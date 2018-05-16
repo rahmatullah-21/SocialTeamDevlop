@@ -15,6 +15,8 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -32,8 +34,8 @@
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>0.0.0.2</ApplicationVersion>
+    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationVersion>0.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -48,6 +50,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,7 +60,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -106,13 +109,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestCertificateThumbprint>1990048D0DA21F988A15304F68B1204C0C068A95</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>COMODO DOM.pfx</ManifestKeyFile>
+    <ApplicationIcon>SociNator.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -121,10 +118,13 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>SociNator.ico</ApplicationIcon>
+    <ManifestCertificateThumbprint>1990048D0DA21F988A15304F68B1204C0C068A95</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>COMODO DOM.pfx</ManifestKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx">
@@ -132,6 +132,14 @@
     </Reference>
     <Reference Include="Dragablz, Version=0.0.3.197, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dragablz.0.0.3.197\lib\net45\Dragablz.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentScheduler, Version=5.3.0.0, Culture=neutral, PublicKeyToken=b76503528a14ebd1, processorArchitecture=MSIL">
@@ -148,8 +156,25 @@
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.4.4.13\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="SQLite.CodeFirst, Version=1.5.1.25, Culture=neutral, PublicKeyToken=eb96ba0a78d831a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLite.CodeFirst.1.5.1.25\lib\net45\SQLite.CodeFirst.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.108.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.108.0\lib\net40\System.Data.SQLite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.108.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.108.0\lib\net40\System.Data.SQLite.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.108.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.108.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -244,27 +269,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Content Include="CefSharp.BrowserSubprocess.Core.dll">
+    <Resource Include="SociNator.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CefSharp.BrowserSubprocess.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="SociNator.ico" />
+    </Resource>
     <Content Include="SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="widevinecdmadapter.dll" />
-    <Content Include="cef.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="cef_100_percent.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="cef_200_percent.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="cef_extensions.pak">
+    <Content Include="widevinecdmadapter.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="snapshot_blob.bin">
@@ -279,6 +290,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Images\SociNator.ico" />
+    <Content Include="CefSharp.BrowserSubprocess.Core.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharp.BrowserSubprocess.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="chrome_elf.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -298,8 +315,23 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="app.config" />
+    <Content Include="cef.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef_100_percent.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef_200_percent.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef_extensions.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="COMODO DOM.pfx" />
-    <None Include="devtools_resources.pak" />
+    <Content Include="devtools_resources.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="icudtl.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -315,91 +347,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\facedominator-library\FaceDominatorCore\FaceDominatorCore.csproj">
-      <Project>{36f8a922-028e-49dd-bbd6-d7daab339491}</Project>
-      <Name>FaceDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\facedominator-library\FaceDominatorUI\FaceDominatorUI.csproj">
-      <Project>{1c0beb70-f243-4a53-983e-ce25a1b722f6}</Project>
-      <Name>FaceDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorCore\GplusDominatorCore.csproj">
-      <Project>{eaffb84c-f492-4ee5-aa11-c285aaf4e154}</Project>
-      <Name>GplusDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorUI\GplusDominatorUI.csproj">
-      <Project>{654340fb-7bc9-427a-9439-1091bdb15c84}</Project>
-      <Name>GplusDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\gramdominator-library\GramDominatorCore\GramDominatorCore.csproj">
-      <Project>{b04813ea-a4b5-40ae-b705-743687f74770}</Project>
-      <Name>GramDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\gramdominator-library\GramDominatorUI\GramDominatorUI.csproj">
-      <Project>{317a142c-6ae2-4cc1-90a7-5752b9ed76f3}</Project>
-      <Name>GramDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorCore\LinkedDominatorCore.csproj">
-      <Project>{9df3cac5-0c31-49f0-a71e-27b9cefc6553}</Project>
-      <Name>LinkedDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorUI\LinkedDominatorUI.csproj">
-      <Project>{8a858cd7-7834-4365-8f4d-4faa0361de7f}</Project>
-      <Name>LinkedDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\pindominator-library\PinDominatorCore\PinDominatorCore.csproj">
-      <Project>{68ef34bf-36c9-4e33-9acd-7b9d7b746f29}</Project>
-      <Name>PinDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\pindominator-library\PinDominator\PinDominatorUI.csproj">
-      <Project>{107cebc6-409b-47ca-a248-4a5e03d86e66}</Project>
-      <Name>PinDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj">
-      <Project>{21b1d90e-f201-4ef0-b4e9-a99315945f1d}</Project>
-      <Name>QuoraDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorUI\QuoraDominatorUI.csproj">
-      <Project>{164cddcd-db12-4998-b822-3adc9c8a7072}</Project>
-      <Name>QuoraDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\reddit-dominator-library\RedditDominatorCore\RedditDominatorCore.csproj">
-      <Project>{6d1bc42e-ffea-4f4a-9375-328d0de7269d}</Project>
-      <Name>RedditDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\reddit-dominator-library\RedditDominatorUI\RedditDominatorUI.csproj">
-      <Project>{30754f3c-6ebc-4021-b0b7-53ea312da707}</Project>
-      <Name>RedditDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\tumblrdominator-library\TumblrDominatorCore\TumblrDominatorCore.csproj">
-      <Project>{5898e952-8c43-40b7-9527-eb814650d50f}</Project>
-      <Name>TumblrDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\tumblrdominator-library\TumblrDominatorUI\TumblrDominatorUI.csproj">
-      <Project>{82af3b95-2454-4866-816d-2ee690349ef0}</Project>
-      <Name>TumblrDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorCore\TwtDominatorCore.csproj">
-      <Project>{e41bf7d2-231f-4d58-ad45-95f7146e1979}</Project>
-      <Name>TwtDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorUI\TwtDominatorUI.csproj">
-      <Project>{b91d5616-eafd-4bf8-aaf5-051675592714}</Project>
-      <Name>TwtDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\youtubedominator-library\YoutubeDominatorCore\YoutubeDominatorCore.csproj">
-      <Project>{9c42c9b5-331e-4ec5-b47f-ae9da1c89ad6}</Project>
-      <Name>YoutubeDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\youtubedominator-library\YoutubeDominatorUI\YoutubeDominatorUI.csproj">
-      <Project>{7a02118a-50ac-4ed5-8247-0899782ddd2f}</Project>
-      <Name>YoutubeDominatorUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
       <Name>DominatorHouseCore</Name>
@@ -438,6 +385,13 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.108.0\build\net40\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.108.0\build\net40\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.108.0\build\net40\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.108.0\build\net40\System.Data.SQLite.Core.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
