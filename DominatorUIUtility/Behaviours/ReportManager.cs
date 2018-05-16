@@ -13,7 +13,13 @@ namespace DominatorUIUtility.Behaviours
     {
         public static Func<string, string, ObservableCollection<QueryInfo>> GetSavedQuery { get; set; }
 
-        public static Func<Reports, List<KeyValuePair<string, string>>, CampaignDetails, int>  GetReportDetail { get; set; }
+        public static Func<Reports, List<KeyValuePair<string, string>>,
+            DbOperations, CampaignDetails, int>  GetReportDetail { get; set; }
+        //public static Func<CampaignAccountWiseReport, DataBaseConnection, string, int> GetAccountWiseReportDetail{ get; set; }
+        public static Func<CampaignAccountWiseReport, DbOperations, int> GetAccountWiseReportDetail{ get; set; }
+
+
+       // public static Func<Reports, List<KeyValuePair<string, string>>, CampaignDetails, int>  GetReportDetail { get; set; }
         
        // public static Func<CampaignAccountWiseReport, DataBaseConnection, string, int> GetAccountWiseReportDetail{ get; set; }
 

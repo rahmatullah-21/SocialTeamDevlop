@@ -439,7 +439,7 @@ namespace DominatorHouse
                     MainGrid.RowDefinitions[2].Height = new GridLength(200);
                     IsClickedFromMainWindow = true;
                 };
-                MainGrid.RowDefinitions[2].Height = new GridLength(25);
+                MainGrid.RowDefinitions[2].Height = new GridLength(0);
                 activityLogWindow.ShowDialog();
             }
         }

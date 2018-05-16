@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using Newtonsoft.Json;
 
 namespace DominatorHouseCore.DatabaseHandler.Utility
 {
@@ -112,6 +114,32 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
         }
 
+
+
+        public bool UpdateAccountDetails(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                var dataToUpdate = _context.Set<AccountDetails>().FirstOrDefault(x => x.AccountId == dominatorAccountModel.AccountId);
+
+                if (dataToUpdate == null)
+                    return false;
+
+                dataToUpdate.AccountNetwork = dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString();
+                dataToUpdate.UserFullName = dominatorAccountModel.AccountBaseModel.UserFullName;
+                dataToUpdate.Status = dominatorAccountModel.AccountBaseModel.Status;
+                dataToUpdate.Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies);
+                dataToUpdate.ProfilePictureUrl = dominatorAccountModel.AccountBaseModel.ProfilePictureUrl;
+                _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+        }
         #endregion
 
         #region Delete Operations
@@ -165,7 +193,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             try
             {
                 var matchedItems = _context.Set<T>().Where(expression);
-                foreach(var items in matchedItems)
+                foreach (var items in matchedItems)
                     Remove(items);
             }
             catch (Exception ex)
