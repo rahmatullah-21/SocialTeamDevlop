@@ -3,7 +3,7 @@ using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 
-namespace DominatorHouse.DominatorCores
+namespace Socinator.DominatorCores
 {
     internal class DominatorNetworkCoreFactory : INetworkCoreFactory
     {

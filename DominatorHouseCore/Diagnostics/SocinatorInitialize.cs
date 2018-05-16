@@ -35,9 +35,6 @@ namespace DominatorHouseCore.Diagnostics
         {
            try
             {
-
-                return SetLicensedSocialNetworks();
-
                 if (string.IsNullOrEmpty(license))
                 {
                     FeatureFlags.Instance = new FeatureFlags()
@@ -239,7 +236,7 @@ namespace DominatorHouseCore.Diagnostics
 
         private static Dictionary<SocialNetworks, string> NetworksNamespace { get; set; } = new Dictionary<SocialNetworks, string>()
         {
-            {SocialNetworks.Social,"DominatorHouse" },
+            {SocialNetworks.Social,"Socinator" },
             {SocialNetworks.Facebook,"FaceDominatorUI"},
             {SocialNetworks.Twitter,"TwtDominatorUI"},
             { SocialNetworks.Gplus,"GplusDominatorUI"},

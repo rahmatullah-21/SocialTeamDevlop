@@ -158,6 +158,7 @@ namespace EmbeddedBrowser
 
 
         private void BrowserOnLoaded(object sender, LoadingStateChangedEventArgs loadingStateChangedEventArgs)
+
         {
             try
             {
@@ -204,6 +205,7 @@ namespace EmbeddedBrowser
                                         LinkedInBrowserLogin(html);
                                         break;
                                     case SocialNetworks.Reddit:
+                                        RedditBrowserLogin(html);
                                         break;
                                     case SocialNetworks.Quora:
                                         QuoraLogin(html);
@@ -213,6 +215,9 @@ namespace EmbeddedBrowser
                                         break;
                                     case SocialNetworks.Youtube:
                                         GoogleBrowserLogin(html);
+                                        break;
+                                    case SocialNetworks.Tumblr:
+                                        TumblrBrowserLogin(html);
                                         break;
                                     default:
                                         throw new ArgumentOutOfRangeException();
@@ -464,7 +469,57 @@ namespace EmbeddedBrowser
             }
 
         }
-       
+
+        private void RedditBrowserLogin(string html)
+        {
+            if (html.Contains("loginUsername"))
+            {
+                Browser.ExecuteScriptAsync("document.getElementById('loginUsername').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
+                Browser.ExecuteScriptAsync("document.getElementById('loginPassword').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
+                Browser.ExecuteScriptAsync("document.getElementsByClassName('AnimatedForm__submitButton')[0].click()");
+            }
+
+            if (html.Contains("login_login-main"))
+            {
+                Browser.ExecuteScriptAsync("document.getElementsByName('user')[0].value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
+                Browser.ExecuteScriptAsync("document.getElementsByName('passwd')[0].value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
+                Thread.Sleep(1000);
+                Browser.ExecuteScriptAsync("document.getElementsByClassName('submit').click()");
+            }
+        }
+
+        private void TumblrBrowserLogin(string html)
+        {
+            if (html.Contains("signup_view determine active"))
+            {
+                Browser.ExecuteScriptAsync("document.getElementById('signup_determine_email').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
+                Browser.ExecuteScriptAsync("document.getElementById('signup_forms_submit').click()");
+            }
+            if (html.Contains("signup_login_btn active"))
+            {
+                Browser.ExecuteScriptAsync("document.getElementById('signup_password').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
+                Browser.ExecuteScriptAsync("document.getElementById('signup_forms_submit').click()");
+            }
+            if (html.Contains("signup_view magiclink active"))
+            {
+                Browser.ExecuteScriptAsync("document.getElementById('signup_forms_submit').click()");
+            }
+            if (html.Contains("loginUsername"))
+            {
+                Browser.ExecuteScriptAsync("document.getElementById('loginUsername').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
+                Browser.ExecuteScriptAsync("document.getElementById('loginPassword').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
+                Browser.ExecuteScriptAsync("document.getElementsByClassName('AnimatedForm__submitButton')[0].click()");
+            }
+
+            if (html.Contains("login_login-main"))
+            {
+                Browser.ExecuteScriptAsync("document.getElementsByName('user')[0].value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
+                Browser.ExecuteScriptAsync("document.getElementsByName('passwd')[0].value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
+                Thread.Sleep(1000);
+                Browser.ExecuteScriptAsync("document.getElementsByClassName('submit').click()");
+            }
+        }
+
 
         public string GetNetworksHomeUrl()
         {
@@ -481,13 +536,15 @@ namespace EmbeddedBrowser
                 case SocialNetworks.LinkedIn:
                     return "https://www.linkedin.com";
                 case SocialNetworks.Reddit:
-                    break;
+                    return "https://www.reddit.com/login";
                 case SocialNetworks.Quora:
                     return "https://www.quora.com/";
                 case SocialNetworks.Gplus:
                     return "https://accounts.google.com/signin";
                 case SocialNetworks.Youtube:
                     return "https://www.youtube.com/signin";
+                case SocialNetworks.Tumblr:
+                    return "https://www.tumblr.com/login";
                 default:
                     throw new ArgumentOutOfRangeException();
             }

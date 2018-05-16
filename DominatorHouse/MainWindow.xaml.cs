@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouse.Social.AutoActivity.Views;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
@@ -35,10 +34,11 @@ using EmbeddedBrowser;
 using FluentScheduler;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Socinator.Social.AutoActivity.Views;
 
 #endregion
 
-namespace DominatorHouse
+namespace Socinator
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
@@ -116,8 +116,8 @@ namespace DominatorHouse
 
         private async Task<bool> ValidateLicense(string license)
         {
-            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating is in process !",
-                "Please wait for a while...");
+            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "Hang On! Checking your license status",
+                "this will take few moments...");
             controller.SetIndeterminate();
             _licenseKey = license;
             var networks = await SocinatorInitialize.SetAvailableSocialNetworks(_licenseKey);
@@ -570,7 +570,8 @@ namespace DominatorHouse
             }
             catch (Exception ex)
             {
-
+                GlobusLogHelper.log.Error(ex.Message);
+                //MessageBox.Show(ex.Message);
             }
         }
 

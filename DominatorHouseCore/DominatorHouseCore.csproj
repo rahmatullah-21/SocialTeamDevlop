@@ -192,9 +192,6 @@
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\FdTables\FdGlobals\FdAccountDetails.cs" />
-    <Compile Include="DatabaseHandler\GdTables\Campaigns\DailyStatitics.cs" />
-    <Compile Include="DatabaseHandler\GdTables\Campaigns\FeedInfo.cs" />
-    <Compile Include="DatabaseHandler\GdTables\Campaigns\Friendship.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\HashtagScrape.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedUsers.cs" />

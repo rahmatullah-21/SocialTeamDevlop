@@ -1,4 +1,4 @@
-﻿using DominatorHouse.Social.AutoActivity.Views;
+﻿using Socinator.Social.AutoActivity.Views;
 using DominatorHouseCore.BusinessLogic.Factories;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
@@ -8,7 +8,7 @@ using DominatorHouseCore.Interfaces;
 using DominatorUIUtility.ViewModel;
 
 
-namespace DominatorHouse.DominatorCores
+namespace Socinator.DominatorCores
 {
     public class DominatorCoreBuilder : NetworkCoreLibraryBuilder
     {

@@ -77,6 +77,7 @@ namespace DominatorHouseCore.Diagnostics
             //}
 
             GlobusLogHelper.log.Error("Fatal Exit...");
+            GlobusLogHelper.log.Error(message);
 
             try
             {

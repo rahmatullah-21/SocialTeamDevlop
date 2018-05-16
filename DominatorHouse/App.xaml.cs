@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DominatorHouse
+namespace Socinator
 {
     /// <summary>
     /// Interaction logic for App.xaml

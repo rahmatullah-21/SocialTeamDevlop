@@ -15,15 +15,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DominatorHouse.Social.AutoActivity.ViewModels;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
+using Socinator.Social.AutoActivity.ViewModels;
 
-namespace DominatorHouse.Social.AutoActivity.Views
+namespace Socinator.Social.AutoActivity.Views
 {
     /// <summary>
     /// Interaction logic for SocialAutoActivity.xaml

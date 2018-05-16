@@ -19,7 +19,7 @@ using DominatorHouseCore.Enums;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 
-namespace DominatorHouse.Social.Accounts
+namespace Socinator.Social.Accounts
 {
     /// <summary>
     /// Interaction logic for AccountTab.xaml

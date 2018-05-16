@@ -18,7 +18,7 @@ using DominatorUIUtility.ConfigControl;
 using DominatorUIUtility.CustomControl;
 
 
-namespace DominatorHouse.Social.OtherConfiguration
+namespace Socinator.Social.OtherConfiguration
 {
     /// <summary>
     /// Interaction logic for OtherConfigurationTab.xaml
