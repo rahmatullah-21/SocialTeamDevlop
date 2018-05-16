@@ -1,27 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using DominatorHouseCore.Annotations;
+using DominatorHouse.Social.AutoActivity.ViewModels;
+using DominatorHouseCore;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
-using Socinator.Social.AutoActivity.ViewModels;
 
 namespace Socinator.Social.AutoActivity.Views
 {
@@ -38,31 +24,25 @@ namespace Socinator.Social.AutoActivity.Views
             InitializeComponent();
         }
 
-        private void ClickButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            DominatorAutoActivityViewModel = DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
-            DominatorAutoActivityViewModel.CallRespectiveView(SocialNetworks.Instagram);
-        }
-
         private static SocialAutoActivity ObjSocialAutoActivity { get; set; } = null;
 
         public static SocialAutoActivity GetSingletonSocialAutoActivity()
         {
-            if (ObjSocialAutoActivity == null)           
+            if (ObjSocialAutoActivity == null)
                 ObjSocialAutoActivity = new SocialAutoActivity();
-            
             ObjSocialAutoActivity.SetDataContext();
             return ObjSocialAutoActivity;
         }
 
-
-        public static bool NewAutoActivityObject(SocialNetworks soicalNetworks,string selectedAccounts)
+        public bool NewAutoActivityObject(SocialNetworks soicalNetworks, string selectedAccounts)
         {
             try
             {
                 ObjSocialAutoActivity = new SocialAutoActivity();
                 ObjSocialAutoActivity.SetDataContext();
+
                 ObjSocialAutoActivity.DominatorAutoActivityViewModel.CallRespectiveView(soicalNetworks);
+
                 switch (soicalNetworks)
                 {
                     case SocialNetworks.Facebook:
@@ -100,46 +80,59 @@ namespace Socinator.Social.AutoActivity.Views
             }
             catch (Exception ex)
             {
+                ex.DebugLog();
                 return false;
             }
         }
 
-       
         private void SetDataContext()
         {
-            SocialActivity.DataContext = DominatorAutoActivityViewModel;
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        SocialActivity.DataContext = DominatorAutoActivityViewModel;
+                    });
+            }
+            else
+            {
+                SocialActivity.DataContext = DominatorAutoActivityViewModel;
+            }          
         }
 
-
-        private void UserName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void GotoTools(object sender)
         {
             var accountsActivityDetailModel =
-                ((FrameworkElement) sender).DataContext as AccountsActivityDetailModel;
+                ((FrameworkElement)sender).DataContext as AccountsActivityDetailModel;
 
             if (accountsActivityDetailModel == null)
                 return;
+
             DominatorAutoActivityViewModel =
                 DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
 
             DominatorAutoActivityViewModel.CallRespectiveView(accountsActivityDetailModel.AccountNetwork);
         }
 
-
-
-        private void BtnSelect_OnClick(object sender, RoutedEventArgs e)
-        {
-            var contextMenu = ((Button) sender).ContextMenu;
-            if (contextMenu != null)
-            {
-                contextMenu.DataContext = ((Button) sender).DataContext;
-                contextMenu.IsOpen = true;
-            }
-        }
-
         private void SocialAutoActivity_OnLoaded(object sender, RoutedEventArgs e)
         {
-            DominatorAutoActivityViewModel.InitializeAccounts();
-            SetDataContext();
+            Task.Factory.StartNew(()=> {
+                DominatorAutoActivityViewModel.InitializeAccounts();
+                SetDataContext();
+            });
         }
+
+        private void ActivityStatusChanged_OnIsCheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GotoToolsByName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+            => GotoTools(sender);
+
+        private void ButtonViewActivityStatus_OnClick(object sender, RoutedEventArgs e)
+            => GotoTools(sender);
+
+
     }
 }

@@ -1,6 +1,9 @@
-﻿using System.Windows.Controls;
+
+﻿using System.Threading.Tasks;
+using System.Windows.Controls;
+using DominatorHouse.Social.AutoActivity.ViewModels;
+
 using DominatorHouseCore.Enums;
-using Socinator.Social.AutoActivity.ViewModels;
 
 namespace Socinator.Social.AutoActivity.Views
 {
@@ -14,7 +17,7 @@ namespace Socinator.Social.AutoActivity.Views
         private DominatorAutoActivity()
         {
             InitializeComponent();
-            DominatorAutoActivityViewModel = DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
+            DominatorAutoActivityViewModel =  DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
             DominatorActivityPage.DataContext = DominatorAutoActivityViewModel;
         }
 
@@ -24,9 +27,12 @@ namespace Socinator.Social.AutoActivity.Views
         {
             if (ObjDominatorAutoActivity == null)            
                 ObjDominatorAutoActivity = new DominatorAutoActivity();
-            
+
             ObjDominatorAutoActivity.DominatorAutoActivityViewModel.CallRespectiveView(networks);
+
             return ObjDominatorAutoActivity;
         }
+
+        
     }
 }

@@ -47,7 +47,7 @@ namespace DominatorHouseCore.Diagnostics
                 var macId = GetMacId();
 
                 string finalResponse;
-                Stream responseStream = await CheckLicenseActivation(license, macId);
+                var responseStream = await CheckLicenseActivation(license, macId);
                 using (var streamReader = new StreamReader(responseStream))
                 {
                     finalResponse = streamReader.ReadToEnd();
