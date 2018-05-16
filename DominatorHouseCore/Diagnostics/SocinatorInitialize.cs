@@ -32,7 +32,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static async Task<HashSet<SocialNetworks>> SetAvailableSocialNetworks(string license)
         {
-            try
+           try
             {
                 if (string.IsNullOrEmpty(license))
                 {

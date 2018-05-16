@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
@@ -12,8 +13,9 @@ namespace DominatorUIUtility.Behaviours
     {
         public static Func<string, string, ObservableCollection<QueryInfo>> GetSavedQuery { get; set; }
         public static Func<Reports, List<KeyValuePair<string, string>>,
-                DataBaseConnectionCampaign, CampaignDetails, int>  GetReportDetail { get; set; }
-        public static Func<CampaignAccountWiseReport, DataBaseConnection, string, int> GetAccountWiseReportDetail{ get; set; }
+            DbOperations, CampaignDetails, int>  GetReportDetail { get; set; }
+        //public static Func<CampaignAccountWiseReport, DataBaseConnection, string, int> GetAccountWiseReportDetail{ get; set; }
+        public static Func<CampaignAccountWiseReport, DbOperations, int> GetAccountWiseReportDetail{ get; set; }
 
 
         //public static

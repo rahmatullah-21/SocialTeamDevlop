@@ -11,9 +11,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Top"
-                    Background="{DynamicResource AccentSelectedColorBrush}">
+                    Background="{DynamicResource AccentBaseColorBrush}">
           
-            <Button  Background="{DynamicResource AccentBaseColorBrush}" Name="BtnExport" x:FieldModifier="public"
+            <Button  Background="Transparent" Name="BtnExport" x:FieldModifier="public"
                      Click="BtnExport_Click"
                      Foreground="White" Margin="0,0,15,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Button.Content>

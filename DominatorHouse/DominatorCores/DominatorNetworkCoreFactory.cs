@@ -31,5 +31,6 @@ namespace DominatorHouse.DominatorCores
 
         public IAccountToolsFactory AccountUserControlTools { get; set; }
         public IDatabaseConnection AccountDatabase { get; set; }
+        public IDatabaseConnection CampaignDatabase { get; set; }
     }
 }

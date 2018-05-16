@@ -30,6 +30,7 @@ using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Process;
 using System.Collections.Specialized;
+using DominatorHouseCore.DatabaseHandler.Utility;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -188,7 +189,7 @@ namespace DominatorUIUtility.CustomControl
                     moduleConfiguration.IsEnabled = (bool)(sender as ToggleSwitch).IsChecked;
             }
 
-           // AccountsFileManager.SaveAll(lstAccountDetails);
+            // AccountsFileManager.SaveAll(lstAccountDetails);
 
             AccountsFileManager.UpdateAccounts(lstAccountDetails);
 
@@ -226,9 +227,9 @@ namespace DominatorUIUtility.CustomControl
                     }
                 }
 
-               // CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());
+                // CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());
 
-                 CampaignsFileManager.UpdateCampaigns(objCampaignDetails.ObjCampaignDetails.ToList());
+                CampaignsFileManager.UpdateCampaigns(objCampaignDetails.ObjCampaignDetails.ToList());
             }
 
             catch (Exception ex)
@@ -343,9 +344,10 @@ namespace DominatorUIUtility.CustomControl
 
                 });
                 #endregion
-
-                DataBaseConnectionCampaign dataBase =
-                   DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
+                var dataBase = new DbOperations(campName.CampaignId, SocialNetworks,
+                    ConstantVariable.GetCampaignDb);
+                //DataBaseConnectionCampaign dataBase =
+                //   DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
 
                 if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
                 {
@@ -504,7 +506,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         private static void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
-        {         
+        {
             try
             {
                 // remove template from each account
@@ -524,7 +526,7 @@ namespace DominatorUIUtility.CustomControl
 
                     if (selectedAccount.Contains(x.UserName))
                         moduleConfig.IsEnabled = false;
-                    
+
                 });
 
                 AccountsFileManager.UpdateAccounts(allAccounts);
@@ -569,7 +571,12 @@ namespace DominatorUIUtility.CustomControl
             CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
 
             campaignAccountWiseReport.AccountWiseReport.ModuleType = campName.SubModule;
-         
+            if (campName.SelectedAccountList.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                    "No account is selected for this campaign.");
+                return;
+            }
             try
             {
                 #region Update AccountList
@@ -578,79 +585,96 @@ namespace DominatorUIUtility.CustomControl
                 {
                     DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc);
 
-                    campaignAccountWiseReport.AccountWiseReport.AccountList.Add(new ContentSelectGroup()
+                    if (!campaignAccountWiseReport.AccountWiseReport.AccountList.Any(account=>account.Content== objDominatorAccountModel.AccountBaseModel.UserName))
                     {
-                        IsContentSelected = false,
-                        Content = objDominatorAccountModel.AccountBaseModel.UserName
-                    });
+                        campaignAccountWiseReport.AccountWiseReport.AccountList.Add(new ContentSelectGroup()
+                        {
+                            Content = objDominatorAccountModel.AccountBaseModel.UserName
+                        }); 
+                    }
 
-                  
                 });
                 #endregion
 
-              
             }
             catch (Exception ex)
             {
                 GlobusLogHelper.log.Error(ex.Message);
             }
 
-            Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Reports");
+            Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Account wise Reports");
+
+            #region Export report
 
             campaignAccountWiseReport.BtnExport.Click += (senders, events) =>
-            {
-                var exportPath = FileUtilities.GetExportPath();
+              {
+                  var exportPath = FileUtilities.GetExportPath();
 
-                if (string.IsNullOrEmpty(exportPath))
-                    return;
+                  if (string.IsNullOrEmpty(exportPath))
+                      return;
 
-                var filename = Regex.Replace(
-                    input: $"{ campName.CampaignName }-Reports[{ ConstantVariable.DateasFileName}]",
-                    pattern: "[\\/:*?<>|\"]",
-                    replacement: "-");
+                  var filename = Regex.Replace(
+                      input: $"{ campName.CampaignName }-Reports[{ ConstantVariable.DateasFileName}]",
+                      pattern: "[\\/:*?<>|\"]",
+                      replacement: "-");
 
-                filename = $"{exportPath}\\{filename}.csv";
+                  filename = $"{exportPath}\\{filename}.csv";
 
-                //Header for csv file columns
-                string header = ReportManager.GetHeader();
+                  //Header for csv file columns
+                  string header = ReportManager.GetHeader();
 
-                if (!File.Exists(filename))
-                {
-                    using (var streamWriter = new StreamWriter(filename, true))
-                    {
-                        streamWriter.WriteLine(header);
-                    }
-                }
+                  if (!File.Exists(filename))
+                  {
+                      using (var streamWriter = new StreamWriter(filename, true))
+                      {
+                          streamWriter.WriteLine(header);
+                      }
+                  }
 
-                //Export Reports to csv File
-                ReportManager.ExportReports(campName.SubModule, filename);
+                  //Export Reports to csv File
+                  ReportManager.ExportReports(campName.SubModule, filename);
 
-            };
+              };
+            #endregion
+
+            #region Account Selection changed
 
             campaignAccountWiseReport.CmbAccounts.SelectionChanged += (senders, events) =>
-            {
-                try
                 {
-                    var accountId = AccountsFileManager.GetAll().FirstOrDefault(x =>
-                                x.AccountBaseModel.AccountNetwork == campName.SocialNetworks &&
-                                x.UserName == campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString()).AccountId;
-
-                    DataBaseConnection dataBase = null;
-                       // DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, SocialNetworks);
-
-                    if (ReportManager.GetAccountWiseReportDetail(campaignAccountWiseReport, dataBase, accountId) == 0)
+                    try
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Account Wise Report", "Reports for "
-                            + campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString() + " Campaign not available");
-                        return;
-                    }
-                }
-                catch (Exception ex)
-                {
+                        var accountId = AccountsFileManager.GetAll().FirstOrDefault(x =>
+                                    x.AccountBaseModel.AccountNetwork == campName.SocialNetworks &&
+                                    x.UserName == campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString()).AccountId;
 
-                }
-            };
-             win.ShowDialog();
+                        #region old
+                        //DataBaseConnection dataBase = null;
+                        //// DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, SocialNetworks);
+                        //if (ReportManager.GetAccountWiseReportDetail(campaignAccountWiseReport, dataBase, accountId) == 0)
+                        //{
+                        //    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Account Wise Report", "Reports for "
+                        //        + campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString() + " Campaign not available");
+                        //    return;
+                        //} 
+                        #endregion
+
+
+                        var dbAccountoperation = new DbOperations(accountId, SocialNetworks, ConstantVariable.GetAccountDb);
+                        if (ReportManager.GetAccountWiseReportDetail(campaignAccountWiseReport, dbAccountoperation) == 0)
+                        {
+                            DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Account Wise Report", "Reports for "
+                                                                                                                                       + campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString() + " Campaign not available");
+                            return;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                };
+            #endregion
+
+            win.ShowDialog();
 
 
         }
