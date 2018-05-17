@@ -3,5 +3,6 @@
     public interface INetworkCollectionFactory
     {
         INetworkCoreFactory GetNetworkCoreFactory();
+        void InitiliazeCampaignReport();
     }
 }

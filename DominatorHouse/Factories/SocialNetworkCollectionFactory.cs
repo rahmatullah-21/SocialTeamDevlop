@@ -12,5 +12,10 @@ namespace Socinator.Factories
             var dominatorCoreBuilder = DominatorCoreBuilder.Instance(dominatorNetworkCoreFactory);
             return dominatorCoreBuilder.GetDominatorCoreObjects();
         }
+
+        public void InitiliazeCampaignReport()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

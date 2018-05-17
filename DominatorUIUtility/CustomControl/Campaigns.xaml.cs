@@ -296,7 +296,7 @@ namespace DominatorUIUtility.CustomControl
 
 
             CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
-
+            SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).InitiliazeCampaignReport();
             ObjReports.ReportModel.ModuleType = campName.SubModule;
 
             var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;

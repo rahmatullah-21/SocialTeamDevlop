@@ -19,7 +19,7 @@ namespace DominatorHouseCore.Interfaces
         /// <summary>
         ///     Scraps data from social network feed based on query (queries)
         /// </summary>
-       // IScraperFactory QueryScraperFactory { get; set; }
+        // IScraperFactory QueryScraperFactory { get; set; }
 
         IQueryScraperFactory QueryScraperFactory { get; set; }
 
@@ -34,6 +34,7 @@ namespace DominatorHouseCore.Interfaces
         IDatabaseConnection AccountDatabase { get; set; }
 
         IDatabaseConnection CampaignDatabase { get; set; }
+
 
         //ICampaignDbConnection CampaignDbConnection { get; set; }
 
