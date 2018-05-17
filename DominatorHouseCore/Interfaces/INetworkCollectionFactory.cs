@@ -4,5 +4,6 @@
     {
         INetworkCoreFactory GetNetworkCoreFactory();
         void InitiliazeCampaignReport();
+        void InitializeEditDuplicateCampaign();
     }
 }

@@ -247,7 +247,7 @@ namespace DominatorUIUtility.CustomControl
             var campaignDetails = CampaignsFileManager.GetCampaignById(campName.CampaignId);
 
             var templateDetails = TemplatesFileManager.GetTemplateById(campaignDetails.TemplateId);
-
+            SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).InitializeEditDuplicateCampaign();
             EditOrDuplicateCampaign(templateDetails, campaignDetails, true, Visibility.Visible, ConstantVariable.UpdateCampaign, campaignDetails.TemplateId);
         }
 
@@ -260,8 +260,9 @@ namespace DominatorUIUtility.CustomControl
             var templateDetails = TemplatesFileManager.GetTemplateById(campaignDetails.TemplateId);
 
             campaignDetails.CampaignName = campName.CampaignName.Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
-
+            SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).InitializeEditDuplicateCampaign();
             EditOrDuplicateCampaign(templateDetails, campaignDetails, true, Visibility.Visible, ConstantVariable.CreateCampaign, campaignDetails.TemplateId);
+            
 
         }
 
