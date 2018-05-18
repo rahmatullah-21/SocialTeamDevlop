@@ -102,8 +102,8 @@
     <system:String x:Key="DHlangEnableRagularCheckForNewMessage﻿">Enable the option if you want to Dominator to regularly check for new direct messages received and create new message on the send message tab to auto reply to them</system:String>
     <system:String x:Key="DHlangMessageText﻿">Message text (multi-level spin syntax is allow)</system:String>
     <system:String x:Key="DHlangMessageTextWaterMark﻿" xml:space="preserve">The text contain the following tokens:
-[FULLNAME] [FIRSTNAME] [LASTNAME] [GROUPNAME] 
-[USERNAME] [MYUSERNAME] [MYNAME] [MYFIRSTNAME]
+FULLNAME FIRSTNAME LASTNAME GROUPNAME 
+USERNAME MYUSERNAME MYNAME MYFIRSTNAME
 They are replaced with user info.</system:String>
 
     <system:String x:Key="DHlangReplyToMessagesThatContainSpecificWord﻿">Reply to messages that contain specific word.</system:String>
@@ -141,13 +141,13 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>
     <system:String x:Key="DHlangSocinator">Socinator</system:String>
     <system:String x:Key="DHImportDescription"  xml:space="preserve">Format :
-Type 1. [Group Name]:[SocialNetwork]:[User Name]:[Password]
-Type 2. [Group Name]:[SocialNetwork]:[User Name]:[Password]:[Proxy Address]:[Proxy Port]
-Type 3. [Group Name]:[SocialNetwork]:[User Name]:[Password]:[Proxy Address]:[Proxy Port]:[Proxy User Name]:[Proxy Password]
+Type 1. Group Name:SocialNetwork:User Name:Password
+Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port
+Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password
     </system:String>
     <system:String x:Key="DHImportProxyDescription"  xml:space="preserve">Format :
-Type 1. [Group Name]:[Proxy Name]:[IP]:[Port]:[Proxy User Name]:[Proxy Password]
-Type 2. [IP]:[Port]:[Proxy User Name]:[Proxy Password]
-Type 3. [IP]:[Port]
+Type 1. Group Name:Proxy Name:IP:Port:Proxy User Name:Proxy Password
+Type 2. IP:Port:Proxy User Name:Proxy Password
+Type 3. IP:Port
     </system:String>
 </ResourceDictionary>
