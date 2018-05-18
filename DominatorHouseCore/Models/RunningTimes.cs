@@ -63,7 +63,7 @@ namespace DominatorHouseCore.Models
                                 DayOfWeek = day,   
                                 IsEnabled =true
                             };
-                            model.Timings.Add(new TimingRange(new TimeSpan(9, 0, 0), new TimeSpan(18, 0, 0)));
+                            model.Timings.Add(new TimingRange(new TimeSpan(0, 0, 0), new TimeSpan(23, 59, 59)));
                             return model;
                         }))
                         ?.ToList();

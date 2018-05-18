@@ -194,7 +194,7 @@ namespace DominatorUIUtility.CustomControl
         private TViewModel _ObjViewModel = new TViewModel();
         private ObservableCollectionBase<string> _accountItemSource;
         private string _selectedItem;
-
+     
 
         public TViewModel ObjViewModel
         {
@@ -589,7 +589,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module => module.ActivityType == _activityType);
 
-                if (moduleSettings != null && moduleSettings.IsEnabled)
+                if (moduleSettings != null)
                 {
                     objErrorModelControl.Accounts.Add(new ErrorModelControl { UserName = account.AccountBaseModel.UserName });
                 }
@@ -1057,6 +1057,7 @@ namespace DominatorUIUtility.CustomControl
             DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!", MessageDialogStyle.Affirmative);
         }
 
+        //[Obsolete("This method is no longer supported without parameters. You need to paas module settings active setting to use this method",true)]
         protected bool SaveAccountGrowthSettings()
         {
             if (!ValidateExtraProperty()) return false;
@@ -1070,9 +1071,69 @@ namespace DominatorUIUtility.CustomControl
             if (selectedAccountDetails == null)
                 return false;
 
-            var accountstemplateId = selectedAccountDetails.ActivityManager.LstModuleConfiguration
-                .FirstOrDefault(y => y.ActivityType == _activityType)
-                ?.TemplateId;
+            var accountDetails = selectedAccountDetails.ActivityManager.LstModuleConfiguration
+                .FirstOrDefault(y => y.ActivityType == _activityType);
+
+        
+
+            var accountstemplateId = accountDetails ?.TemplateId;
+
+            if (selectedAccountDetails.IsCretedFromNormalMode)
+            {
+                selectedAccountDetails.IsCretedFromNormalMode = false;
+                CampaignsFileManager.DeleteSelectedAccount(accountstemplateId, _accountGrowthModeHeader.SelectedItem);
+                AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, selectedAccountDetails);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(accountstemplateId))
+                    AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, selectedAccountDetails);
+
+                // Updating existing template
+                else
+                    TemplatesFileManager.UpdateActivitySettings(accountstemplateId,
+                        JsonConvert.SerializeObject((TModel)Model));
+            }
+
+            AccountsFileManager.Edit(selectedAccountDetails);         
+
+            if (!ValidateRunningTime()) return false;
+
+            UpdateRunningTime(Model.JobConfiguration, selectedAccountDetails);
+
+            DominatorScheduler.ScheduleTodayJobs(selectedAccountDetails, SocialNetworks.Instagram, _activityType);
+            DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: selectedAccountDetails, network: selectedAccountDetails.AccountBaseModel.AccountNetwork);
+            DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!", MessageDialogStyle.Affirmative);
+            return true;
+        }
+
+
+        protected bool SaveAccountGrowthSettings(bool isActive)
+        {
+            if (!ValidateExtraProperty()) return false;
+
+            // Getting details of account
+            var accounts = AccountsFileManager.GetAll();
+
+            //Getting details of account having the user name  as selected account
+            var selectedAccountDetails = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == _accountGrowthModeHeader.SelectedItem);
+
+            if (selectedAccountDetails == null)
+                return false;
+
+            var accountDetails = selectedAccountDetails.ActivityManager.LstModuleConfiguration
+                .FirstOrDefault(y => y.ActivityType == _activityType);
+
+            accountDetails.IsEnabled = isActive;
+
+
+            accountDetails.Status = accountDetails.IsEnabled ? "Active" : "Stopped";
+
+            var accountstemplateId = accountDetails?.TemplateId;
+
+            if(!isActive)
+             DominatorScheduler.StopActivity(selectedAccountDetails.AccountBaseModel.AccountId, _activityType.ToString(), accountstemplateId);
+
 
             if (selectedAccountDetails.IsCretedFromNormalMode)
             {
@@ -1102,7 +1163,6 @@ namespace DominatorUIUtility.CustomControl
             DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!", MessageDialogStyle.Affirmative);
             return true;
         }
-
 
 
         public void UpdateRunningTime(JobConfiguration jobConfiguration, DominatorAccountModel account)
@@ -1339,10 +1399,10 @@ namespace DominatorUIUtility.CustomControl
                     accountDetails.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
 
                     moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
-                    moduleConfiguration.IsEnabled = true;
-                    moduleConfiguration.Status = "Active";
+                   // moduleConfiguration.IsEnabled = true;
+                   // moduleConfiguration.Status = "Active";
                     AccountsFileManager.Edit(accountDetails);
-                    SetModuleValues(false, null);
+                    SetModuleValues(moduleConfiguration.IsEnabled, null);
                 }
 
                 else
@@ -1465,7 +1525,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var accountModel = AccountsFileManager.GetAccount(selectedAccount);
+                var accountModel = AccountsFileManager.GetAccount(selectedAccount, socialNetworks);
                 var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
                 if (moduleConfiguration.IsEnabled && isStart)
                     return;

@@ -17,5 +17,10 @@ namespace Socinator.Factories
         {
             throw new System.NotImplementedException();
         }
+
+        public void InitializeEditDuplicateCampaign()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

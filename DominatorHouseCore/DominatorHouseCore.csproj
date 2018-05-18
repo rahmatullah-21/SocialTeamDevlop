@@ -370,12 +370,14 @@
     <Compile Include="Interfaces\IGeneralSettings.cs" />
     <Compile Include="BusinessLogic\Scheduler\IJobProcessFactory.cs" />
     <Compile Include="Interfaces\IPage.cs" />
+    <Compile Include="Interfaces\IReportFactory.cs" />
     <Compile Include="Interfaces\ITabHandlerFactory.cs" />
     <Compile Include="Interfaces\IPost.cs" />
     <Compile Include="Interfaces\IUser.cs" />
     <Compile Include="Diagnostics\LogHelper\GlobusLogHelper.cs" />
     <Compile Include="Diagnostics\LogHelper\ILoggableWindow.cs" />
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
+    <Compile Include="Interfaces\IViewCampaigns.cs" />
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
