@@ -641,5 +641,15 @@ namespace DominatorUIUtility.CustomControl
         {
             SetDataContext();
         }
+
+        private void BtnUpdateProxy_OnClick(object sender, RoutedEventArgs e)
+        {
+            var currentProxy = ((FrameworkElement) sender).DataContext as ProxyManagerModel;
+            var oldProxy=ProxyFileManager.GetProxyByName(currentProxy.AccountProxy.ProxyName);
+            oldProxy = currentProxy;
+            ProxyFileManager.EditProxy(oldProxy);
+            var v= ProxyFileManager.GetProxyByName(currentProxy.AccountProxy.ProxyName);
+            
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace DominatorHouseCore.Utility
 {
-   public class ValidationHelper : ValidationRule
+    public class ValidationHelper : ValidationRule
     {
         public string Sender { get; set; }
         static string ProxyAddress = string.Empty;
@@ -53,7 +53,7 @@ namespace DominatorHouseCore.Utility
             }
             return new ValidationResult(true, null);
         }
-    
+
     }
     public class ProxyValidationHelper : ValidationRule
     {
@@ -94,11 +94,34 @@ namespace DominatorHouseCore.Utility
                         break;
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
 
             }
             return new ValidationResult(true, null);
+        }
+
+    }
+    public class IPAddressValidation : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            try
+            {
+
+                var proxy = value.ToString().Split(':');
+                if (!Models.Proxy.IsValidProxy(proxy[0].Trim(), proxy[1].Trim()))
+                {
+                    return new ValidationResult(false, "Invalid proxy address");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ValidationResult(false, "Invalid proxy address");
+            }
+            
+            return new ValidationResult(true, null);
+
         }
 
     }
