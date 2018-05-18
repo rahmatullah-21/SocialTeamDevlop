@@ -390,5 +390,17 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.CampaignDatabase = campaignDbConnection;
             return this;
         }
+
+        public NetworkCoreLibraryBuilder AddReportFactory(IReportFactory reportFactory)
+        {
+            NetworkCoreFactory.ReportFactory = reportFactory;
+            return this;
+        }
+
+        public NetworkCoreLibraryBuilder AddGetBackCampaignFactory(IGetBackCampaignsFactory getBackCampaigns)
+        {
+            NetworkCoreFactory.GetBackCampaigns = getBackCampaigns;
+            return this;
+        }
     }
 }

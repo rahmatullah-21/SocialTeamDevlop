@@ -35,6 +35,10 @@ namespace DominatorHouseCore.Interfaces
 
         IDatabaseConnection CampaignDatabase { get; set; }
 
+        IReportFactory ReportFactory { get; set; }
+
+        IGetBackCampaignsFactory GetBackCampaigns { get; set; }
+
         //ICampaignDbConnection CampaignDbConnection { get; set; }
 
     }
