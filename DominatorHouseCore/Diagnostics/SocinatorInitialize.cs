@@ -397,9 +397,9 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
-        public NetworkCoreLibraryBuilder AddGetBackCampaignFactory(IGetBackCampaignsFactory getBackCampaigns)
+        public NetworkCoreLibraryBuilder AddViewCampaignFactory(IViewCampaignsFactory viewCampaigns)
         {
-            NetworkCoreFactory.GetBackCampaigns = getBackCampaigns;
+            NetworkCoreFactory.ViewCampaigns = viewCampaigns;
             return this;
         }
     }

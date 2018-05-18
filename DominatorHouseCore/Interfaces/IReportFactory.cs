@@ -18,13 +18,5 @@ namespace DominatorHouseCore.Interfaces
 
         void ExportReports(string subModule, string fileName);
 
-        int GetAccountWiseReportDetail(AccountWiseReportModel accountWiseReportModel, string accountId);
-
-        bool FilterByQueryValue(string queryType, string queryValue, ReportModel reportModel);
-
-        bool FilterByAccount(string accountId, ReportModel reportModel);
-
-        bool FitlerByReportDate(DateTime startDate, DateTime enDate, ReportModel reportModel);
-
     }
 }

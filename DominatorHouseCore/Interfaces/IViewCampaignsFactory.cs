@@ -3,7 +3,7 @@ using DominatorHouseCore.Models;
 
 namespace DominatorHouseCore.Interfaces
 {
-    public interface IGetBackCampaignsFactory
+    public interface IViewCampaignsFactory
     {
         /// <summary>
         /// To define the views for the campaign with either edit or duplicate mode
@@ -17,6 +17,6 @@ namespace DominatorHouseCore.Interfaces
         /// </summary>
         /// <param name="campaignId">pass the campaign Id</param>
         /// <param name="openCampaignType">type of view where edit or duplicate</param>
-        void GetBackCampaigns(string campaignId, string openCampaignType);
+        void ViewCampaigns(string campaignId, string openCampaignType);
     }
 }

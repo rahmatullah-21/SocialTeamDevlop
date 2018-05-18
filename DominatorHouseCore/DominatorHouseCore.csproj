@@ -338,7 +338,6 @@
     <Compile Include="Interfaces\ICommunity.cs" />
     <Compile Include="Interfaces\ICompany.cs" />
     <Compile Include="Interfaces\IDatabaseConnection.cs" />
-    <Compile Include="Interfaces\IGetBackCampaignsFactory.cs" />
     <Compile Include="Interfaces\IJob.cs" />
     <Compile Include="Interfaces\IModuleConfiguration.cs" />
     <Compile Include="Interfaces\INetworkCollectionFactory.cs" />
@@ -378,6 +377,7 @@
     <Compile Include="Diagnostics\LogHelper\GlobusLogHelper.cs" />
     <Compile Include="Diagnostics\LogHelper\ILoggableWindow.cs" />
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
+    <Compile Include="Interfaces\IViewCampaignsFactory.cs" />
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
