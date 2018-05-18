@@ -15,14 +15,17 @@ namespace DominatorHouseCore.Models
         private string _proxyUsername;
         private string _proxyPassword;
       
+      
 
         public Proxy()
         {
             this.HasCredentials = false;
             this.HasProxy = false;
+            ProxyId = Utilities.GetGuid(true);
         }
 
-
+        [ProtoMember(10)]
+        public string ProxyId { get; set; }
         [ProtoMember(5)]
         public bool HasCredentials { get; private set; }
 

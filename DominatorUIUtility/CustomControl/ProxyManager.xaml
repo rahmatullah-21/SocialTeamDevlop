@@ -14,6 +14,7 @@
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converter:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
         <converter:BooleanToWidthConverter x:Key="BooleanToWidthConverter"/>
+        <converter:ProxyPortToIpAddressConvertor x:Key="ProxyPortToIpAddressConvertor"/>
 
         <DataTemplate x:Key="AccountsAssignedToTemplate">
             <Grid>
@@ -557,20 +558,21 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="{DynamicResource langProxyIpPort}" Width="150" x:Name="ProxyAddress">
+                            <GridViewColumn Header="{DynamicResource langProxyIpPort}" Width="150" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox Width="120"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}">
                                             <TextBox.Text>
-                                                <MultiBinding StringFormat="{}{0}:{1}" UpdateSourceTrigger="PropertyChanged">
+                                                <MultiBinding Converter="{StaticResource ProxyPortToIpAddressConvertor}" UpdateSourceTrigger="PropertyChanged">
                                                     <MultiBinding.ValidationRules>
                                                         <validation:IPAddressValidation ValidationStep="RawProposedValue" />
                                                     </MultiBinding.ValidationRules>
                                                     <Binding Path="AccountProxy.ProxyIp" />
-                                                    <Binding Path="AccountProxy.ProxyPort"/>
+                                                    <Binding Path="AccountProxy.ProxyPort" />
                                                 </MultiBinding>
                                             </TextBox.Text>
                                         </TextBox>
+
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

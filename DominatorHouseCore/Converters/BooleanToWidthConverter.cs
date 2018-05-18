@@ -21,4 +21,17 @@ namespace DominatorHouseCore.Converters
            return 0;
         }
     }
+    public class ProxyPortToIpAddressConvertor : IMultiValueConverter
+
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return String.Concat(values[0], ":", values[1]);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return (value as string).Split(':');
+        }
+    }
 }
