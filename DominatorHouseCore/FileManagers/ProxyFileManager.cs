@@ -19,7 +19,7 @@ namespace DominatorHouseCore.FileManagers
                 GlobusLogHelper.log.Debug($"Proxy successfully saved");
                 return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
             }
@@ -28,7 +28,7 @@ namespace DominatorHouseCore.FileManagers
         {
             return BinFileHelper.GetProxyDetails();
         }
-      
+
 
         public static void EditProxy(ProxyManagerModel proxy) => BinFileHelper.UpdateProxy(proxy);
         public static void EditAllProxy(List<ProxyManagerModel> proxy) => BinFileHelper.UpdateAllProxy(proxy);
@@ -41,12 +41,12 @@ namespace DominatorHouseCore.FileManagers
             proxy.RemoveAll(match);
             BinFileHelper.UpdateAllProxy(proxy);
         }
+
        
         public static ProxyManagerModel GetProxyById(string ProxyId)
         {
            return GetAllProxy().FirstOrDefault(x => x.AccountProxy.ProxyId == ProxyId);
         }
-
 
     }
 }

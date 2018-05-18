@@ -41,7 +41,6 @@ namespace DominatorUIUtility.CustomControl
         {
             _strategies = strategies;
             InitializeComponent();
-
         }
 
         private void SetDataContext()
