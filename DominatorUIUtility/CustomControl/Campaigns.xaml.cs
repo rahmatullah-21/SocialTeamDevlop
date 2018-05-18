@@ -565,15 +565,9 @@ namespace DominatorUIUtility.CustomControl
 
         private void AccountWiseDetails_OnClick(object sender, RoutedEventArgs e)
         {
-            AccountWiseReportModel accountWiseReportModel = new AccountWiseReportModel();
-            CampaignAccountWiseReport campaignAccountWiseReport = new CampaignAccountWiseReport(accountWiseReportModel);
-
-            Dialog objDialog = new Dialog();
-
-            CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
-
-            campaignAccountWiseReport.AccountWiseReport.ModuleType = campName.SubModule;
-            if (campName.SelectedAccountList.Count == 0)
+           CampaignDetails currentCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
+            
+            if (currentCampaign.SelectedAccountList.Count == 0)
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
                     "No account is selected for this campaign.");
@@ -581,102 +575,15 @@ namespace DominatorUIUtility.CustomControl
             }
             try
             {
-                #region Update AccountList
-
-                campName.SelectedAccountList.ToList().ForEach(acc =>
-                {
-                    DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc);
-
-                    if (!campaignAccountWiseReport.AccountWiseReport.AccountList.Any(account=>account.Content== objDominatorAccountModel.AccountBaseModel.UserName))
-                    {
-                        campaignAccountWiseReport.AccountWiseReport.AccountList.Add(new ContentSelectGroup()
-                        {
-                            Content = objDominatorAccountModel.AccountBaseModel.UserName
-                        }); 
-                    }
-
-                });
-                #endregion
-
+                CampaignAccountWiseReport campaignAccountWiseReport = new CampaignAccountWiseReport(currentCampaign);
+                Dialog objDialog = new Dialog();
+                Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Account wise Reports");
+                win.ShowDialog();
             }
             catch (Exception ex)
             {
                 GlobusLogHelper.log.Error(ex.Message);
             }
-
-            Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Account wise Reports");
-
-            #region Export report
-
-            campaignAccountWiseReport.BtnExport.Click += (senders, events) =>
-              {
-                  var exportPath = FileUtilities.GetExportPath();
-
-                  if (string.IsNullOrEmpty(exportPath))
-                      return;
-
-                  var filename = Regex.Replace(
-                      input: $"{ campName.CampaignName }-Reports[{ ConstantVariable.DateasFileName}]",
-                      pattern: "[\\/:*?<>|\"]",
-                      replacement: "-");
-
-                  filename = $"{exportPath}\\{filename}.csv";
-
-                  //Header for csv file columns
-                  string header = ReportManager.GetHeader();
-
-                  if (!File.Exists(filename))
-                  {
-                      using (var streamWriter = new StreamWriter(filename, true))
-                      {
-                          streamWriter.WriteLine(header);
-                      }
-                  }
-
-                  //Export Reports to csv File
-                  ReportManager.ExportReports(campName.SubModule, filename);
-
-              };
-            #endregion
-
-            #region Account Selection changed
-
-            campaignAccountWiseReport.CmbAccounts.SelectionChanged += (senders, events) =>
-                {
-                    try
-                    {
-                        var accountId = AccountsFileManager.GetAll().FirstOrDefault(x =>
-                                    x.AccountBaseModel.AccountNetwork == campName.SocialNetworks &&
-                                    x.UserName == campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString()).AccountId;
-
-                        #region old
-                        //DataBaseConnection dataBase = null;
-                        //// DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, SocialNetworks);
-                        //if (ReportManager.GetAccountWiseReportDetail(campaignAccountWiseReport, dataBase, accountId) == 0)
-                        //{
-                        //    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Account Wise Report", "Reports for "
-                        //        + campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString() + " Campaign not available");
-                        //    return;
-                        //} 
-                        #endregion
-
-
-                        var dbAccountoperation = new DbOperations(accountId, SocialNetworks, ConstantVariable.GetAccountDb);
-                        if (ReportManager.GetAccountWiseReportDetail(campaignAccountWiseReport, dbAccountoperation) == 0)
-                        {
-                            DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Account Wise Report", "Reports for "
-                                                                                                                                       + campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString() + " Campaign not available");
-                            return;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-                };
-            #endregion
-
-            win.ShowDialog();
 
            
         }

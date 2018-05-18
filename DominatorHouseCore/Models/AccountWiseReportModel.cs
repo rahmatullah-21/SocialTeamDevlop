@@ -10,7 +10,7 @@ namespace DominatorHouseCore.Models
 {
     public class AccountWiseReportModel
     {
-        public ObservableCollection<ContentSelectGroup> AccountList { get; set; } = new ObservableCollection<ContentSelectGroup>();
+        public ObservableCollection<string> AccountList { get; set; } = new ObservableCollection<string>();
 
         public ICollectionView ReportCollection { get; set; }
 
