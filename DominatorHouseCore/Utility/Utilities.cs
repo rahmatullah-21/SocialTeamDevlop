@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Windows;
+using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.Utility
 {
@@ -134,6 +136,30 @@ namespace DominatorHouseCore.Utility
         // Returns string from resource dictionary
         public static string FromResourceDictionary(this string resourceDictionaryKey)
             => Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ?? resourceDictionaryKey;
+
+
+
+        public static void ExportReports(string fileName, string csvHeader, List<string> csvData)
+        {
+            using (var streamWriter = new StreamWriter(fileName, true))
+                streamWriter.WriteLine(csvHeader);
+            try
+            {
+                foreach (var item in csvData)
+                {
+                    using (var streamWriter = new StreamWriter(fileName, true))
+                    {
+                        streamWriter.WriteLine(item);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+            }
+
+            GlobusLogHelper.log.Info("Data has been exported successfully");
+        }
 
 
         public static string GetUrlFormPostData(object obj)
