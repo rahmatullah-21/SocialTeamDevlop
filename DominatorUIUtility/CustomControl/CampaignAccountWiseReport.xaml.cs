@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouseCore.DatabaseHandler.Utility;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
@@ -120,8 +121,10 @@ namespace DominatorUIUtility.CustomControl
             }
 
             //Export Reports to csv File
-            ReportManager.ExportReports(currentCampaign.SubModule, filename);
+            //ReportManager.ExportReports(currentCampaign.SubModule, filename);
 
+
+            SocinatorInitialize.GetSocialLibrary(currentCampaign.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(currentCampaign.SubModule, filename);
         }
 
         private void ReportGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
