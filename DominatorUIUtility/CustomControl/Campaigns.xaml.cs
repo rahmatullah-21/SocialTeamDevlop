@@ -44,14 +44,7 @@ namespace DominatorUIUtility.CustomControl
         private bool IsUnCheckedFromCampaignDetails { get; set; }
 
 
-        public static Action<
-            TemplateModel,
-            CampaignDetails,
-            bool,
-            Visibility, 
-            string,
-            string
-            > EditOrDuplicateCampaign { get; set; } =
+        public static Action<TemplateModel, CampaignDetails, bool, Visibility, string, string> EditOrDuplicateCampaign { get; set; } =
             (t, c, b, v, s, s2) => GlobusLogHelper.log.Error($"Campaigns.EditOrDuplicateCampaign action handler wasn't set");
 
         public SocialNetworks SocialNetworks { get; set; }
