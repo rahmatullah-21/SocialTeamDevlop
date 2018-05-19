@@ -16,7 +16,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         [Index]
         [Column(Order = 1)]
         public int Id { get; set; }
-        
+
         /// <summary>
         /// Contains QueryType For Interaction
         /// </summary>
@@ -53,17 +53,21 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         public string UserProfileUrl
         { get; set; }
 
+        [Column(Order = 7)]
+        public string ProfileId
+        { get; set; }
+
         /// <summary>
         /// Contains Detailed Info of the Interacted User in the Form of Jason String
         /// </summary>
-        [Column(Order = 7)]
+        [Column(Order = 8)]
         public string DetailedUserInfo
         { get; set; }
-        
+
         /// <summary>
         /// Contains TimeStamp when interacted with the User
         /// </summary>
-        [Column(Order = 8)]
+        [Column(Order = 9)]
         public DateTime InteractionDatetime { get; set; }
     }
 }

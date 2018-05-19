@@ -60,17 +60,21 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         public string UserProfileUrl
         { get; set; }
 
+        [Column(Order = 8)]
+        public string ProfileId
+        { get; set; }
+
         /// <summary>
         /// Contains Detailed Info of the Interacted User in the Form of Jason String
         /// </summary>
-        [Column(Order = 8)]
+        [Column(Order = 9)]
         public string DetailedUserInfo
         { get; set; }
-        
+
         /// <summary>
         /// Contains TimeStamp when interacted with the User
         /// </summary>
-        [Column(Order = 9)]
+        [Column(Order = 10)]
         public int InteractionTimeStamp { get; set; }
     }
 }
