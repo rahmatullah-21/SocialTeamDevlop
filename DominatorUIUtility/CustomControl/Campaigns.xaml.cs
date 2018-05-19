@@ -301,11 +301,13 @@ namespace DominatorUIUtility.CustomControl
 
             var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
 
-           // ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
+            // ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
+
+            var activityType = (ActivityType)Enum.Parse(typeof(ActivityType), campName.SubModule);
 
             ObservableCollection<QueryInfo> lstSavedQuery = SocinatorInitialize
                 .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory
-                .GetSavedQuery(campName.SubModule, ActivitySettings);
+                .GetSavedQuery(activityType, ActivitySettings);
 
             List<KeyValuePair<string, string>> lstCurrentQueries = new List<KeyValuePair<string, string>>();
 
