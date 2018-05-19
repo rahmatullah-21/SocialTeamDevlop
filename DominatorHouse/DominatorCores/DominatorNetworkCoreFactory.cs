@@ -34,6 +34,7 @@ namespace Socinator.DominatorCores
         public IDatabaseConnection AccountDatabase { get; set; }
 
         public IDatabaseConnection CampaignDatabase { get; set; }
-
+        public IReportFactory ReportFactory { get; set; }
+        public IViewCampaignsFactory ViewCampaigns { get; set; }
     }
 }
