@@ -308,8 +308,11 @@ namespace DominatorUIUtility.CustomControl
 
             var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
 
-            ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
+           // ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
 
+            ObservableCollection<QueryInfo> lstSavedQuery = SocinatorInitialize
+                .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory
+                .GetSavedQuery(campName.SubModule, ActivitySettings);
 
             List<KeyValuePair<string, string>> lstCurrentQueries = new List<KeyValuePair<string, string>>();
 
@@ -357,8 +360,8 @@ namespace DominatorUIUtility.CustomControl
                 //DataBaseConnectionCampaign dataBase =
                 //   DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
 
-
-                if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
+                if (SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.GetReportDetail(ObjReports.ReportModel, lstCurrentQueries, campName) == 0)
+              //  if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Report", "Reports for " + campName.CampaignName + " Campaign not available", MessageDialogStyle.Affirmative);
                     return;
@@ -397,8 +400,10 @@ namespace DominatorUIUtility.CustomControl
                 }
 
                 //Export Reports to csv File
-                ReportManager.ExportReports(campName.SubModule, filename);
+              //  ReportManager.ExportReports(campName.SubModule, filename);
 
+
+                SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(campName.SubModule, filename);
             };
             ObjReports.CmbQueries.SelectionChanged += (senders, events) =>
             {
@@ -570,29 +575,29 @@ namespace DominatorUIUtility.CustomControl
             AllCampaign.Unchecked += AllCampaignChecked_Unchecked;
         }
 
-        private void AccountWiseDetails_OnClick(object sender, RoutedEventArgs e)
-        {
-           CampaignDetails currentCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
+        //private void AccountWiseDetails_OnClick(object sender, RoutedEventArgs e)
+        //{
+        //   CampaignDetails currentCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
             
-            if (currentCampaign.SelectedAccountList.Count == 0)
-            {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                    "No account is selected for this campaign.");
-                return;
-            }
-            try
-            {
-                CampaignAccountWiseReport campaignAccountWiseReport = new CampaignAccountWiseReport(currentCampaign);
-                Dialog objDialog = new Dialog();
-                Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Account wise Reports");
-                win.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Error(ex.Message);
-            }
+        //    if (currentCampaign.SelectedAccountList.Count == 0)
+        //    {
+        //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+        //            "No account is selected for this campaign.");
+        //        return;
+        //    }
+        //    try
+        //    {
+        //        CampaignAccountWiseReport campaignAccountWiseReport = new CampaignAccountWiseReport(currentCampaign);
+        //        Dialog objDialog = new Dialog();
+        //        Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Account wise Reports");
+        //        win.ShowDialog();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        GlobusLogHelper.log.Error(ex.Message);
+        //    }
 
            
-        }
+        //}
     }
 }

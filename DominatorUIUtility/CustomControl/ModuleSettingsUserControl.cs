@@ -589,7 +589,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module => module.ActivityType == _activityType);
 
-                if (moduleSettings != null && moduleSettings.IsEnabled)
+                if (moduleSettings != null)
                 {
                     objErrorModelControl.Accounts.Add(new ErrorModelControl { UserName = account.AccountBaseModel.UserName });
                 }
@@ -1003,15 +1003,15 @@ namespace DominatorUIUtility.CustomControl
 
                 DataBaseHandler.DbCampaignInitialCounters[_socialNetwork](dbOperations);
 
-               
-                
+
+
                 CampaignsFileManager.Add(newCampaign);
             }
         }
 
         #endregion
 
-        [Obsolete("Dont use AccountGrowthHeader_OnSaveClick method instead use SaveAccountGrowthSettings")]
+        [Obsolete("Don't use AccountGrowthHeader_OnSaveClick method instead use SaveAccountGrowthSettings with parameter")]
         protected void AccountGrowthHeader_OnSaveClick(object sender, RoutedEventArgs e)
         {
             if (!ValidateExtraProperty()) return;
@@ -1057,6 +1057,7 @@ namespace DominatorUIUtility.CustomControl
             DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!", MessageDialogStyle.Affirmative);
         }
 
+        [Obsolete("Don't use SaveAccountGrowthSettings method without parameter instead use SaveAccountGrowthSettings with parameter")]
         protected bool SaveAccountGrowthSettings()
         {
             if (!ValidateExtraProperty()) return false;
@@ -1103,6 +1104,62 @@ namespace DominatorUIUtility.CustomControl
             return true;
         }
 
+        protected bool SaveAccountGrowthSettings(bool isActive, bool? isSaveClicked = null)
+        {
+            if (!ValidateExtraProperty()) return false;
+
+            // Getting details of account
+            var accounts = AccountsFileManager.GetAll();
+
+            //Getting details of account having the user name  as selected account
+            var selectedAccountDetails = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == _accountGrowthModeHeader.SelectedItem);
+
+            if (selectedAccountDetails == null)
+                return false;
+
+            var accountDetails = selectedAccountDetails.ActivityManager.LstModuleConfiguration
+                .FirstOrDefault(y => y.ActivityType == _activityType);
+
+            accountDetails.IsEnabled = isActive;
+
+
+            accountDetails.Status = accountDetails.IsEnabled ? "Active" : "Stopped";
+
+            var accountstemplateId = accountDetails?.TemplateId;
+
+            if (!isActive)
+                DominatorScheduler.StopActivity(selectedAccountDetails.AccountBaseModel.AccountId, _activityType.ToString(), accountstemplateId);
+
+
+            if (selectedAccountDetails.IsCretedFromNormalMode)
+            {
+                selectedAccountDetails.IsCretedFromNormalMode = false;
+                CampaignsFileManager.DeleteSelectedAccount(accountstemplateId, _accountGrowthModeHeader.SelectedItem);
+                AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, selectedAccountDetails);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(accountstemplateId))
+                    AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, selectedAccountDetails);
+
+                // Updating existing template
+                else
+                    TemplatesFileManager.UpdateActivitySettings(accountstemplateId,
+                        JsonConvert.SerializeObject((TModel)Model));
+            }
+
+            AccountsFileManager.Edit(selectedAccountDetails);
+
+            if (!ValidateRunningTime()) return false;
+
+            UpdateRunningTime(Model.JobConfiguration, selectedAccountDetails);
+
+            DominatorScheduler.ScheduleTodayJobs(selectedAccountDetails, SocialNetworks.Instagram, _activityType);
+            DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: selectedAccountDetails, network: selectedAccountDetails.AccountBaseModel.AccountNetwork);
+            if (isSaveClicked ?? false)
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!", MessageDialogStyle.Affirmative);
+            return true;
+        }
 
 
         public void UpdateRunningTime(JobConfiguration jobConfiguration, DominatorAccountModel account)
@@ -1461,6 +1518,8 @@ namespace DominatorUIUtility.CustomControl
 
             return isAccountDetailsUpdated;
         }
+
+        [Obsolete("Don't use ScheduleJobFromGrowthMode method instead use SaveAccountGrowthSettings with parameter")]
         protected void ScheduleJobFromGrowthMode(bool isStart, string selectedAccount, SocialNetworks socialNetworks)
         {
             try
@@ -1488,7 +1547,6 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
-
         private void UpdateAccountAndTemplate(DominatorAccountModel accountModel, string accountstemplateId)
         {
             if (accountModel.IsCretedFromNormalMode)
