@@ -63,6 +63,7 @@ namespace DominatorUIUtility.CustomControl
 
             lstCampaignType.Add("All");
             CmbCampaignType.SelectedIndex = 0;
+
             switch (networks)
             {
                 case "Instagram":
@@ -136,6 +137,22 @@ namespace DominatorUIUtility.CustomControl
                             lstCampaignType.Add(name);
                     }
                     break;
+            }
+
+            CmbCampaignType.ItemsSource = lstCampaignType;
+        }
+
+        private void SetComboBoxItemSource(SocialNetworks networks)
+        {
+            List<string> lstCampaignType = new List<string>();
+
+            lstCampaignType.Add("All");
+            CmbCampaignType.SelectedIndex = 0;
+
+            foreach (var name in Enum.GetNames(typeof(ActivityType)))
+            {
+                if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains(networks.ToString()))
+                    lstCampaignType.Add(name);
             }
 
             CmbCampaignType.ItemsSource = lstCampaignType;
@@ -411,7 +428,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var data = CampaignsFileManager.GetCampaignByNetwork(SocialNetworks);
 
-            SetComboBoxItemSource(SocialNetworks.ToString());
+            SetComboBoxItemSource(SocialNetworks);
 
             MainGrid.DataContext = objCampaignDetails;
 
