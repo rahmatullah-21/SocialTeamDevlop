@@ -301,8 +301,11 @@ namespace DominatorUIUtility.CustomControl
 
             var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
 
-            ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
+           // ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
 
+            ObservableCollection<QueryInfo> lstSavedQuery = SocinatorInitialize
+                .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory
+                .GetSavedQuery(campName.SubModule, ActivitySettings);
 
             List<KeyValuePair<string, string>> lstCurrentQueries = new List<KeyValuePair<string, string>>();
 
@@ -350,8 +353,8 @@ namespace DominatorUIUtility.CustomControl
                 //DataBaseConnectionCampaign dataBase =
                 //   DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
 
-
-                if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
+                if (SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.GetReportDetail(ObjReports.ReportModel, lstCurrentQueries, campName) == 0)
+              //  if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Report", "Reports for " + campName.CampaignName + " Campaign not available", MessageDialogStyle.Affirmative);
                     return;
@@ -390,8 +393,10 @@ namespace DominatorUIUtility.CustomControl
                 }
 
                 //Export Reports to csv File
-                ReportManager.ExportReports(campName.SubModule, filename);
+              //  ReportManager.ExportReports(campName.SubModule, filename);
 
+
+                SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(campName.SubModule, filename);
             };
             ObjReports.CmbQueries.SelectionChanged += (senders, events) =>
             {

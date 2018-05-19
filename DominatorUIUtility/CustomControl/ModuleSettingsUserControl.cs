@@ -589,7 +589,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module => module.ActivityType == _activityType);
 
-                if (moduleSettings != null && moduleSettings.IsEnabled)
+                if (moduleSettings != null)
                 {
                     objErrorModelControl.Accounts.Add(new ErrorModelControl { UserName = account.AccountBaseModel.UserName });
                 }
