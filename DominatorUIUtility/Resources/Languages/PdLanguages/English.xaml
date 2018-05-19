@@ -549,4 +549,13 @@
     <system:String x:Key="PDlangBoardFollowers">BoardFollowers</system:String>
     <system:String x:Key="PDlangCustomBoard">CustomBoard</system:String>
     <system:String x:Key="PDlangCustomPin">CustomPin</system:String>
+
+    <system:String x:Key="PDWhenReach">when reaching</system:String>
+    <system:String x:Key="PDlangStopFollowTool">Stop follow tool</system:String>
+    <system:String x:Key="PDlangStopUnFollowTool">Stop unfollow tool</system:String>
+
+    <system:String x:Key="PDlangMessageFilter">Message Filter</system:String>
+    <system:String x:Key="PDlangReplyToNewPendingMessages">Reply to new pending messages (reply only message sent by users that don't follow your acount)</system:String>
+    <system:String x:Key="PDlangReplyToAllMessages">Reply to all messages</system:String>
+    <system:String x:Key="PDlangReplyToMessagesThatContainsSpecificWord">Reply To Messages That Contains Specific Word</system:String>
 </ResourceDictionary>
