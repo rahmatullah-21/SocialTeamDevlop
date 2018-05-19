@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 
 namespace DominatorHouseCore.Interfaces
@@ -13,7 +14,7 @@ namespace DominatorHouseCore.Interfaces
         /// <param name="subModuleName">pass the submodule name like follower, send friend request, and so on</param>
         /// <param name="activitySettings">pass the activity settings as the string which was saved already in bin file</param>
         /// <returns>returns all saved query details for the respective submodule and activity settings</returns>
-        ObservableCollection<QueryInfo> GetSavedQuery(string subModuleName, string activitySettings);
+        ObservableCollection<QueryInfo> GetSavedQuery(ActivityType subModuleName, string activitySettings);
 
         int GetReportDetail(ReportModel reportModel, List<KeyValuePair<string, string>> queryDetails, CampaignDetails campaignDetails);
 

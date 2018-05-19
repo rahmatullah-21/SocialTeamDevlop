@@ -63,6 +63,7 @@ namespace DominatorUIUtility.CustomControl
 
             lstCampaignType.Add("All");
             CmbCampaignType.SelectedIndex = 0;
+
             switch (networks)
             {
                 case "Instagram":
@@ -136,6 +137,22 @@ namespace DominatorUIUtility.CustomControl
                             lstCampaignType.Add(name);
                     }
                     break;
+            }
+
+            CmbCampaignType.ItemsSource = lstCampaignType;
+        }
+
+        private void SetComboBoxItemSource(SocialNetworks networks)
+        {
+            List<string> lstCampaignType = new List<string>();
+
+            lstCampaignType.Add("All");
+            CmbCampaignType.SelectedIndex = 0;
+
+            foreach (var name in Enum.GetNames(typeof(ActivityType)))
+            {
+                if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains(networks.ToString()))
+                    lstCampaignType.Add(name);
             }
 
             CmbCampaignType.ItemsSource = lstCampaignType;
@@ -243,22 +260,21 @@ namespace DominatorUIUtility.CustomControl
         private void EditCampaign_OnClick(object sender, RoutedEventArgs e)
         {
             CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
-            SocinatorInitialize
-                .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
-                .ViewCampaigns(campName.CampaignId, ConstantVariable.UpdateCampaign);
 
+            SocinatorInitialize
+                                .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
+                               .ViewCampaigns(campName.CampaignId, ConstantVariable.UpdateCampaign);
         }
 
         private void DuplicateCampaign_OnClick(object sender, RoutedEventArgs e)
         {
             CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
-
             CampaignsFileManager.GetCampaignById(campName.CampaignId).
-                    CampaignName = campName.CampaignName.
-                                       Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
+             CampaignName = campName.CampaignName.
+             Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
             SocinatorInitialize
-                .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
-                .ViewCampaigns(campName.CampaignId, ConstantVariable.CreateCampaign);
+                                .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
+                                .ViewCampaigns(campName.CampaignId, ConstantVariable.CreateCampaign);
 
         }
 
@@ -300,9 +316,11 @@ namespace DominatorUIUtility.CustomControl
 
             // ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
 
+            var activityType = (ActivityType)Enum.Parse(typeof(ActivityType), campName.SubModule);
+
             ObservableCollection<QueryInfo> lstSavedQuery = SocinatorInitialize
                 .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory
-                .GetSavedQuery(campName.SubModule, ActivitySettings);
+                .GetSavedQuery(activityType, ActivitySettings);
 
             List<KeyValuePair<string, string>> lstCurrentQueries = new List<KeyValuePair<string, string>>();
 
@@ -366,34 +384,44 @@ namespace DominatorUIUtility.CustomControl
             win.Owner = Application.Current.MainWindow;
             ObjReports.ExportReport.Click += (senders, events) =>
             {
-                var exportPath = FileUtilities.GetExportPath(win);
-
-                if (string.IsNullOrEmpty(exportPath))
-                    return;
-
-                var filename = Regex.Replace(
-                    input: $"{ campName.CampaignName }-Reports[{ ConstantVariable.DateasFileName}]",
-                    pattern: "[\\/:*?<>|\"]",
-                    replacement: "-");
-
-                filename = $"{exportPath}\\{filename}.csv";
-
-                //Header for csv file columns
-                string header = ReportManager.GetHeader();
-
-                if (!File.Exists(filename))
+                try
                 {
-                    using (var streamWriter = new StreamWriter(filename, true))
-                    {
-                        streamWriter.WriteLine(header);
-                    }
+                    var exportPath = FileUtilities.GetExportPath(win);
+
+                    if (string.IsNullOrEmpty(exportPath))
+                        return;
+
+                    var filename = Regex.Replace(
+                        input: $"{ campName.CampaignName }-Reports[{ ConstantVariable.DateasFileName}]",
+                        pattern: "[\\/:*?<>|\"]",
+                        replacement: "-");
+
+                    filename = $"{exportPath}\\{filename}.csv";
+                    SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(campName.SubModule, filename);
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Sucess",
+                        "Sucessfully Exported to " + filename);
                 }
+                catch (Exception ex)
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Fail",
+                        "Export fail !!" );
 
-                //Export Reports to csv File
-                //  ReportManager.ExportReports(campName.SubModule, filename);
+                }
+                ////Header for csv file columns
+                //string header = ReportManager.GetHeader();
+
+                //if (!File.Exists(filename))
+                //{
+                //    using (var streamWriter = new StreamWriter(filename, true))
+                //    {
+                //        streamWriter.WriteLine(header);
+                //    }
+                //}
+
+                ////Export Reports to csv File
+                ////  ReportManager.ExportReports(campName.SubModule, filename);
 
 
-                SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(campName.SubModule, filename);
             };
             ObjReports.CmbQueries.SelectionChanged += (senders, events) =>
             {
@@ -408,7 +436,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var data = CampaignsFileManager.GetCampaignByNetwork(SocialNetworks);
 
-            SetComboBoxItemSource(SocialNetworks.ToString());
+            SetComboBoxItemSource(SocialNetworks);
 
             MainGrid.DataContext = objCampaignDetails;
 
@@ -565,5 +593,29 @@ namespace DominatorUIUtility.CustomControl
             AllCampaign.Unchecked += AllCampaignChecked_Unchecked;
         }
 
+        //private void AccountWiseDetails_OnClick(object sender, RoutedEventArgs e)
+        //{
+        //    CampaignDetails currentCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
+
+        //    if (currentCampaign.SelectedAccountList.Count == 0)
+        //    {
+        //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+        //            "No account is selected for this campaign.");
+        //        return;
+        //    }
+        //    try
+        //    {
+        //        CampaignAccountWiseReport campaignAccountWiseReport = new CampaignAccountWiseReport(currentCampaign);
+        //        Dialog objDialog = new Dialog();
+        //        Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Account wise Reports");
+        //        win.ShowDialog();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        GlobusLogHelper.log.Error(ex.Message);
+        //    }
+
+
+        //}
     }
 }

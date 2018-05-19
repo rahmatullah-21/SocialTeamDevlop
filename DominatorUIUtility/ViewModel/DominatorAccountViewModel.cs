@@ -512,13 +512,7 @@ namespace DominatorUIUtility.ViewModel
 
             var databaseCreation = secondaryTaskStrategyReturningCancellation(() =>
             {
-                IDatabaseConnection databaseConnection = SocinatorInitialize
-                    .GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork).GetNetworkCoreFactory()
-                    .AccountDatabase;
-
-                var dbContext = databaseConnection.GetContext(objDominatorAccountBaseModel.AccountId);
-
-                var dbOperations = new DbOperations(dbContext);
+                var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetDbContext());
 
                 DataBaseHandler.DbInitialCounters[objDominatorAccountBaseModel.AccountNetwork](dbOperations);
 
@@ -526,7 +520,7 @@ namespace DominatorUIUtility.ViewModel
 
                 #region Saving Account detail to AccountDetails database
 
-                dbOperations.Add<AccountDetails>(new AccountDetails
+                globalDbOperation.Add<AccountDetails>(new AccountDetails
                 {
                     AccountNetwork = objDominatorAccountBaseModel.AccountNetwork.ToString(),
                     AccountId = objDominatorAccountBaseModel.AccountId,
