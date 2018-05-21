@@ -76,7 +76,7 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <controls:ToggleSwitch OnLabel="{DynamicResource langActive}" OffLabel="{DynamicResource langPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
-                                                   IsCheckedChanged="ToggleActivatePause_Campaign" FontSize="12" Foreground="{DynamicResource AccentBaseColorBrush}"
+                                                   Click="ToggleActivatePause_Campaign" FontSize="12" Foreground="{DynamicResource AccentBaseColorBrush}"
                                                    SwitchForeground="{DynamicResource AccentBaseColorBrush}">
 
                                             <controls:ToggleSwitch.Style>
