@@ -34,7 +34,7 @@
 
                 <StackPanel >
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <Label Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}" Foreground="White" FontSize="13" FontWeight="Black"/>
+                        <Label Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
                         <ComboBox x:Name="ComboCampaignList" ItemsSource="{Binding CampaignList}" Height="25" Width="250"  metroControls:TextBoxHelper.ClearTextButton="True" />
                     </StackPanel>
                 </StackPanel>
@@ -151,6 +151,5 @@
         <Grid Grid.Row="1">
             <ContentControl Content="{Binding SelectedTabsUserControls}"></ContentControl>
         </Grid>
-
     </Grid>
 </UserControl>

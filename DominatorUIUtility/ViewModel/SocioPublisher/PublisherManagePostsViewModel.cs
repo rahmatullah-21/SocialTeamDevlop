@@ -75,12 +75,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             CampaignList.Add("Campaign1");
             CampaignList.Add("Campaign2");
             CampaignList.Add("Campaign3");
-
         }
-
-
-
-
 
         private bool NavigationCanExecute(object sender) => true;
 
@@ -118,6 +113,5 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 SelectedTabsUserControls = PublisherManagePostPublished.Instance;
             }
         }
-
     }
 }
