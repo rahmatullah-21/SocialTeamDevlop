@@ -23,13 +23,13 @@ namespace DominatorHouseCore.Diagnostics
         {
             string message = string.Format(format, args);
             GlobusLogHelper.log.Error(message);
-            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            //MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
         }
 
         public static void Error(string message)
         {
             GlobusLogHelper.log.Error(message);
-            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            //MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
         }
 
         public static void Error(Exception ex, string message)
@@ -46,13 +46,13 @@ namespace DominatorHouseCore.Diagnostics
         {
             string message = string.Format(format, args);
             GlobusLogHelper.log.Info(message);
-            MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+            //MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
         }
 
         public static void Info(string message)
         {
             GlobusLogHelper.log.Info(message);
-            MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+            //MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
         }
 
         public static void Fatal(Exception ex, string format, params object[] args)
@@ -70,13 +70,14 @@ namespace DominatorHouseCore.Diagnostics
             message += "\r\n\r\n" + $"NOTE: While you may be able to continue, restarting {appName} is advisable.\r\n\r\n" +
                        $"Do you want to continue running {appName}?";
 
-            if (MessageBox.Show(message, "Application Exception", MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.No) ==
-                    MessageBoxResult.Yes)
-            {
-                return;         // user choose to continue run app
-            }
+            //if (MessageBox.Show(message, "Application Exception", MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.No) ==
+            //        MessageBoxResult.Yes)
+            //{
+            //    return;         // user choose to continue run app
+            //}
 
             GlobusLogHelper.log.Error("Fatal Exit...");
+            GlobusLogHelper.log.Error(message);
 
             try
             {

@@ -1,5 +1,5 @@
 ﻿<controls:MetroWindow
-        x:Class="DominatorHouse.MainWindow"
+        x:Class="Socinator.MainWindow"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
@@ -46,7 +46,7 @@
             <RowDefinition Height="30*"/>
             <RowDefinition Height="0.5*"/>
             <RowDefinition Height="3*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
         <!--Account Growth Mode Tabs-->

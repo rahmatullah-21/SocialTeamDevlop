@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Collections;
 using Newtonsoft.Json;
 
-namespace DominatorHouse.Helpers
+namespace Socinator.Helpers
 {
     /// <summary>
     /// Uses to dump object to string with name=value. Uses for diagnostics.

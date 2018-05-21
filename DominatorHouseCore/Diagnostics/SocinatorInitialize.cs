@@ -13,6 +13,7 @@ using DominatorHouseCore.Utility;
 using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Request;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
@@ -32,7 +33,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static async Task<HashSet<SocialNetworks>> SetAvailableSocialNetworks(string license)
         {
-            try
+           try
             {
                 if (string.IsNullOrEmpty(license))
                 {
@@ -46,7 +47,7 @@ namespace DominatorHouseCore.Diagnostics
                 var macId = GetMacId();
 
                 string finalResponse;
-                Stream responseStream = await CheckLicenseActivation(license, macId);
+                var responseStream = await CheckLicenseActivation(license, macId);
                 using (var streamReader = new StreamReader(responseStream))
                 {
                     finalResponse = streamReader.ReadToEnd();
@@ -315,6 +316,11 @@ namespace DominatorHouseCore.Diagnostics
             GlobusExceptionHandler.DisableErrorDialog();
             _isInitialized = true;
         }
+
+        public static IGlobalDatabaseConnection GetGlobalDatabase()
+        {
+            return new GlobalDatabaseConnection();
+        }
     }
 
 
@@ -373,11 +379,36 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
+
         public NetworkCoreLibraryBuilder AddAccountSelectors(IDestinationSelectors destinationSelectors)
         {
             NetworkCoreFactory.AccountDetailsSelectors = destinationSelectors;
             return this;
         }
        
+        public NetworkCoreLibraryBuilder AddAccountDbConnection(IDatabaseConnection accountDbConnection)
+        {
+            NetworkCoreFactory.AccountDatabase = accountDbConnection;
+            return this;
+        }
+
+        public NetworkCoreLibraryBuilder AddCampaignDbConnection(IDatabaseConnection campaignDbConnection)
+        {
+            NetworkCoreFactory.CampaignDatabase = campaignDbConnection;
+            return this;
+        }
+
+        public NetworkCoreLibraryBuilder AddReportFactory(IReportFactory reportFactory)
+        {
+            NetworkCoreFactory.ReportFactory = reportFactory;
+            return this;
+        }
+
+        public NetworkCoreLibraryBuilder AddViewCampaignFactory(IViewCampaignsFactory viewCampaigns)
+        {
+            NetworkCoreFactory.ViewCampaigns = viewCampaigns;
+            return this;
+        }
+
     }
 }

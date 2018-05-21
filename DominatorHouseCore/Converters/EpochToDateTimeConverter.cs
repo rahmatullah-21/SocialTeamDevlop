@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using DominatorHouse.UsefullUtilitiesLibrary;
+using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.Converters
 {
@@ -13,7 +13,7 @@ namespace DominatorHouseCore.Converters
         {
             try
             {
-                return DateTimeHelper.EpochToDateTimeUtc(int.Parse(value.ToString()));
+                return DateTimeUtilities.EpochToDateTimeUtc(int.Parse(value.ToString()));
             }
             catch (Exception)
             {

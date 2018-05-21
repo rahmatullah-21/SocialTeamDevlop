@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouse.Social.AutoActivity.Views;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
@@ -35,10 +34,11 @@ using EmbeddedBrowser;
 using FluentScheduler;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Socinator.Social.AutoActivity.Views;
 
 #endregion
 
-namespace DominatorHouse
+namespace Socinator
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
@@ -58,7 +58,6 @@ namespace DominatorHouse
         private DominatorAccountViewModel.AccessorStrategies _strategies;
 
         private string _licenseKey;
-
 
         public MainWindow()
         {
@@ -98,7 +97,6 @@ namespace DominatorHouse
                         if (await IsValidateAgain(license))
                             continue;
                         else break;
-
                     }
                 }
                 else
@@ -118,8 +116,8 @@ namespace DominatorHouse
 
         private async Task<bool> ValidateLicense(string license)
         {
-            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "License validating is in process !",
-                "Please wait for a while...");
+            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "Hang On! Checking your license status",
+                "this will take few moments...");
             controller.SetIndeterminate();
             _licenseKey = license;
             var networks = await SocinatorInitialize.SetAvailableSocialNetworks(_licenseKey);
@@ -135,7 +133,7 @@ namespace DominatorHouse
                 await LicenseCheck();
                 return true;
             }
-            
+
 
             _strategies = new DominatorAccountViewModel.AccessorStrategies
             {
@@ -333,11 +331,18 @@ namespace DominatorHouse
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
             {
                 SelectedViewIndex = index;
-                SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
+                SocialAutoActivity.GetSingletonSocialAutoActivity().NewAutoActivityObject(network, selectedAccount);
+
             }
             else
             {
-                GlobusLogHelper.log.Info("Goto Tools options only for social mode !");
+                SelectedViewIndex = index;
+
+                DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+                SocialAutoActivity.GetSingletonSocialAutoActivity().NewAutoActivityObject(network, selectedAccount);
+
+
+                //GlobusLogHelper.log.Info("Goto Tools options only for social mode !");
                 //NetworkSelectionChanges("Social");
                 //SelectedViewIndex = index;
                 //SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
@@ -401,9 +406,11 @@ namespace DominatorHouse
 
                 if (textBlockDetails.Text == FindResource("langAutoActivity").ToString())
                 {
-                    var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
-                        .AccountUserControlTools;
-                    accountUi.GetStartupToolsView();
+                    DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+
+                    // var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
+                    //    .AccountUserControlTools;
+                    //accountUi.GetStartupToolsView();
                 }
                 if (textBlockDetails.Text == FindResource("langPublisher").ToString())
                 {
@@ -441,7 +448,7 @@ namespace DominatorHouse
                     MainGrid.RowDefinitions[2].Height = new GridLength(200);
                     IsClickedFromMainWindow = true;
                 };
-                MainGrid.RowDefinitions[2].Height = new GridLength(25);
+                MainGrid.RowDefinitions[2].Height = new GridLength(0);
                 activityLogWindow.ShowDialog();
             }
         }
@@ -572,7 +579,8 @@ namespace DominatorHouse
             }
             catch (Exception ex)
             {
-
+                GlobusLogHelper.log.Error(ex.Message);
+                //MessageBox.Show(ex.Message);
             }
         }
 
@@ -644,7 +652,7 @@ namespace DominatorHouse
 
         private void SocinatorWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            e.Cancel =true;
+            e.Cancel = true;
 
             bool isClose = this.ShowModalMessageExternal("Confirmation", "Are you sure to close Socinator?", MessageDialogStyle.AffirmativeAndNegative,
                                  Dialog.SetMetroDialogButton("Yes", "No")) == MessageDialogResult.Affirmative;
@@ -653,9 +661,9 @@ namespace DominatorHouse
                 Application.Current.Shutdown();
                 Process.GetCurrentProcess().Kill();
             }
-           
+
         }
 
-       
+
     }
 }

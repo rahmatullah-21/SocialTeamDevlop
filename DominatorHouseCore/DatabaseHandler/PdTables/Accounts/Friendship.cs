@@ -72,7 +72,6 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
 
         [Column(Order = 13)]
-        [Unique]
         public string Username
         { get; set; }
 

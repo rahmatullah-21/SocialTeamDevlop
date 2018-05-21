@@ -37,7 +37,6 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         [Column(Order = 4)]
         public string QueryValue { get; set; }
 
-        [Index("Pk_AccountEmail_ActivityType_UserProfileUrl", 2, IsUnique = true)]
         /// <summary>
         /// Describes Activity 
         /// </summary>
@@ -55,7 +54,6 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// <summary>
         /// Contains ProfileUrl Of the Interacted User
         /// </summary>
-        [Index("Pk_AccountEmail_ActivityType_UserProfileUrl", 3, IsUnique = true)]
         [Column(Order = 7)]
         public string UserProfileUrl
         { get; set; }
@@ -74,14 +72,20 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         public int InteractionTimeStamp { get; set; }
 
 
-
-
-
         [Column(Order = 11)]
         public string UserName { get; set; }
 
 
         [Column(Order = 12)]
         public string InteractedUsername { get; set; }
+
+
+        [Column(Order = 13)]
+        public bool IsFollowing { get; set; }
+
+
+        [Column(Order = 14)]
+        public bool IsFollowingback { get; set; }
+
     }
 }

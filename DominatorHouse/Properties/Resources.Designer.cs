@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DominatorHouse.Properties {
+namespace Socinator.Properties {
     using System;
     
     

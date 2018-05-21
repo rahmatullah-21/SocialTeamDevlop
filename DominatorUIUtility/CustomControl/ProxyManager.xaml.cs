@@ -18,8 +18,10 @@ using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using DominatorHouseCore;
 using DominatorHouseCore.Request;
 using DominatorUIUtility.ViewModel;
+using DominatorHouseCore.Enums;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -39,7 +41,6 @@ namespace DominatorUIUtility.CustomControl
         {
             _strategies = strategies;
             InitializeComponent();
-
         }
 
         private void SetDataContext()
@@ -64,40 +65,51 @@ namespace DominatorUIUtility.CustomControl
         private void btnAddProxy_Click(object sender, RoutedEventArgs e)
         {
             AddOrUpdateProxyControl ObjAddProxyControl = new AddOrUpdateProxyControl();
-            ObjAddProxyControl.btnSave.Content = FindResource("langSave").ToString();
-            ObjAddProxyControl.MainGrid.DataContext = ProxyManagerModel;
-
-            int ProxyID = ProxyDetail.Count > 0 ? ProxyDetail.Max(Proxy => Proxy.Id) + 1 : 1;
-            ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyID}";
-            Dialog dialog = new Dialog();
-            Window window = dialog.GetMetroWindow(ObjAddProxyControl, FindResource("langAddProxy").ToString());
-            DialogParticipation.SetRegister(window, window);
-            ObjAddProxyControl.btnSave.Click += (o, ex) =>
+            try
             {
-                var AvailableProxy = ProxyFileManager.GetProxyByName(ProxyManagerModel.AccountProxy.ProxyName);
-                if (AvailableProxy != null && !string.IsNullOrEmpty(AvailableProxy.AccountProxy.ProxyName))
+                ObjAddProxyControl.btnSave.Content = FindResource("langSave").ToString();
+                ObjAddProxyControl.MainGrid.DataContext = ProxyManagerModel;
+
+                int ProxyID = ProxyDetail.Count > 0 ? ProxyDetail.Max(Proxy => Proxy.Id) + 1 : 1;
+                ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyID}";
+                Dialog dialog = new Dialog();
+                Window window = dialog.GetMetroWindow(ObjAddProxyControl, FindResource("langAddProxy").ToString());
+                DialogParticipation.SetRegister(window, window);
+                ObjAddProxyControl.btnSave.Click += (o, ex) =>
                 {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(window, "Proxy Warning", $"Proxy with name {ProxyManagerModel.AccountProxy.ProxyName} already exist .");
-                    return;
-                }
-                foreach (var proxy in ProxyDetail)
-                {
-                    if (ProxyManagerModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
-                      && ProxyManagerModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
+                    var AvailableProxy = ProxyFileManager.GetProxyByName(ProxyManagerModel.AccountProxy.ProxyName);
+                    if (AvailableProxy != null && !string.IsNullOrEmpty(AvailableProxy.AccountProxy.ProxyName))
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(window, "Proxy Warning", "Proxy already exist !!!");
+                        DialogCoordinator.Instance.ShowModalMessageExternal(window, "Proxy Warning", $"Proxy with name {ProxyManagerModel.AccountProxy.ProxyName} already exist.");
                         return;
                     }
+                    foreach (var proxy in ProxyDetail)
+                    {
+                        if (ProxyManagerModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
+                          && ProxyManagerModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
+                        {
+                            DialogCoordinator.Instance.ShowModalMessageExternal(window, "Proxy Warning", "Proxy already exist !!!");
+                            return;
+                        }
 
-                }
-                ProxyManagerModel.Id = ProxyID;
-                ProxyFileManager.SaveProxy(ProxyManagerModel);
-                ProxyDetail.Add(ProxyManagerModel);
+                    }
+                    ProxyManagerModel.Id = ProxyID;
+                    UpdateAccountsToBeAssign(ProxyManagerModel);
 
-                window.Close();
+                    ProxyFileManager.SaveProxy(ProxyManagerModel);
+                    ProxyDetail.Add(ProxyManagerModel);
+                    GlobusLogHelper.log.Info(Log.Added, SocialNetworks.Social, ProxyManagerModel.AccountProxy.ProxyIp + " : " +
+                        ProxyManagerModel.AccountProxy.ProxyPort);
+                    window.Close();
 
-            };
-            window.Show();
+                };
+                window.Show();
+            }
+            catch (Exception ex)
+            {
+
+
+            }
 
         }
 
@@ -138,12 +150,21 @@ namespace DominatorUIUtility.CustomControl
 
         private void btnDeletesProxy_Click(object sender, RoutedEventArgs e)
         {
-            var currentProxy = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
+            try
+            {
+                var currentProxy = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
 
-            ProxyFileManager.Delete(proxy => proxy.AccountProxy.ProxyName == currentProxy.AccountProxy.ProxyName);
+                ProxyFileManager.Delete(proxy => proxy.AccountProxy.ProxyName == currentProxy.AccountProxy.ProxyName);
 
-            ProxyDetail.Remove(currentProxy);
+                ProxyDetail.Remove(currentProxy);
+                GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, currentProxy.AccountProxy.ProxyIp + " : " +
+                                                                             currentProxy.AccountProxy.ProxyPort);
 
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void dropdown_Click(object sender, RoutedEventArgs e)
@@ -229,10 +250,18 @@ namespace DominatorUIUtility.CustomControl
         private void btnDeleteSelected_Click(object sender, RoutedEventArgs e)
         {
             List<ProxyManagerModel> SelectedProxies = ProxyDetail.Where(proxy => proxy.IsProxySelected == true).ToList();
+            if (SelectedProxies.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                    "Please select atleast one Proxy.");
+                return;
+            }
             SelectedProxies.ForEach(selectedProxy =>
             {
                 ProxyFileManager.Delete(proxy => proxy.AccountProxy.ProxyName == selectedProxy.AccountProxy.ProxyName);
                 ProxyDetail.Remove(selectedProxy);
+                GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, selectedProxy.AccountProxy.ProxyIp + " : " +
+                                                                             selectedProxy.AccountProxy.ProxyPort);
             });
         }
 
@@ -240,7 +269,12 @@ namespace DominatorUIUtility.CustomControl
         {
             List<ProxyManagerModel> SelectedProxies = ProxyDetail.Where(proxy => proxy.IsProxySelected == true).ToList();
             if (SelectedProxies.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                    "Please select atleast one Proxy.");
                 return;
+            }
+
             ExportProxies(SelectedProxies);
 
         }
@@ -255,52 +289,66 @@ namespace DominatorUIUtility.CustomControl
 
             foreach (var proxy in loadedProxylist)
             {
-                var selectedProxy = Regex.Split(proxy, ":");
-            
-                if (selectedProxy.Length < 4)
-                    continue;
-
-                var alreadyExistProxy = ProxyFileManager.GetProxyByName(selectedProxy[1]);
-
-                if (alreadyExistProxy != null && alreadyExistProxy.AccountProxy.ProxyIp == selectedProxy[2]
-                    && alreadyExistProxy.AccountProxy.ProxyPort == selectedProxy[3])
-                    continue;
-
-                ProxyManagerModel = new ProxyManagerModel();
                 try
                 {
+                    var selectedProxy = Regex.Split(proxy, ":");
+                    if (selectedProxy.Length < 2)
+                        continue;
+
+                    ProxyManagerModel = new ProxyManagerModel();
                     ProxyManagerModel.Id = proxyId;
-                    ProxyManagerModel.AccountProxy.ProxyGroup = selectedProxy[0];
-                    ProxyManagerModel.AccountProxy.ProxyName = selectedProxy[1];
+                    if (selectedProxy.Length == 2 || selectedProxy.Length == 4)
+                    {
+                        if (!DominatorHouseCore.Models.Proxy.IsValidProxy(selectedProxy[0], selectedProxy[1]))
+                        {
+                            GlobusLogHelper.log.Info(SocialNetworks.Social + "\t invalid Proxy");
+                            continue;
+                        }
+
+                        ProxyManagerModel.AccountProxy.ProxyIp = selectedProxy[0];
+                        ProxyManagerModel.AccountProxy.ProxyPort = selectedProxy[1];
+                    }
+                    if (selectedProxy.Length == 4)
+                    {
+                        ProxyManagerModel.AccountProxy.ProxyUsername = selectedProxy[2];
+                        ProxyManagerModel.AccountProxy.ProxyPassword = selectedProxy[3];
+                    }
+                    if (selectedProxy.Length == 6)
+                    {
+                        ProxyManagerModel.AccountProxy.ProxyGroup = selectedProxy[0];
+                        ProxyManagerModel.AccountProxy.ProxyName = selectedProxy[1];
+                        ProxyManagerModel.AccountProxy.ProxyIp = selectedProxy[2];
+                        ProxyManagerModel.AccountProxy.ProxyPort = selectedProxy[3];
+                        ProxyManagerModel.AccountProxy.ProxyUsername = selectedProxy[4];
+                        ProxyManagerModel.AccountProxy.ProxyPassword = selectedProxy[5];
+                    }
+
+                    if (!DominatorHouseCore.Models.Proxy.IsValidProxy(ProxyManagerModel.AccountProxy.ProxyIp, ProxyManagerModel.AccountProxy.ProxyPort))
+                    {
+                        GlobusLogHelper.log.Info(SocialNetworks.Social + "\t invalid Proxy");
+                        continue;
+                    }
+
+                    var alreadyExistProxy = ProxyFileManager.GetProxyByName(ProxyManagerModel.AccountProxy.ProxyName);
+
+                    if (alreadyExistProxy != null && alreadyExistProxy.AccountProxy.ProxyIp == ProxyManagerModel.AccountProxy.ProxyIp
+                        && alreadyExistProxy.AccountProxy.ProxyPort == ProxyManagerModel.AccountProxy.ProxyPort)
+                    {
+                        GlobusLogHelper.log.Info(SocialNetworks.Social + "\t proxy already exist");
+                        continue;
+                    }
 
                     if (string.IsNullOrEmpty(ProxyManagerModel.AccountProxy.ProxyGroup))
                         ProxyManagerModel.AccountProxy.ProxyGroup = ConstantVariable.UnGrouped;
 
                     if (string.IsNullOrEmpty(ProxyManagerModel.AccountProxy.ProxyName))
-                        ProxyManagerModel.AccountProxy.ProxyName =
-                            string.IsNullOrEmpty(selectedProxy[2]) ? "Un-named" : selectedProxy[2];
+                        ProxyManagerModel.AccountProxy.ProxyName = "Un-named";
 
-
-                    ProxyManagerModel.AccountProxy.ProxyIp = selectedProxy[2];
-                    ProxyManagerModel.AccountProxy.ProxyPort = selectedProxy[3];
-
-                    if (selectedProxy.Length == 6)
-                    {
-                        ProxyManagerModel.AccountProxy.ProxyUsername = selectedProxy[4];
-                        ProxyManagerModel.AccountProxy.ProxyPassword = selectedProxy[5];
-                    }
-
+                    UpdateAccountsToBeAssign(ProxyManagerModel);
                     ProxyFileManager.SaveProxy(ProxyManagerModel);
 
-                    AccountsFileManager.GetAll().ForEach(user =>
-                    {
-                        ProxyManagerModel.AccountsToBeAssign.Add(new AccountAssign
-                        {
-                            UserName = user.UserName,
-                            AccountNetwork = user.AccountBaseModel.AccountNetwork
-                        });
-                    });
                     ProxyDetail.Add(ProxyManagerModel);
+                    GlobusLogHelper.log.Info(Log.Added, SocialNetworks.Social, ProxyManagerModel.AccountProxy.ProxyIp + " : " + ProxyManagerModel.AccountProxy.ProxyPort);
                     proxyId++;
                 }
                 catch (Exception ex)
@@ -308,6 +356,22 @@ namespace DominatorUIUtility.CustomControl
                     Console.WriteLine(ex.StackTrace);
                 }
             }
+        }
+
+        private void UpdateAccountsToBeAssign(ProxyManagerModel ProxyManagerModel)
+        {
+            AccountsFileManager.GetAll()?.ForEach(account =>
+            {
+                if (!ProxyManagerModel.AccountsToBeAssign.Any(acc =>
+                    acc.AccountNetwork == account.AccountBaseModel.AccountNetwork && acc.UserName == account.UserName))
+                {
+                    ProxyManagerModel.AccountsToBeAssign.Add(new AccountAssign
+                    {
+                        UserName = account.UserName,
+                        AccountNetwork = account.AccountBaseModel.AccountNetwork
+                    });
+                }
+            });
         }
 
         private void Account_Checked(object sender, RoutedEventArgs e)
@@ -336,7 +400,7 @@ namespace DominatorUIUtility.CustomControl
 
                 UpdateAccountsProxy(AccountToUpdateProxy, _strategies);
                 ProxyFileManager.EditAllProxy(ProxyDetail.ToList());
-                var v= ProxyFileManager.GetAllProxy();
+                var v = ProxyFileManager.GetAllProxy();
             }
             catch (Exception ex)
             {
@@ -560,15 +624,17 @@ namespace DominatorUIUtility.CustomControl
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
                         streamWriter.WriteLine(csvData);
+                        GlobusLogHelper.log.Info(Log.Exported, SocialNetworks.Social, proxy.AccountProxy.ProxyIp + " : " + proxy.AccountProxy.ProxyPort);
                     }
 
                 }
                 catch (Exception)
                 {
-
                     GlobusLogHelper.log.Error("Error in Export Proxies");
                 }
             });
+
+
         }
 
         private void ProxyManager_OnLoaded(object sender, RoutedEventArgs e)

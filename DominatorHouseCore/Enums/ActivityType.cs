@@ -10,13 +10,13 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus,Quora,Tumblr,Pinterest,Reddit")]
         Unfollow = 2,
 
-        [Description("Facebook,Twitter,Instagram,Gplus,Tumblr")]
+        [Description("Facebook,Twitter,Instagram,Gplus,Tumblr,LinkedIn")]
         Like = 3,
 
         [Description("Twitter,Instagram,Gplus")]
         Unlike = 4,
 
-        [Description("Facebook,Twitter,Instagram,Gplus,Pinterest,Reddit")]
+        [Description("Facebook,Twitter,Instagram,Gplus,Pinterest,Reddit,LinkedIn")]
         Comment = 5,
 
         [Description("Twitter,Instagram,Reddit")]
@@ -222,7 +222,7 @@ namespace DominatorHouseCore.Enums
         AcceptConnectionRequest = 73,
 
         [Description("LinkedIn")]
-        RemoveConnections = 74,
+        RemoveOrWithdrawConnections = 74,
 
         [Description("LinkedIn")]
         ProfileEndorsement = 75,
@@ -253,5 +253,20 @@ namespace DominatorHouseCore.Enums
 
         [Description("Twitter,Reddit")]
         Reply = 84,
+
+        [Description("Reddit")]
+        Delete = 85,
+
+        [Description("Facebook")]
+        IncommingFriendRequest = 86,
+
+        [Description("Reddit")]
+        Downvote = 87,
+
+        [Description("Reddit")]
+        Upvote = 88,
+
+        [Description("Reddit")]
+        SubredditScraper = 89
     }
 }

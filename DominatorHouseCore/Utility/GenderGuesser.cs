@@ -1,21 +1,20 @@
-﻿using DominatorHouseCore.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using DominatorHouseCore;
+using DominatorHouseCore.Enums;
 
-namespace DominatorHouse.UsefullUtilitiesLibrary
+namespace DominatorHouseCore.Utility
 {
     public static class GenderGuesser
     {
-        private static readonly HashSet<string> FemaleNames = new HashSet<string>((IEnumerable<string>)Resources.femaleNames.Split(new string[1]
+        private static readonly HashSet<string> FemaleNames = new HashSet<string>((IEnumerable<string>)DominatorHouseCore.Resources.femaleNames.Split(new string[1]
         {
             Environment.NewLine
         }, StringSplitOptions.RemoveEmptyEntries));
-        private static readonly HashSet<string> MaleNames = new HashSet<string>((IEnumerable<string>)Resources.maleNames.Split(new string[1]
+        private static readonly HashSet<string> MaleNames = new HashSet<string>((IEnumerable<string>)DominatorHouseCore.Resources.maleNames.Split(new string[1]
         {
             Environment.NewLine
         }, StringSplitOptions.RemoveEmptyEntries));
-        private static readonly HashSet<string> UnisexNames = new HashSet<string>((IEnumerable<string>)Resources.unisexNames.Split(new string[1]
+        private static readonly HashSet<string> UnisexNames = new HashSet<string>((IEnumerable<string>)DominatorHouseCore.Resources.unisexNames.Split(new string[1]
         {
             Environment.NewLine
         }, StringSplitOptions.RemoveEmptyEntries));

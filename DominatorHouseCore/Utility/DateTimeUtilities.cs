@@ -17,6 +17,12 @@ namespace DominatorHouseCore.Utility
             return Convert.ToInt32(Math.Floor((date.ToUniversalTime() - dateTime).TotalSeconds));
         }
 
+        public static int ConvertToEpoch(this DateTime date)
+        {
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            return Convert.ToInt32(Math.Floor((date.ToUniversalTime() - dateTime).TotalSeconds));
+        }
+
         /// <summary>
         /// GetDayOfWeek is used to return the current day
         /// </summary>
@@ -61,7 +67,7 @@ namespace DominatorHouseCore.Utility
         }
 
 
-   
+
 
         public static double GetEpochTimeMicroSecs()
         {
@@ -92,6 +98,18 @@ namespace DominatorHouseCore.Utility
             if (num < 0)
                 num += 7;
             return date.AddDays((double)(-1 * num)).Date;
+        }
+        public static DateTime GetStartOfWeek(this DateTime date, DayOfWeek day)
+        {
+            int num = date.DayOfWeek - day;
+            if (num < 0)
+                num += 7;
+            return date.AddDays((double)(-1 * num)).Date;
+        }
+        public static Int64 GetCurrentEpochTimeMilliSeconds(this DateTime date)
+        {
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            return Convert.ToInt64(Math.Floor((date.ToUniversalTime() - dateTime).TotalMilliseconds));
         }
     }
 }

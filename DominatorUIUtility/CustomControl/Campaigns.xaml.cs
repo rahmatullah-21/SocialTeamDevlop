@@ -30,6 +30,7 @@ using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Process;
 using System.Collections.Specialized;
+using DominatorHouseCore.DatabaseHandler.Utility;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -62,6 +63,7 @@ namespace DominatorUIUtility.CustomControl
 
             lstCampaignType.Add("All");
             CmbCampaignType.SelectedIndex = 0;
+
             switch (networks)
             {
                 case "Instagram":
@@ -140,6 +142,22 @@ namespace DominatorUIUtility.CustomControl
             CmbCampaignType.ItemsSource = lstCampaignType;
         }
 
+        private void SetComboBoxItemSource(SocialNetworks networks)
+        {
+            List<string> lstCampaignType = new List<string>();
+
+            lstCampaignType.Add("All");
+            CmbCampaignType.SelectedIndex = 0;
+
+            foreach (var name in Enum.GetNames(typeof(ActivityType)))
+            {
+                if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains(networks.ToString()))
+                    lstCampaignType.Add(name);
+            }
+
+            CmbCampaignType.ItemsSource = lstCampaignType;
+        }
+
         private static ActivityType ConvertToEnum(string name)
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), name);
@@ -188,7 +206,7 @@ namespace DominatorUIUtility.CustomControl
                     moduleConfiguration.IsEnabled = (bool)(sender as ToggleSwitch).IsChecked;
             }
 
-           // AccountsFileManager.SaveAll(lstAccountDetails);
+            // AccountsFileManager.SaveAll(lstAccountDetails);
 
             AccountsFileManager.UpdateAccounts(lstAccountDetails);
 
@@ -226,9 +244,9 @@ namespace DominatorUIUtility.CustomControl
                     }
                 }
 
-               // CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());
+                // CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());
 
-                 CampaignsFileManager.UpdateCampaigns(objCampaignDetails.ObjCampaignDetails.ToList());
+                CampaignsFileManager.UpdateCampaigns(objCampaignDetails.ObjCampaignDetails.ToList());
             }
 
             catch (Exception ex)
@@ -300,8 +318,11 @@ namespace DominatorUIUtility.CustomControl
 
             var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
 
-            ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
+           // ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
 
+            ObservableCollection<QueryInfo> lstSavedQuery = SocinatorInitialize
+                .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory
+                .GetSavedQuery(campName.SubModule, ActivitySettings);
 
             List<KeyValuePair<string, string>> lstCurrentQueries = new List<KeyValuePair<string, string>>();
 
@@ -344,10 +365,13 @@ namespace DominatorUIUtility.CustomControl
                 });
                 #endregion
 
-                DataBaseConnectionCampaign dataBase =
-                   DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
+                var dataBase = new DbOperations(campName.CampaignId, SocialNetworks,
+                    ConstantVariable.GetCampaignDb);
+                //DataBaseConnectionCampaign dataBase =
+                //   DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
 
-                if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
+                if (SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.GetReportDetail(ObjReports.ReportModel, lstCurrentQueries, campName) == 0)
+              //  if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Report", "Reports for " + campName.CampaignName + " Campaign not available", MessageDialogStyle.Affirmative);
                     return;
@@ -386,8 +410,10 @@ namespace DominatorUIUtility.CustomControl
                 }
 
                 //Export Reports to csv File
-                ReportManager.ExportReports(campName.SubModule, filename);
+              //  ReportManager.ExportReports(campName.SubModule, filename);
 
+
+                SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(campName.SubModule, filename);
             };
             ObjReports.CmbQueries.SelectionChanged += (senders, events) =>
             {
@@ -402,7 +428,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var data = CampaignsFileManager.GetCampaignByNetwork(SocialNetworks);
 
-            SetComboBoxItemSource(SocialNetworks.ToString());
+            SetComboBoxItemSource(SocialNetworks);
 
             MainGrid.DataContext = objCampaignDetails;
 
@@ -504,7 +530,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         private static void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
-        {         
+        {
             try
             {
                 // remove template from each account
@@ -524,7 +550,7 @@ namespace DominatorUIUtility.CustomControl
 
                     if (selectedAccount.Contains(x.UserName))
                         moduleConfig.IsEnabled = false;
-                    
+
                 });
 
                 AccountsFileManager.UpdateAccounts(allAccounts);
@@ -561,97 +587,27 @@ namespace DominatorUIUtility.CustomControl
 
         private void AccountWiseDetails_OnClick(object sender, RoutedEventArgs e)
         {
-            AccountWiseReportModel accountWiseReportModel = new AccountWiseReportModel();
-            CampaignAccountWiseReport campaignAccountWiseReport = new CampaignAccountWiseReport(accountWiseReportModel);
-
-            Dialog objDialog = new Dialog();
-
-            CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
-
-            campaignAccountWiseReport.AccountWiseReport.ModuleType = campName.SubModule;
-         
+           CampaignDetails currentCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
+            
+            if (currentCampaign.SelectedAccountList.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                    "No account is selected for this campaign.");
+                return;
+            }
             try
             {
-                #region Update AccountList
-
-                campName.SelectedAccountList.ToList().ForEach(acc =>
-                {
-                    DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc);
-
-                    campaignAccountWiseReport.AccountWiseReport.AccountList.Add(new ContentSelectGroup()
-                    {
-                        IsContentSelected = false,
-                        Content = objDominatorAccountModel.AccountBaseModel.UserName
-                    });
-
-                  
-                });
-                #endregion
-
-              
+                CampaignAccountWiseReport campaignAccountWiseReport = new CampaignAccountWiseReport(currentCampaign);
+                Dialog objDialog = new Dialog();
+                Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Account wise Reports");
+                win.ShowDialog();
             }
             catch (Exception ex)
             {
                 GlobusLogHelper.log.Error(ex.Message);
             }
 
-            Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Reports");
-
-            campaignAccountWiseReport.BtnExport.Click += (senders, events) =>
-            {
-                var exportPath = FileUtilities.GetExportPath();
-
-                if (string.IsNullOrEmpty(exportPath))
-                    return;
-
-                var filename = Regex.Replace(
-                    input: $"{ campName.CampaignName }-Reports[{ ConstantVariable.DateasFileName}]",
-                    pattern: "[\\/:*?<>|\"]",
-                    replacement: "-");
-
-                filename = $"{exportPath}\\{filename}.csv";
-
-                //Header for csv file columns
-                string header = ReportManager.GetHeader();
-
-                if (!File.Exists(filename))
-                {
-                    using (var streamWriter = new StreamWriter(filename, true))
-                    {
-                        streamWriter.WriteLine(header);
-                    }
-                }
-
-                //Export Reports to csv File
-                ReportManager.ExportReports(campName.SubModule, filename);
-
-            };
-
-            campaignAccountWiseReport.CmbAccounts.SelectionChanged += (senders, events) =>
-            {
-                try
-                {
-                    var accountId = AccountsFileManager.GetAll().FirstOrDefault(x =>
-                                x.AccountBaseModel.AccountNetwork == campName.SocialNetworks &&
-                                x.UserName == campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString()).AccountId;
-                    DataBaseConnection dataBase =
-                        DataBaseHandler.GetDataBaseConnectionInstance(campName.CampaignId, SocialNetworks);
-
-                    if (ReportManager.GetAccountWiseReportDetail(campaignAccountWiseReport, dataBase, accountId) == 0)
-                    {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Account Wise Report", "Reports for "
-                            + campaignAccountWiseReport.CmbAccounts.SelectedItem.ToString() + " Campaign not available");
-                        return;
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-            };
-             win.ShowDialog();
-
-
+           
         }
     }
 }

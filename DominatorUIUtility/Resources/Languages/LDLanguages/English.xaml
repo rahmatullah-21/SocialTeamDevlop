@@ -4,11 +4,15 @@
 
     <system:String x:Key="LDlangKeyword">Keyword</system:String>
     <system:String x:Key="LDlangEmail">Email</system:String>
-    <system:String x:Key="LDlangProfileUrl">ProfileUrl</system:String>
-    <system:String x:Key="LDlangSearchUrl">SearchUrl</system:String>
+    <system:String x:Key="LDlangProfileUrl">Profile Url</system:String>
+    <system:String x:Key="LDlangSearchUrl">Search Url</system:String>
     <system:String x:Key="LDlangInput">Input</system:String>
-    <system:String x:Key="LDlangOnly1stConnection">Only1stConnection</system:String>
-    <system:String x:Key="LDlangJoinedGroupUrl">JoinedGroupUrl</system:String>
+    <system:String x:Key="LDlangOnly1stConnection">Only 1st Connection</system:String>
+    <system:String x:Key="LDlangJoinedGroupUrl">Joined Group Url</system:String>
+    <system:String x:Key="LDlangSomeonesPosts">Someones Post(s)</system:String>
+    <system:String x:Key="LDlangMyConnectionsPosts">My Connections Post(s)</system:String>
+    <system:String x:Key="LDlangMyGroupsPosts">My Groups Post(s)</system:String>
+    <system:String x:Key="LDlangCustomPosts">Custom Post(s)</system:String>
     <system:String x:Key="LDlangNoOfConnections"># Connections</system:String>
     <system:String x:Key="LDlangNoOfLinkedinGroups"># Linkedin Groups</system:String>
     <system:String x:Key="LDlangByNosOfLinkedinGroups">No of LinkedinGroups</system:String>
@@ -119,7 +123,7 @@
     <system:String x:Key="LDlangConnectionRequestWarning">These accounts are already running with ConnectionRequest configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangAcceptConnectionRequestWarning">These accounts are already running with AcceptConnectionRequest configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangWithdrawConnectionRequestWarning">These accounts are already running with WithdrawConnectionRequest configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
-    <system:String x:Key="LDlangRemoveConnectionsWarning">These accounts are already running with RemoveConnections configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="LDlangRemoveOrWithdrawConnectionsWarning">These accounts are already running with RemoveOrWithdrawConnections configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangBroadCastMessagesWarning">These accounts are already running with BroadCastMessages configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangSendMessageToNewConnectionWarning">These accounts are already running with SendMessageToNewConnection configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="LDlangAutoReplyToNewMessagesWarning">These accounts are already running with AutoReplyToNewMessages configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
@@ -147,16 +151,34 @@
     <system:String x:Key="LDlangGreetingOptions">Greeting Options :</system:String>
     <system:String x:Key="LDlangBirthdayGreeting">Birthday Greeting</system:String>
     <system:String x:Key="LDlangNewJobGreeting">New Job Greeting</system:String>
-   <system:String x:Key="LDlangWorkAnniversaryGreeting">Work Anniversary Greeting</system:String>
+    <system:String x:Key="LDlangWorkAnniversaryGreeting">Work Anniversary Greeting</system:String>
     <system:String x:Key="LDlangSyntaxForGreetingInput">&lt;BG&gt; Enter Birthday Greeting &lt;/BG&gt; &#xD;&#xA; &lt;NG&gt; Enter New Job Greeting &lt;/NG&gt; &#xD;&#xA; &lt;WG&gt; Enter Work Anniversary Greeting &lt;/WG&gt;
     </system:String>
+    <system:String x:Key="LDlangRemoveOrWithdrawConnections">Remove Or Withdraw</system:String>
     <system:String x:Key="LDlangConnectionSources">Connection sources :</system:String>
-    <system:String x:Key="LDlangAllConnections">All connections</system:String>
-    <system:String x:Key="LDlangCustomConnectionUrls">Custom connection url(s)</system:String>
     <system:String x:Key="LDlangWaterMarkTextForCustomConnectionUrls">Enter your connection url(s).</system:String>
     <system:String x:Key="LDlangGroupSources">Group sources :</system:String>
     <system:String x:Key="LDlangAllGroups">All Groups</system:String>
-    <system:String x:Key="LDlangCustomGroupUrls">Custom Group url(s)</system:String>
+    <system:String x:Key="LDlangCustomGroupList">Custom Group List</system:String>
     <system:String x:Key="LDlangWaterMarkTextForCustomGroupUrls">Enter your Group url(s).</system:String>
-    
+    <system:String x:Key="LDlangEndorsementCriteria">Endorsement Criteria :</system:String>
+    <system:String x:Key="LDlangNumberOfSkillsToBeEndorsed">Number of skills to be endorsed</system:String>
+    <system:String x:Key="LDlangConnectedOrRequestedUserSources">Connected or requested user sources :</system:String>
+    <system:String x:Key="LDlangBySoftware">By software</system:String>
+    <system:String x:Key="LDlangOutSideSoftware">Outside software</system:String>
+    <system:String x:Key="LDlangCustomUserList">Custom user list</system:String>
+    <system:String x:Key="LDlangWaterMarkTextForCustomUserProfileUrls">Enter profile url(s)..</system:String>
+    <system:String x:Key="LDlangSourceType">Source Type :</system:String>
+    <system:String x:Key="LDlangPendingConnectionRequest">Pending connection request (Withdraw)</system:String>
+    <system:String x:Key="LDlangAlreadyConnected">Already connected (Remove)</system:String>
+    <system:String x:Key="LDlangSelectedSourceTypeBefore">Selected source type before</system:String>
+    <system:String x:Key="LDlangDays">days</system:String>
+    <system:String x:Key="LDlangAnd">and</system:String>
+    <system:String x:Key="LDlangHours">hours</system:String>
+    <system:String x:Key="LDlangEngage">Engage</system:String>
+    <system:String x:Key="LDlangLike">Like</system:String>
+    <system:String x:Key="LDlangComment">Comment</system:String>
+
+
+
 </ResourceDictionary>

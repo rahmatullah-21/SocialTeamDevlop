@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -19,6 +20,7 @@ using DominatorHouseCore.Command;
 using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.DatabaseHandler.DHTables;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -44,14 +46,27 @@ namespace DominatorUIUtility.ViewModel
             public Action<DominatorAccountModel> AccountBrowserLogin;
             public Action<DominatorAccountModel> action_UpdateFollower;
         }
-        private DataBaseConnectionGlobal DataBaseConnectionGlb { get; set; }
+
+    
+        private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
+
+        private DbContext dbContext { get; set; }
+
+        private DbOperations dbOperations { get; set; }
+
+
 
         public DominatorAccountViewModel(AccessorStrategies strategyPack)
         {
             this.strategyPack = strategyPack;
 
             InitialAccountDetails();
-            DataBaseConnectionGlb = DataBaseHandler.GetDataBaseConnectionGlobalInstance();
+
+            DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
+            dbContext = DataBaseConnectionGlb.GetDbContext();
+            dbOperations = new DbOperations(dbContext);
+
+
             #region Command Initialization
 
             AddSingleAccountCommand = new BaseCommand<object>(AddSingleAccountCanExecute, (o) => AddSingleAccountExecute(o, this.strategyPack._determine_available, this.strategyPack._inform_warnings));
@@ -483,7 +498,7 @@ namespace DominatorUIUtility.ViewModel
                     LstDominatorAccountModel.Add(dominatorAccountModel);
                 }
 
-                GlobusLogHelper.log.Info(Log.AddedAccount, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
+                GlobusLogHelper.log.Info(Log.Added, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
             }
             else
             {
@@ -497,11 +512,15 @@ namespace DominatorUIUtility.ViewModel
 
             var databaseCreation = secondaryTaskStrategyReturningCancellation(() =>
             {
-                DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType);
+                var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetDbContext());
+
+                DataBaseHandler.DbInitialCounters[objDominatorAccountBaseModel.AccountNetwork](dbOperations);
+
+                // DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType);
 
                 #region Saving Account detail to AccountDetails database
 
-                DataBaseConnectionGlb.Add<AccountDetails>(new AccountDetails
+                globalDbOperation.Add<AccountDetails>(new AccountDetails
                 {
                     AccountNetwork = objDominatorAccountBaseModel.AccountNetwork.ToString(),
                     AccountId = objDominatorAccountBaseModel.AccountId,
@@ -707,10 +726,10 @@ namespace DominatorUIUtility.ViewModel
                 {
                     LstDominatorAccountModel.Remove(item);
                 });
-                DataBaseConnectionGlb.Remove<AccountDetails>(user =>
+                dbOperations.Remove<AccountDetails>(user =>
                     user.AccountNetwork == item.AccountBaseModel.AccountNetwork.ToString() &&
                     user.UserName == item.UserName);
-                GlobusLogHelper.log.Info(Log.DeleteAccount, item.AccountBaseModel.AccountNetwork, item.AccountBaseModel.UserName);
+                GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork, item.AccountBaseModel.UserName);
                 item.NotifyDeleted();
             });
 

@@ -132,6 +132,7 @@ namespace DominatorHouseCore.Utility
         public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
 
 
+
         #region Publisher
 
         public static string FineStatusSync = "Already up to date";
@@ -147,6 +148,11 @@ namespace DominatorHouseCore.Utility
         public static string PublishedPostList { get; set; } = "Published";
 
         #endregion
+
+
+        public static string GetAccountDb = "AccountDb";
+
+        public static string GetCampaignDb = "CampaignDb";
 
 
     }

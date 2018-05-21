@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouse.Social.Accounts;
-using DominatorHouse.Social.AutoActivity.Views;
-using DominatorHouse.Social.OtherConfiguration;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
@@ -13,10 +10,14 @@ using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
+using Socinator.Social.Accounts;
+using Socinator.Social.AutoActivity.Views;
+using Socinator.Social.OtherConfiguration;
+
 
 //using EmbeddedBrowser;
 
-namespace DominatorHouse.DominatorCores
+namespace Socinator.DominatorCores
 {
     public class DominatorTabHandlerFactory : ITabHandlerFactory
     {
@@ -62,8 +63,7 @@ namespace DominatorHouse.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("langAutoActivity") == null? "Auto Activity" : Application.Current.FindResource("langAutoActivity")?.ToString(),
-                    Content = new Lazy<UserControl>(() =>
-                        DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
+                    Content = new Lazy<UserControl>(() => DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
                 },
                 new TabItemTemplates
                 {

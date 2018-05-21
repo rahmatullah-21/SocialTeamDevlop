@@ -28,6 +28,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.LogHelper;
 
 namespace DominatorUIUtility.CustomControl
@@ -588,7 +589,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module => module.ActivityType == _activityType);
 
-                if (moduleSettings != null && moduleSettings.IsEnabled)
+                if (moduleSettings != null)
                 {
                     objErrorModelControl.Accounts.Add(new ErrorModelControl { UserName = account.AccountBaseModel.UserName });
                 }
@@ -718,7 +719,7 @@ namespace DominatorUIUtility.CustomControl
                 AccountsFileManager.Edit(account);
             });
 
-
+            // Todo : Need to remove following line added for testing
             var finalAccountDetails = AccountsFileManager.GetAll();
 
         }
@@ -738,7 +739,10 @@ namespace DominatorUIUtility.CustomControl
                 LastEditedDate = DateTimeUtilities.GetEpochTime(),
             };
 
-            DataBaseHandler.CreateDataBase(campaignDetails.CampaignId, _socialNetwork, DatabaseType.CampaignType);
+            var dbOperations =
+                new DbOperations(campaignDetails.CampaignId, _socialNetwork, ConstantVariable.GetCampaignDb);
+
+            DataBaseHandler.DbCampaignInitialCounters[_socialNetwork](dbOperations);
 
             CampaignsFileManager.Add(campaignDetails);
         }
@@ -994,7 +998,13 @@ namespace DominatorUIUtility.CustomControl
                 };
 
                 // create new database for campaign
-                DataBaseHandler.CreateDataBase(newCampaign.CampaignId, _socialNetwork, DatabaseType.CampaignType);
+                var dbOperations =
+                    new DbOperations(newCampaign.CampaignId, _socialNetwork, ConstantVariable.GetCampaignDb);
+
+                DataBaseHandler.DbCampaignInitialCounters[_socialNetwork](dbOperations);
+
+               
+                
                 CampaignsFileManager.Add(newCampaign);
             }
         }
@@ -1453,23 +1463,30 @@ namespace DominatorUIUtility.CustomControl
         }
         protected void ScheduleJobFromGrowthMode(bool isStart, string selectedAccount, SocialNetworks socialNetworks)
         {
-            var accountModel = AccountsFileManager.GetAccount(selectedAccount);
-            var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
-            if (moduleConfiguration.IsEnabled && isStart)
-                return;
-            var accountstemplateId = moduleConfiguration.TemplateId;
-            if (isStart)
+            try
             {
-                moduleConfiguration.IsEnabled = true;
-                DominatorScheduler.ScheduleTodayJobs(accountModel, socialNetworks, _activityType);
+                var accountModel = AccountsFileManager.GetAccount(selectedAccount);
+                var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
+                if (moduleConfiguration.IsEnabled && isStart)
+                    return;
+                var accountstemplateId = moduleConfiguration.TemplateId;
+                if (isStart)
+                {
+                    moduleConfiguration.IsEnabled = true;
+                    DominatorScheduler.ScheduleTodayJobs(accountModel, socialNetworks, _activityType);
+                }
+                else
+                {
+                    moduleConfiguration.IsEnabled = false;
+                    DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId,
+                        _activityType.ToString(), accountstemplateId);
+                }
+                UpdateAccountAndTemplate(accountModel, accountstemplateId);
             }
-            else
+            catch (Exception ex)
             {
-                moduleConfiguration.IsEnabled = false;
-                DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId,
-                    _activityType.ToString(), accountstemplateId);
+                ex.DebugLog();
             }
-            UpdateAccountAndTemplate(accountModel, accountstemplateId);
         }
 
         private void UpdateAccountAndTemplate(DominatorAccountModel accountModel, string accountstemplateId)

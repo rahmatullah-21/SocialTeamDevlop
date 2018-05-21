@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouseCore.Models;
 
-namespace DominatorHouse.Social.Settings.View
+namespace Socinator.Social.Settings.View
 {
     /// <summary>
     /// Interaction logic for Home.xaml

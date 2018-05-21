@@ -10,12 +10,16 @@
             <RowDefinition Height="45"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Top"
-                    Background="{DynamicResource AccentSelectedColorBrush}">
-          
-            <Button  Background="{DynamicResource AccentBaseColorBrush}" Name="BtnExport" x:FieldModifier="public"
+      
+        <Grid  Background="{DynamicResource AccentBaseColorBrush}" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+           
+            <Button  Background="Transparent" Name="BtnExport"
                      Click="BtnExport_Click"
-                     Foreground="White" Margin="0,0,15,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                     Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Width="15" Height="15" Fill="White">
@@ -27,16 +31,17 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
-            <ComboBox VerticalAlignment="Center" HorizontalAlignment="Right" Width="200" x:Name="CmbAccounts"
-                      SelectionChanged="CmbAccounts_SelectionChanged"  Margin="15,0" Background="Transparent" 
-                      Foreground="{DynamicResource AccentColorBrush}" BorderThickness="1" SelectedIndex="0"
-                      BorderBrush="AntiqueWhite" x:FieldModifier="public"/>
-        </StackPanel>
+            <ComboBox VerticalAlignment="Center" HorizontalAlignment="Right" Width="200" Grid.Column="2" x:Name="CmbAccounts"
+                      Margin="0,0,15,0" Background="Transparent" SelectionChanged="CmbAccounts_SelectionChanged"
+                      Foreground="White" BorderThickness="1" SelectedIndex="0"
+                      BorderBrush="AntiqueWhite"
+                      ItemsSource="{Binding AccountWiseReport.AccountList}"/>
        
+        </Grid>
 
         <DataGrid  Margin="5" Grid.Row="1" x:Name="ReportGrid" AutoGeneratingColumn="ReportGrid_AutoGeneratingColumn"
-                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
-                   CanUserAddRows="False">
+                   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsReadOnly="True"
+                   CanUserAddRows="False" ItemsSource="{Binding AccountWiseReport.ReportCollection}">
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Style.Triggers>
