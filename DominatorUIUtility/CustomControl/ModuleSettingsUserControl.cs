@@ -446,6 +446,8 @@ namespace DominatorUIUtility.CustomControl
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        [Obsolete("Don't use FooterControl_OnCreateCampaignChanged method instead use CreateCampaign",true)]
+       
         protected void FooterControl_OnCreateCampaignChanged(object sender, RoutedEventArgs e)
         {
             if (!ValidateCampaign()) return;
@@ -471,7 +473,7 @@ namespace DominatorUIUtility.CustomControl
 
 
         #region Save Campaign Implementations
-
+        [Obsolete("Don't use FooterControl_OnCreateCampaignChanged method instead use CreateCampaign", true)]
         protected void FooterControl_OnCreateCampaignChanged(object sender, RoutedEventArgs e, string errorMessage, List<RunningTimes> runningTime)
         {
             if (!ValidateCampaign())
@@ -749,7 +751,187 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
+        #region Update campaign
+        protected void UpdateCampaign(string errorMessage, List<RunningTimes> runningTime)
+        {
+            if (!ValidateCampaign())
+                return;
 
+            if (!ValidateExtraProperty())
+                return;
+
+            var schedulePending = ImmutableQueue<Action>.Empty;
+
+            bool allScheduleQueued;
+
+            if (IsNeedToUpdateTemplate(errorMessage))
+            {
+                SaveTemplateToAccounts(TemplateId, runningTime);
+                SaveTemplateToCampaigns();
+
+                var accountDetails = AccountsFileManager.GetAll(_footerControl.list_SelectedAccounts);
+
+                allScheduleQueued = false;
+
+                try
+                {
+                    new Thread(() =>
+                    {
+                        while (!allScheduleQueued)
+                        {
+                            Thread.Sleep(50);
+                            while (!schedulePending.IsEmpty)
+                            {
+                                Action startSchedule;
+                                schedulePending = schedulePending.Dequeue(out startSchedule);
+                                startSchedule();
+                            }
+                        }
+                    })
+                    { IsBackground = true }.Start();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+
+                Thread.Sleep(50);
+
+                foreach (var account in accountDetails)
+                {
+                    Action scheduleAccount = () =>
+                    {
+                        DominatorScheduler.ScheduleTodayJobs(account, _socialNetwork, _activityType);
+                        DominatorScheduler.ScheduleForEachModule(_activityType, account, _socialNetwork);
+                    };
+                    schedulePending = schedulePending.Enqueue(scheduleAccount);
+                }
+
+                allScheduleQueued = true;
+
+                SetDataContext();
+
+                TabSwitcher.GoToCampaign();
+            }
+        }
+        public bool IsNeedToUpdateTemplate(string errorMessage)
+        {
+
+            #region Get the accounts which holds template Id
+
+            var accountDetails = AccountsFileManager.GetAll(_footerControl.list_SelectedAccounts);
+
+            var accountHavingTemplates = accountDetails.Where(x => x.ActivityManager.LstModuleConfiguration.FirstOrDefault(y => y.ActivityType == _activityType)?.TemplateId != null).ToList();
+
+            if (accountHavingTemplates.Count == 0)
+                return true;
+
+            #endregion
+
+            var objErrorModelControl = new ErrorModelControl { WarningText = errorMessage };
+
+            #region Adding the accounts to Warning window
+
+            accountHavingTemplates.ForEach(account =>
+            {
+                var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module => module.ActivityType == _activityType);
+
+                if (moduleSettings != null)
+                {
+                    objErrorModelControl.Accounts.Add(new ErrorModelControl { UserName = account.AccountBaseModel.UserName });
+                }
+            });
+
+            var warningWindow = new Dialog().GetMetroWindow(objErrorModelControl, "Warning");
+
+            #endregion
+
+            #region Warning windows save button event
+
+            objErrorModelControl.BtnSave.Click += (senders, events) =>
+            {
+                #region Remove not selected accounts from errorModelControl
+
+                var nonSelectedAccounts = objErrorModelControl.Accounts.Where(x => !x.IsChecked).Select(x => x.UserName)
+                    .ToList();
+
+                nonSelectedAccounts.ForEach(removingAccount =>
+                {
+                    _footerControl.list_SelectedAccounts.Remove(removingAccount);
+                });
+
+                #endregion
+
+                var selectedAccount = objErrorModelControl.Accounts.Where(x => x.IsChecked).Select(x => x.UserName).ToList();
+
+                if (selectedAccount.Count == 0)
+                {
+                    warningWindow.Close();
+                    return;
+                }
+
+                #region Update already existing account setting
+
+                accountDetails.ForEach(account =>
+                        {
+                            if (!selectedAccount.Contains(account.AccountBaseModel.UserName))
+                                return;
+
+                            var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module => module.ActivityType == _activityType);
+
+                            if (moduleSettings == null)
+                                return;
+
+                            CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId, account.AccountBaseModel.UserName);
+                           
+                            DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings.TemplateId);
+
+                            account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
+                            TemplatesFileManager.UpdateActivitySettings(moduleSettings.TemplateId,
+                                JsonConvert.SerializeObject((TModel)Model));
+
+
+                        }); 
+                #endregion
+
+                AccountsFileManager.UpdateAccounts(accountDetails);
+
+                warningWindow.Close();
+            };
+
+            #endregion
+
+            #region Warning windows cancel button event
+
+            objErrorModelControl.BtnCancel.Click += (senders, events) =>
+            {
+
+                #region Remove not selected accounts from errorModelControl
+
+                var nonSelectedAccounts = objErrorModelControl.Accounts.Where(x => !x.IsChecked).Select(x => x.UserName)
+                    .ToList();
+
+                nonSelectedAccounts.ForEach(removingAccount =>
+                {
+                    _footerControl.list_SelectedAccounts.Remove(removingAccount);
+                });
+
+                #endregion
+
+                warningWindow.Close();
+            };
+
+            #endregion
+            if (objErrorModelControl.Accounts.Count != 0)
+                warningWindow.ShowDialog();
+
+            if (_footerControl.list_SelectedAccounts.Count == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion
 
 
         public void SaveCampaign(List<string> selectedAccounts, ActivityType moduleType, string errorMessage, List<RunningTimes> runningTime)
