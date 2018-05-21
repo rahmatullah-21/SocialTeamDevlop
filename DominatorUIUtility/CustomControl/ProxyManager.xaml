@@ -6,13 +6,16 @@
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl" Name="proxyManager" 
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" Loaded="ProxyManager_OnLoaded"
              xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+             xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore">
 
     <UserControl.Resources>
 
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converter:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
         <converter:BooleanToWidthConverter x:Key="BooleanToWidthConverter"/>
+        <converter:ProxyPortToIpAddressConvertor x:Key="ProxyPortToIpAddressConvertor"/>
+
         <DataTemplate x:Key="AccountsAssignedToTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -321,7 +324,7 @@
                                     <Setter Property="Content" >
                                         <Setter.Value>
                                             <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                               <Rectangle.OpacityMask>
+                                                <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
@@ -340,6 +343,7 @@
     </UserControl.Resources>
 
     <Grid x:Name="MainGrid">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="4*" />
             <RowDefinition Height="10*" />
@@ -462,6 +466,39 @@
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <Grid >
+                <Grid.Resources>
+                    <ControlTemplate x:Key="ErrorTemplate">
+                        <StackPanel Orientation="Vertical">
+                            <AdornedElementPlaceholder x:Name="ErrorHolder" >
+                                <Border BorderBrush="red" BorderThickness="1" >
+                                    <Border.Style>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid proxy address" >
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                            </AdornedElementPlaceholder>
+                            <TextBlock  VerticalAlignment="Center" Name="error"  FontWeight="SemiBold"  Text="{Binding ElementName=ErrorHolder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" Foreground="Red">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid proxy address" >
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+
+                            </TextBlock>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Grid.Resources>
                 <ListView Grid.Row="1"  Margin="0,5" ItemsSource="{Binding ProxyManagerCollection}"
                    ItemContainerStyle="{StaticResource ListViewItems}"  AlternationCount="{Binding Items.Count,RelativeSource={RelativeSource Self}}"
                           Foreground="{DynamicResource AccentBaseColorBrush}">
@@ -521,17 +558,21 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="{DynamicResource langProxyIpPort}" Width="150">
+                            <GridViewColumn Header="{DynamicResource langProxyIpPort}" Width="150" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Width="120" x:Name="txtProxyPort">
+                                        <TextBox Width="120"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}">
                                             <TextBox.Text>
-                                                <MultiBinding StringFormat="{}{0}:{1}">
+                                                <MultiBinding Converter="{StaticResource ProxyPortToIpAddressConvertor}" UpdateSourceTrigger="PropertyChanged">
+                                                    <MultiBinding.ValidationRules>
+                                                        <validation:IPAddressValidation ValidationStep="RawProposedValue" />
+                                                    </MultiBinding.ValidationRules>
                                                     <Binding Path="AccountProxy.ProxyIp" />
                                                     <Binding Path="AccountProxy.ProxyPort" />
                                                 </MultiBinding>
                                             </TextBox.Text>
                                         </TextBox>
+
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -631,23 +672,8 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Content="{DynamicResource langUpdateProxy}" x:Name="btnUpdateProxy" 
-                                                    FontWeight="SemiBold" 
-                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" >
-                                                <Button.Style>
-                                                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                                        <Setter Property="IsEnabled" Value="False"/>
-                                                        <Style.Triggers>
-                                                           <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding ElementName=txtProxyPort,Path=Text,UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}" />
-                                                                    <Condition Binding="{Binding ElementName=txtProxyPort,Path=Text,UpdateSourceTrigger=PropertyChanged}" Value="" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="IsEnabled" Value="True" />
-                                                            </MultiDataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Button.Style>
-                                            </Button>
+                                                    FontWeight="SemiBold" Click="BtnUpdateProxy_OnClick"
+                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
                                             <Button Content="{DynamicResource langDelete}" x:Name="btnDeletesProxy" 
                                             FontWeight="SemiBold" Click="btnDeletesProxy_Click"
                                             Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />

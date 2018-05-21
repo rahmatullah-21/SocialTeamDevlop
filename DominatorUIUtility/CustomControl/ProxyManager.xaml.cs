@@ -77,8 +77,8 @@ namespace DominatorUIUtility.CustomControl
                 DialogParticipation.SetRegister(window, window);
                 ObjAddProxyControl.btnSave.Click += (o, ex) =>
                 {
-                    var AvailableProxy = ProxyFileManager.GetProxyByName(ProxyManagerModel.AccountProxy.ProxyName);
-                    if (AvailableProxy != null && !string.IsNullOrEmpty(AvailableProxy.AccountProxy.ProxyName))
+                    var AvailableProxy = ProxyFileManager.GetProxyById(ProxyManagerModel.AccountProxy.ProxyId);
+                    if (AvailableProxy != null && !string.IsNullOrEmpty(AvailableProxy.AccountProxy.ProxyId))
                     {
                         DialogCoordinator.Instance.ShowModalMessageExternal(window, "Proxy Warning", $"Proxy with name {ProxyManagerModel.AccountProxy.ProxyName} already exist.");
                         return;
@@ -116,13 +116,13 @@ namespace DominatorUIUtility.CustomControl
         private void btnRemoveAccountFromProxy_Click(object sender, RoutedEventArgs e)
         {
             AccountAssign account = ((FrameworkElement)sender).DataContext as AccountAssign;
-            var proxy = ProxyFileManager.GetProxyByName(currentProxyManagerModel.AccountProxy.ProxyName);
+            var proxy = ProxyFileManager.GetProxyById(currentProxyManagerModel.AccountProxy.ProxyId);
             var accountToDelete = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName);
             try
             {
                 proxy.AccountsAssignedto.Remove(accountToDelete);
 
-                var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == proxy.AccountProxy.ProxyName);
+                var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyId == proxy.AccountProxy.ProxyId);
                 int indexToUpdate = ProxyDetail.IndexOf(item);
                 ProxyDetail[indexToUpdate].AccountsAssignedto = proxy.AccountsAssignedto;
                 ProxyDetail[indexToUpdate].AccountsToBeAssign.Add(accountToDelete);
@@ -329,7 +329,7 @@ namespace DominatorUIUtility.CustomControl
                         continue;
                     }
 
-                    var alreadyExistProxy = ProxyFileManager.GetProxyByName(ProxyManagerModel.AccountProxy.ProxyName);
+                    var alreadyExistProxy = ProxyFileManager.GetProxyById(ProxyManagerModel.AccountProxy.ProxyId);
 
                     if (alreadyExistProxy != null && alreadyExistProxy.AccountProxy.ProxyIp == ProxyManagerModel.AccountProxy.ProxyIp
                         && alreadyExistProxy.AccountProxy.ProxyPort == ProxyManagerModel.AccountProxy.ProxyPort)
@@ -640,6 +640,14 @@ namespace DominatorUIUtility.CustomControl
         private void ProxyManager_OnLoaded(object sender, RoutedEventArgs e)
         {
             SetDataContext();
+        }
+
+        private void BtnUpdateProxy_OnClick(object sender, RoutedEventArgs e)
+        {
+            var currentProxy = ((FrameworkElement) sender).DataContext as ProxyManagerModel;
+            var oldProxy=ProxyFileManager.GetProxyById(currentProxy.AccountProxy.ProxyId);
+            oldProxy = currentProxy;
+            ProxyFileManager.EditProxy(oldProxy);
         }
     }
 }

@@ -353,11 +353,11 @@ namespace DominatorHouseCore.Utility
             return WithFile<ProxyManagerModel, List<ProxyManagerModel>>(file =>
                ProtoBuffBase.DeserializeList<ProxyManagerModel>(file));
         }
-        public static int FindProxyIndex<T>(List<T> proxy, string ProxyName)
+        public static int FindProxyIndex<T>(List<T> proxy, string ProxyId)
         {
             return typeof(T) == typeof(ProxyManagerModel) ?
-                proxy.FindIndex(a => (a as ProxyManagerModel).AccountProxy.ProxyName == ProxyName) :
-                proxy.FindIndex(a => (a as dynamic).AccountProxy.ProxyName == ProxyName);
+                proxy.FindIndex(a => (a as ProxyManagerModel).AccountProxy.ProxyId == ProxyId) :
+                proxy.FindIndex(a => (a as dynamic).AccountProxy.ProxyId == ProxyId);
         }
 
         internal static bool UpdateProxy(ProxyManagerModel proxy)
@@ -367,7 +367,7 @@ namespace DominatorHouseCore.Utility
                 return WithFile<ProxyManagerModel, bool>(file =>
                  {
                      var proxyDetailsList = GetProxyDetails();
-                     var indexOfProxyToUpdate = FindProxyIndex(proxyDetailsList, proxy.AccountProxy.ProxyName);
+                     var indexOfProxyToUpdate = FindProxyIndex(proxyDetailsList, proxy.AccountProxy.ProxyId);
 
                      if (indexOfProxyToUpdate == -1)
                          return false;

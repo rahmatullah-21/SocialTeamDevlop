@@ -25,5 +25,11 @@ namespace DominatorHouseCore.Enums
         AccountType = 2,
         GlobalType = 3
     }
+    public enum ReportType
+    {
+        Campaign = 1,
+        Account = 2
+        
+    }
 
 }

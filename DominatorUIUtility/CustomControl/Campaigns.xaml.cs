@@ -261,24 +261,20 @@ namespace DominatorUIUtility.CustomControl
         {
             CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
 
-            var campaignDetails = CampaignsFileManager.GetCampaignById(campName.CampaignId);
-
-            var templateDetails = TemplatesFileManager.GetTemplateById(campaignDetails.TemplateId);
-
-            EditOrDuplicateCampaign(templateDetails, campaignDetails, true, Visibility.Visible, ConstantVariable.UpdateCampaign, campaignDetails.TemplateId);
+            SocinatorInitialize
+                                .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
+                               .ViewCampaigns(campName.CampaignId, ConstantVariable.UpdateCampaign);
         }
 
         private void DuplicateCampaign_OnClick(object sender, RoutedEventArgs e)
         {
             CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
-
-            var campaignDetails = CampaignsFileManager.GetCampaignById(campName.CampaignId);
-
-            var templateDetails = TemplatesFileManager.GetTemplateById(campaignDetails.TemplateId);
-
-            campaignDetails.CampaignName = campName.CampaignName.Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
-
-            EditOrDuplicateCampaign(templateDetails, campaignDetails, true, Visibility.Visible, ConstantVariable.CreateCampaign, campaignDetails.TemplateId);
+            CampaignsFileManager.GetCampaignById(campName.CampaignId).
+             CampaignName = campName.CampaignName.
+             Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
+            SocinatorInitialize
+                                .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
+                                .ViewCampaigns(campName.CampaignId, ConstantVariable.CreateCampaign);
 
         }
 
@@ -318,11 +314,13 @@ namespace DominatorUIUtility.CustomControl
 
             var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
 
-           // ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
+            // ObservableCollection<QueryInfo> lstSavedQuery = ReportManager.GetSavedQuery(campName.SubModule, ActivitySettings);
+
+            var activityType = (ActivityType)Enum.Parse(typeof(ActivityType), campName.SubModule);
 
             ObservableCollection<QueryInfo> lstSavedQuery = SocinatorInitialize
                 .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory
-                .GetSavedQuery(campName.SubModule, ActivitySettings);
+                .GetSavedQuery(activityType, ActivitySettings);
 
             List<KeyValuePair<string, string>> lstCurrentQueries = new List<KeyValuePair<string, string>>();
 
@@ -371,7 +369,7 @@ namespace DominatorUIUtility.CustomControl
                 //   DataBaseHandler.GetDataBaseConnectionCampaignInstance(campName.CampaignId, SocialNetworks);
 
                 if (SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.GetReportDetail(ObjReports.ReportModel, lstCurrentQueries, campName) == 0)
-              //  if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
+                //  if (ReportManager.GetReportDetail(ObjReports, lstCurrentQueries, dataBase, campName) == 0)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Report", "Reports for " + campName.CampaignName + " Campaign not available", MessageDialogStyle.Affirmative);
                     return;
@@ -386,34 +384,44 @@ namespace DominatorUIUtility.CustomControl
             win.Owner = Application.Current.MainWindow;
             ObjReports.ExportReport.Click += (senders, events) =>
             {
-                var exportPath = FileUtilities.GetExportPath(win);
-
-                if (string.IsNullOrEmpty(exportPath))
-                    return;
-
-                var filename = Regex.Replace(
-                    input: $"{ campName.CampaignName }-Reports[{ ConstantVariable.DateasFileName}]",
-                    pattern: "[\\/:*?<>|\"]",
-                    replacement: "-");
-
-                filename = $"{exportPath}\\{filename}.csv";
-
-                //Header for csv file columns
-                string header = ReportManager.GetHeader();
-
-                if (!File.Exists(filename))
+                try
                 {
-                    using (var streamWriter = new StreamWriter(filename, true))
-                    {
-                        streamWriter.WriteLine(header);
-                    }
+                    var exportPath = FileUtilities.GetExportPath(win);
+
+                    if (string.IsNullOrEmpty(exportPath))
+                        return;
+
+                    var filename = Regex.Replace(
+                        input: $"{ campName.CampaignName }-Reports[{ ConstantVariable.DateasFileName}]",
+                        pattern: "[\\/:*?<>|\"]",
+                        replacement: "-");
+
+                    filename = $"{exportPath}\\{filename}.csv";
+                    SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(campName.SubModule, filename);
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Sucess",
+                        "Sucessfully Exported to " + filename);
                 }
+                catch (Exception ex)
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Fail",
+                        "Export fail !!" );
 
-                //Export Reports to csv File
-              //  ReportManager.ExportReports(campName.SubModule, filename);
+                }
+                ////Header for csv file columns
+                //string header = ReportManager.GetHeader();
+
+                //if (!File.Exists(filename))
+                //{
+                //    using (var streamWriter = new StreamWriter(filename, true))
+                //    {
+                //        streamWriter.WriteLine(header);
+                //    }
+                //}
+
+                ////Export Reports to csv File
+                ////  ReportManager.ExportReports(campName.SubModule, filename);
 
 
-                SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(campName.SubModule, filename);
             };
             ObjReports.CmbQueries.SelectionChanged += (senders, events) =>
             {
@@ -585,29 +593,29 @@ namespace DominatorUIUtility.CustomControl
             AllCampaign.Unchecked += AllCampaignChecked_Unchecked;
         }
 
-        private void AccountWiseDetails_OnClick(object sender, RoutedEventArgs e)
-        {
-           CampaignDetails currentCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
-            
-            if (currentCampaign.SelectedAccountList.Count == 0)
-            {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                    "No account is selected for this campaign.");
-                return;
-            }
-            try
-            {
-                CampaignAccountWiseReport campaignAccountWiseReport = new CampaignAccountWiseReport(currentCampaign);
-                Dialog objDialog = new Dialog();
-                Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Account wise Reports");
-                win.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Error(ex.Message);
-            }
+        //private void AccountWiseDetails_OnClick(object sender, RoutedEventArgs e)
+        //{
+        //    CampaignDetails currentCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
 
-           
-        }
+        //    if (currentCampaign.SelectedAccountList.Count == 0)
+        //    {
+        //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+        //            "No account is selected for this campaign.");
+        //        return;
+        //    }
+        //    try
+        //    {
+        //        CampaignAccountWiseReport campaignAccountWiseReport = new CampaignAccountWiseReport(currentCampaign);
+        //        Dialog objDialog = new Dialog();
+        //        Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Account wise Reports");
+        //        win.ShowDialog();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        GlobusLogHelper.log.Error(ex.Message);
+        //    }
+
+
+        //}
     }
 }

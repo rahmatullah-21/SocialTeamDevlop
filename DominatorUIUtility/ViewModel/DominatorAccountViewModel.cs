@@ -47,7 +47,7 @@ namespace DominatorUIUtility.ViewModel
             public Action<DominatorAccountModel> action_UpdateFollower;
         }
 
-    
+
         private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
 
         private DbContext dbContext { get; set; }
@@ -582,45 +582,94 @@ namespace DominatorUIUtility.ViewModel
             }
 
         }
-
         public void UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
         {
-            if (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) && string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort))
-                return;
             List<ProxyManagerModel> ProxyDetail = ProxyFileManager.GetAllProxy();
-
-            bool IsProxyAvailable = false;
-            foreach (var proxy in ProxyDetail)
+            try
             {
-                if (objDominatorAccountBaseModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
-                  && objDominatorAccountBaseModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
+                if (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyIp) && string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPort))
                 {
-                    IsProxyAvailable = true;
+                    #region if proxy | port empty then that account will remove from proxy AccountsAssignedto list and that account will add to all proxies
 
-                    foreach (var proxy2 in ProxyDetail)
+                    foreach (var proxy in ProxyDetail)
                     {
-                        var account2 = proxy2.AccountsAssignedto.FirstOrDefault(x => x.UserName == objDominatorAccountBaseModel.UserName);
-                        if (account2 != null)
-                        {
-                            proxy2.AccountsAssignedto.Remove(account2);
-                            ProxyFileManager.EditProxy(proxy2);
-                            break;
-                        }
-                    }
-                    var account = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == objDominatorAccountBaseModel.UserName);
-                    if (account == null)
-                    {
-                        proxy.AccountsAssignedto.Add(new AccountAssign
+                        proxy.AccountsToBeAssign.Add(new AccountAssign
                         {
                             UserName = objDominatorAccountBaseModel.UserName,
                             AccountNetwork = objDominatorAccountBaseModel.AccountNetwork
                         });
+                        var account = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == objDominatorAccountBaseModel.UserName);
+
+                        if (account != null)
+                            proxy.AccountsAssignedto.Remove(account);
+
                         ProxyFileManager.EditProxy(proxy);
                     }
 
-                    break;
+                    #endregion
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            bool IsProxyAvailable = false;
+            try
+            {
+                foreach (var proxy in ProxyDetail)
+                {
+                    #region To check proxy is Exist or not
+
+                    if (objDominatorAccountBaseModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
+                      && objDominatorAccountBaseModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
+                    {
+                        IsProxyAvailable = true;
+
+                        var account = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == objDominatorAccountBaseModel.UserName);
+                        if (account == null)
+                        {
+                            #region Add account to AccountsAssignedto list if current proxy is not Assigned to current Account
+
+                            proxy.AccountsAssignedto.Add(new AccountAssign
+                            {
+                                UserName = objDominatorAccountBaseModel.UserName,
+                                AccountNetwork = objDominatorAccountBaseModel.AccountNetwork
+                            });
+
+                            #endregion
+
+                            #region remove account from AccountsToBeAssign list of all proxies if exist
+
+                            foreach (var proxy2 in ProxyDetail)
+                            {
+                                var account2 = proxy2.AccountsToBeAssign.FirstOrDefault(x => x.UserName == objDominatorAccountBaseModel.UserName);
+                                if (account2 != null)
+                                {
+                                    proxy2.AccountsToBeAssign.Remove(account2);
+                                    ProxyFileManager.EditProxy(proxy2);
+                                    break;
+                                }
+                            }
+                            #endregion
+
+                            ProxyFileManager.EditProxy(proxy);
+                        }
+
+                        break;
+                    }
+                    #endregion
                 }
             }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            #region if proxy is not exist add proxy to proxy list
+
             if (!IsProxyAvailable)
             {
                 ProxyManagerModel ProxyManagerModel = new ProxyManagerModel
@@ -639,9 +688,58 @@ namespace DominatorUIUtility.ViewModel
                     UserName = objDominatorAccountBaseModel.UserName,
                     AccountNetwork = objDominatorAccountBaseModel.AccountNetwork
                 });
+
                 ProxyFileManager.SaveProxy(ProxyManagerModel);
+                
+                try
+                {
+                    #region Add all account except updating account to AccountsToBeAssign list
+
+                    ProxyFileManager.GetAllProxy().ForEach(proxy =>
+                          {
+                              AccountsFileManager.GetAll().ForEach(acc =>
+                              {
+                                  if (!proxy.AccountsToBeAssign.Any(x => x.UserName == acc.UserName && x.AccountNetwork == acc.AccountBaseModel.AccountNetwork))
+                                  {
+                                      proxy.AccountsToBeAssign.Add(new AccountAssign
+                                      {
+                                          UserName = acc.UserName,
+                                          AccountNetwork = acc.AccountBaseModel.AccountNetwork
+                                      });
+                                  }
+
+                              });
+
+                              ProxyFileManager.EditProxy(proxy);
+                          });
+                    #endregion
+
+                    #region Remove account from AccountsToBeAssign list if any account exist in any proxy AccountsAssignedto list
+
+                    ProxyFileManager.GetAllProxy().ForEach(prx =>
+                    {
+                        prx.AccountsAssignedto.ForEach(x =>
+                        {
+                            ProxyFileManager.GetAllProxy().ForEach(prx2 =>
+                            {
+                                var accountToDelete = prx2.AccountsToBeAssign.FirstOrDefault(y =>
+                                    y.UserName == x.UserName &&
+                                    y.AccountNetwork == x.AccountNetwork);
+                                prx2.AccountsToBeAssign.Remove(accountToDelete);
+                                ProxyFileManager.EditProxy(prx2);
+                            });
+                        });
+                     });
+
+                    #endregion
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
-            ProxyDetail = ProxyFileManager.GetAllProxy();
+            #endregion
+
         }
 
 

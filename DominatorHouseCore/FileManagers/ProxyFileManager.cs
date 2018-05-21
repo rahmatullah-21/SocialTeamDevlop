@@ -42,13 +42,11 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper.UpdateAllProxy(proxy);
         }
 
-        public static ProxyManagerModel GetProxyByName(string ProxyName)
+       
+        public static ProxyManagerModel GetProxyById(string ProxyId)
         {
-            return GetAllProxy().FirstOrDefault(x => x.AccountProxy.ProxyName == ProxyName);
+           return GetAllProxy().FirstOrDefault(x => x.AccountProxy.ProxyId == ProxyId);
         }
-
-
-        
 
     }
 }

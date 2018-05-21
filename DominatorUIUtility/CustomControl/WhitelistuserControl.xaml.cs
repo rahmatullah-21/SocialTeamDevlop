@@ -115,9 +115,6 @@ namespace DominatorUIUtility.CustomControl
 
         private void SelectAll_OnUnchecked(object sender, RoutedEventArgs e)
         {
-            if (IsUnCheckedFromUser)
-                return;
-
             CheckUncheckAll(false);
         }
 
