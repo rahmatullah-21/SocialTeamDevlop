@@ -45,6 +45,7 @@ namespace DominatorHouseCore.Utility
 
             { typeof(PublisherManageDestinationModel),Tuple.Create(new object(), (Func<string>)ConstantVariable.GetPublisherDestinationsFile) },
             { typeof(PublisherCreateDestinationModel),Tuple.Create(new object(), (Func<string>)ConstantVariable.GetPublisherCreateDestinationsFolder) },
+            { typeof(PublisherPostlistSettingsModel),Tuple.Create(new object(), (Func<string>)ConstantVariable.GetPublisherPostlistSettingsFile) },
             { typeof(object), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetIndexAccountFile) }
         };
 
@@ -156,6 +157,13 @@ namespace DominatorHouseCore.Utility
             return WithFile<PublisherManageDestinationModel, List<PublisherManageDestinationModel>>(publisherDestinationPath => File.Exists(publisherDestinationPath) ?
                 ProtoBuffBase.DeserializeList<PublisherManageDestinationModel>(publisherDestinationPath) :
                 new List<PublisherManageDestinationModel>());
+        }
+
+        public static List<PublisherPostlistSettingsModel> GetPublisherPostListSettingsModels()
+        {
+            return WithFile<PublisherPostlistSettingsModel, List<PublisherPostlistSettingsModel>>(publisherPostListPath => File.Exists(publisherPostListPath) ?
+                ProtoBuffBase.DeserializeList<PublisherPostlistSettingsModel>(publisherPostListPath) :
+                new List<PublisherPostlistSettingsModel>());
         }
 
 
@@ -312,6 +320,30 @@ namespace DominatorHouseCore.Utility
                 return false;
             }
         }
+
+
+        public static bool UpdateAllPostListSettings(List<PublisherPostlistSettingsModel> publisherDestinationList)
+        {
+            return Updates(publisherDestinationList);
+        }
+
+        public static bool Updates<T>(List<T> itemColletion) where T : class
+        {
+            try
+            {
+                return WithFile<T, bool>(file =>
+                {
+                    bool result = ProtoBuffBase.SerializeList(itemColletion, file);                   
+                    return result;
+                });
+            }
+            catch (Exception ex)
+            {                
+                ex.DebugLog();
+                return false;
+            }
+        }
+
 
 
         public static void UpdateCampaigns(List<CampaignDetails> campaignList)

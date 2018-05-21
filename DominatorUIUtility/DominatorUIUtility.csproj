@@ -392,6 +392,9 @@
     <Compile Include="Views\SocioPublisher\PublisherMonitorFolder.xaml.cs">
       <DependentUpon>PublisherMonitorFolder.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherPostlistSettings.xaml.cs">
+      <DependentUpon>PublisherPostlistSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublisherRssFeed.xaml.cs">
       <DependentUpon>PublisherRssFeed.xaml</DependentUpon>
     </Compile>
@@ -401,6 +404,7 @@
     <Compile Include="Views\SocioPublisher\PublisherSharePost.xaml.cs">
       <DependentUpon>PublisherSharePost.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherViewUtility.cs" />
     <Page Include="Behaviours\ErrorModelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -793,6 +797,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherMonitorFolder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherPostlistSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

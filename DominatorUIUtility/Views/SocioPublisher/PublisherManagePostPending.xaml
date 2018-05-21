@@ -117,12 +117,10 @@
                                     <StackPanel Margin="6,2,6,2" HorizontalAlignment="Center">
                                         <CheckBox  IsChecked="{Binding PublishonOwnWall}" ></CheckBox>
                                     </StackPanel>
-
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-
                 </GridView>
             </ListView.View>
         </ListView>
@@ -199,6 +197,21 @@
                     </Button.Template>
                 </Button>
 
+                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="InvalidAspectRadio" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=EditPosts}">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="15" Height="15" Fill="{DynamicResource AccentBaseColorBrush}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_layer_arrange_sendbackward}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Label Content="{DynamicResource DHlangAspectRadioChecker}" Margin="0,0,0,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
                 <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="DeletePosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=DeletePosts}">
                     <Button.Template>
                         <ControlTemplate>
@@ -213,9 +226,44 @@
                             </StackPanel>
                         </ControlTemplate>
                     </Button.Template>
+
+                    <Button.ContextMenu>
+                        <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="{DynamicResource DHlangDeleteSelected}" Name="MenuDeleteSelectedAll" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
+                                <MenuItem.Icon>
+                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="{DynamicResource DHlangDeleteTextPost}" Name="MenuDeleteTextPost" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
+                                <MenuItem.Icon>
+                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="{DynamicResource DHlangDeleteDuplicateImages}" Name="MenuDeleteDuplicateImages" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
+                                <MenuItem.Icon>
+                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+
                 </Button>
 
-                <Button x:Name="BtnSettings" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnSettings}" >
+                <Button x:Name="BtnSettings" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SettingsCommand}"  CommandParameter="{Binding ElementName=BtnSettings}" >
                     <Button.Template>
                         <ControlTemplate>
                             <StackPanel  Orientation="Horizontal" >
@@ -229,7 +277,6 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-
             </StackPanel>
         </Grid>
     </Grid>

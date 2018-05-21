@@ -264,7 +264,7 @@
                     </Button.Template>
                 </Button>
 
-                <Button x:Name="BtnSettings" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnSettings}" >
+                <Button x:Name="BtnSettings" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SettingsCommand}"  CommandParameter="{Binding ElementName=BtnSettings}" >
                     <Button.Template>
                         <ControlTemplate>
                             <StackPanel  Orientation="Horizontal" >

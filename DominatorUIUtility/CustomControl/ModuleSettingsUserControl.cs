@@ -669,6 +669,7 @@ namespace DominatorUIUtility.CustomControl
             };
 
             #endregion
+
             if (objErrorModelControl.Accounts.Count != 0)
                 warningWindow.ShowDialog();
 

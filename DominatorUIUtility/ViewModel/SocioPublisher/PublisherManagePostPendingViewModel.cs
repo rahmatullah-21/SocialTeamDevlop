@@ -3,10 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.Views.SocioPublisher;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -21,10 +29,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
         #region Properties
+
         public ICommand OpenContextMenuCommand { get; set; }
         public ICommand SelectAllAccountDetailsCommand { get; set; }
         public ICommand EditCommand { get; set; }
         public ICommand SettingsCommand { get; set; }
+
         #endregion
 
         #region Open Context
@@ -67,7 +77,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SettingsExecute(object sender)
         {
-
+            var publisherViewUtility = new PublisherViewUtility();
+            publisherViewUtility.OpenPostlistSettings();
         }
+
+
     }
 }

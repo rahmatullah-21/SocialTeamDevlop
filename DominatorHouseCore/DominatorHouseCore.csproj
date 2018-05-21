@@ -430,6 +430,7 @@
     <Compile Include="Models\SocioPublisher\PublisherHomeModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherManageDestinationModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherManagePostsModel.cs" />
+    <Compile Include="Models\SocioPublisher\PublisherPostlistSettingsModel.cs" />
     <Compile Include="Models\SoftwareSettingsModel.cs" />
     <Compile Include="Models\TabItem.cs" />
     <Compile Include="Models\TimingRange.cs" />

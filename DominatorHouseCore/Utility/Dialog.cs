@@ -43,6 +43,42 @@ namespace DominatorHouseCore.Utility
             return dialogWindow;
         }
 
+
+        public Window GetCustomDialog(BaseMetroDialog dialog,string title)
+        {
+            var dialogWindow = new MetroWindow
+            {
+                ShowInTaskbar = true,
+                ShowActivated = true,
+                Topmost = false,
+                ResizeMode = ResizeMode.NoResize,
+                WindowStyle = WindowStyle.SingleBorderWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                ShowTitleBar = true,
+                ShowCloseButton = true,
+                WindowTransitionsEnabled = false,
+                Background = dialog.Background,
+                BorderThickness = new Thickness(0),
+                GlowBrush = Brushes.Black, 
+                Title = title
+            };
+
+            try
+            {
+                dialogWindow.GlowBrush = dialogWindow.FindResource("AccentColorBrush") as SolidColorBrush;
+            }
+            catch (Exception)
+            {
+
+            }
+            dialogWindow.MinHeight = SystemParameters.PrimaryScreenHeight / 4.0;
+            dialogWindow.MinWidth = SystemParameters.PrimaryScreenHeight / 1.3;
+            dialogWindow.SizeToContent = SizeToContent.WidthAndHeight;
+            dialogWindow.Content = dialog;
+            return dialogWindow;
+        }
+
+
         public Window GetMetroWindow(Object window, string title)
         {
             var MetroWindow = new MetroWindow
@@ -77,7 +113,6 @@ namespace DominatorHouseCore.Utility
             MetroWindow.MaxWidth = SystemParameters.PrimaryScreenWidth - 100;
             return MetroWindow;
         }
-
 
         [Obsolete("SetMetroDialogButton without parameter is deprecated, please use SetMetroDialogButton(AffirmativeText,NegativeText) instead.")]
         public static MetroDialogSettings SetMetroDialogButton()

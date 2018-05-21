@@ -114,6 +114,8 @@ namespace DominatorHouseCore.Utility
 
         public static string GetPublisherCreateDestinationsFolder() => GetOtherDir() + @"\DestinationList\";
 
+        public static string GetPublisherPostlistSettingsFile() => GetOtherDir() + @"\PostlistSettings.bin";
+
         public static string GetChatDir()
         {
             string dir = $"{GetPlatformBaseDirectory()}\\Chat";
@@ -131,7 +133,9 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherFacebookSettingsFile() => GetOtherDir() + @"\Facebook.bin";
         public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
 
+        public static string SaveAction { get; set; } = "Save";
 
+        public static string UpdateAction { get; set; } = "Update";
 
         #region Publisher
 

@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.LogHelper;
+using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -67,7 +68,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SettingsExecute(object sender)
         {
-
+            var publisherViewUtility = new PublisherViewUtility();
+            publisherViewUtility.OpenPostlistSettings();
         }
     }
 }

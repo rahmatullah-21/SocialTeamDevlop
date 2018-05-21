@@ -168,6 +168,7 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangPending">Pending</system:String>
     <system:String x:Key="DHlangPublished">Published</system:String>
     <system:String x:Key="DHlangEdit">Edit</system:String>
+    <system:String x:Key="DHlangAspectRadioChecker">Ratio checker</system:String>
 
     <system:String x:Key="DHlangDestinationName">Destination Name</system:String>
     <system:String x:Key="DHlangAccountCount">Account Count</system:String>
@@ -215,7 +216,14 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangImage">Image</system:String>
     <system:String x:Key="DHlangCreatedDate">Created Date</system:String>
     <system:String x:Key="DHlangEndDate">End Date</system:String>
-  
+
+    <system:String x:Key="DHlangDeleteSelected">Selected only</system:String>
+    <system:String x:Key="DHlangDeleteDuplicateImages">Duplicate Images</system:String>
+    <system:String x:Key="DHlangDeleteTextPost">Text Posts</system:String>
+
+    <system:String x:Key="DHlangRemoveFromDraft">Remove from draft when added to post list (only for draft postlist)</system:String>
+    <system:String x:Key="DHlangReaddPublishedPost">Re-add published posts to the end of pending posts list (only for pending postlist)</system:String>
+    <system:String x:Key="DHlangPublishedPostToBump">Automatically send new published posts to bump feature (only for published postlist)</system:String>
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>

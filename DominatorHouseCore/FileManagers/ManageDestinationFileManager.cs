@@ -73,7 +73,6 @@ namespace DominatorHouseCore.FileManagers
             return lst.FirstOrDefault(x => x.DestinationId == destinationId);
         }
 
-
         public static bool Add(PublisherManageDestinationModel account)
         {
             var lst = GetAll() ?? new List<PublisherManageDestinationModel>();
