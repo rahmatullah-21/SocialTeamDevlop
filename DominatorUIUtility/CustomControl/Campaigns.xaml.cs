@@ -261,8 +261,7 @@ namespace DominatorUIUtility.CustomControl
         {
             CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
 
-            SocinatorInitialize
-                                .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
+            SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
                                .ViewCampaigns(campName.CampaignId, ConstantVariable.UpdateCampaign);
         }
 
@@ -272,9 +271,8 @@ namespace DominatorUIUtility.CustomControl
             CampaignsFileManager.GetCampaignById(campName.CampaignId).
              CampaignName = campName.CampaignName.
              Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
-            SocinatorInitialize
-                                .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
-                                .ViewCampaigns(campName.CampaignId, ConstantVariable.CreateCampaign);
+            SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
+                               .ViewCampaigns(campName.CampaignId, ConstantVariable.CreateCampaign);
 
         }
 
@@ -397,7 +395,8 @@ namespace DominatorUIUtility.CustomControl
                         replacement: "-");
 
                     filename = $"{exportPath}\\{filename}.csv";
-                    SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(campName.SubModule, filename);
+                    
+                    SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(activityType, filename,ReportType.Campaign);
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Sucess",
                         "Sucessfully Exported to " + filename);
                 }
