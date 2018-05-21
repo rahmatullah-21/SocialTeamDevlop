@@ -184,7 +184,7 @@ namespace DominatorUIUtility.CustomControl
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ToggleActivatePause_Campaign(object sender, EventArgs e)
+        private void ToggleActivatePause_Campaign(object sender, RoutedEventArgs e)
         {
             var objCampaignDetailsBeforeSave = objCampaignDetails.ObjCampaignDetails;
             objCampaignDetails.ObjCampaignDetails =
@@ -616,5 +616,6 @@ namespace DominatorUIUtility.CustomControl
 
 
         //}
+      
     }
 }

@@ -931,17 +931,17 @@ namespace DominatorUIUtility.CustomControl
 
                             if (moduleSettings == null)
                                 return;
-
                             CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId, account.AccountBaseModel.UserName);
 
+                            moduleSettings.TemplateId = TemplateId;
+
                             DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings.TemplateId);
-
                         });
-                UpdateSelectedAccountDetails(accountDetails, _footerControl.list_SelectedAccounts,
-                    Model.JobConfiguration);
+                
                 #endregion
+               
 
-               // AccountsFileManager.UpdateAccounts(accountDetails);
+                AccountsFileManager.UpdateAccounts(accountDetails);
 
                 warningWindow.Close();
             };
