@@ -11,7 +11,11 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class ProxyManagerModel : BindableBase
     {
-       
+        public ProxyManagerModel()
+        {
+            
+        }
+
         private ICollectionView _proxyManagerCollection ;
         public ICollectionView ProxyManagerCollection
         {
@@ -166,9 +170,9 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _uRLToUseToVerifyProxies, value);
             }
         }
-        private ObservableCollection<string> _groups=new ObservableCollection<string>();
+        private HashSet<string> _groups=new HashSet<string>();
 
-        public ObservableCollection<string> Groups
+        public HashSet<string> Groups
         {
             get
             {

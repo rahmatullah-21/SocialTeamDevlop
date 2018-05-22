@@ -53,7 +53,7 @@
 
                             </StackPanel>
 
-                            <CheckBox  Content="{DynamicResource langCustomFilters}"  VerticalAlignment="Top"  Name="chkCustomFilters" Height="25" IsChecked="{Binding CurrentQuery.IsCustomFilterSelected}"/>
+                            <CheckBox  Content="{DynamicResource langCustomFilters}" Visibility="Collapsed" VerticalAlignment="Top"  Name="chkCustomFilters" Height="25" IsChecked="{Binding CurrentQuery.IsCustomFilterSelected}"/>
 
                             <Button Name="BtnFilter" Click="btnFilter_Click" Margin="10,0,0,0"  VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" Height="25" Width="90" 
                                     Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Visibility="{Binding CurrentQuery.IsCustomFilterSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
