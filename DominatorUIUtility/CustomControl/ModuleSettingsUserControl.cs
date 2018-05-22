@@ -865,7 +865,120 @@ namespace DominatorUIUtility.CustomControl
             TabSwitcher.GoToCampaign();
 
         }
+        protected void UpdateCampaign()
+        {
+           
+            if (!ValidateCampaign())
+                return;
 
+            if (!ValidateExtraProperty())
+                return;
+
+            var currentCampaign = CampaignsFileManager.Get().FirstOrDefault(camp => camp.TemplateId == TemplateId);
+
+            try
+            {
+                var newlyAddedAccounts = _footerControl.list_SelectedAccounts.Except(currentCampaign?.SelectedAccountList).ToList();
+                var existingAccounts = _footerControl.list_SelectedAccounts.Except(newlyAddedAccounts).ToList();
+                var removedAccounts = currentCampaign?.SelectedAccountList.Except(existingAccounts).ToList();
+
+                var accountToRemoveModuleConfiguration = AccountsFileManager.GetAll(removedAccounts);
+
+                #region Remove TemplateId from removed account from campaign selected account list
+
+                accountToRemoveModuleConfiguration.ForEach(account =>
+                {
+
+                    try
+                    {
+                        var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
+                            module.ActivityType == _activityType);
+                        DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings?.TemplateId);
+                        moduleSettings.TemplateId = null;
+                        AccountsFileManager.Edit(account);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+
+
+                });
+
+                #endregion
+
+                if (newlyAddedAccounts.Count != 0)
+                    UpdateNewlyAddedAccounts(newlyAddedAccounts);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+
+
+            // Update Template Details
+            TemplatesFileManager.ApplyFunc(template =>
+            {
+                if (template.Id != TemplateId)
+                    return false;
+
+                TModel model = JsonConvert.DeserializeObject<TModel>(template.ActivitySettings);
+                var firstRunningTime = ((dynamic)model).JobConfiguration.RunningTime;
+                var secondRunningTime = Model.JobConfiguration.RunningTime;
+
+                var result = DominatorScheduler.CompareRunningTime(firstRunningTime, secondRunningTime);
+                if (!result)
+                {
+                    try
+                    {
+                        var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+
+                        foreach (var accountModel in lstAccountDetails.Where(x => _footerControl.list_SelectedAccounts.Contains(x.AccountBaseModel.UserName)))
+                            DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId, _activityType.ToString(), TemplateId);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+
+                    // Update the template configuration 
+                    template.ActivitySettings = JsonConvert.SerializeObject((TModel)Model);
+                }
+
+                return true;
+            });
+
+
+            // Update Campaign Details
+            CampaignsFileManager.ApplyAction(campaign =>
+            {
+
+                if (campaign.TemplateId == TemplateId)
+                {
+                    campaign.CampaignName = CampaignName;
+                    campaign.MainModule = _moduleName;
+                    campaign.SubModule = _activityType.ToString();
+                    campaign.SocialNetworks = _socialNetwork;
+                    campaign.SelectedAccountList = _footerControl.list_SelectedAccounts;
+                    campaign.TemplateId = TemplateId;
+                    campaign.CreationDate = DateTimeUtilities.GetEpochTime();
+                    campaign.Status = "Active";
+                    campaign.LastEditedDate = DateTimeUtilities.GetEpochTime();
+                }
+            });
+
+
+            // Update Account Detail
+            var accountDetails = AccountsFileManager.GetAll();
+            if (UpdateSelectedAccountDetails(accountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Update", "Update Successfull", MessageDialogStyle.Affirmative);
+
+            SetDataContext();
+            TabSwitcher.GoToCampaign();
+
+        }
         string GetWarningLangRsrc()
         {
             try
@@ -1640,7 +1753,8 @@ namespace DominatorUIUtility.CustomControl
 
                 objSelectAccountControl.btnSave.Click += (senders, Events) =>
                 {
-                    if (objSelectAccountControl.GetSelectedAccount().Count > 0)
+                    var selectedAccount = objSelectAccountControl.GetSelectedAccount();
+                    if (selectedAccount.Count > 0)
                     {
                         _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
                         this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
@@ -1649,6 +1763,7 @@ namespace DominatorUIUtility.CustomControl
                     else
                     {
                         this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                        _footerControl.list_SelectedAccounts = selectedAccount.ToList();
                     }
                     window.Close();
                 };
