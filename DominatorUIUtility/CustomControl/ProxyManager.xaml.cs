@@ -18,6 +18,7 @@ using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using DominatorHouseCore;
 using DominatorHouseCore.Request;
 using DominatorUIUtility.ViewModel;
@@ -33,7 +34,7 @@ namespace DominatorUIUtility.CustomControl
         ProxyManagerModel currentProxyManagerModel;
         private DominatorAccountViewModel.AccessorStrategies _strategies;
 
-        ProxyManagerModel ProxyManagerModel { get; set; }
+        ProxyManagerModel ProxyManagerModel { get; set; } = new ProxyManagerModel();
 
         ObservableCollection<ProxyManagerModel> ProxyDetail { get; set; } = new ObservableCollection<ProxyManagerModel>();
 
@@ -45,21 +46,14 @@ namespace DominatorUIUtility.CustomControl
 
         private void SetDataContext()
         {
-            ProxyManagerModel = new ProxyManagerModel();
-
             MainGrid.DataContext = ProxyManagerModel;
 
             ProxyDetail = new ObservableCollection<ProxyManagerModel>(ProxyFileManager.GetAllProxy());
 
-            ProxyDetail.ForEach(proxy =>
-            {
-                if (ProxyManagerModel.Groups.Any(ProxyGroup => ProxyGroup == proxy.AccountProxy.ProxyGroup) == false)
-                    ProxyManagerModel.Groups.Add(proxy.AccountProxy.ProxyGroup);
-
-            }
-            );
+            ProxyDetail.ForEach(proxy => ProxyManagerModel.Groups.Add(proxy.AccountProxy.ProxyGroup));
 
             ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(ProxyDetail);
+
         }
 
         private void btnAddProxy_Click(object sender, RoutedEventArgs e)
@@ -389,7 +383,15 @@ namespace DominatorUIUtility.CustomControl
                 currentProxyManagerModel.AccountsAssignedto.Add(accountToAdd);
                 ProxyFileManager.EditProxy(currentProxyManagerModel);
                 var AccountToUpdateProxy = AccountsFileManager.GetAccount(account.UserName);
-                AccountToUpdateProxy.AccountBaseModel.AccountProxy = currentProxyManagerModel.AccountProxy;
+
+                var proxyToAdd = new Proxy()
+                {
+                    ProxyPort = currentProxyManagerModel.AccountProxy.ProxyPort,
+                    ProxyIp = currentProxyManagerModel.AccountProxy.ProxyIp,
+                    ProxyUsername = currentProxyManagerModel.AccountProxy.ProxyUsername,
+                    ProxyPassword = currentProxyManagerModel.AccountProxy.ProxyPassword
+                };
+                AccountToUpdateProxy.AccountBaseModel.AccountProxy = proxyToAdd;
                 AccountsFileManager.Edit(AccountToUpdateProxy);
 
                 var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == currentProxyManagerModel.AccountProxy.ProxyName);

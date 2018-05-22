@@ -418,7 +418,7 @@ namespace DominatorUIUtility.ViewModel
                             warn(string.Format("The account {0} cannot be imported because {1} is not available.",
                                 objDominatorAccountBaseModel,
                                 objDominatorAccountBaseModel.AccountNetwork));
-                            GlobusLogHelper.log.Info(SocinatorInitialize.ActiveSocialNetwork+"\tThe account {0} cannot be imported because {1} is not available.",
+                            GlobusLogHelper.log.Info(SocinatorInitialize.ActiveSocialNetwork + "\tThe account {0} cannot be imported because {1} is not available.",
                                 objDominatorAccountBaseModel.UserName,
                                 objDominatorAccountBaseModel.AccountNetwork);
                         }
@@ -562,8 +562,11 @@ namespace DominatorUIUtility.ViewModel
                     {
                         if (checkSucceeded.Result)
                         {
+                            //To update proxy status
+                            UpdateProxyStatus(dominatorAccountModel.AccountBaseModel);
                             return asyncAccount.UpdateDetailsAsync(dominatorAccountModel, dominatorAccountModel.Token);
                         }
+
                         return new Task(() => { });
                     })
                     .Start();
@@ -574,6 +577,8 @@ namespace DominatorUIUtility.ViewModel
                     var cancelUpdate = secondaryTaskStrategyReturningCancellation(() =>
                     {
                         accountFactory.CheckStatus(dominatorAccountModel);
+                        //To update proxy status
+                        UpdateProxyStatus(dominatorAccountModel.AccountBaseModel);
                         accountFactory.UpdateDetails(dominatorAccountModel);
                     });
                     dominatorAccountModel.Token.Register(cancelUpdate);
@@ -693,7 +698,7 @@ namespace DominatorUIUtility.ViewModel
                 });
 
                 ProxyFileManager.SaveProxy(ProxyManagerModel);
-                
+
                 try
                 {
                     #region Add all account except updating account to AccountsToBeAssign list
@@ -732,7 +737,7 @@ namespace DominatorUIUtility.ViewModel
                                 ProxyFileManager.EditProxy(prx2);
                             });
                         });
-                     });
+                    });
 
                     #endregion
                 }
@@ -764,7 +769,7 @@ namespace DominatorUIUtility.ViewModel
                            {
                                var assignedAccount = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName);
                                proxy.AccountsAssignedto.Remove(proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName));
-                               proxy.AccountsToBeAssign.Remove(proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName));
+                               proxy.AccountsToBeAssign.Remove(proxy.AccountsToBeAssign.FirstOrDefault(x => x.UserName == assignedAccount.UserName));
 
 
                            });
@@ -1063,6 +1068,31 @@ namespace DominatorUIUtility.ViewModel
 
                 AccountsFileManager.Edit(selectedAccount);
                 UpdateProxy(objDominatorAccountBaseModel);
+
+                #region Checking stattus
+
+                try
+                {
+                    var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
+                                   .GetNetworkCoreFactory().AccountUpdateFactory;
+                    var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
+
+                    asyncAccount.CheckStatusAsync(selectedAccount, selectedAccount.Token);
+                    asyncAccount.UpdateDetailsAsync(selectedAccount, selectedAccount.Token);
+
+                    if (selectedAccount.AccountBaseModel.Status == "Success")
+                    {
+                        //To update proxy status
+                        UpdateProxyStatus(selectedAccount.AccountBaseModel);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+                #endregion
+
                 GlobusLogHelper.log.Info(Log.AccountEdited, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
 
                 dialogWindow.Close();
@@ -1418,6 +1448,11 @@ namespace DominatorUIUtility.ViewModel
                     var checkAccount = new Task(() =>
                     {
                         asyncAccount.CheckStatusAsync(account, account.Token);
+                        if (account.AccountBaseModel.Status == "Success")
+                        {
+                            //To update proxy status
+                            UpdateProxyStatus(account.AccountBaseModel);
+                        }
                     }, account.Token);
                     checkAccount.Start();
                 }
@@ -1507,7 +1542,19 @@ namespace DominatorUIUtility.ViewModel
 
         public void ActionUpdateAccount(DominatorAccountModel model)
             => strategyPack.action_UpdateFollower(model);
-
+        public void UpdateProxyStatus(DominatorAccountBaseModel objDominatorAccountBaseModel)
+        {
+            try
+            {
+                var ProxyToBeUpdated = ProxyFileManager.GetProxyById(objDominatorAccountBaseModel.AccountProxy.ProxyId);
+                ProxyToBeUpdated.Status = "Working";
+                ProxyFileManager.EditProxy(ProxyToBeUpdated);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
     }
 
 
