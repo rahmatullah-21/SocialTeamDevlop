@@ -150,4 +150,8 @@ Type 1. Group Name:Proxy Name:IP:Port:Proxy User Name:Proxy Password
 Type 2. IP:Port:Proxy User Name:Proxy Password
 Type 3. IP:Port
     </system:String>
+
+    <system:String x:Key="DHStartWarning">These accounts are already running with</system:String>
+    <system:String x:Key="DHEndWarning">configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+
 </ResourceDictionary>
