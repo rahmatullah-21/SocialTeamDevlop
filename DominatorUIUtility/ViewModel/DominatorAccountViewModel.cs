@@ -418,6 +418,9 @@ namespace DominatorUIUtility.ViewModel
                             warn(string.Format("The account {0} cannot be imported because {1} is not available.",
                                 objDominatorAccountBaseModel,
                                 objDominatorAccountBaseModel.AccountNetwork));
+                            GlobusLogHelper.log.Info(SocinatorInitialize.ActiveSocialNetwork+"\tThe account {0} cannot be imported because {1} is not available.",
+                                objDominatorAccountBaseModel.UserName,
+                                objDominatorAccountBaseModel.AccountNetwork);
                         }
                     }
                     catch (Exception ex)

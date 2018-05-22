@@ -43,5 +43,10 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 
         [Column(Order = 11)]
         public string OriginalMediaOwner { get; set; }
+        [Column(Order = 12)]
+        public string QueryType { get; set; }
+
+        [Column(Order = 13)]
+        public string QueryValue { get; set; }
     }
 }
