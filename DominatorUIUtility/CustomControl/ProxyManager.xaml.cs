@@ -65,6 +65,7 @@ namespace DominatorUIUtility.CustomControl
         private void btnAddProxy_Click(object sender, RoutedEventArgs e)
         {
             AddOrUpdateProxyControl ObjAddProxyControl = new AddOrUpdateProxyControl();
+            ProxyManagerModel = new ProxyManagerModel();
             try
             {
                 ObjAddProxyControl.btnSave.Content = FindResource("langSave").ToString();
@@ -284,8 +285,8 @@ namespace DominatorUIUtility.CustomControl
             var loadedProxylist = FileUtilities.FileBrowseAndReader();
             if (loadedProxylist == null)
                 return;
-
-            int proxyId = ProxyFileManager.GetAllProxy().Count + 1;
+            var allProxy = ProxyFileManager.GetAllProxy();
+            int proxyId = allProxy.Count + 1;
 
             foreach (var proxy in loadedProxylist)
             {
@@ -328,11 +329,9 @@ namespace DominatorUIUtility.CustomControl
                         GlobusLogHelper.log.Info(SocialNetworks.Social + "\t invalid Proxy");
                         continue;
                     }
+                    if (allProxy.Any(x => x.AccountProxy.ProxyIp == ProxyManagerModel.AccountProxy.ProxyIp
+                                        && x.AccountProxy.ProxyPort == ProxyManagerModel.AccountProxy.ProxyPort))
 
-                    var alreadyExistProxy = ProxyFileManager.GetProxyById(ProxyManagerModel.AccountProxy.ProxyId);
-
-                    if (alreadyExistProxy != null && alreadyExistProxy.AccountProxy.ProxyIp == ProxyManagerModel.AccountProxy.ProxyIp
-                        && alreadyExistProxy.AccountProxy.ProxyPort == ProxyManagerModel.AccountProxy.ProxyPort)
                     {
                         GlobusLogHelper.log.Info(SocialNetworks.Social + "\t proxy already exist");
                         continue;
@@ -644,8 +643,8 @@ namespace DominatorUIUtility.CustomControl
 
         private void BtnUpdateProxy_OnClick(object sender, RoutedEventArgs e)
         {
-            var currentProxy = ((FrameworkElement) sender).DataContext as ProxyManagerModel;
-            var oldProxy=ProxyFileManager.GetProxyById(currentProxy.AccountProxy.ProxyId);
+            var currentProxy = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
+            var oldProxy = ProxyFileManager.GetProxyById(currentProxy.AccountProxy.ProxyId);
             oldProxy = currentProxy;
             ProxyFileManager.EditProxy(oldProxy);
         }
