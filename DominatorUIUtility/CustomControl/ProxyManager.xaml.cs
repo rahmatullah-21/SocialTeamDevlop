@@ -178,6 +178,7 @@ namespace DominatorUIUtility.CustomControl
                 MainGrid.DataContext = ProxyManagerModel;
                 ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(ProxyDetail);
             }
+            ProxyDetail.ForEach(proxy => ProxyManagerModel.Groups.Add(proxy.AccountProxy.ProxyGroup));
         }
 
 
@@ -539,7 +540,15 @@ namespace DominatorUIUtility.CustomControl
                 currentProxyManagerModel.AccountsAssignedto.Add(accountToAdd);
                 ProxyFileManager.EditProxy(currentProxyManagerModel);
                 var AccountToUpdateProxy = AccountsFileManager.GetAccount(account.UserName);
-                AccountToUpdateProxy.AccountBaseModel.AccountProxy = currentProxyManagerModel.AccountProxy;
+                var proxyToAdd = new Proxy()
+                {
+                    ProxyPort = currentProxyManagerModel.AccountProxy.ProxyPort,
+                    ProxyIp = currentProxyManagerModel.AccountProxy.ProxyIp,
+                    ProxyUsername = currentProxyManagerModel.AccountProxy.ProxyUsername,
+                    ProxyPassword = currentProxyManagerModel.AccountProxy.ProxyPassword
+                };
+                AccountToUpdateProxy.AccountBaseModel.AccountProxy = proxyToAdd;
+
                 AccountsFileManager.Edit(AccountToUpdateProxy);
 
                 var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == currentProxyManagerModel.AccountProxy.ProxyName);
