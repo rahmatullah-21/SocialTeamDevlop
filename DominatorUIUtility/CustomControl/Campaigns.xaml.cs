@@ -395,8 +395,9 @@ namespace DominatorUIUtility.CustomControl
                         replacement: "-");
 
                     filename = $"{exportPath}\\{filename}.csv";
+                    //TODO
                     
-                    SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(activityType.ToString(), filename);
+                    SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(activityType, filename, ReportType.Campaign);
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Sucess",
                         "Sucessfully Exported to " + filename);
                 }
