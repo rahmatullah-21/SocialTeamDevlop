@@ -330,6 +330,7 @@
     <Compile Include="FileManagers\FBFileManager.cs" />
     <Compile Include="FileManagers\PinFileManager.cs" />
     <Compile Include="FileManagers\ManageDestinationFileManager.cs" />
+    <Compile Include="FileManagers\PostListSettingsFileManager.cs" />
     <Compile Include="FileManagers\PublisherFileManager.cs" />
     <Compile Include="FileManagers\SocinatorKeyHelper.cs" />
     <Compile Include="FileManagers\SoftwareSettingsFileManager.cs" />
@@ -420,6 +421,11 @@
     <Compile Include="Models\RunningTimes.cs" />
     <Compile Include="Models\ScrapeResultNew.cs" />
     <Compile Include="Models\SocioPublisher\AccountDetailsSelectorModel.cs" />
+    <Compile Include="Models\SocioPublisher\IdNameBinderModel.cs" />
+    <Compile Include="Models\SocioPublisher\PostCategory.cs" />
+    <Compile Include="Models\SocioPublisher\PostQueuedStatus.cs" />
+    <Compile Include="Models\SocioPublisher\PostRunningStatus.cs" />
+    <Compile Include="Models\SocioPublisher\PostSource.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCampaignDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCampaignStatus.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCampaignStatusModel.cs" />
@@ -430,6 +436,7 @@
     <Compile Include="Models\SocioPublisher\PublisherHomeModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherManageDestinationModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherManagePostsModel.cs" />
+    <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistSettingsModel.cs" />
     <Compile Include="Models\SoftwareSettingsModel.cs" />
     <Compile Include="Models\TabItem.cs" />

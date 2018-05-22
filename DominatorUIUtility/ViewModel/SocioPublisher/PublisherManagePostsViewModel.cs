@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 
@@ -27,6 +29,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public List<string> ManagePostTabItems { get; set; } = new List<string>();
 
+        private string _selectedTabs = ConstantVariable.DraftPostList;
         public string SelectedTabs
         {
             get
@@ -35,18 +38,55 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             set
             {
-                if(_selectedTabs==value)
+                if (_selectedTabs == value)
                     return;
                 _selectedTabs = value;
                 OnPropertyChanged(nameof(SelectedTabs));
             }
         }
 
-        public List<string> CampaignList { get; set; } = new List<string>();
+
+        private IdNameBinderModel _selectedCampaignDetails;
+
+        public IdNameBinderModel SelectedCampaignDetails
+        {
+            get
+            {
+                return _selectedCampaignDetails;
+            }
+            set
+            {
+                if (_selectedCampaignDetails == value)
+                    return;
+                _selectedCampaignDetails = value;
+                OnPropertyChanged(nameof(SelectedCampaignDetails));
+                PublisherManagePostDrafts.Instance.PublisherManagePostDraftsViewModel.CampaignId = SelectedCampaignDetails.Id;
+                PublisherManagePostPending.Instance.PublisherManagePostPendingViewModel.CampaignId = SelectedCampaignDetails.Id;
+                PublisherManagePostPublished.Instance.PublisherManagePostPublishedViewModel.CampaignId = SelectedCampaignDetails.Id;
+            }
+        }
 
 
-        private UserControl _selectedTabsUserControls= PublisherManagePostDrafts.Instance;
-        private string _selectedTabs = ConstantVariable.DraftPostList;
+        private List<IdNameBinderModel> _campaignList = new List<IdNameBinderModel>();
+        public List<IdNameBinderModel> CampaignList
+        {
+            get
+            {
+                return _campaignList;
+            }
+            set
+            {
+                if (_campaignList == value)
+                    return;
+                _campaignList = value;
+                OnPropertyChanged(nameof(CampaignList));
+            }
+        }
+
+
+        private UserControl _selectedTabsUserControls = PublisherManagePostDrafts.Instance;
+
+
 
         public UserControl SelectedTabsUserControls
         {
@@ -63,18 +103,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-
         #endregion
 
-        private  void InitializeTabs()
+        private void InitializeTabs()
         {
             ManagePostTabItems.Add(Application.Current.FindResource("DHlangManagePostDraft")?.ToString());
             ManagePostTabItems.Add(Application.Current.FindResource("DHlangManagePostPending")?.ToString());
             ManagePostTabItems.Add(Application.Current.FindResource("DHlangManagePostPublished")?.ToString());
 
-            CampaignList.Add("Campaign1");
-            CampaignList.Add("Campaign2");
-            CampaignList.Add("Campaign3");
+            CampaignList.Add(new IdNameBinderModel { Id = "campaign1", Name = "Campaign1" });
+            CampaignList.Add(new IdNameBinderModel { Id = "campaign2", Name = "Campaign2" });
+            CampaignList.Add(new IdNameBinderModel { Id = "campaign3", Name = "Campaign3" });
+
+            SelectedCampaignDetails = CampaignList[0];
+
+            SelectedTabs = ConstantVariable.DraftPostList;
+            var draftView = PublisherManagePostDrafts.Instance;
+            Task.Factory.StartNew(async () => await draftView.PublisherManagePostDraftsViewModel.ReadPostDetails(SelectedCampaignDetails.Id));
+     
         }
 
         private bool NavigationCanExecute(object sender) => true;
@@ -100,18 +146,29 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             if (selectedButton == ConstantVariable.DraftPostList)
             {
                 SelectedTabs = ConstantVariable.DraftPostList;
-                SelectedTabsUserControls = PublisherManagePostDrafts.Instance;
+                var draftView = PublisherManagePostDrafts.Instance;
+                draftView.PublisherManagePostDraftsViewModel.CampaignId = SelectedCampaignDetails.Id;
+                Task.Factory.StartNew(async () => await draftView.PublisherManagePostDraftsViewModel.ReadPostDetails(SelectedCampaignDetails.Id));
+                SelectedTabsUserControls = draftView;
             }
             else if (selectedButton == ConstantVariable.PendingPostList)
             {
                 SelectedTabs = ConstantVariable.PendingPostList;
-                SelectedTabsUserControls = PublisherManagePostPending.Instance;
+                var pendingView = PublisherManagePostPending.Instance;
+                pendingView.PublisherManagePostPendingViewModel.CampaignId = SelectedCampaignDetails.Id;
+                Task.Factory.StartNew(async () => await pendingView.PublisherManagePostPendingViewModel.ReadPostDetails(SelectedCampaignDetails.Id));
+                SelectedTabsUserControls = pendingView;
             }
             else
             {
                 SelectedTabs = ConstantVariable.PublishedPostList;
-                SelectedTabsUserControls = PublisherManagePostPublished.Instance;
+                var publishedView = PublisherManagePostPublished.Instance;
+                publishedView.PublisherManagePostPublishedViewModel.CampaignId = SelectedCampaignDetails.Id;
+                Task.Factory.StartNew(async () => await publishedView.PublisherManagePostPublishedViewModel.ReadPostDetails(SelectedCampaignDetails.Id));
+                SelectedTabsUserControls = publishedView;
             }
         }
     }
+
+
 }

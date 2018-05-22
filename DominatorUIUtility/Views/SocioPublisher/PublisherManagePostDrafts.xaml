@@ -161,7 +161,7 @@
 
                     <Button.ContextMenu>
                         <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllDestinations" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
+                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllPosts" Command="{Binding SelectCommand}" CommandParameter="MenuSelectAll" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -170,7 +170,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuSelectNoneOfDestination" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
+                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuSelectNoneOfPost" Command="{Binding SelectCommand}" CommandParameter="MenuSelectNone">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -183,7 +183,7 @@
                     </Button.ContextMenu>
                 </Button>
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="EditPosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=EditPosts}">
+                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="EditPosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding EditCommand}"  CommandParameter="{Binding ElementName=EditPosts}">
                     <Button.Template>
                         <ControlTemplate>
 
@@ -199,7 +199,7 @@
                     </Button.Template>
                 </Button>
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="DeletePosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=DeletePosts}">
+                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="DeletePosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteCommand}"  CommandParameter="{Binding ElementName=DeletePosts}">
                     <Button.Template>
                         <ControlTemplate>
 

@@ -153,13 +153,12 @@
                                 </Rectangle>
                                 <Label Content="{DynamicResource DHlangSelect}"  Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                             </StackPanel>
-
                         </ControlTemplate>
                     </Button.Template>
 
                     <Button.ContextMenu>
                         <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllDestinations" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
+                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllPosts" Command="{Binding SelectCommand}" CommandParameter="MenuSelectAll" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -168,7 +167,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuSelectNoneOfDestination" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
+                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuSelectNoneOfPost" Command="{Binding SelectCommand}" CommandParameter="MenuSelectNone">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -181,10 +180,9 @@
                     </Button.ContextMenu>
                 </Button>
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="EditPosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=EditPosts}">
+                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="EditPosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding EditCommand}"  CommandParameter="{Binding ElementName=EditPosts}">
                     <Button.Template>
                         <ControlTemplate>
-
                             <StackPanel  Orientation="Horizontal" >
                                 <Rectangle Width="15" Height="15" Fill="{DynamicResource AccentBaseColorBrush}">
                                     <Rectangle.OpacityMask>
@@ -197,7 +195,7 @@
                     </Button.Template>
                 </Button>
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="InvalidAspectRadio" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=EditPosts}">
+                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="InvalidAspectRadio" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding RemoveInvalidRatioCommand}"  CommandParameter="{Binding ElementName=InvalidAspectRadio}">
                     <Button.Template>
                         <ControlTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -212,7 +210,7 @@
                     </Button.Template>
                 </Button>
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="DeletePosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteDestinationCommand}"  CommandParameter="{Binding ElementName=DeletePosts}">
+                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="DeletePosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}" CommandParameter="{Binding ElementName=DeletePosts}">
                     <Button.Template>
                         <ControlTemplate>
 
@@ -229,7 +227,7 @@
 
                     <Button.ContextMenu>
                         <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                            <MenuItem Header="{DynamicResource DHlangDeleteSelected}" Name="MenuDeleteSelectedAll" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
+                            <MenuItem Header="{DynamicResource DHlangDeleteSelected}" Name="MenuDeleteSelectedAll" Command="{Binding DeleteCommand}" CommandParameter="MenuDeleteSelectedAll" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -239,7 +237,7 @@
                                 </MenuItem.Icon>
                             </MenuItem>
 
-                            <MenuItem Header="{DynamicResource DHlangDeleteTextPost}" Name="MenuDeleteTextPost" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
+                            <MenuItem Header="{DynamicResource DHlangDeleteTextPost}" Name="MenuDeleteTextPost" Command="{Binding DeleteCommand}" CommandParameter="MenuDeleteTextPost">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -249,7 +247,7 @@
                                 </MenuItem.Icon>
                             </MenuItem>
 
-                            <MenuItem Header="{DynamicResource DHlangDeleteDuplicateImages}" Name="MenuDeleteDuplicateImages" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
+                            <MenuItem Header="{DynamicResource DHlangDeleteDuplicateImages}" Name="MenuDeleteDuplicateImages" Command="{Binding DeleteCommand}" CommandParameter="MenuDuplicateImages">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -277,6 +275,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+         
             </StackPanel>
         </Grid>
     </Grid>

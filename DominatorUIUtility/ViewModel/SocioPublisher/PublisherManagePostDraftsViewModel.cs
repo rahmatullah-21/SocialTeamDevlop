@@ -1,31 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
-    public class PublisherManagePostDraftsViewModel
+    public class PublisherManagePostDraftsViewModel : BindableBase
     {
+      
+
         public PublisherManagePostDraftsViewModel()
         {
             OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
-            SelectAllAccountDetailsCommand = new BaseCommand<object>(SelectAccountDetailsCanExecute, SelectAccountDetailsExecute);
+            SelectCommand = new BaseCommand<object>(SelectCanExecute, SelectExecute);
             EditCommand = new BaseCommand<object>(EditPostDetailsCanExecute, EditPostDetailsExecute);
             SettingsCommand = new BaseCommand<object>(SettingsCanExecute, SettingsExecute);
+            DeleteCommand = new BaseCommand<object>(DeleteCanExecute,DeleteExecute);
         }
 
         #region Properties
+
         public ICommand OpenContextMenuCommand { get; set; }
-        public ICommand SelectAllAccountDetailsCommand { get; set; }
+        public ICommand SelectCommand { get; set; }
         public ICommand EditCommand { get; set; }
         public ICommand SettingsCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
+
+        private string _campaignId = string.Empty;
+        public string CampaignId
+        {
+            get
+            {
+                return _campaignId;
+            }
+            set
+            {
+                if(_campaignId== value)
+                    return;
+                _campaignId = value;
+                OnPropertyChanged(nameof(CampaignId));
+            }
+        }
+
         #endregion
 
         #region Open Context
@@ -49,9 +70,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #endregion
 
-        private bool SelectAccountDetailsCanExecute(object sender) => true;
+        private bool SelectCanExecute(object sender) => true;
 
-        private void SelectAccountDetailsExecute(object sender)
+        private void SelectExecute(object sender)
+        {
+
+        }
+
+        private bool DeleteCanExecute(object sender) => true;
+
+        private void DeleteExecute(object sender)
         {
 
         }
@@ -69,7 +97,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void SettingsExecute(object sender)
         {
             var publisherViewUtility = new PublisherViewUtility();
-            publisherViewUtility.OpenPostlistSettings();
+            publisherViewUtility.OpenPostlistSettings(CampaignId);
         }
+
+        #region Functionality
+     
+
+        public async Task ReadPostDetails(string campaignId)
+        {
+            CampaignId = campaignId;
+
+            PublisherViewUtility publisherUtility = new PublisherViewUtility();
+
+         //   var allPosts = await publisherUtility.ReadPostList(campaignId, PostQueuedStatus.Draft);
+        }
+
+        #endregion
     }
 }

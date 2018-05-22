@@ -25,6 +25,6 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         public static PublisherManagePosts Instance { get; set; }
             = _instance ?? (_instance = new PublisherManagePosts());
-
+        
     }
 }

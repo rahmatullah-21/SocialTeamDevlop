@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
@@ -69,5 +70,30 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+
+        private string _campaignId;
+        /// <summary>
+        /// To specify the campaign id for identify all above settings are belongs to which campaign.
+        /// </summary>
+        [ProtoMember(4)]
+        public string CampaignId
+        {
+            get
+            {
+                return _campaignId;
+            }
+            set
+            {               
+                if (_campaignId == value)
+                    return;
+                _campaignId = value;
+                OnPropertyChanged(nameof(CampaignId));
+            }
+        }
+
+        public void AddOrUpdateBinFile(PublisherPostlistSettingsModel publisherPostlistSettingsModel) =>
+            PostListSettingsFileManager.AddOrUpdateDestinations(publisherPostlistSettingsModel);
+
+      
     }
 }
