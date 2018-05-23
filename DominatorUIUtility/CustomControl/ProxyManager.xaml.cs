@@ -33,9 +33,10 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class ProxyManager : UserControl, INotifyPropertyChanged
     {
-        ProxyManagerModel currentProxyManagerModel;
+       
         private DominatorAccountViewModel.AccessorStrategies _strategies;
-
+        #region Properties
+        ProxyManagerModel currentProxyManagerModel;
         public ProxyManagerModel ProxyManagerModel
         {
             get
@@ -65,15 +66,35 @@ namespace DominatorUIUtility.CustomControl
                 OnPropertyChanged(nameof(ProxyDetail));
             }
         }
+        private ProxyManagerViewModel _proxyManagerViewModel=new ProxyManagerViewModel();
 
+        public ProxyManagerViewModel ProxyManagerViewModel
+        {
+            get
+            {
+                return _proxyManagerViewModel;
+            }
+            set
+            {
+                _proxyManagerViewModel = value;
+                OnPropertyChanged(nameof(ProxyManagerViewModel));
+            }
+        }
+
+        #endregion
         public ProxyManager(DominatorAccountViewModel.AccessorStrategies strategies)
         {
             _strategies = strategies;
             InitializeComponent();
+            ProxyManagerViewModel.LstProxyManagerModel = new ObservableCollection<ProxyManagerModel>(ProxyFileManager.GetAllProxy());
+            ProxyManagerViewModel.ProxyManagerCollection =
+                CollectionViewSource.GetDefaultView(ProxyManagerViewModel.LstProxyManagerModel);
+            MainGrid.DataContext = ProxyManagerViewModel;
+            ProxyManagerViewModel.LstProxyManagerModel.ForEach(proxy => ProxyManagerViewModel.ProxyManagerModel.Groups.Add(proxy.AccountProxy.ProxyGroup));
         }
 
 
-     
+
         private ObservableCollection<ProxyManagerModel> _proxyDetail = new ObservableCollection<ProxyManagerModel>();
         private ProxyManagerModel _proxyManagerModel;
 
@@ -105,135 +126,135 @@ namespace DominatorUIUtility.CustomControl
         //}
 
 
-        private void SetDataContext()
-        {
-            ProxyManagerModel = new ProxyManagerModel();
+        //private void SetDataContext()
+        //{
+        //    ProxyManagerModel = new ProxyManagerModel();
 
-            MainGrid.DataContext = ProxyManagerModel;
+        //    MainGrid.DataContext = ProxyManagerModel;
 
-            //Task.Factory.StartNew(() =>
-            //{
-            //    ProxyDetail = new ObservableCollection<ProxyManagerModel>(ProxyFileManager.GetAllProxy());
+        //    //Task.Factory.StartNew(() =>
+        //    //{
+        //    //    ProxyDetail = new ObservableCollection<ProxyManagerModel>(ProxyFileManager.GetAllProxy());
 
-            //    StartBinding(ProxyDetail, action =>
-            //    {
-            //        var th = new Thread(() => action()) { IsBackground = true };
-            //        th.Start();
-            //        return () => th.Abort();
-            //    });
-            //});
+        //    //    StartBinding(ProxyDetail, action =>
+        //    //    {
+        //    //        var th = new Thread(() => action()) { IsBackground = true };
+        //    //        th.Start();
+        //    //        return () => th.Abort();
+        //    //    });
+        //    //});
 
-            ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(ProxyDetail);
-        }
+        //    ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(ProxyDetail);
+        //}
 
-        public void StartBinding()
-        {
-            try
-            {
+        //public void StartBinding()
+        //{
+        //    try
+        //    {
 
-                var proxyItems = ProxyFileManager.GetAllProxy();
+        //        var proxyItems = ProxyFileManager.GetAllProxy();
 
-                ProxyDetail = new ObservableCollection<ProxyManagerModel>();
+        //        ProxyDetail = new ObservableCollection<ProxyManagerModel>();
 
-                foreach (var proxyManagerModel in proxyItems)
-                {
-                    try
-                    {
-                        if (!Application.Current.Dispatcher.CheckAccess())
-                        {
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                ProxyDetail.Add(proxyManagerModel);
-                             
-                            });
-                        }
-                        else
-                        {
-                            ProxyDetail.Add(proxyManagerModel);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
-                }
+        //        foreach (var proxyManagerModel in proxyItems)
+        //        {
+        //            try
+        //            {
+        //                if (!Application.Current.Dispatcher.CheckAccess())
+        //                {
+        //                    Application.Current.Dispatcher.Invoke(() =>
+        //                    {
+        //                        ProxyDetail.Add(proxyManagerModel);
 
-            }
-            catch (Exception ex)
-            {
+        //                    });
+        //                }
+        //                else
+        //                {
+        //                    ProxyDetail.Add(proxyManagerModel);
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                ex.DebugLog();
+        //            }
+        //        }
 
-                        ex.DebugLog();
-             
-            }
-            if (!Application.Current.Dispatcher.CheckAccess())
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    MainGrid.DataContext = ProxyManagerModel;
-                     ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(ProxyDetail);
-                });
-            }
-            else
-            {
-                MainGrid.DataContext = ProxyManagerModel;
-                ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(ProxyDetail);
-            }
-            ProxyDetail.ForEach(proxy => ProxyManagerModel.Groups.Add(proxy.AccountProxy.ProxyGroup));
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
+        //        ex.DebugLog();
 
-
-        private void btnAddProxy_Click(object sender, RoutedEventArgs e)
-        {
-            AddOrUpdateProxyControl ObjAddProxyControl = new AddOrUpdateProxyControl();
-            ProxyManagerModel = new ProxyManagerModel();
-            try
-            {
-                ObjAddProxyControl.btnSave.Content = FindResource("langSave").ToString();
-                ObjAddProxyControl.MainGrid.DataContext = ProxyManagerModel;
-
-                int ProxyID = ProxyDetail.Count > 0 ? ProxyDetail.Max(Proxy => Proxy.Id) + 1 : 1;
-                ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyID}";
-                Dialog dialog = new Dialog();
-                Window window = dialog.GetMetroWindow(ObjAddProxyControl, FindResource("langAddProxy").ToString());
-                DialogParticipation.SetRegister(window, window);
-                ObjAddProxyControl.btnSave.Click += (o, ex) =>
-                {
-                    var AvailableProxy = ProxyFileManager.GetProxyById(ProxyManagerModel.AccountProxy.ProxyId);
-                    if (AvailableProxy != null && !string.IsNullOrEmpty(AvailableProxy.AccountProxy.ProxyId))
-                    {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(window, "Proxy Warning", $"Proxy with name {ProxyManagerModel.AccountProxy.ProxyName} already exist.");
-                        return;
-                    }
-                    foreach (var proxy in ProxyDetail)
-                    {
-                        if (ProxyManagerModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
-                          && ProxyManagerModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
-                        {
-                            DialogCoordinator.Instance.ShowModalMessageExternal(window, "Proxy Warning", "Proxy already exist !!!");
-                            return;
-                        }
-
-                    }
-                    ProxyManagerModel.Id = ProxyID;
-                    UpdateAccountsToBeAssign(ProxyManagerModel);
-
-                    ProxyFileManager.SaveProxy(ProxyManagerModel);
-                    ProxyDetail.Add(ProxyManagerModel);
-                    GlobusLogHelper.log.Info(Log.Added, SocialNetworks.Social, ProxyManagerModel.AccountProxy.ProxyIp + " : " +
-                        ProxyManagerModel.AccountProxy.ProxyPort);
-                    window.Close();
-
-                };
-                window.Show();
-            }
-            catch (Exception ex)
-            {
+        //    }
+        //    if (!Application.Current.Dispatcher.CheckAccess())
+        //    {
+        //        Application.Current.Dispatcher.Invoke(() =>
+        //        {
+        //            MainGrid.DataContext = ProxyManagerModel;
+        //            ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(ProxyDetail);
+        //        });
+        //    }
+        //    else
+        //    {
+        //        MainGrid.DataContext = ProxyManagerModel;
+        //        ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(ProxyDetail);
+        //    }
+        //    ProxyDetail.ForEach(proxy => ProxyManagerModel.Groups.Add(proxy.AccountProxy.ProxyGroup));
+        //}
 
 
-            }
 
-        }
+        //private void btnAddProxy_Click(object sender, RoutedEventArgs e)
+        //{
+        //    AddOrUpdateProxyControl ObjAddProxyControl = new AddOrUpdateProxyControl();
+        //    ProxyManagerModel = new ProxyManagerModel();
+        //    try
+        //    {
+        //        ObjAddProxyControl.btnSave.Content = FindResource("langSave").ToString();
+        //        ObjAddProxyControl.MainGrid.DataContext = ProxyManagerModel;
+
+        //        int ProxyID = ProxyDetail.Count + 1;
+        //        ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyID}";
+        //        Dialog dialog = new Dialog();
+        //        Window window = dialog.GetMetroWindow(ObjAddProxyControl, FindResource("langAddProxy").ToString());
+        //        DialogParticipation.SetRegister(window, window);
+        //        ObjAddProxyControl.btnSave.Click += (o, ex) =>
+        //        {
+        //            var AvailableProxy = ProxyFileManager.GetProxyById(ProxyManagerModel.AccountProxy.ProxyId);
+        //            if (AvailableProxy != null && !string.IsNullOrEmpty(AvailableProxy.AccountProxy.ProxyId))
+        //            {
+        //                DialogCoordinator.Instance.ShowModalMessageExternal(window, "Proxy Warning", $"Proxy with name {ProxyManagerModel.AccountProxy.ProxyName} already exist.");
+        //                return;
+        //            }
+        //            foreach (var proxy in ProxyDetail)
+        //            {
+        //                if (ProxyManagerModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
+        //                  && ProxyManagerModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
+        //                {
+        //                    DialogCoordinator.Instance.ShowModalMessageExternal(window, "Proxy Warning", "Proxy already exist !!!");
+        //                    return;
+        //                }
+
+        //            }
+        //            ProxyManagerModel.Id = ProxyID;
+        //            UpdateAccountsToBeAssign(ProxyManagerModel);
+
+        //            ProxyFileManager.SaveProxy(ProxyManagerModel);
+        //            ProxyDetail.Add(ProxyManagerModel);
+        //            GlobusLogHelper.log.Info(Log.Added, SocialNetworks.Social, ProxyManagerModel.AccountProxy.ProxyIp + " : " +
+        //                ProxyManagerModel.AccountProxy.ProxyPort);
+        //            window.Close();
+
+        //        };
+        //        window.Show();
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+
+        //    }
+
+        //}
 
         private void btnRemoveAccountFromProxy_Click(object sender, RoutedEventArgs e)
         {
@@ -294,47 +315,47 @@ namespace DominatorUIUtility.CustomControl
             currentProxyManagerModel = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
         }
 
-        private void chkShowUnassignedProxies_Checked(object sender, RoutedEventArgs e)
-        {
-            List<ProxyManagerModel> unassignedProxies = new List<ProxyManagerModel>();
+        //private void chkShowUnassignedProxies_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    List<ProxyManagerModel> unassignedProxies = new List<ProxyManagerModel>();
 
-            foreach (var proxy in ProxyDetail)
-            {
-                if (proxy.AccountsAssignedto.Count == 0)
-                {
-                    proxy.AccountsToBeAssign = proxy.AccountsToBeAssign;
-                    unassignedProxies.Add(proxy);
-                }
+        //    foreach (var proxy in ProxyDetail)
+        //    {
+        //        if (proxy.AccountsAssignedto.Count == 0)
+        //        {
+        //            proxy.AccountsToBeAssign = proxy.AccountsToBeAssign;
+        //            unassignedProxies.Add(proxy);
+        //        }
 
-            }
-            ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(unassignedProxies);
-        }
+        //    }
+        //    ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(unassignedProxies);
+        //}
 
-        private void chkShowUnassignedProxies_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(ProxyDetail);
-        }
+        //private void chkShowUnassignedProxies_Unchecked(object sender, RoutedEventArgs e)
+        //{
+        //    ProxyManagerModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(ProxyDetail);
+        //}
 
-        private void ShowByGroup_Checked(object sender, RoutedEventArgs e)
-        {
-            ProxyManagerModel.ProxyManagerCollection.GroupDescriptions.Add(new PropertyGroupDescription("AccountProxy.ProxyGroup"));
-        }
+        //private void ShowByGroup_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    ProxyManagerModel.ProxyManagerCollection.GroupDescriptions.Add(new PropertyGroupDescription("AccountProxy.ProxyGroup"));
+        //}
 
-        private void ShowByGroup_Unchecked(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                ProxyManagerModel.ProxyManagerCollection.GroupDescriptions.Clear();
-            }
-            catch (Exception)
-            {
-            }
-        }
+        //private void ShowByGroup_Unchecked(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        ProxyManagerModel.ProxyManagerCollection.GroupDescriptions.Clear();
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
+        //}
 
-        private void FilterByGroup_Unchecked(object sender, RoutedEventArgs e)
-        {
-            Group.SelectedIndex = -1;
-        }
+        //private void FilterByGroup_Unchecked(object sender, RoutedEventArgs e)
+        //{
+        //    Group.SelectedIndex = -1;
+        //}
 
         private void Group_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -401,128 +422,128 @@ namespace DominatorUIUtility.CustomControl
 
         }
 
-        private void btnImportProxies_Click(object sender, RoutedEventArgs e)
-        {
-            var loadedProxylist = FileUtilities.FileBrowseAndReader();
-            if (loadedProxylist == null)
-                return;
-            var allProxy = ProxyFileManager.GetAllProxy();
-            int proxyId = allProxy.Count + 1;
-            int noOfExistingProxies = 0;
-            int noOfProxyAdded = 0;
-            int noOfInvalidProxies = 0;
-            List<string> lstInvalidProxies = new List<string>();
-            foreach (var proxy in loadedProxylist)
-            {
-                try
-                {
-                    var selectedProxy = Regex.Split(proxy, ":");
-                    if (selectedProxy.Length < 2)
-                        continue;
+        //private void btnImportProxies_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var loadedProxylist = FileUtilities.FileBrowseAndReader();
+        //    if (loadedProxylist == null)
+        //        return;
+        //    var allProxy = ProxyFileManager.GetAllProxy();
+        //    int proxyId = allProxy.Count + 1;
+        //    int noOfExistingProxies = 0;
+        //    int noOfProxyAdded = 0;
+        //    int noOfInvalidProxies = 0;
+        //    List<string> lstInvalidProxies = new List<string>();
+        //    foreach (var proxy in loadedProxylist)
+        //    {
+        //        try
+        //        {
+        //            var selectedProxy = Regex.Split(proxy, ":");
+        //            if (selectedProxy.Length < 2)
+        //                continue;
 
-                    ProxyManagerModel = new ProxyManagerModel();
-                    ProxyManagerModel.Id = proxyId;
-                    if (selectedProxy.Length == 2 || selectedProxy.Length == 4)
-                    {
-                        if (!DominatorHouseCore.Models.Proxy.IsValidProxy(selectedProxy[0], selectedProxy[1]))
-                        {
-                            noOfInvalidProxies++;
-                            lstInvalidProxies.Add(proxy);
-                            continue;
-                        }
+        //            ProxyManagerModel = new ProxyManagerModel();
+        //            ProxyManagerModel.Id = proxyId;
+        //            if (selectedProxy.Length == 2 || selectedProxy.Length == 4)
+        //            {
+        //                if (!DominatorHouseCore.Models.Proxy.IsValidProxy(selectedProxy[0], selectedProxy[1]))
+        //                {
+        //                    noOfInvalidProxies++;
+        //                    lstInvalidProxies.Add(proxy);
+        //                    continue;
+        //                }
 
-                        ProxyManagerModel.AccountProxy.ProxyIp = selectedProxy[0];
-                        ProxyManagerModel.AccountProxy.ProxyPort = selectedProxy[1];
-                    }
-                    if (selectedProxy.Length == 4)
-                    {
-                        ProxyManagerModel.AccountProxy.ProxyUsername = selectedProxy[2];
-                        ProxyManagerModel.AccountProxy.ProxyPassword = selectedProxy[3];
-                    }
-                    if (selectedProxy.Length == 6)
-                    {
-                        ProxyManagerModel.AccountProxy.ProxyGroup = selectedProxy[0];
-                        ProxyManagerModel.AccountProxy.ProxyName = selectedProxy[1];
-                        ProxyManagerModel.AccountProxy.ProxyIp = selectedProxy[2];
-                        ProxyManagerModel.AccountProxy.ProxyPort = selectedProxy[3];
-                        ProxyManagerModel.AccountProxy.ProxyUsername = selectedProxy[4];
-                        ProxyManagerModel.AccountProxy.ProxyPassword = selectedProxy[5];
-                    }
+        //                ProxyManagerModel.AccountProxy.ProxyIp = selectedProxy[0];
+        //                ProxyManagerModel.AccountProxy.ProxyPort = selectedProxy[1];
+        //            }
+        //            if (selectedProxy.Length == 4)
+        //            {
+        //                ProxyManagerModel.AccountProxy.ProxyUsername = selectedProxy[2];
+        //                ProxyManagerModel.AccountProxy.ProxyPassword = selectedProxy[3];
+        //            }
+        //            if (selectedProxy.Length == 6)
+        //            {
+        //                ProxyManagerModel.AccountProxy.ProxyGroup = selectedProxy[0];
+        //                ProxyManagerModel.AccountProxy.ProxyName = selectedProxy[1];
+        //                ProxyManagerModel.AccountProxy.ProxyIp = selectedProxy[2];
+        //                ProxyManagerModel.AccountProxy.ProxyPort = selectedProxy[3];
+        //                ProxyManagerModel.AccountProxy.ProxyUsername = selectedProxy[4];
+        //                ProxyManagerModel.AccountProxy.ProxyPassword = selectedProxy[5];
+        //            }
 
-                    if (!DominatorHouseCore.Models.Proxy.IsValidProxy(ProxyManagerModel.AccountProxy.ProxyIp, ProxyManagerModel.AccountProxy.ProxyPort))
-                    {
-                        noOfInvalidProxies++;
-                        lstInvalidProxies.Add(proxy);
-                        continue;
-                    }
-                    if (allProxy.Any(x => x.AccountProxy.ProxyIp == ProxyManagerModel.AccountProxy.ProxyIp
-                                        && x.AccountProxy.ProxyPort == ProxyManagerModel.AccountProxy.ProxyPort))
+        //            if (!DominatorHouseCore.Models.Proxy.IsValidProxy(ProxyManagerModel.AccountProxy.ProxyIp, ProxyManagerModel.AccountProxy.ProxyPort))
+        //            {
+        //                noOfInvalidProxies++;
+        //                lstInvalidProxies.Add(proxy);
+        //                continue;
+        //            }
+        //            if (allProxy.Any(x => x.AccountProxy.ProxyIp == ProxyManagerModel.AccountProxy.ProxyIp
+        //                                && x.AccountProxy.ProxyPort == ProxyManagerModel.AccountProxy.ProxyPort))
 
-                    {
-                        noOfExistingProxies++;
-                        continue;
-                    }
+        //            {
+        //                noOfExistingProxies++;
+        //                continue;
+        //            }
 
-                    if (string.IsNullOrEmpty(ProxyManagerModel.AccountProxy.ProxyGroup))
-                        ProxyManagerModel.AccountProxy.ProxyGroup = ConstantVariable.UnGrouped;
+        //            if (string.IsNullOrEmpty(ProxyManagerModel.AccountProxy.ProxyGroup))
+        //                ProxyManagerModel.AccountProxy.ProxyGroup = ConstantVariable.UnGrouped;
 
-                    if (string.IsNullOrEmpty(ProxyManagerModel.AccountProxy.ProxyName))
-                        ProxyManagerModel.AccountProxy.ProxyName = "Un-named";
+        //            if (string.IsNullOrEmpty(ProxyManagerModel.AccountProxy.ProxyName))
+        //                ProxyManagerModel.AccountProxy.ProxyName = "Un-named";
 
-                    UpdateAccountsToBeAssign(ProxyManagerModel);
-                    ProxyFileManager.SaveProxy(ProxyManagerModel);
+        //            UpdateAccountsToBeAssign(ProxyManagerModel);
+        //            ProxyFileManager.SaveProxy(ProxyManagerModel);
 
-                    ProxyDetail.Add(ProxyManagerModel);
-                    noOfProxyAdded++;
-                    proxyId++;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.StackTrace);
-                }
-            }
-            #region Update Import Proxies Status in Logger
-            if (noOfExistingProxies > 0)
-            {
-                GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Skipped {noOfExistingProxies} already existing proxie(s)");
-            }
-            if (noOfProxyAdded > 0)
-            {
-                GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Added {noOfProxyAdded} proxie(s).");
-            }
-            if (noOfInvalidProxies > 0)
-            {
-                var Path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Socinator";
-                DirectoryUtilities.CreateDirectory(Path);
-                var filename = $"{Path}\\invalidProxies {ConstantVariable.DateasFileName}.txt";
-                lstInvalidProxies.ForEach(p =>
-                {
-                    using (var streamWriter = new StreamWriter(filename, true))
-                    {
-                        streamWriter.WriteLine(p);
-                    }
-                });
+        //            ProxyDetail.Add(ProxyManagerModel);
+        //            noOfProxyAdded++;
+        //            proxyId++;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine(ex.StackTrace);
+        //        }
+        //    }
+        //    #region Update Import Proxies Status in Logger
+        //    if (noOfExistingProxies > 0)
+        //    {
+        //        GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Skipped {noOfExistingProxies} already existing proxie(s)");
+        //    }
+        //    if (noOfProxyAdded > 0)
+        //    {
+        //        GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Added {noOfProxyAdded} proxie(s).");
+        //    }
+        //    if (noOfInvalidProxies > 0)
+        //    {
+        //        var Path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Socinator";
+        //        DirectoryUtilities.CreateDirectory(Path);
+        //        var filename = $"{Path}\\invalidProxies {ConstantVariable.DateasFileName}.txt";
+        //        lstInvalidProxies.ForEach(p =>
+        //        {
+        //            using (var streamWriter = new StreamWriter(filename, true))
+        //            {
+        //                streamWriter.WriteLine(p);
+        //            }
+        //        });
 
-                GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Skipped {noOfInvalidProxies} proxie(s) as it does not match the import format. List of invalid proxies has been exported to {filename}");
-            }
-            #endregion
-        }
+        //        GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Skipped {noOfInvalidProxies} proxie(s) as it does not match the import format. List of invalid proxies has been exported to {filename}");
+        //    }
+        //    #endregion
+        //}
 
-        private void UpdateAccountsToBeAssign(ProxyManagerModel ProxyManagerModel)
-        {
-            AccountsFileManager.GetAll()?.ForEach(account =>
-            {
-                if (!ProxyManagerModel.AccountsToBeAssign.Any(acc =>
-                    acc.AccountNetwork == account.AccountBaseModel.AccountNetwork && acc.UserName == account.UserName))
-                {
-                    ProxyManagerModel.AccountsToBeAssign.Add(new AccountAssign
-                    {
-                        UserName = account.UserName,
-                        AccountNetwork = account.AccountBaseModel.AccountNetwork
-                    });
-                }
-            });
-        }
+        //private void UpdateAccountsToBeAssign(ProxyManagerModel ProxyManagerModel)
+        //{
+        //    AccountsFileManager.GetAll()?.ForEach(account =>
+        //    {
+        //        if (!ProxyManagerModel.AccountsToBeAssign.Any(acc =>
+        //            acc.AccountNetwork == account.AccountBaseModel.AccountNetwork && acc.UserName == account.UserName))
+        //        {
+        //            ProxyManagerModel.AccountsToBeAssign.Add(new AccountAssign
+        //            {
+        //                UserName = account.UserName,
+        //                AccountNetwork = account.AccountBaseModel.AccountNetwork
+        //            });
+        //        }
+        //    });
+        //}
 
         private void Account_Checked(object sender, RoutedEventArgs e)
         {
@@ -659,54 +680,54 @@ namespace DominatorUIUtility.CustomControl
                 ProxyDetail[indexToUpdate].Status = currentProxyManager.Status;
         }
 
-        private void VerifyProxy(object sender)
-        {
-            var currentProxyManager = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
-            currentProxyManager.URLToUseToVerifyProxies = ProxyManagerModel.URLToUseToVerifyProxies;
-            try
-            {
+        //private void VerifyProxy(object sender)
+        //{
+        //    var currentProxyManager = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
+        //    currentProxyManager.URLToUseToVerifyProxies = ProxyManagerModel.URLToUseToVerifyProxies;
+        //    try
+        //    {
 
 
 
-                Uri url = new Uri(txtURLToUseToVerifyProxies.Text);
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+        //        Uri url = new Uri(txtURLToUseToVerifyProxies.Text);
+        //        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 
-                request.Proxy = new WebProxy(currentProxyManager.AccountProxy.ProxyIp, int.Parse(currentProxyManager.AccountProxy.ProxyPort));
+        //        request.Proxy = new WebProxy(currentProxyManager.AccountProxy.ProxyIp, int.Parse(currentProxyManager.AccountProxy.ProxyPort));
 
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                if (response.StatusCode.ToString() == "OK")
-                    currentProxyManager.Status = "Working";
-                else
-                    currentProxyManager.Status = "Not Working";
+        //        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+        //        if (response.StatusCode.ToString() == "OK")
+        //            currentProxyManager.Status = "Working";
+        //        else
+        //            currentProxyManager.Status = "Not Working";
 
-            }
-            catch (Exception)
-            {
-                currentProxyManager.Status = "Fail";
-                currentProxyManager.Failures = 1;
-            }
-            ProxyFileManager.EditProxy(currentProxyManager);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        currentProxyManager.Status = "Fail";
+        //        currentProxyManager.Failures = 1;
+        //    }
+        //    ProxyFileManager.EditProxy(currentProxyManager);
 
-            var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == currentProxyManager.AccountProxy.ProxyName);
-            int indexToUpdate = ProxyDetail.IndexOf(item);
-            ProxyDetail[indexToUpdate].Status = currentProxyManager.Status;
-        }
+        //    var item = ProxyDetail.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == currentProxyManager.AccountProxy.ProxyName);
+        //    int indexToUpdate = ProxyDetail.IndexOf(item);
+        //    ProxyDetail[indexToUpdate].Status = currentProxyManager.Status;
+        //}
 
-        private void ShowProxiesWithError_Checked(object sender, RoutedEventArgs e)
-        {
-            ProxyManagerModel.ProxyManagerCollection.Filter += FilterByProxiesWithError;
-        }
+        //private void ShowProxiesWithError_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    ProxyManagerModel.ProxyManagerCollection.Filter += FilterByProxiesWithError;
+        //}
 
-        private void ShowProxiesWithError_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ProxyManagerModel.ProxyManagerCollection.Filter = (object ob) => { return true; };
-        }
+        //private void ShowProxiesWithError_Unchecked(object sender, RoutedEventArgs e)
+        //{
+        //    ProxyManagerModel.ProxyManagerCollection.Filter = (object ob) => { return true; };
+        //}
 
-        private void btnExportProxies_Click(object sender, RoutedEventArgs e)
-        {
-            var allProxies = ProxyFileManager.GetAllProxy();
-            ExportProxies(allProxies);
-        }
+        //private void btnExportProxies_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var allProxies = ProxyFileManager.GetAllProxy();
+        //    ExportProxies(allProxies);
+        //}
 
         private bool FilterByGroups(object GroupName)
         {
@@ -735,18 +756,18 @@ namespace DominatorUIUtility.CustomControl
             return true;
         }
 
-        private bool FilterByProxiesWithError(object GroupName)
-        {
-            try
-            {
-                ProxyManagerModel ProxyGroup = GroupName as ProxyManagerModel;
-                return ProxyGroup.Status.IndexOf("Fail", StringComparison.InvariantCultureIgnoreCase) >= 0;
-            }
-            catch (Exception)
-            {
-            }
-            return true;
-        }
+        //private bool FilterByProxiesWithError(object GroupName)
+        //{
+        //    try
+        //    {
+        //        ProxyManagerModel ProxyGroup = GroupName as ProxyManagerModel;
+        //        return ProxyGroup.Status.IndexOf("Fail", StringComparison.InvariantCultureIgnoreCase) >= 0;
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
+        //    return true;
+        //}
 
         private void ExportProxies(List<ProxyManagerModel> Proxies)
         {
@@ -798,16 +819,26 @@ namespace DominatorUIUtility.CustomControl
         {
 
 
-            SetDataContext();
-            Task.Factory.StartNew(StartBinding);
+            //SetDataContext();
+            //Task.Factory.StartNew(StartBinding);
         }
 
         private void BtnUpdateProxy_OnClick(object sender, RoutedEventArgs e)
         {
             var currentProxy = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
+            var allProxies = ProxyFileManager.GetAllProxy();
             var oldProxy = ProxyFileManager.GetProxyById(currentProxy.AccountProxy.ProxyId);
             oldProxy = currentProxy;
-            ProxyFileManager.EditProxy(oldProxy);
+            if (!allProxies.Any(proxy => proxy.AccountProxy.ProxyPort == oldProxy.AccountProxy.ProxyPort
+                                      && proxy.AccountProxy.ProxyIp == oldProxy.AccountProxy.ProxyIp))
+            {
+                ProxyFileManager.EditProxy(oldProxy);
+            }
+            else
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
+                    $"{oldProxy.AccountProxy.ProxyIp}:{oldProxy.AccountProxy.ProxyPort} already exist.");
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

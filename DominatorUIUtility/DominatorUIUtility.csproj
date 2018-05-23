@@ -285,6 +285,7 @@
     </Compile>
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
+    <Compile Include="ViewModel\ProxyManagerViewModel.cs" />
     <Compile Include="ViewModel\SelectAccountViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>

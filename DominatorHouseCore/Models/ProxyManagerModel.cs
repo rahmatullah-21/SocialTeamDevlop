@@ -11,11 +11,7 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class ProxyManagerModel : BindableBase
     {
-        public ProxyManagerModel()
-        {
-            
-        }
-
+       
         private ICollectionView _proxyManagerCollection ;
         public ICollectionView ProxyManagerCollection
         {
@@ -65,7 +61,7 @@ namespace DominatorHouseCore.Models
 
         private bool _isHideUsernameAndPassword;
         [ProtoMember(3)]
-        public bool IsHideUsernameAndPasswordoperty
+        public bool IsHideUsernameAndPassword
         {
             get
             {

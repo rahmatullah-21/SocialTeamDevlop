@@ -13,9 +13,10 @@
 
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converter:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
-        <converter:BooleanToWidthConverter x:Key="BooleanToWidthConverter"/>
+        <!--<converter:BooleanToWidthConverter x:Key="BooleanToWidthConverter"/>-->
         <converter:ProxyPortToIpAddressConvertor x:Key="ProxyPortToIpAddressConvertor"/>
-
+        <converter:ListConvertor x:Key="ListConvertor"/>
+        <converter:AlternationIndexConverter x:Key="AlternationIndexConverter"/>
         <DataTemplate x:Key="AccountsAssignedToTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -352,7 +353,7 @@
         <StackPanel Grid.Row="0">
             <StackPanel Orientation="Horizontal">
 
-                <Button Height="30"   x:Name="btnImportProxies" Margin="10,5" Click="btnImportProxies_Click"
+                <Button Height="30"   x:Name="btnImportProxies" Margin="10,5" Command="{Binding ImportProxyCommand}"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" ToolTip="{DynamicResource DHImportProxyDescription}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
@@ -366,7 +367,7 @@
                     </Button.Content>
                 </Button>
 
-                <Button  Height="30"  x:Name="btnExportProxies" Margin="10,5" Click="btnExportProxies_Click"
+                <Button  Height="30"  x:Name="btnExportProxies" Margin="10,5" Command="{Binding ExportProxyCommand}"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" >
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
@@ -381,7 +382,7 @@
                 </Button>
 
                 <Button  Height="30"  x:Name="btnAddProxy" Margin="10,5"
-                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Click="btnAddProxy_Click">
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Command="{Binding AddProxyCommand}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
@@ -398,35 +399,55 @@
 
             <StackPanel Orientation="Horizontal"  Margin="5">
 
-                <CheckBox Margin="5" IsChecked="{Binding IsHideAssignedSocialProfiles}"
-                          Content="{DynamicResource langHideAssignedSocialProfiles}"/>
-                <CheckBox Margin="5" IsChecked="{Binding IsHideUsernameAndPasswordoperty}" 
-                          Content="{DynamicResource langHideUsernameAndPassword}"/>
-                <CheckBox Margin="5" IsChecked="{Binding IsShowByGroup}" 
+                <CheckBox Margin="5" IsChecked="{Binding ProxyManagerModel.IsHideAssignedSocialProfiles}"
+                          Name="ChkHideUnhideSocialProfiles"
+                          Command="{Binding HideUnhideSocialProfilesCommand}"
+                         
+                          Content="{DynamicResource langHideAssignedSocialProfiles}">
+                    <CheckBox.CommandParameter>
+                        <MultiBinding Converter="{StaticResource ListConvertor}" UpdateSourceTrigger="PropertyChanged">
+                            <Binding ElementName="ProxyDataGrid" />
+                            <Binding Path="ProxyManagerModel.IsHideAssignedSocialProfiles" />
+                        </MultiBinding>
+                    </CheckBox.CommandParameter>
+                </CheckBox>
+                <CheckBox Margin="5" IsChecked="{Binding ProxyManagerModel.IsHideUsernameAndPassword}" 
+                          Content="{DynamicResource langHideUsernameAndPassword}"
+                          Command="{Binding HideUnhideUserPasswordCommand}">
+                    <CheckBox.CommandParameter>
+                        <MultiBinding Converter="{StaticResource ListConvertor}" UpdateSourceTrigger="PropertyChanged">
+                            <Binding ElementName="ProxyDataGrid" />
+                            <Binding Path="ProxyManagerModel.IsHideUsernameAndPassword" />
+                        </MultiBinding>
+                    </CheckBox.CommandParameter>
+                </CheckBox>
+                <CheckBox Margin="5" IsChecked="{Binding ProxyManagerModel.IsShowByGroup}" 
                           Content="{DynamicResource DHlangShowByGroup}"
-                          x:Name="ShowByGroup" Checked="ShowByGroup_Checked" Unchecked="ShowByGroup_Unchecked"/>
-                <CheckBox Margin="5" IsChecked="{Binding FilterByGroup}"
-                          Content="{DynamicResource langFilterByGroup}" x:Name="FilterByGroup"
-                          Unchecked="FilterByGroup_Unchecked"/>
-                <CheckBox Margin="5" IsChecked="{Binding IsShowProxiesWithError}" 
+                          x:Name="ShowByGroup" Command="{Binding ShowByGroupCommand}"
+                          CommandParameter="{Binding ProxyManagerModel.IsShowByGroup}"/>
+                <CheckBox Margin="5" IsChecked="{Binding ProxyManagerModel.FilterByGroup}"
+                          Content="{DynamicResource langFilterByGroup}" x:Name="FilterByGroup"/>
+                <CheckBox Margin="5" IsChecked="{Binding ProxyManagerModel.IsShowProxiesWithError}" 
                           Content="{DynamicResource langShowProxiesWithError}" Name="ShowProxiesWithError"
-                          Checked="ShowProxiesWithError_Checked" Unchecked="ShowProxiesWithError_Unchecked"/>
-                <CheckBox Margin="5" IsChecked="{Binding IsShowUnassignedProxies}"
+                         Command="{Binding ShowProxiesWithErrorCommand}"
+                          CommandParameter="{Binding ProxyManagerModel.IsShowProxiesWithError}"/>
+                <CheckBox Margin="5" IsChecked="{Binding ProxyManagerModel.IsShowUnassignedProxies}"
                           Content="{DynamicResource langShowUnassignedProxies}" 
-                          x:Name="chkShowUnassignedProxies" Checked="chkShowUnassignedProxies_Checked"
-                          Unchecked="chkShowUnassignedProxies_Unchecked"/>
+                          x:Name="chkShowUnassignedProxies" 
+                          Command="{Binding ShowUnassignedProxiesCommand}"
+                          CommandParameter="{Binding ProxyManagerModel.IsShowUnassignedProxies}"/>
 
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal" Margin="5">
                 <TextBlock VerticalAlignment="Center" Margin="5" Text="{DynamicResource langFilter}"/>
-                <TextBox Width="200" Height="25" Name="txtfilter" Text="{Binding Filter}" TextChanged="txtfilter_TextChanged"/>
+                <TextBox Width="200" Height="25" Name="txtfilter" Text="{Binding ProxyManagerModel.Filter}" TextChanged="txtfilter_TextChanged"/>
                 <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource langURLToUseToVerifyProxies}"/>
-                <TextBox Width="200" Height="25" Name="txtURLToUseToVerifyProxies" Text="{Binding URLToUseToVerifyProxies}"/>
+                <TextBox Width="200" Height="25" Name="txtURLToUseToVerifyProxies" Text="{Binding ProxyManagerModel.URLToUseToVerifyProxies}"/>
                 <StackPanel Orientation="Horizontal" x:Name="cmbFilterBytag" Margin="30,0"
-                            Visibility="{Binding FilterByGroup,Converter={StaticResource BooleanToVisibilityConverter}}">
+                            Visibility="{Binding ProxyManagerModel.FilterByGroup,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource langSelectTag}"/>
-                    <ComboBox  Width="200" ItemsSource="{Binding Groups}" Name="Group" SelectionChanged="Group_SelectionChanged"/>
+                    <ComboBox  Width="200" ItemsSource="{Binding ProxyManagerModel.Groups}" Name="Group" SelectionChanged="Group_SelectionChanged"/>
                 </StackPanel>
             </StackPanel>
 
@@ -464,28 +485,35 @@
 
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <Grid >
-                <Grid.Resources>
-                    <ControlTemplate x:Key="ErrorTemplate">
-                        <StackPanel Orientation="Vertical">
-                            <AdornedElementPlaceholder x:Name="ErrorHolder" >
-                                <Border BorderBrush="red" BorderThickness="1" >
-                                    <Border.Style>
-                                        <Style TargetType="{x:Type Border}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid proxy address" >
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                </Border>
-                            </AdornedElementPlaceholder>
-                            <TextBlock  VerticalAlignment="Center" Name="error"  FontWeight="SemiBold"  Text="{Binding ElementName=ErrorHolder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" Foreground="Red">
-                                <TextBlock.Style>
-                                    <Style TargetType="{x:Type TextBlock}">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding ProxyManagerCollection}"
+                           AutoGenerateColumns="False"
+                           CanUserAddRows="False" Foreground="White" 
+                           AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
+                           ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                           ScrollViewer.VerticalScrollBarVisibility="Auto"
+                           GridLinesVisibility="All"
+                  x:Name="ProxyDataGrid">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Foreground" Value="{DynamicResource MetroDataGrid.InactiveSelectionHighlightBrush}"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+                        </Trigger>
+
+                    </Style.Triggers>
+                </Style>
+              <ControlTemplate x:Key="ErrorTemplate">
+                    <StackPanel Orientation="Vertical">
+                        <AdornedElementPlaceholder x:Name="ErrorHolder" >
+                            <Border BorderBrush="red" BorderThickness="1" >
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid proxy address" >
@@ -493,210 +521,157 @@
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-                                </TextBlock.Style>
-
-                            </TextBlock>
-                        </StackPanel>
-                    </ControlTemplate>
-                </Grid.Resources>
-                <ListView Grid.Row="1"  Margin="0,5" ItemsSource="{Binding ProxyManagerCollection}"
-                   ItemContainerStyle="{StaticResource ListViewItems}"  AlternationCount="{Binding Items.Count,RelativeSource={RelativeSource Self}}"
-                          Foreground="{DynamicResource AccentBaseColorBrush}">
-
-                    <ListView.Resources>
-                        <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                        </Style>
-                    </ListView.Resources>
-
-                    <ListView.GroupStyle>
-
-                        <GroupStyle>
-                            <GroupStyle.ContainerStyle>
-                                <Style TargetType="GroupItem">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                <Expander Margin="5" Header="{Binding Path=Name}">
-                                                    <Expander.Content>
-                                                        <ItemsPresenter/>
-                                                    </Expander.Content>
-                                                </Expander>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
+                                </Border.Style>
+                            </Border>
+                        </AdornedElementPlaceholder>
+                        <TextBlock  VerticalAlignment="Center" Name="error"  FontWeight="SemiBold"  Text="{Binding ElementName=ErrorHolder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" Foreground="Red">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid proxy address" >
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
                                 </Style>
-                            </GroupStyle.ContainerStyle>
+                            </TextBlock.Style>
 
-                        </GroupStyle>
+                        </TextBlock>
+                    </StackPanel>
+                </ControlTemplate>
+            </DataGrid.Resources>
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Margin" Value="0,0,0,5"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander Margin="5" Header="{Binding Path=Name}">
+                                            <Expander.Content>
+                                                <ItemsPresenter/>
+                                            </Expander.Content>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <CheckBox Name="AllProxyChecked" Content=" #"
+                                      IsChecked="{Binding IsAllProxySelected}"
+                                      Checked="AllProxyChecked_Checked" 
+                                      Unchecked="AllProxyChecked_Unchecked"/>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding ProxyManagerModel.IsProxySelected}"
+                                          Margin="5,0,0,0" Content="{Binding AlternationIndex, 
+                                        RelativeSource={RelativeSource AncestorType=DataGridRow},
+                                        Converter={StaticResource AlternationIndexConverter}}"/>
 
-                    </ListView.GroupStyle>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{DynamicResource langName}" Binding="{Binding AccountProxy.ProxyName}"/>
+                <DataGridTemplateColumn Header="{DynamicResource langProxyIpPort}">
 
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="100">
-                                <CheckBox Name="AllProxyChecked" Content=" #"
-                                          IsChecked="{Binding IsAllProxySelected}"
-                                          Checked="AllProxyChecked_Checked" 
-                                          Unchecked="AllProxyChecked_Unchecked"/>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsProxySelected}"
-                                                  Margin="5,0,0,0" Content="{Binding (ItemsControl.AlternationIndex),
-                                                  RelativeSource={RelativeSource AncestorType=ListViewItem},
-                                                  Converter={StaticResource IndexToRowNoConverter}}"/>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Width="120"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}">
+                                <TextBox.Text>
+                                    <MultiBinding Converter="{StaticResource ProxyPortToIpAddressConvertor}" UpdateSourceTrigger="PropertyChanged">
+                                        <MultiBinding.ValidationRules>
+                                            <validation:IPAddressValidation ValidationStep="RawProposedValue" />
+                                        </MultiBinding.ValidationRules>
+                                        <Binding Path="AccountProxy.ProxyIp" />
+                                        <Binding Path="AccountProxy.ProxyPort" />
+                                    </MultiBinding>
+                                </TextBox.Text>
+                            </TextBox>
 
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langName}">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding AccountProxy.ProxyName}" Width="100"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langProxyIpPort}" Width="150" >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Width="120"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}">
-                                            <TextBox.Text>
-                                                <MultiBinding Converter="{StaticResource ProxyPortToIpAddressConvertor}" UpdateSourceTrigger="PropertyChanged">
-                                                    <MultiBinding.ValidationRules>
-                                                        <validation:IPAddressValidation ValidationStep="RawProposedValue" />
-                                                    </MultiBinding.ValidationRules>
-                                                    <Binding Path="AccountProxy.ProxyIp" />
-                                                    <Binding Path="AccountProxy.ProxyPort" />
-                                                </MultiBinding>
-                                            </TextBox.Text>
-                                        </TextBox>
-
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langProxyUsername}" x:Name="userName"
-                                    Width="{Binding IsHideUsernameAndPasswordoperty,
-                                    Converter={StaticResource BooleanToWidthConverter},ConverterParameter=200}" >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding AccountProxy.ProxyUsername}" Width="150"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                                <GridViewColumn.HeaderContainerStyle>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}"
-                                   BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                                        <Setter Property="IsHitTestVisible" Value="False"/>
-                                    </Style>
-                                </GridViewColumn.HeaderContainerStyle>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langProxyPassword}"
-                                    Width="{Binding IsHideUsernameAndPasswordoperty,
-                                    Converter={StaticResource BooleanToWidthConverter},ConverterParameter=200}" >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding AccountProxy.ProxyPassword}" Width="150"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                                <GridViewColumn.HeaderContainerStyle>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}"
-                                   BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                                        <Setter Property="IsHitTestVisible" Value="False"/>
-                                    </Style>
-                                </GridViewColumn.HeaderContainerStyle>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langSocialProfiles}"
-                                    Width="{Binding IsHideAssignedSocialProfiles,
-                                    Converter={StaticResource BooleanToWidthConverter},ConverterParameter=150}" >
-
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Controls:DropDownButton x:Name="dropdown" Width="40" Height="20"
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{DynamicResource langProxyUsername}" Binding="{Binding AccountProxy.ProxyUsername}"/>
+                <DataGridTextColumn Header="{DynamicResource langProxyPassword}" Binding="{Binding AccountProxy.ProxyPassword}"/>
+                <DataGridTemplateColumn Header="{DynamicResource langSocialProfiles}">
+                    
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Controls:DropDownButton x:Name="dropdown" Width="40" Height="20"
                                                              ItemTemplate="{StaticResource AccountsAssignedToTemplate}" 
                                                              ItemsSource="{Binding AccountsAssignedto}" 
                                                              Content="{Binding Path=AccountsAssignedto.Count}"
                                                              Click="dropdown_Click" >
-                                                <Controls:DropDownButton.Style>
-                                                    <Style TargetType="{x:Type Controls:DropDownButton}">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Path=AccountsAssignedto.Count}" Value="0">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Controls:DropDownButton.Style>
+                                    <Controls:DropDownButton.Style>
+                                        <Style TargetType="{x:Type Controls:DropDownButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=AccountsAssignedto.Count}" Value="0">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Controls:DropDownButton.Style>
 
-                                            </Controls:DropDownButton>
+                                </Controls:DropDownButton>
 
-                                            <Controls:DropDownButton x:Name="AddDropdown" Width="40" Height="20" Margin="10,0"
+                                <Controls:DropDownButton x:Name="AddDropdown" Width="40" Height="20" Margin="10,0"
                                                              ItemTemplate="{StaticResource AccountsToBeAssignTemplate}" 
                                                              ItemsSource="{Binding AccountsToBeAssign}" 
                                                              Content="{DynamicResource langAdd}"
                                                              Click="dropdown_Click" >
-                                                <Controls:DropDownButton.Style>
-                                                    <Style TargetType="{x:Type Controls:DropDownButton}">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Path=AccountsToBeAssign.Count}" Value="0">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Controls:DropDownButton.Style>
-                                            </Controls:DropDownButton>
+                                    <Controls:DropDownButton.Style>
+                                        <Style TargetType="{x:Type Controls:DropDownButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=AccountsToBeAssign.Count}" Value="0">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Controls:DropDownButton.Style>
+                                </Controls:DropDownButton>
 
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                                <GridViewColumn.HeaderContainerStyle>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}" 
-                                   BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                                        <Setter Property="IsHitTestVisible" Value="False" />
-                                    </Style>
-                                </GridViewColumn.HeaderContainerStyle>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{DynamicResource langStatus}" 
+                                            Binding="{Binding Status}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource langResponseTime}"
+                                            Binding="{Binding ResponseTime}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource langFailures}"
+                                            Binding="{Binding Failures}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="{DynamicResource langAction}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="{DynamicResource langUpdateProxy}" x:Name="btnUpdateProxy" 
+                                                FontWeight="SemiBold" Click="BtnUpdateProxy_OnClick"
+                                                Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
+                                <Button Content="{DynamicResource langDelete}" x:Name="btnDeletesProxy" 
+                                                FontWeight="SemiBold" Click="btnDeletesProxy_Click"
+                                                Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
+                                <Button Content="{DynamicResource langVerifyProxy}"  x:Name="btnVerifyProxy" 
+                                                FontWeight="SemiBold" Click="btnVerifyProxy_Click"
+                                                Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent"/>
 
-                            </GridViewColumn>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{DynamicResource langGroup}"
+                                            Binding="{Binding AccountProxy.ProxyGroup}" IsReadOnly="True"/>
 
-                            <GridViewColumn Header="{DynamicResource langStatus}" DisplayMemberBinding="{Binding Status}"/>
 
-                            <GridViewColumn Header="{DynamicResource langResponseTime}" DisplayMemberBinding="{Binding ResponseTime}"/>
-
-                            <GridViewColumn Header="{DynamicResource langFailures}" DisplayMemberBinding="{Binding Failures}"/>
-
-                            <GridViewColumn Header="{DynamicResource langAction}" >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Content="{DynamicResource langUpdateProxy}" x:Name="btnUpdateProxy" 
-                                                    FontWeight="SemiBold" Click="BtnUpdateProxy_OnClick"
-                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                            <Button Content="{DynamicResource langDelete}" x:Name="btnDeletesProxy" 
-                                            FontWeight="SemiBold" Click="btnDeletesProxy_Click"
-                                            Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                            <Button Content="{DynamicResource langVerifyProxy}"  x:Name="btnVerifyProxy" 
-                                            FontWeight="SemiBold" Click="btnVerifyProxy_Click"
-                                            Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent"/>
-                                            <!--<Button Content="{DynamicResource langBrowse}"   x:Name="btnBrowse"  FontWeight="SemiBold"
-                                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />-->
-
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langGroup}" DisplayMemberBinding="{Binding AccountProxy.ProxyGroup}"/>
-
-                        </GridView>
-
-                    </ListView.View>
-
-                </ListView>
-            </Grid>
-        </ScrollViewer>
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 
