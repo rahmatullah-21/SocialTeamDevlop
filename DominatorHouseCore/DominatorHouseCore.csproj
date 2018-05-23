@@ -265,6 +265,7 @@
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedPost.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedSubreddit.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Campaigns\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\Friendship.cs" />

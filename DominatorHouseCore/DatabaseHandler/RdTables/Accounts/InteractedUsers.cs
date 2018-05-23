@@ -13,7 +13,7 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         public string Query { get; set; }
 
         [Column(Order = 2)]
-        public string QueryType{ get; set; }
+        public string QueryType { get; set; }
 
         [Column(Order = 3)]
         public int FollowedBack
@@ -83,6 +83,6 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 
         [Column(Order = 21)]
         public string Bio { get; set; }
-
+        public string ActivityType { get; set; }
     }
 }
