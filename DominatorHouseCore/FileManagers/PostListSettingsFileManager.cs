@@ -61,6 +61,5 @@ namespace DominatorHouseCore.FileManagers
             accs.RemoveAll(match);
             BinFileHelper.UpdateAllAccounts(accs);
         }
-
     }
 }

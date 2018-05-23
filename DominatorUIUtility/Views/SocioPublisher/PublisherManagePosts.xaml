@@ -149,7 +149,7 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <ContentControl Content="{Binding SelectedTabsUserControls}"></ContentControl>
+            <ContentControl Content="{Binding SelectedTabsUserControls}"/>
         </Grid>
     </Grid>
 </UserControl>

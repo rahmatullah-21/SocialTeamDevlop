@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -59,10 +61,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (_selectedCampaignDetails == value)
                     return;
                 _selectedCampaignDetails = value;
-                OnPropertyChanged(nameof(SelectedCampaignDetails));
-                PublisherManagePostDrafts.Instance.PublisherManagePostDraftsViewModel.CampaignId = SelectedCampaignDetails.Id;
-                PublisherManagePostPending.Instance.PublisherManagePostPendingViewModel.CampaignId = SelectedCampaignDetails.Id;
-                PublisherManagePostPublished.Instance.PublisherManagePostPublishedViewModel.CampaignId = SelectedCampaignDetails.Id;
+                OnPropertyChanged(nameof(SelectedCampaignDetails));             
             }
         }
 
@@ -83,10 +82,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-
-        private UserControl _selectedTabsUserControls = PublisherManagePostDrafts.Instance;
-
-
+        private UserControl _selectedTabsUserControls = new PublisherManagePostDrafts();
 
         public UserControl SelectedTabsUserControls
         {
@@ -103,6 +99,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        public Queue<CancellationTokenSource> QueueCancellationTokenSources { get; set; }  = new Queue<CancellationTokenSource>();
+
         #endregion
 
         private void InitializeTabs()
@@ -118,9 +116,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             SelectedCampaignDetails = CampaignList[0];
 
             SelectedTabs = ConstantVariable.DraftPostList;
-            var draftView = PublisherManagePostDrafts.Instance;
-            Task.Factory.StartNew(async () => await draftView.PublisherManagePostDraftsViewModel.ReadPostDetails(SelectedCampaignDetails.Id));
-     
+            var draftView = new PublisherManagePostDrafts();
+
+            var cancellationToken = new CancellationTokenSource();
+            QueueCancellationTokenSources.Enqueue(cancellationToken);
+            Task.Factory.StartNew(() => draftView.PublisherManagePostDraftsViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken), cancellationToken.Token);
         }
 
         private bool NavigationCanExecute(object sender) => true;
@@ -145,28 +145,76 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (selectedButton == ConstantVariable.DraftPostList)
             {
-                SelectedTabs = ConstantVariable.DraftPostList;
-                var draftView = PublisherManagePostDrafts.Instance;
-                draftView.PublisherManagePostDraftsViewModel.CampaignId = SelectedCampaignDetails.Id;
-                Task.Factory.StartNew(async () => await draftView.PublisherManagePostDraftsViewModel.ReadPostDetails(SelectedCampaignDetails.Id));
-                SelectedTabsUserControls = draftView;
+                try
+                {
+                    SelectedTabs = ConstantVariable.DraftPostList;
+                    var draftView = new PublisherManagePostDrafts();
+                    SelectedTabsUserControls = draftView;
+                    draftView.PublisherManagePostDraftsViewModel.CampaignId = SelectedCampaignDetails.Id;
+                    CancelRunningTask();
+                    var cancellationToken = new CancellationTokenSource();
+                    QueueCancellationTokenSources.Enqueue(cancellationToken);
+                    Task.Factory.StartNew(() => draftView.PublisherManagePostDraftsViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken), cancellationToken.Token);
+                }
+                catch (OperationCanceledException ex)
+                {
+                  ex.DebugLog("Request Cancelled!");
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }                           
             }
             else if (selectedButton == ConstantVariable.PendingPostList)
             {
-                SelectedTabs = ConstantVariable.PendingPostList;
-                var pendingView = PublisherManagePostPending.Instance;
-                pendingView.PublisherManagePostPendingViewModel.CampaignId = SelectedCampaignDetails.Id;
-                Task.Factory.StartNew(async () => await pendingView.PublisherManagePostPendingViewModel.ReadPostDetails(SelectedCampaignDetails.Id));
-                SelectedTabsUserControls = pendingView;
+                try
+                {
+                    SelectedTabs = ConstantVariable.PendingPostList;
+                    var pendingView = new PublisherManagePostPending();
+                    SelectedTabsUserControls = pendingView;
+                    pendingView.PublisherManagePostPendingViewModel.CampaignId = SelectedCampaignDetails.Id;
+                    CancelRunningTask();
+                    var cancellationToken = new CancellationTokenSource();
+                    QueueCancellationTokenSources.Enqueue(cancellationToken);
+                    Task.Factory.StartNew(() => pendingView.PublisherManagePostPendingViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken), cancellationToken.Token);
+                }
+                catch (OperationCanceledException ex)
+                {
+                    ex.DebugLog("Request Cancelled!");
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
             else
             {
-                SelectedTabs = ConstantVariable.PublishedPostList;
-                var publishedView = PublisherManagePostPublished.Instance;
-                publishedView.PublisherManagePostPublishedViewModel.CampaignId = SelectedCampaignDetails.Id;
-                Task.Factory.StartNew(async () => await publishedView.PublisherManagePostPublishedViewModel.ReadPostDetails(SelectedCampaignDetails.Id));
-                SelectedTabsUserControls = publishedView;
+                try
+                {
+                    SelectedTabs = ConstantVariable.PublishedPostList;
+                    var publishedView = new PublisherManagePostPublished();
+                    SelectedTabsUserControls = publishedView;
+                    publishedView.PublisherManagePostPublishedViewModel.CampaignId = SelectedCampaignDetails.Id;
+                    CancelRunningTask();
+                    var cancellationToken = new CancellationTokenSource();
+                    QueueCancellationTokenSources.Enqueue(cancellationToken);
+                    Task.Factory.StartNew(() => publishedView.PublisherManagePostPublishedViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken), cancellationToken.Token);
+                }
+                catch (OperationCanceledException ex)
+                {
+                    ex.DebugLog("Request Cancelled!");
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
+        }
+
+        public void CancelRunningTask()
+        {
+            while (QueueCancellationTokenSources.Count > 0)
+                QueueCancellationTokenSources.Dequeue().Cancel();
         }
     }
 

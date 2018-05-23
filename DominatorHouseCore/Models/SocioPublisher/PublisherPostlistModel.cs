@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
@@ -50,13 +51,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private List<string> _mediaList;
+        private ObservableCollection<string> _mediaList;
 
         /// <summary>
         /// To hold the image or video file 
         /// </summary>
         [ProtoMember(3)]
-        public List<string> MediaList
+        public ObservableCollection<string> MediaList
         {
             get
             {
@@ -278,6 +279,41 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        private bool _isPostlistSelected;
+        /// <summary>
+        /// To specify the post list is selected or not
+        /// </summary>
+        [ProtoIgnore]
+        public bool IsPostlistSelected
+        {
+            get
+            {
+                return _isPostlistSelected;
+            }
+            set
+            {             
+                if (_isPostlistSelected == value)
+                    return;
+                _isPostlistSelected = value;
+                OnPropertyChanged(nameof(IsPostlistSelected));
+            }
+        }
 
+        private PublisherMediaViewerModel _publisherMediaViewerModel = new PublisherMediaViewerModel();
+        [ProtoIgnore]
+        public PublisherMediaViewerModel PublisherMediaViewerModel
+        {
+            get
+            {
+                return _publisherMediaViewerModel;
+            }
+            set
+            {
+                if (_publisherMediaViewerModel == value)
+                    return;
+                _publisherMediaViewerModel = value;
+                OnPropertyChanged(nameof(PublisherMediaViewerModel));
+            }
+        }
     }
 }

@@ -299,6 +299,8 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPendingViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPublishedViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostsViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherPostlistBaseViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
     </Compile>
@@ -388,6 +390,9 @@
     </Compile>
     <Compile Include="Views\SocioPublisher\PublisherManagePosts.xaml.cs">
       <DependentUpon>PublisherManagePosts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherMediaViewer.xaml.cs">
+      <DependentUpon>PublisherMediaViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\PublisherMonitorFolder.xaml.cs">
       <DependentUpon>PublisherMonitorFolder.xaml</DependentUpon>
@@ -793,6 +798,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherManagePosts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherMediaViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

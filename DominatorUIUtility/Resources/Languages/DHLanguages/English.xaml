@@ -224,6 +224,14 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangRemoveFromDraft">Remove from draft when added to post list (only for draft postlist)</system:String>
     <system:String x:Key="DHlangReaddPublishedPost">Re-add published posts to the end of pending posts list (only for pending postlist)</system:String>
     <system:String x:Key="DHlangPublishedPostToBump">Automatically send new published posts to bump feature (only for published postlist)</system:String>
+    <system:String x:Key="DHlangSendtoPending">Send to Pending</system:String>
+    <system:String x:Key="DHlangSendtoDraft">Send to Draft</system:String>
+    <system:String x:Key="DHlangDetails">Details</system:String>
+    <system:String x:Key="DHlangReadd">Re-add</system:String>
+    <system:String x:Key="DHlangBump">Bump</system:String>
+    <system:String x:Key="DHlangReport">Report</system:String>
+
+
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>

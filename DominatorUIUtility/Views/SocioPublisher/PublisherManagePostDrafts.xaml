@@ -15,117 +15,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
-
-        <ListView Grid.Row="1"
-                  x:Name="CampaignStatusList"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto"                  
-                  ItemsSource="{Binding DestinationCollectionView}"
-                  VerticalAlignment="Stretch" >
-            <ListView.Resources>
-                <Style TargetType="{x:Type GridViewColumnHeader}" 
-                       BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                    <Setter Property="Height" Value="30"></Setter>
-                    <Setter Property="Margin" Value="0,2,0,0"></Setter>
-                </Style>
-                <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
-            </ListView.Resources>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                    <Setter Property="Height" Value="30"></Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Width="80">
-                        <GridViewColumn.Header>
-                            <Border  BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                <CheckBox x:Name="AllAccountsDestination" Margin="6,2,6,2"  IsChecked="{Binding IsAllDestinationSelected}"  Content=" #" Command="{Binding SelectionExecute}" CommandParameter="{Binding IsAllDestinationSelected,Converter={StaticResource BooleanToStringSelectConverter}}"/>
-                            </Border>
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <CheckBox IsChecked="{Binding IsAccountSelected}" 
-                                              x:Name="ChkSingleCampaign"
-                                          Margin="6,2,6,2" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},  Converter={StaticResource ListViewItemIndexConverter}}" />
-                                </Border>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <GridViewColumn  Width="250">
-                        <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangDescription}"/>
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <TextBlock  Margin="6,2,6,2" Text="{Binding AccountName}"/>
-                                </Border>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <GridViewColumn Width="130">
-                        <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangImage}"/>
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-
-                                </Border>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <GridViewColumn Width="130">
-                        <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangCreatedDate}"/>
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <Button Cursor="Hand" Margin="6,2,6,2" IsEnabled="{Binding IsGroupsAvailable}"
-                                                    Content="{Binding GroupSelectorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                    x:Name="ButtonSelectGroups" 
-                                                    FontWeight="SemiBold"       
-                                                    Command="{Binding Path=DataContext.GetSingleAccountGroupsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                                    Background="Transparent"/>
-                                </Border>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <GridViewColumn Width="250">
-                        <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangAction}"/>
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <StackPanel Margin="6,2,6,2" HorizontalAlignment="Center">
-                                        <CheckBox  IsChecked="{Binding PublishonOwnWall}" ></CheckBox>
-                                    </StackPanel>
-
-                                </Border>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                </GridView>
-            </ListView.View>
-        </ListView>
 
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -232,8 +123,137 @@
 
             </StackPanel>
         </Grid>
-        
-        
 
+        <ListView Grid.Row="1"
+                  x:Name="PostListview"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"                  
+                  ItemsSource="{Binding PostCollectionView}"
+                  VerticalAlignment="Stretch" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" >
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}" 
+                       BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="Height" Value="30"></Setter>
+                    <Setter Property="Margin" Value="0,2,0,0"></Setter>
+                </Style>
+                <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="Height" Value="30"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="80">
+                        <GridViewColumn.Header>
+                            <Border  BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                <CheckBox x:Name="SelectAllPostView" Margin="6,2,6,2"  IsChecked="{Binding IsSelectAllPostList}"  Content=" #" Command="{Binding SelectCommand}" CommandParameter="{Binding IsSelectAllPostList,Converter={StaticResource BooleanToStringSelectConverter}}"/>
+                            </Border>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <CheckBox IsChecked="{Binding IsPostlistSelected}" 
+                                              x:Name="ChkSingleCampaign" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Margin="6,2,6,2"  Content="{Binding (ItemsControl.AlternationIndex),
+                                                  RelativeSource={RelativeSource AncestorType=ListViewItem},
+                                                  Converter={StaticResource IndexToRowNoConverter}}"  />
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn  Width="250">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangDescription}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <TextBlock  VerticalAlignment="Center" Margin="6,2,6,2" Text="{Binding PostDescription}"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="180">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangImage}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="180">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangCreatedDate}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="6,2,6,2" Text="{Binding CreatedTime}"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangAction}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,1,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel Margin="6,2,6,2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center"  >
+
+                                        <Button Cursor="Hand" 
+                                                Content="{DynamicResource DHlangDuplicate}" 
+                                                x:Name="ButtonDuplicatePosts" 
+                                                FontWeight="SemiBold"       
+                                                Command="{Binding Path=DataContext.EditSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Background="Transparent"/>
+
+                                        <Button Cursor="Hand" 
+                                                Content="{DynamicResource DHlangSendtoPending}" 
+                                                x:Name="ButtonSendtoPendingPosts" 
+                                                FontWeight="SemiBold"       
+                                                Command="{Binding Path=DataContext.EditSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Background="Transparent"/>
+
+
+                                        <Button Cursor="Hand" 
+                                                Content="{DynamicResource DHlangEdit}" 
+                                                x:Name="ButtonEditPosts" 
+                                                FontWeight="SemiBold"       
+                                                Command="{Binding Path=DataContext.EditSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Background="Transparent"/>
+                                        <Button Cursor="Hand"
+                                                Content="{DynamicResource DHlangDelete}"  
+                                                x:Name="ButtonDeletePosts" 
+                                                FontWeight="SemiBold"       
+                                                Command="{Binding Path=DataContext.DeleteSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Background="Transparent"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
     </Grid>
 </UserControl>

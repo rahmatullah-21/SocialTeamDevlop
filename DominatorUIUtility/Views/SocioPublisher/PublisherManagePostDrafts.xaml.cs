@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using DominatorHouseCore.Annotations;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
@@ -6,21 +9,43 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// <summary>
     /// Interaction logic for PublisherManagePostDrafts.xaml
     /// </summary>
-    public partial class PublisherManagePostDrafts : UserControl
+    public partial class PublisherManagePostDrafts : UserControl , INotifyPropertyChanged
     {
-        private PublisherManagePostDrafts()
+        public PublisherManagePostDrafts()
         {
             InitializeComponent();
             DraftPostList.DataContext = PublisherManagePostDraftsViewModel;
         }
 
-        public PublisherManagePostDraftsViewModel PublisherManagePostDraftsViewModel { get; set; } =
-            new PublisherManagePostDraftsViewModel();
+        private PublisherManagePostDraftsViewModel _publisherManagePostDraftsViewModel = new PublisherManagePostDraftsViewModel();
+        public PublisherManagePostDraftsViewModel PublisherManagePostDraftsViewModel
+        {
+            get
+            {
+                return _publisherManagePostDraftsViewModel;
+            }
+            set
+            {
+                if(_publisherManagePostDraftsViewModel == value)
+                    return;
 
-        private static PublisherManagePostDrafts _instance;
+                _publisherManagePostDraftsViewModel = value;
+                OnPropertyChanged(nameof(PublisherManagePostDraftsViewModel));
+            }
+        }
 
-        public static PublisherManagePostDrafts Instance { get; set; }
-            = _instance ?? (_instance = new PublisherManagePostDrafts());
+        //private static PublisherManagePostDrafts _instance;
+      
 
+        //public static PublisherManagePostDrafts Instance { get; set; }
+        //    = _instance ?? (_instance = new PublisherManagePostDrafts());
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
