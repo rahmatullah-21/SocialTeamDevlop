@@ -795,7 +795,7 @@ namespace DominatorUIUtility.CustomControl
                 #endregion
 
                 if (newlyAddedAccounts.Count != 0)
-                    UpdateNewlyAddedAccounts(errorMessage, newlyAddedAccounts);
+                    UpdateNewlyAddedAccounts(newlyAddedAccounts);
             }
             catch (Exception ex)
             {
@@ -866,7 +866,134 @@ namespace DominatorUIUtility.CustomControl
             TabSwitcher.GoToCampaign();
 
         }
-        void UpdateNewlyAddedAccounts(string errorMessage, List<string> newlyAddedAccounts)
+        protected void UpdateCampaign()
+        {
+           
+            if (!ValidateCampaign())
+                return;
+
+            if (!ValidateExtraProperty())
+                return;
+
+            var currentCampaign = CampaignsFileManager.Get().FirstOrDefault(camp => camp.TemplateId == TemplateId);
+
+            try
+            {
+                var newlyAddedAccounts = _footerControl.list_SelectedAccounts.Except(currentCampaign?.SelectedAccountList).ToList();
+                var existingAccounts = _footerControl.list_SelectedAccounts.Except(newlyAddedAccounts).ToList();
+                var removedAccounts = currentCampaign?.SelectedAccountList.Except(existingAccounts).ToList();
+
+                var accountToRemoveModuleConfiguration = AccountsFileManager.GetAll(removedAccounts);
+
+                #region Remove TemplateId from removed account from campaign selected account list
+
+                accountToRemoveModuleConfiguration.ForEach(account =>
+                {
+
+                    try
+                    {
+                        var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
+                            module.ActivityType == _activityType);
+                        DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings?.TemplateId);
+                        moduleSettings.TemplateId = null;
+                        AccountsFileManager.Edit(account);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+
+
+                });
+
+                #endregion
+
+                if (newlyAddedAccounts.Count != 0)
+                    UpdateNewlyAddedAccounts(newlyAddedAccounts);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+
+
+            // Update Template Details
+            TemplatesFileManager.ApplyFunc(template =>
+            {
+                if (template.Id != TemplateId)
+                    return false;
+
+                TModel model = JsonConvert.DeserializeObject<TModel>(template.ActivitySettings);
+                var firstRunningTime = ((dynamic)model).JobConfiguration.RunningTime;
+                var secondRunningTime = Model.JobConfiguration.RunningTime;
+
+                var result = DominatorScheduler.CompareRunningTime(firstRunningTime, secondRunningTime);
+                if (!result)
+                {
+                    try
+                    {
+                        var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+
+                        foreach (var accountModel in lstAccountDetails.Where(x => _footerControl.list_SelectedAccounts.Contains(x.AccountBaseModel.UserName)))
+                            DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId, _activityType.ToString(), TemplateId);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+
+                    // Update the template configuration 
+                    template.ActivitySettings = JsonConvert.SerializeObject((TModel)Model);
+                }
+
+                return true;
+            });
+
+
+            // Update Campaign Details
+            CampaignsFileManager.ApplyAction(campaign =>
+            {
+
+                if (campaign.TemplateId == TemplateId)
+                {
+                    campaign.CampaignName = CampaignName;
+                    campaign.MainModule = _moduleName;
+                    campaign.SubModule = _activityType.ToString();
+                    campaign.SocialNetworks = _socialNetwork;
+                    campaign.SelectedAccountList = _footerControl.list_SelectedAccounts;
+                    campaign.TemplateId = TemplateId;
+                    campaign.CreationDate = DateTimeUtilities.GetEpochTime();
+                    campaign.Status = "Active";
+                    campaign.LastEditedDate = DateTimeUtilities.GetEpochTime();
+                }
+            });
+
+
+            // Update Account Detail
+            var accountDetails = AccountsFileManager.GetAll();
+            if (UpdateSelectedAccountDetails(accountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Update", "Update Successfull", MessageDialogStyle.Affirmative);
+
+            SetDataContext();
+            TabSwitcher.GoToCampaign();
+
+        }
+        string GetWarningLangRsrc()
+        {
+            try
+            {
+               return Application.Current.FindResource("DHStartWarning") + $" {_activityType} " +
+                                      Application.Current.FindResource("DHEndWarning");
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return "Account Warning";
+            }
+        }
+        void UpdateNewlyAddedAccounts(List<string> newlyAddedAccounts)
         {
             #region Get the accounts which holds template Id
 
@@ -874,105 +1001,146 @@ namespace DominatorUIUtility.CustomControl
 
             var accountHavingTemplates = accountDetails.Where(x => x.ActivityManager.LstModuleConfiguration.FirstOrDefault(y => y.ActivityType == _activityType)?.TemplateId != null).ToList();
 
-            if (accountHavingTemplates.Count == 0)
-                return;
-
             #endregion
 
-            var objErrorModelControl = new ErrorModelControl { WarningText = errorMessage };
+            #region If account having any template then Show ErrorModelControl with warning
 
-            #region Adding the accounts to Warning window
-
-            accountHavingTemplates.ForEach(account =>
+            if (accountHavingTemplates.Count != 0)
             {
-                var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module => module.ActivityType == _activityType);
+                
 
-                if (moduleSettings != null)
+                var objErrorModelControl = new ErrorModelControl { WarningText = GetWarningLangRsrc() };
+
+                #region Adding the accounts to Warning window
+
+                accountHavingTemplates.ForEach(account =>
                 {
-                    objErrorModelControl.Accounts.Add(new ErrorModelControl { UserName = account.AccountBaseModel.UserName });
-                }
-            });
+                    var moduleSettings =
+                        account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
+                            module.ActivityType == _activityType);
 
-            var warningWindow = new Dialog().GetMetroWindow(objErrorModelControl, "Warning");
-
-            #endregion
-
-            #region Warning windows save button event
-
-            objErrorModelControl.BtnSave.Click += (senders, events) =>
-            {
-                #region Remove not selected accounts from errorModelControl
-
-                var nonSelectedAccounts = objErrorModelControl.Accounts.Where(x => !x.IsChecked).Select(x => x.UserName)
-                    .ToList();
-
-                nonSelectedAccounts.ForEach(removingAccount =>
-                {
-                    _footerControl.list_SelectedAccounts.Remove(removingAccount);
+                    if (moduleSettings != null)
+                    {
+                        objErrorModelControl.Accounts.Add(new ErrorModelControl
+                        {
+                            UserName = account.AccountBaseModel.UserName
+                        });
+                    }
                 });
+
+                var warningWindow = new Dialog().GetMetroWindow(objErrorModelControl, "Warning");
 
                 #endregion
 
-                var selectedAccount = objErrorModelControl.Accounts.Where(x => x.IsChecked).Select(x => x.UserName).ToList();
+                #region Warning windows save button event
 
-                if (selectedAccount.Count == 0)
+                objErrorModelControl.BtnSave.Click += (senders, events) =>
                 {
-                    warningWindow.Close();
-                    return;
-                }
+                    #region Remove not selected accounts from errorModelControl
 
-                #region Update already existing account setting
+                    var nonSelectedAccounts = objErrorModelControl.Accounts.Where(x => !x.IsChecked)
+                        .Select(x => x.UserName)
+                        .ToList();
+
+                    nonSelectedAccounts.ForEach(removingAccount =>
+                    {
+                        _footerControl.list_SelectedAccounts.Remove(removingAccount);
+                    });
+
+                    #endregion
+
+                    var selectedAccount = objErrorModelControl.Accounts.Where(x => x.IsChecked).Select(x => x.UserName)
+                        .ToList();
+
+                    if (selectedAccount.Count == 0)
+                    {
+                        warningWindow.Close();
+                        return;
+                    }
+
+                    #region Update already existing account setting
+
+                    accountDetails.ForEach(account =>
+                    {
+                        if (!selectedAccount.Contains(account.AccountBaseModel.UserName))
+                            return;
+
+                        var moduleSettings =
+                            account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
+                                module.ActivityType == _activityType);
+
+                        if (moduleSettings == null)
+                            return;
+                        CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId,
+                            account.AccountBaseModel.UserName);
+
+                        moduleSettings.TemplateId = TemplateId;
+
+                        DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(),
+                            moduleSettings.TemplateId);
+                    });
+
+                    #endregion
+
+
+                    AccountsFileManager.UpdateAccounts(accountDetails);
+
+                    warningWindow.Close();
+                };
+
+                #endregion
+
+                #region Warning windows cancel button event
+
+                objErrorModelControl.BtnCancel.Click += (senders, events) =>
+                {
+
+                    #region Remove not selected accounts from errorModelControl
+
+                    var nonSelectedAccounts = objErrorModelControl.Accounts.Where(x => !x.IsChecked)
+                        .Select(x => x.UserName)
+                        .ToList();
+
+                    nonSelectedAccounts.ForEach(removingAccount =>
+                    {
+                        _footerControl.list_SelectedAccounts.Remove(removingAccount);
+                    });
+
+                    #endregion
+
+                    warningWindow.Close();
+                };
+
+                #endregion
+
+                if (objErrorModelControl.Accounts.Count != 0)
+                    warningWindow.ShowDialog();
+               
+            }
+            #endregion
+
+            #region If account don't have any template then set that account template to current template
+
+            else
+            {
+
+                #region Update newyly added account setting
 
                 accountDetails.ForEach(account =>
-                        {
-                            if (!selectedAccount.Contains(account.AccountBaseModel.UserName))
-                                return;
-
-                            var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module => module.ActivityType == _activityType);
-
-                            if (moduleSettings == null)
-                                return;
-                            CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId, account.AccountBaseModel.UserName);
-
-                            moduleSettings.TemplateId = TemplateId;
-
-                            DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings.TemplateId);
-                        });
-                
-                #endregion
-               
-
-                AccountsFileManager.UpdateAccounts(accountDetails);
-
-                warningWindow.Close();
-            };
-
-            #endregion
-
-            #region Warning windows cancel button event
-
-            objErrorModelControl.BtnCancel.Click += (senders, events) =>
-            {
-
-                #region Remove not selected accounts from errorModelControl
-
-                var nonSelectedAccounts = objErrorModelControl.Accounts.Where(x => !x.IsChecked).Select(x => x.UserName)
-                    .ToList();
-
-                nonSelectedAccounts.ForEach(removingAccount =>
                 {
-                    _footerControl.list_SelectedAccounts.Remove(removingAccount);
+                   var moduleSettings =
+                        account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
+                            module.ActivityType == _activityType);
+
+                    moduleSettings.TemplateId = TemplateId;
+
                 });
 
                 #endregion
 
-                warningWindow.Close();
-            };
-
+                AccountsFileManager.UpdateAccounts(accountDetails);
+            }
             #endregion
-            if (objErrorModelControl.Accounts.Count != 0)
-                warningWindow.ShowDialog();
-
         }
 
         #endregion
@@ -1586,7 +1754,8 @@ namespace DominatorUIUtility.CustomControl
 
                 objSelectAccountControl.btnSave.Click += (senders, Events) =>
                 {
-                    if (objSelectAccountControl.GetSelectedAccount().Count > 0)
+                    var selectedAccount = objSelectAccountControl.GetSelectedAccount();
+                    if (selectedAccount.Count > 0)
                     {
                         _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
                         this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
@@ -1595,6 +1764,7 @@ namespace DominatorUIUtility.CustomControl
                     else
                     {
                         this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                        _footerControl.list_SelectedAccounts = selectedAccount.ToList();
                     }
                     window.Close();
                 };

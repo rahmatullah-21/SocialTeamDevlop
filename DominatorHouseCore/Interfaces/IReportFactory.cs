@@ -18,6 +18,6 @@ namespace DominatorHouseCore.Interfaces
 
         int GetReportDetail(ReportModel reportModel, List<KeyValuePair<string, string>> queryDetails, CampaignDetails campaignDetails);
        
-        void ExportReports(string subModule, string fileName);
+        void ExportReports(ActivityType activityType, string fileName, ReportType reportType);
     }
 }

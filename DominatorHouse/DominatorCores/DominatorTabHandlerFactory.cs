@@ -65,11 +65,11 @@ namespace Socinator.DominatorCores
                     Title = Application.Current.FindResource("langAutoActivity") == null? "Auto Activity" : Application.Current.FindResource("langAutoActivity")?.ToString(),
                     Content = new Lazy<UserControl>(() => DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
                 },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("langPublisher") == null? "Publisher" : Application.Current.FindResource("langPublisher")?.ToString(),
-                    Content = new Lazy<UserControl>(()=> PublisherIndexPage.Instance)
-                },
+                //new TabItemTemplates
+                //{
+                //    Title = Application.Current.FindResource("langPublisher") == null? "Publisher" : Application.Current.FindResource("langPublisher")?.ToString(),
+                //    Content = new Lazy<UserControl>(()=> PublisherIndexPage.Instance)
+                //},
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("DHlangSocioPublisher") == null? "Socio Publisher" : Application.Current.FindResource("DHlangSocioPublisher")?.ToString(),
@@ -80,16 +80,16 @@ namespace Socinator.DominatorCores
                     Title = Application.Current.FindResource("langProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("langProxyManager")?.ToString(),
                     Content = new Lazy<UserControl>(() => new ProxyManager(_strategies))
                 },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("langSettings") == null? "Settings" : Application.Current.FindResource("langSettings")?.ToString(),
-                    Content = new Lazy<UserControl>(() => new Social.Settings.View.Home())
-                },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("langOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("langOtherConfigurations")?.ToString(),
-                      Content=new Lazy<UserControl>(()=>new OtherConfigurationTab())
-                }
+                //new TabItemTemplates
+                //{
+                //    Title = Application.Current.FindResource("langSettings") == null? "Settings" : Application.Current.FindResource("langSettings")?.ToString(),
+                //    Content = new Lazy<UserControl>(() => new Social.Settings.View.Home())
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title = Application.Current.FindResource("langOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("langOtherConfigurations")?.ToString(),
+                //      Content=new Lazy<UserControl>(()=>new OtherConfigurationTab())
+                //}
             };
         }
 

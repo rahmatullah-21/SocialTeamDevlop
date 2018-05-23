@@ -93,7 +93,19 @@
     <system:String x:Key="YdlangAfterDislikeAction">After Dislike Action</system:String>
     <system:String x:Key="YdlangAfterCommentAction">After Comment Action</system:String>
     <system:String x:Key="YdlangAfterLikeCommentAction">After LikeComment Action</system:String>
-    <system:String x:Key="langAfterLikeToCommentAction">After LikeToComment Action</system:String>
+    <system:String x:Key="YdlangAfterLikeToCommentAction">After LikeToComment Action</system:String>
+    <system:String x:Key="YdlangAfterShareAction">After Share Action</system:String>
+    <system:String x:Key="YdlangAfterDeleteCommentAction">After Delete Comment Action</system:String>
+    <system:String x:Key="YdlangAfterSubscribeAction">After Subscribe Action</system:String>
+    <system:String x:Key="YdlangAfterUnsubscribeAction">After Unsubscribe Action</system:String>
+    <system:String x:Key="YdlangAfterMessageAction">After Message Action</system:String>
+    <system:String x:Key="YdlangAfterViewIncreaserAction">After ViewIncreaser Action</system:String>
+    <system:String x:Key="YdlangAfterPostScraperAction">After Post Scraper Action</system:String>
+    <system:String x:Key="YdlangAfterChannelScraperAction">After Channel Scraper Action</system:String>
+    <system:String x:Key="YdlangAfterUserScraperAction">After User Scraper Action</system:String>
+
+    <system:String x:Key="YdlangBlacklists">Blacklists</system:String>
+
 
     <system:String x:Key="YdlangDelayEachOperation">Delay between each operation</system:String>
     <system:String x:Key="YdlangSeconds">seconds</system:String>
@@ -187,6 +199,8 @@
     <system:String x:Key="YdLangMaxViewIncreaseDay">Maximum view increase per day</system:String>
 
     <system:String x:Key="YdlangVideoLengthInSeconds">Video length in Seconds</system:String>
+
+    <system:String x:Key="YdlangStatus">Status</system:String>
 
 
 
