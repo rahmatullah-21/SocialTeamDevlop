@@ -71,7 +71,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _mediaUrl;
+        private string _mediaUrl = string.Empty;
         /// <summary>
         /// To hold current media item
         /// </summary>

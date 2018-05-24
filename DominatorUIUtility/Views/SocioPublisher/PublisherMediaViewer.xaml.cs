@@ -1,46 +1,47 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore.Annotations;
-using DominatorUIUtility.ViewModel.SocioPublisher;
+using System.Windows.Input;
+using DominatorHouseCore.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for PublisherMediaViewer.xaml
     /// </summary>
-    public partial class PublisherMediaViewer : UserControl , INotifyPropertyChanged
+    public partial class PublisherMediaViewer : UserControl
     {
-        private PublisherMediaViewerViewModel _publisherMediaViewerViewModel = new PublisherMediaViewerViewModel();
-
-        private PublisherMediaViewerViewModel PublisherMediaViewerViewModel
+        public PublisherMediaViewerViewModel PublisherMediaViewerViewModel
         {
-            get
-            {
-                return _publisherMediaViewerViewModel;
-            }
-            set
-            {
-                if(_publisherMediaViewerViewModel == value)
-                    return;
-                _publisherMediaViewerViewModel = value;
-                OnPropertyChanged(nameof(PublisherMediaViewerViewModel));
-
-            }
+            get { return (PublisherMediaViewerViewModel)GetValue(PublisherMediaViewerViewModelProperty); }
+            set { SetValue(PublisherMediaViewerViewModelProperty, value); }
         }
+
+        // Using a DependencyProperty as the backing store for PublisherMediaViewerViewModel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PublisherMediaViewerViewModelProperty =
+            DependencyProperty.Register("PublisherMediaViewerViewModel",
+                typeof(PublisherMediaViewerViewModel),
+                typeof(PublisherMediaViewer),
+                new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+                {
+                    BindsTwoWayByDefault = true
+                });
 
         public PublisherMediaViewer()
         {
-            InitializeComponent();
-            MediaViewer.DataContext = PublisherMediaViewerViewModel;
+            InitializeComponent();        
+            MediaViewer.DataContext = this;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public ICommand GoPreviousCommand { get; set; }
+
+        public ICommand GoNextCommand { get; set; }
+
+
+        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            // Breakpoint here to see if the new value is being set
+            var newValue = e.NewValue;
         }
     }
 }

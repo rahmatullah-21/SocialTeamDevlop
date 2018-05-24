@@ -299,7 +299,6 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPendingViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPublishedViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostsViewModel.cs" />
-    <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherPostlistBaseViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.Utility;
+using DominatorHouseCore.ViewModel.SocioPublisher;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
@@ -22,7 +23,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-                if(_postDescription == value)
+                if (_postDescription == value)
                     return;
 
                 _postDescription = value;
@@ -43,7 +44,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-                if(_title == value)
+                if (_title == value)
                     return;
                 _title = value;
                 OnPropertyChanged(nameof(Title));
@@ -51,7 +52,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private ObservableCollection<string> _mediaList;
+        private ObservableCollection<string> _mediaList = new ObservableCollection<string>();
 
         /// <summary>
         /// To hold the image or video file 
@@ -107,7 +108,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _postSource;
             }
             set
-            {            
+            {
                 if (_postSource == value)
                     return;
                 _postSource = value;
@@ -171,7 +172,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _sellPostPrice;
             }
             set
-            {              
+            {
                 if (_sellPostPrice == value)
                     return;
                 _sellPostPrice = value;
@@ -200,12 +201,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private Dictionary<string,string> _postMacros = new Dictionary<string, string>();
+        private Dictionary<string, string> _postMacros = new Dictionary<string, string>();
         /// <summary>
         /// To specify the post macros
         /// </summary>
         [ProtoMember(10)]
-        public Dictionary<string,string> PostMacro
+        public Dictionary<string, string> PostMacro
         {
             get
             {
@@ -250,7 +251,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _postQueuedStatus;
             }
             set
-            {             
+            {
                 if (_postQueuedStatus == value)
                     return;
                 _postQueuedStatus = value;
@@ -291,7 +292,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _isPostlistSelected;
             }
             set
-            {             
+            {
                 if (_isPostlistSelected == value)
                     return;
                 _isPostlistSelected = value;
@@ -299,19 +300,19 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private PublisherMediaViewerModel _publisherMediaViewerModel = new PublisherMediaViewerModel();
+        private PublisherMediaViewerViewModel _publisherMediaViewerViewModel = new PublisherMediaViewerViewModel();
         [ProtoIgnore]
-        public PublisherMediaViewerModel PublisherMediaViewerModel
+        public PublisherMediaViewerViewModel PublisherMediaViewerViewModel
         {
             get
             {
-                return _publisherMediaViewerModel;
+                return _publisherMediaViewerViewModel;
             }
             set
             {
-                if (_publisherMediaViewerModel == value)
+                if (_publisherMediaViewerViewModel == value)
                     return;
-                _publisherMediaViewerModel = value;
+                _publisherMediaViewerViewModel = value;
                 OnPropertyChanged(nameof(PublisherMediaViewerModel));
             }
         }

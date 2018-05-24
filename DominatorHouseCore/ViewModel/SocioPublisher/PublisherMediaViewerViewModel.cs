@@ -3,7 +3,7 @@ using DominatorHouseCore.Command;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+namespace DominatorHouseCore.ViewModel.SocioPublisher
 {
     public class PublisherMediaViewerViewModel : BindableBase
     {
@@ -42,7 +42,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void GoPreviousExecute(object sender)
         {
-            PublisherMediaViewerModel.MediaUrl =  PublisherMediaViewerModel.MediaList[PublisherMediaViewerModel.CurrentItem - 1];
+            PublisherMediaViewerModel.MediaUrl = PublisherMediaViewerModel.MediaList[PublisherMediaViewerModel.CurrentItem - 1];
             PublisherMediaViewerModel.CurrentItem = PublisherMediaViewerModel.CurrentItem - 1;
         }
 
@@ -53,5 +53,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PublisherMediaViewerModel.MediaUrl = PublisherMediaViewerModel.MediaList[PublisherMediaViewerModel.CurrentItem + 1];
             PublisherMediaViewerModel.CurrentItem = PublisherMediaViewerModel.CurrentItem + 1;
         }
+
     }
 }
