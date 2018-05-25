@@ -98,3 +98,45 @@ namespace DominatorHouseCore.Utility
         //    }
         //    catch
         //    {
+        //        return false;
+        //    }
+        //}
+
+
+        private bool IsInteractedDataAvailable(string campaignId, string interactedData)
+        {
+            try
+            {
+                CampaignInteractionDataModel = GetInteractedData(campaignId);
+                return CampaignInteractionDataModel.InteractedData.ContainsKey(interactedData);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        public void RemoveInteractedData(string campaignId, string interactedData)
+        {
+            lock (Synclock)
+            {
+                try
+                {
+                    if (IsInteractedDataAvailable(campaignId, interactedData))
+                    {
+                        CampaignInteractionDataModel.InteractedData.Remove(interactedData);
+                        SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignInteractionDetails.UpdateInteractedData();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+
+            }
+        }
+
+        #endregion
+    }
+}
