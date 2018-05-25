@@ -10,6 +10,7 @@ using System.IO;
 using System.Diagnostics;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.ViewModel;
 
 namespace DominatorHouseCore.Utility
 {
@@ -39,7 +40,7 @@ namespace DominatorHouseCore.Utility
             {typeof(AddPostModel), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherPostsFile) },
             {typeof(Configuration), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherConfigFile) },
             {typeof(PublisherAccountDetails),Tuple.Create(new object(), (Func<string>)ConstantVariable.GetPublisherFile) },
-            {typeof(CampaignInteractionDataModel),Tuple.Create(new object(),(Func<string>) ConstantVariable.GetConfigurationDir) },
+            {typeof(CampaignInteractionViewModel),Tuple.Create(new object(),(Func<string>) ConstantVariable.GetConfigurationDir) },
             {typeof(object), Tuple.Create(new object(), (Func<string>)ConstantVariable.GetIndexAccountFile) }
         };
 
@@ -403,17 +404,17 @@ namespace DominatorHouseCore.Utility
         }
         #region CampaignInteractedData
 
-        public static List<CampaignInteractionDataModel> GetCampaignInteractedDetails(SocialNetworks network)
+        public static List<CampaignInteractionViewModel> GetCampaignInteractedDetails(SocialNetworks network)
         {
-            return WithFile<CampaignInteractionDataModel, List<CampaignInteractionDataModel>>(file => ProtoBuffBase.DeserializeList<CampaignInteractionDataModel>(file + $"\\{network}InteractedData.bin"));
+            return WithFile<CampaignInteractionViewModel, List<CampaignInteractionViewModel>>(file => ProtoBuffBase.DeserializeList<CampaignInteractionViewModel>(file + $"\\{network}InteractedData.bin"));
         }
 
 
-        public static void UpdateCampaignInteractedDetails(List<CampaignInteractionDataModel> campaignInteractedDatas, SocialNetworks network)
+        public static void UpdateCampaignInteractedDetails(List<CampaignInteractionViewModel> campaignInteractedDatas, SocialNetworks network)
         {
             try
             {
-                WithFile<CampaignInteractionDataModel, bool>(file =>
+                WithFile<CampaignInteractionViewModel, bool>(file =>
                     ProtoBuffBase.SerializeList(campaignInteractedDatas, file + $"\\{network}InteractedData.bin"));
                 GlobusLogHelper.log.Debug("Campaigns interacted data's succesfully saved");
             }

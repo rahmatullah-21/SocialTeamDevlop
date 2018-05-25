@@ -19,9 +19,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(2)]
         public SortedList<string, DateTime> InteractedData { get; set; } = new SortedList<string, DateTime>();
 
-        [ProtoMember(3)]
-        public Dictionary<string, CampaignInteractionDataModel> CampaignInteractedCollections { get; set; } = new Dictionary<string, CampaignInteractionDataModel>();
+       
 
     }
-
 }
