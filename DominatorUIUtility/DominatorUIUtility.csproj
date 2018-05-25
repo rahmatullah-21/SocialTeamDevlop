@@ -179,6 +179,7 @@
     <Compile Include="Behaviours\HeaderHelper.cs" />
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
     <Compile Include="Behaviours\ReportManager.cs" />
+    <Compile Include="Behaviours\SelectionChangedBehaviour.cs" />
     <Compile Include="Behaviours\UserFilterAction.cs" />
     <Compile Include="Behaviours\Utilities.cs" />
     <Compile Include="ConfigControl\EmailNotifications.xaml.cs">

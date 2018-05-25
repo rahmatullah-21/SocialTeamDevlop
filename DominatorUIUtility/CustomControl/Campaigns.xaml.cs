@@ -593,30 +593,7 @@ namespace DominatorUIUtility.CustomControl
             AllCampaign.Unchecked += AllCampaignChecked_Unchecked;
         }
 
-        //private void AccountWiseDetails_OnClick(object sender, RoutedEventArgs e)
-        //{
-        //    CampaignDetails currentCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
-
-        //    if (currentCampaign.SelectedAccountList.Count == 0)
-        //    {
-        //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-        //            "No account is selected for this campaign.");
-        //        return;
-        //    }
-        //    try
-        //    {
-        //        CampaignAccountWiseReport campaignAccountWiseReport = new CampaignAccountWiseReport(currentCampaign);
-        //        Dialog objDialog = new Dialog();
-        //        Window win = objDialog.GetMetroWindow(campaignAccountWiseReport, "Account wise Reports");
-        //        win.ShowDialog();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        GlobusLogHelper.log.Error(ex.Message);
-        //    }
-
-
-        //}
+     
       
     }
 }

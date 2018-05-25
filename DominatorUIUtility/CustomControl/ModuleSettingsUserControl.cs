@@ -1865,7 +1865,7 @@ namespace DominatorUIUtility.CustomControl
                     accountDetails.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
 
                     moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
-                    moduleConfiguration.IsEnabled = true;
+                    moduleConfiguration.IsEnabled = false;
                     moduleConfiguration.Status = "Active";
                     AccountsFileManager.Edit(accountDetails);
                     SetModuleValues(moduleConfiguration.IsEnabled, null);
