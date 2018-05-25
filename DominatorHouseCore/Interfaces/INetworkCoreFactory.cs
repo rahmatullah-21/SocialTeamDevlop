@@ -39,6 +39,7 @@ namespace DominatorHouseCore.Interfaces
 
         IViewCampaignsFactory ViewCampaigns { get; set; }
 
+        ICampaignInteractionDetails CampaignInteractionDetails { get; set; }
 
     }
 }
