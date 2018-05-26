@@ -12,20 +12,7 @@ namespace DominatorHouseCore.Models
     public class ProxyManagerModel : BindableBase
     {
        
-        private ICollectionView _proxyManagerCollection ;
-        public ICollectionView ProxyManagerCollection
-        {
-            get
-            {
-                return _proxyManagerCollection;
-            }
-            set
-            {
-                if (_proxyManagerCollection != null && _proxyManagerCollection == value)
-                    return;
-                SetProperty(ref _proxyManagerCollection, value);
-            }
-        }
+        
 
         private Proxy _accountProxy = new Proxy();
         [ProtoMember(1)]

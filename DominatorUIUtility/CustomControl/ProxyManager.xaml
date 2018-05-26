@@ -8,13 +8,7 @@
              xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
              xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
-             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours"
-             xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
-    <interactivity:Interaction.Triggers>
-        <interactivity:EventTrigger EventName="Loaded">
-            <interactivity:InvokeCommandAction Command="{Binding LoadCommand}"/>
-        </interactivity:EventTrigger>
-    </interactivity:Interaction.Triggers>
+             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
     <UserControl.Resources>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converter:ProxyPortToIpAddressConvertor x:Key="ProxyPortToIpAddressConvertor"/>
@@ -593,15 +587,22 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="{DynamicResource langName}" Binding="{Binding AccountProxy.ProxyName}"/>
+                <DataGridTemplateColumn Header="{DynamicResource langName}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding AccountProxy.ProxyName}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                                   
                 <DataGridTemplateColumn Header="{DynamicResource langProxyIpPort}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Width="120"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}">
+                            <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}">
                                 <TextBox.Text>
                                     <MultiBinding Converter="{StaticResource ProxyPortToIpAddressConvertor}" UpdateSourceTrigger="PropertyChanged"  >
                                         <MultiBinding.ValidationRules>
-                                            <validation:IPAddressValidation ValidationStep="CommittedValue" />
+                                            <validation:IPAddressValidation ValidationStep="ConvertedProposedValue" />
                                         </MultiBinding.ValidationRules>
                                         <Binding Path="AccountProxy.ProxyIp" />
                                         <Binding Path="AccountProxy.ProxyPort" />
@@ -612,10 +613,21 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="{DynamicResource langProxyUsername}" Binding="{Binding AccountProxy.ProxyUsername}"/>
-                <DataGridTextColumn Header="{DynamicResource langProxyPassword}" Binding="{Binding AccountProxy.ProxyPassword}"/>
+                <DataGridTemplateColumn Header="{DynamicResource langProxyUsername}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding AccountProxy.ProxyUsername}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{DynamicResource langProxyPassword}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding AccountProxy.ProxyPassword}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="{DynamicResource langSocialProfiles}">
-
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -644,8 +656,8 @@
                                           Content="{DynamicResource langAdd}"
                                           Command="{Binding DataContext.DropDownCommand,
                                           RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                          CommandParameter="{Binding}">
-                                    <Controls:DropDownButton.Style>
+                                          CommandParameter="{Binding}" IsEnabled="True">
+                                    <!--<Controls:DropDownButton.Style>
                                         <Style TargetType="{x:Type Controls:DropDownButton}">
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Path=AccountsToBeAssign.Count}" Value="0">
@@ -653,7 +665,7 @@
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Controls:DropDownButton.Style>
+                                    </Controls:DropDownButton.Style>-->
                                 </Controls:DropDownButton>
 
                             </StackPanel>

@@ -62,11 +62,30 @@ namespace DominatorUIUtility.CustomControl
         #endregion
         public ProxyManager(DominatorAccountViewModel.AccessorStrategies strategies)
         {
-            ProxyManagerViewModel._strategies = strategies;
-            InitializeComponent();
 
+            InitializeComponent();
+            ProxyManagerViewModel._strategies = strategies;
             MainGrid.DataContext = ProxyManagerViewModel;
-          
+            ProxyManagerViewModel.ProxyManagerCollection =
+                CollectionViewSource.GetDefaultView(ProxyManagerViewModel.LstProxyManagerModel);
+            ProxyManagerViewModel.StartAddingItems();
+
+
+
+        }
+
+        private static ProxyManager _proxyManagerInstance = null;
+        public static ProxyManager GetProxyManagerControl(DominatorAccountViewModel.AccessorStrategies strategies)
+        {
+            try
+            {
+                return _proxyManagerInstance ?? (_proxyManagerInstance = new ProxyManager(strategies));
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return _proxyManagerInstance;
+            }
         }
 
     }
