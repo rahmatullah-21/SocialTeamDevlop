@@ -1404,7 +1404,7 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
-        [Obsolete("Don't use AccountGrowthHeader_OnSaveClick method instead use SaveAccountGrowthSettings with parameter")]
+        [Obsolete("Don't use AccountGrowthHeader_OnSaveClick method instead use SaveAccountGrowthSettings with parameter",true)]
         protected void AccountGrowthHeader_OnSaveClick(object sender, RoutedEventArgs e)
         {
             if (!ValidateExtraProperty()) return;
@@ -1554,15 +1554,40 @@ namespace DominatorUIUtility.CustomControl
             return true;
         }
 
-
+        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveIndividualAccountConfiguration with 2 parameters", true)]
         protected void SaveIndividualAccountConfiguration(string selectedAccount)
         {
             try
             {
+                if (!ValidateExtraProperty()) return;
+                if (!ValidateRunningTime()) return;
                 var accountModel = AccountsFileManager.GetAccount(selectedAccount);
                 var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
                 var accountstemplateId = moduleConfiguration.TemplateId;
                 UpdateTemplate(accountModel, accountstemplateId);
+                UpdateRunningTime(Model.JobConfiguration, accountModel);
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!", MessageDialogStyle.Affirmative);
+                UpdateTemplate(accountModel, accountstemplateId);
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        protected void SaveIndividualAccountConfiguration()
+        {
+            try
+            {
+                if (!ValidateExtraProperty()) return;
+                if (!ValidateRunningTime()) return;
+                //var selectedAccountDetails = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == _accountGrowthModeHeader.SelectedItem);
+                var accountModel = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem,_socialNetwork);
+                var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
+                var accountstemplateId = moduleConfiguration.TemplateId;
+                UpdateTemplate(accountModel, accountstemplateId);
+                UpdateRunningTime(Model.JobConfiguration, accountModel);
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!", MessageDialogStyle.Affirmative);
             }
             catch (Exception ex)
             {
@@ -1571,15 +1596,25 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        protected void ChangeAccountsModuleStatus(bool isStart, string selectedAccount, SocialNetworks socialNetworks)
+        protected bool ChangeAccountsModuleStatus(bool isStart, string selectedAccount, SocialNetworks socialNetworks)
         {
             try
             {
-                var accountModel = AccountsFileManager.GetAccount(selectedAccount);
+                var accountModel = AccountsFileManager.GetAccount(selectedAccount, socialNetworks);
                 var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
                 var accountstemplateId = moduleConfiguration.TemplateId;
+
                 if (isStart)
                 {
+                    if (moduleConfiguration.LstRunningTimes!=null)
+                    {
+                        return false;
+                    }
+                    //if (!ValidateRunningTime())
+                    //{
+                        
+                    //};
+                    if (!ValidateExtraProperty())return false;
                     moduleConfiguration.IsEnabled = true;
                     DominatorScheduler.ScheduleTodayJobs(accountModel, socialNetworks, _activityType);
                 }
@@ -1590,39 +1625,46 @@ namespace DominatorUIUtility.CustomControl
                         _activityType.ToString(), accountstemplateId);
                 }
                 UpdateModuleStatus(accountModel, moduleConfiguration);
+                return true;
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
+                return false;
             }
         }
 
         private void UpdateTemplate(DominatorAccountModel accountModel, string accountstemplateId)
         {
-            if (accountModel.IsCretedFromNormalMode)
+            try
             {
-                accountModel.IsCretedFromNormalMode = false;
-                CampaignsFileManager.DeleteSelectedAccount(accountstemplateId, _accountGrowthModeHeader.SelectedItem);
-                AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, accountModel);
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(accountstemplateId))
+                if (accountModel.IsCretedFromNormalMode)
+                {
+                    accountModel.IsCretedFromNormalMode = false;
+                    CampaignsFileManager.DeleteSelectedAccount(accountstemplateId, _accountGrowthModeHeader.SelectedItem);
                     AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, accountModel);
-
-                // Updating existing template
+                }
                 else
-                    TemplatesFileManager.UpdateActivitySettings(accountstemplateId,
-                        JsonConvert.SerializeObject((TModel)Model));
-            }
+                {
+                    if (string.IsNullOrEmpty(accountstemplateId))
+                        AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, accountModel);
 
-            AccountsFileManager.Edit(accountModel);
+                    // Updating existing template
+                    else
+                        TemplatesFileManager.UpdateActivitySettings(accountstemplateId,
+                            JsonConvert.SerializeObject((TModel)Model));
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog("Accounts details not saved!");
+            }
         }
 
         private void UpdateModuleStatus(DominatorAccountModel accountModel, ModuleConfiguration moduleConfiguration)
         {
-            var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
-            SetModuleValues(moduleConfiguration.IsEnabled, templateDetails); //Added to fix issue with accountModel data context not getting set
+            //var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
+            //SetModuleValues(moduleConfiguration.IsEnabled, templateDetails); //Added to fix issue with accountModel data context not getting set
             AccountsFileManager.Edit(accountModel);
         }
 
@@ -1630,16 +1672,31 @@ namespace DominatorUIUtility.CustomControl
 
         public void UpdateRunningTime(JobConfiguration jobConfiguration, DominatorAccountModel account)
         {
-            jobConfiguration.RunningTime.ForEach(x =>
+            try
             {
-                foreach (var timingRange in x.Timings)
-                    timingRange.Module = _activityType.ToString();
-            });
-            account.ActivityManager.RunningTime = jobConfiguration.RunningTime;
-            var accountModuleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
+                jobConfiguration.RunningTime.ForEach(x =>
+                    {
+                        foreach (var timingRange in x.Timings)
+                            timingRange.Module = _activityType.ToString();
+                    });
+                account.ActivityManager.RunningTime = jobConfiguration.RunningTime;
+                var accountModuleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
 
-            if (accountModuleSettings != null)
-                accountModuleSettings.LstRunningTimes = jobConfiguration.RunningTime;
+                if (accountModuleSettings != null)
+                {
+                    if (accountModuleSettings.LstRunningTimes == null)
+                        accountModuleSettings.LstRunningTimes = new List<RunningTimes>();
+
+                    accountModuleSettings.LstRunningTimes = jobConfiguration.RunningTime;                 
+                }
+
+                AccountsFileManager.Edit(account);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            
         }
 
         private static void AddNewTemplate<T>(T moduleToSave, string userName, ActivityType moduleType, DominatorAccountModel account) where T : class

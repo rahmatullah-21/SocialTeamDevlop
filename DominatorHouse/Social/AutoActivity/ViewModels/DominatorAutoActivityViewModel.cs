@@ -147,7 +147,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                     AccountsCollection.Clear();
                 }
 
-             
+
 
                 // if accounts count more than one means generate the activities
                 if (accounts != null)
@@ -186,7 +186,8 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                                                 .Add(new ActivityDetailsModel
                                                 {
                                                     Status = activityData.IsEnabled,
-                                                    Title = x.ToString()
+                                                    Title = x,
+                                                    AccountId = account.AccountId
                                                 });
                                         }
                                         // if activity not present then add to list with default status
@@ -196,7 +197,8 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                                                 .Add(new ActivityDetailsModel
                                                 {
                                                     Status = false,
-                                                    Title = x.ToString()
+                                                    Title = x,
+                                                    AccountId = account.AccountId
                                                 });
                                         }
                                     }

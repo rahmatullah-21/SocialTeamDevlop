@@ -5,8 +5,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouse.Social.AutoActivity.ViewModels;
 using DominatorHouseCore;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 
 namespace Socinator.Social.AutoActivity.Views
@@ -97,7 +100,7 @@ namespace Socinator.Social.AutoActivity.Views
             else
             {
                 SocialActivity.DataContext = DominatorAutoActivityViewModel;
-            }          
+            }
         }
 
         private void GotoTools(object sender)
@@ -116,15 +119,11 @@ namespace Socinator.Social.AutoActivity.Views
 
         private void SocialAutoActivity_OnLoaded(object sender, RoutedEventArgs e)
         {
-            Task.Factory.StartNew(()=> {
+            Task.Factory.StartNew(() =>
+            {
                 DominatorAutoActivityViewModel.InitializeAccounts();
                 SetDataContext();
             });
-        }
-
-        private void ActivityStatusChanged_OnIsCheckedChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void GotoToolsByName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -134,5 +133,23 @@ namespace Socinator.Social.AutoActivity.Views
             => GotoTools(sender);
 
 
+        private void ActivityStatusChanged_OnClick(object sender, RoutedEventArgs e)
+        {
+            var currentDataContext = ((FrameworkElement)sender).DataContext as ActivityDetailsModel;
+
+            if (currentDataContext == null)
+                return;
+
+            var status = DominatorScheduler.ChangeAccountsRunningStatus(currentDataContext.Status, currentDataContext.AccountId,
+                currentDataContext.Title);
+
+            if (!status)
+            {
+                GlobusLogHelper.log.Info($"{currentDataContext.Title} doesn't register with any template before with particular account!");
+                currentDataContext.Status = false;
+            }
+                
+
+        }
     }
 }
