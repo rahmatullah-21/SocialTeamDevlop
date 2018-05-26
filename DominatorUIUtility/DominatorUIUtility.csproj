@@ -360,6 +360,7 @@
     <Compile Include="Views\Publisher\PublisherIndexPage.xaml.cs">
       <DependentUpon>PublisherIndexPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\MediaViewer.cs" />
     <Compile Include="Views\SocioPublisher\PublisherAddPost.xaml.cs">
       <DependentUpon>PublisherAddPost.xaml</DependentUpon>
     </Compile>
@@ -675,6 +676,10 @@
     <Page Include="Styles\BaseStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\PrussianBlue.xaml">
       <SubType>Designer</SubType>

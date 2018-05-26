@@ -5,7 +5,7 @@ using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.ViewModel.SocioPublisher
 {
-    public class PublisherMediaViewerViewModel : BindableBase
+    public class PublisherMediaViewerViewModel 
     {
         public PublisherMediaViewerViewModel()
         {
@@ -19,24 +19,10 @@ namespace DominatorHouseCore.ViewModel.SocioPublisher
 
         public ICommand GoNextCommand { get; set; }
 
-        private PublisherMediaViewerModel _publisherMediaViewerModel = new PublisherMediaViewerModel();
-
-        public PublisherMediaViewerModel PublisherMediaViewerModel
-        {
-            get
-            {
-                return _publisherMediaViewerModel;
-            }
-            set
-            {
-                if (_publisherMediaViewerModel == value)
-                    return;
-                _publisherMediaViewerModel = value;
-                OnPropertyChanged(nameof(PublisherMediaViewerModel));
-            }
-        }
+        public PublisherMediaViewerModel PublisherMediaViewerModel { get; set; } = new PublisherMediaViewerModel();
 
         #endregion
+
 
         private bool GoPreviousCanExecute(object sender) => true;
 

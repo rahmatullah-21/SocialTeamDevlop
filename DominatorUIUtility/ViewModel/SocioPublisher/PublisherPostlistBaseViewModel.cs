@@ -32,6 +32,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             DeleteCommand = new BaseCommand<object>(DeleteCanExecute, DeleteExecute);
             EditSinglePostCommand = new BaseCommand<object>(EditSinglePostCanExecute, EditSinglePostExecute);
             DeleteSinglePostCommand = new BaseCommand<object>(DeleteSinglePostCanExecute, DeleteSinglePostExecute);
+
             PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
         }
 

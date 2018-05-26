@@ -34,12 +34,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
         }
 
-        //private static PublisherManagePostDrafts _instance;
-      
-
-        //public static PublisherManagePostDrafts Instance { get; set; }
-        //    = _instance ?? (_instance = new PublisherManagePostDrafts());
-
+ 
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

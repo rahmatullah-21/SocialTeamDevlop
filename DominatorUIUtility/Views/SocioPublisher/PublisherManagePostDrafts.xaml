@@ -192,7 +192,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <mediaviewer:PublisherMediaViewer PublisherMediaViewerViewModel="{Binding PublisherMediaViewerViewModel}"/>
+                                    <mediaviewer:PublisherMediaViewer PublisherMediaViewerViewModel="{Binding PublisherMediaViewerViewModel,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

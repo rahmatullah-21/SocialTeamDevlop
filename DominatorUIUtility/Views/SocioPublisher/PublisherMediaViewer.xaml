@@ -8,7 +8,7 @@
              Name="MediaViewer">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <Button x:Name="BtnBack" Cursor="Hand"  IsEnabled="{Binding PublisherMediaViewerViewModel.IsEnablePreviousNext}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="1,0,2,0" Command="{Binding PublisherMediaViewerViewModel.GoPreviousCommand}" CommandParameter="{Binding}">
+            <Button x:Name="BtnBack" Cursor="Hand"  IsEnabled="{Binding IsEnablePreviousNext}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="1,0,2,0" Command="{Binding GoPreviousCommand}" CommandParameter="{Binding}">
                 <Button.Template>
                     <ControlTemplate>
                         <Border HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -24,9 +24,9 @@
                 </Button.Template>
             </Button>
 
-            <Image Width="50" Margin="1" Source="{Binding PublisherMediaViewerViewModel.PublisherMediaViewerModel.MediaUrl}"></Image>
+            <Image Width="50" Margin="1" Source="{Binding PublisherMediaViewerModel.MediaUrl}"></Image>
 
-            <Button x:Name="BtnForward" Cursor="Hand" IsEnabled="{Binding PublisherMediaViewerViewModel.IsEnableGoNext}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="2,0,2,0" Command="{Binding PublisherMediaViewerViewModel.GoNextCommand}" CommandParameter="{Binding}">
+            <Button x:Name="BtnForward" Cursor="Hand" IsEnabled="{Binding IsEnableGoNext}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="2,0,2,0" Command="{Binding GoNextCommand}" CommandParameter="{Binding}">
                 <Button.Template>
                     <ControlTemplate>
                         <Border HorizontalAlignment="Center" VerticalAlignment="Center">

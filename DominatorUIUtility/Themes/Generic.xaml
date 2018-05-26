@@ -1,0 +1,62 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DominatorUIUtility"
+    xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl">
+
+    <Style TargetType="{x:Type customControl:MediaViewer}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type customControl:MediaViewer}">
+                    <Border Background="{TemplateBinding Background}" x:Name="PART_Border"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <StackPanel Orientation="Horizontal" x:Name="PART_MainStackPanel">
+
+                            <Button x:Name="PART_NavigatePreviousImage" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="1,0,2,0">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Rectangle Width="10" Height="10" Fill="{DynamicResource AccentBaseColorBrush}" >
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_navigate_previous}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Image x:Name="PART_Image" Width="50" Margin="1"></Image>
+
+                            <Button x:Name="PART_NavigateNextImage" Cursor="Hand"  Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="2,0,2,0" >
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Rectangle Width="10" Height="10" Fill="{DynamicResource AccentBaseColorBrush}" >
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_navigate_next}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <StackPanel x:Name="PART_MediaDetailsStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0,0,0">
+                                <TextBlock x:Name="PART_CurrentPointerMediaId" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
+                                <TextBlock Text="/" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
+                                <TextBlock x:Name="PART_TotalMediacount" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
