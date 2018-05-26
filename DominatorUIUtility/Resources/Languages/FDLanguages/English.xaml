@@ -275,6 +275,13 @@
     <system:String x:Key="FdlangRequestSentBefore">Request should have been sent before</system:String>
 
 
+
+    <system:String x:Key="FdlangGroupAddedBySoftware">Group Added by Software</system:String>
+
+    <system:String x:Key="FdlangGroupAddedOutsideSoftware">Group Added Outside Software</system:String>
+
+    <system:String x:Key="FdlnagUniqueUsers">Send reuest to unique users</system:String>
+
     <system:String x:Key="FdlangSendRequestWarning">These accounts are already running with Send Friend Request configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="FdlangUnfriendWarning">These accounts are already running with Unfriend configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="FdlangIncommingFriendRequestWarning">These accounts are already running with Incomming Friend Request configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>

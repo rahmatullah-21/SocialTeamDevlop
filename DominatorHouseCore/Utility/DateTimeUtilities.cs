@@ -49,12 +49,15 @@ namespace DominatorHouseCore.Utility
             return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds((double)epoch);
         }
 
+        public static DateTime EpochToDateTimeUtc(this Int64 epoch)
+        {
+            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds((double)epoch);
+        }
         public static DateTime EpochToDateTimeUtc(this double epoch)
         {
             return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(
                 (double)epoch);
         }
-
 
         public static TimeSpan EpochToTimeSpan(this int epoch)
         {

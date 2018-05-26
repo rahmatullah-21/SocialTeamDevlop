@@ -205,6 +205,7 @@
 
     <system:String x:Key="YdlangStatus">Status</system:String>
 
-
+    <system:String x:Key="YDlangOtherConfigurations">Other Configurations</system:String>
+    <system:String x:Key="YdlangSubscribeUniqueUsers">Subscribe Unique Users</system:String>
 
 </ResourceDictionary>

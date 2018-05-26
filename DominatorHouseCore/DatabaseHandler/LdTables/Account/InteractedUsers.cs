@@ -30,7 +30,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         [Column(Order = 3)]
         public string QueryValue { get; set; }
 
-        [Index("Pk_ActivityType_UserProfileUrl", 1, IsUnique = true)]
+       
         /// <summary>
         /// Describes Activity 
         /// </summary>
@@ -48,7 +48,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// <summary>
         /// Contains ProfileUrl Of the Interacted User
         /// </summary>
-        [Index("Pk_ActivityType_UserProfileUrl", 2, IsUnique = true)]
+       
         [Column(Order = 6)]
         public string UserProfileUrl
         { get; set; }
