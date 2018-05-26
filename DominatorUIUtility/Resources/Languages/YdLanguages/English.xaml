@@ -14,6 +14,8 @@
     <system:String x:Key="YdlangLikeWarning">These accounts are already running with Like configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="YdlangDislikeWarning">These accounts are already running with Dislike configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="YdlangLikeCommentWarning">These accounts are already running with LikeComment configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="YdlangLikeToCommentWarning">These accounts are already running with LikeToComment configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="YdlangReplyToCommentWarning">These accounts are already running with ReplyToComment configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="YdlangCommentWarning">These accounts are already running with Comment configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="YdlangDeleteCommentWarning">These accounts are already running with DeleteComment configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="YdlangShareWarning">These accounts are already running with Share configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
@@ -38,6 +40,7 @@
     <system:String x:Key="YdlangEngageDislike">Dislike</system:String>
     <system:String x:Key="YdlangEngageDeleteComment">Delete Comment</system:String>
     <system:String x:Key="YdlangEngageLikeToComment">Like To Comment</system:String>
+    <system:String x:Key="YdlangEngageReplyToComment">Reply To Comment</system:String>
     <system:String x:Key="YdlangGrowSubscribersMessage">Message</system:String>
     <system:String x:Key="YdlangScraperUserScraper">User Scraper</system:String>
     <system:String x:Key="YdlangScraperPostScraper">Post Scraper</system:String>

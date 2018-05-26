@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 {
-   public class InteractedSubreddit
+    public class InteractedSubreddit
     {
 
     }

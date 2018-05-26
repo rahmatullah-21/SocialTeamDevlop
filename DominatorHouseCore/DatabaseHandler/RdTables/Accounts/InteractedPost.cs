@@ -24,6 +24,7 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         [Column(Order = 4)]
         public string Query { get; set; }
 
+
         [Column(Order = 5)]
         public string QueryType
         { get; set; }
@@ -52,6 +53,21 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         public string SinAccId { get; set; }
 
         [Column(Order = 24)]
-        public string SinAccUsername { get; set; }
+        public string BriefInfo { get; set; }
+
+        [Column(Order = 25)]
+        public string CommentsCount { get; set; }
+
+        [Column(Order = 26)]
+        public string CommentUrl { get; set; }
+
+        [Column(Order = 27)]
+        public string PostCreationDate { get; set; }
+
+        [Column(Order = 28)]
+        public string Title { get; set; }
+
+        [Column(Order = 29)]
+        public string PointsCount { get; set; }
     }
 }

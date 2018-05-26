@@ -41,5 +41,7 @@ namespace Socinator.DominatorCores
 
         public IViewCampaignsFactory ViewCampaigns { get; set; }
 
+        public ICampaignInteractionDetails CampaignInteractionDetails { get; set; }
+
     }
 }

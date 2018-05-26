@@ -270,6 +270,7 @@
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedPost.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedSubreddit.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Campaigns\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\Friendship.cs" />
@@ -341,6 +342,7 @@
     <Compile Include="FileManagers\TwitterFileManager.cs" />
     <Compile Include="FileManagers\YoutubeFileManager.cs" />
     <Compile Include="Interfaces\ColumnSpecificationAdapter.cs" />
+    <Compile Include="Interfaces\ICampaignInteractionDetails.cs" />
     <Compile Include="Interfaces\IChannel.cs" />
     <Compile Include="Interfaces\IComments.cs" />
     <Compile Include="Interfaces\ICommunity.cs" />
@@ -392,6 +394,8 @@
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
     <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
+    <Compile Include="Models\CampaignInteractionDataModel.cs" />
+    <Compile Include="ViewModel\CampaignInteractionViewModel.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ContentSelectGroup.cs" />
     <Compile Include="Models\CookieHelper.cs" />
@@ -481,6 +485,7 @@
     <Compile Include="Settings\RunningTimeSpanModel.cs" />
     <Compile Include="Models\UserFilterModel.cs" />
     <Compile Include="Utility\BinFileHelper.cs" />
+    <Compile Include="Utility\CampaignInteractedUtility.cs" />
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DataBaseHandler.cs" />
     <Compile Include="Utility\DateTimeHelper.cs" />

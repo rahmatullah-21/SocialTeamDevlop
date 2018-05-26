@@ -9,6 +9,8 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
 {
     public class InteractedPost
     {
+        public string CommentsCount;
+
         [Column(Order = 1)]
         public string RedditId { get; set; }
 
@@ -25,11 +27,24 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
         public string header { get; set; }
 
         [Column(Order = 6)]
-        public double RedditTimeStamp { get; set; }
+        public double BriefInfoqq { get; set; }
 
         [Column(Order = 7)]
         public int InteractionDate { get; set; }
 
-       
+        [Column(Order = 8)]
+        public string CommentUrl { get; set; }
+
+        [Column(Order = 9)]
+        public string BriefInfo { get; set; }
+
+        [Column(Order = 10)]
+        public string PostCreationDate { get; set; }
+
+        [Column(Order = 11)]
+        public string Title { get; set; }
+
+        [Column(Order = 12)]
+        public string PointsCount { get; set; }
     }
 }

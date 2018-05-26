@@ -410,5 +410,11 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
+        public NetworkCoreLibraryBuilder AddCampaignInteractedDetailsFactory(ICampaignInteractionDetails campaignInteractionDetails)
+        {
+            NetworkCoreFactory.CampaignInteractionDetails = campaignInteractionDetails;
+            return this;
+        }
+
     }
 }
