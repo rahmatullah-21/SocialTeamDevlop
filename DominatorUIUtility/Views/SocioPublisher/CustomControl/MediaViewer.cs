@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,10 +54,15 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
     [TemplatePart(Name = TextBlockTotalMediacount, Type = typeof(TextBlock))]
     public class MediaViewer : Control
     {
+        #region Constructor
+
         static MediaViewer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MediaViewer), new FrameworkPropertyMetadata(typeof(MediaViewer)));
         }
+
+        #endregion
+
 
         #region Properties
 
@@ -70,15 +76,30 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         /// <summary>
         /// To store all media items 
         /// </summary>
-        public List<string> MediaList
+        public ObservableCollection<string> MediaList
         {
-            get { return (List<string>)GetValue(MediaListProperty); }
-            set { SetValue(MediaListProperty, value); }
+            get
+            {
+                return (ObservableCollection<string>)GetValue(MediaListProperty);
+            }
+            set
+            {
+                SetValue(MediaListProperty, value);
+
+                if (MediaList.Count > 0)
+                {
+                    TotalMediaCount = MediaList.Count;
+                    CurrentMediaPointer = 1;
+                    CurrentMediaUrl = MediaList[CurrentMediaPointer - 1];
+                    IsEnablePreviousPointer = false;
+                    IsEnableNextPointer = MediaList.Count > 1;
+                }
+            }
         }
 
         // Using a DependencyProperty as the backing store for MediaList.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MediaListProperty =
-            DependencyProperty.Register("MediaList", typeof(List<string>), typeof(MediaViewer), new PropertyMetadata(new List<string>()));
+            DependencyProperty.Register("MediaList", typeof(ObservableCollection<string>), typeof(MediaViewer), new PropertyMetadata(new ObservableCollection<string>()));
 
         /// <summary>
         /// To specify the current media url
@@ -153,14 +174,23 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             DependencyProperty.Register("IsEnablePreviousPointer", typeof(bool), typeof(MediaViewer), new PropertyMetadata(false));
 
 
-        private Border _border;
-        private Button _buttonPreviousImage;
-        private Image _mediaImage;
-        private Button _buttonNextImage;
-        private TextBlock _textBlockCurrentPointer;
-        private TextBlock _textTotalMediaCount;
+        Border _border;
+        Button _buttonPreviousImage = new Button();
+        Image _mediaImage;
+        Button _buttonNextImage = new Button();
+        TextBlock _textBlockCurrentPointer;
+        TextBlock _textTotalMediaCount;
+
+
+        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            // Breakpoint here to see if the new value is being set
+            var newValue = e.NewValue;
+        }
+
 
         #endregion
+
 
         #region Apply Template
 
@@ -168,18 +198,117 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         {
             base.OnApplyTemplate();
 
-            if (Template != null)
+            if (Template == null)
+                return;
+
+            _border = Template.FindName(Border, this) as Border;
+
+            #region Media Image
+
+            CurrentMediaUrl = "C:\\Users\\Public\\Pictures\\Sample Pictures\\2.jpg";
+
+            _mediaImage = Template.FindName(Image, this) as Image;
+            var mediaImage = new BitmapImage();
+            mediaImage.BeginInit();
+            mediaImage.UriSource = new Uri(CurrentMediaUrl, UriKind.Relative);           
+            mediaImage.EndInit();
+
+            if (_mediaImage != null)
+                _mediaImage.Source = mediaImage;
+
+            #endregion
+
+
+
+            _textBlockCurrentPointer = Template.FindName(TextBlockCurrentPointerMediaId, this) as TextBlock;
+
+            if (_textBlockCurrentPointer != null)
+                _textBlockCurrentPointer.Text = "10";
+
+            _textTotalMediaCount = Template.FindName(TextBlockTotalMediacount, this) as TextBlock;
+
+            //Previous image button event register
+            #region Previous image button event register
+
+            var buttonPreviousImage = Template.FindName(ButtonNavigatePreviousImage, this) as Button;
+            if (!_buttonPreviousImage.Equals(buttonPreviousImage))
             {
-                _border = Template.FindName(Border, this) as Border;
-                _buttonPreviousImage = Template.FindName(ButtonNavigatePreviousImage, this) as Button;
-                _mediaImage = Template.FindName(Image, this) as Image;
-                _buttonNextImage = Template.FindName(ButtonNavigateNextImage, this) as Button;
-                _textBlockCurrentPointer = Template.FindName(TextBlockCurrentPointerMediaId, this) as TextBlock;
-                _textTotalMediaCount = Template.FindName(TextBlockTotalMediacount, this) as TextBlock;
+                //Unhook existing events
+                if (buttonPreviousImage != null)
+                    buttonPreviousImage.Click -= PreviousImageClick;
+
+                _buttonPreviousImage = buttonPreviousImage;
+
+                //Add new events
+                if (buttonPreviousImage != null)
+                    buttonPreviousImage.Click += PreviousImageClick;
             }
+
+            #endregion
+
+            //Next image button event register
+            #region Next image button event register
+
+            var buttonNextImage = Template.FindName(ButtonNavigateNextImage, this) as Button;
+            if (!_buttonNextImage.Equals(buttonNextImage))
+            {
+                //Unhook existing events
+                if (buttonNextImage != null)
+                    buttonNextImage.Click -= NextImageClick;
+
+                _buttonNextImage = buttonNextImage;
+
+                //Add new events
+                if (buttonNextImage != null)
+                    buttonNextImage.Click += NextImageClick;
+            }
+
+            #endregion
 
         }
 
         #endregion
+
+        #region Events Handler
+
+        public void NextImageClick(object sender, RoutedEventArgs args)
+        {
+
+
+
+
+            if (MediaList.Count <= 0)
+                return;
+            TotalMediaCount = MediaList.Count;
+            ++CurrentMediaPointer;
+            CurrentMediaUrl = MediaList[CurrentMediaPointer - 1];
+
+            _mediaImage = Template.FindName(Image, this) as Image;
+            var mediaImage = new BitmapImage();
+            mediaImage.BeginInit();
+            mediaImage.UriSource = new Uri(CurrentMediaUrl, UriKind.Relative);
+            mediaImage.EndInit();
+
+            if (_mediaImage != null)
+                _mediaImage.Source = mediaImage;
+
+            IsEnablePreviousPointer = (MediaList.Count - CurrentMediaPointer) > 0;
+            IsEnableNextPointer = MediaList.Count > 1;
+        }
+
+        public void PreviousImageClick(object sender, RoutedEventArgs args)
+        {
+            if (MediaList.Count <= 0)
+                return;
+
+            TotalMediaCount = MediaList.Count;
+            CurrentMediaPointer = CurrentMediaPointer--;
+            CurrentMediaUrl = MediaList[CurrentMediaPointer - 1];
+            IsEnablePreviousPointer = (MediaList.Count - CurrentMediaPointer) > 0;
+            IsEnableNextPointer = MediaList.Count > 1;
+        }
+
+        #endregion
+
     }
 }

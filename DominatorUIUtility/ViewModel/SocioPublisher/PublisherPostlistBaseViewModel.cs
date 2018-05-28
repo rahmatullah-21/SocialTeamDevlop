@@ -280,8 +280,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         ExpiredTime = DateTime.Now.AddDays(7)
                     };
                     postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\1.jpg");
-                    postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
-                    postlist.PublisherMediaViewerViewModel.PublisherMediaViewerModel.MediaList = postlist.MediaList;
+                    postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");                
                     postItems.Add(postlist);
 
                     var postlist1 = new PublisherPostlistModel
@@ -301,8 +300,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         ExpiredTime = DateTime.Now.AddDays(7)
                     };
                     postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\1.jpg");
-                    postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
-                    postlist1.PublisherMediaViewerViewModel.PublisherMediaViewerModel.MediaList = postlist1.MediaList;
+                    postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");                    
                     postItems.Add(postlist1);
 
                     var postlist2 = new PublisherPostlistModel
@@ -322,8 +320,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         ExpiredTime = DateTime.Now.AddDays(7)
                     };
                     postlist2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\1.jpg");
-                    postlist2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
-                    postlist2.PublisherMediaViewerViewModel.PublisherMediaViewerModel.MediaList = postlist2.MediaList;
+                    postlist2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");                   
                     postItems.Add(postlist2);
                 }
             }
@@ -411,11 +408,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         PublisherPostlist.Add(postItems);
+                        PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
                     });
                 }
                 else
                 {
                     PublisherPostlist.Add(postItems);
+                    PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
                 }
             }
             catch (OperationCanceledException ex)

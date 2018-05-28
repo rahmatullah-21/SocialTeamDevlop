@@ -4,6 +4,21 @@
     xmlns:local="clr-namespace:DominatorUIUtility"
     xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl">
 
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/DHLanguages/English.xaml"/>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/FDLanguages/English.xaml"/>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/GDLanguages/English.xaml"/>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Styles/BaseStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml"/>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml"/>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
     <Style TargetType="{x:Type customControl:MediaViewer}">
         <Setter Property="Template">
             <Setter.Value>
@@ -29,7 +44,7 @@
                                 </Button.Template>
                             </Button>
 
-                            <Image x:Name="PART_Image" Width="50" Margin="1"></Image>
+                            <Image x:Name="PART_Image" Width="50" Margin="1" Source="C:\\Users\\Public\\Pictures\\Sample Pictures\\2.jpg" ></Image>
 
                             <Button x:Name="PART_NavigateNextImage" Cursor="Hand"  Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="2,0,2,0" >
                                 <Button.Template>

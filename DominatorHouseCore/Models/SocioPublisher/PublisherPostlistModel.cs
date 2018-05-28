@@ -300,21 +300,5 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private PublisherMediaViewerViewModel _publisherMediaViewerViewModel = new PublisherMediaViewerViewModel();
-        [ProtoIgnore]
-        public PublisherMediaViewerViewModel PublisherMediaViewerViewModel
-        {
-            get
-            {
-                return _publisherMediaViewerViewModel;
-            }
-            set
-            {
-                if (_publisherMediaViewerViewModel == value)
-                    return;
-                _publisherMediaViewerViewModel = value;
-                OnPropertyChanged(nameof(PublisherMediaViewerModel));
-            }
-        }
     }
 }

@@ -7,6 +7,7 @@
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:mediaviewer="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+             xmlns:customcontrol="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              x:Name="DraftPostList"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -192,7 +193,8 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <mediaviewer:PublisherMediaViewer PublisherMediaViewerViewModel="{Binding PublisherMediaViewerViewModel,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                    <!--<mediaviewer:PublisherMediaViewer PublisherMediaViewerViewModel="{Binding PublisherMediaViewerViewModel,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>-->
+                                    <customcontrol:MediaViewer MediaList="{Binding MediaList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></customcontrol:MediaViewer>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
