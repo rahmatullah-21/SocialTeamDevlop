@@ -147,9 +147,7 @@ namespace Socinator.Social.AutoActivity.Views
             {
                 GlobusLogHelper.log.Info($"{currentDataContext.Title} doesn't register with any template before with particular account!");
                 currentDataContext.Status = false;
-            }
-                
-
+            }               
         }
     }
 }

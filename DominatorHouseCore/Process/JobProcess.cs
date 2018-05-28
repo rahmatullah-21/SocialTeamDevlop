@@ -336,10 +336,24 @@ namespace DominatorHouseCore.Process
                 {
                    
                     GlobusLogHelper.log.Info(Log.ProcessStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+                  
+                    
+                    #region Old
 
+                    //// Login and run scraper/poster from derived concrete classes
+                    //if (Login())
+                    //    RunScrapper();
+
+                    #endregion
+
+
+                    #region New 
                     // Login and run scraper/poster from derived concrete classes
-                    if (Login())
+                    if (Login(JobCancellationTokenSource.Token))
                         RunScrapper();
+                    #endregion
+
+
                 }, JobCancellationTokenSource.Token);
 
                 JobCancellationTokenSource.Token.Register(() =>
@@ -405,6 +419,9 @@ namespace DominatorHouseCore.Process
         ///     Use StartProcessAsync in consumer code to create task and start process.
         /// </summary>
         protected abstract bool Login();
+
+       
+        protected abstract bool Login(CancellationToken token);
 
         /// <summary>
         ///     Does a POST request for certain process after login. Like Follow, Like, Comment etc.

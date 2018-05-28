@@ -360,8 +360,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     moduleConfiguration.IsEnabled = false;
                     StopActivity(accountModel.AccountBaseModel.AccountId,
-                        activityType.ToString(), accountstemplateId);
-                    AccountsFileManager.Edit(accountModel);
+                        activityType.ToString(), accountstemplateId);                 
                 }
 
                 AccountsFileManager.Edit(accountModel);
