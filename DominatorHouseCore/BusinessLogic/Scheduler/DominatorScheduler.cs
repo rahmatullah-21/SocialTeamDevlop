@@ -353,7 +353,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 }
                 if (isStart)
                 {
-
                     moduleConfiguration.IsEnabled = true;
                     ScheduleTodayJobs(accountModel, accountModel.AccountBaseModel.AccountNetwork, activityType);
                 }
@@ -362,6 +361,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     moduleConfiguration.IsEnabled = false;
                     StopActivity(accountModel.AccountBaseModel.AccountId,
                         activityType.ToString(), accountstemplateId);
+                    AccountsFileManager.Edit(accountModel);
                 }
 
                 AccountsFileManager.Edit(accountModel);

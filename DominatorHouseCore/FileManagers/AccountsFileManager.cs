@@ -78,6 +78,13 @@ namespace DominatorHouseCore.FileManagers
         public static void Edit(DominatorAccountModel account)
             => SaveAccount(account);
 
+        public static void EditWhileLogin(DominatorAccountModel account)
+        {
+            var data = GetAccountById(account.AccountId);
+            data.AccountBaseModel.Status = account.AccountBaseModel.Status;
+            SaveAccount(data);
+        }
+
         public static void FillList<T>(ObservableCollection<T> lstAccountModel) where T : class
         {
             lstAccountModel.Clear();

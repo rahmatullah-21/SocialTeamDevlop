@@ -1554,7 +1554,7 @@ namespace DominatorUIUtility.CustomControl
             return true;
         }
 
-        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveIndividualAccountConfiguration with 2 parameters", true)]
+        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveIndividualAccountConfiguration with 2 parameters")]
         protected void SaveIndividualAccountConfiguration(string selectedAccount)
         {
             try
@@ -1598,34 +1598,45 @@ namespace DominatorUIUtility.CustomControl
 
         protected bool ChangeAccountsModuleStatus(bool isStart, string selectedAccount, SocialNetworks socialNetworks)
         {
+            bool tglStatusButton;
             try
             {
-                var accountModel = AccountsFileManager.GetAccount(selectedAccount, socialNetworks);
-                var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
-                var accountstemplateId = moduleConfiguration.TemplateId;
 
+                var accountModel = AccountsFileManager.GetAccount(selectedAccount, socialNetworks);
+
+                var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
+
+                if (moduleConfiguration == null)
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please save your settings, before starting the activity.",
+                        MessageDialogStyle.Affirmative);
+                    tglStatusButton = false;
+                }
+                    
+                var accountstemplateId = moduleConfiguration.TemplateId;
+                if (accountstemplateId == null || moduleConfiguration.LstRunningTimes == null)
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please save your settings, before starting the activity.",
+                        MessageDialogStyle.Affirmative);
+                    tglStatusButton = false;
+                }
                 if (isStart)
                 {
-                    if (moduleConfiguration.LstRunningTimes!=null)
-                    {
-                        return false;
-                    }
-                    //if (!ValidateRunningTime())
-                    //{
-                        
-                    //};
-                    if (!ValidateExtraProperty())return false;
                     moduleConfiguration.IsEnabled = true;
-                    DominatorScheduler.ScheduleTodayJobs(accountModel, socialNetworks, _activityType);
+                    DominatorScheduler.ScheduleTodayJobs(accountModel, accountModel.AccountBaseModel.AccountNetwork, _activityType);
+                    tglStatusButton = true;
                 }
                 else
                 {
                     moduleConfiguration.IsEnabled = false;
                     DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId,
                         _activityType.ToString(), accountstemplateId);
+                    tglStatusButton = false;
                 }
-                UpdateModuleStatus(accountModel, moduleConfiguration);
-                return true;
+
+                AccountsFileManager.Edit(accountModel);
+
+                return tglStatusButton;
             }
             catch (Exception ex)
             {

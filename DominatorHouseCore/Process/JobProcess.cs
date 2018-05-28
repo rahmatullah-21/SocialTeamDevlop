@@ -371,7 +371,7 @@ namespace DominatorHouseCore.Process
                 GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
                 RunningJobProcesses.Remove(Id);
-                JobCancellationTokenSource = null;
+                //JobCancellationTokenSource = null;
             }
         }
 
@@ -417,7 +417,7 @@ namespace DominatorHouseCore.Process
         /// <summary>
         ///     Logs-in to social network and scrap data from its feed
         /// </summary>
-        protected bool LoginBase(ILoginProcess logInProcess)
+        protected bool LoginBase(ILoginProcess logInProcess, CancellationToken cancellationToken)
         {
             try
             {
@@ -433,7 +433,7 @@ namespace DominatorHouseCore.Process
                 {
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
-                    logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
+                    logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true, cancellationToken);
                 }
 
                 if (DominatorAccountModel.IsUserLoggedIn)
