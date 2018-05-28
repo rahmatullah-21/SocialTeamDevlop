@@ -33,7 +33,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// <summary>
         /// Describes Activity 
         /// </summary>
-        [Index("Pk_ActivityType_GroupUrl", 1, IsUnique = true)]
+       
         [Column(Order = 4)]
         public string ActivityType { get; set; }
 
@@ -46,7 +46,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// <summary>
         /// Contains Url of the Group being interacted
         /// </summary>
-        [Index("Pk_ActivityType_GroupUrl", 2, IsUnique = true)]
+      
         [Column(Order = 6)]
         public string GroupUrl { get; set; }
 

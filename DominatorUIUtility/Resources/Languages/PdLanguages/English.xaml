@@ -540,15 +540,15 @@
     <system:String x:Key="PDlangManageMessege﻿">Manage Messege</system:String>
 
     <system:String x:Key="PDlangKeywords">Keywords</system:String>
-    <system:String x:Key="PDlangSomeonesFollowers">SomeonesFollowers</system:String>
-    <system:String x:Key="PDlangSomeonesFollowings">SomeonesFollowings</system:String>
-    <system:String x:Key="PDlangFollowersOfSomeonesFollowings">FollowersOfSomeonesFollowings</system:String>
-    <system:String x:Key="PDlangFollowersOfSomeonesFollowers">FollowersOfSomeonesFollowers</system:String>
-    <system:String x:Key="PDlangUsersWhoTried">UserswhoTriedposts</system:String>
-    <system:String x:Key="PDlangCustomUser">Customusers</system:String>
-    <system:String x:Key="PDlangBoardFollowers">BoardFollowers</system:String>
-    <system:String x:Key="PDlangCustomBoard">CustomBoard</system:String>
-    <system:String x:Key="PDlangCustomPin">CustomPin</system:String>
+    <system:String x:Key="PDlangSomeonesFollowers">Someone's Followers</system:String>
+    <system:String x:Key="PDlangSomeonesFollowings">Someone's Followings</system:String>
+    <system:String x:Key="PDlangFollowersOfSomeonesFollowings">Followers Of Someone's Followings</system:String>
+    <system:String x:Key="PDlangFollowersOfSomeonesFollowers">Followers Of Someone's Followers</system:String>
+    <system:String x:Key="PDlangUsersWhoTried">Users Who Tried Pins</system:String>
+    <system:String x:Key="PDlangCustomUser">Custom Users</system:String>
+    <system:String x:Key="PDlangBoardFollowers">Board Followers</system:String>
+    <system:String x:Key="PDlangCustomBoard">Custom Board</system:String>
+    <system:String x:Key="PDlangCustomPin">Custom Pin</system:String>
 
     <system:String x:Key="PDWhenReach">when reaching</system:String>
     <system:String x:Key="PDlangStopFollowTool">Stop follow tool</system:String>
@@ -558,4 +558,6 @@
     <system:String x:Key="PDlangReplyToNewPendingMessages">Reply to new pending messages (reply only message sent by users that don't follow your acount)</system:String>
     <system:String x:Key="PDlangReplyToAllMessages">Reply to all messages</system:String>
     <system:String x:Key="PDlangReplyToMessagesThatContainsSpecificWord">Reply To Messages That Contains Specific Word</system:String>
+
+    <system:String x:Key="PDlangFollowUniqueUsersFromEachAccount">Follow unique users from each account</system:String>
 </ResourceDictionary>

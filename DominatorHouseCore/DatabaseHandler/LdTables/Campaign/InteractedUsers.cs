@@ -20,7 +20,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         /// <summary>
         /// EmailId of the Account from which Interaction has been done
         /// </summary>
-        [Index("Pk_AccountEmail_ActivityType_UserProfileUrl", 1, IsUnique = true)]
+      
         [Column(Order = 2)]
         public string AccountEmail { get; set; }
 
@@ -37,7 +37,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         [Column(Order = 4)]
         public string QueryValue { get; set; }
 
-        [Index("Pk_AccountEmail_ActivityType_UserProfileUrl", 2, IsUnique = true)]
+     
         /// <summary>
         /// Describes Activity 
         /// </summary>
@@ -55,7 +55,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         /// <summary>
         /// Contains ProfileUrl Of the Interacted User
         /// </summary>
-        [Index("Pk_AccountEmail_ActivityType_UserProfileUrl", 3, IsUnique = true)]
+       
         [Column(Order = 7)]
         public string UserProfileUrl
         { get; set; }
