@@ -77,6 +77,7 @@ namespace DominatorUIUtility.CustomControl
         private void BtnSaveBlacklistsText_OnClick(object sender, RoutedEventArgs e)
         {
             GetInputClickEventHandler();
+            InputCollection.Add(InputText);
         }
 
         private void BtnRefereshBlacklistsText_OnClick(object sender, RoutedEventArgs e)

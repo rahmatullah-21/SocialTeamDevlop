@@ -239,7 +239,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 objAddProxyControl.btnSave.Content = Application.Current.FindResource("langSave").ToString();
                 objAddProxyControl.MainGrid.DataContext = ProxyManagerModel;
-                ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyManagerModel.AccountProxy.ProxyIp.Replace(".", "")}";
+                // ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyManagerModel.AccountProxy.ProxyIp.Replace(".", "")}";
                 Dialog dialog = new Dialog();
                 Window window = dialog.GetMetroWindow(objAddProxyControl, Application.Current.FindResource("langAddProxy").ToString());
                 DialogParticipation.SetRegister(window, window);
@@ -267,9 +267,11 @@ namespace DominatorUIUtility.ViewModel
 
                         //  UpdateAccountsToBeAssign(ProxyManagerModel);
 
-                        ProxyFileManager.SaveProxy(ProxyManagerModel);
+
                         if (IsAllProxySelected)
                             ProxyManagerModel.IsProxySelected = true;
+                        ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyManagerModel.AccountProxy.ProxyIp.Replace(".", "")}{ProxyManagerModel.AccountProxy.ProxyPort}";
+                        ProxyFileManager.SaveProxy(ProxyManagerModel);
                         LstProxyManagerModel.Add(ProxyManagerModel);
 
                         GlobusLogHelper.log.Info(Log.Added, SocialNetworks.Social, ProxyManagerModel.AccountProxy.ProxyIp + " : " +
@@ -395,33 +397,35 @@ namespace DominatorUIUtility.ViewModel
                         Console.WriteLine(ex.StackTrace);
                     }
                 }
+
+                #region Update Import Proxies Status in Logger
+                if (noOfExistingProxies > 0)
+                {
+                    GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Skipped {noOfExistingProxies} already existing proxie(s)");
+                }
+                if (noOfProxyAdded > 0)
+                {
+                    GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Added {noOfProxyAdded} proxie(s).");
+                }
+                if (noOfInvalidProxies > 0)
+                {
+                    var Path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Socinator";
+                    DirectoryUtilities.CreateDirectory(Path);
+                    var filename = $"{Path}\\invalidProxies {ConstantVariable.DateasFileName}.txt";
+                    lstInvalidProxies.ForEach(p =>
+                    {
+                        using (var streamWriter = new StreamWriter(filename, true))
+                        {
+                            streamWriter.WriteLine(p);
+                        }
+                    });
+
+                    GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Skipped {noOfInvalidProxies} proxie(s) as it does not match the import format. List of invalid proxies has been exported to {filename}");
+                }
+                #endregion
             });
 
-            #region Update Import Proxies Status in Logger
-            if (noOfExistingProxies > 0)
-            {
-                GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Skipped {noOfExistingProxies} already existing proxie(s)");
-            }
-            if (noOfProxyAdded > 0)
-            {
-                GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Added {noOfProxyAdded} proxie(s).");
-            }
-            if (noOfInvalidProxies > 0)
-            {
-                var Path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Socinator";
-                DirectoryUtilities.CreateDirectory(Path);
-                var filename = $"{Path}\\invalidProxies {ConstantVariable.DateasFileName}.txt";
-                lstInvalidProxies.ForEach(p =>
-                {
-                    using (var streamWriter = new StreamWriter(filename, true))
-                    {
-                        streamWriter.WriteLine(p);
-                    }
-                });
 
-                GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Skipped {noOfInvalidProxies} proxie(s) as it does not match the import format. List of invalid proxies has been exported to {filename}");
-            }
-            #endregion
         }
 
         private bool ImportProxyCanExecute(object sender) => true;
@@ -676,13 +680,13 @@ namespace DominatorUIUtility.ViewModel
 
                 if (sender == null)
                 {
-                    if (ShowWarningMessage() == MessageDialogResult.Affirmative)
+
+                    var SelectedProxies = GetSelectedProxies();
+
+                    if (SelectedProxies.Count != 0)
                     {
-                        var SelectedProxies = GetSelectedProxies();
-
-                        if (SelectedProxies.Count != 0)
+                        if (ShowWarningMessage() == MessageDialogResult.Affirmative)
                         {
-
                             Application.Current.Dispatcher.Invoke(() =>
                             {
                                 SelectedProxies.ForEach(selectedProxy =>
@@ -694,6 +698,7 @@ namespace DominatorUIUtility.ViewModel
                                 DialogCoordinator.Instance.ShowModalMessageExternal(
                                     Application.Current.MainWindow, "Success",
                                     $"{SelectedProxies.Count} proxies successfully Deleted.");
+                                GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{SelectedProxies.Count} proxies");
                             });
 
 
@@ -740,9 +745,9 @@ namespace DominatorUIUtility.ViewModel
             {
                 ProxyFileManager.Delete(proxy => proxy.AccountProxy.ProxyId == selectedProxy.AccountProxy.ProxyId);
                 RemoveProxyFromAccount(selectedProxy);
+
                 LstProxyManagerModel.Remove(selectedProxy);
-                GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, selectedProxy.AccountProxy.ProxyIp + " : " +
-                                                                             selectedProxy.AccountProxy.ProxyPort);
+
             }
             catch (Exception ex)
             {
@@ -761,6 +766,11 @@ namespace DominatorUIUtility.ViewModel
                     && account.AccountBaseModel.AccountProxy.ProxyPort == selectedProxy.AccountProxy.ProxyPort).ForEach(
                     account =>
                     {
+                        accountsAlreadyAssigned.Remove(accountsAlreadyAssigned.FirstOrDefault(x =>
+                            x.UserName == account.UserName &&
+                            x.AccountNetwork == account.AccountBaseModel.AccountNetwork));
+
+
                         account.AccountBaseModel.AccountProxy = new Proxy();
                         AccountsFileManager.Edit(account);
                     });
@@ -791,18 +801,57 @@ namespace DominatorUIUtility.ViewModel
         private void UpdateProxyExecute(object sender)
         {
             var currentProxy = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
+            var oldProxy = ProxyFileManager.GetProxyById(currentProxy.AccountProxy.ProxyId);
             if (!Proxy.IsValidProxy(currentProxy.AccountProxy.ProxyIp, currentProxy.AccountProxy.ProxyPort))
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
                     "Please enter valid proxy.");
                 return;
             }
-            var oldProxy = ProxyFileManager.GetProxyById(currentProxy.AccountProxy.ProxyId);
+
+            bool isAvailable = false;
+            LstProxyManagerModel.ForEach(proxy =>
+            {
+                if (proxy.AccountProxy.ProxyId != currentProxy.AccountProxy.ProxyId)
+                {
+                    if (proxy.AccountProxy.ProxyName == currentProxy.AccountProxy.ProxyName)
+                    {
+                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
+                            $"Proxy with name {currentProxy.AccountProxy.ProxyName} is already Exist.");
+                        currentProxy.AccountProxy.ProxyName = oldProxy.AccountProxy.ProxyName;
+                        isAvailable = true;
+                    }
+
+                    else if (proxy.AccountProxy.ProxyIp == currentProxy.AccountProxy.ProxyIp &&
+                        proxy.AccountProxy.ProxyPort == currentProxy.AccountProxy.ProxyPort)
+                    {
+                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
+                            $"Proxy with Ip {currentProxy.AccountProxy.ProxyIp} port {currentProxy.AccountProxy.ProxyPort} is already Exist.");
+                        currentProxy.AccountProxy = oldProxy.AccountProxy;
+                        isAvailable = true;
+                        return;
+                    }
+
+                }
+            });
+            if (isAvailable)
+                return;
+            //if (LstProxyManagerModel.Any(x =>
+            //x.AccountProxy.ProxyIp == currentProxy.AccountProxy.ProxyIp &&
+            //x.AccountProxy.ProxyPort == currentProxy.AccountProxy.ProxyPort))
+            //{
+            //    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
+            //        $"Proxy with Ip { currentProxy.AccountProxy.ProxyIp} port { currentProxy.AccountProxy.ProxyPort} is already Exist.");
+            //    return;
+            //}
+
+            var accountToUpdateProxy
+                = AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountProxy.ProxyIp == oldProxy.AccountProxy.ProxyIp
+                                                          && x.AccountBaseModel.AccountProxy.ProxyPort == oldProxy.AccountProxy.ProxyPort).ToList();
+
             oldProxy = currentProxy;
 
             ProxyFileManager.EditProxy(oldProxy);
-            var accountToUpdateProxy
-                = AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountProxy.ProxyId == oldProxy.AccountProxy.ProxyId).ToList();
 
             accountToUpdateProxy.ForEach(acc =>
             {
@@ -859,16 +908,23 @@ namespace DominatorUIUtility.ViewModel
         private void RemoveAccountFromProxyExecute(object sender)
         {
             AccountAssign account = sender as AccountAssign;
-            var proxy = ProxyFileManager.GetProxyById(CurrentProxyManagerModel.AccountProxy.ProxyId);
-            var accountToDelete = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName);
+
+            var proxy = ProxyFileManager.GetAllProxy().FirstOrDefault(x => x.AccountProxy.ProxyIp == CurrentProxyManagerModel.AccountProxy.ProxyIp
+            && x.AccountProxy.ProxyPort == CurrentProxyManagerModel.AccountProxy.ProxyPort);
+
+
+            //var proxy = ProxyFileManager.GetProxyById(CurrentProxyManagerModel.AccountProxy.ProxyId);
+            var accountToDelete = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == account.UserName
+                                                                               && x.AccountNetwork == account.AccountNetwork);
             try
             {
                 proxy.AccountsAssignedto.Remove(accountToDelete);
 
-                var item = LstProxyManagerModel.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyId == proxy.AccountProxy.ProxyId);
+                var item = LstProxyManagerModel.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp &&
+                                                                        Proxy.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort);
                 int indexToUpdate = LstProxyManagerModel.IndexOf(item);
                 LstProxyManagerModel[indexToUpdate].AccountsAssignedto = proxy.AccountsAssignedto;
-                LstProxyManagerModel[indexToUpdate].AccountsToBeAssign.Add(accountToDelete);
+                // LstProxyManagerModel[indexToUpdate].AccountsToBeAssign.Add(accountToDelete);
 
                 var accountToDeleteProxy = AccountsFileManager.GetAccount(account.UserName, account.AccountNetwork);
                 accountToDeleteProxy.AccountBaseModel.AccountProxy = new Proxy();
@@ -876,11 +932,8 @@ namespace DominatorUIUtility.ViewModel
                 AccountsFileManager.Edit(accountToDeleteProxy);
                 UpdateAccountsProxy(accountToDeleteProxy, _strategies);
                 LstProxyManagerModel.ForEach(oldProxy =>
-                {
-                    if (!oldProxy.AccountsToBeAssign.Any(x => x.UserName == accountToDelete.UserName && x.AccountNetwork == accountToDelete.AccountNetwork))
-                        oldProxy.AccountsToBeAssign.Add(accountToDelete);
-                     accountsAlreadyAssigned.Remove(accountsAlreadyAssigned.FirstOrDefault(x => x.UserName == accountToDelete.UserName && x.AccountNetwork== accountToDelete.AccountNetwork));
-                });
+                 accountsAlreadyAssigned.Remove(accountsAlreadyAssigned.FirstOrDefault(x => x.UserName == accountToDelete.UserName && x.AccountNetwork == accountToDelete.AccountNetwork))
+               );
                 ProxyFileManager.EditAllProxy(LstProxyManagerModel.ToList());
 
             }
@@ -907,13 +960,14 @@ namespace DominatorUIUtility.ViewModel
                                                                        && x.AccountNetwork == account.AccountNetwork))
                 {
                     CurrentProxyManagerModel.AccountsAssignedto.Add(accountToAdd);
-                    accountsAlreadyAssigned.Remove(accountToAdd);
+                    accountsAlreadyAssigned.Add(accountToAdd);
                 }
 
                 ProxyFileManager.EditProxy(CurrentProxyManagerModel);
                 var accountToUpdateProxy = AccountsFileManager.GetAccount(account.UserName, account.AccountNetwork);
                 var proxyToAdd = new Proxy()
                 {
+                    ProxyId = CurrentProxyManagerModel.AccountProxy.ProxyId,
                     ProxyPort = CurrentProxyManagerModel.AccountProxy.ProxyPort,
                     ProxyIp = CurrentProxyManagerModel.AccountProxy.ProxyIp,
                     ProxyUsername = CurrentProxyManagerModel.AccountProxy.ProxyUsername,
@@ -971,7 +1025,7 @@ namespace DominatorUIUtility.ViewModel
                 proxyManagerModel.AccountsToBeAssign.Clear();
                 AccountsFileManager.GetAll()?.ForEach(account =>
                    {
-                       
+
                        if (!accountsAlreadyAssigned.Any(acc =>
                            acc.AccountNetwork == account.AccountBaseModel.AccountNetwork && acc.UserName == account.UserName))
                        {

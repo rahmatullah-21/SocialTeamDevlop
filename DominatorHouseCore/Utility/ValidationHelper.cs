@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Data;
+using DominatorHouseCore.Models;
+using ValidationResult = System.Windows.Controls.ValidationResult;
 
 namespace DominatorHouseCore.Utility
 {
@@ -115,24 +121,38 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                object[] res = value as object[];
-                if (res != null)
-                {
-                    string[] proxy = res.OfType<string>().ToArray();
-                    if (!Models.Proxy.IsValidProxy(proxy[0].Trim(), proxy[1].Trim()))
-                    {
-                        return new ValidationResult(false, "Invalid IP address");
-                    }
-                }
+                var proxy = (value as MultiBindingExpression).BindingGroup.Items[1] as Proxy;
+                if (!Models.Proxy.IsValidProxy(proxy.ProxyIp, proxy.ProxyPort))
+                    return new ValidationResult(false, "Invalid IP address");
+
+
             }
             catch (Exception ex)
             {
                 return new ValidationResult(false, "Invalid IP address");
             }
-            
+
             return new ValidationResult(true, null);
 
         }
 
+    }
+    public class UrlValidator : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+
+            try
+            {
+                if (!Regex.IsMatch(value.ToString(), "(http(s)?://)?(www\\.)+([\\w-]+\\.)+[\\w-]+[.\\w]+(/[/?%&=]*)?"))
+                    return new ValidationResult(false, "Invalid URL");
+            }
+            catch (Exception ex)
+            {
+                return new ValidationResult(false, "Invalid URL");
+            }
+
+            return new ValidationResult(true, string.Empty);
+        }
     }
 }
