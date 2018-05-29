@@ -1460,6 +1460,9 @@ namespace DominatorUIUtility.CustomControl
 
                 var accountDetails = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, network);
 
+               SocinatorInitialize.GetSocialLibrary(network)
+                    .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount = _accountGrowthModeHeader.SelectedItem;
+
                 var moduleConfiguration = accountDetails.ActivityManager.LstModuleConfiguration
                     .FirstOrDefault(y => y.ActivityType == _activityType);
 
