@@ -14,7 +14,37 @@
         <converter:ProxyPortToIpAddressConvertor x:Key="ProxyPortToIpAddressConvertor"/>
         <converter:ListConvertor x:Key="ListConvertor"/>
         <converter:AlternationIndexConverter x:Key="AlternationIndexConverter"/>
+        <ControlTemplate x:Key="ErrorTemplate">
+            <StackPanel Orientation="Vertical">
+                <AdornedElementPlaceholder x:Name="ErrorHolder" >
+                    <Border BorderBrush="red" BorderThickness="1" >
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid IP address" >
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </AdornedElementPlaceholder>
+                <TextBlock  VerticalAlignment="Center" Name="error"  FontWeight="SemiBold"  Text="{Binding ElementName=ErrorHolder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" Foreground="Red">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid IP address" >
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
 
+                </TextBlock>
+            </StackPanel>
+        </ControlTemplate>
     </UserControl.Resources>
 
     <Grid >
@@ -117,7 +147,15 @@
                 <TextBlock VerticalAlignment="Center" Margin="5" Text="{DynamicResource langFilter}"/>
                 <TextBox Width="200" Height="25" Name="txtfilter" Text="{Binding Filter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource langURLToUseToVerifyProxies}"/>
-                <TextBox Width="200" Height="25" Name="txtURLToUseToVerifyProxies" Text="{Binding URLToUseToVerifyProxies}"/>
+                <TextBox Width="200" Height="25" Name="txtURLToUseToVerifyProxies" >
+                    <TextBox.Text>
+                        <Binding Path="URLToUseToVerifyProxies" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validation:UrlValidator ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <StackPanel Orientation="Horizontal" x:Name="cmbFilterBytag" Margin="30,0"
                             Visibility="{Binding ElementName=FilterByGroup, Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource langSelectTag}"/>
@@ -513,37 +551,7 @@
 
                     </Style.Triggers>
                 </Style>
-                <ControlTemplate x:Key="ErrorTemplate">
-                    <StackPanel Orientation="Vertical">
-                        <AdornedElementPlaceholder x:Name="ErrorHolder" >
-                            <Border BorderBrush="red" BorderThickness="1" >
-                                <Border.Style>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid IP address" >
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                        </AdornedElementPlaceholder>
-                        <TextBlock  VerticalAlignment="Center" Name="error"  FontWeight="SemiBold"  Text="{Binding ElementName=ErrorHolder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" Foreground="Red">
-                            <TextBlock.Style>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid IP address" >
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-
-                        </TextBlock>
-                    </StackPanel>
-                </ControlTemplate>
+              
 
             </DataGrid.Resources>
             <DataGrid.GroupStyle>
@@ -590,7 +598,7 @@
                 <DataGridTemplateColumn Header="{DynamicResource langName}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding AccountProxy.ProxyName}"/>
+                            <TextBox Text="{Binding AccountProxy.ProxyName, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -598,14 +606,14 @@
                 <DataGridTemplateColumn Header="{DynamicResource langProxyIpPort}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}">
+                            <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}" SelectionLength="0" SelectionStart="0" >
                                 <TextBox.Text>
-                                    <MultiBinding Converter="{StaticResource ProxyPortToIpAddressConvertor}" UpdateSourceTrigger="PropertyChanged"  >
+                                    <MultiBinding Converter="{StaticResource ProxyPortToIpAddressConvertor}"  UpdateSourceTrigger="PropertyChanged"  >
                                         <MultiBinding.ValidationRules>
-                                            <validation:IPAddressValidation ValidationStep="ConvertedProposedValue" />
+                                            <validation:IPAddressValidation ValidationStep="CommittedValue" />
                                         </MultiBinding.ValidationRules>
-                                        <Binding Path="AccountProxy.ProxyIp" />
-                                        <Binding Path="AccountProxy.ProxyPort" />
+                                        <Binding Path="AccountProxy.ProxyIp" UpdateSourceTrigger="PropertyChanged"/>
+                                        <Binding Path="AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged"/>
                                     </MultiBinding>
                                 </TextBox.Text>
                             </TextBox>
@@ -613,17 +621,17 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{DynamicResource langProxyUsername}">
+                <DataGridTemplateColumn Header="{DynamicResource langProxyUsername}" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding AccountProxy.ProxyUsername}"/>
+                            <TextBox Text="{Binding AccountProxy.ProxyUsername, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="{DynamicResource langProxyPassword}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding AccountProxy.ProxyPassword}"/>
+                            <TextBox Text="{Binding AccountProxy.ProxyPassword, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -571,7 +571,7 @@ namespace DominatorUIUtility.CustomControl
 
         private void SetDefaultView()
         {
-            objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(objCampaignDetails.ObjCampaignDetails);
+           objCampaignDetails.CampaignCollection = CollectionViewSource.GetDefaultView(objCampaignDetails.ObjCampaignDetails);
         }
 
 

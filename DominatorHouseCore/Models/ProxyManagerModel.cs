@@ -11,9 +11,8 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class ProxyManagerModel : BindableBase
     {
-       
-        
 
+       
         private Proxy _accountProxy = new Proxy();
         [ProtoMember(1)]
         public Proxy AccountProxy
