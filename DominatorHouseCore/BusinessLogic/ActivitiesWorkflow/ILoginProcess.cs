@@ -9,11 +9,11 @@ namespace DominatorHouseCore.BusinessLogic.ActivitiesWorkflow
     /// </summary>
     public interface ILoginProcess
     {
-        bool CheckLogin(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken);
+        bool CheckLogin(DominatorAccountModel dominatorAccountModel);
 
-        void LoginWithDataBaseCookies(DominatorAccountModel dominatorAccountModel, bool isMobileRequired, CancellationToken cancellationToken);
+        void LoginWithDataBaseCookies(DominatorAccountModel dominatorAccountModel, bool isMobileRequired);
 
-        void LoginWithAlternativeMethod(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken);
+        void LoginWithAlternativeMethod(DominatorAccountModel dominatorAccountModel);
     }
 
     public interface ILoginProcessAsync : ILoginProcess

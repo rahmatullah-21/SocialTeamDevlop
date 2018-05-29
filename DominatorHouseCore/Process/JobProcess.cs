@@ -434,7 +434,7 @@ namespace DominatorHouseCore.Process
                 {
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
-                    logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true, cancellationToken);
+                    logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
                 }
 
                 if (DominatorAccountModel.IsUserLoggedIn)
