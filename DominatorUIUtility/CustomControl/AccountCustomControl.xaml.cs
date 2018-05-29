@@ -354,9 +354,11 @@ namespace DominatorUIUtility.CustomControl
         {
             var dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
 
+            if (dominatorAccountModel == null)
+                return;
+
             DominatorHouseCore.Utility.TabSwitcher.ChangeTabWithNetwork(2, dominatorAccountModel.AccountBaseModel.AccountNetwork, dominatorAccountModel.AccountBaseModel.UserName);
         }
-
 
         public void BrowserLogin(object sender, RoutedEventArgs e)
         {
