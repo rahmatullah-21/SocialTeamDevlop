@@ -107,11 +107,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 if (moduleConfiguration.LstRunningTimes == null ||
                     moduleConfiguration.LstRunningTimes.All(rt => rt.Timings.Count == 0))
                 {
-                   GlobusLogHelper.log.Info(Log.CustomMessage,dominatorAccount.AccountBaseModel.AccountNetwork,dominatorAccount.UserName,$"Error:- {activityType} activity is not configured properly for this account. Please make sure you have added enough queries and updated time when activity has to be performed");
-                   throw new InvalidOperationException($"Running time for activity {activityType} wasn't set");
-
+                    throw new InvalidOperationException($"Running time for activity {activityType} wasn't set");
                 }
-                    
+
 
                 var today = DateTimeUtilities.GetDayOfWeek();
 
@@ -151,7 +149,15 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     //{
                     //    ScheduleJob(dominatorAccount, timing, templateId, jobId, isDelayed: true);
                     //}
-                };
+                }
+                ;
+            }
+            catch (InvalidOperationException)
+            {
+                ChangeAccountsRunningStatus(false, dominatorAccount.AccountId, activityType);
+                GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccount.AccountBaseModel.AccountNetwork,
+                    dominatorAccount.UserName,
+                    $"Error:- {activityType} activity is not configured properly for this account. Please make sure you have added enough queries and updated time when activity has to be performed and clicked on save button.");
             }
             catch (Exception ex)
             {

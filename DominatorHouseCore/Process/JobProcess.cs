@@ -366,7 +366,7 @@ namespace DominatorHouseCore.Process
                 if (JobCancellationTokenSource == null ||
                     !RunningJobProcesses.ContainsKey(Id))
                     return;
-
+                DominatorAccountModel.NotifyCancelled();
                 JobCancellationTokenSource.Cancel();
              
                 GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
