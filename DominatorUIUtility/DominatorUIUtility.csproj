@@ -179,6 +179,7 @@
     <Compile Include="Behaviours\HeaderHelper.cs" />
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
     <Compile Include="Behaviours\ReportManager.cs" />
+    <Compile Include="Behaviours\SelectionChangedBehaviour.cs" />
     <Compile Include="Behaviours\UserFilterAction.cs" />
     <Compile Include="Behaviours\Utilities.cs" />
     <Compile Include="ConfigControl\EmailNotifications.xaml.cs">
@@ -285,6 +286,7 @@
     </Compile>
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
+    <Compile Include="ViewModel\ProxyManagerViewModel.cs" />
     <Compile Include="ViewModel\SelectAccountViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>

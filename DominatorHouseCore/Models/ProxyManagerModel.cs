@@ -11,25 +11,8 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class ProxyManagerModel : BindableBase
     {
-        public ProxyManagerModel()
-        {
-            
-        }
-
-        private ICollectionView _proxyManagerCollection ;
-        public ICollectionView ProxyManagerCollection
-        {
-            get
-            {
-                return _proxyManagerCollection;
-            }
-            set
-            {
-                if (_proxyManagerCollection != null && _proxyManagerCollection == value)
-                    return;
-                SetProperty(ref _proxyManagerCollection, value);
-            }
-        }
+       
+        
 
         private Proxy _accountProxy = new Proxy();
         [ProtoMember(1)]
@@ -47,129 +30,6 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private bool _isHideAssignedSocialProfiles;
-        [ProtoMember(2)]
-        public bool IsHideAssignedSocialProfiles
-        {
-            get
-            {
-                return _isHideAssignedSocialProfiles;
-            }
-            set
-            {
-                if (_isHideAssignedSocialProfiles == value)
-                    return;
-                SetProperty(ref _isHideAssignedSocialProfiles, value);
-            }
-        }
-
-        private bool _isHideUsernameAndPassword;
-        [ProtoMember(3)]
-        public bool IsHideUsernameAndPasswordoperty
-        {
-            get
-            {
-                return _isHideUsernameAndPassword;
-            }
-            set
-            {
-                if (_isHideUsernameAndPassword == value)
-                    return;
-                SetProperty(ref _isHideUsernameAndPassword, value);
-            }
-        }
-        private bool _isShowByGroup;
-        [ProtoMember(4)]
-        public bool IsShowByGroup
-        {
-            get
-            {
-                return _isShowByGroup;
-            }
-            set
-            {
-                if (_isShowByGroup == value)
-                    return;
-                SetProperty(ref _isShowByGroup, value);
-            }
-        }
-        private bool _isFilterByGroup;
-        [ProtoMember(5)]
-        public bool FilterByGroup
-        {
-            get
-            {
-                return _isFilterByGroup;
-            }
-            set
-            {
-                if (_isFilterByGroup == value)
-                    return;
-                SetProperty(ref _isFilterByGroup, value);
-            }
-        }
-
-        private bool _isShowProxiesWithError;
-        [ProtoMember(6)]
-        public bool IsShowProxiesWithError
-        {
-            get
-            {
-                return _isShowProxiesWithError;
-            }
-            set
-            {
-                if (_isShowProxiesWithError == value)
-                    return;
-                SetProperty(ref _isShowProxiesWithError, value);
-
-            }
-        }
-        private bool _isShowUnassignedProxies;
-        [ProtoMember(7)]
-        public bool IsShowUnassignedProxies
-        {
-            get
-            {
-                return _isShowUnassignedProxies;
-            }
-            set
-            {
-                if (_isShowUnassignedProxies == value)
-                    return;
-                SetProperty(ref _isShowUnassignedProxies, value);
-            }
-        }
-        private string _filter;
-        [ProtoMember(8)]
-        public string Filter
-        {
-            get
-            {
-                return _filter;
-            }
-            set
-            {
-                if (_filter == value)
-                    return;
-                SetProperty(ref _filter, value);
-            }
-        }
-        private string _uRLToUseToVerifyProxies = "https://www.google.com";
-        [ProtoMember(9)]
-        public string URLToUseToVerifyProxies
-        {
-            get
-            {
-                return _uRLToUseToVerifyProxies;
-            }
-            set
-            {
-                if (_uRLToUseToVerifyProxies == value)
-                    return;
-                SetProperty(ref _uRLToUseToVerifyProxies, value);
-            }
-        }
         private HashSet<string> _groups=new HashSet<string>();
 
         public HashSet<string> Groups
@@ -185,21 +45,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _groups, value);
             }
         }
-        private int _id;
-        [ProtoMember(10)]
-        public int Id
-        {
-            get
-            {
-                return _id;
-            }
-            set
-            {
-                if (_id == value)
-                    return;
-                SetProperty(ref _id, value);
-            }
-        }
+
         private bool _isProxySelected;
     
         public bool IsProxySelected
@@ -215,21 +61,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isProxySelected, value);
             }
         }
-        private bool _isAllProxySelected;
-
-        public bool IsAllProxySelected
-        {
-            get
-            {
-                return _isAllProxySelected;
-            }
-            set
-            {
-                if (_isAllProxySelected == value)
-                    return;
-                SetProperty(ref _isAllProxySelected, value);
-            }
-        }
+       
         private string _status="Not Checked";
         [ProtoMember(12)]
         public string Status

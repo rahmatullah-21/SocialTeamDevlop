@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Socinator.Social.AutoActivity.Views
 {
@@ -24,6 +26,7 @@ namespace Socinator.Social.AutoActivity.Views
 
         private SocialAutoActivity()
         {
+            DialogParticipation.SetRegister(this, this);
             DominatorAutoActivityViewModel = DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
             InitializeComponent();
         }
@@ -115,13 +118,27 @@ namespace Socinator.Social.AutoActivity.Views
             if (currentDataContext == null)
                 return;
 
+            var accountDetails = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social).DominatorAccountViewModel
+                .LstDominatorAccountModel
+                .FirstOrDefault(x => x.AccountBaseModel.AccountId == currentDataContext.AccountId);
+
+            accountDetails?.NotifyCancelled();
+
             var status = DominatorScheduler.ChangeAccountsRunningStatus(currentDataContext.Status, currentDataContext.AccountId,
                 currentDataContext.Title);
 
             if (!status)
             {
-                GlobusLogHelper.log.Info($"{currentDataContext.Title} doesn't register with any template before with particular account!");
-                currentDataContext.Status = false;
+                try
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", $"Please configure your {currentDataContext.Title} settings, before starting the activity. Make sure you have added enough queries and have clicked on SAVE button");
+                    currentDataContext.Status = false;
+                }
+                catch (Exception ex)
+                {
+
+                    GlobusLogHelper.log.Error(ex.Message + ex.StackTrace);
+                }
             }               
         }
     }

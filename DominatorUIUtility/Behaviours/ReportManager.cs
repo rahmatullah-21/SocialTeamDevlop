@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.FileManagers;
@@ -12,6 +15,8 @@ using DominatorUIUtility.CustomControl;
 
 namespace DominatorUIUtility.Behaviours
 {
+   
+    
     public class ReportManager
     {
         //public static Func<string, string, ObservableCollection<QueryInfo>> GetSavedQuery { get; set; }

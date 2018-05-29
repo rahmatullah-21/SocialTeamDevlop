@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace DominatorHouseCore.Utility
 {
@@ -86,7 +88,12 @@ namespace DominatorHouseCore.Utility
                         }
                         else if (!string.IsNullOrEmpty(ProxyAddress))
                         {
-                            if (!Models.Proxy.IsValidProxy(ProxyAddress, value.ToString()))
+                            //if (!Models.Proxy.IsValidProxy(ProxyAddress, value.ToString()))
+                            //{
+                            //    return new ValidationResult(false, "Invalid Port");
+                            //}
+
+                            if (!Models.Proxy.IsValidProxyPort(value.ToString()))
                             {
                                 return new ValidationResult(false, "Invalid Port");
                             }
@@ -108,16 +115,19 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-
-                var proxy = value.ToString().Split(':');
-                if (!Models.Proxy.IsValidProxy(proxy[0].Trim(), proxy[1].Trim()))
+                object[] res = value as object[];
+                if (res != null)
                 {
-                    return new ValidationResult(false, "Invalid proxy address");
+                    string[] proxy = res.OfType<string>().ToArray();
+                    if (!Models.Proxy.IsValidProxy(proxy[0].Trim(), proxy[1].Trim()))
+                    {
+                        return new ValidationResult(false, "Invalid IP address");
+                    }
                 }
             }
             catch (Exception ex)
             {
-                return new ValidationResult(false, "Invalid proxy address");
+                return new ValidationResult(false, "Invalid IP address");
             }
             
             return new ValidationResult(true, null);
