@@ -703,7 +703,7 @@
     <system:String x:Key="langAllCampaign﻿">All Campaign</system:String>
     <system:String x:Key="langInstaLikerInstaCommenter">InstaLiker/InstaCommenter</system:String>
     <system:String x:Key="langLikeComments">Like Comments</system:String>
-    <system:String x:Key="langPhotoUnliker">Photo Unliker</system:String>
+    <system:String x:Key="GDlangMediaUnliker">Media Unliker</system:String>
     <!--<system:String x:Key="langCreateAccounts">CreateAccounts</system:String>-->
     <system:String x:Key="langAddProfile">Add Profile</system:String>
     <system:String x:Key="langFilterByTag">Filter By Tag</system:String>
@@ -1281,6 +1281,17 @@
 
     <system:String x:Key="GDlangBroadcastMessageWarning">These accounts are already running with BroadcastMessages configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="GDlangAutoReplyToNewMessagesWarning">These accounts are already running with AutoReplyToNewMessages configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+
+    <system:String x:Key="GDlangMediaUnlikerWarning">These account(s) are already running with MediaUnliker configuration from another campaign. Saving this settings will override previous settings and will remove this account from the campaign.</system:String>
+
+
+
+    <system:String x:Key="GDlangNumberOfMediaUnlikePerJob">Number of media unlike per job</system:String>
+    <system:String x:Key="GDlangNumberOfMediaUnlikePerHour">Number of media unlike per hour</system:String>
+    <system:String x:Key="GDlangNumberOfMediaUnlikePerDay">Number of media unlike per day</system:String>
+    <system:String x:Key="GDlangNumberOfMediaUnlikePerWeek">Number of media unlike per week</system:String>
+    <system:String x:Key="GDlangMaxMediaUnlikeDay">Max media unlike per day</system:String>
+
     <!--End Gram Dominator-->
 
     <!--Start Twt Dominator-->
