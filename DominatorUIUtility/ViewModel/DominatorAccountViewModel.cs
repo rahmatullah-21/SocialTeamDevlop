@@ -556,20 +556,64 @@ namespace DominatorUIUtility.ViewModel
                 {
                     // this account supports async modules
                     var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
-                    asyncAccount
-                        .CheckStatusAsync(dominatorAccountModel, dominatorAccountModel.Token)
-                        .ContinueWith(checkSucceeded =>
-                    {
-                        if (checkSucceeded.Result)
-                        {
-                            //To update proxy status
-                            UpdateProxyStatus(dominatorAccountModel.AccountBaseModel);
-                            return asyncAccount.UpdateDetailsAsync(dominatorAccountModel, dominatorAccountModel.Token);
-                        }
 
-                        return new Task(() => { });
-                    })
-                    .Start();
+                    try
+                    {
+                        asyncAccount
+                            .CheckStatusAsync(dominatorAccountModel, dominatorAccountModel.Token)
+                            .ContinueWith(checkSucceeded =>
+                            {
+                                try
+                                {
+                                    if (checkSucceeded.Result)
+                                    {
+                                        //To update proxy status
+                                        UpdateProxyStatus(dominatorAccountModel.AccountBaseModel);
+                                        return asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
+                                            dominatorAccountModel.Token);
+                                    }
+                                    return new Task(() => { });
+                                }
+                                catch (OperationCanceledException)
+                                {
+                                    return new Task(() => { });
+                                }
+                                catch (AggregateException ae)
+                                {
+                                    foreach (var e in ae.InnerExceptions)
+                                    {
+                                        if (e is TaskCanceledException || e is OperationCanceledException)
+                                            e.DebugLog("Cancellation requested before task completion!");
+                                        else
+                                            e.DebugLog(e.StackTrace + e.Message);
+                                    }
+                                    return new Task(() => { });
+                                }
+                                catch (Exception)
+                                {
+                                    return new Task(() => { });
+                                }
+                            })
+                            .Start();
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        throw new OperationCanceledException();
+                    }
+                    catch (AggregateException ae)
+                    {
+                        foreach (var e in ae.InnerExceptions)
+                        {
+                            if (e is TaskCanceledException || e is OperationCanceledException)
+                                e.DebugLog("Cancellation requested before task completion!");
+                            else
+                                e.DebugLog(e.StackTrace + e.Message);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
                 }
                 else
                 {
@@ -836,7 +880,7 @@ namespace DominatorUIUtility.ViewModel
                     user.AccountNetwork == item.AccountBaseModel.AccountNetwork.ToString() &&
                     user.UserName == item.UserName);
                 GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork, item.AccountBaseModel.UserName);
-                item.NotifyDeleted();
+                item.NotifyCancelled();
             });
 
 
@@ -1472,7 +1516,7 @@ namespace DominatorUIUtility.ViewModel
                 {
                     var accountFullDetails = LstDominatorAccountModel.FirstOrDefault(x => x.UserName == accountSelected);
 
-                    accountFullDetails?.NotifyDeleted();
+                    accountFullDetails?.NotifyCancelled();
 
                     if (accountFullDetails != null)
                         GlobusLogHelper.log.Info(Log.StopUpdatingAccount, accountFullDetails.AccountBaseModel.AccountNetwork, accountFullDetails.AccountBaseModel.UserName);

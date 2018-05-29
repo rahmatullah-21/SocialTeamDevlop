@@ -274,7 +274,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        public void NotifyDeleted()
+        public void NotifyCancelled()
         {
             CancellationSource.Cancel();
         }

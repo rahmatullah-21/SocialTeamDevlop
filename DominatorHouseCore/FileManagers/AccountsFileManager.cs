@@ -73,9 +73,6 @@ namespace DominatorHouseCore.FileManagers
             return savedStatus;
         }
 
-        public static void EditAccounts(DominatorAccountModel account)
-            => SaveAccount(account);
-
         // alias
         public static void Edit(DominatorAccountModel account)
             => SaveAccount(account);

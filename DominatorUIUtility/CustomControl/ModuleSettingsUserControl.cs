@@ -90,7 +90,7 @@ namespace DominatorUIUtility.CustomControl
             _moduleName = moduleName;
             _accountGrowthModeHeader = accountGrowthModeHeader;
             _initialized = true;
-            
+
         }
 
         #endregion
@@ -1066,7 +1066,7 @@ namespace DominatorUIUtility.CustomControl
                     account.ActivityManager.RunningTime = runningTime;
 
                     moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
-                    
+
                     moduleConfiguration.IsTemplateMadeByCampaignMode = true;
 
                     selectedAccounts.Add(account);
@@ -1468,9 +1468,9 @@ namespace DominatorUIUtility.CustomControl
                     var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
                     SetModuleValues(moduleConfiguration.IsEnabled, templateDetails);
                 }
-                else                                 
+                else
                     SetModuleValues(false, null);
-                               
+
                 _mainGrid.DataContext = Model as TModel;
                 _accountGrowthModeHeader.DataContext = this;
                 SetSelectedAccounts(accountDetails.AccountBaseModel.AccountNetwork, _accountGrowthModeHeader.SelectedItem);
@@ -1537,6 +1537,11 @@ namespace DominatorUIUtility.CustomControl
 
             var accountModel = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, SocialNetwork);
 
+            var accounts = AccountCustomControl.GetAccountCustomControl(SocialNetwork).DominatorAccountViewModel
+                  .LstDominatorAccountModel.FirstOrDefault(x => x.AccountBaseModel.AccountId == accountModel.AccountBaseModel.AccountId);
+
+            accounts?.NotifyCancelled();
+
             var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
 
             if (moduleConfiguration?.TemplateId != null)
@@ -1555,7 +1560,7 @@ namespace DominatorUIUtility.CustomControl
                 UpdateRunningTime(Model.JobConfiguration, accountModel);
 
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!");
-               
+
                 #endregion
             }
             else

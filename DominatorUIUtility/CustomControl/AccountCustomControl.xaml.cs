@@ -52,9 +52,9 @@ namespace DominatorUIUtility.CustomControl
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;
             DominatorAccountViewModel.PropertyChanged += DominatorAccountViewModel_PropertyChanged;
-           
+
         }
-       
+
         List<GridViewColumn> _addedColumns = new List<GridViewColumn>();
 
         private void DominatorAccountViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -83,7 +83,7 @@ namespace DominatorUIUtility.CustomControl
         private static AccountCustomControl _accountCustomInstance = null;
 
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks, DominatorAccountViewModel.AccessorStrategies strategies)
-       {
+        {
             if (_accountCustomInstance == null)
             {
                 _accountCustomInstance = new AccountCustomControl(strategies);
@@ -101,7 +101,7 @@ namespace DominatorUIUtility.CustomControl
         }
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNework)
         {
-            return _accountCustomInstance ;
+            return _accountCustomInstance;
         }
 
         private void GetRespectiveAccounts(SocialNetworks socialNetworks)
@@ -124,7 +124,7 @@ namespace DominatorUIUtility.CustomControl
                       .AccountCountFactory.GetColumnSpecificationProvider();
             DominatorAccountViewModel.VisibleColumns = spec.VisibleHeaders;
             DominatorAccountViewModel.SocialNetwork = socialNetworks;
-            
+
         }
 
         private void MangeblacklistedContextMenu_Click(object sender, RoutedEventArgs e)
@@ -442,7 +442,7 @@ namespace DominatorUIUtility.CustomControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-      
-       
+
+
     }
 }
