@@ -1298,7 +1298,7 @@ namespace DominatorUIUtility.CustomControl
 
         #region  Old Save account configuration
 
-        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveIndividualAccountConfiguration with 2 parameters")]
+        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveIndividualAccountConfiguration with 2 parameters",true)]
         protected void SaveIndividualAccountConfiguration(string selectedAccount)
         {
             try
@@ -1468,6 +1468,18 @@ namespace DominatorUIUtility.CustomControl
                     var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
                     SetModuleValues(moduleConfiguration.IsEnabled, templateDetails);
                 }
+                else
+                {
+                    moduleConfiguration = new ModuleConfiguration() { ActivityType = _activityType };
+                    accountDetails.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
+                    moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
+                    moduleConfiguration.IsEnabled = false;
+                    moduleConfiguration.Status = "Active";
+                    //AccountsFileManager.Edit(accountDetails);
+                    SetModuleValues(moduleConfiguration.IsEnabled, null);
+                    var templateDetails = new TemplateModel();
+                    SetModuleValues(moduleConfiguration.IsEnabled, templateDetails);
+                }
                
                 _mainGrid.DataContext = Model as TModel;
                 _accountGrowthModeHeader.DataContext = this;
@@ -1590,6 +1602,7 @@ namespace DominatorUIUtility.CustomControl
 
                 AccountsFileManager.Edit(accountModel);
 
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!");
                 #endregion
 
             }
