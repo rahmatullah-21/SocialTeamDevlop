@@ -355,10 +355,6 @@
       <Project>{107cebc6-409b-47ca-a248-4a5e03d86e66}</Project>
       <Name>PinDominatorUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj">
-      <Project>{21b1d90e-f201-4ef0-b4e9-a99315945f1d}</Project>
-      <Name>QuoraDominatorCore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
       <Name>DominatorHouseCore</Name>
