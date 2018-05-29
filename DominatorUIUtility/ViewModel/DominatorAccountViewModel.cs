@@ -1111,6 +1111,7 @@ namespace DominatorUIUtility.ViewModel
                 selectedAccount.AccountBaseModel.AccountNetwork = objDominatorAccountBaseModel.AccountNetwork;
 
                 AccountsFileManager.Edit(selectedAccount);
+
                 UpdateProxy(objDominatorAccountBaseModel);
 
                 #region Checking stattus
