@@ -80,6 +80,7 @@ namespace DominatorHouseCore.Process
             if (CampaignId != null)
             {
                 DataBaseConnectionCampaign = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignDatabase;
+                SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignInteractionDetails.InitializeInteraction();
             }
 
             DataBaseConnectionAccount = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().AccountDatabase;
@@ -339,6 +340,7 @@ namespace DominatorHouseCore.Process
                     // Login and run scraper/poster from derived concrete classes
                     if (Login())
                         RunScrapper();
+
                 }, JobCancellationTokenSource.Token);
 
                 JobCancellationTokenSource.Token.Register(() =>
@@ -364,13 +366,13 @@ namespace DominatorHouseCore.Process
                 if (JobCancellationTokenSource == null ||
                     !RunningJobProcesses.ContainsKey(Id))
                     return;
-
+                DominatorAccountModel.NotifyCancelled();
                 JobCancellationTokenSource.Cancel();
              
                 GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
                 RunningJobProcesses.Remove(Id);
-                JobCancellationTokenSource = null;
+                //JobCancellationTokenSource = null;
             }
         }
 
@@ -416,7 +418,7 @@ namespace DominatorHouseCore.Process
         /// <summary>
         ///     Logs-in to social network and scrap data from its feed
         /// </summary>
-        protected bool LoginBase(ILoginProcess logInProcess)
+        protected bool LoginBase(ILoginProcess logInProcess, CancellationToken cancellationToken)
         {
             try
             {

@@ -34,7 +34,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// <summary>
         /// Describes Activity 
         /// </summary>
-        [Index("Pk_ActivityType_ContentId", 1, IsUnique = true)]
+      
         [Column(Order = 4)]
         public string ActivityType { get; set; }
 
@@ -48,9 +48,9 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// <summary>
         /// Contains ContentId of the Post being interacted
         /// </summary>
-        [Index("Pk_ActivityType_ContentId", 2, IsUnique = true)]
+     
         [Column(Order = 6)]
-        public string ContentId { get; set; }
+        public string PostLink { get; set; }
         
         /// <summary>
         /// Contains PostTitle of the Post being interacted
@@ -75,11 +75,26 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// </summary>
         [Column(Order = 10)]
         public string Comments { get; set; }
-        
+
+        /// <summary>
+        /// Contains name of the user who created the Post
+        /// </summary>
+        [Column(Order = 11)]
+        public string PostOwnerFullName { get; set; }
+
+        [Column(Order = 12)]
+        public string PostOwnerProfileUrl { get; set; }
+
+        [Column(Order = 13)]
+        public ConnectionType ConnectionType { get; set; }
+
+        [Column(Order = 14)]
+        public DateTime PostedDateTime { get; set; }
+
         /// <summary>
         /// TimeStamp when interacted with the Post
         /// </summary>
-        [Column(Order = 11)]
+        [Column(Order = 15)]
         public DateTime InteractionDatetime { get; set; }
     }
 }

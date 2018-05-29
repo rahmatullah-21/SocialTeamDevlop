@@ -79,6 +79,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
+        [Obsolete("Dont use this property, instead use DominatorHouseCore.Utility.ModuleConfiguration.IsTemplateMadeByCampaignMode property")]
         [ProtoMember(6)]
         public bool IsCretedFromNormalMode { get; set; }
 
@@ -273,7 +274,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        public void NotifyDeleted()
+        public void NotifyCancelled()
         {
             CancellationSource.Cancel();
         }

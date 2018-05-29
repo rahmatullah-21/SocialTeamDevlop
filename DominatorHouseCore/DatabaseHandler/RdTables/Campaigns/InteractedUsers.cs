@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
 {
-   public class InteractedUsers
+    public class InteractedUsers
     {
         [Column(Order = 1)]
         public string Query { get; set; }
@@ -97,6 +97,6 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
 
         [Column(Order = 23)]
         public string SinAccUsername { get; set; }
-        
+
     }
 }

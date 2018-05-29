@@ -57,6 +57,7 @@ namespace DominatorHouseCore.Utility
             return htmlDoc.GetElementbyId(idValue).GetAttributeValue(attributeName, NotFound);
 
         }
+
         public static string GetOuterHtmlFromTagName(string pageSource, string tagName, string attributeName,
             string attributeValue)
         {

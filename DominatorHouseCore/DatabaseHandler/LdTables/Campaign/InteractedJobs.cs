@@ -21,7 +21,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         /// <summary>
         /// EmailId of the Account from which Interaction has been done
         /// </summary>
-        [Index("Pk_AccountEmail_ActivityType_JobPostUrl", 1, IsUnique = true)]
+      
         [Column(Order = 2)]
         public string AccountEmail { get; set; }
 
@@ -41,7 +41,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         /// <summary>
         /// Describes Activity 
         /// </summary>
-        [Index("Pk_AccountEmail_ActivityType_JobPostUrl", 2, IsUnique = true)]
+      
         [Column(Order = 5)]
         public string ActivityType { get; set; }
 
@@ -54,7 +54,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         /// <summary>
         /// Contains Url of the JobPost being interacted
         /// </summary>
-        [Index("Pk_AccountEmail_ActivityType_JobPostUrl", 3, IsUnique = true)]
+       
         [Column(Order = 6)]
         public string JobPostUrl { get; set; }
 

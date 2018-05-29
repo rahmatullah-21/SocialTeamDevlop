@@ -402,5 +402,12 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.ViewCampaigns = viewCampaigns;
             return this;
         }
+        public NetworkCoreLibraryBuilder AddCampaignInteractedDetailsFactory(ICampaignInteractionDetails campaignInteractionDetails)
+        {
+            NetworkCoreFactory.CampaignInteractionDetails = campaignInteractionDetails;
+            return this;
+        }
+
+
     }
 }

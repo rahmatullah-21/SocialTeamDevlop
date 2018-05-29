@@ -390,7 +390,7 @@ namespace DominatorUIUtility.CustomControl
                         return;
 
                     var filename = Regex.Replace(
-                        input: $"{ campName.CampaignName }-Reports[{ ConstantVariable.DateasFileName}]",
+                        input: $"{ campName.CampaignName }-Reports[{ DateTimeUtilities.GetEpochTime()}]",
                         pattern: "[\\/:*?<>|\"]",
                         replacement: "-");
 

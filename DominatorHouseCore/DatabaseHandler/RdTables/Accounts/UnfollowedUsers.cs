@@ -9,8 +9,8 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         [Key]
         [Autoincrement]
         [Index]
-        [Column(Order =1)]
-        public int Id { get; set; } 
+        [Column(Order = 1)]
+        public int Id { get; set; }
 
 
         [Column(Order = 2)]
