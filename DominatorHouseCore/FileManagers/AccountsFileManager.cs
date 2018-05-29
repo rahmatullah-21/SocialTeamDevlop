@@ -70,15 +70,15 @@ namespace DominatorHouseCore.FileManagers
             {
                 GlobusLogHelper.log.Debug($"Accounts successfully saved - [{account.AccountBaseModel.UserName}]");
             }
-
             return savedStatus;
         }
+
+        public static void EditAccounts(DominatorAccountModel account)
+            => SaveAccount(account);
 
         // alias
         public static void Edit(DominatorAccountModel account)
             => SaveAccount(account);
-
-        
 
         public static void FillList<T>(ObservableCollection<T> lstAccountModel) where T : class
         {

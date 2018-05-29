@@ -1298,7 +1298,7 @@ namespace DominatorUIUtility.CustomControl
 
         #region  Old Save account configuration
 
-        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveIndividualAccountConfiguration with 2 parameters",true)]
+        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveIndividualAccountConfiguration with 2 parameters")]
         protected void SaveIndividualAccountConfiguration(string selectedAccount)
         {
             try
@@ -1468,25 +1468,13 @@ namespace DominatorUIUtility.CustomControl
                     var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
                     SetModuleValues(moduleConfiguration.IsEnabled, templateDetails);
                 }
-                else
-                {
-                    moduleConfiguration = new ModuleConfiguration() { ActivityType = _activityType };
-                    accountDetails.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
-                    moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
-                    moduleConfiguration.IsEnabled = false;
-                    moduleConfiguration.Status = "Active";
-                    //AccountsFileManager.Edit(accountDetails);
-                    SetModuleValues(moduleConfiguration.IsEnabled, null);
-                    var templateDetails = new TemplateModel();
-                    SetModuleValues(moduleConfiguration.IsEnabled, templateDetails);
-                }
-               
+                else                                 
+                    SetModuleValues(false, null);
+                               
                 _mainGrid.DataContext = Model as TModel;
                 _accountGrowthModeHeader.DataContext = this;
                 SetSelectedAccounts(accountDetails.AccountBaseModel.AccountNetwork, _accountGrowthModeHeader.SelectedItem);
-
             }
-
             catch (Exception ex)
             {
                 ex.DebugLog();
