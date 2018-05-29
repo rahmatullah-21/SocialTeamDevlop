@@ -64,6 +64,24 @@ namespace DominatorUIUtility.CustomControl
         bool _initialized = false;
         private bool _isCancelledUpdate = false;
 
+        private TViewModel _ObjViewModel = new TViewModel();
+        private ObservableCollectionBase<string> _accountItemSource;
+        private string _selectedItem;
+
+
+        public TViewModel ObjViewModel
+        {
+            get { return _ObjViewModel; }
+            set
+            {
+                _ObjViewModel = value;
+                OnPropertyChanged(nameof(ObjViewModel));
+            }
+        }
+
+        // NOTE: ViewModel must contain Model field
+        public dynamic Model => (ObjViewModel as dynamic).Model as TModel;
+
         #endregion
 
         #region Module base Initializer
@@ -230,28 +248,6 @@ namespace DominatorUIUtility.CustomControl
                 OnPropertyChanged(nameof(_selectedItem));
             }
         }
-
-        #endregion
-
-        #region Properties
-
-        private TViewModel _ObjViewModel = new TViewModel();
-        private ObservableCollectionBase<string> _accountItemSource;
-        private string _selectedItem;
-
-
-        public TViewModel ObjViewModel
-        {
-            get { return _ObjViewModel; }
-            set
-            {
-                _ObjViewModel = value;
-                OnPropertyChanged(nameof(ObjViewModel));
-            }
-        }
-
-        // NOTE: ViewModel must contain Model field
-        public dynamic Model => (ObjViewModel as dynamic).Model as TModel;
 
         #endregion
 
@@ -1298,7 +1294,7 @@ namespace DominatorUIUtility.CustomControl
 
         #region  Old Save account configuration
 
-        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveIndividualAccountConfiguration with 2 parameters")]
+        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveConfigurations", true)]
         protected void SaveIndividualAccountConfiguration(string selectedAccount)
         {
             try
@@ -1360,6 +1356,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
+        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveConfigurations", true)]
         protected void SaveIndividualAccountConfiguration()
         {
             try
@@ -1485,7 +1482,7 @@ namespace DominatorUIUtility.CustomControl
 
         #region Save last selected accounts in account configuration mode
 
-        [Obsolete("Dont use this method instead use SetSelectedAccounts with single parameter")]
+        [Obsolete("Dont use this method instead use SetSelectedAccounts with single parameter",true)]
         public void SetSelectedAccounts(SocialNetworks networks, string selectedAccounts)
         {
             var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));

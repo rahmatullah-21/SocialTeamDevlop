@@ -418,7 +418,7 @@ namespace DominatorHouseCore.Process
         /// <summary>
         ///     Logs-in to social network and scrap data from its feed
         /// </summary>
-        protected bool LoginBase(ILoginProcess logInProcess, CancellationToken cancellationToken)
+        protected bool LoginBase(ILoginProcess logInProcess)
         {
             try
             {
