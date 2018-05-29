@@ -1298,7 +1298,7 @@ namespace DominatorUIUtility.CustomControl
 
         #region  Old Save account configuration
 
-        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveIndividualAccountConfiguration with 2 parameters")]
+        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveIndividualAccountConfiguration with 2 parameters",true)]
         protected void SaveIndividualAccountConfiguration(string selectedAccount)
         {
             try
@@ -1488,7 +1488,7 @@ namespace DominatorUIUtility.CustomControl
 
         #region Save last selected accounts in account configuration mode
 
-        [Obsolete("Dont use this method instead use SetSelectedAccounts with single parameter")]
+        [Obsolete("Dont use this method instead use SetSelectedAccounts with single parameter",true)]
         public void SetSelectedAccounts(SocialNetworks networks, string selectedAccounts)
         {
             var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
