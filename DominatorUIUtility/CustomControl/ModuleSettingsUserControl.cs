@@ -1473,7 +1473,7 @@ namespace DominatorUIUtility.CustomControl
 
                 _mainGrid.DataContext = Model as TModel;
                 _accountGrowthModeHeader.DataContext = this;
-                SetSelectedAccounts(accountDetails.AccountBaseModel.AccountNetwork, _accountGrowthModeHeader.SelectedItem);
+                SetSelectedAccounts(accountDetails.AccountBaseModel.AccountNetwork);
             }
             catch (Exception ex)
             {
@@ -1485,10 +1485,13 @@ namespace DominatorUIUtility.CustomControl
 
         #region Save last selected accounts in account configuration mode
 
+        [Obsolete("Dont use this method instead use SetSelectedAccounts with single parameter")]
         public void SetSelectedAccounts(SocialNetworks networks, string selectedAccounts)
         {
             var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
+
             _accountGrowthModeHeader.AccountItemSource = accounts;
+
             switch (networks)
             {
                 case SocialNetworks.Facebook:
@@ -1525,6 +1528,15 @@ namespace DominatorUIUtility.CustomControl
             _accountGrowthModeHeader.SelectedItem = selectedAccounts ?? (!string.IsNullOrEmpty(accounts[0]) ? accounts[0] : "");
         }
 
+        public void SetSelectedAccounts(SocialNetworks networks)
+        {
+            var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
+
+            _accountGrowthModeHeader.AccountItemSource = accounts;
+
+            _accountGrowthModeHeader.SelectedItem = SocinatorInitialize.GetSocialLibrary(networks)
+                .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount;
+        }
 
         #endregion
 

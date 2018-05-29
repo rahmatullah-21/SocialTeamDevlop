@@ -1287,6 +1287,7 @@ namespace DominatorUIUtility.ViewModel
                 selectedAccount.AccountBaseModel.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
                 selectedAccount.AccountBaseModel.AccountNetwork = objDominatorAccountBaseModel.AccountNetwork;
 
+
                 List<ProxyManagerModel> oldproxies = ProxyFileManager.GetAllProxy();
 
                 if (!UpdateProxyIfNull(objDominatorAccountBaseModel, oldproxies, strategyPack))
@@ -1303,6 +1304,7 @@ namespace DominatorUIUtility.ViewModel
                 }
 
                 #region Checking status
+
 
 
                 try
