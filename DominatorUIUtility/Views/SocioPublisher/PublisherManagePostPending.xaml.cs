@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorUIUtility.ViewModel.SocioPublisher;
@@ -48,5 +49,12 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void MediaViewer_OnNextImage(object sender, RoutedEventArgs e)
+            => PublisherManagePostPendingViewModel.NextImage(sender);
+
+
+        private void MediaViewer_OnPreviousImage(object sender, RoutedEventArgs e)
+            => PublisherManagePostPendingViewModel.PreviousImage(sender);
     }
 }

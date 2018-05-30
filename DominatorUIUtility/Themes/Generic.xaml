@@ -2,8 +2,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:DominatorUIUtility"
-    xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl">
+    xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+    xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
 
+   
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/DHLanguages/English.xaml"/>
@@ -18,17 +20,20 @@
         <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converters:BooleanToVisibilityConverter>
+    <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
     <Style TargetType="{x:Type customControl:MediaViewer}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type customControl:MediaViewer}">
                     <Border Background="{TemplateBinding Background}" x:Name="PART_Border"
                             BorderBrush="{TemplateBinding BorderBrush}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <StackPanel Orientation="Horizontal" x:Name="PART_MainStackPanel">
-
-                            <Button x:Name="PART_NavigatePreviousImage" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="1,0,2,0">
+                        <StackPanel Orientation="Horizontal" x:Name="PART_MainStackPanel" HorizontalAlignment="Center" Visibility="{TemplateBinding IsPostDataPresent,Converter={StaticResource BooleanToVisibilityConverter}}">
+                            
+                            <Button x:Name="PART_NavigatePreviousImage" Cursor="Hand" IsEnabled="{TemplateBinding IsEnablePreviousPointer}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="1,0,5,0">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -44,9 +49,12 @@
                                 </Button.Template>
                             </Button>
 
-                            <Image x:Name="PART_Image" Width="50" Margin="1" Source="C:\\Users\\Public\\Pictures\\Sample Pictures\\2.jpg" ></Image>
-
-                            <Button x:Name="PART_NavigateNextImage" Cursor="Hand"  Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="2,0,2,0" >
+                            <Border BorderBrush="Black" BorderThickness="1" >
+                                <Image x:Name="PART_Image" Margin="1" Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
+                                </Image>
+                            </Border>
+                          
+                            <Button x:Name="PART_NavigateNextImage" Cursor="Hand" IsEnabled="{TemplateBinding IsEnableNextPointer}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5,0,2,0" >
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -61,11 +69,11 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-
+                            
                             <StackPanel x:Name="PART_MediaDetailsStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0,0,0">
-                                <TextBlock x:Name="PART_CurrentPointerMediaId" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
+                                <TextBlock x:Name="PART_CurrentPointerMediaId"  Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CurrentMediaPointer}" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
                                 <TextBlock Text="/" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
-                                <TextBlock x:Name="PART_TotalMediacount" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TotalMediaCount}" x:Name="PART_TotalMediacount" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
                             </StackPanel>
 
                         </StackPanel>

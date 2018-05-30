@@ -31,7 +31,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public List<string> ManagePostTabItems { get; set; } = new List<string>();
 
-        private string _selectedTabs = ConstantVariable.DraftPostList;
+        private string _selectedTabs = string.Empty;
         public string SelectedTabs
         {
             get
@@ -61,7 +61,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (_selectedCampaignDetails == value)
                     return;
                 _selectedCampaignDetails = value;
-                OnPropertyChanged(nameof(SelectedCampaignDetails));             
+                OnPropertyChanged(nameof(SelectedCampaignDetails));
             }
         }
 
@@ -99,7 +99,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        public Queue<CancellationTokenSource> QueueCancellationTokenSources { get; set; }  = new Queue<CancellationTokenSource>();
+        public Queue<CancellationTokenSource> QueueCancellationTokenSources { get; set; } = new Queue<CancellationTokenSource>();
 
         #endregion
 
@@ -114,14 +114,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             CampaignList.Add(new IdNameBinderModel { Id = "campaign3", Name = "Campaign3" });
 
             SelectedCampaignDetails = CampaignList[0];
-
-            SelectedTabs = ConstantVariable.DraftPostList;
-            var draftView = new PublisherManagePostDrafts();
-
-            var cancellationToken = new CancellationTokenSource();
-            QueueCancellationTokenSources.Enqueue(cancellationToken);
-            Task.Factory.StartNew(() => draftView.PublisherManagePostDraftsViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken), cancellationToken.Token);
+            
         }
+
+       
 
         private bool NavigationCanExecute(object sender) => true;
 
@@ -139,7 +135,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private bool TabChangeCanExecute(object sender) => true;
 
-        private void TabChangeExecute(object sender)
+        public void TabChangeExecute(object sender)
         {
             var selectedButton = sender as string;
 
@@ -158,12 +154,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 catch (OperationCanceledException ex)
                 {
-                  ex.DebugLog("Request Cancelled!");
+                    ex.DebugLog("Request Cancelled!");
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
-                }                           
+                }
             }
             else if (selectedButton == ConstantVariable.PendingPostList)
             {

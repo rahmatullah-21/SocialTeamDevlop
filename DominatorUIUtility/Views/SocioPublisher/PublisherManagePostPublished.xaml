@@ -5,11 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              x:Name="PublishedPostList"
              mc:Ignorable="d">
     <UserControl.Resources>
         <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
         <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -29,7 +32,8 @@
                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_rocket}" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
-                <Label Content="{DynamicResource DHlangManagePostPublishedPostList}" Margin="0,0,50,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="16" FontWeight="Regular" VerticalContentAlignment="Center"/>
+                <Label Content="{DynamicResource DHlangManagePostPublishedPostList}" Margin="0,0,5,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="16" FontWeight="Regular" VerticalContentAlignment="Center"/>
+                <mah:ProgressRing IsActive="{Binding IsProgressRingActive}" HorizontalAlignment="Left" Margin="0,0,50,0" Visibility="{Binding IsProgressRingActive,Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="{DynamicResource AccentBaseColorBrush}" Height="30" Width="30" />
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Top" Margin="5"  HorizontalAlignment="Right">
@@ -155,7 +159,7 @@
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                    <Setter Property="Height" Value="30"></Setter>
+                    <Setter Property="Height" Value="40"></Setter>
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
@@ -204,7 +208,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-
+                                    <customControl:MediaViewer Width="180" TotalMediaCount="{Binding TotalMediaCount}" CurrentMediaPointer="{Binding MediaCurrentPointer}" CurrentMediaUrl="{Binding CurrentMediaUrl,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  MediaList="{Binding MediaList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" NextImage="MediaViewer_OnNextImage" PreviousImage="MediaViewer_OnPreviousImage" IsEnableNextPointer="{Binding NextImageEnable}" IsEnablePreviousPointer="{Binding PreviousImageEnable}" IsPostDataPresent="{Binding IsPostListPresent}"></customControl:MediaViewer>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

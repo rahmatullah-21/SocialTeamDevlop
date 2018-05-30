@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
@@ -9,7 +11,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// <summary>
     /// Interaction logic for PublisherManagePostDrafts.xaml
     /// </summary>
-    public partial class PublisherManagePostDrafts : UserControl , INotifyPropertyChanged
+    public partial class PublisherManagePostDrafts : UserControl, INotifyPropertyChanged
     {
         public PublisherManagePostDrafts()
         {
@@ -26,7 +28,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
             set
             {
-                if(_publisherManagePostDraftsViewModel == value)
+                if (_publisherManagePostDraftsViewModel == value)
                     return;
 
                 _publisherManagePostDraftsViewModel = value;
@@ -34,7 +36,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
         }
 
- 
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -42,5 +44,13 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void MediaViewer_OnNextImage(object sender, RoutedEventArgs e)
+            => PublisherManagePostDraftsViewModel.NextImage(sender);
+
+        private void MediaViewer_OnPreviousImage(object sender, RoutedEventArgs e) 
+            => PublisherManagePostDraftsViewModel.PreviousImage(sender);
+
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.SocioPublisher;
 using ProtoBuf;
@@ -52,26 +53,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private ObservableCollection<string> _mediaList = new ObservableCollection<string>();
-
-        /// <summary>
-        /// To hold the image or video file 
-        /// </summary>
-        [ProtoMember(3)]
-        public ObservableCollection<string> MediaList
-        {
-            get
-            {
-                return _mediaList;
-            }
-            set
-            {
-                if (_mediaList == value)
-                    return;
-                _mediaList = value;
-                OnPropertyChanged(nameof(MediaList));              
-            }
-        }
+        
 
         private DateTime _createdTime;
 
@@ -280,6 +262,169 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        #region Postlist
+
+        private ObservableCollection<string> _mediaList = new ObservableCollection<string>();
+        /// <summary>
+        /// To hold the image or video file 
+        /// </summary>
+        [ProtoMember(3)]
+        public ObservableCollection<string> MediaList
+        {
+            get
+            {
+                return _mediaList;
+            }
+            set
+            {
+                if (_mediaList == value)
+                    return;
+                _mediaList = value;
+                OnPropertyChanged(nameof(MediaList));
+            }
+        }
+
+
+        private string _currentMediaUrl = string.Empty;
+        public string CurrentMediaUrl
+        {
+            get
+            {
+                return _currentMediaUrl;
+            }
+            set
+            {             
+                if (_currentMediaUrl == value)
+                    return;
+                _currentMediaUrl = value;
+                OnPropertyChanged(nameof(CurrentMediaUrl));
+            }
+        }
+
+
+        private bool _nextImageEnable;
+        public bool NextImageEnable
+        {
+            get
+            {
+                return _nextImageEnable;
+            }
+            set
+            {
+                if (_nextImageEnable == value)
+                    return;
+                _nextImageEnable = value;
+                OnPropertyChanged(nameof(NextImageEnable));
+            }
+        }
+
+
+        private bool _previousImageEnable;
+        public bool PreviousImageEnable
+        {
+            get
+            {
+                return _previousImageEnable;
+            }
+            set
+            {
+                if (_previousImageEnable == value)
+                    return;
+                _previousImageEnable = value;
+                OnPropertyChanged(nameof(PreviousImageEnable));
+            }
+        }
+
+
+        private int _mediaCurrentPointer;
+        public int MediaCurrentPointer
+        {
+            get
+            {
+                return _mediaCurrentPointer;
+            }
+            set
+            {
+                if (_mediaCurrentPointer == value)
+                    return;
+                _mediaCurrentPointer = value;
+                OnPropertyChanged(nameof(MediaCurrentPointer));
+            }
+        }
+
+
+        private int _imagePointer;
+        public int ImagePointer
+        {
+            get
+            {
+                return _imagePointer;
+            }
+            set
+            {
+                if (_imagePointer == value)
+                    return;
+                _imagePointer = value;
+                OnPropertyChanged(nameof(ImagePointer));
+            }
+        }
+
+
+        private int _totalMediaCount;
+        public int TotalMediaCount
+        {
+            get
+            {
+                return _totalMediaCount;
+            }
+            set
+            {
+                if (_totalMediaCount == value)
+                    return;
+                _totalMediaCount = value;
+                OnPropertyChanged(nameof(TotalMediaCount));
+            }
+        }
+
+
+        private bool _isPostListPresent;
+        public bool IsPostListPresent
+        {
+            get
+            {
+                return _isPostListPresent;
+            }
+            set
+            {
+                if (_isPostListPresent == value)
+                    return;
+                _isPostListPresent = value;
+                OnPropertyChanged(nameof(IsPostListPresent));
+            }
+        }
+
+
+        public void InitializePostData()
+        {
+            IsPostListPresent = MediaList.Count > 0;
+            if (IsPostListPresent)
+            {
+                ImagePointer = 0;
+                MediaCurrentPointer = 1;
+                CurrentMediaUrl = MediaList[ImagePointer];             
+                TotalMediaCount = MediaList.Count;
+                NextImageEnable = (TotalMediaCount - ImagePointer) > -1;
+                PreviousImageEnable = ImagePointer > 0;
+            }
+        }
+        public void UpdateNavigationPointer()
+        {
+            NextImageEnable = (TotalMediaCount - MediaCurrentPointer) > 0;
+            PreviousImageEnable = ImagePointer > 0;
+        }
+
+        #endregion
+
         private bool _isPostlistSelected;
         /// <summary>
         /// To specify the post list is selected or not
@@ -299,6 +444,5 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsPostlistSelected));
             }
         }
-
     }
 }

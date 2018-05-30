@@ -120,6 +120,23 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
 
+        private bool _isProgressRingActive = true;
+
+        public bool IsProgressRingActive
+        {
+            get
+            {
+                return _isProgressRingActive;
+            }
+            set
+            {
+                if (_isProgressRingActive == value)
+                    return;
+                _isProgressRingActive = value;
+                OnPropertyChanged(nameof(IsProgressRingActive));
+            }
+        }
+
         #endregion
 
         #region Select
@@ -248,6 +265,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         // public Task<IList<PublisherPostlistModel>> ReadPostList(string campaignId, PostQueuedStatus requiredPostList = PostQueuedStatus.Draft)
 
+        private int PostCount { get; set; } 
+
+
         public void ReadPostList(string campaignId, CancellationTokenSource tokenSource, PostQueuedStatus requiredPostList = PostQueuedStatus.Draft)
         {
             if (string.IsNullOrEmpty(campaignId))
@@ -255,13 +275,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             TokenSource = tokenSource;
 
+            PostCount = 0;
+
             var postItems = new ObservableCollection<PublisherPostlistModel>();
 
             #region InitializeData
 
             try
             {
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < 111; i++)
                 {
                     var postlist = new PublisherPostlistModel
                     {
@@ -280,7 +302,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         ExpiredTime = DateTime.Now.AddDays(7)
                     };
                     postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\1.jpg");
-                    postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");                
+                    postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
+                    postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\3.jpg");
+                    postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\4.jpg");
+                    postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\5.jpg");
                     postItems.Add(postlist);
 
                     var postlist1 = new PublisherPostlistModel
@@ -300,7 +325,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         ExpiredTime = DateTime.Now.AddDays(7)
                     };
                     postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\1.jpg");
-                    postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");                    
+                    postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
+                    postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\3.jpg");
+                    postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\4.jpg");
+                    postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\5.jpg");
                     postItems.Add(postlist1);
 
                     var postlist2 = new PublisherPostlistModel
@@ -319,8 +347,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         PostQueuedStatus = PostQueuedStatus.Pending,
                         ExpiredTime = DateTime.Now.AddDays(7)
                     };
-                    postlist2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\1.jpg");
-                    postlist2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");                   
+                    postlist2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\4.jpg");
+                    postlist2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
+                    postlist2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\5.jpg");
                     postItems.Add(postlist2);
                 }
             }
@@ -330,6 +359,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
 
             #endregion
+
+            PostCount = postItems.Count;
 
             Thread.Sleep(50);
 
@@ -407,14 +438,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
+                        postItems.InitializePostData();
                         PublisherPostlist.Add(postItems);
                         PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
+
+                        if (PublisherPostlist.Count == PostCount)                        
+                            IsProgressRingActive = false;
+                        Thread.Sleep(10);
                     });
                 }
                 else
                 {
+                    postItems.InitializePostData();
                     PublisherPostlist.Add(postItems);
                     PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
+
+                    if (PublisherPostlist.Count == PostCount)
+                        IsProgressRingActive = false;
+                    Thread.Sleep(10);
                 }
             }
             catch (OperationCanceledException ex)
@@ -429,5 +470,36 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #endregion
 
+
+        #region Image Navigation
+
+        public void PreviousImage(object sender)
+        {
+            var publisherPostlistModel = ((FrameworkElement)sender).DataContext as PublisherPostlistModel;
+
+            if (publisherPostlistModel == null)
+                return;
+
+            publisherPostlistModel.ImagePointer--;
+            publisherPostlistModel.CurrentMediaUrl = publisherPostlistModel.MediaList[publisherPostlistModel.ImagePointer];
+            publisherPostlistModel.MediaCurrentPointer = publisherPostlistModel.MediaCurrentPointer - 1;
+            publisherPostlistModel.UpdateNavigationPointer();
+        }
+
+
+        public void NextImage(object sender)
+        {
+            var publisherPostlistModel = ((FrameworkElement)sender).DataContext as PublisherPostlistModel;
+
+            if (publisherPostlistModel == null)
+                return;
+
+            publisherPostlistModel.ImagePointer++;
+            publisherPostlistModel.CurrentMediaUrl = publisherPostlistModel.MediaList[publisherPostlistModel.ImagePointer];
+            publisherPostlistModel.MediaCurrentPointer = publisherPostlistModel.MediaCurrentPointer + 1;
+            publisherPostlistModel.UpdateNavigationPointer();
+        }
+
+        #endregion
     }
 }

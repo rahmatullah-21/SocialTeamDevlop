@@ -8,11 +8,13 @@
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:mediaviewer="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:customcontrol="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              x:Name="DraftPostList"
              mc:Ignorable="d">
     <UserControl.Resources>
         <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
         <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -32,7 +34,8 @@
                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_pin}" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
-                <Label Content="{DynamicResource DHlangManagePostDraftPostList}" Margin="0,0,50,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="16" FontWeight="Regular" VerticalContentAlignment="Center"/>
+                <Label Content="{DynamicResource DHlangManagePostDraftPostList}" Margin="0,0,5,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="16" FontWeight="Regular" VerticalContentAlignment="Center"/>
+                <mah:ProgressRing IsActive="{Binding IsProgressRingActive}" HorizontalAlignment="Left" Margin="0,0,50,0" Visibility="{Binding IsProgressRingActive,Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="{DynamicResource AccentBaseColorBrush}" Height="30" Width="30" />
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Top" Margin="5"  HorizontalAlignment="Right">
@@ -144,7 +147,7 @@
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                    <Setter Property="Height" Value="50"></Setter>
+                    <Setter Property="Height" Value="40"></Setter>
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
@@ -193,8 +196,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <!--<mediaviewer:PublisherMediaViewer PublisherMediaViewerViewModel="{Binding PublisherMediaViewerViewModel,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>-->
-                                    <customcontrol:MediaViewer MediaList="{Binding MediaList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></customcontrol:MediaViewer>
+                                    <customcontrol:MediaViewer Width="180" TotalMediaCount="{Binding TotalMediaCount}" CurrentMediaPointer="{Binding MediaCurrentPointer}" CurrentMediaUrl="{Binding CurrentMediaUrl,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  MediaList="{Binding MediaList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" NextImage="MediaViewer_OnNextImage" PreviousImage="MediaViewer_OnPreviousImage" IsEnableNextPointer="{Binding NextImageEnable}" IsEnablePreviousPointer="{Binding PreviousImageEnable}" IsPostDataPresent="{Binding IsPostListPresent}"></customcontrol:MediaViewer>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -236,13 +238,13 @@
                                                 Command="{Binding Path=DataContext.EditSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                 Background="Transparent"/>
 
-
                                         <Button Cursor="Hand" 
                                                 Content="{DynamicResource DHlangEdit}" 
                                                 x:Name="ButtonEditPosts" 
                                                 FontWeight="SemiBold"       
                                                 Command="{Binding Path=DataContext.EditSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                 Background="Transparent"/>
+                                        
                                         <Button Cursor="Hand"
                                                 Content="{DynamicResource DHlangDelete}"  
                                                 x:Name="ButtonDeletePosts" 
