@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.DatabaseHandler.LdTables.Account;
+using DominatorHouseCore.Enums;
 using SQLite.CodeFirst;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         /// <summary>
         /// EmailId of the Account from which Interaction has been done
         /// </summary>
-        [Index("Pk_AccountEmail_ActivityType_ContentId", 1, IsUnique = true)]
+     
         [Column(Order = 2)]
         public string AccountEmail { get; set; }
 
@@ -41,7 +42,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         /// <summary>
         /// Describes Activity 
         /// </summary>
-        [Index("Pk_AccountEmail_ActivityType_ContentId", 2, IsUnique = true)]
+      
         [Column(Order = 5)]
         public string ActivityType { get; set; }
 
@@ -55,9 +56,9 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         /// <summary>
         /// Contains ContentId of the Post being interacted
         /// </summary>
-        [Index("Pk_AccountEmail_ActivityType_ContentId", 3, IsUnique = true)]
+    
         [Column(Order = 7)]
-        public string ContentId { get; set; }
+        public string PostLink { get; set; }
 
 
         /// <summary>
@@ -83,11 +84,26 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         /// </summary>
         [Column(Order = 11)]
         public string Comments { get; set; }
-        
+
+        /// <summary>
+        /// Contains name of the user who created the Post
+        /// </summary>
+        [Column(Order = 12)]
+        public string PostOwnerFullName { get; set; }
+
+        [Column(Order = 13)]
+        public string PostOwnerProfileUrl { get; set; }
+
+        [Column(Order = 14)]
+        public ConnectionType ConnectionType { get; set; }
+
+        [Column(Order = 15)]
+        public Int64 PostedTime { get; set; }
+
         /// <summary>
         /// TimeStamp when interacted with the Post
         /// </summary>
-        [Column(Order = 12)]
+        [Column(Order = 16)]
         public int InteractionTimeStamp { get; set; }
 
     }

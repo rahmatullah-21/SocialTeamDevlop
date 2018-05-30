@@ -29,5 +29,9 @@ namespace DominatorHouseCore.Utility
         [ProtoMember(7)]
         public int MaximumCountPerDay { get; set; } = 30;
 
+        [ProtoMember(8)]
+        public bool IsTemplateMadeByCampaignMode { get; set; } 
+
+
     }
 }

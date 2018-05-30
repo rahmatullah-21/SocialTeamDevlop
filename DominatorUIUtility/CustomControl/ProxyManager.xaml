@@ -3,356 +3,61 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl" Name="proxyManager" 
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" Loaded="ProxyManager_OnLoaded"
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" x:Name="MainGrid"
              xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
-             xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore">
-
+             xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
+             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
     <UserControl.Resources>
-
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <converter:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
-        <converter:BooleanToWidthConverter x:Key="BooleanToWidthConverter"/>
         <converter:ProxyPortToIpAddressConvertor x:Key="ProxyPortToIpAddressConvertor"/>
-
-        <DataTemplate x:Key="AccountsAssignedToTemplate">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal">
-                    <ContentControl Margin="10,0" VerticalAlignment="Center" >
-                        <ContentControl.Style>
-                            <Style TargetType="{x:Type ContentControl}"  >
+        <converter:ListConvertor x:Key="ListConvertor"/>
+        <converter:AlternationIndexConverter x:Key="AlternationIndexConverter"/>
+        <ControlTemplate x:Key="ErrorTemplate">
+            <StackPanel Orientation="Vertical">
+                <AdornedElementPlaceholder x:Name="ErrorHolder" >
+                    <Border BorderBrush="red" BorderThickness="1" >
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
-                                        <Setter Property="Content" >
-                                            <Setter.Value>
-                                                <Rectangle Fill="#003569" Width="20" Height="20">
-                                                    <Rectangle.Resources>
-                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                    </Rectangle.Resources>
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </Setter.Value>
-                                        </Setter>
+                                    <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid IP address" >
+                                        <Setter Property="Visibility" Value="Visible"/>
                                     </DataTrigger>
-
-                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
-                                        <Setter Property="Content" >
-                                            <Setter.Value>
-                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                    <Rectangle.Resources>
-                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                    </Rectangle.Resources>
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-
-                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
-                                        <Setter Property="Content" >
-                                            <Setter.Value>
-                                                <Rectangle Fill="#3897F0" Width="20" Height="20">
-                                                    <Rectangle.Resources>
-                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                    </Rectangle.Resources>
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-
-                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
-                                        <Setter Property="Content" >
-                                            <Setter.Value>
-                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                    <Rectangle.Resources>
-                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                    </Rectangle.Resources>
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-
-                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
-                                        <Setter Property="Content" >
-                                            <Setter.Value>
-                                                <Rectangle Fill="Red" Width="20" Height="20">
-                                                    <Rectangle.Resources>
-                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                    </Rectangle.Resources>
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-
-                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
-                                        <Setter Property="Content" >
-                                            <Setter.Value>
-                                                <Rectangle Fill="OrangeRed" Width="20" Height="20">
-                                                    <Rectangle.Resources>
-                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                    </Rectangle.Resources>
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-
-                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
-                                        <Setter Property="Content" >
-                                            <Setter.Value>
-                                                <Rectangle Fill="DodgerBlue" Width="20" Height="20">
-                                                    <Rectangle.Resources>
-                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                    </Rectangle.Resources>
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-
-                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
-                                        <Setter Property="Content" >
-                                            <Setter.Value>
-                                                <Rectangle Fill="DimGray" Width="16" Height="20">
-                                                    <Rectangle.Resources>
-                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                    </Rectangle.Resources>
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
-                                        <Setter Property="Content" >
-                                            <Setter.Value>
-                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
-                                        <Setter Property="Content" >
-                                            <Setter.Value>
-                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-
-
                                 </Style.Triggers>
                             </Style>
-                        </ContentControl.Style>
-                    </ContentControl>
-                    <TextBlock Text="{Binding UserName}" VerticalAlignment="Center" x:Name="txtblkaccount"/>
-                </StackPanel>
-                <Button Content="{DynamicResource langRemove}" x:Name="btnRemoveAccountFromProxy"  Grid.Column="1"
-                        HorizontalAlignment="Left"  FontWeight="SemiBold" VerticalAlignment="Center" 
-                        Foreground="{Binding ElementName=txtblkaccount,Path=Foreground}"
-                        Background="Transparent" Click="btnRemoveAccountFromProxy_Click"/>
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="AccountsToBeAssignTemplate">
-            <StackPanel Orientation="Horizontal">
-                <CheckBox x:Name="Account" Checked="Account_Checked"/>
-                <ContentControl Margin="10,0" VerticalAlignment="Center">
-                    <ContentControl.Style>
-                        <Style TargetType="{x:Type ContentControl}">
+                        </Border.Style>
+                    </Border>
+                </AdornedElementPlaceholder>
+                <TextBlock  VerticalAlignment="Center" Name="error"  FontWeight="SemiBold"  Text="{Binding ElementName=ErrorHolder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" Foreground="Red">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
-                                    <Setter Property="Content" >
-                                        <Setter.Value>
-                                            <Rectangle Fill="#003569" Width="20" Height="20">
-                                                <Rectangle.Resources>
-                                                    <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                </Rectangle.Resources>
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </Setter.Value>
-                                    </Setter>
+                                <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid IP address" >
+                                    <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
-
-                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
-                                    <Setter Property="Content" >
-                                        <Setter.Value>
-                                            <Rectangle Fill="Red" Width="20" Height="20">
-                                                <Rectangle.Resources>
-                                                    <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                </Rectangle.Resources>
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-
-                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
-                                    <Setter Property="Content" >
-                                        <Setter.Value>
-                                            <Rectangle Fill="#3897F0" Width="20" Height="20">
-                                                <Rectangle.Resources>
-                                                    <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                </Rectangle.Resources>
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-
-                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
-                                    <Setter Property="Content" >
-                                        <Setter.Value>
-                                            <Rectangle Fill="Red" Width="20" Height="20">
-                                                <Rectangle.Resources>
-                                                    <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                </Rectangle.Resources>
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-
-                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
-                                    <Setter Property="Content" >
-                                        <Setter.Value>
-                                            <Rectangle Fill="Red" Width="20" Height="20">
-                                                <Rectangle.Resources>
-                                                    <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                </Rectangle.Resources>
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-
-                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
-                                    <Setter Property="Content" >
-                                        <Setter.Value>
-                                            <Rectangle Fill="OrangeRed" Width="20" Height="20">
-                                                <Rectangle.Resources>
-                                                    <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                </Rectangle.Resources>
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-
-                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
-                                    <Setter Property="Content" >
-                                        <Setter.Value>
-                                            <Rectangle Fill="DodgerBlue" Width="20" Height="20">
-                                                <Rectangle.Resources>
-                                                    <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                </Rectangle.Resources>
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-
-                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
-                                    <Setter Property="Content" >
-                                        <Setter.Value>
-                                            <Rectangle Fill="DimGray" Width="16" Height="20">
-                                                <Rectangle.Resources>
-                                                    <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                </Rectangle.Resources>
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
-                                    <Setter Property="Content" >
-                                        <Setter.Value>
-                                            <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
-                                    <Setter Property="Content" >
-                                        <Setter.Value>
-                                            <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-
                             </Style.Triggers>
                         </Style>
-                    </ContentControl.Style>
-                </ContentControl>
-                <TextBlock Text="{Binding UserName}" VerticalAlignment="Center" x:Name="txtblkaccount"/>
-            </StackPanel>
-        </DataTemplate>
+                    </TextBlock.Style>
 
+                </TextBlock>
+            </StackPanel>
+        </ControlTemplate>
     </UserControl.Resources>
 
-    <Grid x:Name="MainGrid">
+    <Grid >
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*" />
-            <RowDefinition Height="10*" />
+            <RowDefinition Height="150" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Background="{DynamicResource AccentBaseColorBrush}">
 
-                <Button Height="30"   x:Name="btnImportProxies" Margin="10,5" Click="btnImportProxies_Click"
+                <Button Height="30"   x:Name="btnImportProxies" Margin="10,5" Command="{Binding ImportProxyCommand}"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" ToolTip="{DynamicResource DHImportProxyDescription}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
@@ -366,7 +71,7 @@
                     </Button.Content>
                 </Button>
 
-                <Button  Height="30"  x:Name="btnExportProxies" Margin="10,5" Click="btnExportProxies_Click"
+                <Button  Height="30"  x:Name="btnExportProxies" Margin="10,5" Command="{Binding ExportProxyCommand}"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" >
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
@@ -381,7 +86,7 @@
                 </Button>
 
                 <Button  Height="30"  x:Name="btnAddProxy" Margin="10,5"
-                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Click="btnAddProxy_Click">
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Command="{Binding AddProxyCommand}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
@@ -398,42 +103,71 @@
 
             <StackPanel Orientation="Horizontal"  Margin="5">
 
-                <CheckBox Margin="5" IsChecked="{Binding IsHideAssignedSocialProfiles}"
-                          Content="{DynamicResource langHideAssignedSocialProfiles}"/>
-                <CheckBox Margin="5" IsChecked="{Binding IsHideUsernameAndPasswordoperty}" 
-                          Content="{DynamicResource langHideUsernameAndPassword}"/>
-                <CheckBox Margin="5" IsChecked="{Binding IsShowByGroup}" 
+                <CheckBox Margin="5" 
+                          Name="ChkHideUnhideSocialProfiles"
+                          Command="{Binding HideUnhideSocialProfilesCommand}"
+                          Content="{DynamicResource langHideAssignedSocialProfiles}">
+                    <CheckBox.CommandParameter>
+                        <MultiBinding Converter="{StaticResource ListConvertor}" UpdateSourceTrigger="PropertyChanged">
+                            <Binding ElementName="ProxyDataGrid" />
+                            <Binding Path="IsChecked" ElementName ="ChkHideUnhideSocialProfiles"/>
+                        </MultiBinding>
+                    </CheckBox.CommandParameter>
+                </CheckBox>
+                <CheckBox Margin="5" 
+                          Content="{DynamicResource langHideUsernameAndPassword}"
+                          Command="{Binding HideUnhideUserPasswordCommand}"
+                          x:Name="ChkHideUnhideUserPassword">
+                    <CheckBox.CommandParameter>
+                        <MultiBinding Converter="{StaticResource ListConvertor}" UpdateSourceTrigger="PropertyChanged">
+                            <Binding ElementName="ProxyDataGrid" />
+                            <Binding Path="IsChecked" ElementName="ChkHideUnhideUserPassword"/>
+                        </MultiBinding>
+                    </CheckBox.CommandParameter>
+                </CheckBox>
+                <CheckBox Margin="5" 
                           Content="{DynamicResource DHlangShowByGroup}"
-                          x:Name="ShowByGroup" Checked="ShowByGroup_Checked" Unchecked="ShowByGroup_Unchecked"/>
-                <CheckBox Margin="5" IsChecked="{Binding FilterByGroup}"
-                          Content="{DynamicResource langFilterByGroup}" x:Name="FilterByGroup"
-                          Unchecked="FilterByGroup_Unchecked"/>
-                <CheckBox Margin="5" IsChecked="{Binding IsShowProxiesWithError}" 
+                          x:Name="ShowByGroup" Command="{Binding ShowByGroupCommand}"
+                          CommandParameter="{Binding IsChecked,ElementName=ShowByGroup}"/>
+                <CheckBox Margin="5"
+                          Content="{DynamicResource langFilterByGroup}" x:Name="FilterByGroup"/>
+                <CheckBox Margin="5"  
                           Content="{DynamicResource langShowProxiesWithError}" Name="ShowProxiesWithError"
-                          Checked="ShowProxiesWithError_Checked" Unchecked="ShowProxiesWithError_Unchecked"/>
-                <CheckBox Margin="5" IsChecked="{Binding IsShowUnassignedProxies}"
+                          Command="{Binding ShowProxiesWithErrorCommand}"
+                          CommandParameter="{Binding IsChecked,ElementName=ShowProxiesWithError}"/>
+                <CheckBox Margin="5"
                           Content="{DynamicResource langShowUnassignedProxies}" 
-                          x:Name="chkShowUnassignedProxies" Checked="chkShowUnassignedProxies_Checked"
-                          Unchecked="chkShowUnassignedProxies_Unchecked"/>
+                          x:Name="ChkShowUnassignedProxies" 
+                          Command="{Binding ShowUnassignedProxiesCommand}"
+                          CommandParameter="{Binding IsChecked,ElementName=ChkShowUnassignedProxies}"/>
 
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal" Margin="5">
                 <TextBlock VerticalAlignment="Center" Margin="5" Text="{DynamicResource langFilter}"/>
-                <TextBox Width="200" Height="25" Name="txtfilter" Text="{Binding Filter}" TextChanged="txtfilter_TextChanged"/>
+                <TextBox Width="200" Height="25" Name="txtfilter" Text="{Binding Filter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource langURLToUseToVerifyProxies}"/>
-                <TextBox Width="200" Height="25" Name="txtURLToUseToVerifyProxies" Text="{Binding URLToUseToVerifyProxies}"/>
+                <TextBox Width="200" Height="25" Name="txtURLToUseToVerifyProxies" >
+                    <TextBox.Text>
+                        <Binding Path="URLToUseToVerifyProxies" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validation:UrlValidator ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <StackPanel Orientation="Horizontal" x:Name="cmbFilterBytag" Margin="30,0"
-                            Visibility="{Binding FilterByGroup,Converter={StaticResource BooleanToVisibilityConverter}}">
+                            Visibility="{Binding ElementName=FilterByGroup, Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource langSelectTag}"/>
-                    <ComboBox  Width="200" ItemsSource="{Binding Groups}" Name="Group" SelectionChanged="Group_SelectionChanged"/>
+                    <ComboBox  Width="200" ItemsSource="{Binding ProxyManagerModel.Groups}" Name="Group" 
+                               behaviours:SelectionChangedBehaviour.Command="{Binding GroupsChangedCommand}"/>
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel  Orientation="Horizontal" >
+            <StackPanel  Orientation="Horizontal" Background="{DynamicResource AccentBaseColorBrush}">
 
                 <Button  Height="30"  x:Name="btnDeleteSelected" Margin="10,5"
-                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Click="btnDeleteSelected_Click">
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Command="{Binding DeleteCommand}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle  Width="15" Height="18" Fill="White">
@@ -446,7 +180,8 @@
                     </Button.Content>
                 </Button>
 
-                <Button  Height="30"  x:Name="btnExportSelected" Margin="10,5" Click="btnExportSelected_Click"
+                <Button  Height="30"  x:Name="btnExportSelected" Margin="10,5" 
+                         Command="{Binding ExportProxyCommand}" CommandParameter="Selected"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" >
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
@@ -464,239 +199,523 @@
 
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <Grid >
-                <Grid.Resources>
-                    <ControlTemplate x:Key="ErrorTemplate">
-                        <StackPanel Orientation="Vertical">
-                            <AdornedElementPlaceholder x:Name="ErrorHolder" >
-                                <Border BorderBrush="red" BorderThickness="1" >
-                                    <Border.Style>
-                                        <Style TargetType="{x:Type Border}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding ProxyManagerCollection, IsAsync=True}"
+                  AutoGenerateColumns="False" EnableRowVirtualization="False" 
+                  CanUserAddRows="False" Foreground="White" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                  AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  GridLinesVisibility="All" 
+                  x:Name="ProxyDataGrid" >
+            <DataGrid.Resources>
+
+                <DataTemplate x:Key="AccountsAssignedToTemplate">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <VirtualizingStackPanel  Orientation="Horizontal">
+                            <ContentControl Margin="10,0" VerticalAlignment="Center">
+                                <ContentControl.Style>
+                                    <Style TargetType="{x:Type ContentControl}"  >
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
+                                                <Setter Property="Content" >
+                                                    <Setter.Value>
+                                                        <Rectangle Fill="#003569" Width="20" Height="20">
+                                                            <Rectangle.Resources>
+                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                            </Rectangle.Resources>
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
+                                                <Setter Property="Content" >
+                                                    <Setter.Value>
+                                                        <Rectangle Fill="Red" Width="20" Height="20">
+                                                            <Rectangle.Resources>
+                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                            </Rectangle.Resources>
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
+                                                <Setter Property="Content" >
+                                                    <Setter.Value>
+                                                        <Rectangle Fill="#3897F0" Width="20" Height="20">
+                                                            <Rectangle.Resources>
+                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                            </Rectangle.Resources>
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
+                                                <Setter Property="Content" >
+                                                    <Setter.Value>
+                                                        <Rectangle Fill="Red" Width="20" Height="20">
+                                                            <Rectangle.Resources>
+                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                            </Rectangle.Resources>
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
+                                                <Setter Property="Content" >
+                                                    <Setter.Value>
+                                                        <Rectangle Fill="Red" Width="20" Height="20">
+                                                            <Rectangle.Resources>
+                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                            </Rectangle.Resources>
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
+                                                <Setter Property="Content" >
+                                                    <Setter.Value>
+                                                        <Rectangle Fill="OrangeRed" Width="20" Height="20">
+                                                            <Rectangle.Resources>
+                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                            </Rectangle.Resources>
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
+                                                <Setter Property="Content" >
+                                                    <Setter.Value>
+                                                        <Rectangle Fill="DodgerBlue" Width="20" Height="20">
+                                                            <Rectangle.Resources>
+                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                            </Rectangle.Resources>
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
+                                                <Setter Property="Content" >
+                                                    <Setter.Value>
+                                                        <Rectangle Fill="DimGray" Width="16" Height="20">
+                                                            <Rectangle.Resources>
+                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                            </Rectangle.Resources>
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                                <Setter Property="Content" >
+                                                    <Setter.Value>
+                                                        <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                                <Setter Property="Content" >
+                                                    <Setter.Value>
+                                                        <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </ContentControl.Style>
+                            </ContentControl>
+                            <TextBlock Text="{Binding UserName}" VerticalAlignment="Center" x:Name="txtblkaccount"/>
+                        </VirtualizingStackPanel>
+                        <Button Content="{DynamicResource langRemove}" x:Name="btnRemoveAccountFromProxy" 
+                                Grid.Column="1"
+                                HorizontalAlignment="Left" 
+                                FontWeight="SemiBold" VerticalAlignment="Center" 
+                                Foreground="{Binding ElementName=txtblkaccount,Path=Foreground}"
+                                Background="Transparent" Command="{Binding Source={x:Reference MainGrid},
+                                Path=DataContext.RemoveAccountFromProxyCommand}"
+                                CommandParameter="{Binding}"/>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="AccountsToBeAssignTemplate">
+                    <VirtualizingStackPanel  Orientation="Horizontal">
+                        <CheckBox x:Name="Account" Command="{Binding DataContext.AccountToAddToProxyCommand,
+                                  Source={x:Reference MainGrid}}" CommandParameter="{Binding}"/>
+                        <ContentControl Margin="10,0" VerticalAlignment="Center"  >
+                            <ContentControl.Style>
+                                <Style TargetType="{x:Type ContentControl}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
+                                            <Setter Property="Content" >
+                                                <Setter.Value>
+                                                    <Rectangle Fill="#003569" Width="20" Height="20">
+                                                        <Rectangle.Resources>
+                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                        </Rectangle.Resources>
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
+                                            <Setter Property="Content" >
+                                                <Setter.Value>
+                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                        <Rectangle.Resources>
+                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                        </Rectangle.Resources>
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
+                                            <Setter Property="Content" >
+                                                <Setter.Value>
+                                                    <Rectangle Fill="#3897F0" Width="20" Height="20">
+                                                        <Rectangle.Resources>
+                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                        </Rectangle.Resources>
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
+                                            <Setter Property="Content" >
+                                                <Setter.Value>
+                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                        <Rectangle.Resources>
+                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                        </Rectangle.Resources>
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
+                                            <Setter Property="Content" >
+                                                <Setter.Value>
+                                                    <Rectangle Fill="Red" Width="20" Height="20">
+                                                        <Rectangle.Resources>
+                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                        </Rectangle.Resources>
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
+                                            <Setter Property="Content" >
+                                                <Setter.Value>
+                                                    <Rectangle Fill="OrangeRed" Width="20" Height="20">
+                                                        <Rectangle.Resources>
+                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                        </Rectangle.Resources>
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
+                                            <Setter Property="Content" >
+                                                <Setter.Value>
+                                                    <Rectangle Fill="DodgerBlue" Width="20" Height="20">
+                                                        <Rectangle.Resources>
+                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                        </Rectangle.Resources>
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
+                                            <Setter Property="Content" >
+                                                <Setter.Value>
+                                                    <Rectangle Fill="DimGray" Width="16" Height="20">
+                                                        <Rectangle.Resources>
+                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                        </Rectangle.Resources>
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                            <Setter Property="Content" >
+                                                <Setter.Value>
+                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                            <Setter Property="Content" >
+                                                <Setter.Value>
+                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
+                        <TextBlock Text="{Binding UserName}" VerticalAlignment="Center" x:Name="txtblkaccount"/>
+                    </VirtualizingStackPanel>
+                </DataTemplate>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Foreground" Value="{DynamicResource MetroDataGrid.InactiveSelectionHighlightBrush}"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+                        </Trigger>
+
+                    </Style.Triggers>
+                </Style>
+              
+
+            </DataGrid.Resources>
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Margin" Value="0,0,0,5"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander Margin="5" Header="{Binding Path=Name}">
+                                            <Expander.Content>
+                                                <ItemsPresenter/>
+                                            </Expander.Content>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn >
+                    <DataGridTemplateColumn.Header>
+                        <CheckBox Name="AllProxyChecked" Content=" #"
+                                  IsChecked="{Binding DataContext.IsAllProxySelected, 
+                                  RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                    </DataGridTemplateColumn.Header>
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsProxySelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      Margin="5,0,0,0" Content="{Binding AlternationIndex, 
+                                      RelativeSource={RelativeSource AncestorType=DataGridRow},
+                                      Converter={StaticResource AlternationIndexConverter}}"
+                                      Command="{Binding DataContext.SelectProxyCommand,
+                                      RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{DynamicResource langName}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding AccountProxy.ProxyName, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                                   
+                <DataGridTemplateColumn Header="{DynamicResource langProxyIpPort}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}" SelectionLength="0" SelectionStart="0" >
+                                <TextBox.Text>
+                                    <MultiBinding Converter="{StaticResource ProxyPortToIpAddressConvertor}"  UpdateSourceTrigger="PropertyChanged"  >
+                                        <MultiBinding.ValidationRules>
+                                            <validation:IPAddressValidation ValidationStep="CommittedValue" />
+                                        </MultiBinding.ValidationRules>
+                                        <Binding Path="AccountProxy.ProxyIp" UpdateSourceTrigger="PropertyChanged"/>
+                                        <Binding Path="AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged"/>
+                                    </MultiBinding>
+                                </TextBox.Text>
+                            </TextBox>
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{DynamicResource langProxyUsername}" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding AccountProxy.ProxyUsername, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{DynamicResource langProxyPassword}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding AccountProxy.ProxyPassword, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{DynamicResource langSocialProfiles}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Controls:DropDownButton x:Name="dropdown" Width="40" Height="20"
+                                          ItemTemplate="{StaticResource AccountsAssignedToTemplate}" 
+                                          ItemsSource="{Binding AccountsAssignedto}" 
+                                          Content="{Binding Path=AccountsAssignedto.Count}"
+                                          Command="{Binding DataContext.DropDownCommand,
+                                          RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                          CommandParameter="{Binding}">
+                                    <Controls:DropDownButton.Style>
+                                        <Style TargetType="{x:Type Controls:DropDownButton}">
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid proxy address" >
-                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                <DataTrigger Binding="{Binding Path=AccountsAssignedto.Count}" Value="0">
+                                                    <Setter Property="IsEnabled" Value="False" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Border.Style>
-                                </Border>
-                            </AdornedElementPlaceholder>
-                            <TextBlock  VerticalAlignment="Center" Name="error"  FontWeight="SemiBold"  Text="{Binding ElementName=ErrorHolder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" Foreground="Red">
-                                <TextBlock.Style>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Text,ElementName=error}" Value="Invalid proxy address" >
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
+                                    </Controls:DropDownButton.Style>
 
-                            </TextBlock>
-                        </StackPanel>
-                    </ControlTemplate>
-                </Grid.Resources>
-                <ListView Grid.Row="1"  Margin="0,5" ItemsSource="{Binding ProxyManagerCollection}"
-                   ItemContainerStyle="{StaticResource ListViewItems}"  AlternationCount="{Binding Items.Count,RelativeSource={RelativeSource Self}}"
-                          Foreground="{DynamicResource AccentBaseColorBrush}">
+                                </Controls:DropDownButton>
 
-                    <ListView.Resources>
-                        <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                        </Style>
-                    </ListView.Resources>
+                                <Controls:DropDownButton x:Name="AddDropdown" Width="40" Height="20" Margin="10,0"
+                                          ItemTemplate="{StaticResource AccountsToBeAssignTemplate}" 
+                                          ItemsSource="{Binding AccountsToBeAssign}" 
+                                          Content="{DynamicResource langAdd}"
+                                          Command="{Binding DataContext.DropDownCommand,
+                                          RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                          CommandParameter="{Binding}" IsEnabled="True">
+                                    <!--<Controls:DropDownButton.Style>
+                                        <Style TargetType="{x:Type Controls:DropDownButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=AccountsToBeAssign.Count}" Value="0">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Controls:DropDownButton.Style>-->
+                                </Controls:DropDownButton>
 
-                    <ListView.GroupStyle>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{DynamicResource langStatus}" 
+                                            Binding="{Binding Status}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource langResponseTime}"
+                                            Binding="{Binding ResponseTime}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource langFailures}"
+                                            Binding="{Binding Failures}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="{DynamicResource langAction}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="{DynamicResource langUpdateProxy}" x:Name="btnUpdateProxy" 
+                                        FontWeight="SemiBold" Command="{Binding DataContext.UpdateProxyCommand,
+                                        RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                        CommandParameter="{Binding ElementName=btnUpdateProxy}"
+                                        Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
+                                <Button Content="{DynamicResource langDelete}" x:Name="btnDeletesProxy" 
+                                        FontWeight="SemiBold" Command="{Binding DataContext.DeleteCommand,
+                                        RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                        CommandParameter="{Binding ElementName=btnDeletesProxy}"
+                                        Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
+                                <Button Content="{DynamicResource langVerifyProxy}"  x:Name="btnVerifyProxy" 
+                                        FontWeight="SemiBold" Command="{Binding DataContext.VerifyProxyCommand,
+                                        RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                        CommandParameter="{Binding ElementName=btnVerifyProxy}"
+                                        Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent"/>
 
-                        <GroupStyle>
-                            <GroupStyle.ContainerStyle>
-                                <Style TargetType="GroupItem">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                <Expander Margin="5" Header="{Binding Path=Name}">
-                                                    <Expander.Content>
-                                                        <ItemsPresenter/>
-                                                    </Expander.Content>
-                                                </Expander>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </GroupStyle.ContainerStyle>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{DynamicResource langGroup}"
+                                            Binding="{Binding AccountProxy.ProxyGroup}" IsReadOnly="True"/>
 
-                        </GroupStyle>
 
-                    </ListView.GroupStyle>
-
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="100">
-                                <CheckBox Name="AllProxyChecked" Content=" #"
-                                          IsChecked="{Binding IsAllProxySelected}"
-                                          Checked="AllProxyChecked_Checked" 
-                                          Unchecked="AllProxyChecked_Unchecked"/>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsProxySelected}"
-                                                  Margin="5,0,0,0" Content="{Binding (ItemsControl.AlternationIndex),
-                                                  RelativeSource={RelativeSource AncestorType=ListViewItem},
-                                                  Converter={StaticResource IndexToRowNoConverter}}"/>
-
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langName}">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding AccountProxy.ProxyName}" Width="100"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langProxyIpPort}" Width="150" >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Width="120"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}">
-                                            <TextBox.Text>
-                                                <MultiBinding Converter="{StaticResource ProxyPortToIpAddressConvertor}" UpdateSourceTrigger="PropertyChanged">
-                                                    <MultiBinding.ValidationRules>
-                                                        <validation:IPAddressValidation ValidationStep="RawProposedValue" />
-                                                    </MultiBinding.ValidationRules>
-                                                    <Binding Path="AccountProxy.ProxyIp" />
-                                                    <Binding Path="AccountProxy.ProxyPort" />
-                                                </MultiBinding>
-                                            </TextBox.Text>
-                                        </TextBox>
-
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langProxyUsername}" x:Name="userName"
-                                    Width="{Binding IsHideUsernameAndPasswordoperty,
-                                    Converter={StaticResource BooleanToWidthConverter},ConverterParameter=200}" >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding AccountProxy.ProxyUsername}" Width="150"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                                <GridViewColumn.HeaderContainerStyle>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}"
-                                   BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                                        <Setter Property="IsHitTestVisible" Value="False"/>
-                                    </Style>
-                                </GridViewColumn.HeaderContainerStyle>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langProxyPassword}"
-                                    Width="{Binding IsHideUsernameAndPasswordoperty,
-                                    Converter={StaticResource BooleanToWidthConverter},ConverterParameter=200}" >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding AccountProxy.ProxyPassword}" Width="150"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                                <GridViewColumn.HeaderContainerStyle>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}"
-                                   BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                                        <Setter Property="IsHitTestVisible" Value="False"/>
-                                    </Style>
-                                </GridViewColumn.HeaderContainerStyle>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langSocialProfiles}"
-                                    Width="{Binding IsHideAssignedSocialProfiles,
-                                    Converter={StaticResource BooleanToWidthConverter},ConverterParameter=150}" >
-
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Controls:DropDownButton x:Name="dropdown" Width="40" Height="20"
-                                                             ItemTemplate="{StaticResource AccountsAssignedToTemplate}" 
-                                                             ItemsSource="{Binding AccountsAssignedto}" 
-                                                             Content="{Binding Path=AccountsAssignedto.Count}"
-                                                             Click="dropdown_Click" >
-                                                <Controls:DropDownButton.Style>
-                                                    <Style TargetType="{x:Type Controls:DropDownButton}">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Path=AccountsAssignedto.Count}" Value="0">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Controls:DropDownButton.Style>
-
-                                            </Controls:DropDownButton>
-
-                                            <Controls:DropDownButton x:Name="AddDropdown" Width="40" Height="20" Margin="10,0"
-                                                             ItemTemplate="{StaticResource AccountsToBeAssignTemplate}" 
-                                                             ItemsSource="{Binding AccountsToBeAssign}" 
-                                                             Content="{DynamicResource langAdd}"
-                                                             Click="dropdown_Click" >
-                                                <Controls:DropDownButton.Style>
-                                                    <Style TargetType="{x:Type Controls:DropDownButton}">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Path=AccountsToBeAssign.Count}" Value="0">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Controls:DropDownButton.Style>
-                                            </Controls:DropDownButton>
-
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                                <GridViewColumn.HeaderContainerStyle>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}" 
-                                   BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                                        <Setter Property="IsHitTestVisible" Value="False" />
-                                    </Style>
-                                </GridViewColumn.HeaderContainerStyle>
-
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langStatus}" DisplayMemberBinding="{Binding Status}"/>
-
-                            <GridViewColumn Header="{DynamicResource langResponseTime}" DisplayMemberBinding="{Binding ResponseTime}"/>
-
-                            <GridViewColumn Header="{DynamicResource langFailures}" DisplayMemberBinding="{Binding Failures}"/>
-
-                            <GridViewColumn Header="{DynamicResource langAction}" >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Content="{DynamicResource langUpdateProxy}" x:Name="btnUpdateProxy" 
-                                                    FontWeight="SemiBold" Click="BtnUpdateProxy_OnClick"
-                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                            <Button Content="{DynamicResource langDelete}" x:Name="btnDeletesProxy" 
-                                            FontWeight="SemiBold" Click="btnDeletesProxy_Click"
-                                            Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                            <Button Content="{DynamicResource langVerifyProxy}"  x:Name="btnVerifyProxy" 
-                                            FontWeight="SemiBold" Click="btnVerifyProxy_Click"
-                                            Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent"/>
-                                            <!--<Button Content="{DynamicResource langBrowse}"   x:Name="btnBrowse"  FontWeight="SemiBold"
-                                                                    Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />-->
-
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource langGroup}" DisplayMemberBinding="{Binding AccountProxy.ProxyGroup}"/>
-
-                        </GridView>
-
-                    </ListView.View>
-
-                </ListView>
-            </Grid>
-        </ScrollViewer>
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 

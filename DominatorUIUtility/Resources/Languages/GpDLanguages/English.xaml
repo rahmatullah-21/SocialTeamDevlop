@@ -121,4 +121,7 @@
     <system:String x:Key="GpluslangStopAtMaxCommentsFailed">Stop The Comment Action If Number of Continuous Failed Comments</system:String>
     <system:String x:Key="GpluslangStopAtMaxLikesFailed">Stop The Like Action If Number of Continuous Failed Likes</system:String>
     <system:String x:Key="GplusLangWarning">These accounts are already running with other configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+
+    <system:String x:Key="langOtherConfigurations">Other Configurations</system:String>
+    <system:String x:Key="langFollowUniqueUsers">Follow Unique Users</system:String>
 </ResourceDictionary>

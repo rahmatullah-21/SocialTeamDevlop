@@ -341,6 +341,7 @@ namespace DominatorHouseCore.Process
                     // Login and run scraper/poster from derived concrete classes
                     if (Login())
                         RunScrapper();
+
                 }, JobCancellationTokenSource.Token);
 
                 JobCancellationTokenSource.Token.Register(() =>
@@ -366,13 +367,13 @@ namespace DominatorHouseCore.Process
                 if (JobCancellationTokenSource == null ||
                     !RunningJobProcesses.ContainsKey(Id))
                     return;
-
+                DominatorAccountModel.NotifyCancelled();
                 JobCancellationTokenSource.Cancel();
              
                 GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
                 RunningJobProcesses.Remove(Id);
-                JobCancellationTokenSource = null;
+                //JobCancellationTokenSource = null;
             }
         }
 

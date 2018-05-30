@@ -70,7 +70,6 @@ namespace DominatorHouseCore.FileManagers
             {
                 GlobusLogHelper.log.Debug($"Accounts successfully saved - [{account.AccountBaseModel.UserName}]");
             }
-
             return savedStatus;
         }
 

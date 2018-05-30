@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouse.Social.AutoActivity.ViewModels;
 using DominatorHouseCore;
+using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Socinator.Social.AutoActivity.Views
 {
@@ -20,6 +26,7 @@ namespace Socinator.Social.AutoActivity.Views
 
         private SocialAutoActivity()
         {
+            DialogParticipation.SetRegister(this, this);
             DominatorAutoActivityViewModel = DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
             InitializeComponent();
         }
@@ -43,39 +50,9 @@ namespace Socinator.Social.AutoActivity.Views
 
                 ObjSocialAutoActivity.DominatorAutoActivityViewModel.CallRespectiveView(soicalNetworks);
 
-                switch (soicalNetworks)
-                {
-                    case SocialNetworks.Facebook:
-                        SelectedDominatorAccounts.FdAccounts = selectedAccounts;
-                        break;
-                    case SocialNetworks.Instagram:
-                        SelectedDominatorAccounts.GdAccounts = selectedAccounts;
-                        break;
-                    case SocialNetworks.Twitter:
-                        SelectedDominatorAccounts.TdAccounts = selectedAccounts;
-                        break;
-                    case SocialNetworks.Pinterest:
-                        SelectedDominatorAccounts.PdAccounts = selectedAccounts;
-                        break;
-                    case SocialNetworks.LinkedIn:
-                        SelectedDominatorAccounts.LdAccounts = selectedAccounts;
-                        break;
-                    case SocialNetworks.Reddit:
-                        SelectedDominatorAccounts.RdAccounts = selectedAccounts;
-                        break;
-                    case SocialNetworks.Quora:
-                        SelectedDominatorAccounts.QdAccounts = selectedAccounts;
-                        break;
-                    case SocialNetworks.Gplus:
-                        SelectedDominatorAccounts.GplusAccounts = selectedAccounts;
-                        break;
-                    case SocialNetworks.Youtube:
-                        SelectedDominatorAccounts.YdAccounts = selectedAccounts;
-                        break;
-                    case SocialNetworks.Tumblr:
-                        SelectedDominatorAccounts.TumblrAccounts = selectedAccounts;
-                        break;
-                }
+                SocinatorInitialize.GetSocialLibrary(soicalNetworks)
+                    .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount = selectedAccounts;
+             
                 return true;
             }
             catch (Exception ex)
@@ -97,7 +74,7 @@ namespace Socinator.Social.AutoActivity.Views
             else
             {
                 SocialActivity.DataContext = DominatorAutoActivityViewModel;
-            }          
+            }
         }
 
         private void GotoTools(object sender)
@@ -108,6 +85,10 @@ namespace Socinator.Social.AutoActivity.Views
             if (accountsActivityDetailModel == null)
                 return;
 
+            SocinatorInitialize.GetSocialLibrary(accountsActivityDetailModel.AccountNetwork).GetNetworkCoreFactory()
+                    .AccountUserControlTools.RecentlySelectedAccount =
+                accountsActivityDetailModel.AccountName;
+
             DominatorAutoActivityViewModel =
                 DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
 
@@ -116,15 +97,11 @@ namespace Socinator.Social.AutoActivity.Views
 
         private void SocialAutoActivity_OnLoaded(object sender, RoutedEventArgs e)
         {
-            Task.Factory.StartNew(()=> {
+            Task.Factory.StartNew(() =>
+            {
                 DominatorAutoActivityViewModel.InitializeAccounts();
                 SetDataContext();
             });
-        }
-
-        private void ActivityStatusChanged_OnIsCheckedChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void GotoToolsByName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -134,5 +111,35 @@ namespace Socinator.Social.AutoActivity.Views
             => GotoTools(sender);
 
 
+        private void ActivityStatusChanged_OnClick(object sender, RoutedEventArgs e)
+        {
+            var currentDataContext = ((FrameworkElement)sender).DataContext as ActivityDetailsModel;
+
+            if (currentDataContext == null)
+                return;
+
+            var accountDetails = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social).DominatorAccountViewModel
+                .LstDominatorAccountModel
+                .FirstOrDefault(x => x.AccountBaseModel.AccountId == currentDataContext.AccountId);
+
+            accountDetails?.NotifyCancelled();
+
+            var status = DominatorScheduler.ChangeAccountsRunningStatus(currentDataContext.Status, currentDataContext.AccountId,
+                currentDataContext.Title);
+
+            if (!status)
+            {
+                try
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", $"Please configure your {currentDataContext.Title} settings, before starting the activity. Make sure you have added enough queries and have clicked on SAVE button");
+                    currentDataContext.Status = false;
+                }
+                catch (Exception ex)
+                {
+
+                    GlobusLogHelper.log.Error(ex.Message + ex.StackTrace);
+                }
+            }               
+        }
     }
 }

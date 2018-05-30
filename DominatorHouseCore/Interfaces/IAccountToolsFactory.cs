@@ -10,5 +10,7 @@ namespace DominatorHouseCore.Interfaces
         UserControl GetStartupToolsView();
 
         IEnumerable<ActivityType> GetImportantActivityTypes();
+
+        string RecentlySelectedAccount { get; set; }
     }
 }

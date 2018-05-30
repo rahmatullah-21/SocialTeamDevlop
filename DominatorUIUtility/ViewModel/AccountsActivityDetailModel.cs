@@ -18,8 +18,25 @@ namespace DominatorUIUtility.ViewModel
 
     public class ActivityDetailsModel : BindableBase
     {
-        private string _title;
-        public string Title
+
+        private string _accountId =string.Empty;
+
+        public string AccountId
+        {
+            get
+            {
+                return _accountId;
+            }
+            set
+            {         
+                if (_accountId == value)
+                    return;
+                SetProperty(ref _accountId, value);
+            }
+        }
+
+        private ActivityType _title;
+        public ActivityType Title
         {
             get
             {

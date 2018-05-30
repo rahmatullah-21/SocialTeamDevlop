@@ -97,6 +97,7 @@ namespace DominatorHouseCore.Utility
 
         public static string GetDateTime() => DateTime.Now.ToString("ddMMyyyyHmmss");
 
+        public static string GoogleLink { get; set; } = "https://www.google.com";
 
         public static string GetOtherDir()
         {

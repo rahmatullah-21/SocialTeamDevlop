@@ -262,7 +262,7 @@
                                                 <DataTemplate>
                                                     <Border BorderThickness="0,0,0,0" Padding="1" BorderBrush="{DynamicResource AccentBaseColorBrush}">
                                                         <StackPanel Orientation="Horizontal" Width="130">
-                                                            <mah:ToggleSwitch OnLabel="" OffLabel="" IsChecked="{Binding Status}" Margin="1,0,0,0" HorizontalAlignment="Center" IsCheckedChanged="ActivityStatusChanged_OnIsCheckedChanged" VerticalAlignment="Center" >
+                                                            <mah:ToggleSwitch OnLabel="" OffLabel="" IsChecked="{Binding Status}" Margin="1,0,0,0" Click="ActivityStatusChanged_OnClick" HorizontalAlignment="Center" VerticalAlignment="Center" >
                                                                 <mah:ToggleSwitch.Style>
                                                                     <Style TargetType="mah:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}" />
                                                                 </mah:ToggleSwitch.Style>

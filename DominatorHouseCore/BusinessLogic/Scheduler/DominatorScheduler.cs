@@ -13,6 +13,8 @@ using DominatorHouseCore.Process;
 using DominatorHouseCore.Interfaces;
 using Newtonsoft.Json;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.FileManagers;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
@@ -104,7 +106,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 // Check that at least one timing was set up before creating campaign
                 if (moduleConfiguration.LstRunningTimes == null ||
                     moduleConfiguration.LstRunningTimes.All(rt => rt.Timings.Count == 0))
+                {
                     throw new InvalidOperationException($"Running time for activity {activityType} wasn't set");
+                }
+
 
                 var today = DateTimeUtilities.GetDayOfWeek();
 
@@ -144,7 +149,15 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     //{
                     //    ScheduleJob(dominatorAccount, timing, templateId, jobId, isDelayed: true);
                     //}
-                };
+                }
+                ;
+            }
+            catch (InvalidOperationException)
+            {
+                ChangeAccountsRunningStatus(false, dominatorAccount.AccountId, activityType);
+                GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccount.AccountBaseModel.AccountNetwork,
+                    dominatorAccount.UserName,
+                    $"Error:- {activityType} activity is not configured properly for this account. Please make sure you have added enough queries and updated time when activity has to be performed and clicked on save button.");
             }
             catch (Exception ex)
             {
@@ -235,19 +248,19 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="moduleType"></param>
         /// <returns></returns>
         public static List<RunningTimes> GetRunningTimes(DominatorAccountModel item, ActivityType moduleType)
-        {          
+        {
             var runningTime = new List<RunningTimes>();
             try
             {
                 var moduleConfiguration = item.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == moduleType);
                 if (moduleConfiguration != null)
                 {
-                    var  activitySetting = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
+                    var activitySetting = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
 
                     dynamic obj = JsonConvert.DeserializeObject(activitySetting);
                     runningTime = obj.JobConfiguration.RunningTime;
                 }
-                   
+
 
                 #region Commented
                 //switch (moduleType)
@@ -324,5 +337,48 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
             return IsEqual;
         }
+
+
+
+        public static bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType)
+        {
+            try
+            {
+
+                var accountModel = AccountsFileManager.GetAccountById(accountId);
+
+                var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
+
+                if (moduleConfiguration == null)
+                    return false;
+
+                var accountstemplateId = moduleConfiguration.TemplateId;
+                if (accountstemplateId == null || moduleConfiguration.LstRunningTimes==null)
+                {
+                    return false;
+                }
+                if (isStart)
+                {
+                    moduleConfiguration.IsEnabled = true;
+                    ScheduleTodayJobs(accountModel, accountModel.AccountBaseModel.AccountNetwork, activityType);
+                }
+                else
+                {
+                    moduleConfiguration.IsEnabled = false;
+                    StopActivity(accountModel.AccountBaseModel.AccountId,
+                        activityType.ToString(), accountstemplateId);                 
+                }
+
+                AccountsFileManager.Edit(accountModel);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+        }
+
     }
 }

@@ -160,6 +160,8 @@ namespace DominatorHouseCore.Models
         [ProtoMember(5)]
         public string ThreadId { get; set; }
 
+        [ProtoMember(6)]
+        public string LastMessageOwnerId { get; set; }
 
         public bool MoreAvailableMax { get; set; }
 

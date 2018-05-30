@@ -34,14 +34,14 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// <summary>
         /// Describes Activity 
         /// </summary>
-        [Index("Pk_ActivityType_JobPostUrl", 1, IsUnique = true)]
+     
         [Column(Order = 4)]
         public string ActivityType { get; set; }
 
         /// <summary>
         /// Contains Url of the JobPost being interacted
         /// </summary>
-        [Index("Pk_ActivityType_JobPostUrl", 2, IsUnique = true)]
+      
         [Column(Order = 5)]
         public string JobPostUrl { get; set; }
 

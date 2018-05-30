@@ -8,8 +8,6 @@ using System.Windows.Data;
 
 namespace DominatorHouseCore.Converters
 {
-
-
     [ValueConversion(typeof(bool),typeof(Visibility))]
 
     public class BooleanToVisibilityConverter : IValueConverter
