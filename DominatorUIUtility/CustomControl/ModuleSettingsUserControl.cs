@@ -1109,7 +1109,7 @@ namespace DominatorUIUtility.CustomControl
             catch (Exception ex)
             {
                 ex.DebugLog();
-                return "Account Warning";
+                return $"These accounts are already running with {_activityType} configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.";
             }
         }
 
@@ -1295,6 +1295,8 @@ namespace DominatorUIUtility.CustomControl
 
                     moduleConfiguration.TemplateId = TemplateId;
 
+                    moduleConfiguration.IsTemplateMadeByCampaignMode = true;
+
                     runningTime.ForEach(x =>
                     {
                         foreach (var timingRange in x.Timings)
@@ -1364,6 +1366,7 @@ namespace DominatorUIUtility.CustomControl
                     moduleConfiguration.IsEnabled = true;
                     moduleConfiguration.Status = "Active";
                     moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
+                    moduleConfiguration.IsTemplateMadeByCampaignMode = true;
                     // Update running times for current activity
                     UpdateRunningTime(jobConfiguration, account);
 
@@ -1780,6 +1783,7 @@ namespace DominatorUIUtility.CustomControl
 
         public void SaveConfigurations()
         {
+            if (!ValidateQuery()) return;
 
             if (!ValidateExtraProperty()) return;
 
@@ -1796,11 +1800,14 @@ namespace DominatorUIUtility.CustomControl
 
             if (moduleConfiguration?.TemplateId != null)
             {
-                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "This accounts are already running with another campaign. Saving this settings will override previous settings and remove this account from that campaign.",
-                    MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Yes", "No"));
-                if (dialogResult == MessageDialogResult.Negative)
-                    return;
+                if (moduleConfiguration.IsTemplateMadeByCampaignMode)
+                {
+                    var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
+                                "This account is already running with another campaign,saving this settings will override previous settings and remove this account from that campaign.",
+                                MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Yes", "No"));
+                    if (dialogResult == MessageDialogResult.Negative)
+                        return; 
+                }
                 #region Template Id present case
 
                 // need to check whether its running or not, if its running then need to stop process

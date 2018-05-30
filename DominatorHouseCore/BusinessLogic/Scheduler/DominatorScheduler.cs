@@ -97,7 +97,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             // Check if activity with the same id already running
             if (JobProcess.IsStarted(dominatorAccount.AccountId, moduleConfiguration.TemplateId))
             {
-                GlobusLogHelper.log.Error($"Job {moduleConfiguration.TemplateId} already started for {dominatorAccount.UserName}");
+                GlobusLogHelper.log.Debug($"Job {moduleConfiguration.TemplateId} already started for {dominatorAccount.UserName}");
                 return;
             }
 
