@@ -31,19 +31,14 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                if (!File.Exists(ConstantVariable.GetOtherSoftwareSettingsFile()))
-                {
-                    File.Create(ConstantVariable.GetOtherSoftwareSettingsFile());
-                }
-
-                using (var stream = File.OpenRead(ConstantVariable.GetOtherSoftwareSettingsFile()))
+               using (var stream = File.OpenRead(ConstantVariable.GetOtherSoftwareSettingsFile()))
                 {
                     return Serializer.Deserialize<SoftwareSettingsModel>(stream);
                 }
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                GlobusLogHelper.log.Debug(ex.Message);
             }
             return null;
         }

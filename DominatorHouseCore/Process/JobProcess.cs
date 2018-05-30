@@ -395,7 +395,7 @@ namespace DominatorHouseCore.Process
             }
             catch (Exception ex)
             {
-                ex.ErrorLog();
+                ex.DebugLog(ex.StackTrace);
                 return false;
             }
         }

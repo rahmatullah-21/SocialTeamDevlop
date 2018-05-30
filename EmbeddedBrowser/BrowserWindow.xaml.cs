@@ -140,7 +140,7 @@ namespace EmbeddedBrowser
                     }
                     catch (Exception ex)
                     {
-                        ex.ErrorLog();
+                        ex.DebugLog(ex.StackTrace);
                     }
                 });
             }
@@ -236,7 +236,7 @@ namespace EmbeddedBrowser
             }
             catch (Exception ex)
             {
-                ex.ErrorLog();
+                ex.DebugLog(ex.StackTrace);
             }
         }
 
@@ -855,7 +855,7 @@ namespace EmbeddedBrowser
                             }
                             catch (Exception ex)
                             {
-                                ex.ErrorLog();
+                                ex.DebugLog(ex.StackTrace);
                             }
                         }
 
@@ -914,7 +914,7 @@ namespace EmbeddedBrowser
                     }
                     catch (Exception ex)
                     {
-                        ex.ErrorLog();
+                        ex.DebugLog(ex.StackTrace);
                     }
                 }
             }

@@ -1298,7 +1298,7 @@ namespace DominatorUIUtility.CustomControl
 
         #region  Old Save account configuration
 
-        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveIndividualAccountConfiguration with 2 parameters",true)]
+        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveConfigurations", true)]
         protected void SaveIndividualAccountConfiguration(string selectedAccount)
         {
             try
@@ -1359,6 +1359,7 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
+        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveConfigurations", true)]
 
         protected void SaveIndividualAccountConfiguration()
         {

@@ -676,10 +676,11 @@ namespace DominatorUIUtility.ViewModel
                     if (objAccountBaseModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
                         && objAccountBaseModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
                     {
-                        #region If other proxy with same ip/port not there
+                        #region If other proxy with same ip/port is present
 
                         if (objAccountBaseModel.AccountProxy.ProxyId != proxy.AccountProxy.ProxyId)
                         {
+                            objAccountBaseModel.AccountProxy = proxy.AccountProxy;
                             var accountTomodified = new AccountAssign
                             {
                                 UserName = objAccountBaseModel.UserName,
@@ -694,13 +695,12 @@ namespace DominatorUIUtility.ViewModel
 
                             oldProxies.ForEach(pr =>
                             {
-                                if (oldAccount.AccountProxy.ProxyId == pr.AccountProxy.ProxyId)
-                                {
-                                    pr.AccountsAssignedto.Remove(pr.AccountsAssignedto.FirstOrDefault(acc =>
-                                        acc.UserName == oldAccount.UserName &&
-                                        acc.AccountNetwork == oldAccount.AccountNetwork));
-                                    ProxyFileManager.EditProxy(pr);
-                                }
+
+                                pr.AccountsAssignedto.Remove(pr.AccountsAssignedto.FirstOrDefault(acc =>
+                                    acc.UserName == oldAccount.UserName &&
+                                    acc.AccountNetwork == oldAccount.AccountNetwork));
+                                ProxyFileManager.EditProxy(pr);
+
                             });
 
 
@@ -1299,7 +1299,8 @@ namespace DominatorUIUtility.ViewModel
                         if (!UpdateProxy(selectedAccount.AccountBaseModel))
                             AddProxyIfNotExist(selectedAccount.AccountBaseModel, strategyPack);
                     }
-
+                    else
+                    selectedAccount.AccountBaseModel.AccountProxy = objDominatorAccountBaseModel.AccountProxy;
                     AccountsFileManager.Edit(selectedAccount);
                 }
 

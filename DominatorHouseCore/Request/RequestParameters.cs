@@ -89,7 +89,7 @@ namespace DominatorHouseCore.Request
             }
             catch (Exception ex)
             {
-                ex.ErrorLog();
+                ex.DebugLog(ex.StackTrace);
             }
         }
 
