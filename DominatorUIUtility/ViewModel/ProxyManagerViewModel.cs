@@ -320,6 +320,7 @@ namespace DominatorUIUtility.ViewModel
             int noOfInvalidProxies = 0;
             List<string> lstInvalidProxies = new List<string>();
 
+            
             Task.Factory.StartNew(() =>
             {
                 foreach (var givenProxy in loadedProxylist)
@@ -390,7 +391,7 @@ namespace DominatorUIUtility.ViewModel
 
                         LstProxyManagerModel.Add(ProxyManagerModel);
                         noOfProxyAdded++;
-
+                        Thread.Sleep(50);
                     }
                     catch (Exception ex)
                     {
@@ -424,7 +425,7 @@ namespace DominatorUIUtility.ViewModel
                 }
                 #endregion
             });
-
+          
 
         }
 
@@ -687,7 +688,7 @@ namespace DominatorUIUtility.ViewModel
                     {
                         if (ShowWarningMessage() == MessageDialogResult.Affirmative)
                         {
-                            Application.Current.Dispatcher.Invoke(() =>
+                            Application.Current.Dispatcher.InvokeAsync(() =>
                             {
                                 SelectedProxies.ForEach(selectedProxy =>
                                 {
@@ -869,18 +870,49 @@ namespace DominatorUIUtility.ViewModel
 
         private void VerifyProxyExecute(object sender)
         {
-            var currentProxyManager = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
-            try
+            if (sender == null)
             {
-                Task.Factory.StartNew(async () =>
+                var currentProxyManager = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
+                try
                 {
-                    await CheckProxyAsync(currentProxyManager);
-                });
+                    Task.Factory.StartNew(async () =>
+                    {
+                        await CheckProxyAsync(currentProxyManager);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
-            catch (Exception ex)
+            else
             {
-                ex.DebugLog();
+                var SelectedProxies = GetSelectedProxies();
+
+                if (SelectedProxies.Count != 0)
+                {
+                    SelectedProxies.ForEach(proxy =>
+                    {
+                        try
+                        {
+                            Task.Factory.StartNew(async () =>
+                            {
+                                await CheckProxyAsync(proxy);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    });
+                   
+                }
             }
+
+
+
+
+          
         }
         private async Task CheckProxyAsync(ProxyManagerModel currentProxyManager)
         {
