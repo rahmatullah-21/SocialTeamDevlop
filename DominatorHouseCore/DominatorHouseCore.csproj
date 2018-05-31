@@ -138,6 +138,7 @@
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -335,6 +336,7 @@
     <Compile Include="FileManagers\FBFileManager.cs" />
     <Compile Include="FileManagers\PinFileManager.cs" />
     <Compile Include="FileManagers\ManageDestinationFileManager.cs" />
+    <Compile Include="FileManagers\PostlistFileManager.cs" />
     <Compile Include="FileManagers\PostListSettingsFileManager.cs" />
     <Compile Include="FileManagers\PublisherFileManager.cs" />
     <Compile Include="FileManagers\SocinatorKeyHelper.cs" />
@@ -396,6 +398,7 @@
     <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
+    <Compile Include="Utility\ImageExtracter.cs" />
     <Compile Include="ViewModel\CampaignInteractionViewModel.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ContentSelectGroup.cs" />

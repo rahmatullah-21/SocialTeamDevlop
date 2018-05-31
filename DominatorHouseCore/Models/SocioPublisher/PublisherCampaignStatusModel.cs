@@ -59,7 +59,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public void GenerateCloneCampaign(string name)
         {           
-            CampaignName = $"{name}-clone";
+            CampaignName = $"{name}-clone-{ConstantVariable.GetHourDateTime()}";
             CampaignId = Utilities.GetGuid();
             CreatedDate = DateTime.Today;
             IsSelected = false;

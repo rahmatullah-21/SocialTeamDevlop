@@ -97,6 +97,8 @@ namespace DominatorHouseCore.Utility
 
         public static string GetDateTime() => DateTime.Now.ToString("ddMMyyyyHmmss");
 
+        public static string GetHourDateTime() => DateTime.Now.ToString("Hmmss.ff");
+
         public static string GoogleLink { get; set; } = "https://www.google.com";
 
         public static string GetOtherDir()
@@ -112,6 +114,9 @@ namespace DominatorHouseCore.Utility
         public static string GetPublisherFile() => GetOtherDir() + @"\PublisherAccountDetails.bin";
 
         public static string GetPublisherDestinationsFile() => GetOtherDir() + @"\PublisherManageDestinations.bin";
+
+
+        public static string GetPublisherCreatePostlistFolder() => GetOtherDir() + @"\PostsList\";
 
         public static string GetPublisherCreateDestinationsFolder() => GetOtherDir() + @"\DestinationList\";
 

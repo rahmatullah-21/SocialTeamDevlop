@@ -15,6 +15,7 @@ using DominatorHouseCore.Command;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
@@ -32,7 +33,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             DeleteCommand = new BaseCommand<object>(DeleteCanExecute, DeleteExecute);
             EditSinglePostCommand = new BaseCommand<object>(EditSinglePostCanExecute, EditSinglePostExecute);
             DeleteSinglePostCommand = new BaseCommand<object>(DeleteSinglePostCanExecute, DeleteSinglePostExecute);
-
+            DuplicateCommand = new BaseCommand<object>(DuplicateCanExecute, DuplicateExecute);
             PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
         }
 
@@ -45,6 +46,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand DeleteCommand { get; set; }
         public ICommand DeleteSinglePostCommand { get; set; }
         public ICommand EditSinglePostCommand { get; set; }
+
+        public ICommand DuplicateCommand { get; set; }
 
         private CancellationTokenSource TokenSource { get; set; }
 
@@ -116,6 +119,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
                 _isSelectAllPostlist = value;
                 OnPropertyChanged(nameof(IsSelectAllPostList));
+
+                if (_isSelectAllPostlist)
+                    SelectAllPostlist();
+                else
+                    SelectNonePostlist();
             }
         }
 
@@ -145,8 +153,78 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SelectExecute(object sender)
         {
+            var moduleName = sender.ToString();
+            switch (moduleName)
+            {
+                case "MenuSelectNone":
+                    IsSelectAllPostList = false;
+                    break;
+
+                case "MenuSelectAll":
+                    IsSelectAllPostList = true;
+                    break;
+            }
+        }
+
+        public void SelectAllPostlist()
+        {
+            PublisherPostlist.Select(x =>
+            {
+                x.IsPostlistSelected = true;
+                return x;
+            }).ToList();
+        }
+
+        public void SelectNonePostlist()
+        {
+            PublisherPostlist.Select(x =>
+            {
+                x.IsPostlistSelected = false;
+                return x;
+            }).ToList();
+        }
+
+        #endregion
+
+        #region Duplicate
+
+        private bool DuplicateCanExecute(object sender) => true;
+
+        private void DuplicateExecute(object sender)
+        {
+            try
+            {
+                var isSingleDuplicate = sender is PublisherPostlistModel;
+
+                if (isSingleDuplicate)
+                {
+                    var postlistModel = (PublisherPostlistModel)sender;
+
+                    var clonedPostModel = GetPostDeepClone(postlistModel);
+
+                    clonedPostModel.GenerateClonePostId();
+
+
+                    if (!Application.Current.Dispatcher.CheckAccess())
+                        Application.Current.Dispatcher.Invoke(delegate
+                        {
+                            PublisherPostlist.Add(clonedPostModel);
+                        });
+                    else
+                        PublisherPostlist.Add(clonedPostModel);
+
+                   
+                }
+            }
+            catch (Exception e)
+            {
+               e.DebugLog();
+            }
 
         }
+
+        public PublisherPostlistModel GetPostDeepClone(PublisherPostlistModel publisherPostlistModel)
+            => publisherPostlistModel.DeepClone();
 
         #endregion
 
@@ -156,16 +234,95 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void DeleteExecute(object sender)
         {
+            var isDeleteOptions = sender is string;
 
+            if (!isDeleteOptions)
+                return;
+
+            var deleteOptions = (string)sender;
+
+            if (deleteOptions == "MenuDeleteTextPost")
+            {
+                var selectedPublisherPostlist = GetEmptyTextPosts();
+
+                if (selectedPublisherPostlist.Count == 0)
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                        "There is no post without an image!");
+                    return;
+                }
+
+                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                    "Confirmation", "Are you sure to delete post(s) with no images?",
+                    MessageDialogStyle.AffirmativeAndNegative,
+                    Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+
+                if (dialogResult != MessageDialogResult.Affirmative)
+                    return;
+
+                selectedPublisherPostlist.ForEach(x => PublisherPostlist.Remove(x));
+            }
+            else if (deleteOptions == "MenuDuplicateImages")
+            {
+                PublisherPostlist.ForEach(x =>
+                {
+                    x.MediaList = new ObservableCollection<string>(x.MediaList.Distinct());
+                    x.ImagePointer = 0;
+                    x.MediaCurrentPointer = 1;
+                    x.TotalMediaCount = x.MediaList.Count;
+                    x.UpdateNavigationPointer();
+                });
+            }
+            else
+            {
+                var selectedPublisherPostlist = GetSelectedPosts();
+
+                if (selectedPublisherPostlist.Count == 0)
+                {
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                        "Please select atleast a post !!");
+                    return;
+                }
+
+                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                    "Confirmation", "Are you sure to delete all selected posts permanently?",
+                    MessageDialogStyle.AffirmativeAndNegative,
+                    Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+
+                if (dialogResult != MessageDialogResult.Affirmative)
+                    return;
+
+                selectedPublisherPostlist.ForEach(x => PublisherPostlist.Remove(x));
+            }
         }
 
         private bool DeleteSinglePostCanExecute(object sender) => true;
 
         private void DeleteSinglePostExecute(object sender)
         {
+            var isIndividualDelete = sender is PublisherPostlistModel;
 
+            if (!isIndividualDelete)
+                return;
+
+            var campaign = (PublisherPostlistModel)sender;
+
+            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                "Confirmation", "If you delete it, cant recover back \nAre you sure ?",
+                MessageDialogStyle.AffirmativeAndNegative,
+                Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+
+            if (dialogResult != MessageDialogResult.Affirmative)
+                return;
+
+            PublisherPostlist.Remove(campaign);
         }
 
+        private List<PublisherPostlistModel> GetSelectedPosts()
+            => PublisherPostlist.Where(x => x.IsPostlistSelected).ToList();
+
+        private List<PublisherPostlistModel> GetEmptyTextPosts()
+            => PublisherPostlist.Where(x => x.MediaList.Count == 0).ToList();
 
         #endregion
 
@@ -265,7 +422,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         // public Task<IList<PublisherPostlistModel>> ReadPostList(string campaignId, PostQueuedStatus requiredPostList = PostQueuedStatus.Draft)
 
-        private int PostCount { get; set; } 
+        private int PostCount { get; set; }
 
 
         public void ReadPostList(string campaignId, CancellationTokenSource tokenSource, PostQueuedStatus requiredPostList = PostQueuedStatus.Draft)
@@ -277,88 +434,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             PostCount = 0;
 
-            var postItems = new ObservableCollection<PublisherPostlistModel>();
-
-            #region InitializeData
-
-            try
-            {
-                for (int i = 0; i < 111; i++)
-                {
-                    var postlist = new PublisherPostlistModel
-                    {
-                        PostDescription = "Descriptions",
-                        Title = "Title",
-                        MediaList = new ObservableCollection<string>(),
-                        CreatedTime = DateTime.Now,
-                        PostSource = PostSource.NormalPost,
-                        PostCategory = PostCategory.OrdinaryPost,
-                        CampaignId = "campaignId",
-                        SellPostPrice = 100,
-                        SellPostAvailableLocation = "India",
-                        PostMacro = new Dictionary<string, string>(),
-                        PostRunningStatus = PostRunningStatus.Active,
-                        PostQueuedStatus = PostQueuedStatus.Draft,
-                        ExpiredTime = DateTime.Now.AddDays(7)
-                    };
-                    postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\1.jpg");
-                    postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
-                    postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\3.jpg");
-                    postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\4.jpg");
-                    postlist.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\5.jpg");
-                    postItems.Add(postlist);
-
-                    var postlist1 = new PublisherPostlistModel
-                    {
-                        PostDescription = "Descriptions",
-                        Title = "Title",
-                        MediaList = new ObservableCollection<string>(),
-                        CreatedTime = DateTime.Now,
-                        PostSource = PostSource.NormalPost,
-                        PostCategory = PostCategory.OrdinaryPost,
-                        CampaignId = "campaignId",
-                        SellPostPrice = 100,
-                        SellPostAvailableLocation = "India",
-                        PostMacro = new Dictionary<string, string>(),
-                        PostRunningStatus = PostRunningStatus.Active,
-                        PostQueuedStatus = PostQueuedStatus.Published,
-                        ExpiredTime = DateTime.Now.AddDays(7)
-                    };
-                    postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\1.jpg");
-                    postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
-                    postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\3.jpg");
-                    postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\4.jpg");
-                    postlist1.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\5.jpg");
-                    postItems.Add(postlist1);
-
-                    var postlist2 = new PublisherPostlistModel
-                    {
-                        PostDescription = "Descriptions",
-                        Title = "Title",
-                        MediaList = new ObservableCollection<string>(),
-                        CreatedTime = DateTime.Now,
-                        PostSource = PostSource.NormalPost,
-                        PostCategory = PostCategory.OrdinaryPost,
-                        CampaignId = "campaignId",
-                        SellPostPrice = 100,
-                        SellPostAvailableLocation = "India",
-                        PostMacro = new Dictionary<string, string>(),
-                        PostRunningStatus = PostRunningStatus.Active,
-                        PostQueuedStatus = PostQueuedStatus.Pending,
-                        ExpiredTime = DateTime.Now.AddDays(7)
-                    };
-                    postlist2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\4.jpg");
-                    postlist2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
-                    postlist2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\5.jpg");
-                    postItems.Add(postlist2);
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-
-            #endregion
+            var postItems = PostlistFileManager.GetAll(campaignId).Where(x=> x.PostQueuedStatus == requiredPostList).ToList();
 
             PostCount = postItems.Count;
 
@@ -384,7 +460,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             }
                             catch (OperationCanceledException ex)
                             {
-                                throw new OperationCanceledException();
+                                ex.DebugLog();
+                                // throw new OperationCanceledException();
+                            }
+                            catch (AggregateException ae)
+                            {
+                                foreach (var e in ae.InnerExceptions)
+                                {
+                                    if (e is TaskCanceledException || e is OperationCanceledException)
+                                        e.DebugLog("Cancellation requested before task completion!");
+                                    else
+                                        e.DebugLog(e.StackTrace + e.Message);
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -442,7 +529,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         PublisherPostlist.Add(postItems);
                         PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
 
-                        if (PublisherPostlist.Count == PostCount)                        
+                        if (PublisherPostlist.Count == PostCount)
                             IsProgressRingActive = false;
                         Thread.Sleep(10);
                     });
@@ -462,6 +549,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 ex.DebugLog("Cancellation Requested!");
             }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation requested before task completion!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
             catch (Exception ex)
             {
                 ex.DebugLog();
@@ -469,7 +566,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
         #endregion
-
 
         #region Image Navigation
 

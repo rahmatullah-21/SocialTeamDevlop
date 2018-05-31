@@ -1014,7 +1014,5 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #endregion   
 
-
-
     }
 }

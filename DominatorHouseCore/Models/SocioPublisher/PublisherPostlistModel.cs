@@ -8,6 +8,7 @@ using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
+    [Serializable]
     [ProtoContract]
     public class PublisherPostlistModel : BindableBase
     {
@@ -443,6 +444,36 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 _isPostlistSelected = value;
                 OnPropertyChanged(nameof(IsPostlistSelected));
             }
+        }
+
+
+
+        private string _postId = Utilities.GetGuid();
+
+        /// <summary>
+        /// To specify the post id
+        /// </summary>
+        [ProtoMember(14)]
+        public string PostId
+        {
+            get
+            {
+                return _postId;
+            }
+            set
+            {
+                if (_postId == value)
+                    return;
+                _postId = value;
+                OnPropertyChanged(nameof(PostId));
+            }
+        }
+
+
+        public void GenerateClonePostId()
+        {
+            PostId = Utilities.GetGuid();
+            CreatedTime = DateTime.Now;
         }
     }
 }

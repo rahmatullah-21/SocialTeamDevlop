@@ -1,10 +1,13 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace DominatorHouseCore.Utility
 {
+    [Serializable]
     public abstract class BindableBase : INotifyPropertyChanged
     {
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)

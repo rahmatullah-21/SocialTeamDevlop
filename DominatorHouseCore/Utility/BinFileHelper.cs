@@ -33,7 +33,7 @@ namespace DominatorHouseCore.Utility
             => new ObservableCollection<string>(GetAccountDetailsFor<T>().Select(x => (x as dynamic).UserName as string)
                 .ToList());
 
-        static Dictionary<Type, Tuple<object, Func<string>>> __lockAndFileByType =
+        private static Dictionary<Type, Tuple<object, Func<string>>> __lockAndFileByType =
             new Dictionary<Type, Tuple<object, Func<string>>>
             {
                 {
@@ -54,7 +54,11 @@ namespace DominatorHouseCore.Utility
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherFile)
                 },
 
-
+                {
+                    typeof(PublisherPostlistModel),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherCreatePostlistFolder)
+                },
+                
                 {
                     typeof(PublisherManageDestinationModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherDestinationsFile)
@@ -525,6 +529,34 @@ namespace DominatorHouseCore.Utility
                 publisherPostListPath => File.Exists(publisherPostListPath)
                     ? ProtoBuffBase.DeserializeList<PublisherPostlistSettingsModel>(publisherPostListPath)
                     : new List<PublisherPostlistSettingsModel>());
+        }
+
+
+        public static List<PublisherPostlistModel> GetPublisherPostListModels(string campaignId)
+        {
+            return WithFile<PublisherPostlistModel, List<PublisherPostlistModel>>(
+                publisherPostListPath => File.Exists($"{publisherPostListPath}\\{campaignId}.bin")
+                    ? ProtoBuffBase.DeserializeList<PublisherPostlistModel>($"{publisherPostListPath}\\{campaignId}.bin")
+                    : new List<PublisherPostlistModel>());
+        }
+
+        public static bool UpdateAllPostlists(string campaignId ,List<PublisherPostlistModel> publisherPostlist)
+        {
+            try
+            {
+                return WithFile<PublisherPostlistModel, bool>(file =>
+                {
+                    bool result = ProtoBuffBase.SerializeList(publisherPostlist, $"{file}\\{campaignId}.bin");
+                    GlobusLogHelper.log.Debug("Publisher Post list saved");
+                    return result;
+                });
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error($"Update all publisher postlist of {campaignId} error - " + ex.Message);
+                ex.DebugLog();
+                return false;
+            }
         }
 
         public static bool UpdateAllManageDestination(List<PublisherManageDestinationModel> publisherDestinationList)

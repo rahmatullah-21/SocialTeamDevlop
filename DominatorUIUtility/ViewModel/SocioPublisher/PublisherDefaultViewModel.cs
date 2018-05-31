@@ -96,7 +96,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherManageDestinations.Instance;
                     break;
                 case "ManagePosts":
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherManagePosts.Instance;
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = new PublisherManagePosts();
                     break;
                 case "CreateCampaigns":
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = new PublisherCreateCampaigns();

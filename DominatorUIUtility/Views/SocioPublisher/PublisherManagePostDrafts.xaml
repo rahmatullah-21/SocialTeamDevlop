@@ -228,7 +228,7 @@
                                                 Content="{DynamicResource DHlangDuplicate}" 
                                                 x:Name="ButtonDuplicatePosts" 
                                                 FontWeight="SemiBold"       
-                                                Command="{Binding Path=DataContext.EditSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Command="{Binding Path=DataContext.DuplicateCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                 Background="Transparent"/>
 
                                         <Button Cursor="Hand" 
