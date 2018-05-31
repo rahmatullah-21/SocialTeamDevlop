@@ -870,18 +870,49 @@ namespace DominatorUIUtility.ViewModel
 
         private void VerifyProxyExecute(object sender)
         {
-            var currentProxyManager = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
-            try
+            if (sender == null)
             {
-                Task.Factory.StartNew(async () =>
+                var currentProxyManager = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
+                try
                 {
-                    await CheckProxyAsync(currentProxyManager);
-                });
+                    Task.Factory.StartNew(async () =>
+                    {
+                        await CheckProxyAsync(currentProxyManager);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
-            catch (Exception ex)
+            else
             {
-                ex.DebugLog();
+                var SelectedProxies = GetSelectedProxies();
+
+                if (SelectedProxies.Count != 0)
+                {
+                    SelectedProxies.ForEach(proxy =>
+                    {
+                        try
+                        {
+                            Task.Factory.StartNew(async () =>
+                            {
+                                await CheckProxyAsync(proxy);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    });
+                   
+                }
             }
+
+
+
+
+          
         }
         private async Task CheckProxyAsync(ProxyManagerModel currentProxyManager)
         {

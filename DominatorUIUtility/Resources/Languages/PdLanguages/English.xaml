@@ -560,4 +560,11 @@
     <system:String x:Key="PDlangReplyToMessagesThatContainsSpecificWord">Reply To Messages That Contains Specific Word</system:String>
 
     <system:String x:Key="PDlangFollowUniqueUsersFromEachAccount">Follow unique users from each account</system:String>
+
+    <system:String x:Key="PDlangDeletePinsFilter">Delete Pins Filter</system:String>
+    <system:String x:Key="PDlangDeletePinsFromBoard">Delete Pins From Board</system:String>
+    <system:String x:Key="PDlangUserControlDeletePinsSliderText">Delete Pins of single or multiple boards at once.
+         Also gives you an ability to delete all pins.
+    </system:String>
+    <system:String x:Key="PDlangDeletePinsWarning">These accounts are already running with Delete Pins configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
 </ResourceDictionary>
