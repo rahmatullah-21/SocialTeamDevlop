@@ -320,6 +320,7 @@ namespace DominatorUIUtility.ViewModel
             int noOfInvalidProxies = 0;
             List<string> lstInvalidProxies = new List<string>();
 
+            
             Task.Factory.StartNew(() =>
             {
                 foreach (var givenProxy in loadedProxylist)
@@ -390,7 +391,7 @@ namespace DominatorUIUtility.ViewModel
 
                         LstProxyManagerModel.Add(ProxyManagerModel);
                         noOfProxyAdded++;
-
+                        Thread.Sleep(50);
                     }
                     catch (Exception ex)
                     {
@@ -424,7 +425,7 @@ namespace DominatorUIUtility.ViewModel
                 }
                 #endregion
             });
-
+          
 
         }
 
@@ -687,7 +688,7 @@ namespace DominatorUIUtility.ViewModel
                     {
                         if (ShowWarningMessage() == MessageDialogResult.Affirmative)
                         {
-                            Application.Current.Dispatcher.Invoke(() =>
+                            Application.Current.Dispatcher.InvokeAsync(() =>
                             {
                                 SelectedProxies.ForEach(selectedProxy =>
                                 {

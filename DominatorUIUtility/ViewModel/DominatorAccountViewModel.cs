@@ -1402,7 +1402,7 @@ namespace DominatorUIUtility.ViewModel
                 #region Checking status
 
 
-                Application.Current.Dispatcher.Invoke(async () =>
+               Task.Factory.StartNew(async () =>
                 {
                     try
                     {
