@@ -130,7 +130,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                ex.ErrorLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
+                ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
                 return new List<T>();
             }            
         }

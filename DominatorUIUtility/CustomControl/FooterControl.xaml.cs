@@ -196,8 +196,8 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception ex)
             {
-                ex.ErrorLog();
-              
+                ex.DebugLog(ex.StackTrace);
+
             }
         }
     }

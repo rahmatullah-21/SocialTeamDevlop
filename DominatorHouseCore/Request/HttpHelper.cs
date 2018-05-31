@@ -109,7 +109,7 @@ namespace DominatorHouseCore.Request
                         }
                         catch (Exception ex)
                         {
-                            ex.ErrorLog();
+                            ex.DebugLog(ex.StackTrace);
                         }
                     }
                 }
@@ -142,7 +142,7 @@ namespace DominatorHouseCore.Request
                         }
                         catch (Exception ex)
                         {
-                            ex.ErrorLog();
+                            ex.DebugLog(ex.StackTrace);
                         }
                     }
                 }
@@ -158,7 +158,7 @@ namespace DominatorHouseCore.Request
             }
             catch (Exception ex)
             {
-                ex.ErrorLog();
+                ex.DebugLog(ex.StackTrace);
             }
         }
 
@@ -185,7 +185,7 @@ namespace DominatorHouseCore.Request
             }
             catch (Exception ex)
             {
-                ex.ErrorLog();
+                ex.DebugLog(ex.StackTrace);
             }
         }
 
@@ -204,7 +204,7 @@ namespace DominatorHouseCore.Request
             }
             catch (Exception ex)
             {
-                ex.ErrorLog();
+                ex.DebugLog(ex.StackTrace);
             }
         }
 
@@ -227,7 +227,7 @@ namespace DominatorHouseCore.Request
             }
             catch (Exception ex)
             {
-                ex.ErrorLog();
+                ex.DebugLog(ex.StackTrace);
             }
         }
 
@@ -272,7 +272,7 @@ namespace DominatorHouseCore.Request
             }
             catch (Exception ex)
             {
-                ex.ErrorLog();
+                ex.DebugLog(ex.StackTrace);
             }
         }
 
