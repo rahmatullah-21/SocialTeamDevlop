@@ -1666,7 +1666,8 @@ namespace DominatorUIUtility.CustomControl
 
         public void SaveConfigurations()
         {
-            if (!ValidateQuery()) return;
+            //Todo
+            //if (!ValidateQuery()) return;
 
             if (!ValidateExtraProperty()) return;
 

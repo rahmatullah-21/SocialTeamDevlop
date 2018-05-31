@@ -238,6 +238,7 @@
     <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\OwnBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedPosts.cs" />

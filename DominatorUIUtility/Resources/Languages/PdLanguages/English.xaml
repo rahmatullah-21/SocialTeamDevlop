@@ -519,16 +519,16 @@
     <system:String x:Key="PDlangBroadcastMessegesPerWeek">Number of BroadcastMesseges per week</system:String>
     <system:String x:Key="PDlangMaxBroadcastMessegesDay">max BroadcastMesseges per day</system:String>
 
-    <system:String x:Key="PDlangAutoReplyToNewMessegeJob">Number of Auto Reply To New Messege per job</system:String>
-    <system:String x:Key="PDlangAutoReplyToNewMessegeDay">Number of Auto Reply To New Messege per day</system:String>
-    <system:String x:Key="PDlangAutoReplyToNewMessegeHour">Number of Auto Reply To New Messege per hour</system:String>
-    <system:String x:Key="PDlangAutoReplyToNewMessegeWeek">Number of Auto Reply To New Messege per week</system:String>
+    <system:String x:Key="PDlangAutoReplyToNewMessegePerJob">Number of Auto Reply To New Messege per job</system:String>
+    <system:String x:Key="PDlangAutoReplyToNewMessegePerDay">Number of Auto Reply To New Messege per day</system:String>
+    <system:String x:Key="PDlangAutoReplyToNewMessegePerHour">Number of Auto Reply To New Messege per hour</system:String>
+    <system:String x:Key="PDlangAutoReplyToNewMessegePerWeek">Number of Auto Reply To New Messege per week</system:String>
     <system:String x:Key="PDlangMaxAutoReplyToNewMessegeDay">max Auto Reply To New Messege per day</system:String>
 
-    <system:String x:Key="PDlangSendMessageToNewFollowersJob">Number of Send Message To New Followers per job</system:String>
-    <system:String x:Key="PDlangSendMessageToNewFollowersDay">Number of Send Message To New Followers per day</system:String>
-    <system:String x:Key="PDlangSendMessageToNewFollowersHour">Number of Send Message To New Followers per hour</system:String>
-    <system:String x:Key="PDlangSendMessageToNewFollowersWeek">Number of Send Message To New Followers per week</system:String>
+    <system:String x:Key="PDlangSendMessageToNewFollowersPerJob">Number of Send Message To New Followers per job</system:String>
+    <system:String x:Key="PDlangSendMessageToNewFollowersPerDay">Number of Send Message To New Followers per day</system:String>
+    <system:String x:Key="PDlangSendMessageToNewFollowersPerHour">Number of Send Message To New Followers per hour</system:String>
+    <system:String x:Key="PDlangSendMessageToNewFollowersPerWeek">Number of Send Message To New Followers per week</system:String>
     <system:String x:Key="PDlangMaxSendMessageToNewFollowersDay">max Auto Reply To New Messege per day</system:String>
 
     <system:String x:Key="PDlangTryPercentage">Try percentage</system:String>
@@ -566,5 +566,13 @@
     <system:String x:Key="PDlangUserControlDeletePinsSliderText">Delete Pins of single or multiple boards at once.
          Also gives you an ability to delete all pins.
     </system:String>
-    <system:String x:Key="PDlangDeletePinsWarning">These accounts are already running with Delete Pins configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="PDlangDeletePinsWarning">These accounts are already running with Delete Pins configuration from another campaign.
+        Saving this settings will override previous settings and remove this account from the campaign.
+    </system:String>
+
+    <system:String x:Key="PDlangDeletePinsPerJob">Number of Delete Pins per job</system:String>
+    <system:String x:Key="PDlangDeletePinsPerDay">Number of Delete Pins per day</system:String>
+    <system:String x:Key="PDlangDeletePinsPerHour">Number of Delete Pins per hour</system:String>
+    <system:String x:Key="PDlangDeletePinsPerWeek">Number of Delete Pins per week</system:String>
+    <system:String x:Key="PDlangMaxDeletePinsDay">Max Delete Pins per day</system:String>
 </ResourceDictionary>
