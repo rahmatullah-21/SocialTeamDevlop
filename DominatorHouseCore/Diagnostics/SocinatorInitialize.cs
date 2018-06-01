@@ -343,10 +343,24 @@ namespace DominatorHouseCore.Diagnostics
         {
             var moduleSettings = DominatorAccountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
 
-            if (moduleSettings == null)            
+            if (moduleSettings == null)
                 DominatorAccountModel.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
+            else
+            {
+                try
+                {
+                    if(!moduleConfiguration.IsEnabled)
+                    DominatorScheduler.StopActivity(DominatorAccountModel.AccountBaseModel.AccountId,
+                               activityType.ToString(), moduleSettings.TemplateId);
 
-            moduleSettings = moduleConfiguration;
+                    DominatorAccountModel.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
+                    DominatorAccountModel.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
 
             return this;
         }
@@ -387,7 +401,7 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
-        public SocinatorAccountBuilder AddOrUpdateExtraParameter(Dictionary<string,string> extraProperity)
+        public SocinatorAccountBuilder AddOrUpdateExtraParameter(Dictionary<string, string> extraProperity)
         {
             DominatorAccountModel.ExtraParameters = extraProperity;
             return this;
@@ -423,7 +437,7 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
-        public bool SaveToBinFile() 
+        public bool SaveToBinFile()
          => AccountsFileManager.Edit(DominatorAccountModel);
     }
 
