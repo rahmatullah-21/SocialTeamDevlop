@@ -1370,8 +1370,6 @@ namespace DominatorUIUtility.CustomControl
                     // Update running times for current activity
                     UpdateRunningTime(jobConfiguration, account);
 
-                    account.IsCretedFromNormalMode = true;
-
                     selectedAccounts.Add(account);
 
                     AccountsFileManager.Edit(account);
@@ -1533,121 +1531,6 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
-        #region  Old Save account configuration
-
-        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveConfigurations", true)]
-        protected void SaveIndividualAccountConfiguration(string selectedAccount)
-        {
-            try
-            {
-                if (!ValidateExtraProperty()) return;
-                if (!ValidateRunningTime()) return;
-                var accountModel = AccountsFileManager.GetAccount(selectedAccount);
-                var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
-
-                if (moduleConfiguration != null)
-                {
-                    var accountstemplateId = moduleConfiguration.TemplateId;
-                    UpdateTemplate(accountModel, accountstemplateId);
-                    UpdateRunningTime(Model.JobConfiguration, accountModel);
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                        "Successfully Saved !!!", MessageDialogStyle.Affirmative);
-
-                }
-                else
-                {
-
-                    #region Module Configuration Initialize
-
-                    moduleConfiguration = new ModuleConfiguration { ActivityType = _activityType };
-
-                    accountModel.ActivityManager.LstModuleConfiguration?.Add(moduleConfiguration);
-
-                    moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
-
-                    TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork, $"{accountModel.AccountBaseModel.AccountId}-Configuration");
-
-                    moduleConfiguration.TemplateId = TemplateId;
-
-                    var runningTime = (List<RunningTimes>)Model.JobConfiguration.RunningTime;
-
-                    runningTime.ForEach(x =>
-                    {
-                        foreach (var timingRange in x.Timings)
-                        {
-                            timingRange.Module = _activityType.ToString();
-                        }
-                    });
-
-                    accountModel.ActivityManager.RunningTime = runningTime;
-
-                    moduleConfiguration.LstRunningTimes = new List<RunningTimes>(accountModel.ActivityManager.RunningTime);
-
-                    accountModel.IsCretedFromNormalMode = false;
-
-                    AccountsFileManager.Edit(accountModel);
-
-                    #endregion
-
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-        [Obsolete("Don't use SaveAccountGrowthSettings method with parameter instead use SaveConfigurations", true)]
-
-        protected void SaveIndividualAccountConfiguration()
-        {
-            try
-            {
-                if (!ValidateExtraProperty()) return;
-                if (!ValidateRunningTime()) return;
-                //var selectedAccountDetails = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == _accountGrowthModeHeader.SelectedItem);
-                var accountModel = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, SocialNetwork);
-                var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
-                var accountstemplateId = moduleConfiguration.TemplateId;
-                UpdateTemplate(accountModel, accountstemplateId);
-                UpdateRunningTime(Model.JobConfiguration, accountModel);
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!", MessageDialogStyle.Affirmative);
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-        private void UpdateTemplate(DominatorAccountModel accountModel, string accountstemplateId)
-        {
-            try
-            {
-                if (accountModel.IsCretedFromNormalMode)
-                {
-                    accountModel.IsCretedFromNormalMode = false;
-                    CampaignsFileManager.DeleteSelectedAccount(accountstemplateId, _accountGrowthModeHeader.SelectedItem);
-                    AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, accountModel);
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(accountstemplateId))
-                        AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, accountModel);
-
-                    // Updating existing template
-                    else
-                        TemplatesFileManager.UpdateActivitySettings(accountstemplateId,
-                            JsonConvert.SerializeObject((TModel)Model));
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog("Accounts details not saved!");
-            }
-        }
-
-
-        #endregion
-
         #region Save Configuration Implementation
 
         #region Toggle Module Status changes 
@@ -1783,7 +1666,8 @@ namespace DominatorUIUtility.CustomControl
 
         public void SaveConfigurations()
         {
-            if (!ValidateQuery()) return;
+            //Todo
+            //if (!ValidateQuery()) return;
 
             if (!ValidateExtraProperty()) return;
 

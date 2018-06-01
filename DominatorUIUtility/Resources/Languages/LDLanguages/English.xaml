@@ -178,8 +178,11 @@
     <system:String x:Key="LDlangEngage">Engage</system:String>
     <system:String x:Key="LDlangLike">Like</system:String>
     <system:String x:Key="LDlangComment">Comment</system:String>
+    <system:String x:Key="LDlangUniqueOperation">Unique operations</system:String>
+    <system:String x:Key="LDlangSalesNavigatorUserScraper">User Scraper</system:String>
+    <system:String x:Key="LDlangSalesNavigatorScraper">SalesNavigator Scraper</system:String>
 
-    <system:String x:Key="LDlangUniqueOperation">Follow unique users from each account selected in this campaign</system:String>
+
 
 
 

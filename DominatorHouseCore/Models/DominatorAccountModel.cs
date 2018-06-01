@@ -79,7 +79,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        [Obsolete("Dont use this property, instead use DominatorHouseCore.Utility.ModuleConfiguration.IsTemplateMadeByCampaignMode property")]
+        [Obsolete("Dont use this property, instead use DominatorHouseCore.Utility.ModuleConfiguration.IsTemplateMadeByCampaignMode property",true)]
         [ProtoMember(6)]
         public bool IsCretedFromNormalMode { get; set; }
 

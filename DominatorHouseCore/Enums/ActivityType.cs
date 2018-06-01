@@ -267,6 +267,12 @@ namespace DominatorHouseCore.Enums
         Upvote = 88,
 
         [Description("Reddit")]
-        SubredditScraper = 89
+        SubredditScraper = 89,
+
+        [Description("Pinterest")]
+        DeletePin = 90,
+
+        [Description("Pinterest")]
+        Repin = 91
     }
 }

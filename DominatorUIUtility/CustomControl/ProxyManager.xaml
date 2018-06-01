@@ -194,7 +194,20 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
-
+                <Button  Height="30"  x:Name="btnVarifySelected" Margin="10,5" 
+                         Command="{Binding VerifyProxyCommand}" CommandParameter="Selected"
+                         Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" >
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_social_pocket}"></VisualBrush>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Text="{DynamicResource DHVerifySelected}" Margin="5,0"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
             </StackPanel>
 
         </StackPanel>

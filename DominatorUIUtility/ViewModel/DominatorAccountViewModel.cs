@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using ControlzEx.Standard;
 using DominatorHouseCore;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
@@ -483,13 +484,17 @@ namespace DominatorUIUtility.ViewModel
                 AccountId = dominatorAccountBaseModel.AccountId
             };
 
+            List<ProxyManagerModel> oldproxies = ProxyFileManager.GetAllProxy();
 
             //var cancel = secondaryTaskStrategyReturningCancellation(() => UpdateProxy(objDominatorAccountBaseModel));
             //dominatorAccountModel.Token.Register(cancel);
             if (!String.IsNullOrEmpty(dominatorAccountBaseModel.AccountProxy.ProxyIp) && !String.IsNullOrEmpty(dominatorAccountBaseModel.AccountProxy.ProxyPort))
             {
-                if (!UpdateProxy(dominatorAccountBaseModel))
-                    AddProxyIfNotExist(dominatorAccountBaseModel, strategyPack);
+                if (!IsDuplicatProxyAvailable(objDominatorAccountBaseModel, oldproxies, null))
+                {
+                    if (!UpdateProxy(dominatorAccountBaseModel))
+                        AddProxyIfNotExist(dominatorAccountBaseModel, strategyPack);
+                }
             }
 
             var cancel = secondaryTaskStrategyReturningCancellation(() => UpdateProxy(objDominatorAccountBaseModel));
@@ -680,39 +685,82 @@ namespace DominatorUIUtility.ViewModel
 
                         if (objAccountBaseModel.AccountProxy.ProxyId != proxy.AccountProxy.ProxyId)
                         {
-                            objAccountBaseModel.AccountProxy = proxy.AccountProxy;
-                            var accountTomodified = new AccountAssign
+                            try
                             {
-                                UserName = objAccountBaseModel.UserName,
-                                AccountNetwork = objAccountBaseModel.AccountNetwork
-                            };
-                            var proxyToUpdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == oldAccount.AccountProxy.ProxyIp
-                                                                                                                            && x.AccountProxy.ProxyPort == oldAccount.AccountProxy.ProxyPort);
-                            proxyToUpdate.AccountsAssignedto.Remove(proxyToUpdate.AccountsAssignedto.FirstOrDefault(
-                                x => x.UserName == objAccountBaseModel.UserName &&
-                                     x.AccountNetwork == objAccountBaseModel.AccountNetwork));
+                                objAccountBaseModel.AccountProxy = proxy.AccountProxy;
+                                var accountTomodified = new AccountAssign
+                                {
+                                    UserName = objAccountBaseModel.UserName,
+                                    AccountNetwork = objAccountBaseModel.AccountNetwork
+                                };
+
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    try
+                                    {
+                                        if (oldAccount != null)
+                                        {
+                                            oldProxies.ForEach(pr =>
+                                            {
+
+                                                pr.AccountsAssignedto.Remove(pr.AccountsAssignedto.FirstOrDefault(acc =>
+                                                    acc.UserName == oldAccount.UserName &&
+                                                    acc.AccountNetwork == oldAccount.AccountNetwork));
+                                                ProxyFileManager.EditProxy(pr);
+
+                                            });
+                                            if (!string.IsNullOrEmpty(oldAccount.AccountProxy.ProxyIp) || !string.IsNullOrEmpty(oldAccount.AccountProxy.ProxyPort))
+                                            {
+                                                var proxyToUpdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == oldAccount.AccountProxy.ProxyIp
+                                                                                                                                                && x.AccountProxy.ProxyPort == oldAccount.AccountProxy.ProxyPort);
+                                                proxyToUpdate.AccountsAssignedto.Remove(proxyToUpdate.AccountsAssignedto.FirstOrDefault(
+                                                    x => x.UserName == objAccountBaseModel.UserName &&
+                                                         x.AccountNetwork == objAccountBaseModel.AccountNetwork));
+                                                proxyToUpdate =
+                                                    proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x =>
+                                                        x.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
+                                                        && x.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort);
+                                                proxyToUpdate.AccountsAssignedto.Add(accountTomodified);
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            var proxyToUpdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == objAccountBaseModel.AccountProxy.ProxyIp
+                                                                                                                                            && x.AccountProxy.ProxyPort == objAccountBaseModel.AccountProxy.ProxyPort);
+                                            proxyToUpdate.AccountsAssignedto.Add(
+                                                new AccountAssign
+                                                {
+                                                    UserName = objAccountBaseModel.UserName,
+                                                    AccountNetwork = objAccountBaseModel.AccountNetwork
+                                                });
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        ex.DebugLog();
+                                    }
 
 
-                            oldProxies.ForEach(pr =>
+                                    proxy.AccountsAssignedto.Add(accountTomodified);
+
+                                    ProxyFileManager.EditProxy(proxy);
+                                    proxyManager.ProxyManagerViewModel.accountsAlreadyAssigned.Add(
+                                        new AccountAssign
+                                        {
+                                            UserName = accountTomodified.UserName,
+                                            AccountNetwork = accountTomodified.AccountNetwork
+                                        });
+                                });
+
+
+
+                                isDuplicatProxyAvailable = true;
+                            }
+                            catch (Exception ex)
                             {
-
-                                pr.AccountsAssignedto.Remove(pr.AccountsAssignedto.FirstOrDefault(acc =>
-                                    acc.UserName == oldAccount.UserName &&
-                                    acc.AccountNetwork == oldAccount.AccountNetwork));
-                                ProxyFileManager.EditProxy(pr);
-
-                            });
-
-
-                            proxyToUpdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
-                                                                                                         && x.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort);
-                            proxyToUpdate.AccountsAssignedto.Add(accountTomodified);
-
-                            proxy.AccountsAssignedto.Add(accountTomodified);
-
-                            ProxyFileManager.EditProxy(proxy);
-
-                            isDuplicatProxyAvailable = true;
+                                ex.DebugLog();
+                            }
                             break;
                         }
 
@@ -982,12 +1030,19 @@ namespace DominatorUIUtility.ViewModel
 
                             Application.Current.Dispatcher.Invoke(() =>
                             {
-                                var proxyToupdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel
-                                    .FirstOrDefault(pr => pr.AccountProxy.ProxyId == proxy.AccountProxy.ProxyId);
+                                try
+                                {
+                                    var proxyToupdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel
+                                                               .FirstOrDefault(pr => pr.AccountProxy.ProxyId == proxy.AccountProxy.ProxyId);
 
-                                proxyToupdate.AccountsAssignedto.Remove(proxyToupdate.AccountsAssignedto.FirstOrDefault(x =>
-                                    x.UserName == account.UserName
-                                    && x.AccountNetwork == account.AccountBaseModel.AccountNetwork));
+                                    proxyToupdate?.AccountsAssignedto.Remove(proxyToupdate.AccountsAssignedto.FirstOrDefault(x =>
+                                        x.UserName == account.UserName
+                                        && x.AccountNetwork == account.AccountBaseModel.AccountNetwork));
+                                }
+                                catch (Exception ex)
+                                {
+                                    ex.DebugLog();
+                                }
                             });
 
                             // proxy.AccountsToBeAssign.Remove(proxy.AccountsToBeAssign.FirstOrDefault(x => x.UserName == account.UserName));
@@ -1057,6 +1112,7 @@ namespace DominatorUIUtility.ViewModel
                     user.AccountNetwork == item.AccountBaseModel.AccountNetwork.ToString() &&
                     user.UserName == item.UserName);
                 GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork, item.AccountBaseModel.UserName);
+                DeleteAccountFromCampaign(item);
                 item.NotifyCancelled();
             });
 
@@ -1068,6 +1124,21 @@ namespace DominatorUIUtility.ViewModel
             //also delete the associated files
             DataBaseHandler.DeleteDatabase(selectAccounts.Select(acct => acct.AccountId));
 
+        }
+
+        private void DeleteAccountFromCampaign(DominatorAccountModel account)
+        {
+            CampaignsFileManager.Get().ForEach(camp =>
+            {
+                if (camp.SelectedAccountList.Any(acc => acc == account.UserName) && camp.SocialNetworks == account.AccountBaseModel.AccountNetwork)
+                {
+                    var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module => module.ActivityType.ToString() == camp.SubModule);
+
+                    CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId, account.AccountBaseModel.UserName);
+
+                    DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, camp.SubModule, moduleSettings.TemplateId);
+                }
+            });
         }
 
         public void DeleteAccountByContextMenu(object sender)
@@ -1292,7 +1363,7 @@ namespace DominatorUIUtility.ViewModel
 
                 if (!UpdateProxyIfNull(objDominatorAccountBaseModel, oldproxies, strategyPack))
                 {
-                    var oldAccount = AccountsFileManager.GetAccount(objDominatorAccountBaseModel.UserName).AccountBaseModel;
+                    var oldAccount = AccountsFileManager.GetAccount(objDominatorAccountBaseModel.UserName, objDominatorAccountBaseModel.AccountNetwork).AccountBaseModel;
 
                     if (!IsDuplicatProxyAvailable(objDominatorAccountBaseModel, oldproxies, oldAccount))
                     {
@@ -1300,34 +1371,61 @@ namespace DominatorUIUtility.ViewModel
                             AddProxyIfNotExist(selectedAccount.AccountBaseModel, strategyPack);
                     }
                     else
-                    selectedAccount.AccountBaseModel.AccountProxy = objDominatorAccountBaseModel.AccountProxy;
-                    AccountsFileManager.Edit(selectedAccount);
+                        selectedAccount.AccountBaseModel.AccountProxy = objDominatorAccountBaseModel.AccountProxy;
+
+                    try
+                    {
+                        selectedAccount.Token.ThrowIfCancellationRequested();
+                        AccountsFileManager.Edit(selectedAccount);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        throw new System.OperationCanceledException();
+                    }
+                    catch (AggregateException ae)
+                    {
+                        foreach (var e in ae.InnerExceptions)
+                        {
+                            if (e is TaskCanceledException || e is OperationCanceledException)
+                                e.DebugLog("Cancellation requested before task completion!");
+                            else
+                                e.DebugLog(e.StackTrace + e.Message);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+
                 }
 
                 #region Checking status
 
 
-
-                try
+               Task.Factory.StartNew(async () =>
                 {
-                    var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
-                                   .GetNetworkCoreFactory().AccountUpdateFactory;
-                    var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
-
-                    asyncAccount.CheckStatusAsync(selectedAccount, selectedAccount.Token);
-                    asyncAccount.UpdateDetailsAsync(selectedAccount, selectedAccount.Token);
-
-                    if (selectedAccount.AccountBaseModel.Status == "Success")
+                    try
                     {
-                        //To update proxy status
-                        UpdateProxyStatus(selectedAccount.AccountBaseModel);
-                    }
+                        var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
+                            .GetNetworkCoreFactory().AccountUpdateFactory;
+                        var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
 
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
+                        await asyncAccount.CheckStatusAsync(selectedAccount, selectedAccount.Token);
+                        await asyncAccount.UpdateDetailsAsync(selectedAccount, selectedAccount.Token);
+
+                        if (selectedAccount.AccountBaseModel.Status == "Success")
+                        {
+                            //To update proxy status
+                            UpdateProxyStatus(selectedAccount.AccountBaseModel);
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                });
+
                 #endregion
 
                 GlobusLogHelper.log.Info(Log.AccountEdited, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
@@ -1682,9 +1780,9 @@ namespace DominatorUIUtility.ViewModel
                 }
                 else if (updateMenuItem == "CheckAccountStatus")
                 {
-                    var checkAccount = new Task(() =>
+                    var checkAccount = new Task(async () =>
                     {
-                        asyncAccount.CheckStatusAsync(account, account.Token);
+                        await asyncAccount.CheckStatusAsync(account, account.Token);
                         if (account.AccountBaseModel.Status == "Success")
                         {
                             //To update proxy status

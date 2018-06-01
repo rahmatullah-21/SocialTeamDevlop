@@ -250,5 +250,5 @@ Type 3. IP:Port
 
     <system:String x:Key="DHStartWarning">These accounts are already running with</system:String>
     <system:String x:Key="DHEndWarning">configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
-
+    <system:String x:Key="DHVerifySelected">Verify Selected</system:String>
 </ResourceDictionary>
