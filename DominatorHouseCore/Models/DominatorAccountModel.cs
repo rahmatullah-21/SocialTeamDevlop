@@ -260,9 +260,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(14)]
         public Dictionary<string, string> ExtraParameters { get; set; }
             = new Dictionary<string, string>();
-
-        [ProtoIgnore]
-        public FeatureFlags FeatureLists { get; set; } = new FeatureFlags();
+ 
 
         public CancellationTokenSource CancellationSource = new CancellationTokenSource();
 

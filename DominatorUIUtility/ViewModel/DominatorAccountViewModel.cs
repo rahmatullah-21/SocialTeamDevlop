@@ -1376,7 +1376,12 @@ namespace DominatorUIUtility.ViewModel
                     try
                     {
                         selectedAccount.Token.ThrowIfCancellationRequested();
-                        AccountsFileManager.Edit(selectedAccount);
+
+                        var socinatorAccountBuilder = new SocinatorAccountBuilder(selectedAccount.AccountBaseModel.AccountId)
+                            .AddOrUpdateDominatorAccountBase(selectedAccount.AccountBaseModel)
+                            .SaveToBinFile();
+
+                       // AccountsFileManager.Edit(selectedAccount);
                     }
                     catch (OperationCanceledException)
                     {
