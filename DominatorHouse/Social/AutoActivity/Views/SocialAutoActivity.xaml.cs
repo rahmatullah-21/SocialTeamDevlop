@@ -122,7 +122,7 @@ namespace Socinator.Social.AutoActivity.Views
                 .LstDominatorAccountModel
                 .FirstOrDefault(x => x.AccountBaseModel.AccountId == currentDataContext.AccountId);
 
-            accountDetails?.NotifyCancelled();
+           // accountDetails?.NotifyCancelled();
 
             var status = DominatorScheduler.ChangeAccountsRunningStatus(currentDataContext.Status, currentDataContext.AccountId,
                 currentDataContext.Title);

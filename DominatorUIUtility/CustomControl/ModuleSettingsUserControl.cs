@@ -558,7 +558,11 @@ namespace DominatorUIUtility.CustomControl
 
                 moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
 
-                AccountsFileManager.Edit(account);
+                //AccountsFileManager.Edit(account);
+
+                var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                                                .AddOrUpdateModuleSettings(_activityType, moduleConfiguration)
+                                                .SaveToBinFile();
             });
 
         }
@@ -804,7 +808,11 @@ namespace DominatorUIUtility.CustomControl
 
                 moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
 
-                AccountsFileManager.Edit(account);
+                var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                    .AddOrUpdateModuleSettings(_activityType, moduleConfiguration)
+                    .SaveToBinFile();
+
+                //AccountsFileManager.Edit(account);
             });
 
         }
@@ -898,9 +906,13 @@ namespace DominatorUIUtility.CustomControl
                         var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
                             module.ActivityType == _activityType);
                         DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings?.TemplateId);
-                        // moduleSettings.TemplateId = null;
-                        moduleSettings=new ModuleConfiguration();
-                        AccountsFileManager.Edit(account);
+                       // moduleSettings.TemplateId = null;
+
+                        //AccountsFileManager.Edit(account);
+                        account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
+                        var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                            .AddOrUpdateModuleSettings(_activityType, moduleSettings)
+                            .SaveToBinFile();
                     }
                     catch (Exception ex)
                     {
@@ -1014,9 +1026,12 @@ namespace DominatorUIUtility.CustomControl
                         var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
                             module.ActivityType == _activityType);
                         DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings?.TemplateId);
-                        // moduleSettings.TemplateId = null;
+                        //moduleSettings.TemplateId = null;
+                        //AccountsFileManager.Edit(account);
                         account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-                        AccountsFileManager.Edit(account);
+                        var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                            .AddOrUpdateModuleSettings(_activityType, moduleSettings)
+                            .SaveToBinFile();
                     }
                     catch (Exception ex)
                     {
@@ -1315,7 +1330,11 @@ namespace DominatorUIUtility.CustomControl
 
                     selectedAccounts.Add(account);
 
-                    AccountsFileManager.Edit(account);
+                    var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                        .AddOrUpdateModuleSettings(_activityType, moduleConfiguration)
+                        .SaveToBinFile();
+
+                   // AccountsFileManager.Edit(account);
                 }
                 catch (Exception ex)
                 {
@@ -1374,7 +1393,10 @@ namespace DominatorUIUtility.CustomControl
 
                     selectedAccounts.Add(account);
 
-                    AccountsFileManager.Edit(account);
+                    //AccountsFileManager.Edit(account);
+                    var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                        .AddOrUpdateModuleSettings(_activityType, moduleConfiguration)
+                        .SaveToBinFile();
                 }
                 catch (Exception ex)
                 {
@@ -1560,7 +1582,11 @@ namespace DominatorUIUtility.CustomControl
                     DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId, _activityType.ToString(),
                         moduleConfiguration.TemplateId);
 
-                AccountsFileManager.Edit(accountModel);
+                //AccountsFileManager.Edit(accountModel);
+
+                var socinatorAccountBuilder = new SocinatorAccountBuilder(accountModel.AccountBaseModel.AccountId)
+                    .AddOrUpdateModuleSettings(_activityType, moduleConfiguration)
+                    .SaveToBinFile();
 
                 return moduleConfiguration.IsEnabled;
             }
@@ -1680,7 +1706,7 @@ namespace DominatorUIUtility.CustomControl
             var accounts = AccountCustomControl.GetAccountCustomControl(SocialNetwork).DominatorAccountViewModel
                   .LstDominatorAccountModel.FirstOrDefault(x => x.AccountBaseModel.AccountId == accountModel.AccountBaseModel.AccountId);
 
-            accounts?.NotifyCancelled();
+            //accounts?.NotifyCancelled();
 
             var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
 
@@ -1741,7 +1767,11 @@ namespace DominatorUIUtility.CustomControl
 
                 moduleConfiguration.IsTemplateMadeByCampaignMode = false;
 
-                AccountsFileManager.Edit(accountModel);
+                //AccountsFileManager.Edit(accountModel);
+
+                var socinatorAccountBuilder = new SocinatorAccountBuilder(accountModel.AccountBaseModel.AccountId)
+                    .AddOrUpdateModuleSettings(_activityType, moduleConfiguration)
+                    .SaveToBinFile();
 
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!");
                 #endregion
@@ -1815,7 +1845,11 @@ namespace DominatorUIUtility.CustomControl
                     accountModuleSettings.LstRunningTimes = jobConfiguration.RunningTime;
                 }
 
-                AccountsFileManager.Edit(account);
+                var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                    .AddOrUpdateModuleSettings(_activityType, accountModuleSettings)
+                    .SaveToBinFile();
+
+               // AccountsFileManager.Edit(account);
             }
             catch (Exception ex)
             {
