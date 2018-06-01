@@ -281,8 +281,8 @@ namespace DominatorUIUtility.CustomControl
                 return false;
             }
             //Check Query
-            if (!ValidateQuery())
-                return false;
+            //if (!ValidateQuery())
+            //    return false;
             // Check timings
             return ValidateRunningTime();
         }
