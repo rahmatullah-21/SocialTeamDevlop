@@ -282,6 +282,18 @@
 
     <system:String x:Key="FdlnagUniqueUsers">Send reuest to unique users</system:String>
 
+
+    <system:String x:Key="FdlangMessageSpecificWords">Reply to Messages that contains specific words</system:String>
+
+
+    <system:String x:Key="FdlangAutoReplyToPending">Reply to new pending messages (Reply to message Requests)</system:String>
+    <system:String x:Key="FdlangAutoReplyFriends">Reply to connected people (Reply to the people who are connected in messanger)</system:String>
+
+
+    <system:String x:Key="FdlangUnfriendSourceDisplayName">Unfriend Source</system:String>
+
+    <system:String x:Key="FdlangUnjoinSourceDisplayName">Group Unjoiner Source</system:String>
+
     <system:String x:Key="FdlangSendRequestWarning">These accounts are already running with Send Friend Request configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="FdlangUnfriendWarning">These accounts are already running with Unfriend configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="FdlangIncommingFriendRequestWarning">These accounts are already running with Incomming Friend Request configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
@@ -295,5 +307,6 @@
     <system:String x:Key="FdlangGroupScraperWarning">These accounts are already running with Group Scraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="FdlangCommentScraperWarning">These accounts are already running with Comment Scraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="FdlangPostScraperWarning">These accounts are already running with Post Scraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="FdlangAutoReplyMessageWarning">These accounts are already running with Auto Reply to Message configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
 
 </ResourceDictionary>

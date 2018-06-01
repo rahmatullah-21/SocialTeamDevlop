@@ -300,7 +300,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             return runningTime;
         }
 
-
         public static bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime)
         {
 
@@ -338,8 +337,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             return IsEqual;
         }
 
-
-
         public static bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType)
         {
             try
@@ -369,7 +366,11 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         activityType.ToString(), accountstemplateId);                 
                 }
 
-                AccountsFileManager.Edit(accountModel);
+                var socinatorAccountBuilder = new SocinatorAccountBuilder(accountModel.AccountBaseModel.AccountId)
+                                                .AddOrUpdateModuleSettings(activityType,moduleConfiguration)
+                                                .SaveToBinFile();
+
+                //AccountsFileManager.Edit(accountModel);
 
                 return true;
             }

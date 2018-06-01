@@ -11,6 +11,7 @@ using System.Windows.Markup;
 using CefSharp;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
@@ -911,7 +912,13 @@ namespace EmbeddedBrowser
                         }
                         DominatorAccountModel.IsUserLoggedIn = true;
                         DominatorAccountModel.Cookies = cookieCollection;
-                        AccountsFileManager.Edit(DominatorAccountModel);
+
+                        var socinatorAccountBuilder = new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                           .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
+                           .AddOrUpdateCookies(DominatorAccountModel.Cookies)
+                            .SaveToBinFile();
+
+                        //AccountsFileManager.Edit(DominatorAccountModel);
                         GlobusLogHelper.log.Info($"Browser login successfull with {DominatorAccountModel.AccountBaseModel.UserName} !");
                     }
                     catch (Exception ex)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Net;
 using System.Windows;
@@ -14,11 +15,13 @@ using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using DominatorHouseCore.DatabaseHandler.Utility;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Request;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProtectedCommon;
+using DominatorHouseCore.FileManagers;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -33,7 +36,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static async Task<HashSet<SocialNetworks>> SetAvailableSocialNetworks(string license)
         {
-           try
+            try
             {
                 if (string.IsNullOrEmpty(license))
                 {
@@ -191,7 +194,7 @@ namespace DominatorHouseCore.Diagnostics
             catch (Exception ex)
             {
                 GlobusLogHelper.log.Error(ex.Message);
-            } 
+            }
 
             return new HashSet<SocialNetworks>();
         }
@@ -306,7 +309,6 @@ namespace DominatorHouseCore.Diagnostics
         }
 
 
-
         private static void GlobalExceptionInitializer()
         {
             if (_isInitialized)
@@ -321,8 +323,109 @@ namespace DominatorHouseCore.Diagnostics
         {
             return new GlobalDatabaseConnection();
         }
+
     }
 
+
+
+    public class SocinatorAccountBuilder
+    {
+        private DominatorAccountModel DominatorAccountModel { get; set; }
+
+        public SocinatorAccountBuilder(string accountId)
+        {
+            var account = AccountsFileManager.GetAccountById(accountId);
+            DominatorAccountModel = account;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateModuleSettings(ActivityType activityType,
+            ModuleConfiguration moduleConfiguration)
+        {
+            var moduleSettings = DominatorAccountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
+
+            if (moduleSettings == null)            
+                DominatorAccountModel.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
+
+            moduleSettings = moduleConfiguration;
+
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateCookies(CookieCollection cookies)
+        {
+            DominatorAccountModel.Cookies = cookies;
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateDominatorAccountBase(DominatorAccountBaseModel accountBaseModel)
+        {
+            DominatorAccountModel.AccountBaseModel = accountBaseModel;
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateLoginStatus(bool status)
+        {
+            DominatorAccountModel.IsUserLoggedIn = status;
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateUserAgentWeb(string webAgent)
+        {
+            DominatorAccountModel.UserAgentWeb = webAgent;
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateMobileAgentWeb(string webAgent)
+        {
+            DominatorAccountModel.UserAgentMobile = webAgent;
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateMobileRequests(bool isUseOnlyMobileRequest)
+        {
+            DominatorAccountModel.UseMobileRequestOnly = isUseOnlyMobileRequest;
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateExtraParameter(Dictionary<string,string> extraProperity)
+        {
+            DominatorAccountModel.ExtraParameters = extraProperity;
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateExtraParameter(string key, string value)
+        {
+            DominatorAccountModel.ExtraParameters.Add(key, value);
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateDisplayColumn1(int? value)
+        {
+            DominatorAccountModel.DisplayColumnValue1 = value;
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateDisplayColumn2(int? value)
+        {
+            DominatorAccountModel.DisplayColumnValue2 = value;
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateDisplayColumn3(int? value)
+        {
+            DominatorAccountModel.DisplayColumnValue3 = value;
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateDisplayColumn4(int? value)
+        {
+            DominatorAccountModel.DisplayColumnValue4 = value;
+            return this;
+        }
+
+        public bool SaveToBinFile() 
+         => AccountsFileManager.Edit(DominatorAccountModel);
+    }
 
 
     public class NetworkCoreLibraryBuilder

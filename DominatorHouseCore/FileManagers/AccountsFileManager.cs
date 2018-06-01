@@ -74,7 +74,7 @@ namespace DominatorHouseCore.FileManagers
         }
 
         // alias
-        public static void Edit(DominatorAccountModel account)
+        internal static bool Edit(DominatorAccountModel account)
             => SaveAccount(account);
 
         public static void FillList<T>(ObservableCollection<T> lstAccountModel) where T : class

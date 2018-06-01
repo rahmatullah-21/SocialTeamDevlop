@@ -17,6 +17,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
@@ -773,7 +774,11 @@ namespace DominatorUIUtility.ViewModel
 
 
                         account.AccountBaseModel.AccountProxy = new Proxy();
-                        AccountsFileManager.Edit(account);
+
+                        var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                            .AddOrUpdateDominatorAccountBase(account.AccountBaseModel)
+                            .SaveToBinFile();
+                       // AccountsFileManager.Edit(account);
                     });
 
 
@@ -858,7 +863,12 @@ namespace DominatorUIUtility.ViewModel
             {
 
                 acc.AccountBaseModel.AccountProxy = oldProxy.AccountProxy;
-                AccountsFileManager.Edit(acc);
+               // AccountsFileManager.Edit(acc);
+
+                var socinatorAccountBuilder = new SocinatorAccountBuilder(acc.AccountBaseModel.AccountId)
+                    .AddOrUpdateDominatorAccountBase(acc.AccountBaseModel)
+                    .SaveToBinFile();
+
                 var accountToUpdate = AccountsFileManager.GetAccount(acc.UserName, acc.AccountBaseModel.AccountNetwork);
                 UpdateAccountsProxy(accountToUpdate, _strategies);
             });
@@ -961,7 +971,12 @@ namespace DominatorUIUtility.ViewModel
                 var accountToDeleteProxy = AccountsFileManager.GetAccount(account.UserName, account.AccountNetwork);
                 accountToDeleteProxy.AccountBaseModel.AccountProxy = new Proxy();
 
-                AccountsFileManager.Edit(accountToDeleteProxy);
+               // AccountsFileManager.Edit(accountToDeleteProxy);
+
+                var socinatorAccountBuilder = new SocinatorAccountBuilder(accountToDeleteProxy.AccountBaseModel.AccountId)
+                    .AddOrUpdateDominatorAccountBase(accountToDeleteProxy.AccountBaseModel)
+                    .SaveToBinFile();
+
                 UpdateAccountsProxy(accountToDeleteProxy, _strategies);
                 LstProxyManagerModel.ForEach(oldProxy =>
                  accountsAlreadyAssigned.Remove(accountsAlreadyAssigned.FirstOrDefault(x => x.UserName == accountToDelete.UserName && x.AccountNetwork == accountToDelete.AccountNetwork))
@@ -1007,7 +1022,12 @@ namespace DominatorUIUtility.ViewModel
                 };
                 accountToUpdateProxy.AccountBaseModel.AccountProxy = proxyToAdd;
 
-                AccountsFileManager.Edit(accountToUpdateProxy);
+                // AccountsFileManager.Edit(accountToUpdateProxy);
+
+
+                var socinatorAccountBuilder = new SocinatorAccountBuilder(accountToUpdateProxy.AccountBaseModel.AccountId)
+                    .AddOrUpdateDominatorAccountBase(accountToUpdateProxy.AccountBaseModel)
+                    .SaveToBinFile();
 
                 var item = LstProxyManagerModel.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == CurrentProxyManagerModel.AccountProxy.ProxyName);
                 int indexToUpdate = LstProxyManagerModel.IndexOf(item);
