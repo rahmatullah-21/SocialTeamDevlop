@@ -898,7 +898,8 @@ namespace DominatorUIUtility.CustomControl
                         var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
                             module.ActivityType == _activityType);
                         DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings?.TemplateId);
-                        moduleSettings.TemplateId = null;
+                        // moduleSettings.TemplateId = null;
+                        moduleSettings=new ModuleConfiguration();
                         AccountsFileManager.Edit(account);
                     }
                     catch (Exception ex)
@@ -1013,7 +1014,8 @@ namespace DominatorUIUtility.CustomControl
                         var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
                             module.ActivityType == _activityType);
                         DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings?.TemplateId);
-                        moduleSettings.TemplateId = null;
+                        // moduleSettings.TemplateId = null;
+                        account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
                         AccountsFileManager.Edit(account);
                     }
                     catch (Exception ex)
