@@ -44,9 +44,6 @@ namespace DominatorUIUtility.CustomControl
         private bool IsUnCheckedFromCampaignDetails { get; set; }
 
 
-        public static Action<TemplateModel, CampaignDetails, bool, Visibility, string, string> EditOrDuplicateCampaign { get; set; } =
-            (t, c, b, v, s, s2) => GlobusLogHelper.log.Error($"Campaigns.EditOrDuplicateCampaign action handler wasn't set");
-
         public SocialNetworks SocialNetworks { get; set; }
 
 
@@ -56,92 +53,7 @@ namespace DominatorUIUtility.CustomControl
             this.SocialNetworks = socialNetworks;
             objCampaignDetails = new CampaignDetails();
         }
-
-        private void SetComboBoxItemSource(string networks)
-        {
-            List<string> lstCampaignType = new List<string>();
-
-            lstCampaignType.Add("All");
-            CmbCampaignType.SelectedIndex = 0;
-
-            switch (networks)
-            {
-                case "Instagram":
-                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
-                    {
-                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Instagram"))
-                            lstCampaignType.Add(name);
-                    }
-                    break;
-                case "Facebook":
-                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
-                    {
-                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Facebook"))
-                            lstCampaignType.Add(name);
-                    }
-                    break;
-                case "Twitter":
-                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
-                    {
-                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Twitter"))
-                            lstCampaignType.Add(name);
-                    }
-                    break;
-                case "Pinterest":
-                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
-                    {
-                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Pinterest"))
-                            lstCampaignType.Add(name);
-                    }
-                    break;
-                case "Quora":
-                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
-                    {
-                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Quora"))
-                            lstCampaignType.Add(name);
-                    }
-                    break;
-
-                case "Gplus":
-                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
-                    {
-                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Gplus"))
-                            lstCampaignType.Add(name);
-                    }
-                    break;
-                case "LinkedIn":
-                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
-                    {
-                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("LinkedIn"))
-                            lstCampaignType.Add(name);
-                    }
-                    break;
-                case "Tumblr":
-                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
-                    {
-                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Tumblr"))
-                            lstCampaignType.Add(name);
-                    }
-                    break;
-                case "Youtube":
-                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
-                    {
-                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Youtube"))
-                            lstCampaignType.Add(name);
-                    }
-                    break;
-                case "Reddit":
-                    foreach (var name in Enum.GetNames(typeof(ActivityType)))
-                    {
-                        if (EnumDescriptionConverter.GetDescription(ConvertToEnum(name)).Contains("Reddit"))
-                            lstCampaignType.Add(name);
-                    }
-                    break;
-            }
-
-            CmbCampaignType.ItemsSource = lstCampaignType;
-        }
-
+        
         private void SetComboBoxItemSource(SocialNetworks networks)
         {
             List<string> lstCampaignType = new List<string>();
