@@ -5,7 +5,6 @@
     xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
     xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
 
-   
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/DHLanguages/English.xaml"/>
@@ -22,6 +21,8 @@
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converters:BooleanToVisibilityConverter>
     <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
+
+    <!--Media Viewer-->
     <Style TargetType="{x:Type customControl:MediaViewer}">
         <Setter Property="Template">
             <Setter.Value>
@@ -32,7 +33,7 @@
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <StackPanel Orientation="Horizontal" x:Name="PART_MainStackPanel" HorizontalAlignment="Center" Visibility="{TemplateBinding IsPostDataPresent,Converter={StaticResource BooleanToVisibilityConverter}}">
-                            
+
                             <Button x:Name="PART_NavigatePreviousImage" Cursor="Hand" IsEnabled="{TemplateBinding IsEnablePreviousPointer}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="1,0,5,0">
                                 <Button.Template>
                                     <ControlTemplate>
@@ -50,10 +51,24 @@
                             </Button>
 
                             <Border BorderBrush="Black" BorderThickness="1" >
-                                <Image x:Name="PART_Image" Margin="1" Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
+                                <Image x:Name="PART_Image" Margin="1"  Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
+
+                                    <Image.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="{DynamicResource DHlangDelete}" Name="PART_MenuItemImageDelete" Visibility="{TemplateBinding DeleteMenuVisibility}">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </Image.ContextMenu>
                                 </Image>
                             </Border>
-                          
+
                             <Button x:Name="PART_NavigateNextImage" Cursor="Hand" IsEnabled="{TemplateBinding IsEnableNextPointer}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5,0,2,0" >
                                 <Button.Template>
                                     <ControlTemplate>
@@ -69,11 +84,32 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            
+
                             <StackPanel x:Name="PART_MediaDetailsStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0,0,0">
                                 <TextBlock x:Name="PART_CurrentPointerMediaId"  Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CurrentMediaPointer}" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
                                 <TextBlock Text="/" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
                                 <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TotalMediaCount}" x:Name="PART_TotalMediacount" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Post Content-->
+    <Style TargetType="{x:Type customControl:PostContent}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type customControl:PostContent}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <StackPanel>
+                            <!--title-->
+                            <StackPanel Orientation="Vertical">
+
                             </StackPanel>
 
                         </StackPanel>

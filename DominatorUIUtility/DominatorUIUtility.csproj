@@ -364,6 +364,7 @@
       <DependentUpon>PublisherIndexPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\MediaViewer.cs" />
+    <Compile Include="Views\SocioPublisher\CustomControl\PostContent.cs" />
     <Compile Include="Views\SocioPublisher\PublisherAddPost.xaml.cs">
       <DependentUpon>PublisherAddPost.xaml</DependentUpon>
     </Compile>

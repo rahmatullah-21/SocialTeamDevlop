@@ -350,85 +350,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\facedominator-library\FaceDominatorCore\FaceDominatorCore.csproj">
-      <Project>{36f8a922-028e-49dd-bbd6-d7daab339491}</Project>
-      <Name>FaceDominatorCore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\facedominator-library\FaceDominatorUI\FaceDominatorUI.csproj">
       <Project>{1c0beb70-f243-4a53-983e-ce25a1b722f6}</Project>
       <Name>FaceDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorCore\GplusDominatorCore.csproj">
-      <Project>{eaffb84c-f492-4ee5-aa11-c285aaf4e154}</Project>
-      <Name>GplusDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorUI\GplusDominatorUI.csproj">
-      <Project>{654340fb-7bc9-427a-9439-1091bdb15c84}</Project>
-      <Name>GplusDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\gramdominator-library\GramDominatorCore\GramDominatorCore.csproj">
-      <Project>{b04813ea-a4b5-40ae-b705-743687f74770}</Project>
-      <Name>GramDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\gramdominator-library\GramDominatorUI\GramDominatorUI.csproj">
-      <Project>{317a142c-6ae2-4cc1-90a7-5752b9ed76f3}</Project>
-      <Name>GramDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorCore\LinkedDominatorCore.csproj">
-      <Project>{9df3cac5-0c31-49f0-a71e-27b9cefc6553}</Project>
-      <Name>LinkedDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorUI\LinkedDominatorUI.csproj">
-      <Project>{8a858cd7-7834-4365-8f4d-4faa0361de7f}</Project>
-      <Name>LinkedDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\pindominator-library\PinDominatorCore\PinDominatorCore.csproj">
-      <Project>{68ef34bf-36c9-4e33-9acd-7b9d7b746f29}</Project>
-      <Name>PinDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\pindominator-library\PinDominator\PinDominatorUI.csproj">
-      <Project>{107cebc6-409b-47ca-a248-4a5e03d86e66}</Project>
-      <Name>PinDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj">
-      <Project>{21b1d90e-f201-4ef0-b4e9-a99315945f1d}</Project>
-      <Name>QuoraDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\facedominator-library\FaceDominatorUI\FaceDominatorUI.csproj">
-      <Project>{1c0beb70-f243-4a53-983e-ce25a1b722f6}</Project>
-      <Name>FaceDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\reddit-dominator-library\RedditDominatorCore\RedditDominatorCore.csproj">
-      <Project>{6d1bc42e-ffea-4f4a-9375-328d0de7269d}</Project>
-      <Name>RedditDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\reddit-dominator-library\RedditDominatorUI\RedditDominatorUI.csproj">
-      <Project>{30754f3c-6ebc-4021-b0b7-53ea312da707}</Project>
-      <Name>RedditDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\tumblrdominator-library\TumblrDominatorCore\TumblrDominatorCore.csproj">
-      <Project>{5898e952-8c43-40b7-9527-eb814650d50f}</Project>
-      <Name>TumblrDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\tumblrdominator-library\TumblrDominatorUI\TumblrDominatorUI.csproj">
-      <Project>{82af3b95-2454-4866-816d-2ee690349ef0}</Project>
-      <Name>TumblrDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorCore\TwtDominatorCore.csproj">
-      <Project>{e41bf7d2-231f-4d58-ad45-95f7146e1979}</Project>
-      <Name>TwtDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorUI\TwtDominatorUI.csproj">
-      <Project>{b91d5616-eafd-4bf8-aaf5-051675592714}</Project>
-      <Name>TwtDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\youtubedominator-library\YoutubeDominatorCore\YoutubeDominatorCore.csproj">
-      <Project>{9c42c9b5-331e-4ec5-b47f-ae9da1c89ad6}</Project>
-      <Name>YoutubeDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\youtubedominator-library\YoutubeDominatorUI\YoutubeDominatorUI.csproj">
-      <Project>{7a02118a-50ac-4ed5-8247-0899782ddd2f}</Project>
-      <Name>YoutubeDominatorUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>

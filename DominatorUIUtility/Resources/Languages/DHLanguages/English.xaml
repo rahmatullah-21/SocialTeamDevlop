@@ -231,6 +231,19 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangBump">Bump</system:String>
     <system:String x:Key="DHlangReport">Report</system:String>
 
+    <system:String x:Key="DHlangPublisherInstagramTitle">Title for Instagram</system:String>
+    <system:String x:Key="DHlangPublisherPostDescription">Post Description</system:String>
+    <system:String x:Key="DHlangPublisherSelectMedia">Media(s)</system:String>
+    <system:String x:Key="DHlangPublisherSelectMacros">Macro(s)</system:String>
+    <system:String x:Key="DHlangImportMediaFiles">Load Image(s) or Video(s)</system:String>
+    <system:String x:Key="DHlangPublisherWhatsOnYourMind">What's on your mind?</system:String>
+    <system:String x:Key="DHlangPdSourceUrl">Pinterest Source Url</system:String>
+    <system:String x:Key="DHlangFdSellPost">Enable Facebook Sell Post</system:String>
+
+    <system:String x:Key="DHlangFdProductName">What are you selling?</system:String>
+    <system:String x:Key="DHlangFdSellPrice">Price</system:String>
+    <system:String x:Key="DHlangFdSellLocation">Location</system:String>
+    <system:String x:Key="DHlangFdTurnOffComment">Turnoff Comment</system:String>
 
     <!--Publiser Language End-->
 
@@ -251,4 +264,6 @@ Type 3. IP:Port
     <system:String x:Key="DHStartWarning">These accounts are already running with</system:String>
     <system:String x:Key="DHEndWarning">configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="DHVerifySelected">Verify Selected</system:String>
+    
+   
 </ResourceDictionary>

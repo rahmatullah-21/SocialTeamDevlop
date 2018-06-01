@@ -52,6 +52,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
     [TemplatePart(Name = ButtonNavigateNextImage, Type = typeof(Button))]
     [TemplatePart(Name = TextBlockCurrentPointerMediaId, Type = typeof(TextBlock))]
     [TemplatePart(Name = TextBlockTotalMediacount, Type = typeof(TextBlock))]
+    [TemplatePart(Name = ImageDeleteMenu,Type = typeof(MenuItem))]
     public class MediaViewer : Control
     {
         #region Constructor
@@ -72,7 +73,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public const string TextBlockCurrentPointerMediaId = "PART_CurrentPointerMediaId";
         public const string TextBlockTotalMediacount = "PART_TotalMediacount";
         public const string Image = "PART_Image";
-
+        public const string ImageDeleteMenu = "PART_MenuItemImageDelete";
         /// <summary>
         /// To store all media items 
         /// </summary>
@@ -183,9 +184,21 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public static readonly DependencyProperty IsEnablePreviousPointerProperty =
             DependencyProperty.Register("IsEnablePreviousPointer", typeof(bool), typeof(MediaViewer), new PropertyMetadata(false));
 
+
+        public Visibility DeleteMenuVisibility
+        {
+            get { return (Visibility)GetValue(DeleteMenuVisibilityProperty); }
+            set { SetValue(DeleteMenuVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DeleteMenuVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DeleteMenuVisibilityProperty =
+            DependencyProperty.Register("DeleteMenuVisibility", typeof(Visibility), typeof(MediaViewer), new PropertyMetadata(System.Windows.Visibility.Collapsed));
+
+
         Button _buttonPreviousImage = new Button();
         Button _buttonNextImage = new Button();
-
+        MenuItem _imageDelete = new MenuItem();
         #endregion
 
         #region Apply Template
@@ -235,6 +248,26 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
             #endregion
 
+            //Previous image button event register
+            #region Previous image button event register
+
+            var buttonImageDelete = Template.FindName(ImageDeleteMenu, this) as MenuItem;
+            if (!_imageDelete.Equals(buttonImageDelete))
+            {
+                //Unhook existing events
+                if (buttonImageDelete != null)
+                    buttonImageDelete.Click -= DeleteImageClick;
+
+                _imageDelete = buttonImageDelete;
+
+                //Add new events
+                if (buttonImageDelete != null)
+                    buttonImageDelete.Click += DeleteImageClick;
+            }
+
+            #endregion
+
+
         }
 
         #endregion
@@ -283,6 +316,29 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         {
             //Raise your event
             OnPreviousImage();
+        }
+
+
+
+        public static readonly RoutedEvent DeleteImageEvent = EventManager.RegisterRoutedEvent("DeleteImage",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MediaViewer));
+
+        public event RoutedEventHandler DeleteImage
+        {
+            add { AddHandler(DeleteImageEvent, value); }
+            remove { RemoveHandler(DeleteImageEvent, value); }
+        }
+
+        private void OnDeleteImage()
+        {
+            RoutedEventArgs args = new RoutedEventArgs(DeleteImageEvent);
+            RaiseEvent(args);
+        }
+
+        public void DeleteImageClick(object sender, RoutedEventArgs args)
+        {
+            //Raise your event
+            OnDeleteImage();
         }
 
         #endregion

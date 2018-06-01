@@ -14,6 +14,7 @@
             <RowDefinition Height="10*"></RowDefinition>
         </Grid.RowDefinitions>
 
+        <!--Header-->
         <Grid Background="{DynamicResource AccentBaseColorBrush}" Name="HeaderGrid">
 
             <Grid.ColumnDefinitions>
@@ -32,8 +33,6 @@
             </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
-
-
                 <Button x:Name="BtnBackToCampaign" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding NavigationCommand}" CommandParameter="Back">
                     <Button.Template>
                         <ControlTemplate>
@@ -50,13 +49,9 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-
-
-
             </StackPanel>
 
         </Grid>
-
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -64,6 +59,7 @@
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
 
+            <!--Campaign Name and Toggle-->
             <StackPanel Grid.Row="0" Orientation="Vertical">
 
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -115,13 +111,13 @@
             </StackPanel>
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <Grid >
-
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
+                    <!--Options selections like create post, create post by multiple area, Scarpe post, Share post, Rss feed , Monitor folder-->
                     <TabControl x:Name="CreateCampaignTabs" ItemsSource="{Binding PostTabItems}" TabStripPlacement="Top"  Margin="10,5,5,5"
                                 metroControls:TabControlHelper.IsUnderlined="True" 
                                 metroControls:TabControlHelper.Underlined="SelectedTabItem">
@@ -136,7 +132,8 @@
                             </DataTemplate>
                         </TabControl.ContentTemplate>
                     </TabControl>
-
+                    
+                    <!--Job Configuration and Other Configuration-->
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -150,14 +147,10 @@
                         </Expander>
 
                     </Grid>
+                    
                 </Grid>
             </ScrollViewer>
-
-
-
-
         </Grid>
-
     </Grid>
 </UserControl>
 

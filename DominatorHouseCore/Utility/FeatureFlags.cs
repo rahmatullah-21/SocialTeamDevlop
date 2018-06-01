@@ -25,5 +25,7 @@ namespace DominatorHouseCore.Utility
             }
             return value;
         }
+
+        public static bool Check(string key) => Instance[key];
     }
 }
