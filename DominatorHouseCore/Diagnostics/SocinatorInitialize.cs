@@ -365,6 +365,18 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
+
+        public SocinatorAccountBuilder RemoveModuleSettings(ActivityType activityType,
+            ModuleConfiguration moduleConfiguration)
+        {
+            var moduleSettings = DominatorAccountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
+
+            if (moduleSettings != null)
+                DominatorAccountModel.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
+            
+            return this;
+        }
+
         public SocinatorAccountBuilder AddOrUpdateCookies(CookieCollection cookies)
         {
             DominatorAccountModel.Cookies = cookies;

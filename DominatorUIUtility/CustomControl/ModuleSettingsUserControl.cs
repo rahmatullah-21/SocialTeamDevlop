@@ -910,8 +910,9 @@ namespace DominatorUIUtility.CustomControl
 
                         //AccountsFileManager.Edit(account);
                         account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
+
                         var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                            .AddOrUpdateModuleSettings(_activityType, moduleSettings)
+                            .RemoveModuleSettings(_activityType, moduleSettings)
                             .SaveToBinFile();
                     }
                     catch (Exception ex)
