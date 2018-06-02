@@ -39,7 +39,7 @@
     <system:String x:Key="LDlangCompanyScraper">Company Scraper</system:String>
     <system:String x:Key="LDlangGroupMemberScraper">GroupMember Scraper</system:String>
     <system:String x:Key="LDlangSalesNavigtor">SalesNavigator</system:String>
-    <system:String x:Key="LDlangProfilling">Profilling</system:String>
+    <system:String x:Key="LDlangProfilling">Profile Endorsement</system:String>
     <system:String x:Key="LDlangProfileEndorsement">Profile Endorsement</system:String>
     <system:String x:Key="LDlangAllCampaign">All Campaigns</system:String>
     <system:String x:Key="LDlangLicensingDetails">Licensing Details</system:String>
