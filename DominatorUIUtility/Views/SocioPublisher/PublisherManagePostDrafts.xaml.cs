@@ -45,12 +45,5 @@ namespace DominatorUIUtility.Views.SocioPublisher
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void MediaViewer_OnNextImage(object sender, RoutedEventArgs e)
-            => PublisherManagePostDraftsViewModel.NextImage(sender);
-
-        private void MediaViewer_OnPreviousImage(object sender, RoutedEventArgs e) 
-            => PublisherManagePostDraftsViewModel.PreviousImage(sender);
-
-
     }
 }

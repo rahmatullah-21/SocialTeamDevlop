@@ -52,7 +52,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
     [TemplatePart(Name = ButtonNavigateNextImage, Type = typeof(Button))]
     [TemplatePart(Name = TextBlockCurrentPointerMediaId, Type = typeof(TextBlock))]
     [TemplatePart(Name = TextBlockTotalMediacount, Type = typeof(TextBlock))]
-    [TemplatePart(Name = ImageDeleteMenu,Type = typeof(MenuItem))]
+    [TemplatePart(Name = ImageDeleteMenu, Type = typeof(MenuItem))]
     public class MediaViewer : Control
     {
         #region Constructor
@@ -195,10 +195,49 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public static readonly DependencyProperty DeleteMenuVisibilityProperty =
             DependencyProperty.Register("DeleteMenuVisibility", typeof(Visibility), typeof(MediaViewer), new PropertyMetadata(System.Windows.Visibility.Collapsed));
 
+        public int ImagePointer
+        {
+            get { return (int)GetValue(ImagePointerProperty); }
+            set { SetValue(ImagePointerProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ImagePointer.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ImagePointerProperty =
+            DependencyProperty.Register("ImagePointer", typeof(int), typeof(MediaViewer), new PropertyMetadata(0));
+
+
+        public double MediaHeight
+        {
+            get { return (double)GetValue(MediaHeightProperty); }
+            set { SetValue(MediaHeightProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MediaHeight.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MediaHeightProperty =
+            DependencyProperty.Register("MediaHeight", typeof(double), typeof(MediaViewer), new PropertyMetadata(double.NaN));
+
+
+
+
+        public double MediaWidth
+        {
+            get { return (double)GetValue(MediaWidthProperty); }
+            set { SetValue(MediaWidthProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MediaWidth.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MediaWidthProperty =
+            DependencyProperty.Register("MediaWidth", typeof(double), typeof(MediaViewer), new PropertyMetadata(double.NaN));
+
+
+
+
+
 
         Button _buttonPreviousImage = new Button();
         Button _buttonNextImage = new Button();
         MenuItem _imageDelete = new MenuItem();
+
         #endregion
 
         #region Apply Template
@@ -267,7 +306,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
             #endregion
 
-
         }
 
         #endregion
@@ -293,7 +331,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public void NextImageClick(object sender, RoutedEventArgs args)
         {
             //Raise your event
-            OnNextImage();
+            //OnNextImage();
+
+            NextImageNavigator();
         }
 
         public static readonly RoutedEvent PreviousImageEvent = EventManager.RegisterRoutedEvent("PreviousImage",
@@ -315,10 +355,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public void PreviousImageClick(object sender, RoutedEventArgs args)
         {
             //Raise your event
-            OnPreviousImage();
+            // OnPreviousImage();
+            PreviousImageNavigator();
         }
-
-
 
         public static readonly RoutedEvent DeleteImageEvent = EventManager.RegisterRoutedEvent("DeleteImage",
             RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MediaViewer));
@@ -343,5 +382,44 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         #endregion
 
+        #region Adding New Images 
+
+        public void Initialize()
+        {
+            IsPostDataPresent = MediaList.Count > 0;
+            if (IsPostDataPresent)
+            {
+                ImagePointer = 0;
+                CurrentMediaPointer = 1;
+                CurrentMediaUrl = MediaList[ImagePointer];
+                TotalMediaCount = MediaList.Count;
+                IsEnableNextPointer = (TotalMediaCount - ImagePointer) > -1;
+                IsEnablePreviousPointer = ImagePointer > 0;
+            }
+        }
+
+        public void UpdateNavigationPointer()
+        {
+            IsEnableNextPointer = (TotalMediaCount - CurrentMediaPointer) > 0;
+            IsEnablePreviousPointer = ImagePointer > 0;
+        }
+
+        public void PreviousImageNavigator()
+        {
+            ImagePointer--;
+            CurrentMediaUrl = MediaList[ImagePointer];
+            CurrentMediaPointer = CurrentMediaPointer - 1;
+            UpdateNavigationPointer();
+        }
+
+        public void NextImageNavigator()
+        {           
+            ImagePointer++;
+            CurrentMediaUrl = MediaList[ImagePointer];
+            CurrentMediaPointer = CurrentMediaPointer + 1;
+            UpdateNavigationPointer();
+        }
+
+        #endregion
     }
 }

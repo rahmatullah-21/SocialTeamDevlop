@@ -15,111 +15,13 @@
     <Grid>
         <StackPanel Orientation="Horizontal">
             <!--Title-->
-
-            <StackPanel>
-                <StackPanel Margin="1">
-                    <TextBlock Name="TextBlockPostDescription" FontWeight="SemiBold" Text="{DynamicResource DHlangPublisherPostDescription}" VerticalAlignment="Center" FontSize="12" />
-                    <TextBox Name="TextBoxPostDescription" VerticalScrollBarVisibility="Auto" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}" Margin="2" TextWrapping="Wrap" Height="60" Width="300"></TextBox>
-                </StackPanel>
-
-                <StackPanel Margin="1">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Name="TextBlockSelectMedia" FontWeight="SemiBold" Text="{DynamicResource DHlangPublisherSelectMedia}" FontSize="12" VerticalAlignment="Center" />
-                     
-                    </StackPanel>
-                    
-                    <StackPanel Orientation="Vertical" Margin="5" VerticalAlignment="Center">
-
-                        <customControl:MediaViewer Width="200" DeleteMenuVisibility="Visible" VerticalAlignment="Center" Height="75" IsPostDataPresent="True" CurrentMediaUrl="C:\Users\Public\Pictures\Sample Pictures\1.jpg" IsEnableNextPointer="True" IsEnablePreviousPointer="True" TotalMediaCount="10" CurrentMediaPointer="10" MediaList="{Binding}"></customControl:MediaViewer>
-
-                       
-
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" Height="35">
-
-                  
-
-                        <Button Name="BtnImportImage" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}" 
-                                HorizontalAlignment="Center"  Height="35" Width="100" VerticalAlignment="Center" >
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" ToolTip="{DynamicResource DHlangImportImages}">
-
-                                <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_export}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                                <Label Content="{DynamicResource DHlangPublisherSelectMedia}" Margin="0,-2,0,0" Foreground="White" FontSize="12" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button Name="BtnMacros" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}" 
-                                HorizontalAlignment="Center"  Height="35" Width="100" VerticalAlignment="Center" >
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
-
-                                <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_symbol_braces}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                                <Label Content="{DynamicResource DHlangPublisherSelectMacros}" Margin="0,-2,0,0" Foreground="White" FontSize="12" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button Name="BtnAdvancedSettings" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}" 
-                                HorizontalAlignment="Center"  Height="35" Width="100" VerticalAlignment="Center" >
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" ToolTip="{DynamicResource DHlangImportImages}">
-
-                                <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                                <Label Content="{DynamicResource DHlangSettings}" Margin="0,-2,0,0" Foreground="White" FontSize="12" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
-
             <StackPanel Orientation="Horizontal" Margin="2">
 
+              <customControl:PostContent MediaHeight="75" MediaWidth="200"  ></customControl:PostContent>
 
-                <StackPanel>
 
-                    <StackPanel Orientation="Vertical" Margin="2" Visibility="{Binding Source={x:Static enum:SocialNetworks.Instagram},Converter={StaticResource FeatureVisibilityConverter}}">
-                        <CheckBox Name="CheckBoxTitleForInstagram" Margin="2" Content="{DynamicResource DHlangPublisherInstagramTitle}" />
-                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TextBoxTitle" Text="TitleDescription" Margin="2" TextWrapping="Wrap" Height="40" Width="250"></TextBox>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Vertical" Visibility="{Binding Source={x:Static enum:SocialNetworks.Pinterest},Converter={StaticResource FeatureVisibilityConverter}}">
-                        <CheckBox Name="CheckBoxPdSourceUrl" Margin="2" Content="{DynamicResource DHlangPdSourceUrl}" />
-                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TextBoxPinterestSource" Text="Pinterest Source Url" Margin="2" TextWrapping="Wrap" Height="40" Width="250"></TextBox>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Vertical" Visibility="{Binding Source={x:Static enum:SocialNetworks.Facebook},Converter={StaticResource FeatureVisibilityConverter}}">
-                        <CheckBox Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource DHlangFdSellPost}" />
-
-                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdProductName}" Name="TextBoxFdSellProductTitle"  VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="30" Width="250"></TextBox>
-                        
-                        <StackPanel Name="FdSellPostDetails" Orientation="Horizontal">
-                            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdSellPrice}" Name="TextBoxFdSellPrice"  VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="30" Width="70"></TextBox>
-                            <TextBox VerticalAlignment="Center" mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdSellLocation}" HorizontalAlignment="Left" Name="TextBoxFdSellLocation"  VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="30" Width="180"></TextBox>
-                        </StackPanel>
-
-                        <CheckBox Name="CheckBoxTurnOffLocation" Margin="2" Content="{DynamicResource DHlangFdTurnOffComment}" />
-
-                    </StackPanel>
-
-                </StackPanel>
-                
             </StackPanel>
-
-
-
         </StackPanel>
-
 
         <!--<StackPanel>
             <Label Content="{DynamicResource langAddSinglePost}" FontWeight="SemiBold" Margin="5"/>

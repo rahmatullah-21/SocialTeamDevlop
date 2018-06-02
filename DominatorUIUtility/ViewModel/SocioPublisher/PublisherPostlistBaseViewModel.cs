@@ -569,32 +569,32 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Image Navigation
 
-        public void PreviousImage(object sender)
-        {
-            var publisherPostlistModel = ((FrameworkElement)sender).DataContext as PublisherPostlistModel;
+        //public void PreviousImage(object sender)
+        //{
+        //    var publisherPostlistModel = ((FrameworkElement)sender).DataContext as PublisherPostlistModel;
 
-            if (publisherPostlistModel == null)
-                return;
+        //    if (publisherPostlistModel == null)
+        //        return;
 
-            publisherPostlistModel.ImagePointer--;
-            publisherPostlistModel.CurrentMediaUrl = publisherPostlistModel.MediaList[publisherPostlistModel.ImagePointer];
-            publisherPostlistModel.MediaCurrentPointer = publisherPostlistModel.MediaCurrentPointer - 1;
-            publisherPostlistModel.UpdateNavigationPointer();
-        }
+        //    publisherPostlistModel.ImagePointer--;
+        //    publisherPostlistModel.CurrentMediaUrl = publisherPostlistModel.MediaList[publisherPostlistModel.ImagePointer];
+        //    publisherPostlistModel.MediaCurrentPointer = publisherPostlistModel.MediaCurrentPointer - 1;
+        //    publisherPostlistModel.UpdateNavigationPointer();
+        //}
 
 
-        public void NextImage(object sender)
-        {
-            var publisherPostlistModel = ((FrameworkElement)sender).DataContext as PublisherPostlistModel;
+        //public void NextImage(object sender)
+        //{
+        //    var publisherPostlistModel = ((FrameworkElement)sender).DataContext as PublisherPostlistModel;
 
-            if (publisherPostlistModel == null)
-                return;
+        //    if (publisherPostlistModel == null)
+        //        return;
 
-            publisherPostlistModel.ImagePointer++;
-            publisherPostlistModel.CurrentMediaUrl = publisherPostlistModel.MediaList[publisherPostlistModel.ImagePointer];
-            publisherPostlistModel.MediaCurrentPointer = publisherPostlistModel.MediaCurrentPointer + 1;
-            publisherPostlistModel.UpdateNavigationPointer();
-        }
+        //    publisherPostlistModel.ImagePointer++;
+        //    publisherPostlistModel.CurrentMediaUrl = publisherPostlistModel.MediaList[publisherPostlistModel.ImagePointer];
+        //    publisherPostlistModel.MediaCurrentPointer = publisherPostlistModel.MediaCurrentPointer + 1;
+        //    publisherPostlistModel.UpdateNavigationPointer();
+        //}
 
         #endregion
     }

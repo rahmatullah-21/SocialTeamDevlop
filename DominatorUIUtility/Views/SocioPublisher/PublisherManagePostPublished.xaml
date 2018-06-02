@@ -208,7 +208,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <customControl:MediaViewer Width="180" TotalMediaCount="{Binding TotalMediaCount}" CurrentMediaPointer="{Binding MediaCurrentPointer}" CurrentMediaUrl="{Binding CurrentMediaUrl,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  MediaList="{Binding MediaList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" NextImage="MediaViewer_OnNextImage" PreviousImage="MediaViewer_OnPreviousImage" IsEnableNextPointer="{Binding NextImageEnable}" IsEnablePreviousPointer="{Binding PreviousImageEnable}" IsPostDataPresent="{Binding IsPostListPresent}"></customControl:MediaViewer>
+                                    <customControl:MediaViewer Width="180" TotalMediaCount="{Binding TotalMediaCount}" CurrentMediaPointer="{Binding MediaCurrentPointer}" CurrentMediaUrl="{Binding CurrentMediaUrl,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  MediaList="{Binding MediaList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  IsEnableNextPointer="{Binding NextImageEnable}" IsEnablePreviousPointer="{Binding PreviousImageEnable}" IsPostDataPresent="{Binding IsPostListPresent}"></customControl:MediaViewer>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
