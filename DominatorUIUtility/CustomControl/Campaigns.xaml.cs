@@ -115,13 +115,18 @@ namespace DominatorUIUtility.CustomControl
                 var moduleConfiguration = account.ActivityManager.LstModuleConfiguration
                     .FirstOrDefault(y => y.ActivityType == module);
                 if (moduleConfiguration?.TemplateId == selectedCampaign.TemplateId)
-                    moduleConfiguration.IsEnabled = (bool)(sender as ToggleSwitch).IsChecked;
+                {
+                    moduleConfiguration.IsEnabled = (bool) (sender as ToggleSwitch).IsChecked;
+                    var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                        .AddOrUpdateModuleSettings(module, moduleConfiguration)
+                        .SaveToBinFile();
+                }
             }
 
             // AccountsFileManager.SaveAll(lstAccountDetails);
 
-            AccountsFileManager.UpdateAccounts(lstAccountDetails);
-
+        //   AccountsFileManager.UpdateAccounts(lstAccountDetails);
+           
             // Run/Stop job process in campaigns
             try
             {
@@ -453,6 +458,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                var module = (ActivityType)Enum.Parse(typeof(ActivityType), camp.SubModule);
                 // remove template from each account
                 allAccounts.ForEach(x =>
                 {
@@ -471,9 +477,14 @@ namespace DominatorUIUtility.CustomControl
                     if (selectedAccount.Contains(x.UserName))
                         moduleConfig.IsEnabled = false;
 
+                    var socinatorAccountBuilder = new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                        .AddOrUpdateModuleSettings(module, moduleConfig)
+                        .SaveToBinFile();
+
+
                 });
 
-                AccountsFileManager.UpdateAccounts(allAccounts);
+             //AccountsFileManager.UpdateAccounts(allAccounts);
             }
             catch (Exception ex)
             {

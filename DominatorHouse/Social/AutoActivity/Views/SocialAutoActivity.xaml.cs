@@ -9,6 +9,7 @@ using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
@@ -52,7 +53,7 @@ namespace Socinator.Social.AutoActivity.Views
 
                 SocinatorInitialize.GetSocialLibrary(soicalNetworks)
                     .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount = selectedAccounts;
-             
+
                 return true;
             }
             catch (Exception ex)
@@ -114,7 +115,12 @@ namespace Socinator.Social.AutoActivity.Views
         private void ActivityStatusChanged_OnClick(object sender, RoutedEventArgs e)
         {
             var currentDataContext = ((FrameworkElement)sender).DataContext as ActivityDetailsModel;
-
+            var currentAccountActivity = AccountsFileManager.GetAccountById(currentDataContext.AccountId).ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == currentDataContext.Title);
+            if (!currentAccountActivity.IsEnabled && currentDataContext.Status)
+            {
+                currentDataContext.Status = false;
+                return;
+            }
             if (currentDataContext == null)
                 return;
 
@@ -122,11 +128,11 @@ namespace Socinator.Social.AutoActivity.Views
                 .LstDominatorAccountModel
                 .FirstOrDefault(x => x.AccountBaseModel.AccountId == currentDataContext.AccountId);
 
-           // accountDetails?.NotifyCancelled();
+            // accountDetails?.NotifyCancelled();
 
             var status = DominatorScheduler.ChangeAccountsRunningStatus(currentDataContext.Status, currentDataContext.AccountId,
                 currentDataContext.Title);
-
+          
             if (!status)
             {
                 try
@@ -139,7 +145,7 @@ namespace Socinator.Social.AutoActivity.Views
 
                     GlobusLogHelper.log.Error(ex.Message + ex.StackTrace);
                 }
-            }               
+            }
         }
     }
 }

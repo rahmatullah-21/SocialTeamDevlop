@@ -480,9 +480,12 @@ namespace DominatorUIUtility.CustomControl
 
                     account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
 
+                    var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                        .AddOrUpdateModuleSettings(_activityType, moduleSettings)
+                        .SaveToBinFile();
                 });
 
-                AccountsFileManager.UpdateAccounts(accountDetails);
+              // AccountsFileManager.UpdateAccounts(accountDetails);
 
                 warningWindow.Close();
             };
@@ -503,7 +506,7 @@ namespace DominatorUIUtility.CustomControl
                 {
                     _footerControl.list_SelectedAccounts.Remove(removingAccount);
                 });
-
+                this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
                 #endregion
 
                 warningWindow.Close();
@@ -607,6 +610,7 @@ namespace DominatorUIUtility.CustomControl
 
             if (IsNeedToSaveTemplate())
             {
+                if (!AccountSelectionValidation()) return;
                 TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork, CampaignName);
 
                 SaveTemplateToAccounts(TemplateId);
@@ -658,6 +662,19 @@ namespace DominatorUIUtility.CustomControl
                 TabSwitcher.GoToCampaign();
             }
         }
+
+        private bool AccountSelectionValidation()
+        {
+            if (_footerControl.list_SelectedAccounts.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please select at least one account.",
+                    MessageDialogStyle.Affirmative);
+                return false;
+            }
+
+            return true;
+        }
+
         public bool IsNeedToSaveTemplate()
         {
 
@@ -729,10 +746,12 @@ namespace DominatorUIUtility.CustomControl
                     DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings.TemplateId);
 
                     account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-
+                    var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                        .AddOrUpdateModuleSettings(_activityType, moduleSettings)
+                        .SaveToBinFile();
                 });
 
-                AccountsFileManager.UpdateAccounts(accountDetails);
+               // AccountsFileManager.UpdateAccounts(accountDetails);
 
                 warningWindow.Close();
             };
@@ -753,7 +772,7 @@ namespace DominatorUIUtility.CustomControl
                 {
                     _footerControl.list_SelectedAccounts.Remove(removingAccount);
                 });
-
+                this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
                 #endregion
 
                 warningWindow.Close();
@@ -925,7 +944,8 @@ namespace DominatorUIUtility.CustomControl
                 #endregion
 
                 if (newlyAddedAccounts.Count != 0)
-                    UpdateNewlyAddedAccounts(newlyAddedAccounts);
+                    if(!UpdateNewlyAddedAccounts(newlyAddedAccounts))
+                        return;
             }
             catch (Exception ex)
             {
@@ -1044,7 +1064,7 @@ namespace DominatorUIUtility.CustomControl
                 #endregion
 
                 if (newlyAddedAccounts.Count != 0)
-                    UpdateNewlyAddedAccounts(newlyAddedAccounts);
+                    if(!UpdateNewlyAddedAccounts(newlyAddedAccounts)) return;
             }
             catch (Exception ex)
             {
@@ -1130,7 +1150,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        void UpdateNewlyAddedAccounts(List<string> newlyAddedAccounts)
+        bool UpdateNewlyAddedAccounts(List<string> newlyAddedAccounts)
         {
             #region Get the accounts which holds template Id
 
@@ -1213,12 +1233,15 @@ namespace DominatorUIUtility.CustomControl
 
                         DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(),
                             moduleSettings.TemplateId);
+                        var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                            .AddOrUpdateModuleSettings(_activityType, moduleSettings)
+                            .SaveToBinFile();
                     });
 
                     #endregion
 
 
-                    AccountsFileManager.UpdateAccounts(accountDetails);
+                   // AccountsFileManager.UpdateAccounts(accountDetails);
 
                     warningWindow.Close();
                 };
@@ -1240,7 +1263,7 @@ namespace DominatorUIUtility.CustomControl
                     {
                         _footerControl.list_SelectedAccounts.Remove(removingAccount);
                     });
-
+                    this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
                     #endregion
 
                     warningWindow.Close();
@@ -1253,7 +1276,7 @@ namespace DominatorUIUtility.CustomControl
 
             }
             #endregion
-
+            if (!AccountSelectionValidation()) return false;
             #region If account don't have any template then set that account template to current template
 
             else
@@ -1268,14 +1291,17 @@ namespace DominatorUIUtility.CustomControl
                              module.ActivityType == _activityType);
 
                     moduleSettings.TemplateId = TemplateId;
-
+                    var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                        .AddOrUpdateModuleSettings(_activityType, moduleSettings)
+                        .SaveToBinFile();
                 });
 
                 #endregion
 
-                AccountsFileManager.UpdateAccounts(accountDetails);
+               // AccountsFileManager.UpdateAccounts(accountDetails);
             }
             #endregion
+            return true;
         }
 
         public bool UpdateSelectedAccountDetails(List<DominatorAccountModel> allAccountDetails, List<string> listSelectedAccounts, List<RunningTimes> runningTime)
