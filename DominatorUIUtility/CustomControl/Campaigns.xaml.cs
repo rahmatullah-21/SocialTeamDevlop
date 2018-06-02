@@ -472,14 +472,17 @@ namespace DominatorUIUtility.CustomControl
 
                         // Remove task from list
                         x.ActivityManager.LstModuleConfiguration.RemoveAll(y => y.TemplateId == camp.TemplateId);
+                        var socinatorAccountBuilder = new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                            .RemoveModuleSettings(module)
+                            .SaveToBinFile();
                     }
 
-                    if (selectedAccount.Contains(x.UserName))
-                        moduleConfig.IsEnabled = false;
+                    //if (selectedAccount.Contains(x.UserName))
+                    //    moduleConfig.IsEnabled = false;
 
-                    var socinatorAccountBuilder = new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
-                        .AddOrUpdateModuleSettings(module, moduleConfig)
-                        .SaveToBinFile();
+                    //var socinatorAccountBuilder = new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                    //    .AddOrUpdateModuleSettings(module, moduleConfig)
+                    //    .SaveToBinFile();
 
 
                 });

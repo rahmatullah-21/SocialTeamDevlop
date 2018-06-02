@@ -366,8 +366,7 @@ namespace DominatorHouseCore.Diagnostics
         }
 
 
-        public SocinatorAccountBuilder RemoveModuleSettings(ActivityType activityType,
-            ModuleConfiguration moduleConfiguration)
+        public SocinatorAccountBuilder RemoveModuleSettings(ActivityType activityType)
         {
             var moduleSettings = DominatorAccountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
 

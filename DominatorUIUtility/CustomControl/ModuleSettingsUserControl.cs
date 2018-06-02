@@ -481,7 +481,7 @@ namespace DominatorUIUtility.CustomControl
                     account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
 
                     var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                        .AddOrUpdateModuleSettings(_activityType, moduleSettings)
+                        .RemoveModuleSettings(_activityType)
                         .SaveToBinFile();
                 });
 
@@ -746,8 +746,9 @@ namespace DominatorUIUtility.CustomControl
                     DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings.TemplateId);
 
                     account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
+                    
                     var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                        .AddOrUpdateModuleSettings(_activityType, moduleSettings)
+                        .RemoveModuleSettings(_activityType)
                         .SaveToBinFile();
                 });
 
@@ -925,13 +926,11 @@ namespace DominatorUIUtility.CustomControl
                         var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
                             module.ActivityType == _activityType);
                         DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings?.TemplateId);
-                       // moduleSettings.TemplateId = null;
-
-                        //AccountsFileManager.Edit(account);
+                      
                         account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
 
                         var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                            .RemoveModuleSettings(_activityType, moduleSettings)
+                            .RemoveModuleSettings(_activityType)
                             .SaveToBinFile();
                     }
                     catch (Exception ex)
@@ -1051,7 +1050,7 @@ namespace DominatorUIUtility.CustomControl
                         //AccountsFileManager.Edit(account);
                         account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
                         var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                            .AddOrUpdateModuleSettings(_activityType, moduleSettings)
+                            .RemoveModuleSettings(_activityType)
                             .SaveToBinFile();
                     }
                     catch (Exception ex)
