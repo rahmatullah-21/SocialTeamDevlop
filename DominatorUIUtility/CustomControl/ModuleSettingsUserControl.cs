@@ -1587,6 +1587,7 @@ namespace DominatorUIUtility.CustomControl
 
         protected bool ChangeAccountsModuleStatus(bool isStart, string selectedAccount, SocialNetworks socialNetworks)
         {
+          
             try
             {
                 var accountModel = AccountsFileManager.GetAccount(selectedAccount, socialNetworks);
@@ -1600,7 +1601,23 @@ namespace DominatorUIUtility.CustomControl
                 }
 
                 moduleConfiguration.IsEnabled = isStart;
+                try
+                {
+                   
+                    var campaignStatus = CampaignsFileManager.Get()
+                        .FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId).Status;
+                    if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
+                    {
+                        DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", $"This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
+                        return false;
+                    }
+                   
+                }
+                catch (Exception ex)
+                {
 
+
+                }
                 if (moduleConfiguration.IsEnabled)
                     DominatorScheduler.ScheduleTodayJobs(accountModel, accountModel.AccountBaseModel.AccountNetwork,
                         _activityType);
