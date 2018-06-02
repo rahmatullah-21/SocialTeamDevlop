@@ -2,14 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <system:String x:Key="FdlangFriend">FB Friend</system:String>
+    <system:String x:Key="FdlangFriend">Grow Friends</system:String>
     <system:String x:Key="FdlangFbPoster">FB Poster</system:String>
-    <system:String x:Key="FdlangFbMessanger">FB Messanger</system:String>
-    <system:String x:Key="FdlangFbGroups">FB Groups</system:String>
-    <system:String x:Key="FdlangFbLikerCommentor">FB Liker/Commentor</system:String>
-    <system:String x:Key="FdlangFbInviter">FB Inviter</system:String>
-    <system:String x:Key="FdlangFbEvents">FB Events</system:String>
-    <system:String x:Key="FdlangFbScraper">FB Scraper</system:String>
+    <system:String x:Key="FdlangFbMessanger">Broadcast Messages</system:String>
+    <system:String x:Key="FdlangFbGroups">Grow Groups</system:String>
+    <system:String x:Key="FdlangFbLikerCommentor">Engage</system:String>
+    <system:String x:Key="FdlangFbInviter">Invites</system:String>
+    <system:String x:Key="FdlangFbEvents">Events</system:String>
+    <system:String x:Key="FdlangFbScraper">Scraper</system:String>
 
     <system:String x:Key="FdlangSendFriendRequest">Send Friend Request</system:String>
     <system:String x:Key="FdlangIncomingFriendRequest">Incoming Friend Request</system:String>
