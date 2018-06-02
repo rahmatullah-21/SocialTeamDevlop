@@ -140,6 +140,8 @@
     <system:String x:Key="langEngageDelete">Delete Comment</system:String>
     <system:String x:Key="langEngageUpvote">Upvote</system:String>
     <system:String x:Key="langUrlScraper">UrlScraper</system:String>
+    <system:String x:Key="langPostScraper">PostSCraper</system:String>
+    <system:String x:Key="langSubredditScraper">Subreddit Scraper</system:String>
 
     <system:String x:Key="langUrlScraperPerJob">Number of UrlScraper Per Job</system:String>
     <system:String x:Key="langUrlScraperPerHour">Number of UrlScraper Per Hour</system:String>
@@ -174,5 +176,18 @@
     <system:String x:Key="langDeletePerWeek">Number of Deletes per week</system:String>
 
     <system:String x:Key="RDlangUrlScraperWarning">These accounts are already running with Url Scraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+
+    <system:String x:Key="langSubredditScraperWarning">These accounts are already running with Url Scraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="langSubredditScraperPerJob">Number of Subreddit per job</system:String>
+    <system:String x:Key="langSubredditScraperPerDay">Number of Subreddit per day</system:String>
+    <system:String x:Key="langSubredditScraperPerHour">Number of Subreddit per hour</system:String>
+    <system:String x:Key="langSubredditScraperPerWeek">Number of Subreddit per week</system:String>
+
+    <system:String x:Key="RDlangUserScraperWarning">These accounts are already running with Url Scraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="langUserScraperrWarning">These accounts are already running with Url Scraper configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="langUserScraperPerJob">Number of UserScraper per job</system:String>
+    <system:String x:Key="langUserScraperPerDay">Number of UserScraper per day</system:String>
+    <system:String x:Key="langUserScraperPerHour">Number of UserScraper per hour</system:String>
+    <system:String x:Key="langUserScraperPerWeek">Number of UserScraper per week</system:String>
 
 </ResourceDictionary>

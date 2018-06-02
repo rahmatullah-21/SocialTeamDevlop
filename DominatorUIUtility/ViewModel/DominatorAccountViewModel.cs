@@ -1128,6 +1128,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void DeleteAccountFromCampaign(DominatorAccountModel account)
         {
+            account = AccountsFileManager.GetAccount(account.UserName, account.AccountBaseModel.AccountNetwork);
             CampaignsFileManager.Get().ForEach(camp =>
             {
                 if (camp.SelectedAccountList.Any(acc => acc == account.UserName) && camp.SocialNetworks == account.AccountBaseModel.AccountNetwork)

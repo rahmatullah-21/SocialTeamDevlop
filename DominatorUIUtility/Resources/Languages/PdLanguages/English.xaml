@@ -575,4 +575,6 @@
     <system:String x:Key="PDlangDeletePinsPerHour">Number of Delete Pins per hour</system:String>
     <system:String x:Key="PDlangDeletePinsPerWeek">Number of Delete Pins per week</system:String>
     <system:String x:Key="PDlangMaxDeletePinsDay">Max Delete Pins per day</system:String>
+
+    <system:String x:Key="PDlangDeletePins">Delete Pins</system:String>
 </ResourceDictionary>
