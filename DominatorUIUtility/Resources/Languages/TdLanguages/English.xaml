@@ -926,6 +926,8 @@
     <system:String x:Key="TdLangFollowerWarning">These accounts are already running with follow configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="TdLangMessageWarning">These accounts are already running with message configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
 
+    <!--<system:String x:Key="TdLangAutoReplyWarning">These accounts are already running with Auto Reply configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="TdLangBroadCastWarning">These accounts are already running with Auto Reply configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>-->
 
     <system:String x:Key="TdLangCommentWarning">These accounts are already running with comment configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="TdLangFollowBackWarning">These accounts are already running with follow back configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
@@ -1118,6 +1120,8 @@
     <system:String x:Key="TdLangDeleteRandomTweets">Delete random tweets</system:String>
     <system:String x:Key="TdLangUndoRandomRetweets">Undo random retweets</system:String>
     <system:String x:Key="TdLangDeleteRandomComments">Delete random comments</system:String>
+
+    <system:String x:Key="TdLangDeleteRandomRetweets">Delete random retweets</system:String>
     <system:String x:Key="TdLangDeleteType">Delete Type</system:String>
     <system:String x:Key="TdLangTweetId">Tweet ID</system:String>
     <system:String x:Key="TdLangNearMyLocation">Near my location</system:String>
@@ -1163,5 +1167,7 @@
     <system:String x:Key="TdLangMutesPerWeek">Number of mutes per week</system:String>
     <system:String x:Key="TdLangMaxMuteDay">max mute per day</system:String>
     <system:String x:Key="TdLangMuteWarning">These accounts are already running with mute configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="TdLangMuteTheWord">Mute the Word Only</system:String>
+
 
 </ResourceDictionary>
