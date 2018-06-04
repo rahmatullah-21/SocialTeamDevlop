@@ -654,7 +654,7 @@ namespace DominatorUIUtility.ViewModel
             bool isProxyUpdated = false;
             try
             {
-                var oldAccount = AccountsFileManager.GetAccount(objDominatorAccountBaseModel.UserName).AccountBaseModel;
+                var oldAccount = AccountsFileManager.GetAccount(objDominatorAccountBaseModel.UserName,objDominatorAccountBaseModel.AccountNetwork).AccountBaseModel;
 
                 isProxyUpdated = IsProxyUpdated(objDominatorAccountBaseModel, oldproxies, oldAccount);
             }

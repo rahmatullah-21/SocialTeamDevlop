@@ -125,6 +125,7 @@ namespace DominatorHouseCore.FileManagers
         }
 
       
+        [Obsolete("This method has been made obsolete, as it will give conflicts in case of 2 accounts from different network with same username, instead use GetAccount with 2 parameters",true)]
         public static DominatorAccountModel GetAccount(string userName)
         {
             var accounts = GetAll();
