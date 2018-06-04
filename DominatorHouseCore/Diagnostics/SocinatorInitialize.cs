@@ -418,9 +418,9 @@ namespace DominatorHouseCore.Diagnostics
             {
                 DominatorAccountModel.ExtraParameters = extraProperity;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                GlobusLogHelper.log.Debug("Key is already present");
+                ex.DebugLog();
             }
             return this;
         }
@@ -429,11 +429,14 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
-                DominatorAccountModel.ExtraParameters.Add(key, value);
-               }
+                if (DominatorAccountModel.ExtraParameters.ContainsKey(key))
+                    DominatorAccountModel.ExtraParameters[key] = value;
+                else
+                    DominatorAccountModel.ExtraParameters.Add(key, value);
+            }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Debug("Key is already present");
+                ex.DebugLog();
             }
             return this;
         }
