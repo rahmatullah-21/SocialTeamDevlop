@@ -22,6 +22,8 @@
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converters:BooleanToVisibilityConverter>
     <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
+    <customControl:MacrosSuggestionProvider x:Key="MacroSuggestion"></customControl:MacrosSuggestionProvider>
+    <customControl:MacrosTemplateSelector x:Key="MacrosTemplateSelector"></customControl:MacrosTemplateSelector>
 
     <!--Media Viewer-->
     <Style TargetType="{x:Type customControl:MediaViewer}">
@@ -116,6 +118,10 @@
                             <StackPanel Margin="1">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Name="TextBlockMedia" FontWeight="SemiBold" Text="{DynamicResource DHlangPublisherSelectMedia}" FontSize="12" VerticalAlignment="Center" />
+
+                                    <!--<customControl:SocinatorTextBox ItemTemplateSelector="{StaticResource MacrosTemplateSelector}"
+                                                                    Watermark="Search here"                                                                    
+                                                                    MacrosSuggestionProvider="{StaticResource ResourceKey=MacroSuggestion}"></customControl:SocinatorTextBox>-->
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
@@ -231,11 +237,11 @@
                                     Value="Red"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
-                    
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
-    
+
+
 </ResourceDictionary>

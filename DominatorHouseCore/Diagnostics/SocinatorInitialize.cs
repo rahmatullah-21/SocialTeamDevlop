@@ -34,6 +34,9 @@ namespace DominatorHouseCore.Diagnostics
 
         public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();
 
+
+        public static HashSet<string> Macros { get; set; } = new HashSet<string>();
+
         public static async Task<HashSet<SocialNetworks>> SetAvailableSocialNetworks(string license)
         {
             try

@@ -356,30 +356,11 @@
     <DataTemplate x:Key="MacroHelperTemplate">
         <Border Padding="5">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal" >
-                        <Rectangle Width="15" Height="15" Fill="White" >
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                        <TextBlock Text="{Binding Path=Name}"
-                                   FontWeight="SemiBold" 
-                                   
-                                   FontFamily="Segoe UI"
-                                   FontSize="14"
-                                   VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Border>   
-
-
-                
-
+                <TextBlock Text="{Binding Path=MacroKey}"
+                           FontWeight="SemiBold"                                                     
+                           FontFamily="Segoe UI"
+                           FontSize="14"
+                           VerticalAlignment="Center"/>
             </Grid>
         </Border>
     </DataTemplate>

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Diagnostics;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 {
@@ -123,6 +128,20 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             DependencyProperty.Register("IsLoading", typeof(bool), typeof(SocinatorTextBox), new PropertyMetadata(false));
 
 
+
+
+        public IMacrosSuggestionProvider MacrosSuggestionProvider
+        {
+            get { return (IMacrosSuggestionProvider)GetValue(MacrosSuggestionProviderProperty); }
+            set { SetValue(MacrosSuggestionProviderProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MacrosSuggestionProvider.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MacrosSuggestionProviderProperty =
+            DependencyProperty.Register("MacrosSuggestionProvider", typeof(SocinatorTextBox), typeof(IMacrosSuggestionProvider), new PropertyMetadata(null));
+
+
+
         #endregion
 
 
@@ -134,5 +153,88 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         }
 
         #endregion
+    }
+
+
+    public class MacrosTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate TextTemplate { get; set; }
+     
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        {
+            if (item is SocinatorMacroModel)
+                return TextTemplate;          
+            return base.SelectTemplate(item, container);
+        }
+    }
+
+    public class SocinatorMacroModel : INotifyPropertyChanged
+    { 
+        private string _macroKey=string.Empty;
+
+        public string MacroKey
+        {
+            get
+            {
+                return _macroKey;
+            }
+            set
+            {              
+                if (_macroKey == value)
+                    return;
+                _macroKey = value;
+                OnPropertyChanged(nameof(MacroKey));
+            }
+        }
+
+        private string _macroValue;
+
+        public string MacroValue
+        {
+            get
+            {
+                return _macroValue;
+            }
+            set
+            {
+                if (_macroValue == value)
+                    return;
+                _macroValue = value;
+                OnPropertyChanged(nameof(MacroValue));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public class MacrosSuggestionProvider : IMacrosSuggestionProvider
+    {
+        public IEnumerable GetMacrosSuggestions(string filter)
+        {
+            if (string.IsNullOrEmpty(filter))
+                return null;
+
+            if (!filter.StartsWith("{") && !filter.EndsWith("}"))
+                return null;
+
+            return SocinatorInitialize.Macros;
+        }
+    }
+
+    public interface IMacrosSuggestionProvider
+    {
+
+        #region Public Methods
+
+        IEnumerable GetMacrosSuggestions(string filter);
+
+        #endregion Public Methods
+
     }
 }
