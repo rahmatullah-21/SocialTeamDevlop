@@ -302,7 +302,7 @@ namespace DominatorUIUtility.CustomControl
 
         protected virtual bool ValidateQuery()
         {
-          
+
             if (Model.SavedQueries.Count == 0)
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one query.",
@@ -341,7 +341,7 @@ namespace DominatorUIUtility.CustomControl
         #endregion
 
         #region Create Campaign 
-        
+
         protected void CreateCampaign()
         {
             if (!ValidateCampaign())
@@ -615,7 +615,7 @@ namespace DominatorUIUtility.CustomControl
 
                     DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings.TemplateId);
 
-                    account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);               
+                    account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
                     var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
                         .RemoveModuleSettings(_activityType)
                         .SaveToBinFile();
@@ -769,7 +769,7 @@ namespace DominatorUIUtility.CustomControl
 
         #region Update campaign
 
- 
+
         protected void UpdateCampaign()
         {
 
@@ -1105,7 +1105,7 @@ namespace DominatorUIUtility.CustomControl
                         .AddOrUpdateModuleSettings(_activityType, moduleConfiguration)
                         .SaveToBinFile();
 
-                   // AccountsFileManager.Edit(account);
+                    // AccountsFileManager.Edit(account);
                 }
                 catch (Exception ex)
                 {
@@ -1281,7 +1281,7 @@ namespace DominatorUIUtility.CustomControl
                     Model.SavedQueries.Add(currentQuery);
 
                     _queryControl.CurrentQuery = new QueryInfo();
-                   
+
                 }
             }
             catch (Exception ex)
@@ -1332,7 +1332,7 @@ namespace DominatorUIUtility.CustomControl
 
         protected bool ChangeAccountsModuleStatus(bool isStart, string selectedAccount, SocialNetworks socialNetworks)
         {
-          
+
             try
             {
                 var accountModel = AccountsFileManager.GetAccount(selectedAccount, socialNetworks);
@@ -1348,7 +1348,7 @@ namespace DominatorUIUtility.CustomControl
                 moduleConfiguration.IsEnabled = isStart;
                 try
                 {
-                   
+
                     var campaignStatus = CampaignsFileManager.Get()
                         .FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId).Status;
                     if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
@@ -1356,7 +1356,7 @@ namespace DominatorUIUtility.CustomControl
                         DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", $"This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
                         return false;
                     }
-                   
+
                 }
                 catch (Exception ex)
                 {
@@ -1397,8 +1397,8 @@ namespace DominatorUIUtility.CustomControl
 
                 var accountDetails = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, network);
 
-               SocinatorInitialize.GetSocialLibrary(network)
-                    .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount = _accountGrowthModeHeader.SelectedItem;
+                SocinatorInitialize.GetSocialLibrary(network)
+                     .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount = _accountGrowthModeHeader.SelectedItem;
 
                 var moduleConfiguration = accountDetails.ActivityManager.LstModuleConfiguration
                     .FirstOrDefault(y => y.ActivityType == _activityType);
@@ -1425,7 +1425,7 @@ namespace DominatorUIUtility.CustomControl
 
         #region Save last selected accounts in account configuration mode
 
-        [Obsolete("Dont use this method instead use SetSelectedAccounts with single parameter",true)]
+        [Obsolete("Dont use this method instead use SetSelectedAccounts with single parameter", true)]
         public void SetSelectedAccounts(SocialNetworks networks, string selectedAccounts)
         {
             var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
@@ -1491,11 +1491,6 @@ namespace DominatorUIUtility.CustomControl
 
             var accountModel = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, SocialNetwork);
 
-            var accounts = AccountCustomControl.GetAccountCustomControl(SocialNetwork).DominatorAccountViewModel
-                  .LstDominatorAccountModel.FirstOrDefault(x => x.AccountBaseModel.AccountId == accountModel.AccountBaseModel.AccountId);
-
-            //accounts?.NotifyCancelled();
-
             var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
 
             if (moduleConfiguration?.TemplateId != null)
@@ -1506,7 +1501,7 @@ namespace DominatorUIUtility.CustomControl
                                 "This account is already running with another campaign,saving this settings will override previous settings and remove this account from that campaign.",
                                 MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Yes", "No"));
                     if (dialogResult == MessageDialogResult.Negative)
-                        return; 
+                        return;
                 }
                 #region Template Id present case
 
@@ -1637,7 +1632,7 @@ namespace DominatorUIUtility.CustomControl
                     .AddOrUpdateModuleSettings(_activityType, accountModuleSettings)
                     .SaveToBinFile();
 
-               // AccountsFileManager.Edit(account);
+                // AccountsFileManager.Edit(account);
             }
             catch (Exception ex)
             {
