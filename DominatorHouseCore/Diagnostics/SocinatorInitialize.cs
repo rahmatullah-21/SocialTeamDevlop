@@ -414,13 +414,27 @@ namespace DominatorHouseCore.Diagnostics
 
         public SocinatorAccountBuilder AddOrUpdateExtraParameter(Dictionary<string, string> extraProperity)
         {
-            DominatorAccountModel.ExtraParameters = extraProperity;
+            try
+            {
+                DominatorAccountModel.ExtraParameters = extraProperity;
+            }
+            catch (Exception)
+            {
+                GlobusLogHelper.log.Debug("Key is already present");
+            }
             return this;
         }
 
         public SocinatorAccountBuilder AddOrUpdateExtraParameter(string key, string value)
         {
-            DominatorAccountModel.ExtraParameters.Add(key, value);
+            try
+            {
+                DominatorAccountModel.ExtraParameters.Add(key, value);
+               }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Debug("Key is already present");
+            }
             return this;
         }
 
