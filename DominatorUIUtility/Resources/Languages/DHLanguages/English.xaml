@@ -239,12 +239,33 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangPublisherWhatsOnYourMind">What's on your mind?</system:String>
     <system:String x:Key="DHlangPdSourceUrl">Pinterest Source Url</system:String>
     <system:String x:Key="DHlangFdSellPost">Enable Facebook Sell Post</system:String>
+    <system:String x:Key="DHlangFdOverridePostDescription">Replace post descriptions with following text</system:String>
+
+
+    <system:String x:Key="DHlangGdPostasStory">Post as part of your story instead of on wall</system:String>
+    <system:String x:Key="DHlangGdDeletePost">Delete the post after</system:String>
+    <system:String x:Key="DHlangHours">hours</system:String>
+    <system:String x:Key="DHlangGdPostTagUser">Tag users</system:String>
+    <system:String x:Key="DHlangGdAddPostTagUser">Add tag users!</system:String>
+    <system:String x:Key="DHlangGdPostUsignGeoLocation">Post using geo location</system:String>
+    <system:String x:Key="DHlangGdPostUsingAddGeoLocation">Add geo location!</system:String>
 
     <system:String x:Key="DHlangFdProductName">What are you selling?</system:String>
     <system:String x:Key="DHlangFdSellPrice">Price</system:String>
     <system:String x:Key="DHlangFdSellLocation">Location</system:String>
-    <system:String x:Key="DHlangFdTurnOffComment">Turnoff Comment</system:String>
+    <system:String x:Key="DHlangFdTurnOffComment">Turnoff Comment for sell post</system:String>
 
+    <system:String x:Key="DHlangGeneralSettings">General</system:String>
+    <system:String x:Key="DHlangLinkedIn">Linked In</system:String>
+    <system:String x:Key="DHlangExpireDate">Expire Date</system:String>
+
+    <system:String x:Key="DHlangReaddCount">Readd post to post list </system:String>
+    <system:String x:Key="DHlangTimes">times</system:String>
+    <system:String x:Key="DHlangLinkedPostType">Linkedin group post type</system:String>
+
+    <system:String x:Key="DHlangLinkedInGeneralPost">General Post</system:String>
+    <system:String x:Key="DHlangLinkedInJobPost">Job Post</system:String>
+    <system:String x:Key="DHlangLinkedInAnnouncementPost">Announcement Post</system:String>
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>

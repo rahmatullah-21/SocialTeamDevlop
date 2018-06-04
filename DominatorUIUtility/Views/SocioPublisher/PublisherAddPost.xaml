@@ -16,10 +16,7 @@
         <StackPanel Orientation="Horizontal">
             <!--Title-->
             <StackPanel Orientation="Horizontal" Margin="2">
-
-              <customControl:PostContent MediaHeight="75" MediaWidth="200"  ></customControl:PostContent>
-
-
+                <customControl:PostContent MediaHeight="75" MediaWidth="75"  ></customControl:PostContent>
             </StackPanel>
         </StackPanel>
 

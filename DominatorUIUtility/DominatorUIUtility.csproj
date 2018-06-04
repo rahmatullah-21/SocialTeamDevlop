@@ -364,7 +364,31 @@
       <DependentUpon>PublisherIndexPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\MediaViewer.cs" />
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostAdvancedSettings.xaml.cs">
+      <DependentUpon>PostAdvancedSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\PostContent.cs" />
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostFacebookSettings.xaml.cs">
+      <DependentUpon>PostFacebookSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostGeneralSettings.xaml.cs">
+      <DependentUpon>PostGeneralSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostInstagramSettings.xaml.cs">
+      <DependentUpon>PostInstagramSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostLinkedInSettings.xaml.cs">
+      <DependentUpon>PostLinkedInSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostPinterestSettings.xaml.cs">
+      <DependentUpon>PostPinterestSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostTumblrSettings.xaml.cs">
+      <DependentUpon>PostTumblrSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostTwitterSettings.xaml.cs">
+      <DependentUpon>PostTwitterSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublisherAddPost.xaml.cs">
       <DependentUpon>PublisherAddPost.xaml</DependentUpon>
     </Compile>
@@ -766,6 +790,38 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Publisher\PublisherIndexPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostAdvancedSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostFacebookSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostGeneralSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostInstagramSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostLinkedInSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostPinterestSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostTumblrSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostTwitterSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

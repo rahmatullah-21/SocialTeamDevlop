@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 {
@@ -77,6 +80,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
 
          Button _selectMedia = new Button();
+        private Button _buttonSettings = new Button();
 
         #endregion
 
@@ -100,6 +104,25 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
                 if (buttonMedia != null)
                     buttonMedia.Click += SelectMediaClick;
+            }
+
+            #endregion
+
+            #region Settings 
+        
+            var buttonSettingChanges = Template.FindName(ButtonSettings, this) as Button;
+
+            if (!_buttonSettings.Equals(buttonSettingChanges))
+            {
+                if (buttonSettingChanges != null)
+                {
+                    buttonSettingChanges.Click -= PostSettingsChangeClick;
+                }
+                _buttonSettings = buttonSettingChanges;
+                if (buttonSettingChanges != null)
+                {
+                    buttonSettingChanges.Click += PostSettingsChangeClick;
+                }
             }
 
             #endregion
@@ -127,9 +150,40 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             RaiseEvent(args);
         }
 
+
+        public static readonly RoutedEvent PostSettings = EventManager.RegisterRoutedEvent("PostSettingHandler",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(PostContent));
+
+        public event RoutedEventHandler PostSettingHandler
+        {
+            add { AddHandler(PostSettings,value);}
+            remove { RemoveHandler(PostSettings,value);}
+        }
+
+        private void PostSettingEvent()
+        {
+            var args = new RoutedEventArgs(PostSettings);
+            RaiseEvent(args);
+        }
+
         #endregion
 
         #region Events
+
+        public void PostSettingsChangeClick(object sender, RoutedEventArgs args)
+        {
+            var objAdvancedSettings = new PostAdvancedSettings();
+            var customDialog = new CustomDialog
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Content = objAdvancedSettings
+            };
+            var objDialog = new Dialog();
+            var dialogWindow = objDialog.GetCustomDialog(customDialog, "Post Settings");
+            dialogWindow.ShowDialog();
+
+            PostSettingEvent();
+        }
 
         public void SelectMediaClick(object sender, RoutedEventArgs args)
         {

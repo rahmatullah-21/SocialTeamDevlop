@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 {
@@ -386,15 +387,22 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public void Initialize()
         {
-            IsPostDataPresent = MediaList.Count > 0;
-            if (IsPostDataPresent)
+            try
             {
-                ImagePointer = 0;
-                CurrentMediaPointer = 1;
-                CurrentMediaUrl = MediaList[ImagePointer];
-                TotalMediaCount = MediaList.Count;
-                IsEnableNextPointer = (TotalMediaCount - ImagePointer) > -1;
-                IsEnablePreviousPointer = ImagePointer > 0;
+                IsPostDataPresent = MediaList.Count > 0;
+                if (IsPostDataPresent)
+                {
+                    ImagePointer = 0;
+                    CurrentMediaPointer = 1;
+                    CurrentMediaUrl = MediaList[ImagePointer];
+                    TotalMediaCount = MediaList.Count;
+                    IsEnableNextPointer = (TotalMediaCount - ImagePointer) > 1;
+                    IsEnablePreviousPointer = ImagePointer > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
         }
 
@@ -406,18 +414,40 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public void PreviousImageNavigator()
         {
-            ImagePointer--;
-            CurrentMediaUrl = MediaList[ImagePointer];
-            CurrentMediaPointer = CurrentMediaPointer - 1;
-            UpdateNavigationPointer();
+            try
+            {
+                ImagePointer--;
+                CurrentMediaUrl = MediaList[ImagePointer];
+                CurrentMediaPointer = CurrentMediaPointer - 1;
+                UpdateNavigationPointer();
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                ex.DebugLog("Media list out of range");
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public void NextImageNavigator()
-        {           
-            ImagePointer++;
-            CurrentMediaUrl = MediaList[ImagePointer];
-            CurrentMediaPointer = CurrentMediaPointer + 1;
-            UpdateNavigationPointer();
+        {
+            try
+            {                
+                ImagePointer++;
+                CurrentMediaUrl = MediaList[ImagePointer];
+                CurrentMediaPointer = CurrentMediaPointer + 1;
+                UpdateNavigationPointer();
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                ex.DebugLog("Media list out of range");
+            }
+            catch (Exception ex)
+            {
+               ex.DebugLog();
+            }
         }
 
         #endregion
