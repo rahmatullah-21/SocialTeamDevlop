@@ -910,8 +910,9 @@ namespace DominatorUIUtility.CustomControl
 
                         //AccountsFileManager.Edit(account);
                         account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
+
                         var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                            .AddOrUpdateModuleSettings(_activityType, moduleSettings)
+                            .RemoveModuleSettings(_activityType, moduleSettings)
                             .SaveToBinFile();
                     }
                     catch (Exception ex)
@@ -1126,7 +1127,7 @@ namespace DominatorUIUtility.CustomControl
             catch (Exception ex)
             {
                 ex.DebugLog();
-                return $"These accounts are already running with {_activityType} configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.";
+                return $"These accounts are already having configuration settings for activity: {_activityType} . Saving this settings will override previous settings and remove this account from the campaign.";
             }
         }
 

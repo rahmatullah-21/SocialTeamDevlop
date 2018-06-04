@@ -240,16 +240,22 @@ namespace DominatorUIUtility.CustomControl
             };
             menuOptions.Add(browserLoginMenu);
 
-            var goToToolsMenu = new MenuItem { Header = "Go to Tools" };
-            goToToolsMenu.Click += GotoTools;
-            goToToolsMenu.DataContext = dominatorAccountModel;
-            goToToolsMenu.Icon = new Image
+            if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
             {
-                Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
-                Width = 25,
-                Height = 25
-            };
-            menuOptions.Add(goToToolsMenu);
+                var goToToolsMenu = new MenuItem { Header = "Go to Tools" };
+                goToToolsMenu.Click += GotoTools;
+                goToToolsMenu.DataContext = dominatorAccountModel;
+
+                goToToolsMenu.Icon = new Image
+                {
+                    Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
+                    Width = 25,
+                    Height = 25
+                };
+                menuOptions.Add(goToToolsMenu);
+            }
+
+        
 
 
             var loginStatusMenu = new MenuItem { Header = "Check Account Status" };
