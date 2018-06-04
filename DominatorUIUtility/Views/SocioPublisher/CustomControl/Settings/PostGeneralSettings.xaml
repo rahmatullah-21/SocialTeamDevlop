@@ -9,12 +9,12 @@
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{DynamicResource DHlangExpireDate}" Name="TextBlockExpireDate" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource DHlangExpireDate}" Margin="5"></CheckBox>
                 <DatePicker Name="DatePicker" Margin="5" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{DynamicResource DHlangReaddCount}" Name="TextBlockReaddCount" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource DHlangReaddCount}" Margin="5"></CheckBox>
                 <TextBox Width="40" Height="25" />
                 <TextBlock Text="{DynamicResource DHlangTimes}" Name="TextBlockTimes" VerticalAlignment="Center" Margin="5"/>
             </StackPanel>

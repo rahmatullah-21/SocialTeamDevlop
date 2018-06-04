@@ -30,8 +30,8 @@
             </StackPanel>
             
             <StackPanel Orientation="Vertical">
-                <CheckBox Name="CheckBoxFdOverrideSource" Margin="2" Content="{DynamicResource DHlangGdPostTagUser}" />
-                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TextBoxPinterestSource" mah:TextBoxHelper.Watermark="{DynamicResource DHlangGdAddPostTagUser}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                <CheckBox Margin="2" Content="{DynamicResource DHlangPostTagUser}" />
+                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddPostTagUser}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
             </StackPanel>
             
         </StackPanel>

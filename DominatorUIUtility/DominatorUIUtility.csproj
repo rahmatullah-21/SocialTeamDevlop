@@ -389,6 +389,7 @@
     <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostTwitterSettings.xaml.cs">
       <DependentUpon>PostTwitterSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\SocinatorTextBox.cs" />
     <Compile Include="Views\SocioPublisher\PublisherAddPost.xaml.cs">
       <DependentUpon>PublisherAddPost.xaml</DependentUpon>
     </Compile>

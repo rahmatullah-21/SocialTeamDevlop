@@ -245,11 +245,13 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangGdPostasStory">Post as part of your story instead of on wall</system:String>
     <system:String x:Key="DHlangGdDeletePost">Delete the post after</system:String>
     <system:String x:Key="DHlangHours">hours</system:String>
-    <system:String x:Key="DHlangGdPostTagUser">Tag users</system:String>
-    <system:String x:Key="DHlangGdAddPostTagUser">Add tag users!</system:String>
+    <system:String x:Key="DHlangPostTagUser">Tag users</system:String>
+    <system:String x:Key="DHlangAddPostTagUser">Add tag users!</system:String>
+    <system:String x:Key="DHlangPostMentionUser">Mention users</system:String>
+    <system:String x:Key="DHlangAddPostMentionUser">Add mention users!</system:String>
     <system:String x:Key="DHlangGdPostUsignGeoLocation">Post using geo location</system:String>
     <system:String x:Key="DHlangGdPostUsingAddGeoLocation">Add geo location!</system:String>
-
+    <system:String x:Key="DHlangAddSourceUrl">Add source url!</system:String>
     <system:String x:Key="DHlangFdProductName">What are you selling?</system:String>
     <system:String x:Key="DHlangFdSellPrice">Price</system:String>
     <system:String x:Key="DHlangFdSellLocation">Location</system:String>

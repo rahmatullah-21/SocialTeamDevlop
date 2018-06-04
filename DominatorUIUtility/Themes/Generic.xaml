@@ -165,4 +165,77 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--Socinator Text Box -->
+    <Style TargetType="{x:Type customControl:SocinatorTextBox}">
+        <Setter Property="Focusable"
+                Value="False" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+        <Setter Property="BorderBrush"
+                Value="Gray" />
+        <Setter Property="Validation.ErrorTemplate" 
+                Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type customControl:SocinatorTextBox}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <DockPanel>
+                                <Grid>
+                                    <TextBox x:Name="PART_Editor"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center" mah:TextBoxHelper.Watermark="{TemplateBinding Watermark}"
+                                             Style="{StaticResource ResourceKey=TransparentTextBoxStyle}"
+                                             Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
+                                </Grid>
+                            </DockPanel>
+                            <Popup x:Name="PART_Popup"
+                                   IsOpen="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay}"
+                                   Width="{TemplateBinding ActualWidth}"
+                                   HorizontalOffset="0"
+                                   MinHeight="25"
+                                   MaxHeight="600"
+                                   AllowsTransparency="True"
+                                   PopupAnimation="Slide"
+                                   Focusable="False">
+                                <Border Background="White"
+                                        BorderThickness="1"
+                                        BorderBrush="Gray"
+                                        CornerRadius="5"
+                                        Padding="2">
+                                    <Grid>
+                                        <ListBox x:Name="PART_Selector"
+                                                 ItemTemplate="{TemplateBinding ItemTemplate}"
+                                                 ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                 Focusable="False"
+                                                 BorderThickness="0"
+                                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                 ItemContainerStyle="{StaticResource ResourceKey=SuggestionItemStyle}">
+                                        </ListBox>
+                                        <Border Visibility="{Binding Path=IsLoading, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
+                                            <ContentPresenter ContentSource="LoadingContent"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter Property="BorderBrush"
+                                    Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
 </ResourceDictionary>
