@@ -124,14 +124,6 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper.UpdateAllAccounts(accs);
         }
 
-      
-        [Obsolete("This method has been made obsolete, as it will give conflicts in case of 2 accounts from different network with same username, instead use GetAccount with 2 parameters",true)]
-        public static DominatorAccountModel GetAccount(string userName)
-        {
-            var accounts = GetAll();
-            var result = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == userName);
-            return result;
-        }
         public static DominatorAccountModel GetAccount(string userName, SocialNetworks networks)
         {
             var accounts = GetAll();
