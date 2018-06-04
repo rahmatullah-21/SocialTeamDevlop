@@ -1228,7 +1228,7 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 List<int> queryValuIndex = new List<int>();
-                if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue))
+                if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue) || _queryControl.QueryCollection.Count!=0)
                 {
                     _queryControl.QueryCollection.ForEach(query =>
                     {

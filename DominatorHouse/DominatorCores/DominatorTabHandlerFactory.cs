@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouse.Social.DashBoards;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
@@ -56,7 +57,7 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("langDashBoard") == null? "Dash Board" : Application.Current.FindResource("langDashBoard")?.ToString(),
-                    //Content=new Lazy<UserControl>(()=>new DashBoard())
+                   Content=new Lazy<UserControl>(DashBoardTab.GetSingeltonObjectDashBoardTab)
                 },
                 new TabItemTemplates
                 {
@@ -78,11 +79,11 @@ namespace Socinator.DominatorCores
                 //    Title = Application.Current.FindResource("langSettings") == null? "Settings" : Application.Current.FindResource("langSettings")?.ToString(),
                 //    Content = new Lazy<UserControl>(() => new Social.Settings.View.Home())
                 //},
-                //new TabItemTemplates
-                //{
-                //    Title = Application.Current.FindResource("langOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("langOtherConfigurations")?.ToString(),
-                //      Content=new Lazy<UserControl>(()=>new OtherConfigurationTab())
-                //}
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("langOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("langOtherConfigurations")?.ToString(),
+                      Content=new Lazy<UserControl>(()=>new OtherConfigurationTab())
+                }
             };
         }
 

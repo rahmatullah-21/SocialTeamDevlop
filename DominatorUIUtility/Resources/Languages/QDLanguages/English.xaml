@@ -139,4 +139,7 @@
     <system:String x:Key="QDlangAutoReplyToNewMessagesWarning">These accounts are already running with AutoReplyToNewMessages configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="QdLangMaxUpvotePerDay">max upvote per day</system:String>
     <system:String x:Key="QdlangMessageBetween">Messages Between</system:String>
+    <system:String x:Key="QDlangUserScraper">User Scraper</system:String>
+    <system:String x:Key="QDlangQuestionScraper">Question Scraper</system:String>
+    <system:String x:Key="QDlangAnswerScraper">Answer Scraper</system:String>
 </ResourceDictionary>
