@@ -66,6 +66,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// 
         [Column(Order = 9)]
         public Int64 PostedTimeStamp { get; set; }
-
+        [Column(Order = 10)]
+        public string PostKey { get; set; }
     }
 }

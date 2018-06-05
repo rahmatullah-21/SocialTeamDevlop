@@ -381,7 +381,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 return false;
             }
         }
-
+        /// <summary>
+        /// This method can be used in cases like Enable AutoFollow/Unfollow. You need to pass the Activity type which has to be disabled as first parameter and ActivityType which has to be enabled as second parameter, and accountID for which the activities has to be updated.
+        /// </summary>
+        /// <param name="stopActivity">ActivityType which has to be disabled</param>
+        /// <param name="startActivity">ActivityType which has to be enabled</param>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
         public static bool EnableDisableModules(ActivityType stopActivity, ActivityType startActivity, string accountId)
         {
             try

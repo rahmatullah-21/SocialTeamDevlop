@@ -328,6 +328,7 @@
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
+    <Compile Include="FileManagers\IGFileManager.cs" />
     <Compile Include="FileManagers\PinFileManager.cs" />
     <Compile Include="FileManagers\PublisherFileManager.cs" />
     <Compile Include="FileManagers\SocinatorKeyHelper.cs" />
@@ -389,6 +390,7 @@
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
+    <Compile Include="Models\InstagramModel.cs" />
     <Compile Include="ViewModel\CampaignInteractionViewModel.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ContentSelectGroup.cs" />

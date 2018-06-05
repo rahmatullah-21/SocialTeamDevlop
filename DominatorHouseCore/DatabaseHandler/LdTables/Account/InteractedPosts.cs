@@ -17,7 +17,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         [Index]
         [Column(Order = 1)]
         public int Id { get; set; }
-        
+
         /// <summary>
         /// Contains QueryType For Interaction
         /// </summary>
@@ -34,7 +34,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// <summary>
         /// Describes Activity 
         /// </summary>
-      
+
         [Column(Order = 4)]
         public string ActivityType { get; set; }
 
@@ -48,10 +48,10 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// <summary>
         /// Contains ContentId of the Post being interacted
         /// </summary>
-     
+
         [Column(Order = 6)]
         public string PostLink { get; set; }
-        
+
         /// <summary>
         /// Contains PostTitle of the Post being interacted
         /// </summary>
@@ -65,36 +65,45 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         public string PostDescription { get; set; }
 
         /// <summary>
-        /// Contains LikesCount On the Post being interacted
+        /// Contains MyComment On the Post being interacted
         /// </summary>
         [Column(Order = 9)]
-        public string Likes { get; set; }
+        public string MyComment { get; set; }
 
         /// <summary>
-        /// Contains CommentsCount On the Post being interacted
+        /// Contains LikesCount On the Post being interacted
         /// </summary>
         [Column(Order = 10)]
-        public string Comments { get; set; }
+        public string LikeCount { get; set; }
+
+        /// <summary>
+        /// Contains Comments Count On the Post being interacted
+        /// </summary>
+        [Column(Order = 11)]
+        public string CommentCount { get; set; }
+
+        [Column(Order = 12)]
+        public string ShareCount { get; set; }
 
         /// <summary>
         /// Contains name of the user who created the Post
         /// </summary>
-        [Column(Order = 11)]
+        [Column(Order = 13)]
         public string PostOwnerFullName { get; set; }
 
-        [Column(Order = 12)]
+        [Column(Order = 14)]
         public string PostOwnerProfileUrl { get; set; }
 
-        [Column(Order = 13)]
+        [Column(Order = 15)]
         public ConnectionType ConnectionType { get; set; }
 
-        [Column(Order = 14)]
+        [Column(Order = 16)]
         public DateTime PostedDateTime { get; set; }
 
         /// <summary>
         /// TimeStamp when interacted with the Post
         /// </summary>
-        [Column(Order = 15)]
+        [Column(Order = 17)]
         public DateTime InteractionDatetime { get; set; }
     }
 }
