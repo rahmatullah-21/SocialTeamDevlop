@@ -191,6 +191,9 @@
     <Compile Include="ConfigControl\Facebook.xaml.cs">
       <DependentUpon>Facebook.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ConfigControl\Instagram.xaml.cs">
+      <DependentUpon>Instagram.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConfigControl\Pinterest.xaml.cs">
       <DependentUpon>Pinterest.xaml</DependentUpon>
     </Compile>
@@ -363,6 +366,10 @@
     <Page Include="ConfigControl\Facebook.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\Instagram.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ConfigControl\Pinterest.xaml">
       <Generator>MSBuild:Compile</Generator>
