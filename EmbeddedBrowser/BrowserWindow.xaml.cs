@@ -431,7 +431,7 @@ namespace EmbeddedBrowser
                 Browser.GetBrowser().GetHost().SendKeyEvent(k);
                 Thread.Sleep(1000);
 
-                Browser.ExecuteScriptAsync("document.getElementsByClassName(\"_qv64e _gexxb _4tgw8 _njrw0\")[0].click()");
+                Browser.ExecuteScriptAsync("document.getElementsByClassName(\"_5f5mN\")[0].click()");
                 Thread.Sleep(2000);
 
             }

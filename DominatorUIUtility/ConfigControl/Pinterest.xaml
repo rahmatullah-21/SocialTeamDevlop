@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.ConfigControl"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" >
     <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
         <GroupBox.Header>
@@ -25,10 +26,22 @@
             </Grid>
         </GroupBox.Header>
         <StackPanel Margin="10" x:Name="MainGrid">
-            <CheckBox Margin="5" Content="{DynamicResource DHlangEnableFollowDifferentUsersAcrossPinterestAccounts}"
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="5" Content="{DynamicResource DHlangWaitMinimumOf}"/>
+                <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
+                <Label Content="{DynamicResource DHlangHoursBeforeRefreshingPd}"/>
+            </StackPanel>
+            <CheckBox Margin="5" Content="{DynamicResource DHlangDisableSyncForNewAccounts}"
+                      IsChecked="{Binding IsDisableSyncForNewAccountsChecked}"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="5" Content="{DynamicResource DHlangAllowSyncsToExecute}"/>
+                <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding MaxOfFbAccount}"/>
+                <Label Content="{DynamicResource DHlangFacebookAccountsAtSameTimePd}"/>
+            </StackPanel>
+            <!--<CheckBox Margin="5" Content="{DynamicResource DHlangEnableFollowDifferentUsersAcrossPinterestAccounts}"
                       IsChecked="{Binding IsEnableFollowDifferentUsersAcrossPDAccountsChecked}"/>
             <CheckBox Margin="5" Content="{DynamicResource DHlangAllowDoubleRepin}"
-                      IsChecked="{Binding IsAllowDoubleRepinChecked}"/>
+                      IsChecked="{Binding IsAllowDoubleRepinChecked}"/>-->
         </StackPanel>
     </GroupBox>
 </UserControl>

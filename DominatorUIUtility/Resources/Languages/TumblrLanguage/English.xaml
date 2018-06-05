@@ -6,4 +6,11 @@
     <system:String x:Key="TumlangUserFollower">User Follower</system:String>
     <system:String x:Key="TumlangUserFollowing">User Following</system:String>
     <system:String x:Key="TMBlangReblog">Reblog</system:String>
+    <system:String x:Key="TumlangHashTag">HashtagUsers</system:String>
+    <system:String x:Key="TumlangUserCommentedOnPost">Post Commenter</system:String>
+    <system:String x:Key="TumlangUserLikedThePost">Post Likers</system:String>
+    <system:String x:Key="TumlangUserReblogedThePost">Reblog Post</system:String>
+    <system:String x:Key="TumlangUserLikedCommentedReblogedThePost">Reblog Liker/Commenter</system:String>
+    <system:String x:Key="TumlangNewsFeed">Dashboard</system:String>
+    <system:String x:Key="TumlangUsername">Username</system:String>
 </ResourceDictionary>

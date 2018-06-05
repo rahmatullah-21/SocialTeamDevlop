@@ -26,4 +26,19 @@ namespace DominatorHouseCore.Enums.TumblrQuery
         [Description("TumlangUserLikedCommentedReblogedThePost")]
         UserLikedCommentedReblogedThePost
     }
+    public enum TumblrPostQuery
+    {
+        [Description("TumlangKeyword")]
+        Keyword,
+        [Description("TumlangHashTag")]
+        HashtagUsers,
+        //TODO
+        //[Description("TumlangNewsFeed")]
+        //Dashboard,
+        //[Description("TumlangUsername")]
+        //Username,
+
+
+
+    }
 }

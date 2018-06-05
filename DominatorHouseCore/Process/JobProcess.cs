@@ -29,7 +29,7 @@ namespace DominatorHouseCore.Process
         public JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
         {
             // Get the current account details 
-            DominatorAccountModel = AccountsFileManager.GetAccount(account);
+            DominatorAccountModel = AccountsFileManager.GetAccount(account,network);
 
             SocialNetworks = network;
 

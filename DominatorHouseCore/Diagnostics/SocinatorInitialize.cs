@@ -369,8 +369,7 @@ namespace DominatorHouseCore.Diagnostics
         }
 
 
-        public SocinatorAccountBuilder RemoveModuleSettings(ActivityType activityType,
-            ModuleConfiguration moduleConfiguration)
+        public SocinatorAccountBuilder RemoveModuleSettings(ActivityType activityType)
         {
             var moduleSettings = DominatorAccountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
 
@@ -418,13 +417,30 @@ namespace DominatorHouseCore.Diagnostics
 
         public SocinatorAccountBuilder AddOrUpdateExtraParameter(Dictionary<string, string> extraProperity)
         {
-            DominatorAccountModel.ExtraParameters = extraProperity;
+            try
+            {
+                DominatorAccountModel.ExtraParameters = extraProperity;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
             return this;
         }
 
-        public SocinatorAccountBuilder AddOrUpdateExtraParameter(string key, string value)
+       public SocinatorAccountBuilder AddOrUpdateExtraParameter(string key, string value)
         {
-            DominatorAccountModel.ExtraParameters.Add(key, value);
+            try
+            {
+                if (DominatorAccountModel.ExtraParameters.ContainsKey(key))
+                    DominatorAccountModel.ExtraParameters[key] = value;
+                else
+                    DominatorAccountModel.ExtraParameters.Add(key, value);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
             return this;
         }
 

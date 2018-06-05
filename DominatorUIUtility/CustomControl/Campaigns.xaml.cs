@@ -116,11 +116,15 @@ namespace DominatorUIUtility.CustomControl
                     .FirstOrDefault(y => y.ActivityType == module);
                 if (moduleConfiguration?.TemplateId == selectedCampaign.TemplateId)
                     moduleConfiguration.IsEnabled = (bool)(sender as ToggleSwitch).IsChecked;
+                var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                    .AddOrUpdateModuleSettings(module, moduleConfiguration)
+                    .SaveToBinFile();
+
             }
 
             // AccountsFileManager.SaveAll(lstAccountDetails);
 
-            AccountsFileManager.UpdateAccounts(lstAccountDetails);
+            //AccountsFileManager.UpdateAccounts(lstAccountDetails);
 
             // Run/Stop job process in campaigns
             try
@@ -253,7 +257,7 @@ namespace DominatorUIUtility.CustomControl
 
                 campName.SelectedAccountList.ToList().ForEach(acc =>
                 {
-                    DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc);
+                    DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc,campName.SocialNetworks);
 
                     ObjReports.ReportModel.AccountList.Add(new ContentSelectGroup()
                     {
@@ -453,6 +457,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                var module = (ActivityType)Enum.Parse(typeof(ActivityType), camp.SubModule);
                 // remove template from each account
                 allAccounts.ForEach(x =>
                 {
@@ -466,14 +471,14 @@ namespace DominatorUIUtility.CustomControl
 
                         // Remove task from list
                         x.ActivityManager.LstModuleConfiguration.RemoveAll(y => y.TemplateId == camp.TemplateId);
+                        var socinatorAccountBuilder = new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                            .RemoveModuleSettings(module)
+                            .SaveToBinFile();
                     }
-
-                    if (selectedAccount.Contains(x.UserName))
-                        moduleConfig.IsEnabled = false;
 
                 });
 
-                AccountsFileManager.UpdateAccounts(allAccounts);
+                //AccountsFileManager.UpdateAccounts(allAccounts);
             }
             catch (Exception ex)
             {

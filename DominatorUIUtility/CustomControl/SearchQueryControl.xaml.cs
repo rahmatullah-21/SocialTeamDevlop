@@ -305,8 +305,15 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                CurrentQuery.QueryValue = TxtInputQuery.Text.ToString();
-                CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
+                QueryCollection.Clear();
+                if (TxtInputQuery.Text.Contains(","))
+                {
+                    QueryCollection.AddRange(TxtInputQuery.Text.Split(','));
+                }
+                else
+                 CurrentQuery.QueryValue = TxtInputQuery.Text.ToString();
+                    CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
+               
                 TxtInputQuery.Text = string.Empty;
                 SelectedIndex = 0;
                 AddQueryEventHandler();
@@ -337,6 +344,7 @@ namespace DominatorUIUtility.CustomControl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        
     }
 
 

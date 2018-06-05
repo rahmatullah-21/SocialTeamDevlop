@@ -287,6 +287,19 @@ Type 3. IP:Port
     <system:String x:Key="DHStartWarning">These accounts are already running with</system:String>
     <system:String x:Key="DHEndWarning">configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="DHVerifySelected">Verify Selected</system:String>
-    
-   
+
+    <system:String x:Key="DHlangHoursBeforeRefreshingGd">hours before refreshing the friend list for a instagram account (Friend backup or Invite tools must be started)</system:String>
+    <system:String x:Key="DHlangFacebookAccountsAtSameTimeGd">Instagram accounts at the same time</system:String>
+
+    <system:String x:Key="DHlangHoursBeforeRefreshingTd">hours before refreshing the friend list for a twitter account (Friend backup or Invite tools must be started)</system:String>
+    <system:String x:Key="DHlangFacebookAccountsAtSameTimeTd">Twitter accounts at the same time</system:String>
+    <system:String x:Key="DHlangHoursBeforeRefreshingPd">hours before refreshing the friend list for a pinterest account (Friend backup or Invite tools must be started)</system:String>
+    <system:String x:Key="DHlangFacebookAccountsAtSameTimePd">Pinterest accounts at the same time</system:String>
+
+    <system:String x:Key="DHlangHoursBeforeRefreshingTumblrd">hours before refreshing the friend list for a tumblr account (Friend backup or Invite tools must be started)</system:String>
+    <system:String x:Key="DHlangFacebookAccountsAtSameTimeTumblrd">Tumblr accounts at the same time</system:String>
+    <system:String x:Key="DHlangHoursBeforeRefreshingYd">hours before refreshing the friend list for a youtube account (Friend backup or Invite tools must be started)</system:String>
+    <system:String x:Key="DHlangFacebookAccountsAtSameTimeYd">Youtube accounts at the same time</system:String>
+    <system:String x:Key="DHlangRevisionHistory">Revision History</system:String>
+
 </ResourceDictionary>

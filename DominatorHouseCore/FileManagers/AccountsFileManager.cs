@@ -124,7 +124,6 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper.UpdateAllAccounts(accs);
         }
 
-      
         public static DominatorAccountModel GetAccount(string userName)
         {
             var accounts = GetAll();
@@ -133,6 +132,7 @@ namespace DominatorHouseCore.FileManagers
         }
 
         public static DominatorAccountModel GetAccountById(string accountId)
+
         {
             var accounts = GetAll();
             var result = accounts.FirstOrDefault(x => x.AccountBaseModel.AccountId == accountId);

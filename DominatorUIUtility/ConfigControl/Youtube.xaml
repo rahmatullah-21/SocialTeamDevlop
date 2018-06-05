@@ -24,9 +24,21 @@
                 </Button>
             </Grid>
         </GroupBox.Header>
-        <StackPanel Orientation="Horizontal" Margin="10" x:Name="MainGrid">
-            <Label Margin="5" Content="{DynamicResource DHlangLimitNumberOfSimultaneousWatchVideos}"/>
-            <controls:NumericUpDown Minimum="0" Margin="5" VerticalAlignment="top" Value="{Binding LimitNumberOfSimultaneousWatchVideos}" />
+        <StackPanel  Margin="10" x:Name="MainGrid">
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="5" Content="{DynamicResource DHlangWaitMinimumOf}"/>
+                <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
+                <Label Content="{DynamicResource DHlangHoursBeforeRefreshingYd}"/>
+            </StackPanel>
+            <CheckBox Margin="5" Content="{DynamicResource DHlangDisableSyncForNewAccounts}"
+                      IsChecked="{Binding IsDisableSyncForNewAccountsChecked}"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="5" Content="{DynamicResource DHlangAllowSyncsToExecute}"/>
+                <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding MaxOfFbAccount}"/>
+                <Label Content="{DynamicResource DHlangFacebookAccountsAtSameTimeYd}"/>
+            </StackPanel>
+            <!--<Label Margin="5" Content="{DynamicResource DHlangLimitNumberOfSimultaneousWatchVideos}"/>
+            <controls:NumericUpDown Minimum="0" Margin="5" VerticalAlignment="top" Value="{Binding LimitNumberOfSimultaneousWatchVideos}" />-->
         </StackPanel>
     </GroupBox>
 
