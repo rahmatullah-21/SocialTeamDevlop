@@ -36,7 +36,7 @@ namespace DominatorHouseCore.Diagnostics
         public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();
 
 
-        public static HashSet<SocinatorMacroModel> Macros { get; set; } = new HashSet<SocinatorMacroModel>();
+        public static HashSet<SocinatorIntellisenseModel> Macros { get; set; } = new HashSet<SocinatorIntellisenseModel>();
 
         public static async Task<HashSet<SocialNetworks>> SetAvailableSocialNetworks(string license)
         {

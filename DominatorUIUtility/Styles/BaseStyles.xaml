@@ -336,8 +336,7 @@
     </Style>
 
     <Style TargetType="{x:Type TextBox}" x:Key="TransparentTextBoxStyle">
-        <Setter Property="FocusVisualStyle"
-                Value="{x:Null}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
@@ -345,8 +344,8 @@
                         <ScrollViewer x:Name="PART_ContentHost"
                                       Background="Transparent"
                                       Focusable="True"
-                                      HorizontalScrollBarVisibility="Hidden"
-                                      VerticalScrollBarVisibility="Hidden" />
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Auto" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

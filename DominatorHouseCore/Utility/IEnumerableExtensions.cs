@@ -74,5 +74,18 @@ namespace DominatorHouseCore.Utility
 
         public static bool IsGetMacros(this string source) 
             => Regex.Replace(source, @"{[^}]*}", string.Empty).Contains("{");
+
+
+        public static string ApplyMacros(this string source, int caretIndex, string selectedMacro)
+        {
+            var getFirstSubString = source.Substring(0, caretIndex);
+            var startIndexOfCurrentWord = getFirstSubString.LastIndexOf("{", StringComparison.Ordinal);
+            if (startIndexOfCurrentWord == -1)
+                return source;
+
+            var length = caretIndex - startIndexOfCurrentWord;
+
+            return source.ReplaceAt(startIndexOfCurrentWord, length, selectedMacro);
+        }
     }
 }

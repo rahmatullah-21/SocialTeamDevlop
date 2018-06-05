@@ -134,15 +134,15 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
 
 
-        public IMacrosSuggestionProvider MacrosSuggestionProvider
+        public ISuggestionProvider SuggestionProvider
         {
-            get { return (IMacrosSuggestionProvider)GetValue(MacrosSuggestionProviderProperty); }
-            set { SetValue(MacrosSuggestionProviderProperty, value); }
+            get { return (ISuggestionProvider)GetValue(SuggestionProviderProperty); }
+            set { SetValue(SuggestionProviderProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MacrosSuggestionProvider.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MacrosSuggestionProviderProperty =
-            DependencyProperty.Register("MacrosSuggestionProvider", typeof(IMacrosSuggestionProvider), typeof(SocinatorTextBox), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty SuggestionProviderProperty =
+            DependencyProperty.Register("SuggestionProvider", typeof(ISuggestionProvider), typeof(SocinatorTextBox), new FrameworkPropertyMetadata(null));
 
 
         public object LoadingContent
@@ -258,7 +258,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 if (postDescriptionText != null)
                 {
-                    postDescriptionText.KeyDown -= OnEditorKeyDown;
+                    postDescriptionText.PreviewKeyDown -= OnEditorKeyDown;
                     postDescriptionText.LostFocus -= OnEditorLostFocus;
                     postDescriptionText.TextChanged -= OnEditorTextChanged;
                 }
@@ -267,9 +267,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
                 if (postDescriptionText != null)
                 {
-                    postDescriptionText.KeyDown += OnEditorKeyDown;
                     postDescriptionText.LostFocus += OnEditorLostFocus;
                     postDescriptionText.TextChanged += OnEditorTextChanged;
+                    postDescriptionText.PreviewKeyDown += OnEditorKeyDown;
                 }
             }
 
@@ -327,7 +327,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 SelectedItem = ItemsSelector.SelectedItem;
                 _isUpdatingText = true;
-               // _postDescription.Text = GetDisplayText(ItemsSelector.SelectedItem);
+                _postDescription.Text = _postDescription.Text.ApplyMacros(_postDescription.CaretIndex, GetDisplayText(ItemsSelector.SelectedItem));
                 SetSelectedItem(ItemsSelector.SelectedItem);
                 _isUpdatingText = false;
                 IsDropDownOpen = false;
@@ -337,7 +337,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         private void OnSelectionAdapterCancel()
         {
             _isUpdatingText = true;
-            _postDescription.Text = SelectedItem == null ? Filter : GetDisplayText(SelectedItem);
+            _postDescription.Text = _postDescription.Text.ApplyMacros(_postDescription.CaretIndex, GetDisplayText(ItemsSelector.SelectedItem));
             _postDescription.SelectionStart = _postDescription.Text.Length;
             _postDescription.SelectionLength = 0;
             _isUpdatingText = false;
@@ -408,7 +408,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             SetSelectedItem(null);
             if (_postDescription.Text.Length > 0)
             {
-                if (!_postDescription.Text.IsGetMacros())
+                if (!_postDescription.Text.IsGetMacros())                        
                     return;
 
                 IsLoading = true;
@@ -439,18 +439,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 if (socinatorTextBox._postDescription != null & !socinatorTextBox._isUpdatingText)
                 {
                     socinatorTextBox._isUpdatingText = true;
-
-                    var getFirstSubString = socinatorTextBox._postDescription.Text.Substring(0, socinatorTextBox._postDescription.CaretIndex);
-                    var startIndexOfCurrentWord = getFirstSubString.LastIndexOf("{", StringComparison.Ordinal);
-                    if (startIndexOfCurrentWord == -1)
-                        return;
-
-                    var length = socinatorTextBox._postDescription.CaretIndex - startIndexOfCurrentWord;
-
-                    socinatorTextBox._postDescription.Text = socinatorTextBox._postDescription.Text.ReplaceAt(
-                        startIndexOfCurrentWord, length, socinatorTextBox.BindingEvaluator.Evaluate(e.NewValue));
-
-                  //  socinatorTextBox._postDescription.Text = socinatorTextBox.BindingEvaluator.Evaluate(e.NewValue);
+                    socinatorTextBox._postDescription.Text = socinatorTextBox._postDescription.Text.ApplyMacros(socinatorTextBox._postDescription.CaretIndex, socinatorTextBox.BindingEvaluator.Evaluate(e.NewValue));
                     socinatorTextBox._isUpdatingText = false;
                 }
             }
@@ -460,7 +449,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         {
             FetchTimer.IsEnabled = false;
             FetchTimer.Stop();
-            if (MacrosSuggestionProvider != null && ItemsSelector != null)
+            if (SuggestionProvider != null && ItemsSelector != null)
             {
                 var getFirstSubString = _postDescription.Text.Substring(0, _postDescription.CaretIndex);
                 var startIndexOfCurrentWord = getFirstSubString.LastIndexOf("{", StringComparison.Ordinal);
@@ -493,12 +482,14 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         private void OnSelectionAdapterSelectionChanged()
         {
             _isUpdatingText = true;
-            _postDescription.Text = ItemsSelector.SelectedItem == null ? Filter : GetDisplayText(ItemsSelector.SelectedItem);
+            _postDescription.Text = _postDescription.Text.ApplyMacros(_postDescription.CaretIndex, GetDisplayText(ItemsSelector.SelectedItem));
             _postDescription.SelectionStart = _postDescription.Text.Length;
             _postDescription.SelectionLength = 0;
             ScrollToSelectedItem();
             _isUpdatingText = false;
         }
+
+
 
         private void ScrollToSelectedItem()
         {
@@ -540,7 +531,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                     _socinatorText.IsLoading = true;
                     var suggestionParameterizedThread = new ParameterizedThreadStart(GetSuggestionsAsync);
                     var suggestionThread = new Thread(suggestionParameterizedThread);
-                    suggestionThread.Start(new object[] { searchText, _socinatorText.MacrosSuggestionProvider });
+                    suggestionThread.Start(new object[] { searchText, _socinatorText.SuggestionProvider });
                 }
                 catch (Exception ex)
                 {
@@ -570,8 +561,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 var args = param as object[];
                 var searchText = Convert.ToString(args?[0]);
-                var provider = args?[1] as IMacrosSuggestionProvider;
-                var list = provider?.GetMacrosSuggestions(searchText);
+                var provider = args?[1] as ISuggestionProvider;
+                var list = provider?.GetSuggestions(searchText);
                 _socinatorText.Dispatcher.BeginInvoke(new Action<IEnumerable, string>(DisplaySuggestions),
                                                          DispatcherPriority.Background,
                                                          list,
@@ -584,24 +575,11 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         #endregion
     }
 
-
-    public class MacrosTemplateSelector : DataTemplateSelector
+    public class SuggestionProvider : ISuggestionProvider
     {
-        public DataTemplate TextTemplate { get; set; }
+        public IEnumerable<SocinatorIntellisenseModel> ListOfMacros { get; set; }
 
-        public override DataTemplate SelectTemplate(object item, DependencyObject container)
-        {
-            if (item is SocinatorMacroModel)
-                return TextTemplate;
-            return base.SelectTemplate(item, container);
-        }
-    }
-
-    public class MacrosSuggestionProvider : IMacrosSuggestionProvider
-    {
-        public IEnumerable<SocinatorMacroModel> ListOfMacros { get; set; }
-
-        public IEnumerable GetMacrosSuggestions(string filter)
+        public IEnumerable GetSuggestions(string filter)
         {
             if (string.IsNullOrEmpty(filter))
                 return null;
@@ -609,23 +587,25 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             if (!filter.StartsWith("{") && !filter.EndsWith("}"))
                 return null;
 
-            return ListOfMacros.Where(x => x.MacroKey.Contains(filter));
+            return ListOfMacros.Where(x => x.Key.ToLower().Contains(filter.ToLower()));
         }
 
-        public MacrosSuggestionProvider()
+        public SuggestionProvider()
         {
-            SocinatorInitialize.Macros.Add(new SocinatorMacroModel { MacroKey = "{Hello}", MacroValue = "Hello" });
-            SocinatorInitialize.Macros.Add(new SocinatorMacroModel { MacroKey = "{Globussoft}", MacroValue = "Globussoft" });
-            ListOfMacros = SocinatorInitialize.Macros;         
+            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Hello}", Value = "Hello" });
+            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Globussoft}", Value = "Globussoft" });
+            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{DotNet}", Value = "Globussoft" });
+            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Android}", Value = "Globussoft" });
+            ListOfMacros = SocinatorInitialize.Macros;
         }
     }
 
-    public interface IMacrosSuggestionProvider
+    public interface ISuggestionProvider
     {
 
         #region Public Methods
 
-        IEnumerable GetMacrosSuggestions(string filter);
+        IEnumerable GetSuggestions(string filter);
 
         #endregion Public Methods
 
@@ -634,15 +614,16 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
     public class BindingEvaluator : FrameworkElement
     {
 
-        #region "Fields"
+        #region Fields
 
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string), typeof(BindingEvaluator), new FrameworkPropertyMetadata(string.Empty));
 
         private Binding _valueBinding;
+
         #endregion
 
-        #region "Constructors"
+        #region Constructors
 
         public BindingEvaluator(Binding binding)
         {
@@ -651,7 +632,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         #endregion
 
-        #region "Properties"
+        #region Properties
 
         public string Value
         {
@@ -668,7 +649,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         #endregion
 
-        #region "Methods"
+        #region Methods
 
         public string Evaluate(object dataItem)
         {
@@ -748,9 +729,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 case Key.Up:
                     DecrementSelection();
                     break;
-                case Key.Enter:
-                    Commit?.Invoke();
-                    break;
                 case Key.Escape:
                     Cancel?.Invoke();
                     break;
@@ -763,11 +741,14 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         private void DecrementSelection()
         {
             if (SelectorControl.SelectedIndex == -1)
-                SelectorControl.SelectedIndex = SelectorControl.Items.Count - 1;
+                SelectorControl.SelectedIndex = 0;
             else
+            {
+                if (SelectorControl.SelectedIndex == 0)
+                    return;
                 SelectorControl.SelectedIndex -= 1;
-
-            SelectionChanged?.Invoke();
+                SelectionChanged?.Invoke();
+            }
         }
 
         private void IncrementSelection()
@@ -775,9 +756,12 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             if (SelectorControl.SelectedIndex == SelectorControl.Items.Count - 1)
                 SelectorControl.SelectedIndex = -1;
             else
+            {
+                if (SelectorControl.SelectedIndex >= SelectorControl.Items.Count)
+                    return;
                 SelectorControl.SelectedIndex += 1;
-
-            SelectionChanged?.Invoke();
+                SelectionChanged?.Invoke();
+            }
         }
 
         private void OnSelectorMouseDown(object sender, MouseButtonEventArgs e)

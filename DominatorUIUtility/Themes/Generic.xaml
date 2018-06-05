@@ -19,12 +19,9 @@
         <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml"/>
         <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converters:BooleanToVisibilityConverter>
     <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
-    <customControl:MacrosSuggestionProvider x:Key="MacroSuggestion"></customControl:MacrosSuggestionProvider>
-    <customControl:MacrosTemplateSelector x:Key="MacrosTemplateSelector"></customControl:MacrosTemplateSelector>
-
+    <customControl:SuggestionProvider x:Key="MacroSuggestion"></customControl:SuggestionProvider>
     <!--Media Viewer-->
     <Style TargetType="{x:Type customControl:MediaViewer}">
         <Setter Property="Template">
@@ -176,10 +173,6 @@
     <Style TargetType="{x:Type customControl:SocinatorTextBox}">
         <Setter Property="Focusable"
                 Value="False" />
-        <Setter Property="BorderThickness"
-                Value="1" />
-        <Setter Property="BorderBrush"
-                Value="Gray" />
         <Setter Property="Validation.ErrorTemplate" 
                 Value="{x:Null}"/>
         <Setter Property="Template">
@@ -191,19 +184,21 @@
                         <Grid>
                             <DockPanel>
                                 <Grid>
-                                    <TextBox x:Name="PART_Editor" 
-                                             TextWrapping="{TemplateBinding TextWrapping}" 
-                                             Width="{TemplateBinding TextWidth}" 
-                                             Height="{TemplateBinding TextHeight}"                                                                                     
-                                             Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneWay}"
-                                             mah:TextBoxHelper.Watermark="{TemplateBinding Watermark}"
-                                             Style="{StaticResource ResourceKey=TransparentTextBoxStyle}"
-                                             Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <TextBox x:Name="PART_Editor" HorizontalAlignment="Left"
+                                                 TextWrapping="{TemplateBinding TextWrapping}" 
+                                                 Width="{TemplateBinding TextWidth}" 
+                                                 Height="{TemplateBinding TextHeight}"
+                                                 AcceptsReturn="True"                                                                               
+                                                 Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneWay}"
+                                                 mah:TextBoxHelper.Watermark="{TemplateBinding Watermark}"                                          
+                                                 Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
+                                    </ScrollViewer>
                                 </Grid>
                             </DockPanel>
                             <Popup x:Name="PART_Popup"
                                    IsOpen="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay}"
-                                   Width="{TemplateBinding ActualWidth}"
+                                   Width="{TemplateBinding TextWidth}"
                                    HorizontalOffset="0"
                                    MinHeight="25"
                                    MaxHeight="600"                                  
@@ -221,12 +216,13 @@
                                                  ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                                  Focusable="False" Foreground="Black"
                                                  BorderThickness="0"
+                                                 Width="{TemplateBinding TextWidth}" 
                                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                                 ItemContainerStyle="{StaticResource ResourceKey=SuggestionItemStyle}">
+                                                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                           
                                         </ListBox>
                                         <Border Visibility="{Binding Path=IsLoading, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
-                                            <ContentPresenter ContentSource="LoadingContent"/>
+                                            <ContentPresenter ContentSource="LoadingContent"  Width="{TemplateBinding TextWidth}"/>
                                         </Border>
                                     </Grid>
                                 </Border>

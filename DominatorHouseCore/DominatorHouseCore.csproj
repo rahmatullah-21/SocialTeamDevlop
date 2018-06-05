@@ -402,7 +402,7 @@
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
-    <Compile Include="Models\SocioPublisher\SocinatorMacroModel.cs" />
+    <Compile Include="Models\SocioPublisher\SocinatorIntellisenseModel.cs" />
     <Compile Include="Utility\ImageExtracter.cs" />
     <Compile Include="Models\InstagramModel.cs" />
     <Compile Include="ViewModel\CampaignInteractionViewModel.cs" />

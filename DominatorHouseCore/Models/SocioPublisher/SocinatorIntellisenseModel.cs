@@ -4,39 +4,39 @@ using DominatorHouseCore.Annotations;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
-    public class SocinatorMacroModel : INotifyPropertyChanged
+    public class SocinatorIntellisenseModel : INotifyPropertyChanged
     {
-        private string _macroKey = string.Empty;
+        private string _key = string.Empty;
 
-        public string MacroKey
+        public string Key
         {
             get
             {
-                return _macroKey;
+                return _key;
             }
             set
             {
-                if (_macroKey == value)
+                if (_key == value)
                     return;
-                _macroKey = value;
-                OnPropertyChanged(nameof(MacroKey));
+                _key = value;
+                OnPropertyChanged(nameof(Key));
             }
         }
 
-        private string _macroValue;
+        private string _value;
 
-        public string MacroValue
+        public string Value
         {
             get
             {
-                return _macroValue;
+                return _value;
             }
             set
             {
-                if (_macroValue == value)
+                if (_value == value)
                     return;
-                _macroValue = value;
-                OnPropertyChanged(nameof(MacroValue));
+                _value = value;
+                OnPropertyChanged(nameof(Value));
             }
         }
 

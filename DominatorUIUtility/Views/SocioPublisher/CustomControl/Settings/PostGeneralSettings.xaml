@@ -9,10 +9,10 @@
              mc:Ignorable="d" 
              >
     <UserControl.Resources>
-        <local:MacrosSuggestionProvider x:Key="MacrosSuggestionProvider" />
+        <local:SuggestionProvider x:Key="MacrosSuggestionProvider" />
         <DataTemplate x:Key="MacroTemplate">
             <Grid>
-                <TextBlock Text="{Binding Path=MacroKey}"></TextBlock>
+                <TextBlock Text="{Binding Path=Key}"></TextBlock>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
@@ -32,10 +32,10 @@
             <StackPanel>
                 <customControl:SocinatorTextBox                    
                     MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
-                    MacrosSuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
+                    SuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
                     Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}"
-                    Text="" TextHeight="60" TextWidth="200" TextWrapping="Wrap"
-                    DisplayMember="MacroKey">
+                    Text="" TextHeight="60" TextWidth="300" Margin="2" TextWrapping="Wrap"
+                    DisplayMember="Key">
                     <customControl:SocinatorTextBox.LoadingContent>
                         <TextBlock Text="Loading Macros..." Margin="5" FontSize="14" />
                     </customControl:SocinatorTextBox.LoadingContent>
