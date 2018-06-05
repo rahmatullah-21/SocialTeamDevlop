@@ -1748,7 +1748,7 @@ namespace DominatorUIUtility.ViewModel
             _allSelectedAccountsQueued = true;
         }
 
-        private void MultipleUpdate(DominatorAccountModel account, string updateMenuItem, IAccountUpdateFactory accountFactory)
+        public void MultipleUpdate(DominatorAccountModel account, string updateMenuItem, IAccountUpdateFactory accountFactory)
         {
             if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
             {

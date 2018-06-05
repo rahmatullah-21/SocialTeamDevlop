@@ -529,5 +529,37 @@ namespace DominatorHouseCore.Models
 
         [ProtoMember(35, IsRequired = false)]
         public bool IsEnableParallelActivitiesChecked { get; set; }
+
+        private int _accountSynchronizationHours = 86400;
+        [ProtoMember(36)]
+        public int AccountSynchronizationHours
+        {
+            get
+            {
+                return _accountSynchronizationHours;
+            }
+            set
+            {
+                if (value == _accountSynchronizationHours)
+                    return;
+                SetProperty(ref _accountSynchronizationHours, value);
+            }
+        }
+
+        private int _simultaneousAccountUpdate = 30;
+        [ProtoMember(37)]
+        public int SimultaneousAccountUpdateCount
+        {
+            get
+            {
+                return _simultaneousAccountUpdate;
+            }
+            set
+            {
+                if (value == _simultaneousAccountUpdate)
+                    return;
+                SetProperty(ref _simultaneousAccountUpdate, value);
+            }
+        }
     }
 }

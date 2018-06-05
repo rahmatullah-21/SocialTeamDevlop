@@ -71,11 +71,59 @@ namespace Socinator
                 SocinatorInitialize.LogInitializer(this);
                 SocinatorWindow.DataContext = this;
                 Loaded += (o, e) => GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
+                InitializeOnLoadConfigurations();
+                
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+        }
+
+        private void InitializeOnLoadConfigurations()
+        {
+            ScheduleUpdation();
+        }
+
+        private static void ScheduleUpdation()
+        {
+            var accounts = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social)
+                .DominatorAccountViewModel;
+            var AccountSynchronizationHours = SoftwareSettingsFileManager.GetSoftwareSettings().AccountSynchronizationHours;
+            accounts.LstDominatorAccountModel.ForEach(account =>
+            {
+                if ((DateTimeUtilities.GetEpochTime() - account.LastUpdate) > AccountSynchronizationHours)
+                {
+                    var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+                    try
+                    {
+                        accounts.MultipleUpdate(account, "UpdateAllDetail", accountFactory);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                }
+                else
+                {
+                var dateTime = DateTimeUtilities.EpochToDateTimeUtc(account.LastUpdate + (AccountSynchronizationHours*3600));
+                    JobManager.AddJob(() =>
+                    {
+                        var accountFactory = SocinatorInitialize
+                            .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                            .GetNetworkCoreFactory().AccountUpdateFactory;
+                        try
+                        {
+                            accounts.MultipleUpdate(account, "UpdateAllDetail", accountFactory);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    }, s => s.ToRunOnceAt(dateTime).AndEvery(AccountSynchronizationHours*3600));
+                }
+            });
         }
 
         private async Task LicenseCheck()
