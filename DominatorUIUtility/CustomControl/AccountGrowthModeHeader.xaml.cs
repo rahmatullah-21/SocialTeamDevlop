@@ -19,7 +19,6 @@ namespace DominatorUIUtility.CustomControl
             SaveCommand = new BaseCommand<object>(CanExecute, Execute);
             IsExpanded = true;
             AccountItemSource = new ObservableCollectionBase<string>();
-            root.Focus();
         }
 
         public ObservableCollectionBase<string> AccountItemSource
@@ -148,6 +147,7 @@ namespace DominatorUIUtility.CustomControl
         {
             SaveEventArgsHandler();
         }
+       
     }
-    
+   
 }

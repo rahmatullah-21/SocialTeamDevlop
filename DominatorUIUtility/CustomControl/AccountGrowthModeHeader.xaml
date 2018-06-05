@@ -4,11 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             mc:Ignorable="d" MinHeight="40" x:Name="root" Focusable="True">
-    <UserControl.InputBindings>
-        <KeyBinding Key="S" Modifiers="Alt" Command="{Binding SaveCommand,ElementName=root}"/>
-    </UserControl.InputBindings>
-    <Grid  Background="{DynamicResource AccentBaseColorBrush}"  Name="mainGrid">
+             mc:Ignorable="d" MinHeight="40" x:Name="root">
+   <Grid  Background="{DynamicResource AccentBaseColorBrush}"  Name="mainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -37,17 +34,15 @@
                         </Style>
                     </ToggleButton.Style>
                 </ToggleButton>
-                <Button Name="BtnSave" Command="{Binding SaveCommand}"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" VerticalAlignment="Center">
-                   <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <Rectangle Width="15" Height="15" Fill="White">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <TextBlock Text="{DynamicResource langSave}" Margin="6,0"/>
-                        </StackPanel>
-                    </Button.Content>
+                <Button Command="{Binding SaveCommand}" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" VerticalAlignment="Center" >
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Width="15" Height="15" Fill="White">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <AccessText Margin="6,0">_Save</AccessText>
+                    </StackPanel>
                 </Button>
                 <Button  VerticalAlignment="Center"   Background="Transparent" Foreground="White"  >
                     <Button.Content>

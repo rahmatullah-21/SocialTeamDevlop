@@ -57,8 +57,13 @@
             </Grid>
             <Grid Grid.Row="1">
                 <Button Name="btnCampaignManager"
-                                Grid.Column="0" Style="{StaticResource ButtonStyle}" Background="#ef1d1d"  Content="{Binding CampaignManager}" 
-                                Width="160"   Click="btnCampaignManager_Click"/>
+                        Grid.Column="0" Style="{StaticResource ButtonStyle}" Background="#ef1d1d" 
+                        Width="160"   Click="btnCampaignManager_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <AccessText Margin="25,0,0,0"
+                                    Text="{Binding CampaignManager}" />
+                    </StackPanel>
+                </Button>
             </Grid>
         </Grid>
     </Grid>
