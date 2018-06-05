@@ -23,7 +23,7 @@
                                     <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{DynamicResource langSave}" Margin="6,0"/>
+                            <AccessText Margin="6,0">_Save</AccessText>
                         </StackPanel>
                     </Button.Content>
                 </Button>

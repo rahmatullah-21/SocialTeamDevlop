@@ -389,6 +389,7 @@
     <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
+    <Compile Include="Models\RevisionHistoryModel.cs" />
     <Compile Include="Models\InstagramModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
     <Compile Include="ViewModel\CampaignInteractionViewModel.cs" />

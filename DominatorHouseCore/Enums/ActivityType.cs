@@ -222,7 +222,7 @@ namespace DominatorHouseCore.Enums
         AcceptConnectionRequest = 73,
 
         [Description("LinkedIn")]
-        RemoveOrWithdrawConnections = 74,
+        RemoveConnections = 74,
 
         [Description("LinkedIn")]
         ProfileEndorsement = 75,
@@ -273,6 +273,8 @@ namespace DominatorHouseCore.Enums
         DeletePin = 90,
 
         [Description("Pinterest")]
-        Repin = 91
+        Repin = 91,
+        [Description("LinkedIn")]
+        WithdrawConnectionRequest = 92,
     }
 }

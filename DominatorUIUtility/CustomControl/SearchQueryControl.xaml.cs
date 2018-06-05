@@ -305,14 +305,13 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                QueryCollection.Clear();
                 if (TxtInputQuery.Text.Contains(","))
                 {
                     QueryCollection.AddRange(TxtInputQuery.Text.Split(','));
                 }
                 else
                  CurrentQuery.QueryValue = TxtInputQuery.Text.ToString();
-                    CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
+                  CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
                
                 TxtInputQuery.Text = string.Empty;
                 SelectedIndex = 0;
