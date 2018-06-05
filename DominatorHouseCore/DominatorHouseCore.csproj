@@ -391,7 +391,6 @@
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
     <Compile Include="Models\InstagramModel.cs" />
-    <Compile Include="Models\RevisionHistoryModel.cs" />
     <Compile Include="ViewModel\CampaignInteractionViewModel.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ContentSelectGroup.cs" />
