@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -350,7 +351,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     return false;
 
                 var accountstemplateId = moduleConfiguration.TemplateId;
-                if (accountstemplateId == null || moduleConfiguration.LstRunningTimes==null)
+                if (accountstemplateId == null || moduleConfiguration.LstRunningTimes == null)
                 {
                     return false;
                 }
@@ -363,16 +364,39 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     moduleConfiguration.IsEnabled = false;
                     StopActivity(accountModel.AccountBaseModel.AccountId,
-                        activityType.ToString(), accountstemplateId);                 
+                        activityType.ToString(), accountstemplateId);
                 }
 
                 var socinatorAccountBuilder = new SocinatorAccountBuilder(accountModel.AccountBaseModel.AccountId)
-                                                .AddOrUpdateModuleSettings(activityType,moduleConfiguration)
+                                                .AddOrUpdateModuleSettings(activityType, moduleConfiguration)
                                                 .SaveToBinFile();
 
                 //AccountsFileManager.Edit(accountModel);
 
                 return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+        }
+
+        public static bool EnableDisableModules(ActivityType stopActivity, ActivityType startActivity, string accountId)
+        {
+            try
+            {
+                if (ChangeAccountsRunningStatus(false, accountId, stopActivity))
+                    if (ChangeAccountsRunningStatus(true, accountId, startActivity))
+                        return true;
+                    else
+                    {
+                     
+                        throw new InvalidOperationException($"Error Code : 1001 Cant able start the activity {startActivity} with account {accountId}");
+                    }
+                        
+                else
+                    throw new InvalidOperationException($"Error Code : 1002  Cant able stop the activity {stopActivity} with account {accountId}");
             }
             catch (Exception ex)
             {

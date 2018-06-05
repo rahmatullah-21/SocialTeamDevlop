@@ -425,7 +425,7 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
-        public SocinatorAccountBuilder AddOrUpdateExtraParameter(string key, string value)
+       public SocinatorAccountBuilder AddOrUpdateExtraParameter(string key, string value)
         {
             try
             {
