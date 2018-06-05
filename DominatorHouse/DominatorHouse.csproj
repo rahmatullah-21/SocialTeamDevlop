@@ -212,6 +212,12 @@
     <Compile Include="Social\AutoActivity\Views\SocialAutoActivity.xaml.cs">
       <DependentUpon>SocialAutoActivity.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Social\DashBoards\DashBoardTab.xaml.cs">
+      <DependentUpon>DashBoardTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Social\DashBoards\RevisionHistory.xaml.cs">
+      <DependentUpon>RevisionHistory.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Social\Settings\ViewModel\AppearanceViewModel.cs" />
     <Compile Include="Social\Settings\View\Appearance.xaml.cs">
       <DependentUpon>Appearance.xaml</DependentUpon>
@@ -245,6 +251,14 @@
     <Page Include="Social\AutoActivity\Views\SocialAutoActivity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Social\DashBoards\DashBoardTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Social\DashBoards\RevisionHistory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Social\Settings\View\Appearance.xaml">
       <SubType>Designer</SubType>
@@ -354,6 +368,14 @@
     <ProjectReference Include="..\..\facedominator-library\FaceDominatorUI\FaceDominatorUI.csproj">
       <Project>{1c0beb70-f243-4a53-983e-ce25a1b722f6}</Project>
       <Name>FaceDominatorUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\gramdominator-library\GramDominatorCore\GramDominatorCore.csproj">
+      <Project>{b04813ea-a4b5-40ae-b705-743687f74770}</Project>
+      <Name>GramDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\gramdominator-library\GramDominatorUI\GramDominatorUI.csproj">
+      <Project>{317a142c-6ae2-4cc1-90a7-5752b9ed76f3}</Project>
+      <Name>GramDominatorUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\pindominator-library\PinDominatorCore\PinDominatorCore.csproj">
       <Project>{68ef34bf-36c9-4e33-9acd-7b9d7b746f29}</Project>

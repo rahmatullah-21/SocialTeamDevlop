@@ -4,20 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             mc:Ignorable="d" MinHeight="40"
-           >
-    <Grid  Background="{DynamicResource AccentBaseColorBrush}" Name="mainGrid">
+             mc:Ignorable="d" MinHeight="40" x:Name="root" Focusable="True">
+    <UserControl.InputBindings>
+        <KeyBinding Key="S" Modifiers="Alt" Command="{Binding SaveCommand,ElementName=root}"/>
+    </UserControl.InputBindings>
+    <Grid  Background="{DynamicResource AccentBaseColorBrush}"  Name="mainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="{DynamicResource langAccounts}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+        <Grid Grid.Column="1" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
+
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{DynamicResource langAccounts}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
-            <Grid Grid.Column="1" VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <ToggleButton VerticalAlignment="Center"  Foreground="White"  Name="ClpsExpnd" Click="ClpsExpnd_OnClick">
                     <ToggleButton.Style>
@@ -35,8 +37,8 @@
                         </Style>
                     </ToggleButton.Style>
                 </ToggleButton>
-                <Button Name="BtnSave" Click="BtnSave_OnClick"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" VerticalAlignment="Center">
-                    <Button.Content>
+                <Button Name="BtnSave" Command="{Binding SaveCommand}"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" VerticalAlignment="Center">
+                   <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Width="15" Height="15" Fill="White">
                                 <Rectangle.OpacityMask>
@@ -64,5 +66,5 @@
                       BorderBrush="AntiqueWhite" ItemsSource="{Binding AccountItemSource}" SelectedItem="{Binding SelectedItem}" />
 
         </Grid>
-        </Grid>
+    </Grid>
 </UserControl>

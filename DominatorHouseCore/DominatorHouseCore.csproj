@@ -388,6 +388,7 @@
     <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
+    <Compile Include="Models\RevisionHistoryModel.cs" />
     <Compile Include="ViewModel\CampaignInteractionViewModel.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ContentSelectGroup.cs" />
@@ -502,6 +503,7 @@
     <Compile Include="ViewModel\DestinationSelectionList.cs" />
     <Compile Include="ViewModel\LiveChatViewModel.cs" />
     <Compile Include="ViewModel\ManageDestinationViewModel.cs" />
+    <Compile Include="ViewModel\RevisionHistoryViewModel.cs" />
     <Compile Include="ViewModel\UserControlSwitchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
