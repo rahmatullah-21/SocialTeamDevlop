@@ -4,8 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+             xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <local:MacrosSuggestionProvider x:Key="MacrosSuggestionProvider" />
+        <DataTemplate x:Key="MacroTemplate">
+            <Grid>
+                <TextBlock Text="{Binding Path=Name}"></TextBlock>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
@@ -17,6 +26,21 @@
                 <CheckBox Content="{DynamicResource DHlangReaddCount}" Margin="5"></CheckBox>
                 <TextBox Width="40" Height="25" />
                 <TextBlock Text="{DynamicResource DHlangTimes}" Name="TextBlockTimes" VerticalAlignment="Center" Margin="5"/>
+            </StackPanel>
+
+            <StackPanel>
+                <customControl:SocinatorTextBox                    
+                    MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
+                    MacrosSuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
+                    Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}"
+                    Text=""
+                    DisplayMember="MacroKey"
+                    >
+                    <customControl:SocinatorTextBox.LoadingContent>
+                        <TextBlock Text="Loading..." Margin="5" FontSize="14" />
+                    </customControl:SocinatorTextBox.LoadingContent>
+                </customControl:SocinatorTextBox>
+                
             </StackPanel>
         </StackPanel>
     </Grid>

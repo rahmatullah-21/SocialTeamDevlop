@@ -203,7 +203,7 @@
                                    Width="{TemplateBinding ActualWidth}"
                                    HorizontalOffset="0"
                                    MinHeight="25"
-                                   MaxHeight="600"
+                                   MaxHeight="600"                                  
                                    AllowsTransparency="True"
                                    PopupAnimation="Slide"
                                    Focusable="False">
@@ -214,15 +214,15 @@
                                         Padding="2">
                                     <Grid>
                                         <ListBox x:Name="PART_Selector"
-                                                 ItemTemplate="{TemplateBinding ItemTemplate}"
+                                                 ItemTemplate="{TemplateBinding MacroTemplate}"
                                                  ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                                 Focusable="False"
+                                                 Focusable="False" Foreground="Black"
                                                  BorderThickness="0"
                                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                                                  ItemContainerStyle="{StaticResource ResourceKey=SuggestionItemStyle}">
                                         </ListBox>
-                                        <Border Visibility="{Binding Path=IsLoading, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
+                                        <Border Visibility="{Binding Path=IsLoading, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
                                             <ContentPresenter ContentSource="LoadingContent"/>
                                         </Border>
                                     </Grid>

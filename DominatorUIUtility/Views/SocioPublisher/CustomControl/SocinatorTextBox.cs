@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,8 +16,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DominatorHouseCore.Annotations;
+using System.Windows.Threading;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Models.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 {
@@ -96,15 +97,17 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public static readonly DependencyProperty IsDropDownOpenProperty =
             DependencyProperty.Register("IsDropDownOpen", typeof(bool), typeof(SocinatorTextBox), new PropertyMetadata(false));
 
-        public DataTemplate ItemTemplate
+
+        public DataTemplate MacroTemplate
         {
-            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
-            set { SetValue(ItemTemplateProperty, value); }
+            get { return (DataTemplate)GetValue(MacroTemplateProperty); }
+            set { SetValue(MacroTemplateProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ItemTemplate.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemTemplateProperty =
-            DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(SocinatorTextBox), new PropertyMetadata(null));
+        // Using a DependencyProperty as the backing store for MacroTemplate.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MacroTemplateProperty =
+            DependencyProperty.Register("MacroTemplate", typeof(DataTemplate), typeof(SocinatorTextBox), new PropertyMetadata(null));
+
 
         public DataTemplateSelector ItemTemplateSelector
         {
@@ -129,7 +132,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
 
 
-
         public IMacrosSuggestionProvider MacrosSuggestionProvider
         {
             get { return (IMacrosSuggestionProvider)GetValue(MacrosSuggestionProviderProperty); }
@@ -138,18 +140,387 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         // Using a DependencyProperty as the backing store for MacrosSuggestionProvider.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MacrosSuggestionProviderProperty =
-            DependencyProperty.Register("MacrosSuggestionProvider", typeof(SocinatorTextBox), typeof(IMacrosSuggestionProvider), new PropertyMetadata(null));
+            DependencyProperty.Register("MacrosSuggestionProvider", typeof(IMacrosSuggestionProvider), typeof(SocinatorTextBox), new FrameworkPropertyMetadata(null));
 
 
+        public object LoadingContent
+        {
+            get { return (object)GetValue(LoadingContentProperty); }
+            set { SetValue(LoadingContentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for LoadingContent.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LoadingContentProperty =
+            DependencyProperty.Register("LoadingContent", typeof(object), typeof(SocinatorTextBox), new PropertyMetadata(null));
+
+
+
+        public string DisplayMember
+        {
+            get { return (string)GetValue(DisplayMemberProperty); }
+            set { SetValue(DisplayMemberProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DisplayMember.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DisplayMemberProperty =
+            DependencyProperty.Register("DisplayMember", typeof(string), typeof(SocinatorTextBox), new PropertyMetadata(string.Empty));
+
+
+
+
+        public object SelectedItem
+        {
+            get { return (object)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedItem.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectedItemProperty =
+            DependencyProperty.Register("SelectedItem", typeof(object), typeof(SocinatorTextBox), new FrameworkPropertyMetadata(null, OnSelectedItemChanged));
+
+
+
+        public int Delay
+        {
+            get { return (int)GetValue(DelayProperty); }
+            set { SetValue(DelayProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Delay.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DelayProperty =
+            DependencyProperty.Register("Delay", typeof(int), typeof(SocinatorTextBox), new PropertyMetadata(200));
+
+        public BindingEvaluator BindingEvaluator { get; set; }
+
+        public DispatcherTimer FetchTimer { get; set; }
+
+
+
+        public string Filter { get; set; }
+
+        public SelectionAdapter SelectionAdapter { get; set; }
+
+        TextBox _postDescription = new TextBox();
+
+        private Popup _postUp = new Popup();
+
+        public Selector ItemsSelector { get; set; }
+
+        private bool _isUpdatingText;
+
+        private bool _selectionCancelled;
+
+        private SuggestionsAdapter _suggestionsAdapter { get; set; }
 
         #endregion
-
 
         #region Apply Template
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            BindingEvaluator = new BindingEvaluator(new Binding(DisplayMember));
+
+            var postDescriptionText = Template.FindName(TextEditorPart, this) as TextBox;
+
+            if (!_postDescription.Equals(postDescriptionText))
+            {
+                if (postDescriptionText != null)
+                {
+                    postDescriptionText.KeyDown -= OnEditorKeyDown;
+                    postDescriptionText.LostFocus -= OnEditorLostFocus;
+                    postDescriptionText.TextChanged -= OnEditorTextChanged;
+                }
+
+                _postDescription = postDescriptionText;
+
+                if (postDescriptionText != null)
+                {
+                    postDescriptionText.KeyDown += OnEditorKeyDown;
+                    postDescriptionText.LostFocus += OnEditorLostFocus;
+                    postDescriptionText.TextChanged += OnEditorTextChanged;
+                }
+            }
+
+            this.GotFocus += SocinatorTextBox_GotFocus;
+
+            var popUpControl = Template.FindName(SuggestionPopUp, this) as Popup;
+
+            if (!_postUp.Equals(popUpControl))
+            {
+                if (popUpControl != null)
+                {
+                    popUpControl.Opened -= OnPopupOpened;
+                    popUpControl.Closed -= OnPopupClosed;
+                }
+
+                _postUp = popUpControl;
+
+                if (popUpControl != null)
+                {
+                    popUpControl.StaysOpen = false;
+                    popUpControl.Opened += OnPopupOpened;
+                    popUpControl.Closed += OnPopupClosed;
+                }
+            }
+
+            ItemsSelector = Template.FindName(SelectionListBox, this) as Selector;
+
+            if (ItemsSelector != null)
+            {
+                SelectionAdapter = new SelectionAdapter(ItemsSelector);
+                SelectionAdapter.Commit += OnSelectionAdapterCommit;
+                SelectionAdapter.Cancel += OnSelectionAdapterCancel;
+                SelectionAdapter.SelectionChanged += OnSelectionAdapterSelectionChanged;
+                ItemsSelector.PreviewMouseDown += ItemsSelector_PreviewMouseDown;
+            }
+        }
+
+        #endregion
+
+
+        #region Events
+
+        private void OnPopupClosed(object sender, EventArgs e)
+        {
+            if (!_selectionCancelled)
+            {
+                OnSelectionAdapterCommit();
+            }
+        }
+
+        private void OnSelectionAdapterCommit()
+        {
+            if (ItemsSelector.SelectedItem != null)
+            {
+                SelectedItem = ItemsSelector.SelectedItem;
+                _isUpdatingText = true;
+                _postDescription.Text = GetDisplayText(ItemsSelector.SelectedItem);
+                SetSelectedItem(ItemsSelector.SelectedItem);
+                _isUpdatingText = false;
+                IsDropDownOpen = false;
+            }
+        }
+
+        private void OnSelectionAdapterCancel()
+        {
+            _isUpdatingText = true;
+            _postDescription.Text = SelectedItem == null ? Filter : GetDisplayText(SelectedItem);
+            _postDescription.SelectionStart = _postDescription.Text.Length;
+            _postDescription.SelectionLength = 0;
+            _isUpdatingText = false;
+            IsDropDownOpen = false;
+            _selectionCancelled = true;
+        }
+
+        private string GetDisplayText(object dataItem)
+        {
+            if (BindingEvaluator == null)
+            {
+                BindingEvaluator = new BindingEvaluator(new Binding(DisplayMember));
+            }
+            if (dataItem == null)
+            {
+                return string.Empty;
+            }
+            if (string.IsNullOrEmpty(DisplayMember))
+            {
+                return dataItem.ToString();
+            }
+            return BindingEvaluator.Evaluate(dataItem);
+        }
+
+        private void OnPopupOpened(object sender, EventArgs e)
+        {
+            _selectionCancelled = false;
+            ItemsSelector.SelectedItem = SelectedItem;
+        }
+
+        private void SocinatorTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            _postDescription?.Focus();
+        }
+
+        private void OnEditorKeyDown(object sender, KeyEventArgs e)
+        {
+            if (SelectionAdapter != null)
+            {
+                if (IsDropDownOpen)
+                    SelectionAdapter.HandleKeyDown(e);
+                else
+                    IsDropDownOpen = e.Key == Key.Down || e.Key == Key.Up;
+            }
+        }
+
+        private void OnEditorLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!IsKeyboardFocusWithin)
+            {
+                IsDropDownOpen = false;
+            }
+        }
+
+        private void OnEditorTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_isUpdatingText)
+                return;
+            if (FetchTimer == null)
+            {
+                FetchTimer = new DispatcherTimer();
+                FetchTimer.Interval = TimeSpan.FromMilliseconds(Delay);
+                FetchTimer.Tick += OnFetchTimerTick;
+            }
+            FetchTimer.IsEnabled = false;
+            FetchTimer.Stop();
+            SetSelectedItem(null);
+            if (_postDescription.Text.Length > 0)
+            {
+                IsLoading = true;
+                IsDropDownOpen = true;
+                ItemsSelector.ItemsSource = null;
+                FetchTimer.IsEnabled = true;
+                FetchTimer.Start();
+            }
+            else
+            {
+                IsDropDownOpen = false;
+            }
+        }
+
+        private void SetSelectedItem(object item)
+        {
+            _isUpdatingText = true;
+            SelectedItem = item;
+            _isUpdatingText = false;
+        }
+
+        public static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            SocinatorTextBox socinatorTextBox = null;
+            socinatorTextBox = d as SocinatorTextBox;
+            if (socinatorTextBox != null)
+            {
+                if (socinatorTextBox._postDescription != null & !socinatorTextBox._isUpdatingText)
+                {
+                    socinatorTextBox._isUpdatingText = true;
+                    socinatorTextBox._postDescription.Text = socinatorTextBox.BindingEvaluator.Evaluate(e.NewValue);
+                    socinatorTextBox._isUpdatingText = false;
+                }
+            }
+        }
+
+        private void OnFetchTimerTick(object sender, EventArgs e)
+        {
+            FetchTimer.IsEnabled = false;
+            FetchTimer.Stop();
+            if (MacrosSuggestionProvider != null && ItemsSelector != null)
+            {
+                Filter = _postDescription.Text;
+                if (_suggestionsAdapter == null)
+                {
+                    _suggestionsAdapter = new SuggestionsAdapter(this);
+                }
+                _suggestionsAdapter.GetSuggestions(Filter);
+            }
+        }
+
+
+        private void ItemsSelector_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var pos_item = (e.OriginalSource as FrameworkElement)?.DataContext;
+            if (pos_item == null)
+                return;
+            if (!ItemsSelector.Items.Contains(pos_item))
+                return;
+            ItemsSelector.SelectedItem = pos_item;
+            OnSelectionAdapterCommit();
+        }
+
+        private void OnSelectionAdapterSelectionChanged()
+        {
+            _isUpdatingText = true;
+            _postDescription.Text = ItemsSelector.SelectedItem == null ? Filter : GetDisplayText(ItemsSelector.SelectedItem);
+            _postDescription.SelectionStart = _postDescription.Text.Length;
+            _postDescription.SelectionLength = 0;
+            ScrollToSelectedItem();
+            _isUpdatingText = false;
+        }
+
+        private void ScrollToSelectedItem()
+        {
+            ListBox listBox = ItemsSelector as ListBox;
+            if (listBox != null && listBox.SelectedItem != null)
+                listBox.ScrollIntoView(listBox.SelectedItem);
+        }
+
+
+        #endregion
+
+        #region "Nested Types"
+
+        private class SuggestionsAdapter
+        {
+
+            #region "Fields"
+
+            private SocinatorTextBox _socinatorText;
+
+            private string _filter;
+            #endregion
+
+            #region "Constructors"
+
+            public SuggestionsAdapter(SocinatorTextBox socinatorText)
+            {
+                _socinatorText = socinatorText;
+            }
+
+            #endregion
+
+            #region "Methods"
+
+            public void GetSuggestions(string searchText)
+            {
+                _filter = searchText;
+                _socinatorText.IsLoading = true;
+                ParameterizedThreadStart thInfo = new ParameterizedThreadStart(GetSuggestionsAsync);
+                Thread th = new Thread(thInfo);
+                th.Start(new object[] {
+                    searchText,
+                    _socinatorText.MacrosSuggestionProvider
+                });
+            }
+
+            private void DisplaySuggestions(IEnumerable suggestions, string filter)
+            {
+                if (_filter != filter)
+                {
+                    return;
+                }
+                if (_socinatorText.IsDropDownOpen)
+                {
+                    _socinatorText.IsLoading = false;
+                    _socinatorText.ItemsSelector.ItemsSource = suggestions;
+                    _socinatorText.IsDropDownOpen = _socinatorText.ItemsSelector.HasItems;
+                }
+
+            }
+
+            private void GetSuggestionsAsync(object param)
+            {
+                object[] args = param as object[];
+                string searchText = Convert.ToString(args[0]);
+                IMacrosSuggestionProvider provider = args[1] as IMacrosSuggestionProvider;
+                IEnumerable list = provider.GetMacrosSuggestions(searchText);
+                _socinatorText.Dispatcher.BeginInvoke(new Action<IEnumerable, string>(DisplaySuggestions), DispatcherPriority.Background, new object[] {
+                    list,
+                    searchText
+                });
+            }
+
+            #endregion
+
         }
 
         #endregion
@@ -159,62 +530,19 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
     public class MacrosTemplateSelector : DataTemplateSelector
     {
         public DataTemplate TextTemplate { get; set; }
-     
+
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is SocinatorMacroModel)
-                return TextTemplate;          
+                return TextTemplate;
             return base.SelectTemplate(item, container);
-        }
-    }
-
-    public class SocinatorMacroModel : INotifyPropertyChanged
-    { 
-        private string _macroKey=string.Empty;
-
-        public string MacroKey
-        {
-            get
-            {
-                return _macroKey;
-            }
-            set
-            {              
-                if (_macroKey == value)
-                    return;
-                _macroKey = value;
-                OnPropertyChanged(nameof(MacroKey));
-            }
-        }
-
-        private string _macroValue;
-
-        public string MacroValue
-        {
-            get
-            {
-                return _macroValue;
-            }
-            set
-            {
-                if (_macroValue == value)
-                    return;
-                _macroValue = value;
-                OnPropertyChanged(nameof(MacroValue));
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
     public class MacrosSuggestionProvider : IMacrosSuggestionProvider
     {
+        public IEnumerable<SocinatorMacroModel> ListOfMacros { get; set; }
+
         public IEnumerable GetMacrosSuggestions(string filter)
         {
             if (string.IsNullOrEmpty(filter))
@@ -223,7 +551,14 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             if (!filter.StartsWith("{") && !filter.EndsWith("}"))
                 return null;
 
-            return SocinatorInitialize.Macros;
+            return ListOfMacros;
+        }
+
+        public MacrosSuggestionProvider()
+        {
+            SocinatorInitialize.Macros.Add(new SocinatorMacroModel { MacroKey = "{Hello}", MacroValue = "Hello" });
+            SocinatorInitialize.Macros.Add(new SocinatorMacroModel { MacroKey = "{Globussoft}", MacroValue = "Globussoft" });
+            ListOfMacros = SocinatorInitialize.Macros;
         }
     }
 
@@ -237,4 +572,178 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         #endregion Public Methods
 
     }
+
+    public class BindingEvaluator : FrameworkElement
+    {
+
+        #region "Fields"
+
+
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string), typeof(BindingEvaluator), new FrameworkPropertyMetadata(string.Empty));
+
+        private Binding _valueBinding;
+        #endregion
+
+        #region "Constructors"
+
+        public BindingEvaluator(Binding binding)
+        {
+            ValueBinding = binding;
+        }
+
+        #endregion
+
+        #region "Properties"
+
+        public string Value
+        {
+            get { return (string)GetValue(ValueProperty); }
+
+            set { SetValue(ValueProperty, value); }
+        }
+
+        public Binding ValueBinding
+        {
+            get { return _valueBinding; }
+            set { _valueBinding = value; }
+        }
+
+        #endregion
+
+        #region "Methods"
+
+        public string Evaluate(object dataItem)
+        {
+            this.DataContext = dataItem;
+            SetBinding(ValueProperty, ValueBinding);
+            return Value;
+        }
+
+        #endregion
+
+    }
+
+    public class SelectionAdapter
+    {
+
+        #region "Fields"
+
+
+        private Selector _selectorControl;
+        #endregion
+
+        #region "Constructors"
+
+        public SelectionAdapter(Selector selector)
+        {
+            SelectorControl = selector;
+            SelectorControl.PreviewMouseUp += OnSelectorMouseDown;
+        }
+
+        #endregion
+
+        #region "Events"
+
+        public delegate void CancelEventHandler();
+
+        public delegate void CommitEventHandler();
+
+        public delegate void SelectionChangedEventHandler();
+
+        public event CancelEventHandler Cancel;
+        public event CommitEventHandler Commit;
+        public event SelectionChangedEventHandler SelectionChanged;
+        #endregion
+
+        #region "Properties"
+
+        public Selector SelectorControl
+        {
+            get { return _selectorControl; }
+            set { _selectorControl = value; }
+        }
+
+        #endregion
+
+        #region "Methods"
+
+        public void HandleKeyDown(KeyEventArgs key)
+        {
+            Debug.WriteLine(key.Key);
+            switch (key.Key)
+            {
+                case Key.Down:
+                    IncrementSelection();
+                    break;
+                case Key.Up:
+                    DecrementSelection();
+                    break;
+                case Key.Enter:
+                    if (Commit != null)
+                    {
+                        Commit();
+                    }
+
+                    break;
+                case Key.Escape:
+                    if (Cancel != null)
+                    {
+                        Cancel();
+                    }
+
+                    break;
+                case Key.Tab:
+                    if (Commit != null)
+                    {
+                        Commit();
+                    }
+
+                    break;
+            }
+        }
+
+        private void DecrementSelection()
+        {
+            if (SelectorControl.SelectedIndex == -1)
+            {
+                SelectorControl.SelectedIndex = SelectorControl.Items.Count - 1;
+            }
+            else
+            {
+                SelectorControl.SelectedIndex -= 1;
+            }
+            if (SelectionChanged != null)
+            {
+                SelectionChanged();
+            }
+        }
+
+        private void IncrementSelection()
+        {
+            if (SelectorControl.SelectedIndex == SelectorControl.Items.Count - 1)
+            {
+                SelectorControl.SelectedIndex = -1;
+            }
+            else
+            {
+                SelectorControl.SelectedIndex += 1;
+            }
+            if (SelectionChanged != null)
+            {
+                SelectionChanged();
+            }
+        }
+
+        private void OnSelectorMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Commit != null)
+            {
+                Commit();
+            }
+        }
+
+        #endregion
+
+    }
+
 }

@@ -401,6 +401,8 @@
     <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
+    <Compile Include="Models\RevisionHistoryModel.cs" />
+    <Compile Include="Models\SocioPublisher\SocinatorMacroModel.cs" />
     <Compile Include="Utility\ImageExtracter.cs" />
     <Compile Include="Models\InstagramModel.cs" />
     <Compile Include="ViewModel\CampaignInteractionViewModel.cs" />
@@ -453,6 +455,7 @@
     <Compile Include="Models\SocioPublisher\PublisherManagePostsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherMediaViewerModel.cs" />
     <Compile Include="Utility\MediaUtilites.cs" />
+    <Compile Include="ViewModel\RevisionHistoryViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistSettingsModel.cs" />
