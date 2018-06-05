@@ -5,13 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+             xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             >
     <UserControl.Resources>
         <local:MacrosSuggestionProvider x:Key="MacrosSuggestionProvider" />
         <DataTemplate x:Key="MacroTemplate">
             <Grid>
-                <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                <TextBlock Text="{Binding Path=MacroKey}"></TextBlock>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
@@ -33,11 +34,10 @@
                     MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
                     MacrosSuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
                     Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}"
-                    Text=""
-                    DisplayMember="MacroKey"
-                    >
+                    Text="" TextHeight="60" TextWidth="200" TextWrapping="Wrap"
+                    DisplayMember="MacroKey">
                     <customControl:SocinatorTextBox.LoadingContent>
-                        <TextBlock Text="Loading..." Margin="5" FontSize="14" />
+                        <TextBlock Text="Loading Macros..." Margin="5" FontSize="14" />
                     </customControl:SocinatorTextBox.LoadingContent>
                 </customControl:SocinatorTextBox>
                 

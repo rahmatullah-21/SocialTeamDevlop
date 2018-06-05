@@ -353,18 +353,6 @@
         </Setter>
     </Style>
 
-    <DataTemplate x:Key="MacroHelperTemplate">
-        <Border Padding="5">
-            <Grid>
-                <TextBlock Text="{Binding Path=MacroKey}"
-                           FontWeight="SemiBold"                                                     
-                           FontFamily="Segoe UI"
-                           FontSize="14"
-                           VerticalAlignment="Center"/>
-            </Grid>
-        </Border>
-    </DataTemplate>
-
     <!--End Socinator Textbox Items-->
     
     

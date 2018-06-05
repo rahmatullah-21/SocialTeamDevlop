@@ -17,8 +17,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 {
@@ -179,7 +181,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             DependencyProperty.Register("SelectedItem", typeof(object), typeof(SocinatorTextBox), new FrameworkPropertyMetadata(null, OnSelectedItemChanged));
 
 
-
         public int Delay
         {
             get { return (int)GetValue(DelayProperty); }
@@ -190,11 +191,40 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public static readonly DependencyProperty DelayProperty =
             DependencyProperty.Register("Delay", typeof(int), typeof(SocinatorTextBox), new PropertyMetadata(200));
 
+
+        public TextWrapping TextWrapping
+        {
+            get { return (TextWrapping)GetValue(TextWrappingProperty); }
+            set { SetValue(TextWrappingProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TextWrapping.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TextWrappingProperty =
+            DependencyProperty.Register("TextWrapping", typeof(TextWrapping), typeof(SocinatorTextBox), new PropertyMetadata(TextWrapping.NoWrap));
+
+        public double TextWidth
+        {
+            get { return (double)GetValue(TextWidthProperty); }
+            set { SetValue(TextWidthProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TextWidth.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TextWidthProperty =
+            DependencyProperty.Register("TextWidth", typeof(double), typeof(SocinatorTextBox), new PropertyMetadata(double.NaN));
+
+        public double TextHeight
+        {
+            get { return (double)GetValue(TextHeightProperty); }
+            set { SetValue(TextHeightProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TextHeight.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TextHeightProperty =
+            DependencyProperty.Register("TextHeight", typeof(double), typeof(SocinatorTextBox), new PropertyMetadata(double.NaN));
+
         public BindingEvaluator BindingEvaluator { get; set; }
 
         public DispatcherTimer FetchTimer { get; set; }
-
-
 
         public string Filter { get; set; }
 
@@ -282,12 +312,13 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         #region Events
 
+        #region Pop Open and Close
+
+
         private void OnPopupClosed(object sender, EventArgs e)
         {
             if (!_selectionCancelled)
-            {
                 OnSelectionAdapterCommit();
-            }
         }
 
         private void OnSelectionAdapterCommit()
@@ -296,7 +327,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 SelectedItem = ItemsSelector.SelectedItem;
                 _isUpdatingText = true;
-                _postDescription.Text = GetDisplayText(ItemsSelector.SelectedItem);
+               // _postDescription.Text = GetDisplayText(ItemsSelector.SelectedItem);
                 SetSelectedItem(ItemsSelector.SelectedItem);
                 _isUpdatingText = false;
                 IsDropDownOpen = false;
@@ -337,28 +368,27 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             ItemsSelector.SelectedItem = SelectedItem;
         }
 
+        #endregion
+
+
         private void SocinatorTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            _postDescription?.Focus();
-        }
+            => _postDescription?.Focus();
 
         private void OnEditorKeyDown(object sender, KeyEventArgs e)
         {
-            if (SelectionAdapter != null)
-            {
-                if (IsDropDownOpen)
-                    SelectionAdapter.HandleKeyDown(e);
-                else
-                    IsDropDownOpen = e.Key == Key.Down || e.Key == Key.Up;
-            }
+            if (SelectionAdapter == null)
+                return;
+
+            if (IsDropDownOpen)
+                SelectionAdapter.HandleKeyDown(e);
+            else
+                IsDropDownOpen = e.Key == Key.Down || e.Key == Key.Up;
         }
 
         private void OnEditorLostFocus(object sender, RoutedEventArgs e)
         {
             if (!IsKeyboardFocusWithin)
-            {
                 IsDropDownOpen = false;
-            }
         }
 
         private void OnEditorTextChanged(object sender, TextChangedEventArgs e)
@@ -367,8 +397,10 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 return;
             if (FetchTimer == null)
             {
-                FetchTimer = new DispatcherTimer();
-                FetchTimer.Interval = TimeSpan.FromMilliseconds(Delay);
+                FetchTimer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromMilliseconds(Delay)
+                };
                 FetchTimer.Tick += OnFetchTimerTick;
             }
             FetchTimer.IsEnabled = false;
@@ -376,6 +408,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             SetSelectedItem(null);
             if (_postDescription.Text.Length > 0)
             {
+                if (!_postDescription.Text.IsGetMacros())
+                    return;
+
                 IsLoading = true;
                 IsDropDownOpen = true;
                 ItemsSelector.ItemsSource = null;
@@ -404,7 +439,18 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 if (socinatorTextBox._postDescription != null & !socinatorTextBox._isUpdatingText)
                 {
                     socinatorTextBox._isUpdatingText = true;
-                    socinatorTextBox._postDescription.Text = socinatorTextBox.BindingEvaluator.Evaluate(e.NewValue);
+
+                    var getFirstSubString = socinatorTextBox._postDescription.Text.Substring(0, socinatorTextBox._postDescription.CaretIndex);
+                    var startIndexOfCurrentWord = getFirstSubString.LastIndexOf("{", StringComparison.Ordinal);
+                    if (startIndexOfCurrentWord == -1)
+                        return;
+
+                    var length = socinatorTextBox._postDescription.CaretIndex - startIndexOfCurrentWord;
+
+                    socinatorTextBox._postDescription.Text = socinatorTextBox._postDescription.Text.ReplaceAt(
+                        startIndexOfCurrentWord, length, socinatorTextBox.BindingEvaluator.Evaluate(e.NewValue));
+
+                  //  socinatorTextBox._postDescription.Text = socinatorTextBox.BindingEvaluator.Evaluate(e.NewValue);
                     socinatorTextBox._isUpdatingText = false;
                 }
             }
@@ -416,7 +462,15 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             FetchTimer.Stop();
             if (MacrosSuggestionProvider != null && ItemsSelector != null)
             {
-                Filter = _postDescription.Text;
+                var getFirstSubString = _postDescription.Text.Substring(0, _postDescription.CaretIndex);
+                var startIndexOfCurrentWord = getFirstSubString.LastIndexOf("{", StringComparison.Ordinal);
+                if (startIndexOfCurrentWord == -1)
+                    return;
+
+                var getFilter = getFirstSubString.Substring(startIndexOfCurrentWord);
+
+                Filter = getFilter;
+
                 if (_suggestionsAdapter == null)
                 {
                     _suggestionsAdapter = new SuggestionsAdapter(this);
@@ -425,15 +479,14 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             }
         }
 
-
         private void ItemsSelector_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var pos_item = (e.OriginalSource as FrameworkElement)?.DataContext;
-            if (pos_item == null)
+            var posItem = (e.OriginalSource as FrameworkElement)?.DataContext;
+            if (posItem == null)
                 return;
-            if (!ItemsSelector.Items.Contains(pos_item))
+            if (!ItemsSelector.Items.Contains(posItem))
                 return;
-            ItemsSelector.SelectedItem = pos_item;
+            ItemsSelector.SelectedItem = posItem;
             OnSelectionAdapterCommit();
         }
 
@@ -449,27 +502,26 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         private void ScrollToSelectedItem()
         {
-            ListBox listBox = ItemsSelector as ListBox;
-            if (listBox != null && listBox.SelectedItem != null)
+            var listBox = ItemsSelector as ListBox;
+            if (listBox?.SelectedItem != null)
                 listBox.ScrollIntoView(listBox.SelectedItem);
         }
 
-
         #endregion
 
-        #region "Nested Types"
+        #region SuggestionsAdapter
 
         private class SuggestionsAdapter
         {
 
-            #region "Fields"
+            #region Fields
 
             private SocinatorTextBox _socinatorText;
-
             private string _filter;
+
             #endregion
 
-            #region "Constructors"
+            #region Constructors
 
             public SuggestionsAdapter(SocinatorTextBox socinatorText)
             {
@@ -478,47 +530,53 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
             #endregion
 
-            #region "Methods"
+            #region Methods
 
             public void GetSuggestions(string searchText)
             {
-                _filter = searchText;
-                _socinatorText.IsLoading = true;
-                ParameterizedThreadStart thInfo = new ParameterizedThreadStart(GetSuggestionsAsync);
-                Thread th = new Thread(thInfo);
-                th.Start(new object[] {
-                    searchText,
-                    _socinatorText.MacrosSuggestionProvider
-                });
+                try
+                {
+                    _filter = searchText;
+                    _socinatorText.IsLoading = true;
+                    var suggestionParameterizedThread = new ParameterizedThreadStart(GetSuggestionsAsync);
+                    var suggestionThread = new Thread(suggestionParameterizedThread);
+                    suggestionThread.Start(new object[] { searchText, _socinatorText.MacrosSuggestionProvider });
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
 
             private void DisplaySuggestions(IEnumerable suggestions, string filter)
             {
-                if (_filter != filter)
+                try
                 {
-                    return;
-                }
-                if (_socinatorText.IsDropDownOpen)
-                {
+                    if (_filter != filter)
+                        return;
+                    if (!_socinatorText.IsDropDownOpen)
+                        return;
                     _socinatorText.IsLoading = false;
                     _socinatorText.ItemsSelector.ItemsSource = suggestions;
                     _socinatorText.IsDropDownOpen = _socinatorText.ItemsSelector.HasItems;
                 }
-
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
 
             private void GetSuggestionsAsync(object param)
             {
-                object[] args = param as object[];
-                string searchText = Convert.ToString(args[0]);
-                IMacrosSuggestionProvider provider = args[1] as IMacrosSuggestionProvider;
-                IEnumerable list = provider.GetMacrosSuggestions(searchText);
-                _socinatorText.Dispatcher.BeginInvoke(new Action<IEnumerable, string>(DisplaySuggestions), DispatcherPriority.Background, new object[] {
-                    list,
-                    searchText
-                });
+                var args = param as object[];
+                var searchText = Convert.ToString(args?[0]);
+                var provider = args?[1] as IMacrosSuggestionProvider;
+                var list = provider?.GetMacrosSuggestions(searchText);
+                _socinatorText.Dispatcher.BeginInvoke(new Action<IEnumerable, string>(DisplaySuggestions),
+                                                         DispatcherPriority.Background,
+                                                         list,
+                                                         searchText);
             }
-
             #endregion
 
         }
@@ -551,14 +609,14 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             if (!filter.StartsWith("{") && !filter.EndsWith("}"))
                 return null;
 
-            return ListOfMacros;
+            return ListOfMacros.Where(x => x.MacroKey.Contains(filter));
         }
 
         public MacrosSuggestionProvider()
         {
             SocinatorInitialize.Macros.Add(new SocinatorMacroModel { MacroKey = "{Hello}", MacroValue = "Hello" });
             SocinatorInitialize.Macros.Add(new SocinatorMacroModel { MacroKey = "{Globussoft}", MacroValue = "Globussoft" });
-            ListOfMacros = SocinatorInitialize.Macros;
+            ListOfMacros = SocinatorInitialize.Macros;         
         }
     }
 
@@ -626,50 +684,62 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
     public class SelectionAdapter
     {
 
-        #region "Fields"
-
-
-        private Selector _selectorControl;
-        #endregion
-
-        #region "Constructors"
+        #region Constructors
 
         public SelectionAdapter(Selector selector)
         {
             SelectorControl = selector;
+
+            // initialize event for mouse up
             SelectorControl.PreviewMouseUp += OnSelectorMouseDown;
         }
 
         #endregion
 
-        #region "Events"
+        #region Events
 
+        /// <summary>
+        /// To specify selection popup has closed with cancel the replace event of the textbox
+        /// </summary>
         public delegate void CancelEventHandler();
 
+        /// <summary>
+        /// To specify selection popup has closed with commit the replace event of the textbox
+        /// </summary>
         public delegate void CommitEventHandler();
 
+        /// <summary>
+        /// To specify the whenever selection has been changed in popup
+        /// </summary>
         public delegate void SelectionChangedEventHandler();
 
+        /// <summary>
+        /// Object of <see cref="SelectionAdapter.CancelEventHandler"/>
+        /// </summary>
         public event CancelEventHandler Cancel;
+
+        /// <summary>
+        /// Object of <see cref="SelectionAdapter.CommitEventHandler"/>
+        /// </summary>
         public event CommitEventHandler Commit;
+
+        /// <summary>
+        /// Object of <see cref="SelectionAdapter.SelectionChangedEventHandler"/>
+        /// </summary>
         public event SelectionChangedEventHandler SelectionChanged;
-        #endregion
-
-        #region "Properties"
-
-        public Selector SelectorControl
-        {
-            get { return _selectorControl; }
-            set { _selectorControl = value; }
-        }
 
         #endregion
 
-        #region "Methods"
+        #region Properties
+
+        public Selector SelectorControl { get; set; }
+
+        #endregion
+
+        #region Methods
 
         public void HandleKeyDown(KeyEventArgs key)
         {
-            Debug.WriteLine(key.Key);
             switch (key.Key)
             {
                 case Key.Down:
@@ -679,25 +749,13 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                     DecrementSelection();
                     break;
                 case Key.Enter:
-                    if (Commit != null)
-                    {
-                        Commit();
-                    }
-
+                    Commit?.Invoke();
                     break;
                 case Key.Escape:
-                    if (Cancel != null)
-                    {
-                        Cancel();
-                    }
-
+                    Cancel?.Invoke();
                     break;
                 case Key.Tab:
-                    if (Commit != null)
-                    {
-                        Commit();
-                    }
-
+                    Commit?.Invoke();
                     break;
             }
         }
@@ -705,42 +763,25 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         private void DecrementSelection()
         {
             if (SelectorControl.SelectedIndex == -1)
-            {
                 SelectorControl.SelectedIndex = SelectorControl.Items.Count - 1;
-            }
             else
-            {
                 SelectorControl.SelectedIndex -= 1;
-            }
-            if (SelectionChanged != null)
-            {
-                SelectionChanged();
-            }
+
+            SelectionChanged?.Invoke();
         }
 
         private void IncrementSelection()
         {
             if (SelectorControl.SelectedIndex == SelectorControl.Items.Count - 1)
-            {
                 SelectorControl.SelectedIndex = -1;
-            }
             else
-            {
                 SelectorControl.SelectedIndex += 1;
-            }
-            if (SelectionChanged != null)
-            {
-                SelectionChanged();
-            }
+
+            SelectionChanged?.Invoke();
         }
 
         private void OnSelectorMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (Commit != null)
-            {
-                Commit();
-            }
-        }
+            => Commit?.Invoke();
 
         #endregion
 

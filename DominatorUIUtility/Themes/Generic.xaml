@@ -191,9 +191,12 @@
                         <Grid>
                             <DockPanel>
                                 <Grid>
-                                    <TextBox x:Name="PART_Editor"
-                                             HorizontalAlignment="Stretch"
-                                             VerticalAlignment="Center" mah:TextBoxHelper.Watermark="{TemplateBinding Watermark}"
+                                    <TextBox x:Name="PART_Editor" 
+                                             TextWrapping="{TemplateBinding TextWrapping}" 
+                                             Width="{TemplateBinding TextWidth}" 
+                                             Height="{TemplateBinding TextHeight}"                                                                                     
+                                             Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneWay}"
+                                             mah:TextBoxHelper.Watermark="{TemplateBinding Watermark}"
                                              Style="{StaticResource ResourceKey=TransparentTextBoxStyle}"
                                              Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
                                 </Grid>
