@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.ConfigControl"
-             mc:Ignorable="d" >
+             mc:Ignorable="d"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
     <GroupBox Background="{DynamicResource AccentBaseColorBrush}" >
         <GroupBox.Header>
             <Grid>
@@ -25,10 +26,26 @@
             </Grid>
         </GroupBox.Header>
         <StackPanel Margin="10" x:Name="MainGrid">
-            <CheckBox Margin="5" Content="{DynamicResource DHlangEnableFollowDifferentUsersAcrossTwitterAccounts}"
+
+           
+                <StackPanel Orientation="Horizontal">
+                    <Label Margin="5" Content="{DynamicResource DHlangWaitMinimumOf}"/>
+                    <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
+                <Label Content="{DynamicResource DHlangHoursBeforeRefreshingTd}"/>
+                </StackPanel>
+                <CheckBox Margin="5" Content="{DynamicResource DHlangDisableSyncForNewAccounts}"
+                          IsChecked="{Binding IsDisableSyncForNewAccountsChecked}"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Margin="5" Content="{DynamicResource DHlangAllowSyncsToExecute}"/>
+                    <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding MaxOfFbAccount}"/>
+                <Label Content="{DynamicResource DHlangFacebookAccountsAtSameTimeTd}"/>
+                </StackPanel>
+
+           
+            <!--<CheckBox Margin="5" Content="{DynamicResource DHlangEnableFollowDifferentUsersAcrossTwitterAccounts}"
                       IsChecked="{Binding IsEnableFollowDifferentUsersAcrossTwitterAccountsChecked}"/>
             <CheckBox Margin="5" Content="{DynamicResource DHlangEnableFollowDifferentUsersAcrossTwitterAccountsWithSameTagname}"
-                      IsChecked="{Binding IsEnableFollowDifferentUsersAcrossTwitterAccountsWithSameTagnameChecked}"/>
+                      IsChecked="{Binding IsEnableFollowDifferentUsersAcrossTwitterAccountsWithSameTagnameChecked}"/>-->
        </StackPanel>
         </GroupBox>
 </UserControl>
