@@ -77,5 +77,16 @@ namespace DominatorHouseCore.Utility
                 .ForEach(x => { lstInnerhtml.Add(x.InnerHtml.ToString()); });
             return lstInnerhtml;
         }
+        public static List<string> GetListOuterHtmlFromPartialTagName(string pageSource, string tagName, string attributeName,
+            string attributeValue)
+        {
+            var lstInnerhtml = new List<string>();
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(pageSource);
+            htmlDoc.DocumentNode
+                .SelectNodes($"//{tagName}[starts-with(@{attributeName}, '{attributeValue}')]")
+                .ForEach(x => { lstInnerhtml.Add(x.OuterHtml.ToString()); });
+            return lstInnerhtml;
+        }
     }
 }
