@@ -181,7 +181,13 @@
     <system:String x:Key="LDlangUniqueOperation">Unique operations</system:String>
     <system:String x:Key="LDlangSalesNavigatorUserScraper">User Scraper</system:String>
     <system:String x:Key="LDlangSalesNavigatorScraper">SalesNavigator Scraper</system:String>
-
+    <system:String x:Key="LDlangWithdrawConnectionRequestsPerJob">Number of Connections Requests to Withdraw per job</system:String>
+    <system:String x:Key="LDlangWithdrawConnectionRequestsPerDay">Number of Connections Requests to Withdraw per day</system:String>
+    <system:String x:Key="LDlangWithdrawConnectionRequestsPerHour">Number of Connections Requests to Withdraw per hour</system:String>
+    <system:String x:Key="LDlangWithdrawConnectionRequestsPerWeek">Number of Connections Requests to Withdraw per week</system:String>
+    <system:String x:Key="LDlangMaxWithdrawConnectionRequestsDay">Max Connections Requests to Withdraw  per day</system:String>
+    <system:String x:Key="LDlangRequestedBefore">Requested before</system:String>
+    <system:String x:Key="LDlangRequestedUserSources">Requested User Sources :</system:String>
 
 
 

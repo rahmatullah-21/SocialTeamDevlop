@@ -50,9 +50,9 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public const string CreateCampaign = "Create Campaign";
+        public const string CreateCampaign = "_Create Campaign";
 
-        public const string UpdateCampaign = "Update Campaign";
+        public const string UpdateCampaign = "_Update Campaign";
 
         public const string NoAccountSelected = "No Account Selected";
 

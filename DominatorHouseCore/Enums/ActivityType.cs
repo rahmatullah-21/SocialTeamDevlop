@@ -32,8 +32,8 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Twitter,Instagram")]
         DeletePost = 9,
 
-        [Description("Facebook,Twitter,Instagram")]
-        Message = 10,
+        //[Description("Facebook,Twitter,Instagram")]
+        //Message = 10,
 
         [Description("Facebook,Twitter,Instagram,Gplus,LinkedIn,Pinterest")]
         UserScraper = 11,
@@ -77,8 +77,8 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         SendFriendRequest = 24,
 
-        [Description("Facebook")]
-        ManageFriendRequest = 25,
+        //[Description("Facebook")]
+        //ManageFriendRequest = 25,
 
         [Description("Facebook")]
         Unfriend = 26,
@@ -158,8 +158,8 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Youtube")]
         Share = 52,
 
-        [Description("YouTube")]
-        LikeComments = 53,
+        //[Description("YouTube")]
+        //LikeComments = 53,
 
         [Description("YouTube")]
         UnSubscribe = 54,
@@ -170,7 +170,7 @@ namespace DominatorHouseCore.Enums
         [Description("Instagram")]
         BlockFollower = 56,
 
-        [Description("Instagram")]
+        [Description("Instagram,Youtube")]
         LikeComment = 57,
 
         [Description("Instagram")]
@@ -222,13 +222,13 @@ namespace DominatorHouseCore.Enums
         AcceptConnectionRequest = 73,
 
         [Description("LinkedIn")]
-        RemoveOrWithdrawConnections = 74,
+        RemoveConnections = 74,
 
         [Description("LinkedIn")]
         ProfileEndorsement = 75,
 
-        [Description("Youtube")]
-        LikeToComment = 76,
+        //[Description("Youtube")]
+        //LikeToComment = 76,
 
         [Description("Youtube")]
         DislikeToComment = 77,
@@ -273,6 +273,8 @@ namespace DominatorHouseCore.Enums
         DeletePin = 90,
 
         [Description("Pinterest")]
-        Repin = 91
+        Repin = 91,
+        [Description("LinkedIn")]
+        WithdrawConnectionRequest = 92,
     }
 }

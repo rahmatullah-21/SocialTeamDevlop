@@ -1,6 +1,8 @@
 ﻿using DominatorHouseCore.Utility;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using DominatorHouseCore.Command;
 using DominatorUIUtility.Behaviours;
 
 namespace DominatorUIUtility.CustomControl
@@ -14,6 +16,7 @@ namespace DominatorUIUtility.CustomControl
         {
             InitializeComponent();
             mainGrid.DataContext = this;
+            SaveCommand = new BaseCommand<object>(CanExecute, Execute);
             IsExpanded = true;
             AccountItemSource = new ObservableCollectionBase<string>();
         }
@@ -120,5 +123,31 @@ namespace DominatorUIUtility.CustomControl
         {
             HeaderHelper.ExpandCollapseAllExpander(sender, IsExpanded);
         }
+        private static readonly DependencyProperty SaveCommandProperty
+            = DependencyProperty.Register("SaveCommand", typeof(ICommand), typeof(AccountGrowthModeHeader));
+
+        public ICommand SaveCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(SaveCommandProperty);
+            }
+            set
+            {
+                SetValue(SaveCommandProperty, value);
+            }
+        }
+
+        public bool CanExecute(object sender)
+        {
+            return true;
+        }
+
+        public void Execute(object sender)
+        {
+            SaveEventArgsHandler();
+        }
+       
     }
+   
 }
