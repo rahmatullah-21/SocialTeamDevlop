@@ -1648,9 +1648,11 @@ namespace DominatorUIUtility.ViewModel
                     LstDominatorAccountModel.Clear();
                     savedAccounts.ForEach(account =>
                     {
-                        LstDominatorAccountModel.Add(account);
-
-                        AccountCollectionView = CollectionViewSource.GetDefaultView(LstDominatorAccountModel);
+                        if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel.AccountNetwork))
+                        {
+                            LstDominatorAccountModel.Add(account);
+                            AccountCollectionView = CollectionViewSource.GetDefaultView(LstDominatorAccountModel);
+                        }                      
                         //Global.ScheduleForEachModule(null, account);
                     });
                 }
