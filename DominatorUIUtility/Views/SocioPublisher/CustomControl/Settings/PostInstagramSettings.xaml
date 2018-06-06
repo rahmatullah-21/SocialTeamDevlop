@@ -9,11 +9,6 @@
             >
     <Grid>
         <StackPanel>
-            <StackPanel Orientation="Vertical" Margin="2" >
-                <CheckBox Name="CheckBoxTitleForInstagram" Margin="2" Content="{DynamicResource DHlangPublisherInstagramTitle}" />
-                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="TitleDescription" Margin="2" TextWrapping="Wrap" Height="40" Width="404"></TextBox>
-            </StackPanel>
-
             <StackPanel Orientation="Horizontal">
                 <CheckBox Name="CheckBoxPostasPartStory" Margin="2" Content="{DynamicResource DHlangGdPostasStory}" />
             </StackPanel>

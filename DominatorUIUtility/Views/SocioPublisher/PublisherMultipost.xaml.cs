@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
+namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PostPinterestSettings.xaml
+    /// Interaction logic for PublisherMultipost.xaml
     /// </summary>
-    public partial class PostPinterestSettings : UserControl
+    public partial class PublisherMultipost : UserControl
     {
-        public PostPinterestSettings()
+        public PublisherMultipost()
         {
             InitializeComponent();
         }

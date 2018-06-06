@@ -70,13 +70,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                             Content = new Lazy<UserControl>(() => new PostTwitterSettings())
                         });
                         break;
-                    case SocialNetworks.Pinterest:
-                        items.Add(new TabItemTemplates
-                        {
-                            Title = FindResource("DHlangPinterest").ToString(),
-                            Content = new Lazy<UserControl>(() => new PostPinterestSettings())
-                        });
-                        break;
                     case SocialNetworks.LinkedIn:
                         items.Add(new TabItemTemplates
                         {
@@ -92,6 +85,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                             Content = new Lazy<UserControl>(() => new PostTumblrSettings())
                         });
                         break;
+                    case SocialNetworks.Pinterest:
                     case SocialNetworks.Reddit:                      
                     case SocialNetworks.Social:                      
                     case SocialNetworks.Quora:                   

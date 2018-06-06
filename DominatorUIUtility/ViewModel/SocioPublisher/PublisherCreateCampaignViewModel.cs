@@ -42,10 +42,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public ICommand NavigationCommand { get; set; }
 
-        private bool NavigationCanExecute(object sender) => true;
-
         public List<TabItemTemplates> PostTabItems { get; set; } = InitializeTabs();
-
 
         #endregion
 
@@ -83,6 +80,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             return tabItems;
         }
 
+        private bool NavigationCanExecute(object sender) => true;
 
         private void NavigationExecute(object sender)
         {

@@ -47,8 +47,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
     ///     <MyNamespace:PostContent/>
     ///
     /// </summary>
-    [TemplatePart(Type = typeof(Button), Name = ButtonImportImage)]
-   
+    [TemplatePart(Type = typeof(Button), Name = ButtonImportImage)]  
     [TemplatePart(Type = typeof(Button), Name = ButtonSettings)]
     [TemplatePart(Type = typeof(MediaViewer), Name = MediaViewerControl)]
     public class PostContent : MediaViewer
@@ -77,6 +76,40 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
          Button _selectMedia = new Button();
         private Button _buttonSettings = new Button();
+
+
+
+        public bool IsFacebookSellPost
+        {
+            get { return (bool)GetValue(IsFacebookSellPostProperty); }
+            set { SetValue(IsFacebookSellPostProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsFacebookSellPost.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsFacebookSellPostProperty =
+            DependencyProperty.Register("IsFacebookSellPost", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
+
+
+        public bool IsInstagramTitle
+        {
+            get { return (bool)GetValue(IsInstagramTitleProperty); }
+            set { SetValue(IsInstagramTitleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsInstagramTitle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsInstagramTitleProperty =
+            DependencyProperty.Register("IsInstagramTitle", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
+
+
+        public bool IsPinterestSourceUrl
+        {
+            get { return (bool)GetValue(IsPinterestSourceUrlProperty); }
+            set { SetValue(IsPinterestSourceUrlProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsPinterestSourceUrl.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsPinterestSourceUrlProperty =
+            DependencyProperty.Register("IsPinterestSourceUrl", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
 
         #endregion
 

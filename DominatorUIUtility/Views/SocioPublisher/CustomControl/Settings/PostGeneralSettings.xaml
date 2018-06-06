@@ -7,16 +7,7 @@
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
-             mc:Ignorable="d" 
-             >
-    <UserControl.Resources>
-        <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
-        <DataTemplate x:Key="MacroTemplate">
-            <Grid>
-                <TextBlock Text="{Binding Path=Key}"></TextBlock>
-            </Grid>
-        </DataTemplate>
-    </UserControl.Resources>
+             mc:Ignorable="d">
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
@@ -30,19 +21,7 @@
                 <TextBlock Text="{DynamicResource DHlangTimes}" Name="TextBlockTimes" VerticalAlignment="Center" Margin="5"/>
             </StackPanel>
 
-            <StackPanel>
-                <customControl:SocinatorTextBox                    
-                    MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
-                    SuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
-                    Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}"
-                    Text="" TextHeight="60" TextWidth="300" Margin="2" TextWrapping="Wrap"
-                    DisplayMember="Key">
-                    <customControl:SocinatorTextBox.LoadingContent>
-                        <TextBlock Text="Loading Macros..." Margin="5" FontSize="14" />
-                    </customControl:SocinatorTextBox.LoadingContent>
-                </customControl:SocinatorTextBox>
-                
-            </StackPanel>
+          
         </StackPanel>
     </Grid>
 </UserControl>

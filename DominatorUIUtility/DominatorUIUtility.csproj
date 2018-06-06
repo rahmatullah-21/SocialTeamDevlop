@@ -299,6 +299,7 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherCreateCampaignViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherCreateDestinationsViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherDefaultViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherDirectPostsViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherHomeViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManageDestinationViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostDraftsViewModel.cs" />
@@ -383,9 +384,6 @@
     <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostLinkedInSettings.xaml.cs">
       <DependentUpon>PostLinkedInSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostPinterestSettings.xaml.cs">
-      <DependentUpon>PostPinterestSettings.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostTumblrSettings.xaml.cs">
       <DependentUpon>PostTumblrSettings.xaml</DependentUpon>
     </Compile>
@@ -395,6 +393,9 @@
     <Compile Include="Views\SocioPublisher\CustomControl\SocinatorTextBox.cs" />
     <Compile Include="Views\SocioPublisher\PublisherDirectPosts.xaml.cs">
       <DependentUpon>PublisherDirectPosts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherMultipost.xaml.cs">
+      <DependentUpon>PublisherMultipost.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\Suggestions\FdFriendSuggestionProvider.cs" />
     <Compile Include="Views\SocioPublisher\Suggestions\SuggestionProvider.cs" />
@@ -443,7 +444,6 @@
     <Compile Include="Views\SocioPublisher\PublisherSharePost.xaml.cs">
       <DependentUpon>PublisherSharePost.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SocioPublisher\PublisherViewUtility.cs" />
     <Page Include="Behaviours\ErrorModelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -823,10 +823,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostPinterestSettings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\SocioPublisher\CustomControl\Settings\PostTumblrSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -880,6 +876,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherMonitorFolder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherMultipost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

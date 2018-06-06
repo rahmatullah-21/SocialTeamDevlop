@@ -8,22 +8,9 @@
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
              mc:Ignorable="d" >
-
-
-
     <Grid>
         <StackPanel Orientation="Vertical" >
-            <CheckBox Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource DHlangFdSellPost}" />
-
-            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdProductName}" Name="TextBoxFdSellProductTitle"  VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="30" Width="404"></TextBox>
-
-            <StackPanel Name="FdSellPostDetails" Orientation="Horizontal">
-                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdSellPrice}" Name="TextBoxFdSellPrice"  VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="30" Width="200"></TextBox>
-                <TextBox VerticalAlignment="Center" mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdSellLocation}" HorizontalAlignment="Left" Name="TextBoxFdSellLocation"  VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="30" Width="200"></TextBox>
-            </StackPanel>
-
             <CheckBox Name="CheckBoxTurnOffLocation" Margin="2" Content="{DynamicResource DHlangFdTurnOffComment}" />
-
             <StackPanel Orientation="Vertical">
                 <CheckBox Name="CheckBoxFdOverrideSource" Margin="2" Content="{DynamicResource DHlangFdOverridePostDescription}" />
                 <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TextBoxPinterestSource" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherPostDescription}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
