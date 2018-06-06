@@ -394,6 +394,9 @@
     <Compile Include="Views\SocioPublisher\PublisherDirectPosts.xaml.cs">
       <DependentUpon>PublisherDirectPosts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherMultiplePost.xaml.cs">
+      <DependentUpon>PublisherMultiplePost.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublisherMultipost.xaml.cs">
       <DependentUpon>PublisherMultipost.xaml</DependentUpon>
     </Compile>
@@ -876,6 +879,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherMonitorFolder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherMultiplePost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

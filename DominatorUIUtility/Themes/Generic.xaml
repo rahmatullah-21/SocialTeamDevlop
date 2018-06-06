@@ -117,7 +117,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <StackPanel>
                             <StackPanel Margin="1">
-                                <TextBlock  FontWeight="SemiBold" Text="{DynamicResource DHlangPublisherPostDescription}" VerticalAlignment="Center" FontSize="12" />
+                                <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource DHlangPublisherPostDescription}" VerticalAlignment="Center" FontSize="12" />
                                 <!--<TextBox x:Name="PART_PostDescription" VerticalScrollBarVisibility="Auto" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}" Margin="2" TextWrapping="Wrap" Height="60" Width="300"></TextBox>-->
                                 <customControl:SocinatorTextBox                    
                                     MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
@@ -132,7 +132,7 @@
                             </StackPanel>
                             <StackPanel Margin="1">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Name="TextBlockMedia" FontWeight="SemiBold" Text="{DynamicResource DHlangPublisherSelectMedia}" FontSize="12" VerticalAlignment="Center" />
+                                    <TextBlock Name="TextBlockMedia" FontWeight="SemiBold" Foreground="{DynamicResource AccebtBaseColorBrush}" Text="{DynamicResource DHlangPublisherSelectMedia}" FontSize="12" VerticalAlignment="Center" />
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">

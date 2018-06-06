@@ -3,10 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher" 
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" Width="1000" >
     <Grid>
 
         <StackPanel Orientation="Vertical">
@@ -17,15 +16,15 @@
 
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Name="CheckBoxDuplicate" Margin="2" Content="{DynamicResource DHlangGdDeletePost}" />
+                        <CheckBox Name="CheckBoxDuplicate" Margin="2" Content="{DynamicResource DHlangTake}" />
                         <TextBox Width="40" Height="25" Margin="2"/>
-                        <TextBlock Text="{DynamicResource DHlangHours}" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="{DynamicResource DHlangDuplicateCopies}" VerticalAlignment="Center" Margin="5"/>
                     </StackPanel>
 
-                    <CheckBox Name="CheckBoxLoadFromCsv" Margin="2" Content="{DynamicResource DHlangGdDeletePost}" />
-                    <CheckBox Name="CheckBoxExportSelected" Margin="2" Content="{DynamicResource DHlangGdDeletePost}" />
-                    <CheckBox Name="CheckBoxDeletePost" Margin="2" Content="{DynamicResource DHlangGdDeletePost}" />
-                    <CheckBox Name="CheckBoxDeletePostAllSelected" Margin="2" Content="{DynamicResource DHlangGdDeletePost}" />
+                    <CheckBox Name="CheckBoxLoadFromCsv" Margin="2" Content="{DynamicResource DHlangPostImportFromCsv}" />
+                    <CheckBox Name="CheckBoxExportSelected" Margin="2" Content="{DynamicResource DHlangPostExportToCsv}" />
+                    <CheckBox Name="CheckBoxDeleteNoPostContent" Margin="2" Content="{DynamicResource DHlangDeleteNoPostContent}" />
+                    <CheckBox Name="CheckBoxDeletePostAllSelected" Margin="2" Content="{DynamicResource DHlangDeleteSelectedPost}" />
                 </StackPanel>
                 
             </StackPanel>

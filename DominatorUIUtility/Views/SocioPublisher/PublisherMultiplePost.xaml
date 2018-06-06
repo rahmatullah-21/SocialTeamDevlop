@@ -1,0 +1,45 @@
+﻿<mah:MetroWindow x:Class="DominatorUIUtility.Views.SocioPublisher.PublisherMultiplePost"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner"
+        Title="Multiple Post" Height="700" Width="1200">
+    <Grid>
+        <StackPanel Orientation="Horizontal" >
+
+            <Grid Background="WhiteSmoke">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock HorizontalAlignment="Center" Margin="2" Text="Post Template" FontSize="14" FontWeight="SemiBold"></TextBlock>
+                    <StackPanel  Orientation="Horizontal" Margin="2" >
+                        <customControl:PostContent HorizontalAlignment="Center" MediaHeight="75" MediaWidth="75" ></customControl:PostContent>
+                    </StackPanel>
+
+                    <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource DHlangSettings}" VerticalAlignment="Center" FontSize="12" />
+                    <StackPanel >
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Name="CheckBoxDuplicate" Margin="2" Content="{DynamicResource DHlangTake}" />
+                            <TextBox Width="40" Height="25" Margin="2"/>
+                            <TextBlock Text="{DynamicResource DHlangDuplicateCopies}" VerticalAlignment="Center" Margin="5"/>
+                        </StackPanel>
+
+                        <CheckBox Name="CheckBoxLoadFromCsv" Margin="2" Content="{DynamicResource DHlangPostImportFromCsv}" />
+                        <CheckBox Name="CheckBoxExportSelected" Margin="2" Content="{DynamicResource DHlangPostExportToCsv}" />
+                        <CheckBox Name="CheckBoxDeleteNoPostContent" Margin="2" Content="{DynamicResource DHlangDeleteNoPostContent}" />
+                        <CheckBox Name="CheckBoxDeletePostAllSelected" Margin="2" Content="{DynamicResource DHlangDeleteSelectedPost}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button Margin="5" Content="Load Post" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="30"></Button>
+                        <Button Margin="5" Content="Save Post" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="30"></Button>
+                    </StackPanel>
+
+                </StackPanel>
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</mah:MetroWindow>

@@ -305,19 +305,18 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangMinimumDays">Share posts that have maximum</system:String>
     <system:String x:Key="DHlangDaysOld">days old</system:String>
 
-
     <system:String x:Key="DHlangPostBetween">Share posts have between</system:String>
     <system:String x:Key="DHlangAnd">and</system:String>
     <system:String x:Key="DHlangLikes">likes</system:String>
 
-    
-    
     <system:String x:Key="DHlangTake">Take</system:String>
     <system:String x:Key="DHlangDuplicateCopies">duplicate copies of post content</system:String>
-    <system:String x:Key="DHlangPostImportFromCsv">duplicate copies of post content</system:String>
-    <system:String x:Key="DHlangPostExportToCsv">duplicate copies of post content</system:String>
-    <system:String x:Key="DHlangDeleteNoPostContent">duplicate copies of post content</system:String>
-    <system:String x:Key="DHlangDeleteSelectedPost">duplicate copies of post content</system:String>
+    <system:String x:Key="DHlangPostImportFromCsv">Load post list from csv file(s)</system:String>
+    <system:String x:Key="DHlangPostExportToCsv">Export saved post list to csv file(s)</system:String>
+    <system:String x:Key="DHlangDeleteNoPostContent">Delete post which have no value in saved post(s)</system:String>
+    <system:String x:Key="DHlangDeleteSelectedPost">Delete all saved posts(s)</system:String>
+    
+    
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>
