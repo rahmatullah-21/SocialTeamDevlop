@@ -7,7 +7,7 @@ using ProtoBuf;
 
 namespace DominatorHouseCore.FileManagers
 {
-    public class SoftwareSettingsFileManager
+    class SoftwareSettingsFileManager
     {
         public static bool SaveSoftwareSettings<T>(T softwareSetting) where T : class
         {
