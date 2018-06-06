@@ -186,12 +186,16 @@
     <Compile Include="DatabaseHandler\FdTables\Accounts\LikedPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\OwnGroups.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\OwnPages.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\PrivateBlacklist.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedComments.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedGroups.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\FdTables\FdGlobals\FdAccountDetails.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\PrivateBlacklist.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\HashtagScrape.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedUsers.cs" />
@@ -212,6 +216,8 @@
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedCommunities.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\PrivateBlacklist.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedCommunitiesReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedPostsReport.cs" />
@@ -225,6 +231,8 @@
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedJobs.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\LdTables\Account\PrivateBlacklist.cs" />
+    <Compile Include="DatabaseHandler\LdTables\Account\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\RemovedConnections.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\UnjoinedGroups.cs" />
     <Compile Include="DatabaseHandler\LdTables\Campaign\InteractedCompanies.cs" />
@@ -239,6 +247,8 @@
     <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\OwnBoards.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\PrivateBlacklist.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedPosts.cs" />
@@ -252,6 +262,8 @@
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\PrivateBlacklist.cs" />
+    <Compile Include="DatabaseHandler\QdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\QdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedAnswers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedMessage.cs" />
@@ -262,6 +274,8 @@
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedPost.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedSubreddit.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Accounts\PrivateBlacklist.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedPost.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedSubreddit.cs" />
@@ -272,6 +286,8 @@
     <Compile Include="DatabaseHandler\TdTables\Accounts\Friendship.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\TdTables\Accounts\PrivateBlacklist.cs" />
+    <Compile Include="DatabaseHandler\TdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\TdTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TdTables\Campaign\InteractedUsers.cs" />
@@ -282,6 +298,8 @@
     <Compile Include="DatabaseHandler\TumblrTables\Account\Friendships.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\InteractedUser.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Account\PrivateBlacklist.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Account\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\UnFollowedUser.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedUser.cs" />
@@ -294,6 +312,8 @@
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Accounts\PrivateBlacklist.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedPosts.cs" />
