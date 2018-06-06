@@ -73,7 +73,7 @@ namespace Socinator
                 SocinatorWindow.DataContext = this;
                 Loaded += (o, e) => GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
 
-
+                
             }
             catch (Exception ex)
             {
@@ -595,7 +595,9 @@ namespace Socinator
                 var accountDetails = AccountsFileManager.GetAll();
 
                 RunningActivityManager.Initialize(accountDetails);
-                InitializeOnLoadConfigurations();
+                 InitializeOnLoadConfigurations();
+          
+
             }
             catch (Exception ex)
             {

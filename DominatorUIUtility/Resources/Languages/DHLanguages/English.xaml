@@ -167,5 +167,6 @@ Type 3. IP:Port
     <system:String x:Key="DHlangHoursBeforeRefreshingYd">hours before refreshing the friend list for a youtube account (Friend backup or Invite tools must be started)</system:String>
     <system:String x:Key="DHlangFacebookAccountsAtSameTimeYd">Youtube accounts at the same time</system:String>
     <system:String x:Key="DHlangRevisionHistory">Revision History</system:String>
-
+    <system:String x:Key="DHlangEnableSync">Synchronize Account Informations every</system:String>
+    <system:String x:Key="DHlangSimultaneousAccountUpdateCount">Number of Accounts to synchronize simultaneously</system:String>
 </ResourceDictionary>
