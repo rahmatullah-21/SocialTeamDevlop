@@ -1750,7 +1750,7 @@ namespace DominatorUIUtility.ViewModel
             _allSelectedAccountsQueued = true;
         }
 
-        private void MultipleUpdate(DominatorAccountModel account, string updateMenuItem, IAccountUpdateFactory accountFactory)
+        public void MultipleUpdate(DominatorAccountModel account, string updateMenuItem, IAccountUpdateFactory accountFactory)
         {
             if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
             {
@@ -1772,6 +1772,11 @@ namespace DominatorUIUtility.ViewModel
                             {
                                 account.Token.ThrowIfCancellationRequested();
                                 await asyncAccount.UpdateDetailsAsync(account, account.Token);
+
+                                new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                                    .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
+                                    .SaveToBinFile();
+
                                 _updateAccountList.Remove(account.UserName);
                                 try
                                 {
