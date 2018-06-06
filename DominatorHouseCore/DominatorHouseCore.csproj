@@ -542,7 +542,6 @@
     <Compile Include="ViewModel\DestinationSelectionList.cs" />
     <Compile Include="ViewModel\LiveChatViewModel.cs" />
     <Compile Include="ViewModel\ManageDestinationViewModel.cs" />
-    <Compile Include="ViewModel\RevisionHistoryViewModel.cs" />
     <Compile Include="ViewModel\UserControlSwitchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
