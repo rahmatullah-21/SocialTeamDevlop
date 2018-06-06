@@ -4,9 +4,53 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             >
     <Grid>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical">
+                <CheckBox Margin="2" Content="{DynamicResource DHlangShareCustomPostList}" />
+                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangShareAddCustomPostList}" Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"></TextBox>
+            </StackPanel>
+
+
+            <StackPanel Orientation="Vertical">
+                <CheckBox Margin="2" Content="{DynamicResource DHlangShareFdPagePost}" />
+                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddFdPageUrl}" Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"></TextBox>
+           
+                <StackPanel Margin="10,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox  Margin="2" Content="{DynamicResource DHlangNewPagePost}" />
+                        <TextBox Width="40" Height="25" Margin="2"/>
+                        <TextBlock Text="{DynamicResource DHlangMinutes}" VerticalAlignment="Center" Margin="5"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox  Margin="2" Content="{DynamicResource DHlangExtractMinimumPost}" />
+                        <TextBox Width="40" Height="25" Margin="2"/>
+                        <TextBlock Text="{DynamicResource DHlangPostPerOperation}" VerticalAlignment="Center" Margin="5"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox Content="{DynamicResource DHlangKeywords}" VerticalAlignment="Center" Margin="5"/>
+                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddKeywords}" Margin="2" TextWrapping="Wrap" Height="60" Width="250" AcceptsReturn="True"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox  Margin="2" Content="{DynamicResource DHlangMinimumDays}" />
+                        <TextBox Width="40" Height="25" Margin="2"/>
+                        <TextBlock Text="{DynamicResource DHlangDaysOld}" VerticalAlignment="Center" Margin="5"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox  Margin="2" Content="{DynamicResource DHlangPostBetween}" />
+                        <TextBox Width="40" Height="25" Margin="2"/>
+                        <TextBlock Text="{DynamicResource DHlangAnd}" VerticalAlignment="Center" Margin="5"/>
+                        <TextBox Width="40" Height="25" Margin="2"/>
+                        <TextBlock Text="{DynamicResource DHlangLikes}" VerticalAlignment="Center" Margin="5"/>
+                    </StackPanel>
+
+                </StackPanel>
             
+            </StackPanel>
+
+        </StackPanel>
     </Grid>
 </UserControl>

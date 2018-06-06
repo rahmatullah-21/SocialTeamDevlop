@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,8 +16,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using DominatorHouseCore;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
@@ -331,6 +327,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 SetSelectedItem(ItemsSelector.SelectedItem);
                 _isUpdatingText = false;
                 IsDropDownOpen = false;
+                _postDescription.SelectionStart = _postDescription.Text.Length;
+                _postDescription.SelectionLength = 0;
             }
         }
 
@@ -408,8 +406,16 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             SetSelectedItem(null);
             if (_postDescription.Text.Length > 0)
             {
-                if (!_postDescription.Text.IsGetMacros())                        
+                if (!_postDescription.Text.IsGetMacros())
+                {
+                    if (IsDropDownOpen)
+                    {
+                        IsDropDownOpen = false;
+                        _postDescription.SelectionStart = _postDescription.Text.Length;
+                        _postDescription.SelectionLength = 0;
+                    }                      
                     return;
+                }
 
                 IsLoading = true;
                 IsDropDownOpen = true;
@@ -452,7 +458,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             if (SuggestionProvider != null && ItemsSelector != null)
             {
                 var getFirstSubString = _postDescription.Text.Substring(0, _postDescription.CaretIndex);
-                var startIndexOfCurrentWord = getFirstSubString.LastIndexOf("{", StringComparison.Ordinal);
+                var startIndexOfCurrentWord = getFirstSubString.LastIndexOf("{", StringComparison.Ordinal);                
                 if (startIndexOfCurrentWord == -1)
                     return;
 
@@ -573,31 +579,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         }
 
         #endregion
-    }
-
-    public class SuggestionProvider : ISuggestionProvider
-    {
-        public IEnumerable<SocinatorIntellisenseModel> ListOfMacros { get; set; }
-
-        public IEnumerable GetSuggestions(string filter)
-        {
-            if (string.IsNullOrEmpty(filter))
-                return null;
-
-            if (!filter.StartsWith("{") && !filter.EndsWith("}"))
-                return null;
-
-            return ListOfMacros.Where(x => x.Key.ToLower().Contains(filter.ToLower()));
-        }
-
-        public SuggestionProvider()
-        {
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Hello}", Value = "Hello" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Globussoft}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{DotNet}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Android}", Value = "Globussoft" });
-            ListOfMacros = SocinatorInitialize.Macros;
-        }
     }
 
     public interface ISuggestionProvider
@@ -732,6 +713,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 case Key.Escape:
                     Cancel?.Invoke();
                     break;
+                case Key.Enter:
                 case Key.Tab:
                     Commit?.Invoke();
                     break;

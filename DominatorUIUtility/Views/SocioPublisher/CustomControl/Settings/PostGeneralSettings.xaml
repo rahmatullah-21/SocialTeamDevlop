@@ -6,10 +6,11 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
              mc:Ignorable="d" 
              >
     <UserControl.Resources>
-        <local:SuggestionProvider x:Key="MacrosSuggestionProvider" />
+        <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
         <DataTemplate x:Key="MacroTemplate">
             <Grid>
                 <TextBlock Text="{Binding Path=Key}"></TextBlock>

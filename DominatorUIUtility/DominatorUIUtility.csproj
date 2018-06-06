@@ -393,9 +393,11 @@
       <DependentUpon>PostTwitterSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\SocinatorTextBox.cs" />
-    <Compile Include="Views\SocioPublisher\PublisherAddPost.xaml.cs">
-      <DependentUpon>PublisherAddPost.xaml</DependentUpon>
+    <Compile Include="Views\SocioPublisher\PublisherDirectPosts.xaml.cs">
+      <DependentUpon>PublisherDirectPosts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\Suggestions\FdFriendSuggestionProvider.cs" />
+    <Compile Include="Views\SocioPublisher\Suggestions\SuggestionProvider.cs" />
     <Compile Include="Views\SocioPublisher\PublisherCreateCampaigns.xaml.cs">
       <DependentUpon>PublisherCreateCampaigns.xaml</DependentUpon>
     </Compile>
@@ -833,10 +835,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SocioPublisher\PublisherAddPost.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\SocioPublisher\PublisherCreateCampaigns.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -846,6 +844,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherDefaultPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherDirectPosts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

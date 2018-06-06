@@ -27,7 +27,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                 }
             };
 
-           // var availableNetworks = SocinatorInitialize.AvailableNetworks;
+            //var availableNetworks = SocinatorInitialize.AvailableNetworks;
 
             //Todo: Uncomment above on production and following initialize
             var availableNetworks = new HashSet<SocialNetworks>

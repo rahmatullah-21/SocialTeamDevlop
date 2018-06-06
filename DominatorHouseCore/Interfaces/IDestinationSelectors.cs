@@ -28,5 +28,7 @@ namespace DominatorHouseCore.Interfaces
 
         Task<List<string>> GetPageOrBoardUrls(string accountId, string accountName);
 
+        Task<List<string>> GetFriendshipNames(string accountId, string accountName);
+
     }
 }

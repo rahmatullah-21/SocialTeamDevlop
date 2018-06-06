@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
-    /// Interaction logic for PublisherAddPost.xaml
+    /// Interaction logic for PublisherDirectPosts.xaml
     /// </summary>
-    public partial class PublisherAddPost : UserControl
+    public partial class PublisherDirectPosts : UserControl
     {
-        public PublisherAddPost()
+        public PublisherDirectPosts()
         {
             InitializeComponent();
         }

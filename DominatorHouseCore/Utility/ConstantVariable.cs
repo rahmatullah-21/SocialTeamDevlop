@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Documents;
 using DominatorHouseCore.Enums;
 using System.Reflection;
@@ -165,6 +166,15 @@ namespace DominatorHouseCore.Utility
 
         public static string GetCampaignDb = "CampaignDb";
 
+        public static IEnumerable<SocinatorIntellisenseModel> FdMacros = new List<SocinatorIntellisenseModel>
+        {
+            new SocinatorIntellisenseModel() {Key="{AllFriends}",Value =  "{AllFriends}"},
+            new SocinatorIntellisenseModel() {Key="{Random:1-5}",Value =  "{Random:1-5}"},
+            new SocinatorIntellisenseModel() {Key="{Random:5-10}",Value =  "{Random:5-10}"},
+            new SocinatorIntellisenseModel() {Key="{Random:15-20}",Value =  "{Random:15-20}"},
+            new SocinatorIntellisenseModel() {Key="{Random:10-15}",Value =  "{Random:10-15}"},
+            new SocinatorIntellisenseModel() {Key="{Random:20+}",Value =  "{Random:20+}"},
 
+        };
     }
 }

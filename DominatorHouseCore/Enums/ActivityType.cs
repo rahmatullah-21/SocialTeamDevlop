@@ -274,7 +274,11 @@ namespace DominatorHouseCore.Enums
 
         [Description("Pinterest")]
         Repin = 91,
+
         [Description("LinkedIn")]
         WithdrawConnectionRequest = 92,
+
+        [Description("Facebook")]
+        CancelSentRequest = 93
     }
 }

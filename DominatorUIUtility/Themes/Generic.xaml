@@ -4,7 +4,8 @@
     xmlns:local="clr-namespace:DominatorUIUtility"
     xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
     xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions">
 
 
     <ResourceDictionary.MergedDictionaries>
@@ -21,7 +22,7 @@
     </ResourceDictionary.MergedDictionaries>
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converters:BooleanToVisibilityConverter>
     <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
-    <customControl:SuggestionProvider x:Key="MacroSuggestion"></customControl:SuggestionProvider>
+    <suggestions:SuggestionProvider x:Key="MacroSuggestion"></suggestions:SuggestionProvider>
     <!--Media Viewer-->
     <Style TargetType="{x:Type customControl:MediaViewer}">
         <Setter Property="Template">
@@ -125,7 +126,8 @@
                                     <customControl:MediaViewer x:Name="PART_MediaViewer" IsEnablePreviousPointer="{TemplateBinding IsEnablePreviousPointer}"  MediaWidth="{TemplateBinding MediaWidth}" MediaHeight="{TemplateBinding MediaHeight}" DeleteMenuVisibility="Visible" VerticalAlignment="Center" IsPostDataPresent="{TemplateBinding IsPostDataPresent}" CurrentMediaUrl="{TemplateBinding CurrentMediaUrl}" IsEnableNextPointer="{TemplateBinding IsEnableNextPointer}"  TotalMediaCount="{TemplateBinding TotalMediaCount}" CurrentMediaPointer="{TemplateBinding CurrentMediaPointer}" MediaList="{TemplateBinding MediaList}"></customControl:MediaViewer>
 
                                     <StackPanel Orientation="Vertical" Margin="5,0,0,0">
-                                        <Button Name="PART_ImportImage" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="30" Width="100" VerticalAlignment="Center" >
+
+                                        <Button Name="PART_ImportImage" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30" Width="100" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal" ToolTip="{DynamicResource DHlangImportImages}">
                                                 <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
                                                     <Rectangle.OpacityMask>
@@ -136,19 +138,7 @@
                                             </StackPanel>
                                         </Button>
 
-                                        <Button Name="PART_Macros" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="32" Width="100" VerticalAlignment="Center" >
-                                            <StackPanel Orientation="Horizontal" >
-
-                                                <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_symbol_braces}" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                                <Label Content="{DynamicResource DHlangPublisherSelectMacros}"  Foreground="White" Margin="0,-2,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                            </StackPanel>
-                                        </Button>
-
-                                        <Button Name="PART_Settings" Foreground="White" Margin="1"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="32" Width="100" VerticalAlignment="Center" >
+                                        <Button Name="PART_Settings" Foreground="White" Margin="1"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="32" Width="100" Cursor="Hand" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal" ToolTip="{DynamicResource DHlangImportImages}">
 
                                                 <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
@@ -159,6 +149,7 @@
                                                 <Label Content="{DynamicResource DHlangSettings}" Margin="0,-2,0,0" FontSize="11" Foreground="White"  FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                             </StackPanel>
                                         </Button>
+                                   
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
@@ -201,7 +192,7 @@
                                    Width="{TemplateBinding TextWidth}"
                                    HorizontalOffset="0"
                                    MinHeight="25"
-                                   MaxHeight="600"                                  
+                                   MaxHeight="400"                                  
                                    AllowsTransparency="True"
                                    PopupAnimation="Slide"
                                    Focusable="False">
@@ -216,7 +207,7 @@
                                                  ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                                  Focusable="False" Foreground="Black"
                                                  BorderThickness="0"
-                                                 Width="{TemplateBinding TextWidth}" 
+                                                 Width="{TemplateBinding TextWidth}"                                                 
                                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                                  ScrollViewer.VerticalScrollBarVisibility="Auto">
                                            
@@ -244,3 +235,4 @@
 
 
 </ResourceDictionary>
+

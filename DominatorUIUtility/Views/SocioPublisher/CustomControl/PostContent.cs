@@ -48,7 +48,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
     ///
     /// </summary>
     [TemplatePart(Type = typeof(Button), Name = ButtonImportImage)]
-    [TemplatePart(Type = typeof(Button), Name = ButtonMacros)]
+   
     [TemplatePart(Type = typeof(Button), Name = ButtonSettings)]
     [TemplatePart(Type = typeof(MediaViewer), Name = MediaViewerControl)]
     public class PostContent : MediaViewer
@@ -60,13 +60,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         #region Properties
 
-
-        public const string ButtonImportImage = "PART_ImportImage";
-        public const string ButtonMacros = "PART_Macros";
+        public const string ButtonImportImage = "PART_ImportImage";   
         public const string ButtonSettings = "PART_Settings";
         public const string MediaViewerControl = "PART_MediaViewer";
-
-       
 
         public string PostDescription
         {

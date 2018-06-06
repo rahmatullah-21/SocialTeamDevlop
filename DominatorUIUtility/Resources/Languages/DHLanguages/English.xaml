@@ -237,15 +237,23 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangPublisherSelectMacros">Macro(s)</system:String>
     <system:String x:Key="DHlangImportMediaFiles">Load Image(s) or Video(s)</system:String>
     <system:String x:Key="DHlangPublisherWhatsOnYourMind">What's on your mind?</system:String>
+    <system:String x:Key="DHlangPublisherTagFriends">Just type "{" to get suggestion !</system:String>
     <system:String x:Key="DHlangPdSourceUrl">Pinterest Source Url</system:String>
     <system:String x:Key="DHlangFdSellPost">Enable Facebook Sell Post</system:String>
     <system:String x:Key="DHlangFdOverridePostDescription">Replace post descriptions with following text</system:String>
 
+    <system:String x:Key="DHlangCreateSinglePost">Create a single post</system:String>
+    <system:String x:Key="DHlangMultiplePost">Create a multiple posts</system:String>
+    <system:String x:Key="DHlangMultipleImagePost">Create a multiple image post</system:String>
+    <system:String x:Key="DHlangFileNameAsPostDescription">Use file name as post description</system:String>
+    <system:String x:Key="DHlangUniquePost">Add only unique post</system:String>
+    <system:String x:Key="DHlangUploadFromUrl">Upload from url</system:String>
 
     <system:String x:Key="DHlangGdPostasStory">Post as part of your story instead of on wall</system:String>
     <system:String x:Key="DHlangGdDeletePost">Delete the post after</system:String>
     <system:String x:Key="DHlangHours">hours</system:String>
     <system:String x:Key="DHlangPostTagUser">Tag users</system:String>
+    <system:String x:Key="DHlangPostTagFriends">Tag friends</system:String>
     <system:String x:Key="DHlangAddPostTagUser">Add tag users!</system:String>
     <system:String x:Key="DHlangPostMentionUser">Mention users</system:String>
     <system:String x:Key="DHlangAddPostMentionUser">Add mention users!</system:String>
@@ -268,6 +276,40 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangLinkedInGeneralPost">General Post</system:String>
     <system:String x:Key="DHlangLinkedInJobPost">Job Post</system:String>
     <system:String x:Key="DHlangLinkedInAnnouncementPost">Announcement Post</system:String>
+
+    <system:String x:Key="DHlangCreateMultiPost">Multiple post</system:String>
+    <system:String x:Key="DHlangImportFromCsv">Import from Csv</system:String>
+
+    <system:String x:Key="DHlangScrapeFacebookPost">Scrape Posts From Facebook</system:String>
+    <system:String x:Key="DHlangScrapePinterestPost">Scrape Posts From Pinterest</system:String>
+    <system:String x:Key="DHlangScrapeTwitterPost">Scrape Posts From Twitter</system:String>
+
+    <system:String x:Key="DHlangAddFdPostSource">Add posts source! like (ownwall,page, group,friend url)</system:String>
+    <system:String x:Key="DHlangAddPdPostSource">Add posts source! like (boards, users, category, search pin)</system:String>
+    <system:String x:Key="DHlangAddTdPostSource">Add posts source! like (users,search)</system:String>
+
+
+    <system:String x:Key="DHlangShareCustomPostList">Share posts from custom posts list</system:String>
+    <system:String x:Key="DHlangShareAddCustomPostList">Add custom posts lists!</system:String>
+
+    <system:String x:Key="DHlangShareFdPagePost">Share posts from Facebook Pages</system:String>
+    <system:String x:Key="DHlangAddFdPageUrl">Add page url!</system:String>
+    <system:String x:Key="DHlangMinutes">minutes</system:String>
+    <system:String x:Key="DHlangNewPagePost">Check the page for new posts every</system:String>
+    <system:String x:Key="DHlangExtractMinimumPost">Extract a maximum of</system:String>
+    <system:String x:Key="DHlangPostPerOperation">posts per operation</system:String>
+    
+    <system:String x:Key="DHlangKeywords">Keywords</system:String>
+    <system:String x:Key="DHlangAddKeywords">Add keywords!</system:String>
+
+    <system:String x:Key="DHlangMinimumDays">Share posts that have maximum</system:String>
+    <system:String x:Key="DHlangDaysOld">days old</system:String>
+
+
+    <system:String x:Key="DHlangPostBetween">Share posts have between</system:String>
+    <system:String x:Key="DHlangAnd">and</system:String>
+    <system:String x:Key="DHlangLikes">likes</system:String>
+
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>

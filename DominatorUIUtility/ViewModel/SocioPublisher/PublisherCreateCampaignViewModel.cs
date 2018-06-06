@@ -56,28 +56,29 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 new TabItemTemplates
                 {
                     Title= Application.Current.FindResource("DHlangCreatePost")?.ToString(),
-                    Content=new Lazy<UserControl>(()=> new PublisherAddPost())
+                    Content=new Lazy<UserControl>(()=> new PublisherDirectPosts())
                 },
                 new TabItemTemplates
                 {
                     Title=Application.Current.FindResource("DHlangScrapePost")?.ToString(),
-                    Content=new Lazy<UserControl>(()=>new PublisherAddPost())
-                },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("DHlangRssFeed")?.ToString(),
-                    Content=new Lazy<UserControl>(()=>new PublisherAddPost())
-                },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("DHlangMonitorFolder")?.ToString(),
-                    Content=new Lazy<UserControl>(()=>new PublisherAddPost())
+                    Content=new Lazy<UserControl>(()=>new PublisherScrapePost())
                 },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("DHlangSharePost")?.ToString(),
-                    Content=new Lazy<UserControl>(()=>new PublisherAddPost())
-                }
+                    Content=new Lazy<UserControl>(()=>new PublisherSharePost())
+                },
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("DHlangRssFeed")?.ToString(),
+                    Content=new Lazy<UserControl>(()=>new PublisherDirectPosts())
+                },
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("DHlangMonitorFolder")?.ToString(),
+                    Content=new Lazy<UserControl>(()=>new PublisherDirectPosts())
+                },
+               
             };
             return tabItems;
         }
