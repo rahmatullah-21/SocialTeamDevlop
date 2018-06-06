@@ -546,7 +546,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private int _simultaneousAccountUpdate = 30;
+        private int _simultaneousAccountUpdate = 5;
         [ProtoMember(37)]
         public int SimultaneousAccountUpdateCount
         {

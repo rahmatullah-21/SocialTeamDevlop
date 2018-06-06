@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Reflection;
@@ -71,8 +72,8 @@ namespace Socinator
                 SocinatorInitialize.LogInitializer(this);
                 SocinatorWindow.DataContext = this;
                 Loaded += (o, e) => GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
-                InitializeOnLoadConfigurations();
-                
+
+
             }
             catch (Exception ex)
             {
@@ -82,48 +83,71 @@ namespace Socinator
 
         private void InitializeOnLoadConfigurations()
         {
+            if (!File.Exists(ConstantVariable.GetOtherSoftwareSettingsFile()))
+                AddDefaultValueToSoftwareSetting();
             ScheduleUpdation();
         }
 
-        private static void ScheduleUpdation()
+        private static void AddDefaultValueToSoftwareSetting()
         {
-            var accounts = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social)
+            SoftwareSettingsModel softwareSetting = new SoftwareSettingsModel();
+            SoftwareSettingsFileManager.SaveSoftwareSettings(softwareSetting);
+        }
+
+        private void ScheduleUpdation()
+        {
+            var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
                 .DominatorAccountViewModel;
-            var AccountSynchronizationHours = SoftwareSettingsFileManager.GetSoftwareSettings().AccountSynchronizationHours;
-            accounts.LstDominatorAccountModel.ForEach(account =>
+            var softwareSetting = SoftwareSettingsFileManager.GetSoftwareSettings();
+            var AccountSynchronizationHours = softwareSetting.AccountSynchronizationHours;
+            dominatorAccountViewModel.LstDominatorAccountModel.ForEach(account =>
             {
-                if ((DateTimeUtilities.GetEpochTime() - account.LastUpdate) > AccountSynchronizationHours)
-                {
+                //if ((DateTimeUtilities.GetEpochTime() - account.LastUpdate) > AccountSynchronizationHours)
+                //{
                     var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
                         .GetNetworkCoreFactory().AccountUpdateFactory;
+                    UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                //}
+                //else
+                //{
+                //    var dateTime = DateTimeUtilities.EpochToDateTimeUtc(account.LastUpdate + (AccountSynchronizationHours * 3600));
+                //    JobManager.AddJob(() =>
+                //    {
+                //        var accountFactory = SocinatorInitialize
+                //            .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                //            .GetNetworkCoreFactory().AccountUpdateFactory;
+                //        UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                //    }, s => s.ToRunOnceAt(dateTime).AndEvery(AccountSynchronizationHours * 3600));
+                //}
+            });
+        }
+
+        private  void UpdateAccountAsync(DominatorAccountViewModel dominatorAccountViewModel, SoftwareSettingsModel softwareSetting,
+            DominatorAccountModel account, IAccountUpdateFactory accountFactory)
+        {
+            try
+            {
+                if (dominatorAccountViewModel._updateAccountList.Count >= softwareSetting.SimultaneousAccountUpdateCount)
+                {
                     try
                     {
-                        accounts.MultipleUpdate(account, "UpdateAllDetail", accountFactory);
+                        lock (dominatorAccountViewModel.AccountUpdateLock)
+                        {
+                            Monitor.Wait(dominatorAccountViewModel.AccountUpdateLock);
+                        }
                     }
-                    catch (Exception ex)
+                    catch (Exception Ex)
                     {
-                        ex.DebugLog();
+                        GlobusLogHelper.log.Error(Ex.Message);
                     }
                 }
-                else
-                {
-                var dateTime = DateTimeUtilities.EpochToDateTimeUtc(account.LastUpdate + (AccountSynchronizationHours*3600));
-                    JobManager.AddJob(() =>
-                    {
-                        var accountFactory = SocinatorInitialize
-                            .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                            .GetNetworkCoreFactory().AccountUpdateFactory;
-                        try
-                        {
-                            accounts.MultipleUpdate(account, "UpdateAllDetail", accountFactory);
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    }, s => s.ToRunOnceAt(dateTime).AndEvery(AccountSynchronizationHours*3600));
-                }
-            });
+
+                dominatorAccountViewModel.MultipleUpdate(account, "UpdateAllDetail", accountFactory);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private async Task LicenseCheck()
@@ -330,6 +354,8 @@ namespace Socinator
                 {
                     JobManager.AddJob(() => InitializeJobCores(_licenseKey), x => x.ToRunNow());
                 });
+
+               
 
                 //Init UI delegates            
                 CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
@@ -569,6 +595,7 @@ namespace Socinator
                 var accountDetails = AccountsFileManager.GetAll();
 
                 RunningActivityManager.Initialize(accountDetails);
+                InitializeOnLoadConfigurations();
             }
             catch (Exception ex)
             {
