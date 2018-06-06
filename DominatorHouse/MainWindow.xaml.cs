@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Reflection;
@@ -71,6 +72,77 @@ namespace Socinator
                 SocinatorInitialize.LogInitializer(this);
                 SocinatorWindow.DataContext = this;
                 Loaded += (o, e) => GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
+
+                
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void InitializeOnLoadConfigurations()
+        {
+            if (!File.Exists(ConstantVariable.GetOtherSoftwareSettingsFile()))
+                AddDefaultValueToSoftwareSetting();
+            ScheduleUpdation();
+        }
+
+        private static void AddDefaultValueToSoftwareSetting()
+        {
+            SoftwareSettingsModel softwareSetting = new SoftwareSettingsModel();
+            SoftwareSettingsFileManager.SaveSoftwareSettings(softwareSetting);
+        }
+
+        private void ScheduleUpdation()
+        {
+            var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
+                .DominatorAccountViewModel;
+            var softwareSetting = SoftwareSettingsFileManager.GetSoftwareSettings();
+            var AccountSynchronizationHours = softwareSetting.AccountSynchronizationHours;
+            dominatorAccountViewModel.LstDominatorAccountModel.ForEach(account =>
+            {
+                if ((DateTimeUtilities.GetEpochTime() - account.LastUpdateTime) > AccountSynchronizationHours)
+                {
+                    var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+                    UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                }
+                else
+                {
+                    var dateTime = DateTimeUtilities.EpochToDateTimeUtc(account.LastUpdateTime + (AccountSynchronizationHours * 3600));
+                    JobManager.AddJob(() =>
+                    {
+                        var accountFactory = SocinatorInitialize
+                            .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                            .GetNetworkCoreFactory().AccountUpdateFactory;
+                        UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                    }, s => s.ToRunOnceAt(dateTime).AndEvery(AccountSynchronizationHours * 3600));
+                }
+            });
+        }
+
+        private  void UpdateAccountAsync(DominatorAccountViewModel dominatorAccountViewModel, SoftwareSettingsModel softwareSetting,
+            DominatorAccountModel account, IAccountUpdateFactory accountFactory)
+        {
+            try
+            {
+                if (dominatorAccountViewModel._updateAccountList.Count >= softwareSetting.SimultaneousAccountUpdateCount)
+                {
+                    try
+                    {
+                        lock (dominatorAccountViewModel.AccountUpdateLock)
+                        {
+                            Monitor.Wait(dominatorAccountViewModel.AccountUpdateLock);
+                        }
+                    }
+                    catch (Exception Ex)
+                    {
+                        GlobusLogHelper.log.Error(Ex.Message);
+                    }
+                }
+
+                dominatorAccountViewModel.MultipleUpdate(account, "UpdateAllDetail", accountFactory);
             }
             catch (Exception ex)
             {
@@ -282,6 +354,8 @@ namespace Socinator
                 {
                     JobManager.AddJob(() => InitializeJobCores(_licenseKey), x => x.ToRunNow());
                 });
+
+               
 
                 //Init UI delegates            
                 CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
@@ -521,6 +595,9 @@ namespace Socinator
                 var accountDetails = AccountsFileManager.GetAll();
 
                 RunningActivityManager.Initialize(accountDetails);
+                 InitializeOnLoadConfigurations();
+          
+
             }
             catch (Exception ex)
             {

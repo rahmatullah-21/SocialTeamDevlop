@@ -16,7 +16,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.ConfigControl;
 using DominatorUIUtility.CustomControl;
-using GramDominatorUI.GDViews.Settings;
+
 
 namespace Socinator.Social.OtherConfiguration
 {
@@ -48,7 +48,7 @@ namespace Socinator.Social.OtherConfiguration
                 new TabItemTemplates
                 {
                     Title=FindResource("langInstagram").ToString(),
-                    Content = new Lazy<UserControl>(()=>new Setting())
+                    Content = new Lazy<UserControl>(Instagram.GetSingeltonObjectInstagram)
                 },
                 new TabItemTemplates
                 {

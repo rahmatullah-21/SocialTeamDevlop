@@ -464,7 +464,11 @@ namespace DominatorHouseCore.Diagnostics
             DominatorAccountModel.DisplayColumnValue4 = value;
             return this;
         }
-
+        public SocinatorAccountBuilder UpdateLastUpdateTime(int value)
+        {
+            DominatorAccountModel.LastUpdateTime = value;
+            return this;
+        }
         public bool SaveToBinFile()
          => AccountsFileManager.Edit(DominatorAccountModel);
     }
