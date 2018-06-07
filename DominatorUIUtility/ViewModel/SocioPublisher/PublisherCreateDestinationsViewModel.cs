@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.FileManagers;
@@ -595,26 +596,33 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             PublisherCreateDestinationModel.ListSelectDestination.ForEach(async x =>
             {
-                if (BoardsOrPagesAvailableInNetworks.Contains(x.SocialNetworks.ToString()))
+                try
                 {
-                    var accountsDetailsSelector = SocinatorInitialize
-                        .GetSocialLibrary(x.SocialNetworks)
-                        .GetNetworkCoreFactory().AccountDetailsSelectors;
-
-                    var pages = await accountsDetailsSelector.GetPagesDetails(x.AccountId, x.AccountName, alreadySelectedPages);
-
-                    pages.ForEach(group =>
+                    if (BoardsOrPagesAvailableInNetworks.Contains(x.SocialNetworks.ToString()))
                     {
-                        if (!Application.Current.Dispatcher.CheckAccess())
-                        {
-                            Application.Current.Dispatcher.Invoke(() =>
-                                accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Add(group));
-                        }
-                        else
-                            accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Add(group);
-                    });
-                }
+                        var accountsDetailsSelector = SocinatorInitialize
+                            .GetSocialLibrary(x.SocialNetworks)
+                            .GetNetworkCoreFactory().AccountDetailsSelectors;
 
+                        var pages = await accountsDetailsSelector.GetPagesDetails(x.AccountId, x.AccountName, alreadySelectedPages);
+
+                        pages.ForEach(group =>
+                        {
+                            if (!Application.Current.Dispatcher.CheckAccess())
+                            {
+                                Application.Current.Dispatcher.Invoke(() =>
+                                    accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Add(group));
+                            }
+                            else
+                                accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Add(group);
+                        });
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
                 count--;
 
                 if (count <= 0)

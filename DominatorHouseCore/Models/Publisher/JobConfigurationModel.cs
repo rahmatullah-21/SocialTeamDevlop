@@ -379,6 +379,7 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isRotateDayChecked, value);
             }
         }
+       
         private List<ContentSelectGroup> _weekday=new List<ContentSelectGroup>();
         [ProtoMember(25)]
         public List<ContentSelectGroup> Weekday
@@ -391,9 +392,9 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _weekday, value);
             }
         }
-        private ObservableCollection<lstTimeSpan> _lstTimer = new ObservableCollection<lstTimeSpan>();
+        private ObservableCollection<TimeSpanHelper> _lstTimer = new ObservableCollection<TimeSpanHelper>();
         [ProtoMember(26)]
-        public ObservableCollection<lstTimeSpan> LstTimer
+        public ObservableCollection<TimeSpanHelper> LstTimer
         {
             get
             {
@@ -406,6 +407,95 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _lstTimer, value);
             }
         }
-
+        private int _publishOn;
+        [ProtoMember(27)]
+        public int PublishOn
+        {
+            get
+            {
+                return _publishOn;
+            }
+            set
+            {
+                if (value == _publishOn)
+                    return;
+                SetProperty(ref _publishOn, value);
+            }
+        }
+        private int _maxDestination;
+        [ProtoMember(28)]
+        public int MaxDestination
+        {
+            get
+            {
+                return _maxDestination;
+            }
+            set
+            {
+                if (value == _maxDestination)
+                    return;
+                SetProperty(ref _maxDestination, value);
+            }
+        }
+        private bool _isAddDelayBetweenPublishingPost;
+        [ProtoMember(29)]
+        public bool IsAddDelayBetweenPublishingPost
+        {
+            get
+            {
+                return _isAddDelayBetweenPublishingPost;
+            }
+            set
+            {
+                if (value == _isAddDelayBetweenPublishingPost)
+                    return;
+                SetProperty(ref _isAddDelayBetweenPublishingPost, value);
+            }
+        }
+        private RangeUtilities _delayBetween=new RangeUtilities();
+        [ProtoMember(30)]
+        public RangeUtilities DelayBetween
+        {
+            get
+            {
+                return _delayBetween;
+            }
+            set
+            {
+                if (value == _delayBetween)
+                    return;
+                SetProperty(ref _delayBetween, value);
+            }
+        }
+        private RangeUtilities _postRange = new RangeUtilities();
+        [ProtoMember(31)]
+        public RangeUtilities PostRange
+        {
+            get
+            {
+                return _postRange;
+            }
+            set
+            {
+                if (value == _postRange)
+                    return;
+                SetProperty(ref _postRange, value);
+            }
+        }
+        private RangeUtilities _delayBetweenPost = new RangeUtilities();
+        [ProtoMember(32)]
+        public RangeUtilities DelayBetweenPost
+        {
+            get
+            {
+                return _delayBetweenPost;
+            }
+            set
+            {
+                if (value == _delayBetweenPost)
+                    return;
+                SetProperty(ref _delayBetweenPost, value);
+            }
+        }
     }
 }

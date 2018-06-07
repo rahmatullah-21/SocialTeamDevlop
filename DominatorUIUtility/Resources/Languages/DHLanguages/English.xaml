@@ -350,5 +350,29 @@ Type 3. IP:Port
     <system:String x:Key="DHlangHoursBeforeRefreshingYd">hours before refreshing the friend list for a youtube account (Friend backup or Invite tools must be started)</system:String>
     <system:String x:Key="DHlangFacebookAccountsAtSameTimeYd">Youtube accounts at the same time</system:String>
     <system:String x:Key="DHlangRevisionHistory">Revision History</system:String>
-
+    <system:String x:Key="DHlangPublishOn">Publish On</system:String>
+    <system:String x:Key="DHlangRandomDestinations">random destinations with a maximum of</system:String>
+    <system:String x:Key="DHlangDestFromEachAccount">destinations from each account. (0 for no limits)</system:String>
+    <system:String x:Key="DHlangAddDelayBetweenPublishingPost">Add delay between publishing multiple posts.</system:String>
+    <system:String x:Key="DHlangDelayBetween">Delay between</system:String>
+    <system:String x:Key="DHlangMinuteAfterPublishing">minutes after publishing</system:String>
+    <system:String x:Key="DHlangDelayBetweenEachPost">Delay between each post</system:String>
+    <system:String x:Key="DHlangSelectDayofWeekToPublish">Select days of the week to publish</system:String>
+    <system:String x:Key="DHlangUsehashInFrontOfKeywords">Use to add # in front of the keywords that you select or in front of words with a length greater than a given value.</system:String>
+    <system:String x:Key="DHlangMaxHashtagsPerPost">Max hashtags per post</system:String>
+    <system:String x:Key="DHlangAutomaticallyHashAllWords">Automatically hash all the words in the list below. Add your keywords separated by commas.</system:String>
+    <system:String x:Key="DHlangHashByMinimumWordLength">Hash by minimum word length</system:String>
+    <system:String x:Key="DHlangMinimumWordLength">Minimum word length</system:String>
+    <system:String x:Key="DHlangReplaceProbability">Replace probability</system:String>
+    <system:String x:Key="DHlangAddHashTagEvenIfAlreadyHastags">Add Hashtags even if the post already has hashtags</system:String>
+    <system:String x:Key="DHlangPick">Pick</system:String>
+    <system:String x:Key="DHlangPercentExtraHashtags">% of the extra hashtags from this list.</system:String>
+    <system:String x:Key="DHlangPercentFromList">% from this list.</system:String>
+    <system:String x:Key="DHlangEnterGeoLocations">Enter Geo Locations</system:String>
+    <system:String x:Key="DHlangEnableDynamicMentions">Enable Dynamic Mentions</system:String>
+    <system:String x:Key="DHlangDeleteUsersFromList">Delete the users from the list after they are mentioned</system:String>
+    <system:String x:Key="DHlangNumberOfUsersToMention">Number of users to mention</system:String>
+    <system:String x:Key="DHlangAddUsernamesSeparatedByComma">Add usernames separated by comma</system:String>
+    <system:String x:Key="DHlangRemoveTagsFromPostText">Remove Tags from post text (as they are added in the tags section on Tumblr)</system:String>
+   
 </ResourceDictionary>

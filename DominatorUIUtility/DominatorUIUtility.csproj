@@ -334,6 +334,9 @@
     <Compile Include="Views\Publisher\AdvancedSettings\Pinterest.xaml.cs">
       <DependentUpon>Pinterest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Publisher\AdvancedSettings\Tumblr.xaml.cs">
+      <DependentUpon>Tumblr.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Publisher\AdvancedSettings\Twitter.xaml.cs">
       <DependentUpon>Twitter.xaml</DependentUpon>
     </Compile>
@@ -759,6 +762,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Publisher\AdvancedSettings\Pinterest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AdvancedSettings\Tumblr.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

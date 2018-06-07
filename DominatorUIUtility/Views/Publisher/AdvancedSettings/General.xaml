@@ -36,12 +36,12 @@
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langMinutes}" Margin="10,0"/>
                 </StackPanel>
                 <CheckBox Content="{DynamicResource langAutomaticallyRetry}" Margin="5" IsChecked="{Binding IsAutomaticallyRetryChecked}"/>
-                <CheckBox Content="{DynamicResource langChooseSingleRandomImage}" Margin="5" IsChecked="{Binding IsChooseSingleRandomImageChecked}"/>
-                <TextBlock VerticalAlignment="Center" Text="{DynamicResource langEachDestinationWillUseRandomImage}" Margin="35,0"/>
+                <RadioButton Content="{DynamicResource langChooseSingleRandomImage}" Margin="5" IsChecked="{Binding IsChooseSingleRandomImageChecked}"/>
+                <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource langEachDestinationWillUseRandomImage}" Margin="35,0"/>-->
 
-                <CheckBox Content="{DynamicResource langChooseOnlyFirstImage}" Margin="5" IsChecked="{Binding IsChooseOnlyFirstImageChecked}"/>
+                <RadioButton Content="{DynamicResource langChooseOnlyFirstImage}" Margin="5" IsChecked="{Binding IsChooseOnlyFirstImageChecked}"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <CheckBox Content="{DynamicResource langChooseBetween}" VerticalAlignment="Center" IsChecked="{Binding IsChooseBetweenChecked}"/>
+                    <RadioButton Content="{DynamicResource langChooseBetween}" VerticalAlignment="Center" IsChecked="{Binding IsChooseBetweenChecked}"/>
                     <controls:NumericUpDown  VerticalAlignment="Center" Margin="5,0" Minimum="0" Value="{Binding ChooseBetween.StartValue}"/>
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langAnd}" Margin="0,0,10,0"/>
                     <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" Minimum="{Binding ChooseBetween.StartValue}"
@@ -50,17 +50,17 @@
                 </StackPanel>
                 <CheckBox Content="{DynamicResource langWhenPublishingSendOnePost}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsWhenPublishingSendOnePostChecked}"/>
-                <TextBlock VerticalAlignment="Center" Text="{DynamicResource langEachDestinationWillReceiveItsOwn}" Margin="35,0"/>
+                <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource langEachDestinationWillReceiveItsOwn}" Margin="35,0"/>-->
                 <CheckBox Content="{DynamicResource langChooseRandomPosts}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsChooseRandomPostsChecked}"/>
-                <CheckBox Content="{DynamicResource langInsertPostsAtRandom}"
-                          VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsInsertPostsAtRandomChecked}"/>
+                <!--<CheckBox Content="{DynamicResource langInsertPostsAtRandom}"
+                          VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsInsertPostsAtRandomChecked}"/>-->
                 <CheckBox Content="{DynamicResource langDoNotPublishPosts}" 
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsDoNotPublishPostsChecked}"/>
                 <CheckBox Content="{DynamicResource langRemoveLinkFromPosts}"
                           IsChecked="{Binding IsRemoveLinkFromPostsChecked}"
                           VerticalAlignment="Center" Margin="5"/>
-                <TextBlock VerticalAlignment="Center" Text="{DynamicResource langForTumblr}" Margin="25,5"/>
+                <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource langForTumblr}" Margin="25,5"/>-->
                 <CheckBox Content="{DynamicResource langDisableTemporarySleep}" 
                           VerticalAlignment="Center" Margin="5"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -77,15 +77,15 @@
                         <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Margin="5,0" />
                         <TextBlock VerticalAlignment="Center" Text="{DynamicResource langTo}" Margin="0,0,5,0"/>
                         <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Margin="5,0" />
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource langFriendsForEachPosts}" Margin="0,0,10,0"/>
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource langUsersForEachPosts}" Margin="0,0,10,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
                         <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Margin="5,0"/>
                         <TextBlock VerticalAlignment="Center" Text="{DynamicResource langPercentageOfTaggingPost}" Margin="0,0,10,0"/>
                     </StackPanel>
                 </StackPanel>
-                <TextBlock VerticalAlignment="Center" Text="{DynamicResource langClickableImagePostServer}" Margin="10,0"/>
-                <TextBox AcceptsReturn="True" Height="50" Width="250" HorizontalAlignment="Left" Margin="15,5"/>
+                <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource langClickableImagePostServer}" Margin="10,0"/>
+                <TextBox AcceptsReturn="True" Height="50" Width="250" HorizontalAlignment="Left" Margin="15,5"/>-->
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher.AdvancedSettings"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" >
     <Grid x:Name="MainGrid">
         <ScrollViewer>
             <StackPanel>
@@ -37,33 +36,27 @@
                         <TextBlock Text="{DynamicResource langMaxHashTagsPerPost}" VerticalAlignment="Center" Margin="5"/>
                         <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
                     </StackPanel>
-                    <GroupBox Header="{DynamicResource langHashByKeyword}">
+                    <GroupBox Header="{DynamicResource langHashByKeyword}" Margin="0,5">
                         <StackPanel>
                             <TextBlock Text="{DynamicResource langAutomaticallyHashAllWords}" VerticalAlignment="Center" Margin="5"/>
-                            <TextBox Height="50" Width="300" AcceptsReturn="True"  HorizontalAlignment="Left" Margin="10,5"/>
+                            <TextBox Height="50" Width="300" AcceptsReturn="True" HorizontalAlignment="Left" Margin="10,5"/>
                         </StackPanel>
                     </GroupBox>
-                    <CheckBox Content="{DynamicResource langHashByMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
-                    <StackPanel Margin="10,0">
-                        <StackPanel Orientation="Horizontal" Margin="20,0">
-                            <TextBlock Text="{DynamicResource langMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
-                            <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
+                    <GroupBox Header="{DynamicResource langHashByMinimumWordLength}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="{DynamicResource langMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
+                                <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5,0">
+                                <TextBlock Text="{DynamicResource langReplaceProbability}" VerticalAlignment="Center" Margin="5"/>
+                                <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
+                            </StackPanel>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="20,5">
-                            <TextBlock Text="{DynamicResource langReplaceProbability}" VerticalAlignment="Center" Margin="5"/>
-                            <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </StackPanel>
+                    </GroupBox>
 
                 </StackPanel>
-                <CheckBox Content="{DynamicResource langAutomaticallyDeletePosts}" VerticalAlignment="Center" Margin="5"/>
-                <StackPanel Orientation="Horizontal" Margin="30,0">
-                    <TextBlock Text="{DynamicResource langDeleteAfter}" VerticalAlignment="Center" Margin="5"/>
-                    <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
-                    <TextBlock Text="{DynamicResource langTo}" VerticalAlignment="Center" Margin="5"/>
-                    <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
-                    <TextBlock Text="{DynamicResource langHours}" VerticalAlignment="Center" Margin="5"/>
-                </StackPanel>
+
                 <CheckBox Content="{DynamicResource langEnableDynamicHashTags}" VerticalAlignment="Center" Margin="5"/>
                 <StackPanel  Margin="30,0">
                     <CheckBox Content="{DynamicResource langAddHashtagsEvenAlreadyHave}" VerticalAlignment="Center" Margin="5"/>
@@ -85,16 +78,14 @@
                                 <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
                                 <TextBlock Text="{DynamicResource langPercentageOfExtraHashTag}" VerticalAlignment="Center" Margin="5"/>
                             </StackPanel>
-                            <TextBox Height="50" Width="300" controls:TextBoxHelper.Watermark="{DynamicResource langAddHashTagWatermark}"  AcceptsReturn="True"  HorizontalAlignment="Left" Margin="5"/>
                         </StackPanel>
-                        <StackPanel Grid.Column="1">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{DynamicResource langPick}" VerticalAlignment="Center" Margin="5"/>
-                                <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
-                                <TextBlock Text="{DynamicResource langPercentageFromThisList}" VerticalAlignment="Center" Margin="5"/>
-                            </StackPanel>
-                            <TextBox Height="50" Width="300" controls:TextBoxHelper.Watermark="{DynamicResource langAddHashTagWatermark}"  AcceptsReturn="True"  HorizontalAlignment="Left" Margin="5"/>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource langPick}" VerticalAlignment="Center" Margin="5"/>
+                            <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource langPercentageFromThisList}" VerticalAlignment="Center" Margin="5"/>
                         </StackPanel>
+
                     </Grid>
                 </StackPanel>
             </StackPanel>

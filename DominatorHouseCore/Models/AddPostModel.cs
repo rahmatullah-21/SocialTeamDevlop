@@ -622,18 +622,42 @@ namespace DominatorHouseCore.Models
 
 
     [ProtoContract]
-    public class lstTimeSpan : BindableBase
+    public class TimeSpanHelper : BindableBase
     {
-        private TimeSpan _timeSpan;
+        private TimeSpan _startTime;
         [ProtoMember(1)]
-        public TimeSpan TimeSpan
+        public TimeSpan StartTime
         {
-            get { return _timeSpan; }
+            get { return _startTime; }
             set
             {
-                if (value == _timeSpan)
+                if (value == _startTime)
                     return;
-                SetProperty(ref _timeSpan, value);
+                SetProperty(ref _startTime, value);
+            }
+        }
+        private TimeSpan _endTime;
+        [ProtoMember(2)]
+        public TimeSpan EndTime
+        {
+            get { return _endTime; }
+            set
+            {
+                if (value == _endTime)
+                    return;
+                SetProperty(ref _endTime, value);
+            }
+        }
+        private TimeSpan _midTime;
+        [ProtoMember(3)]
+        public TimeSpan MidTime
+        {
+            get { return _midTime; }
+            set
+            {
+                if (value == _midTime)
+                    return;
+                SetProperty(ref _midTime, value);
             }
         }
     }

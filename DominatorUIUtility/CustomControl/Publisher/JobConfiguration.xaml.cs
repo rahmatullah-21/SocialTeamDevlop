@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using MahApps.Metro.Controls;
@@ -17,6 +18,7 @@ namespace DominatorUIUtility.CustomControl.Publisher
         {
             InitializeComponent();
             MainGrid.DataContext = this;
+
         }
 
         public JobConfigurationModel JobConfigurations
@@ -51,16 +53,65 @@ namespace DominatorUIUtility.CustomControl.Publisher
 
         }
 
-        private void numericMaxPost_ValueIncremented(object sender, NumericUpDownChangedRoutedEventArgs args)
+
+
+        private void ChkPostingInterval_OnChecked(object sender, RoutedEventArgs e)
         {
+            JobConfigurations.LstTimer.Clear();
+            Random random = new Random();
+
+            var startTime = JobConfigurations.StartTime;
+            var endTime = JobConfigurations.EndTime;
+            var totalSeconds = (int)((endTime - startTime).TotalSeconds);
             try
             {
-                JobConfigurations.LstTimer.Add(new lstTimeSpan() { TimeSpan = new TimeSpan(12, 0, 0) });
+                var timeRange = totalSeconds / JobConfigurations.MaxPost;
+                var timeToAddToStartTime = TimeSpan.FromSeconds(timeRange);
+
+                for (int noOfPost = 0; noOfPost < JobConfigurations.MaxPost; noOfPost++)
+                {
+
+                    endTime = startTime + timeToAddToStartTime;
+
+                    JobConfigurations.LstTimer.Add(new TimeSpanHelper()
+                    {
+                        StartTime = startTime,
+                        MidTime = GetRandomTime(startTime, endTime, random),
+                        EndTime = endTime
+                    });
+                    startTime = endTime + TimeSpan.FromSeconds(1);
+                }
             }
             catch (Exception ex)
             {
+                ex.DebugLog();
+            }
+        }
 
-                GlobusLogHelper.log.Error(ex.Message + ex.StackTrace);
+        private void ChkRandomizePublishing_OnChecked(object sender, RoutedEventArgs e)
+        {
+            JobConfigurations.LstTimer.Clear();
+            Random random = new Random();
+            var startTime = JobConfigurations.StartTime;
+            var endTime = JobConfigurations.EndTime;
+            for (int noOfPost = 0; noOfPost < JobConfigurations.MaxPost; noOfPost++)
+            {
+                JobConfigurations.LstTimer.Add(new TimeSpanHelper() { MidTime = GetRandomTime(startTime, endTime, random) });
+            }
+        }
+
+        private TimeSpan GetRandomTime(TimeSpan start, TimeSpan end, Random random)
+        {
+            try
+            {
+                int totalSeconds = (int)((end - start).TotalSeconds);
+                int nextSeconds = random.Next(totalSeconds);
+                return start.Add(TimeSpan.FromSeconds(nextSeconds));
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return start;
             }
         }
     }

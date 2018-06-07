@@ -18,6 +18,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public PublisherCreateCampaignViewModel()
         {
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
+            PublisherCreateCampaignModel.JobConfigurations.Weekday.Clear();
+            foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+            {
+                PublisherCreateCampaignModel.JobConfigurations.Weekday.Add(new ContentSelectGroup
+                {
+                    Content = day.ToString(),
+                });
+            }
+
         }
 
         #region Properties

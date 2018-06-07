@@ -56,6 +56,11 @@ namespace DominatorUIUtility.Views.Publisher
                 {
                     Title=FindResource("langInstagram").ToString(),
                     Content=new Lazy<UserControl>(Instagram.GetSingeltonInstagramObject)
+                } ,
+                new TabItemTemplates
+                {
+                    Title=FindResource("DHlangTumblr").ToString(),
+                    Content=new Lazy<UserControl>(Tumblr.GetSingeltonTumblr)
                 },
                 new TabItemTemplates
                 {

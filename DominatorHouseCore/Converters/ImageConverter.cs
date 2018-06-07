@@ -10,7 +10,15 @@ namespace DominatorHouseCore.Converters
         public object Convert(
             object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.IsNullOrEmpty(value?.ToString()) ? new BitmapImage() : new BitmapImage(new Uri(value.ToString()));
+            try
+            {
+                return string.IsNullOrEmpty(value?.ToString()) ? new BitmapImage() : new BitmapImage(new Uri(value.ToString()));
+            }
+            catch (Exception ex)
+            {
+
+                return new BitmapImage();
+            }
         }
 
         public object ConvertBack(

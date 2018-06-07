@@ -6,15 +6,15 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher.AdvancedSettings"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-           >
+           xmlns:custom="clr-namespace:DominatorUIUtility.CustomControl">
     <Grid x:Name="MainGrid">
         <ScrollViewer>
             <StackPanel>
-                <CheckBox Content="{DynamicResource langDisableClickableImagePost}" VerticalAlignment="Center" Margin="5"/>
+                <!--<CheckBox Content="{DynamicResource langDisableClickableImagePost}" VerticalAlignment="Center" Margin="5"/>-->
                 <CheckBox Content="{DynamicResource langNavigateFromFacebookWall}" VerticalAlignment="Center" Margin="5"/>
-                <CheckBox Content="{DynamicResource langStopClickableImagePost}" VerticalAlignment="Center" Margin="5"/>
-                <CheckBox Content="{DynamicResource langUseSimplifiedMethodForFacebook}" VerticalAlignment="Center" Margin="5"/>
-                <CheckBox Content="{DynamicResource langSkipSimplifiedShare}" VerticalAlignment="Center" Margin="5"/>
+                <!--<CheckBox Content="{DynamicResource langStopClickableImagePost}" VerticalAlignment="Center" Margin="5"/>-->
+                <RadioButton Content="{DynamicResource langUseSimplifiedMethodForFacebook}" VerticalAlignment="Center" Margin="5"/>
+                <RadioButton Content="{DynamicResource langSkipSimplifiedShare}" VerticalAlignment="Center" Margin="5"/>
                 <CheckBox Content="{DynamicResource langUncheckIncludeOriginalPost}" VerticalAlignment="Center" Margin="5"/>
                 <CheckBox Content="{DynamicResource langRemoveViaoption}" VerticalAlignment="Center" Margin="5"/>
                 <CheckBox Content="{DynamicResource langHidePostInFacebook}" VerticalAlignment="Center" Margin="5"/>
@@ -30,16 +30,68 @@
                 <CheckBox Content="{DynamicResource langRemoveLinkPreview}" VerticalAlignment="Center" Margin="5"/>
                 <CheckBox Content="{DynamicResource langSkipImageUpload}" VerticalAlignment="Center" Margin="5"/>
                 <CheckBox Content="{DynamicResource langEnableAutomaticHashTags}" VerticalAlignment="Center" Margin="5"/>
-                <CheckBox Content="{DynamicResource langAutomaticallyDeletePosts}" VerticalAlignment="Center" Margin="5"/>
-                <CheckBox Content="{DynamicResource langEnableDynamicHashTags}" VerticalAlignment="Center" Margin="5"/>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource langGlobalSellPostsZipcode}" VerticalAlignment="Center" Margin="5"/>
-                    <TextBox Width="200"/>
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource DHlangUsehashInFrontOfKeywords}" Margin="30,5"/>
+                    <StackPanel Orientation="Horizontal"  Margin="30,0" >
+                        <TextBlock Text="{DynamicResource DHlangMaxHashtagsPerPost}" VerticalAlignment="Center"/>
+                        <controls:NumericUpDown Margin="5"/>
+                    </StackPanel>
+                    <GroupBox Header="{DynamicResource langHashByKeyword}" Margin="5">
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource langAutomaticallyHashAllWords}" VerticalAlignment="Center" Margin="5"/>
+                            <TextBox Height="50" Width="300" AcceptsReturn="True" HorizontalAlignment="Left" Margin="10,5"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="{DynamicResource langHashByMinimumWordLength}" Margin="5">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="{DynamicResource langMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
+                                <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5,0">
+                                <TextBlock Text="{DynamicResource langReplaceProbability}" VerticalAlignment="Center" Margin="5"/>
+                                <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                   </StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <CheckBox Content="{DynamicResource langDeletePostAfter}" VerticalAlignment="Center" Margin="5"/>
+                    <controls:NumericUpDown Margin="5"/>
+                    <TextBlock Text="{DynamicResource langTo}" VerticalAlignment="Center"/>
+                    <controls:NumericUpDown Margin="5"/>
+                    <TextBlock Text="{DynamicResource langHours}" VerticalAlignment="Center"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
+                <!--<CheckBox Content="{DynamicResource langAutomaticallyDeletePosts}" VerticalAlignment="Center" Margin="5"/>-->
+                <CheckBox Content="{DynamicResource langEnableDynamicHashTags}" VerticalAlignment="Center" Margin="5"/>
+                <CheckBox Content="{DynamicResource DHlangAddHashTagEvenIfAlreadyHastags}" VerticalAlignment="Center" Margin="30,0"/>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="50,0">
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource DHlangMaxHashtagsPerPost}"/>
+                        <controls:NumericUpDown Margin="5"/>
+                        <TextBlock Text="-" VerticalAlignment="Center"/>
+                        <controls:NumericUpDown Margin="5"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="50,0">
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource DHlangPick}"/>
+                        <controls:NumericUpDown Margin="5"/>
+                        <TextBlock Text="{DynamicResource DHlangPercentExtraHashtags}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="50,0">
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource DHlangPick}"/>
+                        <controls:NumericUpDown Margin="5"/>
+                        <TextBlock Text="{DynamicResource DHlangPercentFromList}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+                
+                    <CheckBox Content="{DynamicResource langGlobalSellPostsZipcode}" VerticalAlignment="Center" Margin="5"/>
+                    <custom:InputBoxControl Margin="30,5" SaveVisiblity="Visible"/>
+                
+                <!--<StackPanel Orientation="Horizontal">
                     <CheckBox Content="{DynamicResource langSellPostsLocation}" VerticalAlignment="Center" Margin="5"/>
                     <TextBox Width="200" controls:TextBoxHelper.Watermark="{DynamicResource langSellPostsLocationWaterMark}"/>
-                </StackPanel>
+                </StackPanel>-->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource langPublishOnBetween}" VerticalAlignment="Center" Margin="5"/>
                     <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />

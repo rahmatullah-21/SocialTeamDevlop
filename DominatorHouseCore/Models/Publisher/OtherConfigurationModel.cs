@@ -159,6 +159,18 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _makeImagesUniqueStatus, value);
             }
         }
-
+        
+        private string _signatureText;
+        [ProtoMember(10)]
+        public string SignatureText
+        {
+            get { return _signatureText; }
+            set
+            {
+                if (value == _signatureText)
+                    return;
+                SetProperty(ref _signatureText, value);
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
@@ -72,11 +73,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(CampaignList));
             }
         }
-
-
-
-    
-
-
+        [ProtoMember(4)]
+       public JobConfigurationModel JobConfigurations { get; set; } = new JobConfigurationModel();
+        [ProtoMember(5)]
+        public OtherConfigurationModel OtherConfiguration { get; set; } = new OtherConfigurationModel();
     }
 }
