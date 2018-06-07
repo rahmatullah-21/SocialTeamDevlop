@@ -278,7 +278,6 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         WithdrawConnectionRequest = 92,
 
-        [Description("Facebook")]
-        CancelSentRequest = 93
+       
     }
 }

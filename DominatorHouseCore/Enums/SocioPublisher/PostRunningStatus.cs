@@ -1,4 +1,4 @@
-﻿namespace DominatorHouseCore.Models.SocioPublisher
+﻿namespace DominatorHouseCore.Enums.SocioPublisher
 {
     public enum PostRunningStatus
     {

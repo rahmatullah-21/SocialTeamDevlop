@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using DominatorHouseCore.Enums.SocioPublisher;
+using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.SocioPublisher;
 using ProtoBuf;
@@ -12,6 +14,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
     [ProtoContract]
     public class PublisherPostlistModel : BindableBase
     {
+        #region Properties
+
+      
         private string _postDescription;
         /// <summary>
         /// To describe the post data
@@ -33,35 +38,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _title;
-        /// <summary>
-        /// To describe the post title
-        /// </summary>
-        [ProtoMember(2)]
-        public string Title
-        {
-            get
-            {
-                return _title;
-            }
-            set
-            {
-                if (_title == value)
-                    return;
-                _title = value;
-                OnPropertyChanged(nameof(Title));
-            }
-        }
-
-
-        
 
         private DateTime _createdTime;
 
         /// <summary>
         /// To specify the post created date time
         /// </summary>
-        [ProtoMember(4)]
+        [ProtoMember(2)]
         public DateTime CreatedTime
         {
             get
@@ -83,7 +66,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// To specify from where the post comes
         /// </summary>
-        [ProtoMember(5)]
+        [ProtoMember(3)]
         public PostSource PostSource
         {
             get
@@ -104,7 +87,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// To specify the post category
         /// </summary>
-        [ProtoMember(6)]
+        [ProtoMember(4)]
         public PostCategory PostCategory
         {
             get
@@ -120,14 +103,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-
-
         private string _campaignId;
 
         /// <summary>
         /// To specify the post category
         /// </summary>
-        [ProtoMember(7)]
+        [ProtoMember(5)]
         public string CampaignId
         {
             get
@@ -142,74 +123,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(CampaignId));
             }
         }
-
-        private int _sellPostPrice;
-        /// <summary>
-        /// To specify the sell post price, its only for facebook network
-        /// </summary>
-        [ProtoMember(8)]
-        public int SellPostPrice
-        {
-            get
-            {
-                return _sellPostPrice;
-            }
-            set
-            {
-                if (_sellPostPrice == value)
-                    return;
-                _sellPostPrice = value;
-                OnPropertyChanged(nameof(SellPostPrice));
-            }
-        }
-
-        private string _sellPostAvailableLocation;
-
-        /// <summary>
-        /// To specify the sell post location, its only for facebook network
-        /// </summary>
-        [ProtoMember(9)]
-        public string SellPostAvailableLocation
-        {
-            get
-            {
-                return _sellPostAvailableLocation;
-            }
-            set
-            {
-                if (_sellPostAvailableLocation == value)
-                    return;
-                _sellPostAvailableLocation = value;
-                OnPropertyChanged(nameof(SellPostAvailableLocation));
-            }
-        }
-
-        private Dictionary<string, string> _postMacros = new Dictionary<string, string>();
-        /// <summary>
-        /// To specify the post macros
-        /// </summary>
-        [ProtoMember(10)]
-        public Dictionary<string, string> PostMacro
-        {
-            get
-            {
-                return _postMacros;
-            }
-            set
-            {
-                if (_postMacros == value)
-                    return;
-                _postMacros = value;
-                OnPropertyChanged(nameof(PostMacro));
-            }
-        }
+      
 
         private PostRunningStatus _postRunningStatus = PostRunningStatus.Active;
 
         /// <summary>
         /// To specify the post running status whether active or completed
         /// </summary>
-        [ProtoMember(11)]
+        [ProtoMember(6)]
         public PostRunningStatus PostRunningStatus
         {
             get { return _postRunningStatus; }
@@ -226,7 +147,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// To specify the post queued status whether pending, draft or published
         /// </summary>
-        [ProtoMember(12)]
+        [ProtoMember(7)]
         public PostQueuedStatus PostQueuedStatus
         {
             get
@@ -247,7 +168,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// To specify the post expired time
         /// </summary>
-        [ProtoMember(13)]
+        [ProtoMember(8)]
         public DateTime ExpiredTime
         {
             get
@@ -263,13 +184,54 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        private bool _isPostlistSelected;
+        /// <summary>
+        /// To specify the post list is selected or not
+        /// </summary>
+        [ProtoIgnore]
+        public bool IsPostlistSelected
+        {
+            get
+            {
+                return _isPostlistSelected;
+            }
+            set
+            {
+                if (_isPostlistSelected == value)
+                    return;
+                _isPostlistSelected = value;
+                OnPropertyChanged(nameof(IsPostlistSelected));
+            }
+        }
+
+        private string _postId = Utilities.GetGuid();
+
+        /// <summary>
+        /// To specify the post id
+        /// </summary>
+        [ProtoMember(10)]
+        public string PostId
+        {
+            get
+            {
+                return _postId;
+            }
+            set
+            {
+                if (_postId == value)
+                    return;
+                _postId = value;
+                OnPropertyChanged(nameof(PostId));
+            }
+        }
+
         #region Postlist
 
         private ObservableCollection<string> _mediaList = new ObservableCollection<string>();
         /// <summary>
         /// To hold the image or video file 
         /// </summary>
-        [ProtoMember(3)]
+        [ProtoMember(9)]
         public ObservableCollection<string> MediaList
         {
             get
@@ -294,7 +256,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _currentMediaUrl;
             }
             set
-            {             
+            {
                 if (_currentMediaUrl == value)
                     return;
                 _currentMediaUrl = value;
@@ -353,7 +315,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-
         private int _imagePointer;
         public int ImagePointer
         {
@@ -369,7 +330,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(ImagePointer));
             }
         }
-
 
         private int _totalMediaCount;
         public int TotalMediaCount
@@ -387,8 +347,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-
-        private bool _isPostListPresent;
+        private bool _isPostListPresent= true;
         public bool IsPostListPresent
         {
             get
@@ -405,6 +364,112 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
+
+        #endregion
+
+        #region Settings
+
+        private FdPostSettings _fdPostSettings = new FdPostSettings();
+
+        [ProtoMember(11)]
+        public FdPostSettings FdPostSettings
+        {
+            get
+            {
+                return _fdPostSettings;
+            }
+            set
+            {
+                if (_fdPostSettings == value)
+                    return;
+                _fdPostSettings = value;
+                SetProperty(ref _fdPostSettings, value);
+            }
+        }
+
+
+        private GdPostSettings _gdPostSettings = new GdPostSettings();
+        [ProtoMember(12)]
+        public GdPostSettings GdPostSettings
+        {
+            get
+            {
+                return _gdPostSettings;
+            }
+            set
+            {
+                if (_gdPostSettings == value)
+                    return;
+                _gdPostSettings = value;
+                SetProperty(ref _gdPostSettings, value);
+            }
+        }
+
+
+        private TdPostSettings _tdPostSettings = new TdPostSettings();
+        [ProtoMember(13)]
+        public TdPostSettings TdPostSettings
+        {
+            get
+            {
+                return _tdPostSettings;
+            }
+            set
+            {
+                if (_tdPostSettings == value)
+                    return;
+                _tdPostSettings = value;
+                SetProperty(ref _tdPostSettings, value);
+            }
+        }
+
+        private LdPostSettings _ldPostSettings = new LdPostSettings();
+        [ProtoMember(14)]
+        public LdPostSettings LdPostSettings
+        {
+            get
+            {
+                return _ldPostSettings;
+            }
+            set
+            {
+                if (_ldPostSettings == value)
+                    return;
+                _ldPostSettings = value;
+                SetProperty(ref _ldPostSettings, value);
+            }
+        }
+
+
+        private TumberPostSettings _tumberPostSettings = new TumberPostSettings();
+        [ProtoMember(15)]
+        public TumberPostSettings TumberPostSettings
+        {
+            get
+            {
+                return _tumberPostSettings;
+            }
+            set
+            {
+                if (_tumberPostSettings == value)
+                    return;
+                _tumberPostSettings = value;
+                SetProperty(ref _tumberPostSettings, value);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        public void GenerateClonePostId()
+        {
+            PostId = Utilities.GetGuid();
+            CreatedTime = DateTime.Now;
+        }
+
         public void InitializePostData()
         {
             IsPostListPresent = MediaList.Count > 0;
@@ -412,7 +477,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 ImagePointer = 0;
                 MediaCurrentPointer = 1;
-                CurrentMediaUrl = MediaList[ImagePointer];             
+                CurrentMediaUrl = MediaList[ImagePointer];
                 TotalMediaCount = MediaList.Count;
                 NextImageEnable = (TotalMediaCount - ImagePointer) > -1;
                 PreviousImageEnable = ImagePointer > 0;
@@ -425,56 +490,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             PreviousImageEnable = ImagePointer > 0;
         }
 
+
         #endregion
-
-        private bool _isPostlistSelected;
-        /// <summary>
-        /// To specify the post list is selected or not
-        /// </summary>
-        [ProtoIgnore]
-        public bool IsPostlistSelected
-        {
-            get
-            {
-                return _isPostlistSelected;
-            }
-            set
-            {
-                if (_isPostlistSelected == value)
-                    return;
-                _isPostlistSelected = value;
-                OnPropertyChanged(nameof(IsPostlistSelected));
-            }
-        }
-
-
-
-        private string _postId = Utilities.GetGuid();
-
-        /// <summary>
-        /// To specify the post id
-        /// </summary>
-        [ProtoMember(14)]
-        public string PostId
-        {
-            get
-            {
-                return _postId;
-            }
-            set
-            {
-                if (_postId == value)
-                    return;
-                _postId = value;
-                OnPropertyChanged(nameof(PostId));
-            }
-        }
-
-
-        public void GenerateClonePostId()
-        {
-            PostId = Utilities.GetGuid();
-            CreatedTime = DateTime.Now;
-        }
     }
 }

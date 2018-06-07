@@ -18,6 +18,8 @@
                         <customControl:PostContent HorizontalAlignment="Center" MediaHeight="75" MediaWidth="75" ></customControl:PostContent>
                     </StackPanel>
 
+                    <Button Margin="5" Content="Save Post" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="30"></Button>
+                    
                     <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource DHlangSettings}" VerticalAlignment="Center" FontSize="12" />
                     <StackPanel >
                         <StackPanel Orientation="Horizontal">
@@ -34,12 +36,28 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button Margin="5" Content="Load Post" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="30"></Button>
-                        <Button Margin="5" Content="Save Post" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="30"></Button>
                     </StackPanel>
 
                 </StackPanel>
             </Grid>
 
+            <StackPanel>
+                <ListView ItemsSource="{Binding PostListsCollectionView}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <customControl:PostContent></customControl:PostContent>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </mah:MetroWindow>

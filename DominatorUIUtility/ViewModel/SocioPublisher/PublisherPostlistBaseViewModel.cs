@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;

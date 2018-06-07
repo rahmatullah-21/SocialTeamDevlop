@@ -306,6 +306,7 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPendingViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPublishedViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostsViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherMultiplePostViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherPostlistBaseViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
@@ -396,9 +397,6 @@
     </Compile>
     <Compile Include="Views\SocioPublisher\PublisherMultiplePost.xaml.cs">
       <DependentUpon>PublisherMultiplePost.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SocioPublisher\PublisherMultipost.xaml.cs">
-      <DependentUpon>PublisherMultipost.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\Suggestions\FdFriendSuggestionProvider.cs" />
     <Compile Include="Views\SocioPublisher\Suggestions\SuggestionProvider.cs" />
@@ -883,10 +881,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherMultiplePost.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SocioPublisher\PublisherMultipost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
