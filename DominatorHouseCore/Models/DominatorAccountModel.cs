@@ -122,6 +122,9 @@ namespace DominatorHouseCore.Models
         [ProtoIgnore]
         public int LastLogin { get; set; }
 
+        [ProtoMember(21)]
+        public int LastUpdateTime { get; set; }
+
         #endregion
 
         #region Module Wise Details

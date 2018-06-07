@@ -36,11 +36,10 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
 
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-            dbContext = DataBaseConnectionGlb.GetDbContext();
+            dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
             dbOperations = new DbOperations(dbContext);
 
-            dbOperations.Get<BlackWhiteListUser>()?.Where(x=>
-                x.Network==SocinatorInitialize.ActiveSocialNetwork.ToString()&&x.CategoryType==UserType.WhiteListedUser.ToString()).ForEach(user =>
+            dbOperations.Get<WhiteListUser>()?.ForEach(user =>
             {
                 WhitelistUserModel.LstWhiteListUsers.Add(new WhitelistUserModel
                 {
@@ -92,12 +91,10 @@ namespace DominatorUIUtility.CustomControl
                                 {
                                     WhitelistUser = userName
                                 });
-                            dbOperations.Add<BlackWhiteListUser>(new BlackWhiteListUser()
+                            dbOperations.Add<WhiteListUser>(new WhiteListUser()
                             {
                                 UserName = userName,
-                                CategoryType = UserType.WhiteListedUser.ToString(),
-                                AddedDateTime = DateTime.Now,
-                                Network = SocinatorInitialize.ActiveSocialNetwork.ToString()
+                                AddedDateTime = DateTime.Now
                             });
                         }
                         else
@@ -161,8 +158,7 @@ namespace DominatorUIUtility.CustomControl
             selectedUser.ForEach(x =>
             {
                 WhitelistUserModel.LstWhiteListUsers.Remove(x);
-                dbOperations.Remove<BlackWhiteListUser>(user => 
-                    user.Network == SocinatorInitialize.ActiveSocialNetwork.ToString() && user.UserName == x.WhitelistUser);
+                dbOperations.Remove<WhiteListUser>(user => user.UserName == x.WhitelistUser);
             });
         }
         private void CheckUncheckAll(bool isChecked)

@@ -105,6 +105,17 @@
                                             Value="{Binding MinHour}"/>
                     <Label Margin="5" Content="{DynamicResource langHours}"/>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="5" Text="{DynamicResource DHlangEnableSync}"/>
+                    <controls:NumericUpDown Minimum="0" Margin="5" 
+                                            Value="{Binding AccountSynchronizationHours}"/>
+                    <Label Margin="5" Content="{DynamicResource langHours}"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Margin="5" Text="{DynamicResource DHlangSimultaneousAccountUpdateCount}"/>
+                    <controls:NumericUpDown Minimum="0" Margin="5" 
+                                            Value="{Binding SimultaneousAccountUpdateCount}"/>
+                </StackPanel>
                 <!--<StackPanel Orientation="Horizontal">
                     <Label Margin="5" Content="{DynamicResource DHlangInstallNnewAvailableUpdates}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding AvailableUpdatesBetween.StartValue}"/>

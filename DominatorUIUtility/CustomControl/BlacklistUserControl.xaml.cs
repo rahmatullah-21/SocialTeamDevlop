@@ -39,11 +39,10 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
 
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-            dbContext = DataBaseConnectionGlb.GetDbContext();
+            dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork,UserType.BlackListedUser);
             dbOperations = new DbOperations(dbContext);
 
-            dbOperations.Get<BlackWhiteListUser>()?.Where(
-                x => x.Network == SocinatorInitialize.ActiveSocialNetwork.ToString() && x.CategoryType == UserType.BlackListedUser.ToString()).ForEach(user =>
+            dbOperations.Get<BlackListUser>()?.ForEach(user =>
                 {
                     BlacklistUserModel.LstBlackListUsers.Add(new BlacklistUserModel
                     {
@@ -96,12 +95,11 @@ namespace DominatorUIUtility.CustomControl
                                 {
                                     BlacklistUser = userName
                                 });
-                            dbOperations.Add<BlackWhiteListUser>(new BlackWhiteListUser()
+                            dbOperations.Add<BlackListUser>(new BlackListUser()
                             {
                                 UserName = userName,
-                                CategoryType = UserType.BlackListedUser.ToString(),
                                 AddedDateTime = DateTime.Now,
-                                Network = SocinatorInitialize.ActiveSocialNetwork.ToString()
+                               
                             });
                         }
                         else
@@ -144,8 +142,7 @@ namespace DominatorUIUtility.CustomControl
             selectedUser.ForEach(x =>
             {
                 BlacklistUserModel.LstBlackListUsers.Remove(x);
-                dbOperations.Remove<BlackWhiteListUser>(user =>
-                    user.Network == SocinatorInitialize.ActiveSocialNetwork.ToString() && user.UserName == x.BlacklistUser);
+                dbOperations.Remove<BlackListUser>(user => user.UserName == x.BlacklistUser);
             });
 
         }
