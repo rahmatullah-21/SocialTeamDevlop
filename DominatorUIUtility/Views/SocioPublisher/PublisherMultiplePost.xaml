@@ -6,58 +6,135 @@
         xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
-        mc:Ignorable="d" WindowStartupLocation="CenterOwner"
-        Title="Multiple Post" Height="700" Width="1200">
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner" Name="MultiplePost"
+        Title="Multiple Post"  Height="600" Width="950">
     <Grid>
-        <StackPanel Orientation="Horizontal" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
 
-            <Grid Background="WhiteSmoke">
-                <StackPanel VerticalAlignment="Center">
-                    <TextBlock HorizontalAlignment="Center" Margin="2" Text="Post Template" FontSize="14" FontWeight="SemiBold"></TextBlock>
-                    <StackPanel  Orientation="Horizontal" Margin="2" >
-                        <customControl:PostContent HorizontalAlignment="Center" MediaHeight="75" MediaWidth="75" ></customControl:PostContent>
-                    </StackPanel>
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
 
-                    <Button Margin="5" Content="Save Post" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="30"></Button>
-                    
-                    <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource DHlangSettings}" VerticalAlignment="Center" FontSize="12" />
-                    <StackPanel >
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Name="CheckBoxDuplicate" Margin="2" Content="{DynamicResource DHlangTake}" />
-                            <TextBox Width="40" Height="25" Margin="2"/>
-                            <TextBlock Text="{DynamicResource DHlangDuplicateCopies}" VerticalAlignment="Center" Margin="5"/>
-                        </StackPanel>
+                <Button Name="ButtonCreateNewPost" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30" VerticalAlignment="Center" >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid Background="{DynamicResource AccentBaseColorBrush}">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="15" Height="15" Fill="White" Margin="4,0,0,0" >
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_app_plus}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <Label Content="{DynamicResource DHlangCreatePost}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
 
-                        <CheckBox Name="CheckBoxLoadFromCsv" Margin="2" Content="{DynamicResource DHlangPostImportFromCsv}" />
-                        <CheckBox Name="CheckBoxExportSelected" Margin="2" Content="{DynamicResource DHlangPostExportToCsv}" />
-                        <CheckBox Name="CheckBoxDeleteNoPostContent" Margin="2" Content="{DynamicResource DHlangDeleteNoPostContent}" />
-                        <CheckBox Name="CheckBoxDeletePostAllSelected" Margin="2" Content="{DynamicResource DHlangDeleteSelectedPost}" />
-                    </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Button Margin="5" Content="Load Post" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="30"></Button>
-                    </StackPanel>
+                <Button Name="ButtonImport" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30"  VerticalAlignment="Center" >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid Background="{DynamicResource AccentBaseColorBrush}">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="15" Height="15" Fill="White" Margin="4,0,0,0" >
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_app_plus}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <Label Content="{DynamicResource DHlangImportFromCsv}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
 
-                </StackPanel>
-            </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
 
-            <StackPanel>
-                <ListView ItemsSource="{Binding PostListsCollectionView}">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="2" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <customControl:PostContent></customControl:PostContent>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <Button Name="ButtonExportPost" Foreground="White" Margin="2" Cursor="Hand" HorizontalAlignment="Center"  Height="30"  VerticalAlignment="Center" >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5">
+                                <Grid Background="{DynamicResource AccentBaseColorBrush}">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="15" Height="15" Fill="White" Margin="4,0,0,0" >
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_app_plus}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <Label Content="{DynamicResource DHlangExport}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
+
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <Button Name="ButtonExport" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30"  VerticalAlignment="Center" >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                <Grid Background="{DynamicResource AccentBaseColorBrush}">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="12" Height="15" Fill="White" Margin="4,0,0,0" >
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <Label Content="{DynamicResource DHlangDelete}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
+
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </StackPanel>
-        </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <ListView ScrollViewer.VerticalScrollBarVisibility="Auto" Width="950" BorderThickness="0" BorderBrush="Transparent" ItemsSource="{Binding PostListsCollectionView}" Margin="2" HorizontalAlignment="Center">
+                <ListView.Style>
+                    <Style TargetType="ListView">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
+                        </Style.Resources>
+                    </Style>
+                </ListView.Style>
+
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="2"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Margin" Value="20"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1"  Margin="6,2,6,2" BorderBrush="Gainsboro" Padding="50">
+                            <StackPanel>
+                                <customControl:PostContent HorizontalAlignment="Center" Foreground="Black" MediaHeight="75" MediaWidth="75" ></customControl:PostContent>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
     </Grid>
 </mah:MetroWindow>

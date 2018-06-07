@@ -60,22 +60,27 @@
                             </Button>
 
 
-                            <Image x:Name="PART_Image" Margin="1" Width="{TemplateBinding MediaWidth}" Height="{TemplateBinding MediaHeight}"  Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
-
-                                <Image.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="{DynamicResource DHlangDelete}" Name="PART_MenuItemImageDelete" Visibility="{TemplateBinding DeleteMenuVisibility}">
-                                            <MenuItem.Icon>
-                                                <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                    </ContextMenu>
-                                </Image.ContextMenu>
-                            </Image>
+                            <Border>
+                                <Image x:Name="PART_Image" Margin="1" Width="{TemplateBinding MediaWidth}" Height="{TemplateBinding MediaHeight}"  Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
+                                    <Image.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="{DynamicResource DHlangDelete}" Name="PART_MenuItemImageDelete" Visibility="{TemplateBinding DeleteMenuVisibility}">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </Image.ContextMenu>
+                                </Image>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Gray" Opacity="0.5" />
+                                </Border.Effect>
+                            </Border>
+                           
 
 
                             <Button x:Name="PART_NavigateNextImage" Cursor="Hand" IsEnabled="{TemplateBinding IsEnableNextPointer}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5,0,2,0" >
@@ -135,9 +140,8 @@
                                     <TextBlock Name="TextBlockMedia" FontWeight="SemiBold" Foreground="{DynamicResource AccebtBaseColorBrush}" Text="{DynamicResource DHlangPublisherSelectMedia}" FontSize="12" VerticalAlignment="Center" />
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center">
                                     <customControl:MediaViewer x:Name="PART_MediaViewer" IsEnablePreviousPointer="{TemplateBinding IsEnablePreviousPointer}"  MediaWidth="{TemplateBinding MediaWidth}" MediaHeight="{TemplateBinding MediaHeight}" DeleteMenuVisibility="Visible" VerticalAlignment="Center" IsPostDataPresent="{TemplateBinding IsPostDataPresent}" CurrentMediaUrl="{TemplateBinding CurrentMediaUrl}" IsEnableNextPointer="{TemplateBinding IsEnableNextPointer}"  TotalMediaCount="{TemplateBinding TotalMediaCount}" CurrentMediaPointer="{TemplateBinding CurrentMediaPointer}" MediaList="{TemplateBinding MediaList}"></customControl:MediaViewer>
-
                                     <StackPanel Orientation="Vertical" Margin="5,0,0,0">
 
                                         <Button Name="PART_ImportImage" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30" Width="100" VerticalAlignment="Center" >

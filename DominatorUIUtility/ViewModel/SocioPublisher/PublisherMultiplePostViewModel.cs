@@ -18,8 +18,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public PublisherMultiplePostViewModel()
         {
             PublisherPostlistModels = new ObservableCollection<PublisherPostlistModel>();
-            PublisherPostlistModels.Add(new PublisherPostlistModel());
-            PublisherPostlistModels.Add(new PublisherPostlistModel());
+
+            var objPublisherPostlistModel = new PublisherPostlistModel();
+            objPublisherPostlistModel.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
+            objPublisherPostlistModel.InitializePostData();
+            var objPublisherPostlistModel2 = new PublisherPostlistModel();
+            objPublisherPostlistModel2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
+            objPublisherPostlistModel2.InitializePostData();
+
+            PublisherPostlistModels.Add(objPublisherPostlistModel);
+            PublisherPostlistModels.Add(objPublisherPostlistModel2);
             PostListsCollectionView = CollectionViewSource.GetDefaultView(_publisherPostlistModels);
         }
 
