@@ -15,9 +15,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
         public PublisherMultiplePost()
         {
             InitializeComponent();
-            PublisherMultiplePostViewModel = new PublisherMultiplePostViewModel();
-            PublisherMultiplePostViewModel.PublisherPostlistModels.Add(new PublisherPostlistModel());
-            PublisherMultiplePostViewModel.PublisherPostlistModels.Add(new PublisherPostlistModel());
+            PublisherMultiplePostViewModel = new PublisherMultiplePostViewModel();          
             MultiplePost.DataContext = PublisherMultiplePostViewModel;
         }
 

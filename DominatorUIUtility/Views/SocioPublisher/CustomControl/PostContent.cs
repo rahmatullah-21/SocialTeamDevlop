@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.Interfaces.SocioPublisher;
+using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings;
 using MahApps.Metro.Controls.Dialogs;
@@ -110,6 +112,73 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         // Using a DependencyProperty as the backing store for IsPinterestSourceUrl.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsPinterestSourceUrlProperty =
             DependencyProperty.Register("IsPinterestSourceUrl", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
+
+
+
+
+
+
+        public GdPostSettings GdPostSettings
+        {
+            get { return (GdPostSettings)GetValue(GdPostSettingsProperty); }
+            set { SetValue(GdPostSettingsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for GdPostSettings.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty GdPostSettingsProperty =
+            DependencyProperty.Register("GdPostSettings", typeof(GdPostSettings), typeof(PostContent), new PropertyMetadata(new GdPostSettings()));
+
+
+
+
+        public FdPostSettings FdPostSettings
+        {
+            get { return (FdPostSettings)GetValue(FdPostSettingsProperty); }
+            set { SetValue(FdPostSettingsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for FdPostSettings.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FdPostSettingsProperty =
+            DependencyProperty.Register("FdPostSettings", typeof(FdPostSettings), typeof(PostContent), new PropertyMetadata(new FdPostSettings()));
+
+
+
+
+        public TdPostSettings TdPostSettings
+        {
+            get { return (TdPostSettings)GetValue(TdPostSettingsProperty); }
+            set { SetValue(TdPostSettingsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TdPostSettings.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TdPostSettingsProperty =
+            DependencyProperty.Register("TdPostSettings", typeof(TdPostSettings), typeof(PostContent), new PropertyMetadata(new TdPostSettings()));
+
+
+
+
+        public LdPostSettings LdPostSettings
+        {
+            get { return (LdPostSettings)GetValue(LdPostSettingsProperty); }
+            set { SetValue(LdPostSettingsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for LdPostSettings.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LdPostSettingsProperty =
+            DependencyProperty.Register("LdPostSettings", typeof(LdPostSettings), typeof(PostContent), new PropertyMetadata(new LdPostSettings()));
+
+
+        public TumberPostSettings TumblrSettings
+        {
+            get { return (TumberPostSettings)GetValue(TumblrSettingsProperty); }
+            set { SetValue(TumblrSettingsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TumblrSettings.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TumblrSettingsProperty =
+            DependencyProperty.Register("TumblrSettings", typeof(TumberPostSettings), typeof(PostContent), new PropertyMetadata(new TumberPostSettings()));
+
+
 
         #endregion
 

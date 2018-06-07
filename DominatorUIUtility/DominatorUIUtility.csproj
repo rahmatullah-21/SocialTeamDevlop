@@ -392,6 +392,9 @@
       <DependentUpon>PostTwitterSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\SocinatorTextBox.cs" />
+    <Compile Include="Views\SocioPublisher\PublisherCreateNewPost.xaml.cs">
+      <DependentUpon>PublisherCreateNewPost.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublisherDirectPosts.xaml.cs">
       <DependentUpon>PublisherDirectPosts.xaml</DependentUpon>
     </Compile>
@@ -837,6 +840,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherCreateDestination.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherCreateNewPost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

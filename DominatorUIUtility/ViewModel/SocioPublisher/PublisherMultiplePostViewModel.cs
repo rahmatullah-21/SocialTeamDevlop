@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Navigation;
+using DominatorHouseCore.Command;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
@@ -18,17 +21,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public PublisherMultiplePostViewModel()
         {
             PublisherPostlistModels = new ObservableCollection<PublisherPostlistModel>();
-
-            var objPublisherPostlistModel = new PublisherPostlistModel();
-            objPublisherPostlistModel.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
-            objPublisherPostlistModel.InitializePostData();
-            var objPublisherPostlistModel2 = new PublisherPostlistModel();
-            objPublisherPostlistModel2.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
-            objPublisherPostlistModel2.InitializePostData();
-
-            PublisherPostlistModels.Add(objPublisherPostlistModel);
-            PublisherPostlistModels.Add(objPublisherPostlistModel2);
+            //var objPublisherPostlistModel = new PublisherPostlistModel();
+            //objPublisherPostlistModel.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
+            //objPublisherPostlistModel.InitializePostData();
+            //PublisherPostlistModels.Add(objPublisherPostlistModel);         
             PostListsCollectionView = CollectionViewSource.GetDefaultView(_publisherPostlistModels);
+
+            CreateNewPost = new BaseCommand<object>(CanExecuteCreateNewPost, ExecuteCreateNewPost);
         }
 
         #region Properties
@@ -67,12 +66,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-
-
-
+        public ICommand CreateNewPost { get; set; }
 
         #endregion
 
+
+        #region Create New Post
+
+        public bool CanExecuteCreateNewPost(object sender) => true;
+
+        public void ExecuteCreateNewPost(object sender)
+        {
+            
+        }
+
+        #endregion
     }
 
 }
