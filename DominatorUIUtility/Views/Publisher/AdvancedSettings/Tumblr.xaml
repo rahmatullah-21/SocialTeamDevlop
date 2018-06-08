@@ -6,52 +6,74 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher.AdvancedSettings"
              mc:Ignorable="d" 
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
-    <StackPanel>
-        <CheckBox Content="{DynamicResource DHlangRemoveTagsFromPostText}" VerticalAlignment="Center" Margin="5"/>
-        <CheckBox Content="{DynamicResource langEnableAutomaticHashTags}" VerticalAlignment="Center" Margin="5"/>
-                <StackPanel Margin="30,0">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+    </UserControl.Resources>
+    <StackPanel Name="MainGrid">
+        <CheckBox Content="{DynamicResource DHlangRemoveTagsFromPostText}" 
+                  VerticalAlignment="Center" Margin="5" IsChecked="{Binding TumblrModel.IsRemoveTagsFromPostText}"/>
+        <CheckBox Content="{DynamicResource langEnableAutomaticHashTags}"
+                  VerticalAlignment="Center" Margin="5" IsChecked="{Binding TumblrModel.IsEnableAutomaticHashTags}"/>
+        <StackPanel Margin="30,0" Visibility="{Binding TumblrModel.IsEnableAutomaticHashTags,
+                    Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="{DynamicResource langUseToAddHashInFrontOfKeywords}" VerticalAlignment="Center" Margin="5"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{DynamicResource langMaxHashTagsPerPost}" VerticalAlignment="Center" Margin="5"/>
-                        <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
+                        <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 
+                                                Value="{Binding TumblrModel.MaxHashtagsPerPost}"/>
                     </StackPanel>
                     <GroupBox Header="{DynamicResource langHashByKeyword}" Margin="0,5">
                         <StackPanel>
                             <TextBlock Text="{DynamicResource langAutomaticallyHashAllWords}" VerticalAlignment="Center" Margin="5"/>
-                            <TextBox Height="50" Width="300" AcceptsReturn="True" HorizontalAlignment="Left" Margin="10,5"/>
+                            <TextBox Height="50" Width="300" AcceptsReturn="True"
+                                     HorizontalAlignment="Left" Margin="10,5"
+                                     Text="{Binding TumblrModel.HashWords}"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="{DynamicResource langHashByMinimumWordLength}">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="5">
                                 <TextBlock Text="{DynamicResource langMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
-                                <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
+                                <controls:NumericUpDown Minimum="0" VerticalAlignment="Center"
+                                                        Value="{Binding TumblrModel.MinimumWordLength}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="5,0">
                                 <TextBlock Text="{DynamicResource langReplaceProbability}" VerticalAlignment="Center" Margin="5"/>
-                                <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
+                                <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 
+                                                        Value="{Binding TumblrModel.ReplaceProbability}"/>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
 
                 </StackPanel>
-                <CheckBox Content="{DynamicResource langEnableDynamicHashTags}" VerticalAlignment="Center" Margin="5"/>
-                <CheckBox Content="{DynamicResource DHlangAddHashTagEvenIfAlreadyHastags}" VerticalAlignment="Center" Margin="30,0"/>
-                <StackPanel>
+                <CheckBox Content="{DynamicResource langEnableDynamicHashTags}"
+                          VerticalAlignment="Center" Margin="5"
+                          IsChecked="{Binding TumblrModel.IsEnableDynamicHashTags}"/>
+                <CheckBox Content="{DynamicResource DHlangAddHashTagEvenIfAlreadyHastags}"
+                          VerticalAlignment="Center" Margin="30,0"
+                          IsChecked="{Binding TumblrModel.IsAddHashTagEvenIfAlreadyHastags}"
+                          Visibility="{Binding TumblrModel.IsEnableDynamicHashTags,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <StackPanel  Visibility="{Binding TumblrModel.IsAddHashTagEvenIfAlreadyHastags,
+                     Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal" Margin="50,0">
                         <TextBlock VerticalAlignment="Center" Text="{DynamicResource DHlangMaxHashtagsPerPost}"/>
-                        <controls:NumericUpDown Margin="5"/>
+                        <controls:NumericUpDown Margin="5" Minimum="0"
+                                                Value="{Binding TumblrModel.MaxHashtagsPerPostRange.StartValue}"/>
                         <TextBlock Text="-" VerticalAlignment="Center"/>
-                        <controls:NumericUpDown Margin="5"/>
+                        <controls:NumericUpDown Margin="5"
+                                                Minimum="{Binding TumblrModel.MaxHashtagsPerPostRange.StartValue}"
+                                                Value="{Binding TumblrModel.MaxHashtagsPerPostRange.EndValue}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="50,0">
                         <TextBlock VerticalAlignment="Center" Text="{DynamicResource DHlangPick}"/>
-                        <controls:NumericUpDown Margin="5"/>
+                        <controls:NumericUpDown Margin="5" Minimum="0"
+                                                Value="{Binding TumblrModel.PickPercentHashTag}"/>
                         <TextBlock Text="{DynamicResource DHlangPercentExtraHashtags}" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="50,0">
                         <TextBlock VerticalAlignment="Center" Text="{DynamicResource DHlangPick}"/>
-                        <controls:NumericUpDown Margin="5"/>
+                        <controls:NumericUpDown Margin="5" Minimum="0"
+                                                Value="{Binding TumblrModel.PickPercentFromList}"/>
                         <TextBlock Text="{DynamicResource DHlangPercentFromList}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </StackPanel>    

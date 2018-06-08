@@ -8,6 +8,7 @@ using ProtoBuf;
 
 namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
 {
+    [ProtoContract]
    public class GeneralModel : BindableBase
     {
         private int _noOfPost;
@@ -248,6 +249,150 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 if (_isRemoveLinkFromPostsChecked == value)
                     return;
                 SetProperty(ref _isRemoveLinkFromPostsChecked, value);
+            }
+        }
+        private bool _isDisableTemporarySleep;
+
+        [ProtoMember(16)]
+        public bool IsDisableTemporarySleep
+        {
+            get
+            {
+                return _isDisableTemporarySleep;
+            }
+            set
+            {
+                if (_isDisableTemporarySleep == value)
+                    return;
+                SetProperty(ref _isDisableTemporarySleep, value);
+            }
+        }
+        private bool _isWaitToStartNewPost;
+
+        [ProtoMember(17)]
+        public bool IsWaitToStartNewPost
+        {
+            get
+            {
+                return _isWaitToStartNewPost;
+            }
+            set
+            {
+                if (_isWaitToStartNewPost == value)
+                    return;
+                SetProperty(ref _isWaitToStartNewPost, value);
+            }
+        }
+        private int _waitToStartNewPost;
+
+        [ProtoMember(18)]
+        public int WaitToStartNewPost
+        {
+            get
+            {
+                return _waitToStartNewPost;
+            }
+            set
+            {
+                if (_waitToStartNewPost == value)
+                    return;
+                SetProperty(ref _waitToStartNewPost, value);
+            }
+        }
+        private bool _isUnselectDestination;
+
+        [ProtoMember(19)]
+        public bool IsUnselectDestination
+        {
+            get
+            {
+                return _isUnselectDestination;
+            }
+            set
+            {
+                if (_isUnselectDestination == value)
+                    return;
+                SetProperty(ref _isUnselectDestination, value);
+            }
+        }
+        private bool _isKeepPostsInitialCreationDate;
+
+        [ProtoMember(20)]
+        public bool IsKeepPostsInitialCreationDate
+        {
+            get
+            {
+                return _isKeepPostsInitialCreationDate;
+            }
+            set
+            {
+                if (_isKeepPostsInitialCreationDate == value)
+                    return;
+                SetProperty(ref _isKeepPostsInitialCreationDate, value);
+            }
+        }
+        private bool _isStopRandomisingDestinationsOrder;
+
+        [ProtoMember(21)]
+        public bool IsStopRandomisingDestinationsOrder
+        {
+            get
+            {
+                return _isStopRandomisingDestinationsOrder;
+            }
+            set
+            {
+                if (_isStopRandomisingDestinationsOrder == value)
+                    return;
+                SetProperty(ref _isStopRandomisingDestinationsOrder, value);
+            }
+        }
+        private bool _isAutoTagFriends;
+
+        [ProtoMember(22)]
+        public bool IsAutoTagFriends
+        {
+            get
+            {
+                return _isAutoTagFriends;
+            }
+            set
+            {
+                if (_isAutoTagFriends == value)
+                    return;
+                SetProperty(ref _isAutoTagFriends, value);
+            }
+        }
+        private RangeUtilities _usersForEachPost = new RangeUtilities();
+
+        [ProtoMember(23)]
+        public RangeUtilities UsersForEachPost
+        {
+            get
+            {
+                return _usersForEachPost;
+            }
+            set
+            {
+                if (_usersForEachPost == value)
+                    return;
+                SetProperty(ref _usersForEachPost, value);
+            }
+        }
+        private int _percentageOfTaggingPost ;
+
+        [ProtoMember(24)]
+        public int PercentageOfTaggingPost
+        {
+            get
+            {
+                return _percentageOfTaggingPost;
+            }
+            set
+            {
+                if (_percentageOfTaggingPost == value)
+                    return;
+                SetProperty(ref _percentageOfTaggingPost, value);
             }
         }
     }

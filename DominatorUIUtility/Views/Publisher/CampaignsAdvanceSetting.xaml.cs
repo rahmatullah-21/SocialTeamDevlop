@@ -62,11 +62,11 @@ namespace DominatorUIUtility.Views.Publisher
                     Title=FindResource("DHlangTumblr").ToString(),
                     Content=new Lazy<UserControl>(Tumblr.GetSingeltonTumblr)
                 },
-                new TabItemTemplates
-                {
-                    Title=FindResource("langErrorHandling").ToString(),
-                    Content=new Lazy<UserControl>(ErrorHandling.GetSingeltonErrorHandlingObject)
-                }
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("langErrorHandling").ToString(),
+                //    Content=new Lazy<UserControl>(ErrorHandling.GetSingeltonErrorHandlingObject)
+                //}
 
             };
             CampaignsAdvanceSettingTab.ItemsSource = TabItems;
