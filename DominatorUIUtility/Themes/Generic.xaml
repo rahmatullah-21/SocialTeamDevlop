@@ -6,7 +6,8 @@
     xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
-    xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
+    xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+    xmlns:settings="clr-namespace:DominatorHouseCore.Models.SocioPublisher.Settings;assembly=DominatorHouseCore">
 
 
     <ResourceDictionary.MergedDictionaries>
@@ -171,16 +172,16 @@
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel>
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding Source={x:Static enums:SocialNetworks.Instagram}, Converter={StaticResource FeatureVisibilityConverter}}" >
-                                    <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherInstagramTitle}" Margin="2" TextWrapping="Wrap" Height="30" Width="300"  AcceptsReturn="True"></TextBox>
+                                <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding settings:PublisherPostSettings.IsInstagramAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherInstagramTitle}" Margin="2" TextWrapping="Wrap" Height="30" Width="300"  AcceptsReturn="True"></TextBox>
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding Source={x:Static enums:SocialNetworks.Pinterest},Converter={StaticResource FeatureVisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal" >
                                     <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPdSourceUrl}" Margin="2" TextWrapping="Wrap" Height="30" Width="300" AcceptsReturn="True"></TextBox>
                                 </StackPanel>
 
-                                <StackPanel Visibility="{Binding Source={x:Static enums:SocialNetworks.Facebook},Converter={StaticResource FeatureVisibilityConverter}}">
-                                    <CheckBox IsChecked="{TemplateBinding IsFacebookSellPost}" Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource DHlangFdSellPost}" />
+                                <StackPanel >
+                                    <CheckBox  Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource DHlangFdSellPost}" />
                                     <StackPanel Visibility="{Binding ElementName =CheckBoxFdSellPost, Path=IsChecked ,Converter= {StaticResource BooleanToVisibilityConverter}}">
                                         <TextBox VerticalAlignment="Center"  AcceptsReturn="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdProductName}" Name="TextBoxFdSellProductTitle"  VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="40" Width="303"></TextBox>
                                         <StackPanel Name="FdSellPostDetails" Orientation="Horizontal">

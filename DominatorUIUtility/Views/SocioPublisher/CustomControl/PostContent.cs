@@ -49,7 +49,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
     ///     <MyNamespace:PostContent/>
     ///
     /// </summary>
-    [TemplatePart(Type = typeof(Button), Name = ButtonImportImage)]  
+    [TemplatePart(Type = typeof(Button), Name = ButtonImportImage)]
     [TemplatePart(Type = typeof(Button), Name = ButtonSettings)]
     [TemplatePart(Type = typeof(MediaViewer), Name = MediaViewerControl)]
     public class PostContent : MediaViewer
@@ -61,7 +61,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         #region Properties
 
-        public const string ButtonImportImage = "PART_ImportImage";   
+        public const string ButtonImportImage = "PART_ImportImage";
         public const string ButtonSettings = "PART_Settings";
         public const string MediaViewerControl = "PART_MediaViewer";
 
@@ -75,113 +75,26 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public static readonly DependencyProperty PostDescriptionProperty =
             DependencyProperty.Register("PostDescription", typeof(string), typeof(PostContent), new PropertyMetadata(string.Empty));
 
-
-         Button _selectMedia = new Button();
+        Button _selectMedia = new Button();
         private Button _buttonSettings = new Button();
 
 
 
-        public bool IsFacebookSellPost
+        public PublisherPostSettings PublisherPostSettings
         {
-            get { return (bool)GetValue(IsFacebookSellPostProperty); }
-            set { SetValue(IsFacebookSellPostProperty, value); }
+            get { return (PublisherPostSettings)GetValue(PublisherPostSettingsProperty); }
+            set { SetValue(PublisherPostSettingsProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsFacebookSellPost.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsFacebookSellPostProperty =
-            DependencyProperty.Register("IsFacebookSellPost", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
+        // Using a DependencyProperty as the backing store for PublisherPostSettings.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PublisherPostSettingsProperty =
+            DependencyProperty.Register("PublisherPostSettings", typeof(PublisherPostSettings), typeof(PostContent), new PropertyMetadata(new PublisherPostSettings()));
 
 
-        public bool IsInstagramTitle
-        {
-            get { return (bool)GetValue(IsInstagramTitleProperty); }
-            set { SetValue(IsInstagramTitleProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for IsInstagramTitle.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsInstagramTitleProperty =
-            DependencyProperty.Register("IsInstagramTitle", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
-
-
-        public bool IsPinterestSourceUrl
-        {
-            get { return (bool)GetValue(IsPinterestSourceUrlProperty); }
-            set { SetValue(IsPinterestSourceUrlProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for IsPinterestSourceUrl.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsPinterestSourceUrlProperty =
-            DependencyProperty.Register("IsPinterestSourceUrl", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
-
-
-
-
-
-
-        public GdPostSettings GdPostSettings
-        {
-            get { return (GdPostSettings)GetValue(GdPostSettingsProperty); }
-            set { SetValue(GdPostSettingsProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for GdPostSettings.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty GdPostSettingsProperty =
-            DependencyProperty.Register("GdPostSettings", typeof(GdPostSettings), typeof(PostContent), new PropertyMetadata(new GdPostSettings()));
-
-
-
-
-        public FdPostSettings FdPostSettings
-        {
-            get { return (FdPostSettings)GetValue(FdPostSettingsProperty); }
-            set { SetValue(FdPostSettingsProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for FdPostSettings.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty FdPostSettingsProperty =
-            DependencyProperty.Register("FdPostSettings", typeof(FdPostSettings), typeof(PostContent), new PropertyMetadata(new FdPostSettings()));
-
-
-
-
-        public TdPostSettings TdPostSettings
-        {
-            get { return (TdPostSettings)GetValue(TdPostSettingsProperty); }
-            set { SetValue(TdPostSettingsProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for TdPostSettings.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TdPostSettingsProperty =
-            DependencyProperty.Register("TdPostSettings", typeof(TdPostSettings), typeof(PostContent), new PropertyMetadata(new TdPostSettings()));
-
-
-
-
-        public LdPostSettings LdPostSettings
-        {
-            get { return (LdPostSettings)GetValue(LdPostSettingsProperty); }
-            set { SetValue(LdPostSettingsProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for LdPostSettings.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LdPostSettingsProperty =
-            DependencyProperty.Register("LdPostSettings", typeof(LdPostSettings), typeof(PostContent), new PropertyMetadata(new LdPostSettings()));
-
-
-        public TumberPostSettings TumblrSettings
-        {
-            get { return (TumberPostSettings)GetValue(TumblrSettingsProperty); }
-            set { SetValue(TumblrSettingsProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for TumblrSettings.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TumblrSettingsProperty =
-            DependencyProperty.Register("TumblrSettings", typeof(TumberPostSettings), typeof(PostContent), new PropertyMetadata(new TumberPostSettings()));
 
 
 
         #endregion
-
 
         #region Apply Template
 
@@ -195,7 +108,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
             if (!_selectMedia.Equals(buttonMedia))
             {
-                if (buttonMedia != null)               
+                if (buttonMedia != null)
                     buttonMedia.Click -= SelectMediaClick;
 
                 _selectMedia = buttonMedia;
@@ -207,7 +120,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             #endregion
 
             #region Settings 
-        
+
             var buttonSettingChanges = Template.FindName(ButtonSettings, this) as Button;
 
             if (!_buttonSettings.Equals(buttonSettingChanges))
@@ -254,8 +167,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public event RoutedEventHandler PostSettingHandler
         {
-            add { AddHandler(PostSettings,value);}
-            remove { RemoveHandler(PostSettings,value);}
+            add { AddHandler(PostSettings, value); }
+            remove { RemoveHandler(PostSettings, value); }
         }
 
         private void PostSettingEvent()

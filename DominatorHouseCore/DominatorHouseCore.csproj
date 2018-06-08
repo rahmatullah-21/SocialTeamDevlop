@@ -433,6 +433,7 @@
     <Compile Include="Interfaces\SocioPublisher\ITumblrSettings.cs" />
     <Compile Include="Enums\SocioPublisher\LdGroupPostType.cs" />
     <Compile Include="Models\SocioPublisher\Settings\LdPostSettings.cs" />
+    <Compile Include="Models\SocioPublisher\Settings\PublisherPostSettings.cs" />
     <Compile Include="Models\SocioPublisher\SocinatorIntellisenseModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\TdPostSettings.cs" />
     <Compile Include="Models\SocioPublisher\Settings\TumberPostSettings.cs" />

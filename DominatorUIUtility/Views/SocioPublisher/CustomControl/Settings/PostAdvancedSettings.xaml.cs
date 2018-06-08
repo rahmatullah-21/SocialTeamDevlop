@@ -27,23 +27,23 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                 }
             };
 
-            //var availableNetworks = SocinatorInitialize.AvailableNetworks;
+            var availableNetworks = SocinatorInitialize.AvailableNetworks;
 
-            //Todo: Uncomment above on production and following initialize
-            var availableNetworks = new HashSet<SocialNetworks>
-            {
-                SocialNetworks.Social,
-                SocialNetworks.Twitter,
-                SocialNetworks.Facebook,
-                SocialNetworks.Gplus,
-                SocialNetworks.Instagram,
-                SocialNetworks.LinkedIn,
-                SocialNetworks.Quora,
-                SocialNetworks.Pinterest,
-                SocialNetworks.Tumblr,
-                SocialNetworks.Youtube,
-                SocialNetworks.Reddit
-            };
+            ////Todo: Uncomment above on production and following initialize
+            //var availableNetworks = new HashSet<SocialNetworks>
+            //{
+            //    SocialNetworks.Social,
+            //    SocialNetworks.Twitter,
+            //    SocialNetworks.Facebook,
+            //    SocialNetworks.Gplus,
+            //    SocialNetworks.Instagram,
+            //    SocialNetworks.LinkedIn,
+            //    SocialNetworks.Quora,
+            //    SocialNetworks.Pinterest,
+            //    SocialNetworks.Tumblr,
+            //    SocialNetworks.Youtube,
+            //    SocialNetworks.Reddit
+            //};
 
             foreach (var network in availableNetworks)
             {

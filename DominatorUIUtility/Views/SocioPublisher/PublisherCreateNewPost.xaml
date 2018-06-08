@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+            xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              Name="CreateNewPost"
              mc:Ignorable="d" >
     <Grid>
@@ -20,13 +21,7 @@
                                                MediaWidth="75"
                                                PostDescription="{Binding PostDescription}"
                                                MediaList="{Binding MediaList}"
-                                               CurrentMediaUrl ="{Binding CurrentMediaUrl}"
-                                               LdPostSettings="{Binding LdPostSettings}"
-                                               TdPostSettings="{Binding TdPostSettings}"
-                                               TumblrSettings="{Binding TumberPostSettings}"
-                                               GdPostSettings="{Binding GdPostSettings}"
-                                               
-                                               ></customControl:PostContent>
+                                               CurrentMediaUrl ="{Binding CurrentMediaUrl}" />
                 </StackPanel>
             </Border>
 

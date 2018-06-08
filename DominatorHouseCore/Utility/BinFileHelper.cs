@@ -123,59 +123,6 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static bool AddDestination(PublisherCreateDestinationModel publisherCreateDestination)
-        {
-            try
-            {
-                return WithFile<PublisherCreateDestinationModel, bool>(filePath =>
-                {
-                    DirectoryUtilities.CreateDirectory(filePath);
-                    ProtoBuffBase.AppendObject(publisherCreateDestination,
-                        filePath + $"{publisherCreateDestination.DestinationId}.bin");
-                    return true;
-                });
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Error($"Error caught while adding the destination " + ex.StackTrace);
-                return false;
-            }
-        }
-
-
-        public static bool UpdateDestination(PublisherCreateDestinationModel publisherCreateDestination)
-        {
-            try
-            {
-                var data = ProtoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
-                    $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{publisherCreateDestination.DestinationId}.bin");
-
-                if (data != null)
-                {
-                    data[0] = publisherCreateDestination;
-
-                    bool result = ProtoBuffBase.SerializeList(data,
-                        $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{publisherCreateDestination.DestinationId}.bin");
-
-                    GlobusLogHelper.log.Trace($"Update Destination - [{result}]");
-
-                    return result;
-                }
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Error("Update Destination details error - " + ex.Message);
-                ex.DebugLog();
-                return false;
-            }
-            return false;
-        }
-
-
-        public static List<PublisherCreateDestinationModel> GetDestination(string destinationId)
-            => ProtoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
-                $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
-
 
         public static List<DominatorAccountModel> GetAccountDetails()
         {
@@ -511,9 +458,64 @@ namespace DominatorHouseCore.Utility
             }
             return null;
         }
-        
+
 
         #region Publisher
+
+
+        public static bool AddDestination(PublisherCreateDestinationModel publisherCreateDestination)
+        {
+            try
+            {
+                return WithFile<PublisherCreateDestinationModel, bool>(filePath =>
+                {
+                    DirectoryUtilities.CreateDirectory(filePath);
+                    ProtoBuffBase.AppendObject(publisherCreateDestination,
+                        filePath + $"{publisherCreateDestination.DestinationId}.bin");
+                    return true;
+                });
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error($"Error caught while adding the destination " + ex.StackTrace);
+                return false;
+            }
+        }
+
+
+        public static bool UpdateDestination(PublisherCreateDestinationModel publisherCreateDestination)
+        {
+            try
+            {
+                var data = ProtoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
+                    $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{publisherCreateDestination.DestinationId}.bin");
+
+                if (data != null)
+                {
+                    data[0] = publisherCreateDestination;
+
+                    bool result = ProtoBuffBase.SerializeList(data,
+                        $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{publisherCreateDestination.DestinationId}.bin");
+
+                    GlobusLogHelper.log.Trace($"Update Destination - [{result}]");
+
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error("Update Destination details error - " + ex.Message);
+                ex.DebugLog();
+                return false;
+            }
+            return false;
+        }
+
+
+        public static List<PublisherCreateDestinationModel> GetDestination(string destinationId)
+            => ProtoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
+                $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
+
 
         public static List<PublisherManageDestinationModel> GetPublisherManageDestinationModels()
         {
