@@ -87,6 +87,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             set
             {
                 SetValue(MediaListProperty, value);
+                Initialize();
             }
         }
 
@@ -127,9 +128,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             DependencyProperty.Register("TotalMediaCount", typeof(int), typeof(MediaViewer), new PropertyMetadata(0));
 
 
-
-
-
         public bool IsPostDataPresent
         {
             get { return (bool)GetValue(IsPostDataPresentProperty); }
@@ -139,9 +137,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         // Using a DependencyProperty as the backing store for IsPostDataPresent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsPostDataPresentProperty =
             DependencyProperty.Register("IsPostDataPresent", typeof(bool), typeof(MediaViewer), new PropertyMetadata(false));
-
-
-
 
 
         /// <summary>

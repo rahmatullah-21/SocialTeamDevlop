@@ -7,7 +7,8 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
     xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
-    xmlns:settings="clr-namespace:DominatorHouseCore.Models.SocioPublisher.Settings;assembly=DominatorHouseCore">
+    xmlns:settings="clr-namespace:DominatorHouseCore.Models.SocioPublisher.Settings;assembly=DominatorHouseCore"
+    xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
 
 
     <ResourceDictionary.MergedDictionaries>
@@ -22,7 +23,7 @@
         <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml"/>
         <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converters:BooleanToVisibilityConverter>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
     <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
     <converters:FeatureVisibilityConverter x:Key="FeatureVisibilityConverter"></converters:FeatureVisibilityConverter>
     <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
@@ -115,6 +116,7 @@
 
     <!--Post Content-->
     <Style TargetType="{x:Type customControl:PostContent}">
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type customControl:PostContent}">
@@ -142,7 +144,7 @@
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center">
-                                    <customControl:MediaViewer x:Name="PART_MediaViewer" IsEnablePreviousPointer="{TemplateBinding IsEnablePreviousPointer}"  MediaWidth="{TemplateBinding MediaWidth}" MediaHeight="{TemplateBinding MediaHeight}" DeleteMenuVisibility="Visible" VerticalAlignment="Center" IsPostDataPresent="{TemplateBinding IsPostDataPresent}" CurrentMediaUrl="{TemplateBinding CurrentMediaUrl}" IsEnableNextPointer="{TemplateBinding IsEnableNextPointer}"  TotalMediaCount="{TemplateBinding TotalMediaCount}" CurrentMediaPointer="{TemplateBinding CurrentMediaPointer}" MediaList="{TemplateBinding MediaList}"></customControl:MediaViewer>
+                                    <customControl:MediaViewer x:Name="PART_MediaViewer" IsEnablePreviousPointer="{TemplateBinding customControl:MediaViewer.IsEnablePreviousPointer}"  MediaWidth="{TemplateBinding customControl:MediaViewer.MediaWidth}" MediaHeight="{TemplateBinding customControl:MediaViewer.MediaHeight}" DeleteMenuVisibility="Visible" VerticalAlignment="Center" IsPostDataPresent="{TemplateBinding customControl:MediaViewer.IsPostDataPresent}" CurrentMediaUrl="{TemplateBinding customControl:MediaViewer.CurrentMediaUrl}" IsEnableNextPointer="{TemplateBinding customControl:MediaViewer.IsEnableNextPointer}"  TotalMediaCount="{TemplateBinding customControl:MediaViewer.TotalMediaCount}" CurrentMediaPointer="{TemplateBinding customControl:MediaViewer.CurrentMediaPointer}" MediaList="{TemplateBinding customControl:MediaViewer.MediaList}"></customControl:MediaViewer>
                                     <StackPanel Orientation="Vertical" Margin="5,0,0,0">
 
                                         <Button Name="PART_ImportImage" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30" Width="100" VerticalAlignment="Center" >
@@ -172,15 +174,15 @@
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel>
-                                <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding settings:PublisherPostSettings.IsInstagramAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding behaviours:NetworkAvailablity.IgElementVisible}">
                                     <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherInstagramTitle}" Margin="2" TextWrapping="Wrap" Height="30" Width="300"  AcceptsReturn="True"></TextBox>
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" >
+                                <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding behaviours:NetworkAvailablity.PdElementVisible}">
                                     <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPdSourceUrl}" Margin="2" TextWrapping="Wrap" Height="30" Width="300" AcceptsReturn="True"></TextBox>
                                 </StackPanel>
 
-                                <StackPanel >
+                                <StackPanel Visibility="{TemplateBinding behaviours:NetworkAvailablity.FbElementVisible}">
                                     <CheckBox  Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource DHlangFdSellPost}" />
                                     <StackPanel Visibility="{Binding ElementName =CheckBoxFdSellPost, Path=IsChecked ,Converter= {StaticResource BooleanToVisibilityConverter}}">
                                         <TextBox VerticalAlignment="Center"  AcceptsReturn="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdProductName}" Name="TextBoxFdSellProductTitle"  VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="40" Width="303"></TextBox>
@@ -190,8 +192,6 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
-
-                               
                             </StackPanel>
                         </StackPanel>
                     </Border>

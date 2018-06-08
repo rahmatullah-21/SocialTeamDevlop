@@ -11,7 +11,12 @@
             <StackPanel Margin="0,10,0,0">
                 <RadioButton GroupName="CreatePost" Name="CheckBoxSinglePost" Margin="2" Content="{DynamicResource DHlangCreateSinglePost}" />
                 <StackPanel Orientation="Horizontal" Margin="2">
-                    <customControl:PostContent MediaHeight="75" MediaWidth="75" ></customControl:PostContent>
+                    <customControl:PostContent MediaHeight="75" 
+                                               MediaWidth="75" x:Name="PostContent"
+                                               IsPostDataPresent="{Binding IsBool}"
+                                               PublisherPostSettings="{Binding PostDetailsModel.PublisherPostSettings}" 
+                                             
+                                                />
                 </StackPanel>
             </StackPanel>
 
@@ -44,7 +49,7 @@
             </StackPanel>
 
             <StackPanel Margin="0,10,0,0">
-                
+
                 <RadioButton GroupName="CreatePost" Name="CheckBoxMultiImage" Margin="2" Content="{DynamicResource DHlangMultipleImagePost}" />
 
                 <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
@@ -70,7 +75,7 @@
                     <StackPanel Margin="10,0,0,0">
                         <customControl:MediaViewer x:Name="ImageMediaViewer" IsEnablePreviousPointer="{Binding IsEnablePreviousPointer}"  MediaWidth="80" MediaHeight="60" DeleteMenuVisibility="Visible" VerticalAlignment="Center" IsPostDataPresent="true" CurrentMediaUrl="C:\Users\Public\Pictures\Sample Pictures\1.jpg" IsEnableNextPointer="{Binding IsEnableNextPointer}"  TotalMediaCount="{Binding TotalMediaCount}" CurrentMediaPointer="{Binding CurrentMediaPointer}" MediaList="{Binding MediaList}"></customControl:MediaViewer>
                     </StackPanel>
-                    
+
                 </StackPanel>
 
             </StackPanel>

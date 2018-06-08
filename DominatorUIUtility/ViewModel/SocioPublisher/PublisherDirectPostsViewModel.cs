@@ -4,13 +4,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
-    public class PublisherDirectPostsViewModel
+    public class PublisherDirectPostsViewModel : BindableBase
     {
 
         #region Constructor
@@ -18,6 +19,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public PublisherDirectPostsViewModel()
         {
             MultiplePostCommand = new BaseCommand<object>(CanExecuteMultiPost, ExecuteMultiPost);
+            PostDetailsModel.MediaViewer.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\1.jpg");            
         }
 
         #endregion
@@ -25,6 +27,41 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         #region Properties
 
         public ICommand MultiplePostCommand { get; set; }
+
+        private PostDetailsModel _postDetailsModel = new PostDetailsModel();
+
+        public PostDetailsModel PostDetailsModel
+        {
+            get
+            {
+                return _postDetailsModel;
+            }
+            set
+            {
+                if(_postDetailsModel == value)
+                    return;
+                _postDetailsModel = value;
+                OnPropertyChanged(nameof(PostDetailsModel));
+            }
+        }
+
+
+        private bool _isBool= true;
+
+        public bool IsBool
+        {
+            get
+            {
+                return _isBool;
+            }
+            set
+            {
+                if(IsBool == value)
+                    return;
+                _isBool = value;
+                OnPropertyChanged(nameof(IsBool));
+            }
+        }
 
         #endregion
 
@@ -69,4 +106,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         #endregion
 
     }
+
+
 }

@@ -424,6 +424,7 @@
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
+    <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\FdPostSettings.cs" />
     <Compile Include="Models\SocioPublisher\Settings\GdPostSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\IFdPostSettings.cs" />

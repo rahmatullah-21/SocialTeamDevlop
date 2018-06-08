@@ -178,6 +178,7 @@
       <DependentUpon>ErrorModelControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviours\HeaderHelper.cs" />
+    <Compile Include="Behaviours\NetworkAvailablity.cs" />
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
     <Compile Include="Behaviours\ReportManager.cs" />
     <Compile Include="Behaviours\SelectionChangedBehaviour.cs" />

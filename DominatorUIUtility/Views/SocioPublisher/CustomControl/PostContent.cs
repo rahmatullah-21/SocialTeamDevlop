@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using DominatorHouseCore.Interfaces.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -52,7 +53,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
     [TemplatePart(Type = typeof(Button), Name = ButtonImportImage)]
     [TemplatePart(Type = typeof(Button), Name = ButtonSettings)]
     [TemplatePart(Type = typeof(MediaViewer), Name = MediaViewerControl)]
-    public class PostContent : MediaViewer
+    public class PostContent : Control
     {
         static PostContent()
         {
@@ -78,6 +79,16 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         Button _selectMedia = new Button();
         private Button _buttonSettings = new Button();
 
+
+        public MediaViewer MediaViewer
+        {
+            get { return (MediaViewer)GetValue(MediaViewerProperty); }
+            set { SetValue(MediaViewerProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MediaViewer.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MediaViewerProperty =
+            DependencyProperty.Register("MediaViewer", typeof(MediaViewer), typeof(PostContent), new PropertyMetadata(new MediaViewer()));
 
 
         public PublisherPostSettings PublisherPostSettings
@@ -216,7 +227,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 files.ForEach(x =>
                 {
-                    MediaList.Add(x);
+                    MediaViewer.MediaList.Add(x);
                 });
                 mediaViewer.Initialize();
             }
