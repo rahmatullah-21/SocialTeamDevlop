@@ -159,5 +159,12 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         }
 
         #endregion
+        [ProtoMember(11)]
+        public string CampaignId { get; set; }
+        public GooglePlusModel Clone()
+        {
+
+            return (GooglePlusModel)MemberwiseClone();
+        }
     }
 }

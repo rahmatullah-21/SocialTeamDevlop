@@ -303,5 +303,11 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _numberOfDayAfterRepins, value);
             }
         }
+        [ProtoMember(19)]
+        public string CampaignId { get; set; }
+        public PinterestModel Clone()
+        {
+            return (PinterestModel)MemberwiseClone();
+        }
     }
 }

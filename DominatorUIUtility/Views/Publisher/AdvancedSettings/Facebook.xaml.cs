@@ -28,7 +28,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
         {
             InitializeComponent();
             MainGrid.DataContext = FacebookViewModel;
-
+            FacebookViewModel.FacebookModel.CampaignId = "";
         }
 
         static Facebook ObjFacebook = null;

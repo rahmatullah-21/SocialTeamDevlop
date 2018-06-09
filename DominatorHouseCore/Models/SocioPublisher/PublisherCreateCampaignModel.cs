@@ -17,11 +17,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
             _campaignList.Add("Item1");
             _campaignList.Add("Item2");
             _campaignList.Add("Item3");
+            CampaignId = Utilities.GetGuid(true);
         }
+        [ProtoMember(1)]
+        public string CampaignId { get; set; }
 
         private string _campaignName;
         // To specify the campaign name
-        [ProtoMember(1)]
+        [ProtoMember(2)]
         public string CampaignName
         {
             get
@@ -30,7 +33,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-                if(_campaignName==value)
+                if (_campaignName == value)
                     return;
                 _campaignName = value;
                 OnPropertyChanged(nameof(CampaignName));
@@ -39,7 +42,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         private string _campaignStatus;
         // To specify the campaign status
-        [ProtoMember(2)]
+        [ProtoMember(3)]
         public string CampaignStatus
         {
             get
@@ -48,7 +51,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-                if(_campaignStatus==value)
+                if (_campaignStatus == value)
                     return;
                 _campaignStatus = value;
                 OnPropertyChanged(nameof(CampaignStatus));
@@ -58,7 +61,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         private ObservableCollection<string> _campaignList = new ObservableCollection<string>();
         // To hold all available the campaign name
-        [ProtoMember(3)]
+        [ProtoMember(4)]
         public ObservableCollection<string> CampaignList
         {
             get
@@ -67,15 +70,16 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-                if(_campaignList == value)
+                if (_campaignList == value)
                     return;
                 _campaignList = value;
                 OnPropertyChanged(nameof(CampaignList));
             }
         }
-        [ProtoMember(4)]
-       public JobConfigurationModel JobConfigurations { get; set; } = new JobConfigurationModel();
         [ProtoMember(5)]
+        public JobConfigurationModel JobConfigurations { get; set; } = new JobConfigurationModel();
+        [ProtoMember(6)]
         public OtherConfigurationModel OtherConfiguration { get; set; } = new OtherConfigurationModel();
+
     }
 }

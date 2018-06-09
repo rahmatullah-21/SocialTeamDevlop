@@ -395,5 +395,12 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _percentageOfTaggingPost, value);
             }
         }
+        [ProtoMember(25)]
+        public string CampaignId { get; set; }
+        public GeneralModel Clone()
+        {
+
+            return (GeneralModel)MemberwiseClone();
+        }
     }
 }

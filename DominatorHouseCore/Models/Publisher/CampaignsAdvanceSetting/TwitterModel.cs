@@ -11,7 +11,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
     [ProtoContract]
     public class TwitterModel:BindableBase
     {
-        #region Common
+       
         private bool _isEnableAutomaticHashTags;
 
         [ProtoMember(2)]
@@ -173,7 +173,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _pickPercentFromList, value);
             }
         }
-        #endregion
+     
         private bool _isDeletePostAfter;
 
         [ProtoMember(12)]
@@ -205,6 +205,12 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                     return;
                 SetProperty(ref _deletePostAfter, value);
             }
+        }
+        [ProtoMember(14)]
+        public string CampaignId { get; set; }
+        public TwitterModel Clone()
+        {
+            return (TwitterModel) MemberwiseClone();
         }
     }
 }

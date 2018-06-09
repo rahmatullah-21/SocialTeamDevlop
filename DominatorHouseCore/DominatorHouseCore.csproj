@@ -107,6 +107,10 @@
     <Reference Include="NReco.VideoConverter">
       <HintPath>..\packages\NReco.VideoConverter.1.1.2\lib\net20\NReco.VideoConverter.dll</HintPath>
     </Reference>
+    <Reference Include="ObjectsComparer, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ObjectsComparer.1.1\lib\net45\ObjectsComparer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="protobuf-net">
@@ -336,6 +340,7 @@
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
+    <Compile Include="FileManagers\GenericFileManager.cs" />
     <Compile Include="FileManagers\IGFileManager.cs" />
     <Compile Include="FileManagers\PinFileManager.cs" />
     <Compile Include="FileManagers\ManageDestinationFileManager.cs" />
@@ -397,7 +402,6 @@
     <Compile Include="Interfaces\IViewCampaignsFactory.cs" />
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
-    <Compile Include="Models\AdvanceSetting.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
     <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
@@ -412,6 +416,7 @@
     <Compile Include="Models\SocioPublisher\SocinatorIntellisenseModel.cs" />
     <Compile Include="Utility\ImageExtracter.cs" />
     <Compile Include="Models\InstagramModel.cs" />
+    <Compile Include="Utility\ObjectComparer.cs" />
     <Compile Include="ViewModel\AdvancedSettings\FacebookViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GooglePlusViewModel.cs" />

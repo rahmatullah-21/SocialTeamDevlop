@@ -158,6 +158,13 @@ namespace DominatorHouseCore.Utility
         public static string PendingPostList { get; set; } = "Pending";
 
         public static string PublishedPostList { get; set; } = "Published";
+        public static string GetPublisherOtherConfigDir()
+        {
+            string dir = $"{GetOtherDir() }\\PublisherOtherConfig";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir;
+        }
+        public static string GetPublisherOtherConfigFile(SocialNetworks networks) => GetPublisherOtherConfigDir() + $"\\{networks}.bin";
 
         #endregion
 

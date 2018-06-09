@@ -27,7 +27,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isRemoveTagsFromPostText, value);
             }
         }
-        #region Common
+        
         private bool _isEnableAutomaticHashTags;
 
         [ProtoMember(2)]
@@ -44,6 +44,9 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isEnableAutomaticHashTags, value);
             }
         }
+
+       
+
         private int _maxHashtagsPerPost;
 
         [ProtoMember(3)]
@@ -188,8 +191,14 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                     return;
                 SetProperty(ref _pickPercentFromList, value);
             }
-        } 
-        #endregion
+        }
+       
+        [ProtoMember(12)]
+        public string CampaignId { get; set; }
+        public TumblrModel Clone()
+        {
+            return (TumblrModel) MemberwiseClone();
+        }
     }
 
 }

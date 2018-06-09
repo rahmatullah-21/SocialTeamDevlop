@@ -317,5 +317,11 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _geoLocation, value);
             }
         }
+        [ProtoMember(20)]
+        public string CampaignId { get; set; }
+        public InstagramModel Clone()
+        {
+            return (InstagramModel)MemberwiseClone();
+        }
     }
 }

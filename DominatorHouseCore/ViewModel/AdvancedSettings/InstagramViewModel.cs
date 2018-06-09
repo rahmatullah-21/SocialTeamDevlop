@@ -25,5 +25,6 @@ namespace DominatorHouseCore.ViewModel.AdvancedSettings
                 SetProperty(ref _instagramModel, value);
             }
         }
+       
     }
 }

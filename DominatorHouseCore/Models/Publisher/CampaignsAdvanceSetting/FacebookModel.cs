@@ -459,6 +459,16 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isDeletePostAfter, value);
             }
         }
+       
+
+        [ProtoMember(29)]
+        public string CampaignId { get; set; }
+
+
+        public FacebookModel Clone()
+        {
+            return (FacebookModel)MemberwiseClone();
+        }
     }
 
 }
