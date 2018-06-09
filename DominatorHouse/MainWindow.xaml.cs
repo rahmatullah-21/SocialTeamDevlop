@@ -63,9 +63,7 @@ namespace Socinator
         public MainWindow()
         {
             try
-            {
-               
-
+            {              
                 DialogParticipation.SetRegister(this, this);
                 Dispatcher.Invoke(async () => { await LicenseCheck(); });
                 _languages = new ObservableCollection<string>();
@@ -345,8 +343,7 @@ namespace Socinator
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void SocinatorInitializer()
-        {
-
+        {            
             try
             {
                 var accountCustomControl =

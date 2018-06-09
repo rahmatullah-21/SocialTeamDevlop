@@ -128,7 +128,7 @@
                     <DataTemplate>
                         <Border BorderThickness="1"  Margin="6,2,6,2" BorderBrush="Gainsboro" Padding="50">
                             <StackPanel>
-                                <customControl:PostContent HorizontalAlignment="Center" Foreground="Black" MediaHeight="75" MediaWidth="75" ></customControl:PostContent>
+                                <customControl:PostContent HorizontalAlignment="Center" Foreground="Black" ></customControl:PostContent>
                             </StackPanel>
                         </Border>
                     </DataTemplate>

@@ -16,12 +16,9 @@
                 <StackPanel>
                     <customControl:PostContent x:Name="PostContentArea" 
                                                HorizontalAlignment="Center"
-                                               Foreground="Black"
-                                               MediaHeight="75"
-                                               MediaWidth="75"
-                                               PostDescription="{Binding PostDescription}"
-                                               MediaList="{Binding MediaList}"
-                                               CurrentMediaUrl ="{Binding CurrentMediaUrl}" />
+                                               Foreground="Black"                                               
+                                               PostDescription="{Binding PostDescription}">
+                    </customControl:PostContent>
                 </StackPanel>
             </Border>
 

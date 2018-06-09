@@ -370,6 +370,7 @@
       <DependentUpon>PublisherIndexPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\MediaViewer.cs" />
+    <Compile Include="Views\SocioPublisher\CustomControl\MediaViewerAssist.cs" />
     <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostAdvancedSettings.xaml.cs">
       <DependentUpon>PostAdvancedSettings.xaml</DependentUpon>
     </Compile>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -86,8 +87,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             }
             set
             {
-                SetValue(MediaListProperty, value);
-                Initialize();
+                SetValue(MediaListProperty, value);               
             }
         }
 
@@ -225,11 +225,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public static readonly DependencyProperty MediaWidthProperty =
             DependencyProperty.Register("MediaWidth", typeof(double), typeof(MediaViewer), new PropertyMetadata(double.NaN));
 
-
-
-
-
-
         Button _buttonPreviousImage = new Button();
         Button _buttonNextImage = new Button();
         MenuItem _imageDelete = new MenuItem();
@@ -241,6 +236,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            MediaList.CollectionChanged += MediaListChanged;
 
             if (Template == null)
                 return;
@@ -379,6 +376,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         #endregion
 
         #region Adding New Images 
+
+        private void MediaListChanged(object sender, NotifyCollectionChangedEventArgs args)
+            => Initialize();
 
         public void Initialize()
         {

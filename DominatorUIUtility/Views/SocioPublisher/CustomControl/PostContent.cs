@@ -80,17 +80,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         private Button _buttonSettings = new Button();
 
 
-        public MediaViewer MediaViewer
-        {
-            get { return (MediaViewer)GetValue(MediaViewerProperty); }
-            set { SetValue(MediaViewerProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MediaViewer.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MediaViewerProperty =
-            DependencyProperty.Register("MediaViewer", typeof(MediaViewer), typeof(PostContent), new PropertyMetadata(new MediaViewer()));
-
-
         public PublisherPostSettings PublisherPostSettings
         {
             get { return (PublisherPostSettings)GetValue(PublisherPostSettingsProperty); }
@@ -102,9 +91,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             DependencyProperty.Register("PublisherPostSettings", typeof(PublisherPostSettings), typeof(PostContent), new PropertyMetadata(new PublisherPostSettings()));
 
 
-
-
-
         #endregion
 
         #region Apply Template
@@ -112,6 +98,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
 
             #region Button Import Images
 
@@ -227,7 +214,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 files.ForEach(x =>
                 {
-                    MediaViewer.MediaList.Add(x);
+                    MediaViewerAssist.SetMediaList(this, mediaViewer.MediaList);
+                    mediaViewer.MediaList.Add(x);
+                    //MediaViewer.MediaList.Add(x);
                 });
                 mediaViewer.Initialize();
             }

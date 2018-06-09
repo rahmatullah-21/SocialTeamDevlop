@@ -11,11 +11,12 @@
             <StackPanel Margin="0,10,0,0">
                 <RadioButton GroupName="CreatePost" Name="CheckBoxSinglePost" Margin="2" Content="{DynamicResource DHlangCreateSinglePost}" />
                 <StackPanel Orientation="Horizontal" Margin="2">
-                    <customControl:PostContent MediaHeight="75" 
-                                               MediaWidth="75" x:Name="PostContent"
-                                               IsPostDataPresent="{Binding IsBool}"
-                                               PublisherPostSettings="{Binding PostDetailsModel.PublisherPostSettings}" 
-                                             
+                    <customControl:PostContent  PublisherPostSettings="{Binding PostDetailsModel.PublisherPostSettings}" 
+                                                customControl:MediaViewerAssist.MediaList="{Binding PostDetailsModel.MediaViewer.MediaList}" 
+                                                customControl:MediaViewerAssist.CurrentMediaUrl="C:\Users\Public\Pictures\Sample Pictures\3.jpg"
+                                                customControl:MediaViewerAssist.MediaHeight="75"
+                                                customControl:MediaViewerAssist.MediaWidth="75"
+                                                customControl:MediaViewerAssist.IsPostDetailsPresent="True"
                                                 />
                 </StackPanel>
             </StackPanel>
