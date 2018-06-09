@@ -3,7 +3,6 @@ using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.Models
 {
-
     public class BlacklistUserModel : BindableBase
     {
         public ObservableCollection<BlacklistUserModel> LstBlackListUsers { get; set; }=new ObservableCollection<BlacklistUserModel>();

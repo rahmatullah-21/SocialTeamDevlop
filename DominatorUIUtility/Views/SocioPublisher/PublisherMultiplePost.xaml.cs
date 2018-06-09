@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorUIUtility.ViewModel.SocioPublisher;
 using MahApps.Metro.Controls;
 
 namespace DominatorUIUtility.Views.SocioPublisher
@@ -18,11 +10,37 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// <summary>
     /// Interaction logic for PublisherMultiplePost.xaml
     /// </summary>
-    public partial class PublisherMultiplePost : MetroWindow
+    public partial class PublisherMultiplePost : MetroWindow, INotifyPropertyChanged
     {
         public PublisherMultiplePost()
         {
             InitializeComponent();
+            PublisherMultiplePostViewModel = new PublisherMultiplePostViewModel();          
+            MultiplePost.DataContext = PublisherMultiplePostViewModel;
+        }
+
+        private PublisherMultiplePostViewModel _publisherMultiplePostViewModel;
+        public PublisherMultiplePostViewModel PublisherMultiplePostViewModel
+        {
+            get
+            {
+                return _publisherMultiplePostViewModel;
+            }
+            set
+            {
+                if (_publisherMultiplePostViewModel == value)
+                    return;
+                _publisherMultiplePostViewModel = value;
+                OnPropertyChanged(nameof(PublisherMultiplePostViewModel));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

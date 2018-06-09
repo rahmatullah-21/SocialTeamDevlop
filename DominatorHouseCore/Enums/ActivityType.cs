@@ -77,8 +77,8 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         SendFriendRequest = 24,
 
-        //[Description("Facebook")]
-        //ManageFriendRequest = 25,
+        [Description("Facebook")]
+        CancelSentRequest = 25,
 
         [Description("Facebook")]
         Unfriend = 26,
@@ -278,7 +278,6 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         WithdrawConnectionRequest = 92,
 
-        [Description("Facebook")]
-        CancelSentRequest = 93
+       
     }
 }

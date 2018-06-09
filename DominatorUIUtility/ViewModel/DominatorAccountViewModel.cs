@@ -654,7 +654,7 @@ namespace DominatorUIUtility.ViewModel
             bool isProxyUpdated = false;
             try
             {
-                var oldAccount = AccountsFileManager.GetAccount(objDominatorAccountBaseModel.UserName,objDominatorAccountBaseModel.AccountNetwork).AccountBaseModel;
+                var oldAccount = AccountsFileManager.GetAccount(objDominatorAccountBaseModel.UserName, objDominatorAccountBaseModel.AccountNetwork).AccountBaseModel;
 
                 isProxyUpdated = IsProxyUpdated(objDominatorAccountBaseModel, oldproxies, oldAccount);
             }
@@ -1382,7 +1382,7 @@ namespace DominatorUIUtility.ViewModel
                             .AddOrUpdateDominatorAccountBase(selectedAccount.AccountBaseModel)
                             .SaveToBinFile();
 
-                       // AccountsFileManager.Edit(selectedAccount);
+                        // AccountsFileManager.Edit(selectedAccount);
                     }
                     catch (OperationCanceledException)
                     {
@@ -1408,29 +1408,29 @@ namespace DominatorUIUtility.ViewModel
                 #region Checking status
 
 
-               Task.Factory.StartNew(async () =>
-                {
-                    try
-                    {
-                        var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
-                            .GetNetworkCoreFactory().AccountUpdateFactory;
-                        var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
+                Task.Factory.StartNew(async () =>
+                 {
+                     try
+                     {
+                         var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
+                             .GetNetworkCoreFactory().AccountUpdateFactory;
+                         var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
 
-                        await asyncAccount.CheckStatusAsync(selectedAccount, selectedAccount.Token);
-                        await asyncAccount.UpdateDetailsAsync(selectedAccount, selectedAccount.Token);
+                         await asyncAccount.CheckStatusAsync(selectedAccount, selectedAccount.Token);
+                         await asyncAccount.UpdateDetailsAsync(selectedAccount, selectedAccount.Token);
 
-                        if (selectedAccount.AccountBaseModel.Status == "Success")
-                        {
+                         if (selectedAccount.AccountBaseModel.Status == "Success")
+                         {
                             //To update proxy status
                             UpdateProxyStatus(selectedAccount.AccountBaseModel);
-                        }
+                         }
 
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
-                });
+                     }
+                     catch (Exception ex)
+                     {
+                         ex.DebugLog();
+                     }
+                 });
 
                 #endregion
 
@@ -1648,9 +1648,11 @@ namespace DominatorUIUtility.ViewModel
                     LstDominatorAccountModel.Clear();
                     savedAccounts.ForEach(account =>
                     {
-                        LstDominatorAccountModel.Add(account);
-
-                        AccountCollectionView = CollectionViewSource.GetDefaultView(LstDominatorAccountModel);
+                        if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel.AccountNetwork))
+                        {
+                            LstDominatorAccountModel.Add(account);
+                            AccountCollectionView = CollectionViewSource.GetDefaultView(LstDominatorAccountModel);
+                        }                      
                         //Global.ScheduleForEachModule(null, account);
                     });
                 }
@@ -1678,8 +1680,8 @@ namespace DominatorUIUtility.ViewModel
 
         bool _allSelectedAccountsQueued;
 
-        private List<string> _updateAccountList = new List<string>();
-
+        public List<string> _updateAccountList = new List<string>();
+        public object AccountUpdateLock = new object();
         private void UpdateAccountDetailsExecute(object sender)
         {
             var selectedAccount = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList();
@@ -1748,7 +1750,7 @@ namespace DominatorUIUtility.ViewModel
             _allSelectedAccountsQueued = true;
         }
 
-        private void MultipleUpdate(DominatorAccountModel account, string updateMenuItem, IAccountUpdateFactory accountFactory)
+        public void MultipleUpdate(DominatorAccountModel account, string updateMenuItem, IAccountUpdateFactory accountFactory)
         {
             if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
             {
@@ -1759,7 +1761,7 @@ namespace DominatorUIUtility.ViewModel
                     if (account.Token.IsCancellationRequested)
                         account.CancellationSource = new CancellationTokenSource();
 
-                    var updateAccount = new Task(() =>
+                    var updateAccount = new Task(async () =>
                     {
                         try
                         {
@@ -1769,7 +1771,24 @@ namespace DominatorUIUtility.ViewModel
                             if (checkResult)
                             {
                                 account.Token.ThrowIfCancellationRequested();
-                                asyncAccount.UpdateDetailsAsync(account, account.Token);
+                                await asyncAccount.UpdateDetailsAsync(account, account.Token);
+
+                                new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                                    .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
+                                    .SaveToBinFile();
+
+                                _updateAccountList.Remove(account.UserName);
+                                try
+                                {
+                                    lock (AccountUpdateLock)
+                                    {
+                                        Monitor.Pulse(AccountUpdateLock);
+                                    }
+                                }
+                                catch (Exception Ex)
+                                {
+                                    GlobusLogHelper.log.Error(Ex.Message);
+                                }
                             }
                         }
                         catch (OperationCanceledException ex)

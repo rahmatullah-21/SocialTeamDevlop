@@ -6,7 +6,9 @@
     xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
-    xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
+    xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+    xmlns:settings="clr-namespace:DominatorHouseCore.Models.SocioPublisher.Settings;assembly=DominatorHouseCore"
+    xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
 
 
     <ResourceDictionary.MergedDictionaries>
@@ -21,7 +23,7 @@
         <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml"/>
         <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converters:BooleanToVisibilityConverter>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
     <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
     <converters:FeatureVisibilityConverter x:Key="FeatureVisibilityConverter"></converters:FeatureVisibilityConverter>
     <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
@@ -60,22 +62,27 @@
                             </Button>
 
 
-                            <Image x:Name="PART_Image" Margin="1" Width="{TemplateBinding MediaWidth}" Height="{TemplateBinding MediaHeight}"  Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
-
-                                <Image.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="{DynamicResource DHlangDelete}" Name="PART_MenuItemImageDelete" Visibility="{TemplateBinding DeleteMenuVisibility}">
-                                            <MenuItem.Icon>
-                                                <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                    </ContextMenu>
-                                </Image.ContextMenu>
-                            </Image>
+                            <Border>
+                                <Image x:Name="PART_Image" Margin="1" Width="{TemplateBinding MediaWidth}" Height="{TemplateBinding MediaHeight}"  Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
+                                    <Image.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="{DynamicResource DHlangDelete}" Name="PART_MenuItemImageDelete" Visibility="{TemplateBinding DeleteMenuVisibility}">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </Image.ContextMenu>
+                                </Image>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Gray" Opacity="0.5" />
+                                </Border.Effect>
+                            </Border>
+                           
 
 
                             <Button x:Name="PART_NavigateNextImage" Cursor="Hand" IsEnabled="{TemplateBinding IsEnableNextPointer}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5,0,2,0" >
@@ -109,6 +116,7 @@
 
     <!--Post Content-->
     <Style TargetType="{x:Type customControl:PostContent}">
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type customControl:PostContent}">
@@ -135,9 +143,15 @@
                                     <TextBlock Name="TextBlockMedia" FontWeight="SemiBold" Foreground="{DynamicResource AccebtBaseColorBrush}" Text="{DynamicResource DHlangPublisherSelectMedia}" FontSize="12" VerticalAlignment="Center" />
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
-                                    <customControl:MediaViewer x:Name="PART_MediaViewer" IsEnablePreviousPointer="{TemplateBinding IsEnablePreviousPointer}"  MediaWidth="{TemplateBinding MediaWidth}" MediaHeight="{TemplateBinding MediaHeight}" DeleteMenuVisibility="Visible" VerticalAlignment="Center" IsPostDataPresent="{TemplateBinding IsPostDataPresent}" CurrentMediaUrl="{TemplateBinding CurrentMediaUrl}" IsEnableNextPointer="{TemplateBinding IsEnableNextPointer}"  TotalMediaCount="{TemplateBinding TotalMediaCount}" CurrentMediaPointer="{TemplateBinding CurrentMediaPointer}" MediaList="{TemplateBinding MediaList}"></customControl:MediaViewer>
-
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center">
+                                    <customControl:MediaViewer x:Name="PART_MediaViewer"                                      
+                                                               MediaList="{TemplateBinding customControl:MediaViewerAssist.MediaList}"
+                                                               IsPostDataPresent="{TemplateBinding customControl:MediaViewerAssist.IsPostDetailsPresent}"
+                                                               CurrentMediaUrl="{TemplateBinding customControl:MediaViewerAssist.CurrentMediaUrl}"
+                                                               MediaHeight="{TemplateBinding customControl:MediaViewerAssist.MediaHeight}"
+                                                               MediaWidth="{TemplateBinding customControl:MediaViewerAssist.MediaWidth}"
+                                                               
+                                                               />
                                     <StackPanel Orientation="Vertical" Margin="5,0,0,0">
 
                                         <Button Name="PART_ImportImage" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30" Width="100" VerticalAlignment="Center" >
@@ -167,16 +181,16 @@
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel>
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding Source={x:Static enums:SocialNetworks.Instagram}, Converter={StaticResource FeatureVisibilityConverter}}" >
-                                    <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherInstagramTitle}" Margin="2" TextWrapping="Wrap" Height="30" Width="300"  AcceptsReturn="True"></TextBox>
+                                <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding behaviours:NetworkAvailablity.IgElementVisible}">
+                                    <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherInstagramTitle}" Margin="2" TextWrapping="Wrap" Height="30" Width="300"  AcceptsReturn="True"></TextBox>
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding Source={x:Static enums:SocialNetworks.Pinterest},Converter={StaticResource FeatureVisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding behaviours:NetworkAvailablity.PdElementVisible}">
                                     <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPdSourceUrl}" Margin="2" TextWrapping="Wrap" Height="30" Width="300" AcceptsReturn="True"></TextBox>
                                 </StackPanel>
 
-                                <StackPanel Visibility="{Binding Source={x:Static enums:SocialNetworks.Facebook},Converter={StaticResource FeatureVisibilityConverter}}">
-                                    <CheckBox IsChecked="{TemplateBinding IsFacebookSellPost}" Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource DHlangFdSellPost}" />
+                                <StackPanel Visibility="{TemplateBinding behaviours:NetworkAvailablity.FbElementVisible}">
+                                    <CheckBox  Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource DHlangFdSellPost}" />
                                     <StackPanel Visibility="{Binding ElementName =CheckBoxFdSellPost, Path=IsChecked ,Converter= {StaticResource BooleanToVisibilityConverter}}">
                                         <TextBox VerticalAlignment="Center"  AcceptsReturn="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdProductName}" Name="TextBoxFdSellProductTitle"  VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="40" Width="303"></TextBox>
                                         <StackPanel Name="FdSellPostDetails" Orientation="Horizontal">
@@ -185,8 +199,6 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
-
-                               
                             </StackPanel>
                         </StackPanel>
                     </Border>

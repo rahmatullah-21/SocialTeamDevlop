@@ -126,6 +126,13 @@
     <system:String x:Key="FdlangMaxUnfriendPerDay">Max unfriend per day</system:String>
     <system:String x:Key="FdlangUnfriendPerWeek">Number of Unfriend per Week</system:String>
 
+
+    <system:String x:Key="FdlangCancelRequestPerJob">Number of Sent Request cancelled per job</system:String>
+    <system:String x:Key="FdlangCancelRequestPerHour">Number of Request cancelled per hour</system:String>
+    <system:String x:Key="FdlangCancelRequestPerDay">Number of Request cancelled per Day</system:String>
+    <system:String x:Key="FdlangMaxCancelRequestPerDay">Max Request cancelled per day</system:String>
+    <system:String x:Key="FdlangCancelRequestPerWeek">Number of Request cancelled per Week</system:String>
+
     <system:String x:Key="FdlangLikesPerJob">Number of Likes per job</system:String>
     <system:String x:Key="FdlangLikesPerHour">Number of Likes per hour</system:String>
     <system:String x:Key="FdlangLikesPerDay">Number of Likes per Day</system:String>
@@ -291,6 +298,9 @@
 
 
     <system:String x:Key="FdlangUnfriendSourceDisplayName">Unfriend Source</system:String>
+
+
+    <system:String x:Key="FdlangCancelRequestSourceDisplayName">Cancel Request Source</system:String>
 
     <system:String x:Key="FdlangUnjoinSourceDisplayName">Group Unjoiner Source</system:String>
 

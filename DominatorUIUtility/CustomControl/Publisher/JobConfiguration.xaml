@@ -7,7 +7,7 @@
              xmlns:control="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             >
+             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>

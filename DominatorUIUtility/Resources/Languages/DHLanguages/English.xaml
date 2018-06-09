@@ -375,4 +375,6 @@ Type 3. IP:Port
     <system:String x:Key="DHlangAddUsernamesSeparatedByComma">Add usernames separated by comma</system:String>
     <system:String x:Key="DHlangRemoveTagsFromPostText">Remove Tags from post text (as they are added in the tags section on Tumblr)</system:String>
    
+    <system:String x:Key="DHlangEnableSync">Synchronize Account Informations every</system:String>
+    <system:String x:Key="DHlangSimultaneousAccountUpdateCount">Number of Accounts to synchronize simultaneously</system:String>
 </ResourceDictionary>

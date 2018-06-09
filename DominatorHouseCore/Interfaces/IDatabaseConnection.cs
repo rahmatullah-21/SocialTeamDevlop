@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.DHEnum;
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -17,6 +18,7 @@ namespace DominatorHouseCore.Interfaces
         string ConnectionString { get; set; }
 
         DbContext GetDbContext();
-
+        DbContext GetDbContext(SocialNetworks networks,UserType userType);
+       
     }
 }

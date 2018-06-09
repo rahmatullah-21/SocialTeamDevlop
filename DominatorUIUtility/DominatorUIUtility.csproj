@@ -179,6 +179,7 @@
       <DependentUpon>ErrorModelControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviours\HeaderHelper.cs" />
+    <Compile Include="Behaviours\NetworkAvailablity.cs" />
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
     <Compile Include="Behaviours\ReportManager.cs" />
     <Compile Include="Behaviours\SelectionChangedBehaviour.cs" />
@@ -307,6 +308,7 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPendingViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPublishedViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostsViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherMultiplePostViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherPostlistBaseViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
@@ -372,6 +374,7 @@
       <DependentUpon>PublisherIndexPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\MediaViewer.cs" />
+    <Compile Include="Views\SocioPublisher\CustomControl\MediaViewerAssist.cs" />
     <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostAdvancedSettings.xaml.cs">
       <DependentUpon>PostAdvancedSettings.xaml</DependentUpon>
     </Compile>
@@ -395,14 +398,14 @@
       <DependentUpon>PostTwitterSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\SocinatorTextBox.cs" />
+    <Compile Include="Views\SocioPublisher\PublisherCreateNewPost.xaml.cs">
+      <DependentUpon>PublisherCreateNewPost.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublisherDirectPosts.xaml.cs">
       <DependentUpon>PublisherDirectPosts.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\PublisherMultiplePost.xaml.cs">
       <DependentUpon>PublisherMultiplePost.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SocioPublisher\PublisherMultipost.xaml.cs">
-      <DependentUpon>PublisherMultipost.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\Suggestions\FdFriendSuggestionProvider.cs" />
     <Compile Include="Views\SocioPublisher\Suggestions\SuggestionProvider.cs" />
@@ -850,6 +853,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SocioPublisher\PublisherCreateNewPost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SocioPublisher\PublisherDefaultPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -891,10 +898,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherMultiplePost.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SocioPublisher\PublisherMultipost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

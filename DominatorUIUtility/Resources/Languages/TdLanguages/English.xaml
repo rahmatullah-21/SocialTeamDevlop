@@ -795,6 +795,21 @@
     <system:String x:Key="TdLangAfterFollowAction">After Follow Action</system:String>
     <system:String x:Key="TdLangAfterFollowBackAction">After Follow Back Action</system:String>
     <system:String x:Key="TdLangAfterUnFollowAction">After UnFollow Action</system:String>
+
+    <system:String x:Key="TdLangManageBlackWhiteListUsers">Manage Blacklist/WhiteList Users</system:String>
+    <system:String x:Key="TdLangBlackList">Blacklists</system:String>
+    <system:String x:Key="TdLangSkipWhiteList">Skip WhiteListUsers</system:String>
+    <system:String x:Key="TdLangPrivateWhiteList">Private WhiteList</system:String>
+    <system:String x:Key="TdLangGroupWhiteList">Group WhiteList</system:String>
+    <system:String x:Key="TdLangAddToBlackListOnceFollowed">Add To BlackList Once Unfollowed</system:String>
+    <system:String x:Key="TdLangAddToPrivateBlackList">Add To Private BlackList</system:String>
+    <system:String x:Key="TdLangAddToGroupBlackList">Add To Group BlackList</system:String>
+
+    <system:String x:Key="TdLangSkipBlackList">Skip BlackListUsers</system:String>
+    <system:String x:Key="TdLangPrivateBlackList">Use Private BlackList</system:String>
+    <system:String x:Key="TdLangGroupBlackList">Use Group BlackList</system:String>
+
+
     <system:String x:Key="TdLangGenders">Genders</system:String>
     <system:String x:Key="TdLangIgnoreMales">Ignore Males</system:String>
     <system:String x:Key="TdLangIgnoreFemales">Ignore Females</system:String>
