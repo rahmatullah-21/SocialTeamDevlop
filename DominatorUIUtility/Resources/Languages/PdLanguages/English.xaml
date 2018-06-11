@@ -577,4 +577,15 @@
     <system:String x:Key="PDlangMaxDeletePinsDay">Max Delete Pins per day</system:String>
 
     <system:String x:Key="PDlangDeletePins">Delete Pins</system:String>
+
+    <system:String x:Key="PDlangSkipWhitelistedUsers">Skip Whitelisted Users</system:String>
+    <system:String x:Key="PDlangUsePrivateWhitelist">Use Private Whitelist</system:String>
+    <system:String x:Key="PDlangUseGroupWhitelist">Use Group Whitelist</system:String>
+    <system:String x:Key="PDlangManageBlacklistWhitelistUsers">Manage Blacklist/Whitelist Users</system:String>
+    <system:String x:Key="PDlangAddToPrivateBlacklist">Add To Private Blacklist</system:String>
+    <system:String x:Key="PDlangAddToGroupBlacklist">Add To Group Blacklist</system:String>
+
+    <system:String x:Key="PDlangSkipBlacklistedUsers">Skip Blacklisted Users</system:String>
+    <system:String x:Key="PDlangPrivateBlacklist">Private Blacklist</system:String>
+    <system:String x:Key="PDlangGroupBlacklist">Group Blacklist</system:String>
 </ResourceDictionary>

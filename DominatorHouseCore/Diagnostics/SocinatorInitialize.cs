@@ -349,9 +349,9 @@ namespace DominatorHouseCore.Diagnostics
             {
                 try
                 {
-                    if(!moduleConfiguration.IsEnabled)
-                    DominatorScheduler.StopActivity(DominatorAccountModel.AccountBaseModel.AccountId,
-                               activityType.ToString(), moduleSettings.TemplateId);
+                    //if(!moduleConfiguration.IsEnabled)
+                    //DominatorScheduler.StopActivity(DominatorAccountModel.AccountBaseModel.AccountId,
+                    //           activityType.ToString(), moduleSettings.TemplateId);
 
                     DominatorAccountModel.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
                     DominatorAccountModel.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);

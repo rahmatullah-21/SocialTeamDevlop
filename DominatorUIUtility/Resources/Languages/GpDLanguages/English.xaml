@@ -124,4 +124,26 @@
 
     <system:String x:Key="langOtherConfigurations">Other Configurations</system:String>
     <system:String x:Key="langFollowUniqueUsers">Follow Unique Users</system:String>
+
+    <system:String x:Key="GpluslangEnableAutoJoinUnjoin">Enable Auto Join/Unjoin</system:String>
+    <system:String x:Key="langCommunities">Communities</system:String>
+    <system:String x:Key="langStartUnjoinTool">Start unjoin tool</system:String>
+    <system:String x:Key="langStopJoinTool">Stop Join tool</system:String>
+    <system:String x:Key="langStopunjoinToolWhenReach">Enable automatic join/unjoin. Stop unjoin tool when reaching</system:String>
+    <system:String x:Key="langStartjoinToolBetween">Start join tool between</system:String>
+    <system:String x:Key="langStartUnjoinToolBetween">Start Unjoin tool between</system:String>
+    <system:String x:Key="langDoNotStopUnjoinToolJustStartJoinTool">Do not stop unjoin tool, just start join tool</system:String>
+
+    <system:String x:Key="GplusLangManageBlackWhiteListUsers">Manage Blacklist/WhiteList Users</system:String>
+    <system:String x:Key="GplusLangBlacklist">Blacklists</system:String>
+    <system:String x:Key="GplusLangSkipWhiteList">Skip WhiteListUsers</system:String>
+    <system:String x:Key="GplusLangPrivateWhiteList">Private WhiteList</system:String>
+    <system:String x:Key="GplusLangGroupWhiteList">Group WhiteList</system:String>
+    <system:String x:Key="GplusLangAddToBlackListOnceUnfollowed">Add To BlackList Once Unfollowed</system:String>
+    <system:String x:Key="GplusLangAddToBlackListOnceUnjoined">Add To BlackList Once Unjoined</system:String>
+    <system:String x:Key="GplusLangAddToPrivateBlackList">Add To Private BlackList</system:String>
+    <system:String x:Key="GplusLangAddToGroupBlackList">Add To Group BlackList</system:String>
+    <system:String x:Key="GplusLangSkipBlackList">Skip BlackListUsers</system:String>
+    <system:String x:Key="GplusLangPrivateBlackList">Use Private BlackList</system:String>
+    <system:String x:Key="GplusLangGroupBlackList">Use Group BlackList</system:String>
 </ResourceDictionary>

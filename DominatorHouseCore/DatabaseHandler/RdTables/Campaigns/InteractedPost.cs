@@ -9,8 +9,6 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
 {
     public class InteractedPost
     {
-        public string CommentsCount;
-
         [Column(Order = 1)]
         public string RedditId { get; set; }
 
@@ -46,5 +44,17 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
 
         [Column(Order = 12)]
         public string PointsCount { get; set; }
+
+        [Column(Order = 13)]
+        public string Query { get; set; }
+
+        [Column(Order = 14)]
+        public string QueryType { get; set; }
+
+        [Column(Order = 15)]
+        public string CommentsCount { get; set; }
+
+        [Column(Order = 16)]
+        public string ActivityType { get; set; }
     }
 }

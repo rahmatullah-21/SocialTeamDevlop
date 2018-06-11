@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Input;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
+using FluentScheduler;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
@@ -16,23 +21,46 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
             {
                 // everything is allowed
-                jobConfigs = accountDetails
-                    .SelectMany(acct => acct.ActivityManager.LstModuleConfiguration.Select(moduleConfig => Tuple.Create(acct, moduleConfig)));
+
+                foreach (var account in accountDetails)
+                {
+                    DominatorScheduler.ScheduleEachActivity(account);
+                }
             }
             else
             {
                 // be picky - only one per account (choose wisely)
-                jobConfigs = accountDetails
-                    .Select(acct => Tuple.Create(acct, acct.ActivityManager.LstModuleConfiguration.Where(arg => arg.IsEnabled).OrderByDescending(PonderConfiguration).FirstOrDefault()))
-                    .Where(job => job.Item2 != null);
+                foreach (var account in accountDetails)
+                {
+                    StartNextRound(account);
+                }
             }
+        }
 
-            jobConfigs.ForEach(jc =>
+        public static void StartNextRound(DominatorAccountModel accountModel)
+        {
+            
+            var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.Where(arg => arg.IsEnabled &&arg.LstRunningTimes !=null)
+                .OrderByDescending(PickNextActivity).FirstOrDefault();
+            if (moduleConfiguration==null)return;
+            //Check if any job process is already scheduled before to run after this activity.
+            var schedules = JobManager.AllSchedules;
+            var enumerable = schedules as Schedule[] ?? schedules.ToArray();
+            IEnumerable<Schedule> lstOfScheduledJobs = enumerable.Where(x => x.Name != null && x.Name.Contains($"{accountModel.AccountId}---"));
+            var ofScheduledJobs = lstOfScheduledJobs as Schedule[] ?? lstOfScheduledJobs.ToArray();
+            if (ofScheduledJobs.Any())
             {
-                DominatorScheduler.ScheduleTodayJobs(jc.Item1, jc.Item1.AccountBaseModel.AccountNetwork, jc.Item2.ActivityType);
-                DominatorScheduler.ScheduleForEachModule(jc.Item2.ActivityType, jc.Item1, jc.Item1.AccountBaseModel.AccountNetwork);
-            });
-
+                var latestScheduledJob = ofScheduledJobs.OrderBy(x => x.NextRun).FirstOrDefault();
+                if (moduleConfiguration != null && (latestScheduledJob != null && latestScheduledJob.NextRun < moduleConfiguration.NextRun))
+                {
+                    return;
+                }
+                foreach (var scheduledJob in ofScheduledJobs)
+                {
+                    JobManager.RemoveJob(scheduledJob.Name);
+                }
+            }
+            DominatorScheduler.ScheduleActivityForNextJob(accountModel, accountModel.AccountBaseModel.AccountNetwork, moduleConfiguration.ActivityType);
         }
 
         /// <summary>
@@ -50,6 +78,17 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 .Where(rt => rt.IsEnabled) // only if enabled
                 .Select(rt => (7 + wd - (int)rt.DayOfWeek) % 7) // how many days ago
                 .FirstOrDefault() ?? 0; // the closest (0 today or none enabled)
+
+            return score;
+        }
+
+        private static int PickNextActivity(ModuleConfiguration arg)
+        {
+            int score = 0; //start from zero
+            if (arg.IsEnabled) score += 50;
+            TimeSpan differenceMinutes = DateTime.Now.Subtract(arg.NextRun);
+            score += 1 * (int )differenceMinutes.TotalMinutes;
+            GlobusLogHelper.log.Info($"PickNextActivity - {score} - {arg.ActivityType}");
             return score;
         }
     }

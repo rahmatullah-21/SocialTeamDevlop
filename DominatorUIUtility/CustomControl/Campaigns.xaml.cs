@@ -146,7 +146,7 @@ namespace DominatorUIUtility.CustomControl
                         GlobusLogHelper.log.Info($"Starting campaign {campaign.CampaignName}");
                         foreach (var accountModel in lstAccountDetails.Where(x => selectedCampaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
                         {
-                            DominatorScheduler.ScheduleTodayJobs(accountModel, accountModel.AccountBaseModel.AccountNetwork, module);
+                            DominatorScheduler.ScheduleNextActivity(accountModel, module);
                         }
                     }
                     else

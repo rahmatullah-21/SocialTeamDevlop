@@ -98,5 +98,10 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
         [Column(Order = 23)]
         public string SinAccUsername { get; set; }
 
+        [Column(Order = 24)]
+        public DateTime InteractionDateTime { get; set; }
+        [Column(Order = 25)]
+        public int InteractionTimeStamp { get; set; }
+
     }
 }
