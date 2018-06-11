@@ -1137,7 +1137,7 @@ namespace DominatorUIUtility.ViewModel
 
                     CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId, account.AccountBaseModel.UserName);
 
-                    DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, camp.SubModule, moduleSettings.TemplateId);
+                    DominatorScheduler.StopActivity(account, camp.SubModule, moduleSettings.TemplateId);
                 }
             });
         }

@@ -60,13 +60,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         }
 
 
-        public static void StopActivity(string accountId, string module, string templateId)
+        public static void StopActivity(DominatorAccountModel account, string module, string templateId)
         {
             lock (RunStopActivityLocker)
             {
-                JobProcess.Stop(accountId, templateId);
+                JobProcess.Stop(account.AccountId, templateId);
 
-                var id = JobProcess.AsId(accountId, templateId);
+                var id = JobProcess.AsId(account.AccountId, templateId);
                 JobManager.RemoveJob(id);
                 var scheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
 
@@ -74,16 +74,14 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     if (scheduledJob == null)
                     {
-                        var accountModel = AccountsFileManager.GetAccountById(accountId);
-                        ScheduleNextActivity(accountModel, (ActivityType)Enum.Parse(typeof(ActivityType), module));
+                        ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
                         return;
                     }
                     scheduledJob.Disable();
 
                     if (!scheduledJob.Disabled)
                     {
-                        var accountModel = AccountsFileManager.GetAccountById(accountId);
-                        ScheduleNextActivity(accountModel, (ActivityType)Enum.Parse(typeof(ActivityType), module));
+                      ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
                         return;
                     }
                     GlobusLogHelper.log.Info($"{module}-{templateId}" + " stopped");
@@ -199,7 +197,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
                 JobManager.AddJob(() =>
                 {
-                    StopActivity(dominatorAccount.AccountBaseModel.AccountId, timing.Module, templateId);
+                    StopActivity(dominatorAccount, timing.Module, templateId);
                 }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
             }
             else
@@ -212,7 +210,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
                 JobManager.AddJob(() =>
                 {
-                    StopActivity(dominatorAccount.AccountBaseModel.AccountId, timing.Module, templateId);
+                    StopActivity(dominatorAccount, timing.Module, templateId);
 
                 }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
 
@@ -392,7 +390,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 else
                 {
                     moduleConfiguration.IsEnabled = false;
-                    StopActivity(accountModel.AccountBaseModel.AccountId,
+                    StopActivity(accountModel,
                         activityType.ToString(), accountstemplateId);
                     DominatorScheduler.ScheduleNextActivity(accountModel, activityType);
                 }
@@ -548,7 +546,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
             JobManager.AddJob(() =>
             {
-                StopActivity(dominatorAccount.AccountBaseModel.AccountId, timing.Module, templateId);
+                StopActivity(dominatorAccount, timing.Module, templateId);
             }, s => s.ToRunOnceAt(stopTime));
         }
     }

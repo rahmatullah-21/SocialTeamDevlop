@@ -613,7 +613,7 @@ namespace DominatorUIUtility.CustomControl
 
                     CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId, account.AccountBaseModel.UserName);
 
-                    DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings.TemplateId);
+                    DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings.TemplateId);
                     
                     account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
                     var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
@@ -800,13 +800,14 @@ namespace DominatorUIUtility.CustomControl
                     {
                         var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
                             module.ActivityType == _activityType);
-                        DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleSettings?.TemplateId);
-                        //moduleSettings.TemplateId = null;
-                        //AccountsFileManager.Edit(account);
                         account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
                         var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
                             .RemoveModuleSettings(_activityType)
                             .SaveToBinFile();
+                        DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings?.TemplateId);
+                        //moduleSettings.TemplateId = null;
+                        //AccountsFileManager.Edit(account);
+                        
                     }
                     catch (Exception ex)
                     {
@@ -842,8 +843,14 @@ namespace DominatorUIUtility.CustomControl
                     {
                         var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
 
-                        foreach (var accountModel in lstAccountDetails.Where(x => _footerControl.list_SelectedAccounts.Contains(x.AccountBaseModel.UserName)))
-                            DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId, _activityType.ToString(), TemplateId);
+                        foreach (var accountModel in lstAccountDetails.Where(x =>
+                            _footerControl.list_SelectedAccounts.Contains(x.AccountBaseModel.UserName)))
+                        {
+                            var moduleSettings = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
+                                module.ActivityType == _activityType);
+                            moduleSettings.LstRunningTimes = secondRunningTime;
+                            DominatorScheduler.StopActivity(accountModel, _activityType.ToString(), TemplateId);
+                        }
 
                     }
                     catch (Exception ex)
@@ -985,7 +992,7 @@ namespace DominatorUIUtility.CustomControl
 
                         moduleSettings.TemplateId = TemplateId;
                         moduleSettings.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleSettings);
-                        DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(),
+                        DominatorScheduler.StopActivity(account, _activityType.ToString(),
                             moduleSettings.TemplateId);
                         var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
                             .AddOrUpdateModuleSettings(_activityType, moduleSettings)
@@ -1071,7 +1078,7 @@ namespace DominatorUIUtility.CustomControl
                         account.ActivityManager.LstModuleConfiguration?.Add(moduleConfiguration);
                     }
 
-                    DominatorScheduler.StopActivity(account.AccountBaseModel.AccountId, _activityType.ToString(), moduleConfiguration.TemplateId);
+                    DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleConfiguration.TemplateId);
 
                     moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
 
@@ -1360,7 +1367,7 @@ namespace DominatorUIUtility.CustomControl
                     .AddOrUpdateModuleSettings(_activityType, moduleConfiguration)
                     .SaveToBinFile();
                 if (!moduleConfiguration.IsEnabled)
-                    DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId, _activityType.ToString(),
+                    DominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
                         moduleConfiguration.TemplateId);
 
                 DominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
@@ -1492,7 +1499,7 @@ namespace DominatorUIUtility.CustomControl
                 #region Template Id present case
 
                 // need to check whether its running or not, if its running then need to stop process
-                DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId, _activityType.ToString(),
+                DominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
                     moduleConfiguration.TemplateId);
 
                 // update the template
