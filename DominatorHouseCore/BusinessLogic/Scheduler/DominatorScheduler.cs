@@ -1,24 +1,17 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Navigation;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Process;
-using DominatorHouseCore.Interfaces;
 using Newtonsoft.Json;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.FileManagers;
 using MahApps.Metro.Controls.Dialogs;
-using Newtonsoft.Json.Linq;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {

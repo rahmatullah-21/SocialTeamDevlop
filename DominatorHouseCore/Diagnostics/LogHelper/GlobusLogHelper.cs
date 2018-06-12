@@ -1,12 +1,9 @@
-﻿using DominatorHouseCore.LogHelper;
-using NLog;
-using NLog.Common;
+﻿using NLog;
 using NLog.Config;
 using NLog.Targets;
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.LogHelper
 {

@@ -1,6 +1,4 @@
-﻿using DominatorHouseCore.Requests;
-
-namespace DominatorHouseCore.Interfaces
+﻿namespace DominatorHouseCore.Interfaces
 {
     public interface IRequestHelper
     {

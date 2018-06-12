@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using DominatorHouseCore.Requests;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 using System.Runtime.CompilerServices;
@@ -7,11 +6,8 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Request;
-using Newtonsoft.Json;
 using System.Threading;
-using DominatorHouseCore.DatabaseHandler.CoreModels;
 
 namespace DominatorHouseCore.Models
 {

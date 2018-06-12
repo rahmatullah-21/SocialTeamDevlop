@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Windows.Documents;
 using DominatorHouseCore.Enums;
-using System.Reflection;
-using DominatorHouseCore.Diagnostics;
-using System.IO;
 
 namespace DominatorHouseCore.Utility
 {

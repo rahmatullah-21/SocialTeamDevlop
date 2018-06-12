@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using System.IO;
-using System.Diagnostics;
-using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.ViewModel;
 

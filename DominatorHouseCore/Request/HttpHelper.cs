@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Requests;
 
 namespace DominatorHouseCore.Request
 {

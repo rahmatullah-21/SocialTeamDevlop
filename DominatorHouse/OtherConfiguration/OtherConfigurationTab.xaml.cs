@@ -35,46 +35,46 @@ namespace Socinator.Social.OtherConfiguration
                     Title =FindResource("DHlangSoftwareSettings").ToString(),
                    Content = new Lazy<UserControl>(SoftwareSettings.GetSingeltonObjectSoftwareSettings)
                 },
-                new TabItemTemplates
-                {
-                    Title=FindResource("DHlangEmbeddedBrowserSettings").ToString(),
-                  Content = new Lazy<UserControl>(EmbeddedBrowserSettings.GetSingeltonObjectEmbeddedBrowserSettings)
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("langFacebook").ToString(),
-                    Content = new Lazy<UserControl>(Facebook.GetSingeltonObjectFacebook)
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("langInstagram").ToString(),
-                    Content = new Lazy<UserControl>(Instagram.GetSingeltonObjectInstagram)
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("DHlangTwitter").ToString(),
-                    Content = new Lazy<UserControl>(Twitter.GetSingeltonObjectTwitter)
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("DHlangPinterest").ToString(),
-                    Content = new Lazy<UserControl>(Pinterest.GetSingeltonObjectPinterest)
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("DHlangTumblr").ToString(),
-                    Content = new Lazy<UserControl>(Tumblr.GetSingeltonObjectTumblr)
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("DHlangYoutube").ToString(),
-                    Content = new Lazy<UserControl>(Youtube.GetSingeltonObjectYoutube)
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("DHlangEmailNotifications").ToString(),
-                    Content = new Lazy<UserControl>(EmailNotifications.GetSingeltonObjectEmailNotifications)
-                }
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("DHlangEmbeddedBrowserSettings").ToString(),
+                //  Content = new Lazy<UserControl>(EmbeddedBrowserSettings.GetSingeltonObjectEmbeddedBrowserSettings)
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("langFacebook").ToString(),
+                //    Content = new Lazy<UserControl>(Facebook.GetSingeltonObjectFacebook)
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("langInstagram").ToString(),
+                //    Content = new Lazy<UserControl>(Instagram.GetSingeltonObjectInstagram)
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("DHlangTwitter").ToString(),
+                //    Content = new Lazy<UserControl>(Twitter.GetSingeltonObjectTwitter)
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("DHlangPinterest").ToString(),
+                //    Content = new Lazy<UserControl>(Pinterest.GetSingeltonObjectPinterest)
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("DHlangTumblr").ToString(),
+                //    Content = new Lazy<UserControl>(Tumblr.GetSingeltonObjectTumblr)
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("DHlangYoutube").ToString(),
+                //    Content = new Lazy<UserControl>(Youtube.GetSingeltonObjectYoutube)
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("DHlangEmailNotifications").ToString(),
+                //    Content = new Lazy<UserControl>(EmailNotifications.GetSingeltonObjectEmailNotifications)
+                //}
             };
 
             OtherConfigurationTabs.ItemsSource = items;

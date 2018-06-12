@@ -2,7 +2,6 @@
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
-using System.Threading;
 
 namespace DominatorHouseCore.Models
 {

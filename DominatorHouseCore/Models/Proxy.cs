@@ -3,7 +3,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
-using System.Runtime.CompilerServices;
 
 namespace DominatorHouseCore.Models
 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Net;
 using System.Windows;
@@ -11,16 +10,13 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
-using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Request;
 using MahApps.Metro.Controls.Dialogs;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ProtectedCommon;
 using DominatorHouseCore.FileManagers;
 
 namespace DominatorHouseCore.Diagnostics

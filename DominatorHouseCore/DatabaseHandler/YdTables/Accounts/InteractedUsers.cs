@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DominatorHouseCore.Enums;
 using SQLite.CodeFirst;
 
 namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
