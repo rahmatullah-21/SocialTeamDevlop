@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
@@ -16,10 +17,11 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 using FluentScheduler;
+using Microsoft.Win32;
 
 namespace DominatorHouse.Utilities
 {
-   public class SoftwareSettings
+    public class SoftwareSettings
     {
         private DominatorAccountViewModel.AccessorStrategies _strategies;
         public void InitializeOnLoadConfigurations(DominatorAccountViewModel.AccessorStrategies strategies)
@@ -28,6 +30,26 @@ namespace DominatorHouse.Utilities
             CheckConfigurationFiles();
             ScheduleUpdation();
             ActivityManagerInitializer();
+            OtherInitializers();
+        }
+
+        private void OtherInitializers()
+        {
+            var settings = SoftwareSettingsFileManager.GetSoftwareSettings();
+            AddDHToStartup(settings);
+
+        }
+
+        private void AddDHToStartup(SoftwareSettingsModel settings)
+        {
+
+            RegistryKey rk = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            if (settings.IsRunDHAtStartUpChecked)
+                rk.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName, System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            else
+                rk.DeleteValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName, false);
+
+
         }
 
         private void ActivityManagerInitializer()
@@ -59,7 +81,7 @@ namespace DominatorHouse.Utilities
             var AccountSynchronizationHours = softwareSetting.AccountSynchronizationHours;
             dominatorAccountViewModel.LstDominatorAccountModel.ForEach(account =>
             {
-                if ((DateTimeUtilities.GetEpochTime() - account.LastUpdateTime) > AccountSynchronizationHours)
+                if ((DateTimeUtilities.GetEpochTime() - account.LastUpdateTime) > AccountSynchronizationHours * 3600)
                 {
                     var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
                         .GetNetworkCoreFactory().AccountUpdateFactory;

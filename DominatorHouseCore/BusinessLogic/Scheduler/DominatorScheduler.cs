@@ -40,6 +40,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             try
             {
+
                 _activeJobProcessFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).GetNetworkCoreFactory().JobProcessFactory;
 
                 var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
@@ -60,7 +61,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         }
 
 
-        public static void StopActivity(DominatorAccountModel account, string module, string templateId)
+        public static void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart)
         {
             lock (RunStopActivityLocker)
             {
@@ -74,14 +75,16 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     if (scheduledJob == null)
                     {
-                        ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
+                        if (needRestart)
+                            ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
                         return;
                     }
                     scheduledJob.Disable();
 
                     if (!scheduledJob.Disabled)
                     {
-                      ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
+                        if (needRestart)
+                            ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
                         return;
                     }
                     GlobusLogHelper.log.Info($"{module}-{templateId}" + " stopped");
@@ -90,7 +93,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     ex.DebugLog();
                 }
-                
+
             }
         }
 
@@ -197,7 +200,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
                 JobManager.AddJob(() =>
                 {
-                    StopActivity(dominatorAccount, timing.Module, templateId);
+                    StopActivity(dominatorAccount, timing.Module, templateId, true);
                 }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
             }
             else
@@ -210,7 +213,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
                 JobManager.AddJob(() =>
                 {
-                    StopActivity(dominatorAccount, timing.Module, templateId);
+                    StopActivity(dominatorAccount, timing.Module, templateId, true);
 
                 }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
 
@@ -391,7 +394,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     moduleConfiguration.IsEnabled = false;
                     StopActivity(accountModel,
-                        activityType.ToString(), accountstemplateId);
+                        activityType.ToString(), accountstemplateId, true);
                     DominatorScheduler.ScheduleNextActivity(accountModel, activityType);
                 }
 
@@ -481,25 +484,25 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     timeToRunNext = moduleConfiguration.NextRun;
                 }
-                GlobusLogHelper.log.Info($"TimeToRunNext - {timeToRunNext}...........NextStartTime - {moduleConfiguration.NextRun}");
-                var stopTime = timeToRunNext.AddMinutes(40);
-
+                var stopTime = timeToRunNext.Date;
                 var templateId = moduleConfiguration.TemplateId;
                 var jobId = JobProcess.AsId(dominatorAccount.AccountId, templateId);
                 var runningTimes = moduleConfiguration.LstRunningTimes[(int)timeToRunNext.DayOfWeek];
                 var timings = runningTimes.Timings.ToList();
                 timings.Sort(new RunningTimeComparer());
-                var time = new TimingRange(TimeSpan.MinValue,TimeSpan.MaxValue );
+                var time = new TimingRange(TimeSpan.MinValue, TimeSpan.MaxValue);
+                time.Module = activityType.ToString();
 
                 foreach (var timing in timings)
                 {
-                    if (timing.StartTime < timeToRunNext.TimeOfDay)
+                    if (timing.StartTime <= timeToRunNext.TimeOfDay && timeToRunNext.TimeOfDay < timing.EndTime)
                     {
                         stopTime = stopTime.Date.Add(timing.EndTime);
                         time = timing;
+                        break;
                     }
-                    }
-                UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext,stopTime);
+                }
+                UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext, stopTime);
                 GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy, dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName, activityType, timeToRunNext);
             }
             catch (InvalidOperationException)
@@ -538,15 +541,19 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         }
 
-        private static void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, DateTime timeToRunNext,DateTime stopTime)
+        private static void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, DateTime timeToRunNext, DateTime stopTime)
         {
+            if (timeToRunNext < DateTime.Now)
+            {
+                timeToRunNext.AddSeconds(25);
+            }
             JobManager.AddJob(() =>
             {
                 RunActivity(dominatorAccount, templateId, timing, timing.Module);
             }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
             JobManager.AddJob(() =>
             {
-                StopActivity(dominatorAccount, timing.Module, templateId);
+                StopActivity(dominatorAccount, timing.Module, templateId, true);
             }, s => s.ToRunOnceAt(stopTime));
         }
     }

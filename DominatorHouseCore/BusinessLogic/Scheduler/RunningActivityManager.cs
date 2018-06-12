@@ -88,7 +88,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             if (arg.IsEnabled) score += 50;
             TimeSpan differenceMinutes = DateTime.Now.Subtract(arg.NextRun);
             score += 1 * (int )differenceMinutes.TotalMinutes;
-            GlobusLogHelper.log.Info($"PickNextActivity - {score} - {arg.ActivityType}");
             return score;
         }
     }
