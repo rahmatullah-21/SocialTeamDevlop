@@ -18,7 +18,7 @@
             <RowDefinition Height="10*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Grid Background="{DynamicResource AccentBaseColorBrush}" Name="HeaderGrid">
+        <Grid Background="{DynamicResource AccentBaseColorBrush}" Name="HeaderGrid" Visibility="{Binding HeaderVisibility}">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

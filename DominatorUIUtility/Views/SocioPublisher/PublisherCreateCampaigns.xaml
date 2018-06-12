@@ -7,7 +7,7 @@
              xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:publisher="clr-namespace:DominatorUIUtility.CustomControl.Publisher"
              x:Name="CreateCampaign"
-             mc:Ignorable="d"  >
+             mc:Ignorable="d"   xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.8*"></RowDefinition>
@@ -33,6 +33,43 @@
             </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <Button x:Name="BtnSelectDestination" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
+                        Foreground="White" VerticalAlignment="Center"  Margin="5"
+                        Command="{Binding SelectDestinationCommand}">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="20" Height="20" Fill="White" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_table_select}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangSelectDestinations}" Margin="0,0,0,0"
+                                           Foreground="White" FontSize="13" FontWeight="SemiBold" 
+                                           VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
+                        Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding SaveCommand}" >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="15" Height="15" Fill="White" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource langSave}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
                 <Button x:Name="BtnBackToCampaign" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding NavigationCommand}" CommandParameter="Back">
                     <Button.Template>
                         <ControlTemplate>
@@ -64,7 +101,11 @@
 
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <Label Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}"/>
-                    <ComboBox x:Name="ComboCampaignList" Height="25" Width="250" ItemsSource="{Binding PublisherCreateCampaignModel.CampaignList}"  metroControls:TextBoxHelper.ClearTextButton="True" />
+                    <ComboBox x:Name="ComboCampaignList" Height="25" Width="250" ItemsSource="{Binding CampaignList}" 
+                              metroControls:TextBoxHelper.ClearTextButton="True" 
+                              behaviours:SelectionChangedBehaviour.Command="{Binding CampaignChangedCommand}"/>
+                              <!--SelectionChanged="ComboCampaignList_OnSelectionChanged"/>-->
+                              <!--behaviours:SelectionChangedBehaviour.Command="{Binding CampaignChangedCommand}"/>-->
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -82,7 +123,7 @@
                                                 FontSize="12" 
                                                 OnLabel="{Binding PublisherCreateCampaignModel.CampaignStatus}" 
                                                 OffLabel="{Binding PublisherCreateCampaignModel.CampaignStatus}" 
-                                                Margin="10,0">
+                                                Margin="10,0" Click="ToggleCampaignStatus_OnClick">
                         <metroControls:ToggleSwitch.Style>
                             <Style TargetType="metroControls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
                                 <Style.Triggers>

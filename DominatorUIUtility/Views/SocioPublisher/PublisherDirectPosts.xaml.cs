@@ -14,9 +14,18 @@ namespace DominatorUIUtility.Views.SocioPublisher
         public PublisherDirectPosts()
         {
             InitializeComponent();
+            _currentPublisherDirectPosts = this;
             DirectPost.DataContext = PublisherDirectPostsViewModel;
+           
 
-         
+
+        }
+
+        private static PublisherDirectPosts _currentPublisherDirectPosts = null;
+
+        public static PublisherDirectPosts GetSingeltonPublisherDirectPosts()
+        {
+            return _currentPublisherDirectPosts ?? (_currentPublisherDirectPosts = new PublisherDirectPosts());
         }
 
         private PublisherDirectPostsViewModel _publisherDirectPostsViewModel=new PublisherDirectPostsViewModel();

@@ -422,6 +422,7 @@
     <Compile Include="Diagnostics\LogHelper\ILoggableWindow.cs" />
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
     <Compile Include="Interfaces\IViewCampaignsFactory.cs" />
+    <Compile Include="Interfaces\SocioPublisher\IGeneralPostSettings.cs" />
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
@@ -444,6 +445,7 @@
     <Compile Include="Interfaces\SocioPublisher\ITdPostSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\ITumblrSettings.cs" />
     <Compile Include="Enums\SocioPublisher\LdGroupPostType.cs" />
+    <Compile Include="Models\SocioPublisher\Settings\GeneralPostSettings.cs" />
     <Compile Include="Models\SocioPublisher\Settings\LdPostSettings.cs" />
     <Compile Include="Models\SocioPublisher\Settings\PublisherPostSettings.cs" />
     <Compile Include="Models\SocioPublisher\SocinatorIntellisenseModel.cs" />

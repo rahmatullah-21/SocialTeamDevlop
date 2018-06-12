@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ConfigControl;
 
@@ -18,12 +19,17 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
         {
             InitializeComponent();
 
+            
+        }
+
+        public PostAdvancedSettings(PublisherPostSettings PublisherPostSettings):this()
+        {
             var items = new List<TabItemTemplates>
             {
                 new TabItemTemplates
                 {
                     Title=FindResource("DHlangGeneralSettings").ToString(),
-                    Content = new Lazy<UserControl>(()=>new PostGeneralSettings())
+                    Content = new Lazy<UserControl>(()=>new PostGeneralSettings(PublisherPostSettings))
                 }
             };
 
@@ -53,7 +59,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                         items.Add(new TabItemTemplates
                         {
                             Title = FindResource("langFacebook").ToString(),
-                            Content = new Lazy<UserControl>(() => new PostFacebookSettings())
+                            Content = new Lazy<UserControl>(() => new PostFacebookSettings(PublisherPostSettings))
                         });
                         break;
                     case SocialNetworks.Instagram:
@@ -77,7 +83,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                             Content = new Lazy<UserControl>(() => new PostLinkedInSettings())
                         });
                         break;
-                   
+
                     case SocialNetworks.Tumblr:
                         items.Add(new TabItemTemplates
                         {
@@ -86,10 +92,10 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                         });
                         break;
                     case SocialNetworks.Pinterest:
-                    case SocialNetworks.Reddit:                      
-                    case SocialNetworks.Social:                      
-                    case SocialNetworks.Quora:                   
-                    case SocialNetworks.Gplus:                      
+                    case SocialNetworks.Reddit:
+                    case SocialNetworks.Social:
+                    case SocialNetworks.Quora:
+                    case SocialNetworks.Gplus:
                     case SocialNetworks.Youtube:
                         break;
                     default:

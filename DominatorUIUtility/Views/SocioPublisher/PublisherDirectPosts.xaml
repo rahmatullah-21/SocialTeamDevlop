@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
-             mc:Ignorable="d" Name="DirectPost">
+             mc:Ignorable="d" Name="DirectPost" 
+             xmlns:control="http://metro.mahapps.com/winfx/xaml/controls">
     <Grid >
         <StackPanel>
             <StackPanel Margin="0,10,0,0">
@@ -17,12 +18,16 @@
                                                 customControl:MediaViewerAssist.MediaHeight="75"
                                                 customControl:MediaViewerAssist.MediaWidth="75"
                                                 customControl:MediaViewerAssist.IsPostDetailsPresent="True"
-                                                />
+                                                PostDescription="{Binding PostDetailsModel.PostDescription, Mode=OneWayToSource}"
+                                                PublisherInstagramTitle="{Binding PostDetailsModel.PublisherInstagramTitle, Mode=OneWayToSource}"
+                                                x:Name="PostContentControl"/>
                 </StackPanel>
             </StackPanel>
 
             <StackPanel Margin="0,10,0,0">
-                <RadioButton GroupName="CreatePost" Name="CheckBoxMultiPost" Margin="2" Content="{DynamicResource DHlangMultiplePost}" />
+                <RadioButton GroupName="CreatePost" Name="CheckBoxMultiPost" Margin="2"
+                             Content="{DynamicResource DHlangMultiplePost}" 
+                             IsChecked="{Binding PostDetailsModel.IsMultiPost}"/>
                 <StackPanel Orientation="Horizontal">
                     <Button Foreground="White" Margin="2"  Cursor="Hand" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="30" Width="160" VerticalAlignment="Center"  Command="{Binding MultiplePostCommand}" CommandParameter="{Binding}">
                         <StackPanel Orientation="Horizontal" >
@@ -51,16 +56,23 @@
 
             <StackPanel Margin="0,10,0,0">
 
-                <RadioButton GroupName="CreatePost" Name="CheckBoxMultiImage" Margin="2" Content="{DynamicResource DHlangMultipleImagePost}" />
+                <RadioButton GroupName="CreatePost" Name="CheckBoxMultiImage" Margin="2" 
+                             Content="{DynamicResource DHlangMultipleImagePost}"  IsChecked="{Binding PostDetailsModel.IsMultipleImagePost}"/>
 
                 <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
                     <StackPanel>
-                        <CheckBox Name="CheckBoxUseFileNameAsDescription" Margin="2" Content="{DynamicResource DHlangFileNameAsPostDescription}" />
-                        <CheckBox Name="CheckBoxUniquePost" Margin="2" Content="{DynamicResource DHlangUniquePost}" />
+                        <CheckBox Name="CheckBoxUseFileNameAsDescription" Margin="2"
+                                  Content="{DynamicResource DHlangFileNameAsPostDescription}"
+                                  IsChecked="{Binding PostDetailsModel.IsUseFileNameAsDescription}"/>
+                        <CheckBox Name="CheckBoxUniquePost" Margin="2" Content="{DynamicResource DHlangUniquePost}"
+                                  IsChecked="{Binding PostDetailsModel.IsUniquePost}"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Name="TextBlockUploadUrl" VerticalAlignment="Center" Margin="2" Text="{DynamicResource DHlangUploadFromUrl}" />
-                            <TextBox Name="TextBoxGetImages" Width="180" Height="25" ></TextBox>
-                            <Button Foreground="White" Margin="2"  Cursor="Hand"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="25" Width="40" VerticalAlignment="Center" >
+                            <TextBox Name="TextBoxGetImages" Width="180" Height="25" Text="{Binding PostDetailsModel.ImagesUrl}"
+                                     Style="{StaticResource SearchMetroTextBox}"   control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}">
+                                
+                            </TextBox>
+                            <!--<Button Foreground="White" Margin="2"  Cursor="Hand"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="25" Width="40" VerticalAlignment="Center" >
                                 <StackPanel Orientation="Horizontal" >
                                     <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -69,7 +81,7 @@
                                     </Rectangle>
 
                                 </StackPanel>
-                            </Button>
+                            </Button>-->
                         </StackPanel>
                     </StackPanel>
 

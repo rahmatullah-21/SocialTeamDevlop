@@ -154,7 +154,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _importedText, value);
             }
         }
-        private DateTime _campaignStartDate;
+        private DateTime _campaignStartDate=new DateTime();
         [ProtoMember(42)]
         public DateTime CampaignStartDate
         {
@@ -169,7 +169,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _campaignStartDate, value);
             }
         }
-        private DateTime _campaignEndDate;
+        private DateTime _campaignEndDate = new DateTime();
         [ProtoMember(43)]
         public DateTime CampaignEndDate
         {

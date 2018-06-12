@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.Utility;
+using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
+    [ProtoContract]
     public class PublisherMediaViewerModel : BindableBase
     {
         public PublisherMediaViewerModel()
         {
-           
+
         }
 
         #region Full Property
@@ -144,6 +146,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// To specify the all media items 
         /// </summary>
+        [ProtoMember(1)]
         public ObservableCollection<string> MediaList
         {
             get

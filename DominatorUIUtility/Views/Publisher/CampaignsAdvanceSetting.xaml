@@ -24,7 +24,7 @@
         </TabControl>
         <Grid Grid.Row="1" Background="{DynamicResource AccentBaseColorBrush}">
             <Button  Background="{DynamicResource AccentBaseColorBrush}" 
-                     Foreground="White" VerticalAlignment="Center" Click="ButtonBase_OnClick">
+                     Foreground="White" VerticalAlignment="Center" Click="BtnSave_OnClick">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Width="15" Height="15" Fill="White">
                         <Rectangle.OpacityMask>

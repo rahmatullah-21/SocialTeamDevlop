@@ -71,9 +71,25 @@ namespace DominatorUIUtility.Views.Publisher
         }
 
         private AdvanceSetting AdvanceSetting { get; set; }
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
             var CampaignId = AdvanceSetting.CampaignId;
+
+            #region General
+
+            var oldGeneralModel = AdvanceSetting.GeneralModel;
+            var newGeneralModel = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel;
+            newGeneralModel = ObjectComparer.CompareAndGetChangedObject<GeneralModel>(oldGeneralModel, newGeneralModel);
+            if (newGeneralModel != null)
+            {
+                newGeneralModel.CampaignId = CampaignId;
+                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social);
+                var generalModels = GenericFileManager.GetPublisherOtherConfig<GeneralModel>(file);
+                var moduleToUpdate = generalModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                AddUpdateDetails(moduleToUpdate, newGeneralModel, generalModels, file, SocialNetworks.Social);
+            }
+
+            #endregion
 
             #region FaceBook
 
@@ -87,68 +103,94 @@ namespace DominatorUIUtility.Views.Publisher
                 var lstFacebookModels = GenericFileManager.GetPublisherOtherConfig<FacebookModel>(file);
                 var moduleToUpdate = lstFacebookModels.FirstOrDefault(x => x.CampaignId == CampaignId);
                 AddUpdateDetails(moduleToUpdate, newFacebookModel, lstFacebookModels, file, SocialNetworks.Facebook);
-            } 
+            }
 
             #endregion
 
-            //var oldGeneralModel = AdvanceSetting.GeneralModel;
-            //var newGeneralModel = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel;
-            //oldGeneralModel = ObjectComparer.CompareAndGetChangedObject<GeneralModel>(oldGeneralModel, newGeneralModel);
-            //if (oldGeneralModel != null)
-            //{
-            //    oldGeneralModel.CampaignId = AdvanceSetting.CampaignId;
-            //    GenericFileManager.AddModule(oldGeneralModel, ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social));
-            //    GenericFileManager.GetModule<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social));
-            //    var data = GenericFileManager.GetModule<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social));
-            //}
+            #region Google+
 
-            //var oldGooglePlusModel = AdvanceSetting.GooglePlusModel;
-            //var newGooglePlusModel = GooglePlus.GetSingeltonGooglePlusObject().GooglePlusViewModel.GooglePlusModel;
-            //oldGooglePlusModel = ObjectComparer.CompareAndGetChangedObject<GooglePlusModel>(oldGooglePlusModel, newGooglePlusModel);
-            //if (oldGooglePlusModel != null)
-            //{
-            //    oldGooglePlusModel.CampaignId = AdvanceSetting.CampaignId;
-            //    GenericFileManager.AddModule(oldGooglePlusModel, ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus));
-            //}
-            //var oldInstagramModel = AdvanceSetting.InstagramModel;
-            //var newInstagramModel = Instagram.GetSingeltonInstagramObject().InstagramViewModel.InstagramModel;
-            //oldInstagramModel =
-            //    ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(oldInstagramModel,
-            //        newInstagramModel);
-            //if (oldInstagramModel != null)
-            //{
-            //    oldInstagramModel.CampaignId = AdvanceSetting.CampaignId;
-            //    GenericFileManager.AddModule(oldInstagramModel, ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram));
-            //}
+            var oldGooglePlusModel = AdvanceSetting.GooglePlusModel;
+            var newGooglePlusModel = GooglePlus.GetSingeltonGooglePlusObject().GooglePlusViewModel.GooglePlusModel;
+            newGooglePlusModel = ObjectComparer.CompareAndGetChangedObject<GooglePlusModel>(oldGooglePlusModel, newGooglePlusModel);
 
-            //var oldPinterestModel = AdvanceSetting.PinterestModel;
-            //var newPinterestModel = Pinterest.GetSingeltonPinterestObject().PinterestViewModel.PinterestModel;
-            //oldPinterestModel = ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(oldPinterestModel, newPinterestModel);
-            //if (oldPinterestModel != null)
-            //{
-            //    oldPinterestModel.CampaignId = AdvanceSetting.CampaignId;
-            //    GenericFileManager.AddModule(oldPinterestModel, ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest));
-            //}
+            if (newGooglePlusModel != null)
+            {
+                newGeneralModel.CampaignId = CampaignId;
+                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
+                var lstGooglePlusModels = GenericFileManager.GetPublisherOtherConfig<GooglePlusModel>(file);
+                var moduleToUpdate = lstGooglePlusModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                AddUpdateDetails(moduleToUpdate, newGooglePlusModel, lstGooglePlusModels, file, SocialNetworks.Gplus);
+            }
+            #endregion
 
-            //var oldTumblrModel = AdvanceSetting.TumblrModel;
-            //var newTumblrModel = Tumblr.GetSingeltonTumblr().TumblrViewModel.TumblrModel;
-            //oldTumblrModel =
-            //    ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(oldTumblrModel,
-            //        newTumblrModel);
-            //if (oldTumblrModel != null)
-            //{
-            //    oldTumblrModel.CampaignId = AdvanceSetting.CampaignId;
-            //    GenericFileManager.AddModule(oldTumblrModel, ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr));
-            //}
+            #region Instagram
 
-            //var oldTwitterModel = AdvanceSetting.TwitterModel;
-            //var newTwitterModel = Twitter.GetSingletonTwitterObject().TwitterViewModel.TwitterModel;
-            //oldTwitterModel= ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(oldTwitterModel, newTwitterModel);
-            //if (oldTwitterModel != null)
-            //{
-            //    oldTwitterModel.CampaignId = AdvanceSetting.CampaignId;
-            //    GenericFileManager.AddModule(oldTwitterModel, ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter));
-            //}
+            var oldInstagramModel = AdvanceSetting.InstagramModel;
+            var newInstagramModel = Instagram.GetSingeltonInstagramObject().InstagramViewModel.InstagramModel;
+            newInstagramModel =
+                ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(oldInstagramModel,
+                    newInstagramModel);
+            if (newInstagramModel != null)
+            {
+                newInstagramModel.CampaignId = CampaignId;
+                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
+                var lstInstagramModels = GenericFileManager.GetPublisherOtherConfig<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(file);
+                var moduleToUpdate = lstInstagramModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                AddUpdateDetails(moduleToUpdate, newInstagramModel, lstInstagramModels, file, SocialNetworks.Instagram);
+            }
+
+            #endregion
+
+            #region Pinterest
+
+            var oldPinterestModel = AdvanceSetting.PinterestModel;
+            var newPinterestModel = Pinterest.GetSingeltonPinterestObject().PinterestViewModel.PinterestModel;
+            newPinterestModel = ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(oldPinterestModel, newPinterestModel);
+
+            if (newPinterestModel != null)
+            {
+                newPinterestModel.CampaignId = CampaignId;
+                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest);
+                var lstPinterestModels = GenericFileManager.GetPublisherOtherConfig<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(file);
+                var moduleToUpdate = lstPinterestModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                AddUpdateDetails(moduleToUpdate, newPinterestModel, lstPinterestModels, file, SocialNetworks.Pinterest);
+            }
+            #endregion
+
+            #region Tumblr
+
+            var oldTumblrModel = AdvanceSetting.TumblrModel;
+            var newTumblrModel = Tumblr.GetSingeltonTumblr().TumblrViewModel.TumblrModel;
+            newTumblrModel =
+                ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(oldTumblrModel,
+                    newTumblrModel);
+            if (newTumblrModel != null)
+            {
+                newPinterestModel.CampaignId = CampaignId;
+                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
+                var lstTumblrModels = GenericFileManager.GetPublisherOtherConfig<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(file);
+                var moduleToUpdate = lstTumblrModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                AddUpdateDetails(moduleToUpdate, newTumblrModel, lstTumblrModels, file, SocialNetworks.Tumblr);
+            }
+
+            #endregion
+
+            #region Twitter
+
+            var oldTwitterModel = AdvanceSetting.TwitterModel;
+            var newTwitterModel = Twitter.GetSingletonTwitterObject().TwitterViewModel.TwitterModel;
+            newTwitterModel = ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(oldTwitterModel, newTwitterModel);
+
+            if (newTwitterModel != null)
+            {
+                newTwitterModel.CampaignId = CampaignId;
+                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
+                var lstTwitterModels = GenericFileManager.GetPublisherOtherConfig<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(file);
+                var moduleToUpdate = lstTwitterModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                AddUpdateDetails(moduleToUpdate, newTwitterModel, lstTwitterModels, file, SocialNetworks.Twitter);
+            }
+
+            #endregion
         }
 
         private  void AddUpdateDetails<T>(T moduleToUpdate, T newFacebookModel,

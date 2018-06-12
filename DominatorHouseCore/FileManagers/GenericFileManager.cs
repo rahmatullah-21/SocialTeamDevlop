@@ -140,6 +140,11 @@ namespace DominatorHouseCore.FileManagers
                     ? ProtoBuffBase.DeserializeList<T>(filePath)
                     : new List<T>());
         }
+        public static List<T> GetModuleDetails<T>(string filePath) where T : class
+        {
+         
+               return File.Exists(filePath) ? ProtoBuffBase.DeserializeList<T>(filePath) : new List<T>();
+        }
         public static List<T> GetPublisherOtherConfig<T>(string filename) where T : class
         {
 

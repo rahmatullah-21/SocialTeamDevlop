@@ -126,8 +126,12 @@
                         <StackPanel>
                             <StackPanel Margin="1">
                                 <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource DHlangPublisherPostDescription}" VerticalAlignment="Center" FontSize="12" />
-                                <!--<TextBox x:Name="PART_PostDescription" VerticalScrollBarVisibility="Auto" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}" Margin="2" TextWrapping="Wrap" Height="60" Width="300"></TextBox>-->
-                                <customControl:SocinatorTextBox                    
+                                <TextBox x:Name="PART_PostDescription" VerticalScrollBarVisibility="Auto"
+                                         mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}"
+                                         Margin="2" TextWrapping="Wrap" Height="60" Width="300"
+                                         Text="{Binding Path=PostDescription, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"></TextBox>
+
+                                <!--<customControl:SocinatorTextBox                    
                                     MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
                                     SuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
                                     Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}"
@@ -136,7 +140,7 @@
                                     <customControl:SocinatorTextBox.LoadingContent>
                                         <TextBlock Text="Loading Macros..." Margin="5" FontSize="14" />
                                     </customControl:SocinatorTextBox.LoadingContent>
-                                </customControl:SocinatorTextBox>
+                                </customControl:SocinatorTextBox>-->
                             </StackPanel>
                             <StackPanel Margin="1">
                                 <StackPanel Orientation="Horizontal">
@@ -182,7 +186,9 @@
                             </StackPanel>
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding behaviours:NetworkAvailablity.IgElementVisible}">
-                                    <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherInstagramTitle}" Margin="2" TextWrapping="Wrap" Height="30" Width="300"  AcceptsReturn="True"></TextBox>
+                                    <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherInstagramTitle}"
+                                             Margin="2" TextWrapping="Wrap" Height="30" Width="300"  AcceptsReturn="True"
+                                             Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PublisherInstagramTitle}"></TextBox>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding behaviours:NetworkAvailablity.PdElementVisible}">

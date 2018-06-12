@@ -2,9 +2,11 @@
 using System.Windows.Controls;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
+using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
+    [ProtoContract]
     public class PublisherPostSettings 
     {
 
@@ -74,6 +76,17 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         {
             return (TdPostSettings) element.GetValue(TdPostSettingsProperty);
         }
-        
+        [ProtoMember(1)]
+        public GeneralPostSettings GeneralPostSettings { get; set; }=new GeneralPostSettings();
+        [ProtoMember(2)]
+        public FdPostSettings FdPostSettings { get; set; }=new FdPostSettings();
+        [ProtoMember(3)]
+        public GdPostSettings GdPostSettings { get; set; }=new GdPostSettings();
+        [ProtoMember(4)]
+        public TdPostSettings TdPostSettings { get; set; }=new TdPostSettings();
+        [ProtoMember(5)]
+        public LdPostSettings LdPostSettings { get; set; }=new LdPostSettings();
+        [ProtoMember(6)]
+        public TumberPostSettings TumberPostSettings { get; set; }=new TumberPostSettings();
     }
 }

@@ -20,7 +20,7 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         public MediaType MediaType { get; set; }
 
         [Column(Order = 4)]
-        public ActivityType OperationType{ get; set; }
+        public ActivityType ActivityType { get; set; }
 
         [Column(Order = 5)]
         public string PkOwner { get; set; }

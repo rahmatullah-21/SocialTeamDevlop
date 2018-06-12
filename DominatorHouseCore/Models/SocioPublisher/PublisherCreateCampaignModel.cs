@@ -14,15 +14,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
     {
         public PublisherCreateCampaignModel()
         {
-            _campaignList.Add("Item1");
-            _campaignList.Add("Item2");
-            _campaignList.Add("Item3");
+            //_campaignList.Add(_campaignName);
             CampaignId = Utilities.GetGuid(true);
         }
         [ProtoMember(1)]
         public string CampaignId { get; set; }
 
-        private string _campaignName;
+        private string _campaignName=$"Campaign {DateTimeUtilities.GetEpochTime()}";
         // To specify the campaign name
         [ProtoMember(2)]
         public string CampaignName
@@ -40,7 +38,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _campaignStatus;
+        private string _campaignStatus= "Active";
         // To specify the campaign status
         [ProtoMember(3)]
         public string CampaignStatus
@@ -59,27 +57,46 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private ObservableCollection<string> _campaignList = new ObservableCollection<string>();
-        // To hold all available the campaign name
-        [ProtoMember(4)]
-        public ObservableCollection<string> CampaignList
-        {
-            get
-            {
-                return _campaignList;
-            }
-            set
-            {
-                if (_campaignList == value)
-                    return;
-                _campaignList = value;
-                OnPropertyChanged(nameof(CampaignList));
-            }
-        }
+        //private ObservableCollection<string> _campaignList = new ObservableCollection<string>();
+        //// To hold all available the campaign name
+        ////[ProtoMember(4)]
+        //public ObservableCollection<string> CampaignList
+        //{
+        //    get
+        //    {
+        //        return _campaignList;
+        //    }
+        //    set
+        //    {
+        //        if (_campaignList == value)
+        //            return;
+        //        _campaignList = value;
+        //        OnPropertyChanged(nameof(CampaignList));
+        //    }
+        //}
         [ProtoMember(5)]
         public JobConfigurationModel JobConfigurations { get; set; } = new JobConfigurationModel();
         [ProtoMember(6)]
         public OtherConfigurationModel OtherConfiguration { get; set; } = new OtherConfigurationModel();
+        [ProtoMember(7)]
+        public PostDetailsModel PostDetailsModel { get; set; }=new PostDetailsModel();
+        private ObservableCollection<string> _lstDestinationId = new ObservableCollection<string>();
+        
+        [ProtoMember(8)]
+        public ObservableCollection<string> LstDestinationId
+        {
+            get
+            {
+                return _lstDestinationId;
+            }
+            set
+            {
+                if (_lstDestinationId == value)
+                    return;
+                _lstDestinationId = value;
+                OnPropertyChanged(nameof(_lstDestinationId));
+            }
+        }
 
     }
 }

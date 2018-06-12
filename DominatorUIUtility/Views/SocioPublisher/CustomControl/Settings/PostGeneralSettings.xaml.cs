@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using DominatorHouseCore.Models.SocioPublisher.Settings;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
@@ -10,6 +11,11 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
         public PostGeneralSettings()
         {
             InitializeComponent();
+        }
+
+        public PostGeneralSettings(PublisherPostSettings PublisherPostSettings):this()
+        {
+            MainGrid.DataContext = PublisherPostSettings.GeneralPostSettings;
         }
     }
 }

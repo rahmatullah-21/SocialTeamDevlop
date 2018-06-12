@@ -1,7 +1,12 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
@@ -46,6 +51,41 @@ namespace DominatorUIUtility.Views.SocioPublisher
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ToggleCampaignStatus_OnClick(object sender, RoutedEventArgs e)
+        {
+            string onLabel = ToggleCampaignStatus.OnLabel;
+            switch (onLabel)
+            {
+                case "Completed":
+                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = "Stopped";
+                    break;
+                case "Stopped":
+                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = "Active";
+                    break;
+                case "Active":
+                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = "Paused";
+                    break;
+                case "Paused":
+                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = "Completed";
+                    break;
+
+            }
+        }
+
+        private void ComboCampaignList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                PublisherCreateCampaignViewModel.PublisherCreateCampaignModel = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
+                        (ConstantVariable.GetOtherDir() + "\\Campaign.bin").FirstOrDefault(x => x.CampaignName == ComboCampaignList.SelectedItem.ToString());
+            }
+            catch (System.Exception ex)
+            {
+
+                PublisherCreateCampaignViewModel.PublisherCreateCampaignModel =new PublisherCreateCampaignModel();
+            }
         }
     }
 }

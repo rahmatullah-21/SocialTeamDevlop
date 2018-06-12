@@ -59,7 +59,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PostContent), new FrameworkPropertyMetadata(typeof(PostContent)));
         }
-
         #region Properties
 
         public const string ButtonImportImage = "PART_ImportImage";
@@ -75,6 +74,15 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         // Using a DependencyProperty as the backing store for PostDescription.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PostDescriptionProperty =
             DependencyProperty.Register("PostDescription", typeof(string), typeof(PostContent), new PropertyMetadata(string.Empty));
+
+        public string PublisherInstagramTitle
+        {
+            get { return (string)GetValue(PublisherInstagramTitleProperty); }
+            set { SetValue(PublisherInstagramTitleProperty, value); }
+        }
+
+        public static readonly DependencyProperty PublisherInstagramTitleProperty =
+             DependencyProperty.Register("PublisherInstagramTitle", typeof(string), typeof(PostContent), new PropertyMetadata(string.Empty));
 
         Button _selectMedia = new Button();
         private Button _buttonSettings = new Button();
@@ -181,7 +189,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public void PostSettingsChangeClick(object sender, RoutedEventArgs args)
         {
-            var objAdvancedSettings = new PostAdvancedSettings();
+            // PublisherPostSettings PublisherPostSettings = new PublisherPostSettings();
+            var objAdvancedSettings = new PostAdvancedSettings(PublisherPostSettings);
             var customDialog = new CustomDialog
             {
                 HorizontalAlignment = HorizontalAlignment.Center,

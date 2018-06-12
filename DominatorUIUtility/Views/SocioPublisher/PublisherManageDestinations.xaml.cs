@@ -15,12 +15,17 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// </summary>
     public partial class PublisherManageDestinations : UserControl, INotifyPropertyChanged
     {
+        private Visibility HeaderVisiblity { get; set; } = Visibility.Visible;
         private PublisherManageDestinations()
         {
             InitializeComponent();
             ManageDestination.DataContext = PublisherManageDestinationViewModel;
+            
         }
-
+        public PublisherManageDestinations(Visibility HeaderVisiblity):this()
+        {
+            PublisherManageDestinationViewModel.HeaderVisibility = HeaderVisiblity;
+        }
         public PublisherManageDestinationViewModel PublisherManageDestinationViewModel
         {
             get

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
 
@@ -80,5 +81,6 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         [Column(Order = 17)]
         public string ProfilePicUrl
         { get; set; }
+    
     }
 }

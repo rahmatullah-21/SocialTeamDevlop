@@ -40,7 +40,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand DeleteDestinationCommand { get; set; }
 
         public ICommand OpenContextMenuCommand { get; set; }
-
+        public Visibility HeaderVisibility { get; set; }
         public ObservableCollection<PublisherManageDestinationModel> ListPublisherManageDestinationModels
         {
             get

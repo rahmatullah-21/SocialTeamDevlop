@@ -4,20 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
-             xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
-             xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
+             xmlns:control="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d">
-    <Grid>
+    <Grid Name="MainGrid">
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DHlangExpireDate}" Margin="5"></CheckBox>
-                <DatePicker Name="DatePicker" Margin="5" />
+                <CheckBox Content="{DynamicResource DHlangExpireDate}" Margin="5"
+                          IsChecked="{Binding IsExpireDate}"/>
+                <DatePicker Name="DatePicker" Margin="5" SelectedDate="{Binding ExpireDate}"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DHlangReaddCount}" Margin="5"></CheckBox>
-                <TextBox Width="40" Height="25" />
+                <CheckBox Content="{DynamicResource DHlangReaddCount}" Margin="5"
+                          IsChecked="{Binding IsReaddCount}"/>
+                <control:NumericUpDown Minimum="0" Value="{Binding ReaddCount}"/>
                 <TextBlock Text="{DynamicResource DHlangTimes}" Name="TextBlockTimes" VerticalAlignment="Center" Margin="5"/>
             </StackPanel>
 

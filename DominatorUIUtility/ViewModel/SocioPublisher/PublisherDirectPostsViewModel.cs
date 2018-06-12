@@ -19,14 +19,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public PublisherDirectPostsViewModel()
         {
             MultiplePostCommand = new BaseCommand<object>(CanExecuteMultiPost, ExecuteMultiPost);
-            PostDetailsModel.MediaViewer.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\1.jpg");            
+            SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);
+          //  PostDetailsModel.MediaViewer.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\1.jpg");            
         }
+
+       
 
         #endregion
 
         #region Properties
 
         public ICommand MultiplePostCommand { get; set; }
+        public ICommand SearchCommand { get; set; }
 
         private PostDetailsModel _postDetailsModel = new PostDetailsModel();
 
@@ -63,6 +67,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+      
         #endregion
 
         #region Methods
@@ -102,6 +107,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 ex.DebugLog();
             }
+        }
+
+        private bool SearchCanExecute(object sender) => true;
+
+        private void SearchExecute(object sender)
+        {
+           
         }
         #endregion
 
