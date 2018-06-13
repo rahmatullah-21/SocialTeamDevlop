@@ -43,8 +43,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <TextBlock Text="{DynamicResource langFilterText}" Grid.Row="1" VerticalAlignment="Center" />
-                <TextBox Width="200" x:Name="TextBoxFilter" Text="{Binding Messages.FilterText}" Grid.Row="1" Grid.Column="1" AcceptsReturn="True"/>
+               
             </Grid>
 
         </Grid>
