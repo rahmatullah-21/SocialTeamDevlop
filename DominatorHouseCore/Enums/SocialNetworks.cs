@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-
-namespace DominatorHouseCore.Enums
+﻿namespace DominatorHouseCore.Enums
 {
     public enum SocialNetworks
     {

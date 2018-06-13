@@ -3,13 +3,9 @@ using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using System.Diagnostics;
 
 namespace DominatorHouseCore.FileManagers
 {

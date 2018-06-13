@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DominatorHouseCore.Utility
+﻿namespace DominatorHouseCore.Utility
 {
     public class JsonHelper
     {

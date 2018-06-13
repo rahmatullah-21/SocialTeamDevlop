@@ -12,7 +12,6 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using FluentScheduler;
 using Newtonsoft.Json;
 using DominatorHouseCore.Interfaces;
 

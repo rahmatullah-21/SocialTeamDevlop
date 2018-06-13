@@ -1,6 +1,5 @@
 ﻿using DominatorHouseCore.Models;
 using System;
-using System.Collections.Generic;
 using DominatorHouseCore.Process;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper

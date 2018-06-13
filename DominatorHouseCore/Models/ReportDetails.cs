@@ -1,5 +1,4 @@
-﻿using System;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.Models
 {

@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Utility
 {
@@ -33,7 +29,7 @@ namespace DominatorHouseCore.Utility
         ///<param name="items">The enumerable to search.</param>
         ///<param name="item">The item to find.</param>
         ///<returns>The index of the first matching item, or -1 if the item was not found.</returns>
-        public static int IndexOf<T>(this IEnumerable<T> items, T item)
+        public static int IndexOf<T>(this IEnumerable<T> items, T item) 
             => items.FindIndex(i => EqualityComparer<T>.Default.Equals(item, i));
 
 
@@ -50,42 +46,10 @@ namespace DominatorHouseCore.Utility
                     io.DebugLog();
                 }
                 catch (Exception e)
-                {
+                {               
                     e.DebugLog();
-                }
-            }
-        }
-
-
-
-
-        /// <summary>
-        /// To replace the string in between two index with source
-        /// </summary>
-        /// <param name="source"> source string</param>
-        /// <param name="index"> start location to replace at (0-based)</param>
-        /// <param name="length"> number of characters to be removed before inserting</param>
-        /// <param name="replace">the string that is replacing characters</param>
-        /// <returns></returns>
-        public static string ReplaceAt(this string source, int index, int length, string replace)
-            => source.Remove(index, Math.Min(length, source.Length - index))
-            .Insert(index, replace);
-
-
-        public static bool IsGetMacros(this string source) 
-            => Regex.Replace(source, @"{[^}]*}", string.Empty).Contains("{");
-
-
-        public static string ApplyMacros(this string source, int caretIndex, string selectedMacro)
-        {
-            var getFirstSubString = source.Substring(0, caretIndex);
-            var startIndexOfCurrentWord = getFirstSubString.LastIndexOf("{", StringComparison.Ordinal);
-            if (startIndexOfCurrentWord == -1)
-                return source;
-
-            var length = caretIndex - startIndexOfCurrentWord;
-
-            return source.ReplaceAt(startIndexOfCurrentWord, length, selectedMacro);
+                }              
+            }                            
         }
     }
 }

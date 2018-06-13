@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
-using Newtonsoft.Json;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Utility;
-using DominatorHouseCore.Interfaces;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {

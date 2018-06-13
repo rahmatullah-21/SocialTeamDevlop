@@ -1,12 +1,5 @@
 ﻿using DominatorHouseCore.Process;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {

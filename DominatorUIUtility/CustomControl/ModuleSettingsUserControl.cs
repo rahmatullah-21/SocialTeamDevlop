@@ -1374,7 +1374,7 @@ namespace DominatorUIUtility.CustomControl
                     DominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
                         moduleConfiguration.TemplateId,true);
 
-                //DominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
+                DominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
                 return moduleConfiguration.IsEnabled;
             }
             catch (Exception ex)
