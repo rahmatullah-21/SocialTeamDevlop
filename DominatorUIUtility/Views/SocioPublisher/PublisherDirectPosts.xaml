@@ -5,74 +5,75 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
-             mc:Ignorable="d" Name="DirectPost" 
-             xmlns:control="http://metro.mahapps.com/winfx/xaml/controls">
-    <Grid >
-        <StackPanel>
-            <StackPanel Margin="0,10,0,0">
-                <RadioButton GroupName="CreatePost" Name="CheckBoxSinglePost" Margin="2" Content="{DynamicResource DHlangCreateSinglePost}" />
-                <StackPanel Orientation="Horizontal" Margin="2">
-                    <customControl:PostContent  PublisherPostSettings="{Binding PostDetailsModel.PublisherPostSettings}" 
-                                                customControl:MediaViewerAssist.MediaList="{Binding PostDetailsModel.MediaViewer.MediaList}" 
+             mc:Ignorable="d"
+             xmlns:control="http://metro.mahapps.com/winfx/xaml/controls"
+             Loaded="PublisherDirectPosts_OnLoaded">
+
+    <StackPanel Name="DirectPost" >
+        <StackPanel Margin="0,10,0,0">
+            <RadioButton GroupName="CreatePost" Name="CheckBoxSinglePost" Margin="2" Content="{DynamicResource DHlangCreateSinglePost}" IsChecked="{Binding IsSinglePost}"/>
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <!--<customControl:PostContent  PublisherPostSettings="{Binding PublisherPostSettings}" 
+                                                customControl:MediaViewerAssist.MediaList="{Binding MediaViewer.MediaList}" 
                                                 customControl:MediaViewerAssist.CurrentMediaUrl="C:\Users\Public\Pictures\Sample Pictures\3.jpg"
                                                 customControl:MediaViewerAssist.MediaHeight="75"
                                                 customControl:MediaViewerAssist.MediaWidth="75"
                                                 customControl:MediaViewerAssist.IsPostDetailsPresent="True"
-                                                PostDescription="{Binding PostDetailsModel.PostDescription, Mode=OneWayToSource}"
-                                                PublisherInstagramTitle="{Binding PostDetailsModel.PublisherInstagramTitle, Mode=OneWayToSource}"
-                                                x:Name="PostContentControl"/>
-                </StackPanel>
+                                                PostDescription="{Binding PostDescription, Mode=OneWayToSource}"
+                                                PublisherInstagramTitle="{Binding PublisherInstagramTitle, Mode=OneWayToSource}"
+                                                x:Name="PostContentControl"/>-->
             </StackPanel>
+        </StackPanel>
 
-            <StackPanel Margin="0,10,0,0">
-                <RadioButton GroupName="CreatePost" Name="CheckBoxMultiPost" Margin="2"
+        <StackPanel Margin="0,10,0,0">
+            <RadioButton GroupName="CreatePost" Name="CheckBoxMultiPost" Margin="2"
                              Content="{DynamicResource DHlangMultiplePost}" 
                              IsChecked="{Binding PostDetailsModel.IsMultiPost}"/>
-                <StackPanel Orientation="Horizontal">
-                    <Button Foreground="White" Margin="2"  Cursor="Hand" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="30" Width="160" VerticalAlignment="Center"  Command="{Binding MultiplePostCommand}" CommandParameter="{Binding}">
-                        <StackPanel Orientation="Horizontal" >
-                            <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_export}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <Label Content="{DynamicResource DHlangCreateMultiPost}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
+            <StackPanel Orientation="Horizontal">
+                <Button Foreground="White" Margin="2"  Cursor="Hand" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="30" Width="160" VerticalAlignment="Center"  Command="{Binding MultiplePostCommand}" CommandParameter="{Binding}">
+                    <StackPanel Orientation="Horizontal" >
+                        <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_export}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <Label Content="{DynamicResource DHlangCreateMultiPost}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </Button>
 
-                    <Button Foreground="White" Margin="2" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="30" Width="160" VerticalAlignment="Center" >
-                        <StackPanel Orientation="Horizontal" >
-                            <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_export}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <Label Content="{DynamicResource DHlangImportFromCsv}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
+                <Button Foreground="White" Margin="2" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="30" Width="160" VerticalAlignment="Center" >
+                    <StackPanel Orientation="Horizontal" >
+                        <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_export}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <Label Content="{DynamicResource DHlangImportFromCsv}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </Button>
 
-                </StackPanel>
             </StackPanel>
+        </StackPanel>
 
-            <StackPanel Margin="0,10,0,0">
+        <StackPanel Margin="0,10,0,0">
 
-                <RadioButton GroupName="CreatePost" Name="CheckBoxMultiImage" Margin="2" 
+            <RadioButton GroupName="CreatePost" Name="CheckBoxMultiImage" Margin="2" 
                              Content="{DynamicResource DHlangMultipleImagePost}"  IsChecked="{Binding PostDetailsModel.IsMultipleImagePost}"/>
 
-                <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
-                    <StackPanel>
-                        <CheckBox Name="CheckBoxUseFileNameAsDescription" Margin="2"
+            <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+                <StackPanel>
+                    <CheckBox Name="CheckBoxUseFileNameAsDescription" Margin="2"
                                   Content="{DynamicResource DHlangFileNameAsPostDescription}"
-                                  IsChecked="{Binding PostDetailsModel.IsUseFileNameAsDescription}"/>
-                        <CheckBox Name="CheckBoxUniquePost" Margin="2" Content="{DynamicResource DHlangUniquePost}"
+                                  IsChecked="{Binding IsUseFileNameAsDescription}"/>
+                    <CheckBox Name="CheckBoxUniquePost" Margin="2" Content="{DynamicResource DHlangUniquePost}"
                                   IsChecked="{Binding PostDetailsModel.IsUniquePost}"/>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Name="TextBlockUploadUrl" VerticalAlignment="Center" Margin="2" Text="{DynamicResource DHlangUploadFromUrl}" />
-                            <TextBox Name="TextBoxGetImages" Width="180" Height="25" Text="{Binding PostDetailsModel.ImagesUrl}"
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Name="TextBlockUploadUrl" VerticalAlignment="Center" Margin="2" Text="{DynamicResource DHlangUploadFromUrl}" />
+                        <TextBox Name="TextBoxGetImages" Width="180" Height="25" Text="{Binding ImagesUrl}"
                                      Style="{StaticResource SearchMetroTextBox}"   control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}">
-                                
-                            </TextBox>
-                            <!--<Button Foreground="White" Margin="2"  Cursor="Hand"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="25" Width="40" VerticalAlignment="Center" >
+
+                        </TextBox>
+                        <!--<Button Foreground="White" Margin="2"  Cursor="Hand"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="25" Width="40" VerticalAlignment="Center" >
                                 <StackPanel Orientation="Horizontal" >
                                     <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -82,19 +83,17 @@
 
                                 </StackPanel>
                             </Button>-->
-                        </StackPanel>
                     </StackPanel>
+                </StackPanel>
 
-                    <StackPanel Margin="10,0,0,0">
-                        <customControl:MediaViewer x:Name="ImageMediaViewer" IsEnablePreviousPointer="{Binding IsEnablePreviousPointer}"  MediaWidth="80" MediaHeight="60" DeleteMenuVisibility="Visible" VerticalAlignment="Center" IsPostDataPresent="true" CurrentMediaUrl="C:\Users\Public\Pictures\Sample Pictures\1.jpg" IsEnableNextPointer="{Binding IsEnableNextPointer}"  TotalMediaCount="{Binding TotalMediaCount}" CurrentMediaPointer="{Binding CurrentMediaPointer}" MediaList="{Binding MediaList}"></customControl:MediaViewer>
-                    </StackPanel>
-
+                <StackPanel Margin="10,0,0,0">
+                    <customControl:MediaViewer x:Name="ImageMediaViewer" IsEnablePreviousPointer="{Binding IsEnablePreviousPointer}"  MediaWidth="80" MediaHeight="60" DeleteMenuVisibility="Visible" VerticalAlignment="Center" IsPostDataPresent="true" CurrentMediaUrl="C:\Users\Public\Pictures\Sample Pictures\1.jpg" IsEnableNextPointer="{Binding IsEnableNextPointer}"  TotalMediaCount="{Binding TotalMediaCount}" CurrentMediaPointer="{Binding CurrentMediaPointer}" MediaList="{Binding MediaList}"></customControl:MediaViewer>
                 </StackPanel>
 
             </StackPanel>
 
         </StackPanel>
 
+    </StackPanel>
 
-    </Grid>
 </UserControl>

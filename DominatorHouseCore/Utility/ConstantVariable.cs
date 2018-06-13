@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.Windows.Documents;
 using DominatorHouseCore.Enums;
@@ -6,6 +7,9 @@ using System.Reflection;
 using DominatorHouseCore.Diagnostics;
 using System.IO;
 using DominatorHouseCore.Models.SocioPublisher;
+
+using DominatorHouseCore.Enums;
+
 
 namespace DominatorHouseCore.Utility
 {

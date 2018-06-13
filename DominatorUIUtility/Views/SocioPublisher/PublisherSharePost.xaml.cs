@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.Models.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
@@ -23,6 +24,11 @@ namespace DominatorUIUtility.Views.SocioPublisher
         public PublisherSharePost()
         {
             InitializeComponent();
+        }
+
+        public PublisherSharePost(SharePostModel SharePostModel):this()
+        {
+            MainGrid.DataContext = SharePostModel;
         }
     }
 }

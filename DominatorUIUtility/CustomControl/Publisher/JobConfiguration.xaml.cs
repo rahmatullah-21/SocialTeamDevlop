@@ -60,8 +60,8 @@ namespace DominatorUIUtility.CustomControl.Publisher
             JobConfigurations.LstTimer.Clear();
             Random random = new Random();
 
-            var startTime = JobConfigurations.StartTime;
-            var endTime = JobConfigurations.EndTime;
+            var startTime = JobConfigurations.TimeRange.StartTime;
+            var endTime = JobConfigurations.TimeRange.EndTime;
             var totalSeconds = (int)((endTime - startTime).TotalSeconds);
             try
             {
@@ -92,8 +92,8 @@ namespace DominatorUIUtility.CustomControl.Publisher
         {
             JobConfigurations.LstTimer.Clear();
             Random random = new Random();
-            var startTime = JobConfigurations.StartTime;
-            var endTime = JobConfigurations.EndTime;
+            var startTime = JobConfigurations.TimeRange.StartTime;
+            var endTime = JobConfigurations.TimeRange.EndTime;
             for (int noOfPost = 0; noOfPost < JobConfigurations.MaxPost; noOfPost++)
             {
                 JobConfigurations.LstTimer.Add(new TimeSpanHelper() { MidTime = GetRandomTime(startTime, endTime, random) });

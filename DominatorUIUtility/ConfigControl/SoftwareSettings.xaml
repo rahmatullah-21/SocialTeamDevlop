@@ -32,11 +32,11 @@
         <ScrollViewer   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel Margin="10" x:Name="MainGrid">
                 <CheckBox Margin="5" Content="{DynamicResource DHlangRunDHAtStartUp}"
-                          IsChecked="{Binding IsRunDHAtStartUpChecked}"/>
+                         Visibility="Collapsed" IsChecked="{Binding IsRunDHAtStartUpChecked}"/>
                 <CheckBox Margin="5" Content="{DynamicResource DHlangShowToolTipToSystemTray}"
-                          IsChecked="{Binding IsShowToolTipToSystemTrayChecked}"/>
+                          Visibility="Collapsed"   IsChecked="{Binding IsShowToolTipToSystemTrayChecked}"/>
                 <CheckBox Margin="5" Content="{DynamicResource DHlangRecreateDesktopshortcutAtStartup}"
-                          IsChecked="{Binding IsRecreateDesktopshortcutAtStartupChecked}"/>
+                          Visibility="Collapsed" IsChecked="{Binding IsRecreateDesktopshortcutAtStartupChecked}"/>
                 <!--<CheckBox Margin="5" Content="{DynamicResource DHlangStartAppMinimized}"
                           IsChecked="{Binding IsStartAppMinimizedChecked}"/>
                 <CheckBox Margin="5" Content="{DynamicResource DHlangShowSameAccounts}"
@@ -98,7 +98,7 @@
                           IsChecked="{Binding IsDoNotShowInfoMessegesChecked}"/>
                 <CheckBox Margin="5" Content="{DynamicResource DHlangUseLocalPcCulture}"
                           IsChecked="{Binding IsUseLocalPcCultureChecked}"/>-->
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Visibility="Collapsed" >
                     <CheckBox Margin="5" Content="{DynamicResource DHlangEnableAutoRestartSocinator}"
                               IsChecked="{Binding IsEnableAutoRestartSocinatorChecked}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" IsEnabled="{Binding IsEnableAutoRestartSocinatorChecked}"
@@ -111,10 +111,9 @@
                                             Value="{Binding AccountSynchronizationHours}"/>
                     <Label Margin="5" Content="{DynamicResource langHours}"/>
                 </StackPanel>
-                <StackPanel>
+                <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5" Text="{DynamicResource DHlangSimultaneousAccountUpdateCount}"/>
-                    <controls:NumericUpDown Minimum="0" Margin="5" 
-                                            Value="{Binding SimultaneousAccountUpdateCount}"/>
+                    <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
                 </StackPanel>
                 <!--<StackPanel Orientation="Horizontal">
                     <Label Margin="5" Content="{DynamicResource DHlangInstallNnewAvailableUpdates}"/>

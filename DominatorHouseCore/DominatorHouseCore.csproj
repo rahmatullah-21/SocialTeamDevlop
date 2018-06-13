@@ -437,6 +437,7 @@
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TwitterModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
+    <Compile Include="Models\SocioPublisher\ScrapePostModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\FdPostSettings.cs" />
     <Compile Include="Models\SocioPublisher\Settings\GdPostSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\IFdPostSettings.cs" />
@@ -448,6 +449,7 @@
     <Compile Include="Models\SocioPublisher\Settings\GeneralPostSettings.cs" />
     <Compile Include="Models\SocioPublisher\Settings\LdPostSettings.cs" />
     <Compile Include="Models\SocioPublisher\Settings\PublisherPostSettings.cs" />
+    <Compile Include="Models\SocioPublisher\SharePostModel.cs" />
     <Compile Include="Models\SocioPublisher\SocinatorIntellisenseModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\TdPostSettings.cs" />
     <Compile Include="Models\SocioPublisher\Settings\TumberPostSettings.cs" />

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using System.Threading.Tasks;
 using System.Windows;
 using DominatorHouseCore.Enums;
+
 
 namespace DominatorHouseCore.Utility
 {

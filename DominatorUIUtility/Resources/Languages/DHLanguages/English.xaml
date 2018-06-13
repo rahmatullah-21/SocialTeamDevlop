@@ -202,7 +202,7 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangScrapePost">Scrape Post</system:String>
     <system:String x:Key="DHlangRssFeed">RSS Feed</system:String>
     <system:String x:Key="DHlangMonitorFolder">Monitor Folder</system:String>
-    <system:String x:Key="DHlangSharePost">Scarpe Post</system:String>
+    <system:String x:Key="DHlangSharePost">Share Post</system:String>
     <system:String x:Key="DHlangManagePostDraft">Draft</system:String>
     <system:String x:Key="DHlangManagePostPending">Pending</system:String>
     <system:String x:Key="DHlangManagePostPublished">Published</system:String>

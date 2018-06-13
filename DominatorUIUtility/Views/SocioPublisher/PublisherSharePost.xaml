@@ -6,51 +6,59 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             >
-    <Grid>
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
+
+    <StackPanel Orientation="Vertical" Name="MainGrid">
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Vertical">
-                <CheckBox Margin="2" Content="{DynamicResource DHlangShareCustomPostList}" />
-                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangShareAddCustomPostList}" Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"></TextBox>
-            </StackPanel>
+            <CheckBox Margin="2" Content="{DynamicResource DHlangShareCustomPostList}" IsChecked="{Binding IsShareCustomPostList}" />
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangShareAddCustomPostList}"
+                         Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
+                         Text="{Binding ShareAddCustomPostList}"/>
+        </StackPanel>
 
 
-            <StackPanel Orientation="Vertical">
-                <CheckBox Margin="2" Content="{DynamicResource DHlangShareFdPagePost}" />
-                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddFdPageUrl}" Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"></TextBox>
-           
-                <StackPanel Margin="10,0,0,0">
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox  Margin="2" Content="{DynamicResource DHlangNewPagePost}" />
-                        <TextBox Width="40" Height="25" Margin="2"/>
-                        <TextBlock Text="{DynamicResource DHlangMinutes}" VerticalAlignment="Center" Margin="5"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox  Margin="2" Content="{DynamicResource DHlangExtractMinimumPost}" />
-                        <TextBox Width="40" Height="25" Margin="2"/>
-                        <TextBlock Text="{DynamicResource DHlangPostPerOperation}" VerticalAlignment="Center" Margin="5"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <CheckBox Content="{DynamicResource DHlangKeywords}" VerticalAlignment="Center" Margin="5"/>
-                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddKeywords}" Margin="2" TextWrapping="Wrap" Height="60" Width="250" AcceptsReturn="True"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox  Margin="2" Content="{DynamicResource DHlangMinimumDays}" />
-                        <TextBox Width="40" Height="25" Margin="2"/>
-                        <TextBlock Text="{DynamicResource DHlangDaysOld}" VerticalAlignment="Center" Margin="5"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox  Margin="2" Content="{DynamicResource DHlangPostBetween}" />
-                        <TextBox Width="40" Height="25" Margin="2"/>
-                        <TextBlock Text="{DynamicResource DHlangAnd}" VerticalAlignment="Center" Margin="5"/>
-                        <TextBox Width="40" Height="25" Margin="2"/>
-                        <TextBlock Text="{DynamicResource DHlangLikes}" VerticalAlignment="Center" Margin="5"/>
-                    </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <CheckBox Margin="2" Content="{DynamicResource DHlangShareFdPagePost}" IsChecked="{Binding IsShareFdPagePost}" />
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddFdPageUrl}"
+                         Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
+                         Text="{Binding AddFdPageUrl}"/>
 
+            <StackPanel Margin="10,0,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox  Margin="2" Content="{DynamicResource DHlangNewPagePost}" IsChecked="{Binding IsNewPagePost}"/>
+                    <controls:NumericUpDown Width="40" Height="25" Margin="2" Minimum="0" Value="{Binding PostPerMinute}" IsEnabled="{Binding IsNewPagePost}"/>
+                    <TextBlock Text="{DynamicResource DHlangMinutes}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
-            
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox  Margin="2" Content="{DynamicResource DHlangExtractMinimumPost}" IsChecked="{Binding IsExtractMinimumPost}"/>
+                    <controls:NumericUpDown Width="40" Height="25" Margin="2" Minimum="0" IsEnabled="{Binding IsExtractMinimumPost}" Value="{Binding MaxPost}"/>
+                    <TextBlock Text="{DynamicResource DHlangPostPerOperation}" VerticalAlignment="Center" Margin="5"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="{DynamicResource DHlangKeywords}" VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsKeywords}"/>
+                    <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddKeywords}"
+                             Margin="2" TextWrapping="Wrap" Height="60" Width="250" AcceptsReturn="True"
+                             Text="{Binding AddKeywords}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox  Margin="2" Content="{DynamicResource DHlangMinimumDays}" IsChecked="{Binding IsMinimumDays}"/>
+                    <controls:NumericUpDown Width="40" Height="25" Margin="2" Minimum="0" Value="{Binding MinimumDays}" IsEnabled="{Binding IsMinimumDays}"/>
+                    <TextBlock Text="{DynamicResource DHlangDaysOld}" VerticalAlignment="Center" Margin="5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox  Margin="2" Content="{DynamicResource DHlangPostBetween}" IsChecked="{Binding IsPostBetween}" />
+                    <controls:NumericUpDown Width="40" Height="25" Margin="2" Minimum="0" IsEnabled="{Binding IsPostBetween}"
+                                            Value="{Binding PostBetween.StartValue}"/>
+                    <TextBlock Text="{DynamicResource DHlangAnd}" VerticalAlignment="Center" Margin="5"/>
+                    <controls:NumericUpDown Width="40" Height="25" Margin="2"  Minimum="{Binding PostBetween.StartValue}"  IsEnabled="{Binding IsPostBetween}"
+                                            Value="{Binding PostBetween.EndValue}"/>
+                    <TextBlock Text="{DynamicResource DHlangLikes}" VerticalAlignment="Center" Margin="5"/>
+                </StackPanel>
+
             </StackPanel>
 
         </StackPanel>
-    </Grid>
+
+    </StackPanel>
+
 </UserControl>

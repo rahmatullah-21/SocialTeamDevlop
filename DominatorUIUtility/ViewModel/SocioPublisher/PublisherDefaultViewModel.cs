@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using DominatorHouseCore;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorUIUtility.Behaviours;
@@ -44,7 +45,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public ICommand DeleteCampaignCommand { get; set; }
 
-      
+
         public ObservableCollection<PublisherCampaignStatusModel> ListPublisherCampaignStatusModels { get; set; } = new ObservableCollection<PublisherCampaignStatusModel>();
 
         private ICollectionView _publisherCampaignStatusModelView;
@@ -168,7 +169,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         AddCampaignDetails(clonedCampaignStatus);
                     });
-                }             
+                }
             }
             catch (Exception ex)
             {
@@ -202,7 +203,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (isIndividualDelete)
             {
-                var campaign = (PublisherCampaignStatusModel) sender;
+                var campaign = (PublisherCampaignStatusModel)sender;
 
                 var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
                     "Confirmation", "If you delete it, cant recover back \nAre you sure ?",
@@ -217,7 +218,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             else
             {
-               var publisherCampaignStatusModels = GetSelectedCampaigns();
+                var publisherCampaignStatusModels = GetSelectedCampaigns();
 
                 if (publisherCampaignStatusModels.Count == 0)
                 {
@@ -238,22 +239,36 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private List<PublisherCampaignStatusModel> GetSelectedCampaigns() 
+        private List<PublisherCampaignStatusModel> GetSelectedCampaigns()
             => ListPublisherCampaignStatusModels.Where(x => x.IsSelected).ToList();
 
         public void InitializeDefaultCampaignStatus()
         {
             PublisherCampaignStatusModelView = CollectionViewSource.GetDefaultView(ListPublisherCampaignStatusModels);
-
-            var publisherCampaignStatusModel = new PublisherCampaignStatusModel();
-            publisherCampaignStatusModel.GenerateCampaign();
-            for (int i = 0; i < 5; i++)
+            var allCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
+                (ConstantVariable.GetOtherDir() + "\\Campaign.bin");
+            //var publisherCampaignStatusModel = new PublisherCampaignStatusModel();
+            allCampaign.ForEach(camp =>
             {
-                var campaignStatus = GetCampaginDeepClone(publisherCampaignStatusModel);
-                campaignStatus.GenerateCampaign();
-                campaignStatus.CampaignName = campaignStatus.CampaignName + RandomUtilties.GetRandomNumber(100);
-                AddCampaignDetails(campaignStatus);
-            }
+                var publisherCampaignStatusModel = new PublisherCampaignStatusModel()
+                {
+                    CampaignName = camp.CampaignName,
+                    CampaignId = camp.CampaignId,
+                    StartDate = camp.JobConfigurations.CampaignStartDate,
+                    EndDate = camp.JobConfigurations.CampaignEndDate,
+                    CreatedDate = camp.CreatedDate,
+                    Status = camp.CampaignStatus,
+                };
+                AddCampaignDetails(publisherCampaignStatusModel);
+            });
+            //publisherCampaignStatusModel.GenerateCampaign();
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    var campaignStatus = GetCampaginDeepClone(publisherCampaignStatusModel);
+            //    campaignStatus.GenerateCampaign();
+            //    campaignStatus.CampaignName = campaignStatus.CampaignName + RandomUtilties.GetRandomNumber(100);
+            //    AddCampaignDetails(campaignStatus);
+            //}
         }
 
         public bool AddCampaignDetails(PublisherCampaignStatusModel publisherCampaignStatusModel)

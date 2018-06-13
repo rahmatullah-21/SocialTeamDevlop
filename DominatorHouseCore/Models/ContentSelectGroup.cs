@@ -1,5 +1,4 @@
 ﻿using DominatorHouseCore.Utility;
-using System.Windows;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models

@@ -18,10 +18,10 @@
             <control:NumericUpDown x:Name="numericMaxPost" Minimum="0"
                                    Value="{Binding JobConfigurations.MaxPost}" VerticalAlignment="Center" Margin="5"/>
             <TextBlock Text="{DynamicResource langPostListItemsPerDay}" VerticalAlignment="Center" Margin="5"/>
-            <control:TimePicker SelectedTime="{Binding JobConfigurations.StartTime}" 
+            <control:TimePicker SelectedTime="{Binding JobConfigurations.TimeRange.StartTime}" 
                                 VerticalAlignment="Center" Margin="5" IsClockVisible="False"/>
             <TextBlock Text="{DynamicResource langAnd}"  VerticalAlignment="Center" Margin="5"/>
-            <control:TimePicker SelectedTime="{Binding JobConfigurations.EndTime}" 
+            <control:TimePicker SelectedTime="{Binding  JobConfigurations.TimeRange.EndTime}" 
                                 VerticalAlignment="Center" Margin="5" IsClockVisible="False"/>
             <TextBlock Text="{DynamicResource langPostListItemSentToGroupsPageWalls}"  VerticalAlignment="Center" Margin="5"/>
         </StackPanel>
@@ -120,7 +120,8 @@
                      Value="{Binding JobConfigurations.DelayBetween.StartValue}"
                      VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource langAnd}"  VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown Minimum="{Binding JobConfigurations.DelayBetween.EndValue}" Value="{Binding JobConfigurations.PostBetween.EndValue}" VerticalAlignment="Center"  Margin="5"/>
+            <control:NumericUpDown Minimum="{Binding JobConfigurations.DelayBetween.StartValue}" 
+                                   Value="{Binding JobConfigurations.DelayBetween.EndValue}" VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource DHlangMinuteAfterPublishing}"  VerticalAlignment="Center" Margin="5"/>
             <control:NumericUpDown Minimum="0"
                      Value="{Binding JobConfigurations.PostRange.StartValue}"
@@ -153,7 +154,7 @@
                                Value="{Binding JobConfigurations.DelayBetweenPost.StartValue}"
                                VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource langTo}"  VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown Minimum="{Binding JobConfigurations.DelayBetweenPost.EndValue}" Value="{Binding JobConfigurations.PostBetween.EndValue}" VerticalAlignment="Center"  Margin="5"/>
+            <control:NumericUpDown Minimum="{Binding JobConfigurations.DelayBetweenPost.StartValue}" Value="{Binding JobConfigurations.DelayBetweenPost.EndValue}" VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource langSeconds}"  VerticalAlignment="Center" Margin="5"/>
         </StackPanel>
 

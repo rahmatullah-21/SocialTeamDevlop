@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
@@ -14,34 +16,32 @@ namespace DominatorUIUtility.Views.SocioPublisher
         public PublisherDirectPosts()
         {
             InitializeComponent();
-            _currentPublisherDirectPosts = this;
-            DirectPost.DataContext = PublisherDirectPostsViewModel;
+           
+          //  DirectPost.DataContext = PublisherDirectPostsViewModel;
            
 
 
         }
 
-        private static PublisherDirectPosts _currentPublisherDirectPosts = null;
-
-        public static PublisherDirectPosts GetSingeltonPublisherDirectPosts()
+        public PublisherDirectPosts(PostDetailsModel PostDetailsModel) :this()
         {
-            return _currentPublisherDirectPosts ?? (_currentPublisherDirectPosts = new PublisherDirectPosts());
+            DirectPost.DataContext = PostDetailsModel;
         }
 
-        private PublisherDirectPostsViewModel _publisherDirectPostsViewModel=new PublisherDirectPostsViewModel();
+        //private PublisherDirectPostsViewModel _publisherDirectPostsViewModel=new PublisherDirectPostsViewModel();
 
-        public PublisherDirectPostsViewModel PublisherDirectPostsViewModel
-        {
-            get
-            {
-                return _publisherDirectPostsViewModel;
-            }
-            set
-            {
-                _publisherDirectPostsViewModel = value;
-                OnPropertyChanged(nameof(PublisherDirectPostsViewModel));
-            }
-        }
+        //public PublisherDirectPostsViewModel PublisherDirectPostsViewModel
+        //{
+        //    get
+        //    {
+        //        return _publisherDirectPostsViewModel;
+        //    }
+        //    set
+        //    {
+        //        _publisherDirectPostsViewModel = value;
+        //        OnPropertyChanged(nameof(PublisherDirectPostsViewModel));
+        //    }
+        //}
 
 
 
@@ -51,6 +51,11 @@ namespace DominatorUIUtility.Views.SocioPublisher
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void PublisherDirectPosts_OnLoaded(object sender, RoutedEventArgs e)
+        {
+         var v=   DirectPost.DataContext;
         }
     }
 }

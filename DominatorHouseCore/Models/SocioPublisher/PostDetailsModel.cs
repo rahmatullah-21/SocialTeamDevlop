@@ -154,5 +154,20 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PublisherPostSettings));
             }
         }
+        private bool _isSinglePost;
+        [ProtoMember(10)]
+        public bool IsSinglePost
+        {
+            get
+            {
+                return _isSinglePost;
+            }
+            set
+            {
+                if (value == _isSinglePost)
+                    return;
+                SetProperty(ref _isSinglePost, value);
+            }
+        }
     }
 }

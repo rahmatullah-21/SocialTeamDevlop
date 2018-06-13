@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.Models.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
@@ -24,5 +25,11 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             InitializeComponent();
         }
+
+        public PublisherScrapePost(ScrapePostModel ScrapePostModel):this()
+        {
+            MainGrid.DataContext = ScrapePostModel;
+        }
+
     }
 }

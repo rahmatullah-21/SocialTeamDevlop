@@ -38,10 +38,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _campaignStatus= "Active";
+        private PublisherCampaignStatus _campaignStatus = PublisherCampaignStatus.Active;
         // To specify the campaign status
         [ProtoMember(3)]
-        public string CampaignStatus
+        public PublisherCampaignStatus CampaignStatus
         {
             get
             {
@@ -78,8 +78,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public JobConfigurationModel JobConfigurations { get; set; } = new JobConfigurationModel();
         [ProtoMember(6)]
         public OtherConfigurationModel OtherConfiguration { get; set; } = new OtherConfigurationModel();
+        private PostDetailsModel _postDetailsModel { get; set; } = new PostDetailsModel();
         [ProtoMember(7)]
-        public PostDetailsModel PostDetailsModel { get; set; }=new PostDetailsModel();
+        public PostDetailsModel PostDetailsModel
+        {
+            get
+            {
+                return _postDetailsModel;
+            }
+            set
+            {
+                if (_postDetailsModel == value)
+                    return;
+                _postDetailsModel = value;
+                OnPropertyChanged(nameof(PostDetailsModel));
+            }
+        }
         private ObservableCollection<string> _lstDestinationId = new ObservableCollection<string>();
         
         [ProtoMember(8)]
@@ -97,6 +111,38 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(_lstDestinationId));
             }
         }
-
+        private ScrapePostModel _scrapePostModel = new ScrapePostModel();
+        [ProtoMember(9)]
+        public ScrapePostModel ScrapePostModel
+        {
+            get
+            {
+                return _scrapePostModel;
+            }
+            set
+            {
+                if (_scrapePostModel == value)
+                    return;
+                _scrapePostModel = value;
+                OnPropertyChanged(nameof(ScrapePostModel));
+            }
+        }
+        private SharePostModel _sharePostModel = new SharePostModel();
+        [ProtoMember(10)]
+        public SharePostModel SharePostModel {
+            get
+            {
+                return _sharePostModel;
+            }
+            set
+            {
+                if (_sharePostModel == value)
+                    return;
+                _sharePostModel = value;
+                OnPropertyChanged(nameof(SharePostModel));
+            }
+        }
+        [ProtoMember(11)]
+        public DateTime CreatedDate { get; set; }=DateTime.Now;
     }
 }

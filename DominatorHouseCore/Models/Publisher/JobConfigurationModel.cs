@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
@@ -29,37 +25,37 @@ namespace DominatorHouseCore.Models.Publisher
 
             }
         }
-        private TimeSpan _startTime = new TimeSpan();
+        private TimeRange _timeRange = new TimeRange(new TimeSpan(0, 0, 0), new TimeSpan(23, 59, 59));
         [ProtoMember(2)]
-        public TimeSpan StartTime
+        public TimeRange TimeRange
         {
             get
             {
-                return _startTime;
+                return _timeRange;
             }
             set
             {
-                if (value == _startTime)
+                if (value == _timeRange)
                     return;
-                SetProperty(ref _startTime, value);
+                SetProperty(ref _timeRange, value);
             }
         }
-        private TimeSpan _endTime = new TimeSpan();
-        [ProtoMember(3)]
-        public TimeSpan EndTime
-        {
-            get
-            {
-                return _endTime;
-            }
-            set
-            {
-                if (value == _endTime)
-                    return;
-                SetProperty(ref _endTime, value);
+        //private TimeSpan _endTime = new TimeSpan();
+        //[ProtoMember(3)]
+        //public TimeSpan EndTime
+        //{
+        //    get
+        //    {
+        //        return _endTime;
+        //    }
+        //    set
+        //    {
+        //        if (value == _endTime)
+        //            return;
+        //        SetProperty(ref _endTime, value);
 
-            }
-        }
+        //    }
+        //}
         private bool _isSpecifyPostingIntervalChecked;
         [ProtoMember(4)]
         public bool IsSpecifyPostingIntervalChecked
@@ -198,7 +194,7 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _sleepBetween, value);
             }
         }
-        private RangeUtilities _sendingBetween=new RangeUtilities();
+        private RangeUtilities _sendingBetween = new RangeUtilities();
         [ProtoMember(13)]
         public RangeUtilities SendingBetween
         {
@@ -379,8 +375,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isRotateDayChecked, value);
             }
         }
-       
-        private List<ContentSelectGroup> _weekday=new List<ContentSelectGroup>();
+
+        private List<ContentSelectGroup> _weekday = new List<ContentSelectGroup>();
         [ProtoMember(25)]
         public List<ContentSelectGroup> Weekday
         {
@@ -452,7 +448,7 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isAddDelayBetweenPublishingPost, value);
             }
         }
-        private RangeUtilities _delayBetween=new RangeUtilities();
+        private RangeUtilities _delayBetween = new RangeUtilities();
         [ProtoMember(30)]
         public RangeUtilities DelayBetween
         {
@@ -497,5 +493,83 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _delayBetweenPost, value);
             }
         }
+
+        private DateTime _campaignStartDate = DateTime.Now;
+        [ProtoMember(33)]
+        public DateTime CampaignStartDate
+        {
+            get
+            {
+                return _campaignStartDate;
+            }
+            set
+            {
+                if (value == _campaignStartDate)
+                    return;
+                SetProperty(ref _campaignStartDate, value);
+            }
+        }
+        private DateTime _campaignEndDate = DateTime.Now.AddHours(1);
+        [ProtoMember(34)]
+        public DateTime CampaignEndDate
+        {
+            get
+            {
+                return _campaignEndDate;
+            }
+            set
+            {
+                if (value == _campaignEndDate)
+                    return;
+                SetProperty(ref _campaignEndDate, value);
+            }
+        }
+    }
+    [ProtoContract]
+    public class TimeRange:BindableBase
+    {
+
+        // Constructor for initialize the start time and end time to local property
+        public TimeRange(TimeSpan startTime, TimeSpan endTime)
+        {
+            this.StartTime = startTime;
+            this.EndTime = endTime;
+
+        }
+
+        private TimeSpan _startTime;
+        [ProtoMember(1)]
+        public TimeSpan StartTime
+        {
+            get
+            {
+                return _startTime;
+            }
+            set
+            {
+                if (value == _startTime)
+                    return;
+                SetProperty(ref _startTime, value);
+            }
+        }
+
+        private TimeSpan _endTime;
+        [ProtoMember(2)]
+        public TimeSpan EndTime
+        {
+            get
+            {
+                return _endTime;
+            }
+            set
+            {
+                if (value == _endTime)
+                    return;
+                SetProperty(ref _endTime, value);
+            }
+        }
+
+      
+
     }
 }

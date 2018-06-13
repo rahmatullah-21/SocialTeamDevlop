@@ -43,8 +43,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{DynamicResource langFilter}" DisplayMemberBinding="{Binding FilterText}"/>
-                        <GridViewColumn Header="{DynamicResource langAction}">
+                      <GridViewColumn Header="{DynamicResource langAction}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Margin="4" >

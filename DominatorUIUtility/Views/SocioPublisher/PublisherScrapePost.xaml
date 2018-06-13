@@ -5,22 +5,30 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" 
-            >
-    <Grid>
+             mc:Ignorable="d" >
+
+    <StackPanel Orientation="Vertical"  Name="MainGrid">
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Vertical">
-                <CheckBox Margin="2" Content="{DynamicResource DHlangScrapeFacebookPost}" />
-                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddFdPostSource}" Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <CheckBox Margin="2" Content="{DynamicResource DHlangScrapePinterestPost}" />
-                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddPdPostSource}" Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <CheckBox Margin="2" Content="{DynamicResource DHlangScrapeTwitterPost}" />
-                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddTdPostSource}" Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"></TextBox>
-            </StackPanel>
+            <CheckBox Margin="2" Content="{DynamicResource DHlangScrapeFacebookPost}" IsChecked="{Binding IsScrapeFacebookPost}"/>
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
+                         mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddFdPostSource}" Margin="2" TextWrapping="Wrap" 
+                         Height="60" Width="404" AcceptsReturn="True" Text="{Binding AddFdPostSource}"
+                     />
         </StackPanel>
-    </Grid>
+        <StackPanel Orientation="Vertical">
+            <CheckBox Margin="2" Content="{DynamicResource DHlangScrapePinterestPost}" 
+                          IsChecked="{Binding IsScrapePinterestPost}"/>
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
+                         mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddPdPostSource}" 
+                         Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
+                        Text="{Binding AddPdPostSource}" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <CheckBox Margin="2" Content="{DynamicResource DHlangScrapeTwitterPost}" IsChecked="{Binding IsScrapeTwitterPost}" />
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddTdPostSource}"
+                         Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
+                         Text="{Binding AddTdPostSource}"/>
+        </StackPanel>
+    </StackPanel>
+
 </UserControl>

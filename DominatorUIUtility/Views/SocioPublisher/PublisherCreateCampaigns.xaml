@@ -102,10 +102,11 @@
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <Label Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}"/>
                     <ComboBox x:Name="ComboCampaignList" Height="25" Width="250" ItemsSource="{Binding CampaignList}" 
-                              metroControls:TextBoxHelper.ClearTextButton="True" 
-                              behaviours:SelectionChangedBehaviour.Command="{Binding CampaignChangedCommand}"/>
-                              <!--SelectionChanged="ComboCampaignList_OnSelectionChanged"/>-->
-                              <!--behaviours:SelectionChangedBehaviour.Command="{Binding CampaignChangedCommand}"/>-->
+                              behaviours:SelectionChangedBehaviour.Command="{Binding CampaignChangedCommand}"
+                              SelectedItem="{Binding SelectedItem}"/>
+                    <!--metroControls:TextBoxHelper.ClearTextButton="True"-->
+                    <!--SelectionChanged="ComboCampaignList_OnSelectionChanged"/>-->
+                    <!--behaviours:SelectionChangedBehaviour.Command="{Binding CampaignChangedCommand}"/>-->
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -160,7 +161,7 @@
 
                     <!--Options selections like create post, create post by multiple area, Scarpe post, Share post, Rss feed , Monitor folder-->
                     <TabControl x:Name="CreateCampaignTabs" ItemsSource="{Binding PostTabItems}" TabStripPlacement="Top"  Margin="10,5,5,5"
-                                metroControls:TabControlHelper.IsUnderlined="True" 
+                                metroControls:TabControlHelper.IsUnderlined="True" SelectedIndex="3"
                                 metroControls:TabControlHelper.Underlined="SelectedTabItem">
                         <TabControl.ItemTemplate >
                             <DataTemplate>
@@ -173,7 +174,7 @@
                             </DataTemplate>
                         </TabControl.ContentTemplate>
                     </TabControl>
-                    
+
                     <!--Job Configuration and Other Configuration-->
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -188,7 +189,7 @@
                         </Expander>
 
                     </Grid>
-                    
+
                 </Grid>
             </ScrollViewer>
         </Grid>

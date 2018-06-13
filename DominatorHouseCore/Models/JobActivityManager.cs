@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 using DominatorHouseCore.Enums;

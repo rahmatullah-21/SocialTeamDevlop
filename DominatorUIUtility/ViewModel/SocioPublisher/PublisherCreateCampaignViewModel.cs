@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Models;
@@ -31,10 +32,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             #endregion
 
             PostTabItems = InitializeTabs();
-            CampaignList =new ObservableCollection<string>(
+            CampaignList = new ObservableCollection<string>(
                 GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetOtherDir() +
                                                                                   "\\Campaign.bin").Select(x => x.CampaignName));
-               
+
 
             PublisherCreateCampaignModel.JobConfigurations.Weekday.Clear();
 
@@ -84,46 +85,61 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(CampaignList));
             }
         }
+        private string _selectedItem ;
 
+        public string SelectedItem
+        {
+            get
+            {
+                return _selectedItem;
+            }
+            set
+            {
+                if (_selectedItem == value)
+                    return;
+                _selectedItem = value;
+                OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
         #region Command
         public ICommand NavigationCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand SelectDestinationCommand { get; set; }
-        public ICommand CampaignChangedCommand { get; set; } 
+        public ICommand CampaignChangedCommand { get; set; }
         #endregion
 
-        public List<TabItemTemplates> PostTabItems { get; set; } 
+        public List<TabItemTemplates> PostTabItems { get; set; }
 
         #endregion
 
-        private  List<TabItemTemplates> InitializeTabs()
+        private List<TabItemTemplates> InitializeTabs()
         {
             var tabItems = new List<TabItemTemplates>
             {
                 new TabItemTemplates
                 {
                     Title= Application.Current.FindResource("DHlangCreatePost")?.ToString(),
-                    Content=new Lazy<UserControl>(()=> new PublisherDirectPosts())
+                    Content=new Lazy<UserControl>(()=> new PublisherDirectPosts(PublisherCreateCampaignModel.PostDetailsModel))
                 },
                 new TabItemTemplates
                 {
                     Title=Application.Current.FindResource("DHlangScrapePost")?.ToString(),
-                    Content=new Lazy<UserControl>(()=>new PublisherScrapePost())
+                    Content=new Lazy<UserControl>(()=>new PublisherScrapePost(PublisherCreateCampaignModel.ScrapePostModel))
                 },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("DHlangSharePost")?.ToString(),
-                    Content=new Lazy<UserControl>(()=>new PublisherSharePost())
+                    Content=new Lazy<UserControl>(()=>new PublisherSharePost(PublisherCreateCampaignModel.SharePostModel))
                 },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("DHlangRssFeed")?.ToString(),
-                    Content=new Lazy<UserControl>(()=>new PublisherDirectPosts())
+
                 },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("DHlangMonitorFolder")?.ToString(),
-                    Content=new Lazy<UserControl>(()=>new PublisherDirectPosts())
+
                 },
 
             };
@@ -154,10 +170,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 Dialog.ShowDialog("Warning", "Please select atleast one Destination.");
                 return;
             }
-            _publisherCreateCampaignModel.PostDetailsModel = PublisherDirectPosts.GetSingeltonPublisherDirectPosts()
-                .PublisherDirectPostsViewModel.PostDetailsModel;
-            GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel, ConstantVariable.GetOtherDir()+ "\\Campaign.bin");
-            Dialog.ShowDialog("Success", "Campaign successfully saved.");
+
+            if (!string.IsNullOrEmpty(SelectedItem))
+            {
+                var LstCampaign=GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
+                    ConstantVariable.GetOtherDir() + "\\Campaign.bin");
+                LstCampaign.ForEach(x =>
+                {
+                    if (x.CampaignName == SelectedItem)
+                        x = PublisherCreateCampaignModel;
+                });
+                GenericFileManager.UpdateModuleDetails<PublisherCreateCampaignModel>(LstCampaign,
+                    ConstantVariable.GetOtherDir() + "\\Campaign.bin");
+            }
+            else
+            {
+                if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel,
+                    ConstantVariable.GetOtherDir() + "\\Campaign.bin"))
+                    Dialog.ShowDialog("Success", "Campaign successfully saved.");
+            }
             CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
         }
 
@@ -166,38 +197,33 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SelectDestinationExecute(object sender)
         {
-            PublisherManageDestinations publisherManageDestinations=new PublisherManageDestinations(Visibility.Collapsed);
+            PublisherManageDestinations publisherManageDestinations = new PublisherManageDestinations(Visibility.Collapsed);
             Dialog dialog = new Dialog();
-            var metroWindow=dialog.GetMetroWindow(publisherManageDestinations, "Select Destination");
+            var metroWindow = dialog.GetMetroWindow(publisherManageDestinations, "Select Destination");
             metroWindow.ShowDialog();
             var destinationId = publisherManageDestinations.PublisherManageDestinationViewModel
                 .ListPublisherManageDestinationModels
                 .Where(x => x.IsSelected).Select(x => x.DestinationId).ToList();
-              _publisherCreateCampaignModel.LstDestinationId=new ObservableCollection<string>(destinationId);
+            _publisherCreateCampaignModel.LstDestinationId = new ObservableCollection<string>(destinationId);
         }
 
         private bool CampaignChangedCanExecute(object sender) => true;
 
         private void CampaignChangedExecute(object sender)
         {
-          var currentData=  PublisherCreateCampaigns.
-            GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel;
-         
+
             try
             {
-                currentData.PublisherCreateCampaignModel = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
+                PublisherCreateCampaigns.
+                    GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel.PublisherCreateCampaignModel = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
                     (ConstantVariable.GetOtherDir() + "\\Campaign.bin").FirstOrDefault(x => x.CampaignName == (string)sender);
-                //var v =new  PublisherDirectPosts();
-                //v.PublisherDirectPostsViewModel.PostDetailsModel =
-                //    currentData.PublisherCreateCampaignModel.PostDetailsModel;
-                PublisherDirectPosts.GetSingeltonPublisherDirectPosts()
-                        .PublisherDirectPostsViewModel.PostDetailsModel =
-                    currentData.PublisherCreateCampaignModel.PostDetailsModel;
-            }
-            catch (System.Exception ex)
-            {
 
-                currentData.PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+
             }
         }
 

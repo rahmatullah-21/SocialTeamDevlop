@@ -14,7 +14,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// <summary>
     /// Interaction logic for PublisherCreateCampaigns.xaml
     /// </summary>
-    public partial class PublisherCreateCampaigns : UserControl , INotifyPropertyChanged
+    public partial class PublisherCreateCampaigns : UserControl, INotifyPropertyChanged
     {
         private PublisherCreateCampaignViewModel _publisherCreateCampaignViewModel = new PublisherCreateCampaignViewModel();
 
@@ -28,7 +28,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         public static PublisherCreateCampaigns GetSingeltonPublisherCreateCampaigns()
         {
-            return currentObject?? (currentObject=new PublisherCreateCampaigns());
+            return currentObject ?? (currentObject = new PublisherCreateCampaigns());
         }
         public PublisherCreateCampaignViewModel PublisherCreateCampaignViewModel
         {
@@ -38,7 +38,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
             set
             {
-                if(_publisherCreateCampaignViewModel == value)
+                if (_publisherCreateCampaignViewModel == value)
                     return;
                 _publisherCreateCampaignViewModel = value;
                 OnPropertyChanged(nameof(PublisherCreateCampaignViewModel));
@@ -59,33 +59,20 @@ namespace DominatorUIUtility.Views.SocioPublisher
             switch (onLabel)
             {
                 case "Completed":
-                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = "Stopped";
+                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Stopped;
                     break;
                 case "Stopped":
-                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = "Active";
+                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Active;
                     break;
                 case "Active":
-                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = "Paused";
+                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Paused;
                     break;
                 case "Paused":
-                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = "Completed";
+                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Completed;
                     break;
 
             }
         }
 
-        private void ComboCampaignList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                PublisherCreateCampaignViewModel.PublisherCreateCampaignModel = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
-                        (ConstantVariable.GetOtherDir() + "\\Campaign.bin").FirstOrDefault(x => x.CampaignName == ComboCampaignList.SelectedItem.ToString());
-            }
-            catch (System.Exception ex)
-            {
-
-                PublisherCreateCampaignViewModel.PublisherCreateCampaignModel =new PublisherCreateCampaignModel();
-            }
-        }
     }
 }
