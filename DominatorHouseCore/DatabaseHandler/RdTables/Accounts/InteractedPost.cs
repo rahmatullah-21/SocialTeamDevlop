@@ -69,5 +69,6 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 
         [Column(Order = 29)]
         public string PointsCount { get; set; }
+
     }
 }

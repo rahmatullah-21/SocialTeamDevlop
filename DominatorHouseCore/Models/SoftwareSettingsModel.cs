@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
@@ -528,9 +529,17 @@ namespace DominatorHouseCore.Models
         }
 
         [ProtoMember(35, IsRequired = false)]
-        public bool IsEnableParallelActivitiesChecked { get; set; }
+        public bool IsEnableParallelActivitiesChecked
+        {
+            get { return _isEnableParallelActivitiesChecked; }
+            set
+            {if(value == _isEnableParallelActivitiesChecked)
+                    return;
+                SetProperty(ref _isEnableParallelActivitiesChecked, value);
+            }
+        }
 
-        private int _accountSynchronizationHours = 86400;
+        private int _accountSynchronizationHours = 2;
         [ProtoMember(36)]
         public int AccountSynchronizationHours
         {
@@ -547,6 +556,8 @@ namespace DominatorHouseCore.Models
         }
 
         private int _simultaneousAccountUpdate = 5;
+        private bool _isEnableParallelActivitiesChecked;
+
         [ProtoMember(37)]
         public int SimultaneousAccountUpdateCount
         {

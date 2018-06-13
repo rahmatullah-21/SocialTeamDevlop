@@ -15,12 +15,12 @@ namespace DominatorHouseCore.ViewModel
     {
         public RevisionHistoryViewModel()
         {
-            var fileContent = System.IO.File.ReadAllText(@"C:\Users\GLB-259\Desktop\version.txt").Trim();
-            var result = Regex.Split(fileContent, "version").ToList();
-            if (result != null && result.Count != 0)
-            {
-                AddingVersionDetails(result);
-            }
+            //var fileContent = System.IO.File.ReadAllText(@"C:\Users\GLB-259\Desktop\version.txt").Trim();
+           // var result = Regex.Split(fileContent, "version").ToList();
+            //if (result != null && result.Count != 0)
+            //{
+            //    AddingVersionDetails(result);
+            //}
         }
 
         private void AddingVersionDetails(List<string> result)

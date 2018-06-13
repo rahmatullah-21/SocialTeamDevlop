@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
 
@@ -51,5 +52,10 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 
         [Column(Order = 10)]
         public string FullName { get; set; }
+
+        [Column(Order = 11)]
+        public DateTime InteractionDateTime { get; set; }
+        [Column(Order = 12)]
+        public int InteractionTimeStamp { get; set; }
     }
 }

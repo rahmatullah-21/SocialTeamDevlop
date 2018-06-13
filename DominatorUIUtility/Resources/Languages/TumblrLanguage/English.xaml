@@ -13,4 +13,16 @@
     <system:String x:Key="TumlangUserLikedCommentedReblogedThePost">Reblog Liker/Commenter</system:String>
     <system:String x:Key="TumlangNewsFeed">Dashboard</system:String>
     <system:String x:Key="TumlangUsername">Username</system:String>
+
+    <system:String x:Key="langSkipBlacklistsUser">Skip Blacklisted Users</system:String>
+    <system:String x:Key="langPrivateBlacklists">Private blacklist</system:String>
+    <system:String x:Key="langGroupBlacklists">Group blacklist</system:String>
+    <system:String x:Key="TumblrlangManageBlacklistWhitelistUsers">Manage Blacklist/Whitelist users</system:String>
+    <system:String x:Key="TumblrlangSkipWhitelistedUsers">Skip Whitelisted Users</system:String>
+    <system:String x:Key="TumblrlangUseWhitelistUser">Use Private Whitelist</system:String>
+    <system:String x:Key="TumblrlangUseGroupWhitelistUser">Use Group Whitelist</system:String>
+    <system:String x:Key="TumblrlangAddToBlacklist">Add to Blacklist once Unfollowed</system:String>
+    <system:String x:Key="TumblrlangAddToPrivateBlacklist">Add to Private Blacklist</system:String>
+    <system:String x:Key="TumblrlangAddToGroupBlacklist">Add to Group Blacklist</system:String>
+
 </ResourceDictionary>

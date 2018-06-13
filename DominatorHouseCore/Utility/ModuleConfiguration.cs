@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using ProtoBuf;
@@ -32,6 +33,14 @@ namespace DominatorHouseCore.Utility
         [ProtoMember(8)]
         public bool IsTemplateMadeByCampaignMode { get; set; } 
 
+        [ProtoMember(9)]
+        public DateTime LastRun { get; set; }
+
+        [ProtoMember(10)]
+        public DateTime NextRun { get; set; }
+
+        [ProtoMember(11)]
+        public RangeUtilities DelayBetweenJobs { get; set; }
 
     }
 }

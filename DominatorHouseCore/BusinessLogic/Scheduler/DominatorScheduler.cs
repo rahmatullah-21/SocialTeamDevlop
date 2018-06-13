@@ -2,8 +2,10 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Navigation;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
@@ -16,6 +18,7 @@ using Newtonsoft.Json;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.FileManagers;
 using MahApps.Metro.Controls.Dialogs;
+using Newtonsoft.Json.Linq;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
@@ -37,6 +40,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             try
             {
+
                 _activeJobProcessFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).GetNetworkCoreFactory().JobProcessFactory;
 
                 var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
@@ -57,28 +61,39 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         }
 
 
-        public static void StopActivity(string accountId, string module, string templateId)
+        public static void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart)
         {
             lock (RunStopActivityLocker)
             {
-                JobProcess.Stop(accountId, templateId);
+                JobProcess.Stop(account.AccountId, templateId);
 
-                var id = JobProcess.AsId(accountId, templateId);
+                var id = JobProcess.AsId(account.AccountId, templateId);
                 JobManager.RemoveJob(id);
                 var scheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
 
                 try
                 {
-                    if (scheduledJob == null) return;
+                    if (scheduledJob == null)
+                    {
+                        if (needRestart)
+                            ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
+                        return;
+                    }
                     scheduledJob.Disable();
 
-                    if (!scheduledJob.Disabled) return;
+                    if (!scheduledJob.Disabled)
+                    {
+                        if (needRestart)
+                            ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
+                        return;
+                    }
                     GlobusLogHelper.log.Info($"{module}-{templateId}" + " stopped");
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
                 }
+
             }
         }
 
@@ -89,7 +104,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="dominatorAccount"></param>
         /// <param name="netowork"></param>
         /// <param name="activityType"></param>
-        public static void ScheduleTodayJobs(DominatorAccountModel dominatorAccount, SocialNetworks netowork, ActivityType activityType)
+        internal static void ScheduleTodayJobs(DominatorAccountModel dominatorAccount, SocialNetworks netowork, ActivityType activityType)
         {
             var moduleConfiguration = dominatorAccount.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
             if (moduleConfiguration != null && !moduleConfiguration.IsEnabled)
@@ -185,7 +200,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
                 JobManager.AddJob(() =>
                 {
-                    StopActivity(dominatorAccount.AccountBaseModel.AccountId, timing.Module, templateId);
+                    StopActivity(dominatorAccount, timing.Module, templateId, true);
                 }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
             }
             else
@@ -198,13 +213,12 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
                 JobManager.AddJob(() =>
                 {
-                    StopActivity(dominatorAccount.AccountBaseModel.AccountId, timing.Module, templateId);
+                    StopActivity(dominatorAccount, timing.Module, templateId, true);
 
                 }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
 
             }
         }
-
 
         /// <summary>
         /// ScheduleForEachModule take two argument first is Module type  and second is an object of AccountModel
@@ -213,7 +227,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// </summary>
         /// <param name="moduleToIgnore"></param>
         /// <param name="account"></param>
-        public static void ScheduleForEachModule(ActivityType? moduleToIgnore, DominatorAccountModel account, SocialNetworks network)
+        internal static void ScheduleForEachModule(ActivityType? moduleToIgnore, DominatorAccountModel account, SocialNetworks network)
         {
             try
             {
@@ -357,14 +371,31 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 }
                 if (isStart)
                 {
+                    try
+                    {
+                        var campaignStatus = CampaignsFileManager.Get()
+                            .FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId)
+                            ?.Status;
+                        if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
+                        {
+                            DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Error",
+                                $"This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
+                            return false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
                     moduleConfiguration.IsEnabled = true;
-                    ScheduleTodayJobs(accountModel, accountModel.AccountBaseModel.AccountNetwork, activityType);
+                    DominatorScheduler.ScheduleNextActivity(accountModel, activityType);
                 }
                 else
                 {
                     moduleConfiguration.IsEnabled = false;
-                    StopActivity(accountModel.AccountBaseModel.AccountId,
-                        activityType.ToString(), accountstemplateId);
+                    StopActivity(accountModel,
+                        activityType.ToString(), accountstemplateId, true);
+                    DominatorScheduler.ScheduleNextActivity(accountModel, activityType);
                 }
 
                 var socinatorAccountBuilder = new SocinatorAccountBuilder(accountModel.AccountBaseModel.AccountId)
@@ -397,10 +428,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         return true;
                     else
                     {
-                     
+
                         throw new InvalidOperationException($"Error Code : 1001 Cant able start the activity {startActivity} with account {accountId}");
                     }
-                        
+
                 else
                     throw new InvalidOperationException($"Error Code : 1002  Cant able stop the activity {stopActivity} with account {accountId}");
             }
@@ -411,5 +442,119 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
+        public static void ScheduleEachActivity(DominatorAccountModel account)
+        {
+            try
+            {
+                var moduleConfigurations = account.ActivityManager.LstModuleConfiguration;
+                foreach (var moduleConfiguration in moduleConfigurations)
+                {
+                    ScheduleNextActivity(account, moduleConfiguration.ActivityType);
+                }
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error(ex.ToString());
+            }
+        }
+
+        public static void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, SocialNetworks netowork,
+            ActivityType activityType)
+        {
+            var moduleConfiguration = dominatorAccount.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
+            if (moduleConfiguration == null || !moduleConfiguration.IsEnabled)
+                return;
+
+            // Check if activity with the same id already running
+            if (JobProcess.IsStarted(dominatorAccount.AccountId, moduleConfiguration.TemplateId))
+            {
+                GlobusLogHelper.log.Info($"Job {moduleConfiguration.TemplateId} already started for {dominatorAccount.UserName}");
+                return;
+            }
+            try
+            {
+                //Get the time when the activity has to be performed next and stopped.
+                var timeToRunNext = DateTimeUtilities.GetNextStartTime(moduleConfiguration, ReachedLimitType.Job);
+                if (timeToRunNext == DateTime.MinValue)
+                {
+                    GlobusLogHelper.log.Info($"suspicious calculation {timeToRunNext} - {DateTime.Now.AddMinutes(-1)}");
+                    return;
+                }
+                if (timeToRunNext < moduleConfiguration.NextRun)
+                {
+                    timeToRunNext = moduleConfiguration.NextRun;
+                }
+                var stopTime = timeToRunNext.Date;
+                var templateId = moduleConfiguration.TemplateId;
+                var jobId = JobProcess.AsId(dominatorAccount.AccountId, templateId);
+                var runningTimes = moduleConfiguration.LstRunningTimes[(int)timeToRunNext.DayOfWeek];
+                var timings = runningTimes.Timings.ToList();
+                timings.Sort(new RunningTimeComparer());
+                var time = new TimingRange(TimeSpan.MinValue, TimeSpan.MaxValue);
+                time.Module = activityType.ToString();
+
+                foreach (var timing in timings)
+                {
+                    if (timing.StartTime <= timeToRunNext.TimeOfDay && timeToRunNext.TimeOfDay < timing.EndTime)
+                    {
+                        stopTime = stopTime.Date.Add(timing.EndTime);
+                        time = timing;
+                        break;
+                    }
+                }
+                UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext, stopTime);
+                GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy, dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName, activityType, timeToRunNext);
+            }
+            catch (InvalidOperationException)
+            {
+                ChangeAccountsRunningStatus(false, dominatorAccount.AccountId, activityType);
+                GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccount.AccountBaseModel.AccountNetwork,
+                    dominatorAccount.UserName,
+                    $"Error:- {activityType} activity is not configured properly for this account. Please make sure you have added enough queries and updated time when activity has to be performed and clicked on save button.");
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error(ex.Message);
+            }
+        }
+
+        public static void ScheduleNextActivity(DominatorAccountModel dominatorAccountModel, ActivityType activityType)
+        {
+            if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
+            {
+                ScheduleActivityForNextJob(dominatorAccountModel, dominatorAccountModel.AccountBaseModel.AccountNetwork, activityType);
+            }
+            else
+            {
+                if (JobProcess.RunningJobProcesses.Count != 0)
+                {
+                    foreach (var jobProcess in JobProcess.RunningJobProcesses.Values)
+                    {
+                        if (jobProcess.Id.Contains(dominatorAccountModel.AccountId + "-------"))
+                        {
+                            return;
+                        }
+                    }
+                }
+                RunningActivityManager.StartNextRound(dominatorAccountModel);
+            }
+
+        }
+
+        private static void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, DateTime timeToRunNext, DateTime stopTime)
+        {
+            if (timeToRunNext < DateTime.Now)
+            {
+                timeToRunNext.AddSeconds(25);
+            }
+            JobManager.AddJob(() =>
+            {
+                RunActivity(dominatorAccount, templateId, timing, timing.Module);
+            }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
+            JobManager.AddJob(() =>
+            {
+                StopActivity(dominatorAccount, timing.Module, templateId, true);
+            }, s => s.ToRunOnceAt(stopTime));
+        }
     }
 }

@@ -146,7 +146,7 @@ namespace DominatorUIUtility.CustomControl
                         GlobusLogHelper.log.Info($"Starting campaign {campaign.CampaignName}");
                         foreach (var accountModel in lstAccountDetails.Where(x => selectedCampaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
                         {
-                            DominatorScheduler.ScheduleTodayJobs(accountModel, accountModel.AccountBaseModel.AccountNetwork, module);
+                            DominatorScheduler.ScheduleNextActivity(accountModel, module);
                         }
                     }
                     else
@@ -155,7 +155,7 @@ namespace DominatorUIUtility.CustomControl
 
                         foreach (var accountModel in lstAccountDetails.Where(x => campaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
                         {
-                            DominatorScheduler.StopActivity(accountModel.AccountBaseModel.AccountId, campaign.SubModule, campaign.TemplateId);
+                            DominatorScheduler.StopActivity(accountModel, campaign.SubModule, campaign.TemplateId, true);
                         }
                     }
                 }

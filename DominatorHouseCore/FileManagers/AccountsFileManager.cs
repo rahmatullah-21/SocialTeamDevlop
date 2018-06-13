@@ -96,6 +96,14 @@ namespace DominatorHouseCore.FileManagers
         internal static List<DominatorAccountModel> GetAll(List<string> neededAccountList) 
             => BinFileHelper.GetAccountDetails().Where(a => neededAccountList.Contains(a.AccountBaseModel.UserName)).ToList();
 
+        internal static List<DominatorAccountModel> GetAllAccounts(List<string> neededAccountList,
+            SocialNetworks socialNetwork)
+        {
+            var Accounts = BinFileHelper.GetAccountDetails().Where(a => neededAccountList.Contains((a.AccountBaseModel.UserName)))
+                .ToList();
+            return Accounts.FindAll(x => x.AccountBaseModel.AccountNetwork == socialNetwork);
+        }
+
         // backward compatibility for TD, PD
         public static bool Add(DominatorAccountModel account)
         {

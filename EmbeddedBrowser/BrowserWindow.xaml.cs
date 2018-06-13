@@ -361,16 +361,59 @@ namespace EmbeddedBrowser
             {
                 if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
                 {
+                    KeyEvent k = new KeyEvent();
+                    k.FocusOnEditableField = false;
+                    k.WindowsKeyCode = 9;
+                    k.IsSystemKey = false;
+                    k.Type = KeyEventType.KeyDown;
+                    Browser.GetBrowser().GetHost().SendKeyEvent(k);
+
+                    var userName = " " + DominatorAccountModel.AccountBaseModel.UserName;
+                    Browser.ExecuteScriptAsync("document.getElementsByName(\"id\")[0].click()");
+                    Thread.Sleep(TimeSpan.FromSeconds(1));
+                    userName.ToList<char>().ForEach((x) =>
+                    {
+                        k = new KeyEvent
+                        {
+                            WindowsKeyCode = (int)x,
+                            FocusOnEditableField = false,
+                            IsSystemKey = false,
+                            Type = KeyEventType.Char
+                        };
+                        Browser.GetBrowser().GetHost().SendKeyEvent(k);
+                    });
+
+                    k = new KeyEvent();
+                    k.FocusOnEditableField = false;
+                    k.WindowsKeyCode = 9;
+                    k.IsSystemKey = false;
+                    k.Type = KeyEventType.KeyDown;
+                    Browser.GetBrowser().GetHost().SendKeyEvent(k);
+
+
+                    var password = " " + DominatorAccountModel.AccountBaseModel.Password;
+                    Browser.ExecuteScriptAsync("document.getElementsByName(\"password\")[0].click()");
+                    password.ToList<char>().ForEach((x) =>
+                    {
+                        k = new KeyEvent();
+                        k.WindowsKeyCode = (int)x;
+                        k.FocusOnEditableField = false;
+                        k.IsSystemKey = false;
+                        k.Type = KeyEventType.Char;
+                        Browser.GetBrowser().GetHost().SendKeyEvent(k);
+
+                    });
+
+                    k = new KeyEvent();
+                    k.FocusOnEditableField = false;
+                    k.WindowsKeyCode = 13;
+                    k.IsSystemKey = false;
+                    k.Type = KeyEventType.KeyDown;
+                    Browser.GetBrowser().GetHost().SendKeyEvent(k);
+                    Thread.Sleep(1000);
+
+                    Browser.ExecuteScriptAsync("document.getElementsByClassName('SignupButton')[0].click()");
                     Thread.Sleep(2000);
-                    Browser.ExecuteScriptAsync("document.getElementById('email').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
-
-                    Thread.Sleep(2000);
-
-                    Browser.ExecuteScriptAsync("document.getElementById('password').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
-
-                    Thread.Sleep(50);
-
-                    Browser.ExecuteScriptAsync("document.getElementsByClassName('red SignupButton active')[0].click()");
 
                 }
             }

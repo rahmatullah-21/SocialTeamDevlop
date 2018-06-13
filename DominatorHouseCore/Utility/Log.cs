@@ -126,10 +126,12 @@
         /// </summary>
         public static string DelayBetweenActivity { get; set; } = "{0}\t {1}\t Next operation to {2} will perform in {3} seconds.";
         public static string NextScheduledJob { get; set; } = "{0}\t {1}\t Next job to {2} is scheduled to run by {3}";
+        public static string NextJobExpectedToStartBy { get; set; } = "{0}\t {1}\t Next job to {2} is expected to start by {3}";
         public static string JobLimitReached { get; set; } = "{0}\t {1}\t has reached per job limit of {2}";
         public static string DailyLimitReached { get; set; } = "{0}\t {1}\t has reached per day limit of {2}";
         public static string HourlyLimitReached { get; set; } = "{0}\t {1}\t has reached per hour limit of {2}";
         public static string WeeklyLimitReached { get; set; } = "{0}\t {1}\t has reached per week limit of {2}";
+        public static string LimitReached { get; set; } = "{0}\t {1}\t has reached {2} limit of {3}";
 
         /// <summary>
         /// 0 = Account's SocialNetwork

@@ -87,7 +87,7 @@
                     <Label Margin="5" Content="{DynamicResource DHlangHoursBeforeExecuting}"/>
                 </StackPanel>-->
                 <CheckBox Margin="5" Content="{DynamicResource DHlangUseTabInsteadOfComma}"
-                          IsChecked="{Binding IsUseTabInsteadOfCommaChecked}"/>
+                     Visibility="Collapsed"     IsChecked="{Binding IsUseTabInsteadOfCommaChecked}"/>
                 <!--<CheckBox Margin="5" Content="{DynamicResource DHlangEnableContactDifferentUser}"
                           IsChecked="{Binding IsEnableContactDifferentUserChecked}"/>
                 <CheckBox Margin="5" Content="{DynamicResource DHlangWhenPostingVideosSelectRandomFrame}"

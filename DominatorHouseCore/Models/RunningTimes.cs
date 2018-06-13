@@ -36,7 +36,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-       
+
         /// <summary>
         ///  DayWiseRunningTimeSpan property is initialize the running timespam for all days of the week
         /// </summary>
@@ -60,8 +60,8 @@ namespace DominatorHouseCore.Models
                             var model = new RunningTimes
                             {
                                 Day = day.ToString(),
-                                DayOfWeek = day,   
-                                IsEnabled =true
+                                DayOfWeek = day,
+                                IsEnabled = true
                             };
                             model.Timings.Add(new TimingRange(new TimeSpan(0, 0, 0), new TimeSpan(23, 59, 59)));
                             return model;
@@ -108,5 +108,25 @@ namespace DominatorHouseCore.Models
 
 
 
+    }
+
+    public class RunningTimeComparer : IComparer<TimingRange>
+    {
+        public int Compare(TimingRange x, TimingRange y)
+        {
+            if (x == null || y == null)
+                return -1;
+            return x.StartTime.CompareTo(y.StartTime);
+        }
+    }
+
+    public class RunningTimeComparerDescending : IComparer<TimingRange>
+    {
+        public int Compare(TimingRange x, TimingRange y)
+        {
+            if (x == null || y == null)
+                return -1;
+            return y.StartTime.CompareTo(x.StartTime);
+        }
     }
 }

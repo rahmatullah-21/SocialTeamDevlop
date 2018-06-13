@@ -88,42 +88,117 @@ namespace DominatorHouseCore.Process
           //  DataBaseConnectionAccount = objDatabaseHandler.GetDataBaseConnection(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);            
         }
 
-
         protected void ScheduleNextJob(DateTime dateTime)
-        {
-            Stop();
-
-            var today = DateTimeUtilities.GetDayOfWeek();
-
-            var timeScheduleModel = JobConfiguration.RunningTime.First(x => x.DayOfWeek == today);
-
-            if (!timeScheduleModel.IsEnabled)
-                return;
-
-            // get the hour and minute of current time
-            var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime); //GetTimeSpanForGivenTime
-
-            if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
+        {              
+            //Stop();
+            if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
             {
-                var moduleConfiguration = DominatorAccountModel.ActivityManager.LstModuleConfiguration
-                    .FirstOrDefault(x => x.ActivityType == ActivityType);
-
-                if (moduleConfiguration != null)
-                {
-                    var templateId = moduleConfiguration.TemplateId;
-
-                    JobManager.AddJob(
-                        () =>
-                        {                          
-                            var account = AccountsFileManager.GetAccount(DominatorAccountModel.AccountBaseModel.UserName, DominatorAccountModel.AccountBaseModel.AccountNetwork);
-
-                            moduleConfiguration = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType);
-                            var isEnabled = moduleConfiguration.IsEnabled;
-                            if (isEnabled)
-                                DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());
-                        }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
-                }
+                DominatorScheduler.ScheduleActivityForNextJob(DominatorAccountModel,DominatorAccountModel.AccountBaseModel.AccountNetwork,ActivityType);
             }
+            else
+            {
+                if (RunningJobProcesses != null)
+                {
+                    foreach (var jobProcess in RunningJobProcesses.Values)
+                    {
+                        if (jobProcess.Id.Contains(AccountId+ "-------"))
+                        {
+                            return;
+                        }
+                    }
+                }
+                RunningActivityManager.StartNextRound(DominatorAccountModel);
+            }
+
+        }
+        //protected void ScheduleNextJob(DateTime dateTime)
+        //{
+        //    Stop();
+
+        //    var today = DateTimeUtilities.GetDayOfWeek();
+
+        //    var timeScheduleModel = JobConfiguration.RunningTime.First(x => x.DayOfWeek == today);
+
+        //    if (!timeScheduleModel.IsEnabled)
+        //        return;
+
+        //    // get the hour and minute of current time
+        //    var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime); //GetTimeSpanForGivenTime
+
+        //    if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
+        //    {
+        //        var moduleConfiguration = DominatorAccountModel.ActivityManager.LstModuleConfiguration
+        //            .FirstOrDefault(x => x.ActivityType == ActivityType);
+
+        //        if (moduleConfiguration != null)
+        //        {
+        //            var templateId = moduleConfiguration.TemplateId;
+        //            JobManager.AddJob(
+        //                () =>
+        //                {
+        //                    var account = AccountsFileManager.GetAccount(DominatorAccountModel.AccountBaseModel.UserName, DominatorAccountModel.AccountBaseModel.AccountNetwork);
+
+        //                    moduleConfiguration = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType);
+        //                    var isEnabled = moduleConfiguration.IsEnabled;
+        //                    if (isEnabled)
+        //                        DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());
+        //                }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
+        //        }
+        //    }
+        //}
+
+        protected void ScheduleNextJob()
+        {
+            //if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
+            //{
+            //    Stop();
+            //    var dateTime = DateTime.Now.AddHours(1);
+            //    var today = DateTimeUtilities.GetDayOfWeek();
+
+            //    var timeScheduleModel = JobConfiguration.RunningTime.First(x => x.DayOfWeek == today);
+
+            //    if (!timeScheduleModel.IsEnabled)
+            //        return;
+
+            //    // get the hour and minute of current time
+            //    var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime); //GetTimeSpanForGivenTime
+
+            //    if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
+            //    {
+            //        var moduleConfiguration = DominatorAccountModel.ActivityManager.LstModuleConfiguration
+            //            .FirstOrDefault(x => x.ActivityType == ActivityType);
+
+            //        if (moduleConfiguration != null)
+            //        {
+            //            var templateId = moduleConfiguration.TemplateId;
+            //            JobManager.AddJob(
+            //                () =>
+            //                {
+            //                    var account = AccountsFileManager.GetAccount(DominatorAccountModel.AccountBaseModel.UserName, DominatorAccountModel.AccountBaseModel.AccountNetwork);
+
+            //                    moduleConfiguration = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType);
+            //                    var isEnabled = moduleConfiguration.IsEnabled;
+            //                    if (isEnabled)
+            //                        DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());
+            //                }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
+            //        }
+            //    }
+               
+            //}
+            //else
+            //{
+            //    if (RunningJobProcesses != null)
+            //    {
+            //        foreach (var jobProcess in RunningJobProcesses.Values)
+            //        {
+            //            if (jobProcess.Id.Contains(AccountId))
+            //            {
+            //                return;
+            //            }
+            //        }
+            //    }
+            //    RunningActivityManager.StartNextRound(DominatorAccountModel);
+            //}
         }
 
 
@@ -155,6 +230,8 @@ namespace DominatorHouseCore.Process
                 StartOtherConfiguration(scrapedResult);
               
                 GlobusLogHelper.log.Info(Log.ProcessCompleted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName,ActivityType);
+
+               
             }
 
             return jobProcessResult;
@@ -306,15 +383,15 @@ namespace DominatorHouseCore.Process
 
 
         // stores all running job processes. Key - TemplateId
-        private static readonly Dictionary<string, JobProcess> RunningJobProcesses = new Dictionary<string, JobProcess>();
+        public static readonly Dictionary<string, JobProcess> RunningJobProcesses = new Dictionary<string, JobProcess>();
 
         private static readonly object SyncJobProcess = new object();
 
-        private string Id => AsId(AccountId, TemplateId);
+        public string Id => AsId(AccountId, TemplateId);
 
         public static string AsId(string account, string templateId)
         {
-            return $"{account}-{templateId}";
+            return $"{account}-------{templateId}";
         }
 
         /// <summary>
