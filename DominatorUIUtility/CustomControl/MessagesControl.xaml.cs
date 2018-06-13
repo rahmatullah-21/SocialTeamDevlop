@@ -91,7 +91,6 @@ namespace DominatorUIUtility.CustomControl
                     if (x.SerialNo == Messages.SerialNo)
                     {
                         x.MessagesText = Messages.MessagesText;
-                        x.FilterText = Messages.FilterText;
                         x.LstQueries = Messages.LstQueries;
                     }
                     return x;
