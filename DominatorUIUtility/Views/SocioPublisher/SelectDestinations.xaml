@@ -1,0 +1,174 @@
+﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.SelectDestinations"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+             mc:Ignorable="d" 
+              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             x:Name="ManageDestination">
+    <UserControl.Resources>
+        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
+        <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <ListView x:Name="CampaignStatusList"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"                  
+                  ItemsSource="{Binding ListPublisherManageDestinationModels}"
+                  VerticalAlignment="Stretch"  AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" >
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}" 
+                       BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="Height" Value="30"></Setter>
+                    <Setter Property="Margin" Value="0,2,0,0"></Setter>
+                </Style>
+                <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="Height" Value="30"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="80">
+                        <GridViewColumn.Header>
+                            <Border BorderThickness="1,0,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                <CheckBox x:Name="AllCampaign"  IsChecked="{Binding IsAllDestinationSelected}" Content=" #" Command="{Binding SelectionExecute}" CommandParameter="{Binding IsAllDestinationSelected,Converter={StaticResource BooleanToStringSelectConverter}}"/>
+                            </Border>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <CheckBox IsChecked="{Binding IsSelected}" 
+                                              x:Name="ChkSingleCampaign"
+                                              Margin="6,2,6,2"  Content="{Binding (ItemsControl.AlternationIndex),
+                                              RelativeSource={RelativeSource AncestorType=ListViewItem},
+                                              Converter={StaticResource IndexToRowNoConverter}}"
+                                              Command="{Binding DataContext.SelectionCommand,
+                                              RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="SelectManually"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn  Width="250">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangDestinationName}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock  Margin="6,2,6,2" Text="{Binding DestinationName}"/>
+                                    </StackPanel>
+
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="130">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangAccountCount}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Margin="6,2,6,2" Text="{Binding AccountCount}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="130">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangPagesBoardCount}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Margin="6,2,6,2" Text="{Binding PagesOrBoardsCount}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="130">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangGroupsCount}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Margin="6,2,6,2" Text="{Binding GroupsCount}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="150">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangWallsProfilesCount}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Margin="6,2,6,2" Text="{Binding WallsOrProfilesCount}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="150">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangWallsCampaignsCount}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,1,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Margin="6,2,6,2" Text="{Binding CampaignsCount}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="btnCancel" x:FieldModifier="public" Margin="10,5" Background="#ef1d1d"
+                Grid.Row="1" HorizontalAlignment="Right">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="15" Height="15" Fill="White">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Text="{DynamicResource langCancel}" Margin="6,0" Foreground="White"/>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+    </Grid>
+</UserControl>

@@ -407,6 +407,9 @@
     <Compile Include="Views\SocioPublisher\PublisherMultiplePost.xaml.cs">
       <DependentUpon>PublisherMultiplePost.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\SelectDestinations.xaml.cs">
+      <DependentUpon>SelectDestinations.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\Suggestions\FdFriendSuggestionProvider.cs" />
     <Compile Include="Views\SocioPublisher\Suggestions\SuggestionProvider.cs" />
     <Compile Include="Views\SocioPublisher\PublisherCreateCampaigns.xaml.cs">
@@ -914,6 +917,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherSharePost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\SelectDestinations.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

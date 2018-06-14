@@ -7,46 +7,67 @@
              xmlns:control="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
+             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours"
+             xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <ControlTemplate x:Key="ErrorTemplate">
+            <StackPanel>
+                <AdornedElementPlaceholder x:Name="ErrorHolder" >
+                    <Border BorderBrush="red" BorderThickness="1" />
+                </AdornedElementPlaceholder>
+                <TextBlock  VerticalAlignment="Center" FontWeight="Bold" Text="{Binding ElementName=ErrorHolder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" Foreground="Red"/>
+            </StackPanel>
+        </ControlTemplate>
+
+
     </UserControl.Resources>
     <StackPanel x:Name="MainGrid">
+
         <TextBlock Text="{DynamicResource langSettings}" FontWeight="Bold"  Margin="5"/>
         <StackPanel Orientation="Horizontal" Margin="10,0">
             <TextBlock Text="{DynamicResource langCampaignWillPublish}" VerticalAlignment="Center" Margin="5"/>
             <control:NumericUpDown x:Name="numericMaxPost" Minimum="0"
-                                   Value="{Binding JobConfigurations.MaxPost}" VerticalAlignment="Center" Margin="5"/>
+                                   Value="{Binding JobConfigurations.MaxPost,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5"
+                                   ValueDecremented="NumericMaxPost_OnValueDecremented"
+                                   ValueIncremented="NumericMaxPost_OnValueIncremented"/>
             <TextBlock Text="{DynamicResource langPostListItemsPerDay}" VerticalAlignment="Center" Margin="5"/>
-            <control:TimePicker SelectedTime="{Binding JobConfigurations.TimeRange.StartTime}" 
-                                VerticalAlignment="Center" Margin="5" IsClockVisible="False"/>
+
+            <validation:ValidationBinding In="{Binding JobConfigurations.TimeRange.StartTime, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           Out="{Binding ElementName=endtime, Path=Min,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+            <validation:ValidationBinding In="{Binding JobConfigurations.TimeRange.EndTime, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                          Out="{Binding ElementName=starttime, Path=Max,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+
+            <control:TimePicker Validation.ErrorTemplate="{StaticResource ErrorTemplate}" VerticalAlignment="Center" Margin="5" IsClockVisible="False">
+                <control:TimePicker.SelectedTime>
+                    <Binding Path="JobConfigurations.TimeRange.StartTime" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validation:StartTimeValidator  x:Name="starttime" ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </control:TimePicker.SelectedTime >
+            </control:TimePicker>
             <TextBlock Text="{DynamicResource langAnd}"  VerticalAlignment="Center" Margin="5"/>
-            <control:TimePicker SelectedTime="{Binding  JobConfigurations.TimeRange.EndTime}" 
-                                VerticalAlignment="Center" Margin="5" IsClockVisible="False"/>
+            <control:TimePicker Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
+                                VerticalAlignment="Center" Margin="5" IsClockVisible="False">
+                <control:TimePicker.SelectedTime>
+                    <Binding Path="JobConfigurations.TimeRange.EndTime" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validation:EndTimeValidator  x:Name="endtime" ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </control:TimePicker.SelectedTime >
+            </control:TimePicker>
             <TextBlock Text="{DynamicResource langPostListItemSentToGroupsPageWalls}"  VerticalAlignment="Center" Margin="5"/>
         </StackPanel>
 
-        <ItemsControl ItemsSource="{Binding JobConfigurations.LstTimer}" Margin="5"
-                 Visibility="{Binding JobConfigurations.IsRandomizePublishingTimerChecked,
-                 Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="7" IsItemsHost="True" HorizontalAlignment="Stretch"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <control:TimePicker x:Name="lstTime" 
-                        SelectedTime="{Binding MidTime
-                        ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsClockVisible="False"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+
+        <RadioButton GroupName="postGroup" IsChecked="{Binding JobConfigurations.IsSpecifyPostingIntervalChecked}" Content="{DynamicResource langSpecifyPostingInterval}"  Margin="5"
+                     Name="ChkPostingInterval" Checked="ChkPostingInterval_OnChecked"/>
         <ItemsControl ItemsSource="{Binding JobConfigurations.LstTimer}" Margin="5"
-                 Visibility="{Binding JobConfigurations.IsSpecifyPostingIntervalChecked,
+                      Visibility="{Binding JobConfigurations.IsSpecifyPostingIntervalChecked,
             Converter={StaticResource BooleanToVisibilityConverter}}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -59,27 +80,44 @@
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <StackPanel>
                             <control:TimePicker x:Name="StartTime" Margin="2"
-                                    SelectedTime="{Binding StartTime
+                                                SelectedTime="{Binding StartTime
                                     ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                    IsClockVisible="False"/>
+                                                IsClockVisible="False"/>
                             <control:TimePicker x:Name="EndTime" Margin="2"
-                                    SelectedTime="{Binding EndTime
+                                                SelectedTime="{Binding EndTime
                                     ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                    IsClockVisible="False"/>
+                                                IsClockVisible="False"/>
                         </StackPanel>
                         <control:TimePicker x:Name="MidTime" VerticalAlignment="Center" Margin="2"
-                                 SelectedTime="{Binding MidTime
+                                            SelectedTime="{Binding MidTime
                                 ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                 IsClockVisible="False"/>
+                                            IsClockVisible="False"/>
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <RadioButton GroupName="postGroup" IsChecked="{Binding JobConfigurations.IsSpecifyPostingIntervalChecked}" Content="{DynamicResource langSpecifyPostingInterval}"  Margin="5"
-                     Name="ChkPostingInterval" Checked="ChkPostingInterval_OnChecked"/>
         <RadioButton GroupName="postGroup" IsChecked="{Binding JobConfigurations.IsRandomizePublishingTimerChecked}" Content="{DynamicResource langRandomizePublishingTimer}"  Margin="5"
                      Name="ChkRandomizePublishing" Checked="ChkRandomizePublishing_OnChecked"/>
-        <CheckBox IsChecked="{Binding JobConfigurations.IsRandomizeNumberOfPostsChecked}" Content="{DynamicResource langRandomizeNumberOfPosts}"  Margin="5"/>
+        <ItemsControl ItemsSource="{Binding JobConfigurations.LstTimer}" Margin="5"
+                      Visibility="{Binding JobConfigurations.IsRandomizePublishingTimerChecked,
+                 Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="7" IsItemsHost="True" HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <control:TimePicker x:Name="lstTime" 
+                                            SelectedTime="{Binding MidTime
+                        ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsClockVisible="False"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <RadioButton  GroupName="postGroup" IsChecked="{Binding JobConfigurations.IsRandomizeNumberOfPostsChecked}" Content="{DynamicResource langRandomizeNumberOfPosts}"  Margin="5"/>
         <StackPanel Orientation="Horizontal"  Margin="30,5"
                     Visibility="{Binding JobConfigurations.IsRandomizeNumberOfPostsChecked,
                     Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -214,3 +252,4 @@
     </StackPanel>
 
 </UserControl>
+

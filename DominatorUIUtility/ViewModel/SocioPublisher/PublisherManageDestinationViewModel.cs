@@ -40,7 +40,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand DeleteDestinationCommand { get; set; }
 
         public ICommand OpenContextMenuCommand { get; set; }
-        public Visibility HeaderVisibility { get; set; }
+     
         public ObservableCollection<PublisherManageDestinationModel> ListPublisherManageDestinationModels
         {
             get
@@ -73,6 +73,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private bool _isAllDestinationSelected;
         private ObservableCollection<PublisherManageDestinationModel> _listPublisherManageDestinationModels = new ObservableCollection<PublisherManageDestinationModel>();
+        private bool _isUncheckedFromList { get; set; }
 
         public bool IsAllDestinationSelected
         {
@@ -86,28 +87,38 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
                 SetProperty(ref _isAllDestinationSelected, value);
 
-                if (_isAllDestinationSelected)
-                    SelectAllDestination();
-                else
-                    SelectNoneDestination();
+                //if (_isAllDestinationSelected)
+                //    SelectAllDestination();
+                //else
+                //    SelectNoneDestination();
+                SelectAllDestination(_isAllDestinationSelected);
+                _isUncheckedFromList = false;
             }
         }
-
-        public void SelectAllDestination()
+        public void SelectAllDestination(bool isAllSelected)
         {
+            if (_isUncheckedFromList)
+                return;
             ListPublisherManageDestinationModels.Select(x =>
             {
-                x.IsSelected = true; return x;
+                x.IsSelected = isAllSelected; return x;
             }).ToList();
         }
+        //public void SelectAllDestination()
+        //{
+        //    ListPublisherManageDestinationModels.Select(x =>
+        //    {
+        //        x.IsSelected = true; return x;
+        //    }).ToList();
+        //}
 
-        public void SelectNoneDestination()
-        {
-            ListPublisherManageDestinationModels.Select(x =>
-            {
-                x.IsSelected = false; return x;
-            }).ToList();
-        }
+        //public void SelectNoneDestination()
+        //{
+        //    ListPublisherManageDestinationModels.Select(x =>
+        //    {
+        //        x.IsSelected = false; return x;
+        //    }).ToList();
+        //}
 
 
         private bool NavigationCanExecute(object sender) => true;
@@ -144,6 +155,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 case "SelectAll":
                 case "MenuSelectAll":
                     IsAllDestinationSelected = true;
+                    break;
+                case "SelectManually":
+                    if (ListPublisherManageDestinationModels.All(x => x.IsSelected))
+                        IsAllDestinationSelected = true;
+                    else
+                    {
+                        if (IsAllDestinationSelected)
+                            _isUncheckedFromList = true;
+                        IsAllDestinationSelected = false;
+                    }
                     break;
             }
         }

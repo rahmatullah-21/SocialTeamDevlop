@@ -40,18 +40,6 @@ namespace DominatorUIUtility.CustomControl.Publisher
             var newValue = e.NewValue;
         }
 
-        private void numericMaxPost_ValueDecremented(object sender, NumericUpDownChangedRoutedEventArgs args)
-        {
-            try
-            {
-                JobConfigurations.LstTimer.RemoveAt((int)numericMaxPost.Value - 1);
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Error(ex.Message + ex.StackTrace);
-            }
-
-        }
 
 
 
@@ -113,6 +101,56 @@ namespace DominatorUIUtility.CustomControl.Publisher
                 ex.DebugLog();
                 return start;
             }
+        }
+
+
+        private void NumericMaxPost_OnValueDecremented(object sender, NumericUpDownChangedRoutedEventArgs args)
+        {
+            try
+            {
+                JobConfigurations.LstTimer.RemoveAt((int)JobConfigurations.MaxPost - 1);
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error(ex.Message + ex.StackTrace);
+            }
+        }
+
+        private void NumericMaxPost_OnValueIncremented(object sender, NumericUpDownChangedRoutedEventArgs args)
+        {
+            Random random = new Random();
+            var startTime = JobConfigurations.TimeRange.StartTime;
+            var endTime = JobConfigurations.TimeRange.EndTime;
+            if (JobConfigurations.IsRandomizePublishingTimerChecked)
+            {
+                JobConfigurations.LstTimer.Add(new TimeSpanHelper() { MidTime = GetRandomTime(startTime, endTime, random) });
+
+            }
+            else if (JobConfigurations.IsSpecifyPostingIntervalChecked)
+            {
+                var totalSeconds = (int)((endTime - startTime).TotalSeconds);
+                try
+                {
+                    var timeRange = totalSeconds / JobConfigurations.MaxPost+1;
+                    var timeToAddToStartTime = TimeSpan.FromSeconds(timeRange);
+
+                    endTime = startTime + timeToAddToStartTime;
+
+                    JobConfigurations.LstTimer.Add(new TimeSpanHelper()
+                    {
+                        StartTime = startTime,
+                        MidTime = GetRandomTime(startTime, endTime, random),
+                        EndTime = endTime
+                    });
+                    startTime = endTime + TimeSpan.FromSeconds(1);
+
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+
         }
     }
 }

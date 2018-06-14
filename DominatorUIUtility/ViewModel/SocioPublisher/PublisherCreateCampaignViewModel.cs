@@ -15,6 +15,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorHouseCore.FileManagers;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -85,7 +86,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(CampaignList));
             }
         }
-        private string _selectedItem ;
+        private string _selectedItem;
 
         public string SelectedItem
         {
@@ -173,7 +174,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (!string.IsNullOrEmpty(SelectedItem))
             {
-                var LstCampaign=GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
+                var LstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
                     ConstantVariable.GetOtherDir() + "\\Campaign.bin");
                 LstCampaign.ForEach(x =>
                 {
@@ -197,14 +198,29 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SelectDestinationExecute(object sender)
         {
-            PublisherManageDestinations publisherManageDestinations = new PublisherManageDestinations(Visibility.Collapsed);
+            SelectDestinations selectDestinations = new SelectDestinations(_publisherCreateCampaignModel.LstDestinationId);
             Dialog dialog = new Dialog();
-            var metroWindow = dialog.GetMetroWindow(publisherManageDestinations, "Select Destination");
+            var metroWindow = dialog.GetMetroWindow(selectDestinations, "Select Destination");
+            var IsCanceled = false;
+            selectDestinations.btnCancel.Click += (CancelEventArgs, eventarg) =>
+            {
+                selectDestinations.PublisherManageDestinationViewModel.ListPublisherManageDestinationModels.Select(x =>
+                {
+                    x.IsSelected = false;
+                    return x;
+                });
+                IsCanceled = true;
+                metroWindow.Close();
+            };
             metroWindow.ShowDialog();
-            var destinationId = publisherManageDestinations.PublisherManageDestinationViewModel
-                .ListPublisherManageDestinationModels
-                .Where(x => x.IsSelected).Select(x => x.DestinationId).ToList();
-            _publisherCreateCampaignModel.LstDestinationId = new ObservableCollection<string>(destinationId);
+
+            if (!IsCanceled)
+            {
+                var destinationId = selectDestinations.PublisherManageDestinationViewModel
+                     .ListPublisherManageDestinationModels
+                     .Where(x => x.IsSelected).Select(x => x.DestinationId).ToList();
+                _publisherCreateCampaignModel.LstDestinationId = new ObservableCollection<string>(destinationId); 
+            }
         }
 
         private bool CampaignChangedCanExecute(object sender) => true;

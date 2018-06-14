@@ -40,22 +40,7 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _timeRange, value);
             }
         }
-        //private TimeSpan _endTime = new TimeSpan();
-        //[ProtoMember(3)]
-        //public TimeSpan EndTime
-        //{
-        //    get
-        //    {
-        //        return _endTime;
-        //    }
-        //    set
-        //    {
-        //        if (value == _endTime)
-        //            return;
-        //        SetProperty(ref _endTime, value);
-
-        //    }
-        //}
+      
         private bool _isSpecifyPostingIntervalChecked;
         [ProtoMember(4)]
         public bool IsSpecifyPostingIntervalChecked
@@ -66,6 +51,8 @@ namespace DominatorHouseCore.Models.Publisher
             }
             set
             {
+                if(!value)
+                    LstTimer.Clear();
                 if (value == _isSpecifyPostingIntervalChecked)
                     return;
                 SetProperty(ref _isSpecifyPostingIntervalChecked, value);
@@ -81,6 +68,8 @@ namespace DominatorHouseCore.Models.Publisher
             }
             set
             {
+                if(!value)
+                    LstTimer.Clear();
                 if (value == _isRandomizePublishingTimerChecked)
                     return;
                 SetProperty(ref _isRandomizePublishingTimerChecked, value);
