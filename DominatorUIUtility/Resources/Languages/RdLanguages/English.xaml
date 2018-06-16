@@ -19,6 +19,9 @@
     <system:String x:Key="langReplyPerWeek">Number of Reply Per Week</system:String>
     <system:String x:Key="langMaxReplyDay">Number of MaxReply Per Day</system:String>
 
+    <system:String x:Key="RDlangTo">RDlangTo</system:String>
+    <system:String x:Key="RDlangOtherConfigurations">OtherConfigurations</system:String>
+    <system:String x:Key="RDlangEnableAutoFollowUnfollow">langEnableAutoFollowUnfollow</system:String>
     <system:String x:Key="lang_Account_Tab">Accounts</system:String>
     <system:String x:Key="lang_Account_CustomControl">Account Manager</system:String>
     <system:String x:Key="lang_Account_DashBoard">DashBoard</system:String>
@@ -43,6 +46,7 @@
     <system:String x:Key="lang_Settings_ColorSetting">Color Setting</system:String>
     <system:String x:Key="lang_Settings_ProxyModule">Proxy</system:String>
     <system:String x:Key="lang_Settings_Setting">Settings</system:String>
+    <system:String x:Key="RDlangFollowings">Followings</system:String>
     <system:String x:Key="lang_Settings_WhitelistUsers">Whitelist Users</system:String>
     <system:String x:Key="langMinimum">Minimum</system:String>
     <system:String x:Key="langMaximum">Maximum</system:String>

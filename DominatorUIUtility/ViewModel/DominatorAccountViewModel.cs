@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -1129,17 +1130,26 @@ namespace DominatorUIUtility.ViewModel
         private void DeleteAccountFromCampaign(DominatorAccountModel account)
         {
             account = AccountsFileManager.GetAccount(account.UserName, account.AccountBaseModel.AccountNetwork);
-            CampaignsFileManager.Get().ForEach(camp =>
+            var moduleConfigurations = account.ActivityManager.LstModuleConfiguration;
+            foreach (var moduleConfiguration in moduleConfigurations)
             {
-                if (camp.SelectedAccountList.Any(acc => acc == account.UserName) && camp.SocialNetworks == account.AccountBaseModel.AccountNetwork)
+                DominatorScheduler.StopActivity(account, moduleConfiguration.ActivityType.ToString(), moduleConfiguration.TemplateId, false);
+                if (moduleConfiguration.IsTemplateMadeByCampaignMode)
                 {
-                    var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module => module.ActivityType.ToString() == camp.SubModule);
-
-                    CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId, account.AccountBaseModel.UserName);
-
-                    DominatorScheduler.StopActivity(account, camp.SubModule, moduleSettings.TemplateId,true);
+                    CampaignsFileManager.DeleteSelectedAccount(moduleConfiguration.TemplateId, account.AccountBaseModel.UserName);
                 }
-            });
+            }
+            //CampaignsFileManager.Get().ForEach(camp =>
+            //{
+            //    if (camp.SelectedAccountList.Any(acc => acc == account.UserName) && camp.SocialNetworks == account.AccountBaseModel.AccountNetwork)
+            //    {
+            //        var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module => module.ActivityType.ToString() == camp.SubModule);
+
+            //        CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId, account.AccountBaseModel.UserName);
+
+            //        DominatorScheduler.StopActivity(account, camp.SubModule, moduleSettings.TemplateId,true);
+            //    }
+            //});
         }
 
         public void DeleteAccountByContextMenu(object sender)
@@ -1318,7 +1328,8 @@ namespace DominatorUIUtility.ViewModel
                     ProxyUsername = selectedAccount.AccountBaseModel.AccountProxy.ProxyUsername,
                     ProxyPassword = selectedAccount.AccountBaseModel.AccountProxy.ProxyPassword
                 },
-                AccountNetwork = selectedAccount.AccountBaseModel.AccountNetwork
+                AccountNetwork = selectedAccount.AccountBaseModel.AccountNetwork,
+                AccountId = selectedAccount.AccountId
             };
 
             var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Update Account", "Update", !string.IsNullOrEmpty(selectedAccount.AccountBaseModel.AccountProxy.ProxyIp), objDominatorAccountBaseModel.AccountNetwork.ToString());
@@ -1351,6 +1362,11 @@ namespace DominatorUIUtility.ViewModel
                         !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPassword))) return;
 
                 selectedAccount.AccountBaseModel.AccountGroup.Content = objDominatorAccountBaseModel.AccountGroup.Content;
+                if (selectedAccount.AccountBaseModel.UserName != objDominatorAccountBaseModel.UserName || selectedAccount.AccountBaseModel.Password != objDominatorAccountBaseModel.Password)
+                {
+                  selectedAccount.Cookies = new CookieCollection();
+                }
+
                 selectedAccount.AccountBaseModel.UserName = objDominatorAccountBaseModel.UserName;
                 selectedAccount.AccountBaseModel.Password = objDominatorAccountBaseModel.Password;
                 selectedAccount.AccountBaseModel.AccountProxy.ProxyIp = objDominatorAccountBaseModel.AccountProxy.ProxyIp;
@@ -1364,7 +1380,7 @@ namespace DominatorUIUtility.ViewModel
 
                 if (!UpdateProxyIfNull(objDominatorAccountBaseModel, oldproxies, strategyPack))
                 {
-                    var oldAccount = AccountsFileManager.GetAccount(objDominatorAccountBaseModel.UserName, objDominatorAccountBaseModel.AccountNetwork).AccountBaseModel;
+                    var oldAccount = AccountsFileManager.GetAccountById(selectedAccount.AccountId).AccountBaseModel;
 
                     if (!IsDuplicatProxyAvailable(objDominatorAccountBaseModel, oldproxies, oldAccount))
                     {

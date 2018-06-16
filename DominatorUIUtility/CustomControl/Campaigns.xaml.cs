@@ -132,7 +132,7 @@ namespace DominatorUIUtility.CustomControl
                 bool isToggleActivate = (sender as ToggleSwitch).IsChecked ?? false;
                 foreach (var campaign in objCampaignDetails.ObjCampaignDetails)
                 {
-                    if (campaign.CampaignName != selectedCampaign.CampaignName)
+                    if (campaign.CampaignId != selectedCampaign.CampaignId)
                         continue;
 
                     bool isCampaignAlreadyActive = campaign.Status == "Active";
@@ -142,7 +142,6 @@ namespace DominatorUIUtility.CustomControl
                     if (isToggleActivate)
                     {
                         campaign.Status = "Active";
-
                         GlobusLogHelper.log.Info($"Starting campaign {campaign.CampaignName}");
                         foreach (var accountModel in lstAccountDetails.Where(x => selectedCampaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
                         {
@@ -152,7 +151,7 @@ namespace DominatorUIUtility.CustomControl
                     else
                     {
                         campaign.Status = "Paused";
-
+                        GlobusLogHelper.log.Info($"Pausing campaign {campaign.CampaignName}");
                         foreach (var accountModel in lstAccountDetails.Where(x => campaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
                         {
                             DominatorScheduler.StopActivity(accountModel, campaign.SubModule, campaign.TemplateId, true);

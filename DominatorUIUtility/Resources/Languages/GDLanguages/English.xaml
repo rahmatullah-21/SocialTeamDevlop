@@ -729,7 +729,7 @@
     <system:String x:Key="langRotateDays">Rotate Days</system:String>
     <system:String x:Key="langExcludeWeekend">Exclude Weekend</system:String>
     <system:String x:Key="langAddInterval">Add Interval</system:String>
-    <system:String x:Key="langStopFollowTool">Stop follow tool</system:String>
+    <system:String x:Key="langStopFollowTool">Only stop follow tool</system:String>
     <system:String x:Key="langStartUnFollowTool">Start unfollow tool</system:String>
     <system:String x:Key="langWhenReach">when reaching</system:String>
 
@@ -1208,27 +1208,27 @@
     <system:String x:Key="GdlangLiveChat">LiveChat</system:String>
     <system:String x:Key="DHlangCollapseAll">Collapse All</system:String>
 
-    
+
     <system:String x:Key="DHWhatInMind">What's on your mind?</system:String>
-    
+
     <system:String x:Key="GDlangFollowBack">Follow Back</system:String>
-    
+
     <system:String x:Key="GDlangLikeComments">Like Comments</system:String>
-    
+
     <system:String x:Key="GDlangBlockFollower">Block Follower</system:String>
 
     <system:String x:Key="GDlangNumberOfHashtagsPerJob">Number of Hashtags per job</system:String>
-    
+
     <system:String x:Key="GDlangNumberOfHashtagsPerHour">Number of Hashtags per hour</system:String>
-    
+
     <system:String x:Key="GDlangNumberOfHashtagsPerDay">Number of Hashtags per day</system:String>
-    
+
     <system:String x:Key="GDlangNumberOfHashtagsPerWeek">Number of Hashtags per week</system:String>
-    
+
     <system:String x:Key="GDlangMaxHashtagsDay">Max Hashtags per day</system:String>
-    
+
     <system:String x:Key="GDlangScrape">Scrape</system:String>
-    
+
     <system:String x:Key="GDlangHashtagsScrape">Hashtags Scraper</system:String>
 
     <system:String x:Key="GDlangHashtagScraperWarning">These account(s) are already running with HashtagScraper configuration from another campaign. Saving this settings will override previous settings and will remove this account from the campaign.</system:String>
@@ -1292,6 +1292,11 @@
     <system:String x:Key="GDlangNumberOfMediaUnlikePerWeek">Number of media unlike per week</system:String>
     <system:String x:Key="GDlangMaxMediaUnlikeDay">Max media unlike per day</system:String>
 
+
+    <system:String x:Key="GDlangSendMessageToNewFollowersWarning">These account(s) are already running with SendMessageToNewFollowers configuration from another campaign. Saving this settings will override previous settings and will remove this account from the campaign.</system:String>
+    <system:String x:Key="GdLangStopUnfollowTool">Only stop unfollow tool</system:String>
+    <system:String x:Key="GdStopFollowStartUnfollowTool">Stop follow and start unfollow tool</system:String>
+    <system:String x:Key="GdStopUnfollowStartFollowTool">Stop unfollow and start follow tool</system:String>
     <!--End Gram Dominator-->
 
     <!--Start Twt Dominator-->
@@ -1382,11 +1387,11 @@
     <system:String x:Key="langDownvoteQuestionsPerDay">Number of Questions to Downvote per day</system:String>
     <system:String x:Key="langDownvoteQuestionsPerWeek">Number of Questions to Downvote per day</system:String>
     <system:String x:Key="langMaxDownvoteQuestionsDay">Max Questions to Downvote per day</system:String>
-    
-    
+
+
     <!--End Quora Dominator-->
 
-    
+
     <system:String x:Key="langActivity">Activity Status</system:String>
     <system:String x:Key="langActions">Actions</system:String>
 

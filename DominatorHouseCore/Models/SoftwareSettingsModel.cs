@@ -533,7 +533,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private int _accountSynchronizationHours = 2;
+        private int _accountSynchronizationHours = 24;
         [ProtoMember(36)]
         public int AccountSynchronizationHours
         {
