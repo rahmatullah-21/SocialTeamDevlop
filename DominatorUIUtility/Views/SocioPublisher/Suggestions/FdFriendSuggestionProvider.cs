@@ -14,6 +14,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
 {
     public class FdFriendSuggestionProvider : ISuggestionProvider
     {
+       
+
         public List<SocinatorIntellisenseModel> ListOfMacros { get; set; } = new List<SocinatorIntellisenseModel>();
 
         public IEnumerable<KeyValuePair<string, string>> ListOfAccount { get; set; }

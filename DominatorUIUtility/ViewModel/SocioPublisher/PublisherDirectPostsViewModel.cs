@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -7,6 +8,7 @@ using DominatorHouseCore.Command;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
+using DominatorUIUtility.Views.SocioPublisher.CustomControl;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
@@ -39,7 +41,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand ImportFromCsvCommand { get; set; }
         public ICommand SearchCommand { get; set; }
 
-        private PostDetailsModel _postDetailsModel ;
+        private PostDetailsModel _postDetailsModel =new PostDetailsModel();
 
         public PostDetailsModel PostDetailsModel
         {
@@ -74,7 +76,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-      
+
+        private PublisherMediaViewerModel _publisherMultipleImagesMediaViewerModel = new PublisherMediaViewerModel();
+
+        public PublisherMediaViewerModel PublisherMultipleImagesMediaViewerModel
+        {
+            get
+            {
+                return _publisherMultipleImagesMediaViewerModel;
+            }
+            set
+            {
+                if (_publisherMultipleImagesMediaViewerModel == value)
+                    return;
+                _publisherMultipleImagesMediaViewerModel = value;
+                OnPropertyChanged(nameof(PublisherMultipleImagesMediaViewerModel));
+            }
+        }
+
+
         #endregion
 
         #region Methods
@@ -120,7 +140,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SearchExecute(object sender)
         {
-           
+
+            var mediaViewer = (MediaViewer) sender;
+
+            mediaViewer.MediaList =
+               new ObservableCollection<string>(ImageExtracter.ExtractImageUrls(PostDetailsModel.ImagesUrl));
+
+            mediaViewer?.Initialize();
+
         }
         private bool ImportFromCsvCanExecute(object sender) => true;
 
