@@ -37,21 +37,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _messagesText, value);
             }
         }
-        private string _filterText;
-
-        public string FilterText
-        {
-            get
-            {
-                return _filterText;
-            }
-            set
-            {
-                if (value == _filterText)
-                    return;
-                SetProperty(ref _filterText, value);
-            }
-        }
+        
 
         public ObservableCollection<QueryContent> SelectedQuery { get; set; } = new ObservableCollection<QueryContent>();
 
