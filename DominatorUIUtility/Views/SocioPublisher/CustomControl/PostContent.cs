@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouseCore.Interfaces.SocioPublisher;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
@@ -83,6 +84,66 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public static readonly DependencyProperty PublisherInstagramTitleProperty =
              DependencyProperty.Register("PublisherInstagramTitle", typeof(string), typeof(PostContent), new PropertyMetadata(string.Empty));
+
+
+        public string FdSellProductTitle
+        {
+            get { return (string)GetValue(FdSellProductTitleProperty); }
+            set { SetValue(FdSellProductTitleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for FdSellProductTitle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FdSellProductTitleProperty =
+            DependencyProperty.Register("FdSellProductTitle", typeof(string), typeof(PostContent), new PropertyMetadata(string.Empty));
+
+
+        public double FdSellPrice
+        {
+            get { return (double)GetValue(FdSellPriceProperty); }
+            set { SetValue(FdSellPriceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for FdSellPrice.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FdSellPriceProperty =
+            DependencyProperty.Register("FdSellPrice", typeof(double), typeof(PostContent), new PropertyMetadata(double.MinValue));
+
+
+
+        public string FdSellLocation
+        {
+            get { return (string)GetValue(FdSellLocationProperty); }
+            set { SetValue(FdSellLocationProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for FdSellLocation.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FdSellLocationProperty =
+            DependencyProperty.Register("FdSellLocation", typeof(string), typeof(PostContent), new PropertyMetadata(string.Empty));
+
+
+
+        public string PdSourceUrl
+        {
+            get { return (string)GetValue(PdSourceUrlProperty); }
+            set { SetValue(PdSourceUrlProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PdSourceUrl.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PdSourceUrlProperty =
+            DependencyProperty.Register("PdSourceUrl", typeof(string), typeof(PostContent), new PropertyMetadata(string.Empty));
+
+
+
+        public bool IsFdSellPost
+        {
+            get { return (bool)GetValue(IsFdSellPostProperty); }
+            set { SetValue(IsFdSellPostProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsFdSellPost.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsFdSellPostProperty =
+            DependencyProperty.Register("IsFdSellPost", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
+
+
 
         Button _selectMedia = new Button();
         private Button _buttonSettings = new Button();
@@ -232,6 +293,17 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
             // Raise your event
             SelectMedia();
+        }
+
+        internal void SetMedia()
+        {
+            var mediaViewer = Template.FindName(MediaViewerControl, this) as MediaViewer;
+
+            if (mediaViewer != null)
+            {
+                mediaViewer.Initialize();
+            }
+
         }
 
 

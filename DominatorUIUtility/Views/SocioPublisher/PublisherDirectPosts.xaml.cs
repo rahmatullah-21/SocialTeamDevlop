@@ -11,37 +11,44 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// <summary>
     /// Interaction logic for PublisherDirectPosts.xaml
     /// </summary>
-    public partial class PublisherDirectPosts : UserControl , INotifyPropertyChanged
+    public partial class PublisherDirectPosts : UserControl, INotifyPropertyChanged
     {
+        private PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl;
         public PublisherDirectPosts()
         {
             InitializeComponent();
-           
-          //  DirectPost.DataContext = PublisherDirectPostsViewModel;
-           
-
-
+            instance = this;
         }
-
-        public PublisherDirectPosts(PostDetailsModel PostDetailsModel) :this()
+        public PublisherDirectPosts(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl) : this()
         {
-            DirectPost.DataContext = PostDetailsModel;
+            this.tabItemsControl = tabItemsControl;
+            _publisherDirectPostsViewModel = new PublisherDirectPostsViewModel(tabItemsControl);
+            tabItemsControl.publisherDirectPostsViewModel = _publisherDirectPostsViewModel;
+            DirectPost.DataContext = PublisherDirectPostsViewModel;
+
         }
 
-        //private PublisherDirectPostsViewModel _publisherDirectPostsViewModel=new PublisherDirectPostsViewModel();
+        private static PublisherDirectPosts instance;
 
-        //public PublisherDirectPostsViewModel PublisherDirectPostsViewModel
-        //{
-        //    get
-        //    {
-        //        return _publisherDirectPostsViewModel;
-        //    }
-        //    set
-        //    {
-        //        _publisherDirectPostsViewModel = value;
-        //        OnPropertyChanged(nameof(PublisherDirectPostsViewModel));
-        //    }
-        //}
+        public static PublisherDirectPosts GetPublisherDirectPosts(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl)
+        {
+            return instance ?? (instance = new PublisherDirectPosts(tabItemsControl));
+        }
+
+        private PublisherDirectPostsViewModel _publisherDirectPostsViewModel;
+
+        public PublisherDirectPostsViewModel PublisherDirectPostsViewModel
+        {
+            get
+            {
+                return _publisherDirectPostsViewModel;
+            }
+            set
+            {
+                _publisherDirectPostsViewModel = value;
+                OnPropertyChanged(nameof(PublisherDirectPostsViewModel));
+            }
+        }
 
 
 
@@ -55,7 +62,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         private void PublisherDirectPosts_OnLoaded(object sender, RoutedEventArgs e)
         {
-         var v=   DirectPost.DataContext;
+            PostContentControl.SetMedia();
         }
     }
 }

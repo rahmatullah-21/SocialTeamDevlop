@@ -10,10 +10,14 @@
              mc:Ignorable="d" >
     <Grid Name="MainGrid">
         <StackPanel Orientation="Vertical" >
-            <CheckBox Name="CheckBoxTurnOffLocation" Margin="2" Content="{DynamicResource DHlangFdTurnOffComment}" />
+            <CheckBox Name="CheckBoxTurnOffLocation" Margin="2"
+                      Content="{DynamicResource DHlangFdTurnOffComment}" IsChecked="{Binding SellPostTurnOffComment}"/>
             <StackPanel Orientation="Vertical">
-                <CheckBox Name="CheckBoxFdOverrideSource" Margin="2" Content="{DynamicResource DHlangFdOverridePostDescription}" />
-                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TextBoxPinterestSource" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherPostDescription}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                <CheckBox Name="CheckBoxFdOverrideSource" Margin="2" 
+                          Content="{DynamicResource DHlangFdOverridePostDescription}" IsChecked="{Binding IsReplaceDescriptionSelected}"/>
+                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TextBoxPinterestSource"
+                         mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherPostDescription}" 
+                         Margin="2" TextWrapping="Wrap" Height="60" Width="404" Text="{Binding PostReplaceDescription}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -5,6 +5,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.ViewModel.SocioPublisher;
+using DominatorUIUtility.ViewModel.SocioPublisher;
+
+//using DominatorHouseCore.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {

@@ -13,26 +13,33 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherDirectPostsViewModel : BindableBase
     {
-
+        private PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl;
         #region Constructor
 
         public PublisherDirectPostsViewModel()
         {
             MultiplePostCommand = new BaseCommand<object>(CanExecuteMultiPost, ExecuteMultiPost);
-            SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);
-          //  PostDetailsModel.MediaViewer.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\1.jpg");            
+            ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
+            SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);           
         }
 
-       
+      
+
+        public PublisherDirectPostsViewModel(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl):this()
+        {
+            this.tabItemsControl = tabItemsControl;
+            _postDetailsModel = tabItemsControl.PostDetailsModel;
+        }
 
         #endregion
 
         #region Properties
 
         public ICommand MultiplePostCommand { get; set; }
+        public ICommand ImportFromCsvCommand { get; set; }
         public ICommand SearchCommand { get; set; }
 
-        private PostDetailsModel _postDetailsModel = new PostDetailsModel();
+        private PostDetailsModel _postDetailsModel ;
 
         public PostDetailsModel PostDetailsModel
         {
@@ -114,6 +121,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void SearchExecute(object sender)
         {
            
+        }
+        private bool ImportFromCsvCanExecute(object sender) => true;
+
+        private void ImportFromCsvExecute(object sender)
+        {
+            var loadedAccountlist = FileUtilities.FileBrowseAndReader();
+
         }
         #endregion
 

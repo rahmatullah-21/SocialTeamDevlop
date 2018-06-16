@@ -118,9 +118,56 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(_publisherInstagramTitle));
             }
         }
+        private string _fdSellProductTitle;
+        [ProtoMember(8)]
+        public string FdSellProductTitle
+        {
+            get
+            {
+                return _fdSellProductTitle;
+            }
+            set
+            {
+                if (value == _fdSellProductTitle)
+                    return;
+                SetProperty(ref _fdSellProductTitle, value);
+            }
+        }
+
+        private double _fdSellPrice;
+        [ProtoMember(9)]
+        public double FdSellPrice
+        {
+            get
+            {
+                return _fdSellPrice;
+            }
+            set
+            {
+                if (value == _fdSellPrice)
+                    return;
+                SetProperty(ref _fdSellPrice, value);
+            }
+        }
+        private string _fdSellLocation;
+        [ProtoMember(10)]
+        public string FdSellLocation
+        {
+            get
+            {
+                return _fdSellLocation;
+            }
+            set
+            {
+                if (value == _fdSellLocation)
+                    return;
+                SetProperty(ref _fdSellLocation, value);
+            }
+        }
+       
 
         private PublisherMediaViewerModel _mediaViewer =new PublisherMediaViewerModel();
-        [ProtoMember(8)]
+        [ProtoMember(11)]
         public PublisherMediaViewerModel MediaViewer
         {
             get
@@ -139,7 +186,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private PublisherPostSettings _publisherPostSettings = new PublisherPostSettings();
-        [ProtoMember(9)]
+        [ProtoMember(12)]
         public PublisherPostSettings PublisherPostSettings
         {
             get
@@ -155,7 +202,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
         private bool _isSinglePost;
-        [ProtoMember(10)]
+        [ProtoMember(13)]
         public bool IsSinglePost
         {
             get
@@ -169,5 +216,37 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isSinglePost, value);
             }
         }
+        private bool _isPostContent;
+        [ProtoMember(14)]
+        public bool IsPostContent
+        {
+            get
+            {
+                return _isPostContent;
+            }
+            set
+            {
+                if (value == _isPostContent)
+                    return;
+                SetProperty(ref _isPostContent, value);
+            }
+        }
+
+        private string _pdSourceUrl;
+        [ProtoMember(15)]
+        public string PdSourceUrl
+        {
+            get
+            {
+                return _pdSourceUrl;
+            }
+            set
+            {
+                if (value == _pdSourceUrl)
+                    return;
+                SetProperty(ref _pdSourceUrl, value);
+            }
+        }
+
     }
 }

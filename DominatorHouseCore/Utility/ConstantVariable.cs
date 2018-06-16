@@ -169,6 +169,7 @@ namespace DominatorHouseCore.Utility
             return dir;
         }
         public static string GetPublisherOtherConfigFile(SocialNetworks networks) => GetPublisherOtherConfigDir() + $"\\{networks}.bin";
+        public static string GetPublisherCampaignFile() => GetOtherDir() + "\\PublisherCampaign.bin";
 
         #endregion
 

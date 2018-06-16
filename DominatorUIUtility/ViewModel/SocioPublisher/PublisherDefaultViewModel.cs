@@ -246,7 +246,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             PublisherCampaignStatusModelView = CollectionViewSource.GetDefaultView(ListPublisherCampaignStatusModels);
             var allCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
-                (ConstantVariable.GetOtherDir() + "\\Campaign.bin");
+                (ConstantVariable.GetPublisherCampaignFile());
             //var publisherCampaignStatusModel = new PublisherCampaignStatusModel();
             allCampaign.ForEach(camp =>
             {

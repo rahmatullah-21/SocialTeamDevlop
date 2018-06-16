@@ -15,12 +15,15 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorHouseCore.FileManagers;
+
 using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherCreateCampaignViewModel : INotifyPropertyChanged
     {
+        private TabItemsControl tabItemsControl { get; set; } = new TabItemsControl();
+
         public PublisherCreateCampaignViewModel()
         {
             #region Command initilization
@@ -31,11 +34,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             CampaignChangedCommand = new BaseCommand<object>(CampaignChangedCanExecute, CampaignChangedExecute);
 
             #endregion
-
+         
             PostTabItems = InitializeTabs();
+            BindTabItemsControlProperties();
             CampaignList = new ObservableCollection<string>(
-                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetOtherDir() +
-                                                                                  "\\Campaign.bin").Select(x => x.CampaignName));
+                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
 
 
             PublisherCreateCampaignModel.JobConfigurations.Weekday.Clear();
@@ -120,7 +123,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 new TabItemTemplates
                 {
                     Title= Application.Current.FindResource("DHlangCreatePost")?.ToString(),
-                    Content=new Lazy<UserControl>(()=> new PublisherDirectPosts(PublisherCreateCampaignModel.PostDetailsModel))
+                    Content=new Lazy<UserControl>(()=> new PublisherDirectPosts(tabItemsControl))
                 },
                 new TabItemTemplates
                 {
@@ -135,12 +138,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("DHlangRssFeed")?.ToString(),
-
+                    Content = new Lazy<UserControl>(()=>new PublisherRssFeed())
                 },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("DHlangMonitorFolder")?.ToString(),
-
+                    Content = new Lazy<UserControl>(()=>new PublisherMonitorFolder())
                 },
 
             };
@@ -166,6 +169,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private bool SaveCanExecute(object sender) => true;
         private void SaveExecute(object sender)
         {
+           
             if (_publisherCreateCampaignModel.LstDestinationId.Count == 0)
             {
                 Dialog.ShowDialog("Warning", "Please select atleast one Destination.");
@@ -175,19 +179,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             if (!string.IsNullOrEmpty(SelectedItem))
             {
                 var LstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
-                    ConstantVariable.GetOtherDir() + "\\Campaign.bin");
+                    ConstantVariable.GetPublisherCampaignFile());
                 LstCampaign.ForEach(x =>
                 {
                     if (x.CampaignName == SelectedItem)
                         x = PublisherCreateCampaignModel;
                 });
                 GenericFileManager.UpdateModuleDetails<PublisherCreateCampaignModel>(LstCampaign,
-                    ConstantVariable.GetOtherDir() + "\\Campaign.bin");
+                    ConstantVariable.GetPublisherCampaignFile());
             }
             else
             {
                 if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel,
-                    ConstantVariable.GetOtherDir() + "\\Campaign.bin"))
+                    ConstantVariable.GetPublisherCampaignFile()))
                     Dialog.ShowDialog("Success", "Campaign successfully saved.");
             }
             CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
@@ -219,7 +223,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 var destinationId = selectDestinations.PublisherManageDestinationViewModel
                      .ListPublisherManageDestinationModels
                      .Where(x => x.IsSelected).Select(x => x.DestinationId).ToList();
-                _publisherCreateCampaignModel.LstDestinationId = new ObservableCollection<string>(destinationId); 
+                _publisherCreateCampaignModel.LstDestinationId = new ObservableCollection<string>(destinationId);
             }
         }
 
@@ -227,20 +231,28 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void CampaignChangedExecute(object sender)
         {
-
+            var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
             try
             {
-                PublisherCreateCampaigns.
-                    GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel.PublisherCreateCampaignModel = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
-                    (ConstantVariable.GetOtherDir() + "\\Campaign.bin").FirstOrDefault(x => x.CampaignName == (string)sender);
-
-
+                PublisherCreateCampaignModel = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
+                      (ConstantVariable.GetPublisherCampaignFile()).FirstOrDefault(x => x.CampaignName == (string)sender);
+                BindTabItemsControlProperties();
+                SetPostContectData(publisherDirectPosts);
             }
             catch (Exception ex)
             {
+                PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
+                SetPostContectData(publisherDirectPosts);
                 ex.DebugLog();
 
             }
+        }
+
+        private void SetPostContectData(PublisherDirectPosts publisherDirectPosts)
+        {
+            publisherDirectPosts.PublisherDirectPostsViewModel.PostDetailsModel =
+                PublisherCreateCampaignModel.PostDetailsModel;
+            publisherDirectPosts.PostContentControl.SetMedia();
         }
 
         #endregion
@@ -252,5 +264,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public void BindTabItemsControlProperties()
+        {
+            tabItemsControl.PostDetailsModel = PublisherCreateCampaignModel.PostDetailsModel;
+
+            tabItemsControl.publisherDirectPostsViewModel = new PublisherDirectPostsViewModel(tabItemsControl);
+
+        }
+
+        public class TabItemsControl
+        {
+            public PostDetailsModel PostDetailsModel { get; set; }
+            public PublisherDirectPostsViewModel publisherDirectPostsViewModel { get; set; }
+
+        }
+
     }
 }

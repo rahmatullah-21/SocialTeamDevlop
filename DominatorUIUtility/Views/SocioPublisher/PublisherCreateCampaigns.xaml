@@ -103,10 +103,7 @@
                     <Label Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}"/>
                     <ComboBox x:Name="ComboCampaignList" Height="25" Width="250" ItemsSource="{Binding CampaignList}" 
                               behaviours:SelectionChangedBehaviour.Command="{Binding CampaignChangedCommand}"
-                              SelectedItem="{Binding SelectedItem}"/>
-                    <!--metroControls:TextBoxHelper.ClearTextButton="True"-->
-                    <!--SelectionChanged="ComboCampaignList_OnSelectionChanged"/>-->
-                    <!--behaviours:SelectionChangedBehaviour.Command="{Binding CampaignChangedCommand}"/>-->
+                              SelectedItem="{Binding SelectedItem}" metroControls:TextBoxHelper.ClearTextButton="True"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -161,7 +158,7 @@
 
                     <!--Options selections like create post, create post by multiple area, Scarpe post, Share post, Rss feed , Monitor folder-->
                     <TabControl x:Name="CreateCampaignTabs" ItemsSource="{Binding PostTabItems}" TabStripPlacement="Top"  Margin="10,5,5,5"
-                                metroControls:TabControlHelper.IsUnderlined="True" SelectedIndex="3"
+                                metroControls:TabControlHelper.IsUnderlined="True"
                                 metroControls:TabControlHelper.Underlined="SelectedTabItem">
                         <TabControl.ItemTemplate >
                             <DataTemplate>
