@@ -169,4 +169,5 @@ Type 3. IP:Port
     <system:String x:Key="DHlangRevisionHistory">Revision History</system:String>
     <system:String x:Key="DHlangEnableSync">Synchronize Account Informations every</system:String>
     <system:String x:Key="DHlangSimultaneousAccountUpdateCount">Number of Accounts to synchronize simultaneously</system:String>
+    <system:String x:Key="DHlangRefresh">Refresh</system:String>
 </ResourceDictionary>

@@ -24,5 +24,12 @@
     <system:String x:Key="TumblrlangAddToBlacklist">Add to Blacklist once Unfollowed</system:String>
     <system:String x:Key="TumblrlangAddToPrivateBlacklist">Add to Private Blacklist</system:String>
     <system:String x:Key="TumblrlangAddToGroupBlacklist">Add to Group Blacklist</system:String>
+    <system:String x:Key="TumblrlangMsgConfiguration">Broadcast Messages</system:String>
+    <system:String x:Key="TumblrlangManageMessages">Manage Messages</system:String>
+    <system:String x:Key="TumblrLangRefresh">Refresh</system:String>
+
+
+    <system:String x:Key="TmblrlangLikeComments">Comments</system:String>
+    <system:String x:Key="TMBlangMessage">Broadcast Messages</system:String>
 
 </ResourceDictionary>

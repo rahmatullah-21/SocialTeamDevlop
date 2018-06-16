@@ -588,4 +588,9 @@
     <system:String x:Key="PDlangSkipBlacklistedUsers">Skip Blacklisted Users</system:String>
     <system:String x:Key="PDlangPrivateBlacklist">Private Blacklist</system:String>
     <system:String x:Key="PDlangGroupBlacklist">Group Blacklist</system:String>
+    <system:String x:Key="PdLangStopFollowStartUnfollowTool">Stop Follow And Start Unfollow Tool</system:String>
+    <system:String x:Key="PdLangStopFollowTool">Stop Follow But do not start Unfollow Tool</system:String>
+
+    <system:String x:Key="PdLangStopUnfollowStartFollowTool">Stop Unfollow And Start Follow Tool</system:String>
+    <system:String x:Key="PdLangStopUnfollowTool">Stop Unfollow But do not start Follow Tool</system:String>
 </ResourceDictionary>
