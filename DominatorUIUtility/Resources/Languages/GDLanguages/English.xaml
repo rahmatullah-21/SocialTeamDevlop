@@ -1297,6 +1297,26 @@
     <system:String x:Key="GdLangStopUnfollowTool">Only stop unfollow tool</system:String>
     <system:String x:Key="GdStopFollowStartUnfollowTool">Stop follow and start unfollow tool</system:String>
     <system:String x:Key="GdStopUnfollowStartFollowTool">Stop unfollow and start follow tool</system:String>
+
+    <system:String x:Key="GdLangBlacklist">Manage BlackListed Users</system:String>
+    <system:String x:Key="GdLangWhitelist">Manage Whitelist Users</system:String>
+    <system:String x:Key="GdLangSkipBlackListedUser">Skip Blacklisted user</system:String>
+    <system:String x:Key="GdLangSkipBlackListedUsersPosts">Skip Blacklisted users posts</system:String>
+    <system:String x:Key="GdLangPrivateBlackList">Private Blacklist</system:String>
+    <system:String x:Key="GdLangGroupBlackList">Group Blacklist</system:String>
+
+    <system:String x:Key="GdLangManageBlackWhiteListUsers">Manage Whitelisted and Blacklisted Users</system:String>
+    <system:String x:Key="GdLangSkipWhiteListedUser">Skip Whitelisted user</system:String>
+    <system:String x:Key="GdLangSkipWhiteListedUsersPosts">Skip Whitelisted users posts</system:String>
+    <system:String x:Key="GdLangPrivateWhiteList">Private Whitelist</system:String>
+    <system:String x:Key="GdLangGroupWhiteList">Group Whitelist</system:String>
+
+    <system:String x:Key="GdLangAddToBlackListOnceUnfollow">Add to Blacklist after unfollow</system:String>
+    <system:String x:Key="GdLangAddToBlackListOnceBlockedFollower">Add to Blacklist after block follower</system:String>
+    <system:String x:Key="GdLangAddToBlackListOnceUnlikeMedia">Add to Blacklist after unlike media</system:String>
+    <system:String x:Key="GdLangAddToPrivateBlackList">To Private Blacklist</system:String>
+    <system:String x:Key="GdLangAddToGroupBlackList">To Group Blacklist</system:String>
+
     <!--End Gram Dominator-->
 
     <!--Start Twt Dominator-->
