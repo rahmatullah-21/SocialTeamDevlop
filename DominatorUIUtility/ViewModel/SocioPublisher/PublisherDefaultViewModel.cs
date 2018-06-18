@@ -100,7 +100,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = new PublisherManagePosts();
                     break;
                 case "CreateCampaigns":
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = new PublisherCreateCampaigns();
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
                     break;
             }
         }
@@ -245,12 +245,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public void InitializeDefaultCampaignStatus()
         {
             PublisherCampaignStatusModelView = CollectionViewSource.GetDefaultView(ListPublisherCampaignStatusModels);
+
             var allCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
                 (ConstantVariable.GetPublisherCampaignFile());
-            //var publisherCampaignStatusModel = new PublisherCampaignStatusModel();
+           
             allCampaign.ForEach(camp =>
             {
-                var publisherCampaignStatusModel = new PublisherCampaignStatusModel()
+                var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                 {
                     CampaignName = camp.CampaignName,
                     CampaignId = camp.CampaignId,
@@ -260,15 +261,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     Status = camp.CampaignStatus,
                 };
                 AddCampaignDetails(publisherCampaignStatusModel);
-            });
-            //publisherCampaignStatusModel.GenerateCampaign();
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    var campaignStatus = GetCampaginDeepClone(publisherCampaignStatusModel);
-            //    campaignStatus.GenerateCampaign();
-            //    campaignStatus.CampaignName = campaignStatus.CampaignName + RandomUtilties.GetRandomNumber(100);
-            //    AddCampaignDetails(campaignStatus);
-            //}
+            });           
         }
 
         public bool AddCampaignDetails(PublisherCampaignStatusModel publisherCampaignStatusModel)

@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
@@ -133,6 +130,7 @@ namespace DominatorHouseCore.FileManagers
                 return act(typeConfig.Item2());
             }
         }
+
         public static List<T> GetModuleDetails<T>() where T : class
         {
             return WithFile<T, List<T>>(filePath =>
@@ -140,18 +138,10 @@ namespace DominatorHouseCore.FileManagers
                     ? ProtoBuffBase.DeserializeList<T>(filePath)
                     : new List<T>());
         }
-        public static List<T> GetModuleDetails<T>(string filePath) where T : class
-        {
-         
-               return File.Exists(filePath) ? ProtoBuffBase.DeserializeList<T>(filePath) : new List<T>();
-        }
-        public static List<T> GetPublisherOtherConfig<T>(string filename) where T : class
-        {
 
-            return File.Exists(filename)
-                 ? ProtoBuffBase.DeserializeList<T>(filename)
-                 : new List<T>();
-        }
+        public static List<T> GetModuleDetails<T>(string filePath) where T : class 
+            => File.Exists(filePath) ? ProtoBuffBase.DeserializeList<T>(filePath) : new List<T>();
+
         public static bool UpdateModuleDetails<T>(List<T> detailsList) where T : class
         {
             try
@@ -159,7 +149,7 @@ namespace DominatorHouseCore.FileManagers
                 return WithFile<T, bool>(file =>
                 {
                     bool result = ProtoBuffBase.SerializeList(detailsList, file);
-                    GlobusLogHelper.log.Debug("Daetails succesfully saved");
+                    GlobusLogHelper.log.Debug("Details successfully saved");
                     return result;
                 });
             }
@@ -170,22 +160,25 @@ namespace DominatorHouseCore.FileManagers
                 return false;
             }
         }
+
         internal static void SaveAll<T>(List<T> lstModel) where T : class
         {
             UpdateModuleDetails(lstModel);
             GlobusLogHelper.log.Debug("Details successfully saved");
         }
+
         internal static void SaveAll<T>(List<T> lstModel, string file) where T : class
         {
             UpdateModuleDetails(lstModel, file);
             GlobusLogHelper.log.Debug("Details successfully saved");
         }
+
         public static bool UpdateModuleDetails<T>(List<T> detailsList, string file) where T : class
         {
             try
             {
-                bool result = ProtoBuffBase.SerializeList(detailsList, file);
-                GlobusLogHelper.log.Debug("Daetails succesfully saved");
+                var result = ProtoBuffBase.SerializeList(detailsList, file);
+                GlobusLogHelper.log.Debug("Details successfully saved");
                 return result;
 
             }
@@ -196,6 +189,7 @@ namespace DominatorHouseCore.FileManagers
                 return false;
             }
         }
+
         internal static T GetModule<T>(string filePath) where T : class
         {
             try

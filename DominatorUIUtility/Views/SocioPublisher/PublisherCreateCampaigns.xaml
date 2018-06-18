@@ -160,9 +160,9 @@
                     <TabControl x:Name="CreateCampaignTabs" ItemsSource="{Binding PostTabItems}" TabStripPlacement="Top"  Margin="10,5,5,5"
                                 metroControls:TabControlHelper.IsUnderlined="True"
                                 metroControls:TabControlHelper.Underlined="SelectedTabItem">
-                        <TabControl.ItemTemplate >
+                        <TabControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock  Text="{Binding Title}" FontSize="16" />
+                                <TextBlock Text="{Binding Title}" FontSize="16" />
                             </DataTemplate>
                         </TabControl.ItemTemplate>
                         <TabControl.ContentTemplate>
@@ -179,7 +179,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Expander Grid.Row="0" Header="{DynamicResource langJobConfiguration}" Margin="15,5,5,5">
-                            <publisher:JobConfiguration JobConfigurations="{Binding PublisherCreateCampaignModel.JobConfigurations}"/>
+                            <publisher:JobConfiguration JobConfigurations="{Binding PublisherCreateCampaignModel.JobConfigurations,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                         </Expander>
                         <Expander Grid.Row="1" Header="{DynamicResource langOtherConfigurations}" Margin="15,5,5,5">
                             <publisher:OtherConfiguration OtherConfigurations="{Binding PublisherCreateCampaignModel.OtherConfiguration}"/>

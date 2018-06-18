@@ -37,20 +37,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
          
             PostTabItems = InitializeTabs();
             BindTabItemsControlProperties();
-            CampaignList = new ObservableCollection<string>(
-                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
-
-
+            CampaignList = new ObservableCollection<string>(GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
             PublisherCreateCampaignModel.JobConfigurations.Weekday.Clear();
 
             foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
             {
                 PublisherCreateCampaignModel.JobConfigurations.Weekday.Add(new ContentSelectGroup
                 {
-                    Content = day.ToString(),
+                    Content = day.ToString()
                 });
             }
-
         }
 
 
@@ -72,9 +68,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(PublisherCreateCampaignModel));
             }
         }
+
         private ObservableCollection<string> _campaignList = new ObservableCollection<string>();
-        // To hold all available the campaign name
-        //[ProtoMember(4)]
+        // To hold all available the campaign name       
         public ObservableCollection<string> CampaignList
         {
             get
@@ -89,6 +85,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(CampaignList));
             }
         }
+
         private string _selectedItem;
 
         public string SelectedItem
@@ -105,11 +102,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
+
         #region Command
+
         public ICommand NavigationCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand SelectDestinationCommand { get; set; }
         public ICommand CampaignChangedCommand { get; set; }
+
         #endregion
 
         public List<TabItemTemplates> PostTabItems { get; set; }
@@ -167,6 +167,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
         private bool SaveCanExecute(object sender) => true;
+
         private void SaveExecute(object sender)
         {
            
@@ -253,13 +254,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
         private void SetPublisherRssFeedData(PublisherRssFeed publisherRssFeed)
         {
-            //publisherRssFeed.PublisherRssFeedViewModel.LstFeedUrl =
-            //    PublisherCreateCampaignModel.LstFeedUrl;
-
             publisherRssFeed.PublisherRssFeedViewModel.LstFeedUrl.Clear();
             PublisherCreateCampaignModel.LstFeedUrl.ForEach(x=> publisherRssFeed.PublisherRssFeedViewModel.LstFeedUrl.Add(x));
-
         }
+
         private void SetPostContectData(PublisherDirectPosts publisherDirectPosts)
         {
             publisherDirectPosts.PublisherDirectPostsViewModel.PostDetailsModel =
@@ -281,15 +279,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             tabItemsControl.PostDetailsModel = PublisherCreateCampaignModel.PostDetailsModel;
             tabItemsControl.LstFeedUrl = PublisherCreateCampaignModel.LstFeedUrl;
-            tabItemsControl.publisherDirectPostsViewModel = new PublisherDirectPostsViewModel(tabItemsControl);
+            tabItemsControl.PublisherDirectPostsViewModel = new PublisherDirectPostsViewModel(tabItemsControl);
             tabItemsControl.PublisherRssFeedViewModel = new PublisherRssFeedViewModel(tabItemsControl);
-
         }
 
         public class TabItemsControl
         {
             public PostDetailsModel PostDetailsModel { get; set; }
-            public PublisherDirectPostsViewModel publisherDirectPostsViewModel { get; set; }
+            public PublisherDirectPostsViewModel PublisherDirectPostsViewModel { get; set; }
             public ObservableCollection<PublisherRssFeedModel> LstFeedUrl { get; set; }
             public PublisherRssFeedViewModel PublisherRssFeedViewModel { get; set; }
         }

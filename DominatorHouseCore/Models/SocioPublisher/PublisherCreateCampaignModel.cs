@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Controls;
 using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
@@ -13,10 +10,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
     public class PublisherCreateCampaignModel : BindableBase
     {
         public PublisherCreateCampaignModel()
-        {
-            //_campaignList.Add(_campaignName);
-            CampaignId = Utilities.GetGuid(true);
+        {        
+            CampaignId = Utilities.GetGuid();
         }
+
         [ProtoMember(1)]
         public string CampaignId { get; set; }
 
@@ -56,29 +53,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-
-        //private ObservableCollection<string> _campaignList = new ObservableCollection<string>();
-        //// To hold all available the campaign name
-        ////[ProtoMember(4)]
-        //public ObservableCollection<string> CampaignList
-        //{
-        //    get
-        //    {
-        //        return _campaignList;
-        //    }
-        //    set
-        //    {
-        //        if (_campaignList == value)
-        //            return;
-        //        _campaignList = value;
-        //        OnPropertyChanged(nameof(CampaignList));
-        //    }
-        //}
         [ProtoMember(5)]
         public JobConfigurationModel JobConfigurations { get; set; } = new JobConfigurationModel();
+
         [ProtoMember(6)]
         public OtherConfigurationModel OtherConfiguration { get; set; } = new OtherConfigurationModel();
-        private PostDetailsModel _postDetailsModel { get; set; } = new PostDetailsModel();
+
+        private PostDetailsModel _postDetailsModel = new PostDetailsModel();
         [ProtoMember(7)]
         public PostDetailsModel PostDetailsModel
         {
@@ -94,8 +75,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PostDetailsModel));
             }
         }
-        private ObservableCollection<string> _lstDestinationId = new ObservableCollection<string>();
-        
+
+        private ObservableCollection<string> _lstDestinationId = new ObservableCollection<string>();       
         [ProtoMember(8)]
         public ObservableCollection<string> LstDestinationId
         {
@@ -111,6 +92,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(_lstDestinationId));
             }
         }
+
         private ScrapePostModel _scrapePostModel = new ScrapePostModel();
         [ProtoMember(9)]
         public ScrapePostModel ScrapePostModel
@@ -127,6 +109,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(ScrapePostModel));
             }
         }
+
         private SharePostModel _sharePostModel = new SharePostModel();
         [ProtoMember(10)]
         public SharePostModel SharePostModel {
@@ -142,8 +125,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(SharePostModel));
             }
         }
+
         [ProtoMember(11)]
         public DateTime CreatedDate { get; set; }=DateTime.Now;
+
         private PublisherMediaViewerModel _publisherMediaViewerModel=new PublisherMediaViewerModel();
         [ProtoMember(12)]
         public PublisherMediaViewerModel PublisherMediaViewerModel
@@ -160,6 +145,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PublisherMediaViewerModel));
             }
         }
+
+
         private ObservableCollection<PublisherRssFeedModel> _lstFeedUrl=new ObservableCollection<PublisherRssFeedModel>();
         [ProtoMember(13)]
         public ObservableCollection<PublisherRssFeedModel> LstFeedUrl 
@@ -175,7 +162,5 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _lstFeedUrl, value);
             }
         }
-
-       
     }
 }

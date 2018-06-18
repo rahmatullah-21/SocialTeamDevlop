@@ -7,12 +7,11 @@ using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
-
     [Serializable]
     [ProtoContract]
     public class PublisherCampaignStatusModel : INotifyPropertyChanged
-    {    
-        public string CampaignId { get; set; }
+    {
+        public string CampaignId { get; set; } = string.Empty;
 
         private bool _isSelected;
 
@@ -29,7 +28,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        public string CampaignName { get; set; }
+        public string CampaignName { get; set; } = string.Empty;
 
         public PublisherCampaignStatus Status { get; set; } = PublisherCampaignStatus.Completed;
 
@@ -53,8 +52,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             CampaignId = Utilities.GetGuid();
             CreatedDate = DateTime.Today;
             StartDate = DateTime.Today;
-            EndDate = DateTime.Today.AddDays(7);
-            
+            EndDate = DateTime.Today.AddDays(7);            
         }
 
         public void GenerateCloneCampaign(string name)
@@ -65,8 +63,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             IsSelected = false;
         }
 
-        public bool ValidDateTime() 
-            => StartDate < EndDate;
+        public bool ValidDateTime() => StartDate < EndDate;
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;

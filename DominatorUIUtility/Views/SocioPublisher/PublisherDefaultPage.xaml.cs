@@ -35,11 +35,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         private static PublisherDefaultPage _indexPage;
       
-
         public static PublisherDefaultPage Instance { get; set; }
             = _indexPage ?? (_indexPage = new PublisherDefaultPage());
-
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 

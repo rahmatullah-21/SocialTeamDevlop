@@ -26,7 +26,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             this.tabItemsControl = tabItemsControl;
             PublisherDirectPostsViewModel = new PublisherDirectPostsViewModel(tabItemsControl);
-            tabItemsControl.publisherDirectPostsViewModel = PublisherDirectPostsViewModel;
+            tabItemsControl.PublisherDirectPostsViewModel = PublisherDirectPostsViewModel;
             DirectPost.DataContext = PublisherDirectPostsViewModel;
         }
 

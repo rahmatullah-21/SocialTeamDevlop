@@ -1039,9 +1039,9 @@
     <system:String x:Key="langVerifyProxy">Verify Proxy</system:String>
     <system:String x:Key="langCampaignWillPublish">The campaign will publish</system:String>
     <system:String x:Key="langPostListItemsPerDay">Post list items per day between</system:String>
-    <system:String x:Key="langSpecifyPostingInterval">Specify posting interval for each timer</system:String>
-    <system:String x:Key="langRandomizePublishingTimer">Randomize publishing timers each day</system:String>
-    <system:String x:Key="langRandomizeNumberOfPosts">Randomize number of posts each day</system:String>
+    <system:String x:Key="langSpecifyPostingInterval">Configure posting interval for each timer</system:String>
+    <system:String x:Key="langRandomizePublishingTimer">Use random publishing time everyday</system:String>
+    <system:String x:Key="langRandomizeNumberOfPosts">Publish random number of posts each day</system:String>
     <system:String x:Key="langPostBetween">Post between</system:String>
     <system:String x:Key="langMaxPostPerDay">max post per day</system:String>
     <system:String x:Key="langPublishPostOnDestinations">Publish a post list item on all selected destinations</system:String>
