@@ -378,4 +378,9 @@ Type 3. IP:Port
     <system:String x:Key="DHlangEnableSync">Synchronize Account Informations every</system:String>
     <system:String x:Key="DHlangSimultaneousAccountUpdateCount">Number of Accounts to synchronize simultaneously</system:String>
     <system:String x:Key="DHlangRefresh">Refresh</system:String>
+    <system:String x:Key="DhlangFeedUrl">Feed Urls</system:String>
+    <system:String x:Key="DhlangFeedUrlDetails">Feed Url Details</system:String>
+    <system:String x:Key="DhlangFeedTemplate">Feed Templates</system:String>
+    <system:String x:Key="DhlangSaveToList">Save to List</system:String>
+
 </ResourceDictionary>

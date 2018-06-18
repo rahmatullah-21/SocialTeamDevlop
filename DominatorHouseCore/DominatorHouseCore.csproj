@@ -437,6 +437,7 @@
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TwitterModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
+    <Compile Include="Models\SocioPublisher\PublisherRssFeedModel.cs" />
     <Compile Include="Models\SocioPublisher\ScrapePostModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\FdPostSettings.cs" />
     <Compile Include="Models\SocioPublisher\Settings\GdPostSettings.cs" />

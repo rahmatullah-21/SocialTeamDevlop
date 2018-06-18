@@ -138,7 +138,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("DHlangRssFeed")?.ToString(),
-                    Content = new Lazy<UserControl>(()=>new PublisherRssFeed())
+                    Content = new Lazy<UserControl>(()=> PublisherRssFeed.GetPublisherRssFeed(tabItemsControl))
                 },
                 new TabItemTemplates
                 {
@@ -232,22 +232,34 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void CampaignChangedExecute(object sender)
         {
             var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
+            var publisherRssFeed = PublisherRssFeed.GetPublisherRssFeed(tabItemsControl);
             try
             {
                 PublisherCreateCampaignModel = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
                       (ConstantVariable.GetPublisherCampaignFile()).FirstOrDefault(x => x.CampaignName == (string)sender);
                 BindTabItemsControlProperties();
                 SetPostContectData(publisherDirectPosts);
+                SetPublisherRssFeedData(publisherRssFeed);
             }
             catch (Exception ex)
             {
                 PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
                 SetPostContectData(publisherDirectPosts);
+                SetPublisherRssFeedData(publisherRssFeed);
+
                 ex.DebugLog();
 
             }
         }
+        private void SetPublisherRssFeedData(PublisherRssFeed publisherRssFeed)
+        {
+            //publisherRssFeed.PublisherRssFeedViewModel.LstFeedUrl =
+            //    PublisherCreateCampaignModel.LstFeedUrl;
 
+            publisherRssFeed.PublisherRssFeedViewModel.LstFeedUrl.Clear();
+            PublisherCreateCampaignModel.LstFeedUrl.ForEach(x=> publisherRssFeed.PublisherRssFeedViewModel.LstFeedUrl.Add(x));
+
+        }
         private void SetPostContectData(PublisherDirectPosts publisherDirectPosts)
         {
             publisherDirectPosts.PublisherDirectPostsViewModel.PostDetailsModel =
@@ -268,8 +280,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public void BindTabItemsControlProperties()
         {
             tabItemsControl.PostDetailsModel = PublisherCreateCampaignModel.PostDetailsModel;
-
+            tabItemsControl.LstFeedUrl = PublisherCreateCampaignModel.LstFeedUrl;
             tabItemsControl.publisherDirectPostsViewModel = new PublisherDirectPostsViewModel(tabItemsControl);
+            tabItemsControl.PublisherRssFeedViewModel = new PublisherRssFeedViewModel(tabItemsControl);
 
         }
 
@@ -277,7 +290,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             public PostDetailsModel PostDetailsModel { get; set; }
             public PublisherDirectPostsViewModel publisherDirectPostsViewModel { get; set; }
-
+            public ObservableCollection<PublisherRssFeedModel> LstFeedUrl { get; set; }
+            public PublisherRssFeedViewModel PublisherRssFeedViewModel { get; set; }
         }
 
     }

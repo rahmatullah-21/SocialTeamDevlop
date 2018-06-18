@@ -11,10 +11,10 @@ namespace DominatorHouseCore.Utility
 {
     public class ImageExtracter
     {
-        public static async Task<IEnumerable<string>> ExtractImageUrls(string url, bool isBackgroundImageNeed = false)
+        public static IEnumerable<string> ExtractImageUrls(string url, bool isBackgroundImageNeed = false)
         {
             var webClient = new WebClient();
-            var pageResult = await webClient.DownloadStringTaskAsync(new Uri(url));
+            var pageResult =  webClient.DownloadString(new Uri(url));
             var imageUrl = new List<string>();
             var htmlDocument = new HtmlDocument
             {

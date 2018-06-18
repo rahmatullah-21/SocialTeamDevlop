@@ -144,7 +144,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
         [ProtoMember(11)]
         public DateTime CreatedDate { get; set; }=DateTime.Now;
-        private PublisherMediaViewerModel _publisherMediaViewerModel;
+        private PublisherMediaViewerModel _publisherMediaViewerModel=new PublisherMediaViewerModel();
         [ProtoMember(12)]
         public PublisherMediaViewerModel PublisherMediaViewerModel
         {
@@ -160,7 +160,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PublisherMediaViewerModel));
             }
         }
+        private ObservableCollection<PublisherRssFeedModel> _lstFeedUrl=new ObservableCollection<PublisherRssFeedModel>();
+        [ProtoMember(13)]
+        public ObservableCollection<PublisherRssFeedModel> LstFeedUrl 
+        {
+            get
+            {
+                return _lstFeedUrl;
+            }
+            set
+            {
+                if (value == _lstFeedUrl)
+                    return;
+                SetProperty(ref _lstFeedUrl, value);
+            }
+        }
 
-        
+       
     }
 }

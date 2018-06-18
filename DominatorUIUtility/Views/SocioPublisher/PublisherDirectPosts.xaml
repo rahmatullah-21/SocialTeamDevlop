@@ -96,7 +96,7 @@
                                   IsChecked="{Binding PostDetailsModel.IsUniquePost}"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Name="TextBlockUploadUrl" VerticalAlignment="Center" Margin="2" Text="{DynamicResource DHlangUploadFromUrl}" />
-                        <TextBox Name="TextBoxGetImages" Width="180" Height="25" Text="{Binding ImagesUrl}"
+                        <TextBox Name="TextBoxGetImages" Width="180" Height="25" Text="{Binding PostDetailsModel.ImagesUrl,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                      Style="{StaticResource SearchMetroTextBox}"   control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}">
 
                         </TextBox>

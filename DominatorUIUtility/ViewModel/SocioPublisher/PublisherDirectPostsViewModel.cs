@@ -20,12 +20,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             MultiplePostCommand = new BaseCommand<object>(CanExecuteMultiPost, ExecuteMultiPost);
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
-            SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);           
+            SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);
         }
 
-      
 
-        public PublisherDirectPostsViewModel(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl):this()
+
+        public PublisherDirectPostsViewModel(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl) : this()
         {
             this.tabItemsControl = tabItemsControl;
             _postDetailsModel = tabItemsControl.PostDetailsModel;
@@ -39,7 +39,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand ImportFromCsvCommand { get; set; }
         public ICommand SearchCommand { get; set; }
 
-        private PostDetailsModel _postDetailsModel ;
+        private PostDetailsModel _postDetailsModel;
 
         public PostDetailsModel PostDetailsModel
         {
@@ -49,7 +49,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             set
             {
-                if(_postDetailsModel == value)
+                if (_postDetailsModel == value)
                     return;
                 _postDetailsModel = value;
                 OnPropertyChanged(nameof(PostDetailsModel));
@@ -57,7 +57,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
 
-        private bool _isBool= true;
+        private bool _isBool = true;
 
         public bool IsBool
         {
@@ -67,14 +67,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             set
             {
-                if(IsBool == value)
+                if (IsBool == value)
                     return;
                 _isBool = value;
                 OnPropertyChanged(nameof(IsBool));
             }
         }
 
-      
+
         #endregion
 
         #region Methods
@@ -86,18 +86,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 var publisherMultiplePost = new PublisherMultiplePost
-                    {                       
-                        ShowInTaskbar = true,
-                        ShowActivated = true,
-                        Topmost = false,
-                        ResizeMode = ResizeMode.NoResize,
-                        WindowStyle = WindowStyle.SingleBorderWindow,
-                        WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                        ShowTitleBar = true,
-                        ShowCloseButton = true,
-                        WindowTransitionsEnabled = false,                      
-                        BorderThickness = new Thickness(0),
-                        GlowBrush = Brushes.Black,
+                {
+                    ShowInTaskbar = true,
+                    ShowActivated = true,
+                    Topmost = false,
+                    ResizeMode = ResizeMode.NoResize,
+                    WindowStyle = WindowStyle.SingleBorderWindow,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    ShowTitleBar = true,
+                    ShowCloseButton = true,
+                    WindowTransitionsEnabled = false,
+                    BorderThickness = new Thickness(0),
+                    GlowBrush = Brushes.Black,
                 };
                 publisherMultiplePost.Show();
 
@@ -120,7 +120,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SearchExecute(object sender)
         {
-           
         }
         private bool ImportFromCsvCanExecute(object sender) => true;
 
@@ -132,6 +131,4 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         #endregion
 
     }
-
-
 }
