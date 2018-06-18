@@ -296,6 +296,14 @@ namespace DominatorHouseCore.Utility
                 return start;
             }
         }
+
+        public static bool TimeBetween(TimeSpan now, TimeSpan start, TimeSpan end)
+        {
+            if (start < end)
+                if (now <= end || start > now)
+                    return true;
+            return false;
+        }
     }
 
 

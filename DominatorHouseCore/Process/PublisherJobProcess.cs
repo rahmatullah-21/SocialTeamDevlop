@@ -1,4 +1,6 @@
-﻿namespace DominatorHouseCore.Process
+﻿using DominatorHouseCore.Models.Publisher;
+
+namespace DominatorHouseCore.Process
 {
     public abstract class PublisherJobProcess
     {
@@ -16,11 +18,15 @@
 
         public string CampaignId { get; set; }
 
+        public JobConfigurationModel JobConfigurations { get; set; } = new JobConfigurationModel();
+
+        public OtherConfigurationModel OtherConfiguration { get; set; } = new OtherConfigurationModel();
+
         #endregion
 
         #region Methods
 
-        
+
 
         public void StopPublish()
         {
@@ -36,18 +42,5 @@
         protected abstract bool CheckLimitsReached();
 
         #endregion
-    }
-
-    public class PublishScheduler
-    {
-        public void StartPublish()
-        {
-            // Todo : Start publish
-        }
-
-        public static void ScheduleTodaysJob(string campaignId)
-        {
-            
-        }
     }
 }

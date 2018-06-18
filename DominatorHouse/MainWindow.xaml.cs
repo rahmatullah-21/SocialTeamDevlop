@@ -527,6 +527,13 @@ namespace Socinator
                 var softWareSettings = new DominatorHouse.Utilities.SoftwareSettings();
                 Task.Factory.StartNew(() => { softWareSettings.InitializeOnLoadConfigurations(_strategies); });
 
+                #region Publisher
+
+                Task.Factory.StartNew(() => PublisherInitialize.Instance);
+
+                #endregion
+
+
 
 
             }

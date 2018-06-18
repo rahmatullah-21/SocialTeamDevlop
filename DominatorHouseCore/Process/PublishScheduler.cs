@@ -2,12 +2,18 @@
 {
     public class PublishScheduler
     {
-        public void StartPublish()
+
+        public void StartPublishingPosts(string campaignId)
         {
             // Todo : Start publish
         }
 
-        public static void ScheduleTodaysJob(string campaignId)
+        public void StopPublishingPosts(string campaignId)
+        {
+            
+        }
+
+        public static void ScheduleTodaysPublisher(string campaignId)
         {
             
         }

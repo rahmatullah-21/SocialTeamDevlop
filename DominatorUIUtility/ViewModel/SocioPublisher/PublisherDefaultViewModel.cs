@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using DominatorHouseCore;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
@@ -243,28 +244,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeDefaultCampaignStatus()
         {
+            ListPublisherCampaignStatusModels = PublisherInitialize.Instance.ListPublisherCampaignStatusModels;
             PublisherCampaignStatusModelView = CollectionViewSource.GetDefaultView(ListPublisherCampaignStatusModels);
-
-            var allCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
-
-            allCampaign.ForEach(camp =>
-            {
-                var publisherCampaignStatusModel = new PublisherCampaignStatusModel
-                {
-                    CampaignName = camp.CampaignName,
-                    CampaignId = camp.CampaignId,
-                    StartDate = camp.JobConfigurations.CampaignStartDate,
-                    EndDate = camp.JobConfigurations.CampaignEndDate,
-                    CreatedDate = camp.CreatedDate,
-                    Status = camp.CampaignStatus,
-                    DestinationCount = camp.LstDestinationId.Count,
-                    IsRotateDayChecked =  camp.JobConfigurations.IsRotateDayChecked,
-                    TimeRange = camp.JobConfigurations.TimeRange,
-                    SpecificRunningTime = camp.JobConfigurations.LstTimer.Select(x=> x.MidTime).ToList(),
-                    ScheduledWeekday = camp.JobConfigurations.Weekday
-                };
-                AddCampaignDetails(publisherCampaignStatusModel);
-            });           
         }
 
         public void SchedulePublisherCampaigns()
