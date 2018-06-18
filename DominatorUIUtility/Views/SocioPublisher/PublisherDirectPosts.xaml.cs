@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
@@ -14,18 +15,19 @@ namespace DominatorUIUtility.Views.SocioPublisher
     public partial class PublisherDirectPosts : UserControl, INotifyPropertyChanged
     {
         private PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl;
+
         public PublisherDirectPosts()
         {
             InitializeComponent();
             instance = this;
         }
+
         public PublisherDirectPosts(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl) : this()
         {
             this.tabItemsControl = tabItemsControl;
             PublisherDirectPostsViewModel = new PublisherDirectPostsViewModel(tabItemsControl);
             tabItemsControl.publisherDirectPostsViewModel = PublisherDirectPostsViewModel;
             DirectPost.DataContext = PublisherDirectPostsViewModel;
-
         }
 
         private static PublisherDirectPosts instance;
