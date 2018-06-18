@@ -169,8 +169,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private bool SaveCanExecute(object sender) => true;
 
         private void SaveExecute(object sender)
-        {
-           
+        {           
             if (_publisherCreateCampaignModel.LstDestinationId.Count == 0)
             {
                 Dialog.ShowDialog("Warning", "Please select atleast one Destination.");
@@ -196,6 +195,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     Dialog.ShowDialog("Success", "Campaign successfully saved.");
             }
             CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
+
+            var publisherCampaignStatusModel = new PublisherCampaignStatusModel
+            {
+                CampaignName = PublisherCreateCampaignModel.CampaignName,
+                CampaignId = PublisherCreateCampaignModel.CampaignId,
+                StartDate = PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate,
+                EndDate = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate,
+                CreatedDate = PublisherCreateCampaignModel.CreatedDate,
+                Status = PublisherCreateCampaignModel.CampaignStatus,
+                DestinationCount = PublisherCreateCampaignModel.LstDestinationId.Count,
+            };
+
+            PublisherDefaultPage.Instance.PublisherDefaultViewModel.AddCampaignDetails(publisherCampaignStatusModel);
+            
         }
 
 
@@ -290,6 +303,5 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             public ObservableCollection<PublisherRssFeedModel> LstFeedUrl { get; set; }
             public PublisherRssFeedViewModel PublisherRssFeedViewModel { get; set; }
         }
-
     }
 }

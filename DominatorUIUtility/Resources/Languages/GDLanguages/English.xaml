@@ -1038,12 +1038,12 @@
     <system:String x:Key="langFailures">Failures</system:String>
     <system:String x:Key="langVerifyProxy">Verify Proxy</system:String>
     <system:String x:Key="langCampaignWillPublish">The campaign will publish</system:String>
-    <system:String x:Key="langPostListItemsPerDay">Post list items per day between</system:String>
+    <system:String x:Key="langPostListItemsPerDay">posts per day between</system:String>
     <system:String x:Key="langSpecifyPostingInterval">Configure posting interval for each timer</system:String>
     <system:String x:Key="langRandomizePublishingTimer">Use random publishing time everyday</system:String>
     <system:String x:Key="langRandomizeNumberOfPosts">Publish random number of posts each day</system:String>
     <system:String x:Key="langPostBetween">Post between</system:String>
-    <system:String x:Key="langMaxPostPerDay">max post per day</system:String>
+    <system:String x:Key="langMaxPostPerDay">max posts per day</system:String>
     <system:String x:Key="langPublishPostOnDestinations">Publish a post list item on all selected destinations</system:String>
     <system:String x:Key="langAddRandomSleepTimeWhilePublishing">Add random sleep time while publishing</system:String>
     <system:String x:Key="langSleepBetween">Sleep between</system:String>
@@ -1051,7 +1051,7 @@
     <system:String x:Key="langCampaignHasStartDate">Campaign has start date</system:String>
     <system:String x:Key="langCampaignHasEndDate">Campaign has end date</system:String>
     <system:String x:Key="langSecondsBeforePublishingSamePost">seconds before publishing the same post list item on a new destination.(actual value is chosen at random around target)</system:String>
-    <system:String x:Key="langPostListItemSentToGroupsPageWalls">(each post list item will be sent to all selected destinations - groups, page, walls)</system:String>
+    <system:String x:Key="langPostListItemSentToGroupsPageWalls">(Each post will be published to all selected destinations including groups, pages, walls)</system:String>
     <system:String x:Key="langEnableExpireDate">Enable expire date</system:String>
     <system:String x:Key="langEnableReAddPostToPostList">Enable Re-Add post to post list</system:String>
     <system:String x:Key="langTimes">times</system:String>

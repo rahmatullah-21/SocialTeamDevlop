@@ -126,10 +126,10 @@
             <control:NumericUpDown Minimum="0"
                     Value="{Binding JobConfigurations.PostBetween.StartValue}"
                     VerticalAlignment="Center"  Margin="5"/>
-            <TextBlock Text="{DynamicResource langAnd}"  VerticalAlignment="Center" Margin="5"/>
+            <TextBlock Text="{DynamicResource langTo}"  VerticalAlignment="Center" Margin="5"/>
             <control:NumericUpDown Minimum="{Binding JobConfigurations.PostBetween.StartValue}" Value="{Binding JobConfigurations.PostBetween.EndValue}" VerticalAlignment="Center"  Margin="5"/>
-            <TextBlock Text="{DynamicResource langPostPerDay}"  VerticalAlignment="Center" Margin="5"/>
-            <TextBlock Text="{DynamicResource langIncreaseEachDayWith}"  VerticalAlignment="Center" Margin="0,5"/>
+            <TextBlock Text="{DynamicResource DHlangPostPerDay}"  VerticalAlignment="Center" Margin="5"/>
+            <TextBlock Text="{DynamicResource DHlangIncreaseEachDay}"  VerticalAlignment="Center" Margin="0,5"/>
             <control:NumericUpDown Value="{Binding JobConfigurations.IncreaseEachDay.StartValue}"
                                    VerticalAlignment="Center"  Margin="5" Minimum="0"/>
             <TextBlock Text="{DynamicResource langUntilitReaches}"  VerticalAlignment="Center" Margin="5"/>

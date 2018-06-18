@@ -454,6 +454,7 @@
     <Compile Include="Models\SocioPublisher\SocinatorIntellisenseModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\TdPostSettings.cs" />
     <Compile Include="Models\SocioPublisher\Settings\TumberPostSettings.cs" />
+    <Compile Include="Process\PublisherJobProcess.cs" />
     <Compile Include="Utility\ImageExtracter.cs" />
     <Compile Include="Models\InstagramModel.cs" />
     <Compile Include="Utility\ObjectComparer.cs" />

@@ -193,7 +193,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }).ToList();
         }
 
-
         public bool DeleteCampaignCanExecute(object sender) => true;
 
         public void DeleteCampaignExecute(object sender)
@@ -246,9 +245,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             PublisherCampaignStatusModelView = CollectionViewSource.GetDefaultView(ListPublisherCampaignStatusModels);
 
-            var allCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
-                (ConstantVariable.GetPublisherCampaignFile());
-           
+            var allCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+
             allCampaign.ForEach(camp =>
             {
                 var publisherCampaignStatusModel = new PublisherCampaignStatusModel
@@ -259,9 +257,31 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     EndDate = camp.JobConfigurations.CampaignEndDate,
                     CreatedDate = camp.CreatedDate,
                     Status = camp.CampaignStatus,
+                    DestinationCount = camp.LstDestinationId.Count,
+                    IsRotateDayChecked =  camp.JobConfigurations.IsRotateDayChecked,
+                    TimeRange = camp.JobConfigurations.TimeRange,
+                    SpecificRunningTime = camp.JobConfigurations.LstTimer.Select(x=> x.MidTime).ToList(),
+                    ScheduledWeekday = camp.JobConfigurations.Weekday
                 };
                 AddCampaignDetails(publisherCampaignStatusModel);
             });           
+        }
+
+        public void SchedulePublisherCampaigns()
+        {
+            ListPublisherCampaignStatusModels.ForEach(campaigns =>
+            {
+                if (campaigns.IsRotateDayChecked)
+                {
+                    var random = new Random();
+
+
+                }
+                else
+                {
+                    
+                }
+            });
         }
 
         public bool AddCampaignDetails(PublisherCampaignStatusModel publisherCampaignStatusModel)

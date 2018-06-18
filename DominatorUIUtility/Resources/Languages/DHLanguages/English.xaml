@@ -315,8 +315,9 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangPostExportToCsv">Export saved post list to csv file(s)</system:String>
     <system:String x:Key="DHlangDeleteNoPostContent">Delete post which have no value in saved post(s)</system:String>
     <system:String x:Key="DHlangDeleteSelectedPost">Delete all saved posts(s)</system:String>
-    
-    
+
+    <system:String x:Key="DHlangIncreaseEachDay">Increase each day with</system:String>
+    <system:String x:Key="DHlangPostPerDay">number of posts in a day.</system:String>
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>
