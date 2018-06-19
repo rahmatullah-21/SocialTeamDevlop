@@ -1504,7 +1504,7 @@ namespace DominatorUIUtility.CustomControl
 
                 // need to check whether its running or not, if its running then need to stop process
                 DominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
-                    moduleConfiguration.TemplateId,true);
+                    moduleConfiguration.TemplateId,false);
 
                 // update the template
                 UpdateTemplate(accountModel, moduleConfiguration.TemplateId,
@@ -1512,6 +1512,7 @@ namespace DominatorUIUtility.CustomControl
 
                 // update the running time
                 UpdateRunningTime(Model.JobConfiguration, accountModel);
+                DominatorScheduler.ScheduleNextActivity(accountModel,_activityType);
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!");
 
                 #endregion

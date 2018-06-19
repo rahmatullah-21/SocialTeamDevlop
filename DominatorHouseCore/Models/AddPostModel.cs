@@ -14,7 +14,6 @@ namespace DominatorHouseCore.Models
     {
         private ICollectionView _postsDetailCollection;
 
-
         public ICollectionView PostsDetailCollection
         {
             get { return _postsDetailCollection; }
@@ -662,6 +661,7 @@ namespace DominatorHouseCore.Models
         }
     }
 
+
     [ProtoContract]
     public class LocationDetails : BindableBase
     {
@@ -702,6 +702,7 @@ namespace DominatorHouseCore.Models
             }
         }
     }
+
 
     [ProtoContract]
     public class Campaign : BindableBase
@@ -812,6 +813,7 @@ namespace DominatorHouseCore.Models
 
 
     }
+
 
     [ProtoContract]
     public class PostStatus : BindableBase

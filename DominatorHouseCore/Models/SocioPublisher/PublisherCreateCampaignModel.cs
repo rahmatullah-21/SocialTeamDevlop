@@ -14,7 +14,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
     {
         public PublisherCreateCampaignModel()
         {
-            //_campaignList.Add(_campaignName);
             CampaignId = Utilities.GetGuid(true);
         }
         [ProtoMember(1)]
@@ -57,23 +56,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        //private ObservableCollection<string> _campaignList = new ObservableCollection<string>();
-        //// To hold all available the campaign name
-        ////[ProtoMember(4)]
-        //public ObservableCollection<string> CampaignList
-        //{
-        //    get
-        //    {
-        //        return _campaignList;
-        //    }
-        //    set
-        //    {
-        //        if (_campaignList == value)
-        //            return;
-        //        _campaignList = value;
-        //        OnPropertyChanged(nameof(CampaignList));
-        //    }
-        //}
         [ProtoMember(5)]
         public JobConfigurationModel JobConfigurations { get; set; } = new JobConfigurationModel();
         [ProtoMember(6)]

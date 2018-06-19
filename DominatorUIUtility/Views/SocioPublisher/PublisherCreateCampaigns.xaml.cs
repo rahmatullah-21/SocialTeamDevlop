@@ -18,18 +18,20 @@ namespace DominatorUIUtility.Views.SocioPublisher
     {
         private PublisherCreateCampaignViewModel _publisherCreateCampaignViewModel = new PublisherCreateCampaignViewModel();
 
-        public PublisherCreateCampaigns()
+        private PublisherCreateCampaigns()
         {
             InitializeComponent();
             CreateCampaign.DataContext = PublisherCreateCampaignViewModel;
-            currentObject = this;
+            _currentObject = this;
         }
-        private static PublisherCreateCampaigns currentObject;
+
+        private static PublisherCreateCampaigns _currentObject;
 
         public static PublisherCreateCampaigns GetSingeltonPublisherCreateCampaigns()
         {
-            return currentObject ?? (currentObject = new PublisherCreateCampaigns());
+            return _currentObject ?? (_currentObject = new PublisherCreateCampaigns());
         }
+
         public PublisherCreateCampaignViewModel PublisherCreateCampaignViewModel
         {
             get

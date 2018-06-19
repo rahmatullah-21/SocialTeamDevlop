@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
-
     [Serializable]
     [ProtoContract]
     public class PublisherCampaignStatusModel : INotifyPropertyChanged
-    {    
-        public string CampaignId { get; set; }
+    {
+        public string CampaignId { get; set; } = string.Empty;
 
         private bool _isSelected;
 
@@ -29,7 +30,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        public string CampaignName { get; set; }
+        public string CampaignName { get; set; } = string.Empty;
 
         public PublisherCampaignStatus Status { get; set; } = PublisherCampaignStatus.Completed;
 
@@ -47,6 +48,20 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public DateTime EndDate { get; set; }
 
+
+        #region Job Scheduling
+
+        public List<ContentSelectGroup> ScheduledWeekday { get; set; } = new List<ContentSelectGroup>();
+
+        public bool IsRotateDayChecked { get; set; }
+
+        public List<TimeSpan> SpecificRunningTime { get; set; } = new List<TimeSpan>();
+
+        public TimeRange TimeRange { get; set; } 
+
+        #endregion
+
+
         public void GenerateCampaign()
         {
             CampaignName = $"Campaign-{ConstantVariable.GetDateTime()}";
@@ -54,19 +69,17 @@ namespace DominatorHouseCore.Models.SocioPublisher
             CreatedDate = DateTime.Today;
             StartDate = DateTime.Today;
             EndDate = DateTime.Today.AddDays(7);
-            
         }
 
         public void GenerateCloneCampaign(string name)
-        {           
+        {
             CampaignName = $"{name}-clone-{ConstantVariable.GetHourDateTime()}";
             CampaignId = Utilities.GetGuid();
             CreatedDate = DateTime.Today;
             IsSelected = false;
         }
 
-        public bool ValidDateTime() 
-            => StartDate < EndDate;
+        public bool ValidDateTime() => StartDate < EndDate;
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;

@@ -22,9 +22,10 @@ namespace DominatorHouseCore.Models.Publisher
                 if (value == _maxPost)
                     return;
                 SetProperty(ref _maxPost, value);
-
             }
         }
+
+
         private TimeRange _timeRange = new TimeRange(new TimeSpan(0, 0, 0), new TimeSpan(23, 59, 59));
         [ProtoMember(2)]
         public TimeRange TimeRange
@@ -40,7 +41,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _timeRange, value);
             }
         }
-      
+
+
         private bool _isSpecifyPostingIntervalChecked;
         [ProtoMember(4)]
         public bool IsSpecifyPostingIntervalChecked
@@ -51,13 +53,15 @@ namespace DominatorHouseCore.Models.Publisher
             }
             set
             {
-                if(!value)
+                if (!value)
                     LstTimer.Clear();
                 if (value == _isSpecifyPostingIntervalChecked)
                     return;
                 SetProperty(ref _isSpecifyPostingIntervalChecked, value);
             }
         }
+
+
         private bool _isRandomizePublishingTimerChecked;
         [ProtoMember(5)]
         public bool IsRandomizePublishingTimerChecked
@@ -68,7 +72,7 @@ namespace DominatorHouseCore.Models.Publisher
             }
             set
             {
-                if(!value)
+                if (!value)
                     LstTimer.Clear();
                 if (value == _isRandomizePublishingTimerChecked)
                     return;
@@ -76,6 +80,8 @@ namespace DominatorHouseCore.Models.Publisher
 
             }
         }
+
+
         private bool _isRandomizeNumberOfPostsChecked;
         [ProtoMember(6)]
         public bool IsRandomizeNumberOfPostsChecked
@@ -91,6 +97,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isRandomizeNumberOfPostsChecked, value);
             }
         }
+
+
         private RangeUtilities _postBetween = new RangeUtilities();
         [ProtoMember(7)]
         public RangeUtilities PostBetween
@@ -106,6 +114,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _postBetween, value);
             }
         }
+
+
         private RangeUtilities _increaseEachDay = new RangeUtilities();
         [ProtoMember(8)]
         public RangeUtilities IncreaseEachDay
@@ -121,6 +131,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _increaseEachDay, value);
             }
         }
+
+
         private bool _isPublishPostOnDestinationsChecked;
         [ProtoMember(9)]
         public bool IsPublishPostOnDestinationsChecked
@@ -134,9 +146,10 @@ namespace DominatorHouseCore.Models.Publisher
                 if (value == _isPublishPostOnDestinationsChecked)
                     return;
                 SetProperty(ref _isPublishPostOnDestinationsChecked, value);
-
             }
         }
+
+
         private bool _isAddRandomSleepTimeWhilePublishingChecked;
         [ProtoMember(10)]
         public bool IsAddRandomSleepTimeWhilePublishingChecked
@@ -150,9 +163,10 @@ namespace DominatorHouseCore.Models.Publisher
                 if (value == _isAddRandomSleepTimeWhilePublishingChecked)
                     return;
                 SetProperty(ref _isAddRandomSleepTimeWhilePublishingChecked, value);
-
             }
         }
+
+
         private bool _isSleepBetweenChecked;
         [ProtoMember(11)]
         public bool IsSleepBetweenChecked
@@ -168,6 +182,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isSleepBetweenChecked, value);
             }
         }
+
+
         private RangeUtilities _sleepBetween = new RangeUtilities();
         [ProtoMember(12)]
         public RangeUtilities SleepBetween
@@ -183,6 +199,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _sleepBetween, value);
             }
         }
+
+
         private RangeUtilities _sendingBetween = new RangeUtilities();
         [ProtoMember(13)]
         public RangeUtilities SendingBetween
@@ -198,6 +216,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _sendingBetween, value);
             }
         }
+
+
         private bool _isCampaignHasStartDateChecked;
         [ProtoMember(14)]
         public bool IsCampaignHasStartDateChecked
@@ -213,6 +233,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isCampaignHasStartDateChecked, value);
             }
         }
+
+
         private bool _isCampaignHasEndDateChecked;
         [ProtoMember(15)]
         public bool IsCampaignHasEndDateChecked
@@ -228,127 +250,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isCampaignHasEndDateChecked, value);
             }
         }
-        private int _waitAround;
-        [ProtoMember(16)]
-        public int WaitAround
-        {
-            get
-            {
-                return _waitAround;
-            }
-            set
-            {
-                if (value == _waitAround)
-                    return;
-                SetProperty(ref _waitAround, value);
 
-            }
-        }
-        private bool _isSundayChecked;
-        [ProtoMember(17)]
-        public bool IsSundayChecked
-        {
-            get
-            {
-                return _isSundayChecked;
-            }
-            set
-            {
-                if (value == _isSundayChecked)
-                    return;
-                SetProperty(ref _isSundayChecked, value);
-            }
-        }
-        private bool _isMondayChecked;
-        [ProtoMember(18)]
-        public bool IsMondayChecked
-        {
-            get
-            {
-                return _isMondayChecked;
-            }
-            set
-            {
-                if (value == _isMondayChecked)
-                    return;
-                SetProperty(ref _isMondayChecked, value);
-            }
-        }
-        private bool _isTuesdayChecked;
-        [ProtoMember(19)]
-        public bool IsTuesdayChecked
-        {
-            get
-            {
-                return _isTuesdayChecked;
-            }
-            set
-            {
-                if (value == _isTuesdayChecked)
-                    return;
-                SetProperty(ref _isTuesdayChecked, value);
-            }
-        }
-        private bool _isWednesdayChecked;
-        [ProtoMember(20)]
-        public bool IsWednesdayChecked
-        {
-            get
-            {
-                return _isWednesdayChecked;
-            }
-            set
-            {
-                if (value == _isWednesdayChecked)
-                    return;
-                SetProperty(ref _isWednesdayChecked, value);
-            }
-        }
-        private bool _isThursdayChecked;
-        [ProtoMember(21)]
-        public bool IsThursdayChecked
-        {
-            get
-            {
-                return _isThursdayChecked;
-            }
-            set
-            {
-                if (value == _isThursdayChecked)
-                    return;
-                SetProperty(ref _isThursdayChecked, value);
-            }
-        }
-        private bool _isFridayChecked;
-        [ProtoMember(22)]
-        public bool IsFridayChecked
-        {
-            get
-            {
-                return _isFridayChecked;
-            }
-            set
-            {
-                if (value == _isFridayChecked)
-                    return;
-                SetProperty(ref _isFridayChecked, value);
-            }
-        }
-        private bool _isSaturdayChecked;
-        [ProtoMember(23)]
-        public bool IsSaturdayChecked
-        {
-            get
-            {
-                return _isSaturdayChecked;
-            }
-            set
-            {
-                if (value == _isSaturdayChecked)
-                    return;
-                SetProperty(ref _isSaturdayChecked, value);
-            }
-        }
+
         private bool _isRotateDayChecked;
         [ProtoMember(24)]
         public bool IsRotateDayChecked
@@ -365,6 +268,7 @@ namespace DominatorHouseCore.Models.Publisher
             }
         }
 
+
         private List<ContentSelectGroup> _weekday = new List<ContentSelectGroup>();
         [ProtoMember(25)]
         public List<ContentSelectGroup> Weekday
@@ -377,7 +281,9 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _weekday, value);
             }
         }
-        private ObservableCollection<TimeSpanHelper> _lstTimer = new ObservableCollection<TimeSpanHelper>();
+
+
+        private ObservableCollection<TimeSpanHelper> _lstTimer =  new ObservableCollection<TimeSpanHelper> ();
         [ProtoMember(26)]
         public ObservableCollection<TimeSpanHelper> LstTimer
         {
@@ -392,6 +298,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _lstTimer, value);
             }
         }
+
+
         private int _publishOn;
         [ProtoMember(27)]
         public int PublishOn
@@ -407,6 +315,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _publishOn, value);
             }
         }
+
+
         private int _maxDestination;
         [ProtoMember(28)]
         public int MaxDestination
@@ -422,6 +332,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _maxDestination, value);
             }
         }
+
+
         private bool _isAddDelayBetweenPublishingPost;
         [ProtoMember(29)]
         public bool IsAddDelayBetweenPublishingPost
@@ -437,6 +349,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isAddDelayBetweenPublishingPost, value);
             }
         }
+
+
         private RangeUtilities _delayBetween = new RangeUtilities();
         [ProtoMember(30)]
         public RangeUtilities DelayBetween
@@ -452,6 +366,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _delayBetween, value);
             }
         }
+
+
         private RangeUtilities _postRange = new RangeUtilities();
         [ProtoMember(31)]
         public RangeUtilities PostRange
@@ -467,6 +383,8 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _postRange, value);
             }
         }
+
+
         private RangeUtilities _delayBetweenPost = new RangeUtilities();
         [ProtoMember(32)]
         public RangeUtilities DelayBetweenPost
@@ -483,6 +401,7 @@ namespace DominatorHouseCore.Models.Publisher
             }
         }
 
+
         private DateTime _campaignStartDate = DateTime.Now;
         [ProtoMember(33)]
         public DateTime CampaignStartDate
@@ -498,7 +417,9 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _campaignStartDate, value);
             }
         }
-        private DateTime _campaignEndDate = DateTime.Now.AddHours(1);
+
+
+        private DateTime _campaignEndDate = DateTime.Now.AddDays(10);
         [ProtoMember(34)]
         public DateTime CampaignEndDate
         {
@@ -514,8 +435,9 @@ namespace DominatorHouseCore.Models.Publisher
             }
         }
     }
+
     [ProtoContract]
-    public class TimeRange:BindableBase
+    public class TimeRange : BindableBase
     {
 
         // Constructor for initialize the start time and end time to local property
@@ -558,7 +480,7 @@ namespace DominatorHouseCore.Models.Publisher
             }
         }
 
-      
+
 
     }
 }

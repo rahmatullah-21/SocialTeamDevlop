@@ -81,6 +81,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 
         [Column(Order = 14)]
         public bool IsFollowingback { get; set; }
-
+        [Column(Order = 15)]
+        public string DirectMessage { get; set; }
     }
 }

@@ -111,6 +111,9 @@
     <system:String x:Key="TdLangSelectAction">Select Action</system:String>
     <system:String x:Key="TdLangInfo">Informations</system:String>
 
+
+    <system:String x:Key="TDlangReplyToPendingMessages">Reply to new pending messages (reply only message sent by users that follow your account)</system:String>
+
     <system:String x:Key="TdLangHours">hours</system:String>
     <system:String x:Key="TdLangHour">Hour</system:String>
     <system:String x:Key="TdLangFollowUnique">Follow unique users from each selected account</system:String>
@@ -328,6 +331,10 @@
     <system:String x:Key="TdLangGDAccountMangerSliderText">Use this feature to add or delete single / multiple accounts. Check the active and inactive status using account checker.
                 Also you can check followers, following and post counts.
     </system:String>
+
+    <system:String x:Key="TdLangMessageFilter">Message Filter</system:String>
+    <system:String x:Key="TdLangReplyToContainSpecificWord">Reply to message that contain specific word</system:String>
+
     <system:String x:Key="TdLangByPostID">By post IDs</system:String>
     <system:String x:Key="TdLangUsersFollowers">Users Followers</system:String>
     <system:String x:Key="TdLangOwnFollowing">Own Following</system:String>
@@ -771,7 +778,8 @@
     <system:String x:Key="TdLangRotateDays">Rotate Days</system:String>
     <system:String x:Key="TdLangExcludeWeekend">Exclude Weekend</system:String>
     <system:String x:Key="TdLangAddInterval">Add Interval</system:String>
-    <system:String x:Key="TdLangStopFollowToolWhenReach">Enable automatic follow/unfollow. Stop follow tool when reaching</system:String>
+
+    <system:String x:Key="TdLangStopFollowToolWhenReach">Stop follow tool when reaching</system:String>
 
     <system:String x:Key="TdLangStartUnfollowToolBetween">Start unfollow tool between</system:String>
     <system:String x:Key="TdLangWhenFollowerFollowingsIsSmallerThan">when Follower/Followings is smaller Than</system:String>
@@ -900,13 +908,16 @@
     <system:String x:Key="TdLangShouldHaveFollowRatioInSpecificRange">Should have follow ratio in a specific range</system:String>
     <system:String x:Key="TdLangShouldHavePostedWithinTheLast">Should have posted within the last</system:String>
     <system:String x:Key="TdLangDoNotUnfollowWhiteListedUser">Do not unfollow whitelisted users</system:String>
-    <system:String x:Key="TdLangStopunFollowToolWhenReach">Enable automatic follow/unfollow. Stop unfollow tool when reaching</system:String>
+    <system:String x:Key="TdLangStopunFollowToolWhenReach">Stop unfollow tool when reaching</system:String>
     <system:String x:Key="TdLangWhenFollowerFollowingsIsGreaterThan">when Follower/Followings is greater than</system:String>
     <system:String x:Key="TdLangWhenThereAreNoUsersToUnfollow">When there are no users to unfollow</system:String>
     <system:String x:Key="TdLangStartFollowToolBetween">Start follow tool between</system:String>
     <system:String x:Key="TdLangDoNotStopUnfollowToolJustStartFollowTool">Do not stop  unfollow tool, just start follow tool</system:String>
     <system:String x:Key="TdLangLikeWhileUnfollowing">Like while unfollowing</system:String>
     <system:String x:Key="TdLangAddToBlackList">Add to blacklist</system:String>
+
+    <system:String x:Key="TdLangStartFollowTool">Start Follow And Stop Unfollow</system:String>
+    <system:String x:Key="TdLangStopUnFollowTool">Stop Unfollow</system:String>
 
     <system:String x:Key="TdLangNumberOfUnfollowPerJob">Number of Unfollow per job</system:String>
     <system:String x:Key="TdLangNumberOfUnfollowPerDay">Number of Unfollow per day</system:String>
@@ -1033,7 +1044,8 @@
     <system:String x:Key="TdLangUploadTweets">Upload tweet(s):</system:String>
     <system:String x:Key="TdLangStopFollowTool">Stop follow tool</system:String>
     <system:String x:Key="TdLangWhenReach">when reaching</system:String>
-    <system:String x:Key="TdLangStartUnFollowTool">Start unfollow tool</system:String>
+
+    <system:String x:Key="TdLangStartUnFollowTool">Start Unfollow and Stop Follow</system:String>
     <system:String x:Key="TdLangNumberOfTweetsToBeLikedPerUser">Number of tweets to be liked per user</system:String>
     <system:String x:Key="TdLangNumberOfTweetsToBeRetweetedPerUser">Number of tweets to be retweeted per user</system:String>
     <system:String x:Key="TdLangNumberOfTweetsToBeScrapetoRepostPerUser">Number of tweets to be scrape for repost per user</system:String>

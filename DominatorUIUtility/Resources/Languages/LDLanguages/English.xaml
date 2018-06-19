@@ -179,7 +179,7 @@
     <system:String x:Key="LDlangLike">Like</system:String>
     <system:String x:Key="LDlangComment">Comment</system:String>
     <system:String x:Key="LDlangUniqueOperation">Unique operations</system:String>
-    <system:String x:Key="LDlangSalesNavigatorUserScraper">User Scraper</system:String>
+    <system:String x:Key="LDlangSalesNavigatorUserScraper">SalesNavigator UserScraper</system:String>
     <system:String x:Key="LDlangSalesNavigatorScraper">SalesNavigator Scraper</system:String>
     <system:String x:Key="LDlangWithdrawConnectionRequestsPerJob">Number of Connections Requests to Withdraw per job</system:String>
     <system:String x:Key="LDlangWithdrawConnectionRequestsPerDay">Number of Connections Requests to Withdraw per day</system:String>
@@ -188,6 +188,44 @@
     <system:String x:Key="LDlangMaxWithdrawConnectionRequestsDay">Max Connections Requests to Withdraw  per day</system:String>
     <system:String x:Key="LDlangRequestedBefore">Requested before</system:String>
     <system:String x:Key="LDlangRequestedUserSources">Requested User Sources :</system:String>
+    <system:String x:Key="LDlangPendingConnectionRequests">pending connection requests</system:String>
+    <system:String x:Key="LDlangEnableAutoWithdrawConnectionRequest">Enable auto withdraw connection request</system:String>
+    <system:String x:Key="LDlangEnableAutoConnectionRequest">Enable auto connection request</system:String>
+    <system:String x:Key="LDlangStopConnectionRequestTool">stop connection request tool</system:String>
+    <system:String x:Key="LDlangWhenTheConnectionRequestToolGetsTemporaryBlocked">when the connection request tool gets temporary blocked.</system:String>
+    <system:String x:Key="LDlangWhenTheWithdrawConnectionRequestToolGetsTemporaryBlocked">when the withdraw connection request tool gets temporary blocked.</system:String>
+    <system:String x:Key="LDlangStartWithdrawConnectionRequestToolBetween">start withdraw connection request tool between</system:String>
+    <system:String x:Key="LDlangStartConnectionRequestToolBetween">start connection request tool between</system:String>
+    <system:String x:Key="LDlangStartWithdrawConnectionRequestTool">start withdraw connection request tool</system:String>
+    <system:String x:Key="LDlangWhoIsConnected">who is connected</system:String>
+    <system:String x:Key="LDlangWhoIsNotConnected">who is not connected</system:String>
+    <system:String x:Key="LDlangWithdrawPrevious">Withdraw connection requests sent to the user before</system:String>
+    <system:String x:Key="LDlangEnableAutoGroupJoiner">Enable auto Group Joiner</system:String>
+    <system:String x:Key="LDlangEnableAutoGroupUnJoiner">Enable auto Group Unjoiner</system:String>
+    <system:String x:Key="LDlangWhenTheGroupJoinerToolGetsTemporaryBlocked">when the Group Joiner tool gets temporary blocked.</system:String>
+    <system:String x:Key="LDlangWhenTheGroupUnJoinerToolGetsTemporaryBlocked">when the Group UnJoiner tool gets temporary blocked.</system:String>
+    <system:String x:Key="LDlangStartGroupJoinerToolBetween">start Group Joiner tool between</system:String>
+    <system:String x:Key="LDlangStartGroupUnJoinerToolBetween">start Group UnJoiner tool between</system:String>
+    <system:String x:Key="LDlangBlacklistedUsers">Blacklisted Users</system:String>
+    <system:String x:Key="LDlangWhitelistedUsers">Whitelisted Users</system:String>
+    <system:String x:Key="LDlangManageBlacklistWhitelistUsers">Manage Blacklist and Whitelist Users</system:String>
+    <system:String x:Key="LDlangSkipBlacklistedUsers">Skip Blacklisted Users</system:String>
+    <system:String x:Key="LDlangPrivateBlacklist">Private Blacklist</system:String>
+    <system:String x:Key="LDlangGroupBlacklist">Group Blacklist</system:String>
+    <system:String x:Key="LDlangSkipWhitelistedUsers">Skip Whitelisted Users</system:String>
+    <system:String x:Key="LDlangUsePrivateWhitelist">Use Private Whitelist</system:String>
+    <system:String x:Key="LDlangUseGroupWhitelist">Use Group Whitelist</system:String>
+    <system:String x:Key="LDlangAddToBlacklist">Add To Blacklist</system:String>
+    <system:String x:Key="LDlangAddToPrivateBlacklist">Add To Private Blacklist</system:String>
+    <system:String x:Key="LDlangAddToGroupBlacklist">Add To Group Blacklist</system:String>
+    <system:String x:Key="LDlangPendingGroupJoinRequests">pending group join requests</system:String>
+    <system:String x:Key="LDlangConnectionWithdraws">Connection Withdraws</system:String>
+    <system:String x:Key="LDlangGroupUnJoins">Group Un-Joins</system:String>
+
+
+
+
+
 
 
 

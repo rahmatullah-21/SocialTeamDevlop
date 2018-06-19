@@ -143,7 +143,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
                     var now = DateTime.Now.TimeOfDay;
 
-                    if (TimeBetween(now, timing.StartTime, timing.EndTime))
+                    if (DateTimeUtilities.TimeBetween(now, timing.StartTime, timing.EndTime))
                     {
                         ScheduleJob(dominatorAccount, timing, templateId, jobId, isDelayed: now > timing.StartTime);
                     }
@@ -172,14 +172,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 GlobusLogHelper.log.Error(ex.Message);
             }
-        }
-
-        private static bool TimeBetween(TimeSpan now, TimeSpan start, TimeSpan end)
-        {
-            if (start < end)
-                if (now <= end || start > now)
-                    return true;
-            return false;
         }
 
         private static void ScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, bool isDelayed)

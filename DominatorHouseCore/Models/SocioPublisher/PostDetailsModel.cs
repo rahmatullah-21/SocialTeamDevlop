@@ -88,7 +88,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _imagesUrl="Images";
+        private string _imagesUrl=string.Empty;
         [ProtoMember(6)]
         public string ImagesUrl
         {

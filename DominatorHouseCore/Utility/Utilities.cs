@@ -20,7 +20,7 @@ namespace DominatorHouseCore.Utility
         public static string GetMobileDeviceId(string Guid = "")
         {
             // Collect the random inputString with five character, convert those character to byte array with help of the MD5
-            return "android-" + (string.IsNullOrEmpty(Guid)?RandomUtilties.GetRandomString(5).GetHexFromString().Substring(0, 16):Guid);
+            return "android-" + (String.IsNullOrEmpty(Guid)?RandomUtilties.GetRandomString(5).GetHexFromString().Substring(0, 16):Guid);
         }
 
 
@@ -43,7 +43,7 @@ namespace DominatorHouseCore.Utility
 
                 //Compute the hash values of bytes with the help of MD5 then convert those to base datatype(here string),
                 //finally convert the string to lower
-                return BitConverter.ToString(md5.ComputeHash(bytes)).Replace("-", string.Empty).ToLower();
+                return BitConverter.ToString(md5.ComputeHash(bytes)).Replace("-", String.Empty).ToLower();
             }
         }
 
@@ -58,7 +58,7 @@ namespace DominatorHouseCore.Utility
             // Generate the GUID 
             var getGuid = Guid.NewGuid().ToString();
             // return the GUID without dashes if isDashesNeed is true 
-            return !isDashesNeed ? getGuid.Replace('-', char.MinValue) : getGuid;
+            return !isDashesNeed ? getGuid.Replace('-', Char.MinValue) : getGuid;
         }
 
 
@@ -70,7 +70,7 @@ namespace DominatorHouseCore.Utility
         public static bool ValidJsonChecker(this string inputJsonValue)
         {
             // Validate the input contains null or whitespace
-            if (string.IsNullOrWhiteSpace(inputJsonValue))
+            if (String.IsNullOrWhiteSpace(inputJsonValue))
                 return false;
 
             // Remove the leading and trailing character from the input
@@ -164,7 +164,7 @@ namespace DominatorHouseCore.Utility
 
         public static string GetUrlFormPostData(object obj)
         {
-            string urlFormData = string.Empty;
+            string urlFormData = String.Empty;
             string serializedPostData = JsonConvert.SerializeObject(obj, new JsonSerializerSettings()
             {
                 NullValueHandling = NullValueHandling.Ignore
@@ -174,7 +174,7 @@ namespace DominatorHouseCore.Utility
 
             foreach (var dictKey in dict.Keys)
             {
-                urlFormData += (urlFormData == string.Empty ? string.Empty : "&") + dictKey + "=" + dict[dictKey];
+                urlFormData += (urlFormData == String.Empty ? String.Empty : "&") + dictKey + "=" + dict[dictKey];
             }
             return urlFormData;
         }

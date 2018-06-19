@@ -126,13 +126,6 @@
     <system:String x:Key="FdlangMaxUnfriendPerDay">Max unfriend per day</system:String>
     <system:String x:Key="FdlangUnfriendPerWeek">Number of Unfriend per Week</system:String>
 
-
-    <system:String x:Key="FdlangCancelRequestPerJob">Number of Sent Request cancelled per job</system:String>
-    <system:String x:Key="FdlangCancelRequestPerHour">Number of Request cancelled per hour</system:String>
-    <system:String x:Key="FdlangCancelRequestPerDay">Number of Request cancelled per Day</system:String>
-    <system:String x:Key="FdlangMaxCancelRequestPerDay">Max Request cancelled per day</system:String>
-    <system:String x:Key="FdlangCancelRequestPerWeek">Number of Request cancelled per Week</system:String>
-
     <system:String x:Key="FdlangLikesPerJob">Number of Likes per job</system:String>
     <system:String x:Key="FdlangLikesPerHour">Number of Likes per hour</system:String>
     <system:String x:Key="FdlangLikesPerDay">Number of Likes per Day</system:String>
@@ -198,6 +191,13 @@
     <system:String x:Key="FdlangMessagesPerDay">Messages to number of profiles per Day</system:String>
     <system:String x:Key="FdlangMaxMessagesPerDay">Messages to max profiles per day</system:String>
     <system:String x:Key="FdlangMessagesPerWeek">Message to number of profiles per Week</system:String>
+
+
+    <system:String x:Key="FdlangCancelRequestPerJob">Cancel number of request per job</system:String>
+    <system:String x:Key="FdlangCancelRequestPerHour">Cancel number of request per hour</system:String>
+    <system:String x:Key="FdlangCancelRequestPerDay">Cancel number of request per Day</system:String>
+    <system:String x:Key="FdlangMaxCancelRequestPerDay">Cancel number of maximum request per day</system:String>
+    <system:String x:Key="FdlangCancelRequestPerWeek">Cancel number of request per Week</system:String>
 
 
     <system:String x:Key="FdlangPostFilters">POST FILTER</system:String>
@@ -299,10 +299,42 @@
 
     <system:String x:Key="FdlangUnfriendSourceDisplayName">Unfriend Source</system:String>
 
-
-    <system:String x:Key="FdlangCancelRequestSourceDisplayName">Cancel Request Source</system:String>
-
     <system:String x:Key="FdlangUnjoinSourceDisplayName">Group Unjoiner Source</system:String>
+
+    <system:String x:Key="FdlangCancelRequestSourceDisplayName">Cancel Sent Request Source</system:String>
+
+    <system:String x:Key="FdlangFriends">Friends</system:String>
+
+    <system:String x:Key="FdlangStartStopGroupTool">Start Group Unjoiner tool and Stop Group Joiner tool when reaching</system:String>
+
+    <system:String x:Key="FdlangStartStopUnfriendTool">Start Send Friend Request tool and Stop Unfriend tool when reaching</system:String>
+
+    <system:String x:Key="FdlangAutoSendFriendRequestUnfriend">Enable Auto Send Friend Request/Unfriend</system:String>
+
+    <system:String x:Key="FdlangAutoSendGroupJoinerRequestUnfriend">Enable Auto Group Joiner/Unjoiner</system:String>
+
+    <system:String x:Key="FdlangStartStopGroupJoinerTool">Start Group Joiner tool and Stop Unjoiner tool when reaching</system:String>
+
+    <system:String x:Key="FdlangStartStopSendFriendTool">Start Unfriend tool and Stop Send Friend tool when reaching</system:String>
+
+    <system:String x:Key="FdlangWithdrawRequest">Withdraw Sent Request</system:String>
+
+
+
+    <system:String x:Key="FdLangBlacklists">BlackList</system:String>
+    <system:String x:Key="FdlangWhitelists">Whitelist</system:String>
+    <system:String x:Key="FdlangSkipBlackListedUser">Skip Blacklisted User</system:String>
+    <system:String x:Key="FdLangPrivateBlackList">Private Blacklist</system:String>
+    <system:String x:Key="FdLangGroupBlackList">Group Blacklist</system:String>
+
+    <system:String x:Key="FdLangManageBlackWhiteListUsers">Manage Whitelist and Blacklist</system:String>
+    <system:String x:Key="FdLangSkipWhiteList">Skip Whitelist</system:String>
+    <system:String x:Key="FdLangPrivateWhiteList">Private Whitelist</system:String>
+    <system:String x:Key="FdLangGroupWhiteList">Group Whitelist</system:String>
+
+    <system:String x:Key="FdLangAddToBlackListOnceUnfriend">Add to blacklist after unfriend</system:String>
+    <system:String x:Key="FdLangAddToPrivateBlackList">To Private Blacklist</system:String>
+    <system:String x:Key="FdLangAddToGroupBlackList">To Group Blacklist</system:String>
 
     <system:String x:Key="FdlangSendRequestWarning">These accounts are already running with Send Friend Request configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="FdlangUnfriendWarning">These accounts are already running with Unfriend configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>

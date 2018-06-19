@@ -29,9 +29,10 @@
         <StackPanel Orientation="Horizontal" Margin="10,0">
             <TextBlock Text="{DynamicResource langCampaignWillPublish}" VerticalAlignment="Center" Margin="5"/>
             <control:NumericUpDown x:Name="numericMaxPost" Minimum="0"
-                                   Value="{Binding JobConfigurations.MaxPost,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5"
+                                   Value="{Binding JobConfigurations.MaxPost,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5"                                   
                                    ValueDecremented="NumericMaxPost_OnValueDecremented"
                                    ValueIncremented="NumericMaxPost_OnValueIncremented"/>
+
             <TextBlock Text="{DynamicResource langPostListItemsPerDay}" VerticalAlignment="Center" Margin="5"/>
 
             <validation:ValidationBinding In="{Binding JobConfigurations.TimeRange.StartTime, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
@@ -39,7 +40,7 @@
             <validation:ValidationBinding In="{Binding JobConfigurations.TimeRange.EndTime, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                           Out="{Binding ElementName=starttime, Path=Max,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
 
-            <control:TimePicker Validation.ErrorTemplate="{StaticResource ErrorTemplate}" VerticalAlignment="Center" Margin="5" IsClockVisible="False">
+            <control:TimePicker Validation.ErrorTemplate="{StaticResource ErrorTemplate}" SelectedTimeChanged="OnSelectedTimeChanged" VerticalAlignment="Center" Margin="5" IsClockVisible="False" >
                 <control:TimePicker.SelectedTime>
                     <Binding Path="JobConfigurations.TimeRange.StartTime" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -49,7 +50,7 @@
                 </control:TimePicker.SelectedTime >
             </control:TimePicker>
             <TextBlock Text="{DynamicResource langAnd}"  VerticalAlignment="Center" Margin="5"/>
-            <control:TimePicker Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
+            <control:TimePicker Validation.ErrorTemplate="{StaticResource ErrorTemplate}" SelectedTimeChanged="OnSelectedTimeChanged"
                                 VerticalAlignment="Center" Margin="5" IsClockVisible="False">
                 <control:TimePicker.SelectedTime>
                     <Binding Path="JobConfigurations.TimeRange.EndTime" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
@@ -125,10 +126,10 @@
             <control:NumericUpDown Minimum="0"
                     Value="{Binding JobConfigurations.PostBetween.StartValue}"
                     VerticalAlignment="Center"  Margin="5"/>
-            <TextBlock Text="{DynamicResource langAnd}"  VerticalAlignment="Center" Margin="5"/>
+            <TextBlock Text="{DynamicResource langTo}"  VerticalAlignment="Center" Margin="5"/>
             <control:NumericUpDown Minimum="{Binding JobConfigurations.PostBetween.StartValue}" Value="{Binding JobConfigurations.PostBetween.EndValue}" VerticalAlignment="Center"  Margin="5"/>
-            <TextBlock Text="{DynamicResource langPostPerDay}"  VerticalAlignment="Center" Margin="5"/>
-            <TextBlock Text="{DynamicResource langIncreaseEachDayWith}"  VerticalAlignment="Center" Margin="0,5"/>
+            <TextBlock Text="{DynamicResource DHlangPostPerDay}"  VerticalAlignment="Center" Margin="5"/>
+            <TextBlock Text="{DynamicResource DHlangIncreaseEachDay}"  VerticalAlignment="Center" Margin="0,5"/>
             <control:NumericUpDown Value="{Binding JobConfigurations.IncreaseEachDay.StartValue}"
                                    VerticalAlignment="Center"  Margin="5" Minimum="0"/>
             <TextBlock Text="{DynamicResource langUntilitReaches}"  VerticalAlignment="Center" Margin="5"/>
@@ -137,10 +138,23 @@
             <TextBlock Text="{DynamicResource langMaxPostPerDay}"  VerticalAlignment="Center" Margin="5"/>
 
         </StackPanel>
-        <CheckBox Content="{DynamicResource langPublishPostOnDestinations}" IsChecked="{Binding JobConfigurations.IsPublishPostOnDestinationsChecked}"  Margin="5"/>
-        <StackPanel Orientation="Horizontal"  Margin="30,5"
-                    Visibility="{Binding JobConfigurations.IsPublishPostOnDestinationsChecked,
-                    Converter={StaticResource BooleanToVisibilityConverter}}">
+        <CheckBox Content="{DynamicResource langPublishPostOnDestinations}" IsChecked="{Binding JobConfigurations.IsPublishPostOnDestinationsChecked}"  Margin="5" />
+
+
+        <StackPanel Orientation="Horizontal" Margin="30,5" >
+           <StackPanel.Style>
+               <Style TargetType="StackPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding JobConfigurations.IsPublishPostOnDestinationsChecked}" Value="False">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding JobConfigurations.IsPublishPostOnDestinationsChecked}" Value="True">
+                            <Setter  Property="Visibility" Value="Collapsed"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+
             <TextBlock Text="{DynamicResource DHlangPublishOn}" VerticalAlignment="Center"  Margin="5"/>
             <control:NumericUpDown Minimum="0"
                      Value="{Binding JobConfigurations.PublishOn}"
@@ -195,40 +209,6 @@
             <control:NumericUpDown Minimum="{Binding JobConfigurations.DelayBetweenPost.StartValue}" Value="{Binding JobConfigurations.DelayBetweenPost.EndValue}" VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource langSeconds}"  VerticalAlignment="Center" Margin="5"/>
         </StackPanel>
-
-        <!--<CheckBox Content="{DynamicResource langAddRandomSleepTimeWhilePublishing}" IsChecked="{Binding JobConfigurations.IsAddRandomSleepTimeWhilePublishingChecked}"  Margin="5"/>
-        <StackPanel Orientation="Horizontal">
-            <CheckBox Content="{DynamicResource langSleepBetween}"
-                      IsChecked="{Binding JobConfigurations.IsSleepBetweenChecked}" Margin="5"/>
-            <control:NumericUpDown Value="{Binding JobConfigurations.SleepBetween.StartValue}"
-                                   IsEnabled="{Binding JobConfigurations.IsSleepBetweenChecked}"
-                                   VerticalAlignment="Center"  Margin="5" Minimum="0"/>
-            <TextBlock Text="{DynamicResource langAnd}"  VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown IsEnabled="{Binding JobConfigurations.IsSleepBetweenChecked}" 
-                                   Minimum="{Binding JobConfigurations.SleepBetween.StartValue}"
-                                   Value="{Binding JobConfigurations.SleepBetween.EndValue}"
-                                   VerticalAlignment="Center"  Margin="5"/>
-            <TextBlock Text="{DynamicResource langMinutesAfter}"  VerticalAlignment="Center" Margin="5"/>
-            <TextBlock Text="{DynamicResource langSendingBetween}"  VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown Value="{Binding JobConfigurations.SendingBetween.StartValue}" 
-                                   IsEnabled="{Binding JobConfigurations.IsSleepBetweenChecked}" 
-                                   VerticalAlignment="Center"  Margin="5" Minimum="0"/>
-            <TextBlock Text="{DynamicResource langAnd}"  VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown Minimum="{Binding JobConfigurations.SendingBetween.StartValue}"
-                                   Value="{Binding JobConfigurations.SendingBetween.EndValue}"
-                                   IsEnabled="{Binding JobConfigurations.IsSleepBetweenChecked}" 
-                                   VerticalAlignment="Center"  Margin="5"/>
-            <TextBlock Text="{DynamicResource langPost}"  VerticalAlignment="Center" Margin="5"/>
-
-        </StackPanel>
-       
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{DynamicResource langWaitAround}"  VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown Value="{Binding JobConfigurations.WaitAround}" 
-                                   VerticalAlignment="Center" Margin="5" Minimum="0"/>
-            <TextBlock Text="{DynamicResource langSecondsBeforePublishingSamePost}"  VerticalAlignment="Center" Margin="5"/>
-
-        </StackPanel>-->
 
         <Label Margin="0,5,0,0" FontWeight="Bold" Content="{DynamicResource DHlangSelectDayofWeekToPublish}"/>
         <ItemsControl ItemsSource="{Binding JobConfigurations.Weekday}" Margin="5">

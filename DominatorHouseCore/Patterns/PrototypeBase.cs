@@ -32,9 +32,5 @@ namespace DominatorHouseCore.Patterns
             }
             return null;
         }
-
-
-     
-    }
-    
+    }   
 }

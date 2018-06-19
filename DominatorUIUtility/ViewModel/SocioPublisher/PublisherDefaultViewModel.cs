@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using DominatorHouseCore;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
@@ -100,7 +101,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = new PublisherManagePosts();
                     break;
                 case "CreateCampaigns":
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = new PublisherCreateCampaigns();
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
                     break;
             }
         }
@@ -193,7 +194,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }).ToList();
         }
 
-
         public bool DeleteCampaignCanExecute(object sender) => true;
 
         public void DeleteCampaignExecute(object sender)
@@ -244,31 +244,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeDefaultCampaignStatus()
         {
+            ListPublisherCampaignStatusModels = PublisherInitialize.Instance.ListPublisherCampaignStatusModels;
             PublisherCampaignStatusModelView = CollectionViewSource.GetDefaultView(ListPublisherCampaignStatusModels);
-            var allCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
-                (ConstantVariable.GetPublisherCampaignFile());
-            //var publisherCampaignStatusModel = new PublisherCampaignStatusModel();
-            allCampaign.ForEach(camp =>
+        }
+
+        public void SchedulePublisherCampaigns()
+        {
+            ListPublisherCampaignStatusModels.ForEach(campaigns =>
             {
-                var publisherCampaignStatusModel = new PublisherCampaignStatusModel()
+                if (campaigns.IsRotateDayChecked)
                 {
-                    CampaignName = camp.CampaignName,
-                    CampaignId = camp.CampaignId,
-                    StartDate = camp.JobConfigurations.CampaignStartDate,
-                    EndDate = camp.JobConfigurations.CampaignEndDate,
-                    CreatedDate = camp.CreatedDate,
-                    Status = camp.CampaignStatus,
-                };
-                AddCampaignDetails(publisherCampaignStatusModel);
+                    var random = new Random();
+
+
+                }
+                else
+                {
+                    
+                }
             });
-            //publisherCampaignStatusModel.GenerateCampaign();
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    var campaignStatus = GetCampaginDeepClone(publisherCampaignStatusModel);
-            //    campaignStatus.GenerateCampaign();
-            //    campaignStatus.CampaignName = campaignStatus.CampaignName + RandomUtilties.GetRandomNumber(100);
-            //    AddCampaignDetails(campaignStatus);
-            //}
         }
 
         public bool AddCampaignDetails(PublisherCampaignStatusModel publisherCampaignStatusModel)
