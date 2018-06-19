@@ -69,7 +69,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
-            var instagramModel = GenericFileManager.GetPublisherOtherConfig<InstagramModel>
+            var instagramModel = GenericFileManager.GetModuleDetails<InstagramModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
             InstagramViewModel.InstagramModel = instagramModel ?? InstagramViewModel.InstagramModel;

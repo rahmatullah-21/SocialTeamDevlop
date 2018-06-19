@@ -57,7 +57,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
-            var tumblrModel = GenericFileManager.GetPublisherOtherConfig<TumblrModel>
+            var tumblrModel = GenericFileManager.GetModuleDetails<TumblrModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
             TumblrViewModel.TumblrModel = tumblrModel ?? TumblrViewModel.TumblrModel;

@@ -57,7 +57,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
-            var pinterestModel = GenericFileManager.GetPublisherOtherConfig<PinterestModel>
+            var pinterestModel = GenericFileManager.GetModuleDetails<PinterestModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
             PinterestViewModel.PinterestModel = pinterestModel ?? PinterestViewModel.PinterestModel;
