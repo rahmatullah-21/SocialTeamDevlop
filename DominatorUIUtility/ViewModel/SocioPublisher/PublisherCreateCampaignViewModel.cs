@@ -34,19 +34,23 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             CampaignChangedCommand = new BaseCommand<object>(CampaignChangedCanExecute, CampaignChangedExecute);
 
             #endregion
-         
+
             PostTabItems = InitializeTabs();
             BindTabItemsControlProperties();
-            CampaignList = new ObservableCollection<string>(GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
+            CampaignList = new ObservableCollection<string>(
+                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
+
+
             PublisherCreateCampaignModel.JobConfigurations.Weekday.Clear();
 
             foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
             {
                 PublisherCreateCampaignModel.JobConfigurations.Weekday.Add(new ContentSelectGroup
                 {
-                    Content = day.ToString()
+                    Content = day.ToString(),
                 });
             }
+
         }
 
 
@@ -68,9 +72,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(PublisherCreateCampaignModel));
             }
         }
-
         private ObservableCollection<string> _campaignList = new ObservableCollection<string>();
-        // To hold all available the campaign name       
+        // To hold all available the campaign name
+        //[ProtoMember(4)]
         public ObservableCollection<string> CampaignList
         {
             get
@@ -85,7 +89,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(CampaignList));
             }
         }
-
         private string _selectedItem;
 
         public string SelectedItem
@@ -102,14 +105,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
-
         #region Command
-
         public ICommand NavigationCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand SelectDestinationCommand { get; set; }
         public ICommand CampaignChangedCommand { get; set; }
-
         #endregion
 
         public List<TabItemTemplates> PostTabItems { get; set; }
@@ -128,12 +128,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 new TabItemTemplates
                 {
                     Title=Application.Current.FindResource("DHlangScrapePost")?.ToString(),
-                    Content=new Lazy<UserControl>(()=>new PublisherScrapePost(tabItemsControl))
+                    Content=new Lazy<UserControl>(()=>PublisherScrapePost.GetPublisherScrapePost(tabItemsControl))
                 },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("DHlangSharePost")?.ToString(),
-                    Content=new Lazy<UserControl>(()=>new PublisherSharePost(tabItemsControl))
+                    Content=new Lazy<UserControl>(()=>PublisherSharePost.GetPublisherSharePost(tabItemsControl))
                 },
                 new TabItemTemplates
                 {
@@ -143,7 +143,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("DHlangMonitorFolder")?.ToString(),
-                    Content = new Lazy<UserControl>(()=>new PublisherMonitorFolder())
+                    Content = new Lazy<UserControl>(()=>PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl))
                 },
 
             };
@@ -167,9 +167,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
         private bool SaveCanExecute(object sender) => true;
-
         private void SaveExecute(object sender)
-        {           
+        {
+
             if (_publisherCreateCampaignModel.LstDestinationId.Count == 0)
             {
                 Dialog.ShowDialog("Warning", "Please select atleast one Destination.");
@@ -183,6 +183,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 var campaignIndex = lstCampaign.IndexOf(lstCampaign.FirstOrDefault(x => x.CampaignName == SelectedItem));
                 lstCampaign[campaignIndex] = PublisherCreateCampaignModel;
+
                 if (GenericFileManager.UpdateModuleDetails<PublisherCreateCampaignModel>(lstCampaign,
                     ConstantVariable.GetPublisherCampaignFile()))
                     Dialog.ShowDialog("Success", "Campaign successfully updated.");
@@ -191,13 +192,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel,
                     ConstantVariable.GetPublisherCampaignFile()))
-                {
                     Dialog.ShowDialog("Success", "Campaign successfully saved.");
-                    CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
-                }
+                CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
             }
-           
-
             var publisherCampaignStatusModel = new PublisherCampaignStatusModel
             {
                 CampaignName = PublisherCreateCampaignModel.CampaignName,
@@ -210,7 +207,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             };
 
             PublisherDefaultPage.Instance.PublisherDefaultViewModel.AddCampaignDetails(publisherCampaignStatusModel);
-            
         }
 
 
@@ -247,22 +243,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void CampaignChangedExecute(object sender)
         {
-            
             try
             {
                 PublisherCreateCampaignModel = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
                       (ConstantVariable.GetPublisherCampaignFile()).FirstOrDefault(x => x.CampaignName == (string)sender);
+
                 SetDataContext();
             }
             catch (Exception ex)
             {
                 PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
                 SetDataContext();
-
                 ex.DebugLog();
-
             }
         }
+
         private void SetDataContext()
         {
             var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
@@ -323,6 +318,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void BindTabItemsControlProperties()
         {
+
             tabItemsControl.PublisherDirectPostsViewModel = new PublisherDirectPostsViewModel(tabItemsControl);
             tabItemsControl.PublisherRssFeedViewModel = new PublisherRssFeedViewModel(tabItemsControl);
             tabItemsControl.PublisherMonitorFolderViewModel = new PublisherMonitorFolderViewModel(tabItemsControl);
@@ -344,13 +340,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             public PublisherDirectPostsViewModel PublisherDirectPostsViewModel { get; set; }
             public ObservableCollection<PublisherRssFeedModel> LstFeedUrl { get; set; }
             public PublisherRssFeedViewModel PublisherRssFeedViewModel { get; set; }
-            public PublisherScrapePostViewModel PublisherScrapePostViewModel { get; internal set; }
             public ObservableCollection<PublisherMonitorFolderModel> LstFolderPath { get; set; }
             public PublisherMonitorFolderViewModel PublisherMonitorFolderViewModel { get; set; }
             public SharePostModel SharePostModel { get; set; }
             public PublisherSharePostViewModel PublisherSharePostViewModel { get; set; }
             public ScrapePostModel ScrapePostModel { get; internal set; }
-     
+            public PublisherScrapePostViewModel PublisherScrapePostViewModel { get; set; }
+
         }
+
     }
 }

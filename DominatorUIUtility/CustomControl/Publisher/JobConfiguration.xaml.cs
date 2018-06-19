@@ -127,6 +127,9 @@ namespace DominatorUIUtility.CustomControl.Publisher
 
         private void OnSelectedTimeChanged(object sender, TimePickerBaseSelectionChangedEventArgs<TimeSpan?> e)
         {
+            if(JobConfigurations==null)
+                return;
+
             if (JobConfigurations.IsSpecifyPostingIntervalChecked)
                 SpecificPostGenerateIntervals(JobConfigurations.MaxPost);
 

@@ -38,7 +38,7 @@
         </StackPanel>
 
         <Button Background="{DynamicResource AccentBaseColorBrush}" Height="30" Width="150" 
-                HorizontalAlignment="Center" Margin="0,0,300,5" Name="BtnSave" Foreground="White"
+                HorizontalAlignment="Center" Margin="0,10,300,10" Name="BtnSave" Foreground="White"
                 Command="{Binding SaveCommand}" Content="{Binding PublisherMonitorFolderModel.ButtonContent}"
                 CommandParameter="{Binding ElementName=BtnSave}" />
 
