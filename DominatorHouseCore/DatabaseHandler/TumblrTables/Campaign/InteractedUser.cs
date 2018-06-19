@@ -68,10 +68,6 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         [Column(Order = 9)]
         public int InteractionTimeStamp { get; set; }
 
-
-
-
-
         [Column(Order = 11)]
         public string UserName { get; set; }
 
@@ -82,6 +78,8 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
 
         [Column(Order=13)]
         public string TemplateId { get; set; }
+        [Column(Order = 14)]
+        public string DirectMessage { get; set; }
 
     }
 }

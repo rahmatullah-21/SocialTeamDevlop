@@ -383,5 +383,4 @@ Type 3. IP:Port
     <system:String x:Key="DhlangFeedUrlDetails">Feed Url Details</system:String>
     <system:String x:Key="DhlangFeedTemplate">Feed Templates</system:String>
     <system:String x:Key="DhlangSaveToList">Save to List</system:String>
-
 </ResourceDictionary>

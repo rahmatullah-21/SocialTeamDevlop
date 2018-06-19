@@ -189,7 +189,7 @@ namespace DominatorHouseCore.Utility
                     continue;
                 //var startTime = startTimeOfTomorrow.GetDateOfDateTime(runningTimes.DayOfWeek);
                 var timings = runningTimes.Timings.ToList();
-                timings.Sort(new RunningTimeComparer());
+                timings.Sort(new RunningTimeComparer()); //Sort the date time based on Start time, so that it picks the nearest Start time.
                 startTimeOfTomorrow = DateTime.Today.AddDays(i);
                 startTimeOfTomorrow = startTimeOfTomorrow.Add(timings[0].StartTime);
                 return startTimeOfTomorrow;
@@ -205,12 +205,17 @@ namespace DominatorHouseCore.Utility
                 if (delayBetweenJob != null)
                     delay = (int)delayBetweenJob;
 
+                //Calculate the start time of next job normally
                 var startTimeOfNextJob = DateTime.Now.AddMinutes(delay);
+
+                //Get the available running time for today
                 var today = DateTime.Today.DayOfWeek;
                 var todayIndex = (int)today;
                 var runningTimes = moduleConfiguration.LstRunningTimes[todayIndex];
                 var timings = runningTimes.Timings.ToList();
-                timings.Sort(new RunningTimeComparer());
+                timings.Sort(new RunningTimeComparer()); //Sort the date time based on Start time, so that it picks time in proper order for further foreach calculation
+
+                //Get the remaining time slots available for the day
                 var availableTimingRanges = timings.Where(x => DateTime.Today.Date.Add(x.EndTime) > startTimeOfNextJob || DateTime.Today.Date.Add(x.StartTime) > startTimeOfNextJob).ToList();
                 if (availableTimingRanges.Count > 0)
                 {
@@ -221,7 +226,7 @@ namespace DominatorHouseCore.Utility
                 }
                 else
                 {
-                    return GetStartTimeOfTomorrow(moduleConfiguration);
+                    return GetStartTimeOfTomorrow(moduleConfiguration);//If no time slot is available for the day, calculate the start time for tomorrow
                 }
                 return startTimeOfNextJob;
             }
@@ -234,7 +239,8 @@ namespace DominatorHouseCore.Utility
 
         public static DateTime GetStartTimeForHourly(ModuleConfiguration moduleConfiguration, int? delayBetweenJob = null)
         {
-           return GetStartTimeOfNextJob(moduleConfiguration,15);
+           var minutes = 60 - DateTime.Now.Minute; //To get the remaining minutes for completion of current hour.
+           return GetStartTimeOfNextJob(moduleConfiguration, minutes);
         }
 
         public static DateTime GetDateOfDateTime(this DateTime startDate, DayOfWeek requiredDay)
