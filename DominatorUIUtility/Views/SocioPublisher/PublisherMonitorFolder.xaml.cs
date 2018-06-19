@@ -24,11 +24,11 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// </summary>
     public partial class PublisherMonitorFolder : UserControl,INotifyPropertyChanged
     {
-        public PublisherMonitorFolder()
+        private PublisherMonitorFolder()
         {
             InitializeComponent();
         }
-        private PublisherMonitorFolder(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl) : this()
+        public PublisherMonitorFolder(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl) : this()
         {
             PublisherMonitorFolderViewModel = new PublisherMonitorFolderViewModel(tabItemsControl);
             tabItemsControl.PublisherMonitorFolderViewModel = PublisherMonitorFolderViewModel;
