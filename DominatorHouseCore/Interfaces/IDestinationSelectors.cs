@@ -7,11 +7,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 namespace DominatorHouseCore.Interfaces
 {
     public interface IDestinationSelectors
-    {
-        //void GetGroupsPair(string accountId, string accountName, ObservableCollection<PublisherCreateDestinationSelectModel> destinationDetails, PublisherCreateDestinationModel destination);
-
-        //void GetPagesOrBoardsPair(string accountId, string accountName, ObservableCollection<PublisherCreateDestinationSelectModel> destinationDetails, PublisherCreateDestinationModel destination);
-
+    {       
         bool IsGroupsAvailables { get; set; }
 
         bool IsPagesOrBoardsAvailable { get; set; }
@@ -27,8 +23,6 @@ namespace DominatorHouseCore.Interfaces
         Task<List<string>> GetGroupsUrls(string accountId, string accountName);
 
         Task<List<string>> GetPageOrBoardUrls(string accountId, string accountName);
-
-        Task<List<string>> GetFriendshipNames(string accountId, string accountName);
 
     }
 }

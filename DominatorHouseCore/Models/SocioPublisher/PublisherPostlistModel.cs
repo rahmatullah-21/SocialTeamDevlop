@@ -15,8 +15,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
     public class PublisherPostlistModel : BindableBase
     {
         #region Properties
-
-      
+     
         private string _postDescription;
         /// <summary>
         /// To describe the post data
@@ -81,6 +80,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PostSource));
             }
         }
+
 
         private PostCategory _postCategory;
 
@@ -184,23 +184,24 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private bool _isPostlistSelected;
+
+        private ObservableCollection<string> _mediaList = new ObservableCollection<string>();
         /// <summary>
-        /// To specify the post list is selected or not
+        /// To hold the image or video file 
         /// </summary>
-        [ProtoIgnore]
-        public bool IsPostlistSelected
+        [ProtoMember(9)]
+        public ObservableCollection<string> MediaList
         {
             get
             {
-                return _isPostlistSelected;
+                return _mediaList;
             }
             set
             {
-                if (_isPostlistSelected == value)
+                if (_mediaList == value)
                     return;
-                _isPostlistSelected = value;
-                OnPropertyChanged(nameof(IsPostlistSelected));
+                _mediaList = value;
+                OnPropertyChanged(nameof(MediaList));
             }
         }
 
@@ -225,27 +226,31 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        #region Postlist
 
-        private ObservableCollection<string> _mediaList = new ObservableCollection<string>();
+        private bool _isPostlistSelected;
         /// <summary>
-        /// To hold the image or video file 
+        /// To specify the post list is selected or not
         /// </summary>
-        [ProtoMember(9)]
-        public ObservableCollection<string> MediaList
+        [ProtoIgnore]
+        public bool IsPostlistSelected
         {
             get
             {
-                return _mediaList;
+                return _isPostlistSelected;
             }
             set
             {
-                if (_mediaList == value)
+                if (_isPostlistSelected == value)
                     return;
-                _mediaList = value;
-                OnPropertyChanged(nameof(MediaList));
+                _isPostlistSelected = value;
+                OnPropertyChanged(nameof(IsPostlistSelected));
             }
         }
+
+      
+        #region Postlist
+
+      
 
 
         private string _currentMediaUrl = string.Empty;
@@ -362,8 +367,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsPostListPresent));
             }
         }
-
-
 
         #endregion
 

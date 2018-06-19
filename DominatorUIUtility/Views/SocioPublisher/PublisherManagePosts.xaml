@@ -37,7 +37,7 @@
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <Label Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
                         <ComboBox x:Name="ComboCampaignList" ItemsSource="{Binding CampaignList}" DisplayMemberPath="Name" Height="25" Width="250" 
-                                  metroControls:TextBoxHelper.ClearTextButton="True" SelectedItem="{Binding SelectedCampaignDetails}"
+                                  SelectedItem="{Binding SelectedCampaignDetails}"
                                   behaviour:SelectionChangedBehaviour.Command="{Binding SelectionChangedCommand}"/>
                     </StackPanel>
                 </StackPanel>

@@ -182,11 +182,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 #region Saving Campign to PublisherCampaign.bin file
 
-                if (!string.IsNullOrEmpty(SelectedItem))
-                {
-                    var lstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
-                        ConstantVariable.GetPublisherCampaignFile());
+                var lstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
+                    ConstantVariable.GetPublisherCampaignFile());
 
+                if (!string.IsNullOrEmpty(SelectedItem) || lstCampaign.Any(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId))
+                {
                     var campaignIndex = lstCampaign.IndexOf(lstCampaign.FirstOrDefault(x => x.CampaignName == SelectedItem));
                     lstCampaign[campaignIndex] = PublisherCreateCampaignModel;
 
@@ -252,7 +252,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var images = PublisherCreateCampaignModel.PostDetailsModel.MediaList;
                     images.ForEach(image =>
                     {
-                        publisherPostlistModel.MediaList = new ObservableCollection<string> {image};
+                        publisherPostlistModel.MediaList = new ObservableCollection<string> { image };
                         publisherPostlistModel.PostDescription = new Uri(image).Segments.Last();
                         PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
                     });

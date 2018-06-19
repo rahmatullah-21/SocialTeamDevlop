@@ -244,25 +244,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeDefaultCampaignStatus()
         {
-            ListPublisherCampaignStatusModels = PublisherInitialize.Instance.ListPublisherCampaignStatusModels;
+            ListPublisherCampaignStatusModels = PublisherInitialize.GetInstance.GetSavedCampaigns();
             PublisherCampaignStatusModelView = CollectionViewSource.GetDefaultView(ListPublisherCampaignStatusModels);
-        }
-
-        public void SchedulePublisherCampaigns()
-        {
-            ListPublisherCampaignStatusModels.ForEach(campaigns =>
-            {
-                if (campaigns.IsRotateDayChecked)
-                {
-                    var random = new Random();
-
-
-                }
-                else
-                {
-                    
-                }
-            });
         }
 
         public bool AddCampaignDetails(PublisherCampaignStatusModel publisherCampaignStatusModel)

@@ -25,6 +25,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
@@ -63,7 +64,7 @@ namespace Socinator
         public MainWindow()
         {
             try
-            {              
+            {
                 DialogParticipation.SetRegister(this, this);
                 Dispatcher.Invoke(async () => { await LicenseCheck(); });
                 _languages = new ObservableCollection<string>();
@@ -73,7 +74,7 @@ namespace Socinator
                 SocinatorWindow.DataContext = this;
                 Loaded += (o, e) => GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
 
-                
+
             }
             catch (Exception ex)
             {
@@ -274,7 +275,7 @@ namespace Socinator
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void SocinatorInitializer()
-        {            
+        {
             try
             {
                 var accountCustomControl =
@@ -285,7 +286,7 @@ namespace Socinator
                     JobManager.AddJob(() => InitializeJobCores(_licenseKey), x => x.ToRunNow());
                 });
 
-               
+
 
                 //Init UI delegates            
                 CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
@@ -480,6 +481,9 @@ namespace Socinator
                         {
                             var networkNamespace = SocinatorInitialize.GetNetworksNamespace(network);
                             var networkAssembly = Assembly.Load(networkNamespace);
+
+                            #region Network Functionality
+
                             var networkFullNameSpace = $"{networkNamespace}.Factories.{network}NetworkCollectionFactory";
                             var networkType = networkAssembly.GetType(networkFullNameSpace);
                             // is this a correct type?
@@ -507,10 +511,35 @@ namespace Socinator
                                 }
                                 SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);
                             }
+
+                            #endregion
+
+                            #region Publisher Functionality
+
+                            try
+                            {
+                                var publisherFullNameSpace = $"{networkNamespace}.Factories.{network}PublisherCollectionFactory";
+                                var publisherType = networkAssembly.GetType(publisherFullNameSpace);
+
+                                if (!typeof(IPublisherCollectionFactory).IsAssignableFrom(publisherType))
+                                    return;
+
+                                var constructors = publisherType.GetConstructors();
+                                var selectedConstructor = constructors.First(ci => ci.GetParameters().Length == 0);
+                                var publisherCoreFactory = (IPublisherCollectionFactory)selectedConstructor.Invoke(null);
+                                PublisherInitialize.SaveNetworkPublisher(publisherCoreFactory, network);
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.DebugLog();
+                            }
+
+                            #endregion
+
                         }
                         catch (AggregateException ex)
                         {
-
+                            Console.WriteLine(ex.Message);
                         }
                         catch (Exception ex)
                         {
@@ -523,13 +552,17 @@ namespace Socinator
                 AvailableNetworks.ExceptWith(to_remove);
 
                 var accountDetails = AccountsFileManager.GetAll();
-                
+
                 var softWareSettings = new DominatorHouse.Utilities.SoftwareSettings();
                 Task.Factory.StartNew(() => { softWareSettings.InitializeOnLoadConfigurations(_strategies); });
 
                 #region Publisher
 
-                Task.Factory.StartNew(() => PublisherInitialize.Instance);
+                Task.Factory.StartNew(() =>
+                {
+                    PublisherInitialize.GetInstance.PublishCampaignInitializer();
+                    PublishScheduler.ScheduleTodaysPublisher();
+                });
 
                 #endregion
 

@@ -173,6 +173,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     SelectedTabsUserControls = pendingView;
                     var cancellationToken = PostLoadingCancellation();
                     Task.Factory.StartNew(() => pendingView.PublisherManagePostPendingViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken, PostQueuedStatus.Pending), cancellationToken.Token);
+
                 }
                 catch (OperationCanceledException ex)
                 {

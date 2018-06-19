@@ -45,9 +45,4 @@ namespace DominatorHouseCore.Interfaces
         ICampaignInteractionDetails CampaignInteractionDetails { get; set; }
 
     }
-
-    public interface IPublisherCoreFactory
-    {
-        
-    }
 }

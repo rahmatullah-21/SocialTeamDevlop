@@ -26,13 +26,15 @@ namespace DominatorHouseCore.Process
 
         #region Methods
 
+        public void StartPublishing()
+        {
+            
+        }
 
-
-        public void StopPublish()
+        public static void Stop()
         {
             // Todo : Stop publish with cancellation token
         }
-
 
         public void DelayBeforeNextPublish()
         {

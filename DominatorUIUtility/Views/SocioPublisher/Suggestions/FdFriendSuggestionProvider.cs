@@ -41,11 +41,10 @@ namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
                         .GetSocialLibrary(SocialNetworks.Facebook)
                         .GetNetworkCoreFactory().AccountDetailsSelectors;
 
-                    var friendsName = accountsDetailsSelector.GetFriendshipNames(accountId, accountUsername);
+                    //var friendsName = accountsDetailsSelector.GetFriendshipNames(accountId, accountUsername);
 
-                    friendsName.Result.ForEach(x =>
-                        ListOfMacros.Add(new SocinatorIntellisenseModel { Key = x, Value = x }));
-
+                    //friendsName.Result.ForEach(x =>
+                    //    ListOfMacros.Add(new SocinatorIntellisenseModel { Key = x, Value = x }));
                     
                     //Task.Factory.StartNew(async () =>
                     //{
