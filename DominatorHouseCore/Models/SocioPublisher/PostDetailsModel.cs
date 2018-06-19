@@ -217,19 +217,19 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isSinglePost, value);
             }
         }
-        private bool _isPostContent;
+        private bool _isFdSellPost;
         [ProtoMember(14)]
-        public bool IsPostContent
+        public bool IsFdSellPost
         {
             get
             {
-                return _isPostContent;
+                return _isFdSellPost;
             }
             set
             {
-                if (value == _isPostContent)
+                if (value == _isFdSellPost)
                     return;
-                SetProperty(ref _isPostContent, value);
+                SetProperty(ref _isFdSellPost, value);
             }
         }
 

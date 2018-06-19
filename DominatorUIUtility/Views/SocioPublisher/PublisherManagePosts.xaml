@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
              x:Name="ManagePost"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             xmlns:behaviour="clr-namespace:DominatorUIUtility.Behaviours">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="45"/>
@@ -35,7 +36,9 @@
                 <StackPanel >
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <Label Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
-                        <ComboBox x:Name="ComboCampaignList" ItemsSource="{Binding CampaignList}" DisplayMemberPath="Name" Height="25" Width="250"  metroControls:TextBoxHelper.ClearTextButton="True" SelectedItem="{Binding SelectedCampaignDetails}"/>
+                        <ComboBox x:Name="ComboCampaignList" ItemsSource="{Binding CampaignList}" DisplayMemberPath="Name" Height="25" Width="250" 
+                                  metroControls:TextBoxHelper.ClearTextButton="True" SelectedItem="{Binding SelectedCampaignDetails}"
+                                  behaviour:SelectionChangedBehaviour.Command="{Binding SelectionChangedCommand}"/>
                     </StackPanel>
                 </StackPanel>
 

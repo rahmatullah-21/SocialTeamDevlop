@@ -62,9 +62,5 @@ namespace DominatorUIUtility.Views.SocioPublisher
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void PublisherDirectPosts_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            PostContentControl.SetMedia();
-        }
     }
 }

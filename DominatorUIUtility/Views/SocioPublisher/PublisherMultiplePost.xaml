@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
         xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
         mc:Ignorable="d" Name="MultiplePost"
-          Height="600" Width="950"
+          Height="600" Width="950" Loaded="PublisherMultiplePost_OnLoaded"
         xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions">
     <UserControl.Resources>
         <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
@@ -44,8 +44,9 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-
-                <Button Name="ButtonImport" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30"  VerticalAlignment="Center" >
+               
+                <Button Name="ButtonImport" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30"  VerticalAlignment="Center" 
+                        Command="{Binding ImportFromCsvCommand}">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -59,47 +60,6 @@
                                         <Label Content="{DynamicResource DHlangImportFromCsv}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Grid>
-
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
-                <Button Name="ButtonExportPost" Foreground="White" Margin="2" Cursor="Hand" HorizontalAlignment="Center"  Height="30"  VerticalAlignment="Center" >
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5">
-                                <Grid Background="{DynamicResource AccentBaseColorBrush}">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Rectangle Width="15" Height="15" Fill="White" Margin="4,0,0,0" >
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_app_plus}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                        <Label Content="{DynamicResource DHlangExport}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                    </StackPanel>
-                                </Grid>
-
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
-                <Button Name="ButtonExport" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30"  VerticalAlignment="Center" >
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                <Grid Background="{DynamicResource AccentBaseColorBrush}">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Rectangle Width="12" Height="15" Fill="White" Margin="4,0,0,0" >
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                        <Label Content="{DynamicResource DHlangDelete}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
-                                    </StackPanel>
-                                </Grid>
-
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
@@ -108,7 +68,27 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <ListView ScrollViewer.VerticalScrollBarVisibility="Auto" Width="950" BorderThickness="0" BorderBrush="Transparent" ItemsSource="{Binding PostListsCollectionView}" Margin="2" HorizontalAlignment="Center">
+            <ListView ScrollViewer.VerticalScrollBarVisibility="Auto" Width="950" BorderThickness="0" BorderBrush="Transparent" 
+                      ItemsSource="{Binding PostListsCollectionView}" Margin="2" HorizontalAlignment="Center">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem  Name="DeletePost"  Command="{Binding DeletePostCommand}" 
+                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}},
+                                   Path=PlacementTarget.SelectedItem}">
+                            <MenuItem.Header>
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="15" Height="20" Fill="Black" Margin="4,0,0,0" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangDelete}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+
                 <ListView.Style>
                     <Style TargetType="ListView">
                         <Style.Resources>
@@ -147,7 +127,7 @@
                                         <TextBlock Text="Loading Macros..." Margin="5" FontSize="14" />
                                     </customControl:SocinatorTextBox.LoadingContent>
                                 </customControl:SocinatorTextBox>
-                                <customControl:PostContent HorizontalAlignment="Center" Foreground="Black"
+                                <customControl:PostContent x:Name="PostContentControl" HorizontalAlignment="Center" Foreground="Black"
                                                            PublisherPostSettings="{Binding PublisherPostSettings,Mode=TwoWay}" 
                                                            customControl:MediaViewerAssist.MediaList="{Binding MediaViewer.MediaList,Mode=TwoWay}" 
                                                            customControl:MediaViewerAssist.CurrentMediaUrl="{Binding MediaViewer.MediaUrl,Mode=TwoWay}"
@@ -160,7 +140,8 @@
                                                            FdSellPrice="{Binding FdSellPrice, Mode=TwoWay}"
                                                            FdSellProductTitle="{Binding FdSellProductTitle, Mode=TwoWay}"
                                                            IsFdSellPost="{Binding IsPostContent, Mode=TwoWay}"
-                                                           PdSourceUrl="{Binding PdSourceUrl, Mode=TwoWay}"/>
+                                                           PdSourceUrl="{Binding PdSourceUrl, Mode=TwoWay}"
+                                                           />
                             </StackPanel>
                         </Border>
                     </DataTemplate>

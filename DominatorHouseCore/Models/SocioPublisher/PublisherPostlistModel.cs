@@ -457,7 +457,83 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _tumberPostSettings, value);
             }
         }
+        private string _fdSellProductTitle;
+        [ProtoMember(16)]
+        public string FdSellProductTitle
+        {
+            get
+            {
+                return _fdSellProductTitle;
+            }
+            set
+            {
+                if (value == _fdSellProductTitle)
+                    return;
+                SetProperty(ref _fdSellProductTitle, value);
+            }
+        }
 
+        private double _fdSellPrice;
+        [ProtoMember(17)]
+        public double FdSellPrice
+        {
+            get
+            {
+                return _fdSellPrice;
+            }
+            set
+            {
+                if (value == _fdSellPrice)
+                    return;
+                SetProperty(ref _fdSellPrice, value);
+            }
+        }
+        private string _fdSellLocation;
+        [ProtoMember(18)]
+        public string FdSellLocation
+        {
+            get
+            {
+                return _fdSellLocation;
+            }
+            set
+            {
+                if (value == _fdSellLocation)
+                    return;
+                SetProperty(ref _fdSellLocation, value);
+            }
+        }
+        private string _publisherInstagramTitle;
+        [ProtoMember(19)]
+        public string PublisherInstagramTitle
+        {
+            get
+            {
+                return _publisherInstagramTitle;
+            }
+            set
+            {
+                if (_publisherInstagramTitle == value)
+                    return;
+                _publisherInstagramTitle = value;
+                OnPropertyChanged(nameof(_publisherInstagramTitle));
+            }
+        }
+        private string _pdSourceUrl;
+        [ProtoMember(20)]
+        public string PdSourceUrl
+        {
+            get
+            {
+                return _pdSourceUrl;
+            }
+            set
+            {
+                if (value == _pdSourceUrl)
+                    return;
+                SetProperty(ref _pdSourceUrl, value);
+            }
+        }
         #endregion
 
         #endregion

@@ -6,10 +6,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
@@ -176,25 +178,95 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 return;
             }
 
-            if (!string.IsNullOrEmpty(SelectedItem))
+            try
             {
-                var lstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
-                    ConstantVariable.GetPublisherCampaignFile());
+                #region Saving Campign to PublisherCampaign.bin file
 
-                var campaignIndex = lstCampaign.IndexOf(lstCampaign.FirstOrDefault(x => x.CampaignName == SelectedItem));
-                lstCampaign[campaignIndex] = PublisherCreateCampaignModel;
+                if (!string.IsNullOrEmpty(SelectedItem))
+                {
+                    var lstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
+                        ConstantVariable.GetPublisherCampaignFile());
 
-                if (GenericFileManager.UpdateModuleDetails<PublisherCreateCampaignModel>(lstCampaign,
-                    ConstantVariable.GetPublisherCampaignFile()))
-                    Dialog.ShowDialog("Success", "Campaign successfully updated.");
+                    var campaignIndex = lstCampaign.IndexOf(lstCampaign.FirstOrDefault(x => x.CampaignName == SelectedItem));
+                    lstCampaign[campaignIndex] = PublisherCreateCampaignModel;
+
+                    if (GenericFileManager.UpdateModuleDetails<PublisherCreateCampaignModel>(lstCampaign,
+                        ConstantVariable.GetPublisherCampaignFile()))
+                        Dialog.ShowDialog("Success", "Campaign successfully updated.");
+                }
+                else
+                {
+                    if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel,
+                        ConstantVariable.GetPublisherCampaignFile()))
+                        Dialog.ShowDialog("Success", "Campaign successfully saved.");
+                    CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
+                }
+                #endregion
+
+                #region Saving single post
+
+                PostlistFileManager.SaveAll(PublisherCreateCampaignModel.CampaignId, new List<PublisherPostlistModel>());
+
+                var publisherPostlistModel = new PublisherPostlistModel
+                {
+                    CampaignId = PublisherCreateCampaignModel.CampaignId,
+                    CreatedTime = DateTime.Now,
+                    PostSource = PostSource.NormalPost,
+                    PostCategory = PublisherCreateCampaignModel.PostDetailsModel.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
+                    PostQueuedStatus = PostQueuedStatus.Pending,
+                    PostRunningStatus = PostRunningStatus.Active,
+                    ExpiredTime = DateTime.Today.AddDays(10),
+                };
+
+                if (PublisherCreateCampaignModel.PostDetailsModel.IsSinglePost)
+                {
+                    publisherPostlistModel.PostDescription = PublisherCreateCampaignModel.PostDetailsModel.PostDescription;
+                    publisherPostlistModel.MediaList = PublisherCreateCampaignModel.PostDetailsModel.MediaViewer.MediaList;
+                    publisherPostlistModel.PublisherInstagramTitle =
+                        PublisherCreateCampaignModel.PostDetailsModel.PublisherInstagramTitle;
+                    publisherPostlistModel.PdSourceUrl = PublisherCreateCampaignModel.PostDetailsModel.PdSourceUrl;
+                    publisherPostlistModel.FdSellLocation =
+                        PublisherCreateCampaignModel.PostDetailsModel.FdSellLocation;
+                    publisherPostlistModel.FdSellPrice = PublisherCreateCampaignModel.PostDetailsModel.FdSellPrice;
+                    publisherPostlistModel.FdSellProductTitle =
+                        PublisherCreateCampaignModel.PostDetailsModel.FdSellProductTitle;
+                    PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+
+                }
+                else if (PublisherCreateCampaignModel.PostDetailsModel.IsMultiPost)
+                {
+                    PublisherCreateCampaignModel.LstPostDetailsModels.ForEach(post =>
+                    {
+                        publisherPostlistModel.PostDescription = post.PostDescription;
+                        publisherPostlistModel.MediaList = post.MediaViewer.MediaList;
+                        publisherPostlistModel.PublisherInstagramTitle = post.PublisherInstagramTitle;
+                        publisherPostlistModel.PdSourceUrl = post.PdSourceUrl;
+                        publisherPostlistModel.FdSellLocation = post.FdSellLocation;
+                        publisherPostlistModel.FdSellPrice = post.FdSellPrice;
+                        publisherPostlistModel.FdSellProductTitle = post.FdSellProductTitle;
+                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+                    });
+                }
+                else
+                {
+                    var images = PublisherCreateCampaignModel.PostDetailsModel.MediaList;
+                    images.ForEach(image =>
+                    {
+                        publisherPostlistModel.MediaList = new ObservableCollection<string> {image};
+                        publisherPostlistModel.PostDescription = new Uri(image).Segments.Last();
+                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+                    });
+                }
+                #endregion
+
             }
-            else
+            catch (Exception ex)
             {
-                if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel,
-                    ConstantVariable.GetPublisherCampaignFile()))
-                    Dialog.ShowDialog("Success", "Campaign successfully saved.");
-                CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
+                ex.DebugLog();
             }
+
+            #region Updating PublisherDefaultPage
+
             var publisherCampaignStatusModel = new PublisherCampaignStatusModel
             {
                 CampaignName = PublisherCreateCampaignModel.CampaignName,
@@ -205,8 +277,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 Status = PublisherCreateCampaignModel.CampaignStatus,
                 DestinationCount = PublisherCreateCampaignModel.LstDestinationId.Count,
             };
-
             PublisherDefaultPage.Instance.PublisherDefaultViewModel.AddCampaignDetails(publisherCampaignStatusModel);
+
+            #endregion
         }
 
 
@@ -265,18 +338,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var publisherMonitorFolder = PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl);
             var publisherSharePost = PublisherSharePost.GetPublisherSharePost(tabItemsControl);
             var publisherScrapePost = PublisherScrapePost.GetPublisherScrapePost(tabItemsControl);
-            var publisherMultiplePost = PublisherMultiplePost.GetPublisherMultiplePost();
+
             SetPostContectData(publisherDirectPosts);
             SetPublisherRssFeedData(publisherRssFeed);
             SetPublisherMonitorFolder(publisherMonitorFolder);
             SetPublisherSharePost(publisherSharePost);
             SetPublisherScrapePost(publisherScrapePost);
-            SetPublisherMultiplePost(publisherMultiplePost);
-        }
-        private void SetPublisherMultiplePost(PublisherMultiplePost publisherMultiplePost)
-        {
-            publisherMultiplePost.PublisherMultiplePostViewModel.LstPostDetailsModel =
-                PublisherCreateCampaignModel.LstPostDetailsModels;
+
         }
         private void SetPublisherSharePost(PublisherSharePost publisherScrapePost)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -17,18 +18,25 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// </summary>
     public partial class PublisherMultiplePost : UserControl, INotifyPropertyChanged
     {
-        private PublisherMultiplePost()
+        public PublisherMultiplePost()
         {
             InitializeComponent();
             PublisherMultiplePostViewModel = new PublisherMultiplePostViewModel();
             MultiplePost.DataContext = PublisherMultiplePostViewModel;
         }
 
-        private static PublisherMultiplePost currentMultiplePost;
-        public static PublisherMultiplePost GetPublisherMultiplePost()
+
+        public PublisherMultiplePost(ObservableCollection<PostDetailsModel> postDetails) : this()
         {
-            return currentMultiplePost ?? (currentMultiplePost = new PublisherMultiplePost());
+            PublisherMultiplePostViewModel.LstPostDetailsModel = postDetails;
         }
+
+
+        public ObservableCollection<PostDetailsModel> GetFinalPostDetails()
+        {
+            return PublisherMultiplePostViewModel.LstPostDetailsModel;
+        }
+
         private PublisherMultiplePostViewModel _publisherMultiplePostViewModel;
         public PublisherMultiplePostViewModel PublisherMultiplePostViewModel
         {
@@ -54,6 +62,13 @@ namespace DominatorUIUtility.Views.SocioPublisher
         }
 
 
-      
+        private void PublisherMultiplePost_OnLoaded(object sender, RoutedEventArgs e)
+        {
+
+            PublisherMultiplePostViewModel.LstPostDetailsModel = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels;
+            PublisherMultiplePostViewModel.PostListsCollectionView = CollectionViewSource.GetDefaultView(PublisherMultiplePostViewModel.LstPostDetailsModel);
+           
+        }
     }
 }

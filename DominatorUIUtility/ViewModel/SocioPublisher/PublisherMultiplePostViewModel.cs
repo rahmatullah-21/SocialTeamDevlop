@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
@@ -21,15 +25,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public PublisherMultiplePostViewModel()
         {
             LstPostDetailsModel = new ObservableCollection<PostDetailsModel>();
-            //var objPublisherPostlistModel = new PublisherPostlistModel();
-            //objPublisherPostlistModel.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
-            //objPublisherPostlistModel.InitializePostData();
-            //PublisherPostlistModels.Add(objPublisherPostlistModel);         
-            PostListsCollectionView = CollectionViewSource.GetDefaultView(LstPostDetailsModel);
-
             CreateNewPost = new BaseCommand<object>(CanExecuteCreateNewPost, ExecuteCreateNewPost);
+            ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
+            DeletePostCommand = new BaseCommand<object>(DeletePostCanExecute, DeletePostExecute);
         }
 
+       
+        #region Command
+
+        public ICommand CreateNewPost { get; set; }
+        public ICommand ImportFromCsvCommand { get; set; }
+        public ICommand DeletePostCommand { get; set; }
+
+        #endregion
 
         #region Properties
 
@@ -43,7 +51,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             set
             {
-                if(_lstPostDetailsModel == value)
+                if (_lstPostDetailsModel == value)
                     return;
                 _lstPostDetailsModel = value;
                 SetProperty(ref _lstPostDetailsModel, value);
@@ -67,10 +75,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        public ICommand CreateNewPost { get; set; }
-
+     
         #endregion
-
 
         #region Create New Post
 
@@ -78,12 +84,79 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void ExecuteCreateNewPost(object sender)
         {
-            PostDetailsModel postDetailsModel =new PostDetailsModel();
+            PostDetailsModel postDetailsModel = new PostDetailsModel();
             LstPostDetailsModel.Add(postDetailsModel);
             PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
         }
 
+
+        #endregion
+
+        #region Import From Csv
+        private bool ImportFromCsvCanExecute(object sender) => true;
+
+        private void ImportFromCsvExecute(object sender)
+        {
+            var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
+            var separator = ConstantVariable.Separator;
+
+            listPostDetailsModel.ForEach(x =>
+            {
+                PostDetailsModel postDetailsModel = new PostDetailsModel();
+                try
+                {
+                    var allData = x.Split(',');
+                    postDetailsModel.PostDescription = allData[0];
+
+                    #region Medialist
+
+                    var mediaUrl = Regex.Split(allData[1], separator).ToList();
+                    mediaUrl.ForEach(media =>
+                    {
+                        if (File.Exists(media))
+                            postDetailsModel.MediaViewer.MediaList.Add(media);
+
+                    });
+
+                    #endregion
+
+                    postDetailsModel.PublisherInstagramTitle = allData[2];
+                    postDetailsModel.PublisherInstagramTitle = allData[3];
+
+                    #region FdSell
+
+                    var Fdsell = Regex.Split(allData[4], separator);
+                    if (Fdsell[0] == "IsEnable")
+                    {
+                        postDetailsModel.IsFdSellPost = true;
+                        postDetailsModel.FdSellProductTitle = Fdsell[1];
+                        postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
+                        postDetailsModel.FdSellLocation = Fdsell[3];
+                    }
+                    #endregion
+
+                    LstPostDetailsModel.Add(postDetailsModel);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+
+            });
+
+        }
+        #endregion
+
+        #region Delete Post
+
+        private bool DeletePostCanExecute(object sender) => true;
+
+        private void DeletePostExecute(object sender)
+        {
+            var postToDelete =sender as PostDetailsModel;
+            LstPostDetailsModel.Remove(postToDelete);
+        }
         #endregion
     }
 

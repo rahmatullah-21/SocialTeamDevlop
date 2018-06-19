@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -104,7 +107,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                var publisherMultiplePost = PublisherMultiplePost.GetPublisherMultiplePost();
+                var publisherMultiplePost = new PublisherMultiplePost();
                 Dialog dialog = new Dialog();
                 var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
                 window.ShowDialog();
@@ -132,8 +135,66 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void ImportFromCsvExecute(object sender)
         {
-            var loadedAccountlist = FileUtilities.FileBrowseAndReader();
+            var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
+            var separator = ConstantVariable.Separator;
+            ObservableCollection<PostDetailsModel> postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                .PublisherCreateCampaignModel.LstPostDetailsModels;
+            listPostDetailsModel.ForEach(x =>
+            {
+                PostDetailsModel postDetailsModel = new PostDetailsModel();
+                try
+                {
+                    var allData = x.Split(',');
+                    postDetailsModel.PostDescription = allData[0];
 
+                    #region Medialist
+
+                    var mediaUrl = Regex.Split(allData[1], separator).ToList();
+                    mediaUrl.ForEach(media =>
+                    {
+                        if (File.Exists(media))
+                            postDetailsModel.MediaViewer.MediaList.Add(media);
+
+                    });
+
+                    #endregion
+
+                    postDetailsModel.PublisherInstagramTitle = allData[2];
+                    postDetailsModel.PublisherInstagramTitle = allData[3];
+
+                    #region FdSell
+
+                    var Fdsell = Regex.Split(allData[4], separator);
+                    if (Fdsell[0] == "IsEnable")
+                    {
+                        postDetailsModel.IsFdSellPost = true;
+                        postDetailsModel.FdSellProductTitle = Fdsell[1];
+                        postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
+                        postDetailsModel.FdSellLocation = Fdsell[3];
+                    }
+                    #endregion
+                    postDetails.Add(postDetailsModel);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+
+            });
+            if (postDetails?.Count!=0)
+            {
+                try
+                {
+                    var publisherMultiplePost = new PublisherMultiplePost(postDetails);
+                    Dialog dialog = new Dialog();
+                    var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
+                    window.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                } 
+            }
         }
         #endregion
 

@@ -7,13 +7,15 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
-
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <StackPanel Orientation="Vertical" Name="MainGrid">
         <StackPanel Orientation="Vertical">
             <CheckBox Margin="2" Content="{DynamicResource DHlangShareCustomPostList}" IsChecked="{Binding SharePostModel.IsShareCustomPostList}" />
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangShareAddCustomPostList}"
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
-                         Text="{Binding SharePostModel.ShareAddCustomPostList}"/>
+                         Text="{Binding SharePostModel.ShareAddCustomPostList}"  Visibility="{Binding SharePostModel.IsShareCustomPostList,Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </StackPanel>
 
 
@@ -21,7 +23,7 @@
             <CheckBox Margin="2" Content="{DynamicResource DHlangShareFdPagePost}" IsChecked="{Binding SharePostModel.IsShareFdPagePost}" />
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddFdPageUrl}"
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
-                         Text="{Binding SharePostModel.AddFdPageUrl}"/>
+                         Text="{Binding SharePostModel.AddFdPageUrl}"  Visibility="{Binding SharePostModel.IsShareFdPagePost,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
             <StackPanel Margin="10,0,0,0">
                 <StackPanel Orientation="Horizontal">
@@ -35,7 +37,7 @@
                     <TextBlock Text="{DynamicResource DHlangPostPerOperation}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
-                    <CheckBox Content="{DynamicResource DHlangKeywords}" VerticalAlignment="Center" Margin="5" IsChecked="{Binding SharePostModel.IsKeywords}"/>
+                    <CheckBox Content="{DynamicResource DHlangKeywords}" VerticalAlignment="Center" Margin="3,5" IsChecked="{Binding SharePostModel.IsKeywords}"/>
                     <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddKeywords}"
                              Margin="2" TextWrapping="Wrap" Height="60" Width="250" AcceptsReturn="True"
                              Text="{Binding SharePostModel.AddKeywords}"/>

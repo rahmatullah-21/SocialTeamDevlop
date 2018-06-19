@@ -6,13 +6,12 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              mc:Ignorable="d"  xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
-             xmlns:control="http://metro.mahapps.com/winfx/xaml/controls"
-             Loaded="PublisherDirectPosts_OnLoaded">
+             xmlns:control="http://metro.mahapps.com/winfx/xaml/controls">
     <UserControl.Resources>
         <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
         <DataTemplate x:Key="MacroTemplate">
             <Grid>
-                <TextBlock Text="{Binding Path=Key}"></TextBlock>
+                <TextBlock Text="{Binding Path=Key}"/>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
@@ -44,7 +43,7 @@
                                                 FdSellLocation="{Binding PostDetailsModel.FdSellLocation, Mode=TwoWay}"
                                                 FdSellPrice="{Binding PostDetailsModel.FdSellPrice, Mode=TwoWay}"
                                                 FdSellProductTitle="{Binding PostDetailsModel.FdSellProductTitle, Mode=TwoWay}"
-                                                IsFdSellPost="{Binding PostDetailsModel.IsPostContent, Mode=TwoWay}"
+                                                IsFdSellPost="{Binding PostDetailsModel.IsFdSellPost, Mode=TwoWay}"
                                                 PdSourceUrl="{Binding PostDetailsModel.PdSourceUrl, Mode=TwoWay}"
                                                 x:Name="PostContentControl"/>
             </StackPanel>

@@ -188,5 +188,7 @@ namespace DominatorHouseCore.Utility
             new SocinatorIntellisenseModel() {Key="{Random:20+}",Value =  "{Random:20+}"},
 
         };
+        public static string Separator = "<:>";
+
     }
 }
