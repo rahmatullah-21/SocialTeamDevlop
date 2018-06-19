@@ -423,7 +423,10 @@
     <Compile Include="Diagnostics\LogHelper\ILoggableWindow.cs" />
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
     <Compile Include="Interfaces\IViewCampaignsFactory.cs" />
+    <Compile Include="Interfaces\SocioPublisher\IFdScrapePosts.cs" />
     <Compile Include="Interfaces\SocioPublisher\IGeneralPostSettings.cs" />
+    <Compile Include="Interfaces\SocioPublisher\IPdScrapePosts.cs" />
+    <Compile Include="Interfaces\SocioPublisher\ITdScrapePosts.cs" />
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
