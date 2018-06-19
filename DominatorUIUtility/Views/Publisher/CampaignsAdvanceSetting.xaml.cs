@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
@@ -22,6 +23,7 @@ namespace DominatorUIUtility.Views.Publisher
         public CampaignsAdvanceSetting()
         {
             InitializeComponent();
+
             var TabItems = new List<TabItemTemplates>
             {
                 new TabItemTemplates
@@ -73,7 +75,7 @@ namespace DominatorUIUtility.Views.Publisher
         private AdvanceSetting AdvanceSetting { get; set; }
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
-            var CampaignId = AdvanceSetting.CampaignId;
+            var campaignId = AdvanceSetting.CampaignId;
 
             #region General
 
@@ -82,10 +84,10 @@ namespace DominatorUIUtility.Views.Publisher
             newGeneralModel = ObjectComparer.CompareAndGetChangedObject<GeneralModel>(oldGeneralModel, newGeneralModel);
             if (newGeneralModel != null)
             {
-                newGeneralModel.CampaignId = CampaignId;
+                newGeneralModel.CampaignId = campaignId;
                 string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social);
                 var generalModels = GenericFileManager.GetPublisherOtherConfig<GeneralModel>(file);
-                var moduleToUpdate = generalModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                var moduleToUpdate = generalModels.FirstOrDefault(x => x.CampaignId == campaignId);
                 AddUpdateDetails(moduleToUpdate, newGeneralModel, generalModels, file, SocialNetworks.Social);
             }
 
@@ -98,10 +100,10 @@ namespace DominatorUIUtility.Views.Publisher
             newFacebookModel = ObjectComparer.CompareAndGetChangedObject<FacebookModel>(oldFacebookModel, newFacebookModel);
             if (newFacebookModel != null)
             {
-                newFacebookModel.CampaignId = CampaignId;
+                newFacebookModel.CampaignId = campaignId;
                 string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook);
                 var lstFacebookModels = GenericFileManager.GetPublisherOtherConfig<FacebookModel>(file);
-                var moduleToUpdate = lstFacebookModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                var moduleToUpdate = lstFacebookModels.FirstOrDefault(x => x.CampaignId == campaignId);
                 AddUpdateDetails(moduleToUpdate, newFacebookModel, lstFacebookModels, file, SocialNetworks.Facebook);
             }
 
@@ -115,10 +117,10 @@ namespace DominatorUIUtility.Views.Publisher
 
             if (newGooglePlusModel != null)
             {
-                newGeneralModel.CampaignId = CampaignId;
+                newGeneralModel.CampaignId = campaignId;
                 string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
                 var lstGooglePlusModels = GenericFileManager.GetPublisherOtherConfig<GooglePlusModel>(file);
-                var moduleToUpdate = lstGooglePlusModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                var moduleToUpdate = lstGooglePlusModels.FirstOrDefault(x => x.CampaignId == campaignId);
                 AddUpdateDetails(moduleToUpdate, newGooglePlusModel, lstGooglePlusModels, file, SocialNetworks.Gplus);
             }
             #endregion
@@ -132,10 +134,10 @@ namespace DominatorUIUtility.Views.Publisher
                     newInstagramModel);
             if (newInstagramModel != null)
             {
-                newInstagramModel.CampaignId = CampaignId;
+                newInstagramModel.CampaignId = campaignId;
                 string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
                 var lstInstagramModels = GenericFileManager.GetPublisherOtherConfig<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(file);
-                var moduleToUpdate = lstInstagramModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                var moduleToUpdate = lstInstagramModels.FirstOrDefault(x => x.CampaignId == campaignId);
                 AddUpdateDetails(moduleToUpdate, newInstagramModel, lstInstagramModels, file, SocialNetworks.Instagram);
             }
 
@@ -149,10 +151,10 @@ namespace DominatorUIUtility.Views.Publisher
 
             if (newPinterestModel != null)
             {
-                newPinterestModel.CampaignId = CampaignId;
+                newPinterestModel.CampaignId = campaignId;
                 string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest);
                 var lstPinterestModels = GenericFileManager.GetPublisherOtherConfig<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(file);
-                var moduleToUpdate = lstPinterestModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                var moduleToUpdate = lstPinterestModels.FirstOrDefault(x => x.CampaignId == campaignId);
                 AddUpdateDetails(moduleToUpdate, newPinterestModel, lstPinterestModels, file, SocialNetworks.Pinterest);
             }
             #endregion
@@ -166,10 +168,10 @@ namespace DominatorUIUtility.Views.Publisher
                     newTumblrModel);
             if (newTumblrModel != null)
             {
-                newPinterestModel.CampaignId = CampaignId;
+                newPinterestModel.CampaignId = campaignId;
                 string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
                 var lstTumblrModels = GenericFileManager.GetPublisherOtherConfig<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(file);
-                var moduleToUpdate = lstTumblrModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                var moduleToUpdate = lstTumblrModels.FirstOrDefault(x => x.CampaignId == campaignId);
                 AddUpdateDetails(moduleToUpdate, newTumblrModel, lstTumblrModels, file, SocialNetworks.Tumblr);
             }
 
@@ -183,32 +185,32 @@ namespace DominatorUIUtility.Views.Publisher
 
             if (newTwitterModel != null)
             {
-                newTwitterModel.CampaignId = CampaignId;
+                newTwitterModel.CampaignId = campaignId;
                 string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
                 var lstTwitterModels = GenericFileManager.GetPublisherOtherConfig<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(file);
-                var moduleToUpdate = lstTwitterModels.FirstOrDefault(x => x.CampaignId == CampaignId);
+                var moduleToUpdate = lstTwitterModels.FirstOrDefault(x => x.CampaignId == campaignId);
                 AddUpdateDetails(moduleToUpdate, newTwitterModel, lstTwitterModels, file, SocialNetworks.Twitter);
             }
 
             #endregion
+            
+            GlobusLogHelper.log.Info("Details successfully saved");
         }
 
-        private  void AddUpdateDetails<T>(T moduleToUpdate, T newFacebookModel,
-            List<T> lstFacebookModels, string file, SocialNetworks networks) where T:class
+        private void AddUpdateDetails<T>(T moduleToUpdate, T updatedModel,
+            List<T> lstModels, string file, SocialNetworks networks) where T : class
         {
             if (moduleToUpdate == null)
-                GenericFileManager.AddModule<T>(newFacebookModel,
+                GenericFileManager.AddModule<T>(updatedModel,
                     ConstantVariable.GetPublisherOtherConfigFile(networks));
             else
             {
-                lstFacebookModels.Remove(moduleToUpdate);
-                lstFacebookModels.Add(newFacebookModel);
+                var moduleToUpdateIndex = lstModels.IndexOf(moduleToUpdate);
+                lstModels[moduleToUpdateIndex] = updatedModel;
 
-                GenericFileManager.SaveAll<T>(lstFacebookModels, file);
+                GenericFileManager.UpdateModuleDetails<T>(lstModels, file);
             }
 
-            var data = GenericFileManager.GetPublisherOtherConfig<T>(
-                ConstantVariable.GetPublisherOtherConfigFile(networks));
         }
     }
 }

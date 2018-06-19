@@ -1,5 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorUIUtility.ViewModel.SocioPublisher;
@@ -10,15 +15,20 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// <summary>
     /// Interaction logic for PublisherMultiplePost.xaml
     /// </summary>
-    public partial class PublisherMultiplePost : MetroWindow, INotifyPropertyChanged
+    public partial class PublisherMultiplePost : UserControl, INotifyPropertyChanged
     {
-        public PublisherMultiplePost()
+        private PublisherMultiplePost()
         {
             InitializeComponent();
-            PublisherMultiplePostViewModel = new PublisherMultiplePostViewModel();          
+            PublisherMultiplePostViewModel = new PublisherMultiplePostViewModel();
             MultiplePost.DataContext = PublisherMultiplePostViewModel;
         }
 
+        private static PublisherMultiplePost currentMultiplePost;
+        public static PublisherMultiplePost GetPublisherMultiplePost()
+        {
+            return currentMultiplePost ?? (currentMultiplePost = new PublisherMultiplePost());
+        }
         private PublisherMultiplePostViewModel _publisherMultiplePostViewModel;
         public PublisherMultiplePostViewModel PublisherMultiplePostViewModel
         {
@@ -42,5 +52,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
+      
     }
 }

@@ -20,7 +20,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(1)]
         public string CampaignId { get; set; }
 
-        private string _campaignName=$"Campaign {DateTimeUtilities.GetEpochTime()}";
+        private string _campaignName = $"Campaign {DateTimeUtilities.GetEpochTime()}";
         // To specify the campaign name
         [ProtoMember(2)]
         public string CampaignName
@@ -95,7 +95,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
         private ObservableCollection<string> _lstDestinationId = new ObservableCollection<string>();
-        
+
         [ProtoMember(8)]
         public ObservableCollection<string> LstDestinationId
         {
@@ -129,7 +129,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
         private SharePostModel _sharePostModel = new SharePostModel();
         [ProtoMember(10)]
-        public SharePostModel SharePostModel {
+        public SharePostModel SharePostModel
+        {
             get
             {
                 return _sharePostModel;
@@ -143,8 +144,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
         [ProtoMember(11)]
-        public DateTime CreatedDate { get; set; }=DateTime.Now;
-        private PublisherMediaViewerModel _publisherMediaViewerModel=new PublisherMediaViewerModel();
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        private PublisherMediaViewerModel _publisherMediaViewerModel = new PublisherMediaViewerModel();
         [ProtoMember(12)]
         public PublisherMediaViewerModel PublisherMediaViewerModel
         {
@@ -160,9 +161,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PublisherMediaViewerModel));
             }
         }
-        private ObservableCollection<PublisherRssFeedModel> _lstFeedUrl=new ObservableCollection<PublisherRssFeedModel>();
+        private ObservableCollection<PublisherRssFeedModel> _lstFeedUrl = new ObservableCollection<PublisherRssFeedModel>();
         [ProtoMember(13)]
-        public ObservableCollection<PublisherRssFeedModel> LstFeedUrl 
+        public ObservableCollection<PublisherRssFeedModel> LstFeedUrl
         {
             get
             {
@@ -176,6 +177,39 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-       
+        private ObservableCollection<PublisherMonitorFolderModel> _lstFolderPath =
+            new ObservableCollection<PublisherMonitorFolderModel>();
+        [ProtoMember(14)]
+        public ObservableCollection<PublisherMonitorFolderModel> LstFolderPath
+        {
+            get
+            {
+                return _lstFolderPath;
+            }
+            set
+            {
+                if (value == _lstFolderPath)
+                    return;
+                SetProperty(ref _lstFolderPath, value);
+            }
+        }
+
+
+        private ObservableCollection<PostDetailsModel> _lstPostDetailsModel =
+           new ObservableCollection<PostDetailsModel>();
+        [ProtoMember(15)]
+        public ObservableCollection<PostDetailsModel> LstPostDetailsModels
+        {
+            get
+            {
+                return _lstPostDetailsModel;
+            }
+            set
+            {
+                if (value == _lstPostDetailsModel)
+                    return;
+                SetProperty(ref _lstPostDetailsModel, value);
+            }
+        }
     }
 }

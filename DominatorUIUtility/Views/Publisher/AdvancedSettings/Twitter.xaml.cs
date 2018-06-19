@@ -15,7 +15,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
+using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
@@ -57,5 +62,16 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void Twitter_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                .PublisherCreateCampaignViewModel
+                .PublisherCreateCampaignModel.CampaignId;
+            var twitterModel = GenericFileManager.GetPublisherOtherConfig<TwitterModel>
+                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter))
+                .FirstOrDefault(x => x.CampaignId == campaignId);
+            TwitterViewModel.TwitterModel = twitterModel ?? TwitterViewModel.TwitterModel;
+        }
     }
 }

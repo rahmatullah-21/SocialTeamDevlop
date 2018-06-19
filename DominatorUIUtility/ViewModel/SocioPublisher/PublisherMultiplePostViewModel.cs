@@ -20,32 +20,33 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public PublisherMultiplePostViewModel()
         {
-            PublisherPostlistModels = new ObservableCollection<PublisherPostlistModel>();
+            LstPostDetailsModel = new ObservableCollection<PostDetailsModel>();
             //var objPublisherPostlistModel = new PublisherPostlistModel();
             //objPublisherPostlistModel.MediaList.Add(@"C:\Users\Public\Pictures\Sample Pictures\2.jpg");
             //objPublisherPostlistModel.InitializePostData();
             //PublisherPostlistModels.Add(objPublisherPostlistModel);         
-            PostListsCollectionView = CollectionViewSource.GetDefaultView(_publisherPostlistModels);
+            PostListsCollectionView = CollectionViewSource.GetDefaultView(LstPostDetailsModel);
 
             CreateNewPost = new BaseCommand<object>(CanExecuteCreateNewPost, ExecuteCreateNewPost);
         }
 
+
         #region Properties
 
-        private ObservableCollection<PublisherPostlistModel> _publisherPostlistModels;
+        private ObservableCollection<PostDetailsModel> _lstPostDetailsModel;
 
-        public ObservableCollection<PublisherPostlistModel> PublisherPostlistModels
+        public ObservableCollection<PostDetailsModel> LstPostDetailsModel
         {
             get
             {
-                return _publisherPostlistModels;
+                return _lstPostDetailsModel;
             }
             set
             {
-                if(_publisherPostlistModels == value)
+                if(_lstPostDetailsModel == value)
                     return;
-                _publisherPostlistModels = value;
-                SetProperty(ref _publisherPostlistModels, value);
+                _lstPostDetailsModel = value;
+                SetProperty(ref _lstPostDetailsModel, value);
             }
         }
 
@@ -77,7 +78,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void ExecuteCreateNewPost(object sender)
         {
-            
+            PostDetailsModel postDetailsModel =new PostDetailsModel();
+            LstPostDetailsModel.Add(postDetailsModel);
+            PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
         }
 
         #endregion

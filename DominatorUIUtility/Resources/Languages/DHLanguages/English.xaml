@@ -382,5 +382,8 @@ Type 3. IP:Port
     <system:String x:Key="DhlangFeedUrlDetails">Feed Url Details</system:String>
     <system:String x:Key="DhlangFeedTemplate">Feed Templates</system:String>
     <system:String x:Key="DhlangSaveToList">Save to List</system:String>
+    <system:String x:Key="DhlangFolderPath">Folder Path</system:String>
+    <system:String x:Key="DhlangFolderTemplates">Folder Templates</system:String>
+    <system:String x:Key="DhlangFolderPathDetails">Folder Path Details</system:String>
 
 </ResourceDictionary>

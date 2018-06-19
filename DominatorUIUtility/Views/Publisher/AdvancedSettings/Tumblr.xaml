@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher.AdvancedSettings"
              mc:Ignorable="d" 
-             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             Loaded="Tumblr_OnLoaded">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
     </UserControl.Resources>

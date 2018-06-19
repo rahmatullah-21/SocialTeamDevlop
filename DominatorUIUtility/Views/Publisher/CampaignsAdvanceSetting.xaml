@@ -8,7 +8,7 @@
     <Grid Margin="10,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <TabControl x:Name="CampaignsAdvanceSettingTab" ItemContainerStyle="{StaticResource TabItemStyle}" TabStripPlacement="Top"  VerticalAlignment="Stretch" >
             <TabControl.ItemTemplate>
@@ -22,18 +22,17 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-        <Grid Grid.Row="1" Background="{DynamicResource AccentBaseColorBrush}">
-            <Button  Background="{DynamicResource AccentBaseColorBrush}" 
-                     Foreground="White" VerticalAlignment="Center" Click="BtnSave_OnClick">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="15" Height="15" Fill="White">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                    <AccessText Margin="6,0">_Save</AccessText>
-                </StackPanel>
-            </Button>
-        </Grid>
+        <Button  Background="{DynamicResource AccentBaseColorBrush}"  Grid.Row="1"  HorizontalAlignment="Right" Width="80"
+                 Foreground="White" VerticalAlignment="Center" Margin="0,0,10,0"
+                 Click="BtnSave_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <Rectangle Width="15" Height="15" Fill="White">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <AccessText Margin="6,0">_Save</AccessText>
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>

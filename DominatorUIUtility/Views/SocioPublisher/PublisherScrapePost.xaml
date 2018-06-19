@@ -9,25 +9,24 @@
 
     <StackPanel Orientation="Vertical"  Name="MainGrid">
         <StackPanel Orientation="Vertical">
-            <CheckBox Margin="2" Content="{DynamicResource DHlangScrapeFacebookPost}" IsChecked="{Binding IsScrapeFacebookPost}"/>
+            <CheckBox Margin="2" Content="{DynamicResource DHlangScrapeFacebookPost}" IsChecked="{Binding ScrapePostModel.IsScrapeFacebookPost}"/>
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
                          mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddFdPostSource}" Margin="2" TextWrapping="Wrap" 
-                         Height="60" Width="404" AcceptsReturn="True" Text="{Binding AddFdPostSource}"
-                     />
+                         Height="60" Width="404" AcceptsReturn="True" Text="{Binding ScrapePostModel.AddFdPostSource}" />
         </StackPanel>
         <StackPanel Orientation="Vertical">
             <CheckBox Margin="2" Content="{DynamicResource DHlangScrapePinterestPost}" 
-                          IsChecked="{Binding IsScrapePinterestPost}"/>
+                          IsChecked="{Binding ScrapePostModel.IsScrapePinterestPost}"/>
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
                          mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddPdPostSource}" 
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
-                        Text="{Binding AddPdPostSource}" />
+                        Text="{Binding ScrapePostModel.AddPdPostSource}" />
         </StackPanel>
         <StackPanel Orientation="Vertical">
-            <CheckBox Margin="2" Content="{DynamicResource DHlangScrapeTwitterPost}" IsChecked="{Binding IsScrapeTwitterPost}" />
+            <CheckBox Margin="2" Content="{DynamicResource DHlangScrapeTwitterPost}" IsChecked="{Binding ScrapePostModel.IsScrapeTwitterPost}" />
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddTdPostSource}"
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
-                         Text="{Binding AddTdPostSource}"/>
+                         Text="{Binding ScrapePostModel.AddTdPostSource}"/>
         </StackPanel>
     </StackPanel>
 

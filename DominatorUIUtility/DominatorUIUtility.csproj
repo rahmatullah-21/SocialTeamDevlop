@@ -308,9 +308,12 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPendingViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPublishedViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherManagePostsViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherMonitorFolderViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherMultiplePostViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherPostlistBaseViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherRssFeedViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherScrapePostViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherSharePostViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
     </Compile>

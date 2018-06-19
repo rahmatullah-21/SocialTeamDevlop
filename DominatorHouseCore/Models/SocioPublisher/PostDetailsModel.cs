@@ -248,6 +248,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _pdSourceUrl, value);
             }
         }
+        private ObservableCollection<string> _mediaList = new ObservableCollection<string>();
+       
+        [ProtoMember(16)]
+        public ObservableCollection<string> MediaList
+        {
+            get
+            {
+                return _mediaList;
+            }
+            set
+            {
+                if (value == _mediaList)
+                    return;
+                SetProperty(ref _mediaList, value);
 
+            }
+        }
     }
 }

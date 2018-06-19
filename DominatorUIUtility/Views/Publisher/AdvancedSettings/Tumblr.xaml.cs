@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
+using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
@@ -57,5 +51,16 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void Tumblr_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                .PublisherCreateCampaignViewModel
+                .PublisherCreateCampaignModel.CampaignId;
+            var tumblrModel = GenericFileManager.GetPublisherOtherConfig<TumblrModel>
+                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr))
+                .FirstOrDefault(x => x.CampaignId == campaignId);
+            TumblrViewModel.TumblrModel = tumblrModel ?? TumblrViewModel.TumblrModel;
+        }
     }
 }

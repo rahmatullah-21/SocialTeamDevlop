@@ -16,7 +16,7 @@
 
         </StackPanel>
         <Button Background="{DynamicResource AccentBaseColorBrush}" Height="30" Width="150" 
-                HorizontalAlignment="Center" Margin="0,0,0,5" Name="BtnSave" Foreground="White"
+                HorizontalAlignment="Center" Margin="0,0,300,5" Name="BtnSave" Foreground="White"
                 Command="{Binding SaveCommand}" Content="{Binding PublisherRssFeedModel.ButtonContent}"
                 CommandParameter="{Binding ElementName=BtnSave}" />
         <GroupBox Header="{DynamicResource DhlangFeedUrlDetails}" Width="830" HorizontalAlignment="Left">
@@ -43,12 +43,12 @@
                         <Grid >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding FeedUrl}"  Margin="4"/>
-                            <StackPanel Orientation="Horizontal" Margin="4" Grid.Column="1" >
+                            <TextBlock Text="{Binding FeedUrl}"  Margin="4" TextWrapping="Wrap"/>
+                            <StackPanel Orientation="Horizontal" Margin="4" Grid.Column="1" VerticalAlignment="Center">
                                 <Button Name="BtnEdit" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
-                                        VerticalAlignment="Top" Margin="10,0,0,0" 
+                                        VerticalAlignment="Top"
                                         Command="{Binding ElementName=UrlFeedItems,Path=DataContext.EditCommand}"
                                         CommandParameter="{Binding ElementName=BtnEdit}">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -61,7 +61,7 @@
                                     </StackPanel>
                                 </Button>
                                 <Button Name="BtnDelete" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
-                                        VerticalAlignment="Top" Margin="10,0,0,0" 
+                                        VerticalAlignment="Top" Margin="10,0" 
                                         Command="{Binding  ElementName=UrlFeedItems,Path=DataContext.DeleteCommand}"
                                         CommandParameter="{Binding ElementName=BtnDelete}">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

@@ -37,10 +37,9 @@
                                                 customControl:MediaViewerAssist.CurrentMediaUrl="{Binding PostDetailsModel.MediaViewer.MediaUrl,Mode=TwoWay}"
                                                 customControl:MediaViewerAssist.MediaHeight="75"
                                                 customControl:MediaViewerAssist.MediaWidth="75"
-                                                customControl:MediaViewerAssist.IsPostDetailsPresent="True"
                                                 customControl:MediaViewerAssist.TotalMediaCount="{Binding PostDetailsModel.MediaViewer.TotalItem}"
                                                 customControl:MediaViewerAssist.CurrentMediaPointer="{Binding PostDetailsModel.MediaViewer.CurrentItem}"
-                                                
+                                                customControl:MediaViewerAssist.DeleteMenu="Visible"
                                                 PublisherInstagramTitle="{Binding PostDetailsModel.PublisherInstagramTitle, Mode=TwoWay}"
                                                 FdSellLocation="{Binding PostDetailsModel.FdSellLocation, Mode=TwoWay}"
                                                 FdSellPrice="{Binding PostDetailsModel.FdSellPrice, Mode=TwoWay}"
@@ -97,19 +96,8 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Name="TextBlockUploadUrl" VerticalAlignment="Center" Margin="2" Text="{DynamicResource DHlangUploadFromUrl}" />
                         <TextBox Name="TextBoxGetImages" Width="180" Height="25" Text="{Binding PostDetailsModel.ImagesUrl, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                     Style="{StaticResource SearchMetroTextBox}" control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}" control:TextBoxHelper.ButtonCommandParameter="{Binding ElementName=ImageMediaViewer}">
-
-                        </TextBox>
-                        <!--<Button Foreground="White" Margin="2"  Cursor="Hand"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="25" Width="40" VerticalAlignment="Center" >
-                                <StackPanel Orientation="Horizontal" >
-                                    <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_right}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-
-                                </StackPanel>
-                            </Button>-->
+                                     Style="{StaticResource SearchMetroTextBox}" control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}" control:TextBoxHelper.ButtonCommandParameter="{Binding ElementName=ImageMediaViewer}"/>
+                       
                     </StackPanel>
                 </StackPanel>
 
@@ -118,7 +106,8 @@
                                                MediaWidth="75" 
                                                MediaHeight="75"
                                                DeleteMenuVisibility="Visible"                                            
-                                               IsPostDataPresent="False" />
+                                               IsPostDataPresent="False" 
+                                               MediaList="{Binding PostDetailsModel.MediaList,Mode=TwoWay}" />
                 </StackPanel>
 
             </StackPanel>

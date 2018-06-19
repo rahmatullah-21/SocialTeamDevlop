@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher.AdvancedSettings"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-           xmlns:custom="clr-namespace:DominatorUIUtility.CustomControl">
+           xmlns:custom="clr-namespace:DominatorUIUtility.CustomControl"
+             Loaded="Facebook_OnLoaded">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>

@@ -22,15 +22,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             MultiplePostCommand = new BaseCommand<object>(CanExecuteMultiPost, ExecuteMultiPost);
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
-            SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);           
+            SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);
         }
 
-      
 
-        public PublisherDirectPostsViewModel(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl):this()
+
+        public PublisherDirectPostsViewModel(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl) : this()
         {
             this.tabItemsControl = tabItemsControl;
-            _postDetailsModel = tabItemsControl.PostDetailsModel;
+            PostDetailsModel = tabItemsControl.PostDetailsModel;
         }
 
         #endregion
@@ -41,7 +41,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand ImportFromCsvCommand { get; set; }
         public ICommand SearchCommand { get; set; }
 
-        private PostDetailsModel _postDetailsModel =new PostDetailsModel();
+        private PostDetailsModel _postDetailsModel = new PostDetailsModel();
 
         public PostDetailsModel PostDetailsModel
         {
@@ -51,7 +51,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             set
             {
-                if(_postDetailsModel == value)
+                if (_postDetailsModel == value)
                     return;
                 _postDetailsModel = value;
                 OnPropertyChanged(nameof(PostDetailsModel));
@@ -59,7 +59,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
 
-        private bool _isBool= true;
+        private bool _isBool = true;
 
         public bool IsBool
         {
@@ -69,7 +69,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             set
             {
-                if(IsBool == value)
+                if (IsBool == value)
                     return;
                 _isBool = value;
                 OnPropertyChanged(nameof(IsBool));
@@ -94,7 +94,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-
         #endregion
 
         #region Methods
@@ -105,30 +104,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                var publisherMultiplePost = new PublisherMultiplePost
-                    {                       
-                        ShowInTaskbar = true,
-                        ShowActivated = true,
-                        Topmost = false,
-                        ResizeMode = ResizeMode.NoResize,
-                        WindowStyle = WindowStyle.SingleBorderWindow,
-                        WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                        ShowTitleBar = true,
-                        ShowCloseButton = true,
-                        WindowTransitionsEnabled = false,                      
-                        BorderThickness = new Thickness(0),
-                        GlowBrush = Brushes.Black,
-                };
-                publisherMultiplePost.Show();
-
-                //var customDialog = new CustomDialog
-                //{
-                //    HorizontalAlignment = HorizontalAlignment.Center,
-                //    Content = publisherMultiplePost
-                //};
-                //var objDialog = new Dialog();
-                //var dialogWindow = objDialog.GetCustomDialog(customDialog, "Multiple Postlist");
-                //dialogWindow.ShowDialog();
+                var publisherMultiplePost = PublisherMultiplePost.GetPublisherMultiplePost();
+                Dialog dialog = new Dialog();
+                var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
+                window.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -141,10 +120,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void SearchExecute(object sender)
         {
 
-            var mediaViewer = (MediaViewer) sender;
+            var mediaViewer = (MediaViewer)sender;
 
-            mediaViewer.MediaList =
-               new ObservableCollection<string>(ImageExtracter.ExtractImageUrls(PostDetailsModel.ImagesUrl));
+            PostDetailsModel.MediaList = new ObservableCollection<string>(ImageExtracter.ExtractImageUrls(PostDetailsModel.ImagesUrl));
+            mediaViewer.MediaList = PostDetailsModel.MediaList;
 
             mediaViewer?.Initialize();
 

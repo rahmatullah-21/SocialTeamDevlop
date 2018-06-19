@@ -1,8 +1,15 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
+using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
@@ -44,5 +51,16 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void Pinterest_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                .PublisherCreateCampaignViewModel
+                .PublisherCreateCampaignModel.CampaignId;
+            var pinterestModel = GenericFileManager.GetPublisherOtherConfig<PinterestModel>
+                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest))
+                .FirstOrDefault(x => x.CampaignId == campaignId);
+            PinterestViewModel.PinterestModel = pinterestModel ?? PinterestViewModel.PinterestModel;
+        }
     }
 }

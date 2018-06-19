@@ -15,7 +15,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
@@ -58,6 +63,16 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-       
+
+        private void Instagram_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                .PublisherCreateCampaignViewModel
+                .PublisherCreateCampaignModel.CampaignId;
+            var instagramModel = GenericFileManager.GetPublisherOtherConfig<InstagramModel>
+                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram))
+                .FirstOrDefault(x => x.CampaignId == campaignId);
+            InstagramViewModel.InstagramModel = instagramModel ?? InstagramViewModel.InstagramModel;
+        }
     }
 }

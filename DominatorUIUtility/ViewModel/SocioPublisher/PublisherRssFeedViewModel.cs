@@ -98,7 +98,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 var itemToEdit = ((FrameworkElement)sender).DataContext as PublisherRssFeedModel;
-                itemToEdit.ButtonContent = "Update to List";
+                itemToEdit.ButtonContent = "Update Feed Url";
                 PublisherRssFeedModel = itemToEdit;
             }
             catch (Exception ex)

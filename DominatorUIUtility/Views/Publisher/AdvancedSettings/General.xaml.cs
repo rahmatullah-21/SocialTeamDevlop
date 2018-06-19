@@ -15,7 +15,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
+using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
@@ -37,6 +42,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
                 ObjGeneral = new General();
             return ObjGeneral;
         }
+       
         private GeneralViewModel _generalViewModel = new GeneralViewModel();
 
         public GeneralViewModel GeneralViewModel
@@ -58,5 +64,16 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void General_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                .PublisherCreateCampaignViewModel
+                .PublisherCreateCampaignModel.CampaignId;
+            var generaldata = GenericFileManager.GetPublisherOtherConfig<GeneralModel>
+                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                .FirstOrDefault(x => x.CampaignId == campaignId);
+            GeneralViewModel.GeneralModel = generaldata ?? GeneralViewModel.GeneralModel;
+        }
     }
 }

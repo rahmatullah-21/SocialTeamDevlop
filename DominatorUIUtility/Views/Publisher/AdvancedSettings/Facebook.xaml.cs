@@ -15,7 +15,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
+using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
@@ -62,5 +67,15 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
         }
 
 
+        private void Facebook_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                .PublisherCreateCampaignViewModel
+                .PublisherCreateCampaignModel.CampaignId;
+            var facebookModel = GenericFileManager.GetPublisherOtherConfig<FacebookModel>
+                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook))
+                .FirstOrDefault(x => x.CampaignId == campaignId);
+            FacebookViewModel.FacebookModel = facebookModel ?? FacebookViewModel.FacebookModel;
+        }
     }
 }
