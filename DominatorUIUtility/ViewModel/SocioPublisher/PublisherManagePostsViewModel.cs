@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
@@ -172,7 +173,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     CancelRunningTask();
                     var cancellationToken = new CancellationTokenSource();
                     QueueCancellationTokenSources.Enqueue(cancellationToken);
-                    Task.Factory.StartNew(() => pendingView.PublisherManagePostPendingViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken), cancellationToken.Token);
+                    Task.Factory.StartNew(() => pendingView.PublisherManagePostPendingViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken,PostQueuedStatus.Pending), cancellationToken.Token);
                 }
                 catch (OperationCanceledException ex)
                 {
@@ -194,7 +195,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     CancelRunningTask();
                     var cancellationToken = new CancellationTokenSource();
                     QueueCancellationTokenSources.Enqueue(cancellationToken);
-                    Task.Factory.StartNew(() => publishedView.PublisherManagePostPublishedViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken), cancellationToken.Token);
+                    Task.Factory.StartNew(() => publishedView.PublisherManagePostPublishedViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken, PostQueuedStatus.Published), cancellationToken.Token);
                 }
                 catch (OperationCanceledException ex)
                 {

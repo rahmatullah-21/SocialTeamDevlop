@@ -36,7 +36,10 @@ namespace DominatorHouseCore.Utility
         public static string GetPlatformBaseDirectory()
         {
             string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}";
+
+            if(!Directory.Exists(basePath))
             DirectoryUtilities.CreateDirectory(basePath);
+
             return basePath;
         }
 
@@ -99,6 +102,8 @@ namespace DominatorHouseCore.Utility
         public const string NotChecked = "Not Checked";
 
         public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
+
+        public static string GetDate() => DateTime.Now.ToString("ddMMyyyy");
 
         public static string GetDateTime() => DateTime.Now.ToString("ddMMyyyyHmmss");
 

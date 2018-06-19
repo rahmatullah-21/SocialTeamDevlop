@@ -5,7 +5,7 @@ namespace DominatorHouseCore.Interfaces.SocioPublisher
 {
     public interface ITdScrapePosts
     {
-        IEnumerable<PublisherPostlistModel> ScrapeUserPosts(string accountId,string fromUser, int count);
-        IEnumerable<PublisherPostlistModel> ScrapeSearchPosts(string accountId, string keyword, int count);
+        IEnumerable<PublisherPostlistModel> ScrapeUserPosts(string accountId,string campaignId, string fromUser, int count);
+        IEnumerable<PublisherPostlistModel> ScrapeSearchPosts(string accountId, string campaignId, string keyword, int count);
     }
 }

@@ -12,10 +12,4 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     {
         JobProcess Create(string account, string template, TimingRange currentJobTimeRange, string module,SocialNetworks network);
     }
-
-    public interface IPublisherJobProcessFactory
-    {
-       
-    }
-
 }
