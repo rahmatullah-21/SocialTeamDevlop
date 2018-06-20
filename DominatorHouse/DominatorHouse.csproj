@@ -202,6 +202,7 @@
     <Compile Include="DominatorCores\DominatorCoreBuilder.cs" />
     <Compile Include="DominatorCores\DominatorNetworkCoreFactory.cs" />
     <Compile Include="DominatorCores\DominatorTabHandlerFactory.cs" />
+    <Compile Include="Factories\SocialPublisherCollectionFactory.cs" />
     <Compile Include="OtherConfiguration\OtherConfigurationTab.xaml.cs">
       <DependentUpon>OtherConfigurationTab.xaml</DependentUpon>
     </Compile>

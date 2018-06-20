@@ -9,6 +9,5 @@ namespace DominatorHouseCore.Interfaces
         public virtual bool PublishOnPages(string accountId, string pageUrl, PublisherPostlistModel postDetails) => false;
 
         public virtual bool PublishOnOwnWall(string accountId, PublisherPostlistModel postDetails) => false;
-
     }
 }

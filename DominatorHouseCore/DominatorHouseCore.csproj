@@ -418,6 +418,8 @@
     <Compile Include="Interfaces\IPage.cs" />
     <Compile Include="Interfaces\IPublisherCollectionFactory.cs" />
     <Compile Include="Interfaces\IPublisherCoreFactory.cs" />
+    <Compile Include="Interfaces\IPublisherPostScraper.cs" />
+    <Compile Include="Interfaces\IPublishingPost.cs" />
     <Compile Include="Interfaces\IReportFactory.cs" />
     <Compile Include="Interfaces\ITabHandlerFactory.cs" />
     <Compile Include="Interfaces\IPost.cs" />
@@ -444,6 +446,7 @@
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TumblrModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TwitterModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
+    <Compile Include="Models\SocioPublisher\MonitorFolderModel.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherMonitorFolderModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherRssFeedModel.cs" />
@@ -633,6 +636,18 @@
       <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>
       <Name>ProtectedCommon</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.108.0\build\net40\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.108.0\build\net40\System.Data.SQLite.Core.targets')" />

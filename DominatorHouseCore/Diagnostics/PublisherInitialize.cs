@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
@@ -10,6 +11,7 @@ using ConstantVariable = DominatorHouseCore.Utility.ConstantVariable;
 
 namespace DominatorHouseCore.Diagnostics
 {
+
     public class PublisherInitialize
     {
         private PublisherInitialize()
@@ -76,4 +78,43 @@ namespace DominatorHouseCore.Diagnostics
         }
 
     }
+
+    public class PublisherCoreLibraryBuilder
+    {
+        public PublisherCoreLibraryBuilder()
+        {
+        }
+        public PublisherCoreLibraryBuilder(IPublisherCoreFactory publisherCoreFactory)
+        {
+            PublisherCoreFactory = publisherCoreFactory;
+        }
+
+        public IPublisherCoreFactory PublisherCoreFactory { get; set; }
+
+        public PublisherCoreLibraryBuilder AddNetwork(SocialNetworks networks)
+        {
+            PublisherCoreFactory.Network = networks;
+            return this;
+        }
+  
+        public PublisherCoreLibraryBuilder AddPublisherJobFactory(IPublisherJobProcessFactory jobFactory)
+        {
+            PublisherCoreFactory.PublisherJobFactory = jobFactory;
+            return this;
+        }
+
+        public PublisherCoreLibraryBuilder AddPostScraper(IPublisherPostScraper postScraper)
+        {
+            PublisherCoreFactory.PostScraper = postScraper;
+            return this;
+        }
+
+        public PublisherCoreLibraryBuilder AddPublishingPost(IPublishingPost publishingPost)
+        {
+            PublisherCoreFactory.PublishingPost = publishingPost;
+            return this;
+        }
+
+    }
+
 }

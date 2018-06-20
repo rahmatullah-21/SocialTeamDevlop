@@ -1,13 +1,21 @@
 ﻿using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.Interfaces
 {
     public interface IPublisherCoreFactory
     {
-        IPublisherJobProcessFactory PublisherFactory { get; set; }
 
-        PostScraper PostScraper { get; set; }
+        /// <summary>
+        /// Specify the network of the dominator
+        /// </summary>
+        SocialNetworks Network { get; set; }
 
-        PublishingPost PublishingPost { get; set; }
+        IPublisherJobProcessFactory PublisherJobFactory { get; set; }
+
+        IPublisherPostScraper PostScraper { get; set; }
+
+        IPublishingPost PublishingPost { get; set; }
+
     }
 }

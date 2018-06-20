@@ -1,4 +1,6 @@
-﻿using DominatorHouseCore.Models.Publisher;
+﻿using System.Collections.Generic;
+using DominatorHouseCore.Models.Publisher;
+using DominatorHouseCore.Models.SocioPublisher;
 
 namespace DominatorHouseCore.Process
 {
@@ -44,5 +46,6 @@ namespace DominatorHouseCore.Process
         protected abstract bool CheckLimitsReached();
 
         #endregion
+
     }
 }
