@@ -55,10 +55,10 @@ namespace DominatorHouseCore.FileManagers
             return true;
         }
 
-        public static bool AddRange(string campaignId, List<PublisherPostlistModel> destinationList)
+        public static bool AddRange(string campaignId, List<PublisherPostlistModel> postlist)
         {
             var lst = GetAll(campaignId) ?? new List<PublisherPostlistModel>();
-            lst.AddRange(destinationList);
+            lst.AddRange(postlist);
             BinFileHelper.UpdateAllPostlists(campaignId,lst);
             return true;
         }

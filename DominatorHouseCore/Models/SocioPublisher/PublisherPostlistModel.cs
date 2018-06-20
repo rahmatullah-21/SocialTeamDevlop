@@ -247,10 +247,29 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-      
+        private string _shareUrl= string.Empty;
+        [ProtoMember(21)]
+        public string ShareUrl
+        {
+            get
+            {
+                return _shareUrl;
+            }
+            set
+            {
+                _shareUrl = value;
+                if (_shareUrl == value)
+                    return;
+                _shareUrl = value;
+                OnPropertyChanged(nameof(ShareUrl));
+            }
+        }
+
+
+
         #region Postlist
 
-      
+
 
 
         private string _currentMediaUrl = string.Empty;
