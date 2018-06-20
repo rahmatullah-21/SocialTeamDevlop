@@ -184,22 +184,6 @@ namespace DominatorHouseCore.FileManagers
             }
         }
 
-        internal static T GetModule<T>(string filePath) where T : class
-        {
-            try
-            {
-                using (var stream = File.OpenRead(filePath))
-                {
-                    return Serializer.Deserialize<T>(stream);
-                }
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Error(ex.Message);
-            }
-            return null;
-        }
-
         internal static bool AddModule<T>(T moduleToSave, string filePath) where T : class
         {
             try
@@ -213,7 +197,12 @@ namespace DominatorHouseCore.FileManagers
                 return false;
             }
         }
-
+        public static void Delete<T>(Predicate<T> match,string filePath) where T : class
+        {
+            var moduleDetails = GetModuleDetails<T>(filePath);
+            moduleDetails.RemoveAll(match);
+            UpdateModuleDetails<T>(moduleDetails,filePath);
+        }
 
 
     }

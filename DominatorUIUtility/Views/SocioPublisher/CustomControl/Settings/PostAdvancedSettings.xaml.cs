@@ -35,7 +35,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
 
             var availableNetworks = SocinatorInitialize.AvailableNetworks;
 
-            ////Todo: Uncomment above on production and following initialize
+            ////Todo: comment above on production and following initialize
             //var availableNetworks = new HashSet<SocialNetworks>
             //{
             //    SocialNetworks.Social,
@@ -93,7 +93,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                         break;
                     case SocialNetworks.Pinterest:
                     case SocialNetworks.Reddit:
-                    case SocialNetworks.Social:
                     case SocialNetworks.Quora:
                     case SocialNetworks.Gplus:
                     case SocialNetworks.Youtube:

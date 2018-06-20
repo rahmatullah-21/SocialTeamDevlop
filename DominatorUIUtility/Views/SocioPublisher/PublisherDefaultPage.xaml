@@ -373,8 +373,8 @@
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                     <StackPanel Orientation="Horizontal" Margin="6,2,6,2">
                                         <Button Cursor="Hand" Content="{DynamicResource DHlangEdit}" x:Name="ButtonEditCampaign" 
-                                                    FontWeight="SemiBold" 
-                                                     Background="Transparent" />
+                                                FontWeight="SemiBold"  Background="Transparent" 
+                                                Command="{Binding Path=DataContext.NavigationCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"/>
                                         <Button Cursor="Hand" 
                                                 Content="{DynamicResource DHlangDuplicate}" 
                                                 x:Name="ButtonDuplicateCampaign" 

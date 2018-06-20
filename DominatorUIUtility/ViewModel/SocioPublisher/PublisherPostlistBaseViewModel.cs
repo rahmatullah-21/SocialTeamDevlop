@@ -19,6 +19,8 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
+using DominatorUIUtility.Views.SocioPublisher.CustomControl;
+using DominatorUIUtility.Views.SocioPublisher.Suggestions;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
@@ -214,12 +216,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     else
                         PublisherPostlist.Add(clonedPostModel);
 
-                   
+
                 }
             }
             catch (Exception e)
             {
-               e.DebugLog();
+                e.DebugLog();
             }
 
         }
@@ -316,6 +318,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
 
+            GenericFileManager.Delete<PublisherCreateCampaignModel>(x => campaign.CampaignId == x.CampaignId,
+                ConstantVariable.GetPublisherCampaignFile());
+
             PublisherPostlist.Remove(campaign);
         }
 
@@ -340,7 +345,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void EditSinglePostExecute(object sender)
         {
-
+            if (sender is PublisherPostlistModel)
+            {
+                try
+                {
+                    Dialog dialog = new Dialog();
+                    PublisherEditPost publisherEditPost = new PublisherEditPost(sender as PublisherPostlistModel);
+                    var window = dialog.GetMetroWindow(publisherEditPost, "Edit Post");
+                    window.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
         }
 
         #endregion
@@ -435,7 +453,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             PostCount = 0;
 
-            var postItems = PostlistFileManager.GetAll(campaignId).Where(x=> x.PostQueuedStatus == requiredPostList).ToList();
+            var postItems = PostlistFileManager.GetAll(campaignId).Where(x => x.PostQueuedStatus == requiredPostList).ToList();
 
             PostCount = postItems.Count;
 

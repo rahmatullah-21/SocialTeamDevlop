@@ -17,6 +17,7 @@ using System.Windows.Threading;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorUIUtility.Behaviours;
@@ -36,6 +37,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             InitializeDefaultCampaignStatus();
         }
 
+        #region Command
+
         public ICommand NavigationCommand { get; set; }
 
         public ICommand OpenContextMenuCommand { get; set; }
@@ -46,6 +49,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public ICommand DeleteCampaignCommand { get; set; }
 
+        #endregion
+
+        #region Properties
 
         public ObservableCollection<PublisherCampaignStatusModel> ListPublisherCampaignStatusModels { get; set; } = new ObservableCollection<PublisherCampaignStatusModel>();
 
@@ -86,23 +92,60 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        #endregion
+
         private bool NavigationCanExecute(object sender) => true;
 
         private void NavigationExecute(object sender)
         {
-            var moduleName = sender.ToString();
-
-            switch (moduleName)
+            if (sender is PublisherCampaignStatusModel)
             {
-                case "ManageDestinations":
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherManageDestinations.Instance;
-                    break;
-                case "ManagePosts":
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = new PublisherManagePosts();
-                    break;
-                case "CreateCampaigns":
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
-                    break;
+                try
+                {
+                    var createCampign = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
+
+                    var currentCampaign = GenericFileManager
+                        .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile())
+                        .FirstOrDefault(campaign =>
+                            campaign.CampaignId == (sender as PublisherCampaignStatusModel).CampaignId);
+
+                    createCampign.PublisherCreateCampaignViewModel.SelectedItem = currentCampaign?.CampaignName;
+
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = createCampign;
+
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+            else
+            {
+                try
+                {
+                    var moduleName = sender.ToString();
+
+                    switch (moduleName)
+                    {
+                        case "ManageDestinations":
+                            PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
+                                PublisherManageDestinations.Instance;
+                            break;
+                        case "ManagePosts":
+                            PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
+                                new PublisherManagePosts();
+                            break;
+                        case "CreateCampaigns":
+                            PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
+                                PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    ex.DebugLog();
+                }
             }
         }
 
@@ -157,7 +200,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var clonedCampaignStatus = GetCampaginDeepClone(campaignStatus);
 
                     clonedCampaignStatus.GenerateCloneCampaign(campaignStatus.CampaignName);
-
+                    SaveClonedCampaign(clonedCampaignStatus);
                     AddCampaignDetails(clonedCampaignStatus);
                 }
                 else
@@ -167,7 +210,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         var clonedCampaignStatus = GetCampaginDeepClone(campaign);
 
                         clonedCampaignStatus.GenerateCloneCampaign(campaign.CampaignName);
-
+                        SaveClonedCampaign(clonedCampaignStatus);
                         AddCampaignDetails(clonedCampaignStatus);
                     });
                 }
@@ -176,6 +219,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 ex.DebugLog();
             }
+        }
+
+        private static void SaveClonedCampaign(PublisherCampaignStatusModel clonedCampaignStatus)
+        {
+            var publisherCreateCampaignModel = new PublisherCreateCampaignModel
+            {
+                CampaignName = clonedCampaignStatus.CampaignName,
+                CampaignId = clonedCampaignStatus.CampaignId,
+                JobConfigurations = new JobConfigurationModel
+                {
+                    CampaignStartDate = clonedCampaignStatus.StartDate,
+                    CampaignEndDate = clonedCampaignStatus.EndDate,
+                },
+                CreatedDate = clonedCampaignStatus.CreatedDate,
+                CampaignStatus = clonedCampaignStatus.Status,
+                //LstDestinationId.Count,
+            };
+            GenericFileManager.AddModule<PublisherCreateCampaignModel>(publisherCreateCampaignModel,
+                ConstantVariable.GetPublisherCampaignFile());
+            PublisherCreateCampaigns.Instance.PublisherCreateCampaignViewModel.CampaignList.Add(publisherCreateCampaignModel.CampaignName);
+
         }
 
         public void SelectAllCampaign()
@@ -200,7 +264,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
 
             var isIndividualDelete = sender is PublisherCampaignStatusModel;
-
+            
             if (isIndividualDelete)
             {
                 var campaign = (PublisherCampaignStatusModel)sender;
@@ -213,7 +277,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
-
+                GenericFileManager.Delete<PublisherCreateCampaignModel>(y => campaign.CampaignId == y.CampaignId,
+                    ConstantVariable.GetPublisherCampaignFile());
+                PublisherCreateCampaigns.Instance.PublisherCreateCampaignViewModel.CampaignList.Remove(campaign.CampaignName);
                 ListPublisherCampaignStatusModels.Remove(campaign);
             }
             else
@@ -235,7 +301,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
-                publisherCampaignStatusModels.ForEach(x => ListPublisherCampaignStatusModels.Remove(x));
+                GenericFileManager.Delete<PublisherCreateCampaignModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
+                    ConstantVariable.GetPublisherCampaignFile());
+
+                publisherCampaignStatusModels.ForEach(x =>
+                {
+                    ListPublisherCampaignStatusModels.Remove(x);
+                    PublisherCreateCampaigns.Instance.PublisherCreateCampaignViewModel.CampaignList.Remove(x.CampaignName);
+
+                });
+                
             }
         }
 

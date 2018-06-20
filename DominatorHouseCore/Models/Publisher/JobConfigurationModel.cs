@@ -436,6 +436,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
     }
 
+    [Serializable]
     [ProtoContract]
     public class TimeRange : BindableBase
     {
