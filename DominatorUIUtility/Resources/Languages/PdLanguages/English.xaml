@@ -593,4 +593,9 @@
 
     <system:String x:Key="PdLangStopUnfollowStartFollowTool">Stop Unfollow And Start Follow Tool</system:String>
     <system:String x:Key="PdLangStopUnfollowTool">Stop Unfollow But do not start Follow Tool</system:String>
+
+    <system:String x:Key="PDlangAfterRePinAction">After Repin Action</system:String>
+
+    <system:String x:Key="PDlangRePinFilter">Repin Filter</system:String>
+    <system:String x:Key="PDlangRepinToBoard">Repin to Board</system:String>
 </ResourceDictionary>

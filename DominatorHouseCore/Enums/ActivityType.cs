@@ -56,7 +56,7 @@ namespace DominatorHouseCore.Enums
         [Description("Quora")]
         VoteAnswers = 17,
 
-        [Description("Quora,Reddit")]
+        [Description("Quora")]
         DownvoteAnswers = 18,
 
         [Description("Quora")]
@@ -125,7 +125,7 @@ namespace DominatorHouseCore.Enums
         [Description("Quora")]
         DownvoteQuestions = 41,
 
-        [Description("Quora,Reddit")]
+        [Description("Quora")]
         UpvoteAnswers = 42,
 
         [Description("Gplus")]

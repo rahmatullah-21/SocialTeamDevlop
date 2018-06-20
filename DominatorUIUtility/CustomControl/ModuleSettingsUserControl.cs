@@ -362,7 +362,7 @@ namespace DominatorUIUtility.CustomControl
                 SaveTemplateToCampaigns();
 
                 #region Commented
-                var accountDetails = AccountsFileManager.GetAll(_footerControl.list_SelectedAccounts);
+                var accountDetails = AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
 
                 allScheduleQueued = false;
 
@@ -410,7 +410,7 @@ namespace DominatorUIUtility.CustomControl
 
         public void SaveTemplateToAccounts(string templateId, List<RunningTimes> runningTime)
         {
-            var accountDetails = AccountsFileManager.GetAll(_footerControl.list_SelectedAccounts);
+            var accountDetails = AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts,SocialNetwork);
 
             accountDetails.ForEach(account =>
             {
@@ -665,7 +665,7 @@ namespace DominatorUIUtility.CustomControl
         public void SaveTemplateToAccounts(string templateId)
         {
             List<RunningTimes> runningTime = Model.JobConfiguration.RunningTime;
-            var accountDetails = AccountsFileManager.GetAll(_footerControl.list_SelectedAccounts);
+            var accountDetails = AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
 
             accountDetails.ForEach(account =>
             {
@@ -795,7 +795,7 @@ namespace DominatorUIUtility.CustomControl
                     if (!UpdateNewlyAddedAccounts(newlyAddedAccounts)) return;
                 }
 
-                var accountToRemoveModuleConfiguration = AccountsFileManager.GetAll(removedAccounts);
+                var accountToRemoveModuleConfiguration = AccountsFileManager.GetAllAccounts(removedAccounts,SocialNetwork);
 
                 #region Remove TemplateId from removed account from campaign selected account list
 
@@ -918,7 +918,7 @@ namespace DominatorUIUtility.CustomControl
             bool isProcessSuccessful = false;
             #region Get the accounts which holds template Id
 
-            var accountDetails = AccountsFileManager.GetAll(newlyAddedAccounts);
+            var accountDetails = AccountsFileManager.GetAllAccounts(newlyAddedAccounts,SocialNetwork);
 
             var accountHavingTemplates = accountDetails.Where(x => x.ActivityManager.LstModuleConfiguration.FirstOrDefault(y => y.ActivityType == _activityType)?.TemplateId != null).ToList();
 

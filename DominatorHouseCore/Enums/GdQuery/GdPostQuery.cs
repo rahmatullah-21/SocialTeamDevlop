@@ -27,6 +27,8 @@ namespace DominatorHouseCore.Enums.GdQuery
         [Description("GDlangPostsOfUsersWhoLikedPost")]
         PostOfUsersWhoLikedPost,
         [Description("GDlangPostsOfUsersWhoCommentedOnPost")]
-        PostOfUsersWhoCommentedOnPost
+        PostOfUsersWhoCommentedOnPost,
+        [Description("GdLangSpecificUsersPosts")]
+        SpecificUsersPosts
     }
 }
