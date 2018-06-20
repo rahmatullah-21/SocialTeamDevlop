@@ -200,6 +200,24 @@ namespace DominatorHouseCore.FileManagers
             return null;
         }
 
+        internal static bool AddRangeModule<T>(List<T> moduleToSave, string filePath) where T : class
+        {
+            try
+            {
+                moduleToSave.ForEach(x =>
+                {
+                    ProtoBuffBase.AppendObject(x, filePath);
+                });              
+                return true;
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error($"Error caught while adding the account " + ex.StackTrace);
+                return false;
+            }
+        }
+
+
         internal static bool AddModule<T>(T moduleToSave, string filePath) where T : class
         {
             try

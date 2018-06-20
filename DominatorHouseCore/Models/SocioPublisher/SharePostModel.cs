@@ -198,7 +198,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsPostBetween));
             }
         }
-        private RangeUtilities _postBetween=new RangeUtilities();
+        private RangeUtilities _postBetween = new RangeUtilities();
 
         [ProtoMember(14)]
         public RangeUtilities PostBetween
@@ -212,5 +212,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PostBetween));
             }
         }
+
+
+       
     }
+
+    
 }

@@ -23,7 +23,6 @@ namespace DominatorHouseCore.Utility
                 var htmlDoc = new HtmlDocument();
                 htmlDoc.LoadHtml(htmlResponse.Response);
                 var postItems = htmlDoc.DocumentNode.Descendants("item");
-
                 var postlists = (from node in postItems
                     let innerHtml = node.InnerHtml
                     let title = RemoveCdata(node.Element("title").InnerHtml)

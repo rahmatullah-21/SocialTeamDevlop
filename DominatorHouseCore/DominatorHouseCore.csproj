@@ -448,6 +448,7 @@
     <Compile Include="Models\RevisionHistoryModel.cs" />
     <Compile Include="Models\SocioPublisher\DetailedFileInfo.cs" />
     <Compile Include="Models\SocioPublisher\MonitorFolderModel.cs" />
+    <Compile Include="Models\SocioPublisher\PublisherPostFetchModel.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherMonitorFolderModel.cs" />
