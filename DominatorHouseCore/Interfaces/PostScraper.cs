@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -34,18 +36,26 @@ namespace DominatorHouseCore.Interfaces
 
         #region Rss feed
 
-        public IEnumerable<PublisherPostlistModel> ScrapeRssPosts(string feedUrl, string feedTemplate)
+        public void ScrapeRssPosts(string campaignId, string feedUrl, string feedTemplate)
         {
-            return new List<PublisherPostlistModel>();
+            Task.Factory.StartNew(async () =>
+            {
+                var rssFeedUtilities = new RssFeedUtilities();
+                await rssFeedUtilities.RssFeedFetchMethod(feedUrl, feedTemplate, campaignId);
+            });
         }
 
         #endregion
 
         #region MonitorFolder
 
-        public IEnumerable<PublisherPostlistModel> FetchMonitorFoldersPosts(string folderUrl, string postTemplate)
+        public void FetchMonitorFoldersPosts(string campaignId, string folderUrl, string postTemplate)
         {
-            return new List<PublisherPostlistModel>();
+            Task.Factory.StartNew(() =>
+            {
+                var monitorFolderUtilites = new MonitorFolderUtilites();
+                monitorFolderUtilites.GetFoldersFileDetails(folderUrl, campaignId, postTemplate);
+            });
         }
 
         #endregion

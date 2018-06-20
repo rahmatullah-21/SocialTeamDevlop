@@ -446,7 +446,10 @@
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TumblrModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TwitterModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
+    <Compile Include="Models\SocioPublisher\DetailedFileInfo.cs" />
     <Compile Include="Models\SocioPublisher\MonitorFolderModel.cs" />
+    <Compile Include="Models\SocioPublisher\PublisherPostFetchModel.cs" />
+    <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherMonitorFolderModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherRssFeedModel.cs" />
@@ -471,6 +474,7 @@
     <Compile Include="Utility\ImageExtracter.cs" />
     <Compile Include="Models\InstagramModel.cs" />
     <Compile Include="Utility\ObjectComparer.cs" />
+    <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="ViewModel\AdvancedSettings\FacebookViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GooglePlusViewModel.cs" />

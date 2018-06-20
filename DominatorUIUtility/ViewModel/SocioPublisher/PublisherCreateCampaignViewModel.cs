@@ -17,8 +17,9 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorHouseCore.FileManagers;
-
+using DominatorUIUtility.Views.Publisher.AdvancedSettings;
 using MahApps.Metro.Controls.Dialogs;
+using Newtonsoft.Json;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -257,6 +258,73 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
                     });
                 }
+                #endregion
+
+                #region Fetch Post Details
+
+                var currentCampaignsFetchDetails = new List<PublisherPostFetchModel>();
+
+                #region ScrapePost
+
+                var scrapeFetchModel = new PublisherPostFetchModel
+                {
+                    CampaignId = PublisherCreateCampaignModel.CampaignId,
+                    ExpireDate = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate,
+                    PostSource = PostSource.ScrapedPost,
+                    PostDetailsWithFilters = JsonConvert.SerializeObject(PublisherCreateCampaignModel.ScrapePostModel),
+                    
+                };
+
+                currentCampaignsFetchDetails.Add(scrapeFetchModel);
+
+                #endregion
+
+                #region SharePost
+
+                var shareFetchModel = new PublisherPostFetchModel
+                {
+                    CampaignId = PublisherCreateCampaignModel.CampaignId,
+                    ExpireDate = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate,
+                    PostSource = PostSource.SharePost,
+                    PostDetailsWithFilters = JsonConvert.SerializeObject(PublisherCreateCampaignModel.SharePostModel),
+                };
+
+                currentCampaignsFetchDetails.Add(shareFetchModel);
+
+                #endregion
+
+                #region RssFeed
+
+                var rssFetchModel = new PublisherPostFetchModel
+                {
+                    CampaignId = PublisherCreateCampaignModel.CampaignId,
+                    ExpireDate = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate,
+                    PostSource = PostSource.SharePost,
+                    PostDetailsWithFilters = JsonConvert.SerializeObject(PublisherCreateCampaignModel.LstFeedUrl),
+                    DelayForNext = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel.CheckRssFeedsminutes
+                };
+
+                currentCampaignsFetchDetails.Add(rssFetchModel);
+
+                #endregion
+
+                #region MonitorFolder
+
+                var monitorFolderFetchModel = new PublisherPostFetchModel
+                {
+                    CampaignId = PublisherCreateCampaignModel.CampaignId,
+                    ExpireDate = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate,
+                    PostSource = PostSource.MonitorFolderPost,
+                    DelayForNext = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel.CheckMonitorFoldersminutes,
+                    PostDetailsWithFilters = JsonConvert.SerializeObject(PublisherCreateCampaignModel.LstFolderPath)                    
+                };
+
+                currentCampaignsFetchDetails.Add(monitorFolderFetchModel);
+
+                #endregion
+
+                GenericFileManager.AddRangeModule(currentCampaignsFetchDetails,ConstantVariable.GetPublisherPostFetchFile);
+
                 #endregion
 
             }

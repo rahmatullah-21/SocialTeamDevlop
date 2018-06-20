@@ -32,7 +32,6 @@ namespace DominatorHouseCore.Diagnostics
 
         #endregion
 
-
         public static void SaveNetworkPublisher(IPublisherCollectionFactory publisherCollectionFactory, SocialNetworks networks)
         {
             if (NetworkWisePublishers.ContainsKey(networks))
@@ -41,12 +40,10 @@ namespace DominatorHouseCore.Diagnostics
             NetworkWisePublishers.Add(networks, publisherCollectionFactory);
         }
 
-
         public static IPublisherCollectionFactory GetPublisherLibrary(SocialNetworks networks)
         {
             return NetworkWisePublishers.ContainsKey(networks) ? NetworkWisePublishers[networks] : null;
         }
-
 
         public ObservableCollection<PublisherCampaignStatusModel> GetSavedCampaigns() 
             => ListPublisherCampaignStatusModels;
@@ -114,7 +111,6 @@ namespace DominatorHouseCore.Diagnostics
             PublisherCoreFactory.PublishingPost = publishingPost;
             return this;
         }
-
     }
 
 }

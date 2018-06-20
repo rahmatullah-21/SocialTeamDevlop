@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
@@ -49,7 +50,6 @@ namespace DominatorHouseCore.Process
         private static void SchedulePublisher(PublisherCampaignStatusModel campaign)
         {
             StartPublishingPosts(campaign);
-
             // Todo : Need to uncomment following region in production
             #region Schedule
 
@@ -71,6 +71,15 @@ namespace DominatorHouseCore.Process
 
         public static void RevokeSchedulePublisher()
         {
+
+        }
+
+
+        public static void StartFetchingPostData()
+        {
+            var getFetchDetails =
+                GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                    .GetPublisherPostFetchFile);
 
         }
     }

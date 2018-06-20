@@ -5,7 +5,6 @@ namespace DominatorHouseCore.Interfaces
 {
     public interface IPublisherCoreFactory
     {
-
         /// <summary>
         /// Specify the network of the dominator
         /// </summary>
