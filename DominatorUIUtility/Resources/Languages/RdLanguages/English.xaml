@@ -2,16 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                  
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <system:String x:Key="langRedditDominator">Reddit Dominator</system:String>
-    <system:String x:Key="langAccountGrowthMode">Switch to Account Growth Mode</system:String>
-    <system:String x:Key="langLoadedMemory">Loaded Memory :</system:String>
-    <system:String x:Key="langZeroMB">0 MB</system:String>
-    <system:String x:Key="langAvailableMemory">Available Memory :</system:String>
-    <system:String x:Key="langActivityLog">Activity Log</system:String>
-    <system:String x:Key="langCPUUsage">CPU Usage :</system:String>
-    <system:String x:Key="langDate">Date</system:String>
 
-    <system:String x:Key="langUnFollowsPerJob">Number of UnFollows PerJob</system:String>
+
 
     <system:String x:Key="langReplyPerJob">Number of Reply per job</system:String>
     <system:String x:Key="langReplyPerHour">Number of Reply per Hour</system:String>
@@ -20,14 +12,9 @@
     <system:String x:Key="langMaxReplyDay">Number of MaxReply Per Day</system:String>
 
 
-    <system:String x:Key="langTo">To</system:String>
-
-
-    <system:String x:Key="langWhenFollowerFollowingsIsGreaterThan">When Follower Followings IsGreaterThan</system:String>
     <system:String x:Key="RdLangStopUnfollowTool">Rd Lang Stop Unfollow Tool</system:String>
     <system:String x:Key="RdStopUnfollowStartFollowTool">Stop Unfollow Start FollowTool</system:String>
-    <system:String x:Key="langOtherConfigurations">Other Configurations</system:String>
-    <system:String x:Key="langEnableAutoFollowUnfollow">Enable AutoFollow Unfollow</system:String>
+
 
     <system:String x:Key="RDlangTo">RDlangTo</system:String>
     <system:String x:Key="RDlangOtherConfigurations">OtherConfigurations</system:String>
@@ -58,46 +45,14 @@
     <system:String x:Key="lang_Settings_Setting">Settings</system:String>
     <system:String x:Key="RDlangFollowings">Followings</system:String>
     <system:String x:Key="lang_Settings_WhitelistUsers">Whitelist Users</system:String>
-    <system:String x:Key="langMinimum">Minimum</system:String>
-    <system:String x:Key="langMaximum">Maximum</system:String>
+
     <system:String x:Key="langNSFW">Should be NSFW</system:String>
-    <system:String x:Key="langFollowRatioGreater">Must have a follow ratio greater than</system:String>
-    <system:String x:Key="langFollowRatioSpecific">Should have PostKarma ratio in a specific range</system:String>
-    <system:String x:Key="langLastPostDay">Should have posted within the last</system:String>
-    <system:String x:Key="langDays">Days</system:String>
+ 
     <system:String x:Key="langGold">Should be Gold</system:String>
-    <system:String x:Key="langGenders">Should have User Profile</system:String>
-    <system:String x:Key="langIgnoreMales">Ignore Males</system:String>
-    <system:String x:Key="langIgnoreFemales">Ignore Females</system:String>
-    <system:String x:Key="langIgnoreUnknown">Ignore Unknown</system:String>
-    <system:String x:Key="langSkipNonEnglishUsers">Should be an Employee</system:String>
-    <system:String x:Key="langIgnoreBusiness">Should be Gold</system:String>
-    <system:String x:Key="langIgnoreVerified">Should be Moderator of any reddit.</system:String>
-    <system:String x:Key="langSave">Save</system:String>
-    <!--<system:String x:Key="langHaveProfilePicture">Should have profile picture</system:String>-->
-    <system:String x:Key="langPosts">Posts</system:String>
-    <system:String x:Key="langMinimumCharacters">Minimum characters in bio</system:String>
-    <system:String x:Key="langFollowings">Followings</system:String>
-    <system:String x:Key="langFollowers">Followers</system:String>
-    <system:String x:Key="langAvoidWords">Must not contain specific words</system:String>
-    <system:String x:Key="langHaveSpecificWords">Must have at least one post with a caption containing specific words</system:String>
-    <system:String x:Key="langFollowRatioLess">Must have a follow ratio less than</system:String>
-    <system:String x:Key="langUserFilters">User Filters</system:String>
-    <system:String x:Key="langJobConfiguration">Job Configuration</system:String>
-    <system:String x:Key="langBlacklists">Blacklists</system:String>
-    <system:String x:Key="langPrivateBlacklists">Private blacklist</system:String>
-    <system:String x:Key="langGroupBlacklists">Group blacklist</system:String>
-    <system:String x:Key="langPostFilter">Post Filter</system:String>
+  <!--<system:String x:Key="langHaveProfilePicture">Should have profile picture</system:String>-->
+   
     <system:String x:Key="langModeratorofanyreddit">Should be Moderator of any reddit.</system:String>
-    <system:String x:Key="langAfterLikeAction">After Like Action</system:String>
-    <system:String x:Key="langlangEmployee">Should be an Employee</system:String>
-    <system:String x:Key="langRelikePost">Relike Post</system:String>
-    <system:String x:Key="langEnableLikeCommentsAfterPostsIsLiked">Enable like comments after posts is liked. Like between</system:String>
-    <system:String x:Key="langAfterEachLikedPost">after each liked post</system:String>
-    <system:String x:Key="langRemovePoorQualitySources">Remove poor quality Sources</system:String>
-    <system:String x:Key="langRemoveSourceIfFollowBackRatioIsLowerThan">Remove source if Follow Back Ratio is lower than</system:String>
-    <system:String x:Key="langLikes">Likes</system:String>
-    <system:String x:Key="langStickied">Should be Stickied</system:String>
+   <system:String x:Key="langStickied">Should be Stickied</system:String>
     <system:String x:Key="langPinned">Should be Pinned</system:String>
     <system:String x:Key="langSponsored">Should be Sponsored</system:String>
     <system:String x:Key="langLocked">Should be Locked</system:String>
@@ -116,54 +71,19 @@
     <system:String x:Key="langvotes">Should have number of voteS in specific range</system:String>
     <system:String x:Key="langgoldCount">Should have goldCount in specific range</system:String>
     <system:String x:Key="langscore">Should have score  in a specific range</system:String>
-    <system:String x:Key="langpostKarma">Should have post Karma in a specific range</system:String>
+    
     <system:String x:Key="langlangvotes">Should have number of Votes in specific range</system:String>
     <system:String x:Key="langcommentKarma">Should have comment Karma in a specific range</system:String>
-    <system:String x:Key="langModuleDescription">Module description</system:String>
-    <system:String x:Key="langUserControlFollowerSliderText">Follow single or multiple users using this feature.
-        It comes with multiple options to find and follow users like with keywords, hashtags, your own custom lists etc.
-        You can like or leave comment on users posts once followed.
-    </system:String>
-    <system:String x:Key="langDelayEachOperation">Delay between each operation</system:String>
-    <system:String x:Key="langSelectCampaignCategory">Select Campaign Category</system:String>
-    <system:String x:Key="langSelectCampaignToFilterForView">Select the Campaign to filter for view</system:String>
-    <system:String x:Key="langCampBatchKey">CampBatchKey</system:String>
-    <system:String x:Key="langCampaignName">Campaign Name</system:String>
-    <system:String x:Key="langModuleName">Module Name</system:String>
-    <system:String x:Key="langStatus">Status</system:String>
+   
+   
     <system:String x:Key="langPostFilters">Post Filters</system:String>
-    <system:String x:Key="langCustomFilters">Custom Filters</system:String>
-    <system:String x:Key="langType">Type</system:String>
-    <system:String x:Key="langQuery">Query</system:String>
+ 
     <system:String x:Key="langSave1">Save</system:String>
-    <system:String x:Key="langAction">Action</system:String>
-    <system:String x:Key="langFilter">Filter</system:String>
-    <system:String x:Key="langEdit">Edit</system:String>
-    <system:String x:Key="langDuplicateCampaign">Duplicate Campaign</system:String>
-    <system:String x:Key="langDelete">Delete</system:String>
-    <system:String x:Key="langReport">Report</system:String>
-    <system:String x:Key="langAccountWiseDetails">Account wise details</system:String>
-    <system:String x:Key="langMarkCampaignCompleted">Mark Campaign Completed</system:String>
+  
     <system:String x:Key="langRedditTagline">Lets dominate Reddit with Reddit Dominator</system:String>
-    <system:String x:Key="langPassword">Password</system:String>
-    <system:String x:Key="langCancel">Cancel</system:String>
-    <system:String x:Key="langSelectAccount">Select account(s)</system:String>
-    <system:String x:Key="langCreateCampaign">Create Campaign</system:String>
-    <system:String x:Key="langHashTagPost">Hashtag post(s)</system:String>
-    <system:String x:Key="langHashtagusers">HashTag Users</system:String>
-    <system:String x:Key="langKeywords">Keywords</system:String>
+   
     <system:String x:Key="langCustomUrl">CustomUrl</system:String>
-    <system:String x:Key="langSomeonesFollowers">Someone's followers</system:String>
-    <system:String x:Key="langSomeonesFollowings">Someone's followings</system:String>
-    <system:String x:Key="langFollowersOfSomeonesFollowings">Followers Of Someones Followings</system:String>
-    <system:String x:Key="langFollowersOfSomeonesFollowers">Followers Of Someones Followers</system:String>
-    <system:String x:Key="langLocationUsers">Location Users</system:String>
-    <system:String x:Key="langLocationPosts">Location Posts</system:String>
-    <system:String x:Key="langCustomUser">Custom users</system:String>
-    <system:String x:Key="langSuggestedUsers">Suggested Users</system:String>
-    <system:String x:Key="langCustomPhotos">Custom Photos</system:String>
-    <system:String x:Key="langUsersWhoLiked">Users who liked posts</system:String>
-    <system:String x:Key="langUsersWhoCommented">Users who commented on posts</system:String>
+  
     <system:String x:Key="langHashTagSearchPost">HashTag SearchPost</system:String>
     <system:String x:Key="langKeywordSearchPost">Keyword SearchPost</system:String>
     <system:String x:Key="langSearchUrlPost">Search Url Post</system:String>
@@ -199,11 +119,11 @@
 
     <system:String x:Key="langEngageDownvote">Downvote</system:String>
     <system:String x:Key="langFollow">Follow</system:String>
-    <system:String x:Key="langComment">Should have Number Of Comments in a specific range</system:String>
+   
     <system:String x:Key="langPostKarma">Should have commentKarma in a specific range</system:String>
 
     <system:String x:Key="langReply">Reply</system:String>
-    <system:String x:Key="langUnFollow">UnFollow</system:String>
+   
     <system:String x:Key="langVote">Voter</system:String>
 
     <system:String x:Key="langUpvotePerJob">Number of Upvote Per Job</system:String>
@@ -251,8 +171,8 @@
     <system:String x:Key="RdlangFilterCommentKarmaCounts">Filter by Comment Karma counts</system:String>
 
     <system:String x:Key ="RdlangRedditPostFilter">Post Filter</system:String>
-    
-    
+    <system:String x:Key ="langMaxUserScraperDay">Number of users to scrape per day</system:String>
+  
     
     
 </ResourceDictionary>
