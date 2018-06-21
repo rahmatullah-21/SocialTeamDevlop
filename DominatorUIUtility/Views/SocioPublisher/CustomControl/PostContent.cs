@@ -60,7 +60,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PostContent), new FrameworkPropertyMetadata(typeof(PostContent)));
         }
-       
+
         #region Properties
 
         public const string ButtonImportImage = "PART_ImportImage";
@@ -160,7 +160,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public static readonly DependencyProperty PublisherPostSettingsProperty =
             DependencyProperty.Register("PublisherPostSettings", typeof(PublisherPostSettings), typeof(PostContent), new PropertyMetadata(new PublisherPostSettings()));
 
-       
+
 
         #endregion
 
@@ -170,7 +170,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         {
             base.OnApplyTemplate();
 
-          
+
 
             #region Button Import Images
 
@@ -208,7 +208,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
             #endregion
 
-            
+
 
             this.Loaded += PostContentLoad;
 
@@ -295,10 +295,11 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
             if (mediaViewer != null)
             {
+                var mediaUtilites = new MediaUtilites();
                 files.ForEach(x =>
                 {
                     MediaViewerAssist.SetMediaList(this, mediaViewer.MediaList);
-                    mediaViewer.MediaList.Add(x);
+                    mediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(x));
                     //MediaViewer.MediaList.Add(x);
                 });
                 mediaViewer.Initialize();

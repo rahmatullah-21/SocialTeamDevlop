@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Utility;
 using FluentScheduler;
 
 namespace DominatorHouseCore.Process
@@ -75,11 +73,8 @@ namespace DominatorHouseCore.Process
         }
 
 
-        public static void StartFetchingPostData()
-        {
-            var getFetchDetails =
-                GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
-                    .GetPublisherPostFetchFile);
-        }
+
+
+       
     }
 }

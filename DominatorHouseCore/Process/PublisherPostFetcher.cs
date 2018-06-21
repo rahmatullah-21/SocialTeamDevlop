@@ -1,0 +1,130 @@
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.SocioPublisher;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
+using FluentScheduler;
+using Newtonsoft.Json;
+
+namespace DominatorHouseCore.Process
+{
+    public class PublisherPostFetcher
+    {
+        public void StartFetchingPostData()
+        {
+            var getFetchDetails =
+                GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                    .GetPublisherPostFetchFile);
+
+            getFetchDetails.ForEach(publisherPostFetchModel =>
+            {
+                FetchPosts(publisherPostFetchModel);
+            });
+        }
+
+        public void FetchPostsForCampaign(string campaignId)
+        {
+            var publisherPostFetchModel =
+                GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                    .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignId);
+            FetchPosts(publisherPostFetchModel);
+        }
+
+        public void FetchPosts(PublisherPostFetchModel publisherPostFetchModel)
+        {
+            // Check whether campaign expired or not
+            if (publisherPostFetchModel.ExpireDate < DateTime.Now)
+            {
+                GlobusLogHelper.log.Info(
+                    $"{publisherPostFetchModel.CampaignName} expired on {publisherPostFetchModel.ExpireDate}");
+                return;
+            }
+
+            // Get all post lists and count 
+            var alreadyPresentedCount = PostlistFileManager.GetAll(publisherPostFetchModel.CampaignId).Count;
+
+            // Check already max posts has reached or not
+            if (alreadyPresentedCount >= publisherPostFetchModel.MaximumPostLimitToStore)
+            {
+                GlobusLogHelper.log.Info(
+                    $"{publisherPostFetchModel.CampaignName} have more than {publisherPostFetchModel.MaximumPostLimitToStore} posts in their postlist. Can't fetch new posts!");
+                return;
+            }
+
+            dynamic postFetchDetails = null;
+
+            // Collect neccessary details for fetching and assign to dynamic type variable
+            switch (publisherPostFetchModel.PostSource)
+            {
+                case PostSource.SharePost:
+                    postFetchDetails =
+                        JsonConvert.DeserializeObject<SharePostModel>(publisherPostFetchModel.PostDetailsWithFilters);
+                    break;
+                case PostSource.ScrapedPost:
+                    postFetchDetails =
+                        JsonConvert.DeserializeObject<ScrapePostModel>(publisherPostFetchModel.PostDetailsWithFilters);
+                    break;
+                case PostSource.RssFeedPost:
+                    postFetchDetails =
+                        JsonConvert.DeserializeObject<ObservableCollection<PublisherRssFeedModel>>(publisherPostFetchModel.PostDetailsWithFilters);
+                    break;
+                case PostSource.MonitorFolderPost:
+                    postFetchDetails =
+                        JsonConvert.DeserializeObject<ObservableCollection<PublisherMonitorFolderModel>>(publisherPostFetchModel.PostDetailsWithFilters);
+                    break;
+                case PostSource.NormalPost:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            // get the post scraper object for Rss feed and monitor folder
+            var postScraper = PublisherInitialize.GetPublisherLibrary(SocialNetworks.Social).GetPublisherCoreFactory()
+                .PostScraper.GetPostScraperLibrary();
+
+            // Call the respective post scraper methods
+            switch (publisherPostFetchModel.PostSource)
+            {
+                case PostSource.RssFeedPost:
+                    JobManager.AddJob(() =>
+                     {
+                         postScraper.ScrapeRssPosts(publisherPostFetchModel.CampaignId, postFetchDetails);
+                     }, s => s.WithName($"{publisherPostFetchModel.CampaignId}-{PostSource.RssFeedPost.ToString()}").ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
+                    break;
+                case PostSource.MonitorFolderPost:
+                    JobManager.AddJob(() =>
+                    {
+                        postScraper.FetchMonitorFoldersPosts(publisherPostFetchModel.CampaignId, postFetchDetails);
+                    }, s => s.WithName($"{publisherPostFetchModel.CampaignId}-{PostSource.RssFeedPost.ToString()}").ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
+                    break;
+                case PostSource.NormalPost:
+                    break;
+                default:
+                    publisherPostFetchModel.SelectedDestinations.ToList().ForEach(destinationId =>
+                    {
+                        var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
+
+                        destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
+                        {
+                            var networkPostScraper = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key).GetPublisherCoreFactory()
+                                .PostScraper.GetPostScraperLibrary();
+
+                            if (publisherPostFetchModel.PostSource == PostSource.SharePost)
+                                if (networkWithAccount.Key == SocialNetworks.Facebook)
+                                    networkPostScraper.ScrapeFdPagePostUrl(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails);
+
+                                else if (publisherPostFetchModel.PostSource == PostSource.ScrapedPost)
+                                    networkPostScraper.ScrapePosts(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails);
+                        });
+                    });
+                    break;
+            }
+        }
+    }
+}

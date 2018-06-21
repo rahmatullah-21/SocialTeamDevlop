@@ -15,7 +15,7 @@
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langTriggerNotification}" Margin="0,0,10,0"/>
                     <controls:NumericUpDown VerticalAlignment="Center" Minimum="0"
-                                            Value="{Binding GeneralModel.NoOfPost}"/>
+                                            Value="{Binding GeneralModel.TriggerNotificationCount}"/>
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langPostInPostsList}" Margin="10,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -27,7 +27,7 @@
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langKeepMaximumOf}" Margin="0,0,10,0"/>
                     <controls:NumericUpDown  VerticalAlignment="Center" Minimum="0"
-                                             Value="{Binding GeneralModel.KeepMaxOf}"/>
+                                             Value="{Binding GeneralModel.MaxPostCountToStore}"/>
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource langCampaignHistory}" Margin="10,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">

@@ -139,6 +139,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var separator = ConstantVariable.Separator;
             ObservableCollection<PostDetailsModel> postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.LstPostDetailsModels;
+
+            var mediaUtilites = new MediaUtilites();
             listPostDetailsModel.ForEach(x =>
             {
                 PostDetailsModel postDetailsModel = new PostDetailsModel();
@@ -153,7 +155,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     mediaUrl.ForEach(media =>
                     {
                         if (File.Exists(media))
-                            postDetailsModel.MediaViewer.MediaList.Add(media);
+                            postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(media));
 
                     });
 

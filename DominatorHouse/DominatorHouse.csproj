@@ -197,12 +197,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DominatorCores\SocialPublisherCoreBuilder.cs" />
+    <Compile Include="DominatorCores\SocialPublisherPostDetailsScraper.cs" />
+    <Compile Include="DominatorCores\SocialPublisherPostScraper.cs" />
     <Compile Include="Factories\SocialNetworkCollectionFactory.cs" />
     <Compile Include="DominatorCores\DominatorAccountToolsFactory.cs" />
     <Compile Include="DominatorCores\DominatorCoreBuilder.cs" />
     <Compile Include="DominatorCores\DominatorNetworkCoreFactory.cs" />
     <Compile Include="DominatorCores\DominatorTabHandlerFactory.cs" />
     <Compile Include="Factories\SocialPublisherCollectionFactory.cs" />
+    <Compile Include="DominatorCores\SocialPublisherCoreFactory.cs" />
     <Compile Include="OtherConfiguration\OtherConfigurationTab.xaml.cs">
       <DependentUpon>OtherConfigurationTab.xaml</DependentUpon>
     </Compile>

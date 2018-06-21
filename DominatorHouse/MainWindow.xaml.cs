@@ -562,11 +562,13 @@ namespace Socinator
                     PublishScheduler.ScheduleTodaysPublisher();
                 });
 
+                Task.Factory.StartNew(() =>
+                {
+                    var publisherPostFetcher = new PublisherPostFetcher();
+                    publisherPostFetcher.StartFetchingPostData();
+                });
+
                 #endregion
-
-
-
-
             }
             catch (Exception ex)
             {

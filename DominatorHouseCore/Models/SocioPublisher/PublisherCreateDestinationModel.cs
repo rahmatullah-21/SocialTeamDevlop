@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
@@ -206,6 +207,24 @@ namespace DominatorHouseCore.Models.SocioPublisher
                     return;
                 _listSelectDestination = value;
                 OnPropertyChanged(nameof(ListSelectDestination));
+            }
+        }
+
+
+        private List<KeyValuePair<SocialNetworks, string>> _accountsWithNetwork = new List<KeyValuePair<SocialNetworks, string>>();
+        [ProtoMember(11)]
+        public List<KeyValuePair<SocialNetworks, string>> AccountsWithNetwork
+        {
+            get
+            {
+                return _accountsWithNetwork;
+            }
+            set
+            {              
+                if (_accountsWithNetwork == value)
+                    return;
+                _accountsWithNetwork = value;
+                OnPropertyChanged(nameof(AccountsWithNetwork));
             }
         }
 

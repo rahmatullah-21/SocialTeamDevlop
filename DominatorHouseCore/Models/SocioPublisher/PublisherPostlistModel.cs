@@ -266,7 +266,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-
         #region Postlist
 
 

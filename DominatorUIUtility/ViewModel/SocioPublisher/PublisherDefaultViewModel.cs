@@ -279,8 +279,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 GenericFileManager.Delete<PublisherCreateCampaignModel>(y => campaign.CampaignId == y.CampaignId,
                     ConstantVariable.GetPublisherCampaignFile());
+
                 PublisherCreateCampaigns.Instance.PublisherCreateCampaignViewModel.CampaignList.Remove(campaign.CampaignName);
                 ListPublisherCampaignStatusModels.Remove(campaign);
+
+                GenericFileManager.Delete<PublisherPostFetchModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetPublisherPostFetchFile);
             }
             else
             {
@@ -310,7 +313,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherCreateCampaigns.Instance.PublisherCreateCampaignViewModel.CampaignList.Remove(x.CampaignName);
 
                 });
-                
+
+                GenericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
+                    ConstantVariable.GetPublisherPostFetchFile);
+
             }
         }
 

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -23,7 +24,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherCreateDestinationsViewModel : BindableBase
     {
-        //Constructor
+        //ConstructorS
         public PublisherCreateDestinationsViewModel()
         {
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
@@ -151,7 +152,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn" };
 
-        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest", "LinkedIn", "Gplus" };
+        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest", "LinkedIn", "Gplus", "Tumblr" };
 
 
         #endregion
@@ -326,7 +327,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var alreadySelectedPages = valuePairs.Select(x => x.Value).ToList();
 
-            if (GroupsAvailableInNetworks.Contains(publisherCreateDestinationSelectModel.SocialNetworks.ToString()))
+            if (BoardsOrPagesAvailableInNetworks.Contains(publisherCreateDestinationSelectModel.SocialNetworks.ToString()))
             {
                 var accountsDetailsSelector = SocinatorInitialize
                     .GetSocialLibrary(publisherCreateDestinationSelectModel.SocialNetworks)
@@ -741,12 +742,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // Clear all pre saved selected accounts Id and own wall profile
                 PublisherCreateDestinationModel.SelectedAccountIds.Clear();
                 PublisherCreateDestinationModel.PublishOwnWallAccount.Clear();
-
+                PublisherCreateDestinationModel. AccountsWithNetwork.Clear();
                 PublisherCreateDestinationModel.ListSelectDestination.ForEach(x =>
                 {
                     if (x.IsAccountSelected)
                     {
                         PublisherCreateDestinationModel.SelectedAccountIds.Add(x.AccountId);
+                        PublisherCreateDestinationModel.AccountsWithNetwork.Add(new KeyValuePair<SocialNetworks, string>(x.SocialNetworks, x.AccountId));
 
                         if (x.PublishonOwnWall)
                             PublisherCreateDestinationModel.PublishOwnWallAccount.Add(x.AccountId);
