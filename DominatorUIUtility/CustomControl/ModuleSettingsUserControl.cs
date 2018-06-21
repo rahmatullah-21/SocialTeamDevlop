@@ -583,54 +583,52 @@ namespace DominatorUIUtility.CustomControl
             #region Warning windows save button event
 
             objErrorModelControl.BtnSave.Click += (senders, events) =>
-           {
+            {
                 #region Remove not selected accounts from errorModelControl
 
                 var nonSelectedAccounts = objErrorModelControl.Accounts.Where(x => !x.IsChecked).Select(x => x.UserName)
-                   .ToList();
+                    .ToList();
 
                 nonSelectedAccounts.ForEach(removingAccount =>
                 {
                     _footerControl.list_SelectedAccounts.Remove(removingAccount);
                     accountDetails.Remove(accountDetails.FirstOrDefault(x => x.UserName == removingAccount));
                 });
-
                 #endregion
 
                 var selectedAccount = objErrorModelControl.Accounts.Where(x => x.IsChecked).Select(x => x.UserName).ToList();
 
-               if (selectedAccount.Count == 0)
-               {
-                   warningWindow.Close();
-                   return;
-               }
+                if (selectedAccount.Count == 0)
+                {
+                    warningWindow.Close();
+                    return;
+                }
 
-               accountDetails.ForEach(account =>
-                   {
-                        //if (!selectedAccount.Contains(account.AccountBaseModel.UserName))
-                        //    return;
+                accountDetails.ForEach(account =>
+                {
+                    //if (!selectedAccount.Contains(account.AccountBaseModel.UserName))
+                    //    return;
 
-                        var moduleSettings =
-                           account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
-                               module.ActivityType == _activityType);
+                    var moduleSettings =
+                        account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
+                            module.ActivityType == _activityType);
 
-                       if (moduleSettings == null)
-                           return;
+                    if (moduleSettings == null)
+                        return;
 
-                       CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId,
-                           account.AccountBaseModel.UserName);
+                    CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId,
+                        account.AccountBaseModel.UserName);
 
+                    DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings.TemplateId, false);
 
-                       DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings.TemplateId, false);
+                    account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
+                    var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                        .RemoveModuleSettings(_activityType)
+                        .SaveToBinFile();
+                });
 
-                       account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-                       var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                           .RemoveModuleSettings(_activityType)
-                           .SaveToBinFile();
-                   });
-
-               warningWindow.Close();
-           };
+                warningWindow.Close();
+            };
 
             #endregion
 
@@ -638,7 +636,9 @@ namespace DominatorUIUtility.CustomControl
 
             objErrorModelControl.BtnCancel.Click += (senders, events) =>
             {
+
                 warningWindow.Close();
+
             };
 
             #endregion
@@ -916,7 +916,7 @@ namespace DominatorUIUtility.CustomControl
             #endregion
 
             #region If account having any template then Show ErrorModelControl with warning
-            
+
             if (accountHavingTemplates.Count != 0)
             {
                 var objErrorModelControl = new ErrorModelControl { WarningText = GetWarningLangRsrc() };
@@ -1015,6 +1015,7 @@ namespace DominatorUIUtility.CustomControl
 
                 objErrorModelControl.BtnCancel.Click += (senders, events) =>
                 {
+
                     warningWindow.Close();
                 };
 
