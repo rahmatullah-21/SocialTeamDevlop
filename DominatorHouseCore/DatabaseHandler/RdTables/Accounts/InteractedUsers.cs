@@ -13,7 +13,6 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         [Column(Order = 1)]
         public int Id { get; set; }
 
-    
         [Column(Order = 2)]
         public string QueryType { get; set; }
         [Column(Order = 3)]
@@ -23,86 +22,73 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         public string ActivityType { get; set; }
 
         [Column(Order = 5)]
-        public int InteractionTime
+        public int InteractionTimeStamp
         { get; set; }
 
         [Column(Order = 6)]
-        public string Username
-        { get; set; }
-
-        [Column(Order = 7)]
         public string InteractedUsername
         { get; set; }
 
-        [Column(Order = 9)]
+        [Column(Order = 7)]
         public int Date
         { get; set; }
 
-        [Column(Order = 10)]
+        [Column(Order = 8)]
         public string InteractedUserId
         { get; set; }
 
-        [Column(Order = 11)]
+        [Column(Order = 9)]
         public int UpdatedTime
         { get; set; }
+        [Column(Order = 10)]
+        public string AccountIcon
+        { get; set; }
+        [Column(Order = 11)]
+        public int CommentKarma
+        { get; set; }
         [Column(Order = 12)]
-        public string accountIcon
+        public long Created
         { get; set; }
         [Column(Order = 13)]
-        public int commentKarma
+        public string DisplayName
         { get; set; }
         [Column(Order = 14)]
-        public long created
+        public string DisplayNamePrefixed
         { get; set; }
         [Column(Order = 15)]
-        public string displayName
+        public string DisplayText
         { get; set; }
         [Column(Order = 16)]
-        public string displayNamePrefixed
+        public bool HasUserProfile
         { get; set; }
         [Column(Order = 17)]
-        public string displayText
+        public bool IsEmployee
         { get; set; }
         [Column(Order = 18)]
-        public bool hasUserProfile
+        public bool IsFollowing
         { get; set; }
         [Column(Order = 19)]
-        public bool isEmployee
+        public bool IsGold
         { get; set; }
         [Column(Order = 20)]
-        public bool isFollowing
+        public bool IsMod
         { get; set; }
         [Column(Order = 21)]
-        public bool isGold
+        public bool IsNsfw
         { get; set; }
         [Column(Order = 22)]
-        public bool isMod
+        public bool PrefShowSnoovatar
         { get; set; }
         [Column(Order = 23)]
-        public bool isNSFW
+        public int PostKarma
         { get; set; }
         [Column(Order = 24)]
-        public bool prefShowSnoovatar
+        public string Url
         { get; set; }
+
         [Column(Order = 25)]
-        public int postKarma
-        { get; set; }
-        [Column(Order = 26)]
-        public string url
-        { get; set; }
-        [Column(Order = 27)]
-        public int InteractionTimeStamp { get; set; }
-        [Column(Order = 28)]
-        public int FollowedBack
-        { get; set; }
-
-        [Column(Order = 29)]
-        public int FollowedBackDate
-        { get; set; }
-
-        [Column(Order = 30)]
         public DateTime InteractionDateTime { get; set; }
-        
-  
+
+
     }
 }
