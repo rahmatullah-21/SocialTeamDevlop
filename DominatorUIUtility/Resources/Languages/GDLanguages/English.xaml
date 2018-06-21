@@ -104,7 +104,7 @@
     <system:String x:Key="langThread">Thread</system:String>
     <system:String x:Key="langAsaPost">as a post</system:String>
     <system:String x:Key="langAsaPP">as a profile picture</system:String>
-    <system:String x:Key="langPostPerDay">Number of post in a day:</system:String>
+    <system:String x:Key="langPostPerDay">Number of post in a day</system:String>
     <system:String x:Key="langImportCSV">Import From CSV</system:String>
     <system:String x:Key="langImportTextFile">Import From Text File</system:String>
     <system:String x:Key="langPhoto">Photo</system:String>
@@ -715,7 +715,7 @@
     <system:String x:Key="langMaxPerHour">Max Per Hour</system:String>
     <system:String x:Key="langMaxPerDay">Max Per Day</system:String>
     <system:String x:Key="langMaxPerWeek">Max Per Week</system:String>
-    <system:String x:Key="langIncreaseEachDayWith">Increase each day with</system:String>
+    <system:String x:Key="langIncreaseEachDayWith">increase each day with</system:String>
     <system:String x:Key="langUntilitReaches">until it reaches</system:String>
     <system:String x:Key="langMaxfollowsperday">max follows per day.</system:String>
     <system:String x:Key="langMaxLikePerDay">max like per day</system:String>
@@ -1038,12 +1038,12 @@
     <system:String x:Key="langFailures">Failures</system:String>
     <system:String x:Key="langVerifyProxy">Verify Proxy</system:String>
     <system:String x:Key="langCampaignWillPublish">The campaign will publish</system:String>
-    <system:String x:Key="langPostListItemsPerDay">Post list items per day between</system:String>
-    <system:String x:Key="langSpecifyPostingInterval">Specify posting interval for each timer</system:String>
-    <system:String x:Key="langRandomizePublishingTimer">Randomize publishing timers each day</system:String>
-    <system:String x:Key="langRandomizeNumberOfPosts">Randomize number of posts each day</system:String>
+    <system:String x:Key="langPostListItemsPerDay">posts per day between</system:String>
+    <system:String x:Key="langSpecifyPostingInterval">Configure posting interval for each timer</system:String>
+    <system:String x:Key="langRandomizePublishingTimer">Use random publishing time everyday</system:String>
+    <system:String x:Key="langRandomizeNumberOfPosts">Publish random number of posts each day</system:String>
     <system:String x:Key="langPostBetween">Post between</system:String>
-    <system:String x:Key="langMaxPostPerDay">max post per day</system:String>
+    <system:String x:Key="langMaxPostPerDay">max posts per day</system:String>
     <system:String x:Key="langPublishPostOnDestinations">Publish a post list item on all selected destinations</system:String>
     <system:String x:Key="langAddRandomSleepTimeWhilePublishing">Add random sleep time while publishing</system:String>
     <system:String x:Key="langSleepBetween">Sleep between</system:String>
@@ -1051,7 +1051,7 @@
     <system:String x:Key="langCampaignHasStartDate">Campaign has start date</system:String>
     <system:String x:Key="langCampaignHasEndDate">Campaign has end date</system:String>
     <system:String x:Key="langSecondsBeforePublishingSamePost">seconds before publishing the same post list item on a new destination.(actual value is chosen at random around target)</system:String>
-    <system:String x:Key="langPostListItemSentToGroupsPageWalls">(each post list item will be sent to all selected destinations - groups, page, walls)</system:String>
+    <system:String x:Key="langPostListItemSentToGroupsPageWalls">(Each post will be published to all selected destinations including groups, pages, walls)</system:String>
     <system:String x:Key="langEnableExpireDate">Enable expire date</system:String>
     <system:String x:Key="langEnableReAddPostToPostList">Enable Re-Add post to post list</system:String>
     <system:String x:Key="langTimes">times</system:String>
@@ -1097,7 +1097,7 @@
     <system:String x:Key="langKeepPostsInitialCreationDate">Keep the post's initial creation date when re-adding posts from history to post list</system:String>
     <system:String x:Key="langStopRandomisingDestinationsOrder">Stop randomising destinations order for posts</system:String>
     <system:String x:Key="langAutoTagFriends">Auto tag friends in posts</system:String>
-    <system:String x:Key="langFriendsForEachPosts">friends for each posts</system:String>
+    <system:String x:Key="langUsersForEachPosts">users for each posts</system:String>
     <system:String x:Key="langPercentageOfTaggingPost">% of tagging a post</system:String>
     <system:String x:Key="langClickableImagePostServer">Clickable image Post server (one server per line)</system:String>
     <system:String x:Key="langEachDestinationWillUseRandomImage">*each destination will use a random image from the list</system:String>

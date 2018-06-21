@@ -1,5 +1,15 @@
 ﻿using System;
+
+using System.Collections.Generic;
+using System.Windows.Documents;
 using DominatorHouseCore.Enums;
+using System.Reflection;
+using DominatorHouseCore.Diagnostics;
+using System.IO;
+using DominatorHouseCore.Models.SocioPublisher;
+
+using DominatorHouseCore.Enums;
+
 
 namespace DominatorHouseCore.Utility
 {
@@ -26,7 +36,10 @@ namespace DominatorHouseCore.Utility
         public static string GetPlatformBaseDirectory()
         {
             string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}";
+
+            if(!Directory.Exists(basePath))
             DirectoryUtilities.CreateDirectory(basePath);
+
             return basePath;
         }
 
@@ -90,8 +103,12 @@ namespace DominatorHouseCore.Utility
 
         public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
 
+        public static string GetDate() => DateTime.Now.ToString("ddMMyyyy");
 
-        public static string DateAsName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmssfffff");
+        public static string GetDateTime() => DateTime.Now.ToString("ddMMyyyyHmmss");
+
+        public static string GetHourDateTime() => DateTime.Now.ToString("Hmmss.ff");
+
         public static string GoogleLink { get; set; } = "https://www.google.com";
 
         public static string GetOtherDir()
@@ -105,6 +122,15 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherConfigFile() => GetOtherDir() + @"\Config.bin";
 
         public static string GetPublisherFile() => GetOtherDir() + @"\PublisherAccountDetails.bin";
+
+        public static string GetPublisherDestinationsFile() => GetOtherDir() + @"\PublisherManageDestinations.bin";
+
+
+        public static string GetPublisherCreatePostlistFolder() => GetOtherDir() + @"\PostsList\";
+
+        public static string GetPublisherCreateDestinationsFolder() => GetOtherDir() + @"\DestinationList\";
+
+        public static string GetPublisherPostlistSettingsFile() => GetOtherDir() + @"\PostlistSettings.bin";
 
         public static string GetChatDir()
         {
@@ -124,9 +150,53 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherInstagramSettingsFile() => GetOtherDir() + @"\Instagram.bin";
         public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
 
+        public static string SaveAction { get; set; } = "Save";
+
+        public static string UpdateAction { get; set; } = "Update";
+
+        #region Publisher
+
+        public static string FineStatusSync = "Already up to date";
+
+        public static string NeedUpdateStatusSync = "Click to Sync";
+
+        public static string NotAvailableAccountSync = "Account not available";
+
+        public static string DraftPostList { get; set; } = "Draft";
+
+        public static string PendingPostList { get; set; } = "Pending";
+
+        public static string PublishedPostList { get; set; } = "Published";
+        public static string GetPublisherOtherConfigDir()
+        {
+            string dir = $"{GetOtherDir() }\\PublisherOtherConfig";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir;
+        }
+        public static string GetPublisherOtherConfigFile(SocialNetworks networks) => GetPublisherOtherConfigDir() + $"\\{networks}.bin";
+        public static string GetPublisherCampaignFile() => GetOtherDir() + "\\PublisherCampaign.bin";
+
+
+        public static string GetPublisherPostFetchFile => GetOtherDir() + "\\PublisherPostFetcherDetails.bin";
+
+        #endregion
+
 
         public static string GetAccountDb = "AccountDb";
+
         public static string GetCampaignDb = "CampaignDb";
+
+        public static IEnumerable<SocinatorIntellisenseModel> FdMacros = new List<SocinatorIntellisenseModel>
+        {
+            new SocinatorIntellisenseModel() {Key="{AllFriends}",Value =  "{AllFriends}"},
+            new SocinatorIntellisenseModel() {Key="{Random:1-5}",Value =  "{Random:1-5}"},
+            new SocinatorIntellisenseModel() {Key="{Random:5-10}",Value =  "{Random:5-10}"},
+            new SocinatorIntellisenseModel() {Key="{Random:15-20}",Value =  "{Random:15-20}"},
+            new SocinatorIntellisenseModel() {Key="{Random:10-15}",Value =  "{Random:10-15}"},
+            new SocinatorIntellisenseModel() {Key="{Random:20+}",Value =  "{Random:20+}"},
+
+        };
+        public static string Separator = "<:>";
 
     }
 }

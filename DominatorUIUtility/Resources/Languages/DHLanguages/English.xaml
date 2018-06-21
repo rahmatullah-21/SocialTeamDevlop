@@ -75,12 +75,12 @@
     <system:String x:Key="DHlangAllowDoubleRepin">Allow double repin (if checked the same pin can be repinned multiple time on the same board)</system:String>
     <system:String x:Key="DHlangLimitNumberOfSimultaneousWatchVideos">Limit the number of simultaneous watch videos to</system:String>
     <system:String x:Key="DHlangEnableEmailNotifications">Enable email notifications</system:String>
-   <system:String x:Key="DHlangEmailToReceiveNotifications">Email to receive notifications</system:String>
-   <system:String x:Key="DHlangTimeToReceiveEmail">Time to receive Email</system:String>
-   <system:String x:Key="DHlangNotifyAboutInvalidProxies">Notify about invalid proxies</system:String>
+    <system:String x:Key="DHlangEmailToReceiveNotifications">Email to receive notifications</system:String>
+    <system:String x:Key="DHlangTimeToReceiveEmail">Time to receive Email</system:String>
+    <system:String x:Key="DHlangNotifyAboutInvalidProxies">Notify about invalid proxies</system:String>
     <system:String x:Key="DHlangNotifyAboutInvalidSocialProfiles">Notify about invalid social profiles that have any of following statuses</system:String>
     <system:String x:Key="DHlangEmailConfirmation">Email Confirmation</system:String>
-   <system:String x:Key="DHlangBlocked">Blocked</system:String>
+    <system:String x:Key="DHlangBlocked">Blocked</system:String>
     <system:String x:Key="DHlangActionRequired">Action required</system:String>
     <system:String x:Key="DHlangAccountDisabled">Account disabled</system:String>
     <system:String x:Key="DHlangSuspended">Suspended</system:String>
@@ -128,18 +128,200 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangManageMessages">Manage Messages</system:String>
     <system:String x:Key="DHlangAddMessageToList">Add Message To List</system:String>
     <system:String x:Key="DHlangMessageText">Message Text</system:String>
-    <system:String x:Key="DHlangSelectAll">Select All</system:String>
-    <system:String x:Key="DHlangSelectNone">Select None</system:String>
     <system:String x:Key="DHlangSelectAllWallsAndProfile">Select All Walls/Profiles</system:String>
     <system:String x:Key="DHlangSelectAllPagesAndBoards">Select All Pages/Boards</system:String>
     <system:String x:Key="DHlangSelectAllGroups">Select All Groups</system:String>
-    <system:String x:Key="DHlangCreateDestination">Create Destination</system:String>
     <system:String x:Key="DHlangShowByGroup">Show by group</system:String>
     <system:String x:Key="DHlangCheckAccountStatus">Check Account Status</system:String>
     <system:String x:Key="DHlangStopProcess">Stop Process</system:String>
     <system:String x:Key="DHlangCampaigns">Campaigns</system:String>
+    
+    <!--Publiser Language Begin-->
+    <system:String x:Key="DHlangSocioPublisher">SocioPublisher</system:String>
+    <system:String x:Key="DHlangPublisher">Publisher</system:String>
+    <system:String x:Key="DHlangManageDestinations">Manage Destinations</system:String>
+    <system:String x:Key="DHlangManagePosts">Manage Posts</system:String>
+    <system:String x:Key="DHlangCreateCampaign">Create Campaigns</system:String>
+    <system:String x:Key="DHlangCreateDestination">Create Destinations</system:String>
+    <system:String x:Key="DHlangSelect">Select</system:String>
+    <system:String x:Key="DHlangAction">Actions</system:String>
+    <system:String x:Key="DHlangSwitchToActive">Switch to Active</system:String>
+    <system:String x:Key="DHlangSwitchToPause">Switch to Pause</system:String>
+    <system:String x:Key="DHlangSwitchToPending">Switch to Pending</system:String>
+    <system:String x:Key="DHlangDelete">Delete</system:String>
+    <system:String x:Key="DHlangDuplicate">Duplicate</system:String>
+    <system:String x:Key="DHlangPublishNow">Publish Now</system:String>
+    <system:String x:Key="DHlangSelectAll">Select All</system:String>
+    <system:String x:Key="DHlangSelectNone">Select None</system:String>
+    <system:String x:Key="DHlangSelectAllWallsProfiles">Select Walls/Profiles(all)</system:String>
+    <system:String x:Key="DHlangSelectAllPagesBoard">Select Pages/Boards(all)</system:String>
+    <system:String x:Key="DHlangSelectAllGroup">Select Groups(all)</system:String>
+    
+    <system:String x:Key="DHlangToolTipGotoManagerDestination">Go to Manage Destination</system:String>
+    <system:String x:Key="DHlangToolTipGotoManagePosts">Go to Manage Posts</system:String>
+    <system:String x:Key="DHlangToolTipGotoCreateCampaign">Go to Create Campaign</system:String>
+    <system:String x:Key="DHlangToolTipSelectWhatTodo">Select me before next action!</system:String>
+    <system:String x:Key="DHlangToolTipSelectActions">Select yours action!</system:String>
+
+    <system:String x:Key="DHlangDestination">Destination</system:String>
+    <system:String x:Key="DHlangDraft">Draft</system:String>
+    <system:String x:Key="DHlangPending">Pending</system:String>
+    <system:String x:Key="DHlangPublished">Published</system:String>
+    <system:String x:Key="DHlangEdit">Edit</system:String>
+    <system:String x:Key="DHlangAspectRadioChecker">Ratio checker</system:String>
+
+    <system:String x:Key="DHlangDestinationName">Destination Name</system:String>
+    <system:String x:Key="DHlangAccountCount">Account Count</system:String>
+    <system:String x:Key="DHlangPagesBoardCount">Pages/Boards Count</system:String>
+    <system:String x:Key="DHlangGroupsCount">Groups Count</system:String>
+    <system:String x:Key="DHlangWallsProfilesCount">Walls/Profiles Count</system:String>
+    <system:String x:Key="DHlangWallsCampaignsCount">Campaigns Count</system:String>
+    
+    <system:String x:Key="DHlangSettings">Settings</system:String>
+    <system:String x:Key="DHlangSelectDestinations">Select Destinations</system:String>
+    
+    <system:String x:Key="DHlangUsername">Name/Username</system:String>
+    <system:String x:Key="DHlangPlatform">Platform</system:String>
+    <system:String x:Key="DHlangPagesBoard">Pages/Boards</system:String>
+    <system:String x:Key="DHlangGroups">Groups</system:String>
+    <system:String x:Key="DHlangWallsProfiles">Walls/Profiles</system:String>
+    <system:String x:Key="DHlangSaveDestination">Save</system:String>
+    <system:String x:Key="DHlangClearDestination">Clear</system:String>
+    <system:String x:Key="DHlangNotification">Notification</system:String>
+
+    <system:String x:Key="DHlangStatus">Status</system:String>
+    <system:String x:Key="DHlangAddNewAccounts">Click to add fresh accounts</system:String>
+    <system:String x:Key="DHlangToolTipForSync" xml:space="preserve">Click to start sync the account destination with current database data, 
+you may loss the selected item from previous destination
+due to absence of the particular item in your current database.
+    </system:String>
+
+    <system:String x:Key="DHlangSelectCampaign">Select Campaign</system:String>
+    
+    <system:String x:Key="DHlangCreatePost">Create Post</system:String>
+    <system:String x:Key="DHlangScrapePost">Scrape Post</system:String>
+    <system:String x:Key="DHlangRssFeed">RSS Feed</system:String>
+    <system:String x:Key="DHlangMonitorFolder">Monitor Folder</system:String>
+    <system:String x:Key="DHlangSharePost">Share Post</system:String>
+    <system:String x:Key="DHlangManagePostDraft">Draft</system:String>
+    <system:String x:Key="DHlangManagePostPending">Pending</system:String>
+    <system:String x:Key="DHlangManagePostPublished">Published</system:String>
+
+    <system:String x:Key="DHlangManagePostDraftPostList">Draft Postlists</system:String>
+    <system:String x:Key="DHlangManagePostPendingPostList">Pending Postlists</system:String>
+    <system:String x:Key="DHlangManagePostPublishedPostList">Published Postlists</system:String>
+    <system:String x:Key="DHlangExport">Export</system:String>
+    
+    <system:String x:Key="DHlangDescription">Description</system:String>
+    <system:String x:Key="DHlangImage">Image</system:String>
+    <system:String x:Key="DHlangCreatedDate">Created Date</system:String>
+    <system:String x:Key="DHlangEndDate">End Date</system:String>
+
+    <system:String x:Key="DHlangDeleteSelected">Selected only</system:String>
+    <system:String x:Key="DHlangDeleteDuplicateImages">Duplicate Images</system:String>
+    <system:String x:Key="DHlangDeleteTextPost">Text Posts</system:String>
+
+    <system:String x:Key="DHlangRemoveFromDraft">Remove from draft when added to post list (only for draft postlist)</system:String>
+    <system:String x:Key="DHlangReaddPublishedPost">Re-add published posts to the end of pending posts list (only for pending postlist)</system:String>
+    <system:String x:Key="DHlangPublishedPostToBump">Automatically send new published posts to bump feature (only for published postlist)</system:String>
+    <system:String x:Key="DHlangSendtoPending">Send to Pending</system:String>
+    <system:String x:Key="DHlangSendtoDraft">Send to Draft</system:String>
+    <system:String x:Key="DHlangDetails">Details</system:String>
+    <system:String x:Key="DHlangReadd">Re-add</system:String>
+    <system:String x:Key="DHlangBump">Bump</system:String>
+    <system:String x:Key="DHlangReport">Report</system:String>
+
+    <system:String x:Key="DHlangPublisherInstagramTitle">Title for Instagram</system:String>
+    <system:String x:Key="DHlangPublisherPostDescription">Post Description</system:String>
+    <system:String x:Key="DHlangPublisherSelectMedia">Media(s)</system:String>
+    <system:String x:Key="DHlangPublisherSelectMacros">Macro(s)</system:String>
+    <system:String x:Key="DHlangImportMediaFiles">Load Image(s) or Video(s)</system:String>
+    <system:String x:Key="DHlangPublisherWhatsOnYourMind">What's on your mind?</system:String>
+    <system:String x:Key="DHlangPublisherTagFriends">Just type "{" to get suggestion !</system:String>
+    <system:String x:Key="DHlangPdSourceUrl">Pinterest Source Url</system:String>
+    <system:String x:Key="DHlangFdSellPost">Enable Facebook Sell Post</system:String>
+    <system:String x:Key="DHlangFdOverridePostDescription">Replace post descriptions with following text</system:String>
+
+    <system:String x:Key="DHlangCreateSinglePost">Create a single post</system:String>
+    <system:String x:Key="DHlangMultiplePost">Create a multiple posts</system:String>
+    <system:String x:Key="DHlangMultipleImagePost">Create a multiple image post</system:String>
+    <system:String x:Key="DHlangFileNameAsPostDescription">Use file name as post description</system:String>
+    <system:String x:Key="DHlangUniquePost">Add only unique post</system:String>
+    <system:String x:Key="DHlangUploadFromUrl">Upload from url</system:String>
+
+    <system:String x:Key="DHlangGdPostasStory">Post as part of your story instead of on wall</system:String>
+    <system:String x:Key="DHlangGdDeletePost">Delete the post after</system:String>
+    <system:String x:Key="DHlangHours">hours</system:String>
+    <system:String x:Key="DHlangPostTagUser">Tag users</system:String>
+    <system:String x:Key="DHlangPostTagFriends">Tag friends</system:String>
+    <system:String x:Key="DHlangAddPostTagUser">Add tag users!</system:String>
+    <system:String x:Key="DHlangPostMentionUser">Mention users</system:String>
+    <system:String x:Key="DHlangAddPostMentionUser">Add mention users!</system:String>
+    <system:String x:Key="DHlangGdPostUsignGeoLocation">Post using geo location</system:String>
+    <system:String x:Key="DHlangGdPostUsingAddGeoLocation">Add geo location!</system:String>
+    <system:String x:Key="DHlangAddSourceUrl">Add source url!</system:String>
+    <system:String x:Key="DHlangFdProductName">What are you selling?</system:String>
+    <system:String x:Key="DHlangFdSellPrice">Price</system:String>
+    <system:String x:Key="DHlangFdSellLocation">Location</system:String>
+    <system:String x:Key="DHlangFdTurnOffComment">Turnoff Comment for sell post</system:String>
+
+    <system:String x:Key="DHlangGeneralSettings">General</system:String>
+    <system:String x:Key="DHlangLinkedIn">Linked In</system:String>
+    <system:String x:Key="DHlangExpireDate">Expire Date</system:String>
+
+    <system:String x:Key="DHlangReaddCount">Readd post to post list </system:String>
+    <system:String x:Key="DHlangTimes">times</system:String>
+    <system:String x:Key="DHlangLinkedPostType">Linkedin group post type</system:String>
+
+    <system:String x:Key="DHlangLinkedInGeneralPost">General Post</system:String>
+    <system:String x:Key="DHlangLinkedInJobPost">Job Post</system:String>
+    <system:String x:Key="DHlangLinkedInAnnouncementPost">Announcement Post</system:String>
+
+    <system:String x:Key="DHlangCreateMultiPost">Multiple post</system:String>
+    <system:String x:Key="DHlangImportFromCsv">Import from Csv</system:String>
+
+    <system:String x:Key="DHlangScrapeFacebookPost">Scrape Posts From Facebook</system:String>
+    <system:String x:Key="DHlangScrapePinterestPost">Scrape Posts From Pinterest</system:String>
+    <system:String x:Key="DHlangScrapeTwitterPost">Scrape Posts From Twitter</system:String>
+
+    <system:String x:Key="DHlangAddFdPostSource">Add posts source! like (ownwall,page, group,friend url)</system:String>
+    <system:String x:Key="DHlangAddPdPostSource">Add posts source! like (boards, users, category, search pin)</system:String>
+    <system:String x:Key="DHlangAddTdPostSource">Add posts source! like (users,search)</system:String>
+
+
+    <system:String x:Key="DHlangShareCustomPostList">Share posts from custom posts list</system:String>
+    <system:String x:Key="DHlangShareAddCustomPostList">Add custom posts lists!</system:String>
+
+    <system:String x:Key="DHlangShareFdPagePost">Share posts from Facebook Pages</system:String>
+    <system:String x:Key="DHlangAddFdPageUrl">Add page url!</system:String>
+    <system:String x:Key="DHlangMinutes">minutes</system:String>
+    <system:String x:Key="DHlangNewPagePost">Check the page for new posts every</system:String>
+    <system:String x:Key="DHlangExtractMinimumPost">Extract a maximum of</system:String>
+    <system:String x:Key="DHlangPostPerOperation">posts per operation</system:String>
+    
+    <system:String x:Key="DHlangKeywords">Keywords</system:String>
+    <system:String x:Key="DHlangAddKeywords">Add keywords!</system:String>
+
+    <system:String x:Key="DHlangMinimumDays">Share posts that have maximum</system:String>
+    <system:String x:Key="DHlangDaysOld">days old</system:String>
+
+    <system:String x:Key="DHlangPostBetween">Share posts have between</system:String>
+    <system:String x:Key="DHlangAnd">and</system:String>
+    <system:String x:Key="DHlangLikes">likes</system:String>
+
+    <system:String x:Key="DHlangTake">Take</system:String>
+    <system:String x:Key="DHlangDuplicateCopies">duplicate copies of post content</system:String>
+    <system:String x:Key="DHlangPostImportFromCsv">Load post list from csv file(s)</system:String>
+    <system:String x:Key="DHlangPostExportToCsv">Export saved post list to csv file(s)</system:String>
+    <system:String x:Key="DHlangDeleteNoPostContent">Delete post which have no value in saved post(s)</system:String>
+    <system:String x:Key="DHlangDeleteSelectedPost">Delete all saved posts(s)</system:String>
+    
+    
+    <!--Publiser Language End-->
+
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>
     <system:String x:Key="DHlangSocinator">Socinator</system:String>
+
     <system:String x:Key="DHImportDescription"  xml:space="preserve">Format :
 Type 1. Group Name:SocialNetwork:User Name:Password
 Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port
@@ -154,6 +336,7 @@ Type 3. IP:Port
     <system:String x:Key="DHStartWarning">These accounts are already running with</system:String>
     <system:String x:Key="DHEndWarning">configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <system:String x:Key="DHVerifySelected">Verify Selected</system:String>
+
     <system:String x:Key="DHlangHoursBeforeRefreshingGd">hours before refreshing the friend list for a instagram account (Friend backup or Invite tools must be started)</system:String>
     <system:String x:Key="DHlangFacebookAccountsAtSameTimeGd">Instagram accounts at the same time</system:String>
 
@@ -167,7 +350,41 @@ Type 3. IP:Port
     <system:String x:Key="DHlangHoursBeforeRefreshingYd">hours before refreshing the friend list for a youtube account (Friend backup or Invite tools must be started)</system:String>
     <system:String x:Key="DHlangFacebookAccountsAtSameTimeYd">Youtube accounts at the same time</system:String>
     <system:String x:Key="DHlangRevisionHistory">Revision History</system:String>
+    <system:String x:Key="DHlangPublishOn">Publish On</system:String>
+    <system:String x:Key="DHlangRandomDestinations">random destinations with a maximum of</system:String>
+    <system:String x:Key="DHlangDestFromEachAccount">destinations from each account. (0 for no limits)</system:String>
+    <system:String x:Key="DHlangAddDelayBetweenPublishingPost">Add delay between publishing multiple posts.</system:String>
+    <system:String x:Key="DHlangDelayBetween">Delay between</system:String>
+    <system:String x:Key="DHlangMinuteAfterPublishing">minutes after publishing</system:String>
+    <system:String x:Key="DHlangDelayBetweenEachPost">Delay between each post</system:String>
+    <system:String x:Key="DHlangSelectDayofWeekToPublish">Select days of the week to publish</system:String>
+    <system:String x:Key="DHlangUsehashInFrontOfKeywords">Use to add # in front of the keywords that you select or in front of words with a length greater than a given value.</system:String>
+    <system:String x:Key="DHlangMaxHashtagsPerPost">Max hashtags per post</system:String>
+    <system:String x:Key="DHlangAutomaticallyHashAllWords">Automatically hash all the words in the list below. Add your keywords separated by commas.</system:String>
+    <system:String x:Key="DHlangHashByMinimumWordLength">Hash by minimum word length</system:String>
+    <system:String x:Key="DHlangMinimumWordLength">Minimum word length</system:String>
+    <system:String x:Key="DHlangReplaceProbability">Replace probability</system:String>
+    <system:String x:Key="DHlangAddHashTagEvenIfAlreadyHastags">Add Hashtags even if the post already has hashtags</system:String>
+    <system:String x:Key="DHlangPick">Pick</system:String>
+    <system:String x:Key="DHlangPercentExtraHashtags">% of the extra hashtags from this list.</system:String>
+    <system:String x:Key="DHlangPercentFromList">% from this list.</system:String>
+    <system:String x:Key="DHlangEnterGeoLocations">Enter Geo Locations</system:String>
+    <system:String x:Key="DHlangEnableDynamicMentions">Enable Dynamic Mentions</system:String>
+    <system:String x:Key="DHlangDeleteUsersFromList">Delete the users from the list after they are mentioned</system:String>
+    <system:String x:Key="DHlangNumberOfUsersToMention">Number of users to mention</system:String>
+    <system:String x:Key="DHlangAddUsernamesSeparatedByComma">Add usernames separated by comma</system:String>
+    <system:String x:Key="DHlangRemoveTagsFromPostText">Remove Tags from post text (as they are added in the tags section on Tumblr)</system:String>
+   
     <system:String x:Key="DHlangEnableSync">Synchronize Account Informations every</system:String>
     <system:String x:Key="DHlangSimultaneousAccountUpdateCount">Number of Accounts to synchronize simultaneously</system:String>
     <system:String x:Key="DHlangRefresh">Refresh</system:String>
+    <system:String x:Key="DhlangFeedUrl">Feed Urls</system:String>
+    <system:String x:Key="DhlangFeedUrlDetails">Feed Url Details</system:String>
+    <system:String x:Key="DhlangFeedTemplate">Feed Templates</system:String>
+    <system:String x:Key="DhlangSaveToList">Save to List</system:String>
+    <system:String x:Key="DhlangFolderPath">Folder Path</system:String>
+    <system:String x:Key="DhlangFolderTemplates">Folder Templates</system:String>
+    <system:String x:Key="DhlangFolderPathDetails">Folder Path Details</system:String>
+    <system:String x:Key="DhlangFolderPathTemplate">[FileName] [FileType] [FileAuthor] [FileTitle] [FileSubject] [FileCreationDate] [FileComments] [FileTags]</system:String>
+
 </ResourceDictionary>

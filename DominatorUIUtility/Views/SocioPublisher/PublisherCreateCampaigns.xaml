@@ -1,0 +1,198 @@
+﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.PublisherCreateCampaigns"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+             xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:publisher="clr-namespace:DominatorUIUtility.CustomControl.Publisher"
+             x:Name="CreateCampaign"
+             mc:Ignorable="d"   xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+
+        <!--Header-->
+        <Grid Background="{DynamicResource AccentBaseColorBrush}" Name="HeaderGrid">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock HorizontalAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White">
+                    <Rectangle Width="25" Height="25" Fill="White" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_calendar}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                
+                    <Label Content="{DynamicResource DHlangCreateCampaign}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+            </TextBlock>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Foreground="White" Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}"/>
+                    <ComboBox x:Name="ComboCampaignList" Height="25" Width="250" ItemsSource="{Binding CampaignList}" 
+                              behaviours:SelectionChangedBehaviour.Command="{Binding CampaignChangedCommand}"
+                              SelectedItem="{Binding SelectedItem}" metroControls:TextBoxHelper.ClearTextButton="True"/>
+                </StackPanel>
+
+                <Button x:Name="BtnSelectDestination" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
+                        Foreground="White" VerticalAlignment="Center"  Margin="5"
+                        Command="{Binding SelectDestinationCommand}">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="20" Height="20" Fill="White" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_table_select}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangSelectDestinations}" Margin="0,0,0,0"
+                                           Foreground="White" FontSize="13" FontWeight="SemiBold" 
+                                           VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
+                        Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding SaveCommand}" >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="15" Height="15" Fill="White" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource langSave}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button x:Name="BtnBackToCampaign" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding NavigationCommand}" CommandParameter="Back">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="15" Height="15" Fill="White" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+
+            <!--Campaign Name and Toggle-->
+            <StackPanel Grid.Row="0" Orientation="Vertical">
+
+               
+                <StackPanel Orientation="Horizontal" Margin="5">
+
+                    <TextBox metroControls:TextBoxHelper.Watermark="{DynamicResource langCampaign}" 
+                             Name="TextBoxCampaignName" 
+                             Width="250" 
+                             HorizontalAlignment="Left" 
+                             Margin="10,5"
+                             Text="{Binding PublisherCreateCampaignModel.CampaignName,UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <metroControls:ToggleSwitch VerticalAlignment="Center" 
+                                                x:Name="ToggleCampaignStatus" 
+                                                HorizontalContentAlignment="Center"
+                                                FontSize="12" 
+                                                OnLabel="{Binding PublisherCreateCampaignModel.CampaignStatus}" 
+                                                OffLabel="{Binding PublisherCreateCampaignModel.CampaignStatus}" 
+                                                Margin="10,0" Click="ToggleCampaignStatus_OnClick">
+                        <metroControls:ToggleSwitch.Style>
+                            <Style TargetType="metroControls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
+                                <Style.Triggers>
+                                    <Trigger Property="OnLabel" Value="Active">
+                                        <Setter Property="OffSwitchBrush" Value="LightGreen"/>
+                                        <Setter Property="OnSwitchBrush" Value="LightGreen"/>
+                                    </Trigger>
+                                    <Trigger Property="OnLabel" Value="Completed">
+                                        <Setter Property="OffSwitchBrush" Value="DarkGreen"/>
+                                        <Setter Property="OnSwitchBrush" Value="DarkGreen"/>
+                                    </Trigger>
+                                    <Trigger Property="OffLabel" Value="Paused">
+                                        <Setter Property="OffSwitchBrush" Value="Yellow"/>
+                                        <Setter Property="OnSwitchBrush" Value="Yellow"/>
+                                    </Trigger>
+                                    <Trigger Property="OffLabel" Value="Stopped">
+                                        <Setter Property="OffSwitchBrush" Value="Red"/>
+                                        <Setter Property="OnSwitchBrush" Value="Red"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </metroControls:ToggleSwitch.Style>
+                    </metroControls:ToggleSwitch>
+                </StackPanel>
+
+            </StackPanel>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Options selections like create post, create post by multiple area, Scarpe post, Share post, Rss feed , Monitor folder-->
+                    <TabControl x:Name="CreateCampaignTabs" ItemsSource="{Binding PostTabItems}" TabStripPlacement="Top"  Margin="10,5,5,5"
+                                metroControls:TabControlHelper.IsUnderlined="True"
+                                metroControls:TabControlHelper.Underlined="SelectedTabItem">
+                        <TabControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" FontSize="16" />
+                            </DataTemplate>
+                        </TabControl.ItemTemplate>
+                        <TabControl.ContentTemplate>
+                            <DataTemplate>
+                                <ContentControl Content="{Binding Content.Value}"/>
+                            </DataTemplate>
+                        </TabControl.ContentTemplate>
+                    </TabControl>
+
+                    <!--Job Configuration and Other Configuration-->
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Expander Grid.Row="0" Header="{DynamicResource langJobConfiguration}" Margin="15,5,5,5">
+                            <publisher:JobConfiguration JobConfigurations="{Binding PublisherCreateCampaignModel.JobConfigurations,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        </Expander>
+                        <Expander Grid.Row="1" Header="{DynamicResource langOtherConfigurations}" Margin="15,5,5,5">
+                            <publisher:OtherConfiguration OtherConfigurations="{Binding PublisherCreateCampaignModel.OtherConfiguration}"/>
+                        </Expander>
+
+                    </Grid>
+
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>
+
+
+

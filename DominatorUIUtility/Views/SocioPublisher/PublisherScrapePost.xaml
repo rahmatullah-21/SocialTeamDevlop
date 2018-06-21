@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.PublisherScrapePost"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    <StackPanel Orientation="Vertical"  Name="MainGrid">
+        <StackPanel Orientation="Vertical">
+            <CheckBox Margin="2" Content="{DynamicResource DHlangScrapeFacebookPost}" IsChecked="{Binding ScrapePostModel.IsScrapeFacebookPost}"/>
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding ScrapePostModel.IsScrapeFacebookPost,Converter={StaticResource BooleanToVisibilityConverter}}"
+                         mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddFdPostSource}" Margin="2" TextWrapping="Wrap" 
+                         Height="60" Width="404" AcceptsReturn="True" Text="{Binding ScrapePostModel.AddFdPostSource}" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <CheckBox Margin="2" Content="{DynamicResource DHlangScrapePinterestPost}" 
+                          IsChecked="{Binding ScrapePostModel.IsScrapePinterestPost}"/>
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding ScrapePostModel.IsScrapePinterestPost,Converter={StaticResource BooleanToVisibilityConverter}}"
+                         mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddPdPostSource}" 
+                         Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
+                        Text="{Binding ScrapePostModel.AddPdPostSource}" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <CheckBox Margin="2" Content="{DynamicResource DHlangScrapeTwitterPost}" IsChecked="{Binding ScrapePostModel.IsScrapeTwitterPost}" />
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddTdPostSource}"
+                         Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
+                         Text="{Binding ScrapePostModel.AddTdPostSource}" 
+                     Visibility="{Binding ScrapePostModel.IsScrapeTwitterPost,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </StackPanel>
+    </StackPanel>
+
+</UserControl>

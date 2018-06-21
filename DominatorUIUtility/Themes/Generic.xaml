@@ -1,0 +1,305 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DominatorUIUtility"
+    xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+    xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
+    xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+    xmlns:settings="clr-namespace:DominatorHouseCore.Models.SocioPublisher.Settings;assembly=DominatorHouseCore"
+    xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
+
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/DHLanguages/English.xaml"/>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/FDLanguages/English.xaml"/>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/GDLanguages/English.xaml"/>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Styles/BaseStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml"/>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml"/>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+    <converters:ImageConverter x:Key="ImageConverter"></converters:ImageConverter>
+    <converters:FeatureVisibilityConverter x:Key="FeatureVisibilityConverter"></converters:FeatureVisibilityConverter>
+    <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
+    <DataTemplate x:Key="MacroTemplate">
+        <Grid>
+            <TextBlock Text="{Binding Path=Key}"></TextBlock>
+        </Grid>
+    </DataTemplate>
+
+    <!--Media Viewer-->
+    <Style TargetType="{x:Type customControl:MediaViewer}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type customControl:MediaViewer}">
+                    <Border Background="{TemplateBinding Background}" x:Name="PART_Border"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <StackPanel Orientation="Horizontal" x:Name="PART_MainStackPanel" HorizontalAlignment="Center" Visibility="{TemplateBinding IsPostDataPresent,Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                            <Button x:Name="PART_NavigatePreviousImage" Cursor="Hand" IsEnabled="{TemplateBinding IsEnablePreviousPointer}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="1,0,5,0">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Rectangle Width="10" Height="10" Fill="{DynamicResource AccentBaseColorBrush}" >
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_navigate_previous}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+
+                            <Border>
+                                <Image x:Name="PART_Image" Margin="1" Width="{TemplateBinding MediaWidth}" Height="{TemplateBinding MediaHeight}"  Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
+                                    <Image.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="{DynamicResource DHlangDelete}" Name="PART_MenuItemImageDelete" Visibility="{TemplateBinding DeleteMenuVisibility}">
+                                                <MenuItem.Icon>
+                                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </Image.ContextMenu>
+                                </Image>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Gray" Opacity="0.5" />
+                                </Border.Effect>
+                            </Border>
+                           
+
+
+                            <Button x:Name="PART_NavigateNextImage" Cursor="Hand" IsEnabled="{TemplateBinding IsEnableNextPointer}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5,0,2,0" >
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Rectangle Width="10" Height="10" Fill="{DynamicResource AccentBaseColorBrush}" >
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_navigate_next}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <StackPanel x:Name="PART_MediaDetailsStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0,0,0">
+                                <TextBlock x:Name="PART_CurrentPointerMediaId"  Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CurrentMediaPointer}" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
+                                <TextBlock Text="/" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TotalMediaCount}" x:Name="PART_TotalMediacount" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Post Content-->
+    <Style TargetType="{x:Type customControl:PostContent}">
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type customControl:PostContent}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <StackPanel>
+                            <!--<StackPanel Margin="1">
+                                <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource DHlangPublisherPostDescription}" VerticalAlignment="Center" FontSize="12" />
+                                --><!--<TextBox x:Name="PART_PostDescription" VerticalScrollBarVisibility="Auto"
+                                         mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}"
+                                         Margin="2" TextWrapping="Wrap" Height="60" Width="300"
+                                         Text="{Binding Path=PostDescription, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"></TextBox>--><!--
+
+                                <customControl:SocinatorTextBox                    
+                                    MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
+                                    SuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
+                                    Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}"
+                                    Text="{TemplateBinding PostDescription}" TextHeight="60" TextWidth="300" Margin="2" TextWrapping="Wrap"
+                                    DisplayMember="Key">
+                                    <customControl:SocinatorTextBox.LoadingContent>
+                                        <TextBlock Text="Loading Macros..." Margin="5" FontSize="14" />
+                                    </customControl:SocinatorTextBox.LoadingContent>
+                                </customControl:SocinatorTextBox>
+                            </StackPanel>-->
+                            <StackPanel Margin="1">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Name="TextBlockMedia" FontWeight="SemiBold" Foreground="{DynamicResource AccebtBaseColorBrush}" Text="{DynamicResource DHlangPublisherSelectMedia}" FontSize="12" VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center">
+                                    <customControl:MediaViewer x:Name="PART_MediaViewer"                                      
+                                                               MediaList="{TemplateBinding customControl:MediaViewerAssist.MediaList}"
+                                                               IsPostDataPresent="{TemplateBinding customControl:MediaViewerAssist.IsPostDetailsPresent}"
+                                                               CurrentMediaUrl="{TemplateBinding customControl:MediaViewerAssist.CurrentMediaUrl}"
+                                                               MediaHeight="{TemplateBinding customControl:MediaViewerAssist.MediaHeight}"
+                                                               MediaWidth="{TemplateBinding customControl:MediaViewerAssist.MediaWidth}"
+                                                               
+                                                               />
+                                    <StackPanel Orientation="Vertical" Margin="5,0,0,0">
+
+                                        <Button Name="PART_ImportImage" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30" Width="100" VerticalAlignment="Center" >
+                                            <StackPanel Orientation="Horizontal" ToolTip="{DynamicResource DHlangImportImages}">
+                                                <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_export}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                                <Label Content="{DynamicResource DHlangPublisherSelectMedia}"  Foreground="White" Margin="0,-2,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
+
+                                        <Button Name="PART_Settings" Foreground="White" Margin="1"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="32" Width="100" Cursor="Hand" VerticalAlignment="Center" >
+                                            <StackPanel Orientation="Horizontal" ToolTip="{DynamicResource DHlangImportImages}">
+
+                                                <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                                <Label Content="{DynamicResource DHlangSettings}" Margin="0,-2,0,0" FontSize="11" Foreground="White"  FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
+
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding behaviours:NetworkAvailablity.IgElementVisible}">
+                                    <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherInstagramTitle}"
+                                             Margin="2" TextWrapping="Wrap" Height="30" Width="300"  AcceptsReturn="True"
+                                             Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PublisherInstagramTitle}"></TextBox>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding behaviours:NetworkAvailablity.PdElementVisible}">
+                                    <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
+                                             mah:TextBoxHelper.Watermark="{DynamicResource DHlangPdSourceUrl}" Margin="2" 
+                                             TextWrapping="Wrap" Height="30" Width="300" AcceptsReturn="True"
+                                             Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PdSourceUrl}"/>
+                                </StackPanel>
+
+                                <StackPanel Visibility="{TemplateBinding behaviours:NetworkAvailablity.FbElementVisible}">
+                                    <CheckBox  Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource DHlangFdSellPost}" 
+                                               IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsFdSellPost}"/>
+                                    <StackPanel Visibility="{Binding ElementName =CheckBoxFdSellPost, Path=IsChecked ,Converter= {StaticResource BooleanToVisibilityConverter}}">
+                                        <TextBox VerticalAlignment="Center"  AcceptsReturn="True" HorizontalAlignment="Left"
+                                                 mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdProductName}" Name="TextBoxFdSellProductTitle" 
+                                                 VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="40" Width="303"
+                                                 Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellProductTitle}"/>
+                                        <StackPanel Name="FdSellPostDetails" Orientation="Horizontal">
+                                            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
+                                                     mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdSellPrice}"
+                                                     Name="TextBoxFdSellPrice"  VerticalContentAlignment="Center"  Margin="2" 
+                                                     TextWrapping="Wrap" Height="30" Width="100"
+                                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellPrice}"/>
+                                            <TextBox VerticalAlignment="Center"  mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdSellLocation}" 
+                                                     HorizontalAlignment="Left" Name="TextBoxFdSellLocation"  VerticalContentAlignment="Center" 
+                                                     Margin="2" TextWrapping="Wrap" Height="30" Width="200"
+                                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellLocation}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Socinator Text Box -->
+    <Style TargetType="{x:Type customControl:SocinatorTextBox}">
+        <Setter Property="Focusable"
+                Value="False" />
+        <Setter Property="Validation.ErrorTemplate" 
+                Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type customControl:SocinatorTextBox}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <DockPanel>
+                                <Grid>
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <TextBox x:Name="PART_Editor" HorizontalAlignment="Left"
+                                                 TextWrapping="{TemplateBinding TextWrapping}" 
+                                                 Width="{TemplateBinding TextWidth}" 
+                                                 Height="{TemplateBinding TextHeight}"
+                                                 AcceptsReturn="True"                                                                               
+                                                 Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneWay}"
+                                                 mah:TextBoxHelper.Watermark="{TemplateBinding Watermark}"                                          
+                                                 Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </DockPanel>
+                            <Popup x:Name="PART_Popup"
+                                   IsOpen="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay}"
+                                   Width="{TemplateBinding TextWidth}"
+                                   HorizontalOffset="0"
+                                   MinHeight="25"
+                                   MaxHeight="400"                                  
+                                   AllowsTransparency="True"
+                                   PopupAnimation="Slide"
+                                   Focusable="False">
+                                <Border Background="White"
+                                        BorderThickness="1"
+                                        BorderBrush="Gray"
+                                        CornerRadius="5"
+                                        Padding="2">
+                                    <Grid>
+                                        <ListBox x:Name="PART_Selector"
+                                                 ItemTemplate="{TemplateBinding MacroTemplate}"
+                                                 ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                 Focusable="False" Foreground="Black"
+                                                 BorderThickness="0"
+                                                 Width="{TemplateBinding TextWidth}"                                                 
+                                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+                                        </ListBox>
+                                        <Border Visibility="{Binding Path=IsLoading, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}">
+                                            <ContentPresenter ContentSource="LoadingContent"  Width="{TemplateBinding TextWidth}"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter Property="BorderBrush"
+                                    Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>
+

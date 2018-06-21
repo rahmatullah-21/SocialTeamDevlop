@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+using DominatorHouseCore.Utility;
+using DominatorHouseCore.ViewModel.AdvancedSettings;
+using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
@@ -23,6 +21,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
         private Pinterest()
         {
             InitializeComponent();
+            MainGrid.DataContext = PinterestViewModel;
         }
         static Pinterest ObjPinterest = null;
         public static Pinterest GetSingeltonPinterestObject()
@@ -30,6 +29,38 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             if (ObjPinterest == null)
                 ObjPinterest = new Pinterest();
             return ObjPinterest;
+        }
+        private PinterestViewModel _pinterestViewModel = new PinterestViewModel();
+
+        public PinterestViewModel PinterestViewModel
+        {
+            get
+            {
+                return _pinterestViewModel;
+            }
+            set
+            {
+                _pinterestViewModel = value;
+                OnPropertyChanged(nameof(PinterestViewModel));
+            }
+        }
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void Pinterest_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+                .PublisherCreateCampaignViewModel
+                .PublisherCreateCampaignModel.CampaignId;
+            var pinterestModel = GenericFileManager.GetModuleDetails<PinterestModel>
+                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest))
+                .FirstOrDefault(x => x.CampaignId == campaignId);
+            PinterestViewModel.PinterestModel = pinterestModel ?? PinterestViewModel.PinterestModel;
         }
     }
 }

@@ -128,17 +128,25 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper.UpdateAllAccounts(accs);
         }
 
-        public static DominatorAccountModel GetAccount(string userName, SocialNetworks networks)
+        public static DominatorAccountModel GetAccount(string userName)
         {
             var accounts = GetAll();
-            var result = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == userName && x.AccountBaseModel.AccountNetwork == networks);
+            var result = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == userName);
             return result;
         }
 
         public static DominatorAccountModel GetAccountById(string accountId)
+
         {
             var accounts = GetAll();
             var result = accounts.FirstOrDefault(x => x.AccountBaseModel.AccountId == accountId);
+            return result;
+        }
+
+        public static DominatorAccountModel GetAccount(string userName, SocialNetworks networks)
+        {
+            var accounts = GetAll();
+            var result = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == userName && x.AccountBaseModel.AccountNetwork == networks);
             return result;
         }
 

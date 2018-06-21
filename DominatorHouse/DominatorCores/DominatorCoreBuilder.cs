@@ -7,7 +7,6 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorUIUtility.ViewModel;
 
-
 namespace Socinator.DominatorCores
 {
     public class DominatorCoreBuilder : NetworkCoreLibraryBuilder

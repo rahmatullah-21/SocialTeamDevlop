@@ -142,4 +142,5 @@
     <system:String x:Key="QDlangUserScraper">User Scraper</system:String>
     <system:String x:Key="QDlangQuestionScraper">Question Scraper</system:String>
     <system:String x:Key="QDlangAnswerScraper">Answer Scraper</system:String>
+    <system:String x:Key="QDlangUpvotesCount">Upvotes Count</system:String>
 </ResourceDictionary>

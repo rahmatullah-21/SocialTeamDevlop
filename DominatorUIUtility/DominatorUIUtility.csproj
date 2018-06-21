@@ -149,6 +149,7 @@
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.108.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -173,10 +174,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviours\AdvanceSetting.cs" />
     <Compile Include="Behaviours\ErrorModelControl.xaml.cs">
       <DependentUpon>ErrorModelControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviours\HeaderHelper.cs" />
+    <Compile Include="Behaviours\NetworkAvailablity.cs" />
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
     <Compile Include="Behaviours\ReportManager.cs" />
     <Compile Include="Behaviours\SelectionChangedBehaviour.cs" />
@@ -211,6 +214,9 @@
     </Compile>
     <Compile Include="CustomControl\AccountCustomControl.xaml.cs">
       <DependentUpon>AccountCustomControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\AccountDetailsSelector.xaml.cs">
+      <DependentUpon>AccountDetailsSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\AccountTabCustomControl.xaml.cs">
       <DependentUpon>AccountTabCustomControl.xaml</DependentUpon>
@@ -291,6 +297,23 @@
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\ProxyManagerViewModel.cs" />
     <Compile Include="ViewModel\SelectAccountViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\AccountDetailsSelectorViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherCreateCampaignViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherCreateDestinationsViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherDefaultViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherDirectPostsViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherHomeViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherManageDestinationViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherManagePostDraftsViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPendingViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherManagePostPublishedViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherManagePostsViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherMonitorFolderViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherMultiplePostViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherPostlistBaseViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherRssFeedViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherScrapePostViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\PublisherSharePostViewModel.cs" />
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
     </Compile>
@@ -317,6 +340,9 @@
     </Compile>
     <Compile Include="Views\Publisher\AdvancedSettings\Pinterest.xaml.cs">
       <DependentUpon>Pinterest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\AdvancedSettings\Tumblr.xaml.cs">
+      <DependentUpon>Tumblr.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Publisher\AdvancedSettings\Twitter.xaml.cs">
       <DependentUpon>Twitter.xaml</DependentUpon>
@@ -350,6 +376,93 @@
     </Compile>
     <Compile Include="Views\Publisher\PublisherIndexPage.xaml.cs">
       <DependentUpon>PublisherIndexPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\MediaViewer.cs" />
+    <Compile Include="Views\SocioPublisher\CustomControl\MediaViewerAssist.cs" />
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostAdvancedSettings.xaml.cs">
+      <DependentUpon>PostAdvancedSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\PostContent.cs" />
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostFacebookSettings.xaml.cs">
+      <DependentUpon>PostFacebookSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostGeneralSettings.xaml.cs">
+      <DependentUpon>PostGeneralSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostInstagramSettings.xaml.cs">
+      <DependentUpon>PostInstagramSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostLinkedInSettings.xaml.cs">
+      <DependentUpon>PostLinkedInSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostTumblrSettings.xaml.cs">
+      <DependentUpon>PostTumblrSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostTwitterSettings.xaml.cs">
+      <DependentUpon>PostTwitterSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\SocinatorTextBox.cs" />
+    <Compile Include="Views\SocioPublisher\PublisherCreateNewPost.xaml.cs">
+      <DependentUpon>PublisherCreateNewPost.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherDirectPosts.xaml.cs">
+      <DependentUpon>PublisherDirectPosts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherMultiplePost.xaml.cs">
+      <DependentUpon>PublisherMultiplePost.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\SelectDestinations.xaml.cs">
+      <DependentUpon>SelectDestinations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\Suggestions\FdFriendSuggestionProvider.cs" />
+    <Compile Include="Views\SocioPublisher\Suggestions\PublisherEditPost.xaml.cs">
+      <DependentUpon>PublisherEditPost.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\Suggestions\SuggestionProvider.cs" />
+    <Compile Include="Views\SocioPublisher\PublisherCreateCampaigns.xaml.cs">
+      <DependentUpon>PublisherCreateCampaigns.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherCreateDestination.xaml.cs">
+      <DependentUpon>PublisherCreateDestination.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherDefaultPage.xaml.cs">
+      <DependentUpon>PublisherDefaultPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherHome.xaml.cs">
+      <DependentUpon>PublisherHome.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherManageDestinations.xaml.cs">
+      <DependentUpon>PublisherManageDestinations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherManagePostDrafts.xaml.cs">
+      <DependentUpon>PublisherManagePostDrafts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherManagePostPending.xaml.cs">
+      <DependentUpon>PublisherManagePostPending.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherManagePostPublished.xaml.cs">
+      <DependentUpon>PublisherManagePostPublished.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherManagePosts.xaml.cs">
+      <DependentUpon>PublisherManagePosts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherMediaViewer.xaml.cs">
+      <DependentUpon>PublisherMediaViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherMonitorFolder.xaml.cs">
+      <DependentUpon>PublisherMonitorFolder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherPostlistSettings.xaml.cs">
+      <DependentUpon>PublisherPostlistSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherRssFeed.xaml.cs">
+      <DependentUpon>PublisherRssFeed.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherScrapePost.xaml.cs">
+      <DependentUpon>PublisherScrapePost.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherSharePost.xaml.cs">
+      <DependentUpon>PublisherSharePost.xaml</DependentUpon>
     </Compile>
     <Page Include="Behaviours\ErrorModelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -392,6 +505,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\AccountCustomControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\AccountDetailsSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -618,6 +735,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\PrussianBlue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -655,6 +776,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Publisher\AdvancedSettings\Pinterest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AdvancedSettings\Tumblr.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -699,6 +824,114 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Publisher\PublisherIndexPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostAdvancedSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostFacebookSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostGeneralSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostInstagramSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostLinkedInSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostTumblrSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostTwitterSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherCreateCampaigns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherCreateDestination.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherCreateNewPost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherDefaultPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherDirectPosts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherHome.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherManageDestinations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherManagePostDrafts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherManagePostPending.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherManagePostPublished.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherManagePosts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherMediaViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherMonitorFolder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherMultiplePost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherPostlistSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherRssFeed.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherScrapePost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherSharePost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\SelectDestinations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\Suggestions\PublisherEditPost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

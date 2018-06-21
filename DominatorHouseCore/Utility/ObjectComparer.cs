@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DominatorHouseCore.Utility
+{
+    public class ObjectComparer
+    {
+        /// <summary>
+        /// it will take two object of same type and compare it
+        /// if both objects are equal then it will return null
+        /// otherwise return changed object
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="oldModel"></param>
+        /// <param name="newModel"></param>
+        /// <returns></returns>
+        public static T CompareAndGetChangedObject<T>(T oldModel, T newModel) where T : class
+        {
+           if(Compare(oldModel, newModel))
+               return null;
+            return newModel;
+        }
+
+        /// <summary>
+        /// This method will compare two objects 
+        /// if both objects all properties values are equals then it will return true
+        /// otherwise it will return false
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="oldModel"></param>
+        /// <param name="newModel"></param>
+        /// <returns></returns>
+        private static bool Compare<T>(T oldModel, T newModel) where T : class
+        {
+            var objectCompare = new ObjectsComparer.Comparer<T>();
+            return objectCompare.Compare(oldModel, newModel);
+
+        }
+    }
+}

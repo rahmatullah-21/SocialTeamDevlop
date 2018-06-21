@@ -1,0 +1,448 @@
+﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.PublisherDefaultPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+             Name="PublisherDefault"
+             mc:Ignorable="d" 
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+    <UserControl.Resources>
+        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
+        <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
+        <GridViewColumnCollection x:Key="ColumnSubHeading">
+            <GridViewColumn Width="80">
+                <GridViewColumn.Header>
+                    <TextBlock Text="{DynamicResource DHlangDraft}" />
+                </GridViewColumn.Header>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="0,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,2,6,2" Text="{Binding DraftCount}"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn  Width="80">
+                <GridViewColumn.Header>
+                    <TextBlock Text="{DynamicResource DHlangPending}" />
+                </GridViewColumn.Header>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,2,6,2" Text="{Binding PendingCount}"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn Width="80" >
+                <GridViewColumn.Header>
+                    <TextBlock Text="{DynamicResource DHlangPublished}" />
+                </GridViewColumn.Header>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,2,6,2" Text="{Binding PublishedCount}"/>
+                            </StackPanel>
+                            
+                        </Border>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+        </GridViewColumnCollection>
+        <DataTemplate x:Key="MultiColumnHeaderTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Margin="2" Text="{DynamicResource langPostStatus}" HorizontalAlignment="Center"/>
+                <Border Grid.Row="1"  BorderThickness="0,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                    <GridViewHeaderRowPresenter VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Columns="{StaticResource ColumnSubHeading}"/>
+                </Border>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="MultiColumnCellTemplate">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                    <GridViewRowPresenter HorizontalAlignment="Stretch"  Columns="{DynamicResource ColumnSubHeading}"/>
+                </Border>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="{DynamicResource AccentBaseColorBrush}" Name="HeaderGrid">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock HorizontalAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White">
+                    <Rectangle Width="25" Height="25" Fill="White" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_billing}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                
+                    <Label Content="{DynamicResource DHlangPublisher}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+            </TextBlock>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+
+                <Button Background="Transparent" ToolTip="{DynamicResource DHlangToolTipGotoManagerDestination}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManageDestinations" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManageDestinations">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="20" Height="20" Fill="White">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_resource_group}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangManageDestinations}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <Button Background="Transparent" Cursor="Hand" ToolTip="{DynamicResource DHlangToolTipGotoManagePosts}" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManagePosts" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManagePosts">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="20" Height="20" Fill="White">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_gallery}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangManagePosts}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Background="Transparent" ToolTip="{DynamicResource DHlangToolTipGotoCreateCampaign}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonCreateCampaigns" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="CreateCampaigns">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="20" Height="20" Fill="White">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_calendar}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangCreateCampaign}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+
+                <Button Name="BtnSelect" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=BtnSelect}" Background="Transparent" ToolTip="{DynamicResource DHlangToolTipSelectWhatTodo}"  Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Margin="5" >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
+                                    <Label Content="{DynamicResource DHlangSelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+
+                    <Button.ContextMenu>
+                        <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllCampaigns" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
+                                <MenuItem.Icon>
+                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuDeselectAllCampaigns" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
+                                <MenuItem.Icon>
+                                    <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick_unchecked}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+
+                <Button Background="Transparent" Name="PublisherAction" ToolTip="{DynamicResource DHlangToolTipSelectActions}" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=PublisherAction}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"   Margin="5">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="20" Height="20" Fill="White">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_list_gear}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource DHlangAction}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+
+                    <Button.ContextMenu>
+                        <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="{DynamicResource DHlangSwitchToActive}" Name="MenuSwitchToActive" >
+                                <MenuItem.Icon>
+                                    <StackPanel>
+                                        <Rectangle Width="15" Height="15" Fill="Green">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_moon_full}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </StackPanel>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="{DynamicResource DHlangSwitchToPause}" Name="MenuSwitchToPause" >
+                                <MenuItem.Icon>
+                                    <StackPanel>
+                                        <Rectangle Width="15" Height="15" Fill="DarkOrange">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_moon_full}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </StackPanel>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="{DynamicResource DHlangSwitchToPending}" Name="MenuSwitchToPending" >
+                                <MenuItem.Icon>
+                                    <Rectangle Width="15" Height="15" Fill="DarkRed">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_moon_full}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="{DynamicResource DHlangDelete}" Name="MenuDelete" Command="{Binding DeleteCampaignCommand}" CommandParameter="MenuDelete">
+                                <MenuItem.Icon>
+                                    <Rectangle Width="12" Height="15" Fill="Black">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="{DynamicResource DHlangDuplicate}" Name="MenuDuplicate" Command="{Binding CampaignCloneCommand}" CommandParameter="MenuClone">
+                                <MenuItem.Icon>
+                                    <Rectangle Width="15" Height="15" Fill="Black">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_page_duplicate}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="{DynamicResource DHlangPublishNow}" Name="MenuPublishNow" >
+                                <MenuItem.Icon>
+                                    <Rectangle Width="15" Height="15" Fill="Black">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_door_enter}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+
+
+            </StackPanel>
+
+        </Grid>
+
+
+        <ListView Grid.Row="1"
+                  x:Name="CampaignStatusList"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"                  
+                  ItemsSource="{Binding PublisherCampaignStatusModelView}"
+                  VerticalAlignment="Stretch" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" >
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}" 
+                       BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Style>
+                <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="80">
+                        <GridViewColumn.Header>
+                            <Border BorderThickness="1,0,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                <CheckBox x:Name="AllCampaign"  IsChecked="{Binding IsAllCampaignSelected}" Content=" #" Command="{Binding SelectionExecute}" CommandParameter="{Binding IsAllCampaignSelected,Converter={StaticResource BooleanToStringSelectConverter}}"/>
+                            </Border>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <CheckBox IsChecked="{Binding IsSelected}" 
+                                              x:Name="ChkSingleCampaign"
+                                          Margin="6,2,6,2"  Content="{Binding (ItemsControl.AlternationIndex),
+                                                  RelativeSource={RelativeSource AncestorType=ListViewItem},
+                                                  Converter={StaticResource IndexToRowNoConverter}}"  />
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn  Width="250">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource langCampaignName}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock  Margin="6,2,6,2" Text="{Binding CampaignName}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="100">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource langStatus}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBlock  Margin="6,2,6,2" Text="{Binding Status}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="100">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangDestination}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBlock  Margin="6,2,6,2" Text="{Binding DestinationCount}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="240"  HeaderTemplate="{StaticResource MultiColumnHeaderTemplate}" CellTemplate="{StaticResource MultiColumnCellTemplate}" />
+
+                    <GridViewColumn Width="200">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangAction}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel Orientation="Horizontal" Margin="6,2,6,2">
+                                        <Button Cursor="Hand" Content="{DynamicResource DHlangEdit}" x:Name="ButtonEditCampaign" 
+                                                FontWeight="SemiBold"  Background="Transparent" 
+                                                Command="{Binding Path=DataContext.NavigationCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"/>
+                                        <Button Cursor="Hand" 
+                                                Content="{DynamicResource DHlangDuplicate}" 
+                                                x:Name="ButtonDuplicateCampaign" 
+                                                    FontWeight="SemiBold"  
+                                                Command="{Binding Path=DataContext.CampaignCloneCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                     Background="Transparent"/>
+                                        <Button Cursor="Hand" Content="{DynamicResource DHlangDelete}" 
+                                                x:Name="ButtonDeleteCampaign" 
+                                                FontWeight="SemiBold"
+                                                Command="{Binding Path=DataContext.DeleteCampaignCommand,  RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding}"  
+                                                Background="Transparent" />
+
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="150">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource langCreatedDate}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBlock  Margin="6,2,6,2" Text="{Binding CreatedDate}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="150">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource langStartDate}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBlock  Margin="6,2,6,2" Text="{Binding StartDate}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="150">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource langEndDate}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBlock  Margin="6,2,6,2" Text="{Binding EndDate}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+
+    </Grid>
+</UserControl>

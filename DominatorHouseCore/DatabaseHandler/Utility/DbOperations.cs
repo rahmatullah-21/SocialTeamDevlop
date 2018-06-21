@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -51,7 +52,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 _context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -59,13 +60,14 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         #endregion
 
         #region Read Operations
+
         public int Count<T>(Expression<Func<T, bool>> expression = null) where T : class
         {
             try
             {
                 return expression == null ? _context.Set<T>().Count() : _context.Set<T>().Where(expression).Count();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return 0;
             }
@@ -77,7 +79,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             {
                 return expression == null ? _context.Set<T>().ToList() : _context.Set<T>().Where(expression).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -89,11 +91,31 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             {
                 return _context.Set<T>().FirstOrDefault(expression);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
         }
+
+
+
+        public async Task<List<T>> GetAsync<T>(Expression<Func<T, bool>> expression = null) where T : class
+        {
+            var lstData = new List<T>();
+            try
+            {
+                lstData = await Task.Factory.StartNew(() => 
+                expression == null 
+                ? _context.Set<T>().ToList() 
+                : _context.Set<T>().Where(expression).ToList());
+            }
+            catch (Exception)
+            {
+                return lstData;
+            }
+            return lstData;
+        }
+
 
         #endregion
 
@@ -103,11 +125,11 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         {
             try
             {
-                _context.Entry<T>(t).State = EntityState.Modified;
+                _context.Entry(t).State = EntityState.Modified;
                 _context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -147,7 +169,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         {
             try
             {
-                _context.Entry<T>(t).State = EntityState.Deleted;
+                _context.Entry(t).State = EntityState.Deleted;
                 _context.SaveChanges();
                 return true;
             }

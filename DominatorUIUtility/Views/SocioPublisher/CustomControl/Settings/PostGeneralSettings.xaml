@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings.PostGeneralSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+             xmlns:control="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d">
+    <Grid Name="MainGrid">
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource DHlangExpireDate}" Margin="5"
+                          IsChecked="{Binding IsExpireDate}"/>
+                <DatePicker Name="DatePicker" Margin="5" SelectedDate="{Binding ExpireDate}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource DHlangReaddCount}" Margin="5"
+                          IsChecked="{Binding IsReaddCount}"/>
+                <control:NumericUpDown Minimum="0" Value="{Binding ReaddCount}"/>
+                <TextBlock Text="{DynamicResource DHlangTimes}" Name="TextBlockTimes" VerticalAlignment="Center" Margin="5"/>
+            </StackPanel>
+
+          
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -31,11 +31,17 @@ namespace Socinator.DominatorCores
 
         public IAccountToolsFactory AccountUserControlTools { get; set; }
 
+        public IDestinationSelectors AccountDetailsSelectors { get; set; }
+
         public IDatabaseConnection AccountDatabase { get; set; }
 
         public IDatabaseConnection CampaignDatabase { get; set; }
+
         public IReportFactory ReportFactory { get; set; }
+
         public IViewCampaignsFactory ViewCampaigns { get; set; }
+
         public ICampaignInteractionDetails CampaignInteractionDetails { get; set; }
+
     }
 }

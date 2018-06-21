@@ -31,6 +31,9 @@ namespace DominatorHouseCore.Interfaces
 
         IAccountToolsFactory AccountUserControlTools { get; set; }
 
+
+        IDestinationSelectors AccountDetailsSelectors { get; set; }
+
         IDatabaseConnection AccountDatabase { get; set; }
 
         IDatabaseConnection CampaignDatabase { get; set; }

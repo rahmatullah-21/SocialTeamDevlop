@@ -224,5 +224,7 @@
         /// 1 = Account's Username
         /// </summary>
         public static string StopUpdatingAccount { get; set; } = "{0}\t {1}\t Stopped for further friendship update!";
+
+       
     }
 }

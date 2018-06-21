@@ -18,6 +18,7 @@ using DominatorHouseCore.Request;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json.Linq;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models.SocioPublisher;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -29,6 +30,8 @@ namespace DominatorHouseCore.Diagnostics
             new Dictionary<SocialNetworks, INetworkCollectionFactory>();
 
         public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();
+
+        public static HashSet<SocinatorIntellisenseModel> Macros { get; set; } = new HashSet<SocinatorIntellisenseModel>();
 
         public static async Task<HashSet<SocialNetworks>> SetAvailableSocialNetworks(string license)
         {
@@ -524,6 +527,13 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
+
+        public NetworkCoreLibraryBuilder AddAccountSelectors(IDestinationSelectors destinationSelectors)
+        {
+            NetworkCoreFactory.AccountDetailsSelectors = destinationSelectors;
+            return this;
+        }
+       
         public NetworkCoreLibraryBuilder AddAccountDbConnection(IDatabaseConnection accountDbConnection)
         {
             NetworkCoreFactory.AccountDatabase = accountDbConnection;
@@ -547,12 +557,12 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.ViewCampaigns = viewCampaigns;
             return this;
         }
+
         public NetworkCoreLibraryBuilder AddCampaignInteractedDetailsFactory(ICampaignInteractionDetails campaignInteractionDetails)
         {
             NetworkCoreFactory.CampaignInteractionDetails = campaignInteractionDetails;
             return this;
         }
-
 
     }
 }

@@ -36,7 +36,7 @@ namespace Socinator.Social.Settings.ViewModel
               new  ColorsCollection("steel"," #647687"),
               new  ColorsCollection("mauve","#76608a"),
               new  ColorsCollection("taupe","#87794E"),
-
+                new  ColorsCollection("white","#ffffff"),
             };
 
             _lstThemeCollection.Add(new ThemeCollection("Light", "White"));

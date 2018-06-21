@@ -6,6 +6,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Socinator")]
+
 [assembly: AssemblyDescription("The Social Dominator")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Socinator")]

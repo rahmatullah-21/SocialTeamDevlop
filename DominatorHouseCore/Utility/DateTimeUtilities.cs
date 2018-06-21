@@ -287,6 +287,29 @@ namespace DominatorHouseCore.Utility
             
             return nextStartTime;
         }
+
+        public static TimeSpan GetRandomTime(TimeSpan start, TimeSpan end, Random random)
+        {
+            try
+            {
+                int totalSeconds = (int)((end - start).TotalSeconds);
+                int nextSeconds = random.Next(totalSeconds);
+                return start.Add(TimeSpan.FromSeconds(nextSeconds));
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return start;
+            }
+        }
+
+        public static bool TimeBetween(TimeSpan now, TimeSpan start, TimeSpan end)
+        {
+            if (start < end)
+                if (now <= end || start > now)
+                    return true;
+            return false;
+        }
     }
 
 

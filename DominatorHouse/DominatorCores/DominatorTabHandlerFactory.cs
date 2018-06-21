@@ -10,9 +10,11 @@ using DominatorHouseCore.Models;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
+using DominatorUIUtility.Views.SocioPublisher;
 using Socinator.Social.Accounts;
 using Socinator.Social.AutoActivity.Views;
 using Socinator.Social.OtherConfiguration;
+
 
 //using EmbeddedBrowser;
 
@@ -69,6 +71,11 @@ namespace Socinator.DominatorCores
                 //    Title = Application.Current.FindResource("langPublisher") == null? "Publisher" : Application.Current.FindResource("langPublisher")?.ToString(),
                 //    Content = new Lazy<UserControl>(()=> PublisherIndexPage.Instance)
                 //},
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("DHlangSocioPublisher") == null? "Socio Publisher" : Application.Current.FindResource("DHlangSocioPublisher")?.ToString(),
+                    Content = new Lazy<UserControl>(()=>PublisherHome.Instance)
+                },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("langProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("langProxyManager")?.ToString(),
