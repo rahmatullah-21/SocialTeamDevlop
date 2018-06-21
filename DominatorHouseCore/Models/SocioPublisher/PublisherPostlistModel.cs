@@ -265,6 +265,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+
         private bool _isFdSellPost;
         [ProtoMember(22)]
         public bool IsFdSellPost
@@ -280,6 +281,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isFdSellPost, value);
             }
         }
+
 
         #region Postlist
 

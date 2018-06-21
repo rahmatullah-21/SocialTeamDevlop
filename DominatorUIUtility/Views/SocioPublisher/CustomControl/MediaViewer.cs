@@ -412,9 +412,12 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             try
             {
                 ImagePointer--;
-                CurrentMediaUrl = MediaList[ImagePointer];
-                CurrentMediaPointer = CurrentMediaPointer - 1;
-                UpdateNavigationPointer();
+                if (ImagePointer >= 0)
+                {
+                    CurrentMediaUrl = MediaList[ImagePointer];
+                    CurrentMediaPointer = CurrentMediaPointer - 1;
+                    UpdateNavigationPointer();
+                }               
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -429,11 +432,14 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public void NextImageNavigator()
         {
             try
-            {                
+            {                            
                 ImagePointer++;
-                CurrentMediaUrl = MediaList[ImagePointer];
-                CurrentMediaPointer = CurrentMediaPointer + 1;
-                UpdateNavigationPointer();
+                if (ImagePointer < MediaList.Count)
+                {
+                    CurrentMediaUrl = MediaList[ImagePointer];
+                    CurrentMediaPointer = CurrentMediaPointer + 1;
+                    UpdateNavigationPointer();
+                }                  
             }
             catch (ArgumentOutOfRangeException ex)
             {

@@ -6,20 +6,20 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
     [ProtoContract]
    public class GeneralModel : BindableBase
     {
-        private int _noOfPost;
+        private int _triggerNotificationCount=50;
       
         [ProtoMember(1)]
-        public int NoOfPost
+        public int TriggerNotificationCount
         {
             get
             {
-                return _noOfPost;
+                return _triggerNotificationCount;
             }
             set
             {
-                if (_noOfPost == value)
+                if (_triggerNotificationCount == value)
                     return;
-                SetProperty(ref _noOfPost, value);
+                SetProperty(ref _triggerNotificationCount, value);
             }
         }
         private int _waitMaxOf;
@@ -38,20 +38,20 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _waitMaxOf, value);
             }
         }
-        private int _keepMaxOf;
+        private int _maxPostCountToStore=300;
 
         [ProtoMember(3)]
-        public int KeepMaxOf
+        public int MaxPostCountToStore
         {
             get
             {
-                return _keepMaxOf;
+                return _maxPostCountToStore;
             }
             set
             {
-                if (_keepMaxOf == value)
+                if (_maxPostCountToStore == value)
                     return;
-                SetProperty(ref _keepMaxOf, value);
+                SetProperty(ref _maxPostCountToStore, value);
             }
         }
         private int _checkRSSFeedsminutes;

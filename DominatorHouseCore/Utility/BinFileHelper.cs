@@ -517,6 +517,17 @@ namespace DominatorHouseCore.Utility
                 $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
 
 
+        public static PublisherCreateDestinationModel GetSingleDestination(string destinationId)
+        {
+            var lists= ProtoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
+                $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
+
+            if (lists.Count > 0)
+                return lists[0];
+
+            return null;
+        }
+
         public static List<PublisherManageDestinationModel> GetPublisherManageDestinationModels()
         {
             return WithFile<PublisherManageDestinationModel, List<PublisherManageDestinationModel>>(
