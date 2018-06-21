@@ -1,7 +1,6 @@
 ﻿using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
-using FaceDominatorCore.FDViewModel.Publisher;
 
 namespace DominatorHouse.DominatorCores
 {

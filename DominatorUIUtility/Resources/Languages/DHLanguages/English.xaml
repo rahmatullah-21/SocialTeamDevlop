@@ -389,5 +389,6 @@ Type 3. IP:Port
     <system:String x:Key="DhlangPostManager">Post Manager</system:String>
     <system:String x:Key="DhlangPostConfiguration">Post Configuration</system:String>
     <system:String x:Key="DhlangRssFeedTemplate">[FeedTitle] [FeedDescription] [FeedUrl] [FeedPublishedDate]</system:String>
+    <system:String x:Key="DhlangShareUrl">Share Url</system:String>
 
 </ResourceDictionary>

@@ -341,10 +341,33 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 try
                 {
                     var currentPost = sender as PublisherPostlistModel;
-                    Dialog dialog = new Dialog();
-                    PublisherEditPost publisherEditPost = new PublisherEditPost(currentPost, PublisherPostlist);
-                    var window = dialog.GetMetroWindow(publisherEditPost, "Edit Post");
-                    window.ShowDialog();
+                    if (!string.IsNullOrEmpty(currentPost.ShareUrl))
+                    {
+                        var settings = new MetroDialogSettings()
+                        {
+                            DefaultText = currentPost.ShareUrl,
+                            AffirmativeButtonText = "Save",
+                            NegativeButtonText = "Cancel"
+                        };
+
+                        var updatedShareUrl = DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow, "Update Share Url", "Edit Share Url", settings);
+                        if (!string.IsNullOrEmpty(updatedShareUrl))
+                        {
+                            var indexToUpdate = PublisherPostlist.FindIndex(posts => posts.PostId == currentPost.PostId);
+                            PublisherPostlist[indexToUpdate].ShareUrl = updatedShareUrl;
+                            PostlistFileManager.UpdatePostlists(currentPost.CampaignId, PublisherPostlist); 
+                        }
+
+                       
+                    }
+                    else
+                    {
+                        Dialog dialog = new Dialog();
+                        PublisherEditPost publisherEditPost = new PublisherEditPost(currentPost, PublisherPostlist);
+                        var window = dialog.GetMetroWindow(publisherEditPost, "Edit Post");
+                        window.ShowDialog();
+
+                    }
                 }
                 catch (Exception ex)
                 {

@@ -251,6 +251,19 @@
 
                     <GridViewColumn Width="180">
                         <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DhlangShareUrl}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <TextBlock  VerticalAlignment="Center" Margin="6,2,6,2" Text="{Binding ShareUrl}"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                   
+                    <GridViewColumn Width="180">
+                        <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource DHlangCreatedDate}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
