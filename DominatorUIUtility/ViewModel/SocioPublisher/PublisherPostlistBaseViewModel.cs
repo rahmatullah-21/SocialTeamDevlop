@@ -250,15 +250,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (selectedPublisherPostlist.Count == 0)
                 {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                        "There is no post without an image!");
+                    Dialog.ShowDialog("Alert", "There is no post without an image!");
+                    //DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
+                    //    "There is no post without an image!");
                     return;
                 }
-
-                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    "Confirmation", "Are you sure to delete post(s) with no images?",
-                    MessageDialogStyle.AffirmativeAndNegative,
-                    Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "Are you sure to delete post(s) with no images?", "Delete Anyways", "Don't delete");
+                //var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                //    "Confirmation", "Are you sure to delete post(s) with no images?",
+                //    MessageDialogStyle.AffirmativeAndNegative,
+                //    Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
 
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
@@ -282,15 +283,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (selectedPublisherPostlist.Count == 0)
                 {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                        "Please select atleast a post !!");
+                    Dialog.ShowDialog("Alert", "Please select atleast a post !!");
                     return;
                 }
-
-                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    "Confirmation", "Are you sure to delete all selected posts permanently?",
-                    MessageDialogStyle.AffirmativeAndNegative,
-                    Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "Are you sure to delete all selected posts permanently?","Delete Anyways", "Don't delete");
+                //var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                //    "Confirmation", "Are you sure to delete all selected posts permanently?",
+                //    MessageDialogStyle.AffirmativeAndNegative,
+                //    Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
 
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
