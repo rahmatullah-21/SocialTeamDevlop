@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Utility;
+﻿using System.Windows;
+using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
@@ -21,7 +22,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _feedUrl, value);
             }
         }
-        private string _feedTemplate = string.Empty;
+        private string _feedTemplate =Application.Current.FindResource("DhlangRssFeedTemplate").ToString();
         [ProtoMember(2)]
         public string FeedTemplate
         {

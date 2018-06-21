@@ -386,5 +386,8 @@ Type 3. IP:Port
     <system:String x:Key="DhlangFolderTemplates">Folder Templates</system:String>
     <system:String x:Key="DhlangFolderPathDetails">Folder Path Details</system:String>
     <system:String x:Key="DhlangFolderPathTemplate">[FileName] [FileType] [FileAuthor] [FileTitle] [FileSubject] [FileCreationDate] [FileComments] [FileTags]</system:String>
+    <system:String x:Key="DhlangPostManager">Post Manager</system:String>
+    <system:String x:Key="DhlangPostConfiguration">Post Configuration</system:String>
+    <system:String x:Key="DhlangRssFeedTemplate">[FeedTitle] [FeedDescription] [FeedUrl] [FeedPublishedDate]</system:String>
 
 </ResourceDictionary>

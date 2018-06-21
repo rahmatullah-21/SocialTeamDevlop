@@ -204,7 +204,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 #endregion
 
-                #region Saving single post
+                #region Saving post
 
                 PostlistFileManager.SaveAll(PublisherCreateCampaignModel.CampaignId, new List<PublisherPostlistModel>());
 
@@ -344,6 +344,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 CreatedDate = PublisherCreateCampaignModel.CreatedDate,
                 Status = PublisherCreateCampaignModel.CampaignStatus,
                 DestinationCount = PublisherCreateCampaignModel.LstDestinationId.Count,
+
             };
             PublisherDefaultPage.Instance.PublisherDefaultViewModel.AddCampaignDetails(publisherCampaignStatusModel);
             

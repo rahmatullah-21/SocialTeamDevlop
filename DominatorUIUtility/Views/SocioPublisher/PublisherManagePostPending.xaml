@@ -287,14 +287,14 @@
                                                 Content="{DynamicResource DHlangPublishNow}" 
                                                 x:Name="ButtonPublishNowPosts" 
                                                 FontWeight="SemiBold"       
-                                                Command="{Binding Path=DataContext.EditSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Command="{Binding Path=DataContext.ChangePostStatusCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding ElementName=ButtonPublishNowPosts}"
                                                 Background="Transparent"/>
 
                                         <Button Cursor="Hand" 
                                                 Content="{DynamicResource DHlangSendtoDraft}" 
                                                 x:Name="ButtonSendtoDraftPosts" 
                                                 FontWeight="SemiBold"       
-                                                Command="{Binding Path=DataContext.EditSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Command="{Binding Path=DataContext.ChangePostStatusCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding ElementName=ButtonSendtoDraftPosts}"
                                                 Background="Transparent"/>
                                         
                                     </StackPanel>

@@ -200,7 +200,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var clonedCampaignStatus = GetCampaginDeepClone(campaignStatus);
 
                     clonedCampaignStatus.GenerateCloneCampaign(campaignStatus.CampaignName);
-                    SaveClonedCampaign(clonedCampaignStatus);
+                    SaveClonedCampaign(clonedCampaignStatus, campaignStatus.CampaignId);
+                    GlobusLogHelper.log.Info(campaignStatus.CampaignName + "Successfully duplicated.");
                     AddCampaignDetails(clonedCampaignStatus);
                 }
                 else
@@ -210,9 +211,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         var clonedCampaignStatus = GetCampaginDeepClone(campaign);
 
                         clonedCampaignStatus.GenerateCloneCampaign(campaign.CampaignName);
-                        SaveClonedCampaign(clonedCampaignStatus);
+                        SaveClonedCampaign(clonedCampaignStatus, campaign.CampaignId);
                         AddCampaignDetails(clonedCampaignStatus);
                     });
+
                 }
             }
             catch (Exception ex)
@@ -221,24 +223,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private static void SaveClonedCampaign(PublisherCampaignStatusModel clonedCampaignStatus)
+        private static void SaveClonedCampaign(PublisherCampaignStatusModel clonedCampaignStatus, string campaignId)
         {
-            var publisherCreateCampaignModel = new PublisherCreateCampaignModel
+            try
             {
-                CampaignName = clonedCampaignStatus.CampaignName,
-                CampaignId = clonedCampaignStatus.CampaignId,
-                JobConfigurations = new JobConfigurationModel
-                {
-                    CampaignStartDate = clonedCampaignStatus.StartDate,
-                    CampaignEndDate = clonedCampaignStatus.EndDate,
-                },
-                CreatedDate = clonedCampaignStatus.CreatedDate,
-                CampaignStatus = clonedCampaignStatus.Status,
-                //LstDestinationId.Count,
-            };
-            GenericFileManager.AddModule<PublisherCreateCampaignModel>(publisherCreateCampaignModel,
-                ConstantVariable.GetPublisherCampaignFile());
-            PublisherCreateCampaigns.Instance.PublisherCreateCampaignViewModel.CampaignList.Add(publisherCreateCampaignModel.CampaignName);
+                var duplicatedCampaign = GenericFileManager
+                       .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile())
+                       .FirstOrDefault(campaign => campaign.CampaignId == campaignId);
+                duplicatedCampaign.CampaignName = clonedCampaignStatus.CampaignName;
+                duplicatedCampaign.CampaignId = clonedCampaignStatus.CampaignId;
+
+                GenericFileManager.AddModule<PublisherCreateCampaignModel>(duplicatedCampaign,
+                    ConstantVariable.GetPublisherCampaignFile());
+
+                PublisherCreateCampaigns.Instance.PublisherCreateCampaignViewModel.CampaignList.Add(duplicatedCampaign.CampaignName);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
 
         }
 
@@ -264,15 +267,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
 
             var isIndividualDelete = sender is PublisherCampaignStatusModel;
-            
+
             if (isIndividualDelete)
             {
                 var campaign = (PublisherCampaignStatusModel)sender;
 
-                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    "Confirmation", "If you delete it, cant recover back \nAre you sure ?",
-                    MessageDialogStyle.AffirmativeAndNegative,
-                    Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "If you delete it, cant recover back \nAre you sure ?", "Delete Anyways", "Don't delete");
 
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
@@ -288,15 +288,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (publisherCampaignStatusModels.Count == 0)
                 {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                        "Please select atleast one campaign !!");
+                    Dialog.ShowDialog("Alert", "Please select atleast one campaign !!");
                     return;
                 }
 
-                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    "Confirmation", "If you delete it will delete all selected campaign permanently \nAre you sure ?",
-                    MessageDialogStyle.AffirmativeAndNegative,
-                    Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "If you delete it will delete all selected campaign permanently \nAre you sure ?",
+                    "Delete Anyways", "Don't delete");
 
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
@@ -310,7 +307,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherCreateCampaigns.Instance.PublisherCreateCampaignViewModel.CampaignList.Remove(x.CampaignName);
 
                 });
-                
+
             }
         }
 

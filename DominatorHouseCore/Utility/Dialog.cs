@@ -149,5 +149,14 @@ namespace DominatorHouseCore.Utility
         {
             return DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, title, message, MessageDialogStyle.AffirmativeAndNegative, SetMetroDialogButton(affirmativeText, negativeText));
         }
+
+        public static void CloseDialog(object sender)
+        {
+            Window parentWindow = Window.GetWindow((DependencyObject)sender);
+            if (parentWindow != null)
+            {
+                parentWindow.Close();
+            }
+        }
     }
 }
