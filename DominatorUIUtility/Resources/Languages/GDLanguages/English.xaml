@@ -754,9 +754,9 @@
     <system:String x:Key="langIgnoreVideos">Ignore videos</system:String>
     <system:String x:Key="langIgnoreAlbums">Ignore albums</system:String>
     <system:String x:Key="langUserFilters">User Filters</system:String>
-    <system:String x:Key="langCaptionBlacklists">Caption blacklists</system:String>
+    <system:String x:Key="GdLangCaptionBlacklists">Add blacklisted words that should not contain in caption</system:String>
     <system:String x:Key="langAddBlacklistedCaption">Add Blacklisted Caption</system:String>
-    <system:String x:Key="langCaptionWhitelist">Caption whitelist</system:String>
+    <system:String x:Key="GdLangCaptionWhitelist">Add whitelisted words that should contain in caption</system:String>
     <system:String x:Key="langAddWhitelistedCaption">Add Whitelisted Caption</system:String>
     <system:String x:Key="langAfterFollowAction">After Follow Action</system:String>
     <system:String x:Key="langAfterUnFollowAction">After UnFollow Action</system:String>
@@ -893,8 +893,8 @@
     <system:String x:Key="langOwnFollowers">Own Followers</system:String>
     <system:String x:Key="langUnfollowSource">Unfollow Source</system:String>
     <system:String x:Key="langSourceType">Source Type</system:String>
-    <system:String x:Key="langWhoDoNotFollowBack">Who Do Not Follow Back</system:String>
-    <system:String x:Key="langWhoFollowBack">Who Follow Back</system:String>
+    <system:String x:Key="GdLangWhoDidNotFollowBack">Who Do Not Follow Back</system:String>
+    <system:String x:Key="GdLangWhoFollowedBack">Who Follow Back</system:String>
     <system:String x:Key="langSourceFilter">Source Filter</system:String>
     <system:String x:Key="langUserFollowedBefore">User should have been followed before</system:String>
     <system:String x:Key="langFollowerWarning">These accounts are already running with follow configuration from another campaign. Saving this settings will override previous settings and remove this account from the campaign.</system:String>
@@ -1318,6 +1318,13 @@
     <system:String x:Key="GdLangAddToGroupBlackList">To Group Blacklist</system:String>
 
     <system:String x:Key="GdLangSpecificUsersPosts">Specific User's Posts</system:String>
+    <system:String x:Key="GdLangPostFilterMinCharInCaption">Should have minimum character length in caption</system:String>
+    <system:String x:Key="GdLangFilterByBlacklistedWhitelistedWordsInCaption">Filter by Blacklisted/ Whitelisted words in caption</system:String>
+
+
+    <system:String x:Key="GdLangUseSourceTypeFilter">Use Source Type filter</system:String>
+    <system:String x:Key="GdLangIgnorePrivateUsers">Ignore private users</system:String>
+    <system:String x:Key="GdLangLastPostDay">Should not posted within the last</system:String>
 
     <!--End Gram Dominator-->
 

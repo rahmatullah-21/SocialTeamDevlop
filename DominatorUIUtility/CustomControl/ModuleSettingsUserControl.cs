@@ -410,7 +410,7 @@ namespace DominatorUIUtility.CustomControl
 
         public void SaveTemplateToAccounts(string templateId, List<RunningTimes> runningTime)
         {
-            var accountDetails = AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts,SocialNetwork);
+            var accountDetails = AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
 
             accountDetails.ForEach(account =>
             {
@@ -583,52 +583,52 @@ namespace DominatorUIUtility.CustomControl
             #region Warning windows save button event
 
             objErrorModelControl.BtnSave.Click += (senders, events) =>
-           {
+            {
                 #region Remove not selected accounts from errorModelControl
 
                 var nonSelectedAccounts = objErrorModelControl.Accounts.Where(x => !x.IsChecked).Select(x => x.UserName)
-                   .ToList();
+                    .ToList();
 
-               nonSelectedAccounts.ForEach(removingAccount =>
-               {
-                   _footerControl.list_SelectedAccounts.Remove(removingAccount);
-                   accountDetails.Remove(accountDetails.FirstOrDefault(x => x.UserName == removingAccount));
-               });
+                nonSelectedAccounts.ForEach(removingAccount =>
+                {
+                    _footerControl.list_SelectedAccounts.Remove(removingAccount);
+                    accountDetails.Remove(accountDetails.FirstOrDefault(x => x.UserName == removingAccount));
+                });
                 #endregion
 
                 var selectedAccount = objErrorModelControl.Accounts.Where(x => x.IsChecked).Select(x => x.UserName).ToList();
 
-               if (selectedAccount.Count == 0)
-               {
-                   warningWindow.Close();
-                   return;
-               }
+                if (selectedAccount.Count == 0)
+                {
+                    warningWindow.Close();
+                    return;
+                }
 
-               accountDetails.ForEach(account =>
-                   {
+                accountDetails.ForEach(account =>
+                    {
                         //if (!selectedAccount.Contains(account.AccountBaseModel.UserName))
                         //    return;
 
                         var moduleSettings =
-                           account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
-                               module.ActivityType == _activityType);
+                            account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
+                                module.ActivityType == _activityType);
 
-                       if (moduleSettings == null)
-                           return;
+                        if (moduleSettings == null)
+                            return;
 
-                       CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId,
-                           account.AccountBaseModel.UserName);
+                        CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId,
+                            account.AccountBaseModel.UserName);
 
-                       DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings.TemplateId, false);
+                        DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings.TemplateId, false);
 
-                       account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-                       var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                           .RemoveModuleSettings(_activityType)
-                           .SaveToBinFile();
-                   });
+                        account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
+                        var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                            .RemoveModuleSettings(_activityType)
+                            .SaveToBinFile();
+                    });
 
-               warningWindow.Close();
-           };
+                warningWindow.Close();
+            };
 
             #endregion
 
@@ -637,18 +637,6 @@ namespace DominatorUIUtility.CustomControl
             objErrorModelControl.BtnCancel.Click += (senders, events) =>
             {
 
-                #region Remove not selected accounts from errorModelControl
-
-                //var nonSelectedAccounts = objErrorModelControl.Accounts.Where(x => !x.IsChecked).Select(x => x.UserName)
-                //    .ToList();
-
-                //nonSelectedAccounts.ForEach(removingAccount =>
-                //{
-                //    _footerControl.list_SelectedAccounts.Remove(removingAccount);
-                //});
-
-                #endregion
-               // needToCancel = true;
                 warningWindow.Close();
 
             };
@@ -798,7 +786,7 @@ namespace DominatorUIUtility.CustomControl
                     if (!UpdateNewlyAddedAccounts(newlyAddedAccounts)) return;
                 }
 
-                var accountToRemoveModuleConfiguration = AccountsFileManager.GetAllAccounts(removedAccounts,SocialNetwork);
+                var accountToRemoveModuleConfiguration = AccountsFileManager.GetAllAccounts(removedAccounts, SocialNetwork);
 
                 #region Remove TemplateId from removed account from campaign selected account list
 
@@ -921,14 +909,14 @@ namespace DominatorUIUtility.CustomControl
             bool isProcessSuccessful = false;
             #region Get the accounts which holds template Id
 
-            var accountDetails = AccountsFileManager.GetAllAccounts(newlyAddedAccounts,SocialNetwork);
+            var accountDetails = AccountsFileManager.GetAllAccounts(newlyAddedAccounts, SocialNetwork);
 
             var accountHavingTemplates = accountDetails.Where(x => x.ActivityManager.LstModuleConfiguration.FirstOrDefault(y => y.ActivityType == _activityType)?.TemplateId != null).ToList();
 
             #endregion
 
             #region If account having any template then Show ErrorModelControl with warning
-
+            
             if (accountHavingTemplates.Count != 0)
             {
                 var objErrorModelControl = new ErrorModelControl { WarningText = GetWarningLangRsrc() };
@@ -1027,7 +1015,8 @@ namespace DominatorUIUtility.CustomControl
 
                 objErrorModelControl.BtnCancel.Click += (senders, events) =>
                 {
-                    warningWindow.Close();
+
+                   warningWindow.Close();
                 };
 
                 #endregion
