@@ -346,7 +346,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 DestinationCount = PublisherCreateCampaignModel.LstDestinationId.Count,
             };
             PublisherDefaultPage.Instance.PublisherDefaultViewModel.AddCampaignDetails(publisherCampaignStatusModel);
-
+            
             #endregion
         }
 
@@ -388,7 +388,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 PublisherCreateCampaignModel = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
                       (ConstantVariable.GetPublisherCampaignFile()).FirstOrDefault(x => x.CampaignName == (string)sender);
-
+                BindTabItemsControlProperties();
                 SetDataContext();
             }
             catch (Exception ex)

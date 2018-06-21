@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Utility;
+﻿using System;
+using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models
@@ -6,6 +7,7 @@ namespace DominatorHouseCore.Models
     /// <summary>
     /// ContentSelectGroup is used in binding where content along with select options such as inside combobox content with checkbox 
     /// </summary>
+    [Serializable]
     [ProtoContract]
     public class ContentSelectGroup : BindableBase
     {

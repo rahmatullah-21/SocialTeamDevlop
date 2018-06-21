@@ -80,7 +80,6 @@ namespace DominatorHouseCore.Process
             var getFetchDetails =
                 GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                     .GetPublisherPostFetchFile);
-
         }
     }
 }

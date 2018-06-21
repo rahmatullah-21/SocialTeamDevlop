@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Utility;
+﻿using System.Windows;
+using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
@@ -21,7 +22,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _folderPath, value);
             }
         }
-        private string _folderTemplate = string.Empty;
+        private string _folderTemplate = Application.Current.FindResource("DhlangFolderPathTemplate").ToString();
         [ProtoMember(2)]
         public string FolderTemplate
         {
