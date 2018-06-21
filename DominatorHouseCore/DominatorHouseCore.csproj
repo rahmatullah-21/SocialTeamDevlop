@@ -326,6 +326,7 @@
     <Compile Include="Diagnostics\Exceptions\ThreadFactory.cs" />
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
+    <Compile Include="Enums\ActivitySpeed.cs" />
     <Compile Include="Enums\DHEnum\UserType.cs" />
     <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
     <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
