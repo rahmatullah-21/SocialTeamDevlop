@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
 {
-    class UnfollowedUsers
+    public class UnfollowedUsers
     {
         [Key]
         [Autoincrement]

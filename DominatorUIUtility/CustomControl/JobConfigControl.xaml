@@ -28,7 +28,7 @@
 
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
                 <Label Content="{Binding JobConfiguration.ActivitiesPerJobDisplayName}" />
-                <controls:NumericUpDown Minimum="0" Margin="5,5,5,0"  Value="{Binding JobConfiguration.ActivitiesPerJob.StartValue}" Name="MinJobFollowCount"/>
+                <controls:NumericUpDown Minimum="1" Margin="5,5,5,0"  Value="{Binding JobConfiguration.ActivitiesPerJob.StartValue}" Name="MinJobFollowCount"/>
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langTo}" />
                 <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerJob.EndValue}" Minimum="{Binding Value, ElementName=MinJobFollowCount}"/>
                 <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
@@ -36,7 +36,7 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,8,0,0">
                 <Label VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerDayDisplayName}"  />
-                <controls:NumericUpDown Minimum="0" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerDay.StartValue,UpdateSourceTrigger=PropertyChanged}" Name="MinActionsPerDay"/>
+                <controls:NumericUpDown Minimum="{Binding Value, ElementName=MinJobFollowCount}" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerDay.StartValue,UpdateSourceTrigger=PropertyChanged}" Name="MinActionsPerDay"/>
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource langTo}" />
                 <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerDay.EndValue,UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Value, ElementName=MinActionsPerDay}"/>
                 <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
@@ -45,7 +45,7 @@
 
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
                 <Label    VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerHourDisplayName}"  />
-                <controls:NumericUpDown Minimum="0" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.StartValue}" Name="OperationCountStartValue" />
+                <controls:NumericUpDown Minimum="1" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.StartValue}" Name="OperationCountStartValue" />
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource langTo}" />
                 <controls:NumericUpDown Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.EndValue}" Minimum="{Binding Value, ElementName=OperationCountStartValue}"/>
                 <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
@@ -54,7 +54,7 @@
 
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
                 <Label   VerticalAlignment="Center" Content="{ Binding  JobConfiguration.ActivitiesPerWeekDisplayName}"  />
-                <controls:NumericUpDown Minimum="0" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerWeek.StartValue}" Name="CountPerWeekStartValue"/>
+                <controls:NumericUpDown Minimum="{Binding Value, ElementName=MinActionsPerDay}" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerWeek.StartValue}" Name="CountPerWeekStartValue"/>
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource langTo}" />
                 <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerWeek.EndValue}"  Minimum="{Binding Value, ElementName=CountPerWeekStartValue}"/>
                 <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
