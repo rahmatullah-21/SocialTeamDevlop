@@ -390,5 +390,11 @@ Type 3. IP:Port
     <system:String x:Key="DhlangPostConfiguration">Post Configuration</system:String>
     <system:String x:Key="DhlangRssFeedTemplate">[FeedTitle] [FeedDescription] [FeedUrl] [FeedPublishedDate]</system:String>
     <system:String x:Key="DhlangShareUrl">Share Url</system:String>
+    <system:String x:Key="DhlangSerNo">Sr. No.</system:String>
+    <system:String x:Key="DhlangPublished">Published</system:String>
+    <system:String x:Key="DhlangSuccessful">Successful</system:String>
+    <system:String x:Key="DhlangPublishedDate">Published Date</system:String>
+    <system:String x:Key="DhlangLink">Link</system:String>
+    <system:String x:Key="DhlangDestinationURL">Destination URL</system:String>
 
 </ResourceDictionary>

@@ -280,13 +280,13 @@
                                                 Content="{DynamicResource DHlangDetails}" 
                                                 x:Name="ButtonDetailsPosts" 
                                                 FontWeight="SemiBold"       
-                                                Command="{Binding Path=DataContext.EditSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Command="{Binding Path=DataContext.PublishedDetailsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                 Background="Transparent"/>
                                         <Button Cursor="Hand" 
                                                 Content="{DynamicResource DHlangReadd}" 
                                                 x:Name="ButtonReaddPosts" 
                                                 FontWeight="SemiBold"       
-                                                Command="{Binding Path=DataContext.EditSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Command="{Binding Path=DataContext.ChangePostStatusCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                 Background="Transparent"/>
                                         <Button Cursor="Hand" 
                                                 Content="{DynamicResource DHlangBump}" 

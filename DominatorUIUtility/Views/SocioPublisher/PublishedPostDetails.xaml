@@ -11,13 +11,21 @@
     </UserControl.Resources>
     <Grid>
         <ListView AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding LstPublishedPostDetailsModels}">
-<ListView.View>
-    <GridView>
-        <GridViewColumn>
-            
-        </GridViewColumn>
-    </GridView>
-</ListView.View>
-         </ListView>  
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="{DynamicResource DhlangSerNo}"  DisplayMemberBinding="{Binding (ItemsControl.AlternationIndex),
+                                                  RelativeSource={RelativeSource AncestorType=ListViewItem},
+                                                  Converter={StaticResource IndexToRowNoConverter}}"/>
+                    <GridViewColumn Header="{DynamicResource langAccounts}" DisplayMemberBinding="{Binding AccountName}"/>
+                    <GridViewColumn Header="{DynamicResource DHlangDestination}" DisplayMemberBinding="{Binding Destination}"/>
+                    <GridViewColumn Header="{DynamicResource DHlangDescription}" DisplayMemberBinding="{Binding Description}"/>
+                    <GridViewColumn Header="{DynamicResource DhlangPublished}" DisplayMemberBinding="{Binding IsPublished}"/>
+                    <GridViewColumn Header="{DynamicResource DhlangSuccessful}" DisplayMemberBinding="{Binding Successful}"/>
+                    <GridViewColumn Header="{DynamicResource DhlangPublishedDate}" DisplayMemberBinding="{Binding PublishedDate}"/>
+                    <GridViewColumn Header="{DynamicResource DhlangLink}" DisplayMemberBinding="{Binding Link}"/>
+                    <GridViewColumn Header="{DynamicResource DhlangDestinationURL}" DisplayMemberBinding="{Binding DestinationUrl}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </UserControl>
