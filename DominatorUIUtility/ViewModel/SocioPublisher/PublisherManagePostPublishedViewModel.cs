@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 
@@ -11,8 +13,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
     public class PublisherManagePostPublishedViewModel : PublisherPostlistBaseViewModel
     {
         public PublisherManagePostPublishedViewModel()
-        {           
-            ExportCommand = new BaseCommand<object>(ExportCanExecute,ExportExecute);
+        {
+            ExportCommand = new BaseCommand<object>(ExportCanExecute, ExportExecute);
             PublishedDetailsCommand = new BaseCommand<object>(PublishedDetailsCanExecute, PublishedDetailsExecute);
         }
 
@@ -41,12 +43,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void PublishedDetailsExecute(object sender)
         {
-            
-            Dialog dialog=new Dialog();
-            PublishedPostDetails publishedPostDetails=new PublishedPostDetails();
-            var window = dialog.GetMetroWindow(publishedPostDetails, "Published Details");
-            window.ShowDialog();
-        } 
+            try
+            {
+                var currentData = sender as PublisherPostlistModel;
+        
+                Dialog dialog = new Dialog();
+                PublishedPostDetails publishedPostDetails = new PublishedPostDetails(currentData);
+                var window = dialog.GetMetroWindow(publishedPostDetails, "Published Details");
+                window.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
 
         #endregion
 

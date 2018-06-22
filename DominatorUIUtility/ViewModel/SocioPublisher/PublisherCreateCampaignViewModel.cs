@@ -388,7 +388,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     CreatedDate = PublisherCreateCampaignModel.CreatedDate,
                     Status = PublisherCreateCampaignModel.CampaignStatus,
                     DestinationCount = PublisherCreateCampaignModel.LstDestinationId.Count,
-                    IsRunSingleAccountPerCampaign = generalSettingsModel.IsDoNotPublishPostsChecked
+                    IsRunSingleAccountPerCampaign = generalSettingsModel.IsDoNotPublishPostsChecked,
+                    IsRotateDayChecked = PublisherCreateCampaignModel.JobConfigurations.IsRotateDayChecked,
+                    TimeRange = PublisherCreateCampaignModel.JobConfigurations.TimeRange,
+                    SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
+                    ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
+                    
                 };
 
                 PublisherDefaultPage.Instance.PublisherDefaultViewModel.AddCampaignDetails(publisherCampaignStatusModel);

@@ -73,7 +73,7 @@ namespace DominatorHouseCore.Process
 
         #region Methods
 
-        protected abstract void StartPublish();
+        protected abstract bool ValidateNetworksSettings(string campaign);
 
         public void StartPublishing(bool isRunSingleAccount)
         {
@@ -119,8 +119,53 @@ namespace DominatorHouseCore.Process
                 else
                 {
 
+                    var allGroupsPages = new Dictionary<string,string>();
+                    GroupDestinationList.Shuffle();
+                    GroupDestinationList.ForEach(x =>
+                    {
+                        allGroupsPages.Add(x,"Group");
+                    });
+                    PageDestinationList.Shuffle();
+                    PageDestinationList.ForEach(x =>
+                    {
+                        allGroupsPages.Add(x, "Page");
+                    });
+
+                    allGroupsPages.ForEach(x =>
+                    {
+                        if (x.Value == "Group")
+                        {
+                            var post = GetPostModel("Group", x.Key);
+                            var ispublished = PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost
+                                .GetPublishingPostLibrary().PublishOnGroups(AccountModel.AccountId, x.Key, post);
+                            if (ispublished)
+                            {
+                                // update post list
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            var post = GetPostModel("Page", x.Key);
+                            var ispublished = PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost
+                                .GetPublishingPostLibrary().PublishOnPages(AccountModel.AccountId, x.Key, post);
+                            if (ispublished)
+                            {
+                                // update post list
+                                return;
+                            }
+                        }                    
+                    });
+                    var ownWallpost = GetPostModel("OwnWall", AccountModel.AccountId);
+                    var isOwnWallPostpublished = PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost
+                        .GetPublishingPostLibrary().PublishOnOwnWall(AccountModel.AccountId, ownWallpost);
+                    if (isOwnWallPostpublished)
+                    {
+                        // update post list
+                        return;
+                    }
                 }
-                StartPublish();
+               
                 //PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost.GetPublishingPostLibrary()
             }
         }
@@ -151,25 +196,42 @@ namespace DominatorHouseCore.Process
                                    where !allDestinations.Contains(destinationUrl)
                                    select postlist).ToList();
 
-            var filterPostModel = GeneralSettingsModel.IsChooseRandomPostsChecked ?
-                 pendingPostList[RandomUtilties.GetRandomNumber(0, pendingPostList.Count - 1)] :
-                 pendingPostList.FirstOrDefault(x => x.PostId != null);
+            var loopCount = 0;
 
-            filterPostModel?.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel()
+            while (true)
             {
-                AccountName = AccountModel.AccountBaseModel.UserName,
-                Destination = destination,
-                DestinationUrl = destinationUrl,
-                Description = filterPostModel.PostDescription,
-                IsPublished = ConstantVariable.Yes,
-                Successful = ConstantVariable.No,
-                PublishedDate = DateTime.Now.ToString("dd/mm/yy"),
-                Link = ConstantVariable.NotPublished
-            });
+                if(loopCount >= pendingPostList.Count)
+                    break;
 
-            PostlistFileManager.UpdatePost(CampaignId, filterPostModel);
+                var filterPostModel = GeneralSettingsModel.IsChooseRandomPostsChecked ?
+                    pendingPostList[RandomUtilties.GetRandomNumber(0, pendingPostList.Count - 1)] :
+                    pendingPostList.FirstOrDefault(x => x.PostId != null);
 
-            return filterPostModel;
+                if (ValidateNetworksSettings(CampaignId))
+                {
+                    filterPostModel?.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel()
+                    {
+                        AccountName = AccountModel.AccountBaseModel.UserName,
+                        Destination = destination,
+                        DestinationUrl = destinationUrl,
+                        Description = filterPostModel.PostDescription,
+                        IsPublished = ConstantVariable.Yes,
+                        Successful = ConstantVariable.No,
+                        PublishedDate = DateTime.Now.ToString("dd/mm/yy"),
+                        Link = ConstantVariable.NotPublished
+                    });
+
+                    if (filterPostModel == null)
+                        return null;                    
+                    filterPostModel.PostQueuedStatus = PostQueuedStatus.Published;
+                    PostlistFileManager.UpdatePost(CampaignId, filterPostModel);
+                    return filterPostModel;
+                }
+
+                loopCount++;
+            }
+
+            return null;
         }
 
         #endregion
