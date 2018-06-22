@@ -1,7 +1,6 @@
 ﻿using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
-using FaceDominatorUI.FdCoreLibrary;
 
 namespace DominatorHouse.DominatorCores
 {
@@ -15,7 +14,6 @@ namespace DominatorHouse.DominatorCores
         private SocialPublisherCoreBuilder(IPublisherCoreFactory publisherCoreFactory)
             : base(publisherCoreFactory)
         {
-            FdInitialiser.RegisterModules();
             AddNetwork(SocialNetworks.Social)
                 .AddPostScraper(new SocialPublisherPostScraper());
         }
