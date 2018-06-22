@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
@@ -22,6 +23,7 @@ using DominatorUIUtility.Views.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl;
 using DominatorUIUtility.Views.SocioPublisher.Suggestions;
 using MahApps.Metro.Controls.Dialogs;
+using PublisherEditPost = DominatorUIUtility.Views.SocioPublisher.CustomControl.PublisherEditPost;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -329,7 +331,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void EditPostDetailsExecute(object sender)
         {
+            var selectedPost = PublisherPostlist.Where(x => x.IsPostlistSelected).ToList();
 
+            Dialog dialog = new Dialog();
+            PublisherUpdateMultiPost PublisherUpdateMultiPost = new PublisherUpdateMultiPost(selectedPost);
+            var window = dialog.GetMetroWindow(PublisherUpdateMultiPost, "Edit post");
+            window.ShowDialog();
         }
 
         private bool EditSinglePostCanExecute(object sender) => true;
@@ -341,32 +348,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 try
                 {
                     var currentPost = sender as PublisherPostlistModel;
+                    Dialog dialog = new Dialog();
                     if (!string.IsNullOrEmpty(currentPost.ShareUrl))
                     {
-                        var settings = new MetroDialogSettings()
-                        {
-                            DefaultText = currentPost.ShareUrl,
-                            AffirmativeButtonText = "Save",
-                            NegativeButtonText = "Cancel"
-                        };
-
-                        var updatedShareUrl = DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow, "Update Share Url", "Edit Share Url", settings);
-                        if (!string.IsNullOrEmpty(updatedShareUrl))
-                        {
-                            var indexToUpdate = PublisherPostlist.FindIndex(posts => posts.PostId == currentPost.PostId);
-                            PublisherPostlist[indexToUpdate].ShareUrl = updatedShareUrl;
-                            PostlistFileManager.UpdatePostlists(currentPost.CampaignId, PublisherPostlist); 
-                        }
-
-                       
+                        PublisherEditShareUrl publisherEditShareUrl = new PublisherEditShareUrl(currentPost, PublisherPostlist);
+                        var window = dialog.GetMetroWindow(publisherEditShareUrl, "Edit Share Url");
+                        window.ShowDialog();
                     }
                     else
                     {
-                        Dialog dialog = new Dialog();
                         PublisherEditPost publisherEditPost = new PublisherEditPost(currentPost, PublisherPostlist);
                         var window = dialog.GetMetroWindow(publisherEditPost, "Edit Post");
                         window.ShowDialog();
-
                     }
                 }
                 catch (Exception ex)

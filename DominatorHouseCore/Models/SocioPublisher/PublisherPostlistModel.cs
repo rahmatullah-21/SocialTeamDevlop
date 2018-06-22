@@ -281,6 +281,23 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isFdSellPost, value);
             }
         }
+        private ObservableCollection<PublishedPostDetailsModel> _lstPublishedPostDetailsModels=new ObservableCollection<PublishedPostDetailsModel>();
+        [ProtoMember(23)]
+        public ObservableCollection<PublishedPostDetailsModel> LstPublishedPostDetailsModels
+        {
+            get
+            {
+                return _lstPublishedPostDetailsModels;
+            }
+            set
+            {
+              
+
+                if (value == _lstPublishedPostDetailsModels)
+                    return;
+                SetProperty(ref _lstPublishedPostDetailsModels, value);
+            }
+        }
 
 
         #region Postlist

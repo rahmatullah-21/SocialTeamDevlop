@@ -341,6 +341,7 @@
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
     <Compile Include="Diagnostics\PublisherInitialize.cs" />
+    <Compile Include="Enums\ActivitySpeed.cs" />
     <Compile Include="Enums\DHEnum\UserType.cs" />
     <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
     <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
@@ -449,6 +450,7 @@
     <Compile Include="Models\RevisionHistoryModel.cs" />
     <Compile Include="Models\SocioPublisher\DetailedFileInfo.cs" />
     <Compile Include="Models\SocioPublisher\MonitorFolderModel.cs" />
+    <Compile Include="Models\SocioPublisher\PublishedPostDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostFetchModel.cs" />
     <Compile Include="Process\PublisherPostFetcher.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />

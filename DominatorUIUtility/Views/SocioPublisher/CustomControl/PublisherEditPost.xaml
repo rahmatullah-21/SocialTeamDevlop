@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.Suggestions.PublisherEditPost"
+﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.CustomControl.PublisherEditPost"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -50,7 +50,7 @@
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <Label Content="{DynamicResource langSave}" Foreground="White"/>
+                        <TextBlock Text="{DynamicResource langSave}" Margin="5,0" Foreground="White"/>
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -63,7 +63,7 @@
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cancel}"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <Label Content="{DynamicResource langCancel}" Foreground="White"/>
+                        <TextBlock Text="{DynamicResource langCancel}" Margin="5,0" Foreground="White"/>
                     </StackPanel>
                 </Button.Content>
             </Button>

@@ -379,6 +379,12 @@
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\MediaViewer.cs" />
     <Compile Include="Views\SocioPublisher\CustomControl\MediaViewerAssist.cs" />
+    <Compile Include="Views\SocioPublisher\CustomControl\PublisherEditShareUrl.xaml.cs">
+      <DependentUpon>PublisherEditShareUrl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\PublisherUpdateMultiPost.xaml.cs">
+      <DependentUpon>PublisherUpdateMultiPost.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostAdvancedSettings.xaml.cs">
       <DependentUpon>PostAdvancedSettings.xaml</DependentUpon>
     </Compile>
@@ -402,6 +408,9 @@
       <DependentUpon>PostTwitterSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\SocinatorTextBox.cs" />
+    <Compile Include="Views\SocioPublisher\PublishedPostDetails.xaml.cs">
+      <DependentUpon>PublishedPostDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublisherCreateNewPost.xaml.cs">
       <DependentUpon>PublisherCreateNewPost.xaml</DependentUpon>
     </Compile>
@@ -415,7 +424,7 @@
       <DependentUpon>SelectDestinations.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\Suggestions\FdFriendSuggestionProvider.cs" />
-    <Compile Include="Views\SocioPublisher\Suggestions\PublisherEditPost.xaml.cs">
+    <Compile Include="Views\SocioPublisher\CustomControl\PublisherEditPost.xaml.cs">
       <DependentUpon>PublisherEditPost.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\Suggestions\SuggestionProvider.cs" />
@@ -827,6 +836,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\PublisherEditShareUrl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\PublisherUpdateMultiPost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SocioPublisher\CustomControl\Settings\PostAdvancedSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -852,6 +869,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\CustomControl\Settings\PostTwitterSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublishedPostDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -931,7 +952,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SocioPublisher\Suggestions\PublisherEditPost.xaml">
+    <Page Include="Views\SocioPublisher\CustomControl\PublisherEditPost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
