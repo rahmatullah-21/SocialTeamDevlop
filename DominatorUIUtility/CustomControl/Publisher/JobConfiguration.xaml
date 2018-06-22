@@ -118,7 +118,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <CheckBox IsChecked="{Binding JobConfigurations.IsRandomizeNumberOfPostsChecked}" Content="{DynamicResource langRandomizeNumberOfPosts}"  Margin="5"/>
+        <!--<CheckBox IsChecked="{Binding JobConfigurations.IsRandomizeNumberOfPostsChecked}" Content="{DynamicResource langRandomizeNumberOfPosts}"  Margin="5"/>
         <StackPanel Orientation="Horizontal"  Margin="30,5"
                     Visibility="{Binding JobConfigurations.IsRandomizeNumberOfPostsChecked,
                     Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -137,7 +137,7 @@
                                    Value="{Binding JobConfigurations.IncreaseEachDay.EndValue}" VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource langMaxPostPerDay}"  VerticalAlignment="Center" Margin="5"/>
 
-        </StackPanel>
+        </StackPanel>-->
         <CheckBox Content="{DynamicResource langPublishPostOnDestinations}" IsChecked="{Binding JobConfigurations.IsPublishPostOnDestinationsChecked}"  Margin="5" />
 
 

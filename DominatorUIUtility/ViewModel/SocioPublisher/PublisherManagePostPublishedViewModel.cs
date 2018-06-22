@@ -45,6 +45,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             Dialog dialog=new Dialog();
             PublishedPostDetails publishedPostDetails=new PublishedPostDetails();
             var window = dialog.GetMetroWindow(publishedPostDetails, "Published Details");
+            window.ShowDialog();
         } 
 
         #endregion

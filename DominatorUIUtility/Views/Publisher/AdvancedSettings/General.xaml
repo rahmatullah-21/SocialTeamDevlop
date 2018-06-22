@@ -79,9 +79,9 @@
                           IsChecked="{Binding GeneralModel.IsRemoveLinkFromPostsChecked}"
                           VerticalAlignment="Center" Margin="5"/>
                 <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource langForTumblr}" Margin="25,5"/>-->
-                <CheckBox Content="{DynamicResource langDisableTemporarySleep}" 
+                <!--<CheckBox Content="{DynamicResource langDisableTemporarySleep}" 
                           VerticalAlignment="Center" Margin="5"
-                          IsChecked="{Binding GeneralModel.IsDisableTemporarySleep}"/>
+                          IsChecked="{Binding GeneralModel.IsDisableTemporarySleep}"/>-->
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <CheckBox Content="{DynamicResource langWaitToStartNewPost}" 
                               VerticalAlignment="Center" IsChecked="{Binding GeneralModel.IsWaitToStartNewPost}"/>
