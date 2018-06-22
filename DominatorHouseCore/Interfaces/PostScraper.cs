@@ -8,6 +8,7 @@ namespace DominatorHouseCore.Interfaces
 {
     public abstract class PostScraper
     {
+
         #region Post Scrapers
 
         public virtual void ScrapePosts(string accountId, string campaignId, ScrapePostModel scrapePostDetails,int count = 10)

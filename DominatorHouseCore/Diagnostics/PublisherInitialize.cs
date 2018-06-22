@@ -66,7 +66,8 @@ namespace DominatorHouseCore.Diagnostics
                     IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                     TimeRange = campaigns.JobConfigurations.TimeRange,
                     SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                    ScheduledWeekday = campaigns.JobConfigurations.Weekday
+                    ScheduledWeekday = campaigns.JobConfigurations.Weekday,
+                    IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign
                 };
 
                 ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);

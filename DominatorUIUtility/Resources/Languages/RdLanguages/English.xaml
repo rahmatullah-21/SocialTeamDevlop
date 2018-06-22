@@ -172,7 +172,9 @@
 
     <system:String x:Key ="RdlangRedditPostFilter">Post Filter</system:String>
     <system:String x:Key ="langMaxUserScraperDay">Number of users to scrape per day</system:String>
-  
-    
-    
+
+    <system:String x:Key ="RdLangUpvoteUniquePostForCampaign">Perform activity on un</system:String>
+    <system:String x:Key ="RdLangUpvoteUniqueUserForAccount">Number of users to scrape per day</system:String>
+    <system:String x:Key ="RdLangUpvoteUniqueUserForCampaign">Number of users to scrape per day</system:String>
+
 </ResourceDictionary>

@@ -204,6 +204,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 #endregion
 
+               
                 #region Saving post
 
                 PostlistFileManager.SaveAll(PublisherCreateCampaignModel.CampaignId, new List<PublisherPostlistModel>());
@@ -268,6 +269,22 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 var generalSettingsModel = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel;
 
+                #region DirectPostPosts
+
+                var directPostModel = new PublisherPostFetchModel
+                {
+                    CampaignId = PublisherCreateCampaignModel.CampaignId,
+                    CampaignName = PublisherCreateCampaignModel.CampaignName,
+                    ExpireDate = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate,
+                    PostSource = PostSource.NormalPost,                 
+                    SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
+                };
+
+                currentCampaignsFetchDetails.Add(directPostModel);
+
+                #endregion
+
+
                 #region MonitorFolder
 
                 if (PublisherCreateCampaignModel.LstFolderPath.Count > 0)
@@ -282,6 +299,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         PostDetailsWithFilters =
                             JsonConvert.SerializeObject(PublisherCreateCampaignModel.LstFolderPath),
                         MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
+                        SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
                     };
 
                     currentCampaignsFetchDetails.Add(monitorFolderFetchModel);
@@ -302,6 +320,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         PostDetailsWithFilters = JsonConvert.SerializeObject(PublisherCreateCampaignModel.LstFeedUrl),
                         DelayForNext = generalSettingsModel.CheckRssFeedsminutes,
                         MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
+                        SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
                     };
 
                     currentCampaignsFetchDetails.Add(rssFetchModel);
@@ -357,28 +376,33 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 publisherPostFetcher.FetchPostsForCampaign(PublisherCreateCampaignModel.CampaignId);
 
                 #endregion
+
+                #region Updating PublisherDefaultPage
+
+                var publisherCampaignStatusModel = new PublisherCampaignStatusModel
+                {
+                    CampaignName = PublisherCreateCampaignModel.CampaignName,
+                    CampaignId = PublisherCreateCampaignModel.CampaignId,
+                    StartDate = PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate,
+                    EndDate = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate,
+                    CreatedDate = PublisherCreateCampaignModel.CreatedDate,
+                    Status = PublisherCreateCampaignModel.CampaignStatus,
+                    DestinationCount = PublisherCreateCampaignModel.LstDestinationId.Count,
+                    IsRunSingleAccountPerCampaign = generalSettingsModel.IsDoNotPublishPostsChecked
+                };
+
+                PublisherDefaultPage.Instance.PublisherDefaultViewModel.AddCampaignDetails(publisherCampaignStatusModel);
+
+                PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignModel.CampaignId);
+
+                #endregion
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
 
-            #region Updating PublisherDefaultPage
-
-            var publisherCampaignStatusModel = new PublisherCampaignStatusModel
-            {
-                CampaignName = PublisherCreateCampaignModel.CampaignName,
-                CampaignId = PublisherCreateCampaignModel.CampaignId,
-                StartDate = PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate,
-                EndDate = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate,
-                CreatedDate = PublisherCreateCampaignModel.CreatedDate,
-                Status = PublisherCreateCampaignModel.CampaignStatus,
-                DestinationCount = PublisherCreateCampaignModel.LstDestinationId.Count,
-
-            };
-            PublisherDefaultPage.Instance.PublisherDefaultViewModel.AddCampaignDetails(publisherCampaignStatusModel);
-            
-            #endregion
+        
         }
 
 

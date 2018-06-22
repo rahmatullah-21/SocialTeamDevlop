@@ -195,5 +195,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _lstPostDetailsModel, value);
             }
         }
+
+        private bool _isRunSingleAccountPerCampaign;
+        [ProtoMember(16)]
+        public bool IsRunSingleAccountPerCampaign
+        {
+            get
+            {
+                return _isRunSingleAccountPerCampaign;
+            }
+            set
+            {               
+                if (value == _isRunSingleAccountPerCampaign)
+                    return;
+                SetProperty(ref _isRunSingleAccountPerCampaign, value);
+            }
+        }
+
     }
 }

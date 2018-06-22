@@ -118,7 +118,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <RadioButton  GroupName="postGroup" IsChecked="{Binding JobConfigurations.IsRandomizeNumberOfPostsChecked}" Content="{DynamicResource langRandomizeNumberOfPosts}"  Margin="5"/>
+        <CheckBox IsChecked="{Binding JobConfigurations.IsRandomizeNumberOfPostsChecked}" Content="{DynamicResource langRandomizeNumberOfPosts}"  Margin="5"/>
         <StackPanel Orientation="Horizontal"  Margin="30,5"
                     Visibility="{Binding JobConfigurations.IsRandomizeNumberOfPostsChecked,
                     Converter={StaticResource BooleanToVisibilityConverter}}">

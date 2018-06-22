@@ -43,7 +43,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private bool _isSpecifyPostingIntervalChecked;
+        private bool _isSpecifyPostingIntervalChecked=true;
         [ProtoMember(4)]
         public bool IsSpecifyPostingIntervalChecked
         {
