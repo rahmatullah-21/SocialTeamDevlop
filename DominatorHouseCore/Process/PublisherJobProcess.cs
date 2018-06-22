@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -37,7 +38,7 @@ namespace DominatorHouseCore.Process
 
             var publisherCampaign =
                 GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable
-                    .GetPublisherCampaignFile()).FirstOrDefault(x=> x.CampaignId == CampaignId);
+                    .GetPublisherCampaignFile()).FirstOrDefault(x => x.CampaignId == CampaignId);
 
             JobConfigurations = publisherCampaign?.JobConfigurations;
 
@@ -52,7 +53,7 @@ namespace DominatorHouseCore.Process
 
         public SocialNetworks Network { get; set; }
 
-        public JobConfigurationModel JobConfigurations { get; set; } 
+        public JobConfigurationModel JobConfigurations { get; set; }
 
         public OtherConfigurationModel OtherConfiguration { get; set; }
 
@@ -78,8 +79,48 @@ namespace DominatorHouseCore.Process
         {
             lock (SyncJobProcess)
             {
-                StartPublish();
+                if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
+                {
 
+                    GroupDestinationList.ForEach(groupUrl =>
+                    {
+                        var post = GetPostModel("Group", groupUrl);
+                        var ispublished = PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost
+                             .GetPublishingPostLibrary().PublishOnGroups(AccountModel.AccountId, groupUrl, post);
+                        if (ispublished)
+                        {
+                            // update post list
+                            return;
+                        }
+                    });
+
+                    PageDestinationList.ForEach(pageUrl =>
+                    {
+                        var post = GetPostModel("Page", pageUrl);
+                        var ispublished = PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost
+                            .GetPublishingPostLibrary().PublishOnPages(AccountModel.AccountId, pageUrl, post);
+                        if (ispublished)
+                        {
+                            // update post list
+                            return;
+                        }
+                    });
+
+                    var ownWallpost = GetPostModel("OwnWall", AccountModel.AccountId);
+                    var isOwnWallPostpublished = PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost
+                        .GetPublishingPostLibrary().PublishOnOwnWall(AccountModel.AccountId, ownWallpost);
+                    if (isOwnWallPostpublished)
+                    {
+                        // update post list
+                        return;
+                    }
+
+                }
+                else
+                {
+
+                }
+                StartPublish();
                 //PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost.GetPublishingPostLibrary()
             }
         }
@@ -94,17 +135,41 @@ namespace DominatorHouseCore.Process
             // Todo : Delays
         }
 
-        public PublisherPostlistModel GetPostModel()
+        public PublisherPostlistModel GetPostModel(string destination, string destinationUrl)
         {
             var pendingPostList = PostlistFileManager.GetAll(CampaignId)
-                .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending);
+                .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
 
             if (!pendingPostList.Any())
-            {
                 return null;
-            }
 
-            return null;
+            if (GeneralSettingsModel.IsWhenPublishingSendOnePostChecked)
+                pendingPostList = pendingPostList.Where(x => x.LstPublishedPostDetailsModels.Count == 0).ToList();
+            else
+                pendingPostList = (from postlist in pendingPostList
+                                   let allDestinations = postlist.LstPublishedPostDetailsModels.Select(x => x.DestinationUrl).ToList()
+                                   where !allDestinations.Contains(destinationUrl)
+                                   select postlist).ToList();
+
+            var filterPostModel = GeneralSettingsModel.IsChooseRandomPostsChecked ?
+                 pendingPostList[RandomUtilties.GetRandomNumber(0, pendingPostList.Count - 1)] :
+                 pendingPostList.FirstOrDefault(x => x.PostId != null);
+
+            filterPostModel?.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel()
+            {
+                AccountName = AccountModel.AccountBaseModel.UserName,
+                Destination = destination,
+                DestinationUrl = destinationUrl,
+                Description = filterPostModel.PostDescription,
+                IsPublished = ConstantVariable.Yes,
+                Successful = ConstantVariable.No,
+                PublishedDate = DateTime.Now.ToString("dd/mm/yy"),
+                Link = ConstantVariable.NotPublished
+            });
+
+            PostlistFileManager.UpdatePost(CampaignId, filterPostModel);
+
+            return filterPostModel;
         }
 
         #endregion
