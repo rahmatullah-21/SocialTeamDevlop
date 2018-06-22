@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
@@ -34,6 +36,8 @@ namespace DominatorHouseCore.Models
 
             // Increase each day with 10 until it reaches 100 max <activity> per day
             IncreaseActivitiesEachDay = new IncreaseActivityRange(10, 100, false);
+            //Speeds.Clear();
+            //Enum.GetNames(typeof(ActivitySpeed)).ForEach(speed => Speeds.Add(speed));
          
         }
 
@@ -79,7 +83,12 @@ namespace DominatorHouseCore.Models
 
         [ProtoMember(13)]
         public string IncreaseActivityDisplayName { get; set; } = string.Empty;
-
+        [ProtoMember(14)]
+        public bool IsAdvanceSetting { get; set; }
+        [ProtoMember(15)]
+        public string SelectedItem { get; set; } = string.Empty;
+        public List<string> Speeds { get; set; }=new List<string>();
+     
         #endregion
     }
 }

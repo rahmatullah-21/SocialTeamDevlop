@@ -357,6 +357,7 @@ namespace DominatorUIUtility.CustomControl
 
             if (IsNeedToSaveTemplate())
             {
+                UpdateJobconfiguration();
                 TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork, CampaignName);
                 SaveTemplateToAccounts(TemplateId);
                 SaveTemplateToCampaigns();
@@ -405,6 +406,23 @@ namespace DominatorUIUtility.CustomControl
                 SetDataContext();
 
                 TabSwitcher.GoToCampaign();
+            }
+        }
+
+        private void UpdateJobconfiguration()
+        {
+           string speed = Model.JobConfiguration.SelectedItem.ToString();
+            switch (speed)
+            {
+                case "Slow":
+
+                    Model.SlowSpeed.RunningTime = Model.JobConfiguration.RunningTime;
+                    Model.JobConfiguration = Model.SlowSpeed;
+                    break;
+                case "Fast":
+                    Model.FastSpeed.RunningTime = Model.JobConfiguration.RunningTime;
+                    Model.JobConfiguration = Model.FastSpeed;
+                    break;
             }
         }
 

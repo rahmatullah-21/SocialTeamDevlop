@@ -1,27 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DominatorHouseCore;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher.CustomControl;
-using MahApps.Metro.Controls;
 
-namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
+namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 {
     /// <summary>
     /// Interaction logic for PublisherEditPost.xaml
@@ -57,9 +44,17 @@ namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
-            var indexToUpdate = LstPostListModel.FindIndex(posts => posts.PostId == PostlistModel.PostId);
-            LstPostListModel[indexToUpdate] = PostlistModel;
-            PostlistFileManager.UpdatePostlists(PostlistModel.CampaignId, LstPostListModel);
+            try
+            {
+                var indexToUpdate = LstPostListModel.FindIndex(posts => posts.PostId == PostlistModel.PostId);
+                LstPostListModel[indexToUpdate] = PostlistModel;
+                PostlistFileManager.UpdatePostlists(PostlistModel.CampaignId, LstPostListModel);
+               
+            }
+            catch (Exception ex)
+            {
+               ex.DebugLog();
+            }
             Dialog.CloseDialog(sender);
         }
 

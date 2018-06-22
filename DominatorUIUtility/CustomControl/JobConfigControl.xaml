@@ -5,72 +5,96 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" 
-             >
+             mc:Ignorable="d" >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid Name="MainGrid">
         <StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,8,0,0">
-                <TextBlock  VerticalAlignment="Center" Text="{StaticResource langDelayEachOperation}"  />
-                <controls:NumericUpDown Minimum="0" Name="DelayOperationStartValue" Margin="5,5,5,0" Value="{Binding JobConfiguration.DelayBetweenActivity.StartValue}" />
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langTo}" />
-                <controls:NumericUpDown  Margin="5,5,5,0" Minimum="{Binding Value, ElementName=DelayOperationStartValue}" Value="{Binding JobConfiguration.DelayBetweenActivity.EndValue}" />
-                <Label  VerticalAlignment="Center" Content="{DynamicResource langSeconds}" />
+            <CheckBox Content="Advance setting" IsChecked="{Binding JobConfiguration.IsAdvanceSetting}" Margin="5"/>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding JobConfiguration.IsAdvanceSetting}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding JobConfiguration.IsAdvanceSetting}" Value="False">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <TextBlock Text="Select speed" Margin="5"/>
+                <ComboBox ItemsSource="{Binding JobConfiguration.Speeds}" Width="150" SelectedItem="{Binding JobConfiguration.SelectedItem}" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,8,0,0">
-                <TextBlock    VerticalAlignment="Center" Text="{DynamicResource langDelayJob}"  />
-                <controls:NumericUpDown Minimum="0" Name="DelayJobStartValue" Margin="5,5,5,0" Value="{Binding JobConfiguration.DelayBetweenJobs.StartValue}" />
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langTo}" />
-                <controls:NumericUpDown  Margin="5,5,5,0" Minimum="{Binding Value, ElementName=DelayJobStartValue}" Value="{Binding JobConfiguration.DelayBetweenJobs.EndValue}" />
-                <Label  VerticalAlignment="Center" Content="{DynamicResource langMinutes}"  />
-            </StackPanel>
 
-            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
-                <Label Content="{Binding JobConfiguration.ActivitiesPerJobDisplayName}" />
-                <controls:NumericUpDown Minimum="1" Margin="5,5,5,0"  Value="{Binding JobConfiguration.ActivitiesPerJob.StartValue}" Name="MinJobFollowCount"/>
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langTo}" />
-                <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerJob.EndValue}" Minimum="{Binding Value, ElementName=MinJobFollowCount}"/>
-                <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
-            </StackPanel>
+            <StackPanel  Visibility="{Binding JobConfiguration.IsAdvanceSetting,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,8,0,0">
+                    <TextBlock  VerticalAlignment="Center" Text="{StaticResource langDelayEachOperation}"  />
+                    <controls:NumericUpDown Minimum="0" Name="DelayOperationStartValue" Margin="5,5,5,0" Value="{Binding JobConfiguration.DelayBetweenActivity.StartValue}" />
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langTo}" />
+                    <controls:NumericUpDown  Margin="5,5,5,0" Minimum="{Binding Value, ElementName=DelayOperationStartValue}" Value="{Binding JobConfiguration.DelayBetweenActivity.EndValue}" />
+                    <Label  VerticalAlignment="Center" Content="{DynamicResource langSeconds}" />
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,8,0,0">
-                <Label VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerDayDisplayName}"  />
-                <controls:NumericUpDown Minimum="{Binding Value, ElementName=MinJobFollowCount}" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerDay.StartValue,UpdateSourceTrigger=PropertyChanged}" Name="MinActionsPerDay"/>
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource langTo}" />
-                <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerDay.EndValue,UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Value, ElementName=MinActionsPerDay}"/>
-                <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,8,0,0">
+                    <TextBlock    VerticalAlignment="Center" Text="{DynamicResource langDelayJob}"  />
+                    <controls:NumericUpDown Minimum="0" Name="DelayJobStartValue" Margin="5,5,5,0" Value="{Binding JobConfiguration.DelayBetweenJobs.StartValue}" />
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langTo}" />
+                    <controls:NumericUpDown  Margin="5,5,5,0" Minimum="{Binding Value, ElementName=DelayJobStartValue}" Value="{Binding JobConfiguration.DelayBetweenJobs.EndValue}" />
+                    <Label  VerticalAlignment="Center" Content="{DynamicResource langMinutes}"  />
+                </StackPanel>
 
-            </StackPanel>
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
+                    <Label Content="{Binding JobConfiguration.ActivitiesPerJobDisplayName}" />
+                    <controls:NumericUpDown Minimum="1" Margin="5,5,5,0"  Value="{Binding JobConfiguration.ActivitiesPerJob.StartValue}" Name="MinJobFollowCount"/>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langTo}" />
+                    <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerJob.EndValue}" Minimum="{Binding Value, ElementName=MinJobFollowCount}"/>
+                    <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
-                <Label    VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerHourDisplayName}"  />
-                <controls:NumericUpDown Minimum="1" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.StartValue}" Name="OperationCountStartValue" />
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource langTo}" />
-                <controls:NumericUpDown Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.EndValue}" Minimum="{Binding Value, ElementName=OperationCountStartValue}"/>
-                <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,8,0,0">
+                    <Label VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerDayDisplayName}"  />
+                    <controls:NumericUpDown Minimum="{Binding Value, ElementName=MinJobFollowCount}" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerDay.StartValue,UpdateSourceTrigger=PropertyChanged}" Name="MinActionsPerDay"/>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource langTo}" />
+                    <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerDay.EndValue,UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Value, ElementName=MinActionsPerDay}"/>
+                    <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
 
-            </StackPanel>
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
-                <Label   VerticalAlignment="Center" Content="{ Binding  JobConfiguration.ActivitiesPerWeekDisplayName}"  />
-                <controls:NumericUpDown Minimum="{Binding Value, ElementName=MinActionsPerDay}" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerWeek.StartValue}" Name="CountPerWeekStartValue"/>
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource langTo}" />
-                <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerWeek.EndValue}"  Minimum="{Binding Value, ElementName=CountPerWeekStartValue}"/>
-                <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
+                    <Label    VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerHourDisplayName}"  />
+                    <controls:NumericUpDown Minimum="1" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.StartValue}" Name="OperationCountStartValue" />
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource langTo}" />
+                    <controls:NumericUpDown Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.EndValue}" Minimum="{Binding Value, ElementName=OperationCountStartValue}"/>
+                    <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
 
-            </StackPanel>
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
-                <CheckBox  VerticalAlignment="Center" x:Name="chkIncreaseEachDay" Content="{DynamicResource langIncreaseEachDay}" IsChecked="{Binding JobConfiguration.IncreaseActivitiesEachDay.IsIncreaseCountChecked}"/>
-                <controls:NumericUpDown Minimum="0" Margin="5,5,5,5" Value="{Binding JobConfiguration.IncreaseActivitiesEachDay.IncreaseActivityCount}" Name="IncreaseMaxActionsPerDays" 
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
+                    <Label   VerticalAlignment="Center" Content="{ Binding  JobConfiguration.ActivitiesPerWeekDisplayName}"  />
+                    <controls:NumericUpDown Minimum="{Binding Value, ElementName=MinActionsPerDay}" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerWeek.StartValue}" Name="CountPerWeekStartValue"/>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource langTo}" />
+                    <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerWeek.EndValue}"  Minimum="{Binding Value, ElementName=CountPerWeekStartValue}"/>
+                    <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
+                    <CheckBox  VerticalAlignment="Center" x:Name="chkIncreaseEachDay" Content="{DynamicResource langIncreaseEachDay}" IsChecked="{Binding JobConfiguration.IncreaseActivitiesEachDay.IsIncreaseCountChecked}"/>
+                    <controls:NumericUpDown Minimum="0" Margin="5,5,5,5" Value="{Binding JobConfiguration.IncreaseActivitiesEachDay.IncreaseActivityCount}" Name="IncreaseMaxActionsPerDays" 
                                         IsEnabled="{Binding ElementName=chkIncreaseEachDay,Path=IsChecked}"/>
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langUntilReach}"  />
-                <controls:NumericUpDown  Margin="5,5,5,5" Maximum="9999" 
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langUntilReach}"  />
+                    <controls:NumericUpDown  Margin="5,5,5,5" Maximum="9999" 
                                         Value="{Binding JobConfiguration.IncreaseActivitiesEachDay.UntilMaxCountReached}"
                                         Minimum="{Binding Value, ElementName=IncreaseMaxActionsPerDays}" 
                                         IsEnabled="{Binding ElementName=chkIncreaseEachDay,Path=IsChecked}"/>
-                <Label  VerticalAlignment="Center"  Content="{Binding  JobConfiguration.IncreaseActivityDisplayName}"  />
+                    <Label  VerticalAlignment="Center"  Content="{Binding  JobConfiguration.IncreaseActivityDisplayName}"  />
+                </StackPanel>
             </StackPanel>
 
             <StackPanel>
@@ -90,8 +114,8 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                </StackPanel>
-                 
+                    </StackPanel>
+
                 </StackPanel>
             </StackPanel>
 
