@@ -53,11 +53,18 @@ namespace DominatorHouseCore.Utility
 
             var foldersFiles = Directory.EnumerateFiles(folderpath, "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".mp4") || s.EndsWith(".jpg") || s.EndsWith(".png") || s.EndsWith(".wmv")).ToList();
 
+            var monitorFolderFiles = PostlistFileManager.GetAll(campaignId)
+                .Where(x => x.PostSource == PostSource.MonitorFolderPost);
+
+            PostlistFileManager.DeleteSelected(campaignId, monitorFolderFiles.ToList());
+
+            var mediaUtilites = new MediaUtilites();
+
             foldersFiles.ForEach(file =>
             {
                 var publisherPostlistModel = new PublisherPostlistModel
                 {
-                    MediaList = new ObservableCollection<string> { file },
+                    MediaList = new ObservableCollection<string> { mediaUtilites.GetThumbnail(file)  },
                     CampaignId = campaignId,
                     CreatedTime = DateTime.Now,
                     ExpiredTime = DateTime.Now.AddYears(1),
@@ -68,7 +75,7 @@ namespace DominatorHouseCore.Utility
                     PostSource = PostSource.MonitorFolderPost
                 };
 
-                var fileDetails = GetDetailedFileInfo(folderpath);
+                var fileDetails = GetDetailedFileInfo(file);
                 var monitorFolderModel = new MonitorFolderModel
                 {
                     FolderPath = folderpath,
@@ -84,42 +91,42 @@ namespace DominatorHouseCore.Utility
                         case 0:
                             monitorFolderModel.FileName =
                                 !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : "NA";
+                                    objDetailedFileInfo.Value : string.Empty;
                             break;
                         case 9:
                             monitorFolderModel.FileType =
                                 !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : "NA";
+                                    objDetailedFileInfo.Value : string.Empty;
                             break;
                         case 20:
                             monitorFolderModel.FileAuthor =
                                 !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : "NA";
+                                    objDetailedFileInfo.Value : string.Empty;
                             break;
                         case 21:
                             monitorFolderModel.FileTitle =
                                 !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : "NA";
+                                    objDetailedFileInfo.Value : string.Empty;
                             break;
                         case 22:
                             monitorFolderModel.FileSubject =
                                 !string.IsNullOrEmpty(objDetailedFileInfo.Value)
-                                    ? objDetailedFileInfo.Value : "NA";
+                                    ? objDetailedFileInfo.Value : string.Empty;
                             break;
                         case 4:
                             monitorFolderModel.FileCreationDate =
                                 !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : "NA";
+                                    objDetailedFileInfo.Value : string.Empty;
                             break;
                         case 24:
                             monitorFolderModel.FileComment =
                                 !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : "NA";
+                                    objDetailedFileInfo.Value : string.Empty;
                             break;
                         case 18:
                             monitorFolderModel.FileTags =
                                 !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : "NA";
+                                    objDetailedFileInfo.Value : string.Empty;
                             break;
                         default:
                             break;
@@ -128,7 +135,7 @@ namespace DominatorHouseCore.Utility
 
                 #endregion
 
-                publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName)
+                publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName,String.Empty))
                     .Replace("[FileType]", monitorFolderModel.FileType)
                     .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
                     .Replace("[FileTitle]", monitorFolderModel.FileTitle)

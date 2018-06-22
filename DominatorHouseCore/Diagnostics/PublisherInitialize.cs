@@ -44,7 +44,7 @@ namespace DominatorHouseCore.Diagnostics
         {
             return NetworkWisePublishers.ContainsKey(networks) ? NetworkWisePublishers[networks] : null;
         }
-
+ 
         public ObservableCollection<PublisherCampaignStatusModel> GetSavedCampaigns() 
             => ListPublisherCampaignStatusModels;
 

@@ -266,6 +266,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
+        private bool _isFdSellPost;
+        [ProtoMember(22)]
+        public bool IsFdSellPost
+        {
+            get
+            {
+                return _isFdSellPost;
+            }
+            set
+            {
+                if (value == _isFdSellPost)
+                    return;
+                SetProperty(ref _isFdSellPost, value);
+            }
+        }
+
 
         #region Postlist
 

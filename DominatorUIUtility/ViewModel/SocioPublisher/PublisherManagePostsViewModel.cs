@@ -119,7 +119,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             campaignDetails.ForEach(campaign =>
                 CampaignList.Add(new IdNameBinderModel { Id = campaign.CampaignId, Name = campaign.CampaignName }));
 
-            SelectedCampaignDetails = CampaignList[0];
+
+            if (campaignDetails.Count > 0)
+                SelectedCampaignDetails = CampaignList[0];
 
         }
 
@@ -149,6 +151,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 try
                 {
+                    if (SelectedCampaignDetails.Id == null)
+                        return;
+
                     SelectedTabs = ConstantVariable.DraftPostList;
                     var draftView = new PublisherManagePostDrafts();
                     SelectedTabsUserControls = draftView;
@@ -168,6 +173,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 try
                 {
+                    if (SelectedCampaignDetails.Id == null)
+                        return;
+
                     SelectedTabs = ConstantVariable.PendingPostList;
                     var pendingView = new PublisherManagePostPending();
                     SelectedTabsUserControls = pendingView;
@@ -188,6 +196,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 try
                 {
+                    if (SelectedCampaignDetails.Id == null)
+                        return; 
+
                     SelectedTabs = ConstantVariable.PublishedPostList;
                     var publishedView = new PublisherManagePostPublished();
                     SelectedTabsUserControls = publishedView;

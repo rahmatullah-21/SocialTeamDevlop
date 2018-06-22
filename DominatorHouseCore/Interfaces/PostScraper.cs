@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
@@ -7,41 +8,32 @@ namespace DominatorHouseCore.Interfaces
 {
     public abstract class PostScraper
     {
+        #region Post Scrapers
 
-        #region Facebook
-
-        public virtual IEnumerable<PublisherPostlistModel> FdScrapeOwnWallPosts(string accountId, string campaignId, int count) => null;
-        public virtual IEnumerable<PublisherPostlistModel> FdScrapePagePosts(string accountId, string campaignId, string url, int count) => null;
-        public virtual IEnumerable<PublisherPostlistModel> FdScrapeGroupPosts(string accountId, string campaignId, string url, int count) => null;
-        public virtual IEnumerable<PublisherPostlistModel> FdScrapeFriendPosts(string accountId, string campaignId, string url, int count) => null;
+        public virtual void ScrapePosts(string accountId, string campaignId, ScrapePostModel scrapePostDetails,int count = 10)
+        { }
 
         #endregion
 
-        #region Pinterest
+        #region Scrape page post url 
 
-        public virtual IEnumerable<PublisherPostlistModel> PdScrapeBoardPosts(string accountId, string campaignId, int count) => null;
-        public virtual IEnumerable<PublisherPostlistModel> PdScrapeUsersPosts(string accountId, string campaignId, string url, int count) => null;
-        public virtual IEnumerable<PublisherPostlistModel> PdScrapeCategoryPosts(string accountId, string campaignId, string url, int count) => null;
-        public virtual IEnumerable<PublisherPostlistModel> PdScrapeSearchPinPosts(string accountId, string campaignId, string keyword, int count) => null;
-
-        #endregion
-
-        #region Twitter
-
-        public virtual IEnumerable<PublisherPostlistModel> TdScrapeUserPosts(string accountId, string campaignId, string fromUser, int count) => null;
-
-        public virtual IEnumerable<PublisherPostlistModel> TdScrapeSearchPosts(string accountId, string campaignId, string keyword, int count) => null;
+        // Note : Only for Facebook
+        public virtual void ScrapeFdPagePostUrl(string accountId, string campaignId, SharePostModel fdPagePostUrlScraperDetails, int count = 10)
+        { }
 
         #endregion
 
         #region Rss feed
 
-        public void ScrapeRssPosts(string campaignId, string feedUrl, string feedTemplate)
+        public void ScrapeRssPosts(string campaignId, ObservableCollection<PublisherRssFeedModel> rssFeedModels)
         {
-            Task.Factory.StartNew(async () =>
+            Task.Factory.StartNew(() =>
             {
                 var rssFeedUtilities = new RssFeedUtilities();
-                await rssFeedUtilities.RssFeedFetchMethod(feedUrl, feedTemplate, campaignId);
+                rssFeedModels.ForEach(async x =>
+                {
+                    await rssFeedUtilities.RssFeedFetchMethod(x.FeedUrl, x.FeedTemplate, campaignId);
+                });               
             });
         }
 
@@ -49,12 +41,15 @@ namespace DominatorHouseCore.Interfaces
 
         #region MonitorFolder
 
-        public void FetchMonitorFoldersPosts(string campaignId, string folderUrl, string postTemplate)
+        public void FetchMonitorFoldersPosts(string campaignId, ObservableCollection<PublisherMonitorFolderModel> monitorFolderModels )
         {
             Task.Factory.StartNew(() =>
             {
                 var monitorFolderUtilites = new MonitorFolderUtilites();
-                monitorFolderUtilites.GetFoldersFileDetails(folderUrl, campaignId, postTemplate);
+                monitorFolderModels.ForEach( x =>
+                {
+                     monitorFolderUtilites.GetFoldersFileDetails(x.FolderPath, campaignId, x.FolderTemplate );
+                });
             });
         }
 

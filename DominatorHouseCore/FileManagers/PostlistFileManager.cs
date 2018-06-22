@@ -71,9 +71,10 @@ namespace DominatorHouseCore.FileManagers
 
         public static void Delete(string campaignId, Predicate<PublisherPostlistModel> match)
         {
-            var accs = GetAll(campaignId);
-            accs.RemoveAll(match);
-            BinFileHelper.UpdateAllAccounts(accs);
+            var postList = GetAll(campaignId);
+            postList.RemoveAll(match);
+            BinFileHelper.UpdateAllPostlists(campaignId,postList);
         }
+  
     }
 }

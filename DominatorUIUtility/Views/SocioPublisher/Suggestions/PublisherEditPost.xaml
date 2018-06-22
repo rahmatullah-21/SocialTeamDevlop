@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl" Name="EditPost"
-             mc:Ignorable="d" xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions">
+             mc:Ignorable="d" xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
+             Loaded="PublisherEditPost_OnLoaded">
     <UserControl.Resources>
         <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
         <DataTemplate x:Key="MacroTemplate">
@@ -36,7 +37,36 @@
                         FdSellLocation="{Binding FdSellLocation, Mode=TwoWay}"
                         FdSellPrice="{Binding FdSellPrice, Mode=TwoWay}"
                         FdSellProductTitle="{Binding FdSellProductTitle, Mode=TwoWay}"
-                        IsFdSellPost="{Binding IsPostContent, Mode=TwoWay}"
+                        IsFdSellPost="{Binding IsFdSellPost, Mode=TwoWay}"
                         PdSourceUrl="{Binding PdSourceUrl, Mode=TwoWay}" />
+        <StackPanel Orientation="Horizontal" Margin="10"
+                    HorizontalAlignment="Right">
+            <Button Background="{DynamicResource AccentBaseColorBrush}" Width="80"
+                Name="BtnSave" Click="BtnSave_OnClick">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Rectangle Fill="White" Height="15" Width="15">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <Label Content="{DynamicResource langSave}" Foreground="White"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button  Background="#ef1d1d" Width="100"
+                Name="BtnCancel" Margin="10,0,0,0" Click="BtnCancel_OnClick">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Rectangle Fill="White" Height="15" Width="15">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cancel}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <Label Content="{DynamicResource langCancel}" Foreground="White"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
     </StackPanel>
 </UserControl>
