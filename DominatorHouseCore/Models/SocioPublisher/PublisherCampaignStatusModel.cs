@@ -59,6 +59,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public TimeRange TimeRange { get; set; } 
 
+        public bool IsRunSingleAccountPerCampaign { get; set; }
+
         #endregion
 
 

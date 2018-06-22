@@ -38,6 +38,9 @@ namespace DominatorHouseCore.Process
 
         public void FetchPosts(PublisherPostFetchModel publisherPostFetchModel)
         {
+            if (publisherPostFetchModel.PostSource == PostSource.NormalPost)
+                return;
+
             // Check whether campaign expired or not
             if (publisherPostFetchModel.ExpireDate < DateTime.Now)
             {
@@ -116,11 +119,12 @@ namespace DominatorHouseCore.Process
                                 .PostScraper.GetPostScraperLibrary();
 
                             if (publisherPostFetchModel.PostSource == PostSource.SharePost)
+                            {
                                 if (networkWithAccount.Key == SocialNetworks.Facebook)
                                     networkPostScraper.ScrapeFdPagePostUrl(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails);
-
-                                else if (publisherPostFetchModel.PostSource == PostSource.ScrapedPost)
-                                    networkPostScraper.ScrapePosts(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails);
+                            }
+                            else if (publisherPostFetchModel.PostSource == PostSource.ScrapedPost)
+                                networkPostScraper.ScrapePosts(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails);
                         });
                     });
                     break;
