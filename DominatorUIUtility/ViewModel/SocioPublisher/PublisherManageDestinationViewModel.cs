@@ -86,11 +86,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (_isAllDestinationSelected == value)
                     return;
                 SetProperty(ref _isAllDestinationSelected, value);
-
-                //if (_isAllDestinationSelected)
-                //    SelectAllDestination();
-                //else
-                //    SelectNoneDestination();
+               
                 SelectAllDestination(_isAllDestinationSelected);
                 _isUncheckedFromList = false;
             }
@@ -104,22 +100,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 x.IsSelected = isAllSelected; return x;
             }).ToList();
         }
-        //public void SelectAllDestination()
-        //{
-        //    ListPublisherManageDestinationModels.Select(x =>
-        //    {
-        //        x.IsSelected = true; return x;
-        //    }).ToList();
-        //}
-
-        //public void SelectNoneDestination()
-        //{
-        //    ListPublisherManageDestinationModels.Select(x =>
-        //    {
-        //        x.IsSelected = false; return x;
-        //    }).ToList();
-        //}
-
+       
 
         private bool NavigationCanExecute(object sender) => true;
 
