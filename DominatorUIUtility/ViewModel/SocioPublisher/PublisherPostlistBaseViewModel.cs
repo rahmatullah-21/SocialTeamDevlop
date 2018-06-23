@@ -463,6 +463,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var postItems = PostlistFileManager.GetAll(campaignId).Where(x => x.PostQueuedStatus == requiredPostList).ToList();
 
+            ClearPostlists();
+           
+            if (postItems.Count==0)
+            {
+                IsProgressRingActive = false;
+                return;
+            }
+
             PostCount = postItems.Count;
 
             Thread.Sleep(50);
@@ -508,7 +516,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
                 }, tokenSource.Token);
                 addPostList.Start();
-
             }
             catch (OperationCanceledException ex)
             {
@@ -534,11 +541,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     PublisherPostlist.Clear();
+                    PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
                 });
             }
             else
             {
                 PublisherPostlist.Clear();
+                PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
             }
         }
 

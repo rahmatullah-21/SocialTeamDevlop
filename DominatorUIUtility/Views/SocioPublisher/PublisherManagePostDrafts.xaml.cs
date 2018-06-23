@@ -13,11 +13,17 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// </summary>
     public partial class PublisherManagePostDrafts : UserControl, INotifyPropertyChanged
     {
-        public PublisherManagePostDrafts()
+        private PublisherManagePostDrafts()
         {
             InitializeComponent();
             DraftPostList.DataContext = PublisherManagePostDraftsViewModel;
         }
+
+        private static PublisherManagePostDrafts _publisherManagePostDrafts;
+
+        public static PublisherManagePostDrafts GetPublisherManagePostDrafts() 
+            => _publisherManagePostDrafts ?? (_publisherManagePostDrafts = new PublisherManagePostDrafts());
+
 
         private PublisherManagePostDraftsViewModel _publisherManagePostDraftsViewModel = new PublisherManagePostDraftsViewModel();
         public PublisherManagePostDraftsViewModel PublisherManagePostDraftsViewModel

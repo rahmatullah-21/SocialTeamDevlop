@@ -235,6 +235,5 @@ namespace DominatorHouseCore.Process
         }
 
         #endregion
-
     }
 }
