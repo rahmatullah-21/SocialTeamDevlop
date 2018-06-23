@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using Microsoft.Win32;
+using WPFFolderBrowser;
 
 namespace DominatorHouseCore.Utility
 {
@@ -145,6 +147,14 @@ namespace DominatorHouseCore.Utility
             }
 
             return exportPath;
+        }
+
+        public static void AddHeaderToCsv(string filename, string header)
+        {
+            using (var streamWriter = new StreamWriter(filename, false))
+            {
+                streamWriter.WriteLine(header);
+            }
         }
     }
 }

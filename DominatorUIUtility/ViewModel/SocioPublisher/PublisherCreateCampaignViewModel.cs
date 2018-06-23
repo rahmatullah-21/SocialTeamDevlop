@@ -453,13 +453,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             catch (Exception ex)
             {
-                PublisherCreateCampaignModel = new PublisherCreateCampaignModel
-                {
-                    JobConfigurations =
-                    {
-                        Weekday = new List<ContentSelectGroup>()
-                    }
-                };
+                PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
 
                 var defaultDays = new List<ContentSelectGroup>();
 

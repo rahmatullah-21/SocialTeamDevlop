@@ -311,7 +311,9 @@
                                               x:Name="ChkSingleCampaign"
                                           Margin="6,2,6,2"  Content="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
-                                                  Converter={StaticResource IndexToRowNoConverter}}"  />
+                                                  Converter={StaticResource IndexToRowNoConverter}}" 
+                                              Command="{Binding DataContext.SelectionCommand,
+                                      RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="SelectManually"/>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

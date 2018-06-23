@@ -85,13 +85,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
                 SetProperty(ref _isAllCampaignSelected, value);
 
-                if (_isAllCampaignSelected)
-                    SelectAllCampaign();
-                else
-                    SelectNoneCampaign();
+                SelectAll(_isAllCampaignSelected);
+                _isUncheckedFromList = false;
             }
         }
-
+        private bool _isUncheckedFromList { get; set; }
+        public void SelectAll(bool isAllSelected)
+        {
+            if (_isUncheckedFromList)
+                return;
+            ListPublisherCampaignStatusModels.Select(x =>
+            {
+                x.IsSelected = isAllSelected; return x;
+            }).ToList();
+        }
         #endregion
 
         private bool NavigationCanExecute(object sender) => true;
@@ -181,6 +188,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 case "SelectAll":
                 case "MenuSelectAll":
                     IsAllCampaignSelected = true;
+                    break;
+                case "SelectManually":
+
+                    if (ListPublisherCampaignStatusModels.All(x => x.IsSelected))
+                        IsAllCampaignSelected = true;
+                    else
+                    {
+                        if (IsAllCampaignSelected)
+                            _isUncheckedFromList = true;
+                        IsAllCampaignSelected = false;
+                    }
                     break;
             }
         }

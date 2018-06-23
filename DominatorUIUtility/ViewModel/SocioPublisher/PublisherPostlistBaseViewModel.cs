@@ -126,14 +126,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
                 _isSelectAllPostlist = value;
                 OnPropertyChanged(nameof(IsSelectAllPostList));
-
-                if (_isSelectAllPostlist)
-                    SelectAllPostlist();
-                else
-                    SelectNonePostlist();
+                SelectAllPostlist(IsSelectAllPostList);
+                _isUncheckedFromList = false;
             }
         }
-
+        private bool _isUncheckedFromList { get; set; }
 
         private bool _isProgressRingActive = true;
 
@@ -155,6 +152,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         #endregion
 
         #region Select
+        public void SelectAllPostlist(bool isSelected)
+        {
+            if (_isUncheckedFromList)
+                return;
+            PublisherPostlist.Select(x =>
+            {
+                x.IsPostlistSelected = isSelected;
+                return x;
+            }).ToList();
+        }
 
         private bool SelectCanExecute(object sender) => true;
 
@@ -169,6 +176,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 case "MenuSelectAll":
                     IsSelectAllPostList = true;
+                    break;
+                case "SelectManually":
+                    if (PublisherPostlist.All(x => x.IsPostlistSelected))
+                        IsSelectAllPostList = true;
+                    else
+                    {
+                        if (IsSelectAllPostList)
+                            _isUncheckedFromList = true;
+                        IsSelectAllPostList = false;
+                    }
                     break;
             }
         }
@@ -464,8 +481,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var postItems = PostlistFileManager.GetAll(campaignId).Where(x => x.PostQueuedStatus == requiredPostList).ToList();
 
             ClearPostlists();
-           
-            if (postItems.Count==0)
+
+            if (postItems.Count == 0)
             {
                 IsProgressRingActive = false;
                 return;
@@ -647,7 +664,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     campaignStatus.PostQueuedStatus = PostQueuedStatus.Published;
                     break;
                 case "Send to Pending":
-                case "Re Add":
+                case "Re-add":
                     campaignStatus.PostQueuedStatus = PostQueuedStatus.Pending;
                     break;
                 case "Send to Draft":
