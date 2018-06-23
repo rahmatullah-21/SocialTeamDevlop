@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
@@ -12,10 +15,30 @@ namespace DominatorHouseCore.Process
 {
     public class PublishScheduler
     {
+
+        #region Properties
+
+
+        public static Dictionary<string, CancellationTokenSource> CampaignsCancellationTokens { get; set; }
+        = new Dictionary<string, CancellationTokenSource>();
+
+        #endregion
+
+
         public static void StartPublishingPosts(PublisherCampaignStatusModel campaignStatusModel)
         {
             try
             {
+                if (CampaignsCancellationTokens.ContainsKey(campaignStatusModel.CampaignId))
+                {
+                    GlobusLogHelper.log.Info($"Campaign : {campaignStatusModel.CampaignName} is already runnning!");
+                    return;
+                }
+
+                var currentCampaignsCancallationToken = new CancellationTokenSource();
+
+                CampaignsCancellationTokens.Add(campaignStatusModel.CampaignId, currentCampaignsCancallationToken);
+
                 var publisherPostFetchModel =
                     GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
@@ -27,7 +50,7 @@ namespace DominatorHouseCore.Process
                     destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
                     {
                         var selectedGroupDestinations =
-                            destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value).Select(x=> x.Value).ToList();
+                            destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
 
                         var selectedPageOrBoardDestinations =
                             destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
@@ -37,7 +60,7 @@ namespace DominatorHouseCore.Process
 
                         var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
                             .GetPublisherCoreFactory()
-                            .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, isPublishOnOwnWall);
+                            .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
 
                         if (campaignStatusModel.IsRunSingleAccountPerCampaign)
                         {
@@ -50,7 +73,7 @@ namespace DominatorHouseCore.Process
                             //publisherJobProcess.StartPublish with Asynchronously
                         }
                     });
-                });             
+                });
             }
             catch (Exception ex)
             {
@@ -58,9 +81,20 @@ namespace DominatorHouseCore.Process
             }
         }
 
-        public static void StopPublishingPosts(PublisherCampaignStatusModel campaignStatusModel)
-        {
-            // Todo : Stop publish
+        public static void StopPublishingPosts(string campaignId)
+        {        
+            try
+            {
+                var cancellationToken =
+                      CampaignsCancellationTokens.FirstOrDefault(x => x.Key == campaignId);
+                cancellationToken.Value.Cancel();
+            }
+            catch (Exception ex)
+            {
+                var specificCampaign = PublisherInitialize.GetInstance.GetSavedCampaigns().ToList().FirstOrDefault(x => x.CampaignId == campaignId);
+                if (specificCampaign != null)               
+                    ex.DebugLog($"Campaign : {specificCampaign.CampaignName} not started before!");
+            }
         }
 
         public static void ScheduleTodaysPublisherByCampaign(string campaignId)
@@ -93,8 +127,8 @@ namespace DominatorHouseCore.Process
 
             campaignDetails.ForEach(campaign =>
             {
-                if (campaign.IsRotateDayChecked)                
-                    SchedulePublisher(campaign);              
+                if (campaign.IsRotateDayChecked)
+                    SchedulePublisher(campaign);
                 else
                 {
                     var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);

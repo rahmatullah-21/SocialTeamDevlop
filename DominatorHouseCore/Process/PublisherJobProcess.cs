@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
@@ -17,7 +18,13 @@ namespace DominatorHouseCore.Process
     {
         #region Constructor
 
-        public PublisherJobProcess(string campaignId, string accountId, SocialNetworks network, List<string> groupDestinationLists, List<string> pageDestinationList, bool isPublishOnOwnWall)
+        public PublisherJobProcess(string campaignId,
+            string accountId,
+            SocialNetworks network,
+            List<string> groupDestinationLists,
+            List<string> pageDestinationList,
+            bool isPublishOnOwnWall,
+            CancellationTokenSource camapignCancellationToken)
         {
 
             CampaignId = campaignId;
@@ -43,6 +50,11 @@ namespace DominatorHouseCore.Process
             JobConfigurations = publisherCampaign?.JobConfigurations;
 
             OtherConfiguration = publisherCampaign?.OtherConfiguration;
+
+            CampaignCancellationToken = camapignCancellationToken;
+
+            CurrentJobCancellationToken = new CancellationTokenSource();
+
         }
 
         #endregion
@@ -69,11 +81,23 @@ namespace DominatorHouseCore.Process
 
         public bool IsPublishOnOwnWall { get; set; }
 
+        public CancellationTokenSource CampaignCancellationToken { get; set; }
+
+        public CancellationTokenSource CurrentJobCancellationToken { get; set; }
+
+        public virtual bool PublishOnGroups(string accountId, string groupUrl, PublisherPostlistModel postDetails) => false;
+
+        public virtual bool PublishOnPages(string accountId, string pageUrl, PublisherPostlistModel postDetails) => false;
+
+        public virtual bool PublishOnOwnWall(string accountId, PublisherPostlistModel postDetails) => false;
+
         #endregion
 
         #region Methods
 
         protected abstract bool ValidateNetworksSettings(string campaign);
+
+        protected virtual bool DeletePost(string postId) => true;
 
         public void StartPublishing(bool isRunSingleAccount)
         {
@@ -81,12 +105,12 @@ namespace DominatorHouseCore.Process
             {
                 if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
                 {
-
                     GroupDestinationList.ForEach(groupUrl =>
                     {
                         var post = GetPostModel("Group", groupUrl);
-                        var ispublished = PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost
-                             .GetPublishingPostLibrary().PublishOnGroups(AccountModel.AccountId, groupUrl, post);
+
+                        var ispublished = PublishOnGroups(AccountModel.AccountId, groupUrl, post);
+                        
                         if (ispublished)
                         {
                             // update post list
@@ -97,8 +121,7 @@ namespace DominatorHouseCore.Process
                     PageDestinationList.ForEach(pageUrl =>
                     {
                         var post = GetPostModel("Page", pageUrl);
-                        var ispublished = PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost
-                            .GetPublishingPostLibrary().PublishOnPages(AccountModel.AccountId, pageUrl, post);
+                        var ispublished = PublishOnPages(AccountModel.AccountId, pageUrl, post);
                         if (ispublished)
                         {
                             // update post list
@@ -107,8 +130,7 @@ namespace DominatorHouseCore.Process
                     });
 
                     var ownWallpost = GetPostModel("OwnWall", AccountModel.AccountId);
-                    var isOwnWallPostpublished = PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost
-                        .GetPublishingPostLibrary().PublishOnOwnWall(AccountModel.AccountId, ownWallpost);
+                    var isOwnWallPostpublished = PublishOnOwnWall(AccountModel.AccountId, ownWallpost);
                     if (isOwnWallPostpublished)
                     {
                         // update post list
@@ -118,7 +140,6 @@ namespace DominatorHouseCore.Process
                 }
                 else
                 {
-
                     var allGroupsPages = new Dictionary<string,string>();
                     GroupDestinationList.Shuffle();
                     GroupDestinationList.ForEach(x =>
@@ -136,8 +157,7 @@ namespace DominatorHouseCore.Process
                         if (x.Value == "Group")
                         {
                             var post = GetPostModel("Group", x.Key);
-                            var ispublished = PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost
-                                .GetPublishingPostLibrary().PublishOnGroups(AccountModel.AccountId, x.Key, post);
+                            var ispublished = PublishOnGroups(AccountModel.AccountId, x.Key, post);
                             if (ispublished)
                             {
                                 // update post list
@@ -147,8 +167,7 @@ namespace DominatorHouseCore.Process
                         else
                         {
                             var post = GetPostModel("Page", x.Key);
-                            var ispublished = PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost
-                                .GetPublishingPostLibrary().PublishOnPages(AccountModel.AccountId, x.Key, post);
+                            var ispublished = PublishOnPages(AccountModel.AccountId, x.Key, post);
                             if (ispublished)
                             {
                                 // update post list
@@ -157,16 +176,13 @@ namespace DominatorHouseCore.Process
                         }                    
                     });
                     var ownWallpost = GetPostModel("OwnWall", AccountModel.AccountId);
-                    var isOwnWallPostpublished = PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost
-                        .GetPublishingPostLibrary().PublishOnOwnWall(AccountModel.AccountId, ownWallpost);
+                    var isOwnWallPostpublished = PublishOnOwnWall(AccountModel.AccountId, ownWallpost);
                     if (isOwnWallPostpublished)
                     {
                         // update post list
                         return;
                     }
                 }
-               
-                //PublisherInitialize.GetPublisherLibrary(Network).GetPublisherCoreFactory().PublishingPost.GetPublishingPostLibrary()
             }
         }
 
@@ -234,7 +250,7 @@ namespace DominatorHouseCore.Process
             return null;
         }
 
-        #endregion
 
+        #endregion
     }
 }

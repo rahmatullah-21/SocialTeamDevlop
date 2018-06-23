@@ -27,10 +27,10 @@ namespace DominatorHouse.Utilities
         public void InitializeOnLoadConfigurations(DominatorAccountViewModel.AccessorStrategies strategies)
         {
             _strategies = strategies;
-            CheckConfigurationFiles();
-            ScheduleUpdation();
-            ActivityManagerInitializer();
-            OtherInitializers();
+            //CheckConfigurationFiles();
+            //ScheduleUpdation();
+            //ActivityManagerInitializer();
+            //OtherInitializers();
         }
 
         private void OtherInitializers()

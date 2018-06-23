@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 
@@ -24,7 +25,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             CreateCampaign.DataContext = PublisherCreateCampaignViewModel;
             _currentObject = this;
         }
-    
+
         private static PublisherCreateCampaigns _currentObject;
 
         public static PublisherCreateCampaigns GetSingeltonPublisherCreateCampaigns()
@@ -62,20 +63,21 @@ namespace DominatorUIUtility.Views.SocioPublisher
             switch (onLabel)
             {
                 case "Completed":
-                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Stopped;
-                    break;
-                case "Stopped":
                     PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Active;
+                    PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId);
+                    //Call for update the bin files
                     break;
                 case "Active":
-                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Paused;
+                    PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Paused;                 
+                    PublishScheduler.StopPublishingPosts(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId);
+                    //Call for update the bin files
                     break;
                 case "Paused":
                     PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Completed;
+                    PublishScheduler.StopPublishingPosts(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId);
+                    //Call for update the bin files
                     break;
-
             }
         }
-
     }
 }

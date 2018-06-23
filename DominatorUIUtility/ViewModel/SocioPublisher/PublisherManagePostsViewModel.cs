@@ -87,7 +87,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private UserControl _selectedTabsUserControls = new PublisherManagePostDrafts();
+        private UserControl _selectedTabsUserControls =  PublisherManagePostDrafts.GetPublisherManagePostDrafts();
 
         public UserControl SelectedTabsUserControls
         {
@@ -155,7 +155,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         return;
 
                     SelectedTabs = ConstantVariable.DraftPostList;
-                    var draftView = new PublisherManagePostDrafts();
+                    var draftView = PublisherManagePostDrafts.GetPublisherManagePostDrafts();
                     SelectedTabsUserControls = draftView;
                     var cancellationToken = PostLoadingCancellation();
                     Task.Factory.StartNew(() => draftView.PublisherManagePostDraftsViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken), cancellationToken.Token);
@@ -177,7 +177,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         return;
 
                     SelectedTabs = ConstantVariable.PendingPostList;
-                    var pendingView = new PublisherManagePostPending();
+                    var pendingView = PublisherManagePostPending.GetPublisherManagePostPending();
                     SelectedTabsUserControls = pendingView;
                     var cancellationToken = PostLoadingCancellation();
                     Task.Factory.StartNew(() => pendingView.PublisherManagePostPendingViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken, PostQueuedStatus.Pending), cancellationToken.Token);
@@ -197,10 +197,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 try
                 {
                     if (SelectedCampaignDetails.Id == null)
-                        return; 
+                        return;
 
                     SelectedTabs = ConstantVariable.PublishedPostList;
-                    var publishedView = new PublisherManagePostPublished();
+                    var publishedView = PublisherManagePostPublished.GetPublisherManagePostPublished();
                     SelectedTabsUserControls = publishedView;
                     var cancellationToken = PostLoadingCancellation();
                     Task.Factory.StartNew(() => publishedView.PublisherManagePostPublishedViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken, PostQueuedStatus.Published), cancellationToken.Token);
@@ -235,10 +235,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 case "Draft":
                     try
                     {
-                        var draftView = new PublisherManagePostDrafts();
-                        Task.Factory.StartNew(
-                            () => draftView.PublisherManagePostDraftsViewModel.ReadPostList(SelectedCampaignDetails.Id,
-                                cancellationToken), cancellationToken.Token);
+                        var draftView = PublisherManagePostDrafts.GetPublisherManagePostDrafts();
+                        Task.Factory.StartNew(() => draftView.PublisherManagePostDraftsViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken), cancellationToken.Token);
                     }
                     catch (OperationCanceledException ex)
                     {
@@ -252,7 +250,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 case "Pending":
                     try
                     {
-                        var pendingView = new PublisherManagePostPending();
+                        var pendingView = PublisherManagePostPending.GetPublisherManagePostPending();
                         Task.Factory.StartNew(() => pendingView.PublisherManagePostPendingViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken, PostQueuedStatus.Pending), cancellationToken.Token);
                     }
                     catch (OperationCanceledException ex)
@@ -267,7 +265,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 case "Published":
                     try
                     {
-                        var publishedView = new PublisherManagePostPublished();
+                        var publishedView = PublisherManagePostPublished.GetPublisherManagePostPublished();
                         Task.Factory.StartNew(() => publishedView.PublisherManagePostPublishedViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken, PostQueuedStatus.Published), cancellationToken.Token);
                     }
                     catch (OperationCanceledException ex)
