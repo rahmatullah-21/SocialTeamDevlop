@@ -421,7 +421,6 @@
     <Compile Include="Interfaces\IPublisherCollectionFactory.cs" />
     <Compile Include="Interfaces\IPublisherCoreFactory.cs" />
     <Compile Include="Interfaces\IPublisherPostScraper.cs" />
-    <Compile Include="Interfaces\IPublishingPost.cs" />
     <Compile Include="Interfaces\IReportFactory.cs" />
     <Compile Include="Interfaces\ITabHandlerFactory.cs" />
     <Compile Include="Interfaces\IPost.cs" />

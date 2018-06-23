@@ -105,13 +105,7 @@ namespace DominatorHouseCore.Diagnostics
         {
             PublisherCoreFactory.PostScraper = postScraper;
             return this;
-        }
-
-        public PublisherCoreLibraryBuilder AddPublishingPost(IPublishingPost publishingPost)
-        {
-            PublisherCoreFactory.PublishingPost = publishingPost;
-            return this;
-        }
+        }     
     }
 
 }
