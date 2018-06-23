@@ -20,6 +20,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
+using DominatorHouseCore.Process;
 using DominatorUIUtility.Behaviours;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -34,6 +35,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
             CampaignCloneCommand = new BaseCommand<object>(CampaignCloneCanExecute, CampaignCloneExecute);
             DeleteCampaignCommand = new BaseCommand<object>(DeleteCampaignCanExecute, DeleteCampaignExecute);
+            ActiveSelectedCampaignCommand = new BaseCommand<object>(ActiveSelectedCampaignCanExecute, ActiveSelectedCampaignExecute);
+            PauseSelectedCampaignCommand = new BaseCommand<object>(PauseSelectedCampaignCanExecute, PauseSelectedCampaignExecute);
+            PublishNowSelectedCampaignCommand = new BaseCommand<object>(PublishNowSelectedCampaignCanExecute, PublishNowSelectedCampaignExecute);
             InitializeDefaultCampaignStatus();
         }
 
@@ -48,6 +52,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand CampaignCloneCommand { get; set; }
 
         public ICommand DeleteCampaignCommand { get; set; }
+
+        public ICommand ActiveSelectedCampaignCommand { get; set; }
+
+        public ICommand PauseSelectedCampaignCommand { get; set; }
+
+        public ICommand PublishNowSelectedCampaignCommand { get; set; }
 
         #endregion
 
@@ -100,6 +110,34 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }).ToList();
         }
         #endregion
+
+
+        private bool PublishNowSelectedCampaignCanExecute(object sender) => true;
+
+        private void PublishNowSelectedCampaignExecute(object sender)
+        {
+            var selectedCampaigns = GetSelectedCampaigns();
+            selectedCampaigns.ForEach( x => PublishScheduler.SchedulePublishNowByCampaign(x.CampaignId));
+        }
+
+        private bool PauseSelectedCampaignCanExecute(object sender) => true;
+
+        private void PauseSelectedCampaignExecute(object sender)
+        {
+            var selectedCampaigns = GetSelectedCampaigns();
+            selectedCampaigns.ForEach(x => PublishScheduler.StopPublishingPosts(x.CampaignId));
+        }
+
+
+        private bool ActiveSelectedCampaignCanExecute(object sender) => true;
+
+        private void ActiveSelectedCampaignExecute(object sender)
+        {
+            var selectedCampaigns = GetSelectedCampaigns();
+            selectedCampaigns.ForEach(x => PublishScheduler.ScheduleTodaysPublisherByCampaign(x.CampaignId));
+        }
+
+
 
         private bool NavigationCanExecute(object sender) => true;
 
@@ -301,7 +339,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherCreateCampaigns.Instance.PublisherCreateCampaignViewModel.CampaignList.Remove(campaign.CampaignName);
                 ListPublisherCampaignStatusModels.Remove(campaign);
 
+
                 GenericFileManager.Delete<PublisherPostFetchModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetPublisherPostFetchFile);
+
+                PublishScheduler.StopPublishingPosts(campaign.CampaignId);
             }
             else
             {
@@ -326,7 +367,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     ListPublisherCampaignStatusModels.Remove(x);
                     PublisherCreateCampaigns.Instance.PublisherCreateCampaignViewModel.CampaignList.Remove(x.CampaignName);
-
+                    PublishScheduler.StopPublishingPosts(x.CampaignId);
                 });
 
 

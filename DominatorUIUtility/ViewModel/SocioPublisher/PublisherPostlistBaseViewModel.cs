@@ -18,6 +18,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
+using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl;
@@ -41,7 +42,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             DuplicateCommand = new BaseCommand<object>(DuplicateCanExecute, DuplicateExecute);
             PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
             ChangePostStatusCommand = new BaseCommand<object>(ChangePostStatusCanExecute, ChangePostStatusExecute);
-
+            PublishNowCommand = new BaseCommand<object>(PublishNowCanExecute, PublishNowExecute);
         }
 
         #region Properties  
@@ -53,7 +54,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand DeleteCommand { get; set; }
         public ICommand DeleteSinglePostCommand { get; set; }
         public ICommand EditSinglePostCommand { get; set; }
-
+        public ICommand PublishNowCommand { get; set; }
         public ICommand DuplicateCommand { get; set; }
         public ICommand ChangePostStatusCommand { get; set; }
         private CancellationTokenSource TokenSource { get; set; }
@@ -651,6 +652,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #endregion
 
+        #region Change Post Status
+
         private bool ChangePostStatusCanExecute(object sender) => true;
 
         private void ChangePostStatusExecute(object sender)
@@ -658,24 +661,48 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var statusToChange = ((Button)sender).Content;
             var campaignStatus = ((FrameworkElement)sender).DataContext as PublisherPostlistModel;
 
+            if (campaignStatus == null)
+                return;
+
+            var post = PostlistFileManager.GetByPostId(campaignStatus.CampaignId, campaignStatus.PostId);
+
             switch (statusToChange.ToString())
             {
                 case "Publish Now":
                     campaignStatus.PostQueuedStatus = PostQueuedStatus.Published;
+                    post.PostQueuedStatus = PostQueuedStatus.Published;
                     break;
                 case "Send to Pending":
                 case "Re-add":
                     campaignStatus.PostQueuedStatus = PostQueuedStatus.Pending;
+                    post.PostQueuedStatus = PostQueuedStatus.Pending;
                     break;
                 case "Send to Draft":
                     campaignStatus.PostQueuedStatus = PostQueuedStatus.Draft;
+                    post.PostQueuedStatus = PostQueuedStatus.Draft;
                     break;
             }
 
-            PostlistFileManager.UpdatePostlists(campaignStatus.CampaignId, PublisherPostlist);
+            PostlistFileManager.UpdatePost(campaignStatus.CampaignId, post);
             PublisherPostlist.Remove(campaignStatus);
-
-
         }
+
+        #endregion
+
+        #region Publish Now
+
+        public bool PublishNowCanExecute(object sender) => true;
+
+        public void PublishNowExecute(object sender)
+        {
+            var postlistModel = ((FrameworkElement)sender).DataContext as PublisherPostlistModel;
+            if (postlistModel != null)
+            {
+                Task.Factory.StartNew(() => { PublishScheduler.StartPublishingPosts(postlistModel); });
+            }
+        }
+
+        #endregion
+
     }
 }

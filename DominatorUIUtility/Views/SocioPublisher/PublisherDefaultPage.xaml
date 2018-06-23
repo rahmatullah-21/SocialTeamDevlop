@@ -205,7 +205,7 @@
 
                     <Button.ContextMenu>
                         <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                            <MenuItem Header="{DynamicResource DHlangSwitchToActive}" Name="MenuSwitchToActive" >
+                            <MenuItem Header="{DynamicResource DHlangSwitchToActive}" Name="MenuSwitchToActive" Command="{Binding ActiveSelectedCampaignCommand}" CommandParameter="MakeCampaignActive" >
                                 <MenuItem.Icon>
                                     <StackPanel>
                                         <Rectangle Width="15" Height="15" Fill="Green">
@@ -216,7 +216,7 @@
                                     </StackPanel>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSwitchToPause}" Name="MenuSwitchToPause" >
+                            <MenuItem Header="{DynamicResource DHlangSwitchToPause}" Name="MenuSwitchToPause" Command="{Binding PauseSelectedCampaignCommand}" CommandParameter="MakeCampaignPause" >
                                 <MenuItem.Icon>
                                     <StackPanel>
                                         <Rectangle Width="15" Height="15" Fill="DarkOrange">
@@ -227,7 +227,7 @@
                                     </StackPanel>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSwitchToPending}" Name="MenuSwitchToPending" >
+                            <MenuItem Header="{DynamicResource DHlangSwitchToPending}" Name="MenuSwitchToPending" Visibility="Collapsed" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="DarkRed">
                                         <Rectangle.OpacityMask>
@@ -254,7 +254,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangPublishNow}" Name="MenuPublishNow" >
+                            <MenuItem Header="{DynamicResource DHlangPublishNow}" Name="MenuPublishNow" Command="{Binding PublishNowSelectedCampaignCommand}" CommandParameter="PublishNow">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black">
                                         <Rectangle.OpacityMask>

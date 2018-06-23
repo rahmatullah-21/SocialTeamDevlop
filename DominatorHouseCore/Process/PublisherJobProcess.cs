@@ -6,6 +6,7 @@ using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
@@ -174,6 +175,87 @@ namespace DominatorHouseCore.Process
             }
         }
 
+
+        public void StartPublishing(bool isRunSingleAccount, PublisherPostlistModel post)
+        {
+            lock (SyncJobProcess)
+            {
+                if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
+                {
+                    GroupDestinationList.ForEach(groupUrl =>
+                    {
+                        if (!ValidateNetworkAdvancedSettings(post, "Group", groupUrl))
+                            return;
+                        var ispublished = PublishOnGroups(AccountModel.AccountId, groupUrl, post);
+                        if (!ispublished) return;
+                        UpdatePostWithSuccessful(groupUrl, post);
+                        return;
+                    });
+
+                    PageDestinationList.ForEach(pageUrl =>
+                    {                      
+                        if (!ValidateNetworkAdvancedSettings(post, "Page", pageUrl))
+                            return;
+                        var ispublished = PublishOnPages(AccountModel.AccountId, pageUrl, post);
+                        if (!ispublished) return;
+                        UpdatePostWithSuccessful(pageUrl, post);
+                        return;
+                    });
+
+                    if (!ValidateNetworkAdvancedSettings(post, "OwnWall", AccountModel.AccountId))
+                        return;                 
+                    var isOwnWallPostpublished = PublishOnOwnWall(AccountModel.AccountId, post);
+                    if (!isOwnWallPostpublished)
+                        return;
+                    UpdatePostWithSuccessful(AccountModel.AccountId, post);
+                    return;
+                }
+                else
+                {
+                    var allGroupsPages = new Dictionary<string, string>();
+                    GroupDestinationList.Shuffle();
+                    GroupDestinationList.ForEach(x =>
+                    {
+                        allGroupsPages.Add(x, "Group");
+                    });
+                    PageDestinationList.Shuffle();
+                    PageDestinationList.ForEach(x =>
+                    {
+                        allGroupsPages.Add(x, "Page");
+                    });
+
+                    allGroupsPages.ForEach(x =>
+                    {
+                        if (x.Value == "Group")
+                        {                          
+                            if (!ValidateNetworkAdvancedSettings(post, "Group", x.Key))
+                                return;
+                            var ispublished = PublishOnGroups(AccountModel.AccountId, x.Key, post);
+                            if (!ispublished) return;
+                            UpdatePostWithSuccessful(x.Key, post);
+                            return;
+                        }
+                        else
+                        {
+                            if (!ValidateNetworkAdvancedSettings(post, "Page", x.Key))
+                                return;                          
+                            var ispublished = PublishOnPages(AccountModel.AccountId, x.Key, post);
+                            if (!ispublished) return;
+                            UpdatePostWithSuccessful(x.Key, post);
+                            return;
+                        }
+                    });
+                  
+                    if (!ValidateNetworkAdvancedSettings(post, "OwnWall", AccountModel.AccountId))
+                        return;
+                    var isOwnWallPostpublished = PublishOnOwnWall(AccountModel.AccountId, post);
+                    if (!isOwnWallPostpublished) return;
+                    UpdatePostWithSuccessful(AccountModel.AccountId, post);
+                    return;
+                }
+            }
+        }
+
         private void UpdatePostWithSuccessful(string destinationUrl, PublisherPostlistModel post)
         {
             if (OtherConfiguration.IsEnableSignatureChecked)
@@ -204,7 +286,14 @@ namespace DominatorHouseCore.Process
                 .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
 
             if (!pendingPostList.Any())
+            {
+                var campaignName = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                      .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == CampaignId);
+                if (campaignName == null)
+                    return null;
+                GlobusLogHelper.log.Info($"No more post are available for campaign {campaignName.CampaignName}!");
                 return null;
+            }
 
             if (GeneralSettingsModel.IsWhenPublishingSendOnePostChecked)
                 pendingPostList = pendingPostList.Where(x => x.LstPublishedPostDetailsModels.Count == 0).ToList();
@@ -225,33 +314,8 @@ namespace DominatorHouseCore.Process
                     pendingPostList[RandomUtilties.GetRandomNumber(0, pendingPostList.Count - 1)] :
                     pendingPostList.FirstOrDefault(x => x.PostId != null);
 
-                if (ValidateNetworksSettings(CampaignId))
-                {
-                    filterPostModel?.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel()
-                    {
-                        AccountName = AccountModel.AccountBaseModel.UserName,
-                        Destination = destination,
-                        DestinationUrl = destinationUrl,
-                        Description = filterPostModel.PostDescription,
-                        IsPublished = ConstantVariable.Yes,
-                        Successful = ConstantVariable.No,
-                        PublishedDate = DateTime.Now.ToString("dd/mm/yy"),
-                        Link = ConstantVariable.NotPublished
-                    });
-
-                    if (filterPostModel == null)
-                        return null;
-                    filterPostModel.PostQueuedStatus = PostQueuedStatus.Published;
-                    PostlistFileManager.UpdatePost(CampaignId, filterPostModel);
-
-                    if (OtherConfiguration.IsEnableSignatureChecked)
-                    {
-                        filterPostModel.PostDescription = filterPostModel.PostDescription + "\r\n" +
-                                                          OtherConfiguration.SignatureText;
-                    }
-
+                if (ValidateNetworkAdvancedSettings(filterPostModel, destination, destinationUrl))
                     return filterPostModel;
-                }
 
                 loopCount++;
             }
@@ -259,7 +323,45 @@ namespace DominatorHouseCore.Process
             return null;
         }
 
-        
+
+        public bool ValidateNetworkAdvancedSettings(PublisherPostlistModel filterPostModel, string destination, string destinationUrl)
+        {
+            var allDestinations = filterPostModel.LstPublishedPostDetailsModels.Select(x => x.DestinationUrl).ToList();
+            if (allDestinations.Contains(destinationUrl))
+            {
+                GlobusLogHelper.log.Info($"Post has already posted with destintion : {destination}-{destinationUrl} !");
+                return false;
+            }
+                
+            if (ValidateNetworksSettings(CampaignId))
+            {
+                filterPostModel?.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel
+                {
+                    AccountName = AccountModel.AccountBaseModel.UserName,
+                    Destination = destination,
+                    DestinationUrl = destinationUrl,
+                    Description = filterPostModel.PostDescription,
+                    IsPublished = ConstantVariable.Yes,
+                    Successful = ConstantVariable.No,
+                    PublishedDate = DateTime.Now.ToString("dd/mm/yy"),
+                    Link = ConstantVariable.NotPublished
+                });
+
+                filterPostModel.PostQueuedStatus = PostQueuedStatus.Published;
+                PostlistFileManager.UpdatePost(CampaignId, filterPostModel);
+
+                if (OtherConfiguration.IsEnableSignatureChecked)
+                {
+                    filterPostModel.PostDescription = filterPostModel.PostDescription + "\r\n" +
+                                                      OtherConfiguration.SignatureText;
+                }
+
+                return true;
+            }
+            GlobusLogHelper.log.Info($"Post has failed with {Network} network - advanced settings!");
+            return false;
+        }
+
         #endregion
     }
 

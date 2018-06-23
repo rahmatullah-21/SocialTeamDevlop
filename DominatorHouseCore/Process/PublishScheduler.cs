@@ -25,7 +25,6 @@ namespace DominatorHouseCore.Process
 
         #endregion
 
-
         public static void StartPublishingPosts(PublisherCampaignStatusModel campaignStatusModel)
         {
             try
@@ -97,6 +96,88 @@ namespace DominatorHouseCore.Process
            
         }
 
+        public static void StartPublishingPosts(PublisherPostlistModel post)
+        {
+            try
+            {
+                var campaignDetails =
+                    PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
+
+                var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == post.CampaignId);
+
+                if (specificCampaign == null)
+                {
+                    GlobusLogHelper.log.Info("Current post is register with any campaign!");
+                    return;
+                }
+
+                if (CampaignsCancellationTokens.ContainsKey(post.CampaignId))
+                {
+                    GlobusLogHelper.log.Info($"Campaign : {specificCampaign.CampaignName} is already runnning!");
+                    return;
+                }
+
+                var currentCampaignsCancallationToken = new CancellationTokenSource();
+
+                CampaignsCancellationTokens.Add(post.CampaignId, currentCampaignsCancallationToken);
+
+                var publisherPostFetchModel =
+                    GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                        .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == post.CampaignId);
+
+                publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
+                {
+                    var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
+
+                    destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
+                    {
+                        var selectedGroupDestinations =
+                            destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+
+                        var selectedPageOrBoardDestinations =
+                            destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+
+                        var isPublishOnOwnWall =
+                            destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
+
+                        var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
+                            .GetPublisherCoreFactory()
+                            .PublisherJobFactory.Create(post.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
+
+                        if (specificCampaign.IsRunSingleAccountPerCampaign)
+                        {
+                            publisherJobProcess.StartPublishing(true, post);
+                            //publisherJobProcess.StartPublish with synchronously
+                        }
+                        else
+                        {
+                            publisherJobProcess.StartPublishing(false, post);
+                            //publisherJobProcess.StartPublish with Asynchronously
+                        }
+                    });
+                });
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog("Cancellation Requested!");
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation requested before task completion!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+        }
+
         public static void StopPublishingPosts(string campaignId)
         {        
             try
@@ -112,7 +193,6 @@ namespace DominatorHouseCore.Process
                     ex.DebugLog($"Campaign : {specificCampaign.CampaignName} not started before!");
             }
         }
-
 
         public static void EnableDeletePost(PostDeletionModel postDeletionModel)
         {
@@ -150,6 +230,28 @@ namespace DominatorHouseCore.Process
             }
         }
 
+        public static void SchedulePublishNowByCampaign(string campaignId)
+        {
+            // get the all campaigns which should be present in between 
+            var campaignDetails =
+                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
+
+            var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == campaignId);
+
+            if (specificCampaign != null)
+            {
+                if (specificCampaign.IsRotateDayChecked)
+                    StartPublishingPosts(specificCampaign);
+                else
+                {
+                    var isCampaignSelected = specificCampaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
+                    if (isCampaignSelected == null)
+                        return;
+                    StartPublishingPosts(specificCampaign);
+                }
+            }
+        }
+
         public static void ScheduleTodaysPublisher()
         {
             // get the all campaigns which should be present in between 
@@ -172,21 +274,20 @@ namespace DominatorHouseCore.Process
 
         private static void SchedulePublisher(PublisherCampaignStatusModel campaign)
         {
-            StartPublishingPosts(campaign);
-            // Todo : Need to uncomment following region in production
+
             #region Schedule
 
-            //campaign.SpecificRunningTime.ForEach(runningTime =>
-            //{
-            //    var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
-            //    if (startTime > DateTime.Now)
-            //    {
-            //        JobManager.AddJob(() =>
-            //        {
-            //            StartPublishingPosts(campaign);
-            //        }, s => s.WithName($"{campaign.CampaignId}-{ConstantVariable.GetDate()}").ToRunOnceAt(startTime));
-            //    }
-            //});
+            campaign.SpecificRunningTime.ForEach(runningTime =>
+            {
+                var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
+                if (startTime > DateTime.Now)
+                {
+                    JobManager.AddJob(() =>
+                    {
+                        StartPublishingPosts(campaign);
+                    }, s => s.WithName($"{campaign.CampaignId}-{ConstantVariable.GetDate()}").ToRunOnceAt(startTime));
+                }
+            });
 
             #endregion
         }

@@ -294,7 +294,7 @@
                                         <Button Cursor="Hand" 
                                                 Content="{DynamicResource DHlangBump}" 
                                                 x:Name="ButtonBumpPosts" 
-                                                FontWeight="SemiBold"       
+                                                FontWeight="SemiBold"       Visibility="Collapsed"
                                                 Command="{Binding Path=DataContext.EditSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                 Background="Transparent"/>
                                         <Button Cursor="Hand" 

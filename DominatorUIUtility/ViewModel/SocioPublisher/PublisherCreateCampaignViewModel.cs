@@ -466,7 +466,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 PublisherCreateCampaignModel.JobConfigurations.Weekday = defaultDays;
 
-
                 SetDataContext();
                 ex.DebugLog();
             }

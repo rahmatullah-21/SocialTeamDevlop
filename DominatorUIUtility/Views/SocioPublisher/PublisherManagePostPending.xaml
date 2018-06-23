@@ -92,7 +92,7 @@
                     </Button.Template>
                 </Button>
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="InvalidAspectRadio" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding RemoveInvalidRatioCommand}"  CommandParameter="{Binding ElementName=InvalidAspectRadio}">
+                <Button Background="Transparent" Cursor="Hand" Visibility="Collapsed" BorderBrush="Transparent" BorderThickness="0"  Name="InvalidAspectRadio" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding RemoveInvalidRatioCommand}"  CommandParameter="{Binding ElementName=InvalidAspectRadio}">
                     <Button.Template>
                         <ControlTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -302,7 +302,7 @@
                                                 Content="{DynamicResource DHlangPublishNow}" 
                                                 x:Name="ButtonPublishNowPosts" 
                                                 FontWeight="SemiBold"       
-                                                Command="{Binding Path=DataContext.ChangePostStatusCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding ElementName=ButtonPublishNowPosts}"
+                                                Command="{Binding Path=DataContext.PublishNowCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding ElementName=ButtonPublishNowPosts}"
                                                 Background="Transparent"/>
 
                                         <Button Cursor="Hand" 

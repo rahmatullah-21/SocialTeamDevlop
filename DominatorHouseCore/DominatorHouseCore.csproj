@@ -430,7 +430,6 @@
     <Compile Include="Diagnostics\LogHelper\NlogUiTarget.cs" />
     <Compile Include="Interfaces\IViewCampaignsFactory.cs" />
     <Compile Include="Interfaces\PostScraper.cs" />
-    <Compile Include="Interfaces\PublishingPost.cs" />
     <Compile Include="Interfaces\SocioPublisher\IFdScrapePosts.cs" />
     <Compile Include="Interfaces\SocioPublisher\IGeneralPostSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\ITdScrapePosts.cs" />
