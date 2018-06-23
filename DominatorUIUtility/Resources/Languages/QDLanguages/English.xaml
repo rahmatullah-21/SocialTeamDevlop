@@ -143,4 +143,8 @@
     <system:String x:Key="QDlangQuestionScraper">Question Scraper</system:String>
     <system:String x:Key="QDlangAnswerScraper">Answer Scraper</system:String>
     <system:String x:Key="QDlangUpvotesCount">Upvotes Count</system:String>
+    <system:String x:Key="QDlangWhoDoNotFollowBack">Who Do Not Follow Back</system:String>
+    <system:String x:Key="QDlangWhoFollowBack">Who Follow Back</system:String>
+    <system:String x:Key="QDlangPeopleFollowedBySoftware">People Followed By Software</system:String>
+    <system:String x:Key="QDlangPeopleFollowedOutsideSoftware">People Followed Outside Software</system:String>
 </ResourceDictionary>
