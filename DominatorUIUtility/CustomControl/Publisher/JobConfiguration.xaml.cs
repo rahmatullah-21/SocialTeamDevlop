@@ -17,7 +17,7 @@ namespace DominatorUIUtility.CustomControl.Publisher
     {
         public JobConfiguration()
         {
-            InitializeComponent();
+            InitializeComponent();            
             MainGrid.DataContext = this;
         }
 

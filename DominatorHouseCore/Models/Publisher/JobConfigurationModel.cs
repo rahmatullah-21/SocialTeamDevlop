@@ -43,7 +43,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private bool _isSpecifyPostingIntervalChecked=true;
+        private bool _isSpecifyPostingIntervalChecked = true;
         [ProtoMember(4)]
         public bool IsSpecifyPostingIntervalChecked
         {
@@ -275,15 +275,13 @@ namespace DominatorHouseCore.Models.Publisher
         {
             get { return _weekday; }
             set
-            {
-                if (value == _weekday)
-                    return;
+            {                
                 SetProperty(ref _weekday, value);
             }
         }
 
 
-        private ObservableCollection<TimeSpanHelper> _lstTimer =  new ObservableCollection<TimeSpanHelper> ();
+        private ObservableCollection<TimeSpanHelper> _lstTimer = new ObservableCollection<TimeSpanHelper>();
         [ProtoMember(26)]
         public ObservableCollection<TimeSpanHelper> LstTimer
         {

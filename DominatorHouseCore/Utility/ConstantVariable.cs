@@ -174,10 +174,12 @@ namespace DominatorHouseCore.Utility
             return dir;
         }
         public static string GetPublisherOtherConfigFile(SocialNetworks networks) => GetPublisherOtherConfigDir() + $"\\{networks}.bin";
+
         public static string GetPublisherCampaignFile() => GetOtherDir() + "\\PublisherCampaign.bin";
 
-
         public static string GetPublisherPostFetchFile => GetOtherDir() + "\\PublisherPostFetcherDetails.bin";
+
+        public static  string GetDeletePublisherPostModel => GetOtherDir() + "\\PublisherDeletionPosts.bin";
 
         public static string Yes { get; set; } = "Yes";
 

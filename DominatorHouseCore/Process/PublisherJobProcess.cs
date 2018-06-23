@@ -11,6 +11,8 @@ using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
+using FluentScheduler;
+using ProtoBuf;
 
 namespace DominatorHouseCore.Process
 {
@@ -97,7 +99,7 @@ namespace DominatorHouseCore.Process
 
         protected abstract bool ValidateNetworksSettings(string campaign);
 
-        protected virtual bool DeletePost(string postId) => true;
+        public virtual bool DeletePost(string postId) => true;
 
         public void StartPublishing(bool isRunSingleAccount)
         {
@@ -108,43 +110,35 @@ namespace DominatorHouseCore.Process
                     GroupDestinationList.ForEach(groupUrl =>
                     {
                         var post = GetPostModel("Group", groupUrl);
-
                         var ispublished = PublishOnGroups(AccountModel.AccountId, groupUrl, post);
-                        
-                        if (ispublished)
-                        {
-                            // update post list
-                            return;
-                        }
+                        if (!ispublished) return;
+                        UpdatePostWithSuccessful(groupUrl, post);
+                        return;
                     });
 
                     PageDestinationList.ForEach(pageUrl =>
                     {
                         var post = GetPostModel("Page", pageUrl);
                         var ispublished = PublishOnPages(AccountModel.AccountId, pageUrl, post);
-                        if (ispublished)
-                        {
-                            // update post list
-                            return;
-                        }
+                        if (!ispublished) return;
+                        UpdatePostWithSuccessful(pageUrl, post);
+                        return;
                     });
 
                     var ownWallpost = GetPostModel("OwnWall", AccountModel.AccountId);
                     var isOwnWallPostpublished = PublishOnOwnWall(AccountModel.AccountId, ownWallpost);
-                    if (isOwnWallPostpublished)
-                    {
-                        // update post list
+                    if (!isOwnWallPostpublished)
                         return;
-                    }
-
+                    UpdatePostWithSuccessful(AccountModel.AccountId, ownWallpost);
+                    return;
                 }
                 else
                 {
-                    var allGroupsPages = new Dictionary<string,string>();
+                    var allGroupsPages = new Dictionary<string, string>();
                     GroupDestinationList.Shuffle();
                     GroupDestinationList.ForEach(x =>
                     {
-                        allGroupsPages.Add(x,"Group");
+                        allGroupsPages.Add(x, "Group");
                     });
                     PageDestinationList.Shuffle();
                     PageDestinationList.ForEach(x =>
@@ -158,32 +152,40 @@ namespace DominatorHouseCore.Process
                         {
                             var post = GetPostModel("Group", x.Key);
                             var ispublished = PublishOnGroups(AccountModel.AccountId, x.Key, post);
-                            if (ispublished)
-                            {
-                                // update post list
-                                return;
-                            }
+                            if (!ispublished) return;
+                            UpdatePostWithSuccessful(x.Key, post);
+                            return;
                         }
                         else
                         {
                             var post = GetPostModel("Page", x.Key);
                             var ispublished = PublishOnPages(AccountModel.AccountId, x.Key, post);
-                            if (ispublished)
-                            {
-                                // update post list
-                                return;
-                            }
-                        }                    
+                            if (!ispublished) return;
+                            UpdatePostWithSuccessful(x.Key, post);
+                            return;
+                        }
                     });
                     var ownWallpost = GetPostModel("OwnWall", AccountModel.AccountId);
                     var isOwnWallPostpublished = PublishOnOwnWall(AccountModel.AccountId, ownWallpost);
-                    if (isOwnWallPostpublished)
-                    {
-                        // update post list
-                        return;
-                    }
+                    if (!isOwnWallPostpublished) return;
+                    UpdatePostWithSuccessful(AccountModel.AccountId, ownWallpost);
+                    return;
                 }
             }
+        }
+
+        private void UpdatePostWithSuccessful(string destinationUrl, PublisherPostlistModel post)
+        {
+            if (OtherConfiguration.IsEnableSignatureChecked)
+            {
+                post.PostDescription = post.PostDescription.Replace("\r\n", string.Empty)
+                    .Replace(OtherConfiguration.SignatureText, string.Empty);
+            }
+
+            var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+            post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.Yes;
+            PostlistFileManager.UpdatePost(CampaignId, post);
+
         }
 
         public static void Stop()
@@ -216,7 +218,7 @@ namespace DominatorHouseCore.Process
 
             while (true)
             {
-                if(loopCount >= pendingPostList.Count)
+                if (loopCount >= pendingPostList.Count)
                     break;
 
                 var filterPostModel = GeneralSettingsModel.IsChooseRandomPostsChecked ?
@@ -238,9 +240,16 @@ namespace DominatorHouseCore.Process
                     });
 
                     if (filterPostModel == null)
-                        return null;                    
+                        return null;
                     filterPostModel.PostQueuedStatus = PostQueuedStatus.Published;
                     PostlistFileManager.UpdatePost(CampaignId, filterPostModel);
+
+                    if (OtherConfiguration.IsEnableSignatureChecked)
+                    {
+                        filterPostModel.PostDescription = filterPostModel.PostDescription + "\r\n" +
+                                                          OtherConfiguration.SignatureText;
+                    }
+
                     return filterPostModel;
                 }
 
@@ -250,7 +259,9 @@ namespace DominatorHouseCore.Process
             return null;
         }
 
-
+        
         #endregion
     }
+
+
 }

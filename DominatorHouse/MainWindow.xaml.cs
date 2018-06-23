@@ -25,6 +25,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
@@ -560,6 +561,7 @@ namespace Socinator
                 {
                     PublisherInitialize.GetInstance.PublishCampaignInitializer();
                     PublishScheduler.ScheduleTodaysPublisher();
+
                 });
 
                 Task.Factory.StartNew(() =>
@@ -567,6 +569,14 @@ namespace Socinator
                     var publisherPostFetcher = new PublisherPostFetcher();
                     publisherPostFetcher.StartFetchingPostData();
                 });
+
+                Task.Factory.StartNew(() =>
+                    {
+                        var deletionPostlist =
+                        GenericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                            .GetDeletePublisherPostModel);
+                        deletionPostlist.ForEach(PublishScheduler.EnableDeletePost);
+                    });
 
                 #endregion
             }

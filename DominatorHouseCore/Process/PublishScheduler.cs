@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
@@ -75,10 +76,25 @@ namespace DominatorHouseCore.Process
                     });
                 });
             }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog("Cancellation Requested!");
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation requested before task completion!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+           
         }
 
         public static void StopPublishingPosts(string campaignId)
@@ -95,6 +111,21 @@ namespace DominatorHouseCore.Process
                 if (specificCampaign != null)               
                     ex.DebugLog($"Campaign : {specificCampaign.CampaignName} not started before!");
             }
+        }
+
+
+        public static void EnableDeletePost(PostDeletionModel postDeletionModel)
+        {
+            GenericFileManager.AddModule(postDeletionModel,
+                ConstantVariable.GetDeletePublisherPostModel);
+
+            JobManager.AddJob(() =>
+            {
+                var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(postDeletionModel.Networks)
+                    .GetPublisherCoreFactory()
+                    .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null, null, false, new CancellationTokenSource());
+                publisherJobProcess.DeletePost(postDeletionModel.PublishedIdOrUrl);
+            }, s => s.WithName($"{postDeletionModel.CampaignId}- Delete Posts -{ConstantVariable.GetDate()}").ToRunOnceAt(postDeletionModel.DeletionTime));
         }
 
         public static void ScheduleTodaysPublisherByCampaign(string campaignId)

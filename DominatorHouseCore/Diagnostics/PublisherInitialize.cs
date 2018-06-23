@@ -73,6 +73,7 @@ namespace DominatorHouseCore.Diagnostics
                 ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
                
             });
+
         }
 
     }
