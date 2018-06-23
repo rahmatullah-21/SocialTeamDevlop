@@ -452,6 +452,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             catch (Exception ex)
             {
                 PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
+                PublisherCreateCampaignModel.JobConfigurations.Weekday.Clear();
+
+                foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                {
+                    PublisherCreateCampaignModel.JobConfigurations.Weekday.Add(new ContentSelectGroup
+                    {
+                        Content = day.ToString()
+                    });
+                }
                 SetDataContext();
                 ex.DebugLog();
             }

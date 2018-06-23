@@ -37,7 +37,7 @@
                     <Label Foreground="White" Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}"/>
                     <ComboBox x:Name="ComboCampaignList" Height="25" Width="250" ItemsSource="{Binding CampaignList}" 
                               behaviours:SelectionChangedBehaviour.Command="{Binding CampaignChangedCommand}"
-                              SelectedItem="{Binding SelectedItem}" metroControls:TextBoxHelper.ClearTextButton="True"/>
+                              SelectedItem="{Binding SelectedItem}" metroControls:TextBoxHelper.ClearTextButton="True" />
                 </StackPanel>
 
                 <Button x:Name="BtnSelectDestination" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
@@ -127,21 +127,18 @@
                             <Style TargetType="metroControls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
                                 <Style.Triggers>
                                     <Trigger Property="OnLabel" Value="Active">
-                                        <Setter Property="OffSwitchBrush" Value="LightGreen"/>
-                                        <Setter Property="OnSwitchBrush" Value="LightGreen"/>
-                                    </Trigger>
-                                    <Trigger Property="OnLabel" Value="Completed">
                                         <Setter Property="OffSwitchBrush" Value="DarkGreen"/>
                                         <Setter Property="OnSwitchBrush" Value="DarkGreen"/>
                                     </Trigger>
-                                    <Trigger Property="OffLabel" Value="Paused">
-                                        <Setter Property="OffSwitchBrush" Value="Yellow"/>
-                                        <Setter Property="OnSwitchBrush" Value="Yellow"/>
+                                    <Trigger Property="OnLabel" Value="Completed">
+                                        <Setter Property="OffSwitchBrush" Value="DodgerBlue"/>
+                                        <Setter Property="OnSwitchBrush" Value="DodgerBlue"/>
                                     </Trigger>
-                                    <Trigger Property="OffLabel" Value="Stopped">
+                                    <Trigger Property="OffLabel" Value="Paused">
                                         <Setter Property="OffSwitchBrush" Value="Red"/>
                                         <Setter Property="OnSwitchBrush" Value="Red"/>
                                     </Trigger>
+                                  
                                 </Style.Triggers>
                             </Style>
                         </metroControls:ToggleSwitch.Style>
