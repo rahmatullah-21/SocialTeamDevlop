@@ -86,6 +86,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (_isAllDestinationSelected == value)
                     return;
                 SetProperty(ref _isAllDestinationSelected, value);
+
                
                 SelectAllDestination(_isAllDestinationSelected);
                 _isUncheckedFromList = false;

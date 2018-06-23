@@ -117,12 +117,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (_isAllDestinationSelected == value)
                     return;
                 SetProperty(ref _isAllDestinationSelected, value);
-
-                if (_isAllDestinationSelected)
-                    SelectAllDestination();
-                else
-                    SelectNoneDestination();
-
+                SelectAllDestination(_isAllDestinationSelected);
+                _isUncheckedFromList = false;
             }
         }
 
@@ -391,32 +387,35 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 case "MenuSelectAll":
                     IsAllDestinationSelected = true;
                     break;
+                case "SelectManually":
+
+                    if (PublisherCreateDestinationModel.ListSelectDestination.All(x => x.IsAccountSelected))
+                        IsAllDestinationSelected = true;
+                    else
+                    {
+                        if (IsAllDestinationSelected)
+                            _isUncheckedFromList = true;
+                        IsAllDestinationSelected = false;
+                    }
+                    break;
             }
         }
 
-
+        private bool _isUncheckedFromList { get; set; }
         #endregion
 
         #region Select Destination fucntionality , and also selection menu options
 
-        public void SelectAllDestination()
+        public void SelectAllDestination(bool isChecked)
         {
+            if (_isUncheckedFromList)
+                return;
             PublisherCreateDestinationModel.ListSelectDestination.Select(x =>
            {
-               x.IsAccountSelected = true;
+               x.IsAccountSelected = isChecked;
                return x;
            }).ToList();
         }
-
-        public void SelectNoneDestination()
-        {
-            PublisherCreateDestinationModel.ListSelectDestination.Select(x =>
-            {
-                x.IsAccountSelected = false;
-                return x;
-            }).ToList();
-        }
-
 
         private bool SelectAccountDetailsCanExecute(object sender) => true;
 

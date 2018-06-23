@@ -234,7 +234,10 @@
                                     <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                         <CheckBox IsChecked="{Binding IsAccountSelected}" 
                                               x:Name="ChkSingleCampaign"
-                                          Margin="6,2,6,2" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},  Converter={StaticResource ListViewItemIndexConverter}}" />
+                                          Margin="6,2,6,2" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},
+                                            Converter={StaticResource ListViewItemIndexConverter}}"
+                                                  Command="{Binding DataContext.SelectionCommand,
+                                      RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="SelectManually"/>
                                     </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
