@@ -204,7 +204,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 #endregion
 
-               
+
                 #region Saving post
 
                 PostlistFileManager.SaveAll(PublisherCreateCampaignModel.CampaignId, new List<PublisherPostlistModel>());
@@ -276,7 +276,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     CampaignId = PublisherCreateCampaignModel.CampaignId,
                     CampaignName = PublisherCreateCampaignModel.CampaignName,
                     ExpireDate = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate,
-                    PostSource = PostSource.NormalPost,                 
+                    PostSource = PostSource.NormalPost,
                     SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
                 };
 
@@ -370,7 +370,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 #endregion
 
-                GenericFileManager.AddRangeModule(currentCampaignsFetchDetails,ConstantVariable.GetPublisherPostFetchFile);
+                GenericFileManager.AddRangeModule(currentCampaignsFetchDetails, ConstantVariable.GetPublisherPostFetchFile);
 
                 var publisherPostFetcher = new PublisherPostFetcher();
                 publisherPostFetcher.FetchPostsForCampaign(PublisherCreateCampaignModel.CampaignId);
@@ -393,7 +393,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     TimeRange = PublisherCreateCampaignModel.JobConfigurations.TimeRange,
                     SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                     ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
-                    
+
                 };
 
                 PublisherDefaultPage.Instance.PublisherDefaultViewModel.AddCampaignDetails(publisherCampaignStatusModel);
@@ -407,7 +407,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 ex.DebugLog();
             }
 
-        
+
         }
 
 
@@ -453,7 +453,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             catch (Exception ex)
             {
+               
                 PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
+                foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                {
+                    PublisherCreateCampaignModel.JobConfigurations.Weekday.Add(new ContentSelectGroup
+                    {
+                        Content = day.ToString(),
+                    });
+                }
+
                 SetDataContext();
                 ex.DebugLog();
             }

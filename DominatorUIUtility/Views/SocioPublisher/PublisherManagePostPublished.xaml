@@ -93,7 +93,7 @@
                     </Button.Template>
                 </Button>
 
-                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="DeletePosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteCommand}"  CommandParameter="{Binding ElementName=DeletePosts}">
+                <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="DeletePosts" Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding DeleteCommand}"  CommandParameter="DeleteSelected">
                     <Button.Template>
                         <ControlTemplate>
                             <StackPanel  Orientation="Horizontal">
@@ -286,7 +286,8 @@
                                                 Content="{DynamicResource DHlangReadd}" 
                                                 x:Name="ButtonReaddPosts" 
                                                 FontWeight="SemiBold"       
-                                                Command="{Binding Path=DataContext.ChangePostStatusCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Command="{Binding Path=DataContext.ChangePostStatusCommand,  RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding ElementName=ButtonReaddPosts}"
                                                 Background="Transparent"/>
                                         <Button Cursor="Hand" 
                                                 Content="{DynamicResource DHlangBump}" 
@@ -298,7 +299,7 @@
                                                 Content="{DynamicResource DHlangReport}" 
                                                 x:Name="ButtonReportPosts" 
                                                 FontWeight="SemiBold"       
-                                                Command="{Binding Path=DataContext.EditSinglePostCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Command="{Binding Path=DataContext.ReportCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                 Background="Transparent"/>
                                         <Button Cursor="Hand"
                                                 Content="{DynamicResource DHlangDelete}"  

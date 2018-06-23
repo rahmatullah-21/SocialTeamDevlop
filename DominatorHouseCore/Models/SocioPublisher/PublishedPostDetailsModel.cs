@@ -1,7 +1,9 @@
 ﻿using ProtoBuf;
+using System;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
+    [Serializable]
     [ProtoContract]
     public class PublishedPostDetailsModel
     {

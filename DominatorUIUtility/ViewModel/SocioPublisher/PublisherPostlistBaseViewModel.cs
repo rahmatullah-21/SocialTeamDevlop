@@ -638,7 +638,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     campaignStatus.PostQueuedStatus = PostQueuedStatus.Published;
                     break;
                 case "Send to Pending":
-                case "Re Add":
+                case "Re-add":
                     campaignStatus.PostQueuedStatus = PostQueuedStatus.Pending;
                     break;
                 case "Send to Draft":
