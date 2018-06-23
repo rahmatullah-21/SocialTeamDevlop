@@ -13,11 +13,16 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// </summary>
     public partial class PublisherManagePostPending : UserControl , INotifyPropertyChanged
     {
-        public PublisherManagePostPending()
+        private PublisherManagePostPending()
         {
             InitializeComponent();
             PendingPostLists.DataContext = PublisherManagePostPendingViewModel;
         }
+
+        private static PublisherManagePostPending _publisherManagePostPending;
+
+        public static PublisherManagePostPending GetPublisherManagePostPending()
+            => _publisherManagePostPending ?? (_publisherManagePostPending = new PublisherManagePostPending());
 
         private PublisherManagePostPendingViewModel _publisherManagePostPendingViewModel = new PublisherManagePostPendingViewModel();
         public PublisherManagePostPendingViewModel PublisherManagePostPendingViewModel
@@ -30,7 +35,6 @@ namespace DominatorUIUtility.Views.SocioPublisher
             {
                 if(_publisherManagePostPendingViewModel== value)
                     return;
-
                 _publisherManagePostPendingViewModel = value;
                 OnPropertyChanged(nameof(PublisherManagePostPendingViewModel));
             }

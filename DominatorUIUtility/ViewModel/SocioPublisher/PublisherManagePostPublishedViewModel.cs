@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore;
@@ -26,6 +27,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand ExportCommand { get; set; }
         public ICommand PublishedDetailsCommand { get; set; }
         public ICommand ReportCommand { get; set; }
+        public ICommand ExportSelectedCommand { get; set; }
 
         #endregion
 
@@ -35,7 +37,44 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void ExportExecute(object sender)
         {
+            var selectedPost = PublisherPostlist.Where(x => x.IsPostlistSelected).ToList();
 
+            if (selectedPost.Count != 0)
+            {
+                var exportPath = FileUtilities.GetExportPath();
+
+                if (!string.IsNullOrEmpty(exportPath))
+                {
+                    var header =
+                        "Post Description,MediaList,ShareUrl,ExpiredTime,Published,Running Status";
+
+                    var filename = $"{exportPath}\\{PublisherPostlist.Select(x=>x.CampaignId).FirstOrDefault()}.csv";
+
+                    FileUtilities.AddHeaderToCsv(filename, header);
+
+                    selectedPost.ForEach(post =>
+                    {
+                        var mediaUrls = string.Empty;
+                        post.MediaList.ForEach(x => { mediaUrls += x +ConstantVariable.Separator; });
+                       var csvData = post.PostDescription + "," + mediaUrls + "," + post.ShareUrl + "," +
+                                      post.ExpiredTime + ","
+                                      + post.ExpiredTime + "," + post.PostRunningStatus ;
+                        using (var streamWriter = new StreamWriter(filename, true))
+                        {
+                            streamWriter.WriteLine(csvData);
+                        }
+                    });
+                }
+                else
+                {
+                    Dialog.ShowDialog("Warning", "Please select path to export.");
+                }
+
+            }
+            else
+            {
+                Dialog.ShowDialog("Warning", "Please select atleast one post to export.");
+            }
         }
 
         #endregion
@@ -51,12 +90,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 var currentData = sender as PublisherPostlistModel;
 
-                if (currentData?.LstPublishedPostDetailsModels.Count!=0)
+                if (currentData?.LstPublishedPostDetailsModels.Count != 0)
                 {
                     Dialog dialog = new Dialog();
                     PublishedPostDetails publishedPostDetails = new PublishedPostDetails(currentData);
                     var window = dialog.GetMetroWindow(publishedPostDetails, "Published Details");
-                    window.ShowDialog(); 
+                    window.ShowDialog();
                 }
                 else
                 {
@@ -71,7 +110,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #endregion
 
-
         #region Report
 
         private bool ReportCanExecute(object sender) => true;
@@ -81,27 +119,35 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 var currentData = sender as PublisherPostlistModel;
-                if (currentData?.LstPublishedPostDetailsModels.Count!=0)
+                if (currentData?.LstPublishedPostDetailsModels.Count != 0)
                 {
                     var exportPath = FileUtilities.GetExportPath();
-                    var header =
-                        "Account Name,Destination,Destination Url,Description,Published,Successful,Published Date,Link";
 
-                    var filename = $"{exportPath}\\{currentData?.PostId}.csv";
-
-                    FileUtilities.AddHeaderToCsv(filename, header);
-
-                    currentData?.LstPublishedPostDetailsModels.ForEach(post =>
+                    if (!string.IsNullOrEmpty(exportPath))
                     {
-                        var csvData = post.AccountName + "," + post.Destination + "," + post.DestinationUrl + "," +
-                                      post.Description + ","
-                                      + post.IsPublished + "," + post.Successful + "," + post.PublishedDate + "," +
-                                      post.Link;
-                        using (var streamWriter = new StreamWriter(filename, false))
+                        var header =
+                                      "Account Name,Destination,Destination Url,Description,Published,Successful,Published Date,Link";
+
+                        var filename = $"{exportPath}\\{currentData?.PostId}.csv";
+
+                        FileUtilities.AddHeaderToCsv(filename, header);
+
+                        currentData?.LstPublishedPostDetailsModels.ForEach(post =>
                         {
-                            streamWriter.WriteLine(csvData);
-                        }
-                    }); 
+                            var csvData = post.AccountName + "," + post.Destination + "," + post.DestinationUrl + "," +
+                                          post.Description + ","
+                                          + post.IsPublished + "," + post.Successful + "," + post.PublishedDate + "," +
+                                          post.Link;
+                            using (var streamWriter = new StreamWriter(filename, true))
+                            {
+                                streamWriter.WriteLine(csvData);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Dialog.ShowDialog("Warning", "Please select path to export.");
+                    }
                 }
 
             }
@@ -111,7 +157,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-      
+
         #endregion
+
+      
+
+
     }
 }

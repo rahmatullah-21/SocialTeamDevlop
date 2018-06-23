@@ -44,7 +44,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             CampaignList = new ObservableCollection<string>(
                 GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
 
-
             PublisherCreateCampaignModel.JobConfigurations.Weekday.Clear();
 
             foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
@@ -54,7 +53,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     Content = day.ToString(),
                 });
             }
-
         }
 
 
@@ -148,8 +146,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     Title = Application.Current.FindResource("DHlangMonitorFolder")?.ToString(),
                     Content = new Lazy<UserControl>(()=>PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl))
-                },
-
+                }
             };
             return tabItems;
         }
@@ -202,6 +199,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         Dialog.ShowDialog("Success", "Campaign successfully saved.");
                     CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
                 }
+
                 #endregion
 
 
@@ -217,7 +215,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PostCategory = PublisherCreateCampaignModel.PostDetailsModel.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
                     PostQueuedStatus = PostQueuedStatus.Pending,
                     PostRunningStatus = PostRunningStatus.Active,
-                    ExpiredTime = DateTime.Today.AddDays(10),
+                    ExpiredTime = DateTime.Today.AddDays(10),                    
                 };
 
                 if (PublisherCreateCampaignModel.PostDetailsModel.IsSinglePost)
@@ -455,6 +453,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                
                 PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
+                PublisherCreateCampaignModel.JobConfigurations.Weekday.Clear();
                 foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
                 {
                     PublisherCreateCampaignModel.JobConfigurations.Weekday.Add(new ContentSelectGroup
