@@ -136,7 +136,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 case "Back":
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
-                        = PublisherDefaultPage.Instance;
+                        = PublisherDefaultPage.Instance();
                     break;
             }
         }

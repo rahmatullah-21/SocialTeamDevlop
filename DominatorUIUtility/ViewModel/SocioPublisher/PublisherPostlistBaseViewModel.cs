@@ -13,6 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
@@ -366,6 +367,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 try
                 {
                     var currentPost = sender as PublisherPostlistModel;
+
                     Dialog dialog = new Dialog();
                     if (!string.IsNullOrEmpty(currentPost.ShareUrl))
                     {
@@ -379,6 +381,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         var window = dialog.GetMetroWindow(publisherEditPost, "Edit Post");
                         window.ShowDialog();
                     }
+
+                  
+
                 }
                 catch (Exception ex)
                 {
@@ -682,8 +687,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     post.PostQueuedStatus = PostQueuedStatus.Draft;
                     break;
             }
-
+            
             PostlistFileManager.UpdatePost(campaignStatus.CampaignId, post);
+            PublisherInitialize.GetInstance.UpdatePostStatus(campaignStatus.CampaignId);
             PublisherPostlist.Remove(campaignStatus);
         }
 

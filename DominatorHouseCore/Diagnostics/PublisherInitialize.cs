@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
 using ConstantVariable = DominatorHouseCore.Utility.ConstantVariable;
@@ -72,11 +75,13 @@ namespace DominatorHouseCore.Diagnostics
                             TimeRange = campaigns.JobConfigurations.TimeRange,
                             SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                             ScheduledWeekday = campaigns.JobConfigurations.Weekday,
-                            IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign
+                            IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign,
+                            
                         };
 
                         ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
 
+                        GetPostStatus(publisherCampaignStatusModel);
                     });
                 });
             }
@@ -100,13 +105,75 @@ namespace DominatorHouseCore.Diagnostics
                         IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign
                     };
 
+                    GetPostStatus(publisherCampaignStatusModel);
+
                     ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
 
                 });
             }
+        }
 
-      
 
+        public void UpdatePostStatus(string campaignId)
+        {
+            var campaignItem = ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignId == campaignId);
+
+            if (campaignItem == null)
+                return;
+
+            var currentCampaignIndex = ListPublisherCampaignStatusModels.IndexOf(campaignItem);
+
+            GetPostStatus(ListPublisherCampaignStatusModels[currentCampaignIndex]);
+
+        }
+
+        public void GetPostStatus(PublisherCampaignStatusModel publisherCampaignStatusModel)
+        {
+            var postdetails = PostlistFileManager.GetAll(publisherCampaignStatusModel.CampaignId);
+
+            publisherCampaignStatusModel.PendingCount =
+                postdetails.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending);
+
+            publisherCampaignStatusModel.PublishedCount =
+                postdetails.Count(x => x.PostQueuedStatus == PostQueuedStatus.Published);
+
+            publisherCampaignStatusModel.DraftCount =
+                postdetails.Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft);
+
+        }
+
+        public bool AddCampaignDetails(PublisherCampaignStatusModel publisherCampaignStatusModel)
+        {
+            if (ListPublisherCampaignStatusModels.Any(x => x.CampaignName == publisherCampaignStatusModel.CampaignName))
+            {
+                GlobusLogHelper.log.Info("Campaign name already present!");
+                return false;
+            }
+
+            if (publisherCampaignStatusModel.ValidDateTime())
+            {
+                try
+                {
+                    if (!Application.Current.Dispatcher.CheckAccess())
+                        Application.Current.Dispatcher.Invoke(delegate
+                        {
+                            GetPostStatus(publisherCampaignStatusModel);
+                            ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
+                        });
+                    else
+                    {
+                        GetPostStatus(publisherCampaignStatusModel);
+                        ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
+                    }
+
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+                return true;
+            }
+            return false;
         }
 
     }

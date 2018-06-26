@@ -227,7 +227,7 @@ namespace DominatorHouseCore.Process
                     });
 
                     PageDestinationList.ForEach(pageUrl =>
-                    {                      
+                    {
                         if (!ValidateNetworkAdvancedSettings(post, "Page", pageUrl))
                             return;
                         var ispublished = PublishOnPages(AccountModel.AccountId, pageUrl, post);
@@ -237,7 +237,7 @@ namespace DominatorHouseCore.Process
                     });
 
                     if (!ValidateNetworkAdvancedSettings(post, "OwnWall", AccountModel.AccountId))
-                        return;                 
+                        return;
                     var isOwnWallPostpublished = PublishOnOwnWall(AccountModel.AccountId, post);
                     if (!isOwnWallPostpublished)
                         return;
@@ -261,7 +261,7 @@ namespace DominatorHouseCore.Process
                     allGroupsPages.ForEach(x =>
                     {
                         if (x.Value == "Group")
-                        {                          
+                        {
                             if (!ValidateNetworkAdvancedSettings(post, "Group", x.Key))
                                 return;
                             var ispublished = PublishOnGroups(AccountModel.AccountId, x.Key, post);
@@ -272,14 +272,14 @@ namespace DominatorHouseCore.Process
                         else
                         {
                             if (!ValidateNetworkAdvancedSettings(post, "Page", x.Key))
-                                return;                          
+                                return;
                             var ispublished = PublishOnPages(AccountModel.AccountId, x.Key, post);
                             if (!ispublished) return;
                             UpdatePostWithSuccessful(x.Key, post);
                             return;
                         }
                     });
-                  
+
                     if (!ValidateNetworkAdvancedSettings(post, "OwnWall", AccountModel.AccountId))
                         return;
                     var isOwnWallPostpublished = PublishOnOwnWall(AccountModel.AccountId, post);
@@ -301,7 +301,7 @@ namespace DominatorHouseCore.Process
             var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
             post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.Yes;
             PostlistFileManager.UpdatePost(CampaignId, post);
-
+            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
         }
 
         public void Stop()
@@ -312,7 +312,7 @@ namespace DominatorHouseCore.Process
             }
             catch (Exception ex)
             {
-             ex.DebugLog();
+                ex.DebugLog();
             }
         }
 
@@ -356,7 +356,11 @@ namespace DominatorHouseCore.Process
                     pendingPostList.FirstOrDefault(x => x.PostId != null);
 
                 if (ValidateNetworkAdvancedSettings(filterPostModel, destination, destinationUrl))
+                {
+                    PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
                     return filterPostModel;
+                }
+
 
                 loopCount++;
             }
@@ -373,7 +377,7 @@ namespace DominatorHouseCore.Process
                 GlobusLogHelper.log.Info($"Post has already posted with destintion : {destination}-{destinationUrl} !");
                 return false;
             }
-                
+
             if (ValidateNetworksSettings(CampaignId))
             {
                 filterPostModel?.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel

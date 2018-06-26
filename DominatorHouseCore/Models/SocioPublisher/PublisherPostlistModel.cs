@@ -629,6 +629,15 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 NextImageEnable = (TotalMediaCount - ImagePointer) > -1;
                 PreviousImageEnable = ImagePointer > 0;
             }
+            else
+            {
+                ImagePointer = 0;
+                MediaCurrentPointer = 0;
+                CurrentMediaUrl = string.Empty;
+                TotalMediaCount = MediaList.Count;
+                NextImageEnable = false;
+                PreviousImageEnable = false;
+            }
         }
 
         public void UpdateNavigationPointer()

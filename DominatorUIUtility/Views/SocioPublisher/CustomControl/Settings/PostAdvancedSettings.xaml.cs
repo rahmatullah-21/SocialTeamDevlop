@@ -18,8 +18,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
         public PostAdvancedSettings()
         {
             InitializeComponent();
-
-
         }
 
         public PostAdvancedSettings(PublisherPostSettings PublisherPostSettings) : this()
