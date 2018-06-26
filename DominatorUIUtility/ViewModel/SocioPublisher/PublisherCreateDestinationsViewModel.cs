@@ -37,6 +37,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ClearCommand = new BaseCommand<object>(ClearCanExecute, ClearExecute);
             StatusSyncCommand = new BaseCommand<object>(SyncCanExecute, SyncExecute);
             AddFreshAccounts = new BaseCommand<object>(AddFreshAccountCanExecute, AddFreshAccountExecute);
+            AddCustomDestinationCommand = new BaseCommand<object>(AddCustomDestinationCanExecute, AddCustomDestinationExecute);
             InitializeProperties();
             InitializeDestinationList();
             IsSavedDestination = false;
@@ -142,6 +143,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public ICommand SaveDestinationCommand { get; set; }
 
+        public ICommand AddCustomDestinationCommand { get; set; }
 
         private List<string> _needToUpdateAccounts = new List<string>();
 
@@ -630,6 +632,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             });
         }
 
+  
+
+
+
         private static void UpdateStatus(AccountDetailsSelector accountDetailsSelector)
         {
             if (!Application.Current.Dispatcher.CheckAccess())
@@ -741,7 +747,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // Clear all pre saved selected accounts Id and own wall profile
                 PublisherCreateDestinationModel.SelectedAccountIds.Clear();
                 PublisherCreateDestinationModel.PublishOwnWallAccount.Clear();
-                PublisherCreateDestinationModel. AccountsWithNetwork.Clear();
+                PublisherCreateDestinationModel.AccountsWithNetwork.Clear();
+
                 PublisherCreateDestinationModel.ListSelectDestination.ForEach(x =>
                 {
                     if (x.IsAccountSelected)
@@ -774,7 +781,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (PublisherCreateDestinationModel.AccountGroupPair.Count == 0 &&
                     PublisherCreateDestinationModel.AccountPagesBoardsPair.Count == 0 &&
-                    PublisherCreateDestinationModel.PublishOwnWallAccount.Count == 0)
+                    PublisherCreateDestinationModel.PublishOwnWallAccount.Count == 0 &&
+                    PublisherCreateDestinationModel.CustomDestinations.Count ==0)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
                         "Warning", "Please select destination!");
@@ -979,6 +987,69 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 GlobusLogHelper.log.Error(ex.Message);
             }
         }
+        
+        #endregion
+
+
+        #region Add Custom Destination Command
+
+        private bool AddCustomDestinationCanExecute(object sender) => true;
+
+        private void AddCustomDestinationExecute(object sender)
+        {
+            var valuePairs = PublisherCreateDestinationModel.CustomDestinations.ToList();
+
+            var alreadySavedCustomDestination = new ObservableCollection<PublisherCustomDestinationModel>();
+
+            valuePairs.ForEach(x =>
+            {
+                var publisherCustomDestinationModel = new PublisherCustomDestinationModel
+                {
+                    DestinationType = x.Value.DestinationType,
+                    DestinationValue = x.Value.DestinationValue
+                };
+                alreadySavedCustomDestination.Add(publisherCustomDestinationModel);
+            });
+
+
+            var publisherCreateDestinationSelectModel = sender as PublisherCreateDestinationSelectModel;
+
+            if (publisherCreateDestinationSelectModel == null)
+                return;
+
+            var publisherAddCustomDestination = PublisherAddCustomDestination.GetPublisherAddCustomDestination(alreadySavedCustomDestination);
+            var dialog = new Dialog();
+            var window = dialog.GetMetroWindow(publisherAddCustomDestination, "Add Custom Destination");
+
+            publisherAddCustomDestination.ButtonSave.Click += (senders, args) =>
+            {
+                var savedNewCustomDestination = publisherAddCustomDestination.GetSavedCustomDestination();
+                var createDestinationSelectModel = PublisherCreateDestinationModel.ListSelectDestination.FirstOrDefault(x => x.AccountId == publisherCreateDestinationSelectModel.AccountId);
+
+                PublisherCreateDestinationModel.CustomDestinations =  new List<KeyValuePair<string, PublisherCustomDestinationModel>>();
+
+                savedNewCustomDestination.ForEach(x =>
+                {
+                    PublisherCreateDestinationModel.CustomDestinations.Add(new KeyValuePair<string, PublisherCustomDestinationModel>(publisherCreateDestinationSelectModel.AccountId, x));
+                });
+
+                publisherAddCustomDestination.ResetCurrectObject();
+
+                if (createDestinationSelectModel != null)
+                {
+                    createDestinationSelectModel.CustomDestinationSelectorText = $"{ PublisherCreateDestinationModel.CustomDestinations.Count}";
+                }
+                window.Close();
+            };
+            publisherAddCustomDestination.ButtonCancel.Click += (senders, args) =>
+            {
+                window.Close();
+            };
+
+
+            window.Show();
+        }
+
         #endregion
 
         #region Edit Destination

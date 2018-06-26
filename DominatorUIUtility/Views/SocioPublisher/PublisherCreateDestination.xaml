@@ -474,6 +474,24 @@
 
                         <GridViewColumn Width="130">
                             <GridViewColumn.Header>
+                                <TextBlock Text="{DynamicResource DHlangCustomDestination}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <Button Cursor="Hand" Margin="6,2,6,2" 
+                                                Content="{Binding CustomDestinationSelectorText}" 
+                                                x:Name="ButtonSelectGroups" 
+                                                FontWeight="SemiBold"      
+                                                Command="{Binding Path=DataContext.AddCustomDestinationCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Background="Transparent"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="130">
+                            <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource DHlangWallsProfiles}"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>

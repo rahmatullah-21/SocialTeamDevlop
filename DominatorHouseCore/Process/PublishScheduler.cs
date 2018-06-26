@@ -19,7 +19,6 @@ namespace DominatorHouseCore.Process
 
         #region Properties
 
-
         public static Dictionary<string, CancellationTokenSource> CampaignsCancellationTokens { get; set; }
         = new Dictionary<string, CancellationTokenSource>();
 
@@ -55,12 +54,15 @@ namespace DominatorHouseCore.Process
                         var selectedPageOrBoardDestinations =
                             destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
 
+                        var selectedCustomDestinations =
+                            destinationDetails.CustomDestinations.Where(x=> x.Key== networkWithAccount.Value).Select(x => x.Value).ToList();
+
                         var isPublishOnOwnWall =
                             destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
 
                         var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
                             .GetPublisherCoreFactory()
-                            .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
+                            .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
 
                         if (campaignStatusModel.IsRunSingleAccountPerCampaign)
                         {
@@ -137,15 +139,23 @@ namespace DominatorHouseCore.Process
                         var selectedPageOrBoardDestinations =
                             destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
 
+                        var selectedCustomDestinations =
+                            destinationDetails.CustomDestinations.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+
+
                         var isPublishOnOwnWall =
                             destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
 
                         var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
                             .GetPublisherCoreFactory()
-                            .PublisherJobFactory.Create(post.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
+                            .PublisherJobFactory.Create(post.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
 
                         if (specificCampaign.IsRunSingleAccountPerCampaign)
                         {
+
+
+                          
+
                             publisherJobProcess.StartPublishing(true, post);
                             //publisherJobProcess.StartPublish with synchronously
                         }
@@ -203,7 +213,7 @@ namespace DominatorHouseCore.Process
             {
                 var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(postDeletionModel.Networks)
                     .GetPublisherCoreFactory()
-                    .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null, null, false, new CancellationTokenSource());
+                    .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null, null,null, false, new CancellationTokenSource());
                 publisherJobProcess.DeletePost(postDeletionModel.PublishedIdOrUrl);
             }, s => s.WithName($"{postDeletionModel.CampaignId}- Delete Posts -{ConstantVariable.GetDate()}").ToRunOnceAt(postDeletionModel.DeletionTime));
         }

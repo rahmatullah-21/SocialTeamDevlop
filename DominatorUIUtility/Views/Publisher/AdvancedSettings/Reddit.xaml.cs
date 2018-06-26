@@ -14,36 +14,36 @@ using DominatorUIUtility.Views.SocioPublisher;
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
     /// <summary>
-    /// Interaction logic for Tumblr.xaml
+    /// Interaction logic for Reddit.xaml
     /// </summary>
-    public partial class Tumblr : UserControl,INotifyPropertyChanged
+    public partial class Reddit : UserControl
     {
-        public Tumblr()
+        private Reddit()
         {
             InitializeComponent();
-            MainGrid.DataContext = TumblrViewModel;
+            MainGrid.DataContext = RedditViewModel;
         }
-        static Tumblr ObjTumblr = null;
-        public static Tumblr GetSingeltonTumblr()
-        {
-            if (ObjTumblr == null)
-                ObjTumblr = new Tumblr();
-            return ObjTumblr;
-        }
-        private TumblrViewModel _tumblrViewModel = new TumblrViewModel();
 
-        public TumblrViewModel TumblrViewModel
+        static Reddit _objReddit;
+
+        public static Reddit GetSingeltonRedditObject() 
+            => _objReddit ?? (_objReddit = new Reddit());
+
+        private RedditViewModel _redditViewModel = new RedditViewModel();
+
+        public RedditViewModel RedditViewModel
         {
             get
             {
-                return _tumblrViewModel;
+                return _redditViewModel;
             }
             set
             {
-                _tumblrViewModel = value;
-                OnPropertyChanged(nameof(TumblrViewModel));
+                _redditViewModel = value;
+                OnPropertyChanged(nameof(RedditViewModel));
             }
         }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -52,15 +52,15 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void Tumblr_OnLoaded(object sender, RoutedEventArgs e)
+        private void Reddit_OnLoaded(object sender, RoutedEventArgs e)
         {
             var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
-            var tumblrModel = GenericFileManager.GetModuleDetails<TumblrModel>
-                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr))
+            var redditModel = GenericFileManager.GetModuleDetails<RedditModel>
+                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            TumblrViewModel.TumblrModel = tumblrModel ?? (tumblrModel = new TumblrModel());
+            RedditViewModel.RedditModel = redditModel ?? (redditModel = new RedditModel());
         }
     }
 }

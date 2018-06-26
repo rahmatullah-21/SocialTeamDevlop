@@ -23,8 +23,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             BrowseFolderCommand = new BaseCommand<object>(BrowseFolderCanExecute, BrowseFolderExecute);
 
             #endregion
-
         }
+
         public PublisherMonitorFolderViewModel(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl) : this()
         {
             this.tabItemsControl = tabItemsControl;

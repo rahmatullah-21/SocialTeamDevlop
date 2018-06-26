@@ -19,18 +19,18 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
         {
             InitializeComponent();
 
-            
+
         }
 
-        public PostAdvancedSettings(PublisherPostSettings PublisherPostSettings):this()
+        public PostAdvancedSettings(PublisherPostSettings PublisherPostSettings) : this()
         {
             var items = new List<TabItemTemplates>
             {
                 new TabItemTemplates
                 {
                     Title=FindResource("DHlangGeneralSettings").ToString(),
-                    Content = new Lazy<UserControl>(()=>new PostGeneralSettings(PublisherPostSettings))
-                }
+                    Content = new Lazy<UserControl>(() => new PostGeneralSettings(PublisherPostSettings))
+                }              
             };
 
             var availableNetworks = SocinatorInitialize.AvailableNetworks;
@@ -66,33 +66,38 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                         items.Add(new TabItemTemplates
                         {
                             Title = FindResource("langInstagram").ToString(),
-                            Content = new Lazy<UserControl>(() => new PostInstagramSettings())
+                            Content = new Lazy<UserControl>(() => new PostInstagramSettings(PublisherPostSettings))
                         });
                         break;
                     case SocialNetworks.Twitter:
                         items.Add(new TabItemTemplates
                         {
                             Title = FindResource("DHlangTwitter").ToString(),
-                            Content = new Lazy<UserControl>(() => new PostTwitterSettings())
+                            Content = new Lazy<UserControl>(() => new PostTwitterSettings(PublisherPostSettings))
                         });
                         break;
                     case SocialNetworks.LinkedIn:
                         items.Add(new TabItemTemplates
                         {
                             Title = FindResource("DHlangLinkedIn").ToString(),
-                            Content = new Lazy<UserControl>(() => new PostLinkedInSettings())
+                            Content = new Lazy<UserControl>(() => new PostLinkedInSettings(PublisherPostSettings))
                         });
                         break;
-
                     case SocialNetworks.Tumblr:
                         items.Add(new TabItemTemplates
                         {
                             Title = FindResource("DHlangTumblr").ToString(),
-                            Content = new Lazy<UserControl>(() => new PostTumblrSettings())
+                            Content = new Lazy<UserControl>(() => new PostTumblrSettings(PublisherPostSettings))
                         });
                         break;
                     case SocialNetworks.Pinterest:
                     case SocialNetworks.Reddit:
+                        items.Add(new TabItemTemplates
+                        {
+                            Title = FindResource("DHlangReddit").ToString(),
+                            Content = new Lazy<UserControl>(() => new PostRedditSettings(PublisherPostSettings))
+                        });
+                        break;
                     case SocialNetworks.Quora:
                     case SocialNetworks.Gplus:
                     case SocialNetworks.Youtube:

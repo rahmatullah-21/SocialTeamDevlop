@@ -61,11 +61,11 @@ namespace DominatorUIUtility.Views.Publisher
                     Title=FindResource("DHlangTumblr").ToString(),
                     Content=new Lazy<UserControl>(Tumblr.GetSingeltonTumblr)
                 },
-                //new TabItemTemplates
-                //{
-                //    Title=FindResource("langErrorHandling").ToString(),
-                //    Content=new Lazy<UserControl>(ErrorHandling.GetSingeltonErrorHandlingObject)
-                //}
+                new TabItemTemplates
+                {
+                    Title=FindResource("DHlangReddit").ToString(),
+                    Content=new Lazy<UserControl>(Reddit.GetSingeltonRedditObject)
+                }
 
             };
             CampaignsAdvanceSettingTab.ItemsSource = TabItems;
@@ -168,7 +168,7 @@ namespace DominatorUIUtility.Views.Publisher
                     newTumblrModel);
             if (newTumblrModel != null)
             {
-                newPinterestModel.CampaignId = campaignId;
+                newTumblrModel.CampaignId = campaignId;
                 string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
                 var lstTumblrModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(file);
                 var moduleToUpdate = lstTumblrModels.FirstOrDefault(x => x.CampaignId == campaignId);
@@ -193,7 +193,24 @@ namespace DominatorUIUtility.Views.Publisher
             }
 
             #endregion
-            
+
+            #region Reddit
+
+            var oldRedditModel = AdvanceSetting.RedditModel;
+            var newRedditModel = Reddit.GetSingeltonRedditObject().RedditViewModel.RedditModel;
+            newRedditModel = ObjectComparer.CompareAndGetChangedObject<RedditModel>(oldRedditModel, newRedditModel);
+
+            if (newRedditModel != null)
+            {
+                newRedditModel.CampaignId = campaignId;
+                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit);
+                var lstRedditModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.RedditModel>(file);
+                var moduleToUpdate = lstRedditModels.FirstOrDefault(x => x.CampaignId == campaignId);
+                AddUpdateDetails(moduleToUpdate, newRedditModel, lstRedditModels, file, SocialNetworks.Reddit);
+            }
+
+            #endregion
+
             GlobusLogHelper.log.Info("Details successfully saved");
         }
 

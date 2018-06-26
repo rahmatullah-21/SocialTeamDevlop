@@ -20,7 +20,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 return _isTagUser;
             }
             set
-            {              
+            {
                 if (_isTagUser == value)
                     return;
 
@@ -37,7 +37,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 return _tagUserList;
             }
             set
-            {              
+            {
                 if (_tagUserList == value)
                     return;
 
