@@ -146,4 +146,7 @@
     <system:String x:Key="GplusLangSkipBlackList">Skip BlackListUsers</system:String>
     <system:String x:Key="GplusLangPrivateBlackList">Use Private BlackList</system:String>
     <system:String x:Key="GplusLangGroupBlackList">Use Group BlackList</system:String>
+
+    <system:String x:Key="GpluslangWhoDoNotFollowBack">Who Do Not Follow Back</system:String>
+    <system:String x:Key="GpluslangWhoFollowBack">Who Follow Back</system:String>
 </ResourceDictionary>

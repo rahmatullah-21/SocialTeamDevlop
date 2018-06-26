@@ -261,6 +261,8 @@
 
     <system:String x:Key="FdlangBrodcastMessage">Brodcast Message</system:String>
 
+    <system:String x:Key="FdlangAutoReplyMessage">Auto Reply to Message</system:String>
+
     <system:String x:Key="FdlangPostUrl">Post Url</system:String>
 
     <system:String x:Key="FdlangFanpagePostLike">posts, after liking a page</system:String>
@@ -290,7 +292,9 @@
     <system:String x:Key="FdlnagUniqueUsers">Send reuest to unique users</system:String>
 
 
-    <system:String x:Key="FdlangMessageSpecificWords">Reply to Messages that contains specific words</system:String>
+    <system:String x:Key="FdlangFrinedsMessageSpecificWords">Reply to Messages that contains specific words</system:String>
+
+    <system:String x:Key="FdlangMessageRequestSpecificWords">Reply to Message Requests that contains specific words</system:String>
 
 
     <system:String x:Key="FdlangAutoReplyToPending">Reply to new pending messages (Reply to message Requests)</system:String>
@@ -319,6 +323,8 @@
 
     <system:String x:Key="FdlangWithdrawRequest">Withdraw Sent Request</system:String>
 
+
+    <system:String x:Key="FdlangRefresh">Refresh</system:String>
 
 
     <system:String x:Key="FdLangBlacklists">BlackList</system:String>
