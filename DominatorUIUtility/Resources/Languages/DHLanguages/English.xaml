@@ -175,6 +175,7 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangAccountCount">Account Count</system:String>
     <system:String x:Key="DHlangPagesBoardCount">Pages/Boards Count</system:String>
     <system:String x:Key="DHlangGroupsCount">Groups Count</system:String>
+    <system:String x:Key="DHlangCustomDestinationCount">Custom Destination Count</system:String>
     <system:String x:Key="DHlangWallsProfilesCount">Walls/Profiles Count</system:String>
     <system:String x:Key="DHlangWallsCampaignsCount">Campaigns Count</system:String>
     

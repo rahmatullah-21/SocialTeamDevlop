@@ -276,6 +276,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         destination.IsSelected = publisherManageDestinationModel.IsSelected;
                         destination.PagesOrBoardsCount = publisherManageDestinationModel.PagesOrBoardsCount;
                         destination.WallsOrProfilesCount = publisherManageDestinationModel.WallsOrProfilesCount;
+                        destination.CustomDestinationsCount = publisherManageDestinationModel.CustomDestinationsCount;
                     });
                 else
                 {
@@ -291,6 +292,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         destination.IsSelected = publisherManageDestinationModel.IsSelected;
                         destination.PagesOrBoardsCount = publisherManageDestinationModel.PagesOrBoardsCount;
                         destination.WallsOrProfilesCount = publisherManageDestinationModel.WallsOrProfilesCount;
+                        destination.CustomDestinationsCount = publisherManageDestinationModel.CustomDestinationsCount;
                     }
                 }
 

@@ -284,7 +284,6 @@ namespace DominatorHouseCore.Process
 
         private static void SchedulePublisher(PublisherCampaignStatusModel campaign)
         {
-
             #region Schedule
 
             campaign.SpecificRunningTime.ForEach(runningTime =>

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -29,6 +30,23 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public ICommand DeleteCommand { get; set; }
 
+
+        private List<string> _inputCollectionList= new List<string>();
+
+        public List<string> InputCollectionList
+        {
+            get
+            {
+                return _inputCollectionList;
+            }
+            set
+            {
+                _inputCollectionList = value;
+                OnPropertyChanged(nameof(InputCollectionList));
+            }
+        }
+
+
         private PublisherCustomDestinationModel _inputDestination = new PublisherCustomDestinationModel();
 
         public PublisherCustomDestinationModel InputDestination
@@ -36,7 +54,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             get { return _inputDestination; }
             set
             {
-                if (value == _inputDestination)
+                if (_inputDestination ==value)
                     return;
                 SetProperty(ref _inputDestination, value);
             }
@@ -75,19 +93,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         .Split(publisherCustomDestinationModel.InputDestination.DestinationValue, "\r\n").ToList();
                     splittedValue.ForEach(x =>
                     {
-                        LstCustomDestination.Add(new PublisherCustomDestinationModel()
+                        if(!string.IsNullOrEmpty(x) && !string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationType))
                         {
-                            DestinationType = publisherCustomDestinationModel.InputDestination.DestinationType,
-                            DestinationValue = x
-                        });
+                            LstCustomDestination.Add(new PublisherCustomDestinationModel()
+                            {
+                                DestinationType = publisherCustomDestinationModel.InputDestination.DestinationType,
+                                DestinationValue = x
+                            });
+                        }                       
                     });
                 }
                 else
                 {
-                    LstCustomDestination.Add(publisherCustomDestinationModel.InputDestination);
+                    if (!string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationValue) &&
+                        !string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationType))
+                    {
+                        LstCustomDestination.Add(publisherCustomDestinationModel.InputDestination);
+                    }
                 }
 
                 InputDestination = new PublisherCustomDestinationModel();
+                InputCollectionList = new List<string>();
             }
         }
 

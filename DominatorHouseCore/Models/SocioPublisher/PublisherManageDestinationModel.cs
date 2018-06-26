@@ -16,6 +16,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private int _groupsCount;
         private int _wallsOrProfilesCount;
         private int _campaignsCount;
+        private int _customDestinationCount;
         private string _destinationName;
 
         [ProtoMember(1)]
@@ -133,6 +134,23 @@ namespace DominatorHouseCore.Models.SocioPublisher
                     return;
                 _isSelected = value;
                 OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+
+
+        [ProtoMember(10)]
+        public int CustomDestinationsCount
+        {
+            get
+            {
+                return _customDestinationCount;
+            }
+            set
+            {
+                if (_customDestinationCount == value)
+                    return;
+                _customDestinationCount = value;
+                OnPropertyChanged(nameof(CustomDestinationsCount));
             }
         }
 

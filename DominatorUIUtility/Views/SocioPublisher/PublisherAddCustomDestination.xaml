@@ -23,7 +23,7 @@
                 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Destination Url" Width="100" Margin="5"/>
-                    <customControl:InputBoxControl Margin="5" SaveVisiblity="Collapsed" InputText="{Binding InputDestination.DestinationValue}"></customControl:InputBoxControl>
+                    <customControl:InputBoxControl Margin="5" x:Name="InputBoxControl" SaveVisiblity="Collapsed" InputCollection="{Binding InputCollectionList}" InputText="{Binding InputDestination.DestinationValue}" ></customControl:InputBoxControl>
                 </StackPanel>
 
                 <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveDestinationCommand}"  CommandParameter="{Binding ElementName=BtnSave}" >

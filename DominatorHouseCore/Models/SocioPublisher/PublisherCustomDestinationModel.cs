@@ -17,7 +17,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {              
-                if (value == _destinationType)
+                if (_destinationType==value)
                     return;
                 SetProperty(ref _destinationType, value);
             }
@@ -33,7 +33,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {               
-                if (value == _destinationValue)
+                if (_destinationValue==value)
                     return;
                 SetProperty(ref _destinationValue, value);
             }

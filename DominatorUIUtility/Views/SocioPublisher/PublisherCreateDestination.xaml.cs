@@ -66,7 +66,5 @@ namespace DominatorUIUtility.Views.SocioPublisher
                 CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
             }          
         }
-
-
     }
 }

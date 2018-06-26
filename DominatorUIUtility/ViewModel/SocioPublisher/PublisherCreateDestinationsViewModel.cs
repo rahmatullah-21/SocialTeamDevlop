@@ -811,7 +811,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         GroupsCount = PublisherCreateDestinationModel.AccountGroupPair.Count,
                         IsSelected = false,
                         PagesOrBoardsCount = PublisherCreateDestinationModel.AccountPagesBoardsPair.Count,
-                        WallsOrProfilesCount = PublisherCreateDestinationModel.PublishOwnWallAccount.Count
+                        WallsOrProfilesCount = PublisherCreateDestinationModel.PublishOwnWallAccount.Count,
+                        CustomDestinationsCount = PublisherCreateDestinationModel.CustomDestinations.Count
                     };
 
                     PublisherManageDestinations.Instance.PublisherManageDestinationViewModel.AddDestinations(
@@ -843,6 +844,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     // To update the wall count 
                     publisherManageDestinationModel.WallsOrProfilesCount =
                         PublisherCreateDestinationModel.PublishOwnWallAccount.Count;
+
+                    publisherManageDestinationModel.CustomDestinationsCount =
+                        PublisherCreateDestinationModel.CustomDestinations.Count;
 
                     // To call a method to update the manage destination user interface
                     PublisherManageDestinations.Instance.PublisherManageDestinationViewModel.UpdateDestinations(
@@ -997,7 +1001,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void AddCustomDestinationExecute(object sender)
         {
-            var valuePairs = PublisherCreateDestinationModel.CustomDestinations.ToList();
+            var publisherCreateDestinationSelectModel = sender as PublisherCreateDestinationSelectModel;
+
+            if (publisherCreateDestinationSelectModel == null)
+                return;
+
+            var valuePairs = PublisherCreateDestinationModel.CustomDestinations.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList();
 
             var alreadySavedCustomDestination = new ObservableCollection<PublisherCustomDestinationModel>();
 
@@ -1011,12 +1020,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 alreadySavedCustomDestination.Add(publisherCustomDestinationModel);
             });
 
-
-            var publisherCreateDestinationSelectModel = sender as PublisherCreateDestinationSelectModel;
-
-            if (publisherCreateDestinationSelectModel == null)
-                return;
-
             var publisherAddCustomDestination = PublisherAddCustomDestination.GetPublisherAddCustomDestination(alreadySavedCustomDestination);
             var dialog = new Dialog();
             var window = dialog.GetMetroWindow(publisherAddCustomDestination, "Add Custom Destination");
@@ -1026,7 +1029,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 var savedNewCustomDestination = publisherAddCustomDestination.GetSavedCustomDestination();
                 var createDestinationSelectModel = PublisherCreateDestinationModel.ListSelectDestination.FirstOrDefault(x => x.AccountId == publisherCreateDestinationSelectModel.AccountId);
 
-                PublisherCreateDestinationModel.CustomDestinations =  new List<KeyValuePair<string, PublisherCustomDestinationModel>>();
+                PublisherCreateDestinationModel.CustomDestinations.RemoveAll(x=> x.Key == publisherCreateDestinationSelectModel.AccountId);
 
                 savedNewCustomDestination.ForEach(x =>
                 {
@@ -1037,7 +1040,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (createDestinationSelectModel != null)
                 {
-                    createDestinationSelectModel.CustomDestinationSelectorText = $"{ PublisherCreateDestinationModel.CustomDestinations.Count}";
+                    createDestinationSelectModel.CustomDestinationSelectorText = $"{ PublisherCreateDestinationModel.CustomDestinations.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList().Count}";
                 }
                 window.Close();
             };
