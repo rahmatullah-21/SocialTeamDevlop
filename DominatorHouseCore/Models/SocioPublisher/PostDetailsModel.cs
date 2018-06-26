@@ -202,7 +202,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PublisherPostSettings));
             }
         }
-        private bool _isSinglePost;
+        private bool _isSinglePost=true;
         [ProtoMember(13)]
         public bool IsSinglePost
         {

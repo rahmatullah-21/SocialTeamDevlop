@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.Models.SocioPublisher.Settings;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
@@ -23,6 +24,11 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
         public PostInstagramSettings()
         {
             InitializeComponent();
+        }
+
+        public PostInstagramSettings(PublisherPostSettings publisherPostSettings):this()
+        {
+            MainGrid.DataContext = publisherPostSettings.GdPostSettings;
         }
     }
 }

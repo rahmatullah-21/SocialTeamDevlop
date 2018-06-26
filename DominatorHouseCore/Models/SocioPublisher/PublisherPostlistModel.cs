@@ -495,6 +495,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        private RedditPostSetting _redditPostSetting = new RedditPostSetting();
+        [ProtoMember(24)]
+        public RedditPostSetting RedditPostSetting
+        {
+            get
+            {
+                return _redditPostSetting;
+            }
+            set
+            {
+
+                if (_redditPostSetting == value)
+                    return;
+                SetProperty(ref _redditPostSetting, value);
+            }
+        }
 
         private TumberPostSettings _tumberPostSettings = new TumberPostSettings();
         [ProtoMember(15)]

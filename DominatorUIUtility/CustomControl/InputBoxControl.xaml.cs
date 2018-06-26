@@ -39,8 +39,18 @@ namespace DominatorUIUtility.CustomControl
             });
 
 
-        public List<string> InputCollection = new List<string>();
-      
+
+        public List<string> InputCollection
+        {
+            get { return (List<string>)GetValue(InputCollectionProperty); }
+            set { SetValue(InputCollectionProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for InputCollection.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty InputCollectionProperty =
+            DependencyProperty.Register("InputCollection", typeof(List<string>), typeof(InputBoxControl), new PropertyMetadata(new List<string>()));
+
+
 
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {

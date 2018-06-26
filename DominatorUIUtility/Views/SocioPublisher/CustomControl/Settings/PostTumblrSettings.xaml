@@ -6,10 +6,10 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" >
-    <Grid>
+    <Grid x:Name="MainGrid">
         <StackPanel Orientation="Vertical">
-            <CheckBox Margin="2" Content="{DynamicResource DHlangPostTagUser}" />
-            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddPostTagUser}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+            <CheckBox Margin="2" Content="{DynamicResource DHlangPostTagUser}" IsChecked="{Binding IsTagUser}" />
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding TagUserList}" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddPostTagUser}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
         </StackPanel>
     </Grid>
 </UserControl>

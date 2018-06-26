@@ -433,6 +433,7 @@
     <Compile Include="Interfaces\PostScraper.cs" />
     <Compile Include="Interfaces\SocioPublisher\IFdScrapePosts.cs" />
     <Compile Include="Interfaces\SocioPublisher\IGeneralPostSettings.cs" />
+    <Compile Include="Interfaces\SocioPublisher\IRedditSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\ITdScrapePosts.cs" />
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
@@ -444,6 +445,7 @@
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\InstagramModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\PinterestModel.cs" />
+    <Compile Include="Models\Publisher\CampaignsAdvanceSetting\RedditModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TumblrModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TwitterModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
@@ -451,7 +453,9 @@
     <Compile Include="Models\SocioPublisher\MonitorFolderModel.cs" />
     <Compile Include="Models\SocioPublisher\PostDeletionModel.cs" />
     <Compile Include="Models\SocioPublisher\PublishedPostDetailsModel.cs" />
+    <Compile Include="Models\SocioPublisher\PublisherCustomDestinationModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostFetchModel.cs" />
+    <Compile Include="Models\SocioPublisher\Settings\RedditPostSetting.cs" />
     <Compile Include="Process\PublisherPostFetcher.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
@@ -485,6 +489,7 @@
     <Compile Include="ViewModel\AdvancedSettings\GooglePlusViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\InstagramViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\PinterestViewModel.cs" />
+    <Compile Include="ViewModel\AdvancedSettings\RedditViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\TumblrViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\TwitterViewModel.cs" />
     <Compile Include="ViewModel\CampaignInteractionViewModel.cs" />

@@ -97,6 +97,7 @@
     <system:String x:Key="DHlangEmailNotifications">Email Notifications</system:String>
     <system:String x:Key="DHlangYoutube">Youtube</system:String>
     <system:String x:Key="DHlangTumblr">Tumblr</system:String>
+    <system:String x:Key="DHlangReddit">Reddit</system:String>
     <system:String x:Key="DHlangPinterest">Pinterest</system:String>
     <system:String x:Key="DHlangTwitter">Twitter</system:String>
     <system:String x:Key="DHlangEnableRagularCheckForNewMessage﻿">Enable the option if you want to Dominator to regularly check for new direct messages received and create new message on the send message tab to auto reply to them</system:String>
@@ -174,6 +175,7 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangAccountCount">Account Count</system:String>
     <system:String x:Key="DHlangPagesBoardCount">Pages/Boards Count</system:String>
     <system:String x:Key="DHlangGroupsCount">Groups Count</system:String>
+    <system:String x:Key="DHlangCustomDestinationCount">Custom Destination Count</system:String>
     <system:String x:Key="DHlangWallsProfilesCount">Walls/Profiles Count</system:String>
     <system:String x:Key="DHlangWallsCampaignsCount">Campaigns Count</system:String>
     
@@ -183,6 +185,7 @@ They are replaced with user info.</system:String>
     <system:String x:Key="DHlangUsername">Name/Username</system:String>
     <system:String x:Key="DHlangPlatform">Platform</system:String>
     <system:String x:Key="DHlangPagesBoard">Pages/Boards</system:String>
+    <system:String x:Key="DHlangCustomDestination">Custom Destination</system:String>
     <system:String x:Key="DHlangGroups">Groups</system:String>
     <system:String x:Key="DHlangWallsProfiles">Walls/Profiles</system:String>
     <system:String x:Key="DHlangSaveDestination">Save</system:String>
@@ -317,6 +320,19 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangDeleteSelectedPost">Delete all saved posts(s)</system:String>
     <system:String x:Key="DHlangPostPerDay">number of posts in a day.</system:String>
     <system:String x:Key="DHlangIncreaseEachDay">Increase each day with</system:String>
+    <system:String x:Key="DHlangSavetoDestinationList">Save to custom list</system:String>
+    <system:String x:Key="DHlangCustomDestinationList">Custom Destination List</system:String>
+    <system:String x:Key="DHlangRdMarkAsNsfw">Make all posts marked as NSFW</system:String>
+
+    <system:String x:Key="DHlangRdMarkAsOriginalContent">Make all posts marked as OriginalContent</system:String>
+    <system:String x:Key="DHlangRdMarkAsSpoiler">Make all posts marked as Spoiler</system:String>
+    <system:String x:Key="DHlangRdDisableSendingRepliesForAll">Disable Sending Replies for All Posts</system:String>
+
+    <system:String x:Key="DHlangIsNsfw">Is NSFW</system:String>
+    <system:String x:Key="DHlangIsOriginalContent">Is original content</system:String>
+    <system:String x:Key="DHlangIsSpoiler">Is spoiler</system:String>
+    <system:String x:Key="DHlangIsDisableSendingReplies">Disable sending replies</system:String>
+    
     <!--Publiser Language End-->
 
     <system:String x:Key="DHlangEmailIdUsername">Email Id / Username</system:String>

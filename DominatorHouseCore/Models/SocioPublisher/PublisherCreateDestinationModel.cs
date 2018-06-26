@@ -229,6 +229,25 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
+        private List<KeyValuePair<string, PublisherCustomDestinationModel>> _customDestinations = new List<KeyValuePair<string, PublisherCustomDestinationModel>>();
+
+        [ProtoMember(12)]
+        public List<KeyValuePair<string, PublisherCustomDestinationModel>> CustomDestinations
+        {
+            get
+            {
+                return _customDestinations;
+            }
+            set
+            {
+                if (_customDestinations == value)
+                    return;
+                _customDestinations = value;
+                OnPropertyChanged(nameof(CustomDestinations));
+            }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -250,6 +269,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 AccountGroupPair = new List<KeyValuePair<string, string>>(),
                 PublishOwnWallAccount = new List<string>(),
                 SelectedAccountIds = new List<string>(),
+                CustomDestinations = new List<KeyValuePair<string, PublisherCustomDestinationModel>>(),
+                AccountsWithNetwork = new List<KeyValuePair<SocialNetworks, string>>(),
                 CreatedDate = DateTime.Now
             };
 
@@ -278,6 +299,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public PublisherCreateDestinationModel GetDestination(string destinationId)
         {
             var publisherCreateDestinationModel = BinFileHelper.GetDestination(destinationId);
+
+            if (publisherCreateDestinationModel == null || publisherCreateDestinationModel.Count == 0)
+                return new PublisherCreateDestinationModel();
+
             return publisherCreateDestinationModel[0];
         }
     }

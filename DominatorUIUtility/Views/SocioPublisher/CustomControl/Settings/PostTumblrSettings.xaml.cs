@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.Models.SocioPublisher.Settings;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
@@ -24,5 +25,11 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
         {
             InitializeComponent();
         }
+
+        public PostTumblrSettings(PublisherPostSettings publisherPostSettings):this()
+        {
+            MainGrid.DataContext = publisherPostSettings.TumberPostSettings;
+        }
+
     }
 }

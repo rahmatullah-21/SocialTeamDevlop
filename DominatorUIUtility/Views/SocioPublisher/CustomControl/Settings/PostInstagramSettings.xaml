@@ -5,28 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" 
-            >
-    <Grid>
+             mc:Ignorable="d">
+    <Grid x:Name="MainGrid">
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <CheckBox Name="CheckBoxPostasPartStory" Margin="2" Content="{DynamicResource DHlangGdPostasStory}" />
+                <CheckBox Name="CheckBoxPostasPartStory" Margin="2" IsChecked="{Binding IsPostAsStoryPost}" Content="{DynamicResource DHlangGdPostasStory}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <CheckBox Name="CheckBoxDeletePost" Margin="2" Content="{DynamicResource DHlangGdDeletePost}" />
-                <TextBox Width="40" Height="25" Margin="2"/>
+                <CheckBox Name="CheckBoxDeletePost" Margin="2" IsChecked="{Binding IsDeletePostAfterHours}" Content="{DynamicResource DHlangGdDeletePost}" />
+                <TextBox Width="40" Height="25" Margin="2" Text="{Binding DeletePostAfterHours}"/>
                 <TextBlock Text="{DynamicResource DHlangHours}" VerticalAlignment="Center" Margin="5"/>
             </StackPanel>
          
             <StackPanel Orientation="Vertical">
-                <CheckBox Name="CheckBoxGeoLocation" Margin="2" Content="{DynamicResource DHlangGdPostUsignGeoLocation}" />
-                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource DHlangGdPostUsingAddGeoLocation}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                <CheckBox Name="CheckBoxGeoLocation" Margin="2" IsChecked="{Binding IsGeoLocation}" Content="{DynamicResource DHlangGdPostUsignGeoLocation}" />
+                <TextBox VerticalAlignment="Center" Text="{Binding GeoLocationList}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource DHlangGdPostUsingAddGeoLocation}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
             </StackPanel>
             
             <StackPanel Orientation="Vertical">
-                <CheckBox Margin="2" Content="{DynamicResource DHlangPostTagUser}" />
-                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddPostTagUser}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                <CheckBox Margin="2" IsChecked="{Binding IsTagUser}" Content="{DynamicResource DHlangPostTagUser}" />
+                <TextBox VerticalAlignment="Center" Text="{Binding TagUserList}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddPostTagUser}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
             </StackPanel>
             
         </StackPanel>

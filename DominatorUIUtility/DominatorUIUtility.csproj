@@ -341,6 +341,9 @@
     <Compile Include="Views\Publisher\AdvancedSettings\Pinterest.xaml.cs">
       <DependentUpon>Pinterest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Publisher\AdvancedSettings\Reddit.xaml.cs">
+      <DependentUpon>Reddit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Publisher\AdvancedSettings\Tumblr.xaml.cs">
       <DependentUpon>Tumblr.xaml</DependentUpon>
     </Compile>
@@ -401,6 +404,9 @@
     <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostLinkedInSettings.xaml.cs">
       <DependentUpon>PostLinkedInSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostRedditSettings.xaml.cs">
+      <DependentUpon>PostRedditSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostTumblrSettings.xaml.cs">
       <DependentUpon>PostTumblrSettings.xaml</DependentUpon>
     </Compile>
@@ -411,9 +417,13 @@
     <Compile Include="Views\SocioPublisher\PublishedPostDetails.xaml.cs">
       <DependentUpon>PublishedPostDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherAddCustomDestination.xaml.cs">
+      <DependentUpon>PublisherAddCustomDestination.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublisherCreateNewPost.xaml.cs">
       <DependentUpon>PublisherCreateNewPost.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\SocioPublisher\PublisherCustomDestinationViewModel.cs" />
     <Compile Include="Views\SocioPublisher\PublisherDirectPosts.xaml.cs">
       <DependentUpon>PublisherDirectPosts.xaml</DependentUpon>
     </Compile>
@@ -788,6 +798,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Publisher\AdvancedSettings\Reddit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Publisher\AdvancedSettings\Tumblr.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -864,6 +878,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostRedditSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SocioPublisher\CustomControl\Settings\PostTumblrSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -873,6 +891,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublishedPostDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherAddCustomDestination.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
