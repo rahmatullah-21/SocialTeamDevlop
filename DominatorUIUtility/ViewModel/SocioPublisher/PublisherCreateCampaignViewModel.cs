@@ -218,6 +218,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PostQueuedStatus = PostQueuedStatus.Pending,
                     PostRunningStatus = PostRunningStatus.Active,
                     ExpiredTime = DateTime.Today.AddDays(10),
+                    FdPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.FdPostSettings,
+                    GdPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.GdPostSettings,
+                    TdPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.TdPostSettings,
+                    LdPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.LdPostSettings,
+                    TumberPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.TumberPostSettings,
+                    RedditPostSetting = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.RedditPostSetting,
                 };
 
                 if (PublisherCreateCampaignModel.PostDetailsModel.IsSinglePost)
