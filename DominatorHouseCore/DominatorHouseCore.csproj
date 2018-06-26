@@ -289,6 +289,7 @@
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedPost.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedSubreddit.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Accounts\OwnCommunities.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\UnfollowedUsers.cs" />
@@ -477,6 +478,7 @@
     <Compile Include="Utility\ImageExtracter.cs" />
     <Compile Include="Models\InstagramModel.cs" />
     <Compile Include="Utility\ObjectComparer.cs" />
+    <Compile Include="Utility\PublisherHelper.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="ViewModel\AdvancedSettings\FacebookViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />
