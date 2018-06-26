@@ -393,7 +393,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     TimeRange = PublisherCreateCampaignModel.JobConfigurations.TimeRange,
                     SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                     ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
-
+                    PendingCount = publisherPostlistModel.LstPublishedPostDetailsModels.Count
                 };
 
                 PublisherDefaultPage.Instance.PublisherDefaultViewModel.AddCampaignDetails(publisherCampaignStatusModel);
