@@ -195,7 +195,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     {
                         case "ManageDestinations":
                             PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
-                                PublisherManageDestinations.Instance;
+                                PublisherManageDestinations.Instance();
                             break;
                         case "ManagePosts":
                             PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
@@ -387,6 +387,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 GenericFileManager.Delete<PublisherPostFetchModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetPublisherPostFetchFile);
 
                 PublishScheduler.StopPublishingPosts(campaign.CampaignId);
+
+                PublisherManageDestinationModel.RemoveDestinationFromCampaign(campaign.CampaignId);
             }
             else
             {
@@ -412,6 +414,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     ListPublisherCampaignStatusModels.Remove(x);
                     PublisherCreateCampaigns.Instance.PublisherCreateCampaignViewModel.CampaignList.Remove(x.CampaignName);
                     PublishScheduler.StopPublishingPosts(x.CampaignId);
+                    PublisherManageDestinationModel.RemoveDestinationFromCampaign(x.CampaignId);
                 });
 
 

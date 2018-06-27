@@ -29,8 +29,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             SelectionCommand = new BaseCommand<object>(SelectionCanExecute, SelectionExecute);
             DeleteDestinationCommand = new BaseCommand<object>(DeleteDestinationCanExecute, DeleteDestinationExecute);
-            OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
-            InitializeDefaultDestinations();
+            OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);            
         }
 
         public ICommand NavigationCommand { get; set; }
@@ -51,7 +50,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 if (_listPublisherManageDestinationModels == value)
                     return;
-                _listPublisherManageDestinationModels = value;
+                
                 SetProperty(ref _listPublisherManageDestinationModels, value);
             }
         }
@@ -168,8 +167,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-
-
         public bool DeleteDestinationCanExecute(object sender) => true;
 
         public void DeleteDestinationExecute(object sender)
@@ -223,8 +220,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeDefaultDestinations()
         {
+            ListPublisherManageDestinationModels = new ObservableCollection<PublisherManageDestinationModel>();
+            PublisherManageDestinationModelView = null;
             PublisherManageDestinationModelView = CollectionViewSource.GetDefaultView(ListPublisherManageDestinationModels);
             var savedDestinations = ManageDestinationFileManager.GetAll();
+
             savedDestinations.ForEach(x => { AddDestinations(x, false); });
         }
 
@@ -232,7 +232,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             if (ListPublisherManageDestinationModels.Any(x => x.DestinationName == publisherManageDestinationModel.DestinationName))
             {
-                GlobusLogHelper.log.Info("Campaign name already present!");
+                GlobusLogHelper.log.Info("Destination name already present!");
                 return false;
             }
             try

@@ -80,7 +80,7 @@ namespace DominatorHouseCore.Diagnostics
 
                         GetPostStatus(publisherCampaignStatusModel);
 
-                        if (DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)                        
+                        if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)                        
                             UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
                         
                     });
@@ -110,7 +110,7 @@ namespace DominatorHouseCore.Diagnostics
 
                     ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
 
-                    if (DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
+                    if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
                         UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
                 });
             }
