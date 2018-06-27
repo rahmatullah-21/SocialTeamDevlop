@@ -57,7 +57,7 @@
                 </ListView>-->
                 <CheckBox Content="{DynamicResource langPostusingGeoLocation﻿}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding InstagramModel.IsPostusingGeoLocation}"/>
-                <TextBox HorizontalAlignment="Left" Width="200" Margin="30,0" Visibility="{Binding InstagramModel.IsPostusingGeoLocation,
+                <TextBox HorizontalAlignment="Left" Width="200" Margin="30,0" Text="{Binding InstagramModel.GeoLocation}" Visibility="{Binding InstagramModel.IsPostusingGeoLocation,
                          Converter={StaticResource BooleanToVisibilityConverter}}"
                          controls:TextBoxHelper.Watermark="{DynamicResource DHlangEnterGeoLocations}"/>
                 <CheckBox Content="{DynamicResource langEnableAutomaticHashTags}"

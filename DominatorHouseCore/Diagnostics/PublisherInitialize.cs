@@ -19,14 +19,12 @@ namespace DominatorHouseCore.Diagnostics
     public class PublisherInitialize
     {
         private PublisherInitialize()
-        {  }
+        { }
 
         #region Properties
 
-
         private static Dictionary<SocialNetworks, IPublisherCollectionFactory> NetworkWisePublishers { get; } =
             new Dictionary<SocialNetworks, IPublisherCollectionFactory>();
-
 
         private static PublisherInitialize _publisherInitialize = null;
 
@@ -48,8 +46,8 @@ namespace DominatorHouseCore.Diagnostics
         {
             return NetworkWisePublishers.ContainsKey(networks) ? NetworkWisePublishers[networks] : null;
         }
- 
-        public ObservableCollection<PublisherCampaignStatusModel> GetSavedCampaigns() 
+
+        public ObservableCollection<PublisherCampaignStatusModel> GetSavedCampaigns()
             => ListPublisherCampaignStatusModels;
 
         public void PublishCampaignInitializer()
@@ -69,19 +67,22 @@ namespace DominatorHouseCore.Diagnostics
                             StartDate = campaigns.JobConfigurations.CampaignStartDate,
                             EndDate = campaigns.JobConfigurations.CampaignEndDate,
                             CreatedDate = campaigns.CreatedDate,
-                            Status = campaigns.CampaignStatus,
+                            Status = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate ? campaigns.CampaignStatus : PublisherCampaignStatus.Completed,
                             DestinationCount = campaigns.LstDestinationId.Count,
                             IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                             TimeRange = campaigns.JobConfigurations.TimeRange,
                             SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                             ScheduledWeekday = campaigns.JobConfigurations.Weekday,
                             IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign,
-                            
                         };
 
                         ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
 
                         GetPostStatus(publisherCampaignStatusModel);
+
+                        if (DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)                        
+                            UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
+                        
                     });
                 });
             }
@@ -96,7 +97,7 @@ namespace DominatorHouseCore.Diagnostics
                         StartDate = campaigns.JobConfigurations.CampaignStartDate,
                         EndDate = campaigns.JobConfigurations.CampaignEndDate,
                         CreatedDate = campaigns.CreatedDate,
-                        Status = campaigns.CampaignStatus,
+                        Status = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate ? campaigns.CampaignStatus : PublisherCampaignStatus.Completed,
                         DestinationCount = campaigns.LstDestinationId.Count,
                         IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                         TimeRange = campaigns.JobConfigurations.TimeRange,
@@ -109,10 +110,36 @@ namespace DominatorHouseCore.Diagnostics
 
                     ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
 
+                    if (DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
+                        UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
                 });
             }
         }
 
+        public void UpdateCampaignStatus(string campaignId, PublisherCampaignStatus status)
+        {
+            var campaignItem = ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignId == campaignId);
+
+            if (campaignItem == null)
+                return;
+
+            var currentCampaignIndex = ListPublisherCampaignStatusModels.IndexOf(campaignItem);
+
+            ListPublisherCampaignStatusModels[currentCampaignIndex].Status = status;
+
+            var allCampaign = GenericFileManager
+                  .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+
+            var currentCampaign = allCampaign.FirstOrDefault(x => x.CampaignId == campaignId);
+
+            if (currentCampaign == null)
+                return;
+
+            var campaignIndex = allCampaign.IndexOf(currentCampaign);
+            currentCampaign.CampaignStatus = status;
+            allCampaign[campaignIndex] = currentCampaign;
+            GenericFileManager.UpdateModuleDetails(allCampaign, ConstantVariable.GetPublisherCampaignFile());
+        }
 
         public void UpdatePostStatus(string campaignId)
         {
@@ -195,7 +222,7 @@ namespace DominatorHouseCore.Diagnostics
             PublisherCoreFactory.Network = networks;
             return this;
         }
-  
+
         public PublisherCoreLibraryBuilder AddPublisherJobFactory(IPublisherJobProcessFactory jobFactory)
         {
             PublisherCoreFactory.PublisherJobFactory = jobFactory;
@@ -206,7 +233,7 @@ namespace DominatorHouseCore.Diagnostics
         {
             PublisherCoreFactory.PostScraper = postScraper;
             return this;
-        }     
+        }
     }
 
 }

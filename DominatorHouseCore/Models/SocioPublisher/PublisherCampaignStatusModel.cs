@@ -61,6 +61,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public bool IsRunSingleAccountPerCampaign { get; set; }
 
+        public int DestinationTimeout { get; set; }
+
         #endregion
 
 

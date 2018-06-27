@@ -417,7 +417,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private DateTime _campaignEndDate = DateTime.Now.AddDays(10);
+        private DateTime _campaignEndDate = DateTime.Now.AddYears(2);
         [ProtoMember(34)]
         public DateTime CampaignEndDate
         {

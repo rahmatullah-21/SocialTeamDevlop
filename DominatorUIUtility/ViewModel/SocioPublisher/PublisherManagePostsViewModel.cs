@@ -166,6 +166,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 catch (Exception ex)
                 {
+                    var draftView = PublisherManagePostDrafts.GetPublisherManagePostDrafts();
+                    SelectedTabsUserControls = draftView;
+                    draftView.PublisherManagePostDraftsViewModel.IsProgressRingActive = false;
                     ex.DebugLog();
                 }
             }
@@ -189,6 +192,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 catch (Exception ex)
                 {
+                    var pendingView = PublisherManagePostPending.GetPublisherManagePostPending();
+                    SelectedTabsUserControls = pendingView;
+                    pendingView.PublisherManagePostPendingViewModel.IsProgressRingActive = false;
                     ex.DebugLog();
                 }
             }
@@ -211,6 +217,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 catch (Exception ex)
                 {
+                    var publishedView = PublisherManagePostPublished.GetPublisherManagePostPublished();
+                    SelectedTabsUserControls = publishedView;
+                    publishedView.PublisherManagePostPublishedViewModel.IsProgressRingActive = false;
                     ex.DebugLog();
                 }
             }

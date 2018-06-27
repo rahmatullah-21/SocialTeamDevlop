@@ -300,6 +300,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
+        private string _fetchedPostId=string.Empty;
+        [ProtoMember(25)]
+        public string FetchedPostIdOrUrl
+        {
+            get
+            {
+                return _fetchedPostId;
+            }
+            set
+            {              
+                if (_fetchedPostId == value)
+                    return;
+                SetProperty(ref _fetchedPostId, value);
+            }
+        }
+
         #region Postlist
 
 

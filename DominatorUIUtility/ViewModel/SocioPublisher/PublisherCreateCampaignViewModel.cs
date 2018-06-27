@@ -402,7 +402,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     TimeRange = PublisherCreateCampaignModel.JobConfigurations.TimeRange,
                     SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                     ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
-                    PendingCount = publisherPostlistModel.LstPublishedPostDetailsModels.Count
+                    PendingCount = publisherPostlistModel.LstPublishedPostDetailsModels.Count,
+                    DestinationTimeout = generalSettingsModel.WaitMaxOf,
                 };
 
                 

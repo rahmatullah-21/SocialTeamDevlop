@@ -352,9 +352,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             var selectedPost = PublisherPostlist.Where(x => x.IsPostlistSelected).ToList();
 
-            Dialog dialog = new Dialog();
-            PublisherUpdateMultiPost PublisherUpdateMultiPost = new PublisherUpdateMultiPost(selectedPost);
-            var window = dialog.GetMetroWindow(PublisherUpdateMultiPost, "Edit post");
+            if (selectedPost.Count == 0)
+            {
+                GlobusLogHelper.log.Info("Please select the post before edit!");
+                return;
+            }
+
+            var dialog = new Dialog();
+            var publisherUpdateMultiPost = new PublisherUpdateMultiPost(selectedPost);
+            var window = dialog.GetMetroWindow(publisherUpdateMultiPost, "Edit post");
             window.ShowDialog();
         }
 
@@ -382,7 +388,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         window.ShowDialog();
                     }
 
-                  
+
 
                 }
                 catch (Exception ex)
@@ -676,18 +682,31 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 case "Publish Now":
                     campaignStatus.PostQueuedStatus = PostQueuedStatus.Published;
                     post.PostQueuedStatus = PostQueuedStatus.Published;
+                    PostProcessOfStatusChange(campaignStatus, post);
+                    break;
+                case "Re-add":
+                    var readdPost = post.DeepClone();
+                    readdPost.GenerateClonePostId();
+                    readdPost.PostQueuedStatus = PostQueuedStatus.Pending;
+                    readdPost.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
+                    PostlistFileManager.Add(readdPost.CampaignId, readdPost);
+                    PublisherInitialize.GetInstance.UpdatePostStatus(campaignStatus.CampaignId);
                     break;
                 case "Send to Pending":
-                case "Re-add":
                     campaignStatus.PostQueuedStatus = PostQueuedStatus.Pending;
                     post.PostQueuedStatus = PostQueuedStatus.Pending;
+                    PostProcessOfStatusChange(campaignStatus, post);
                     break;
                 case "Send to Draft":
                     campaignStatus.PostQueuedStatus = PostQueuedStatus.Draft;
                     post.PostQueuedStatus = PostQueuedStatus.Draft;
+                    PostProcessOfStatusChange(campaignStatus, post);
                     break;
             }
-            
+        }
+
+        private void PostProcessOfStatusChange(PublisherPostlistModel campaignStatus, PublisherPostlistModel post)
+        {
             PostlistFileManager.UpdatePost(campaignStatus.CampaignId, post);
             PublisherInitialize.GetInstance.UpdatePostStatus(campaignStatus.CampaignId);
             PublisherPostlist.Remove(campaignStatus);

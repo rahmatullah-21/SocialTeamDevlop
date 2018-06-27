@@ -301,7 +301,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isPostMultipleImagesVideoPostsAsAlbum, value);
             }
         }
-        private string _geoLocation;
+        private string _geoLocation=string.Empty;
 
         [ProtoMember(19)]
         public string GeoLocation
