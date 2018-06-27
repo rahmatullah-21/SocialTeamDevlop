@@ -148,7 +148,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private List<string> _needToUpdateAccounts = new List<string>();
 
 
-        public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn" };
+        public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn","Reddit" };
 
         public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest", "LinkedIn", "Gplus", "Tumblr" };
 
