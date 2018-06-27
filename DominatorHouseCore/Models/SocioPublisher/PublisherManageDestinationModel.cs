@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
@@ -10,6 +14,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
     [ProtoContract]
     public class PublisherManageDestinationModel : INotifyPropertyChanged
     {
+        private string _destinationId;
         private bool _isSelected;
         private int _accountCount;
         private int _pagesOrBoardsCount;
@@ -18,9 +23,23 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private int _campaignsCount;
         private int _customDestinationCount;
         private string _destinationName;
+        private List<string> _addUsedcampaignId = new List<string>();
 
         [ProtoMember(1)]
-        public string DestinationId { get; set; }
+        public string DestinationId
+        {
+            get
+            {
+                return _destinationId;
+            }
+            set
+            {
+                if (_destinationId == value)
+                    return;
+                _destinationId = value;
+                OnPropertyChanged(nameof(DestinationId));
+            }
+        }
 
         [ProtoMember(2)]
         public string DestinationName
@@ -154,6 +173,25 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+
+
+
+        [ProtoMember(11)]
+        public List<string> AddUsedCampaignId
+        {
+            get
+            {
+                return _addUsedcampaignId;
+            }
+            set
+            {
+                if (_addUsedcampaignId == value)
+                    return;
+                _addUsedcampaignId = value;
+                OnPropertyChanged(nameof(AddUsedCampaignId));
+            }
+        }
+
         public void GenerateDestinations()
         {
             DestinationName = $"Destination-{ConstantVariable.GetDateTime()}";
@@ -168,5 +206,75 @@ namespace DominatorHouseCore.Models.SocioPublisher
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public static void AddCampaignToDestinationList(IEnumerable<string> lstDestinationId, string campaignId)
+        {
+            #region Add campagins to destination list
+
+            var allDestinations = ManageDestinationFileManager.GetAll();
+
+            lstDestinationId.ForEach(destinationId =>
+            {
+                var currentDestination = allDestinations.FirstOrDefault(x => x.DestinationId == destinationId);
+
+                if (currentDestination == null)
+                    return;
+
+                var index = allDestinations.IndexOf(currentDestination);
+                currentDestination.AddUsedCampaignId.Add(campaignId);
+                currentDestination.CampaignsCount = currentDestination.AddUsedCampaignId.Count;
+                allDestinations[index] = currentDestination;
+            });
+
+            ManageDestinationFileManager.UpdateDestinations(allDestinations);
+
+            #endregion
+        }
+
+        public static void UpdateDestinationsGroupCount(string destinationId, int groupCount)
+        {
+            #region Update destination group Count
+
+            var allDestinations = ManageDestinationFileManager.GetAll();
+
+            var currentDestination = allDestinations.FirstOrDefault(x => x.DestinationId == destinationId);
+
+            if (currentDestination == null)
+                return;
+
+            var index = allDestinations.IndexOf(currentDestination);
+            
+            currentDestination.GroupsCount = groupCount;
+
+            allDestinations[index] = currentDestination;
+
+            ManageDestinationFileManager.UpdateDestinations(allDestinations);
+
+            #endregion
+        }
+
+
+        public static void RemoveDestinationFromCampaign(string campaignId)
+        {
+            #region Remove campagins from destination list
+
+            var allDestinations = ManageDestinationFileManager.GetAll();
+
+            foreach (var destination in allDestinations)
+            {
+                if (!destination.AddUsedCampaignId.Contains(campaignId))
+                    continue;
+
+                destination.AddUsedCampaignId.Remove(campaignId);
+                destination.CampaignsCount = destination.AddUsedCampaignId.Count;
+            }
+
+            ManageDestinationFileManager.UpdateDestinations(allDestinations);
+
+            #endregion
+        }
+
+
+
     }
 }

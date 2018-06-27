@@ -383,7 +383,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 var publisherPostFetcher = new PublisherPostFetcher();
                 publisherPostFetcher.FetchPostsForCampaign(PublisherCreateCampaignModel.CampaignId);
-
+               
                 #endregion
 
                 #region Updating PublisherDefaultPage
@@ -408,6 +408,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 
                 PublisherInitialize.GetInstance.AddCampaignDetails(publisherCampaignStatusModel);
+
+                #region Update Destination
+
+                PublisherManageDestinationModel.AddCampaignToDestinationList(
+                    PublisherCreateCampaignModel.LstDestinationId, PublisherCreateCampaignModel.CampaignId);
+               
+                #endregion
 
                 PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignModel.CampaignId);
 
@@ -447,23 +454,23 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SelectDestinationExecute(object sender)
         {
-            SelectDestinations selectDestinations = new SelectDestinations(_publisherCreateCampaignModel.LstDestinationId);
-            Dialog dialog = new Dialog();
+            var selectDestinations = new SelectDestinations(_publisherCreateCampaignModel.LstDestinationId);
+            var dialog = new Dialog();
             var metroWindow = dialog.GetMetroWindow(selectDestinations, "Select Destination");
-            var IsCanceled = false;
-            selectDestinations.btnCancel.Click += (CancelEventArgs, eventarg) =>
+            var isCanceled = false;
+            selectDestinations.btnCancel.Click += (cancelEventArgs, eventarg) =>
             {
                 selectDestinations.PublisherManageDestinationViewModel.ListPublisherManageDestinationModels.Select(x =>
                 {
                     x.IsSelected = false;
                     return x;
                 });
-                IsCanceled = true;
+                isCanceled = true;
                 metroWindow.Close();
             };
             metroWindow.ShowDialog();
 
-            if (!IsCanceled)
+            if (!isCanceled)
             {
                 var destinationId = selectDestinations.PublisherManageDestinationViewModel
                      .ListPublisherManageDestinationModels

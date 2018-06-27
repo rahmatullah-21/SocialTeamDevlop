@@ -166,7 +166,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 case "Back":
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
-                        = PublisherManageDestinations.Instance;
+                        = PublisherManageDestinations.Instance();
                     break;
             }
         }
@@ -711,7 +711,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             if (!string.IsNullOrEmpty(EditDestinationId))
                 return false;
 
-            var availableCount = PublisherManageDestinations.Instance.PublisherManageDestinationViewModel
+            var availableCount = PublisherManageDestinations.Instance().PublisherManageDestinationViewModel
                      .ListPublisherManageDestinationModels.Count;
 
             if (availableCount == 0)
@@ -720,7 +720,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // check destination name is already present or not 
             var isPresent = false;
 
-            foreach (var x in PublisherManageDestinations.Instance.PublisherManageDestinationViewModel
+            foreach (var x in PublisherManageDestinations.Instance().PublisherManageDestinationViewModel
                 .ListPublisherManageDestinationModels)
             {
                 if (x.DestinationName == PublisherCreateDestinationModel.DestinationName)
@@ -815,7 +815,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         CustomDestinationsCount = PublisherCreateDestinationModel.CustomDestinations.Count
                     };
 
-                    PublisherManageDestinations.Instance.PublisherManageDestinationViewModel.AddDestinations(
+                    PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.AddDestinations(
                         publisherManageDestinationModel, true);
                 }
                 // Edit Destination
@@ -823,7 +823,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     PublisherCreateDestinationModel.UpdateDestination(PublisherCreateDestinationModel);
 
-                    var publisherManageDestinationModel = PublisherManageDestinations.Instance.PublisherManageDestinationViewModel.GetManageDestination(EditDestinationId);
+                    var publisherManageDestinationModel = PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.GetManageDestination(EditDestinationId);
 
                     // To update the destination name
                     publisherManageDestinationModel.DestinationName
@@ -849,7 +849,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         PublisherCreateDestinationModel.CustomDestinations.Count;
 
                     // To call a method to update the manage destination user interface
-                    PublisherManageDestinations.Instance.PublisherManageDestinationViewModel.UpdateDestinations(
+                    PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.UpdateDestinations(
                         publisherManageDestinationModel);
                 }
 
@@ -858,7 +858,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 IsSavedDestination = true;
 
                 PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
-                    = PublisherManageDestinations.Instance;
+                    = PublisherManageDestinations.Instance();
             }
             else
             {
