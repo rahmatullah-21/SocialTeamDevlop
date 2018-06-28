@@ -316,6 +316,24 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+
+        private string _publishedTriedAndSuccessStatus="00/00";
+        [ProtoMember(26)]
+        public string PublishedTriedAndSuccessStatus
+        {
+            get
+            {
+                return _publishedTriedAndSuccessStatus;
+            }
+            set
+            {               
+                if (_publishedTriedAndSuccessStatus == value)
+                    return;
+                SetProperty(ref _publishedTriedAndSuccessStatus, value);
+            }
+        }
+
+
         #region Postlist
 
 

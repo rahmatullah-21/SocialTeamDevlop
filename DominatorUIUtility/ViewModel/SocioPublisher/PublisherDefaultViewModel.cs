@@ -141,7 +141,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             selectedCampaigns.ForEach(x =>
             {
                 PublishScheduler.StopPublishingPosts(x.CampaignId);
-                PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId,PublisherCampaignStatus.Paused);
+                PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Paused);
+                InitializeDefaultCampaignStatus();
             });
         }
 
@@ -155,6 +156,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 PublishScheduler.ScheduleTodaysPublisherByCampaign(x.CampaignId);
                 PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
+                InitializeDefaultCampaignStatus();
             });
         }
 
@@ -293,6 +295,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PostlistFileManager.UpdatePostlists(clonedCampaignStatus.CampaignId, clonedPostlist);
 
                     PublisherInitialize.GetInstance.UpdatePostStatus(clonedCampaignStatus.CampaignId);
+
+                    var publisherPostFetchModel =
+                        GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                            .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+
+                    PublisherManageDestinationModel.AddCampaignToDestinationList(publisherPostFetchModel?.SelectedDestinations, clonedCampaignStatus.CampaignId);
+
                 }
                 else
                 {
@@ -314,6 +323,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         PostlistFileManager.UpdatePostlists(clonedCampaignStatus.CampaignId, clonedPostlist);
                         PublisherInitialize.GetInstance.UpdatePostStatus(clonedCampaignStatus.CampaignId);
+
+                        var publisherPostFetchModel =
+                            GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                                .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
+
+                        PublisherManageDestinationModel.AddCampaignToDestinationList(
+                            publisherPostFetchModel?.SelectedDestinations, clonedCampaignStatus.CampaignId);
+
                     });
                 }
             }

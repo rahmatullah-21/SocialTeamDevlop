@@ -39,10 +39,11 @@ namespace DominatorUIUtility.CustomControl.Publisher
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var newValue = e.NewValue;
-        } 
+        }
         #endregion
 
         #region Post max count changed
+
 
         private void NumericMaxPost_OnValueDecremented(object sender, NumericUpDownChangedRoutedEventArgs args)
         {
@@ -63,6 +64,15 @@ namespace DominatorUIUtility.CustomControl.Publisher
 
             if (JobConfigurations.IsRandomizePublishingTimerChecked)
                 GenerateRandomIntervals(JobConfigurations.MaxPost + 1);
+        }
+
+        private void NumericMaxPost_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+            if (JobConfigurations.IsSpecifyPostingIntervalChecked)
+                SpecificPostGenerateIntervals(JobConfigurations.MaxPost);
+
+            if (JobConfigurations.IsRandomizePublishingTimerChecked)
+                GenerateRandomIntervals(JobConfigurations.MaxPost);
         }
 
         #endregion
@@ -136,6 +146,7 @@ namespace DominatorUIUtility.CustomControl.Publisher
             if (JobConfigurations.IsRandomizePublishingTimerChecked)
                 GenerateRandomIntervals(JobConfigurations.MaxPost);
         }
-        
+
+      
     }
 }

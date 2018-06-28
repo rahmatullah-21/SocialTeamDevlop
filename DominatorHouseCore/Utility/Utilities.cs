@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Windows;
@@ -20,7 +24,7 @@ namespace DominatorHouseCore.Utility
         public static string GetMobileDeviceId(string Guid = "")
         {
             // Collect the random inputString with five character, convert those character to byte array with help of the MD5
-            return "android-" + (String.IsNullOrEmpty(Guid)?RandomUtilties.GetRandomString(5).GetHexFromString().Substring(0, 16):Guid);
+            return "android-" + (String.IsNullOrEmpty(Guid) ? RandomUtilties.GetRandomString(5).GetHexFromString().Substring(0, 16) : Guid);
         }
 
 
@@ -122,15 +126,15 @@ namespace DominatorHouseCore.Utility
         }
 
 
-      /// <summary>
-      /// Calculates percentage
-      /// </summary>
-      /// <param name="value"></param>
-      /// <param name="percentage"></param>
-      /// <returns></returns>
+        /// <summary>
+        /// Calculates percentage
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="percentage"></param>
+        /// <returns></returns>
         public static int PercentageCalculator(int value, int percentage)
         {
-          return (value * percentage) / 100;
+            return (value * percentage) / 100;
         }
 
         // Returns string from resource dictionary
@@ -178,5 +182,55 @@ namespace DominatorHouseCore.Utility
             }
             return urlFormData;
         }
+
+        public static string RemoveUrls(string text) =>
+            Regex.Replace(text, @"\b(?:https?://|www\.)\S+\b", string.Empty).Trim();
+
+        public static string ReplaceWithShortenUrl(string text)
+        {
+            var linkParser = new Regex(@"\b(?:https?://|www\.)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return linkParser.Replace(text, ReplaceMatchEvaluator);
+        }
+
+        public static string ReplaceMatchEvaluator(Match match) => Shorten(match.Value);
+
+        public static string Shorten(string longUrl)
+        {
+            if (string.IsNullOrEmpty(longUrl))
+                return longUrl;
+
+            var login = ConstantVariable.BitlyLogin;
+            var apikey = ConstantVariable.BitlyApiKey;
+
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(apikey))
+                return longUrl;
+
+            var url = $"http://api.bit.ly/shorten?format=json&version=2.0.1&longUrl={HttpUtility.UrlEncode(longUrl)}&login={login}&apiKey={apikey}";
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            try
+            {
+                var response = request.GetResponse();
+                using (var responseStream = response.GetResponseStream())
+                {
+                    if (responseStream != null)
+                    {
+                        var reader = new StreamReader(responseStream, Encoding.UTF8);
+                        dynamic jsonResponse = JsonConvert.DeserializeObject(reader.ReadToEnd());
+                        string s = jsonResponse["results"][longUrl]["shortUrl"];
+                        return s;
+                    }
+                }
+            }
+            catch (WebException)
+            {
+                return longUrl;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return longUrl;
+        }
+
     }
 }

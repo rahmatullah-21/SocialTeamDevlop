@@ -9,6 +9,7 @@
              xmlns:mediaviewer="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:customcontrol="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:socioPublisher="clr-namespace:DominatorHouseCore.Enums.SocioPublisher;assembly=DominatorHouseCore"
              x:Name="DraftPostList"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -121,6 +122,21 @@
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <Label Content="{DynamicResource DHlangSettings}" Margin="0,0,0,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <Button x:Name="BtnRefresh" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding RefreshCommand}"  CommandParameter="{x:Static socioPublisher:PostQueuedStatus.Draft}"  >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <StackPanel  Orientation="Horizontal" >
+                                <Rectangle Width="15" Height="15" Fill="{DynamicResource AccentBaseColorBrush}" >
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Label Content="{DynamicResource DHlangRefresh}" Margin="0,0,0,0" Foreground="{DynamicResource AccentBaseColorBrush}" FontSize="12" FontWeight="Regular" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                             </StackPanel>
                         </ControlTemplate>
                     </Button.Template>

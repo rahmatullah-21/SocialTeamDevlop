@@ -33,6 +33,10 @@ namespace DominatorHouseCore.Utility
 
         public static string ApplicationName { get; } = "Socinator";
 
+        public static string BitlyApiKey { get; set; } = string.Empty;
+
+        public static string BitlyLogin { get; set; } = string.Empty;
+
         public static string GetPlatformBaseDirectory()
         {
             string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}";
@@ -207,7 +211,7 @@ namespace DominatorHouseCore.Utility
 
         public static string Separator = "<:>";
 
-        public static string VideoToImageConvertFileName = "_SOCINATORIMAGE.jpg";
+        public static string VideoToImageConvertFileName { get; set; } = "_SOCINATORIMAGE.jpg";
 
         public static List<string> SupportedVideoFormat = new List<string> { "3g2", "3gp", "3gpp", "asf", "avi", "dat", "divx", "dv", "f4v", "flv", "m2ts", "m4v", "mkv", "mod", "mov", "mp4", "mpe", "mpeg", "mpeg4", "mpg", "mts", "nsv", "ogm", "ogv", "qt", "tod", "ts", "vob", "wmv" };
     }

@@ -28,10 +28,9 @@
         <TextBlock Text="{DynamicResource langSettings}" FontWeight="Bold"  Margin="5"/>
         <StackPanel Orientation="Horizontal" Margin="10,0">
             <TextBlock Text="{DynamicResource langCampaignWillPublish}" VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown x:Name="numericMaxPost" Minimum="0"
-                                   Value="{Binding JobConfigurations.MaxPost,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5"                                   
-                                   ValueDecremented="NumericMaxPost_OnValueDecremented"
-                                   ValueIncremented="NumericMaxPost_OnValueIncremented"/>
+            <control:NumericUpDown x:Name="numericMaxPost" Minimum="0" ValueDecremented="NumericMaxPost_OnValueDecremented"
+                                   ValueIncremented="NumericMaxPost_OnValueIncremented"
+                                   Value="{Binding JobConfigurations.MaxPost,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" />
 
             <TextBlock Text="{DynamicResource langPostListItemsPerDay}" VerticalAlignment="Center" Margin="5"/>
 
