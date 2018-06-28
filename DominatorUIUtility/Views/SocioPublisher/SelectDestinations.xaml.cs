@@ -29,15 +29,17 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             InitializeComponent();
             ManageDestination.DataContext = PublisherManageDestinationViewModel;
+            PublisherManageDestinationViewModel.InitializeDefaultDestinations();
         }
 
-        public SelectDestinations(ObservableCollection<string> LstDestinationId):this()
+        public SelectDestinations(ObservableCollection<string> lstDestinationId):this()
         {
             _publisherManageDestinationViewModel.ListPublisherManageDestinationModels?.ToList().ForEach(x =>
             {
-                x.IsSelected = LstDestinationId.Contains(x.DestinationId);
+                x.IsSelected = lstDestinationId.Contains(x.DestinationId);
             });
         }
+
         public PublisherManageDestinationViewModel PublisherManageDestinationViewModel
         {
             get

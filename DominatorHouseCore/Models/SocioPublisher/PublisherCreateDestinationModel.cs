@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
@@ -220,7 +222,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _accountsWithNetwork;
             }
             set
-            {              
+            {
                 if (_accountsWithNetwork == value)
                     return;
                 _accountsWithNetwork = value;
@@ -280,7 +282,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// </summary>
         /// <param name="publisherCreateDestinationModel">pass parameter as filled default value of  <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel"/></param>
         /// <returns></returns>
-        public bool AddDestination(PublisherCreateDestinationModel publisherCreateDestinationModel) 
+        public bool AddDestination(PublisherCreateDestinationModel publisherCreateDestinationModel)
             => BinFileHelper.AddDestination(publisherCreateDestinationModel);
 
         /// <summary>
@@ -305,9 +307,52 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
             return publisherCreateDestinationModel[0];
         }
+
+        public void UpdateNewGroup(string destinationId)
+        {
+            var publisherCreateDestinationModel = GetDestination(destinationId);
+
+            if (publisherCreateDestinationModel.IsAddedNewGroups)
+            {
+                publisherCreateDestinationModel.AccountsWithNetwork.ForEach(async x =>
+                {
+                    var accountsDetailsSelector = SocinatorInitialize
+                        .GetSocialLibrary(x.Key)
+                        .GetNetworkCoreFactory().AccountDetailsSelectors;
+
+                    if (accountsDetailsSelector.IsGroupsAvailables)
+                    {
+                        var groups = await accountsDetailsSelector.GetGroupUrls(x.Value, publisherCreateDestinationModel.CreatedDate);
+                        var alreadyPresentedGroups =
+                            publisherCreateDestinationModel.AccountGroupPair.Select(y => y.Value).ToList();
+                        foreach (var group in groups)
+                        {
+                            if (!alreadyPresentedGroups.Contains(group))
+                            {
+                                publisherCreateDestinationModel.AccountGroupPair.Add(new KeyValuePair<string, string>(x.Value, group));
+                            }
+                        }
+                    }
+
+                    PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId,
+                        publisherCreateDestinationModel.AccountGroupPair.Count);
+                });
+            }
+        }
+
+        public void RemoveGroupsFromDestination(string destinationId, string accountId, SocialNetworks network, string groupUrl)
+        {
+            var updateCreateDestinationModel = GetDestination(destinationId);
+
+            var removeDestination =
+                updateCreateDestinationModel.AccountGroupPair.FirstOrDefault(x =>
+                    x.Key == accountId && x.Value == groupUrl);
+
+            updateCreateDestinationModel.AccountGroupPair.Remove(removeDestination);
+
+            PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId, updateCreateDestinationModel.AccountGroupPair.Count);
+
+            UpdateDestination(updateCreateDestinationModel);
+        }
     }
-
-
-
-
 }

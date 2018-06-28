@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
@@ -62,20 +63,20 @@ namespace DominatorUIUtility.Views.SocioPublisher
             string onLabel = ToggleCampaignStatus.OnLabel;
             switch (onLabel)
             {
-                case "Completed":
+                case "Completed":                    
                     PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Active;
                     PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId);
-                    //Call for update the bin files
+                    PublisherInitialize.GetInstance.UpdateCampaignStatus(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId, PublisherCampaignStatus.Active);
                     break;
                 case "Active":
                     PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Paused;                 
                     PublishScheduler.StopPublishingPosts(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId);
-                    //Call for update the bin files
+                    PublisherInitialize.GetInstance.UpdateCampaignStatus(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId, PublisherCampaignStatus.Paused);
                     break;
                 case "Paused":
                     PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Completed;
                     PublishScheduler.StopPublishingPosts(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId);
-                    //Call for update the bin files
+                    PublisherInitialize.GetInstance.UpdateCampaignStatus(PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.CampaignId, PublisherCampaignStatus.Completed);                    
                     break;
             }
         }

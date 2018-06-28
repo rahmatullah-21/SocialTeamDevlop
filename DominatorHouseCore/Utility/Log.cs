@@ -226,7 +226,37 @@
         public static string StopUpdatingAccount { get; set; } = "{0}\t {1}\t Stopped for further friendship update!";
 
 
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username   
+        /// 2 = campaign name    
+        /// </summary>
+        public static string StartPublishing { get; set; } = "{0}\t {1}\t Publishing Started with {2}";
 
-       
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username   
+        /// 2 = delay in seconds 
+        /// </summary>
+        public static string DelayBetweenPublishing { get; set; } = "{0}\t {1}\t Next post will start publishing in {2} seconds";
+
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username          
+        /// </summary>
+        public static string AlreadyPublishedOnOwnWall { get; set; } = "{0}\t {1}\t Post has already posted on own wall/profile";
+
+        //Post has already posted with destintion
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username  
+        /// 2 = Destination Type
+        /// 3 = Destination Url        
+        /// </summary>
+        public static string AlreadyPublishedOnDestination { get; set; } = "{0}\t {1}\t Post has already posted with destintion {2} - {3}";
+
     }
 }

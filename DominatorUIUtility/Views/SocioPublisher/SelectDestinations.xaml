@@ -124,6 +124,21 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <GridViewColumn Width="160">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource DHlangCustomDestinationCount}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Margin="6,2,6,2" Text="{Binding CustomDestinationsCount}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
                     <GridViewColumn Width="150">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource DHlangWallsProfilesCount}"/>

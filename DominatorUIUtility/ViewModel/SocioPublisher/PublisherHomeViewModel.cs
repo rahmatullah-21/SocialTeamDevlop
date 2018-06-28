@@ -24,7 +24,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void SetDefaultHomePage()
         {
-            PublisherHomeModel.SelectedUserControl =  PublisherDefaultPage.Instance;
+            PublisherHomeModel.SelectedUserControl =  PublisherDefaultPage.Instance();
         } 
     }
 }

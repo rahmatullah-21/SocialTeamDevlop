@@ -300,6 +300,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
+        private string _fetchedPostId=string.Empty;
+        [ProtoMember(25)]
+        public string FetchedPostIdOrUrl
+        {
+            get
+            {
+                return _fetchedPostId;
+            }
+            set
+            {              
+                if (_fetchedPostId == value)
+                    return;
+                SetProperty(ref _fetchedPostId, value);
+            }
+        }
+
         #region Postlist
 
 
@@ -628,6 +644,15 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 TotalMediaCount = MediaList.Count;
                 NextImageEnable = (TotalMediaCount - ImagePointer) > -1;
                 PreviousImageEnable = ImagePointer > 0;
+            }
+            else
+            {
+                ImagePointer = 0;
+                MediaCurrentPointer = 0;
+                CurrentMediaUrl = string.Empty;
+                TotalMediaCount = MediaList.Count;
+                NextImageEnable = false;
+                PreviousImageEnable = false;
             }
         }
 

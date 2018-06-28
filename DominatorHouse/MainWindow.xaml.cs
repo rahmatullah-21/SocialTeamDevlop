@@ -565,7 +565,6 @@ namespace Socinator
                 {
                     PublisherInitialize.GetInstance.PublishCampaignInitializer();
                     PublishScheduler.ScheduleTodaysPublisher();
-
                 });
 
                 Task.Factory.StartNew(() =>

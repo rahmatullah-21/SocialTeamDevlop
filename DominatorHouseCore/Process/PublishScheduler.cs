@@ -28,16 +28,13 @@ namespace DominatorHouseCore.Process
         {
             try
             {
-                if (CampaignsCancellationTokens.ContainsKey(campaignStatusModel.CampaignId))
-                {
-                    GlobusLogHelper.log.Info($"Campaign : {campaignStatusModel.CampaignName} is already runnning!");
-                    return;
-                }
-
                 var currentCampaignsCancallationToken = new CancellationTokenSource();
 
-                CampaignsCancellationTokens.Add(campaignStatusModel.CampaignId, currentCampaignsCancallationToken);
-
+                if (!CampaignsCancellationTokens.ContainsKey(campaignStatusModel.CampaignId))                                   
+                    CampaignsCancellationTokens.Add(campaignStatusModel.CampaignId, currentCampaignsCancallationToken);                
+                else                
+                    currentCampaignsCancallationToken = CampaignsCancellationTokens[campaignStatusModel.CampaignId];
+                
                 var publisherPostFetchModel =
                     GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
@@ -66,12 +63,12 @@ namespace DominatorHouseCore.Process
 
                         if (campaignStatusModel.IsRunSingleAccountPerCampaign)
                         {
-                            publisherJobProcess.StartPublishing(true);
+                            publisherJobProcess.StartPublishing();
                             //publisherJobProcess.StartPublish with synchronously
                         }
                         else
                         {
-                            publisherJobProcess.StartPublishing(false);
+                            publisherJobProcess.StartPublishing();
                             //publisherJobProcess.StartPublish with Asynchronously
                         }
                     });
@@ -94,8 +91,7 @@ namespace DominatorHouseCore.Process
             catch (Exception ex)
             {
                 ex.DebugLog();
-            }
-           
+            }           
         }
 
         public static void StartPublishingPosts(PublisherPostlistModel post)
@@ -109,19 +105,16 @@ namespace DominatorHouseCore.Process
 
                 if (specificCampaign == null)
                 {
-                    GlobusLogHelper.log.Info("Current post is register with any campaign!");
-                    return;
-                }
-
-                if (CampaignsCancellationTokens.ContainsKey(post.CampaignId))
-                {
-                    GlobusLogHelper.log.Info($"Campaign : {specificCampaign.CampaignName} is already runnning!");
+                    GlobusLogHelper.log.Info("Current post isn't register with any campaign!");
                     return;
                 }
 
                 var currentCampaignsCancallationToken = new CancellationTokenSource();
 
-                CampaignsCancellationTokens.Add(post.CampaignId, currentCampaignsCancallationToken);
+                if (!CampaignsCancellationTokens.ContainsKey(post.CampaignId))
+                    CampaignsCancellationTokens.Add(post.CampaignId, currentCampaignsCancallationToken);
+                else
+                    currentCampaignsCancallationToken = CampaignsCancellationTokens[post.CampaignId];
 
                 var publisherPostFetchModel =
                     GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
@@ -142,7 +135,6 @@ namespace DominatorHouseCore.Process
                         var selectedCustomDestinations =
                             destinationDetails.CustomDestinations.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
 
-
                         var isPublishOnOwnWall =
                             destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
 
@@ -152,16 +144,12 @@ namespace DominatorHouseCore.Process
 
                         if (specificCampaign.IsRunSingleAccountPerCampaign)
                         {
-
-
-                          
-
-                            publisherJobProcess.StartPublishing(true, post);
+                            publisherJobProcess.StartPublishing(post);
                             //publisherJobProcess.StartPublish with synchronously
                         }
                         else
                         {
-                            publisherJobProcess.StartPublishing(false, post);
+                            publisherJobProcess.StartPublishing(post);
                             //publisherJobProcess.StartPublish with Asynchronously
                         }
                     });
@@ -192,9 +180,11 @@ namespace DominatorHouseCore.Process
         {        
             try
             {
-                var cancellationToken =
-                      CampaignsCancellationTokens.FirstOrDefault(x => x.Key == campaignId);
+                var cancellationToken = CampaignsCancellationTokens.FirstOrDefault(x => x.Key == campaignId);
                 cancellationToken.Value.Cancel();
+
+                if (CampaignsCancellationTokens.ContainsKey(campaignId))                
+                    CampaignsCancellationTokens.Remove(campaignId);                
             }
             catch (Exception ex)
             {
@@ -216,28 +206,6 @@ namespace DominatorHouseCore.Process
                     .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null, null,null, false, new CancellationTokenSource());
                 publisherJobProcess.DeletePost(postDeletionModel.PublishedIdOrUrl);
             }, s => s.WithName($"{postDeletionModel.CampaignId}- Delete Posts -{ConstantVariable.GetDate()}").ToRunOnceAt(postDeletionModel.DeletionTime));
-        }
-
-        public static void ScheduleTodaysPublisherByCampaign(string campaignId)
-        {
-            // get the all campaigns which should be present in between 
-            var campaignDetails =
-                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
-
-            var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == campaignId);
-
-            if (specificCampaign != null)
-            {
-                if (specificCampaign.IsRotateDayChecked)
-                    SchedulePublisher(specificCampaign);
-                else
-                {
-                    var isCampaignSelected = specificCampaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
-                    if (isCampaignSelected == null)
-                        return;
-                    SchedulePublisher(specificCampaign);
-                }
-            }
         }
 
         public static void SchedulePublishNowByCampaign(string campaignId)
@@ -266,7 +234,7 @@ namespace DominatorHouseCore.Process
         {
             // get the all campaigns which should be present in between 
             var campaignDetails =
-                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
+                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate && x.Status == PublisherCampaignStatus.Active).ToList();
 
             campaignDetails.ForEach(campaign =>
             {
@@ -282,6 +250,28 @@ namespace DominatorHouseCore.Process
             });
         }
 
+        public static void ScheduleTodaysPublisherByCampaign(string campaignId)
+        {
+
+            var campaignDetails =
+                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
+
+            var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == campaignId);
+
+            if (specificCampaign != null)
+            {
+                if (specificCampaign.IsRotateDayChecked)
+                    SchedulePublisher(specificCampaign);
+                else
+                {
+                    var isCampaignSelected = specificCampaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
+                    if (isCampaignSelected == null)
+                        return;
+                    SchedulePublisher(specificCampaign);
+                }
+            }
+        }
+
         private static void SchedulePublisher(PublisherCampaignStatusModel campaign)
         {
             #region Schedule
@@ -295,10 +285,20 @@ namespace DominatorHouseCore.Process
                     {
                         StartPublishingPosts(campaign);
                     }, s => s.WithName($"{campaign.CampaignId}-{ConstantVariable.GetDate()}").ToRunOnceAt(startTime));
+
+                    if (campaign.DestinationTimeout > 0)
+                    {
+                        var stopTime = DateTime.Now.AddMinutes(campaign.DestinationTimeout);
+                        JobManager.AddJob(() =>
+                        {
+                            StopPublishingPosts(campaign.CampaignId);
+                        }, s => s.WithName($"{campaign.CampaignId}-StopRunningDueToTimeOut").ToRunOnceAt(stopTime));
+                    }                    
                 }
             });
 
             #endregion
         }
+
     }
 }

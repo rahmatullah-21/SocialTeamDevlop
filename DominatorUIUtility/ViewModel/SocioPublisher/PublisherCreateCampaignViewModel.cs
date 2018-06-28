@@ -11,6 +11,7 @@ using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -51,10 +52,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherCreateCampaignModel.JobConfigurations.Weekday.Add(new ContentSelectGroup
                 {
                     Content = day.ToString(),
+                    IsContentSelected = true
                 });
             }
-
-
         }
 
 
@@ -164,7 +164,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 case "Back":
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
-                        = PublisherDefaultPage.Instance;
+                        = PublisherDefaultPage.Instance();
                     break;
             }
         }
@@ -196,14 +196,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 else
                 {
-                    if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel,
-                        ConstantVariable.GetPublisherCampaignFile()))
+                    if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel,ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully saved.");
                     CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
                 }
 
-                #endregion
+                
 
+                #endregion
 
                 #region Saving post
 
@@ -228,6 +228,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (PublisherCreateCampaignModel.PostDetailsModel.IsSinglePost)
                 {
+                    publisherPostlistModel.PostId = Utilities.GetGuid();
                     publisherPostlistModel.PostDescription = PublisherCreateCampaignModel.PostDetailsModel.PostDescription;
                     publisherPostlistModel.MediaList = PublisherCreateCampaignModel.PostDetailsModel.MediaViewer.MediaList;
                     publisherPostlistModel.PublisherInstagramTitle =
@@ -245,6 +246,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     PublisherCreateCampaignModel.LstPostDetailsModels.ForEach(post =>
                     {
+                        publisherPostlistModel.PostId = Utilities.GetGuid();
                         publisherPostlistModel.PostDescription = post.PostDescription;
                         publisherPostlistModel.MediaList = post.MediaViewer.MediaList;
                         publisherPostlistModel.PublisherInstagramTitle = post.PublisherInstagramTitle;
@@ -262,6 +264,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     {
                         publisherPostlistModel.MediaList = new ObservableCollection<string> { image };
                         publisherPostlistModel.PostDescription = new Uri(image).Segments.Last();
+                        publisherPostlistModel.PostId = Utilities.GetGuid();
                         PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
                     });
                 }
@@ -380,7 +383,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 var publisherPostFetcher = new PublisherPostFetcher();
                 publisherPostFetcher.FetchPostsForCampaign(PublisherCreateCampaignModel.CampaignId);
-
+               
                 #endregion
 
                 #region Updating PublisherDefaultPage
@@ -399,45 +402,75 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     TimeRange = PublisherCreateCampaignModel.JobConfigurations.TimeRange,
                     SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                     ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
-
+                    PendingCount = publisherPostlistModel.LstPublishedPostDetailsModels.Count,
+                    DestinationTimeout = generalSettingsModel.WaitMaxOf,
                 };
 
-                PublisherDefaultPage.Instance.PublisherDefaultViewModel.AddCampaignDetails(publisherCampaignStatusModel);
+                
+                PublisherInitialize.GetInstance.AddCampaignDetails(publisherCampaignStatusModel);
+
+                #region Update Destination
+
+                PublisherManageDestinationModel.AddCampaignToDestinationList(
+                    PublisherCreateCampaignModel.LstDestinationId, PublisherCreateCampaignModel.CampaignId);
+               
+                #endregion
 
                 PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignModel.CampaignId);
 
+                ClearCurrentCampaigns();
+
                 #endregion
+
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-
-
         }
 
+        private void ClearCurrentCampaigns()
+        {
+            PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
+
+            var defaultDays = new List<ContentSelectGroup>();
+
+            foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+            {
+                defaultDays.Add(new ContentSelectGroup
+                {
+                    Content = day.ToString(),
+                    IsContentSelected = true
+                });
+            }
+
+            PublisherCreateCampaignModel.JobConfigurations.Weekday = defaultDays;
+            SetDataContext();
+
+            SelectedItem = string.Empty;
+        }
 
         private bool SelectDestinationCanExecute(object sender) => true;
 
         private void SelectDestinationExecute(object sender)
         {
-            SelectDestinations selectDestinations = new SelectDestinations(_publisherCreateCampaignModel.LstDestinationId);
-            Dialog dialog = new Dialog();
+            var selectDestinations = new SelectDestinations(_publisherCreateCampaignModel.LstDestinationId);
+            var dialog = new Dialog();
             var metroWindow = dialog.GetMetroWindow(selectDestinations, "Select Destination");
-            var IsCanceled = false;
-            selectDestinations.btnCancel.Click += (CancelEventArgs, eventarg) =>
+            var isCanceled = false;
+            selectDestinations.btnCancel.Click += (cancelEventArgs, eventarg) =>
             {
                 selectDestinations.PublisherManageDestinationViewModel.ListPublisherManageDestinationModels.Select(x =>
                 {
                     x.IsSelected = false;
                     return x;
                 });
-                IsCanceled = true;
+                isCanceled = true;
                 metroWindow.Close();
             };
             metroWindow.ShowDialog();
 
-            if (!IsCanceled)
+            if (!isCanceled)
             {
                 var destinationId = selectDestinations.PublisherManageDestinationViewModel
                      .ListPublisherManageDestinationModels
@@ -457,23 +490,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 BindTabItemsControlProperties();
                 SetDataContext();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
-
-                var defaultDays = new List<ContentSelectGroup>();
-
-                foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
-                {
-                    defaultDays.Add(new ContentSelectGroup
-                    {
-                        Content = day.ToString(),
-                    });
-                }
-                PublisherCreateCampaignModel.JobConfigurations.Weekday = defaultDays;
-
-                SetDataContext();
-                ex.DebugLog();
+                ClearCurrentCampaigns();                
             }
         }
 
@@ -532,17 +551,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void BindTabItemsControlProperties()
         {
-
             tabItemsControl.PublisherDirectPostsViewModel = new PublisherDirectPostsViewModel(tabItemsControl);
             tabItemsControl.PublisherRssFeedViewModel = new PublisherRssFeedViewModel(tabItemsControl);
             tabItemsControl.PublisherMonitorFolderViewModel = new PublisherMonitorFolderViewModel(tabItemsControl);
             tabItemsControl.PublisherSharePostViewModel = new PublisherSharePostViewModel(tabItemsControl);
             tabItemsControl.PublisherScrapePostViewModel = new PublisherScrapePostViewModel(tabItemsControl);
-
-
             tabItemsControl.LstFolderPath = PublisherCreateCampaignModel.LstFolderPath;
             tabItemsControl.PostDetailsModel = PublisherCreateCampaignModel.PostDetailsModel;
-
             tabItemsControl.LstFeedUrl = PublisherCreateCampaignModel.LstFeedUrl;
             tabItemsControl.SharePostModel = PublisherCreateCampaignModel.SharePostModel;
             tabItemsControl.ScrapePostModel = PublisherCreateCampaignModel.ScrapePostModel;

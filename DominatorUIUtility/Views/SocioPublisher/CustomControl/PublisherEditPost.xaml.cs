@@ -27,7 +27,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             this.LstPostListModel = LstPostListModel;
             PostlistModel = publisherPostlistModel.DeepClone();
             this.DataContext = PostlistModel;
-
         }
 
         private void PublisherEditPost_OnLoaded(object sender, RoutedEventArgs e)
@@ -47,9 +46,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             try
             {
                 var indexToUpdate = LstPostListModel.FindIndex(posts => posts.PostId == PostlistModel.PostId);
+                PostlistModel.InitializePostData();
                 LstPostListModel[indexToUpdate] = PostlistModel;
-                PostlistFileManager.UpdatePostlists(PostlistModel.CampaignId, LstPostListModel);
-               
+                PostlistFileManager.UpdatePostlists(PostlistModel.CampaignId, LstPostListModel);              
             }
             catch (Exception ex)
             {

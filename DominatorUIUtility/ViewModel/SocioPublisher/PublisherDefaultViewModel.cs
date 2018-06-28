@@ -16,6 +16,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -63,7 +64,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Properties
 
-        public ObservableCollection<PublisherCampaignStatusModel> ListPublisherCampaignStatusModels { get; set; } = new ObservableCollection<PublisherCampaignStatusModel>();
+        public ObservableCollection<PublisherCampaignStatusModel> ListPublisherCampaignStatusModels
+        {
+            get
+            {
+                return _listPublisherCampaignStatusModels;
+            }
+            set
+            {
+                _listPublisherCampaignStatusModels = value;
+                OnPropertyChanged(nameof(ListPublisherCampaignStatusModels));
+            }
+        }
 
         private ICollectionView _publisherCampaignStatusModelView;
 
@@ -82,6 +94,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
         private bool _isAllCampaignSelected;
+        private ObservableCollection<PublisherCampaignStatusModel> _listPublisherCampaignStatusModels = new ObservableCollection<PublisherCampaignStatusModel>();
 
         public bool IsAllCampaignSelected
         {
@@ -117,7 +130,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void PublishNowSelectedCampaignExecute(object sender)
         {
             var selectedCampaigns = GetSelectedCampaigns();
-            selectedCampaigns.ForEach( x => PublishScheduler.SchedulePublishNowByCampaign(x.CampaignId));
+            selectedCampaigns.ForEach(x => PublishScheduler.SchedulePublishNowByCampaign(x.CampaignId));
         }
 
         private bool PauseSelectedCampaignCanExecute(object sender) => true;
@@ -125,7 +138,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void PauseSelectedCampaignExecute(object sender)
         {
             var selectedCampaigns = GetSelectedCampaigns();
-            selectedCampaigns.ForEach(x => PublishScheduler.StopPublishingPosts(x.CampaignId));
+            selectedCampaigns.ForEach(x =>
+            {
+                PublishScheduler.StopPublishingPosts(x.CampaignId);
+                PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId,PublisherCampaignStatus.Paused);
+            });
         }
 
 
@@ -134,7 +151,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void ActiveSelectedCampaignExecute(object sender)
         {
             var selectedCampaigns = GetSelectedCampaigns();
-            selectedCampaigns.ForEach(x => PublishScheduler.ScheduleTodaysPublisherByCampaign(x.CampaignId));
+            selectedCampaigns.ForEach(x =>
+            {
+                PublishScheduler.ScheduleTodaysPublisherByCampaign(x.CampaignId);
+                PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
+            });
         }
 
 
@@ -174,7 +195,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     {
                         case "ManageDestinations":
                             PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
-                                PublisherManageDestinations.Instance;
+                                PublisherManageDestinations.Instance();
                             break;
                         case "ManagePosts":
                             PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
@@ -258,19 +279,42 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     clonedCampaignStatus.GenerateCloneCampaign(campaignStatus.CampaignName);
                     SaveClonedCampaign(clonedCampaignStatus, campaignStatus.CampaignId);
                     GlobusLogHelper.log.Info(campaignStatus.CampaignName + "Successfully duplicated.");
-                    AddCampaignDetails(clonedCampaignStatus);
+                    PublisherInitialize.GetInstance.AddCampaignDetails(clonedCampaignStatus);
+
+                    var allSavedPosts = PostlistFileManager.GetAll(campaignStatus.CampaignId);
+
+                    var clonedPostlist = new List<PublisherPostlistModel>();
+                    allSavedPosts.ForEach(x =>
+                    {
+                        x.GenerateClonePostId();
+                        clonedPostlist.Add(x);
+                    });
+
+                    PostlistFileManager.UpdatePostlists(clonedCampaignStatus.CampaignId, clonedPostlist);
+
+                    PublisherInitialize.GetInstance.UpdatePostStatus(clonedCampaignStatus.CampaignId);
                 }
                 else
                 {
                     GetSelectedCampaigns().ForEach(campaign =>
                     {
                         var clonedCampaignStatus = GetCampaginDeepClone(campaign);
-
                         clonedCampaignStatus.GenerateCloneCampaign(campaign.CampaignName);
                         SaveClonedCampaign(clonedCampaignStatus, campaign.CampaignId);
-                        AddCampaignDetails(clonedCampaignStatus);
-                    });
+                        PublisherInitialize.GetInstance.AddCampaignDetails(clonedCampaignStatus);
 
+                        var allSavedPosts = PostlistFileManager.GetAll(campaign.CampaignId);
+
+                        var clonedPostlist = new List<PublisherPostlistModel>();
+                        allSavedPosts.ForEach(x =>
+                        {
+                            x.GenerateClonePostId();
+                            clonedPostlist.Add(x);
+                        });
+
+                        PostlistFileManager.UpdatePostlists(clonedCampaignStatus.CampaignId, clonedPostlist);
+                        PublisherInitialize.GetInstance.UpdatePostStatus(clonedCampaignStatus.CampaignId);
+                    });
                 }
             }
             catch (Exception ex)
@@ -343,6 +387,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 GenericFileManager.Delete<PublisherPostFetchModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetPublisherPostFetchFile);
 
                 PublishScheduler.StopPublishingPosts(campaign.CampaignId);
+
+                PublisherManageDestinationModel.RemoveDestinationFromCampaign(campaign.CampaignId);
             }
             else
             {
@@ -368,6 +414,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     ListPublisherCampaignStatusModels.Remove(x);
                     PublisherCreateCampaigns.Instance.PublisherCreateCampaignViewModel.CampaignList.Remove(x.CampaignName);
                     PublishScheduler.StopPublishingPosts(x.CampaignId);
+                    PublisherManageDestinationModel.RemoveDestinationFromCampaign(x.CampaignId);
                 });
 
 
@@ -383,36 +430,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public void InitializeDefaultCampaignStatus()
         {
             ListPublisherCampaignStatusModels = PublisherInitialize.GetInstance.GetSavedCampaigns();
+            PublisherCampaignStatusModelView = null;
             PublisherCampaignStatusModelView = CollectionViewSource.GetDefaultView(ListPublisherCampaignStatusModels);
-        }
-
-        public bool AddCampaignDetails(PublisherCampaignStatusModel publisherCampaignStatusModel)
-        {
-            if (ListPublisherCampaignStatusModels.Any(x => x.CampaignName == publisherCampaignStatusModel.CampaignName))
-            {
-                GlobusLogHelper.log.Info("Campaign name already present!");
-                return false;
-            }
-
-            if (publisherCampaignStatusModel.ValidDateTime())
-            {
-                try
-                {
-                    if (!Application.Current.Dispatcher.CheckAccess())
-                        Application.Current.Dispatcher.Invoke(delegate
-                        {
-                            ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
-                        });
-                    else
-                        ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-                return true;
-            }
-            return false;
         }
 
         public PublisherCampaignStatusModel GetCampaginDeepClone(PublisherCampaignStatusModel publisherCampaignStatusModel)
