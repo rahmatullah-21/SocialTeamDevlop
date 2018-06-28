@@ -1094,7 +1094,7 @@
     <system:String x:Key="LangKeyMakeModerator">Make Moderator</system:String>
     <system:String x:Key="LangKeyMale">Male</system:String>
     <system:String x:Key="LangKeyManageBlacklistAndWhitelistUsers">Manage Blacklist And Whitelist Users</system:String>
-    <system:String x:Key="LangKeyManageBlacklist/WhitelistUsers">Manage Blacklist/Whitelist Users</system:String>
+    <system:String x:Key="LangKeyManageBlacklistWhitelistUsers">Manage Blacklist/Whitelist Users</system:String>
     <system:String x:Key="LangKeyManageBlacklistedUsers">Manage Blacklisted Users</system:String>
     <system:String x:Key="LangKeyManageComments">Manage Comments</system:String>
     <system:String x:Key="LangKeyManageDestination">Manage Destination</system:String>
@@ -1735,6 +1735,7 @@
     <system:String x:Key="LangKeyProfileUrl">Profile Url</system:String>
     <system:String x:Key="LangKeyProfileUrlS">Profile Url(S)</system:String>
     <system:String x:Key="LangKeyProfilesFromScrapeResults">Profiles From Scrape Results</system:String>
+    <system:String x:Key="LangKeyProfilling">Profiling</system:String>
     <system:String x:Key="LangKeyProxy">Proxy</system:String>
     <system:String x:Key="LangKeyProxyAddress">Proxy Address</system:String>
     <system:String x:Key="LangKeyProxyDetails">Proxy Details</system:String>
@@ -2517,8 +2518,8 @@
     <system:String x:Key="LangKeyUserAllpost">User Allpost</system:String>
     <system:String x:Key="LangKeyUserBio">User Bio</system:String>
     <system:String x:Key="LangKeyUserBioHasAMinimumNumberOfCharacters">User Bio Has A Minimum Number Of Characters</system:String>
-    <system:String x:Key="LangKeyUserBio/Username/NameMustContainAnyOfTheFollowingWords">User Bio/Username/Name Must Contain Any Of The Following Words</system:String>
-    <system:String x:Key="LangKeyUserBio/Username/NameMustNotContainAnyInvalidWordsSaperateWordsByComma">User Bio/Username/Name Must Not Contain Any Invalid Words(Saperated Words By Comma)</system:String>
+    <system:String x:Key="LangKeyUserBioUsernameNameMustContainAnyOfTheFollowingWords">User Bio/Username/Name Must Contain Any Of The Following Words</system:String>
+    <system:String x:Key="LangKeyUserBioUsernameNameMustNotContainAnyInvalidWordsSaperateWordsByComma">User Bio/Username/Name Must Not Contain Any Invalid Words(Saperated Words By Comma)</system:String>
     <system:String x:Key="LangKeyUserFilters">User Filters</system:String>
     <system:String x:Key="LangKeyUserFollower">User Follower</system:String>
     <system:String x:Key="LangKeyUserFollowing">User Following</system:String>

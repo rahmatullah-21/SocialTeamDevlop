@@ -7,8 +7,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/DHLanguages/English.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/TumblrLanguage/English.xaml"/>
-                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/PdLanguages/English.xaml"/>
-                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/TdLanguages/English.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/YDLanguages/English.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/LDLanguages/English.xaml"/>
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/GpDLanguages/English.xaml"/>
