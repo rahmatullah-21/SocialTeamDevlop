@@ -234,14 +234,14 @@ due to absence of the particular item in your current database.
     <system:String x:Key="DHlangBump">Bump</system:String>
     <system:String x:Key="DHlangReport">Report</system:String>
 
-    <system:String x:Key="DHlangPublisherInstagramTitle">Title for Instagram</system:String>
+    <system:String x:Key="DHlangPublisherPostTitle">Post Title</system:String>
     <system:String x:Key="DHlangPublisherPostDescription">Post Description</system:String>
     <system:String x:Key="DHlangPublisherSelectMedia">Media(s)</system:String>
     <system:String x:Key="DHlangPublisherSelectMacros">Macro(s)</system:String>
     <system:String x:Key="DHlangImportMediaFiles">Load Image(s) or Video(s)</system:String>
     <system:String x:Key="DHlangPublisherWhatsOnYourMind">What's on your mind?</system:String>
     <system:String x:Key="DHlangPublisherTagFriends">Just type "{" to get suggestion !</system:String>
-    <system:String x:Key="DHlangPdSourceUrl">Pinterest Source Url</system:String>
+    <system:String x:Key="DHlangSourceUrl">Source Url</system:String>
     <system:String x:Key="DHlangFdSellPost">Enable Facebook Sell Post</system:String>
     <system:String x:Key="DHlangFdOverridePostDescription">Replace post descriptions with following text</system:String>
 

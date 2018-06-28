@@ -258,5 +258,12 @@
         /// </summary>
         public static string AlreadyPublishedOnDestination { get; set; } = "{0}\t {1}\t Post has already posted with destintion {2} - {3}";
 
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username         
+        /// </summary>
+        public static string PostExpired { get; set; } = "{0}\t {1}\t Post already expired.";
+
     }
 }

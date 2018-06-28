@@ -74,15 +74,18 @@ namespace DominatorHouseCore.Diagnostics
                             SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                             ScheduledWeekday = campaigns.JobConfigurations.Weekday,
                             IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign,
+                            IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
+                            TotalRandomDestination = campaigns.JobConfigurations.PublishOn,
+                            MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue
                         };
 
                         ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
 
                         GetPostStatus(publisherCampaignStatusModel);
 
-                        if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)                        
+                        if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
                             UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
-                        
+
                     });
                 });
             }
@@ -103,7 +106,10 @@ namespace DominatorHouseCore.Diagnostics
                         TimeRange = campaigns.JobConfigurations.TimeRange,
                         SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                         ScheduledWeekday = campaigns.JobConfigurations.Weekday,
-                        IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign
+                        IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign,
+                        IsTakeRandomDestination = campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
+                        TotalRandomDestination = campaigns.JobConfigurations.PublishOn,
+                        MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue
                     };
 
                     GetPostStatus(publisherCampaignStatusModel);
@@ -171,10 +177,18 @@ namespace DominatorHouseCore.Diagnostics
 
         public bool AddCampaignDetails(PublisherCampaignStatusModel publisherCampaignStatusModel)
         {
+
             if (ListPublisherCampaignStatusModels.Any(x => x.CampaignName == publisherCampaignStatusModel.CampaignName))
             {
-                GlobusLogHelper.log.Info("Campaign name already present!");
-                return false;
+                var currentItem = ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignName == publisherCampaignStatusModel.CampaignName);
+
+                var index = ListPublisherCampaignStatusModels.IndexOf(currentItem);
+
+                GetPostStatus(publisherCampaignStatusModel);
+
+                ListPublisherCampaignStatusModels[index] = publisherCampaignStatusModel;
+
+                return true;
             }
 
             if (publisherCampaignStatusModel.ValidDateTime())
@@ -201,6 +215,18 @@ namespace DominatorHouseCore.Diagnostics
                 return true;
             }
             return false;
+        }
+
+        public static void UpdateNewGroups(string destinationId)
+        {
+            var objPublisherCreateDestinationModel = new PublisherCreateDestinationModel();
+            objPublisherCreateDestinationModel.UpdateNewGroup(destinationId);
+        }
+
+        public static void RemoveGroupsFromDestination(string destinationId, string accountId, SocialNetworks network, string groupUrl)
+        {
+            var objPublisherCreateDestinationModel = new PublisherCreateDestinationModel();
+            objPublisherCreateDestinationModel.RemoveGroupsFromDestination(destinationId, accountId, network, groupUrl);
         }
 
     }

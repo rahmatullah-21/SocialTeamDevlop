@@ -196,12 +196,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 else
                 {
-                    if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel,ConstantVariable.GetPublisherCampaignFile()))
+                    if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully saved.");
                     CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
                 }
 
-                
+
 
                 #endregion
 
@@ -293,7 +293,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 #endregion
 
-
                 #region MonitorFolder
 
                 if (PublisherCreateCampaignModel.LstFolderPath.Count > 0)
@@ -383,7 +382,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 var publisherPostFetcher = new PublisherPostFetcher();
                 publisherPostFetcher.FetchPostsForCampaign(PublisherCreateCampaignModel.CampaignId);
-               
+
                 #endregion
 
                 #region Updating PublisherDefaultPage
@@ -404,24 +403,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
                     PendingCount = publisherPostlistModel.LstPublishedPostDetailsModels.Count,
                     DestinationTimeout = generalSettingsModel.WaitMaxOf,
+                    IsTakeRandomDestination = !PublisherCreateCampaignModel.JobConfigurations.IsPublishPostOnDestinationsChecked,
+                    TotalRandomDestination = PublisherCreateCampaignModel.JobConfigurations.PublishOn,
+                    MinRandomDestinationPerAccount = PublisherCreateCampaignModel.JobConfigurations.PostBetween.EndValue
                 };
 
-                
                 PublisherInitialize.GetInstance.AddCampaignDetails(publisherCampaignStatusModel);
 
                 #region Update Destination
 
-                PublisherManageDestinationModel.AddCampaignToDestinationList(
-                    PublisherCreateCampaignModel.LstDestinationId, PublisherCreateCampaignModel.CampaignId);
-               
+                PublisherManageDestinationModel.AddCampaignToDestinationList(PublisherCreateCampaignModel.LstDestinationId, PublisherCreateCampaignModel.CampaignId);
+
                 #endregion
 
-                PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignModel.CampaignId);
+                if (PublisherCreateCampaignModel.CampaignStatus == PublisherCampaignStatus.Active)
+                    PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignModel.CampaignId);
 
                 ClearCurrentCampaigns();
 
                 #endregion
-
             }
             catch (Exception ex)
             {
@@ -492,7 +492,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             catch (Exception)
             {
-                ClearCurrentCampaigns();                
+                ClearCurrentCampaigns();
             }
         }
 

@@ -63,6 +63,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public int DestinationTimeout { get; set; }
 
+        public bool IsTakeRandomDestination { get; set; }
+
+        public int TotalRandomDestination { get; set; }
+
+        public int MinRandomDestinationPerAccount { get; set; }
+
         #endregion
 
 

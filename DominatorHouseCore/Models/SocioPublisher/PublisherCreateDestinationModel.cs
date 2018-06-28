@@ -342,7 +342,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public void RemoveGroupsFromDestination(string destinationId, string accountId, SocialNetworks network, string groupUrl)
         {
+
             var updateCreateDestinationModel = GetDestination(destinationId);
+
+            if (!updateCreateDestinationModel.IsRemoveGroupsRequiresApproval)
+                return;
 
             var removeDestination =
                 updateCreateDestinationModel.AccountGroupPair.FirstOrDefault(x =>
@@ -353,6 +357,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId, updateCreateDestinationModel.AccountGroupPair.Count);
 
             UpdateDestination(updateCreateDestinationModel);
-        }
+        }        
     }
 }

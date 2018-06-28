@@ -186,14 +186,14 @@
                             </StackPanel>
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding behaviours:NetworkAvailablity.IgElementVisible}">
-                                    <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherInstagramTitle}"
+                                    <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherPostTitle}"
                                              Margin="2" TextWrapping="Wrap" Height="30" Width="300"  AcceptsReturn="True"
                                              Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PublisherInstagramTitle}"></TextBox>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding behaviours:NetworkAvailablity.PdElementVisible}">
                                     <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
-                                             mah:TextBoxHelper.Watermark="{DynamicResource DHlangPdSourceUrl}" Margin="2" 
+                                             mah:TextBoxHelper.Watermark="{DynamicResource DHlangSourceUrl}" Margin="2" 
                                              TextWrapping="Wrap" Height="30" Width="300" AcceptsReturn="True"
                                              Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PdSourceUrl}"/>
                                 </StackPanel>

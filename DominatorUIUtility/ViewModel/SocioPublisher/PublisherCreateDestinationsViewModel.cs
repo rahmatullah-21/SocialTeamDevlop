@@ -812,7 +812,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         IsSelected = false,
                         PagesOrBoardsCount = PublisherCreateDestinationModel.AccountPagesBoardsPair.Count,
                         WallsOrProfilesCount = PublisherCreateDestinationModel.PublishOwnWallAccount.Count,
-                        CustomDestinationsCount = PublisherCreateDestinationModel.CustomDestinations.Count
+                        CustomDestinationsCount = PublisherCreateDestinationModel.CustomDestinations.Count,
+                        IsAddNewGroups =  PublisherCreateDestinationModel.IsAddedNewGroups,
+                        IsRemoveGroupsRequiresValidation = PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval
                     };
 
                     PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.AddDestinations(
@@ -847,6 +849,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     publisherManageDestinationModel.CustomDestinationsCount =
                         PublisherCreateDestinationModel.CustomDestinations.Count;
+
+                    publisherManageDestinationModel.IsAddNewGroups
+                        = PublisherCreateDestinationModel.IsAddedNewGroups;
+
+                    publisherManageDestinationModel.IsRemoveGroupsRequiresValidation =
+                        PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval;
 
                     // To call a method to update the manage destination user interface
                     PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.UpdateDestinations(
