@@ -222,6 +222,16 @@ namespace DominatorHouseCore.Models
 
         [ProtoMember(13)]
         private HashSet<CookieHelper> _cookieHelperList = new HashSet<CookieHelper>();
+        public HashSet<CookieHelper> CookieHelperList
+        {
+            get { return _cookieHelperList; }
+            set
+            {
+                if (_cookieHelperList != null && _cookieHelperList == value)
+                    return;
+                SetProperty(ref _cookieHelperList, value);
+            }
+        }
 
         private int? _displayColumnValue1;
         private int? _displayColumnValue2;
@@ -275,5 +285,6 @@ namespace DominatorHouseCore.Models
         {
             CancellationSource.Cancel();
         }
+        public string VarificationCode { get; set; } = string.Empty;
     }
 }

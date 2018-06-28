@@ -224,6 +224,9 @@
     <Compile Include="CustomControl\AddOrUpdateProxyControl.xaml.cs">
       <DependentUpon>AddOrUpdateProxyControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\AccountDetail.xaml.cs">
+      <DependentUpon>AccountDetail.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\AddUpdateAccountControl.xaml.cs">
       <DependentUpon>AddUpdateAccountControl.xaml</DependentUpon>
     </Compile>
@@ -293,6 +296,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Language.en.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\AccountManagerViewModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\ProxyManagerViewModel.cs" />
@@ -314,6 +318,9 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherRssFeedViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherScrapePostViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherSharePostViewModel.cs" />
+    <Compile Include="Views\AccountManager.xaml.cs">
+      <DependentUpon>AccountManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
     </Compile>
@@ -543,6 +550,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CustomControl\AccountDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CustomControl\AddUpdateAccountControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -761,6 +772,10 @@
     <Page Include="Themes\PrussianBlue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Publisher\AddPosts.xaml">
       <SubType>Designer</SubType>

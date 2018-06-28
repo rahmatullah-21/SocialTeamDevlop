@@ -420,6 +420,10 @@ namespace Socinator
                 {
                     PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
                 }
+                if (textBlockDetails.Text == FindResource("langAccountsManager").ToString())
+                {
+                    AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl= AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+                }
             }
             catch (Exception ex)
             {

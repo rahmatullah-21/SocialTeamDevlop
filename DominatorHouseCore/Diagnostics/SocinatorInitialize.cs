@@ -371,7 +371,7 @@ namespace DominatorHouseCore.Diagnostics
 
             if (moduleSettings != null)
                 DominatorAccountModel.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-            
+
             return this;
         }
 
@@ -424,7 +424,7 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
-       public SocinatorAccountBuilder AddOrUpdateExtraParameter(string key, string value)
+        public SocinatorAccountBuilder AddOrUpdateExtraParameter(string key, string value)
         {
             try
             {
@@ -533,7 +533,7 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.AccountDetailsSelectors = destinationSelectors;
             return this;
         }
-       
+
         public NetworkCoreLibraryBuilder AddAccountDbConnection(IDatabaseConnection accountDbConnection)
         {
             NetworkCoreFactory.AccountDatabase = accountDbConnection;
@@ -563,6 +563,10 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.CampaignInteractionDetails = campaignInteractionDetails;
             return this;
         }
-
+        public NetworkCoreLibraryBuilder AddAccountVerificationFactory(IAccountVerificationFactory accountVerification)
+        {
+            NetworkCoreFactory.AccountVerificationFactory = accountVerification;
+            return this;
+        }
     }
 }

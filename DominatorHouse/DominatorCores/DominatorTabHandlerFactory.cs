@@ -9,6 +9,7 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
+using DominatorUIUtility.Views;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
 using Socinator.Social.Accounts;
@@ -43,9 +44,10 @@ namespace Socinator.DominatorCores
 
         public void UpdateAccountCustomControl(SocialNetworks networks)
         {
-            NetworkTabs[0].Content = new Lazy<UserControl>(() => new AccountTab(_strategies));
+          //  NetworkTabs[0].Content = new Lazy<UserControl>(() => new AccountTab(_strategies));
+            NetworkTabs[0].Content = new Lazy<UserControl>(() => AccountManager.GetSingletonAccountManager("AccountManager", null, SocialNetworks.Social));
         }
-
+       
         private void InitializeAllTabs()
         {
 
@@ -54,7 +56,8 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("langAccountsManager") == null? "Account Manager" : Application.Current.FindResource("langAccountsManager")?.ToString(),
-                    Content = new Lazy<UserControl>(() => new AccountTab(_strategies))
+                    Content = new Lazy<UserControl>(() => AccountManager.GetSingletonAccountManager("AccountManager",null,SocialNetworks.Social))
+                   // Content = new Lazy<UserControl>(() => new AccountTab(_strategies))
                 },
                 new TabItemTemplates
                 {

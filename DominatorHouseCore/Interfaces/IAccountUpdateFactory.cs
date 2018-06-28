@@ -16,4 +16,9 @@ namespace DominatorHouseCore.Interfaces
 
         Task UpdateDetailsAsync(DominatorAccountModel accountModel, CancellationToken token);
     }
+    public interface IAccountVerificationFactory
+    {
+        Task<bool> VerifyAccountAsync(DominatorAccountModel accountModel, CancellationToken token);
+
+    }
 }
