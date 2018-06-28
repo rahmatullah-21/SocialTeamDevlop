@@ -627,11 +627,11 @@
     <system:String x:Key="LangKeyEmbeddedBrowserAtTheSameTimeWhenUsingTheOptionFromSocialProfiles">Embedded Browser At The Same Time. (When Using The Option From Social Profiles)</system:String>
     <system:String x:Key="LangKeyEmbeddedBrowserSettings">Embedded Browser Settings</system:String>
     <system:String x:Key="LangKeyEnableAutoConnectionRequest">Enable Auto Connection Request</system:String>
-    <system:String x:Key="LangKeyEnableAutoFollow/Unfollow">Enable Auto Follow/Unfollow</system:String>
+    <system:String x:Key="LangKeyEnableAutoFollowUnfollow">Enable Auto Follow/Unfollow</system:String>
     <system:String x:Key="LangKeyEnableAutoGroupJoiner">Enable Auto Group Joiner</system:String>
     <system:String x:Key="LangKeyEnableAutoGroupJoiner/Unjoiner">Enable Auto Group Joiner/Unjoiner</system:String>
     <system:String x:Key="LangKeyEnableAutoGroupUnjoiner">Enable Auto Group Unjoiner</system:String>
-    <system:String x:Key="LangKeyEnableAutoJoin/Unjoin">Enable Auto Join/Unjoin</system:String>
+    <system:String x:Key="LangKeyEnableAutoJoinUnjoin">Enable Auto Join/Unjoin</system:String>
     <system:String x:Key="LangKeyEnableAutoRestartSocinatorAfterAMinimumOf">Enable Auto Restart Socinator After A Minimum Of</system:String>
     <system:String x:Key="LangKeyEnableAutoSendFriendRequest/Unfriend">Enable Auto Send Friend Request/Unfriend</system:String>
     <system:String x:Key="LangKeyEnableAutoWithdrawConnectionRequest">Enable Auto Withdraw Connection Request</system:String>
@@ -1004,7 +1004,7 @@
     <system:String x:Key="LangKeyLikeCommentsPerJob">Like Comments Per Job</system:String>
     <system:String x:Key="LangKeyLikeCommentsPerWeek">Like Comments Per Week</system:String>
     <system:String x:Key="LangKeyLikeCommunitysLatestPosts">Like Community's Latest Posts</system:String>
-    <system:String x:Key="LangKeyLikeCount">Like Count</system:String>
+    <system:String x:Key="LangKeyLikesCount">Like Count</system:String>
     <system:String x:Key="LangKeyLIKEFILTER">LIKE FILTER</system:String>
     <system:String x:Key="LangKeyLikeLatestFeedPosts">Like Latest Feed Posts</system:String>
     <system:String x:Key="LangKeyLikeLatestsPostsOfUserAfterFollow">Like Latests Posts Of User After Follow</system:String>
@@ -1675,7 +1675,7 @@
     <system:String x:Key="LangKeyPostDescription">Post Description</system:String>
     <system:String x:Key="LangKeyPostFilters">Post Filters</system:String>
     <system:String x:Key="LangKeyPostInThePostsList0ToDisable">Post In The Posts List (0 To Disable)</system:String>
-    <system:String x:Key="LangKeyPostLikeAndComment">Post Like & Comment</system:String>
+    <system:String x:Key="LangKeyPostLikeAndComment">Post Like And Comment</system:String>
     <system:String x:Key="LangKeyPostLikers">Post Likers</system:String>
     <system:String x:Key="LangKeyPostManager">Post Manager</system:String>
     <system:String x:Key="LangKeyPostMultipleImages/VideoPostsAsAlbum">Post Multiple Images/Video Posts As Album</system:String>
@@ -2125,7 +2125,7 @@
     <system:String x:Key="LangKeySkipTweetsWithoutLinks">Skip Tweets Without Links</system:String>
     <system:String x:Key="LangKeySkipUsersWhoAlreadyReceivedAMessage">Skip Users Who Already Received A Message</system:String>
     <system:String x:Key="LangKeySkipVerifiedUser">Skip Verified User</system:String>
-    <system:String x:Key="LangKeySkipWhitelist">Skip Whitelisted Users</system:String>
+    <system:String x:Key="LangKeySkipWhitelistedUsers">Skip Whitelisted Users</system:String>
     <system:String x:Key="LangKeySkipWhitelistedUsersPosts">Skip Whitelisted Users Posts</system:String>
     <system:String x:Key="LangKeySkipWhitelistusers">Skip Whitelistusers</system:String>
     <system:String x:Key="LangKeySkipWhoAreNotVerified">Skip Who Are Not Verified</system:String>
@@ -2606,7 +2606,7 @@
     <system:String x:Key="LangKeyWarningTheHashingWillOccurOnlyIfTheMaximumLengthOfThePostIsntExceeded177IfYouHaveAnImage140ForTextOnly">Warning: The Hashing Will Occur Only If The Maximum Length Of The Post Isn't Exceeded (177 If You Have An Image,140 For Text Only)</system:String>
     <system:String x:Key="LangKeyWatchVideo">Watch Video</system:String>
     <system:String x:Key="LangKeyWatchVideoTutorials">Watch Video Tutorials</system:String>
-    <system:String x:Key="LangKeyWebpageLikeAndComment">Webpage Like &Amp; Comment</system:String>
+    <system:String x:Key="LangKeyWebpageLikeAndComment">Webpage Like And Comment</system:String>
     <system:String x:Key="LangKeyWebsite">Website</system:String>
     <system:String x:Key="LangKeyWednesday">Wednesday</system:String>
     <system:String x:Key="LangKeyWhatAreYouSelling">What Are You Selling?</system:String>
@@ -2648,5 +2648,9 @@
     <system:String x:Key="LangKeyYourFollowings">Your Followings</system:String>
     <system:String x:Key="LangKeyYoutube">Youtube</system:String>
     <system:String x:Key="LangKeyYoutubeAccountsAtTheSameTime">Youtube Accounts At The Same Time</system:String>
+    <system:String x:Key="LangKeyToolTipForSync" xml:space="preserve">Click to start sync the account destination with current database data, 
+you may loss the selected item from previous destination
+due to absence of the particular item in your current database.
+    </system:String>
 
 </ResourceDictionary>

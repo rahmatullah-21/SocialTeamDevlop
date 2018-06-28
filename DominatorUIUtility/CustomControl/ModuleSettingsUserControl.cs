@@ -777,6 +777,21 @@ namespace DominatorUIUtility.CustomControl
             TabSwitcher.GoToCampaign();
         }
 
+        protected void FooterControl_OnSelectAccountChanged(List<string> listOfSelectedAccounts)
+        {
+            if (listOfSelectedAccounts.Count > 0)
+            {
+                _footerControl.list_SelectedAccounts = listOfSelectedAccounts;
+                this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+                GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, _footerControl.list_SelectedAccounts.Count, _activityType);
+            }
+            else
+            {
+                this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                _footerControl.list_SelectedAccounts = listOfSelectedAccounts;
+            }
+        }
+
 
         #endregion
 
