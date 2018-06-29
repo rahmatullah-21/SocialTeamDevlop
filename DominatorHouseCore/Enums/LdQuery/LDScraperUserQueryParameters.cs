@@ -4,17 +4,17 @@ namespace DominatorHouseCore.Enums.LdQuery
 {
     public enum LDScraperUserQueryParameters
     {
-        [Description("LDlangKeyword")]
+        [Description("LangKeyKeyword")]
         Keyword,
-        [Description("LDlangProfileUrl")]
+        [Description("LangKeyProfileUrl")]
         ProfileUrl,
-        [Description("LDlangSearchUrl")]
+        [Description("LangKeySearchUrl")]
         SearchUrl,
-        [Description("LDlangInput")]
+        [Description("LangKeyInput")]
         Input,
-        [Description("LDlangOnly1stConnection")]
+        [Description("LangKeyOnly1stConnection")]
         Only1stConnection,
-        [Description("LDlangJoinedGroupUrl")]
+        [Description("LangKeyJoinedGroupUrl")]
         JoinedGroupUrl,
     }
 }

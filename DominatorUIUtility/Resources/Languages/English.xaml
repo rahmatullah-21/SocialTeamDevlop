@@ -917,6 +917,7 @@
     <system:String x:Key="LangKeyIgnorePostsContainingSpecificWords">Ignore Posts Containing Specific Words</system:String>
     <system:String x:Key="LangKeyIgnorePostsOlderThanDays">Ignore Posts Older Than  Days</system:String>
     <system:String x:Key="LangKeyIgnorePrivateUsers">Ignore Private Users</system:String>
+    <system:String x:Key="LangKeyIgnoreTexts">Ignore Texts</system:String>
     <system:String x:Key="LangKeyIgnoreTopPosts">Ignore Top Posts</system:String>
     <system:String x:Key="LangKeyIgnoreUnknown">Ignore Unknown</system:String>
     <system:String x:Key="LangKeyIgnoreUserWhosePostsAreAlreadyLiked">Ignore User Whose Posts Are Already Liked</system:String>

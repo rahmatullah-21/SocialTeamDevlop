@@ -4,13 +4,13 @@ namespace DominatorHouseCore.Enums.LdQuery
 {
     public enum LDEngageQueryParameters
     {
-        [Description("LDlangSomeonesPosts")]
+        [Description("LangKeySomeonesPostS")]
         SomeonesPosts,
-        [Description("LDlangMyConnectionsPosts")]
+        [Description("LangKeyMyConnectionsPostS")]
         MyConnectionsPosts,
-        [Description("LDlangMyGroupsPosts")]
+        [Description("LangKeyMyGroupsPostS")]
         MyGroupsPosts,
-        [Description("LDlangCustomPosts")]
+        [Description("LangKeyCustomPostsList")]
         CustomPosts,
     }
 }
