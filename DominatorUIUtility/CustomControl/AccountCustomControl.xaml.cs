@@ -2,21 +2,28 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.Factories;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
+using DominatorUIUtility.Views;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -104,7 +111,7 @@ namespace DominatorUIUtility.CustomControl
             return _accountCustomInstance;
         }
 
-        private void GetRespectiveAccounts(SocialNetworks socialNetworks)
+        public void GetRespectiveAccounts(SocialNetworks socialNetworks)
         {
             var listCollection = (ListCollectionView)DominatorAccountViewModel.AccountCollectionView;
             DominatorAccountViewModel.LstDominatorAccountModel.Select(x =>
@@ -205,138 +212,165 @@ namespace DominatorUIUtility.CustomControl
         {
             var menuOptions = new List<MenuItem>();
 
-            var editProfileMenu = new MenuItem { Header = "Edit Profile" };
+            #region Details Menu
+
+            var image = Application.Current.FindResource("appbar_book_open_hardcover");
+            var convasImage = GetConvasImage(image);
+
+            var deatilProfileMenu = new MenuItem { Header = "Details", Icon = convasImage };
+            deatilProfileMenu.Click += ProfileDetails;
+            deatilProfileMenu.DataContext = dominatorAccountModel;
+            menuOptions.Add(deatilProfileMenu);
+
+            #endregion
+
+            #region Edit Profile Menu
+
+            image = Application.Current.FindResource("appbar_edit_box");
+            convasImage = GetConvasImage(image);
+
+            var editProfileMenu = new MenuItem { Header = "Edit Profile", Icon = convasImage };
             editProfileMenu.Click += EditProfile;
-            var icon = new Image
-            {
-                Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
-                Width = 25,
-                Height = 25
-            };
             editProfileMenu.DataContext = dominatorAccountModel;
-            editProfileMenu.Icon = icon;
             menuOptions.Add(editProfileMenu);
 
+            #endregion
 
-            var deleteProfileMenu = new MenuItem { Header = "Delete Profile" };
+            #region Delete Profile Menu
+
+            image = Application.Current.FindResource("appbar_delete");
+            convasImage = GetConvasImage(image);
+
+            var deleteProfileMenu = new MenuItem { Header = "Delete Profile", Icon = convasImage };
             deleteProfileMenu.Click += DeleteAccount;
             deleteProfileMenu.DataContext = dominatorAccountModel;
-            deleteProfileMenu.Icon = new Image
-            {
-                Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
-                Width = 25,
-                Height = 25
-            };
             menuOptions.Add(deleteProfileMenu);
 
-            var browserLoginMenu = new MenuItem { Header = "Browser Login" };
+            #endregion
+
+            #region Browser Login Menu
+
+            image = Application.Current.FindResource("appbar_browser");
+            convasImage = GetConvasImage(image);
+            var browserLoginMenu = new MenuItem { Header = "Browser Login", Icon = convasImage };
             browserLoginMenu.Click += BrowserLogin;
             browserLoginMenu.DataContext = dominatorAccountModel;
-            browserLoginMenu.Icon = new Image
-            {
-                Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
-                Width = 25,
-                Height = 25
-            };
             menuOptions.Add(browserLoginMenu);
+
+            #endregion
+
+            #region Go to Tools Menu
 
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
             {
-                var goToToolsMenu = new MenuItem { Header = "Go to Tools" };
+                image = Application.Current.FindResource("appbar_tools");
+                convasImage = GetConvasImage(image);
+
+                var goToToolsMenu = new MenuItem { Header = "Go to Tools", Icon = convasImage };
                 goToToolsMenu.Click += GotoTools;
                 goToToolsMenu.DataContext = dominatorAccountModel;
-
-                goToToolsMenu.Icon = new Image
-                {
-                    Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
-                    Width = 25,
-                    Height = 25
-                };
                 menuOptions.Add(goToToolsMenu);
             }
 
-        
+            #endregion
 
+            #region Check Account Status Menu
 
-            var loginStatusMenu = new MenuItem { Header = "Check Account Status" };
+            image = Application.Current.FindResource("appbar_page_search");
+            convasImage = GetConvasImage(image);
+
+            var loginStatusMenu = new MenuItem { Header = "Check Account Status", Icon = convasImage };
             loginStatusMenu.Click += CheckinStatus;
             loginStatusMenu.DataContext = dominatorAccountModel;
-            loginStatusMenu.Icon = new Image
-            {
-                Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
-                Width = 25,
-                Height = 25
-            };
             menuOptions.Add(loginStatusMenu);
 
+            #endregion
 
-            var updateMenu = new MenuItem { Header = "Update Friendship" };
+            #region Update Friendship Menu
+
+            image = Application.Current.FindResource("appbar_group");
+            convasImage = GetConvasImage(image);
+
+            var updateMenu = new MenuItem { Header = "Update Friendship", Icon = convasImage };
             updateMenu.Click += UpdateFriendshipCount;
             updateMenu.DataContext = dominatorAccountModel;
-            updateMenu.Icon = new Image
-            {
-                Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
-                Width = 25,
-                Height = 25
-            };
             menuOptions.Add(updateMenu);
 
-            //
+            #endregion
+
             switch (socialNetwork)
             {
                 case "Facebook":
-                    var removePhoneVerificationMenu = new MenuItem { Header = "Remove Phone Verification" };
+
+                    #region Remove Phone Verification Menu
+
+                    image = Application.Current.FindResource("appbar_iphone");
+                    convasImage = GetConvasImage(image);
+
+                    var removePhoneVerificationMenu = new MenuItem { Header = "Remove Phone Verification", Icon = convasImage };
                     removePhoneVerificationMenu.Click += FacebookRemovePhoneVerification;
                     removePhoneVerificationMenu.DataContext = dominatorAccountModel;
-                    removePhoneVerificationMenu.Icon = new Image
-                    {
-                        Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
-                        Width = 25,
-                        Height = 25
-                    };
                     menuOptions.Add(removePhoneVerificationMenu);
+
+                    #endregion
+
                     break;
 
                 case "Instagram":
 
-                    var editInstaProfileMenu = new MenuItem { Header = "Edit Insta Profile" };
+                    #region Edit Insta Profile Menu
+
+                    image = Application.Current.FindResource("appbar_page_edit");
+                    convasImage = GetConvasImage(image);
+
+                    var editInstaProfileMenu = new MenuItem { Header = "Edit Insta Profile", Icon = convasImage };
                     editInstaProfileMenu.Click += EditInstaProfile;
                     editInstaProfileMenu.DataContext = dominatorAccountModel;
-                    editInstaProfileMenu.Icon = new Image
-                    {
-                        Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
-                        Width = 25,
-                        Height = 25
-                    };
                     menuOptions.Add(editInstaProfileMenu);
 
-                    var phoneVerificationMenu = new MenuItem { Header = "Phone Verification" };
+                    #endregion
+
+                    #region Phone Verification Menu
+
+                    image = Application.Current.FindResource("appbar_iphone");
+                    convasImage = GetConvasImage(image);
+                    var phoneVerificationMenu = new MenuItem { Header = "Phone Verification", Icon = convasImage };
                     phoneVerificationMenu.Click += InstaPhoneVerification;
                     phoneVerificationMenu.DataContext = dominatorAccountModel;
-                    phoneVerificationMenu.Icon = new Image
-                    {
-                        Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
-                        Width = 25,
-                        Height = 25
-                    };
                     menuOptions.Add(phoneVerificationMenu);
 
-
-                    //var checkAccountStatus = new MenuItem { Header = "Check Account Status" };
-                    //checkAccountStatus.Click += InstaCheckAccount;
-                    //checkAccountStatus.DataContext = dominatorAccountModel;
-                    //checkAccountStatus.Icon = new Image
-                    //{
-                    //    Source = new BitmapImage(new Uri("/DominatorUIUtility;component/Images/setting.png", UriKind.Relative)),
-                    //    Width = 25,
-                    //    Height = 25
-                    //};
-                    //menuOptions.Add(checkAccountStatus);
+                    #endregion
 
                     break;
             }
 
             return menuOptions;
+        }
+
+        private static Rectangle GetConvasImage(object image)
+        {
+            Rectangle rectangle = new Rectangle();
+            rectangle.Width = 18;
+            rectangle.Height = 20;
+            rectangle.Fill = Brushes.Black;
+            VisualBrush visualBrush = new VisualBrush();
+            visualBrush.Visual = image as Visual;
+            visualBrush.Stretch = Stretch.Fill;
+            rectangle.OpacityMask = visualBrush;
+            return rectangle;
+        }
+
+        private void ProfileDetails(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var dataContext = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+                AccountManager.GetSingletonAccountManager(String.Empty, dataContext, dataContext.AccountBaseModel.AccountNetwork);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public void EditProfile(object sender, RoutedEventArgs e)
@@ -449,7 +483,6 @@ namespace DominatorUIUtility.CustomControl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
 
 
     }

@@ -357,7 +357,7 @@ namespace DominatorUIUtility.CustomControl
 
             if (IsNeedToSaveTemplate())
             {
-                UpdateJobconfiguration();
+           //     UpdateJobconfiguration();
                 TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork, CampaignName);
                 SaveTemplateToAccounts(TemplateId);
                 SaveTemplateToCampaigns();

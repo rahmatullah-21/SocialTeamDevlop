@@ -412,5 +412,16 @@ Type 3. IP:Port
     <system:String x:Key="DhlangPublishedDate">Published Date</system:String>
     <system:String x:Key="DhlangLink">Link</system:String>
     <system:String x:Key="DhlangDestinationURL">Destination URL</system:String>
+    <system:String x:Key="DhlangAccountName">Account Name</system:String>
+    <system:String x:Key="DHlangEmailId">Email Id</system:String>
+    <system:String x:Key="DHlangUserName">User Name</system:String>
+    <system:String x:Key="DhlangBrowser">Browser</system:String>
+    <system:String x:Key="DhlangCookies">Cookies</system:String>
+    <system:String x:Key="DhlangStatus">Status</system:String>
+    <system:String x:Key="DhlangAddNewCookies">Add new Cookies</system:String>
+    <system:String x:Key="DhlangRemoveSelectedCookies">Remove selected Cookies</system:String>
+    <system:String x:Key="DhlangVerificationCode">Verification Code</system:String>
+    <system:String x:Key="DhlangEnterVerificationCode">Enter Verification Code</system:String>
+    <system:String x:Key="DhlangVerify">Verify</system:String>
 
 </ResourceDictionary>
