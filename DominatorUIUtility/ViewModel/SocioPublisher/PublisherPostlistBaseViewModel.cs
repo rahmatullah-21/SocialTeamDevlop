@@ -315,6 +315,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PostlistFileManager.Delete(campaignId, x => selectedPublisherPostlist.FirstOrDefault(a => a.PostId == x.PostId) != null);
                 selectedPublisherPostlist.ForEach(x => PublisherPostlist.Remove(x));
             }
+            PublisherInitialize.GetInstance.UpdatePostStatus(campaignId);
         }
 
         private bool DeleteSinglePostCanExecute(object sender) => true;
@@ -337,6 +338,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PostlistFileManager.Delete(campaign.CampaignId, y => campaign.PostId == y.PostId);
 
             PublisherPostlist.Remove(campaign);
+
+            PublisherInitialize.GetInstance.UpdatePostStatus(campaign.CampaignId);
         }
 
         private List<PublisherPostlistModel> GetSelectedPosts()

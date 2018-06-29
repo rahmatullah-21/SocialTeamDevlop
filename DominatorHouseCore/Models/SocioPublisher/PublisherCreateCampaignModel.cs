@@ -15,6 +15,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public PublisherCreateCampaignModel()
         {
             CampaignId = Utilities.GetGuid(true);
+            JobConfigurations = new JobConfigurationModel();
         }
         [ProtoMember(1)]
         public string CampaignId { get; set; }
@@ -55,12 +56,41 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-
+        private JobConfigurationModel _jobConfigurations;
         [ProtoMember(5)]
-        public JobConfigurationModel JobConfigurations { get; set; } = new JobConfigurationModel();
+        public JobConfigurationModel JobConfigurations
+        {
+            get
+            {
+                return _jobConfigurations;
+            }
+            set
+            {              
+                if (_jobConfigurations == value)
+                    return;
+                _jobConfigurations = value;
+                OnPropertyChanged(nameof(JobConfigurations));
+            }
+        }
+
         [ProtoMember(6)]
-        public OtherConfigurationModel OtherConfiguration { get; set; } = new OtherConfigurationModel();
+        public OtherConfigurationModel OtherConfiguration
+        {
+            get
+            {
+                return _otherConfiguration;
+            }
+            set
+            {             
+                if (_otherConfiguration == value)
+                    return;
+                _otherConfiguration = value;
+                OnPropertyChanged(nameof(OtherConfiguration));
+            }
+        }
+
         private PostDetailsModel _postDetailsModel { get; set; } = new PostDetailsModel();
+
         [ProtoMember(7)]
         public PostDetailsModel PostDetailsModel
         {
@@ -197,6 +227,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private bool _isRunSingleAccountPerCampaign;
+     
+        private OtherConfigurationModel _otherConfiguration = new OtherConfigurationModel();
+
         [ProtoMember(16)]
         public bool IsRunSingleAccountPerCampaign
         {

@@ -18,13 +18,13 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// </summary>
     public partial class PublisherCreateCampaigns : UserControl, INotifyPropertyChanged
     {
-        private PublisherCreateCampaignViewModel _publisherCreateCampaignViewModel = new PublisherCreateCampaignViewModel();
+        private PublisherCreateCampaignViewModel _publisherCreateCampaignViewModel;
 
         private PublisherCreateCampaigns()
         {
             InitializeComponent();
-            CreateCampaign.DataContext = PublisherCreateCampaignViewModel;
-            _currentObject = this;
+            PublisherCreateCampaignViewModel = new PublisherCreateCampaignViewModel();
+            CreateCampaign.DataContext = PublisherCreateCampaignViewModel;           
         }
 
         private static PublisherCreateCampaigns _currentObject;
@@ -33,8 +33,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             return _currentObject ?? (_currentObject = new PublisherCreateCampaigns());
         }
-        public static PublisherCreateCampaigns Instance { get; set; }
-            = _currentObject ?? (_currentObject = new PublisherCreateCampaigns());
+      
         public PublisherCreateCampaignViewModel PublisherCreateCampaignViewModel
         {
             get

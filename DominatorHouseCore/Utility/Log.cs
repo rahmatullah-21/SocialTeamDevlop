@@ -265,5 +265,24 @@
         /// </summary>
         public static string PostExpired { get; set; } = "{0}\t {1}\t Post already expired.";
 
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username   
+        /// 2 = Destination type
+        /// 3 = Destination Url    
+        /// </summary>
+        public static string PublishingSuccessfully { get; set; } = "{0}\t {1}\t Published successfully on {2} [{3}]";
+
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username   
+        /// 2 = Destination type
+        /// 3 = Destination Url    
+        /// </summary>
+        public static string PublishingFailed { get; set; } = "{0}\t {1}\t Error while publishing on {2} [{3}]";
+
+
     }
 }

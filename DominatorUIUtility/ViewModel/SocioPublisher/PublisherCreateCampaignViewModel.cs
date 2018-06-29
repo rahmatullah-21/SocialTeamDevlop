@@ -41,24 +41,34 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             #endregion
 
             PostTabItems = InitializeTabs();
+
             BindTabItemsControlProperties();
             CampaignList = new ObservableCollection<string>(
                 GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
 
-            PublisherCreateCampaignModel.JobConfigurations.Weekday.Clear();
-
-            foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
-            {
-                PublisherCreateCampaignModel.JobConfigurations.Weekday.Add(new ContentSelectGroup
-                {
-                    Content = day.ToString(),
-                    IsContentSelected = true
-                });
-            }
+            PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
+            JobConfigurationControl =  CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
         }
 
 
         #region Properties
+
+        private bool _isCampaignNameEdit;
+
+        public bool IsCampaignNameEdit
+        {
+            get
+            {
+                return _isCampaignNameEdit;
+            }
+            set
+            {
+                _isCampaignNameEdit = value;
+                OnPropertyChanged(nameof(IsCampaignNameEdit));
+            }
+        }
+
+
 
         private PublisherCreateCampaignModel _publisherCreateCampaignModel = new PublisherCreateCampaignModel();
 
@@ -70,12 +80,28 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             set
             {
-                if (_publisherCreateCampaignModel == value)
-                    return;
                 _publisherCreateCampaignModel = value;
                 OnPropertyChanged(nameof(PublisherCreateCampaignModel));
             }
         }
+
+
+        private UserControl _jobConfigurationControl;
+
+        public UserControl JobConfigurationControl
+        {
+            get
+            {
+                return _jobConfigurationControl;
+            }
+            set
+            {
+                _jobConfigurationControl = value;
+                OnPropertyChanged(nameof(JobConfigurationControl));
+            }
+        }
+
+
         private ObservableCollection<string> _campaignList = new ObservableCollection<string>();
         // To hold all available the campaign name
         //[ProtoMember(4)]
@@ -172,6 +198,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private bool SaveCanExecute(object sender) => true;
         private void SaveExecute(object sender)
         {
+
+
+            if (_publisherCreateCampaignModel.JobConfigurations.LstTimer.Count == 0)
+            {
+                Dialog.ShowDialog("Warning", "Please select proper time to run!");
+                return;
+            }
+
             if (_publisherCreateCampaignModel.LstDestinationId.Count == 0)
             {
                 Dialog.ShowDialog("Warning", "Please select atleast one Destination.");
@@ -193,11 +227,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (GenericFileManager.UpdateModuleDetails<PublisherCreateCampaignModel>(lstCampaign,
                         ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully updated.");
+                   
                 }
                 else
                 {
                     if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully saved.");
+                  
                     CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
                 }
 
@@ -429,25 +465,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private void ClearCurrentCampaigns()
+        public void ClearCurrentCampaigns()
         {
             PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
-
-            var defaultDays = new List<ContentSelectGroup>();
-
-            foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
-            {
-                defaultDays.Add(new ContentSelectGroup
-                {
-                    Content = day.ToString(),
-                    IsContentSelected = true
-                });
-            }
-
-            PublisherCreateCampaignModel.JobConfigurations.Weekday = defaultDays;
+            PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
+            SelectedItem =null;
             SetDataContext();
-
-            SelectedItem = string.Empty;
+            IsCampaignNameEdit = true;
         }
 
         private bool SelectDestinationCanExecute(object sender) => true;
@@ -485,10 +509,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                PublisherCreateCampaignModel = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
-                      (ConstantVariable.GetPublisherCampaignFile()).FirstOrDefault(x => x.CampaignName == (string)sender);
+                IsCampaignNameEdit = false;
+                var campaignlists = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
+                    (ConstantVariable.GetPublisherCampaignFile());
+               
+                PublisherCreateCampaignModel = campaignlists.FirstOrDefault(x => x.CampaignName == (string)sender);
                 BindTabItemsControlProperties();
-                SetDataContext();
+                SetDataContext();                 
             }
             catch (Exception)
             {
@@ -504,6 +531,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var publisherSharePost = PublisherSharePost.GetPublisherSharePost(tabItemsControl);
             var publisherScrapePost = PublisherScrapePost.GetPublisherScrapePost(tabItemsControl);
 
+            JobConfigurationControl = CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+            
             SetPostContectData(publisherDirectPosts);
             SetPublisherRssFeedData(publisherRssFeed);
             SetPublisherMonitorFolder(publisherMonitorFolder);

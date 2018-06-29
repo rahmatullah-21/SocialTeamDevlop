@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -106,17 +107,16 @@ namespace DominatorHouseCore.Process
 
         public CancellationTokenSource CombinedCancellationToken { get; set; }
 
-        public virtual bool PublishOnGroups(string accountId, string groupUrl, PublisherPostlistModel postDetails) => false;
+        public virtual bool PublishOnGroups(string accountId, string groupUrl, PublisherPostlistModel postDetails,bool isDelayNeed = true) => false;
 
-        public virtual bool PublishOnPages(string accountId, string pageUrl, PublisherPostlistModel postDetails) => false;
+        public virtual bool PublishOnPages(string accountId, string pageUrl, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
 
-        public virtual bool PublishOnOwnWall(string accountId, PublisherPostlistModel postDetails) => false;
+        public virtual bool PublishOnOwnWall(string accountId, PublisherPostlistModel postDetails,bool isDelayNeed = true) => false;
 
         public virtual bool PublishOnCustomDestination(string accountId,
-            PublisherCustomDestinationModel customDestinationModel, PublisherPostlistModel postDetails) => false;
+            PublisherCustomDestinationModel customDestinationModel, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
 
         public int PublishedCount { get; set; }
-
 
         #endregion
 
@@ -162,8 +162,13 @@ namespace DominatorHouseCore.Process
 
                             GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{groupUrl}]");
 
-                            PublishOnGroups(AccountModel.AccountId, groupUrl, post);
                             PublishedCount++;
+
+                            if (PublishedCount > maximumPostCount)
+                                isReachedMaximumCount = true;
+
+                            PublishOnGroups(AccountModel.AccountId, groupUrl, post, !isReachedMaximumCount);
+                            
                         }
 
                         #endregion
@@ -193,9 +198,13 @@ namespace DominatorHouseCore.Process
 
                             GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{pageUrl}]");
 
-                            PublishOnPages(AccountModel.AccountId, pageUrl, post);
-
                             PublishedCount++;
+
+                            if (PublishedCount > maximumPostCount)
+                                isReachedMaximumCount = true;
+
+                            PublishOnPages(AccountModel.AccountId, pageUrl, post,!isReachedMaximumCount);
+                           
                         }
 
                         #endregion
@@ -225,9 +234,12 @@ namespace DominatorHouseCore.Process
                                 break;
                             }
 
-                            PublishOnCustomDestination(AccountModel.AccountId, customList, post);
-
                             PublishedCount++;
+
+                            if (PublishedCount > maximumPostCount)
+                                isReachedMaximumCount = true;
+
+                            PublishOnCustomDestination(AccountModel.AccountId, customList, post,!isReachedMaximumCount);
                         }
 
                         #endregion
@@ -330,23 +342,27 @@ namespace DominatorHouseCore.Process
 
                     #region Own Wall
 
-                    if (PublishedCount > maximumPostCount)
-                        isReachedMaximumCount = true;
+                    if (IsPublishOnOwnWall)
+                    {
 
-                    if (isReachedMaximumCount || isNoPostAvailable)
-                        return;
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
 
-                    var ownWallpost = GetPostModel("OwnWall", AccountModel.AccountBaseModel.UserName);
+                        if (isReachedMaximumCount || isNoPostAvailable)
+                            return;
 
-                    if (ownWallpost == null)
-                        return;
+                        var ownWallpost = GetPostModel("OwnWall", AccountModel.AccountBaseModel.UserName);
 
-                    GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, "Own wall");
+                        if (ownWallpost == null)
+                            return;
 
-                    PublishOnOwnWall(AccountModel.AccountId, ownWallpost);
+                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, "Own wall");
 
-                    PublishedCount++;
+                        PublishOnOwnWall(AccountModel.AccountId, ownWallpost);
 
+                        PublishedCount++;
+                    }
+                  
                     #endregion
 
                 }
@@ -385,13 +401,16 @@ namespace DominatorHouseCore.Process
 
                         GroupDestinationList.ForEach(groupUrl =>
                         {
+                            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
                             if (!ValidateNetworkAdvancedSettings(post, "Group", groupUrl, true))
                                 return;
 
                             CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
-                            PublishOnGroups(AccountModel.AccountId, groupUrl, post);
+                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{groupUrl}]");
 
+                            PublishOnGroups(AccountModel.AccountId, groupUrl, post,false);
 
                         });
 
@@ -401,13 +420,16 @@ namespace DominatorHouseCore.Process
 
                         PageDestinationList.ForEach(pageUrl =>
                         {
+                            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
                             if (!ValidateNetworkAdvancedSettings(post, "Page", pageUrl, true))
                                 return;
 
                             CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
-                            PublishOnPages(AccountModel.AccountId, pageUrl, post);
+                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{pageUrl}]");
 
+                            PublishOnPages(AccountModel.AccountId, pageUrl, post,false);
 
                         });
 
@@ -417,8 +439,13 @@ namespace DominatorHouseCore.Process
 
                         CustomDestinationList.ForEach(customList =>
                         {
+                            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
                             CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-                            PublishOnCustomDestination(AccountModel.AccountId, customList, post);
+
+                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{customList.DestinationValue}]");
+
+                            PublishOnCustomDestination(AccountModel.AccountId, customList, post,false);
 
                         });
 
@@ -445,18 +472,26 @@ namespace DominatorHouseCore.Process
 
                         allGroupsPages.ForEach(x =>
                         {
+                            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
                             CampaignCancellationToken.Token.ThrowIfCancellationRequested();
                             if (x.Value == "Group")
                             {
                                 if (!ValidateNetworkAdvancedSettings(post, "Group", x.Key, true))
                                     return;
-                                PublishOnGroups(AccountModel.AccountId, x.Key, post);
+
+                                GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{x.Key}]");
+
+                                PublishOnGroups(AccountModel.AccountId, x.Key, post,false);
                             }
                             else
                             {
                                 if (!ValidateNetworkAdvancedSettings(post, "Page", x.Key, true))
                                     return;
-                                PublishOnPages(AccountModel.AccountId, x.Key, post);
+
+                                GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{x.Key}]");
+
+                                PublishOnPages(AccountModel.AccountId, x.Key, post,false);
                             }
 
                         });
@@ -469,8 +504,13 @@ namespace DominatorHouseCore.Process
                         CustomDestinationList.Shuffle();
                         CustomDestinationList.ForEach(customList =>
                         {
+                            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
                             CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-                            PublishOnCustomDestination(AccountModel.AccountId, customList, post);
+
+                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{customList.DestinationValue}]");
+
+                            PublishOnCustomDestination(AccountModel.AccountId, customList, post,false);
                         });
 
                         #endregion
@@ -478,15 +518,23 @@ namespace DominatorHouseCore.Process
 
                     #region OwnWall
 
-                    CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+                    if (IsPublishOnOwnWall)
+                    {
+                        PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
-                    if (!ValidateNetworkAdvancedSettings(post, "OwnWall", AccountModel.AccountBaseModel.UserName, true))
-                        return;
+                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
-                    PublishOnOwnWall(AccountModel.AccountId, post);
+                        if (!ValidateNetworkAdvancedSettings(post, "OwnWall", AccountModel.AccountBaseModel.UserName,
+                            true))
+                            return;
+
+                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork,
+                            AccountModel.AccountBaseModel.UserName, "Own wall");
+
+                        PublishOnOwnWall(AccountModel.AccountId, post,false);
+                    }
 
                     #endregion
-
                 }
                 catch (OperationCanceledException ex)
                 {
@@ -515,6 +563,8 @@ namespace DominatorHouseCore.Process
             var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
             post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.Yes;
             post.LstPublishedPostDetailsModels[postIndex].Link = publishedUrl;
+            post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
+
             PostlistFileManager.UpdatePost(CampaignId, post);
             PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
         }
@@ -531,7 +581,7 @@ namespace DominatorHouseCore.Process
             {
                 if (givenPostModel.MediaList.Count > 0)
                 {
-                    var randomNumber = RandomUtilties.GetRandomNumber(0, postModelWithGeneralSettings.MediaList.Count);
+                    var randomNumber = RandomUtilties.GetRandomNumber( postModelWithGeneralSettings.MediaList.Count, 0);
                     postModelWithGeneralSettings.MediaList = new ObservableCollection<string> { givenPostModel.MediaList[randomNumber] };
                 }
             }
@@ -544,7 +594,7 @@ namespace DominatorHouseCore.Process
             {
                 if (givenPostModel.MediaList.Count > 0)
                 {
-                    var randomNumber = RandomUtilties.GetRandomNumber(GeneralSettingsModel.ChooseBetween.StartValue, GeneralSettingsModel.ChooseBetween.EndValue);
+                    var randomNumber = RandomUtilties.GetRandomNumber(GeneralSettingsModel.ChooseBetween.EndValue,GeneralSettingsModel.ChooseBetween.StartValue);
                     if (randomNumber < givenPostModel.MediaList.Count)
                     {
                         givenPostModel.MediaList.Shuffle();
@@ -625,8 +675,7 @@ namespace DominatorHouseCore.Process
             {
                 CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
-                var pendingPostList = PostlistFileManager.GetAll(CampaignId)
-                        .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
+                var pendingPostList = PostlistFileManager.GetAll(CampaignId).Where(x => x.PostQueuedStatus != PostQueuedStatus.Draft ).ToList();
 
                 if (!pendingPostList.Any())
                 {
@@ -652,12 +701,11 @@ namespace DominatorHouseCore.Process
                         break;
 
                     var filterPostModel = GeneralSettingsModel.IsChooseRandomPostsChecked ?
-                        pendingPostList[RandomUtilties.GetRandomNumber(0, pendingPostList.Count - 1)] :
+                        pendingPostList[RandomUtilties.GetRandomNumber(pendingPostList.Count - 1,0)] :
                         pendingPostList.FirstOrDefault(x => x.PostId != null);
 
                     if (ValidateNetworkAdvancedSettings(filterPostModel, destination, destinationUrl))
-                    {
-                        PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+                    {                      
                         return filterPostModel;
                     }
 
@@ -707,7 +755,7 @@ namespace DominatorHouseCore.Process
                     Description = filterPostModel.PostDescription,
                     IsPublished = ConstantVariable.Yes,
                     Successful = ConstantVariable.No,
-                    PublishedDate = DateTime.Now.ToString("dd/mm/yy"),
+                    PublishedDate = DateTime.Now,
                     Link = ConstantVariable.NotPublished
                 });
 
@@ -733,6 +781,8 @@ namespace DominatorHouseCore.Process
                         GlobusLogHelper.log.Info(Log.PostExpired, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName);
                     return false;
                 }
+
+                PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
             }
             catch (Exception ex)
             {

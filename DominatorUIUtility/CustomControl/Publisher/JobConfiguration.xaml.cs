@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using MahApps.Metro.Controls;
@@ -15,31 +19,57 @@ namespace DominatorUIUtility.CustomControl.Publisher
     /// </summary>
     public partial class JobConfiguration : UserControl
     {
-        public JobConfiguration()
+        private JobConfiguration()
         {
-            InitializeComponent();            
+            InitializeComponent();
             MainGrid.DataContext = this;
+            JobConfigurations = new JobConfigurationModel();
         }
 
+
+        private static JobConfiguration _jobConfiguration;
+
+        public static JobConfiguration GetInstance(JobConfigurationModel jobConfigurationModel)
+        {
+            if (_jobConfiguration == null)
+                _jobConfiguration = new JobConfiguration(jobConfigurationModel);
+          
+            _jobConfiguration.JobConfigurations = jobConfigurationModel;
+            _jobConfiguration.MainGrid.DataContext = _jobConfiguration.JobConfigurations;
+
+            return _jobConfiguration;
+        }
+
+
+        private JobConfiguration(JobConfigurationModel jobConfigurationModel)
+        {
+            InitializeComponent();
+            JobConfigurations = jobConfigurationModel;
+            MainGrid.DataContext = JobConfigurations;
+        }
+        
         #region Properties
 
-        public JobConfigurationModel JobConfigurations
-        {
-            get { return (JobConfigurationModel)GetValue(JobConfigurationsProperty); }
-            set { SetValue(JobConfigurationsProperty, value); }
-        }
 
-        // Using a DependencyProperty as the backing store for RunningTimes.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty JobConfigurationsProperty =
-            DependencyProperty.Register("JobConfigurations", typeof(JobConfigurationModel), typeof(JobConfiguration), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
+        public JobConfigurationModel JobConfigurations { get; set; }
 
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
+        //public JobConfigurationModel JobConfigurations
+        //{
+        //    get { return (JobConfigurationModel)GetValue(JobConfigurationsProperty); }
+        //    set { SetValue(JobConfigurationsProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for RunningTimes.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty JobConfigurationsProperty =
+        //    DependencyProperty.Register("JobConfigurations", typeof(JobConfigurationModel), typeof(JobConfiguration), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+        //    {
+        //        BindsTwoWayByDefault = true
+        //    });
+
+        //public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        //{
+        //    var newValue = e.NewValue;
+        //}
         #endregion
 
         #region Post max count changed
@@ -80,7 +110,9 @@ namespace DominatorUIUtility.CustomControl.Publisher
         #region Specific Post Interval Generations
 
         private void ChkPostingInterval_OnChecked(object sender, RoutedEventArgs e)
-            => SpecificPostGenerateIntervals(JobConfigurations.MaxPost);
+        {
+            SpecificPostGenerateIntervals(JobConfigurations.MaxPost);
+        }
 
         private void SpecificPostGenerateIntervals(int maxCount)
         {
@@ -89,6 +121,14 @@ namespace DominatorUIUtility.CustomControl.Publisher
 
             var startTime = JobConfigurations.TimeRange.StartTime;
             var endTime = JobConfigurations.TimeRange.EndTime;
+
+            if (startTime > endTime)
+            {
+                JobConfigurations.LstTimer = new ObservableCollection<TimeSpanHelper>();
+                GlobusLogHelper.log.Info("Start time should be greater than end time");
+                return;
+            }
+
             var totalSeconds = (int)((endTime - startTime).TotalSeconds);
             try
             {
@@ -119,7 +159,9 @@ namespace DominatorUIUtility.CustomControl.Publisher
         #region Random Post Interval Generation
 
         private void ChkRandomizePublishing_OnChecked(object sender, RoutedEventArgs e)
-           => GenerateRandomIntervals(JobConfigurations.MaxPost);
+        {
+            GenerateRandomIntervals(JobConfigurations.MaxPost);
+        }
 
         private void GenerateRandomIntervals(int maxCount)
         {
@@ -137,7 +179,7 @@ namespace DominatorUIUtility.CustomControl.Publisher
 
         private void OnSelectedTimeChanged(object sender, TimePickerBaseSelectionChangedEventArgs<TimeSpan?> e)
         {
-            if(JobConfigurations==null)
+            if (JobConfigurations == null)
                 return;
 
             if (JobConfigurations.IsSpecifyPostingIntervalChecked)
@@ -146,7 +188,5 @@ namespace DominatorUIUtility.CustomControl.Publisher
             if (JobConfigurations.IsRandomizePublishingTimerChecked)
                 GenerateRandomIntervals(JobConfigurations.MaxPost);
         }
-
-      
     }
 }

@@ -41,9 +41,9 @@ namespace DominatorHouseCore.Process
                     GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
 
-                // if (campaignStatusModel.IsTakeRandomDestination)
                 if (false)
                 {
+                    #region Take random destination
                     var accountIds = new List<string>();
 
                     publisherPostFetchModel?.SelectedDestinations.Shuffle();
@@ -90,8 +90,20 @@ namespace DominatorHouseCore.Process
                     }
                     else
                     {
+                        var accountCounts = (int)(campaignStatusModel.TotalRandomDestination / campaignStatusModel.MinRandomDestinationPerAccount);
+
+                        var accountsDestinationCount = campaignStatusModel.TotalRandomDestination %
+                                                       campaignStatusModel.MinRandomDestinationPerAccount;
+
+
+
                         var accountCountForMaximumDestination =
                             campaignStatusModel.TotalRandomDestination % campaignStatusModel.MinRandomDestinationPerAccount;
+
+                        if (accountCountForMaximumDestination == 0)
+                            accountCountForMaximumDestination = campaignStatusModel.MinRandomDestinationPerAccount;
+
+                        var completedDestination = 0;
 
                         requiredDestination?.ForEach(destinationId =>
                         {
@@ -99,16 +111,19 @@ namespace DominatorHouseCore.Process
 
                             destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
                             {
-                                accountIds.Add(networkWithAccount.Value);
 
-                                if (accountIds.Count > accountCountForMaximumDestination)
+                                if (completedDestination > campaignStatusModel.TotalRandomDestination)
                                     return;
+
+                                accountIds.Add(networkWithAccount.Value);
 
                                 publishCount = campaignStatusModel.MinRandomDestinationPerAccount;
 
                                 if (accountIds.Count == accountCountForMaximumDestination)
                                     publishCount = campaignStatusModel.TotalRandomDestination -
                                                  accountIds.Count * campaignStatusModel.MinRandomDestinationPerAccount;
+
+                                completedDestination += publishCount;
 
                                 var selectedGroupDestinations =
                                    destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value)
@@ -146,44 +161,49 @@ namespace DominatorHouseCore.Process
                             });
                         });
                     }
+                    #endregion
                 }
                 else
                 {
+                    #region publish on all destination with single post
+
                     publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
-                    {
+                               {
 
-                        var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
+                                   var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
 
-                        destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
-                        {
-                            var selectedGroupDestinations =
-                                destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+                                   destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
+                                   {
+                                       var selectedGroupDestinations =
+                                           destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
 
-                            var selectedPageOrBoardDestinations =
-                                destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+                                       var selectedPageOrBoardDestinations =
+                                           destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
 
-                            var selectedCustomDestinations =
-                                destinationDetails.CustomDestinations.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+                                       var selectedCustomDestinations =
+                                           destinationDetails.CustomDestinations.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
 
-                            var isPublishOnOwnWall =
-                                destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
+                                       var isPublishOnOwnWall =
+                                           destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
 
-                            var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
-                                .GetPublisherCoreFactory()
-                                .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
+                                       var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
+                                           .GetPublisherCoreFactory()
+                                           .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
 
-                            if (campaignStatusModel.IsRunSingleAccountPerCampaign)
-                            {
-                                publisherJobProcess.StartPublishing(publishCount);
-                                //publisherJobProcess.StartPublish with synchronously
-                            }
-                            else
-                            {
-                                publisherJobProcess.StartPublishing(publishCount);
-                                //publisherJobProcess.StartPublish with Asynchronously
-                            }
-                        });
-                    });
+                                       if (campaignStatusModel.IsRunSingleAccountPerCampaign)
+                                       {
+                                           //publisherJobProcess.StartPublish with synchronously
+                                           publisherJobProcess.StartPublishing(publishCount);                                          
+                                       }
+                                       else
+                                       {
+                                           //publisherJobProcess.StartPublish with Asynchronously
+                                           Task.Factory.StartNew(() => { publisherJobProcess.StartPublishing(publishCount); }, currentCampaignsCancallationToken.Token);
+                                       }
+                                   });
+                               });
+
+                    #endregion
                 }
             }
             catch (OperationCanceledException ex)
@@ -205,7 +225,6 @@ namespace DominatorHouseCore.Process
                 ex.DebugLog();
             }
         }
-
 
         public static void StartPublishingPosts(PublisherPostlistModel post)
         {
@@ -264,7 +283,7 @@ namespace DominatorHouseCore.Process
                         }
                         else
                         {
-                            publisherJobProcess.StartPublishing(post, publishCount);
+                            Task.Factory.StartNew(() => { publisherJobProcess.StartPublishing(post, publishCount); }, currentCampaignsCancallationToken.Token);                          
                             //publisherJobProcess.StartPublish with Asynchronously
                         }
                     });
@@ -415,7 +434,6 @@ namespace DominatorHouseCore.Process
             #endregion
         }
 
-
         public static void UpdateNewGroupList()
         {
             var destinations = ManageDestinationFileManager.GetAll();
@@ -428,5 +446,6 @@ namespace DominatorHouseCore.Process
                 }
             });
         }
+
     }
 }
