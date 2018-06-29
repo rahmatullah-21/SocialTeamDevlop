@@ -174,8 +174,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-
-
         [ProtoMember(11)]
         public List<string> AddUsedCampaignId
         {
@@ -189,6 +187,43 @@ namespace DominatorHouseCore.Models.SocioPublisher
                     return;
                 _addUsedcampaignId = value;
                 OnPropertyChanged(nameof(AddUsedCampaignId));
+            }
+        }
+
+
+        private bool _isAddNewGroups;
+
+        [ProtoMember(12)]
+        public bool IsAddNewGroups
+        {
+            get
+            {
+                return _isAddNewGroups;
+            }
+            set
+            {                
+                if (_isAddNewGroups == value)
+                    return;
+                _isAddNewGroups = value;
+                OnPropertyChanged(nameof(IsAddNewGroups));
+            }
+        }
+
+        private bool _isRemoveGroupsRequiresValidation;
+
+        [ProtoMember(13)]
+        public bool IsRemoveGroupsRequiresValidation
+        {
+            get
+            {
+                return _isRemoveGroupsRequiresValidation;
+            }
+            set
+            {
+                if (_isRemoveGroupsRequiresValidation == value)
+                    return;
+                _isRemoveGroupsRequiresValidation = value;
+                OnPropertyChanged(nameof(IsRemoveGroupsRequiresValidation));
             }
         }
 
@@ -253,7 +288,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             #endregion
         }
 
-
         public static void RemoveDestinationFromCampaign(string campaignId)
         {
             #region Remove campagins from destination list
@@ -273,8 +307,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
             #endregion
         }
-
-
 
     }
 }

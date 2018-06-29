@@ -126,6 +126,7 @@
    
     <system:String x:Key="langVote">Voter</system:String>
 
+    <system:String x:Key="testStringFormat">This is test{0} {1}</system:String>
     <system:String x:Key="langUpvotePerJob">Number of Upvote Per Job</system:String>
     <system:String x:Key="langUpvotePerHour">Number of Upvote Per Hour</system:String>
     <system:String x:Key="langUpvotePerDay">Number of Upvote Per Day</system:String>

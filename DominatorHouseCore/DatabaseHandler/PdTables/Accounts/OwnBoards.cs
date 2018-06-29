@@ -20,6 +20,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public int PinsCount { get; set; }
 
         [Column(Order = 4)]
+        [Unique]
         public string BoardUrl { get; set; }
 
         [Column(Order = 5)]

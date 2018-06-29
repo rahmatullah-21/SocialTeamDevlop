@@ -10,6 +10,7 @@ using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -65,7 +66,7 @@ namespace Socinator
         public MainWindow()
         {
             try
-            {
+            {            
                 DialogParticipation.SetRegister(this, this);
                 Dispatcher.Invoke(async () => { await LicenseCheck(); });
                 _languages = new ObservableCollection<string>();
@@ -80,7 +81,7 @@ namespace Socinator
                 ex.DebugLog();
             }
         }
-
+       
         private async Task LicenseCheck()
         {
             try
@@ -565,6 +566,7 @@ namespace Socinator
                 {
                     PublisherInitialize.GetInstance.PublishCampaignInitializer();
                     PublishScheduler.ScheduleTodaysPublisher();
+                    PublishScheduler.UpdateNewGroupList();
                 });
 
                 Task.Factory.StartNew(() =>
@@ -724,7 +726,5 @@ namespace Socinator
             }
 
         }
-
-
     }
 }

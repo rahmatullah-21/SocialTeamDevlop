@@ -277,6 +277,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         destination.PagesOrBoardsCount = publisherManageDestinationModel.PagesOrBoardsCount;
                         destination.WallsOrProfilesCount = publisherManageDestinationModel.WallsOrProfilesCount;
                         destination.CustomDestinationsCount = publisherManageDestinationModel.CustomDestinationsCount;
+                        destination.IsAddNewGroups = publisherManageDestinationModel.IsAddNewGroups;
+                        destination.IsRemoveGroupsRequiresValidation =
+                            publisherManageDestinationModel.IsRemoveGroupsRequiresValidation;
                     });
                 else
                 {
@@ -293,6 +296,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         destination.PagesOrBoardsCount = publisherManageDestinationModel.PagesOrBoardsCount;
                         destination.WallsOrProfilesCount = publisherManageDestinationModel.WallsOrProfilesCount;
                         destination.CustomDestinationsCount = publisherManageDestinationModel.CustomDestinationsCount;
+                        destination.IsAddNewGroups = publisherManageDestinationModel.IsAddNewGroups;
+                        destination.IsRemoveGroupsRequiresValidation =
+                            publisherManageDestinationModel.IsRemoveGroupsRequiresValidation;
                     }
                 }
 

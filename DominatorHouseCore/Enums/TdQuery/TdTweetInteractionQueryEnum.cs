@@ -4,31 +4,31 @@ namespace DominatorHouseCore.Enums.TdQuery
 {
     public enum TdTweetInteractionQueryEnum
     {
-        [Description("TdLangKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords = 1,
-        [Description("TdLangHashtags")]
+        [Description("LangKeyHashtags")]
         Hashtags = 2,
-        [Description("TdLangLocationTweets")]
+        [Description("LangKeyLocationTweets")]
         LocationTweets = 3,
-        [Description("TdLangNearMyLocation")]
+        [Description("LangKeyNearMyLocation")]
         NearMyLocation = 4,
-        [Description("TdLangCustomTweetsList")]
+        [Description("LangKeyCustomTweetLists")]
         CustomTweetsList = 5,
-        [Description("TdLangSomeonesFollowersTweets")]
+        [Description("LangKeySomeonesFollowersTweets")]
         SomeonesFollowers = 6,
-        [Description("TdLangSomeonesFollowingsTweets")]
+        [Description("LangKeySomeonesFollowingsTweets")]
         SomeonesFollowings = 7,
-        [Description("TdLangFollowersOfSomeonesFollowingsTweets")]
+        [Description("LangKeyFollowersOfSomeonesFollowingsTweets")]
         FollowersOfFollowings = 8,
-        [Description("TdLangFollowersOfSomeonesFollowersTweets")]
+        [Description("LangKeyFollowersOfSomeonesFollowersTweets")]
         FollowersOfFollowers = 9,
-        [Description("TdLangLikedUsersTweets")]
+        [Description("LangKeyLikedUsersTweets")]
         UsersWhoLikedOnTweet = 10,
-        [Description("TdLangCommentedUsersTweets")]
+        [Description("LangKeyCommentedUsersTweets")]
         UsersWhoCommentedOnTweet = 11,
-        [Description("TdLangRetweetedUsersTweets")]
+        [Description("LangKeyRetweetedUsersTweets")]
         UsersWhoRetweetedTweet = 12,
-        [Description("TdLangCommentedTweets")]
+        [Description("LangKeyCommentedTweets")]
         CommentedTweet = 13,
     }
 }

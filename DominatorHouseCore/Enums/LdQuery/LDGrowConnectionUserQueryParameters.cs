@@ -4,13 +4,13 @@ namespace DominatorHouseCore.Enums.LdQuery
 {
     public enum LDGrowConnectionUserQueryParameters
     {
-        [Description("LDlangKeyword")]
+        [Description("LangKeyKeyword")]
         Keyword,
-        [Description("LDlangEmail")]
+        [Description("LangKeyEmail")]
         Email,
-        [Description("LDlangProfileUrl")]
+        [Description("LangKeyProfileUrl")]
         ProfileUrl,
-        [Description("LDlangSearchUrl")]
+        [Description("LangKeySearchUrl")]
         SearchUrl,
     }
 }

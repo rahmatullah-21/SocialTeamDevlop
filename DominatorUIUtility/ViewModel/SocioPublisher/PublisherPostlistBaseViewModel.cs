@@ -44,6 +44,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
             ChangePostStatusCommand = new BaseCommand<object>(ChangePostStatusCanExecute, ChangePostStatusExecute);
             PublishNowCommand = new BaseCommand<object>(PublishNowCanExecute, PublishNowExecute);
+            RefreshCommand = new BaseCommand<object>(RefreshCanExecute, RefreshExecute);
         }
 
         #region Properties  
@@ -58,6 +59,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand PublishNowCommand { get; set; }
         public ICommand DuplicateCommand { get; set; }
         public ICommand ChangePostStatusCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
+
         private CancellationTokenSource TokenSource { get; set; }
 
         ImmutableQueue<Action> pendingActions = ImmutableQueue<Action>.Empty;
@@ -483,7 +486,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void ReadPostList(string campaignId, CancellationTokenSource tokenSource, PostQueuedStatus requiredPostList = PostQueuedStatus.Draft)
         {
-            if (string.IsNullOrEmpty(campaignId))
+            if (!string.IsNullOrEmpty(campaignId))
                 CampaignId = campaignId;
 
             TokenSource = tokenSource;
@@ -591,6 +594,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         postItems.InitializePostData();
+
+                        var triedCount =
+                            postItems.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
+
+                        var successCount =
+                            postItems.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
+
+                        postItems.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
+
                         PublisherPostlist.Add(postItems);
                         PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
 
@@ -723,8 +735,85 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var postlistModel = ((FrameworkElement)sender).DataContext as PublisherPostlistModel;
             if (postlistModel != null)
             {
-                Task.Factory.StartNew(() => { PublishScheduler.StartPublishingPosts(postlistModel); });
+                try
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        PublishScheduler.StartPublishingPosts(postlistModel);
+                        RefreshExecute(this);
+                    });
+                }
+                catch (OperationCanceledException ex)
+                {
+                    ex.DebugLog("Cancellation Requested!");
+                }
+                catch (AggregateException ae)
+                {
+                    foreach (var e in ae.InnerExceptions)
+                    {
+                        if (e is TaskCanceledException || e is OperationCanceledException)
+                            e.DebugLog("Cancellation requested before task completion!");
+                        else
+                            e.DebugLog(e.StackTrace + e.Message);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
+        }
+
+        #endregion
+
+        #region Refresh 
+
+        public bool RefreshCanExecute(object sender) => true;
+
+        public void RefreshExecute(object sender)
+        {
+            var cancellationToken = PostLoadingCancellation();
+            try
+            {
+                var queuestatus = (PostQueuedStatus)sender;
+
+                Task.Factory.StartNew(() => ReadPostList(CampaignId, cancellationToken, queuestatus), cancellationToken.Token);
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog("Cancellation Requested!");
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation requested before task completion!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private CancellationTokenSource PostLoadingCancellation()
+        {
+            CancelRunningTask();
+            var cancellationToken = new CancellationTokenSource();
+            QueueCancellationTokenSources.Enqueue(cancellationToken);
+            return cancellationToken;
+        }
+
+        public Queue<CancellationTokenSource> QueueCancellationTokenSources { get; set; }
+            = new Queue<CancellationTokenSource>();
+
+        public void CancelRunningTask()
+        {
+            while (QueueCancellationTokenSources.Count > 0)
+                QueueCancellationTokenSources.Dequeue().Cancel();
         }
 
         #endregion
