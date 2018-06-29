@@ -15,7 +15,7 @@
     <system:String x:Key="LangKeyNumOfGroups">#Groups</system:String>
     <system:String x:Key="LangKeyNumOfLikes">#Likes</system:String>
     <system:String x:Key="LangKeyNumOfPages">#Pages</system:String>
-    <system:String x:Key="LangKeyNumOfPages/Boards">#Pages/Boards</system:String>
+    <system:String x:Key="LangKeyNumOfPagesBoards">#Pages/Boards</system:String>
     <system:String x:Key="LangKeyNumOfPosts">#Posts</system:String>
     <system:String x:Key="LangKeyNumOfProfiles">#Profiles</system:String>
     <system:String x:Key="LangKeyNumOfSucceessfull">#Succeessfull</system:String>
