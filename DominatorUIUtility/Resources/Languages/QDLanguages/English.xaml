@@ -147,4 +147,7 @@
     <system:String x:Key="QDlangWhoFollowBack">Who Follow Back</system:String>
     <system:String x:Key="QDlangPeopleFollowedBySoftware">People Followed By Software</system:String>
     <system:String x:Key="QDlangPeopleFollowedOutsideSoftware">People Followed Outside Software</system:String>
+
+
+    <system:String x:Key="LangKeyEnableFollowUser">Enable Follow User</system:String>
 </ResourceDictionary>

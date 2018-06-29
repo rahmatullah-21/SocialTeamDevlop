@@ -1675,7 +1675,7 @@
     <system:String x:Key="LangKeyPostDescription">Post Description</system:String>
     <system:String x:Key="LangKeyPostFilters">Post Filters</system:String>
     <system:String x:Key="LangKeyPostInThePostsList0ToDisable">Post In The Posts List (0 To Disable)</system:String>
-    <system:String x:Key="LangKeyPostLikeAndComment">Post Like & Comment</system:String>
+    <system:String x:Key="LangKeyPostLikeAndComment">Post Like &amp; Comment</system:String>
     <system:String x:Key="LangKeyPostLikers">Post Likers</system:String>
     <system:String x:Key="LangKeyPostManager">Post Manager</system:String>
     <system:String x:Key="LangKeyPostMultipleImages/VideoPostsAsAlbum">Post Multiple Images/Video Posts As Album</system:String>
@@ -2606,7 +2606,7 @@
     <system:String x:Key="LangKeyWarningTheHashingWillOccurOnlyIfTheMaximumLengthOfThePostIsntExceeded177IfYouHaveAnImage140ForTextOnly">Warning: The Hashing Will Occur Only If The Maximum Length Of The Post Isn't Exceeded (177 If You Have An Image,140 For Text Only)</system:String>
     <system:String x:Key="LangKeyWatchVideo">Watch Video</system:String>
     <system:String x:Key="LangKeyWatchVideoTutorials">Watch Video Tutorials</system:String>
-    <system:String x:Key="LangKeyWebpageLikeAndComment">Webpage Like &Amp; Comment</system:String>
+    <system:String x:Key="LangKeyWebpageLikeAndComment">Webpage Like &amp; Comment</system:String>
     <system:String x:Key="LangKeyWebsite">Website</system:String>
     <system:String x:Key="LangKeyWednesday">Wednesday</system:String>
     <system:String x:Key="LangKeyWhatAreYouSelling">What Are You Selling?</system:String>
@@ -2648,5 +2648,10 @@
     <system:String x:Key="LangKeyYourFollowings">Your Followings</system:String>
     <system:String x:Key="LangKeyYoutube">Youtube</system:String>
     <system:String x:Key="LangKeyYoutubeAccountsAtTheSameTime">Youtube Accounts At The Same Time</system:String>
+    <system:String x:Key="LangKeyNumberOf">Number Of</system:String>
+    <system:String x:Key="LangKeyPerJob">per job</system:String>
+    <system:String x:Key="LangKeyPerHour">per hour</system:String>
+    <system:String x:Key="LangKeyPerWeek">per week</system:String>
+    <system:String x:Key="LangKeyMax">max</system:String>
 
 </ResourceDictionary>

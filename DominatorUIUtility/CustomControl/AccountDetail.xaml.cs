@@ -22,6 +22,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
 using MahApps.Metro.Controls.Dialogs;
@@ -37,6 +38,7 @@ namespace DominatorUIUtility.CustomControl
         
 
         public DominatorAccountModel DominatorAccountModel { get; set; }
+        public DominatorAccountModel OldDominatorAccountModel { get;}
       
 
         /// <summary>
@@ -51,11 +53,14 @@ namespace DominatorUIUtility.CustomControl
         {
             DominatorAccountModel = dataContext;
             this.DataContext = DominatorAccountModel;
+            OldDominatorAccountModel = DominatorAccountModel.Clone();
         }
 
         private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
         {
+            DominatorAccountModel = OldDominatorAccountModel;
             AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+
         }
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)

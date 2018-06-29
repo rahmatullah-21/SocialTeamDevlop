@@ -179,6 +179,7 @@
       <DependentUpon>ErrorModelControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviours\HeaderHelper.cs" />
+    <Compile Include="Behaviours\Lang.cs" />
     <Compile Include="Behaviours\NetworkAvailablity.cs" />
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
     <Compile Include="Behaviours\ReportManager.cs" />
@@ -679,6 +680,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Languages\DHLanguages\English.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Languages\English.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
