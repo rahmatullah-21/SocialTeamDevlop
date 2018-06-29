@@ -26,7 +26,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private TimeRange _timeRange = new TimeRange(new TimeSpan(0, 0, 0), new TimeSpan(23, 59, 59));
+        private TimeRange _timeRange;
         [ProtoMember(2)]
         public TimeRange TimeRange
         {
@@ -43,7 +43,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private bool _isSpecifyPostingIntervalChecked = true;
+        private bool _isSpecifyPostingIntervalChecked;
         [ProtoMember(4)]
         public bool IsSpecifyPostingIntervalChecked
         {
@@ -432,12 +432,34 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _campaignEndDate, value);
             }
         }
+
+
+        public void InitializeDefaultJobConfiguration()
+        {
+            Weekday.Clear();
+
+            foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+            {
+                Weekday.Add(new ContentSelectGroup
+                {
+                    Content = day.ToString(),
+                    IsContentSelected = true
+                });
+            }
+
+            TimeRange = new TimeRange(new TimeSpan(0, 0, 0), new TimeSpan(23, 59, 59));
+            IsSpecifyPostingIntervalChecked = true;
+        }
     }
 
     [Serializable]
     [ProtoContract]
     public class TimeRange : BindableBase
     {
+        public TimeRange()
+        {
+            
+        }
 
         // Constructor for initialize the start time and end time to local property
         public TimeRange(TimeSpan startTime, TimeSpan endTime)

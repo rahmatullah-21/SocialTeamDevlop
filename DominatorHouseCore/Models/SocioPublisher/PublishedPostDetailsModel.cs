@@ -26,7 +26,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public string Successful { get; set; }
 
         [ProtoMember(7)]
-        public string PublishedDate { get; set; }
+        public DateTime PublishedDate { get; set; }
 
         [ProtoMember(8)]
         public string Link { get; set; }

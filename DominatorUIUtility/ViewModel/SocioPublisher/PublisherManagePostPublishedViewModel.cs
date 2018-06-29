@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls;
@@ -136,7 +137,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         {
                             var csvData = post.AccountName + "," + post.Destination + "," + post.DestinationUrl + "," +
                                           post.Description + ","
-                                          + post.IsPublished + "," + post.Successful + "," + post.PublishedDate + "," +
+                                          + post.IsPublished + "," + post.Successful + "," + post.PublishedDate.ToString(CultureInfo.InvariantCulture) + "," +
                                           post.Link;
                             using (var streamWriter = new StreamWriter(filename, true))
                             {
