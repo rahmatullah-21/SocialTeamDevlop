@@ -4,11 +4,11 @@ namespace DominatorHouseCore.Enums.LdQuery
 {
     public enum LDMessengerQueryParameters
     {
-        [Description("LDlangKeyword")]
+        [Description("LangKeyKeyword")]
         Keyword,
-        [Description("LDNotification")]
+        [Description("LangKeyNotification")]
         Notification,
-        [Description("LDlangJoinedGroupUrl")]
+        [Description("LangKeyJoinedGroupUrl")]
         JoinedGroupUrl,
     }
 }
