@@ -42,8 +42,10 @@ namespace DominatorHouseCore.Process
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
 
                 if (false)
+                //if (campaignStatusModel.IsTakeRandomDestination)
                 {
                     #region Take random destination
+
                     var accountIds = new List<string>();
 
                     publisherPostFetchModel?.SelectedDestinations.Shuffle();
@@ -77,12 +79,12 @@ namespace DominatorHouseCore.Process
 
                                 if (campaignStatusModel.IsRunSingleAccountPerCampaign)
                                 {
-                                    publisherJobProcess.StartPublishing(publishCount);
+                                    publisherJobProcess.StartPublishing(publishCount, false);
                                     //publisherJobProcess.StartPublish with synchronously
                                 }
                                 else
                                 {
-                                    publisherJobProcess.StartPublishing(publishCount);
+                                    publisherJobProcess.StartPublishing(publishCount,true);
                                     //publisherJobProcess.StartPublish with Asynchronously
                                 }
                             });
@@ -150,12 +152,12 @@ namespace DominatorHouseCore.Process
 
                                 if (campaignStatusModel.IsRunSingleAccountPerCampaign)
                                 {
-                                    publisherJobProcess.StartPublishing(publishCount);
+                                    publisherJobProcess.StartPublishing(publishCount,false);
                                     //publisherJobProcess.StartPublish with synchronously
                                 }
                                 else
                                 {
-                                    publisherJobProcess.StartPublishing(publishCount);
+                                    publisherJobProcess.StartPublishing(publishCount,true);
                                     //publisherJobProcess.StartPublish with Asynchronously
                                 }
                             });
@@ -169,7 +171,6 @@ namespace DominatorHouseCore.Process
 
                     publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                                {
-
                                    var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
 
                                    destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
@@ -190,16 +191,7 @@ namespace DominatorHouseCore.Process
                                            .GetPublisherCoreFactory()
                                            .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
 
-                                       if (campaignStatusModel.IsRunSingleAccountPerCampaign)
-                                       {
-                                           //publisherJobProcess.StartPublish with synchronously
-                                           publisherJobProcess.StartPublishing(publishCount);                                          
-                                       }
-                                       else
-                                       {
-                                           //publisherJobProcess.StartPublish with Asynchronously
-                                           Task.Factory.StartNew(() => { publisherJobProcess.StartPublishing(publishCount); }, currentCampaignsCancallationToken.Token);
-                                       }
+                                       publisherJobProcess.StartPublishing(publishCount,!campaignStatusModel.IsRunSingleAccountPerCampaign);
                                    });
                                });
 
@@ -276,16 +268,7 @@ namespace DominatorHouseCore.Process
                             .GetPublisherCoreFactory()
                             .PublisherJobFactory.Create(post.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
 
-                        if (specificCampaign.IsRunSingleAccountPerCampaign)
-                        {
-                            publisherJobProcess.StartPublishing(post, publishCount);
-                            //publisherJobProcess.StartPublish with synchronously
-                        }
-                        else
-                        {
-                            Task.Factory.StartNew(() => { publisherJobProcess.StartPublishing(post, publishCount); }, currentCampaignsCancallationToken.Token);                          
-                            //publisherJobProcess.StartPublish with Asynchronously
-                        }
+                        publisherJobProcess.StartPublishing(post, publishCount,!specificCampaign.IsRunSingleAccountPerCampaign);
                     });
                 });
             }

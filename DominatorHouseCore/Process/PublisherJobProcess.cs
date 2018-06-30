@@ -107,11 +107,11 @@ namespace DominatorHouseCore.Process
 
         public CancellationTokenSource CombinedCancellationToken { get; set; }
 
-        public virtual bool PublishOnGroups(string accountId, string groupUrl, PublisherPostlistModel postDetails,bool isDelayNeed = true) => false;
+        public virtual bool PublishOnGroups(string accountId, string groupUrl, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
 
         public virtual bool PublishOnPages(string accountId, string pageUrl, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
 
-        public virtual bool PublishOnOwnWall(string accountId, PublisherPostlistModel postDetails,bool isDelayNeed = true) => false;
+        public virtual bool PublishOnOwnWall(string accountId, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
 
         public virtual bool PublishOnCustomDestination(string accountId,
             PublisherCustomDestinationModel customDestinationModel, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
@@ -126,440 +126,600 @@ namespace DominatorHouseCore.Process
 
         public virtual bool DeletePost(string postId) => true;
 
-        public void StartPublishing(int maximumPostCount)
+        public void StartPublishing(int maximumPostCount, bool isRunParallel)
         {
             lock (SyncJobProcess)
             {
-                PublishedCount = 0;
-                var isReachedMaximumCount = false;
-                var isNoPostAvailable = false;
 
-                try
+                if (isRunParallel)
                 {
-                    GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
+                    ThreadFactory.Instance.Start(() => { Publish(maximumPostCount); }, CampaignCancellationToken.Token);
+                }
+                else
+                    Publish(maximumPostCount);
+            }
+        }
 
-                    if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
+        private void Publish(int maximumPostCount)
+        {
+            PublishedCount = 0;
+            var isReachedMaximumCount = false;
+            var isNoPostAvailable = false;
+
+            try
+            {
+                GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork,
+                    AccountModel.AccountBaseModel.UserName, CampaignName);
+
+                if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
+                {
+                    #region Publish on Groups
+
+                    foreach (var groupUrl in GroupDestinationList)
                     {
-                        #region Publish on Groups
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
 
-                        foreach (var groupUrl in GroupDestinationList)
+                        if (isReachedMaximumCount)
+                            break;
+
+                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+
+                        var post = GetPostModel("Group", groupUrl);
+
+                        if (post == null)
                         {
-                            if (PublishedCount > maximumPostCount)
-                                isReachedMaximumCount = true;
-
-                            if (isReachedMaximumCount)
-                                break;
-
-                            CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                            var post = GetPostModel("Group", groupUrl);
-
-                            if (post == null)
-                            {
-                                isNoPostAvailable = true;
-                                break;
-                            }
-
-                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{groupUrl}]");
-
-                            PublishedCount++;
-
-                            if (PublishedCount > maximumPostCount)
-                                isReachedMaximumCount = true;
-
-                            PublishOnGroups(AccountModel.AccountId, groupUrl, post, !isReachedMaximumCount);
-                            
+                            isNoPostAvailable = true;
+                            break;
                         }
 
-                        #endregion
+                        GlobusLogHelper.log.Info(Log.StartPublishing,
+                            AccountModel.AccountBaseModel.AccountNetwork,
+                            AccountModel.AccountBaseModel.UserName, $"group [{groupUrl}]");
 
-                        #region Publish on Pages
-
-                        if (isReachedMaximumCount || isNoPostAvailable)
-                            return;
-
-                        foreach (var pageUrl in PageDestinationList)
-                        {
-                            if (PublishedCount > maximumPostCount)
-                                isReachedMaximumCount = true;
-
-                            if (isReachedMaximumCount)
-                                break;
-
-                            CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                            var post = GetPostModel("Page", pageUrl);
-
-                            if (post == null)
-                            {
-                                isNoPostAvailable = true;
-                                break;
-                            }
-
-                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{pageUrl}]");
-
-                            PublishedCount++;
-
-                            if (PublishedCount > maximumPostCount)
-                                isReachedMaximumCount = true;
-
-                            PublishOnPages(AccountModel.AccountId, pageUrl, post,!isReachedMaximumCount);
-                           
-                        }
-
-                        #endregion
-
-                        #region Custom Destination
-
-                        if (isReachedMaximumCount || isNoPostAvailable)
-                            return;
-
-                        foreach (var customList in CustomDestinationList)
-                        {
-                            if (PublishedCount > maximumPostCount)
-                                isReachedMaximumCount = true;
-
-                            if (isReachedMaximumCount)
-                                break;
-
-                            CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"{customList.DestinationType} [{customList.DestinationValue}]");
-
-                            var post = GetPostModel(customList.DestinationType, customList.DestinationValue);
-
-                            if (post == null)
-                            {
-                                isNoPostAvailable = true;
-                                break;
-                            }
-
-                            PublishedCount++;
-
-                            if (PublishedCount > maximumPostCount)
-                                isReachedMaximumCount = true;
-
-                            PublishOnCustomDestination(AccountModel.AccountId, customList, post,!isReachedMaximumCount);
-                        }
-
-                        #endregion
-                    }
-                    else
-                    {
-                        #region Shuffle the groups and pages
-
-                        var allGroupsPages = new Dictionary<string, string>();
-
-                        GroupDestinationList.Shuffle();
-                        PageDestinationList.Shuffle();
-
-                        GroupDestinationList.ForEach(x =>
-                        {
-                            allGroupsPages.Add(x, "Group");
-                        });
-
-                        PageDestinationList.ForEach(x =>
-                        {
-                            allGroupsPages.Add(x, "Page");
-                        });
-
-                        foreach (var destination in allGroupsPages)
-                        {
-                            CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                            if (PublishedCount >= maximumPostCount)
-                                isReachedMaximumCount = true;
-
-                            if (isReachedMaximumCount)
-                                break;
-
-                            if (destination.Value == "Group")
-                            {
-                                var post = GetPostModel("Group", destination.Key);
-
-                                if (post == null)
-                                {
-                                    isNoPostAvailable = true;
-                                    break;
-                                }
-
-                                GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{destination.Key}]");
-
-                                PublishOnGroups(AccountModel.AccountId, destination.Key, post);
-                            }
-                            else
-                            {
-                                var post = GetPostModel("Page", destination.Key);
-
-                                if (post == null)
-                                {
-                                    isNoPostAvailable = true;
-                                    break;
-                                }
-
-                                GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{destination.Key}]");
-
-                                PublishOnPages(AccountModel.AccountId, destination.Key, post);
-                            }
-                            PublishedCount++;
-                        }
-
-                        #endregion
-
-                        #region Shuffle custom destination
-
-                        if (isReachedMaximumCount || isNoPostAvailable)
-                            return;
-
-                        CustomDestinationList.Shuffle();
-
-                        foreach (var customList in CustomDestinationList)
-                        {
-                            if (PublishedCount > maximumPostCount)
-                                isReachedMaximumCount = true;
-
-                            if (isReachedMaximumCount)
-                                break;
-
-                            CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                            var post = GetPostModel(customList.DestinationType, customList.DestinationValue);
-
-                            if (post == null)
-                            {
-                                isNoPostAvailable = true;
-                                break;
-                            }
-
-                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"{customList.DestinationType} [{customList.DestinationValue}]");
-
-                            PublishOnCustomDestination(AccountModel.AccountId, customList, post);
-                            PublishedCount++;
-                        }
-
-                        #endregion
-                    }
-
-                    #region Own Wall
-
-                    if (IsPublishOnOwnWall)
-                    {
+                        PublishedCount++;
 
                         if (PublishedCount > maximumPostCount)
                             isReachedMaximumCount = true;
 
-                        if (isReachedMaximumCount || isNoPostAvailable)
-                            return;
+                        PublishOnGroups(AccountModel.AccountId, groupUrl, post, !isReachedMaximumCount);
 
-                        var ownWallpost = GetPostModel("OwnWall", AccountModel.AccountBaseModel.UserName);
-
-                        if (ownWallpost == null)
-                            return;
-
-                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, "Own wall");
-
-                        PublishOnOwnWall(AccountModel.AccountId, ownWallpost);
-
-                        PublishedCount++;
                     }
-                  
+
                     #endregion
 
-                }
-                catch (OperationCanceledException ex)
-                {
-                    ex.DebugLog("Cancellation Requested!");
-                }
-                catch (AggregateException ae)
-                {
-                    foreach (var e in ae.InnerExceptions)
+                    #region Publish on Pages
+
+                    if (isReachedMaximumCount || isNoPostAvailable)
+                        return;
+
+                    foreach (var pageUrl in PageDestinationList)
                     {
-                        if (e is TaskCanceledException || e is OperationCanceledException)
-                            e.DebugLog("Cancellation requested before task completion!");
-                        else
-                            e.DebugLog(e.StackTrace + e.Message);
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        if (isReachedMaximumCount)
+                            break;
+
+                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+
+                        var post = GetPostModel("Page", pageUrl);
+
+                        if (post == null)
+                        {
+                            isNoPostAvailable = true;
+                            break;
+                        }
+
+                        GlobusLogHelper.log.Info(Log.StartPublishing,
+                            AccountModel.AccountBaseModel.AccountNetwork,
+                            AccountModel.AccountBaseModel.UserName, $"page [{pageUrl}]");
+
+                        PublishedCount++;
+
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        PublishOnPages(AccountModel.AccountId, pageUrl, post, !isReachedMaximumCount);
+
                     }
+
+                    #endregion
+
+                    #region Custom Destination
+
+                    if (isReachedMaximumCount || isNoPostAvailable)
+                        return;
+
+                    foreach (var customList in CustomDestinationList)
+                    {
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        if (isReachedMaximumCount)
+                            break;
+
+                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+
+                        GlobusLogHelper.log.Info(Log.StartPublishing,
+                            AccountModel.AccountBaseModel.AccountNetwork,
+                            AccountModel.AccountBaseModel.UserName,
+                            $"{customList.DestinationType} [{customList.DestinationValue}]");
+
+                        var post = GetPostModel(customList.DestinationType, customList.DestinationValue);
+
+                        if (post == null)
+                        {
+                            isNoPostAvailable = true;
+                            break;
+                        }
+
+                        PublishedCount++;
+
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        PublishOnCustomDestination(AccountModel.AccountId, customList, post,
+                            !isReachedMaximumCount);
+                    }
+
+                    #endregion
                 }
-                catch (Exception ex)
+                else
                 {
-                    ex.DebugLog();
+                    #region Shuffle the groups and pages
+
+                    var allGroupsPages = new Dictionary<string, string>();
+
+                    GroupDestinationList.Shuffle();
+                    PageDestinationList.Shuffle();
+
+                    GroupDestinationList.ForEach(x =>
+                    {
+                        allGroupsPages.Add(x, "Group");
+                    });
+
+                    PageDestinationList.ForEach(x =>
+                    {
+                        allGroupsPages.Add(x, "Page");
+                    });
+
+                    foreach (var destination in allGroupsPages)
+                    {
+                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+
+                        if (PublishedCount >= maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        if (isReachedMaximumCount)
+                            break;
+
+                        if (destination.Value == "Group")
+                        {
+                            var post = GetPostModel("Group", destination.Key);
+
+                            if (post == null)
+                            {
+                                isNoPostAvailable = true;
+                                break;
+                            }
+
+                            GlobusLogHelper.log.Info(Log.StartPublishing,
+                                AccountModel.AccountBaseModel.AccountNetwork,
+                                AccountModel.AccountBaseModel.UserName, $"group [{destination.Key}]");
+
+                            PublishedCount++;
+
+                            if (PublishedCount > maximumPostCount)
+                                isReachedMaximumCount = true;
+
+                            PublishOnGroups(AccountModel.AccountId, destination.Key, post,
+                                !isReachedMaximumCount);
+                        }
+                        else
+                        {
+                            var post = GetPostModel("Page", destination.Key);
+
+                            if (post == null)
+                            {
+                                isNoPostAvailable = true;
+                                break;
+                            }
+
+                            GlobusLogHelper.log.Info(Log.StartPublishing,
+                                AccountModel.AccountBaseModel.AccountNetwork,
+                                AccountModel.AccountBaseModel.UserName, $"page [{destination.Key}]");
+
+                            PublishedCount++;
+
+                            if (PublishedCount > maximumPostCount)
+                                isReachedMaximumCount = true;
+
+                            PublishOnPages(AccountModel.AccountId, destination.Key, post,
+                                isReachedMaximumCount);
+                        }
+
+                    }
+
+                    #endregion
+
+                    #region Shuffle custom destination
+
+                    if (isReachedMaximumCount || isNoPostAvailable)
+                        return;
+
+                    CustomDestinationList.Shuffle();
+
+                    foreach (var customList in CustomDestinationList)
+                    {
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        if (isReachedMaximumCount)
+                            break;
+
+                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+
+                        var post = GetPostModel(customList.DestinationType, customList.DestinationValue);
+
+                        if (post == null)
+                        {
+                            isNoPostAvailable = true;
+                            break;
+                        }
+
+                        GlobusLogHelper.log.Info(Log.StartPublishing,
+                            AccountModel.AccountBaseModel.AccountNetwork,
+                            AccountModel.AccountBaseModel.UserName,
+                            $"{customList.DestinationType} [{customList.DestinationValue}]");
+
+                        PublishedCount++;
+
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        PublishOnCustomDestination(AccountModel.AccountId, customList, post,
+                            !isReachedMaximumCount);
+
+                    }
+
+                    #endregion
+                }
+
+                #region Own Wall
+
+                if (IsPublishOnOwnWall)
+                {
+
+                    if (PublishedCount > maximumPostCount)
+                        isReachedMaximumCount = true;
+
+                    if (isReachedMaximumCount || isNoPostAvailable)
+                        return;
+
+                    var ownWallpost = GetPostModel("OwnWall", AccountModel.AccountBaseModel.UserName);
+
+                    if (ownWallpost == null)
+                        return;
+
+                    GlobusLogHelper.log.Info(Log.StartPublishing,
+                        AccountModel.AccountBaseModel.AccountNetwork,
+                        AccountModel.AccountBaseModel.UserName, "Own wall");
+
+                    PublishedCount++;
+
+                    if (PublishedCount > maximumPostCount)
+                        isReachedMaximumCount = true;
+
+                    PublishOnOwnWall(AccountModel.AccountId, ownWallpost, !isReachedMaximumCount);
+
+
+                }
+
+                #endregion
+
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog("Cancellation Requested!");
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation requested before task completion!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+
+        public void StartPublishing(PublisherPostlistModel post, int count, bool isStartParallel)
+        {
+            lock (SyncJobProcess)
+            {
+                if (isStartParallel)
+                {
+                    ThreadFactory.Instance.Start(() =>
+                     {
+                         PublishWithDirectPost(post, count);
+                     }, CampaignCancellationToken.Token);
+                }
+                else
+                {
+                    PublishWithDirectPost(post, count);
                 }
             }
         }
 
-        public void StartPublishing(PublisherPostlistModel post, int count)
+        private void PublishWithDirectPost(PublisherPostlistModel post, int maximumPostCount)
         {
-            lock (SyncJobProcess)
+            PublishedCount = 0;
+            var isReachedMaximumCount = false;
+
+            try
             {
                 GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
 
-                try
+                if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
                 {
-                    if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
+                    #region Publish on Groups
+
+                    foreach (var groupUrl in GroupDestinationList)
                     {
-                        #region Publish on Groups
+                        PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
-                        GroupDestinationList.ForEach(groupUrl =>
-                        {
-                            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+                        if (!ValidateNetworkAdvancedSettings(post, "Group", groupUrl, true))
+                            continue;
 
-                            if (!ValidateNetworkAdvancedSettings(post, "Group", groupUrl, true))
-                                return;
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
 
-                            CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+                        if (isReachedMaximumCount)
+                            break;
 
-                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{groupUrl}]");
+                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
-                            PublishOnGroups(AccountModel.AccountId, groupUrl, post,false);
+                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{groupUrl}]");
 
-                        });
+                        PublishedCount++;
 
-                        #endregion
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
 
-                        #region Publish on Pages
-
-                        PageDestinationList.ForEach(pageUrl =>
-                        {
-                            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-
-                            if (!ValidateNetworkAdvancedSettings(post, "Page", pageUrl, true))
-                                return;
-
-                            CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{pageUrl}]");
-
-                            PublishOnPages(AccountModel.AccountId, pageUrl, post,false);
-
-                        });
-
-                        #endregion
-
-                        #region Publish on Custom destination
-
-                        CustomDestinationList.ForEach(customList =>
-                        {
-                            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-
-                            CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{customList.DestinationValue}]");
-
-                            PublishOnCustomDestination(AccountModel.AccountId, customList, post,false);
-
-                        });
-
-                        #endregion                 
-                    }
-                    else
-                    {
-                        #region Shuffle Groups and pages
-
-                        var allGroupsPages = new Dictionary<string, string>();
-
-                        GroupDestinationList.Shuffle();
-                        PageDestinationList.Shuffle();
-
-                        GroupDestinationList.ForEach(x =>
-                        {
-                            allGroupsPages.Add(x, "Group");
-                        });
-
-                        PageDestinationList.ForEach(x =>
-                        {
-                            allGroupsPages.Add(x, "Page");
-                        });
-
-                        allGroupsPages.ForEach(x =>
-                        {
-                            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-
-                            CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-                            if (x.Value == "Group")
-                            {
-                                if (!ValidateNetworkAdvancedSettings(post, "Group", x.Key, true))
-                                    return;
-
-                                GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{x.Key}]");
-
-                                PublishOnGroups(AccountModel.AccountId, x.Key, post,false);
-                            }
-                            else
-                            {
-                                if (!ValidateNetworkAdvancedSettings(post, "Page", x.Key, true))
-                                    return;
-
-                                GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{x.Key}]");
-
-                                PublishOnPages(AccountModel.AccountId, x.Key, post,false);
-                            }
-
-                        });
+                        PublishOnGroups(AccountModel.AccountId, groupUrl, post, !isReachedMaximumCount);
 
 
-                        #endregion
-
-                        #region Custom Destination
-
-                        CustomDestinationList.Shuffle();
-                        CustomDestinationList.ForEach(customList =>
-                        {
-                            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-
-                            CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{customList.DestinationValue}]");
-
-                            PublishOnCustomDestination(AccountModel.AccountId, customList, post,false);
-                        });
-
-                        #endregion
                     }
 
-                    #region OwnWall
+                    #endregion
 
-                    if (IsPublishOnOwnWall)
+                    #region Publish on Pages
+
+                    if (isReachedMaximumCount)
+                        return;
+
+                    foreach (var pageUrl in PageDestinationList)
+                    {
+                        PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
+                        if (!ValidateNetworkAdvancedSettings(post, "Page", pageUrl, true))
+                            continue;
+
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        if (isReachedMaximumCount)
+                            break;
+
+                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+
+                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{pageUrl}]");
+
+                        PublishedCount++;
+
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        PublishOnPages(AccountModel.AccountId, pageUrl, post, !isReachedMaximumCount);
+
+                    }
+
+                    #endregion
+
+                    #region Publish on Custom destination
+
+
+                    if (isReachedMaximumCount)
+                        return;
+
+                    foreach (var customList in CustomDestinationList)
+                    {
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        if (isReachedMaximumCount)
+                            break;
+
+                        if (!ValidateNetworkAdvancedSettings(post, customList.DestinationType, customList.DestinationValue, true))
+                            continue;
+
+                        PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
+                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+
+                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{customList.DestinationValue}]");
+
+                        PublishedCount++;
+
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        PublishOnCustomDestination(AccountModel.AccountId, customList, post, !isReachedMaximumCount);
+
+                    }
+
+                    #endregion
+                }
+                else
+                {
+                    #region Shuffle Groups and pages
+
+                    var allGroupsPages = new Dictionary<string, string>();
+
+                    GroupDestinationList.Shuffle();
+                    PageDestinationList.Shuffle();
+
+                    GroupDestinationList.ForEach(x =>
+                    {
+                        allGroupsPages.Add(x, "Group");
+                    });
+
+                    PageDestinationList.ForEach(x =>
+                    {
+                        allGroupsPages.Add(x, "Page");
+                    });
+
+                    foreach (var x in allGroupsPages)
                     {
                         PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
-                        if (!ValidateNetworkAdvancedSettings(post, "OwnWall", AccountModel.AccountBaseModel.UserName,
-                            true))
-                            return;
+                        if (PublishedCount >= maximumPostCount)
+                            isReachedMaximumCount = true;
 
-                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork,
-                            AccountModel.AccountBaseModel.UserName, "Own wall");
+                        if (isReachedMaximumCount)
+                            break;
 
-                        PublishOnOwnWall(AccountModel.AccountId, post,false);
+                        if (x.Value == "Group")
+                        {
+                            if (!ValidateNetworkAdvancedSettings(post, "Group", x.Key, true))
+                                continue;
+
+                            PublishedCount++;
+
+                            if (PublishedCount > maximumPostCount)
+                                isReachedMaximumCount = true;
+
+                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{x.Key}]");
+
+                            PublishOnGroups(AccountModel.AccountId, x.Key, post, !isReachedMaximumCount);
+                        }
+                        else
+                        {
+                            if (!ValidateNetworkAdvancedSettings(post, "Page", x.Key, true))
+                                continue;
+
+                            PublishedCount++;
+
+                            if (PublishedCount > maximumPostCount)
+                                isReachedMaximumCount = true;
+
+                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{x.Key}]");
+
+                            PublishOnPages(AccountModel.AccountId, x.Key, post, !isReachedMaximumCount);
+                        }
+
+                    }
+
+                    #endregion
+
+                    #region Custom Destination
+
+                    if (isReachedMaximumCount)
+                        return;
+
+                    CustomDestinationList.Shuffle();
+
+                    foreach (var customList in CustomDestinationList)
+                    {
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        if (isReachedMaximumCount)
+                            break;
+
+                        if (!ValidateNetworkAdvancedSettings(post, customList.DestinationType, customList.DestinationValue, true))
+                            continue;
+
+                        PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
+                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+
+                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{customList.DestinationValue}]");
+
+                        PublishedCount++;
+
+                        if (PublishedCount > maximumPostCount)
+                            isReachedMaximumCount = true;
+
+                        PublishOnCustomDestination(AccountModel.AccountId, customList, post, !isReachedMaximumCount);
                     }
 
                     #endregion
                 }
-                catch (OperationCanceledException ex)
+
+                #region OwnWall
+
+                if (IsPublishOnOwnWall)
                 {
-                    ex.DebugLog("Cancellation Requested!");
+                    if (PublishedCount > maximumPostCount)
+                        isReachedMaximumCount = true;
+
+                    if (isReachedMaximumCount)
+                        return;
+
+                    PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
+                    CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+
+                    if (!ValidateNetworkAdvancedSettings(post, "OwnWall", AccountModel.AccountBaseModel.UserName,
+                        true))
+                        return;
+
+                    GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork,
+                        AccountModel.AccountBaseModel.UserName, "Own wall");
+
+                    PublishedCount++;
+
+                    if (PublishedCount > maximumPostCount)
+                        isReachedMaximumCount = true;
+
+                     PublishOnOwnWall(AccountModel.AccountId, post, false);
+                  
                 }
-                catch (AggregateException ae)
+
+                #endregion
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog("Cancellation Requested!");
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
                 {
-                    foreach (var e in ae.InnerExceptions)
-                    {
-                        if (e is TaskCanceledException || e is OperationCanceledException)
-                            e.DebugLog("Cancellation requested before task completion!");
-                        else
-                            e.DebugLog(e.StackTrace + e.Message);
-                    }
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation requested before task completion!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
                 }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
         }
 
         public void UpdatePostWithSuccessful(string destinationUrl, PublisherPostlistModel post, string publishedUrl)
         {
-
             var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
             post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.Yes;
             post.LstPublishedPostDetailsModels[postIndex].Link = publishedUrl;
@@ -567,6 +727,8 @@ namespace DominatorHouseCore.Process
 
             PostlistFileManager.UpdatePost(CampaignId, post);
             PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
+            GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], ConstantVariable.GetPublishedSuccessDetails);
         }
 
 
@@ -581,7 +743,7 @@ namespace DominatorHouseCore.Process
             {
                 if (givenPostModel.MediaList.Count > 0)
                 {
-                    var randomNumber = RandomUtilties.GetRandomNumber( postModelWithGeneralSettings.MediaList.Count, 0);
+                    var randomNumber = RandomUtilties.GetRandomNumber(postModelWithGeneralSettings.MediaList.Count, 0);
                     postModelWithGeneralSettings.MediaList = new ObservableCollection<string> { givenPostModel.MediaList[randomNumber] };
                 }
             }
@@ -594,20 +756,20 @@ namespace DominatorHouseCore.Process
             {
                 if (givenPostModel.MediaList.Count > 0)
                 {
-                    var randomNumber = RandomUtilties.GetRandomNumber(GeneralSettingsModel.ChooseBetween.EndValue,GeneralSettingsModel.ChooseBetween.StartValue);
+                    var randomNumber = RandomUtilties.GetRandomNumber(GeneralSettingsModel.ChooseBetween.EndValue, GeneralSettingsModel.ChooseBetween.StartValue);
                     if (randomNumber < givenPostModel.MediaList.Count)
                     {
                         givenPostModel.MediaList.Shuffle();
                         postModelWithGeneralSettings.MediaList = new ObservableCollection<string>(givenPostModel.MediaList.Take(randomNumber));
-                    }                   
+                    }
                 }
             }
 
             var removeVideoExtension = new ObservableCollection<string>();
 
             foreach (var media in postModelWithGeneralSettings.MediaList)
-            {                
-                removeVideoExtension.Add(media.Replace(ConstantVariable.VideoToImageConvertFileName,string.Empty));
+            {
+                removeVideoExtension.Add(media.Replace(ConstantVariable.VideoToImageConvertFileName, string.Empty));
             }
 
             postModelWithGeneralSettings.MediaList = removeVideoExtension;
@@ -641,7 +803,7 @@ namespace DominatorHouseCore.Process
             }
 
             #endregion
-          
+
             return postModelWithGeneralSettings;
 
         }
@@ -675,7 +837,7 @@ namespace DominatorHouseCore.Process
             {
                 CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
-                var pendingPostList = PostlistFileManager.GetAll(CampaignId).Where(x => x.PostQueuedStatus != PostQueuedStatus.Draft ).ToList();
+                var pendingPostList = PostlistFileManager.GetAll(CampaignId).Where(x => x.PostQueuedStatus != PostQueuedStatus.Draft).ToList();
 
                 if (!pendingPostList.Any())
                 {
@@ -701,11 +863,11 @@ namespace DominatorHouseCore.Process
                         break;
 
                     var filterPostModel = GeneralSettingsModel.IsChooseRandomPostsChecked ?
-                        pendingPostList[RandomUtilties.GetRandomNumber(pendingPostList.Count - 1,0)] :
+                        pendingPostList[RandomUtilties.GetRandomNumber(pendingPostList.Count - 1, 0)] :
                         pendingPostList.FirstOrDefault(x => x.PostId != null);
 
                     if (ValidateNetworkAdvancedSettings(filterPostModel, destination, destinationUrl))
-                    {                      
+                    {
                         return filterPostModel;
                     }
 
@@ -756,7 +918,9 @@ namespace DominatorHouseCore.Process
                     IsPublished = ConstantVariable.Yes,
                     Successful = ConstantVariable.No,
                     PublishedDate = DateTime.Now,
-                    Link = ConstantVariable.NotPublished
+                    Link = ConstantVariable.NotPublished,
+                    CampaignId = CampaignId,
+                    CampaignName = CampaignName
                 });
 
                 filterPostModel.PostQueuedStatus = PostQueuedStatus.Published;

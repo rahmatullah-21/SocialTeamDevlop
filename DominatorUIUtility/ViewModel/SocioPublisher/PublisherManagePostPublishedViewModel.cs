@@ -127,7 +127,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (!string.IsNullOrEmpty(exportPath))
                     {
                         var header =
-                                      "Account Name,Destination,Destination Url,Description,Published,Successful,Published Date,Link";
+                                      "Account Name,Campaign Name,Destination,Destination Url,Description,Published,Successful,Published Date,Link";
 
                         var filename = $"{exportPath}\\{currentData?.PostId}.csv";
 
@@ -135,7 +135,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         currentData?.LstPublishedPostDetailsModels.ForEach(post =>
                         {
-                            var csvData = post.AccountName + "," + post.Destination + "," + post.DestinationUrl + "," +
+                            var csvData = post.AccountName + "," + post.CampaignName + "," + post.Destination + "," + post.DestinationUrl + "," +
                                           post.Description + ","
                                           + post.IsPublished + "," + post.Successful + "," + post.PublishedDate.ToString(CultureInfo.InvariantCulture) + "," +
                                           post.Link;

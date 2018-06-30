@@ -52,9 +52,7 @@ namespace DominatorHouseCore.Models.Publisher
                 return _isSpecifyPostingIntervalChecked;
             }
             set
-            {
-                if (!value)
-                    LstTimer.Clear();
+            {               
                 if (value == _isSpecifyPostingIntervalChecked)
                     return;
                 SetProperty(ref _isSpecifyPostingIntervalChecked, value);
@@ -71,9 +69,7 @@ namespace DominatorHouseCore.Models.Publisher
                 return _isRandomizePublishingTimerChecked;
             }
             set
-            {
-                if (!value)
-                    LstTimer.Clear();
+            {             
                 if (value == _isRandomizePublishingTimerChecked)
                     return;
                 SetProperty(ref _isRandomizePublishingTimerChecked, value);

@@ -47,11 +47,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
 
             PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
-            JobConfigurationControl =  CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+
+            JobConfiguration = CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+           
+            JobConfigurationControl = JobConfiguration;
+
+            JobConfiguration.IsAllowEdit = true;
         }
 
 
         #region Properties
+
+
 
         private bool _isCampaignNameEdit;
 
@@ -69,7 +76,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
 
-
         private PublisherCreateCampaignModel _publisherCreateCampaignModel = new PublisherCreateCampaignModel();
 
         public PublisherCreateCampaignModel PublisherCreateCampaignModel
@@ -84,6 +90,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(PublisherCreateCampaignModel));
             }
         }
+
+
+        public CustomControl.Publisher.JobConfiguration JobConfiguration { get; set; }
+        
 
 
         private UserControl _jobConfigurationControl;
@@ -515,7 +525,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                
                 PublisherCreateCampaignModel = campaignlists.FirstOrDefault(x => x.CampaignName == (string)sender);
                 BindTabItemsControlProperties();
-                SetDataContext();                 
+                SetDataContext();
+
+                JobConfiguration.IsAllowEdit = IsCampaignNameEdit;
+
             }
             catch (Exception)
             {
@@ -531,14 +544,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var publisherSharePost = PublisherSharePost.GetPublisherSharePost(tabItemsControl);
             var publisherScrapePost = PublisherScrapePost.GetPublisherScrapePost(tabItemsControl);
 
-            JobConfigurationControl = CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+            JobConfiguration = CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);            
+            JobConfigurationControl = JobConfiguration;
             
             SetPostContectData(publisherDirectPosts);
             SetPublisherRssFeedData(publisherRssFeed);
             SetPublisherMonitorFolder(publisherMonitorFolder);
             SetPublisherSharePost(publisherSharePost);
             SetPublisherScrapePost(publisherScrapePost);
-
+            
         }
         private void SetPublisherSharePost(PublisherSharePost publisherScrapePost)
         {

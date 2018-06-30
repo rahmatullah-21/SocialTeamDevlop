@@ -33,10 +33,10 @@ namespace DominatorUIUtility.CustomControl.Publisher
         {
             if (_jobConfiguration == null)
                 _jobConfiguration = new JobConfiguration(jobConfigurationModel);
-          
+            _jobConfiguration.IsAllowEdit = false;
             _jobConfiguration.JobConfigurations = jobConfigurationModel;
             _jobConfiguration.MainGrid.DataContext = _jobConfiguration.JobConfigurations;
-
+            
             return _jobConfiguration;
         }
 
@@ -47,8 +47,10 @@ namespace DominatorUIUtility.CustomControl.Publisher
             JobConfigurations = jobConfigurationModel;
             MainGrid.DataContext = JobConfigurations;
         }
-        
+
         #region Properties
+
+        public bool IsAllowEdit { get; set; }
 
 
         public JobConfigurationModel JobConfigurations { get; set; }
@@ -84,7 +86,9 @@ namespace DominatorUIUtility.CustomControl.Publisher
                 SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1);
 
             if (JobConfigurations.IsRandomizePublishingTimerChecked)
+            {
                 GenerateRandomIntervals(JobConfigurations.MaxPost - 1);
+            }           
         }
 
         private void NumericMaxPost_OnValueIncremented(object sender, NumericUpDownChangedRoutedEventArgs args)
@@ -93,27 +97,16 @@ namespace DominatorUIUtility.CustomControl.Publisher
                 SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1);
 
             if (JobConfigurations.IsRandomizePublishingTimerChecked)
-                GenerateRandomIntervals(JobConfigurations.MaxPost + 1);
+            {
+                GenerateRandomIntervals(JobConfigurations.MaxPost + 1);                
+            }                
         }
 
-        private void NumericMaxPost_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
-        {
-            if (JobConfigurations.IsSpecifyPostingIntervalChecked)
-                SpecificPostGenerateIntervals(JobConfigurations.MaxPost);
-
-            if (JobConfigurations.IsRandomizePublishingTimerChecked)
-                GenerateRandomIntervals(JobConfigurations.MaxPost);
-        }
-
+    
         #endregion
 
         #region Specific Post Interval Generations
-
-        private void ChkPostingInterval_OnChecked(object sender, RoutedEventArgs e)
-        {
-            SpecificPostGenerateIntervals(JobConfigurations.MaxPost);
-        }
-
+       
         private void SpecificPostGenerateIntervals(int maxCount)
         {
             JobConfigurations.LstTimer.Clear();
@@ -158,11 +151,6 @@ namespace DominatorUIUtility.CustomControl.Publisher
 
         #region Random Post Interval Generation
 
-        private void ChkRandomizePublishing_OnChecked(object sender, RoutedEventArgs e)
-        {
-            GenerateRandomIntervals(JobConfigurations.MaxPost);
-        }
-
         private void GenerateRandomIntervals(int maxCount)
         {
             JobConfigurations.LstTimer.Clear();
@@ -179,14 +167,29 @@ namespace DominatorUIUtility.CustomControl.Publisher
 
         private void OnSelectedTimeChanged(object sender, TimePickerBaseSelectionChangedEventArgs<TimeSpan?> e)
         {
-            if (JobConfigurations == null)
-                return;
+            //if (IsAllowEdit)
+            //{
+            //    if (JobConfigurations == null)
+            //        return;
 
-            if (JobConfigurations.IsSpecifyPostingIntervalChecked)
-                SpecificPostGenerateIntervals(JobConfigurations.MaxPost);
+            //    if (JobConfigurations.IsSpecifyPostingIntervalChecked)
+            //        SpecificPostGenerateIntervals(JobConfigurations.MaxPost);
 
-            if (JobConfigurations.IsRandomizePublishingTimerChecked)
-                GenerateRandomIntervals(JobConfigurations.MaxPost);
+            //    if (JobConfigurations.IsRandomizePublishingTimerChecked)
+            //    {
+            //        GenerateRandomIntervals(JobConfigurations.MaxPost);
+            //    }
+            //} 
+        }
+
+        private void ChkPostingInterval_OnClick(object sender, RoutedEventArgs e)
+        {
+            SpecificPostGenerateIntervals(JobConfigurations.MaxPost);
+        }
+
+        private void ChkRandomizePublishing_OnClick(object sender, RoutedEventArgs e)
+        {
+            GenerateRandomIntervals(JobConfigurations.MaxPost);
         }
     }
 }

@@ -33,5 +33,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         [ProtoMember(9)]
         public DateTime DeletionDate { get; set; }
+
+        [ProtoMember(10)]
+        public string CampaignId { get; set; }
+
+        [ProtoMember(11)]
+        public string CampaignName { get; set; }
+
     }
 }
