@@ -1424,7 +1424,7 @@
     <system:String x:Key="LangKeyNumberOfLikesPerJob">Number Of Likes Per Job</system:String>
     <system:String x:Key="LangKeyNumberOfLikesPerWeek">Number Of Likes Per Week</system:String>
     <system:String x:Key="LangKeyNumberOfMaxreplyPerDay">Number Of Maxreply Per Day</system:String>
-    <system:String x:Key="LangKeyNumberOfMaxupvotePerDay">Number Of Maxupvote Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfMaxUpvotePerDay">Number Of Maxupvote Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfMaxurlscraPerday">Number Of Maxurlscra Perday</system:String>
     <system:String x:Key="LangKeyNumberOfMediaPerDay">Number Of Media Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfMediaPerHour">Number Of Media Per Hour</system:String>
@@ -1794,7 +1794,7 @@
     <system:String x:Key="LangKeyReaddPostToPostList">Readd Post To Post List</system:String>
     <system:String x:Key="LangKeyReAddPublishedPostsToTheEndOfPendingPostsListOnlyForPendingPostlist">Re-Add Published Posts To The End Of Pending Posts List (Only For Pending Postlist)</system:String>
     <system:String x:Key="LangKeyReblog">Reblog</system:String>
-    <system:String x:Key="LangKeyReblogLiker/Commenter">Reblog Liker/Commenter</system:String>
+    <system:String x:Key="LangKeyReblogLikerCommenter">Reblog Liker/Commenter</system:String>
     <system:String x:Key="LangKeyReblogPost">Reblog Post</system:String>
     <system:String x:Key="LangKeyRecentColors">Recent Colors</system:String>
     <system:String x:Key="LangKeyRecreateDesktopShortcutAtStartup">Recreate Desktop Shortcut At Startup</system:String>
@@ -2425,6 +2425,12 @@
     <system:String x:Key="LangKeyType">Type</system:String>
     <system:String x:Key="LangKeyTypeHere">Type Here..</system:String>
     <system:String x:Key="LangKeyTypeYourMessageHere">Type Your Message Here...</system:String>
+    <system:String x:Key="LangKeyUpvoteUniqueUsersFromThisAccount">Upvote unique users from the account</system:String>
+    <system:String x:Key="LangKeyUpvoteUniqueUsersForCampaign">Upvote unique users from all accounts in this campaign</system:String>
+    <system:String x:Key="LangKeyUpvoteUniquePostForCampaign">Upvote unique posts for this campaign</system:String>
+    <system:String x:Key="LangKeyDownvoteUniqueUsersFromThisAccount">Downvote unique users from the account</system:String>
+    <system:String x:Key="LangKeyDownvoteUniqueUsersForCampaign">Downvote unique users from all accounts in this campaign</system:String>
+    <system:String x:Key="LangKeyDownvoteUniquePostForCampaign">Downvote unique posts for this campaign</system:String>
     <system:String x:Key="LangKeyUncheckGroupsThatRequireAdminValidationForPosts">Uncheck Groups That Require Admin Validation For Posts</system:String>
     <system:String x:Key="LangKeyUncheckIncludeOriginalPostFromFacebookPageShare">Uncheck 'Include Original Post' From Facebook Page Share</system:String>
     <system:String x:Key="LangKeyUndoRandomRetweets">Undo Random Retweets</system:String>
@@ -2654,5 +2660,6 @@
 you may loss the selected item from previous destination
 due to absence of the particular item in your current database.
     </system:String>
+    
 
 </ResourceDictionary>

@@ -4,9 +4,9 @@ namespace DominatorHouseCore.Enums.YdQuery
 {
     public enum YdScraperParameters
     {
-        [Description("YdlangKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords = 1,
-        [Description("YdlangCustomUrls")]
+        [Description("LangKeyCustomurls")]
         CustomUrls = 2,
     }
 }

@@ -125,7 +125,7 @@
             <StackPanel  Visibility="{Binding ElementName=ChkAdvance,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,8,0,0">
-                    <TextBlock  VerticalAlignment="Center" Text="{StaticResource langDelayEachOperation}"  />
+                    <TextBlock  VerticalAlignment="Center" Text="{StaticResource LangKeyDelayBetweenEachOperation}"  />
                     <controls:NumericUpDown Minimum="0" Name="DelayOperationStartValue" Margin="5,5,5,0" Value="{Binding JobConfiguration.DelayBetweenActivity.StartValue}" />
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langTo}" />
                     <controls:NumericUpDown  Margin="5,5,5,0" Minimum="{Binding Value, ElementName=DelayOperationStartValue}" Value="{Binding JobConfiguration.DelayBetweenActivity.EndValue}" />

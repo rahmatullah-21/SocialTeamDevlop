@@ -4,11 +4,11 @@ namespace DominatorHouseCore.Enums.FdQuery
 {
     public enum FdFanpageLikerQuery
     {
-        [Description("FdlangKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords = 1,
-        [Description("FdlangGraphSearchUrl")]
+        [Description("LangKeyGraphSearchUrl")]
         GraphSearchUrl = 2,
-        [Description("FdlangCustomPageList")]
+        [Description("LangKeyCustomPageList")]
         CustomPageList = 3
     }
 }

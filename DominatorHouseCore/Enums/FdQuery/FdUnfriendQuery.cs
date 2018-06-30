@@ -4,9 +4,9 @@ namespace DominatorHouseCore.Enums.FdQuery
 {
     public enum FdUnfriendQuery
     {
-        [Description("FdlangCustomUsersList")]
+        [Description("LangKeyCustomUsersList")]
         CustomUserList = 1,
-        [Description("FdlangLocation")]
+        [Description("LangKeyLocation")]
         Location = 2
     }
 }

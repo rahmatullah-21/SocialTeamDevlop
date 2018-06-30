@@ -260,6 +260,47 @@ namespace DominatorHouseCore.Models
         [JsonProperty(PropertyName = "choice")]
         public string Choice { get; set; }
 
+        [JsonProperty(PropertyName = "media_type")]
+        public string MediaType { get; set; }
+
+        [JsonProperty(PropertyName = "filter_type")]
+        public string FilterType { get; set; }
+
+        [JsonProperty(PropertyName = "video_result")]
+        public string VideoResult { get; set; }
+
+        [JsonProperty(PropertyName = "clips")]
+        public ClipJson Clips { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore, PropertyName = "audio_muted")]
+        public bool AudioMuted { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore, PropertyName = "is_suggested_venue")]
+        public bool IsSuggestedVenue { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore, PropertyName = "poster_frame_index")]
+        public int PosterFrameIndex { get; set; }
+
+        [JsonProperty(PropertyName = "upload_media_duration_ms")]
+        public string UploadMediaDurationMS { get; set; }
+
+        [JsonProperty(PropertyName = "upload_media_height")]
+        public string UploadMediaHeight { get; set; }
+
+        [JsonProperty(PropertyName = "upload_media_width")]
+        public string UploadMediaWidth { get; set; }
+
+
+
+        public class ClipJson
+        {
+            [JsonProperty(PropertyName = "length")]
+            public int Length { get; set; }
+
+            [JsonProperty(PropertyName = "source_type")]
+            public int SourceType { get; set; }
+        }
+
 
         public class DeviceJson
         {

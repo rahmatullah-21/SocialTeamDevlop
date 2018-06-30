@@ -4,13 +4,13 @@ namespace DominatorHouseCore.Enums.PdQuery
 {
     public enum PDPinQueries
     {
-        [Description("PDlangKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords = 1,
-        [Description("PDlangCustomUser")]
+        [Description("LangKeyCustomUsers")]
         Customusers = 2,
-        [Description("PDlangCustomBoard")]
+        [Description("LangKeyCustomBoard")]
         CustomBoard = 3,
-        [Description("PDlangCustomPin")]
+        [Description("LangKeyCustomPin")]
         CustomPin = 4
     }
 }

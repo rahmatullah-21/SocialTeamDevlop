@@ -4,28 +4,28 @@ namespace DominatorHouseCore.Enums.TumblrQuery
 {
     public enum TumblrQuery
     {
-        [Description("TumlangKeyword")]
+        [Description("LangKeyKeywords")]
         Keyword,
-        [Description("TumlangUserFollowing")]
+        [Description("LangKeySomeonesFollowings")]
         UserFollowing,
-        [Description("TumlangUserFollower")]
+        [Description("LangKeySomeonesFollowers")]
         UserFollower,
-        [Description("TumlangHashTag")]
+        [Description("LangKeyHashtagusers")]
         HashtagUsers,
-        [Description("TumlangUserCommentedOnPost")]
+        [Description("LangKeyUsersWhoCommentedOnPosts")]
         UserCommentedOnPost,
-        [Description("TumlangUserLikedThePost")]
+        [Description("LangKeyUsersWhoLikedPosts")]
         UserLikedThePost,
-        [Description("TumlangUserReblogedThePost")]
+        [Description("LangKeyReblogPost")]
         UserReblogedThePost,
-        [Description("TumlangUserLikedCommentedReblogedThePost")]
+        [Description("LangKeyReblogLikerCommenter")]
         UserLikedCommentedReblogedThePost
     }
     public enum TumblrPostQuery
     {
-        [Description("TumlangKeyword")]
+        [Description("LangKeyKeywords")]
         Keyword,
-        [Description("TumlangHashTag")]
+        [Description("LangKeyHashtagUserS")]
         HashtagUsers,
         //TODO
         //[Description("TumlangNewsFeed")]
