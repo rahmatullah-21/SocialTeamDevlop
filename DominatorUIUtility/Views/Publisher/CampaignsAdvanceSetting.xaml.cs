@@ -29,42 +29,42 @@ namespace DominatorUIUtility.Views.Publisher
             {
                 new TabItemTemplates
                 {
-                    Title=FindResource("langGeneral").ToString(),
+                    Title=FindResource("LangKeyGeneral").ToString(),
                     Content=new Lazy<UserControl>(General.GetSingeltonGeneralObject)
                 },
                 new TabItemTemplates
                 {
-                    Title=FindResource("langFacebook").ToString(),
+                    Title=FindResource("LangKeyFacebook").ToString(),
                     Content=new Lazy<UserControl>(Facebook.GetSingeltonFacebookObject)
                 },
                 new TabItemTemplates
                 {
-                    Title=FindResource("langGooglePlus").ToString(),
+                    Title=FindResource("LangKeyGoogle+").ToString(),
                     Content=new Lazy<UserControl>(GooglePlus.GetSingeltonGooglePlusObject)
                 },
                 new TabItemTemplates
                 {
-                    Title=FindResource("langPinterest").ToString(),
+                    Title=FindResource("LangKeyPinterest").ToString(),
                     Content=new Lazy<UserControl>(Pinterest.GetSingeltonPinterestObject)
                 },
                 new TabItemTemplates
                 {
-                    Title=FindResource("langTwitter").ToString(),
+                    Title=FindResource("LangKeyTwitter").ToString(),
                     Content=new Lazy<UserControl>(Twitter.GetSingletonTwitterObject)
                 },
                 new TabItemTemplates
                 {
-                    Title=FindResource("langInstagram").ToString(),
+                    Title=FindResource("LangKeyInstagram").ToString(),
                     Content=new Lazy<UserControl>(Instagram.GetSingeltonInstagramObject)
                 } ,
                 new TabItemTemplates
                 {
-                    Title=FindResource("DHlangTumblr").ToString(),
+                    Title=FindResource("LangKeyTumblr").ToString(),
                     Content=new Lazy<UserControl>(Tumblr.GetSingeltonTumblr)
                 },
                 new TabItemTemplates
                 {
-                    Title=FindResource("DHlangReddit").ToString(),
+                    Title=FindResource("LangKeyReddit").ToString(),
                     Content=new Lazy<UserControl>(Reddit.GetSingeltonRedditObject)
                 }
             };

@@ -28,7 +28,7 @@
                                 <VisualBrush Visual="{StaticResource appbar_group_add}" Stretch="Fill"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <TextBlock Text="{DynamicResource langSelectAccount}" Margin="6,0"/>
+                        <TextBlock Text="{DynamicResource LangKeySelectAccountS}" Margin="6,0"/>
                     </StackPanel>
                 </Button.Content>
                
@@ -53,7 +53,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Foreground="Black" FontWeight="SemiBold"
-                                   Text="{DynamicResource langGDTagline}" />
+                                   Text="{DynamicResource LangKeyLetsDominateInstagramWithGramdominator}" />
             </Grid>
             <Grid Grid.Row="1">
                 <Button Name="btnCampaignManager"

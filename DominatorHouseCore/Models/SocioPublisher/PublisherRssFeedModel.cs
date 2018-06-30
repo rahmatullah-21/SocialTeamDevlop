@@ -22,7 +22,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _feedUrl, value);
             }
         }
-        private string _feedTemplate =Application.Current.FindResource("DhlangRssFeedTemplate").ToString();
+        private string _feedTemplate =Application.Current.FindResource("LangKeyRssFeedTemplate").ToString();
         [ProtoMember(2)]
         public string FeedTemplate
         {

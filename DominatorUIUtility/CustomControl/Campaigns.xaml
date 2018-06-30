@@ -17,7 +17,7 @@
         <Grid  Background="{DynamicResource AccentBaseColorBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                 <Button Height="30" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Click="DeleteMultipleCampaign_Click"
-                        VerticalContentAlignment="Center" Background="Transparent" ToolTip="{DynamicResource langDeleteSelected}">
+                        VerticalContentAlignment="Center" Background="Transparent" ToolTip="{DynamicResource LangKeyDeleteSelected}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal" >
                             <Rectangle Width="15" Height="20" Fill="White">
@@ -25,18 +25,18 @@
                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{DynamicResource langDeleteSelected}" Margin="5,0" VerticalAlignment="Center" Foreground="White" FontSize="13" FontWeight="SemiBold" />
+                            <TextBlock Text="{DynamicResource LangKeyDeleteSelected}" Margin="5,0" VerticalAlignment="Center" Foreground="White" FontSize="13" FontWeight="SemiBold" />
                         </StackPanel>
                     </Button.Content>
                 </Button>
                 <Label Foreground="White" FontSize="12" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                       Height="25"  Content="{DynamicResource langSelectCampaignCategory}" />
+                       Height="25"  Content="{DynamicResource LangKeySelectCampaignCategory}" />
                 <ComboBox x:Name="CmbCampaignType" SelectedIndex="0"
                           Height="26" 
                           MinWidth="240"
                           Margin="3"  Background="Transparent"  Foreground="White"                 
                           BorderBrush="White"
-                          ToolTip="{DynamicResource langSelectCampaignToFilterForView}" 
+                          ToolTip="{DynamicResource LangKeySelectTheCampaignToFilterForView}" 
                           SelectionChanged="CmbCampaignType_SelectionChanged"/>
 
             </StackPanel>
@@ -70,12 +70,12 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="{DynamicResource langCampaignName}" DisplayMemberBinding="{Binding CampaignName}"/>
-                            <GridViewColumn Header="{DynamicResource langModuleName}" DisplayMemberBinding="{Binding SubModule}"/>
-                            <GridViewColumn Header="{DynamicResource langStatus}">
+                            <GridViewColumn Header="{DynamicResource LangKeyCampaignName}" DisplayMemberBinding="{Binding CampaignName}"/>
+                            <GridViewColumn Header="{DynamicResource LangKeyModuleName}" DisplayMemberBinding="{Binding SubModule}"/>
+                            <GridViewColumn Header="{DynamicResource LangKeyStatus}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <controls:ToggleSwitch OnLabel="{DynamicResource langActive}" OffLabel="{DynamicResource langPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                                        <controls:ToggleSwitch OnLabel="{DynamicResource LangKeyActive}" OffLabel="{DynamicResource langPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
                                                    Click="ToggleActivatePause_Campaign" FontSize="12" Foreground="{DynamicResource AccentBaseColorBrush}"
                                                    SwitchForeground="{DynamicResource AccentBaseColorBrush}">
 
@@ -95,7 +95,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="{DynamicResource langAction}">
+                            <GridViewColumn Header="{DynamicResource LangKeyAction}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" Margin="4" >
@@ -109,7 +109,7 @@
                                                 </StackPanel>
                                                 <Button.ContextMenu>
                                                     <ContextMenu >
-                                                        <MenuItem Header="{DynamicResource langEdit}" Height="30"  VerticalContentAlignment="Center" Name="EditCampaign" Click="EditCampaign_OnClick">
+                                                        <MenuItem Header="{DynamicResource LangKeyEdit}" Height="30"  VerticalContentAlignment="Center" Name="EditCampaign" Click="EditCampaign_OnClick">
                                                             <MenuItem.Icon>
                                                                 <Rectangle Width="20" Height="20" Fill="Black">
                                                                     <Rectangle.OpacityMask>
@@ -118,13 +118,13 @@
                                                                 </Rectangle>
                                                             </MenuItem.Icon>
                                                         </MenuItem>
-                                                        <MenuItem Header="{DynamicResource langDuplicateCampaign}" Height="30" x:Name="DuplicateCampaign"  VerticalContentAlignment="Center"  Click="DuplicateCampaign_OnClick">
+                                                        <MenuItem Header="{DynamicResource LangKeyDuplicateCampaign}" Height="30" x:Name="DuplicateCampaign"  VerticalContentAlignment="Center"  Click="DuplicateCampaign_OnClick">
                                                             <MenuItem.Icon>
                                                                 <Image Source="/DominatorUIUtility;component/Images/duplicatecampaign.png" />
                                                             </MenuItem.Icon>
                                                         </MenuItem>
                                                         <Separator />
-                                                        <MenuItem Header="{DynamicResource langDelete}" Height="30" x:Name="DeleteSingleCampaign" VerticalContentAlignment="Center" Click="DeleteSingleCampaign_OnClick">
+                                                        <MenuItem Header="{DynamicResource LangKeyDelete}" Height="30" x:Name="DeleteSingleCampaign" VerticalContentAlignment="Center" Click="DeleteSingleCampaign_OnClick">
                                                             <MenuItem.Icon>
                                                                 <Rectangle Width="15" Height="20" Fill="Black">
                                                                     <Rectangle.OpacityMask>
@@ -135,7 +135,7 @@
                                                             </MenuItem.Icon>
                                                         </MenuItem>
                                                         <Separator />
-                                                        <MenuItem Header="{DynamicResource langReport}" VerticalContentAlignment="Center" Height="30" x:Name="CampaignReports" Click="CampaignReports_OnClick">
+                                                        <MenuItem Header="{DynamicResource LangKeyReport}" VerticalContentAlignment="Center" Height="30" x:Name="CampaignReports" Click="CampaignReports_OnClick">
                                                             <MenuItem.Icon>
                                                                 <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
                                                             </MenuItem.Icon>

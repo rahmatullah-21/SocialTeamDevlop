@@ -34,7 +34,7 @@
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="White" Margin="5,0,0,0"
-                               Content="{DynamicResource langAccountDetails}" />
+                               Content="{DynamicResource LangKeyAccountDetails}" />
             </StackPanel>
 
 
@@ -47,7 +47,7 @@
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                     <StackPanel Orientation="Horizontal" >
                                         <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/AddSingleAccount.png"  />
-                                        <Label Content="{DynamicResource langAddAccount}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        <Label Content="{DynamicResource LangKeyAddAccount}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Border>
                             </ControlTemplate>
@@ -78,7 +78,7 @@
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                     <StackPanel Orientation="Horizontal" >
                                         <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                        <Label Content="{DynamicResource langSelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Border>
                             </ControlTemplate>
@@ -86,7 +86,7 @@
 
                         <Button.ContextMenu>
                             <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                                <MenuItem Header="{DynamicResource langAllAccounts}" Name="TitleMenu_AllAccounts"  Command="{Binding SelectAccountCommand}" CommandParameter="SelectAll">
+                                <MenuItem Header="{DynamicResource LangKeyAllAccounts}" Name="TitleMenu_AllAccounts"  Command="{Binding SelectAccountCommand}" CommandParameter="SelectAll">
                                     <MenuItem.Icon>
                                         <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
                                     </MenuItem.Icon>
@@ -94,26 +94,26 @@
 
                                 <Separator />
 
-                                <MenuItem Header="{DynamicResource langWorkingAccounts}" Name="TitleMenuWorkingAccounts" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
+                                <MenuItem Header="{DynamicResource LangKeyWorkingAccounts}" Name="TitleMenuWorkingAccounts" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
                                     <MenuItem.Icon>
                                         <Image Source="/DominatorUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
                                     </MenuItem.Icon>
                                 </MenuItem>
 
                                 <Separator />
-                                <MenuItem Header="{DynamicResource langNotWorkingAccounts}" Name="TitleMenuNotWorkingAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotWorking" >
+                                <MenuItem Header="{DynamicResource LangKeyNotWorkingAccounts}" Name="TitleMenuNotWorkingAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotWorking" >
                                     <MenuItem.Icon>
                                         <Image Source="/DominatorUIUtility;component/Images/notworking.png" Width="20" Height="20" />
                                     </MenuItem.Icon>
                                 </MenuItem>
 
-                                <MenuItem Header="{DynamicResource langNotCheckedAccounts}" Name="TitleMenuNotCheckedAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotChecked" >
+                                <MenuItem Header="{DynamicResource LangKeyNotCheckedAccounts}" Name="TitleMenuNotCheckedAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotChecked" >
                                     <MenuItem.Icon>
                                         <Image Source="/DominatorUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
                                     </MenuItem.Icon>
                                 </MenuItem>
 
-                                <MenuItem Name="MenuTitleGroups"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource langSelectAccountsByGroups}"  Command="{Binding UpdateGroupCommand}">
+                                <MenuItem Name="MenuTitleGroups"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource LangKeySelectAccountsByGroups}"  Command="{Binding UpdateGroupCommand}">
                                     <MenuItem.Icon>
                                         <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
                                     </MenuItem.Icon>
@@ -130,7 +130,7 @@
 
                                 <Separator />
 
-                                <MenuItem Header="{DynamicResource langDeselectAll}" Name="TitleMenu_DeselectAll"  Command="{Binding SelectAccountCommand}" CommandParameter="DeselectAll">
+                                <MenuItem Header="{DynamicResource LangKeyDeselectAll}" Name="TitleMenu_DeselectAll"  Command="{Binding SelectAccountCommand}" CommandParameter="DeselectAll">
                                     <MenuItem.Icon>
                                         <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
                                     </MenuItem.Icon>
@@ -146,7 +146,7 @@
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                     <StackPanel Orientation="Horizontal" >
                                         <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
-                                        <Label Content="{DynamicResource langUpdate}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        <Label Content="{DynamicResource LangKeyUpdate}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Border>
                             </ControlTemplate>
@@ -154,19 +154,19 @@
                         <Button.ContextMenu>
                             <ContextMenu  DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
 
-                                <MenuItem Header="{DynamicResource langUpdateAllDetails}" Name="UpdateAllDetailsMenu" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
+                                <MenuItem Header="{DynamicResource LangKeyUpdateAllDetails}" Name="UpdateAllDetailsMenu" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
                                     <MenuItem.Icon>
                                         <Image Source="/DominatorUIUtility;component/Images/edit.png" Width="20" Height="20"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
 
-                                <MenuItem Header="{DynamicResource DHlangCheckAccountStatus}" Name="CheckAccountStatus" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
+                                <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Name="CheckAccountStatus" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
                                     <MenuItem.Icon>
                                         <Image Source="/DominatorUIUtility;component/Images/friendupdate.png" Width="20" Height="20"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
 
-                                <MenuItem Header="{DynamicResource DHlangStopProcess}" Name="StopProcess" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
+                                <MenuItem Header="{DynamicResource LangKeyStopProcess}" Name="StopProcess" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
                                     <MenuItem.Icon>
                                         <Image Source="/DominatorUIUtility;component/Images/groupupdate.png" Width="20" Height="20"/>
                                     </MenuItem.Icon>
@@ -182,7 +182,7 @@
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                     <StackPanel Orientation="Horizontal">
                                         <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
-                                        <Label Content="{DynamicResource langExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        <Label Content="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
 
 
@@ -204,7 +204,7 @@
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
 
-                                        <Label Content="{DynamicResource langDelete}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        <Label Content="{DynamicResource LangKeyDelete}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Border>
                             </ControlTemplate>
@@ -212,9 +212,9 @@
 
                     </Button>
 
-                    <Button Background="Transparent" Name="btnInfo" VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource langInfo}" Command="{Binding InfoCommand}">
+                    <Button Background="Transparent" Name="btnInfo" VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource LangKeyInfo}" Command="{Binding InfoCommand}">
                         <Rectangle Width="25" Height="25" Fill="White" x:Name="Info"
-                                   VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource langInfo}" 
+                                   VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource LangKeyInfo}" 
                                    >
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
@@ -291,7 +291,7 @@
 
                 <ListView.View>
                     <GridView >
-                        <GridViewColumn Header="{DynamicResource langSelectSocialNetwork}" >
+                        <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
 
@@ -466,13 +466,13 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn  Header="{DynamicResource langUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
+                        <GridViewColumn  Header="{DynamicResource LangKeyUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
 
-                        <GridViewColumn  Header="{DynamicResource langStatus}" DisplayMemberBinding="{Binding AccountBaseModel.Status}"/>
+                        <GridViewColumn  Header="{DynamicResource LangKeyStatus}" DisplayMemberBinding="{Binding AccountBaseModel.Status}"/>
 
-                        <GridViewColumn  Header="{DynamicResource langGroupName}" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
+                        <GridViewColumn  Header="{DynamicResource LangKeyByGroupName}" DisplayMemberBinding="{Binding AccountBaseModel.AccountGroup.Content}"/>
 
-                        <GridViewColumn  Header="{DynamicResource langProxyAddress}" Width="130">
+                        <GridViewColumn  Header="{DynamicResource LangKeyProxyAddress}" Width="130">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type ListViewItem}">
                                     <TextBlock Name="TextBlockName">
@@ -510,7 +510,7 @@
             </ListView>
             <!--Help section-->
             <Controls:FlyoutsControl>
-                <Controls:Flyout Header="{DynamicResource langModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
+                <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
                                  Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
                     <local:HelpControl ModuleDescription="Text for account"
                                                  VideoTutorial="{Binding VideoTutorialLink}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 

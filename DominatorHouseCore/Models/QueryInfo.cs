@@ -225,49 +225,49 @@ namespace DominatorHouseCore.Models
 
     public enum UserQueryParameters
     {
-        [Description("langHashTagPost")]
+        [Description("LangKeyHashtagPostS")]
         HashtagPost = 1,
-        [Description("langHashtagusers")]
+        [Description("LangKeyHashtagUsers")]
         HashtagUsers = 2,
-        [Description("langKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords = 3,
-        [Description("langSomeonesFollowers")]
+        [Description("LangKeySomeonesFollowers")]
         SomeonesFollowers = 4,
-        [Description("langSomeonesFollowings")]
+        [Description("LangKeySomeonesFollowings")]
         SomeonesFollowings = 5,
-        [Description("langFollowersOfSomeonesFollowings")]
+        [Description("LangKeyFollowersOfSomeonesFollowings")]
         FollowersOfFollowings = 6,
-        [Description("langFollowersOfSomeonesFollowers")]
+        [Description("LangKeyFollowersOfSomeonesFollowings")]
         FollowersOfFollowers = 7,
-        [Description("langLocationUsers")]
+        [Description("LangKeyLocationUsers")]
         LocationUsers = 8,
-        [Description("langLocationPosts")]
+        [Description("LangKeyLocationPosts")]
         LocationPosts = 9,
-        [Description("langCustomUser")]
+        [Description("LangKeyCustomUsersList")]
         CustomUsers = 10,
-        [Description("langSuggestedUsers")]
+        [Description("LangKeySuggestedUsers")]
         SuggestedUsers = 11,
-        [Description("langCustomPhotos")]
+        [Description("LangKeyCustomPhotos")]
         CustomPhotos =12,
-        [Description("langUsersWhoLiked")]
+        [Description("LangKeyUsersWhoLikedPosts")]
         UsersWhoLikedPost = 13,
-        [Description("langUsersWhoCommented")]
+        [Description("LangKeyUsersWhoCommentedOnPosts")]
         UsersWhoCommentedOnPost = 14,
-        [Description("langFromSomeonesCircle")]
+        [Description("LangKeyFromSomeonesCircle")]
         FromSomeonesCircle=15,
-        [Description("langFromCircleOfFollowers")]
+        [Description("LangKeyFromCircleOfFollowers")]
         FromCircleOfFollowers=16,
-        [Description("langFromCircleOfFollowings")]
+        [Description("LangKeyFromCircleOfFollowings")]
         FromCircleOfFollowings=17,
-        [Description("langBoardFollowers")]
+        [Description("LangKeyBoardFollowers")]
         BoardFollowers = 18,
-        [Description("langCustomBoard")]
+        [Description("LangKeyCustomBoard")]
         CustomBoard = 19,
-        [Description("langCustomPin")]
+        [Description("LangKeyCustomPin")]
         CustomPin = 20,
-        [Description("langNewsFeedPins")]
+        [Description("LangKeyNewsfeed")]
         NewsFeedPins = 21,
-        [Description("langCustomUrl")]
+        [Description("LangKeyCustomurl")]
         CustomUrl = 22
     }
 }

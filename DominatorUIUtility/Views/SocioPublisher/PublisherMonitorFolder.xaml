@@ -15,8 +15,8 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Foreground="White" Text="{DynamicResource DhlangFolderPath}"/>
-                        <Button Grid.Column="1" Background="Transparent" ToolTip="{DynamicResource langBrowse}"
+                        <TextBlock Foreground="White" Text="{DynamicResource LangKeyFolderPath}"/>
+                        <Button Grid.Column="1" Background="Transparent" ToolTip="{DynamicResource LangKeyBrowse}"
                                 HorizontalAlignment="Right" Command="{Binding BrowseFolderCommand}">
                             <Button.Content>
                                 <Canvas  HorizontalAlignment="Right" Width="15"  Height="15" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0">
@@ -31,7 +31,7 @@
                 </GroupBox.Header>
                 <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400" Text="{Binding PublisherMonitorFolderModel.FolderPath}"/>
             </GroupBox>
-            <GroupBox Header="{DynamicResource DhlangFolderTemplates}" Margin="10,0">
+            <GroupBox Header="{DynamicResource LangKeyFolderTemplates}" Margin="10,0">
                 <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400"
                          Text="{Binding PublisherMonitorFolderModel.FolderTemplate}" FontWeight="SemiBold"/>
             </GroupBox>
@@ -43,7 +43,7 @@
                 Command="{Binding SaveCommand}" Content="{Binding PublisherMonitorFolderModel.ButtonContent}"
                 CommandParameter="{Binding ElementName=BtnSave}" />
 
-        <GroupBox Header="{DynamicResource DhlangFolderPathDetails}" Width="830" HorizontalAlignment="Left">
+        <GroupBox Header="{DynamicResource LangKeyFolderPathDetails}" Width="830" HorizontalAlignment="Left">
             <GroupBox.Style>
                 <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
                     <Setter Property="Visibility" Value="Visible"/>

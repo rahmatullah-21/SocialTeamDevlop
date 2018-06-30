@@ -7,10 +7,10 @@
              mc:Ignorable="d" >
     <StackPanel x:Name="MainGrid" Margin="10">
         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-            <GroupBox Header="{DynamicResource DhlangFeedUrl}">
+            <GroupBox Header="{DynamicResource LangKeyFeedUrlDetails}">
                 <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400" Text="{Binding PublisherRssFeedModel.FeedUrl}"/>
             </GroupBox>
-            <GroupBox Header="{DynamicResource DhlangFeedTemplate}" Margin="10,0">
+            <GroupBox Header="{DynamicResource LangKeyFeedTemplates}" Margin="10,0">
                 <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400"
                          Text="{Binding PublisherRssFeedModel.FeedTemplate}" FontWeight="SemiBold"/>
             </GroupBox>
@@ -71,7 +71,7 @@
                                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
-                                        <!--<TextBlock Text="{DynamicResource langDelete}"/>-->
+                                        <!--<TextBlock Text="{DynamicResource LangKeyDelete}"/>-->
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

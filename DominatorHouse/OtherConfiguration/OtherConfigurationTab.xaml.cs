@@ -32,7 +32,7 @@ namespace Socinator.Social.OtherConfiguration
             {
                 new TabItemTemplates
                 {
-                    Title =FindResource("DHlangSoftwareSettings").ToString(),
+                    Title =FindResource("LangKeySoftwareSettings").ToString(),
                    Content = new Lazy<UserControl>(SoftwareSettings.GetSingeltonObjectSoftwareSettings)
                 },
                 //new TabItemTemplates

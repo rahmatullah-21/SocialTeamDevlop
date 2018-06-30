@@ -19,13 +19,13 @@
 
     <StackPanel Name="DirectPost" >
         <StackPanel Margin="0,10,0,0">
-            <RadioButton GroupName="CreatePost" Name="CheckBoxSinglePost" Margin="2" Content="{DynamicResource DHlangCreateSinglePost}" IsChecked="{Binding PostDetailsModel.IsSinglePost}"/>
+            <RadioButton GroupName="CreatePost" Name="CheckBoxSinglePost" Margin="2" Content="{DynamicResource LangKeyCreateASinglePost}" IsChecked="{Binding PostDetailsModel.IsSinglePost}"/>
             <StackPanel Margin="2" Visibility="{Binding PostDetailsModel.IsSinglePost,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource DHlangPublisherPostDescription}" VerticalAlignment="Center" FontSize="12" />
+                <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource LangKeyPostDescription}" VerticalAlignment="Center" FontSize="12" />
                 <customControl:SocinatorTextBox   
                     MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
                                                    SuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
-                    Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}"
+                    Watermark="{DynamicResource LangKeyWhatsOnYourMind}"
                     Text="{Binding PostDetailsModel.PostDescription, Mode=TwoWay}" TextHeight="60" TextWidth="300" Margin="2" TextWrapping="Wrap"
                     DisplayMember="Key">
                     <customControl:SocinatorTextBox.LoadingContent>
@@ -52,7 +52,7 @@
 
         <StackPanel Margin="0,10,0,0">
             <RadioButton GroupName="CreatePost" Name="CheckBoxMultiPost" Margin="2"
-                             Content="{DynamicResource DHlangMultiplePost}" 
+                             Content="{DynamicResource LangKeyCreateAMultiplePosts}" 
                              IsChecked="{Binding PostDetailsModel.IsMultiPost}"/>
             <StackPanel Orientation="Horizontal" Visibility="{Binding PostDetailsModel.IsMultiPost,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Button Foreground="White" Margin="2"  Cursor="Hand" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="30" Width="160" VerticalAlignment="Center"  Command="{Binding MultiplePostCommand}" CommandParameter="{Binding}">
@@ -62,7 +62,7 @@
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_export}" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <Label Content="{DynamicResource DHlangCreateMultiPost}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                        <Label Content="{DynamicResource LangKeyMultiplePost}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                     </StackPanel>
                 </Button>
 
@@ -74,7 +74,7 @@
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_export}" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <Label Content="{DynamicResource DHlangImportFromCsv}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                        <Label Content="{DynamicResource LangKeyImportFromCSV}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                     </StackPanel>
                 </Button>
 
@@ -84,17 +84,17 @@
         <StackPanel Margin="0,10,0,0">
 
             <RadioButton GroupName="CreatePost" Name="CheckBoxMultiImage" Margin="2" 
-                             Content="{DynamicResource DHlangMultipleImagePost}"  IsChecked="{Binding PostDetailsModel.IsMultipleImagePost}"/>
+                             Content="{DynamicResource LangKeyCreateAMultipleImagePost}"  IsChecked="{Binding PostDetailsModel.IsMultipleImagePost}"/>
 
             <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding PostDetailsModel.IsMultipleImagePost,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel>
                     <CheckBox Name="CheckBoxUseFileNameAsDescription" Margin="2"
-                                  Content="{DynamicResource DHlangFileNameAsPostDescription}"
+                                  Content="{DynamicResource LangKeyUseFileNameAsPostDescription}"
                                   IsChecked="{Binding IsUseFileNameAsDescription}"/>
-                    <CheckBox Name="CheckBoxUniquePost" Margin="2" Content="{DynamicResource DHlangUniquePost}"
+                    <CheckBox Name="CheckBoxUniquePost" Margin="2" Content="{DynamicResource LangKeyAddOnlyUniquePost}"
                                   IsChecked="{Binding PostDetailsModel.IsUniquePost}"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Name="TextBlockUploadUrl" VerticalAlignment="Center" Margin="2" Text="{DynamicResource DHlangUploadFromUrl}" />
+                        <TextBlock Name="TextBlockUploadUrl" VerticalAlignment="Center" Margin="2" Text="{DynamicResource LangKeyUploadFromUrl}" />
                         <TextBox Name="TextBoxGetImages" Width="180" Height="25" Text="{Binding PostDetailsModel.ImagesUrl, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                      Style="{StaticResource SearchMetroTextBox}" control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}" control:TextBoxHelper.ButtonCommandParameter="{Binding ElementName=ImageMediaViewer}"/>
                        

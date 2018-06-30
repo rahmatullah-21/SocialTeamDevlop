@@ -26,7 +26,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
             {
                 new TabItemTemplates
                 {
-                    Title=FindResource("DHlangGeneralSettings").ToString(),
+                    Title=FindResource("LangKeyGeneralSettings").ToString(),
                     Content = new Lazy<UserControl>(() => new PostGeneralSettings(PublisherPostSettings))
                 }              
             };
@@ -56,35 +56,35 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                     case SocialNetworks.Facebook:
                         items.Add(new TabItemTemplates
                         {
-                            Title = FindResource("langFacebook").ToString(),
+                            Title = FindResource("LangKeyFacebook").ToString(),
                             Content = new Lazy<UserControl>(() => new PostFacebookSettings(PublisherPostSettings))
                         });
                         break;
                     case SocialNetworks.Instagram:
                         items.Add(new TabItemTemplates
                         {
-                            Title = FindResource("langInstagram").ToString(),
+                            Title = FindResource("LangKeyInstagram").ToString(),
                             Content = new Lazy<UserControl>(() => new PostInstagramSettings(PublisherPostSettings))
                         });
                         break;
                     case SocialNetworks.Twitter:
                         items.Add(new TabItemTemplates
                         {
-                            Title = FindResource("DHlangTwitter").ToString(),
+                            Title = FindResource("LangKeyTwitter").ToString(),
                             Content = new Lazy<UserControl>(() => new PostTwitterSettings(PublisherPostSettings))
                         });
                         break;
                     case SocialNetworks.LinkedIn:
                         items.Add(new TabItemTemplates
                         {
-                            Title = FindResource("DHlangLinkedIn").ToString(),
+                            Title = FindResource("LangKeyLinkedIn").ToString(),
                             Content = new Lazy<UserControl>(() => new PostLinkedInSettings(PublisherPostSettings))
                         });
                         break;
                     case SocialNetworks.Tumblr:
                         items.Add(new TabItemTemplates
                         {
-                            Title = FindResource("DHlangTumblr").ToString(),
+                            Title = FindResource("LangKeyTumblr").ToString(),
                             Content = new Lazy<UserControl>(() => new PostTumblrSettings(PublisherPostSettings))
                         });
                         break;
@@ -92,7 +92,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                     case SocialNetworks.Reddit:
                         items.Add(new TabItemTemplates
                         {
-                            Title = FindResource("DHlangReddit").ToString(),
+                            Title = FindResource("LangKeyReddit").ToString(),
                             Content = new Lazy<UserControl>(() => new PostRedditSettings(PublisherPostSettings))
                         });
                         break;

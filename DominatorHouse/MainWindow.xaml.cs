@@ -36,6 +36,7 @@ using DominatorUIUtility.Views.Publisher;
 using EmbeddedBrowser;
 // using EmbeddedBrowser;
 using FluentScheduler;
+using Languages;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Socinator.Social.AutoActivity.Views;
@@ -56,7 +57,7 @@ namespace Socinator
         private ObservableCollection<TabItemTemplates> _tabItems;
         private ObservableCollection<string> _languages;
         private Dictionary<string, CancellationToken> _accountUpdater = new Dictionary<string, CancellationToken>();
-
+        
         private bool IsClickedFromMainWindow { get; set; } = true;
 
         private DominatorAccountViewModel.AccessorStrategies _strategies;
@@ -316,7 +317,7 @@ namespace Socinator
                 // Go to campaign from respective module after campaign saved
                 TabSwitcher.GoToCampaign = ()
                     => SelectedViewIndex =
-                        TabItems.FindIndex(x => x.Title == FindResource("DHlangCampaigns").ToString());
+                        TabItems.FindIndex(x => x.Title == FindResource("LangKeyCampaigns").ToString());
 
                 Closed += (o, e) => Process.GetCurrentProcess().Kill();
             }
@@ -409,7 +410,7 @@ namespace Socinator
                 if (textBlockDetails == null)
                     return;
 
-                if (textBlockDetails.Text == FindResource("langAutoActivity").ToString())
+                if (textBlockDetails.Text == FindResource("LangKeyAccountsActivity").ToString())
                 {
                     DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
 
@@ -417,11 +418,11 @@ namespace Socinator
                     //    .AccountUserControlTools;
                     //accountUi.GetStartupToolsView();
                 }
-                if (textBlockDetails.Text == FindResource("langPublisher").ToString())
+                if (textBlockDetails.Text == FindResource("LangKeyPublisher").ToString())
                 {
                     PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
                 }
-                if (textBlockDetails.Text == FindResource("langAccountsManager").ToString())
+                if (textBlockDetails.Text == FindResource("LangKeyAccountsManager").ToString())
                 {
                     AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl= AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
                 }

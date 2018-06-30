@@ -21,7 +21,7 @@
                     <TextBlock Text="Blacklist User" Foreground="White"  FontSize="30" FontWeight="SemiBold"/>
                     <Rectangle Width="20" Height="20" Fill="White"  Margin="10,0" Grid.Column="1"
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
-                                   x:Name="RefreshBlacklistedUsers" ToolTip="{DynamicResource langRefreshBlacklistedUsersList}"
+                                   x:Name="RefreshBlacklistedUsers" ToolTip="{DynamicResource LangKeyRefreshBlacklistedUsersList}"
                                    MouseDown="RefreshBlacklistedUsers_OnMouseDown">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_reset}" />
@@ -34,13 +34,13 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource langUsernameBlacklistTag}"  
+                <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
                               TextWrapping="Wrap" AcceptsReturn="True"
-                              ToolTip="{DynamicResource langUsernameBlacklistTag}"  
+                              ToolTip="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
                               Name="Txtusername"  VerticalScrollBarVisibility="Auto" 
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                               BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
-                <Button Grid.Row="1" Name="BtnAddtoBlacklist" x:FieldModifier="public" Content="{DynamicResource langAddUsersToBlacklist}" 
+                <Button Grid.Row="1" Name="BtnAddtoBlacklist" x:FieldModifier="public" Content="{DynamicResource LangKeyAddToBlacklist}" 
                             VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Stretch" Background="Red" Foreground="White"
                             Click="BtnAddtoBlacklist_OnClick"/>
             </Grid>
@@ -53,10 +53,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Label  Content="{DynamicResource langBlacklistedUsers}" Foreground="White"
+                    <Label  Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="White"
                                 VerticalAlignment="Center" FontSize="30" FontWeight="SemiBold"/>
                     <CheckBox Name="SelectAll" Grid.Column="1" Foreground="White" IsChecked="{Binding IsAllBlackListUserChecked}"
-                              Margin="10,0"    VerticalAlignment="Center" HorizontalAlignment="Right" Content="{DynamicResource langSelectAll}"
+                              Margin="10,0"    VerticalAlignment="Center" HorizontalAlignment="Right" Content="{DynamicResource LangKeySelectAll}"
                               Checked="SelectAll_OnChecked" Unchecked="SelectAll_OnUnchecked"/>
                 </Grid>
             </GroupBox.Header>
@@ -74,7 +74,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Button Grid.Row="1" Name="DeletedSelected" Content="{DynamicResource langRemoveSelectedFromBlacklist}"
+                <Button Grid.Row="1" Name="DeletedSelected" Content="{DynamicResource LangKeyRemoveSelectedFromBlacklist}"
                         Background="{DynamicResource AccentBaseColorBrush}" 
                         Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
                         Click="DeletedSelected_OnClick">

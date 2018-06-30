@@ -9,7 +9,7 @@
     <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
         <GroupBox.Header>
             <Grid>
-                <Label Content="{DynamicResource langConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
+                <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
                 <Button Name="BtnSave" Click="BtnSave_OnClick"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"
                         VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button.Content>
@@ -27,20 +27,20 @@
         </GroupBox.Header>
         <StackPanel Margin="10" x:Name="MainGrid">
             <StackPanel Orientation="Horizontal">
-                <Label Margin="5" Content="{DynamicResource DHlangWaitMinimumOf}"/>
+                <Label Margin="5" Content="{DynamicResource LangKeyWaitAMinimumOf}"/>
                 <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
-                <Label Content="{DynamicResource DHlangHoursBeforeRefreshingTumblrd}"/>
+                <Label Content="{DynamicResource LangKeyHoursBeforeRefreshingTheFriendListForATumblrAccountFriendBackupOrInviteToolsMustBeStarted}"/>
             </StackPanel>
             <CheckBox Margin="5" Content="{DynamicResource DHlangDisableSyncForNewAccounts}"
                       IsChecked="{Binding IsDisableSyncForNewAccountsChecked}"/>
             <StackPanel Orientation="Horizontal">
-                <Label Margin="5" Content="{DynamicResource DHlangAllowSyncsToExecute}"/>
+                <Label Margin="5" Content="{DynamicResource LangKeyAllowSyncsToExecuteOnAMaximumOf}"/>
                 <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding MaxOfFbAccount}"/>
-                <Label Content="{DynamicResource DHlangFacebookAccountsAtSameTimeTumblrd}"/>
+                <Label Content="{DynamicResource LangKeyTumblrAccountsAtTheSameTime}"/>
             </StackPanel>
 
         </StackPanel>
-        <!--<CheckBox Margin="10" Content="{DynamicResource DHlangEnableFollowDifferentUsersAcrossTumblrAccounts}"
+        <!--<CheckBox Margin="10" Content="{DynamicResource LangKeyEnableFollowDifferentUsersAcrossAllTumblrAccounts}"
                   VerticalAlignment="Top" IsChecked="{Binding IsEnableFollowDifferentUsersAcrossTumblrAccountsChecked}" />-->
     </GroupBox>    
 </UserControl>

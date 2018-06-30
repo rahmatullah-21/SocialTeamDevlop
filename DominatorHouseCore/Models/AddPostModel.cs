@@ -751,7 +751,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private string _selectedStatus = Application.Current.FindResource("langAll").ToString();
+        private string _selectedStatus = Application.Current.FindResource("LangKeyAll").ToString();
         [ProtoMember(2)]
         public string SelectedStatus
         {

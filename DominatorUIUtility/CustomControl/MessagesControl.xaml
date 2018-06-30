@@ -12,7 +12,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel>
-                <TextBlock FontWeight="Bold" Margin="0,10" FontSize="16" Text="{DynamicResource DHlangMessageText}" VerticalAlignment="Center"/>
+                <TextBlock FontWeight="Bold" Margin="0,10" FontSize="16" Text="{DynamicResource LangKeyMessageText}" VerticalAlignment="Center"/>
                 <local:InputBoxControl  InputText="{Binding Messages.MessagesText}" SaveVisiblity="Collapsed"/>
             </StackPanel>
             <Grid Margin="10,30" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1">
@@ -24,7 +24,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource langQueries}" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource LangKeyQueries}" VerticalAlignment="Center"/>
                 <ComboBox Width="200" Margin="10" Grid.Column="1" x:Name="ComboBoxQueries"  x:FieldModifier="public" ItemsSource="{Binding Messages.LstQueries}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -47,7 +47,7 @@
             </Grid>
 
         </Grid>
-        <Button Content="{DynamicResource DHlangAddMessageToList}" Width="200" x:Name="btnAddMessagesToList" Click="BtnAddMessagesToList_OnClick"
+        <Button Content="{DynamicResource LangKeyAddMessageToList}" Width="200" x:Name="btnAddMessagesToList" Click="BtnAddMessagesToList_OnClick"
                     Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,30,0,0"/>
 
     </StackPanel>

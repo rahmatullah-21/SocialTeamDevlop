@@ -7,10 +7,10 @@
              mc:Ignorable="d">
     <Grid x:Name="MainGrid">
         <StackPanel Margin="2">
-            <CheckBox x:Name="CheckBoxIsNsfw" Margin="2" IsChecked="{Binding IsNsfw}" Content="{DynamicResource DHlangIsNsfw}" />
-            <CheckBox x:Name="CheckBoxIsOriginalContent" IsChecked="{Binding IsOriginalContent}" Margin="2" Content="{DynamicResource DHlangIsOriginalContent}"/>
-            <CheckBox x:Name="CheckBoxIsSpoiler" Margin="2" IsChecked="{Binding IsSpoiler}" Content="{DynamicResource DHlangIsSpoiler}"/>
-            <CheckBox x:Name="CheckBoxIsDisableSendingReplies" IsChecked="{Binding IsDisableSendingReplies}" Margin="2" Content="{DynamicResource DHlangIsDisableSendingReplies}"/>
+            <CheckBox x:Name="CheckBoxIsNsfw" Margin="2" IsChecked="{Binding IsNsfw}" Content="{DynamicResource LangKeyIsNSFW}" />
+            <CheckBox x:Name="CheckBoxIsOriginalContent" IsChecked="{Binding IsOriginalContent}" Margin="2" Content="{DynamicResource LangKeyIsOriginalContent}"/>
+            <CheckBox x:Name="CheckBoxIsSpoiler" Margin="2" IsChecked="{Binding IsSpoiler}" Content="{DynamicResource LangKeyIsSpoiler}"/>
+            <CheckBox x:Name="CheckBoxIsDisableSendingReplies" IsChecked="{Binding IsDisableSendingReplies}" Margin="2" Content="{DynamicResource LangKeyDisableSendingReplies}"/>
         </StackPanel>
     </Grid>
 </UserControl>

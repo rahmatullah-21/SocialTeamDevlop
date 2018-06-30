@@ -14,63 +14,63 @@
     <Grid x:Name="MainGrid">
         <ScrollViewer>
             <StackPanel>
-                <!--<CheckBox Content="{DynamicResource langDisableClickableImagePost}" VerticalAlignment="Center" Margin="5"/>-->
-                <CheckBox Content="{DynamicResource langNavigateFromFacebookWall}"
+                <!--<CheckBox Content="{DynamicResource LangKeyDisableClickableImagePostWhenPostingImagesLinkOnFacebookPages}" VerticalAlignment="Center" Margin="5"/>-->
+                <CheckBox Content="{DynamicResource LangKeyNavigateFromTheFacebookWallToAGroupWhenPublishingInsteadOfDirectlyVisitingTheGroup}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsNavigateFromFacebookWall}"/>
-                <!--<CheckBox Content="{DynamicResource langStopClickableImagePost}" VerticalAlignment="Center" Margin="5"/>-->
-                <RadioButton Content="{DynamicResource langUseSimplifiedMethodForFacebook}" 
+                <!--<CheckBox Content="{DynamicResource LangKeyStopClickableImagePostIfTheLinkPreviewDoesNotShowAnImageInsteadOfDeletingThePostAtTheEnd}" VerticalAlignment="Center" Margin="5"/>-->
+                <RadioButton Content="{DynamicResource LangKeyUseSimplifiedMethodForFacebookSharePostsPostingThePagePostLinkInsteadOfShare}" 
                              VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsUseSimplifiedMethodForFacebook}"/>
-                <RadioButton Content="{DynamicResource langSkipSimplifiedShare}" 
+                <RadioButton Content="{DynamicResource LangKeySkipSimplifiedShareWhenNormalSharingFails}" 
                              VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsSkipSimplifiedShare}"/>
-                <CheckBox Content="{DynamicResource langUncheckIncludeOriginalPost}"
+                <CheckBox Content="{DynamicResource LangKeyUncheckIncludeOriginalPostFromFacebookPageShare}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsUncheckIncludeOriginalPost}"/>
-                <CheckBox Content="{DynamicResource langRemoveViaoption}" 
+                <CheckBox Content="{DynamicResource LangKeyRemoveThe}" 
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsRemoveViaoption}"/>
-                <CheckBox Content="{DynamicResource langHidePostInFacebook}"
+                <CheckBox Content="{DynamicResource LangKeyHideThePostInFacebookGroupsPagesWallAfterPublishing}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsHidePostInFacebook}"/>
-                <CheckBox Content="{DynamicResource langDisableCommentsForNewPost}"
+                <CheckBox Content="{DynamicResource LangKeyDisableCommentsForNewPost}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsDisableCommentsForNewPost}"/>
-                <CheckBox Content="{DynamicResource langTurnOffNotificationsForNewPost}"
+                <CheckBox Content="{DynamicResource LangKeyTurnOffNotificationsForNewPost}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsTurnOffNotificationsForNewPost}"/>
-                <CheckBox Content="{DynamicResource langRemoveLocationForSellPosts}"
+                <CheckBox Content="{DynamicResource LangKeyRemoveLocationForSellPostsInGroups}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsRemoveLocationForSellPosts}"/>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource langAllowMaximumOf}"
+                    <CheckBox Content="{DynamicResource LangKeyAllowAMaximumOf}"
                               VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsAllowMaximumOf}"/>
                     <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Margin="5,0"
                                             IsEnabled="{Binding FacebookModel.IsAllowMaximumOf}"
                                             Value="{Binding FacebookModel.MaximumOf}"/>
-                    <TextBlock Text="{DynamicResource langPendingPostsInGroups}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource LangKeyPendingPostsInGroupsThatRequireAdminValidation}" VerticalAlignment="Center"/>
                 </StackPanel>
-                <CheckBox Content="{DynamicResource langRefreshPageAndRetryPost}" 
+                <CheckBox Content="{DynamicResource LangKeyRefreshPageAndRetryPostIfFacebookDoesNotExtractAnImagePreviewFromALinkRefreshingThePageAndRetryingThePostNormallyFixesTheIssue}" 
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsRefreshPageAndRetryPost}"/>
-                <CheckBox Content="{DynamicResource langRemoveLinkPreview}" 
+                <CheckBox Content="{DynamicResource LangKeyRemoveLinkPreviewFromFacebookPosts}" 
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsRemoveLinkPreview}"/>
-                <CheckBox Content="{DynamicResource langSkipImageUpload}"
+                <CheckBox Content="{DynamicResource LangKeySkipImageUploadForPostsWithLinksInside}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsSkipImageUpload}"/>
-                <CheckBox Content="{DynamicResource langEnableAutomaticHashTags}"
+                <CheckBox Content="{DynamicResource LangKeyEnableAutomaticHashtags}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsEnableAutomaticHashTags}"/>
                 <StackPanel Visibility="{Binding FacebookModel.IsEnableAutomaticHashTags,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock Text="{DynamicResource DHlangUsehashInFrontOfKeywords}" Margin="30,5"/>
+                    <TextBlock Text="{DynamicResource LangKeyUseToAddNumOfInFrontOfTheKeywordsThatYouSelectOrInFrontOfWordsWithALengthGreaterThanAGivenValue}" Margin="30,5"/>
                     <StackPanel Orientation="Horizontal"  Margin="30,0" >
-                        <TextBlock Text="{DynamicResource DHlangMaxHashtagsPerPost}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource LangKeyMaxHashtagsPerPost}" VerticalAlignment="Center"/>
                         <controls:NumericUpDown Margin="5" Minimum="0" Value="{Binding FacebookModel.MaxHashtagsPerPost}"/>
                     </StackPanel>
-                    <GroupBox Header="{DynamicResource langHashByKeyword}"  Margin="30,5">
+                    <GroupBox Header="{DynamicResource LangKeyHashByKeyword}"  Margin="30,5">
                         <StackPanel>
-                            <TextBlock Text="{DynamicResource langAutomaticallyHashAllWords}" VerticalAlignment="Center" Margin="5"/>
+                            <TextBlock Text="{DynamicResource LangKeyAutomaticallyHashAllTheWordsInTheListBelowAddYourKeywordsSeparatedByCommas}" VerticalAlignment="Center" Margin="5"/>
                             <TextBox Height="50" Width="300" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
                                      HorizontalAlignment="Left" Margin="10,5" Text="{Binding FacebookModel.HashWords}"/>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="{DynamicResource langHashByMinimumWordLength}"  Margin="30,5">
+                    <GroupBox Header="{DynamicResource LangKeyHashByMinimumWordLength}"  Margin="30,5">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="5">
-                                <TextBlock Text="{DynamicResource langMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
+                                <TextBlock Text="{DynamicResource LangKeyMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
                                 <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Value="{Binding FacebookModel.MinimumWordLength}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="5,0">
-                                <TextBlock Text="{DynamicResource langReplaceProbability}" VerticalAlignment="Center" Margin="5"/>
+                                <TextBlock Text="{DynamicResource LangKeyReplaceProbability}" VerticalAlignment="Center" Margin="5"/>
                                 <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Value="{Binding FacebookModel.ReplaceProbability}"/>
                             </StackPanel>
                         </StackPanel>
@@ -78,29 +78,29 @@
 
                    </StackPanel>
                 <StackPanel Orientation="Horizontal" >
-                    <CheckBox Content="{DynamicResource langDeletePostAfter}"
+                    <CheckBox Content="{DynamicResource LangKeyDeletePostAfter}"
                               VerticalAlignment="Center" Margin="5" 
                               IsChecked="{Binding FacebookModel.IsDeletePostAfter}"/>
                     <controls:NumericUpDown Margin="5" Minimum="0" 
                                             IsEnabled="{Binding FacebookModel.IsDeletePostAfter}"
                                             Value="{Binding FacebookModel.DeletePostAfter.StartValue}"/>
-                    <TextBlock Text="{DynamicResource langTo}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource LangKeyTo}" VerticalAlignment="Center"/>
                     <controls:NumericUpDown Margin="5" IsEnabled="{Binding FacebookModel.IsDeletePostAfter}"
                                             Minimum="{Binding FacebookModel.DeletePostAfter.StartValue}"
                                             Value="{Binding FacebookModel.DeletePostAfter.EndValue}"/>
-                    <TextBlock Text="{DynamicResource langHours}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource LangKeyHours}" VerticalAlignment="Center"/>
                 </StackPanel>
-                <!--<CheckBox Content="{DynamicResource langAutomaticallyDeletePosts}" VerticalAlignment="Center" Margin="5"/>-->
-                <CheckBox Content="{DynamicResource langEnableDynamicHashTags}"
+                <!--<CheckBox Content="{DynamicResource LangKeyAutomaticallyDeletePosts}" VerticalAlignment="Center" Margin="5"/>-->
+                <CheckBox Content="{DynamicResource LangKeyEnableDynamicHashtags}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsEnableDynamicHashTags}"/>
-                <CheckBox Content="{DynamicResource DHlangAddHashTagEvenIfAlreadyHastags}"
+                <CheckBox Content="{DynamicResource LangKeyAddHashtagsEvenIfThePostAlreadyHasHashtags}"
                           VerticalAlignment="Center" Margin="30,0" IsChecked="{Binding FacebookModel.IsAddHashTagEvenIfAlreadyHastags}"
                           Visibility="{Binding FacebookModel.IsEnableDynamicHashTags,
                           Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <StackPanel Visibility="{Binding FacebookModel.IsAddHashTagEvenIfAlreadyHastags,
                             Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal" Margin="50,0">
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource DHlangMaxHashtagsPerPost}"/>
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMaxHashtagsPerPost}"/>
                         <controls:NumericUpDown Margin="5" Minimum="0" 
                                                 Value="{Binding FacebookModel.MaxHashtagsPerPostRange.StartValue}"/>
                         <TextBlock Text="-" VerticalAlignment="Center"/>
@@ -109,34 +109,34 @@
                                                 Value="{Binding FacebookModel.MaxHashtagsPerPostRange.EndValue}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="50,0">
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource DHlangPick}"/>
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPick}"/>
                         <controls:NumericUpDown Margin="5" Minimum="0" Value="{Binding FacebookModel.PickPercentHashTag}"/>
-                        <TextBlock Text="{DynamicResource DHlangPercentExtraHashtags}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource LangKeyPercentOfTheExtraHashtagsFromThisList}" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="50,0">
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource DHlangPick}"/>
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPick}"/>
                         <controls:NumericUpDown Margin="5" Minimum="0" Value="{Binding FacebookModel.PickPercentFromList}"/>
-                        <TextBlock Text="{DynamicResource DHlangPercentFromList}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource LangKeyPercentFromThisList}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </StackPanel>
-                
-                    <CheckBox Content="{DynamicResource langGlobalSellPostsZipcode}"
+
+                <CheckBox Content="{DynamicResource LangKeyGlobalSellPostsZipcode}"
                               VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsGlobalSellPostsZipcode}"/>
                 <custom:InputBoxControl Margin="30,5" 
                                         Visibility="{Binding FacebookModel.IsGlobalSellPostsZipcode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 
                 <!--<StackPanel Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource langSellPostsLocation}" VerticalAlignment="Center" Margin="5"/>
-                    <TextBox Width="200" controls:TextBoxHelper.Watermark="{DynamicResource langSellPostsLocationWaterMark}"/>
+                    <CheckBox Content="{DynamicResource LangKeySellPostsLocation}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBox Width="200" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyLosAngelesCalifornia}"/>
                 </StackPanel>-->
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource langPublishOnBetween}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyPublishOnBetween}" VerticalAlignment="Center" Margin="5"/>
                     <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 
                                             Value="{Binding FacebookModel.PublishOnBetween.StartValue}"/>
-                    <TextBlock Text="{DynamicResource langAnd}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyAnd}" VerticalAlignment="Center" Margin="5"/>
                     <controls:NumericUpDown VerticalAlignment="Center" Minimum="{Binding FacebookModel.PublishOnBetween.StartValue}"
                                             Value="{Binding FacebookModel.PublishOnBetween.EndValue}"/>
-                    <TextBlock Text="{DynamicResource langSellGroupsAtSameTime}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeySellGroupsAtTheSameTime}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

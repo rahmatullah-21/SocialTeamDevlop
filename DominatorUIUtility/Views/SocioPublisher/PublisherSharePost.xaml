@@ -12,8 +12,8 @@
     </UserControl.Resources>
     <StackPanel Orientation="Vertical" Name="MainGrid">
         <StackPanel Orientation="Vertical">
-            <CheckBox Margin="2" Content="{DynamicResource DHlangShareCustomPostList}" IsChecked="{Binding SharePostModel.IsShareCustomPostList}" />
-            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangShareAddCustomPostList}"
+            <CheckBox Margin="2" Content="{DynamicResource LangKeySharePostsFromCustomPostsList}" IsChecked="{Binding SharePostModel.IsShareCustomPostList}" />
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddCustomPostsLists}"
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
                          Text="{Binding SharePostModel.ShareAddCustomPostList}"  Visibility="{Binding SharePostModel.IsShareCustomPostList,Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </StackPanel>
@@ -21,40 +21,40 @@
 
         <StackPanel Orientation="Vertical">
             <CheckBox Margin="2" Content="{DynamicResource DHlangShareFdPagePost}" IsChecked="{Binding SharePostModel.IsShareFdPagePost}" />
-            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddFdPageUrl}"
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPageUrl}"
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
                          Text="{Binding SharePostModel.AddFdPageUrl}"  Visibility="{Binding SharePostModel.IsShareFdPagePost,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
             <StackPanel Margin="10,0,0,0">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox  Margin="2" Content="{DynamicResource DHlangNewPagePost}" IsChecked="{Binding SharePostModel.IsNewPagePost}"/>
+                    <CheckBox  Margin="2" Content="{DynamicResource LangKeyCheckThePageForNewPostsEvery}" IsChecked="{Binding SharePostModel.IsNewPagePost}"/>
                     <controls:NumericUpDown Width="40" Height="25" Margin="2" Minimum="0" Value="{Binding SharePostModel.PostPerMinute}" IsEnabled="{Binding SharePostModel.IsNewPagePost}"/>
-                    <TextBlock Text="{DynamicResource DHlangMinutes}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyMinutes}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox  Margin="2" Content="{DynamicResource DHlangExtractMinimumPost}" IsChecked="{Binding SharePostModel.IsExtractMinimumPost}"/>
+                    <CheckBox  Margin="2" Content="{DynamicResource LangKeyExtractAMaximumOf}" IsChecked="{Binding SharePostModel.IsExtractMinimumPost}"/>
                     <controls:NumericUpDown Width="40" Height="25" Margin="2" Minimum="0" IsEnabled="{Binding SharePostModel.IsExtractMinimumPost}" Value="{Binding SharePostModel.MaxPost}"/>
-                    <TextBlock Text="{DynamicResource DHlangPostPerOperation}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyPostsPerOperation}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
-                    <CheckBox Content="{DynamicResource DHlangKeywords}" VerticalAlignment="Center" Margin="3,5" IsChecked="{Binding SharePostModel.IsKeywords}"/>
-                    <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddKeywords}"
+                    <CheckBox Content="{DynamicResource LangKeyKeywords}" VerticalAlignment="Center" Margin="3,5" IsChecked="{Binding SharePostModel.IsKeywords}"/>
+                    <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddKeywords}"
                              Margin="2" TextWrapping="Wrap" Height="60" Width="250" AcceptsReturn="True"
                              Text="{Binding SharePostModel.AddKeywords}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox  Margin="2" Content="{DynamicResource DHlangMinimumDays}" IsChecked="{Binding SharePostModel.IsMinimumDays}"/>
+                    <CheckBox  Margin="2" Content="{DynamicResource LangKeySharePostsThatHaveMaximum}" IsChecked="{Binding SharePostModel.IsMinimumDays}"/>
                     <controls:NumericUpDown Width="40" Height="25" Margin="2" Minimum="0" Value="{Binding SharePostModel.MinimumDays}" IsEnabled="{Binding SharePostModel.IsMinimumDays}"/>
-                    <TextBlock Text="{DynamicResource DHlangDaysOld}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyDaysOld}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox  Margin="2" Content="{DynamicResource DHlangPostBetween}" IsChecked="{Binding SharePostModel.IsPostBetween}" />
+                    <CheckBox  Margin="2" Content="{DynamicResource LangKeySharePostsHaveBetween}" IsChecked="{Binding SharePostModel.IsPostBetween}" />
                     <controls:NumericUpDown Width="40" Height="25" Margin="2" Minimum="0" IsEnabled="{Binding SharePostModel.IsPostBetween}"
                                             Value="{Binding SharePostModel.PostBetween.StartValue}"/>
-                    <TextBlock Text="{DynamicResource DHlangAnd}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyAnd}" VerticalAlignment="Center" Margin="5"/>
                     <controls:NumericUpDown Width="40" Height="25" Margin="2"  Minimum="{Binding SharePostModel.PostBetween.StartValue}"  IsEnabled="{Binding SharePostModel.IsPostBetween}"
                                             Value="{Binding SharePostModel.PostBetween.EndValue}"/>
-                    <TextBlock Text="{DynamicResource DHlangLikes}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyLikes}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
 
             </StackPanel>

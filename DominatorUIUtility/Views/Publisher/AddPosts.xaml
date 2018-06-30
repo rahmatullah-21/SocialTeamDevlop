@@ -14,11 +14,11 @@
 
                 <StackPanel>
                 <StackPanel x:Name="createCampaign">
-                    <Label Content="{DynamicResource langAddSinglePost}" FontWeight="SemiBold" Margin="5"/>
-                    <TextBox x:Name="txtMessege" Text="{Binding Messeges,Mode=TwoWay}" AcceptsReturn="True" controls:TextBoxHelper.Watermark="{DynamicResource langTypeMessageHere}"
+                    <Label Content="{DynamicResource LangKeyAddSinglePostToQueue}" FontWeight="SemiBold" Margin="5"/>
+                    <TextBox x:Name="txtMessege" Text="{Binding Messeges,Mode=TwoWay}" AcceptsReturn="True" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyTypeYourMessageHere}"
                      VerticalScrollBarVisibility="Auto" Margin="25,5" HorizontalAlignment="Left" TextWrapping="Wrap" Width="300" Height="80"/>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <Label Content="{DynamicResource langAttachPhotos}"/>
+                        <Label Content="{DynamicResource LangKeyAttachPhotosToYourPost}"/>
                         <Button  VerticalAlignment="Center" x:Name="btnPhotos"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"  Click="btnPhotos_Click">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
@@ -27,7 +27,7 @@
                                             <VisualBrush Visual="{StaticResource appbar_camera}" Stretch="Fill"/>
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <TextBlock Text="{DynamicResource langPhoto}" Margin="6,0"/>
+                                    <TextBlock Text="{DynamicResource LangKeyPhoto}" Margin="6,0"/>
                                     <TextBlock Text="{Binding ImageCount,StringFormat={} ( {0} )}">
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
@@ -50,7 +50,7 @@
                                             <VisualBrush Visual="{StaticResource appbar_video}" Stretch="Fill"/>
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <TextBlock Text="{DynamicResource langVideos}" Margin="6,0"/>
+                                    <TextBlock Text="{DynamicResource LangKeyVideos}" Margin="6,0"/>
                                     <TextBlock Text="{Binding VideoCount,StringFormat={} ( {0} )}">
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
@@ -97,7 +97,7 @@
                                                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                                 </Rectangle.OpacityMask>
                                                             </Rectangle>
-                                                            <TextBlock Text="{DynamicResource langDelete}" Margin="5,0"/>
+                                                            <TextBlock Text="{DynamicResource LangKeyDelete}" Margin="5,0"/>
                                                         </StackPanel>
                                                     </MenuItem.Header>
                                                 </MenuItem>
@@ -111,11 +111,11 @@
                     </ListView>
 
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <Label Content="{DynamicResource langTitle}"/>
-                        <TextBox Text="{Binding Titles}" Width="400" HorizontalAlignment="Right" controls:TextBoxHelper.Watermark="{DynamicResource langTitleWaterMark}" x:Name="txtTitle"/>
+                        <Label Content="{DynamicResource LangKeyTitle}"/>
+                        <TextBox Text="{Binding Titles}" Width="400" HorizontalAlignment="Right" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyThisIsUsedForInstagram}" x:Name="txtTitle"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding IsUseFacebookSellPostChecked}" Content="{DynamicResource langUseFacebookSellPost}" Margin="5"/>
+                        <CheckBox IsChecked="{Binding IsUseFacebookSellPostChecked}" Content="{DynamicResource LangKeyUseFacebookSellPost}" Margin="5"/>
                         <Rectangle Width="15" Height="15" Fill="#003569" Margin="5">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill"/>
@@ -123,7 +123,7 @@
                         </Rectangle>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding IsUseInstagramStoryPollChecked}" Content="{DynamicResource langUseInstagramStoryPoll}" Margin="5" />
+                        <CheckBox IsChecked="{Binding IsUseInstagramStoryPollChecked}" Content="{DynamicResource LangKeyUseInstagramStoryPoll}" Margin="5" />
                         <Rectangle Width="15" Height="15" Fill="Red" Margin="5">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill"/>
@@ -131,19 +131,19 @@
                         </Rectangle>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <Button Content="{DynamicResource langAddMacros}" x:Name="btnAddTokens" FontWeight="Bold" Margin="10,5" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}"/>
-                        <Button Content="{DynamicResource langInstagramAdvancedOptions}" x:Name="btnInstagramAdvancedOptions"  FontWeight="Bold" Margin="10,5" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}" Click="btnInstagramAdvancedOptions_Click"/>
-                        <Button Content="{DynamicResource langAdvancedOptions}" x:Name="btnAdvancedOptions" FontWeight="Bold" Margin="10,5" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}" Click="btnAdvancedOptions_Click"/>
+                        <Button Content="{DynamicResource LangKeyAddMacros}" x:Name="btnAddTokens" FontWeight="Bold" Margin="10,5" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}"/>
+                        <Button Content="{DynamicResource LangKeyInstagramAdvancedOptions}" x:Name="btnInstagramAdvancedOptions"  FontWeight="Bold" Margin="10,5" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}" Click="btnInstagramAdvancedOptions_Click"/>
+                        <Button Content="{DynamicResource LangKeyAdvancedOptions}" x:Name="btnAdvancedOptions" FontWeight="Bold" Margin="10,5" Background="Transparent" Foreground="{DynamicResource AccentBaseColorBrush}" Click="btnAdvancedOptions_Click"/>
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
-                        <Button Content="{DynamicResource langAddToPostList}" Click="btnAddToPostList_Click" x:Name="btnAddToPostList"  Margin="5" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
-                        <Button Content="{DynamicResource langAddToDrafts}" x:Name="btnAddToDrafts"  Margin="10,5" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Click="btnAddToDrafts_Click"/>
-                        <Button Content="{DynamicResource langImportPostFromCsv}" Click="btnImportPostFromCsv_Click" x:Name="btnImportPostFromCsv"  Margin="10,5" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
+                        <Button Content="{DynamicResource LangKeyAddToPostList}" Click="btnAddToPostList_Click" x:Name="btnAddToPostList"  Margin="5" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
+                        <Button Content="{DynamicResource LangKeyAddToDrafts}" x:Name="btnAddToDrafts"  Margin="10,5" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Click="btnAddToDrafts_Click"/>
+                        <Button Content="{DynamicResource LangKeyImportPostFromCsv}" Click="btnImportPostFromCsv_Click" x:Name="btnImportPostFromCsv"  Margin="10,5" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
                     </StackPanel>
-                    <Expander Header="{DynamicResource langJobConfiguration}" Margin="5">
+                    <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
                         <customControl:JobConfiguration JobConfigurations="{Binding JobConfigurations}"/>
                     </Expander>
-                    <Expander Header="{DynamicResource langOtherConfigurations}" Margin="5">
+                    <Expander Header="{DynamicResource LangKeyOtherConfigurations}" Margin="5">
                         <customControl:OtherConfiguration OtherConfigurations="{Binding OtherConfiguration}"/>
                     </Expander>
 

@@ -16,8 +16,8 @@
         <StackPanel x:Name="MainGrid">
             <TextBlock Text="{DynamicResource DHlangEnableRagularCheckForNewMessage﻿}"/>
             <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBlock Text="{DynamicResource langStatus}" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,10,0"/>
-                <controls:ToggleSwitch OnLabel="{DynamicResource langActive}" OffLabel="{DynamicResource langPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                <TextBlock Text="{DynamicResource LangKeyStatus}" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,10,0"/>
+                <controls:ToggleSwitch OnLabel="{DynamicResource LangKeyActive}" OffLabel="{DynamicResource langPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
                              x:Name="AutoReplyStatus"  IsCheckedChanged="AutoReplyStatus_OnIsCheckedChanged" FontSize="12" >
                     <controls:ToggleSwitch.Style>
                         <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
@@ -34,55 +34,55 @@
                 </controls:ToggleSwitch>
 
             </StackPanel>
-            <TextBlock Text="{DynamicResource DHlangMessageText﻿}" FontWeight="Bold" Margin="5"/>
-            <local:InputBoxControl  x:Name="messegeText" WaterMarkText="{DynamicResource DHlangMessageTextWaterMark﻿}"
+            <TextBlock Text="{DynamicResource LangKeyMessageText﻿}" FontWeight="Bold" Margin="5"/>
+            <local:InputBoxControl  x:Name="messegeText" WaterMarkText="{DynamicResource LangKeyMessageTextWaterMark﻿}"
                                InputText="{Binding MessegeText}" SaveVisiblity="Collapsed" 
                                 Margin="10,5" Height="120"/>
-            <CheckBox Content="{DynamicResource DHlangReplyToMessagesThatContainSpecificWord﻿}"
+            <CheckBox Content="{DynamicResource LangKeyReplyToMessagesThatContainSpecificWord﻿}"
                   VerticalAlignment="Center" Margin="5"
                       IsChecked="{Binding IsReplyToMessagesThatContainSpecificWordChecked}"/>
               
             <TextBox AcceptsReturn="True" Height="100" HorizontalAlignment="Left" Width="300" Margin="10,5" Text="{Binding SpecificWord}"
                  Visibility="{Binding IsReplyToMessagesThatContainSpecificWordChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            <RadioButton Content="{DynamicResource DHlangReplyToPendingMessages}"
+            <RadioButton Content="{DynamicResource LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount}"
                   VerticalAlignment="Center" Margin="5"
                   IsChecked="{Binding IsReplyToPendingMessagesChecked}"/>
-            <RadioButton Content="{DynamicResource DHlangReplyToAllMessage}"
+            <RadioButton Content="{DynamicResource LangKeyReplyToAllMessages}"
                   VerticalAlignment="Center" Margin="5"
                   IsChecked="{Binding IsReplyToAllMessagesChecked}"/>
-            <CheckBox Content="{DynamicResource DHlangPrioritizeMessages}"
+            <CheckBox Content="{DynamicResource LangKeyPrioritizeMessagesForAutoReplyAddThemAtTheTopOfThePendingSendMessegeList}"
                   VerticalAlignment="Center" Margin="5"
                   IsChecked="{Binding IsPrioritizeMessagesChecked}"/>
-            <Expander Header="{DynamicResource langOtherConfigurations}">
+            <Expander Header="{DynamicResource LangKeyOtherConfigurations}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="{DynamicResource DHlangSendSecondaryMessageAfter}"
+                        <CheckBox Content="{DynamicResource LangKeySendSecondaryMessagesAfter}"
                   VerticalAlignment="Center" Margin="5"
                   IsChecked="{Binding IsSendSecondaryMessagesAfterChecked}"/>
                         <controls:NumericUpDown  Minimum="0" IsEnabled="{Binding IsSendSecondaryMessagesAfterChecked}"
                                                 Value="{Binding SendSecondaryMessages.StartValue}"/>
-                        <Label Content="{DynamicResource langTo}"/>
+                        <Label Content="{DynamicResource LangKeyTo}"/>
                         <controls:NumericUpDown 
                             IsEnabled="{Binding IsSendSecondaryMessagesAfterChecked}"
                             Minimum="{Binding SendSecondaryMessages.StartValue}"
                                      Value="{Binding SendSecondaryMessages.EndValue}"/>
-                        <Label Content="{DynamicResource langHours}"/>
+                        <Label Content="{DynamicResource LangKeyHours}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5" 
                                 Visibility="{Binding IsSendSecondaryMessagesAfterChecked,
                                 Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel Margin="5">
-                            <CheckBox Content="{DynamicResource DHlangSendIfUserHasReplied}"
+                            <CheckBox Content="{DynamicResource LangKeySendOnlyIfTheUserHasReplied}"
                                   VerticalAlignment="Center" Margin="5"
                                   IsChecked="{Binding IsSendIfUserHasRepliedChecked}"/>
-                            <Button Content="{DynamicResource DHlangEditSecondaryMessages}"
+                            <Button Content="{DynamicResource LangKeyManageSecondaryMessages}"
                                 Background="{DynamicResource AccentBaseColorBrush}"
                                 Foreground="White" FontWeight="SemiBold" Name="BtnSendIfUserHasReplied"
                                 Visibility="{Binding IsSendIfUserHasRepliedChecked,Converter={StaticResource BooleanToVisibilityConverter}}"
                                     Click="BtnSendIfUserHasReplied_OnClick"/>
                         </StackPanel>
                         <StackPanel Margin="5">
-                            <CheckBox Content="{DynamicResource DHlangSendIfUserHasNotReplied}"
+                            <CheckBox Content="{DynamicResource LangKeySendOnlyIfTheUserHasNotReplied}"
                                   VerticalAlignment="Center" Margin="5"
                                   IsChecked="{Binding IsSendIfUserHasRepliedNotChecked}"/>
                             <Button Content="{DynamicResource DHlangEditSecondaryMessages}"
@@ -96,17 +96,17 @@
             </Expander>
 
             <StackPanel Orientation="Horizontal" Margin="5">
-                <CheckBox Content="{DynamicResource DHlangCheckForNewMessages}"
+                <CheckBox Content="{DynamicResource LangKeyCheckForNewMessagesAroundEvery}"
                   VerticalAlignment="Center" Margin="5"
                   IsChecked="{Binding IsCheckForNewMessagesChecked}"/>
                 <controls:NumericUpDown  Minimum="0" Value="{Binding CheckMessagesMinutes}"/>
-                <Label Content="{DynamicResource langMinutes}"/>
+                <Label Content="{DynamicResource LangKeyMinutes}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">
-                <Button Content="{DynamicResource DHlangExtractNow}" Margin="5"
+                <Button Content="{DynamicResource LangKeyExtractNow}" Margin="5"
                 Background="{DynamicResource AccentBaseColorBrush}"
                 Foreground="White" FontWeight="SemiBold" Name="BtnExtractNow"/>
-                <Button Content="{DynamicResource langCopySettings}" Margin="5"
+                <Button Content="{DynamicResource LangKeyCopySettings}" Margin="5"
                 Background="{DynamicResource AccentBaseColorBrush}"
                 Foreground="White" FontWeight="SemiBold" Name="BtnCopySetting"/>
             </StackPanel>

@@ -31,7 +31,7 @@
                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_resource_group}" />
                     </Rectangle.OpacityMask>
                 </Rectangle> 
-                <Label Content="{DynamicResource DHlangManageDestinations}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                <Label Content="{DynamicResource LangKeyManageDestinations}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
             </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
@@ -46,7 +46,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_list_up}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangCreateDestination}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeyCreateDestination}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -61,7 +61,7 @@
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <StackPanel Orientation="Horizontal" >
                                     <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                    <Label Content="{DynamicResource langSelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -69,7 +69,7 @@
 
                     <Button.ContextMenu>
                         <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllDestination"  Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
+                            <MenuItem Header="{DynamicResource LangKeySelectAll}" Name="MenuSelectAllDestination"  Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -78,7 +78,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuDeselectAllDestinations" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone" >
+                            <MenuItem Header="{DynamicResource LangKeySelectNone}" Name="MenuDeselectAllDestinations" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -101,7 +101,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource langDelete}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeyDelete}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -118,7 +118,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeyBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -181,7 +181,7 @@
 
                     <GridViewColumn  Width="250">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangDestinationName}"/>
+                            <TextBlock Text="{DynamicResource LangKeyDestinationName}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -197,7 +197,7 @@
 
                     <GridViewColumn Width="130">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangAccountCount}"/>
+                            <TextBlock Text="{DynamicResource LangKeyAccountCount}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -212,7 +212,7 @@
 
                     <GridViewColumn Width="130">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangPagesBoardCount}"/>
+                            <TextBlock Text="{DynamicResource LangKeyPagesOrBoardsCount}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -231,7 +231,7 @@
 
                     <GridViewColumn Width="130">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangGroupsCount}"/>
+                            <TextBlock Text="{DynamicResource LangKeyGroupsCount}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -246,7 +246,7 @@
 
                     <GridViewColumn Width="160">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangCustomDestinationCount}"/>
+                            <TextBlock Text="{DynamicResource LangKeyCustomDestinationCount}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -261,7 +261,7 @@
 
                     <GridViewColumn Width="150">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangWallsProfilesCount}"/>
+                            <TextBlock Text="{DynamicResource LangKeyWallsProfilesCount}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -276,7 +276,7 @@
 
                     <GridViewColumn Width="150">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangWallsCampaignsCount}"/>
+                            <TextBlock Text="{DynamicResource LangKeyCampaignsCount}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

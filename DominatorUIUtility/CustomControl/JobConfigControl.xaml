@@ -127,59 +127,59 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,8,0,0">
                     <TextBlock  VerticalAlignment="Center" Text="{StaticResource LangKeyDelayBetweenEachOperation}"  />
                     <controls:NumericUpDown Minimum="0" Name="DelayOperationStartValue" Margin="5,5,5,0" Value="{Binding JobConfiguration.DelayBetweenActivity.StartValue}" />
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langTo}" />
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource LangKeyTo}" />
                     <controls:NumericUpDown  Margin="5,5,5,0" Minimum="{Binding Value, ElementName=DelayOperationStartValue}" Value="{Binding JobConfiguration.DelayBetweenActivity.EndValue}" />
-                    <Label  VerticalAlignment="Center" Content="{DynamicResource langSeconds}" />
+                    <Label  VerticalAlignment="Center" Content="{DynamicResource LangKeySeconds}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,8,0,0">
-                    <TextBlock    VerticalAlignment="Center" Text="{DynamicResource langDelayJob}"  />
+                    <TextBlock    VerticalAlignment="Center" Text="{DynamicResource LangKeyDelayBetweenJobs}"  />
                     <controls:NumericUpDown Minimum="0" Name="DelayJobStartValue" Margin="5,5,5,0" Value="{Binding JobConfiguration.DelayBetweenJobs.StartValue}" />
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langTo}" />
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource LangKeyTo}" />
                     <controls:NumericUpDown  Margin="5,5,5,0" Minimum="{Binding Value, ElementName=DelayJobStartValue}" Value="{Binding JobConfiguration.DelayBetweenJobs.EndValue}" />
-                    <Label  VerticalAlignment="Center" Content="{DynamicResource langMinutes}"  />
+                    <Label  VerticalAlignment="Center" Content="{DynamicResource LangKeyMinutes}"  />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
                     <Label Content="{Binding JobConfiguration.ActivitiesPerJobDisplayName}" />
                     <controls:NumericUpDown Minimum="1" Margin="5,5,5,0"  Value="{Binding JobConfiguration.ActivitiesPerJob.StartValue}" Name="MinJobFollowCount"/>
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langTo}" />
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource LangKeyTo}" />
                     <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerJob.EndValue}" Minimum="{Binding Value, ElementName=MinJobFollowCount}"/>
-                    <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
+                    <Label  VerticalAlignment="Center" Content="{DynamicResource LangKeyUsers}"  />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,8,0,0">
                     <Label VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerDayDisplayName}"  />
                     <controls:NumericUpDown Minimum="{Binding Value, ElementName=MinJobFollowCount}" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerDay.StartValue,UpdateSourceTrigger=PropertyChanged}" Name="MinActionsPerDay"/>
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource langTo}" />
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource LangKeyTo}" />
                     <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerDay.EndValue,UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Value, ElementName=MinActionsPerDay}"/>
-                    <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
+                    <Label  VerticalAlignment="Center" Content="{DynamicResource LangKeyUsers}"  />
 
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
                     <Label    VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerHourDisplayName}"  />
                     <controls:NumericUpDown Minimum="1" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.StartValue}" Name="OperationCountStartValue" />
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource langTo}" />
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource LangKeyTo}" />
                     <controls:NumericUpDown Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.EndValue}" Minimum="{Binding Value, ElementName=OperationCountStartValue}"/>
-                    <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
+                    <Label  VerticalAlignment="Center" Content="{DynamicResource LangKeyUsers}"  />
 
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
                     <Label   VerticalAlignment="Center" Content="{ Binding  JobConfiguration.ActivitiesPerWeekDisplayName}"  />
                     <controls:NumericUpDown Minimum="{Binding Value, ElementName=MinActionsPerDay}" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerWeek.StartValue}" Name="CountPerWeekStartValue"/>
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource langTo}" />
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource LangKeyTo}" />
                     <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerWeek.EndValue}"  Minimum="{Binding Value, ElementName=CountPerWeekStartValue}"/>
-                    <Label  VerticalAlignment="Center" Content="{DynamicResource langUsers}"  />
+                    <Label  VerticalAlignment="Center" Content="{DynamicResource LangKeyUsers}"  />
 
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
-                    <CheckBox  VerticalAlignment="Center" x:Name="chkIncreaseEachDay" Content="{DynamicResource langIncreaseEachDay}" IsChecked="{Binding JobConfiguration.IncreaseActivitiesEachDay.IsIncreaseCountChecked}"/>
+                    <CheckBox  VerticalAlignment="Center" x:Name="chkIncreaseEachDay" Content="{DynamicResource LangKeyIncreaseEachDayWith}" IsChecked="{Binding JobConfiguration.IncreaseActivitiesEachDay.IsIncreaseCountChecked}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5,5,5,5" Value="{Binding JobConfiguration.IncreaseActivitiesEachDay.IncreaseActivityCount}" Name="IncreaseMaxActionsPerDays" 
                                         IsEnabled="{Binding ElementName=chkIncreaseEachDay,Path=IsChecked}"/>
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource langUntilReach}"  />
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource LangKeyUntilItReaches}"  />
                     <controls:NumericUpDown  Margin="5,5,5,5" Maximum="9999" 
                                         Value="{Binding JobConfiguration.IncreaseActivitiesEachDay.UntilMaxCountReached}"
                                         Minimum="{Binding Value, ElementName=IncreaseMaxActionsPerDays}" 
@@ -189,7 +189,7 @@
 
 
                 <StackPanel>
-                    <Label Margin="0,5,0,0" FontWeight="Bold" Content="{DynamicResource langDayofWeekWhenToOperate}"/>
+                    <Label Margin="0,5,0,0" FontWeight="Bold" Content="{DynamicResource LangKeyDayOfTheWeekWhenToOperate}"/>
                     <StackPanel Orientation="Horizontal">
                         <StackPanel>
                             <ListBox ItemsSource="{Binding JobConfiguration.RunningTime}">
