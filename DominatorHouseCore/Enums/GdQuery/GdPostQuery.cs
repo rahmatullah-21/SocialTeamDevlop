@@ -4,31 +4,31 @@ namespace DominatorHouseCore.Enums.GdQuery
 {
     public enum GdPostQuery
     {
-        [Description("GDlangSuggestedUsersPosts")]
+        [Description("LangKeySuggestedUsersPosts")]
         SuggestedUsersPosts,
-        [Description("langHashTagPost")]
+        [Description("LangKeyHashtagPostS")]
         HashtagPost,
-        [Description("GDlangHashTagUsersPost")]
+        [Description("LangKeyHashtagUsersPostS")]
         HashtagUsersPost,
-        [Description("GDlangSomeonesFollowersPost")]
+        [Description("LangKeySomeonesFollowersPostS")]
         SomeonesFollowersPost,
-        [Description("GDlangSomeonesFollowingsPost")]
+        [Description("LangKeySomeonesFollowingsPostS")]
         SomeonesFollowingsPost,
-        [Description("GDlangFollowersOfSomeonesFollowersPosts")]
+        [Description("LangKeyFollowersOfSomeonesFollowersPostS")]
         FollowersOfFollowersPost,
-        [Description("GDlangFollowersOfSomeonesFollowingsPosts")]
+        [Description("LangKeyFollowersOfSomeonesFollowingsPostS")]
         FollowersOfFollowingsPost,
-        [Description("langLocationPosts")]
+        [Description("LangKeyLocationPosts")]
         LocationPosts,
-        [Description("GDlangLocationUsersPosts")]
+        [Description("LangKeyLocationUsersPosts")]
         LocationUsersPost,
-        [Description("langCustomPhotos")]
+        [Description("LangKeyCustomPhotos")]
         CustomPhotos,
-        [Description("GDlangPostsOfUsersWhoLikedPost")]
+        [Description("LangKeyPostsOfUsersWhoLikedPost")]
         PostOfUsersWhoLikedPost,
-        [Description("GDlangPostsOfUsersWhoCommentedOnPost")]
+        [Description("LangKeyPostsOfUsersWhoCommentedOnPost")]
         PostOfUsersWhoCommentedOnPost,
-        [Description("GdLangSpecificUsersPosts")]
+        [Description("LangKeySpecificUsersPosts")]
         SpecificUsersPosts
     }
 }

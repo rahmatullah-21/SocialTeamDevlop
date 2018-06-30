@@ -4,19 +4,19 @@ namespace DominatorHouseCore.Enums.FdQuery
 {
     public enum FdPosterQuery
     {
-        [Description("FdlangTimeline")]
+        [Description("LangKeyTimeline")]
         Timeline = 1,
-        [Description("FdlangNewsFeed")]
+        [Description("LangKeyNewsfeed")]
         NewsFeed = 2,
-        [Description("FdlangFriendTimeline")]
+        [Description("LangKeyFriendTimeline")]
         FriendTimeline = 3,
-        [Description("FdlangGroups")]
+        [Description("LangKeyGroups")]
         Groups = 4,
-        [Description("FdlangPages")]
+        [Description("LangKeyPages")]
         Pages = 5,
-        [Description("FdlangCustomPostList")]
+        [Description("LangKeyCustomPostsList")]
         CustomPostUrl = 6,
-        [Description("FdlangFdCampaign")]
+        [Description("LangKeyFacedominatorCampaign")]
         FaceDominatorCampaign = 7
     }
 }

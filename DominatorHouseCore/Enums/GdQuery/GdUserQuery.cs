@@ -4,27 +4,27 @@ namespace DominatorHouseCore.Enums.GdQuery
 {
     public enum GdUserQuery
     {
-        [Description("langKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords,
-        [Description("langSuggestedUsers")]
+        [Description("LangKeySuggestedUsers")]
         SuggestedUsers,
-        [Description("langHashtagusers")]
+        [Description("LangKeyHashtagUserS")]
         HashtagUsers,
-        [Description("langSomeonesFollowers")]
+        [Description("LangKeySomeonesFollowers")]
         SomeonesFollowers,
-        [Description("langSomeonesFollowings")]
+        [Description("LangKeySomeonesFollowings")]
         SomeonesFollowings,
-        [Description("langFollowersOfSomeonesFollowers")]
+        [Description("LangKeyFollowersOfSomeonesFollowers")]
         FollowersOfFollowers,
-        [Description("langFollowersOfSomeonesFollowings")]
+        [Description("LangKeyFollowersOfSomeonesFollowings")]
         FollowersOfFollowings,
-        [Description("langLocationUsers")]
+        [Description("LangKeyLocationUsers")]
         LocationUsers,
-        [Description("langCustomUser")]
+        [Description("LangKeyCustomUsersList")]
         CustomUsers,
-        [Description("langUsersWhoLiked")]
+        [Description("LangKeyUsersWhoLikedPosts")]
         UsersWhoLikedPost,
-        [Description("langUsersWhoCommented")]
+        [Description("LangKeyUsersWhoCommentedOnPosts")]
         UsersWhoCommentedOnPost,
     }
 }

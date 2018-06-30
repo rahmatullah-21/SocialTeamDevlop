@@ -4,23 +4,23 @@ namespace DominatorHouseCore.Enums.FdQuery
 {
     public enum FdProfileScraperQuery
     {
-        [Description("FdlangEvents")]
+        [Description("LangKeyEvents")]
         Events = 1,
-        [Description("FdlangFanpageLikers")]
+        [Description("LangKeyFanpageLikers")]
         FanpageLikers = 2,
-        [Description("FdlangFriendofFriend")]
+        [Description("LangKeyFriendOfFriend")]
         FriendofFriend = 3,
-        [Description("FdlangGroupMembers")]
+        [Description("LangKeyGroupMembers")]
         GroupMembers = 4,
-        [Description("FdlangPostLikers")]
+        [Description("LangKeyPostLikers")]
         PostLikers = 5,
-        [Description("FdlangPostSharer")]
+        [Description("LangKeyPostSharer")]
         PostSharer = 6,
-        [Description("FdlangPostCommentor")]
+        [Description("LangKeyPostCommentors")]
         PostCommentor = 7,
-        [Description("FdlangGraphSearchUrl")]
+        [Description("LangKeyGraphSearchUrl")]
         GraphSearchUrl = 8,
-        [Description("FdlangCustomUsersList")]
+        [Description("LangKeyCustomUsersList")]
         CustomUserList = 9
     }
 }

@@ -4,9 +4,9 @@ namespace DominatorHouseCore.Enums.FdQuery
 {
     public enum FdGroupJoinerQuery
     {
-        [Description("FdlangKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords = 1,
-        [Description("FdlangCustomGroupUrl")]
+        [Description("LangKeyCustomGroupUrlS")]
         CustomGroupUrl = 2
     }
 }

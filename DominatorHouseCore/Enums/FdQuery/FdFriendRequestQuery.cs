@@ -4,25 +4,25 @@ namespace DominatorHouseCore.Enums.FdQuery
 {
     public enum FdFriendRequestQuery
     {
-        [Description("FdlangKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords = 1,
-        [Description("FdlangLocation")]
+        [Description("LangKeyLocation")]
         Location = 2,
         //[Description("FdlangCustomUsersList")]
         //CustomUserList = 3,
         ////[Description("FdlangSuggestedFriends")]
         ////SuggsetedFriends = 4,
-        [Description("FdlangGroupMembers")]
+        [Description("LangKeyGroupMembers")]
         GroupMembers = 5,
-        [Description("FdlangPageMembers")]
+        [Description("LangKeyPageMembers")]
         PageMembers = 6,
-        [Description("FdlangGraphSearchUrl")]
+        [Description("LangKeyGraphSearchUrl")]
         GraphSearchUrl = 7,
-        [Description("FdlangFriendofFriend")]
+        [Description("LangKeyFriendOfFriend")]
         FriendofFriend = 8,
-        [Description("FdlangPagePostLikers")]
+        [Description("LangKeyFanpagePostLikers")]
         PagePostLikers = 9,
-        [Description("FdlangGroupPostLikers")]
+        [Description("LangKeyGroupPostLikers")]
         GroupPostLikers = 10
     }
 }
