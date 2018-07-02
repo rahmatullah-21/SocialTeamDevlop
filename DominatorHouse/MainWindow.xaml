@@ -10,7 +10,7 @@
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
         BorderThickness="1" Icon="Images/SociNator.ico"
-        Title="{DynamicResource DHlangSocinator}" 
+        Title="{DynamicResource LangKeySocinator}" 
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"
         GlowBrush="{DynamicResource AccentColorBrush}"
@@ -105,10 +105,10 @@
                 </StatusBar.ItemsPanel>
                 <StatusBarItem  Grid.Column="0" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource langLoadedMemory}"
+                        <TextBlock Text="{DynamicResource LangKeyLoadedMemory}"
                                Foreground="White"
                               />
-                        <TextBlock Name="lbl_LoadedMemory" Text="{DynamicResource langZeroMB}"
+                        <TextBlock Name="lbl_LoadedMemory" Text="{DynamicResource LangKey0MB}"
                            Foreground="White"
                            />
                     </StackPanel>
@@ -119,24 +119,24 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
                  
-                   Text="{DynamicResource langAvailableMemory}"
+                   Text="{DynamicResource LangKeyAvailableMemory}"
                    Foreground="White"
                    />
-                        <TextBlock Name="lbl_Availablememory"  Text="{DynamicResource langZeroMB}"
+                        <TextBlock Name="lbl_Availablememory"  Text="{DynamicResource LangKey0MB}"
                    Foreground="White"
                    />
                     </StackPanel>
 
                 </StatusBarItem>
                 <StatusBarItem  Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center">
-                    <TextBlock Text="{DynamicResource langActivityLog}" Name="ActivityLog" MouseDown="ActivityLog_OnMouseDown"/>
+                    <TextBlock Text="{DynamicResource LangKeyActivityLog}" Name="ActivityLog" MouseDown="ActivityLog_OnMouseDown"/>
                 </StatusBarItem>
 
                 <StatusBarItem  Grid.Column="3" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
 
                         <TextBlock
-                               Text="{DynamicResource langCPUUsage}"
+                               Text="{DynamicResource LangKeyCPUUsage}"
                                Foreground="White"
                              />
                         <TextBlock Name="lbl_CPUUsage"
@@ -150,7 +150,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock 
                   
-                   Text="{DynamicResource langDate}" 
+                   Text="{DynamicResource LangKeyDate}" 
                    Foreground="White"
                  />
                         <TextBlock Name="lbl_Datetime"

@@ -28,14 +28,14 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 
-                    <Label Content="{DynamicResource DHlangManagePosts}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                    <Label Content="{DynamicResource LangKeyManagePosts}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
             </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
                 <StackPanel >
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <Label Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
+                        <Label Name="LabelSelectCampaign" Content="{DynamicResource LangKeySelectCampaign}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
                         <ComboBox x:Name="ComboCampaignList" ItemsSource="{Binding CampaignList}" DisplayMemberPath="Name" Height="25" Width="250" 
                                   SelectedItem="{Binding SelectedCampaignDetails}"
                                   behaviour:SelectionChangedBehaviour.Command="{Binding SelectionChangedCommand}"/>
@@ -53,7 +53,7 @@
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                     <Label Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center">
-                                        <TextBlock Text="{DynamicResource DHlangManagePostDraft}">
+                                        <TextBlock Text="{DynamicResource LangKeyDraft}">
                                            <TextBlock.Style>
                                                <Style TargetType="TextBlock">
                                                    <Style.Triggers>
@@ -83,7 +83,7 @@
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                     <Label  Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center">
-                                        <TextBlock Text="{DynamicResource DHlangManagePostPending}">
+                                        <TextBlock Text="{DynamicResource LangKeyPending}">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Style.Triggers>
@@ -114,7 +114,7 @@
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                     <Label Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center">
-                                        <TextBlock Text="{DynamicResource DHlangManagePostPublished}">
+                                        <TextBlock Text="{DynamicResource LangKeyPublished}">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Style.Triggers>
@@ -142,7 +142,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeyBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>

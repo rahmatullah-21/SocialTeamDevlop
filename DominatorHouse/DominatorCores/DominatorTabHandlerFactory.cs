@@ -55,18 +55,18 @@ namespace Socinator.DominatorCores
             {
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("langAccountsManager") == null? "Account Manager" : Application.Current.FindResource("langAccountsManager")?.ToString(),
+                    Title = Application.Current.FindResource("LangKeyAccountsManager") == null? "Account Manager" : Application.Current.FindResource("LangKeyAccountsManager")?.ToString(),
                     Content = new Lazy<UserControl>(() => AccountManager.GetSingletonAccountManager("AccountManager",null,SocialNetworks.Social))
                    // Content = new Lazy<UserControl>(() => new AccountTab(_strategies))
                 },
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("langDashBoard") == null? "Dash Board" : Application.Current.FindResource("langDashBoard")?.ToString(),
+                    Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),
                    Content=new Lazy<UserControl>(DashBoardTab.GetSingeltonObjectDashBoardTab)
                 },
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("langAutoActivity") == null? "Auto Activity" : Application.Current.FindResource("langAutoActivity")?.ToString(),
+                    Title = Application.Current.FindResource("LangKeyAutoActivity") == null? "Auto Activity" : Application.Current.FindResource("LangKeyAutoActivity")?.ToString(),
                     Content = new Lazy<UserControl>(() => DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
                 },
                 //new TabItemTemplates
@@ -76,12 +76,12 @@ namespace Socinator.DominatorCores
                 //},
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("DHlangSocioPublisher") == null? "Socio Publisher" : Application.Current.FindResource("DHlangSocioPublisher")?.ToString(),
+                    Title = Application.Current.FindResource("LangKeySociopublisher") == null? "Socio Publisher" : Application.Current.FindResource("LangKeySociopublisher")?.ToString(),
                     Content = new Lazy<UserControl>(()=>PublisherHome.Instance)
                 },
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("langProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("langProxyManager")?.ToString(),
+                    Title = Application.Current.FindResource("LangKeyProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("LangKeyProxyManager")?.ToString(),
                     Content = new Lazy<UserControl>(() => ProxyManager.GetProxyManagerControl(_strategies))
                 },
                 //new TabItemTemplates
@@ -91,7 +91,7 @@ namespace Socinator.DominatorCores
                 //},
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("langOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("langOtherConfigurations")?.ToString(),
+                    Title = Application.Current.FindResource("LangKeyOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("LangKeyOtherConfigurations")?.ToString(),
                       Content=new Lazy<UserControl>(()=>new OtherConfigurationTab())
                 }
             };

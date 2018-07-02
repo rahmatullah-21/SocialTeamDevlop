@@ -13,7 +13,7 @@
     <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
         <GroupBox.Header>
             <Grid>
-                <Label Content="{DynamicResource langConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
+                <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
                 <Button Name="BtnSave" Click="BtnSave_OnClick"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"
                         VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button.Content>
@@ -31,46 +31,46 @@
         </GroupBox.Header>
         <StackPanel Margin="10"  x:Name="MainGrid">
             <StackPanel Orientation="Horizontal">
-                <Label Content="{DynamicResource DHlangMaximumNumberOfSemultaneousConnections}"/>
+                <Label Content="{DynamicResource LangKeyMaximumNumberOfSimultaneousConnections}"/>
                 <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding MaxSemultaneousConnections}"/>
             </StackPanel>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangMaximizeEmbaddedBrowser}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyMaximizeTheEmbaddedBrowserWindowWhenTheyAreOpen}"
                       IsChecked="{Binding IsMaximizeEmbaddedBrowserChecked}"/>
             <StackPanel Orientation="Horizontal">
-                <CheckBox Margin="5" Content="{DynamicResource DHlangWaitMinimumOf}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyWaitAMinimumOf}"
                           IsChecked="{Binding IsWaitMinOfChecked}"/>
                 <controls:NumericUpDown Minimum="0" Margin="5" IsEnabled="{Binding IsWaitMinOfChecked}"
                                         Value="{Binding WaitMinOf}"/>
-                <Label Content="{DynamicResource DHlangSecondsBeforeIssuingError}"/>
+                <Label Content="{DynamicResource LangKeySecondsBeforeIssuingA505Error}"/>
             </StackPanel>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangForceKillEmbeddedBrowsers}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyForceKillEmbeddedBrowsersExperimentalUseWhenEmbeddedBrowserProcessesAreNotCorrectlyKilled}"
                       IsChecked="{Binding IsForceKillEmbeddedBrowserChecked}"/>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangAllowEmbeddedBrowserToDownloadFiles}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyAllowTheEmbeddedBrowserToDownloadFiles}"
                       IsChecked="{Binding IsAllowEmbeddedBrowserToDownloadFilesChecked}"/>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangPreventEmbeddedBrowserFromOpeningPopup}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyPreventTheEmbeddedBrowserFromOpeningPopupWindow}"
                       IsChecked="{Binding IsPreventEmbeddedBrowserFromOpeningPopupChecked}"/>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangUseNewTextWritingSystemForFacebook}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyUseNewTextWritingSystemForFacebookExperimental}"
                       IsChecked="{Binding IsUseNewTextWritingSystemForFacebookChecked}"/>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangStopSavingEmbeddedBrowserScreenshots}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyStopSavingEmbeddedBrowserScreenshotsWhenErrorOccurToSaveDiskSpace}"
                       IsChecked="{Binding IsStopSavingEmbeddedBrowserSSChecked}"/>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangDisableGPUAcceleration}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyDisableGPUAccelerationImprovesPerformanceOnMachinesWithNoDedicatedVideoCard}"
                       IsChecked="{Binding IsDisableGPUAccelerationChecked}"/>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangKeepLowFramerate}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyKeepALowFramerateForEmbeddedBrowserWhenNotVisibleCanImprovePerformance}"
                       IsChecked="{Binding IsKeepLowFramerateChecked}"/>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangStartEmbeddedBrowserProcesses}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyStartEmbeddedBrowserProcessesWithLowPriority}"
                       IsChecked="{Binding IsStartEmbeddedBrowserProcessesChecked}"/>
 
             <StackPanel Orientation="Horizontal">
-                <CheckBox Margin="5" Content="{DynamicResource DHlangOpenMaximumOf}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyOpenAMaximumOf}"
                           IsChecked="{Binding IsOpenMaxOfChecked}"/>
                 <controls:NumericUpDown Minimum="0" Margin="5" IsEnabled="{Binding IsOpenMaxOfChecked}"
                                         Value="{Binding OpenMaxOf}"/>
-                <Label Content="{DynamicResource DHlangEmbeddedBrowserAtSameTime}"/>
+                <Label Content="{DynamicResource LangKeyEmbeddedBrowserAtTheSameTimeWhenUsingTheOptionFromSocialProfiles}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Margin="5" Content="{DynamicResource DHlangDeleteupTo}"/>
+                <Label Margin="5" Content="{DynamicResource LangKeyDeleteUpTo}"/>
                 <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding DeleteupTo}"/>
-                <Label  Margin="5" Content="{DynamicResource DHlangCookieCacheFiles}"/>
+                <Label  Margin="5" Content="{DynamicResource LangKeyKCookieCacheFilesWithEveryRestart}"/>
             </StackPanel>
             <!--<Button Content="{DynamicResource langDeleteAll}" Margin="10,0" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" HorizontalAlignment="Left"/>-->
         </StackPanel>

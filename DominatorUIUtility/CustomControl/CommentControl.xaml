@@ -13,7 +13,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel>
-                <TextBlock FontWeight="Bold" Margin="0,10" FontSize="16" Text="{DynamicResource langCommentText}" VerticalAlignment="Center"/>
+                <TextBlock FontWeight="Bold" Margin="0,10" FontSize="16" Text="{DynamicResource LangKeyCommentText}" VerticalAlignment="Center"/>
                 <local:InputBoxControl x:Name="InputComment" InputText="{Binding Comments.CommentText}"/>
             </StackPanel>
             <Grid Margin="10,30" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1">
@@ -25,7 +25,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource langQueries}" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource LangKeyQueries}" VerticalAlignment="Center"/>
                 <ComboBox Width="200" Margin="10" Grid.Column="1" x:Name="ComboBoxQueries"  x:FieldModifier="public" ItemsSource="{Binding Comments.LstQueries}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -43,12 +43,12 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <TextBlock Text="{DynamicResource langFilterText}" Grid.Row="1" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource LangKeyFilterText}" Grid.Row="1" VerticalAlignment="Center" />
                 <TextBox Width="200" x:Name="TextBoxFilter" Text="{Binding Comments.FilterText}" Grid.Row="1" Grid.Column="1" AcceptsReturn="True"/>
             </Grid>
 
         </Grid>
-        <Button Content="{DynamicResource langAddCommentToList}" Width="200" x:Name="btnAddCommentToList" Click="btnAddCommentToList_Click"
+        <Button Content="{DynamicResource LangKeyAddCommentToList}" Width="200" x:Name="btnAddCommentToList" Click="btnAddCommentToList_Click"
                     Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,30,0,0"/>
 
     </StackPanel>

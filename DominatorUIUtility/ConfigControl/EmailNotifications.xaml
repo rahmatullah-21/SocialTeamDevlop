@@ -13,7 +13,7 @@
     <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
         <GroupBox.Header>
             <Grid>
-                <Label Content="{DynamicResource langConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
+                <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
                 <Button Name="BtnSave" Click="BtnSave_OnClick"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"
                         VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button.Content>
@@ -30,21 +30,21 @@
             </Grid>
         </GroupBox.Header>
         <StackPanel Margin="10"  x:Name="MainGrid">
-            <CheckBox Margin="5" Content="{DynamicResource DHlangEnableEmailNotifications}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableEmailNotifications}"
                       IsChecked="{Binding IsEnableEmailNotificationsChecked}"/>
             <StackPanel Margin="20,5" Visibility="{Binding IsEnableEmailNotificationsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
-                    <Label Margin="5" Content="{DynamicResource DHlangEmailToReceiveNotifications}"/>
+                    <Label Margin="5" Content="{DynamicResource LangKeyEmailToReceiveNotifications}"/>
                     <TextBox Margin="5" Width="300" Text="{Binding Email}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Margin="5" Content="{DynamicResource DHlangTimeToReceiveEmail}"/>
+                    <Label Margin="5" Content="{DynamicResource LangKeyTimeToReceiveEmail}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding EmailRecieveTime}"/>
                 </StackPanel>
             </StackPanel>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangNotifyAboutInvalidProxies}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyNotifyAboutInvalidProxies}"
                       IsChecked="{Binding IsNotifyAboutInvalidProxiesChecked}"/>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangNotifyAboutInvalidSocialProfiles}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyNotifyAboutInvalidSocialProfilesThatHaveAnyOfFollowingStatuses}"
                       IsChecked="{Binding IsNotifyAboutInvalidSocialProfilesChecked}"/>
             <Grid Margin="20,0" Visibility="{Binding IsNotifyAboutInvalidSocialProfilesChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
@@ -54,43 +54,43 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel>
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangEmailConfirmation}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyEmailConfirmation}"
                               IsChecked="{Binding IsEmailConfirmationChecked}"/>
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangBlocked}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyBlocked}"
                               IsChecked="{Binding IsBlockedChecked}"/>
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangActionRequired}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyActionRequired}"
                               IsChecked="{Binding IsActionRequiredChecked}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangAccountDisabled}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyAccountDisabled}"
                               IsChecked="{Binding IsAccountDisabledChecked}"/>
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangSuspended}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeySuspended}"
                               IsChecked="{Binding IsSuspendedChecked}"/>
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangNoInternetConnection}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyNoInternetConnection}"
                               IsChecked="{Binding IsNoInternetConnectionChecked}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="2">
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangPasswordReset}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyPasswordReset}"
                               IsChecked="{Binding IsPasswordResetChecked}"/>
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangCaptcha}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyCaptcha}"
                               IsChecked="{Binding IsCaptchaChecked}"/>
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangInvalidCredentials}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyInvalidCredentials}"
                               IsChecked="{Binding IsInvalidCredentialsChecked}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="3">
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangPhoneValidation}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyPhoneValidation}"
                               IsChecked="{Binding IsPhoneValidationChecked}"/>
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangTwoFactorAuthentication}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyTwoFactorAuthentication}"
                               IsChecked="{Binding IsTwoFactorAuthenticationChecked}"/>
                 </StackPanel>
             </Grid>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangNotifyAboutInvalidCampaign}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyNotifyAboutInvalidCampaignInactiveOrActiveWithNotificationMessage}"
                       IsChecked="{Binding IsNotifyAboutInvalidCampaignChecked}"/>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangNotifyAboutInvalidFailedPosts}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyNotifyAboutInvalidFailedPosts}"
                       IsChecked="{Binding IsNotifyAboutInvalidFailedPostsChecked}"/>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangNotifyNoMoreResultFound}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyNotifyAboutNoMoreResultFound}"
                       IsChecked="{Binding IsNotifyNoMoreResultFoundChecked}"/>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangAlwaysSendEmail}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyAlwaysSendEmail}"
                       IsChecked="{Binding IsAlwaysSendEmailChecked}"/>
 
         </StackPanel>

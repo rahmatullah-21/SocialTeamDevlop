@@ -7,10 +7,10 @@
              mc:Ignorable="d" >
     <StackPanel x:Name="MainGrid" Margin="10">
         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-            <GroupBox Header="{DynamicResource DhlangFeedUrl}">
+            <GroupBox Header="{DynamicResource LangKeyFeedUrlDetails}">
                 <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400" Text="{Binding PublisherRssFeedModel.FeedUrl}"/>
             </GroupBox>
-            <GroupBox Header="{DynamicResource DhlangFeedTemplate}" Margin="10,0">
+            <GroupBox Header="{DynamicResource LangKeyFeedTemplates}" Margin="10,0">
                 <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400"
                          Text="{Binding PublisherRssFeedModel.FeedTemplate}" FontWeight="SemiBold"/>
             </GroupBox>
@@ -20,7 +20,7 @@
                 HorizontalAlignment="Center" Margin="0,10,300,10" Name="BtnSave" Foreground="White"
                 Command="{Binding SaveCommand}" Content="{Binding PublisherRssFeedModel.ButtonContent}"
                 CommandParameter="{Binding ElementName=BtnSave}" />
-        <GroupBox Header="{DynamicResource DhlangFeedUrlDetails}" Width="830" HorizontalAlignment="Left">
+        <GroupBox Header="{DynamicResource LangKeyFeedUrlDetails}" Width="830" HorizontalAlignment="Left">
             <GroupBox.Style>
                 <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
                     <Setter Property="Visibility" Value="Visible"/>
@@ -71,7 +71,7 @@
                                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
-                                        <!--<TextBlock Text="{DynamicResource langDelete}"/>-->
+                                        <!--<TextBlock Text="{DynamicResource LangKeyDelete}"/>-->
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

@@ -10,13 +10,13 @@
     <Grid x:Name="MainGrid">
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <CheckBox Name="CheckBoxDeletePost" Margin="2" Content="{DynamicResource DHlangGdDeletePost}" IsChecked="{Binding IsDeletePostAfterHours}"/>
+                <CheckBox Name="CheckBoxDeletePost" Margin="2" Content="{DynamicResource LangKeyDeleteThePostAfter}" IsChecked="{Binding IsDeletePostAfterHours}"/>
                 <TextBox Width="40" Height="25" Text="{Binding DeletePostAfterHours}" Margin="2"/>
-                <TextBlock Text="{DynamicResource DHlangHours}"  VerticalAlignment="Center" Margin="5"/>
+                <TextBlock Text="{DynamicResource LangKeyHours}"  VerticalAlignment="Center" Margin="5"/>
             </StackPanel>
             <StackPanel Orientation="Vertical">
-                <CheckBox Margin="2" Content="{DynamicResource DHlangPostMentionUser}" IsChecked="{Binding IsMentionUser}" />
-                <TextBox VerticalAlignment="Center" Text="{Binding MentionUserList}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource DHlangAddPostMentionUser}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                <CheckBox Margin="2" Content="{DynamicResource LangKeyMentionUsers}" IsChecked="{Binding IsMentionUser}" />
+                <TextBox VerticalAlignment="Center" Text="{Binding MentionUserList}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddMentionUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
             </StackPanel>
         </StackPanel>
     </Grid>

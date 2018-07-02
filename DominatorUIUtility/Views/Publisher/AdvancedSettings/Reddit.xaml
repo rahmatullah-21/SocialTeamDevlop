@@ -11,40 +11,40 @@
     
     <Grid x:Name="MainGrid">
         <StackPanel>
-            <CheckBox Content="{DynamicResource DHlangRdMarkAsNsfw}"
+            <CheckBox Content="{DynamicResource LangKeyMakeAllPostsMarkedAsNSFW}"
                       VerticalAlignment="Center" Margin="5"
                       IsChecked="{Binding RedditModel.IsMarkAsNsfw}"/>
 
-            <CheckBox Content="{DynamicResource DHlangIsNsfw}" 
+            <CheckBox Content="{DynamicResource LangKeyIsNSFW}" 
                       VerticalAlignment="Center" Margin="20,5,5,5" 
                       Visibility="{Binding RedditModel.IsMarkAsNsfw,Converter={StaticResource BooleanToVisibilityConverter}}"
                       IsChecked="{Binding RedditModel.IsNsfwSubOptions}"/>
 
-            <CheckBox Content="{DynamicResource DHlangRdMarkAsOriginalContent}"
+            <CheckBox Content="{DynamicResource LangKeyMakeAllPostsMarkedAsOriginalcontent}"
                       VerticalAlignment="Center" Margin="5"
                       IsChecked="{Binding RedditModel.IsMarkAsOriginalContent}"/>
 
-            <CheckBox Content="{DynamicResource DHlangIsOriginalContent}"
+            <CheckBox Content="{DynamicResource LangKeyIsOriginalContent}"
                       VerticalAlignment="Center"  Margin="20,5,5,5" 
                       Visibility="{Binding RedditModel.IsMarkAsOriginalContent,Converter={StaticResource BooleanToVisibilityConverter}}"                      
                       IsChecked="{Binding RedditModel.IsOriginalContentSubOptions}"/>
 
 
-            <CheckBox Content="{DynamicResource DHlangRdMarkAsSpoiler}"
+            <CheckBox Content="{DynamicResource LangKeyMakeAllPostsMarkedAsSpoiler}"
                       VerticalAlignment="Center" Margin="5"
                       IsChecked="{Binding RedditModel.IsMarkAsSpoiler}"/>
 
-            <CheckBox Content="{DynamicResource DHlangIsSpoiler}"
+            <CheckBox Content="{DynamicResource LangKeyIsSpoiler}"
                       VerticalAlignment="Center" Margin="20,5,5,5" 
                       Visibility="{Binding RedditModel.IsMarkAsSpoiler,Converter={StaticResource BooleanToVisibilityConverter}}"                      
                       IsChecked="{Binding RedditModel.IsSpoilerSubOptions}"/>
 
 
-            <CheckBox Content="{DynamicResource DHlangRdDisableSendingRepliesForAll}"
+            <CheckBox Content="{DynamicResource LangKeyDisableSendingRepliesForAllPosts}"
                       VerticalAlignment="Center" Margin="5"                      
                       IsChecked="{Binding RedditModel.IsDisplaySendingReplies}"/>
 
-            <CheckBox Content="{DynamicResource DHlangIsDisableSendingReplies}"
+            <CheckBox Content="{DynamicResource LangKeyDisableSendingReplies}"
                       VerticalAlignment="Center" Margin="20,5,5,5" 
                       Visibility="{Binding RedditModel.IsDisplaySendingReplies,Converter={StaticResource BooleanToVisibilityConverter}}"
                       IsChecked="{Binding RedditModel.IsDisableSendingSubOptions}"/>

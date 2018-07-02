@@ -9,14 +9,14 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid x:Name="MainGrid">
         <StackPanel Margin="5">
-            <CheckBox Content="{DynamicResource langStopCampaignForSpecificError}" VerticalAlignment="Center" Margin="5"/>
+            <CheckBox Content="{DynamicResource LangKeyStopTheCampaignForSpecificErrorCodes}" VerticalAlignment="Center" Margin="5"/>
             <StackPanel>
-                <TextBlock Text="{DynamicResource langErrorCodesToStopFor}" VerticalAlignment="Center" Margin="30,5"/>
+                <TextBlock Text="{DynamicResource LangKeyErrorCodesToStopFor}" VerticalAlignment="Center" Margin="30,5"/>
                 <TextBox Width="220" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0"/>
                 <StackPanel Orientation="Horizontal"  Margin="30,5">
-                    <TextBlock Text="{DynamicResource langStopAfter}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource LangKeyStopAfter}" VerticalAlignment="Center"/>
                     <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Margin="5,0"/>
-                    <TextBlock  Text="{DynamicResource langPostsWithSameError}" VerticalAlignment="Center"/>
+                    <TextBlock  Text="{DynamicResource LangKeyPostsWithSameError}" VerticalAlignment="Center"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>

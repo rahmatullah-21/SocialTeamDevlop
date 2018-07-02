@@ -30,17 +30,17 @@ namespace DominatorUIUtility.CustomControl
             {
                 new TabItemTemplates
                 {
-                    Title =FindResource("langAccountsManager").ToString(),
+                    Title =FindResource("LangKeyAccountsManager").ToString(),
                     Content = new Lazy<UserControl>(() =>  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, strategies))
                 },
                 //new TabItemTemplates
                 //{
-                //    Title =FindResource("langAccountsManager").ToString(),
+                //    Title =FindResource("LangKeyAccountsManager").ToString(),
                 //    Content = new Lazy<UserControl>(()=> new AccountManager())
                 //},
                 //new TabItemTemplates
                 //{
-                //    Title =FindResource("langAccountStatsBeta").ToString(),
+                //    Title =FindResource("LangKeyAccountStatsBeta").ToString(),
                 //    Content = new Lazy<UserControl>(()=> new AccountStats())
                 //}
             };

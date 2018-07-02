@@ -12,9 +12,7 @@
 
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/DHLanguages/English.xaml"/>
-        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/FDLanguages/English.xaml"/>
-        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/GDLanguages/English.xaml"/>
+        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/English.xaml"/>
         <ResourceDictionary Source="/DominatorUIUtility;component/Styles/BaseStyles.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
@@ -66,7 +64,7 @@
                                 <Image x:Name="PART_Image" Margin="1" Width="{TemplateBinding MediaWidth}" Height="{TemplateBinding MediaHeight}"  Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
                                     <Image.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="{DynamicResource DHlangDelete}" Name="PART_MenuItemImageDelete" Visibility="{TemplateBinding DeleteMenuVisibility}">
+                                            <MenuItem Header="{DynamicResource LangKeyDelete}" Name="PART_MenuItemImageDelete" Visibility="{TemplateBinding DeleteMenuVisibility}">
                                                 <MenuItem.Icon>
                                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                                         <Rectangle.OpacityMask>
@@ -125,16 +123,16 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <StackPanel>
                             <!--<StackPanel Margin="1">
-                                <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource DHlangPublisherPostDescription}" VerticalAlignment="Center" FontSize="12" />
+                                <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource LangKeyPostDescription}" VerticalAlignment="Center" FontSize="12" />
                                 --><!--<TextBox x:Name="PART_PostDescription" VerticalScrollBarVisibility="Auto"
-                                         mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}"
+                                         mah:TextBoxHelper.Watermark="{DynamicResource LangKeyWhatsOnYourMind}"
                                          Margin="2" TextWrapping="Wrap" Height="60" Width="300"
                                          Text="{Binding Path=PostDescription, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"></TextBox>--><!--
 
                                 <customControl:SocinatorTextBox                    
                                     MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
                                     SuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
-                                    Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}"
+                                    Watermark="{DynamicResource LangKeyWhatsOnYourMind}"
                                     Text="{TemplateBinding PostDescription}" TextHeight="60" TextWidth="300" Margin="2" TextWrapping="Wrap"
                                     DisplayMember="Key">
                                     <customControl:SocinatorTextBox.LoadingContent>
@@ -144,7 +142,7 @@
                             </StackPanel>-->
                             <StackPanel Margin="1">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Name="TextBlockMedia" FontWeight="SemiBold" Foreground="{DynamicResource AccebtBaseColorBrush}" Text="{DynamicResource DHlangPublisherSelectMedia}" FontSize="12" VerticalAlignment="Center" />
+                                    <TextBlock Name="TextBlockMedia" FontWeight="SemiBold" Foreground="{DynamicResource AccebtBaseColorBrush}" Text="{DynamicResource LangKeyMediaS}" FontSize="12" VerticalAlignment="Center" />
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center">
@@ -159,25 +157,25 @@
                                     <StackPanel Orientation="Vertical" Margin="5,0,0,0">
 
                                         <Button Name="PART_ImportImage" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30" Width="100" VerticalAlignment="Center" >
-                                            <StackPanel Orientation="Horizontal" ToolTip="{DynamicResource DHlangImportImages}">
+                                            <StackPanel Orientation="Horizontal" ToolTip="{DynamicResource LangKeyLoadImageSOrVideoS}">
                                                 <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
                                                     <Rectangle.OpacityMask>
                                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_image_export}" />
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
-                                                <Label Content="{DynamicResource DHlangPublisherSelectMedia}"  Foreground="White" Margin="0,-2,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                                <Label Content="{DynamicResource LangKeyMediaS}"  Foreground="White" Margin="0,-2,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                             </StackPanel>
                                         </Button>
 
                                         <Button Name="PART_Settings" Foreground="White" Margin="1"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="32" Width="100" Cursor="Hand" VerticalAlignment="Center" >
-                                            <StackPanel Orientation="Horizontal" ToolTip="{DynamicResource DHlangImportImages}">
+                                            <StackPanel Orientation="Horizontal" ToolTip="{DynamicResource LangKeyLoadImageSOrVideoS}">
 
                                                 <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
                                                     <Rectangle.OpacityMask>
                                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
-                                                <Label Content="{DynamicResource DHlangSettings}" Margin="0,-2,0,0" FontSize="11" Foreground="White"  FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                                <Label Content="{DynamicResource LangKeySettings}" Margin="0,-2,0,0" FontSize="11" Foreground="White"  FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                             </StackPanel>
                                         </Button>
 
@@ -186,33 +184,33 @@
                             </StackPanel>
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding behaviours:NetworkAvailablity.IgElementVisible}">
-                                    <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherPostTitle}"
+                                    <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPostTitle}"
                                              Margin="2" TextWrapping="Wrap" Height="30" Width="300"  AcceptsReturn="True"
                                              Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PublisherInstagramTitle}"></TextBox>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" Visibility="{TemplateBinding behaviours:NetworkAvailablity.PdElementVisible}">
                                     <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
-                                             mah:TextBoxHelper.Watermark="{DynamicResource DHlangSourceUrl}" Margin="2" 
+                                             mah:TextBoxHelper.Watermark="{DynamicResource LangKeySourceUrl}" Margin="2" 
                                              TextWrapping="Wrap" Height="30" Width="300" AcceptsReturn="True"
                                              Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PdSourceUrl}"/>
                                 </StackPanel>
 
                                 <StackPanel Visibility="{TemplateBinding behaviours:NetworkAvailablity.FbElementVisible}">
-                                    <CheckBox  Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource DHlangFdSellPost}" 
+                                    <CheckBox  Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource LangKeyEnableFacebookSellPost}" 
                                                IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsFdSellPost}"/>
                                     <StackPanel Visibility="{Binding ElementName =CheckBoxFdSellPost, Path=IsChecked ,Converter= {StaticResource BooleanToVisibilityConverter}}">
                                         <TextBox VerticalAlignment="Center"  AcceptsReturn="True" HorizontalAlignment="Left"
-                                                 mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdProductName}" Name="TextBoxFdSellProductTitle" 
+                                                 mah:TextBoxHelper.Watermark="{DynamicResource LangKeyWhatAreYouSelling}" Name="TextBoxFdSellProductTitle" 
                                                  VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="40" Width="303"
                                                  Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellProductTitle}"/>
                                         <StackPanel Name="FdSellPostDetails" Orientation="Horizontal">
                                             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
-                                                     mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdSellPrice}"
+                                                     mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPrice}"
                                                      Name="TextBoxFdSellPrice"  VerticalContentAlignment="Center"  Margin="2" 
                                                      TextWrapping="Wrap" Height="30" Width="100"
                                                      Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellPrice}"/>
-                                            <TextBox VerticalAlignment="Center"  mah:TextBoxHelper.Watermark="{DynamicResource DHlangFdSellLocation}" 
+                                            <TextBox VerticalAlignment="Center"  mah:TextBoxHelper.Watermark="{DynamicResource LangKeyLocation}" 
                                                      HorizontalAlignment="Left" Name="TextBoxFdSellLocation"  VerticalContentAlignment="Center" 
                                                      Margin="2" TextWrapping="Wrap" Height="30" Width="200"
                                                      Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellLocation}"/>

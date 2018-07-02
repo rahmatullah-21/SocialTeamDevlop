@@ -66,7 +66,7 @@
 
                     <GridViewColumn  Width="250">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangDestinationName}"/>
+                            <TextBlock Text="{DynamicResource LangKeyDestinationName}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -82,7 +82,7 @@
 
                     <GridViewColumn Width="130">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangAccountCount}"/>
+                            <TextBlock Text="{DynamicResource LangKeyAccountCount}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -97,7 +97,7 @@
 
                     <GridViewColumn Width="130">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangPagesBoardCount}"/>
+                            <TextBlock Text="{DynamicResource LangKeyPagesOrBoardsCount}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -111,7 +111,7 @@
                     </GridViewColumn>
                     <GridViewColumn Width="130">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangGroupsCount}"/>
+                            <TextBlock Text="{DynamicResource LangKeyGroupsCount}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -126,7 +126,7 @@
 
                     <GridViewColumn Width="160">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangCustomDestinationCount}"/>
+                            <TextBlock Text="{DynamicResource LangKeyCustomDestinationCount}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -141,7 +141,7 @@
 
                     <GridViewColumn Width="150">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangWallsProfilesCount}"/>
+                            <TextBlock Text="{DynamicResource LangKeyWallsProfilesCount}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -156,7 +156,7 @@
 
                     <GridViewColumn Width="150">
                         <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource DHlangWallsCampaignsCount}"/>
+                            <TextBlock Text="{DynamicResource LangKeyCampaignsCount}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -181,7 +181,7 @@
                             <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
                         </Rectangle.OpacityMask>
                     </Rectangle>
-                    <TextBlock Text="{DynamicResource langCancel}" Margin="6,0" Foreground="White"/>
+                    <TextBlock Text="{DynamicResource LangKeyCancel}" Margin="6,0" Foreground="White"/>
                 </StackPanel>
             </Button.Content>
         </Button>

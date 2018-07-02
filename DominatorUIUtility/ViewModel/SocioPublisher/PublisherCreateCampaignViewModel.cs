@@ -162,27 +162,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 new TabItemTemplates
                 {
-                    Title= Application.Current.FindResource("DHlangCreatePost")?.ToString(),
+                    Title= Application.Current.FindResource("LangKeyCreatePost")?.ToString(),
                     Content=new Lazy<UserControl>(()=> new PublisherDirectPosts(tabItemsControl))
                 },
                 new TabItemTemplates
                 {
-                    Title=Application.Current.FindResource("DHlangScrapePost")?.ToString(),
+                    Title=Application.Current.FindResource("LangKeyScrapePost")?.ToString(),
                     Content=new Lazy<UserControl>(()=>PublisherScrapePost.GetPublisherScrapePost(tabItemsControl))
                 },
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("DHlangSharePost")?.ToString(),
+                    Title = Application.Current.FindResource("LangKeySharePost")?.ToString(),
                     Content=new Lazy<UserControl>(()=>PublisherSharePost.GetPublisherSharePost(tabItemsControl))
                 },
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("DHlangRssFeed")?.ToString(),
+                    Title = Application.Current.FindResource("LangKeyRSSFeed")?.ToString(),
                     Content = new Lazy<UserControl>(()=> PublisherRssFeed.GetPublisherRssFeed(tabItemsControl))
                 },
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("DHlangMonitorFolder")?.ToString(),
+                    Title = Application.Current.FindResource("LangKeyMonitorFolder")?.ToString(),
                     Content = new Lazy<UserControl>(()=>PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl))
                 }
             };

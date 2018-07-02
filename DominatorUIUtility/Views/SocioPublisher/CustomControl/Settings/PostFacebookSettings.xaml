@@ -11,12 +11,12 @@
     <Grid Name="MainGrid">
         <StackPanel Orientation="Vertical" >
             <CheckBox Name="CheckBoxTurnOffLocation" Margin="2"
-                      Content="{DynamicResource DHlangFdTurnOffComment}" IsChecked="{Binding SellPostTurnOffComment}"/>
+                      Content="{DynamicResource LangKeyTurnoffCommentForSellPost}" IsChecked="{Binding SellPostTurnOffComment}"/>
             <StackPanel Orientation="Vertical">
                 <CheckBox Name="CheckBoxFdOverrideSource" Margin="2" 
-                          Content="{DynamicResource DHlangFdOverridePostDescription}" IsChecked="{Binding IsReplaceDescriptionSelected}"/>
+                          Content="{DynamicResource LangKeyReplacePostDescriptionsWithFollowingText}" IsChecked="{Binding IsReplaceDescriptionSelected}"/>
                 <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TextBoxPinterestSource"
-                         mah:TextBoxHelper.Watermark="{DynamicResource DHlangPublisherPostDescription}" 
+                         mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPostDescription}" 
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" Text="{Binding PostReplaceDescription}"/>
             </StackPanel>
         </StackPanel>

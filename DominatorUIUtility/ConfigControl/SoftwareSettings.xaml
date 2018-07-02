@@ -13,7 +13,7 @@
     <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
         <GroupBox.Header>
             <Grid>
-                <Label Content="{DynamicResource langConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
+                <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
                 <Button Name="BtnSave" Click="BtnSave_OnClick"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"
                         VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button.Content>
@@ -31,128 +31,128 @@
         </GroupBox.Header>
         <ScrollViewer   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel Margin="10" x:Name="MainGrid">
-                <CheckBox Margin="5" Content="{DynamicResource DHlangRunDHAtStartUp}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyRunSocinatorAtSystemStartup}"
                          Visibility="Collapsed" IsChecked="{Binding IsRunDHAtStartUpChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangShowToolTipToSystemTray}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyShowToolTipWhenMinimizingToSystemTray}"
                           Visibility="Collapsed"   IsChecked="{Binding IsShowToolTipToSystemTrayChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangRecreateDesktopshortcutAtStartup}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyRecreateDesktopShortcutAtStartup}"
                           Visibility="Collapsed" IsChecked="{Binding IsRecreateDesktopshortcutAtStartupChecked}"/>
-                <!--<CheckBox Margin="5" Content="{DynamicResource DHlangStartAppMinimized}"
+                <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyStartTheAppMinimized}"
                           IsChecked="{Binding IsStartAppMinimizedChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangShowSameAccounts}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyShowSameAccountsInSocialProfileDetailsAndToolsDetailsAsInSocialProfileAndTools}"
                           IsChecked="{Binding IsShowSameAccountsChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangEnableGlobalNightMode}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableGlobalNightMode}"
                           IsChecked="{Binding IsEnableGlobalNightModeChecked}"/>-->
-                <CheckBox Margin="5" Content="{DynamicResource DHlangAllowParallel}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"
                           IsChecked="{Binding IsEnableParallelActivitiesChecked}"/>
                 <StackPanel Margin="20,5" Visibility="{Binding IsEnableGlobalNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel  Orientation="Horizontal">
-                        <Label Margin="5" Content="{DynamicResource DHlangApplicationWillNotExecuteAnyActions}"/>
+                        <Label Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"/>
                         <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding ExecuteAnyActionsBetween.StartValue}"/>
-                        <Label Content="{DynamicResource langAnd}" Margin="5"/>
+                        <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
                         <controls:NumericUpDown  Margin="5" Minimum="{Binding ExecuteAnyActionsBetween.StartValue}"
                                                 Value="{Binding ExecuteAnyActionsBetween.EndValue}"/>
                     </StackPanel>
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangRandomiseNightMode}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyRandomiseNightMode}"
                               IsChecked="{Binding IsRandomiseNightModeChecked}"/>
                     <StackPanel Margin="20,5" Visibility="{Binding IsRandomiseNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel Orientation="Horizontal">
-                            <Label Margin="5" Content="{DynamicResource DHlangStartBetween}"/>
+                            <Label Margin="5" Content="{DynamicResource LangKeyStartBetween}"/>
                             <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding StartBetween.StartValue}"/>
-                            <Label Content="{DynamicResource langAnd}" Margin="5"/>
+                            <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
                             <controls:NumericUpDown  Margin="5" Minimum="{Binding StartBetween.StartValue}"
                                                     Value="{Binding StartBetween.EndValue}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5">
-                            <Label Margin="5" Content="{DynamicResource DHlangEndBetween}"/>
+                            <Label Margin="5" Content="{DynamicResource LangKeyEndBetween}"/>
                             <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding EndBetween.StartValue}"/>
-                            <Label Content="{DynamicResource langAnd}" Margin="5"/>
+                            <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
                             <controls:NumericUpDown Margin="5" Minimum="{Binding EndBetween.StartValue}"
                                                     Value="{Binding EndBetween.EndValue}"/>
                         </StackPanel>
-                        <Label Margin="5" Content="{DynamicResource DHlangNightModeNote}"/>
+                        <Label Margin="5" Content="{DynamicResource LangKeyNoActionWillBeExecutedOnAnySocialProfileDuringSelectedTimeIntervalEachAccountHasItsOwnNightModeIfBetterPrecisionIsNeededSpecifyingANightModeForAnAccountDoesNotExemptThatAccountFromGlobalNightMode}"/>
                     </StackPanel>
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangAllowAccountThatHasNightModeToIgnoreGlobal}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyAllowAccountThatSetTheirOwnNightModeToIgnoreGlobalNightMode}"
                               IsChecked="{Binding IsIgnoreGlobalChecked}"/>
                 </StackPanel>
-                <!--<CheckBox Margin="5" Content="{DynamicResource DHlangEnableGlobalFindReplace}"
+                <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyEnableGlobalFindAndReplaceForPostTextAppliesToAllCampaigns}"
                           IsChecked="{Binding IsEnableGlobalFindReplaceChecked}"/>
                 <TextBox TextWrapping="Wrap" Margin="30,5" Height="120" Width="350" HorizontalAlignment="Left"
-                 controls:TextBoxHelper.Watermark="{DynamicResource DHlangEnableGlobalFindReplaceWaterMark}"
+                 controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnableGlobalFindReplaceWaterMark}"
                          Visibility="{Binding IsEnableGlobalFindReplaceChecked,Converter={StaticResource BooleanToVisibilityConverter}}"
                          Text="{Binding GlobalFindReplaceText}"/>
                 <StackPanel Orientation="Horizontal">
-                    <Label Margin="5" Content="{DynamicResource DHlangWaitMinimumOf}"/>
+                    <Label Margin="5" Content="{DynamicResource LangKeyWaitAMinimumOf}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
-                    <Label Margin="5" Content="{DynamicResource DHlangHoursBeforeExecuting}"/>
+                    <Label Margin="5" Content="{DynamicResource DHlangHoursBeforeExeLangKeyHoursBeforeExecutingANewSynchronisationOnAnAccountTheActualValueIsRandomizedcuting}"/>
                 </StackPanel>-->
-                <CheckBox Margin="5" Content="{DynamicResource DHlangUseTabInsteadOfComma}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyUseTabInsteadOfComma}"
                      Visibility="Collapsed"     IsChecked="{Binding IsUseTabInsteadOfCommaChecked}"/>
-                <!--<CheckBox Margin="5" Content="{DynamicResource DHlangEnableContactDifferentUser}"
+                <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyEnableContactDifferentUserAcrossAllAccountsConfiguredInSocinator}"
                           IsChecked="{Binding IsEnableContactDifferentUserChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangWhenPostingVideosSelectRandomFrame}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyWhenPostingVideosSelectARandomFrameForTheCoverThumbnail}"
                           IsChecked="{Binding IsWhenPostingVideosSelectRandomFrameChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangChangeVideoHashBeforePosting}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyChangeVideoHashBeforePosting}"
                           IsChecked="{Binding IsChangeVideoHashBeforePostingChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangDoNotShowInfoMesseges}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotShowInfoMesseges}"
                           IsChecked="{Binding IsDoNotShowInfoMessegesChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangUseLocalPcCulture}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyUseLocalPcCultureForDateTimeCalendarFormateAM/PMFirstDayOfWeek}"
                           IsChecked="{Binding IsUseLocalPcCultureChecked}"/>-->
                 <StackPanel Orientation="Horizontal" Visibility="Collapsed" >
-                    <CheckBox Margin="5" Content="{DynamicResource DHlangEnableAutoRestartSocinator}"
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAutoRestartSocinatorAfterAMinimumOf}"
                               IsChecked="{Binding IsEnableAutoRestartSocinatorChecked}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" IsEnabled="{Binding IsEnableAutoRestartSocinatorChecked}"
                                             Value="{Binding MinHour}"/>
-                    <Label Margin="5" Content="{DynamicResource langHours}"/>
+                    <Label Margin="5" Content="{DynamicResource LangKeyHours}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="5" Text="{DynamicResource DHlangEnableSync}"/>
+                    <TextBlock Margin="5" Text="{DynamicResource LangKeySynchronizeAccountInformationsEvery}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" 
                                             Value="{Binding AccountSynchronizationHours}"/>
-                    <Label Margin="5" Content="{DynamicResource langHours}"/>
+                    <Label Margin="5" Content="{DynamicResource LangKeyHours}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="5" Text="{DynamicResource DHlangSimultaneousAccountUpdateCount}"/>
+                    <TextBlock Margin="5" Text="{DynamicResource LangKeyNumberOfAccountsToSynchronizeSimultaneously}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
                 </StackPanel>
                 <!--<StackPanel Orientation="Horizontal">
-                    <Label Margin="5" Content="{DynamicResource DHlangInstallNnewAvailableUpdates}"/>
+                    <Label Margin="5" Content="{DynamicResource LangKeyInstallNewAvailableUpdatesBetween}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding AvailableUpdatesBetween.StartValue}"/>
-                    <Label Content="{DynamicResource langAnd}" Margin="5"/>
+                    <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
                     <controls:NumericUpDown  Margin="5" Minimum="{Binding AvailableUpdatesBetween.StartValue}"
                                             Value="{Binding AvailableUpdatesBetween.EndValue}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Margin="5" Content="{DynamicResource DHlangLimitNumberOfRecords}"/>
+                    <Label Margin="5" Content="{DynamicResource LangKeyLimitTheNumberOfRecordsInAnyListTo}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding LimitNumberOfRecords}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Margin="5" Content="{DynamicResource DHlangLimitNumberOfDeshboardSummary}"/>
+                    <Label Margin="5" Content="{DynamicResource LangKeyLimitTheNumberOfDashboardSummaryItemsTo}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding LimitNumberOfDeshboardSummary}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Margin="5" Content="{DynamicResource DHlangLimitNumberOfPost}"/>
+                    <Label Margin="5" Content="{DynamicResource LangKeyLimitTheNumberOfPostsInCampaignsTo}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding LimitNumberOfPost}"/>
                 </StackPanel>
 
-                <CheckBox Margin="5" Content="{DynamicResource DHlangRecreateDeshboardWindow}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyRecreateTheDashboardWindowEachTimeItsVisitedCheckThisIfYouHaveIssuesWithTheGraphFromStatistics}"
                           IsChecked="{Binding IsRecreateDeshboardWindowChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangForceCampaignsToKeepSameCreationDate}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyForceCampaignsToKeepTheSameCreationDateOnPostsSentFromDrafts}"
                           IsChecked="{Binding IsForceCampaignsToKeepSameCreationDateChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangEnablePerformanceAnalysis}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnablePerformanceAnalysis}"
                           IsChecked="{Binding IsEnablePerformanceAnalysisChecked}"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <Label Content="{DynamicResource DHlangEmbaddedBrowserUserAgent}"/>
+                    <Label Content="{DynamicResource LangKeyEmbaddedBrowserUserAgent}"/>
                     <TextBox Width="400" Margin="5" Text="{Binding EmbaddedBrowserUserAgent}"/>
                 </StackPanel>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangResetOpenFileDialog}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyResetOpenFileDialog}"
                           IsChecked="{Binding IsResetOpenFileDialogChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangDisableSocialProfilesDescriptionTooltip}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyDisableSocialProfilesDescriptionTooltip}"
                           IsChecked="{Binding IsDisableSocialProfilesDescriptionTooltipChecked}"/>
-                <Label Content="{DynamicResource DHlangDatabaseIntegrityCheck}"/>
-                <RadioButton Margin="10,5" Content="{DynamicResource DHlangFull}"
+                <Label Content="{DynamicResource LangKeyDatabaseIntegrityCheckAdvancedSetting}"/>
+                <RadioButton Margin="10,5" Content="{DynamicResource LangKeyFull}"
                              IsChecked="{Binding IsFullChecked}"/>
-                <RadioButton  Margin="10,5" Content="{DynamicResource DHlangNormal}"
+                <RadioButton  Margin="10,5" Content="{DynamicResource LangKeyNormal}"
                               IsChecked="{Binding IsNormalChecked}"/>-->
 
             </StackPanel>

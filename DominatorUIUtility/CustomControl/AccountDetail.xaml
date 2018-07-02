@@ -23,7 +23,7 @@
                                     <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{DynamicResource langSave}" Margin="6,0" Foreground="White"/>
+                            <TextBlock Text="{DynamicResource LangKeySave}" Margin="6,0" Foreground="White"/>
                         </StackPanel>
                     </Button.Content>
                     <Button.Style>
@@ -50,7 +50,7 @@
                                     <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{DynamicResource langCancel}" Margin="6,0" Foreground="White"/>
+                            <TextBlock Text="{DynamicResource LangKeyCancel}" Margin="6,0" Foreground="White"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>
@@ -73,7 +73,7 @@
             </StackPanel.Resources>
 
             <StackPanel Orientation="Horizontal" >
-                <TextBlock Name="TxtblockSelectNetWork" Text="{DynamicResource langSelectSocialNetwork}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Name="TxtblockSelectNetWork" Text="{DynamicResource LangKeySocialNetwork}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <ContentControl>
                         <ContentControl.Style>
@@ -212,19 +212,19 @@
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal" >
-                <TextBlock Text="{DynamicResource DhlangAccountName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource LangKeyAccountName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <TextBox Name="TxtAccountName" Text="{Binding AccountBaseModel.UserFullName}"  controls:TextBoxHelper.Watermark="Enter Account Name" Width="230"
                      FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"/>
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal">
-                <TextBlock Text="{DynamicResource DHlangEmailId}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource LangKeyEmailIdUsername}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <TextBox Name="TxtEmail" Text="{Binding AccountBaseModel.UserId}"  controls:TextBoxHelper.Watermark="Enter Email" Width="230"
                      FontSize="13" FontWeight="SemiBold" Margin="5,5,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"/>
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal" >
-                <TextBlock Text="{DynamicResource DHlangUserName}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource LangKeyUsername}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <TextBox Name="txtUserName"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                      controls:TextBoxHelper.Watermark="Type User Name" Width="230" FontSize="13"
                      FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
@@ -240,7 +240,7 @@
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal" >
-                <TextBlock Name="txtblockPassword" Text="{DynamicResource langPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Name="txtblockPassword" Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <PasswordBox Name="txtPassword"  passwordHelper:PasswordBoxHelper.Attach="True"
                          Style="{StaticResource MetroButtonRevealedPasswordBox}"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                          controls:TextBoxHelper.Watermark="Enter Password" 
@@ -257,15 +257,15 @@
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal" >
-                <TextBlock Text="{DynamicResource DhlangBrowser}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource LangKeyBrowser}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <TextBox Name="TxtBrowser" Text="{Binding UserAgentWeb}"
-                     controls:TextBoxHelper.Watermark="{DynamicResource DhlangBrowser}" Width="230"
+                     controls:TextBoxHelper.Watermark="{DynamicResource LangKeyBrowser}" Width="230"
                      FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" />
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal" >
-                <TextBlock Text="{DynamicResource DhlangStatus}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                <Label Name="TxtStatus" Content="{Binding AccountBaseModel.Status}"  controls:TextBoxHelper.Watermark="{DynamicResource DhlangStatus}" Width="230"
+                <TextBlock Text="{DynamicResource LangKeyStatus}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <Label Name="TxtStatus" Content="{Binding AccountBaseModel.Status}"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyStatus}" Width="230"
                        FontSize="13" FontWeight="Bold"  Margin="5,0,5,0" >
                     <Label.Style>
                         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
@@ -325,9 +325,9 @@
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Style>
-                <TextBlock Text="{DynamicResource DhlangVerificationCode}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold"
+                <TextBlock Text="{DynamicResource LangKeyVerificationCode}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold"
                        Foreground="Black" VerticalAlignment="Center" />
-                <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource DhlangEnterVerificationCode}"
+                <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterVerificationCode}"
                       Width="230" Text="{Binding VarificationCode}" Name="TxtVarificationCode"
                       FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" VerticalAlignment="Center"  
                       Height="30"/>
@@ -356,22 +356,22 @@
                                     <VisualBrush Visual="{StaticResource appbar_social_pocket}" Stretch="Fill"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{DynamicResource DhlangVerify}" Margin="6,0" Foreground="White"/>
+                            <TextBlock Text="{DynamicResource LangKeyVerify}" Margin="6,0" Foreground="White"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>
 
             </StackPanel>
-            <CheckBox Content="{DynamicResource langAdvancedSettings}" FontWeight="SemiBold"  Name="ChkAdvanceSetting" Margin="5"/>
+            <CheckBox Content="{DynamicResource LangKeyAdvancedSettings}" FontWeight="SemiBold"  Name="ChkAdvanceSetting" Margin="5"/>
 
             <StackPanel  Orientation="Horizontal" 
                      Visibility="{Binding ElementName=ChkAdvanceSetting,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock Text="{DynamicResource DhlangCookies}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource LangKeyCookies}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Button Content="{DynamicResource DhlangAddNewCookies}" Name="BtnAddNewCookies" Click="BtnAddNewCookies_OnClick"
+                        <Button Content="{DynamicResource LangKeyAddNewCookies}" Name="BtnAddNewCookies" Click="BtnAddNewCookies_OnClick"
                             Background="Transparent" FontWeight="SemiBold" Foreground="{DynamicResource AccentBaseColorBrush}"/>
-                        <Button Content="{DynamicResource DhlangRemoveSelectedCookies}" Background="Transparent" Name="BtnRemoveNewCookies"
+                        <Button Content="{DynamicResource LangKeyRemoveSelectedCookies}" Background="Transparent" Name="BtnRemoveNewCookies"
                             Click="BtnRemoveNewCookies_OnClick"  FontWeight="SemiBold" Foreground="{DynamicResource AccentBaseColorBrush}"/>
                     </StackPanel>
                     <DataGrid Margin="5" ItemsSource="{Binding CookieHelperList}" MaxHeight="200" Width="500"
