@@ -26,7 +26,7 @@
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsUncheckIncludeOriginalPost}"/>
                 <CheckBox Content="{DynamicResource LangKeyRemoveThe}" 
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsRemoveViaoption}"/>
-                <CheckBox Content="{DynamicResource LangKeyHideThePostInFacebookGroupsPagesWallAfterPublishing}"
+                <CheckBox Content="{DynamicResource LangKeyRemoveTheLinkFromThePostAfterFacebookGooglePlusLinkedinPinterestDisplaysThePreview}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsHidePostInFacebook}"/>
                 <CheckBox Content="{DynamicResource LangKeyDisableCommentsForNewPost}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsDisableCommentsForNewPost}"/>

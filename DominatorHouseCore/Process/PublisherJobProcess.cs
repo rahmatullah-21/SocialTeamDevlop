@@ -151,6 +151,10 @@ namespace DominatorHouseCore.Process
                 GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork,
                     AccountModel.AccountBaseModel.UserName, CampaignName);
 
+                var publishedDetails = GenericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == CampaignId).ToList();
+
+                var usedDestination = publishedDetails.Select(x => x.DestinationUrl).ToList();
+
                 if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
                 {
                     #region Publish on Groups
@@ -162,6 +166,9 @@ namespace DominatorHouseCore.Process
 
                         if (isReachedMaximumCount)
                             break;
+
+                        if (GeneralSettingsModel.IsUnselectDestination && usedDestination.Contains(groupUrl))
+                            continue;
 
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
@@ -201,6 +208,9 @@ namespace DominatorHouseCore.Process
                         if (isReachedMaximumCount)
                             break;
 
+                        if (GeneralSettingsModel.IsUnselectDestination && usedDestination.Contains(pageUrl))
+                            continue;
+
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
                         var post = GetPostModel("Page", pageUrl);
@@ -238,6 +248,9 @@ namespace DominatorHouseCore.Process
 
                         if (isReachedMaximumCount)
                             break;
+
+                        if (GeneralSettingsModel.IsUnselectDestination && usedDestination.Contains(customList.DestinationValue))
+                            continue;
 
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
@@ -294,6 +307,9 @@ namespace DominatorHouseCore.Process
                         if (isReachedMaximumCount)
                             break;
 
+                        if (GeneralSettingsModel.IsUnselectDestination && usedDestination.Contains(destination.Key))
+                            continue;
+
                         if (destination.Value == "Group")
                         {
                             var post = GetPostModel("Group", destination.Key);
@@ -326,6 +342,9 @@ namespace DominatorHouseCore.Process
                                 break;
                             }
 
+                            if (GeneralSettingsModel.IsUnselectDestination && usedDestination.Contains(destination.Key))
+                                continue;
+
                             GlobusLogHelper.log.Info(Log.StartPublishing,
                                 AccountModel.AccountBaseModel.AccountNetwork,
                                 AccountModel.AccountBaseModel.UserName, $"page [{destination.Key}]");
@@ -357,6 +376,10 @@ namespace DominatorHouseCore.Process
 
                         if (isReachedMaximumCount)
                             break;
+
+                        if (GeneralSettingsModel.IsUnselectDestination && 
+                            usedDestination.Contains(customList.DestinationValue))
+                            continue;
 
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
@@ -395,6 +418,10 @@ namespace DominatorHouseCore.Process
                         isReachedMaximumCount = true;
 
                     if (isReachedMaximumCount || isNoPostAvailable)
+                        return;
+
+                    if (GeneralSettingsModel.IsUnselectDestination && 
+                        usedDestination.Contains(AccountModel.AccountBaseModel.UserName))
                         return;
 
                     var ownWallpost = GetPostModel("OwnWall", AccountModel.AccountBaseModel.UserName);
@@ -467,6 +494,10 @@ namespace DominatorHouseCore.Process
             {
                 GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
 
+                var publishedDetails = GenericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == CampaignId).ToList();
+
+                var usedDestination = publishedDetails.Select(x => x.DestinationUrl).ToList();
+
                 if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
                 {
                     #region Publish on Groups
@@ -483,6 +514,10 @@ namespace DominatorHouseCore.Process
 
                         if (isReachedMaximumCount)
                             break;
+
+                        if (GeneralSettingsModel.IsUnselectDestination &&
+                            usedDestination.Contains(groupUrl))
+                            continue;
 
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
@@ -518,6 +553,10 @@ namespace DominatorHouseCore.Process
                         if (isReachedMaximumCount)
                             break;
 
+                        if (GeneralSettingsModel.IsUnselectDestination &&
+                            usedDestination.Contains(pageUrl))
+                            continue;
+
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
                         GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{pageUrl}]");
@@ -548,6 +587,10 @@ namespace DominatorHouseCore.Process
                             break;
 
                         if (!ValidateNetworkAdvancedSettings(post, customList.DestinationType, customList.DestinationValue, true))
+                            continue;
+
+                        if (GeneralSettingsModel.IsUnselectDestination &&
+                            usedDestination.Contains(customList.DestinationValue))
                             continue;
 
                         PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
@@ -597,6 +640,10 @@ namespace DominatorHouseCore.Process
 
                         if (isReachedMaximumCount)
                             break;
+
+                        if (GeneralSettingsModel.IsUnselectDestination &&
+                            usedDestination.Contains(x.Key))
+                            continue;
 
                         if (x.Value == "Group")
                         {
@@ -649,6 +696,10 @@ namespace DominatorHouseCore.Process
                         if (!ValidateNetworkAdvancedSettings(post, customList.DestinationType, customList.DestinationValue, true))
                             continue;
 
+                        if (GeneralSettingsModel.IsUnselectDestination &&
+                            usedDestination.Contains(customList.DestinationValue))
+                            continue;
+
                         PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
@@ -674,6 +725,10 @@ namespace DominatorHouseCore.Process
                         isReachedMaximumCount = true;
 
                     if (isReachedMaximumCount)
+                        return;
+
+                    if (GeneralSettingsModel.IsUnselectDestination &&
+                        usedDestination.Contains(AccountModel.AccountBaseModel.UserName))
                         return;
 
                     PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
@@ -721,6 +776,10 @@ namespace DominatorHouseCore.Process
         public void UpdatePostWithSuccessful(string destinationUrl, PublisherPostlistModel post, string publishedUrl)
         {
             var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+
+            if (postIndex == -1)
+                return;
+
             post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.Yes;
             post.LstPublishedPostDetailsModels[postIndex].Link = publishedUrl;
             post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
