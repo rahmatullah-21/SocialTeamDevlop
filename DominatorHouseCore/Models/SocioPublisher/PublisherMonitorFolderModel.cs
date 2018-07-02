@@ -22,7 +22,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _folderPath, value);
             }
         }
-        private string _folderTemplate = Application.Current.FindResource("DhlangFolderPathTemplate").ToString();
+        private string _folderTemplate = Application.Current.FindResource("LangKeyFolderPathTemplate").ToString();
         [ProtoMember(2)]
         public string FolderTemplate
         {

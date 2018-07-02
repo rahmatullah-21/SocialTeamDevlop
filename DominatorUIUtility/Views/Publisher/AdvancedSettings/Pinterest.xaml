@@ -12,72 +12,72 @@
     <Grid x:Name="MainGrid">
         <ScrollViewer>
             <StackPanel>
-                <CheckBox Content="{DynamicResource langEnableCampaignSourceURL}"
+                <CheckBox Content="{DynamicResource LangKeyEnableCampaignSourceurlToAssignUrlsToPinterestPosts}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding PinterestModel.IsEnableCampaignSourceURL}"/>
                 <StackPanel  Margin="30,0"
                              Visibility="{Binding PinterestModel.IsEnableCampaignSourceURL,
                              Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock Text="{DynamicResource langSourceURL}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeySourceUrlsOnePerLineARandomOneIsChosenEveryTime}" VerticalAlignment="Center" Margin="5"/>
                     <TextBox Height="50" Width="330" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
                              TextWrapping="Wrap"
                              HorizontalAlignment="Left" Margin="10,5"
                              Text="{Binding PinterestModel.SourceURL}"/>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <TextBlock Text="{DynamicResource langSourceURLPercentage}" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="{DynamicResource LangKeySourceURLPercentage}" VerticalAlignment="Center" Margin="5"/>
                         <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 
                                                 Value="{Binding PinterestModel.SourceURLPercentage}"/>
                     </StackPanel>
-                    <CheckBox Content="{DynamicResource langOverwritePostSourceURL}" 
+                    <CheckBox Content="{DynamicResource LangKeyOverwritePostSourceURL}" 
                               VerticalAlignment="Center" Margin="5"
                               IsChecked="{Binding PinterestModel.IsOverwritePostSourceURL}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource langDeletePinsThatHaveBellow}"
+                    <CheckBox Content="{DynamicResource LangKeyDeletePinsThatHaveBellow}"
                               VerticalAlignment="Center" Margin="5"
                               IsChecked="{Binding PinterestModel.IsDeletePinsThatHaveBellow}"/>
                     <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 
                                             Value="{Binding PinterestModel.NumberOfLike}"
                                             IsEnabled="{Binding PinterestModel.IsDeletePinsThatHaveBellow}"/>
-                    <TextBlock Text="{DynamicResource langLike}" VerticalAlignment="Center" />
-                    <TextBlock Text="{DynamicResource langOR}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyLike}" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource LangKeyOR}" VerticalAlignment="Center" Margin="5"/>
                     <controls:NumericUpDown Minimum="0" VerticalAlignment="Center"
                                             IsEnabled="{Binding PinterestModel.IsDeletePinsThatHaveBellow}"
                                             Value="{Binding PinterestModel.NumberOfRepinsCheckIn}"/>
-                    <TextBlock Text="{DynamicResource langRepinsCheckIn}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyRepinsCheckIn}" VerticalAlignment="Center" Margin="5"/>
                     <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 
                                             IsEnabled="{Binding PinterestModel.IsDeletePinsThatHaveBellow}"
                                             Value="{Binding PinterestModel.NumberOfDayAfterRepins}"/>
-                    <TextBlock Text="{DynamicResource langDayAfterRepins}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyDayAfterRepins}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
-                <CheckBox Content="{DynamicResource langEnableAutomaticHashTags}" 
+                <CheckBox Content="{DynamicResource LangKeyEnableAutomaticHashtags}" 
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding PinterestModel.IsEnableAutomaticHashTags}"/>
                 <StackPanel Margin="30,0" Visibility="{Binding PinterestModel.IsEnableAutomaticHashTags,
                             Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock Text="{DynamicResource langUseToAddHashInFrontOfKeywords}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyUseToAddNumOfInFrontOfTheKeywordsThatYouSelectedOrInFrontOfWordsWithALengthGreaterThanAGivenValue}" VerticalAlignment="Center" Margin="5"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource langMaxHashTagsPerPost}" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="{DynamicResource LangKeyMaxHashtagsPerPost}" VerticalAlignment="Center" Margin="5"/>
                         <controls:NumericUpDown Minimum="0" VerticalAlignment="Center"
                                                 Value="{Binding PinterestModel.MaxHashtagsPerPost}"/>
                     </StackPanel>
-                    <GroupBox Header="{DynamicResource langHashByKeyword}" Margin="0,5">
+                    <GroupBox Header="{DynamicResource LangKeyHashByKeyword}" Margin="0,5">
                         <StackPanel>
-                            <TextBlock Text="{DynamicResource langAutomaticallyHashAllWords}" VerticalAlignment="Center" Margin="5"/>
+                            <TextBlock Text="{DynamicResource LangKeyAutomaticallyHashAllTheWordsInTheListBelowAddYourKeywordsSeparatedByCommas}" VerticalAlignment="Center" Margin="5"/>
                             <TextBox Height="50" Width="300" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
                                      TextWrapping="Wrap" Text="{Binding PinterestModel.HashWords}"
                                      HorizontalAlignment="Left" Margin="10,5"/>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="{DynamicResource langHashByMinimumWordLength}">
+                    <GroupBox Header="{DynamicResource LangKeyHashByMinimumWordLength}">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="5">
-                                <TextBlock Text="{DynamicResource langMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
+                                <TextBlock Text="{DynamicResource LangKeyMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
                                 <controls:NumericUpDown Minimum="0" VerticalAlignment="Center"
                                                         Value="{Binding PinterestModel.MinimumWordLength}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="5,0">
-                                <TextBlock Text="{DynamicResource langReplaceProbability}" VerticalAlignment="Center" Margin="5"/>
+                                <TextBlock Text="{DynamicResource LangKeyReplaceProbability}" VerticalAlignment="Center" Margin="5"/>
                                 <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 
                                                         Value="{Binding PinterestModel.ReplaceProbability}"/>
                             </StackPanel>
@@ -86,10 +86,10 @@
 
                 </StackPanel>
 
-                <CheckBox Content="{DynamicResource langEnableDynamicHashTags}"
+                <CheckBox Content="{DynamicResource LangKeyEnableDynamicHashtags}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding PinterestModel.IsEnableDynamicHashTags}"/>
-                <CheckBox Content="{DynamicResource langAddHashtagsEvenAlreadyHave}" 
+                <CheckBox Content="{DynamicResource LangKeyAddHashtagsEvenIfThePostAlreadyHasHashtag}" 
                           VerticalAlignment="Center"  Margin="30,0"
                           IsChecked="{Binding PinterestModel.IsAddHashTagEvenIfAlreadyHastags}"
                           Visibility="{Binding PinterestModel.IsEnableDynamicHashTags,Converter={StaticResource BooleanToVisibilityConverter}}"/>
@@ -98,7 +98,7 @@
                              Visibility="{Binding PinterestModel.IsAddHashTagEvenIfAlreadyHastags,Converter={StaticResource BooleanToVisibilityConverter}}">
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource langMaxHashTagsPerPost}" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="{DynamicResource LangKeyMaxHashtagsPerPost}" VerticalAlignment="Center" Margin="5"/>
                         <controls:NumericUpDown Minimum="0" VerticalAlignment="Center"
                                                 Value="{Binding PinterestModel.MaxHashtagsPerPostRange.StartValue}"/>
                         <TextBlock Text="-" VerticalAlignment="Center" Margin="5"/>
@@ -113,18 +113,18 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{DynamicResource langPick}" VerticalAlignment="Center" Margin="5"/>
+                                <TextBlock Text="{DynamicResource LangKeyPick}" VerticalAlignment="Center" Margin="5"/>
                                 <controls:NumericUpDown Minimum="0" VerticalAlignment="Center"
                                                         Value="{Binding PinterestModel.PickPercentHashTag}"/>
-                                <TextBlock Text="{DynamicResource langPercentageOfExtraHashTag}" VerticalAlignment="Center" Margin="5"/>
+                                <TextBlock Text="{DynamicResource LangKeyPercentOfTheExtraHashtagsFromThisList}" VerticalAlignment="Center" Margin="5"/>
                             </StackPanel>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource langPick}" VerticalAlignment="Center" Margin="5"/>
+                            <TextBlock Text="{DynamicResource LangKeyPick}" VerticalAlignment="Center" Margin="5"/>
                             <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 
                                                     Value="{Binding PinterestModel.PickPercentFromList}"/>
-                            <TextBlock Text="{DynamicResource langPercentageFromThisList}" VerticalAlignment="Center" Margin="5"/>
+                            <TextBlock Text="{DynamicResource LangKeyPercentFromThisList}" VerticalAlignment="Center" Margin="5"/>
                         </StackPanel>
 
                     </Grid>

@@ -28,7 +28,7 @@ namespace DominatorUIUtility.Views.Publisher
         public Campaigns()
         {
             InitializeComponent();
-            publishersHeader.HeaderText = FindResource("langCreateCampaign").ToString();
+            publishersHeader.HeaderText = FindResource("LangKeyCreateCampaign").ToString();
             CreateCampaignTabs.ItemsSource = InitializeTabs();
             _objCreateCampaign = this;
         }
@@ -39,17 +39,17 @@ namespace DominatorUIUtility.Views.Publisher
             {
                 new TabItemTemplates
                 {
-                    Title=FindResource("langAddPosts").ToString(),
+                    Title=FindResource("LangKeyAddPosts").ToString(),
                     Content=new Lazy<UserControl>(AddPosts.GetSingeltonAddPosts)
                 },
                 new TabItemTemplates
                 {
-                    Title=FindResource("langClickableImagePost").ToString(),
+                    Title=FindResource("LangKeyClickableImagePost").ToString(),
                     //   Content=new Lazy<UserControl>(()=>new AddPosts())
                 },
                 new TabItemTemplates
                 {
-                    Title=FindResource("langSharePost").ToString(),
+                    Title=FindResource("LangKeySharePost").ToString(),
                     // Content=new Lazy<UserControl>(()=>new AddPosts())
                 }
             };

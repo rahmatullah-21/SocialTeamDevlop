@@ -32,7 +32,7 @@
 
 
 
-                <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource langSearch}" Text="{Binding TextSearch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" Text="{Binding TextSearch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                          VerticalAlignment="Center" Height="28" Grid.Column="1"  HorizontalAlignment="Right" Width="250"
                          Style="{StaticResource SearchMetroTextBox}" Name="TextSearch"  mah:TextBoxHelper.ButtonCommand="{Binding TextSearchCommand,Mode=OneWay}"   />
                 
@@ -79,8 +79,8 @@
                 </ListView>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-                    <Button Height="30"  Content="{DynamicResource langSave}" Name="btnSave" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" />
-                    <Button Height="30" Content="{DynamicResource langCancel}" Name="btnCancel" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
+                    <Button Height="30"  Content="{DynamicResource LangKeySave}" Name="btnSave" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" />
+                    <Button Height="30" Content="{DynamicResource LangKeyCancel}" Name="btnCancel" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
                 </StackPanel>
 
             </Grid>

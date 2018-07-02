@@ -141,7 +141,31 @@ namespace DominatorHouseCore.Utility
         public static string FromResourceDictionary(this string resourceDictionaryKey)
             => Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ?? resourceDictionaryKey;
 
+        public static void testContent()
+        {
+            try
+            {
+                var abc = Application.Current.MainWindow.Resources.MergedDictionaries;
+                var abcd = Application.Current.Resources.MergedDictionaries;
+                var ab = abcd[3];
+                var a = ab.Keys;
+                ResourceDictionary resource = new ResourceDictionary();
+                resource = ab;
+                var abcde = ab["LangKeyGrowFollowers"];
+                var Path = new Uri("/DominatorUIUtility;component/Resources/Languages/English.xaml", UriKind.RelativeOrAbsolute);
+                var tet = abcd.Where(x => x.Contains(Path.ToString()));
+                var abcdedf = abcd.Where(x => x.Source.OriginalString.Contains("English"));
+                resource = abcd.Where(x => x.Source.OriginalString.Contains("English")).FirstOrDefault();
+                resource = abcd.FirstOrDefault(x =>
+                        x.Source.OriginalString == "/DominatorUIUtility;component/Resources/Languages/English.xaml");
 
+            }
+            catch (Exception ex)
+            { 
+
+                throw;
+            }
+        }
 
         public static void ExportReports(string fileName, string csvHeader, List<string> csvData)
         {

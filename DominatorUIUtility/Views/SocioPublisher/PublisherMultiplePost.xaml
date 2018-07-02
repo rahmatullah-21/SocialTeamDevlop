@@ -36,7 +36,7 @@
                                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_app_plus}" />
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
-                                        <Label Content="{DynamicResource DHlangCreatePost}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        <Label Content="{DynamicResource LangKeyCreatePost}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Grid>
 
@@ -57,7 +57,7 @@
                                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_app_plus}" />
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
-                                        <Label Content="{DynamicResource DHlangImportFromCsv}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        <Label Content="{DynamicResource LangKeyImportFromCSV}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -82,7 +82,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangDelete}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeyDelete}" Margin="1,0,5,0" HorizontalContentAlignment="Center"  FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </MenuItem.Header>
                         </MenuItem>
@@ -116,11 +116,11 @@
                     <DataTemplate>
                         <Border BorderThickness="1"  Margin="6,2,6,2" BorderBrush="Gainsboro" Padding="50">
                             <StackPanel>
-                                <TextBlock  FontWeight="SemiBold"  Foreground="Black"  Text="{DynamicResource DHlangPublisherPostDescription}" VerticalAlignment="Center" FontSize="12" />
+                                <TextBlock  FontWeight="SemiBold"  Foreground="Black"  Text="{DynamicResource LangKeyPostDescription}" VerticalAlignment="Center" FontSize="12" />
                                 <customControl:SocinatorTextBox   
                                     MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
                                     SuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
-                                    Watermark="{DynamicResource DHlangPublisherWhatsOnYourMind}"  Foreground="Black"
+                                    Watermark="{DynamicResource LangKeyWhatsOnYourMind}"  Foreground="Black"
                                     Text="{Binding PostDescription, Mode=TwoWay}" TextHeight="60" TextWidth="300" Margin="2" TextWrapping="Wrap"
                                     DisplayMember="Key">
                                     <customControl:SocinatorTextBox.LoadingContent>

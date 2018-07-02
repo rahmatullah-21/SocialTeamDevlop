@@ -28,7 +28,7 @@ namespace Socinator.Social.Settings.View
             {
                 new TabItemTemplates
                 {
-                    Title=FindResource("langAppearance").ToString(),
+                    Title=FindResource("LangKeyAppearance").ToString(),
                     Content=new Lazy<UserControl>(()=>new Appearance())
                 },
             };

@@ -110,9 +110,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void InitializeTabs()
         {
-            ManagePostTabItems.Add(Application.Current.FindResource("DHlangManagePostDraft")?.ToString());
-            ManagePostTabItems.Add(Application.Current.FindResource("DHlangManagePostPending")?.ToString());
-            ManagePostTabItems.Add(Application.Current.FindResource("DHlangManagePostPublished")?.ToString());
+            ManagePostTabItems.Add(Application.Current.FindResource("LangKeyDraft")?.ToString());
+            ManagePostTabItems.Add(Application.Current.FindResource("LangKeyPending")?.ToString());
+            ManagePostTabItems.Add(Application.Current.FindResource("LangKeyPublished")?.ToString());
 
             var campaignDetails = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
 

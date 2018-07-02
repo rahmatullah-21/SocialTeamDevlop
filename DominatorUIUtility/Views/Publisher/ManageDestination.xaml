@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource langManageDestination}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource LangKeyManageDestination}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
@@ -31,7 +31,7 @@
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <StackPanel Orientation="Horizontal" >
                                     <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                    <Label Content="{DynamicResource langSelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -39,13 +39,13 @@
 
                     <Button.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="{DynamicResource langAllAccounts}" Name="SelectAllAccounts" >
+                            <MenuItem Header="{DynamicResource LangKeyAllAccounts}" Name="SelectAllAccounts" >
                                 <MenuItem.Icon>
                                     <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="15" Height="15"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="{DynamicResource langDeselectAll}" Name="DeselectAllAccounts" >
+                            <MenuItem Header="{DynamicResource LangKeyDeselectAll}" Name="DeselectAllAccounts" >
                                 <MenuItem.Icon>
                                     <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="15" Height="15"  />
                                 </MenuItem.Icon>
@@ -64,7 +64,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource langDelete}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeyDelete}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -81,7 +81,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeyBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -97,7 +97,7 @@
                 <Grid Name="CreateDestinationAndListGrid">
                     <StackPanel>
 
-                        <Button Content="{DynamicResource langCreateDestination}" x:Name="ButtonCreateDestination" Margin="5" HorizontalAlignment="Left"  Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Click="ButtonCreateDestination_OnClick"/>
+                        <Button Content="{DynamicResource LangKeyCreateDestination}" x:Name="ButtonCreateDestination" Margin="5" HorizontalAlignment="Left"  Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Click="ButtonCreateDestination_OnClick"/>
 
                         <ListView Margin="5" ItemsSource="{Binding DestinationCollection}"  ItemContainerStyle="{StaticResource ListViewItems}">
                             <ListView.Resources>
@@ -108,40 +108,40 @@
                             <ListView.View>
                                 <GridView>
                                     <GridView.Columns>
-                                        <GridViewColumn Header="{DynamicResource langSelect}">
+                                        <GridViewColumn Header="{DynamicResource LangKeySelect}">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <CheckBox IsChecked="{Binding IsItemChecked}"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
-                                        <GridViewColumn Header="{DynamicResource langName}" Width="100" DisplayMemberBinding="{Binding Name}" />
-                                        <GridViewColumn Header="{DynamicResource langProfiles}" DisplayMemberBinding="{Binding Profiles}"/>
-                                        <GridViewColumn Header="{DynamicResource langPagesBoards}" DisplayMemberBinding="{Binding PagesBoards}"/>
-                                        <GridViewColumn Header="{DynamicResource langGroups}" DisplayMemberBinding="{Binding Groups}"/>
-                                        <GridViewColumn Header="{DynamicResource langWallsProfiles}" DisplayMemberBinding="{Binding WallsProfiles}"/>
-                                        <GridViewColumn Header="{DynamicResource langTag}" >
+                                        <GridViewColumn Header="{DynamicResource LangKeyName}" Width="100" DisplayMemberBinding="{Binding Name}" />
+                                        <GridViewColumn Header="{DynamicResource LangKeyNumOfProfiles}" DisplayMemberBinding="{Binding Profiles}"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyNumOfPagesBoards}" DisplayMemberBinding="{Binding PagesBoards}"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyNumOfGroups}" DisplayMemberBinding="{Binding Groups}"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyNumOfWallsOrProfiles}" DisplayMemberBinding="{Binding WallsProfiles}"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyTag}" >
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Button Content="{DynamicResource langDetails}" FontWeight="SemiBold" Margin="5"  x:Name="btnDetails"
+                                                        <Button Content="{DynamicResource LangKeyDetails}" FontWeight="SemiBold" Margin="5"  x:Name="btnDetails"
                                                                     Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                                        <Button Content="{DynamicResource langClone}" FontWeight="SemiBold" Margin="5"  x:Name="btnClone"
+                                                        <Button Content="{DynamicResource LangKeyClone}" FontWeight="SemiBold" Margin="5"  x:Name="btnClone"
                                                                      Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                                        <Button Content="{DynamicResource langDelete}" FontWeight="SemiBold" Margin="5"  x:Name="btnDelete" 
+                                                        <Button Content="{DynamicResource LangKeyDelete}" FontWeight="SemiBold" Margin="5"  x:Name="btnDelete" 
                                                                      Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
-                                        <GridViewColumn Header="{DynamicResource langOrder}" >
+                                        <GridViewColumn Header="{DynamicResource LangKeyOrder}" >
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <controls:NumericUpDown Minimum="0" Value="{Binding Order}"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
-                                        <GridViewColumn Header="{DynamicResource langNoOfCampaigns}" DisplayMemberBinding="{Binding NoOfCampaigns}"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyNumOfCampaign}" DisplayMemberBinding="{Binding NoOfCampaigns}"/>
                                     </GridView.Columns>
                                 </GridView>
                             </ListView.View>

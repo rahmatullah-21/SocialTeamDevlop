@@ -46,10 +46,10 @@ namespace DominatorUIUtility.Views.Publisher
             AddPostViewModel = new AddPostViewModel();
             AddPostViewModel.AddPostModel.CampaignDetails.LstStatus = new ObservableCollection<string>()
                     {
-                    FindResource("langAll").ToString(),
-                    FindResource("langDraft").ToString(),
-                    FindResource("langPending").ToString(),
-                    FindResource("langPublished").ToString()
+                    FindResource("LangKeyAll").ToString(),
+                    FindResource("LangKeyDraft").ToString(),
+                    FindResource("LangKeyPending").ToString(),
+                    FindResource("LangKeyPublished").ToString()
                     };
 
             var postDetails = PostFileManager.GetAllPost();
@@ -177,7 +177,7 @@ namespace DominatorUIUtility.Views.Publisher
                 PublishedCount = postToupdate.PostStatus.PublishedCount;
 
 
-                if (AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == FindResource("langAll").ToString())
+                if (AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == FindResource("LangKeyAll").ToString())
                 {
                     AddPostViewModel.AddPostModel.PostStatus.PendingCount = PendingCount + 1;
 
@@ -207,7 +207,7 @@ namespace DominatorUIUtility.Views.Publisher
                 AddPostViewModel.AddPostModel.SerialNo = portDetails.Count + 1;
 
 
-                if (AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == FindResource("langAll").ToString())
+                if (AddPostViewModel.AddPostModel.CampaignDetails.SelectedStatus == FindResource("LangKeyAll").ToString())
                 {
                     AddPostViewModel.AddPostModel.PostStatus.PendingCount = 1;
 

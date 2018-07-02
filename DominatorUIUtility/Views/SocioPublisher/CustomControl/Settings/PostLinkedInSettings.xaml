@@ -8,10 +8,10 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid x:Name="MainGrid">
         <StackPanel>
-            <TextBlock Text="{DynamicResource DHlangLinkedPostType}" Margin="2"/>
-            <RadioButton GroupName="LinkedinPostType" IsChecked="{Binding IsGeneralPost}" Content="{DynamicResource DHlangLinkedInGeneralPost}" Height="25" Margin="10 2"></RadioButton>
-            <RadioButton GroupName="LinkedinPostType" IsChecked="{Binding IsJobPost}" Content="{DynamicResource DHlangLinkedInJobPost}" Height="25" Margin="10 2"></RadioButton>
-            <RadioButton GroupName="LinkedinPostType" IsChecked="{Binding IsAnnouncementPost}" Content="{DynamicResource DHlangLinkedInAnnouncementPost}" Height="25" Margin="10 2"></RadioButton>
+            <TextBlock Text="{DynamicResource LangKeyLinkedinGroupPostType}" Margin="2"/>
+            <RadioButton GroupName="LinkedinPostType" IsChecked="{Binding IsGeneralPost}" Content="{DynamicResource LangKeyGeneralPost}" Height="25" Margin="10 2"></RadioButton>
+            <RadioButton GroupName="LinkedinPostType" IsChecked="{Binding IsJobPost}" Content="{DynamicResource LangKeyJobPost}" Height="25" Margin="10 2"></RadioButton>
+            <RadioButton GroupName="LinkedinPostType" IsChecked="{Binding IsAnnouncementPost}" Content="{DynamicResource LangKeyAnnouncementPost}" Height="25" Margin="10 2"></RadioButton>
         </StackPanel>    
         
     </Grid>

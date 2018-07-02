@@ -5,9 +5,9 @@ namespace DominatorHouseCore.Enums.GpDQuery
 
     public enum GplusCommunitiesQueries
     {
-        [Description("langKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords = 1,
-        [Description("langCustomCommunity")]
+        [Description("LangKeyCustomCommunity")]
         CustomCommunity = 2
     }
 }

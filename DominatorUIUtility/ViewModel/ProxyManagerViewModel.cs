@@ -238,11 +238,11 @@ namespace DominatorUIUtility.ViewModel
             ProxyManagerModel = new ProxyManagerModel();
             try
             {
-                objAddProxyControl.btnSave.Content = Application.Current.FindResource("langSave").ToString();
+                objAddProxyControl.btnSave.Content = Application.Current.FindResource("LangKeySave").ToString();
                 objAddProxyControl.MainGrid.DataContext = ProxyManagerModel;
                 // ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyManagerModel.AccountProxy.ProxyIp.Replace(".", "")}";
                 Dialog dialog = new Dialog();
-                Window window = dialog.GetMetroWindow(objAddProxyControl, Application.Current.FindResource("langAddProxy").ToString());
+                Window window = dialog.GetMetroWindow(objAddProxyControl, Application.Current.FindResource("LangKeyAddProxy").ToString());
                 DialogParticipation.SetRegister(window, window);
                 objAddProxyControl.btnSave.Click += (o, ex) =>
                 {
@@ -549,7 +549,7 @@ namespace DominatorUIUtility.ViewModel
                 var dataGrid = ((FrameworkElement)senderList[0]) as DataGrid;
 
                 var columnToChangeVisiblity = dataGrid.Columns.Single(gridColumn => gridColumn.Header.ToString() ==
-                                               Application.Current.FindResource("langSocialProfiles").ToString());
+                                               Application.Current.FindResource("LangKeySocialProfiles").ToString());
                 if ((bool)senderList[1])
                     columnToChangeVisiblity.Visibility = Visibility.Collapsed;
                 else
@@ -571,9 +571,9 @@ namespace DominatorUIUtility.ViewModel
                 var dataGrid = ((FrameworkElement)senderList[0]) as DataGrid;
 
                 var proxyUserVisiblity = dataGrid.Columns.Single(gridColumn => gridColumn.Header.ToString() ==
-                                                                                    Application.Current.FindResource("langProxyUsername").ToString());
+                                                                                    Application.Current.FindResource("LangKeyProxyUsername").ToString());
                 var proxyPasswordVisiblity = dataGrid.Columns.Single(gridColumn => gridColumn.Header.ToString() ==
-                                                                                    Application.Current.FindResource("langProxyPassword").ToString());
+                                                                                    Application.Current.FindResource("LangKeyProxyPassword").ToString());
                 if ((bool)senderList[1])
                 {
                     proxyUserVisiblity.Visibility = Visibility.Collapsed;

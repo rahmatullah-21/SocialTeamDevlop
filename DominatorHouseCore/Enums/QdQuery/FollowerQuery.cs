@@ -12,7 +12,7 @@ namespace DominatorHouseCore.Enums.QdQuery
         SomeonesFollowings,
         [Description("LangKeyFollowersOfSomeonesFollowings")]
         FollowersOfFollowings ,
-        [Description("LangKeyFollowersOfSomeonesFollowings")]
+        [Description("LangKeyFollowersOfSomeonesFollowers")]
         FollowersOfFollowers ,
         [Description("LangKeyCustomUsersList")]
         CustomUsers,

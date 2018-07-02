@@ -5,13 +5,13 @@ namespace DominatorHouseCore.Enums.GpDQuery
     
     public enum GplusPostsQueries
     {
-        [Description("langKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords = 1,
-        [Description("langFromUser")]
+        [Description("LangKeyCustomUsersList")]
         FromUser = 2,
-        [Description("langCustomPost")]
+        [Description("LangKeyCustomPostsList")]
         CustomPost = 3,
-        [Description("langFromCommunity")]
+        [Description("LangKeyCustomCommunity")]
         FromCommunity = 4
     }
 }

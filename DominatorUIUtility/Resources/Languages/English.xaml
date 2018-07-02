@@ -1,4 +1,5 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary x:Class="Languages.English"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
@@ -560,8 +561,8 @@
     <system:String x:Key="LangKeyDestinationsFromEachAccount0ForNoLimits">Destinations From Each Account. (0 For No Limits)</system:String>
     <system:String x:Key="LangKeyDetails">Details</system:String>
     <system:String x:Key="LangKeyDirectMessage">Direct Message</system:String>
-    <system:String x:Key="LangKeyDisableAutoReportProblemWhenGettingASpamErrorMessageForFollow/LikeOrComments">Disable Auto Report Problem When Getting A Spam Error Message For Follow/Like Or Comments</system:String>
-    <system:String x:Key="LangKeyDisableAutoReportProblemWhenGettingASpamErrorMessageForFollow/TryOrComments">Disable Auto Report Problem When Getting A Spam Error Message For Follow/Try Or Comments</system:String>
+    <system:String x:Key="LangKeyDisableAutoReportProblemWhenGettingASpamErrorMessageForFollowLikeOrComments">Disable Auto Report Problem When Getting A Spam Error Message For Follow/Like Or Comments</system:String>
+    <system:String x:Key="LangKeyDisableAutoReportProblemWhenGettingASpamErrorMessageForFollowTryOrComments">Disable Auto Report Problem When Getting A Spam Error Message For Follow/Try Or Comments</system:String>
     <system:String x:Key="LangKeyDisableClickableImagePostWhenPostingImagesLinkOnFacebookPages">Disable Clickable Image Post When Posting Images + Link On Facebook Pages</system:String>
     <system:String x:Key="LangKeyDisableCommentsForNewPost">Disable Comments For New Post</system:String>
     <system:String x:Key="LangKeyDisableGPUAccelerationImprovesPerformanceOnMachinesWithNoDedicatedVideoCard">Disable GPU Acceleration (Improves Performance On Machines With No Dedicated Video Card)</system:String>
@@ -619,7 +620,7 @@
     <system:String x:Key="LangKeyEmail">Email</system:String>
     <system:String x:Key="LangKeyEmailConfirmation">Email Confirmation</system:String>
     <system:String x:Key="LangKeyEmailID">Email ID</system:String>
-    <system:String x:Key="LangKeyEmailId/Username">Email Id / Username</system:String>
+    <system:String x:Key="LangKeyEmailIdUsername">Email Id / Username</system:String>
     <system:String x:Key="LangKeyEmailNotifications">Email Notifications</system:String>
     <system:String x:Key="LangKeyEmailToReceiveNotifications">Email To Receive Notifications</system:String>
     <system:String x:Key="LangKeyEmailS">Email(S)</system:String>
@@ -875,6 +876,7 @@
     <system:String x:Key="LangKeyGroupsJoinedByMyFriendS">Groups Joined By My Friend(S)</system:String>
     <system:String x:Key="LangKeyGroupsWhichContainMemberRangeBetween">Groups Which Contain Member Range Between</system:String>
     <system:String x:Key="LangKeyGrowConnection">Grow Connection</system:String>
+    <system:String x:Key="LangKeyGrowFollower">Grow Follower</system:String>
     <system:String x:Key="LangKeyGrowFollowers">Grow Followers</system:String>
     <system:String x:Key="LangKeyGrowFriends">Grow Friends</system:String>
     <system:String x:Key="LangKeyGrowGroups">Grow Groups</system:String>
@@ -892,7 +894,7 @@
     <system:String x:Key="LangKeyHashtagsScraper">Hashtags Scraper</system:String>
     <system:String x:Key="LangKeyHelp">Help</system:String>
     <system:String x:Key="LangKeyHideAssignedSocialProfiles">Hide Assigned Social Profiles</system:String>
-    <system:String x:Key="LangKeyHideThePostInFacebookGroups/Pages/WallAfterPublishing">Hide The Post In Facebook Groups/Pages/Wall After Publishing</system:String>
+    <system:String x:Key="LangKeyRemoveTheLinkFromThePostAfterFacebookGooglePlusLinkedinPinterestDisplaysThePreview">Hide The Post In Facebook Groups/Pages/Wall After Publishing</system:String>
     <system:String x:Key="LangKeyHideUsernameAndPassword">Hide Username And Password</system:String>
     <system:String x:Key="LangKeyHigh">High</system:String>
     <system:String x:Key="LangKeyHour">Hour</system:String>
@@ -1679,7 +1681,7 @@
     <system:String x:Key="LangKeyPostLikeAndComment">Post Like And Comment</system:String>
     <system:String x:Key="LangKeyPostLikers">Post Likers</system:String>
     <system:String x:Key="LangKeyPostManager">Post Manager</system:String>
-    <system:String x:Key="LangKeyPostMultipleImages/VideoPostsAsAlbum">Post Multiple Images/Video Posts As Album</system:String>
+    <system:String x:Key="LangKeyPostMultipleImagesVideoPostsAsAlbum">Post Multiple Images/Video Posts As Album</system:String>
     <system:String x:Key="LangKeyPostOnWallAndInStory">Post On Wall And In Story</system:String>
     <system:String x:Key="LangKeyPostPerOperationWithADelayBetween">Post Per Operation. With A Delay Between</system:String>
     <system:String x:Key="LangKeyPostPreview">Post Preview</system:String>
@@ -2609,8 +2611,8 @@
     <system:String x:Key="LangKeyWaitAround">Wait Around</system:String>
     <system:String x:Key="LangKeyWaitBetween">Wait Between :</system:String>
     <system:String x:Key="LangKeyWaitToStartANewPostIfYouHaveMoreThan">Wait To Start A New Post If You Have More Than</system:String>
-    <system:String x:Key="LangKeyWalls/Profiles">Walls/Profiles</system:String>
-    <system:String x:Key="LangKeyWalls/ProfilesCount">Walls/Profiles Count</system:String>
+    <system:String x:Key="LangKeyWallsProfiles">Walls/Profiles</system:String>
+    <system:String x:Key="LangKeyWallsProfilesCount">Walls/Profiles Count</system:String>
     <system:String x:Key="LangKeyWarningTheHashingWillOccurOnlyIfTheMaximumLengthOfThePostIsntExceeded177IfYouHaveAnImage140ForTextOnly">Warning: The Hashing Will Occur Only If The Maximum Length Of The Post Isn't Exceeded (177 If You Have An Image,140 For Text Only)</system:String>
     <system:String x:Key="LangKeyWatchVideo">Watch Video</system:String>
     <system:String x:Key="LangKeyWatchVideoTutorials">Watch Video Tutorials</system:String>
@@ -2660,6 +2662,30 @@
 you may loss the selected item from previous destination
 due to absence of the particular item in your current database.
     </system:String>
-    
+    <system:String x:Key="LangKeyFolderPathTemplate">[FileName] [FileType] [FileAuthor] [FileTitle] [FileSubject] [FileCreationDate] [FileComments] [FileTags]</system:String>
+    <system:String x:Key="LangKeyRssFeedTemplate">[FeedTitle] [FeedDescription] [FeedUrl] [FeedPublishedDate]</system:String>
+    <system:String x:Key="LangKeyEnableGlobalFindReplaceWaterMark" xml:space="preserve">Social media=#socialmedia
+ text to remove=
+ you can also use wild cards e.g
+ *ant=test will replace any word that ends with ant with test
+ ant*=test will replace any word that starts with ant with test
+ *ant*=test will replace any word that contains ant with test
+    </system:String>
+    <system:String x:Key="LangKeyAccountName">Account Name</system:String>
+    <system:String x:Key="LangKeyBrowser">Browser</system:String>
+    <system:String x:Key="LangKeyRemoveSelectedCookies">Remove selected Cookies</system:String>
+    <system:String x:Key="LangKeyVerificationCode">Verification Code</system:String>
+    <system:String x:Key="LangKeyEnterVerificationCode">Enter Verification Code</system:String>
+    <system:String x:Key="LangKeyVerify">Verify</system:String>
+    <system:String x:Key="LangKeyCookies">Cookies</system:String>
+    <system:String x:Key="LangKeyAddNewCookies">Add New Cookies</system:String>
+    <system:String x:Key="LangKeyMessageTextWaterMark﻿" xml:space="preserve">The text contain the following tokens:
+FULLNAME FIRSTNAME LASTNAME GROUPNAME 
+USERNAME MYUSERNAME MYNAME MYFIRSTNAME
+They are replaced with user info.</system:String>
+    <system:String x:Key="LangKeyReplyToMessagesThatContainSpecificWord﻿">Reply to messages that contain specific word.</system:String>
+    <system:String x:Key="LangKeyPostTitle">Post Title</system:String>
+    <system:String x:Key="LangKeySourceUrl">Source Url</system:String>
+   
 
 </ResourceDictionary>

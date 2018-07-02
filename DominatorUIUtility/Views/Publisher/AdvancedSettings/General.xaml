@@ -13,93 +13,93 @@
         <ScrollViewer>
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langTriggerNotification}" Margin="0,0,10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyTriggerANotificationWhenThereAre}" Margin="0,0,10,0"/>
                     <controls:NumericUpDown VerticalAlignment="Center" Minimum="0"
                                             Value="{Binding GeneralModel.TriggerNotificationCount}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langPostInPostsList}" Margin="10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPostInThePostsList0ToDisable}" Margin="10,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langWaitMaximumOf}" Margin="0,0,10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyWaitAMaximumOf}" Margin="0,0,10,0"/>
                     <controls:NumericUpDown  VerticalAlignment="Center" Minimum="0"
                                              Value="{Binding GeneralModel.WaitMaxOf}" />
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langTimeoutState}" Margin="10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMinutesForAPostToFinishOnAllDestinationsTimeoutStateAfterThat}" Margin="10,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langKeepMaximumOf}" Margin="0,0,10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyKeepAMaximumOf}" Margin="0,0,10,0"/>
                     <controls:NumericUpDown  VerticalAlignment="Center" Minimum="0"
                                              Value="{Binding GeneralModel.MaxPostCountToStore}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langCampaignHistory}" Margin="10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPostsInTheCampaignHistory}" Margin="10,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langCheckRSSFeeds}" Margin="0,0,10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyCheckRSSFeedsForANewPostsEvery}" Margin="0,0,10,0"/>
                     <controls:NumericUpDown  VerticalAlignment="Center" Minimum="0"
                                              Value="{Binding GeneralModel.CheckRssFeedsminutes}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langMinutes}" Margin="10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMinutes}" Margin="10,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langCheckMonitorFolders}" Margin="0,0,10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyCheckMonitorFoldersForNewImages/VideoEvery}" Margin="0,0,10,0"/>
                     <controls:NumericUpDown VerticalAlignment="Center" Minimum="0" 
                                             Value="{Binding GeneralModel.CheckMonitorFoldersminutes}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langMinutes}" Margin="10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMinutes}" Margin="10,0"/>
                 </StackPanel>
-                <CheckBox Content="{DynamicResource langAutomaticallyRetry}" 
+                <CheckBox Content="{DynamicResource LangKeyAutomaticallyRetryPostsWithError}" 
                           Margin="5" IsChecked="{Binding GeneralModel.IsAutomaticallyRetryChecked}"/>
-                <RadioButton Content="{DynamicResource langChooseSingleRandomImage}" GroupName="ChooseImage"
+                <RadioButton Content="{DynamicResource LangKeyChooseASingleRandomImageForPostsWithMultipleImages}" GroupName="ChooseImage"
                              Margin="5" IsChecked="{Binding GeneralModel.IsChooseSingleRandomImageChecked}"/>
-                <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource langEachDestinationWillUseRandomImage}" Margin="35,0"/>-->
+                <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyEachDestinationWillUseARandomImageFromTheList}" Margin="35,0"/>-->
 
-                <RadioButton Content="{DynamicResource langChooseOnlyFirstImage}" GroupName="ChooseImage"
+                <RadioButton Content="{DynamicResource LangKeyChooseOnlyTheFirstImageForPostsWithMultipleImages}" GroupName="ChooseImage"
                              Margin="5" IsChecked="{Binding GeneralModel.IsChooseOnlyFirstImageChecked}"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <RadioButton Content="{DynamicResource langChooseBetween}" GroupName="ChooseImage"
+                    <RadioButton Content="{DynamicResource LangKeyChooseBetween}" GroupName="ChooseImage"
                                  VerticalAlignment="Center" IsChecked="{Binding GeneralModel.IsChooseBetweenChecked}"/>
                     <controls:NumericUpDown  VerticalAlignment="Center" Margin="5,0" Minimum="0"
                                              IsEnabled="{Binding GeneralModel.IsChooseBetweenChecked}"
                                              Value="{Binding GeneralModel.ChooseBetween.StartValue}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langAnd}" Margin="0,0,10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyAnd}" Margin="0,0,10,0"/>
                     <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0"
                                             IsEnabled="{Binding GeneralModel.IsChooseBetweenChecked}"
                                             Minimum="{Binding GeneralModel.ChooseBetween.StartValue}"
                                             Value="{Binding GeneralModel.ChooseBetween.EndValue}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langRandomImageForPosts}" Margin="0,0,10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyRandomImagesForPostsWithMultipleImages}" Margin="0,0,10,0"/>
                 </StackPanel>
-                <CheckBox Content="{DynamicResource langWhenPublishingSendOnePost}"
+                <CheckBox Content="{DynamicResource LangKeyWhenPublishingSendOnePostForEachDestination}"
                           VerticalAlignment="Center" Margin="5" 
                           IsChecked="{Binding GeneralModel.IsWhenPublishingSendOnePostChecked}"/>
-                <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource langEachDestinationWillReceiveItsOwn}" Margin="35,0"/>-->
-                <CheckBox Content="{DynamicResource langChooseRandomPosts}"
+                <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyEachDestinationWillReceiveItsOwnPostFromTheList}" Margin="35,0"/>-->
+                <CheckBox Content="{DynamicResource LangKeyChooseRandomPostsFromThePostListInsteadOfTopOne}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GeneralModel.IsChooseRandomPostsChecked}"/>
-                <!--<CheckBox Content="{DynamicResource langInsertPostsAtRandom}"
+                <!--<CheckBox Content="{DynamicResource LangKeyInsertPostsAtRandomLocationsInPostListInsteadOfAtTheEnd}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsInsertPostsAtRandomChecked}"/>-->
-                <CheckBox Content="{DynamicResource langDoNotPublishPosts}" 
+                <CheckBox Content="{DynamicResource LangKeyDoNotPublishPostsOnMultipleAccountsInParallelDelayEveryPostOnEveryAccount}" 
                           VerticalAlignment="Center" Margin="5" 
                           IsChecked="{Binding GeneralModel.IsDoNotPublishPostsChecked}"/>
-                <CheckBox Content="{DynamicResource langRemoveLinkFromPosts}"
+                <CheckBox Content="{DynamicResource LangKeyRemoveTheLinkFromThePostAfterFacebookGooglePlusLinkedinPinterestDisplaysThePreview}"
                           IsChecked="{Binding GeneralModel.IsRemoveLinkFromPostsChecked}"
                           VerticalAlignment="Center" Margin="5"/>
-                <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource langForTumblr}" Margin="25,5"/>-->
-                <!--<CheckBox Content="{DynamicResource langDisableTemporarySleep}" 
+                <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyForTumblrItRemovedForImagePostsAsTheLinkIsAttechedToTheImage}" Margin="25,5"/>-->
+                <!--<CheckBox Content="{DynamicResource LangKeyDisableTemporarySleepAfter192193Error}" 
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GeneralModel.IsDisableTemporarySleep}"/>-->
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <CheckBox Content="{DynamicResource langWaitToStartNewPost}" 
+                    <CheckBox Content="{DynamicResource LangKeyWaitToStartANewPostIfYouHaveMoreThan}" 
                               VerticalAlignment="Center" IsChecked="{Binding GeneralModel.IsWaitToStartNewPost}"/>
                     <controls:NumericUpDown  VerticalAlignment="Center" Margin="5,0" Minimum="0"
                                              IsEnabled="{Binding GeneralModel.IsWaitToStartNewPost}"
                                              Value="{Binding GeneralModel.WaitToStartNewPost}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource langActiveInHistory}" Margin="0,0,10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyActiveInHistory}" Margin="0,0,10,0"/>
                 </StackPanel>
-                <CheckBox Content="{DynamicResource langUnselectDestination}"
+                <CheckBox Content="{DynamicResource LangKeyUnselectTheDestinationAfterASuccessfulPostTheCampaignWillPostOnlyOnceInEachDestination}"
                           VerticalAlignment="Center" Margin="5" 
                           IsChecked="{Binding GeneralModel.IsUnselectDestination}"/>
-                <CheckBox Content="{DynamicResource langKeepPostsInitialCreationDate}" 
+                <CheckBox Content="{DynamicResource LangKeyKeepThePostsInitialCreationDateWhenReAddingPostsFromHistoryToPostList}" 
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GeneralModel.IsKeepPostsInitialCreationDate}"/>
-                <CheckBox Content="{DynamicResource langStopRandomisingDestinationsOrder}"
+                <CheckBox Content="{DynamicResource LangKeyStopRandomisingDestinationsOrderForPosts}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GeneralModel.IsStopRandomisingDestinationsOrder}"/>
-                <CheckBox Content="{DynamicResource langAutoTagFriends}"
+                <CheckBox Content="{DynamicResource LangKeyAutoTagFriendsInPosts}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GeneralModel.IsAutoTagFriends}"/>
                 <StackPanel Margin="25,5" Visibility="{Binding GeneralModel.IsAutoTagFriends,
@@ -107,19 +107,19 @@
                     <StackPanel Orientation="Horizontal">
                         <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 
                                                 Margin="5,0" Value="{Binding GeneralModel.UsersForEachPost.StartValue}" />
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource langTo}" Margin="0,0,5,0"/>
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyTo}" Margin="0,0,5,0"/>
                         <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" 
                                                 Minimum="{Binding GeneralModel.UsersForEachPost.StartValue}"
                                                 Value="{Binding GeneralModel.UsersForEachPost.EndValue}"/>
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource langUsersForEachPosts}" Margin="0,0,10,0"/>
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyUsersForEachPosts}" Margin="0,0,10,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
                         <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Margin="5,0"
                                                 Value="{Binding GeneralModel.PercentageOfTaggingPost}"/>
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource langPercentageOfTaggingPost}" Margin="0,0,10,0"/>
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPercentOfTaggingAPost}" Margin="0,0,10,0"/>
                     </StackPanel>
                 </StackPanel>
-                <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource langClickableImagePostServer}" Margin="10,0"/>
+                <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyClickableImagePostServerOneServerPerLine}" Margin="10,0"/>
                 <TextBox AcceptsReturn="True" Height="50" Width="250" HorizontalAlignment="Left" Margin="15,5"/>-->
             </StackPanel>
         </ScrollViewer>

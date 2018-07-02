@@ -17,9 +17,9 @@
                 <CheckBox Content="{DynamicResource langSplitVideosInSmallerParts}" VerticalAlignment="Center" Margin="5"/>
                 <CheckBox Content="{DynamicResource langPostOnWallAndInStory}" VerticalAlignment="Center" Margin="5"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="{DynamicResource langDeleteAfter}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyDeletePostAfter}" VerticalAlignment="Center" Margin="5"/>
                     <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" />
-                    <TextBlock Text="{DynamicResource langHours}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyHours}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
                 <CheckBox Content="{DynamicResource langArchivePostInsteadOfDeletingItOnlyForIGPost}" VerticalAlignment="Center" Margin="5"/>
                 <CheckBox Content="{DynamicResource langTagSpecificUsers}" VerticalAlignment="Center" Margin="5"/>
@@ -50,40 +50,40 @@
                             <GridViewColumn Header="{DynamicResource langUsername}"/>
                             <GridViewColumn Header="{DynamicResource langPrivateYesNo}" />
                             <GridViewColumn Header="{DynamicResource langFollowers}" />
-                            <GridViewColumn Header="{DynamicResource langAction}" />
+                            <GridViewColumn Header="{DynamicResource LangKeyAction}" />
                         </GridView>
                     </ListView.View>
 
                 </ListView>-->
-                <CheckBox Content="{DynamicResource langPostusingGeoLocation﻿}"
+                <CheckBox Content="{DynamicResource LangKeyPostUsingGeoLocation﻿}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding InstagramModel.IsPostusingGeoLocation}"/>
                 <TextBox HorizontalAlignment="Left" Width="200" Margin="30,0" Text="{Binding InstagramModel.GeoLocation}" Visibility="{Binding InstagramModel.IsPostusingGeoLocation,
                          Converter={StaticResource BooleanToVisibilityConverter}}"
-                         controls:TextBoxHelper.Watermark="{DynamicResource DHlangEnterGeoLocations}"/>
-                <CheckBox Content="{DynamicResource langEnableAutomaticHashTags}"
+                         controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterGeoLocations}"/>
+                <CheckBox Content="{DynamicResource LangKeyEnableAutomaticHashtags}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding InstagramModel.IsEnableAutomaticHashTags}"/>
                 <StackPanel Margin="30,0" Visibility="{Binding InstagramModel.IsEnableAutomaticHashTags,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock Text="{DynamicResource langUseToAddHashInFrontOfKeywords}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyUseToAddNumOfInFrontOfTheKeywordsThatYouSelectedOrInFrontOfWordsWithALengthGreaterThanAGivenValue}" VerticalAlignment="Center" Margin="5"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource langMaxHashTagsPerPost}" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="{DynamicResource LangKeyMaxHashtagsPerPost}" VerticalAlignment="Center" Margin="5"/>
                         <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Value="{Binding InstagramModel.MaxHashtagsPerPost}" />
                     </StackPanel>
-                    <GroupBox Header="{DynamicResource langHashByKeyword}" Margin="0,5">
+                    <GroupBox Header="{DynamicResource LangKeyHashByKeyword}" Margin="0,5">
                         <StackPanel>
-                            <TextBlock Text="{DynamicResource langAutomaticallyHashAllWords}" VerticalAlignment="Center" Margin="5"/>
+                            <TextBlock Text="{DynamicResource LangKeyAutomaticallyHashAllTheWordsInTheListBelowAddYourKeywordsSeparatedByCommas}" VerticalAlignment="Center" Margin="5"/>
                             <TextBox Height="50" Width="300" AcceptsReturn="True"
                                      HorizontalAlignment="Left" Margin="10,5" Text="{Binding InstagramModel.HashWords}"/>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="{DynamicResource langHashByMinimumWordLength}">
+                    <GroupBox Header="{DynamicResource LangKeyHashByMinimumWordLength}">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="5">
-                                <TextBlock Text="{DynamicResource langMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
+                                <TextBlock Text="{DynamicResource LangKeyMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
                                 <controls:NumericUpDown Minimum="0" VerticalAlignment="Center"
                                                         Value="{Binding InstagramModel.MinimumWordLength}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="5,0">
-                                <TextBlock Text="{DynamicResource langReplaceProbability}" VerticalAlignment="Center" Margin="5"/>
+                                <TextBlock Text="{DynamicResource LangKeyReplaceProbability}" VerticalAlignment="Center" Margin="5"/>
                                 <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 
                                                         Value="{Binding InstagramModel.ReplaceProbability}"/>
                             </StackPanel>
@@ -91,10 +91,10 @@
                     </GroupBox>
 
                 </StackPanel>
-                <CheckBox Content="{DynamicResource langEnableDynamicHashTags}"
+                <CheckBox Content="{DynamicResource LangKeyEnableDynamicHashtags}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding InstagramModel.IsEnableDynamicHashTags}"/>
-                <CheckBox Content="{DynamicResource DHlangAddHashTagEvenIfAlreadyHastags}"
+                <CheckBox Content="{DynamicResource LangKeyAddHashtagsEvenIfThePostAlreadyHasHashtags}"
                           VerticalAlignment="Center" Margin="30,0"
                           Visibility="{Binding InstagramModel.IsEnableDynamicHashTags,
                           Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -102,49 +102,59 @@
                 <StackPanel  Visibility="{Binding InstagramModel.IsAddHashTagEvenIfAlreadyHastags,
                              Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal" Margin="50,0">
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource DHlangMaxHashtagsPerPost}"/>
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMaxHashtagsPerPost}"/>
                         <controls:NumericUpDown Margin="5" Minimum="0" Value="{Binding InstagramModel.MaxHashtagsPerPostRange.StartValue}"/>
                         <TextBlock Text="-" VerticalAlignment="Center"/>
                         <controls:NumericUpDown Margin="5" 
                                                 Minimum="{Binding InstagramModel.MaxHashtagsPerPostRange.StartValue}"
                                                 Value="{Binding InstagramModel.MaxHashtagsPerPostRange.EndValue}"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="50,0">
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource DHlangPick}"/>
-                        <controls:NumericUpDown Margin="5" Minimum="0" Value="{Binding InstagramModel.PickPercentHashTag}"/>
-                        <TextBlock Text="{DynamicResource DHlangPercentExtraHashtags}" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" Margin="50,0">
+                            <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPick}"/>
+                            <controls:NumericUpDown Margin="5" Minimum="0" Value="{Binding InstagramModel.PickPercentHashTag}"/>
+                            <TextBlock Text="{DynamicResource LangKeyPercentOfTheExtraHashtagsFromThisList}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBox Height="50" Width="300" AcceptsReturn="True"
+                                 HorizontalAlignment="Left" Margin="50,5" Text="{Binding InstagramModel.HashtagsFromList1}"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="50,0">
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource DHlangPick}"/>
-                        <controls:NumericUpDown Margin="5" Minimum="0" Value="{Binding InstagramModel.PickPercentFromList}"/>
-                        <TextBlock Text="{DynamicResource DHlangPercentFromList}" VerticalAlignment="Center"/>
+
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" Margin="50,0">
+                            <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPick}"/>
+                            <controls:NumericUpDown Margin="5" Minimum="0" Value="{Binding InstagramModel.PickPercentFromList}"/>
+                            <TextBlock Text="{DynamicResource LangKeyPercentFromThisList}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBox Height="50" Width="300" AcceptsReturn="True"
+                                 HorizontalAlignment="Left" Margin="50,5" Text="{Binding InstagramModel.HashtagsFromList2}"/>
                     </StackPanel>
+
                 </StackPanel>
-                <CheckBox Content="{DynamicResource DHlangEnableDynamicMentions}"
+                <CheckBox Content="{DynamicResource LangKeyEnableDynamicMentions}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding InstagramModel.IsEnableDynamicMentions}"/>
                 <StackPanel Visibility="{Binding InstagramModel.IsEnableDynamicMentions,
                             Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <CheckBox Content="{DynamicResource DHlangDeleteUsersFromList}"
+                    <CheckBox Content="{DynamicResource LangKeyDeleteTheUsersFromTheListAfterTheyAreMentioned}"
                               VerticalAlignment="Center" Margin="30,5" IsChecked="{Binding InstagramModel.IsDeleteUsersFromList}"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource DHlangNumberOfUsersToMention}" Margin="55,0,5,0"/>
+                        <TextBlock Text="{DynamicResource LangKeyNumberOfUsersToMention}" Margin="55,0,5,0"/>
                         <controls:NumericUpDown Minimum="0" Value="{Binding InstagramModel.NumberOfUsersToMention}"/>
                     </StackPanel>
-                    <TextBlock Text="{DynamicResource DHlangAddUsernamesSeparatedByComma}" Margin="55,0,5,0"/>
+                    <TextBlock Text="{DynamicResource LangKeyAddUsernamesSeparatedByComma}" Margin="55,0,5,0"/>
                     <TextBox Width="230" HorizontalAlignment="Left" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"
                              Margin="55,5" Height="50" AcceptsReturn="True"
                              Text="{Binding InstagramModel.UserNamesSeparatedByComma}"/>
                 </StackPanel>
                 <!--<CheckBox Content="{DynamicResource langEnableDynamicMentions}" VerticalAlignment="Center" Margin="5"/>-->
 
-                <CheckBox Content="{DynamicResource langRetryFailedVideoPost}"
+                <CheckBox Content="{DynamicResource LangKeyRetryFailedVideoPosts}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding InstagramModel.IsRetryFailedVideoPost}"/>
 
-                <CheckBox Content="{DynamicResource langDisableCommentsForNewPost}"
+                <CheckBox Content="{DynamicResource LangKeyDisableCommentsForNewPost}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding InstagramModel.IsDisableCommentsForNewPost}"/>
 
-                <CheckBox Content="{DynamicResource langPostMultipleImagesVideoPostsAsAlbum}"
+                <CheckBox Content="{DynamicResource LangKeyPostMultipleImagesVideoPostsAsAlbum}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding InstagramModel.IsPostMultipleImagesVideoPostsAsAlbum}"/>
                 <!--<CheckBox Content="{DynamicResource langEnableDirectMediaShare}" VerticalAlignment="Center" Margin="5"/>-->
 

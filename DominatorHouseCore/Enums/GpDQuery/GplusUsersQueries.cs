@@ -4,19 +4,19 @@ namespace DominatorHouseCore.Enums.GpDQuery
 {
     public enum GplusUsersQueries
     {
-        [Description("langKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords = 1,
-        [Description("langCustomUser")]
+        [Description("LangKeyCustomUsersList")]
         CustomUsers = 2,
-        [Description("langUsersWhoLiked")]
+        [Description("LangKeyUsersWhoLikedPosts")]
         UsersWhoLikedPost = 3,
-        [Description("langUsersWhoCommented")]
+        [Description("LangKeyUsersWhoCommentedOnPosts")]
         UsersWhoCommentedOnPost = 4,
-        [Description("langFromSomeonesCircle")]
+        [Description("LangKeyFromSomeonesCircle")]
         FromSomeonesCircle = 5,
-        [Description("langFromCircleOfFollowers")]
+        [Description("LangKeyFromCircleOfFollowers")]
         FromCircleOfFollowers = 6,
-        [Description("langFromCircleOfFollowings")]
+        [Description("LangKeyFromCircleOfFollowings")]
         FromCircleOfFollowings = 7
     }
 }

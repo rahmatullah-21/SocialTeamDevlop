@@ -12,17 +12,17 @@
     <Grid x:Name="MainGrid">
         <ScrollViewer>
             <StackPanel Margin="5">
-                <CheckBox Content="{DynamicResource langAddOnePostAfterPublishingOnGooglePlus}"
+                <CheckBox Content="{DynamicResource LangKeyPlusOneThePostAfterPublishingOnGooglePlus}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GooglePlusModel.IsAddOnePostAfterPublishingOnGooglePlus}"/>
-                <CheckBox Content="{DynamicResource langSkipImageUpload}" 
+                <CheckBox Content="{DynamicResource LangKeySkipImageUploadForPostsWithLinksInside}" 
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GooglePlusModel.IsSkipImageUpload}"/>
-                <!--<CheckBox Content="{DynamicResource langEnableGooglePlusCategorySelection}" VerticalAlignment="Center" Margin="5"/>
+                <!--<CheckBox Content="{DynamicResource LangKeyEnableGoogleCommunityCategorySelection}" VerticalAlignment="Center" Margin="5"/>
                 <StackPanel Margin="30,0">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource langGooglePlusTargetCategoriesKeywords}" VerticalAlignment="Center" Margin="5"/>
-                        <TextBox Width="300" controls:TextBoxHelper.Watermark="{DynamicResource langGooglePlusTargetCategoriesKeywordsWatermark}"/>
+                        <TextBlock Text="{DynamicResource LangKeyEnterAListOfCategoriesKeywordsSeparatedBy}" VerticalAlignment="Center" Margin="5"/>
+                        <TextBox Width="300" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterAListOfCategoriesKeywordsSeparatedBy}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
                         <TextBlock Text="{DynamicResource langGooglePlusExcludeKeywords}" VerticalAlignment="Center" Margin="5"/>
@@ -30,50 +30,50 @@
                     </StackPanel>
                     <CheckBox Content="{DynamicResource langChooseFirstCategory}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
-                <CheckBox Content="{DynamicResource langAutomaticallyDeletePosts}" VerticalAlignment="Center" Margin="5"/>-->
+                <CheckBox Content="{DynamicResource LangKeyAutomaticallyDeletePosts}" VerticalAlignment="Center" Margin="5"/>-->
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <CheckBox Content="{DynamicResource langDeleteAfter}"
+                    <CheckBox Content="{DynamicResource LangKeyDeletePostAfter}"
                               VerticalAlignment="Center" IsChecked="{Binding GooglePlusModel.IsDeletePostAfter}"/>
                     <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Margin="5,0"
                                             IsEnabled="{Binding GooglePlusModel.IsDeletePostAfter}"
                                             Value="{Binding GooglePlusModel.DeletePostAfter.StartValue}"/>
-                    <TextBlock Text="{DynamicResource langTo}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyTo}" VerticalAlignment="Center" Margin="5"/>
                     <controls:NumericUpDown  VerticalAlignment="Center" 
                                              IsEnabled="{Binding GooglePlusModel.IsDeletePostAfter}"
                                             Minimum="{Binding GooglePlusModel.DeletePostAfter.StartValue}"
                                             Value="{Binding GooglePlusModel.DeletePostAfter.EndValue}"/>
-                    <TextBlock Text="{DynamicResource langHours}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyHours}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
-                <CheckBox Content="{DynamicResource langEnableAutomaticHashTags}"
+                <CheckBox Content="{DynamicResource LangKeyEnableAutomaticHashtags}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GooglePlusModel.IsEnableAutomaticHashTags}"/>
                 <StackPanel Margin="30,0"
                             Visibility="{Binding GooglePlusModel.IsEnableAutomaticHashTags,
                             Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock Text="{DynamicResource langUseToAddHashInFrontOfKeywords}" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{DynamicResource LangKeyUseToAddNumOfInFrontOfTheKeywordsThatYouSelectedOrInFrontOfWordsWithALengthGreaterThanAGivenValue}" VerticalAlignment="Center" Margin="5"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource langMaxHashTagsPerPost}" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="{DynamicResource LangKeyMaxHashtagsPerPost}" VerticalAlignment="Center" Margin="5"/>
                         <controls:NumericUpDown Minimum="0" VerticalAlignment="Center"
                                                 Value="{Binding GooglePlusModel.MaxHashtagsPerPost}" />
                     </StackPanel>
-                    <GroupBox Header="{DynamicResource langHashByKeyword}" Margin="0,5">
+                    <GroupBox Header="{DynamicResource LangKeyHashByKeyword}" Margin="0,5">
                         <StackPanel>
-                            <TextBlock Text="{DynamicResource langAutomaticallyHashAllWords}" VerticalAlignment="Center" Margin="5"/>
+                            <TextBlock Text="{DynamicResource LangKeyAutomaticallyHashAllTheWordsInTheListBelowAddYourKeywordsSeparatedByCommas}" VerticalAlignment="Center" Margin="5"/>
                             <TextBox Height="50" Width="300" VerticalScrollBarVisibility="Auto"
                                      Text="{Binding GooglePlusModel.HashWords}"
                                      TextWrapping="Wrap"
                                      AcceptsReturn="True" HorizontalAlignment="Left" Margin="10,5"/>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="{DynamicResource langHashByMinimumWordLength}">
+                    <GroupBox Header="{DynamicResource LangKeyHashByMinimumWordLength}">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="5">
-                                <TextBlock Text="{DynamicResource langMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
+                                <TextBlock Text="{DynamicResource LangKeyMinimumWordLength}" VerticalAlignment="Center" Margin="5"/>
                                 <controls:NumericUpDown Minimum="0" VerticalAlignment="Center"
                                                         Value="{Binding GooglePlusModel.MinimumWordLength}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="5,0">
-                                <TextBlock Text="{DynamicResource langReplaceProbability}" VerticalAlignment="Center" Margin="5"/>
+                                <TextBlock Text="{DynamicResource LangKeyReplaceProbability}" VerticalAlignment="Center" Margin="5"/>
                                 <controls:NumericUpDown Minimum="0" VerticalAlignment="Center"
                                                         Value="{Binding GooglePlusModel.ReplaceProbability}"/>
                             </StackPanel>

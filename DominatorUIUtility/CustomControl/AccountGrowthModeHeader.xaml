@@ -10,7 +10,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="{DynamicResource langAccounts}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+        <TextBlock Text="{DynamicResource LangKeyAccounts}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
         <Grid Grid.Column="1" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
 
@@ -24,10 +24,10 @@
                             <Setter Property="IsChecked" Value="{Binding IsExpanded}" />
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Content" Value="{DynamicResource DHlangCollapseAll}" />
+                                    <Setter Property="Content" Value="{DynamicResource LangKeyCollapseAll}" />
                                 </Trigger>
                                 <Trigger Property="IsChecked" Value="False">
-                                    <Setter Property="Content" Value="{DynamicResource langExpandAll}" />
+                                    <Setter Property="Content" Value="{DynamicResource LangKeyExpandAll}" />
                                 </Trigger>
                             </Style.Triggers>
 
@@ -52,7 +52,7 @@
                                     <VisualBrush Visual="{StaticResource appbar_video}" Stretch="Fill"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{DynamicResource langTutorials}" Margin="6,0"/>
+                            <TextBlock Text="{DynamicResource LangKeyTutorials}" Margin="6,0"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>

@@ -38,7 +38,7 @@
                                 <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <TextBlock Text="{DynamicResource langSave}" Margin="6,0"/>
+                        <TextBlock Text="{DynamicResource LangKeySave}" Margin="6,0"/>
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -50,7 +50,7 @@
                                 <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <TextBlock Text="{DynamicResource langCancel}" Margin="6,0"/>
+                        <TextBlock Text="{DynamicResource LangKeyCancel}" Margin="6,0"/>
                     </StackPanel>
                 </Button.Content>
             </Button>
