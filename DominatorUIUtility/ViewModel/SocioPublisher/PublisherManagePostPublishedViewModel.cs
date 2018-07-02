@@ -6,10 +6,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.SocioPublisher;
+using EmbeddedBrowser;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -204,7 +207,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void ViewInBrowserExecute(object sender)
         {
-           
+            var currentPost = (PublishedPostDetailsModel) sender;
+          var dominatorAccountModel =  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social).DominatorAccountViewModel
+                .LstDominatorAccountModel.FirstOrDefault(x => x.AccountId == currentPost.AccountId);
+            BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link);
+            browserWindow.Show();
         }
 
         private bool ViewInBrowserCanExecute(object sender) => true;

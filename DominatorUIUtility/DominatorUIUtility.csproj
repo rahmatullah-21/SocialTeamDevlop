@@ -1040,6 +1040,10 @@
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
       <Name>DominatorHouseCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EmbeddedBrowser\EmbeddedBrowser.csproj">
+      <Project>{21F00635-AAF7-466B-9214-A830EA9C8963}</Project>
+      <Name>EmbeddedBrowser</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
