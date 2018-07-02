@@ -20,7 +20,7 @@
 
 
         <StackPanel Orientation="Vertical">
-            <CheckBox Margin="2" Content="{DynamicResource DHlangShareFdPagePost}" IsChecked="{Binding SharePostModel.IsShareFdPagePost}" />
+            <CheckBox Margin="2" Content="{DynamicResource LangKeySharePostsFromFacebookPages}" IsChecked="{Binding SharePostModel.IsShareFdPagePost}" />
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPageUrl}"
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
                          Text="{Binding SharePostModel.AddFdPageUrl}"  Visibility="{Binding SharePostModel.IsShareFdPagePost,Converter={StaticResource BooleanToVisibilityConverter}}"/>

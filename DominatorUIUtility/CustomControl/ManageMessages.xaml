@@ -21,7 +21,7 @@
                 <GridView>
                     <GridView.Columns>
                         <GridViewColumn  Header="{DynamicResource LangKeySNo}" DisplayMemberBinding="{Binding SerialNo}"/>
-                        <GridViewColumn Header="{DynamicResource DHlangMessages}" DisplayMemberBinding="{Binding MessagesText}" />
+                        <GridViewColumn Header="{DynamicResource LangKeyMessages}" DisplayMemberBinding="{Binding MessagesText}" />
                         <GridViewColumn Header="{DynamicResource LangKeyQuery}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

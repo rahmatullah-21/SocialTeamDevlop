@@ -31,7 +31,7 @@
                 <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
                 <Label Content="{DynamicResource LangKeyHoursBeforeRefreshingTheFriendListForATumblrAccountFriendBackupOrInviteToolsMustBeStarted}"/>
             </StackPanel>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangDisableSyncForNewAccounts}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyDisableSyncForNewAccounts}"
                       IsChecked="{Binding IsDisableSyncForNewAccountsChecked}"/>
             <StackPanel Orientation="Horizontal">
                 <Label Margin="5" Content="{DynamicResource LangKeyAllowSyncsToExecuteOnAMaximumOf}"/>

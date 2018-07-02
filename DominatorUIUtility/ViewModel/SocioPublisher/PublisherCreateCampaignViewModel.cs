@@ -177,7 +177,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 },
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("LangKeyRssFeedTemplate")?.ToString(),
+                    Title = Application.Current.FindResource("LangKeyRSSFeed")?.ToString(),
                     Content = new Lazy<UserControl>(()=> PublisherRssFeed.GetPublisherRssFeed(tabItemsControl))
                 },
                 new TabItemTemplates

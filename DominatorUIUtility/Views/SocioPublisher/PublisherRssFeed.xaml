@@ -20,7 +20,7 @@
                 HorizontalAlignment="Center" Margin="0,10,300,10" Name="BtnSave" Foreground="White"
                 Command="{Binding SaveCommand}" Content="{Binding PublisherRssFeedModel.ButtonContent}"
                 CommandParameter="{Binding ElementName=BtnSave}" />
-        <GroupBox Header="{DynamicResource DhlangFeedUrlDetails}" Width="830" HorizontalAlignment="Left">
+        <GroupBox Header="{DynamicResource LangKeyFeedUrlDetails}" Width="830" HorizontalAlignment="Left">
             <GroupBox.Style>
                 <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
                     <Setter Property="Visibility" Value="Visible"/>

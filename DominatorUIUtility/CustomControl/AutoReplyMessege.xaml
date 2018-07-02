@@ -14,7 +14,7 @@
   
     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,5">
         <StackPanel x:Name="MainGrid">
-            <TextBlock Text="{DynamicResource DHlangEnableRagularCheckForNewMessage﻿}"/>
+            <TextBlock Text="{DynamicResource LangKeyEnableTheOptionIfYouWantToDominatorToRegularlyCheckForNewDirectMessagesReceivedAndCreateNewMessageOnTheSendMessageTabToAutoReplyToThem﻿}"/>
             <StackPanel Orientation="Horizontal" Margin="10">
                 <TextBlock Text="{DynamicResource LangKeyStatus}" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,10,0"/>
                 <controls:ToggleSwitch OnLabel="{DynamicResource LangKeyActive}" OffLabel="{DynamicResource langPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
@@ -85,7 +85,7 @@
                             <CheckBox Content="{DynamicResource LangKeySendOnlyIfTheUserHasNotReplied}"
                                   VerticalAlignment="Center" Margin="5"
                                   IsChecked="{Binding IsSendIfUserHasRepliedNotChecked}"/>
-                            <Button Content="{DynamicResource DHlangEditSecondaryMessages}"
+                            <Button Content="{DynamicResource LangKeyManageSecondaryMessages}"
                                 Background="{DynamicResource AccentBaseColorBrush}"
                                 Foreground="White" FontWeight="SemiBold" Name="BtnSendIfUserHasNotReplied"
                                 Visibility="{Binding IsSendIfUserHasRepliedNotChecked,Converter={StaticResource BooleanToVisibilityConverter}}"
