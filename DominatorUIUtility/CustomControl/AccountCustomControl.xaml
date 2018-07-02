@@ -55,7 +55,7 @@
                     </Button>
 
                     <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccounts" 
-                            Command="{Binding LoadMultipleAccountsCommand}" ToolTip="{DynamicResource DHImportDescription}">
+                            Command="{Binding LoadMultipleAccountsCommand}" ToolTip="{DynamicResource LangKeyImportAccountDescription}">
                         <Button.Template>
                             <ControlTemplate>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -65,7 +65,7 @@
                                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group_add}" />
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
-                                        <Label Content="{DynamicResource btnImportMultipleAccounts}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        <Label Content="{DynamicResource LangKeyImportMultipleAccounts}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Border>
                             </ControlTemplate>

@@ -12,7 +12,7 @@ namespace DominatorHouseCore.Enums.PdQuery
         SomeonesFollowings = 3,
         [Description("LangKeyFollowersOfSomeonesFollowings")]
         FollowersOfSomeonesFollowings = 4,
-        [Description("LangKeyFollowersOfSomeonesFollowings")]
+        [Description("LangKeyFollowersOfSomeonesFollowers")]
         FollowersOfSomeonesFollowers = 5,
         [Description("LangKeyCustomUsers")]
         Customusers = 6,
