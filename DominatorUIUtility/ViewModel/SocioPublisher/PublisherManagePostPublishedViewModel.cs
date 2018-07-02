@@ -28,7 +28,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand ExportCommand { get; set; }
         public ICommand PublishedDetailsCommand { get; set; }
         public ICommand ReportCommand { get; set; }
-        public ICommand ExportSelectedCommand { get; set; }
 
         #endregion
 
@@ -163,6 +162,55 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
       
 
+
+    }
+
+    public class PublishedPostDetailsViewModel:BindableBase
+    {
+        public PublishedPostDetailsViewModel()
+        {
+            ViewInBrowserCommand= new BaseCommand<object>(ViewInBrowserCanExecute, ViewInBrowserExecute);
+        }
+
+
+        #region Command
+
+        public ICommand ViewInBrowserCommand { get; set; } 
+
+        #endregion
+
+        #region Properties
+
+        private PublisherPostlistModel _publisherPostlist = new PublisherPostlistModel();
+
+        public PublisherPostlistModel PublisherPostlist
+        {
+            get
+            {
+                return _publisherPostlist;
+            }
+            set
+            {
+
+                if (value == _publisherPostlist)
+                    return;
+                SetProperty(ref _publisherPostlist, value);
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void ViewInBrowserExecute(object sender)
+        {
+           
+        }
+
+        private bool ViewInBrowserCanExecute(object sender) => true;
+
+
+        #endregion
 
     }
 }
