@@ -41,162 +41,367 @@ namespace DominatorHouseCore.Process
                     GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
 
-                if (false)
-                //if (campaignStatusModel.IsTakeRandomDestination)
-                {
-                    #region Take random destination
+                // if (campaignStatusModel.IsTakeRandomDestination)
 
-                    var accountIds = new List<string>();
+                if (false)
+                {
+                    if (campaignStatusModel.TotalRandomDestination == 0)
+                    {
+                        GlobusLogHelper.log.Info($"{campaignStatusModel.CampaignName} has zero publishing count!");
+                        return;
+                    }
+
+                    var publishedDetails = GenericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == campaignStatusModel.CampaignId).ToList();
+
+                    if (publishedDetails.Count == campaignStatusModel.TotalRandomDestination)
+                    {
+                        GlobusLogHelper.log.Info($"{campaignStatusModel.CampaignName} already published on {campaignStatusModel.TotalRandomDestination} random destination");
+                        return;
+                    }
+
+                    var usedDestination = publishedDetails.Select(x => x.DestinationUrl);
+
+                    var remainingDestinationCount = campaignStatusModel.TotalRandomDestination - publishedDetails.Count;
 
                     publisherPostFetchModel?.SelectedDestinations.Shuffle();
 
-                    var requiredDestination = publisherPostFetchModel?.SelectedDestinations
-                        .Take(campaignStatusModel.TotalRandomDestination).ToList();
+                    #region Perform random destinations without per account count
 
                     if (campaignStatusModel.MinRandomDestinationPerAccount == 0)
                     {
-                        requiredDestination?.ForEach(destinationId =>
+                        var deletedDestinationCount = 0;
+
+                        var currentProcessCount = 0;
+
+                        publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                         {
-                            var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
-
-                            destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
+                            try
                             {
-                                var selectedGroupDestinations =
-                                    destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+                                var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
 
-                                var selectedPageOrBoardDestinations =
-                                    destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+                                if (destinationDetails == null)
+                                    deletedDestinationCount++;
 
-                                var selectedCustomDestinations =
-                                    destinationDetails.CustomDestinations.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
-
-                                var isPublishOnOwnWall =
-                                    destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
-
-                                var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
-                                    .GetPublisherCoreFactory()
-                                    .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
-
-                                if (campaignStatusModel.IsRunSingleAccountPerCampaign)
+                                destinationDetails?.AccountsWithNetwork.ForEach(networkWithAccount =>
                                 {
-                                    publisherJobProcess.StartPublishing(publishCount, false);
-                                    //publisherJobProcess.StartPublish with synchronously
-                                }
-                                else
+                                    var selectedGroupDestinations = new List<string>();
+                                    var selectedPageOrBoardDestinations = new List<string>();
+                                    var selectedCustomDestinations = new List<PublisherCustomDestinationModel>();
+
+                                    if (currentProcessCount > remainingDestinationCount)
+                                        return;
+
+                                    if (currentProcessCount < remainingDestinationCount)
+                                    {
+                                        var getGroupDestinations =
+                                            destinationDetails.AccountGroupPair
+                                                .Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value)
+                                                .ToList();
+
+                                        getGroupDestinations.RemoveAll(x => usedDestination.Contains(x));
+
+                                        selectedGroupDestinations = getGroupDestinations.Take(remainingDestinationCount - currentProcessCount).ToList();
+
+                                        currentProcessCount += selectedGroupDestinations.Count;
+                                    }
+
+                                    if (currentProcessCount < remainingDestinationCount)
+                                    {
+                                        var getPageOrBoardDestinations =
+                                            destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+
+                                        getPageOrBoardDestinations.RemoveAll(x => usedDestination.Contains(x));
+
+                                        selectedPageOrBoardDestinations = getPageOrBoardDestinations.Take(remainingDestinationCount - currentProcessCount).ToList();
+
+                                        currentProcessCount += selectedPageOrBoardDestinations.Count;
+                                    }
+
+                                    if (currentProcessCount < remainingDestinationCount)
+                                    {
+                                        var getCustomDestinations =
+                                            destinationDetails.CustomDestinations
+                                                .Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value)
+                                                .ToList();
+
+                                        getCustomDestinations.RemoveAll(x =>
+                                            usedDestination.Contains(x.DestinationValue));
+
+                                        selectedCustomDestinations = getCustomDestinations.Take(remainingDestinationCount - currentProcessCount).ToList();
+
+                                        currentProcessCount += selectedCustomDestinations.Count;
+                                    }
+
+                                    var isPublishOnOwnWall =
+                                        destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
+
+                                    if (isPublishOnOwnWall)
+                                    {
+                                        var accountName = AccountsFileManager.GetAccountById(networkWithAccount.Value)
+                                            .AccountBaseModel.UserName;
+
+                                        if (usedDestination.Contains(accountName))
+                                            isPublishOnOwnWall = false;
+                                    }
+
+                                    if (selectedCustomDestinations.Count > 0 ||
+                                        selectedPageOrBoardDestinations.Count > 0 ||
+                                        selectedGroupDestinations.Count > 0 || isPublishOnOwnWall)
+                                    {
+                                        var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
+                                            .GetPublisherCoreFactory()
+                                            .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
+
+                                        publisherJobProcess.StartPublishing(publishCount, !campaignStatusModel.IsRunSingleAccountPerCampaign);
+                                    }
+
+                                });
+                            }
+                            catch (OperationCanceledException ex)
+                            {
+                                ex.DebugLog("Cancellation Requested!");
+                            }
+                            catch (AggregateException ae)
+                            {
+                                foreach (var e in ae.InnerExceptions)
                                 {
-                                    publisherJobProcess.StartPublishing(publishCount,true);
-                                    //publisherJobProcess.StartPublish with Asynchronously
+                                    if (e is TaskCanceledException || e is OperationCanceledException)
+                                        e.DebugLog("Cancellation requested before task completion!");
+                                    else
+                                        e.DebugLog(e.StackTrace + e.Message);
                                 }
-                            });
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.DebugLog();
+                            }
                         });
+
+                        if (deletedDestinationCount > 0)
+                            GlobusLogHelper.log.Info($"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {campaignStatusModel.CampaignName}");
+
                     }
+
+                    #endregion
+
+                    #region Perform random destinations with per account count
+
                     else
                     {
-                        var accountCounts = (int)(campaignStatusModel.TotalRandomDestination / campaignStatusModel.MinRandomDestinationPerAccount);
+                        var accountWithDestinations = publishedDetails.Select(x => new KeyValuePair<string, string>(x.AccountId, x.DestinationUrl)).ToList();
 
-                        var accountsDestinationCount = campaignStatusModel.TotalRandomDestination %
-                                                       campaignStatusModel.MinRandomDestinationPerAccount;
+                        var deletedDestinationCount = 0;
 
+                        var currentProcessCount = 0;
 
-
-                        var accountCountForMaximumDestination =
-                            campaignStatusModel.TotalRandomDestination % campaignStatusModel.MinRandomDestinationPerAccount;
-
-                        if (accountCountForMaximumDestination == 0)
-                            accountCountForMaximumDestination = campaignStatusModel.MinRandomDestinationPerAccount;
-
-                        var completedDestination = 0;
-
-                        requiredDestination?.ForEach(destinationId =>
+                        publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                         {
-                            var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
-
-                            destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
+                            try
                             {
+                                var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
 
-                                if (completedDestination > campaignStatusModel.TotalRandomDestination)
-                                    return;
+                                if (destinationDetails == null)
+                                    deletedDestinationCount++;
 
-                                accountIds.Add(networkWithAccount.Value);
-
-                                publishCount = campaignStatusModel.MinRandomDestinationPerAccount;
-
-                                if (accountIds.Count == accountCountForMaximumDestination)
-                                    publishCount = campaignStatusModel.TotalRandomDestination -
-                                                 accountIds.Count * campaignStatusModel.MinRandomDestinationPerAccount;
-
-                                completedDestination += publishCount;
-
-                                var selectedGroupDestinations =
-                                   destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value)
-                                       .Select(x => x.Value).ToList();
-
-                                var selectedPageOrBoardDestinations =
-                                    destinationDetails.AccountPagesBoardsPair
-                                        .Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
-
-                                var selectedCustomDestinations =
-                                    destinationDetails.CustomDestinations.Where(x => x.Key == networkWithAccount.Value)
-                                        .Select(x => x.Value).ToList();
-
-                                var isPublishOnOwnWall =
-                                    destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
-
-                                var publisherJobProcess = PublisherInitialize
-                                    .GetPublisherLibrary(networkWithAccount.Key)
-                                    .GetPublisherCoreFactory()
-                                    .PublisherJobFactory.Create(campaignStatusModel.CampaignId,
-                                        networkWithAccount.Value, selectedGroupDestinations,
-                                        selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall,
-                                        currentCampaignsCancallationToken);
-
-                                if (campaignStatusModel.IsRunSingleAccountPerCampaign)
+                                destinationDetails?.AccountsWithNetwork.ForEach(networkWithAccount =>
                                 {
-                                    publisherJobProcess.StartPublishing(publishCount,false);
-                                    //publisherJobProcess.StartPublish with synchronously
-                                }
-                                else
+                                    var selectedGroupDestinations = new List<string>();
+                                    var selectedPageOrBoardDestinations = new List<string>();
+                                    var selectedCustomDestinations = new List<PublisherCustomDestinationModel>();
+
+                                    var accountProcessCount = 0;
+
+                                    var accountCount =
+                                        accountWithDestinations.Count(x => x.Key == networkWithAccount.Value);
+
+                                    if (accountCount >= campaignStatusModel.MinRandomDestinationPerAccount)
+                                        return;
+
+                                    var selectDestinationPerAccount =
+                                        campaignStatusModel.MinRandomDestinationPerAccount - accountCount;
+
+                                    if (currentProcessCount > remainingDestinationCount)
+                                        return;
+
+                                    if (currentProcessCount < remainingDestinationCount
+                                    && accountProcessCount < selectDestinationPerAccount)
+                                    {
+                                        var getGroupDestinations =
+                                            destinationDetails.AccountGroupPair
+                                                .Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value)
+                                                .ToList();
+
+                                        getGroupDestinations.RemoveAll(x => usedDestination.Contains(x));
+
+                                        selectedGroupDestinations = getGroupDestinations.Take(selectDestinationPerAccount - accountProcessCount).ToList();
+
+                                        accountProcessCount += selectedGroupDestinations.Count;
+
+                                        currentProcessCount += selectedGroupDestinations.Count;
+                                    }
+
+                                    if (currentProcessCount < remainingDestinationCount &&
+                                        accountProcessCount < selectDestinationPerAccount)
+                                    {
+                                        var getPageOrBoardDestinations =
+                                            destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+
+                                        getPageOrBoardDestinations.RemoveAll(x => usedDestination.Contains(x));
+
+                                        selectedPageOrBoardDestinations = getPageOrBoardDestinations.Take(selectDestinationPerAccount - accountProcessCount).ToList();
+
+                                        currentProcessCount += selectedPageOrBoardDestinations.Count;
+
+                                        accountProcessCount += selectedPageOrBoardDestinations.Count;
+                                    }
+
+                                    if (currentProcessCount < remainingDestinationCount &&
+                                        accountProcessCount < selectDestinationPerAccount)
+                                    {
+                                        var getCustomDestinations =
+                                            destinationDetails.CustomDestinations
+                                                .Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value)
+                                                .ToList();
+
+                                        getCustomDestinations.RemoveAll(x =>
+                                            usedDestination.Contains(x.DestinationValue));
+
+                                        selectedCustomDestinations = getCustomDestinations.Take(selectDestinationPerAccount - accountProcessCount).ToList();
+
+                                        currentProcessCount += selectedCustomDestinations.Count;
+
+                                        accountProcessCount += selectedCustomDestinations.Count;
+                                    }
+
+                                    var isPublishOnOwnWall =
+                                        destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
+
+                                    if (isPublishOnOwnWall)
+                                    {
+                                        isPublishOnOwnWall = accountProcessCount < selectDestinationPerAccount;
+
+                                        if (isPublishOnOwnWall)
+                                        {
+                                            var accountName = AccountsFileManager.GetAccountById(networkWithAccount.Value)
+                                                .AccountBaseModel.UserName;
+
+                                            if (usedDestination.Contains(accountName))
+                                                isPublishOnOwnWall = false;
+                                        }
+
+                                        if (isPublishOnOwnWall)
+                                            currentProcessCount += 1;
+                                    }
+
+
+                                    if (selectedCustomDestinations.Count > 0 ||
+                                        selectedPageOrBoardDestinations.Count > 0 ||
+                                        selectedGroupDestinations.Count > 0 || isPublishOnOwnWall)
+                                    {
+                                        var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
+                                            .GetPublisherCoreFactory()
+                                            .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
+
+                                        publisherJobProcess.StartPublishing(publishCount, !campaignStatusModel.IsRunSingleAccountPerCampaign);
+                                    }
+
+                                });
+                            }
+                            catch (OperationCanceledException ex)
+                            {
+                                ex.DebugLog("Cancellation Requested!");
+                            }
+                            catch (AggregateException ae)
+                            {
+                                foreach (var e in ae.InnerExceptions)
                                 {
-                                    publisherJobProcess.StartPublishing(publishCount,true);
-                                    //publisherJobProcess.StartPublish with Asynchronously
+                                    if (e is TaskCanceledException || e is OperationCanceledException)
+                                        e.DebugLog("Cancellation requested before task completion!");
+                                    else
+                                        e.DebugLog(e.StackTrace + e.Message);
                                 }
-                            });
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.DebugLog();
+                            }
                         });
+
+                        if (deletedDestinationCount > 0)
+                            GlobusLogHelper.log.Info($"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {campaignStatusModel.CampaignName}");
+
                     }
+
                     #endregion
                 }
                 else
                 {
                     #region publish on all destination with single post
 
+                    var deletedDestinationCount = 0;
+
                     publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                                {
-                                   var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
-
-                                   destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
+                                   try
                                    {
-                                       var selectedGroupDestinations =
-                                           destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+                                       var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
 
-                                       var selectedPageOrBoardDestinations =
-                                           destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+                                       if (destinationDetails == null)
+                                           deletedDestinationCount++;
 
-                                       var selectedCustomDestinations =
-                                           destinationDetails.CustomDestinations.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+                                       destinationDetails?.AccountsWithNetwork.ForEach(networkWithAccount =>
+                                       {
+                                           var selectedGroupDestinations =
+                                               destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
 
-                                       var isPublishOnOwnWall =
-                                           destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
+                                           var selectedPageOrBoardDestinations =
+                                               destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
 
-                                       var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
-                                           .GetPublisherCoreFactory()
-                                           .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
+                                           var selectedCustomDestinations =
+                                               destinationDetails.CustomDestinations.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
 
-                                       publisherJobProcess.StartPublishing(publishCount,!campaignStatusModel.IsRunSingleAccountPerCampaign);
-                                   });
+                                           var isPublishOnOwnWall =
+                                               destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
+
+                                           if (selectedCustomDestinations.Count > 0 ||
+                                               selectedPageOrBoardDestinations.Count > 0 ||
+                                               selectedGroupDestinations.Count > 0 || isPublishOnOwnWall)
+                                           {
+                                               var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
+                                                   .GetPublisherCoreFactory()
+                                                   .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
+
+                                               publisherJobProcess.StartPublishing(publishCount, !campaignStatusModel.IsRunSingleAccountPerCampaign);
+                                           }
+
+                                       });
+                                   }
+                                   catch (OperationCanceledException ex)
+                                   {
+                                       ex.DebugLog("Cancellation Requested!");
+                                   }
+                                   catch (AggregateException ae)
+                                   {
+                                       foreach (var e in ae.InnerExceptions)
+                                       {
+                                           if (e is TaskCanceledException || e is OperationCanceledException)
+                                               e.DebugLog("Cancellation requested before task completion!");
+                                           else
+                                               e.DebugLog(e.StackTrace + e.Message);
+                                       }
+                                   }
+                                   catch (Exception ex)
+                                   {
+                                       ex.DebugLog();
+                                   }
                                });
+
+                    if (deletedDestinationCount > 0)
+                        GlobusLogHelper.log.Info($"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {campaignStatusModel.CampaignName}");
 
                     #endregion
                 }
+
             }
             catch (OperationCanceledException ex)
             {
@@ -246,11 +451,16 @@ namespace DominatorHouseCore.Process
 
                 var publishCount = 1;
 
+                var deletedDestinationCount = 0;
+
                 publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                 {
                     var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
 
-                    destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
+                    if (destinationDetails == null)
+                        deletedDestinationCount++;
+
+                    destinationDetails?.AccountsWithNetwork.ForEach(networkWithAccount =>
                     {
                         var selectedGroupDestinations =
                             destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
@@ -264,13 +474,24 @@ namespace DominatorHouseCore.Process
                         var isPublishOnOwnWall =
                             destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
 
-                        var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
-                            .GetPublisherCoreFactory()
-                            .PublisherJobFactory.Create(post.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
+                        if (selectedCustomDestinations.Count > 0 ||
+                            selectedPageOrBoardDestinations.Count > 0 ||
+                            selectedGroupDestinations.Count > 0 || isPublishOnOwnWall)
+                        {
 
-                        publisherJobProcess.StartPublishing(post, publishCount,!specificCampaign.IsRunSingleAccountPerCampaign);
+                            var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
+                                .GetPublisherCoreFactory()
+                                .PublisherJobFactory.Create(post.CampaignId, networkWithAccount.Value,
+                                    selectedGroupDestinations, selectedPageOrBoardDestinations,
+                                    selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
+
+                            publisherJobProcess.StartPublishing(post, publishCount,
+                                !specificCampaign.IsRunSingleAccountPerCampaign);
+                        }
                     });
                 });
+                if (deletedDestinationCount > 0)
+                    GlobusLogHelper.log.Info($"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {specificCampaign.CampaignName}");
             }
             catch (OperationCanceledException ex)
             {

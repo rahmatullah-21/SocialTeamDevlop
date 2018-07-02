@@ -224,5 +224,23 @@ namespace DominatorHouseCore.FileManagers
         }
 
 
+        public static bool DeleteBinFiles(string filepath)
+        {
+            try
+            {
+                if (File.Exists(filepath))
+                    File.Delete(filepath);
+            }
+            catch (IOException ex)
+            {
+                GlobusLogHelper.log.Error($"Unable to delete file {filepath} - {ex.Message}");               
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return !File.Exists(filepath);
+        }
+
     }
 }

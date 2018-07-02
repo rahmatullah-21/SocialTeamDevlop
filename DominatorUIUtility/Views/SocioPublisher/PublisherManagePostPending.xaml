@@ -318,7 +318,7 @@
                                                 Content="{DynamicResource LangKeyPublishNow}" 
                                                 x:Name="ButtonPublishNowPosts" 
                                                 FontWeight="SemiBold"       
-                                                Command="{Binding Path=DataContext.PublishNowCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding ElementName=ButtonPublishNowPosts}"
+                                                Command="{Binding Path=DataContext.ChangePostStatusCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding ElementName=ButtonPublishNowPosts}"
                                                 Background="Transparent"/>
 
                                         <Button Cursor="Hand" 

@@ -247,8 +247,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
                 }
 
-
-
                 #endregion
 
                 #region Saving post
@@ -285,6 +283,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     publisherPostlistModel.FdSellPrice = PublisherCreateCampaignModel.PostDetailsModel.FdSellPrice;
                     publisherPostlistModel.FdSellProductTitle =
                         PublisherCreateCampaignModel.PostDetailsModel.FdSellProductTitle;
+                    publisherPostlistModel.IsFdSellPost =
+                        PublisherCreateCampaignModel.PostDetailsModel.IsFdSellPost;
+
                     PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
 
                 }
@@ -306,14 +307,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 else
                 {
                     var images = PublisherCreateCampaignModel.PostDetailsModel.MediaList;
+
+                    if (PublisherCreateCampaignModel.PostDetailsModel.IsUniquePost)
+                    {
+                        images = new ObservableCollection<string>(images.ToList().Distinct());
+                    }
+
                     images.ForEach(image =>
                     {
                         publisherPostlistModel.MediaList = new ObservableCollection<string> { image };
-                        publisherPostlistModel.PostDescription = new Uri(image).Segments.Last();
                         publisherPostlistModel.PostId = Utilities.GetGuid();
+                        if (PublisherCreateCampaignModel.PostDetailsModel.IsUseFileNameAsDescription)
+                        {
+                            publisherPostlistModel.PostDescription = new Uri(image).Segments.Last();
+                        }                                               
                         PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
                     });
                 }
+
                 #endregion
 
                 #region Fetch Post Details

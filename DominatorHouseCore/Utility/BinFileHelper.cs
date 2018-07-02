@@ -528,6 +528,12 @@ namespace DominatorHouseCore.Utility
             return null;
         }
 
+        public static void DeleteDestinationFile(string destinationId)
+        {
+            
+        }
+
+
         public static List<PublisherManageDestinationModel> GetPublisherManageDestinationModels()
         {
             return WithFile<PublisherManageDestinationModel, List<PublisherManageDestinationModel>>(

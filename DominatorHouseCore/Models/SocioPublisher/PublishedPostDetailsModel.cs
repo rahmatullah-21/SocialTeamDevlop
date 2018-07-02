@@ -40,5 +40,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(11)]
         public string CampaignName { get; set; }
 
+        [ProtoMember(12)]
+        public string AccountId { get; set; }
+
     }
 }

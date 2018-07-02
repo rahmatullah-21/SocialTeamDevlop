@@ -257,6 +257,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
                 var index = allDestinations.IndexOf(currentDestination);
                 currentDestination.AddUsedCampaignId.Add(campaignId);
+                currentDestination.AddUsedCampaignId = currentDestination.AddUsedCampaignId.Distinct().ToList();
                 currentDestination.CampaignsCount = currentDestination.AddUsedCampaignId.Count;
                 allDestinations[index] = currentDestination;
             });

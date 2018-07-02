@@ -90,7 +90,7 @@
                 <StackPanel>
                     <CheckBox Name="CheckBoxUseFileNameAsDescription" Margin="2"
                                   Content="{DynamicResource LangKeyUseFileNameAsPostDescription}"
-                                  IsChecked="{Binding IsUseFileNameAsDescription}"/>
+                                  IsChecked="{Binding PostDetailsModel.IsUseFileNameAsDescription}"/>
                     <CheckBox Name="CheckBoxUniquePost" Margin="2" Content="{DynamicResource LangKeyAddOnlyUniquePost}"
                                   IsChecked="{Binding PostDetailsModel.IsUniquePost}"/>
                     <StackPanel Orientation="Horizontal">
