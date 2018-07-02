@@ -51,7 +51,7 @@
             <CheckBox Content="{DynamicResource DHlangCheckForNewMessages}"
                       VerticalAlignment="Center"
                       IsChecked="{Binding OtherConfigFilter.IsCheckForNewMessagesChecked}"/>
-            <controls:NumericUpDown  Minimum="0" Value="{Binding CheckMessagesMinutes}"
+            <controls:NumericUpDown  Minimum="0" Value="{Binding OtherConfigFilter.CheckMessagesMinutes}"
                                     IsEnabled="{Binding OtherConfigFilter.IsCheckForNewMessagesChecked}"/>
             <Label Content="{DynamicResource langMinutes}"/>
         </StackPanel>
