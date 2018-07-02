@@ -139,7 +139,7 @@
                                                            FdSellLocation="{Binding FdSellLocation, Mode=TwoWay}"
                                                            FdSellPrice="{Binding FdSellPrice, Mode=TwoWay}"
                                                            FdSellProductTitle="{Binding FdSellProductTitle, Mode=TwoWay}"
-                                                           IsFdSellPost="{Binding IsPostContent, Mode=TwoWay}"
+                                                           IsFdSellPost="{Binding IsFdSellPost, Mode=TwoWay}"
                                                            PdSourceUrl="{Binding PdSourceUrl, Mode=TwoWay}"
                                                            />
                             </StackPanel>

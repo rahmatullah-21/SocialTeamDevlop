@@ -122,14 +122,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SearchExecute(object sender)
         {
+            try
+            {
+                var mediaViewer = (MediaViewer)sender;
 
-            var mediaViewer = (MediaViewer)sender;
+                if (string.IsNullOrEmpty(PostDetailsModel.ImagesUrl))
+                    return;
 
-            PostDetailsModel.MediaList = new ObservableCollection<string>(ImageExtracter.ExtractImageUrls(PostDetailsModel.ImagesUrl));
-            mediaViewer.MediaList = PostDetailsModel.MediaList;
-
-            mediaViewer?.Initialize();
-
+                PostDetailsModel.MediaList = new ObservableCollection<string>(ImageExtracter.ExtractImageUrls(PostDetailsModel.ImagesUrl));
+                mediaViewer.MediaList = PostDetailsModel.MediaList;
+                mediaViewer?.Initialize();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
         private bool ImportFromCsvCanExecute(object sender) => true;
 
@@ -162,12 +169,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     #endregion
 
                     postDetailsModel.PublisherInstagramTitle = allData[2];
-                    postDetailsModel.PublisherInstagramTitle = allData[3];
+                    postDetailsModel.PdSourceUrl = allData[3];
 
                     #region FdSell
 
                     var Fdsell = Regex.Split(allData[4], separator);
-                    if (Fdsell[0] == "IsEnable")
+                    if ( string.Compare(Fdsell[0],"Yes",StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                         string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                       string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
                     {
                         postDetailsModel.IsFdSellPost = true;
                         postDetailsModel.FdSellProductTitle = Fdsell[1];
