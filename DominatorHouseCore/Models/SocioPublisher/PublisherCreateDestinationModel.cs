@@ -322,15 +322,23 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
                     if (accountsDetailsSelector.IsGroupsAvailables)
                     {
-                        var groups = await accountsDetailsSelector.GetGroupUrls(x.Value, publisherCreateDestinationModel.CreatedDate);
-                        var alreadyPresentedGroups =
-                            publisherCreateDestinationModel.AccountGroupPair.Select(y => y.Value).ToList();
-                        foreach (var group in groups)
+                        try
                         {
-                            if (!alreadyPresentedGroups.Contains(group))
+                            var groups = await accountsDetailsSelector.GetGroupUrls(x.Value, publisherCreateDestinationModel.CreatedDate);
+                            var alreadyPresentedGroups =
+                                publisherCreateDestinationModel.AccountGroupPair.Select(y => y.Value).ToList();
+                            foreach (var group in groups)
                             {
-                                publisherCreateDestinationModel.AccountGroupPair.Add(new KeyValuePair<string, string>(x.Value, group));
+                                if (!alreadyPresentedGroups.Contains(group))
+                                {
+                                    publisherCreateDestinationModel.AccountGroupPair.Add(new KeyValuePair<string, string>(x.Value, group));
+                                }
                             }
+                        }
+                        catch (Exception ex)
+                        {
+
+                           ex.DebugLog();
                         }
                     }
 

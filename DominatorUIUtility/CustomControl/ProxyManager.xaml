@@ -58,7 +58,7 @@
             <StackPanel Orientation="Horizontal" Background="{DynamicResource AccentBaseColorBrush}">
 
                 <Button Height="30"   x:Name="btnImportProxies" Margin="10,5" Command="{Binding ImportProxyCommand}"
-                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" ToolTip="{DynamicResource DHImportProxyDescription}">
+                Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" ToolTip="{DynamicResource LangKeyImportProxyDescription}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
@@ -204,7 +204,7 @@
                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_social_pocket}"></VisualBrush>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{DynamicResource DHVerifySelected}" Margin="5,0"/>
+                            <TextBlock Text="{DynamicResource LangKeyVerifySelected}" Margin="5,0"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>
