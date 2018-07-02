@@ -6,7 +6,7 @@ namespace DominatorHouseCore.Enums.YdQuery
     {
         [Description("LangKeyKeywords")]
         Keywords = 1,
-        [Description("LangKeyCustomurls")]
+        [Description("LangKeyCustomURLS")]
         CustomUrls = 2,
     }
 }
