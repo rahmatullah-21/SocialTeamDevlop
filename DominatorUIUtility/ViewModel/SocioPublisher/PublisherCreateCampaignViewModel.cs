@@ -283,6 +283,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     publisherPostlistModel.FdSellPrice = PublisherCreateCampaignModel.PostDetailsModel.FdSellPrice;
                     publisherPostlistModel.FdSellProductTitle =
                         PublisherCreateCampaignModel.PostDetailsModel.FdSellProductTitle;
+                    publisherPostlistModel.IsFdSellPost =
+                        PublisherCreateCampaignModel.PostDetailsModel.IsFdSellPost;
+
                     PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
 
                 }

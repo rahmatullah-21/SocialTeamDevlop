@@ -920,7 +920,8 @@ namespace DominatorHouseCore.Process
                     PublishedDate = DateTime.Now,
                     Link = ConstantVariable.NotPublished,
                     CampaignId = CampaignId,
-                    CampaignName = CampaignName
+                    CampaignName = CampaignName,
+                    AccountId = AccountModel.AccountBaseModel.AccountId
                 });
 
                 filterPostModel.PostQueuedStatus = PostQueuedStatus.Published;

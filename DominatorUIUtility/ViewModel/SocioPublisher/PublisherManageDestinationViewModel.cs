@@ -186,7 +186,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
 
                 ListPublisherManageDestinationModels.Remove(destination);
-                ManageDestinationFileManager.Delete(d => d.DestinationId != null);
+                ManageDestinationFileManager.Delete(d => d.DestinationId == destination.DestinationId);
+                GenericFileManager.DeleteBinFiles(
+                    $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destination.DestinationId}.bin");
             }
             else
             {
@@ -208,8 +210,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
 
                 publisherManageDestinationModel.ForEach(x =>
-                ListPublisherManageDestinationModels.Remove(x)
-                );
+                {
+                    ListPublisherManageDestinationModels.Remove(x);
+                    GenericFileManager.DeleteBinFiles(
+                        $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{x.DestinationId}.bin");
+                });
+
                 ManageDestinationFileManager.DeleteSelected(publisherManageDestinationModel);
             }
         }
@@ -240,10 +246,22 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (!Application.Current.Dispatcher.CheckAccess())
                     Application.Current.Dispatcher.Invoke(delegate
                     {
+                        publisherManageDestinationModel.AddUsedCampaignId =
+                            publisherManageDestinationModel.AddUsedCampaignId.Distinct().ToList();
+                        publisherManageDestinationModel.CampaignsCount =
+                            publisherManageDestinationModel.AddUsedCampaignId.Count;
+
                         ListPublisherManageDestinationModels.Add(publisherManageDestinationModel);
                     });
                 else
+                {
+                    publisherManageDestinationModel.AddUsedCampaignId =
+                        publisherManageDestinationModel.AddUsedCampaignId.Distinct().ToList();
+                    publisherManageDestinationModel.CampaignsCount =
+                        publisherManageDestinationModel.AddUsedCampaignId.Count;
                     ListPublisherManageDestinationModels.Add(publisherManageDestinationModel);
+                }
+                    
 
                 if (isNewDestination)
                     ManageDestinationFileManager.Add(publisherManageDestinationModel);
