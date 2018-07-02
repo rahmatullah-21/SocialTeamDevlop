@@ -221,7 +221,7 @@ namespace DominatorHouseCore.Process
         public static void StartPublishingPosts(PublisherPostlistModel post)
         {
             try
-            {
+            {               
                 var campaignDetails =
                     PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
 

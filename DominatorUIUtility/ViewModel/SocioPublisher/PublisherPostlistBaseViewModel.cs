@@ -518,35 +518,46 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     while (!allPostsQueued)
                     {
-                        Thread.Sleep(50);
-                        while (!pendingActions.IsEmpty)
+                        try
                         {
-                            try
+                            Thread.Sleep(50);
+                            while (!pendingActions.IsEmpty)
                             {
-                                TokenSource.Token.ThrowIfCancellationRequested();
-                                Action perform;
-                                pendingActions = pendingActions.Dequeue(out perform);
-                                perform();
-                            }
-                            catch (OperationCanceledException ex)
-                            {
-                                ex.DebugLog();
-                                // throw new OperationCanceledException();
-                            }
-                            catch (AggregateException ae)
-                            {
-                                foreach (var e in ae.InnerExceptions)
+                                try
                                 {
-                                    if (e is TaskCanceledException || e is OperationCanceledException)
-                                        e.DebugLog("Cancellation requested before task completion!");
-                                    else
-                                        e.DebugLog(e.StackTrace + e.Message);
+                                    TokenSource.Token.ThrowIfCancellationRequested();
+                                    Action perform;
+                                    pendingActions = pendingActions.Dequeue(out perform);
+                                    perform();
+                                }
+                                catch (OperationCanceledException ex)
+                                {
+                                    ex.DebugLog();
+                                    // throw new OperationCanceledException();
+                                }
+                                catch (AggregateException ae)
+                                {
+                                    foreach (var e in ae.InnerExceptions)
+                                    {
+                                        if (e is TaskCanceledException || e is OperationCanceledException)
+                                            e.DebugLog("Cancellation requested before task completion!");
+                                        else
+                                            e.DebugLog(e.StackTrace + e.Message);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    ex.DebugLog();
                                 }
                             }
-                            catch (Exception ex)
-                            {
-                                ex.DebugLog();
-                            }
+                        }
+                        catch (OperationCanceledException ex)
+                        {
+                            ex.DebugLog("Cancellation Requested!");
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
                         }
                     }
                 }, tokenSource.Token);
