@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouse.Social.Accounts;
 using DominatorHouse.Social.DashBoards;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -55,6 +56,12 @@ namespace Socinator.DominatorCores
                 {
                     Title = Application.Current.FindResource("langAccountsManager") == null? "Account Manager" : Application.Current.FindResource("langAccountsManager")?.ToString(),
                     Content = new Lazy<UserControl>(() => new AccountTab(_strategies))
+                },
+                   new TabItemTemplates
+                {
+
+                    Title = Application.Current.FindResource("langAccountsGrowth") == null? "Account Growth" : Application.Current.FindResource("langAccountsGrowth")?.ToString(),
+                    Content = new Lazy<UserControl>(() => new AccountGrowthTab(_strategies))
                 },
                 new TabItemTemplates
                 {

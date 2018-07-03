@@ -562,6 +562,7 @@
     <system:String x:Key="TdLangTypeHere">Type here..</system:String>
     <system:String x:Key="TdLangClickToBrowse">Click to Browse</system:String>
     <system:String x:Key="TdLangThisModuleInstachat">This module Instachat.</system:String>
+    <system:String x:Key="TdLangAccountGrowth">Account Growth</system:String>
     <system:String x:Key="TdLangAccountGrowthMode">Switch to Account Growth Mode</system:String>
     <system:String x:Key="TdLangScrapeUserSliderText">This module will help you to scrape users by hashtags or custom list of photoIDs.
                            You can also filter the users based their posts, followers and followings count.</system:String>

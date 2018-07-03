@@ -115,10 +115,10 @@
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>1990048D0DA21F988A15304F68B1204C0C068A95</ManifestCertificateThumbprint>
@@ -147,7 +147,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="MahApps.Metro">
-      <HintPath>..\packages\MahApps.Metro.1.6.0\lib\net45\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -210,6 +210,9 @@
     <Compile Include="OtherConfiguration\OtherConfigurationTab.xaml.cs">
       <DependentUpon>OtherConfigurationTab.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Social\Accounts\AccountGrowthTab.xaml.cs">
+      <DependentUpon>AccountGrowthTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Social\Accounts\AccountTab.xaml.cs">
       <DependentUpon>AccountTab.xaml</DependentUpon>
     </Compile>
@@ -248,6 +251,10 @@
     <Page Include="OtherConfiguration\OtherConfigurationTab.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Social\Accounts\AccountGrowthTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Social\Accounts\AccountTab.xaml">
       <SubType>Designer</SubType>
@@ -370,13 +377,13 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\facedominator-library\FaceDominatorCore\FaceDominatorCore.csproj">
-      <Project>{36f8a922-028e-49dd-bbd6-d7daab339491}</Project>
-      <Name>FaceDominatorCore</Name>
+    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorCore\TwtDominatorCore.csproj">
+      <Project>{e41bf7d2-231f-4d58-ad45-95f7146e1979}</Project>
+      <Name>TwtDominatorCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\facedominator-library\FaceDominatorUI\FaceDominatorUI.csproj">
-      <Project>{1c0beb70-f243-4a53-983e-ce25a1b722f6}</Project>
-      <Name>FaceDominatorUI</Name>
+    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorUI\TwtDominatorUI.csproj">
+      <Project>{b91d5616-eafd-4bf8-aaf5-051675592714}</Project>
+      <Name>TwtDominatorUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>

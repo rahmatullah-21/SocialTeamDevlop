@@ -223,6 +223,7 @@
     <system:String x:Key="PDlangPins">Pins</system:String>
     <system:String x:Key="PDlangGroupName">Group Name</system:String>
     <system:String x:Key="PDlangCopy">Copy</system:String>
+    <system:String x:Key="PDlangAccountGrowth">Account Growth</system:String>
     <system:String x:Key="PDlangAccountGrowthMode">Switch to Account Growth Mode</system:String>
     <system:String x:Key="PDlangGroupByTag">Group By Tag</system:String>
     <system:String x:Key="PDlangActivityLog">Activity Log</system:String>
@@ -279,6 +280,7 @@
     <system:String x:Key="PDlangPinDominator">Pin Dominator</system:String>
     <system:String x:Key="PDlangDashboardBeta">Dashboard Beta</system:String>
     <system:String x:Key="PDlangAccountsManager">Accounts Manager</system:String>
+    <system:String x:Key="PDlangAccountsGrowth">Accounts Growth</system:String>
     <system:String x:Key="PDlangAccountStatsBeta">Account Stats Beta</system:String>
     <system:String x:Key="PDlangGrowFollowers﻿">Grow Followers</system:String>
     <system:String x:Key="PDlangUnFollower﻿">UnFollower</system:String>

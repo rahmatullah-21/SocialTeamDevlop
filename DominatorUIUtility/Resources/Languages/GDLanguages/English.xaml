@@ -513,6 +513,7 @@
     <system:String x:Key="langTypeHere">Type here..</system:String>
     <system:String x:Key="langClickToBrowse">Click to Browse</system:String>
     <system:String x:Key="langThisModuleInstachat">This module Instachat.</system:String>
+    <system:String x:Key="langAccountGrowth">Account Growth</system:String>
     <system:String x:Key="langAccountGrowthMode">Switch to Account Growth Mode</system:String>
     <system:String x:Key="langScrapeUserSliderText">This module will help you to scrape users by hashtags or custom list of photoIDs.
                            You can also filter the users based their posts, followers and followings count.</system:String>
@@ -687,6 +688,7 @@
     <system:String x:Key="langDominatorSocial">Dominator House Social</system:String>
     <system:String x:Key="langDashboardBeta">Dashboard Beta</system:String>
     <system:String x:Key="langAccountsManager">Accounts Manager</system:String>
+    <system:String x:Key="langAccountsGrowth">Accounts Growth</system:String>
     <system:String x:Key="langAccountStatsBeta">Account Stats Beta</system:String>
     <system:String x:Key="langGrowFollowers﻿">Grow Followers</system:String>
     <system:String x:Key="langUnFollower﻿">UnFollower</system:String>
@@ -1369,6 +1371,8 @@
     <system:String x:Key="langBlacklistedStudiedPlaces">User should not have studied in specified places</system:String>
     <system:String x:Key="langBlacklistedWorkPlaces">User should not have worked in specified places</system:String>
     <system:String x:Key="langFollowersCount">Followers Count</system:String>
+    <system:String x:Key="langFollowingCount">Following Count</system:String>
+    <system:String x:Key="langTweetCount">Tweet Count</system:String>
     <system:String x:Key="langBioRestrictedWords">User should not have specified words in bio description</system:String>
     <system:String x:Key="langUserNameRestrictedWords">User should not have specified words in username</system:String>
     <system:String x:Key="langSpecificFollowRatio">User should have follow ratio in specified range</system:String>

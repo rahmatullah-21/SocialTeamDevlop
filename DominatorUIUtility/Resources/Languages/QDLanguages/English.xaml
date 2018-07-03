@@ -33,6 +33,8 @@
     <system:String x:Key="QDlangBlacklistedStudiedPlaces">User should not have studied in specified places</system:String>
     <system:String x:Key="QDlangBlacklistedWorkPlaces">User should not have worked in specified places</system:String>
     <system:String x:Key="QDlangFollowersCount">Followers Count</system:String>
+    <system:String x:Key="QDlangFollowingCount">Following Count</system:String>
+    <system:String x:Key="QDlangTweetCount">Tweet Count</system:String>
     <system:String x:Key="QDlangBioRestrictedWords">User should not have specified words in bio description</system:String>
     <system:String x:Key="QDlangUserNameRestrictedWords">User should not have specified words in username</system:String>
     <system:String x:Key="QDlangSpecificFollowRatio">User should have follow ratio in specified range</system:String>
