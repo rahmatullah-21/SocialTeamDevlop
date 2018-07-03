@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -286,8 +287,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     publisherPostlistModel.IsFdSellPost =
                         PublisherCreateCampaignModel.PostDetailsModel.IsFdSellPost;
 
-                    PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
-
+                    if (!string.IsNullOrEmpty(publisherPostlistModel.PostDescription) ||
+                        publisherPostlistModel.MediaList.Count > 0 ||
+                        !string.IsNullOrEmpty(publisherPostlistModel.PublisherInstagramTitle) ||
+                        !string.IsNullOrEmpty(publisherPostlistModel.PdSourceUrl))
+                    {
+                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+                    }
                 }
                 else if (PublisherCreateCampaignModel.PostDetailsModel.IsMultiPost)
                 {
@@ -321,6 +327,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         {
                             publisherPostlistModel.PostDescription = new Uri(image).Segments.Last();
                         }                                               
+                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+                    });
+                }
+
+                if (PublisherCreateCampaignModel.SharePostModel.IsShareCustomPostList)
+                {
+                    var shareUrls = Regex
+                        .Split(PublisherCreateCampaignModel.SharePostModel.ShareAddCustomPostList, "\r\n").ToList();
+
+                    shareUrls.ForEach(shareUrl =>
+                    {
+                        publisherPostlistModel.PostId = Utilities.GetGuid();
+                        publisherPostlistModel.ShareUrl = shareUrl.Trim();
+                        publisherPostlistModel.PostSource = PostSource.SharePost;
                         PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
                     });
                 }
@@ -428,9 +448,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
                         SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
                     };
-
                     currentCampaignsFetchDetails.Add(shareFetchModel);
-
                 }
 
                 #endregion

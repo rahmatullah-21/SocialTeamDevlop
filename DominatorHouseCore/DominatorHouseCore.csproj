@@ -337,6 +337,7 @@
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\UnfollowedUsers.cs" />
+    <Compile Include="Diagnostics\AesDecryption.cs" />
     <Compile Include="Diagnostics\Exceptions\ExceptionExtensions.cs" />
     <Compile Include="Diagnostics\Exceptions\GlobusExceptionHandler.cs" />
     <Compile Include="Diagnostics\Exceptions\ThreadFactory.cs" />

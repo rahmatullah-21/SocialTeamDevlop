@@ -67,7 +67,7 @@ namespace Socinator
         public MainWindow()
         {
             try
-            {            
+            {               
                 DialogParticipation.SetRegister(this, this);
                 Dispatcher.Invoke(async () => { await LicenseCheck(); });
                 _languages = new ObservableCollection<string>();

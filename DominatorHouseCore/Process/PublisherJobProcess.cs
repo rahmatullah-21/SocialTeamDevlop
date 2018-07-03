@@ -980,7 +980,8 @@ namespace DominatorHouseCore.Process
                     Link = ConstantVariable.NotPublished,
                     CampaignId = CampaignId,
                     CampaignName = CampaignName,
-                    AccountId = AccountModel.AccountBaseModel.AccountId
+                    AccountId = AccountModel.AccountBaseModel.AccountId,
+                    
                 });
 
                 filterPostModel.PostQueuedStatus = PostQueuedStatus.Published;
