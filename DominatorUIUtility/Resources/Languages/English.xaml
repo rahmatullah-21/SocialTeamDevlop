@@ -2699,6 +2699,9 @@ Type 3. IP:Port
     </system:String>
     <system:String x:Key="LangKeyViewInBrowser">View in Browser</system:String>
     <system:String x:Key="LangKeyEnableAdvancedUserMode">Enable advanced users mode</system:String>
+    <system:String x:Key="LangKeyStopSendingFriendRequestsWhenReached">Stop Sending Friend Requests When Reached</system:String>
+    <system:String x:Key="LangKeyStopUnJoinTool">Stop Unjoin Tool</system:String>
+    <system:String x:Key="LangKeyStopUnjoinAndStartJoinTool">Stop Unjoin And Start Join Tool</system:String>
 
 
 </ResourceDictionary>
