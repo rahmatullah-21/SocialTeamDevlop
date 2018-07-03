@@ -614,8 +614,6 @@ namespace DominatorHouseCore.Process
         {
             #region Schedule
 
-            StartPublishingPosts(campaign);
-
             campaign.SpecificRunningTime.ForEach(runningTime =>
             {
                 var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
