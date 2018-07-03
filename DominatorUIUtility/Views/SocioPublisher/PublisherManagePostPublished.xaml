@@ -297,7 +297,7 @@
                                     <StackPanel Margin="6,2,6,2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center"  >
                                         <Button Cursor="Hand" 
                                                 Content="{DynamicResource LangKeyDetails}" 
-                                                x:Name="ButtonDetailsPosts" 
+                                                x:Name="BtnViewInBrowser" 
                                                 FontWeight="SemiBold"       
                                                 Command="{Binding Path=DataContext.PublishedDetailsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                 Background="Transparent"/>

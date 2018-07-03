@@ -2697,6 +2697,8 @@ Type 1. Group Name:Proxy Name:IP:Port:Proxy User Name:Proxy Password
 Type 2. IP:Port:Proxy User Name:Proxy Password
 Type 3. IP:Port
     </system:String>
-    <system:String x:Key="LangKeyStopSendingFriendRequestsWhenReached">Stop Sending Friend Requests When Reached</system:String>
+    <system:String x:Key="LangKeyViewInBrowser">View in Browser</system:String>
+    <system:String x:Key="LangKeyEnableAdvancedUserMode">Enable advanced users mode</system:String>
+
 
 </ResourceDictionary>

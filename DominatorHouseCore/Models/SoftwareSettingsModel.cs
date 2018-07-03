@@ -4,7 +4,7 @@ using ProtoBuf;
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-   public class SoftwareSettingsModel : BindableBase
+    public class SoftwareSettingsModel : BindableBase
     {
         private bool _isRunDHAtStartUpChecked;
         [ProtoMember(1)]
@@ -96,7 +96,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isEnableGlobalNightModeChecked, value);
             }
         }
-        private RangeUtilities _executeAnyActionsBetween=new RangeUtilities() ;
+        private RangeUtilities _executeAnyActionsBetween = new RangeUtilities();
         [ProtoMember(7)]
         public RangeUtilities ExecuteAnyActionsBetween
         {
@@ -527,7 +527,8 @@ namespace DominatorHouseCore.Models
         {
             get { return _isEnableParallelActivitiesChecked; }
             set
-            {if(value == _isEnableParallelActivitiesChecked)
+            {
+                if (value == _isEnableParallelActivitiesChecked)
                     return;
                 SetProperty(ref _isEnableParallelActivitiesChecked, value);
             }
@@ -566,5 +567,22 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _simultaneousAccountUpdate, value);
             }
         }
+
+        private bool _isEnableAdvancedUserMode;
+        [ProtoMember(38)]
+        public bool IsEnableAdvancedUserMode
+        {
+            get
+            {
+                return _isEnableAdvancedUserMode;
+            }
+            set
+            {
+                if (value == _isEnableAdvancedUserMode)
+                    return;
+                SetProperty(ref _isEnableAdvancedUserMode, value);
+            }
+        }
+
     }
 }
