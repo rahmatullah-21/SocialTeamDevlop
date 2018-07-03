@@ -75,7 +75,7 @@ namespace DominatorHouseCore.Diagnostics
                             ScheduledWeekday = campaigns.JobConfigurations.Weekday,
                             IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign,
                             IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
-                            TotalRandomDestination = campaigns.JobConfigurations.PublishOn,
+                            TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
                             MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue
                         };
 
@@ -108,7 +108,7 @@ namespace DominatorHouseCore.Diagnostics
                         ScheduledWeekday = campaigns.JobConfigurations.Weekday,
                         IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign,
                         IsTakeRandomDestination = campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
-                        TotalRandomDestination = campaigns.JobConfigurations.PublishOn,
+                        TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
                         MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue
                     };
 

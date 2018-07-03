@@ -58,6 +58,7 @@ namespace DominatorUIUtility.CustomControl.Publisher
             CampaignsAdvanceSetting ObjCampaignsAdvanceSetting = new CampaignsAdvanceSetting();
             Dialog dialog = new Dialog();
             Window window = dialog.GetMetroWindow(ObjCampaignsAdvanceSetting, "Campaign - Advanced Settings");
+            btnAdvancedSettings.IsEnabled = false;
 
             ObjCampaignsAdvanceSetting.BtnSave.Click += (senders, args) =>
             {
@@ -200,7 +201,7 @@ namespace DominatorUIUtility.CustomControl.Publisher
                     #endregion
 
                     GlobusLogHelper.log.Info("Details successfully saved");
-
+                    btnAdvancedSettings.IsEnabled = true;
                     window.Close();
                 }
                 catch (Exception ex)
@@ -208,7 +209,7 @@ namespace DominatorUIUtility.CustomControl.Publisher
                     ex.DebugLog();
                 }
             };
-
+            window.Closing += (senders, args) => { btnAdvancedSettings.IsEnabled = true; };
             window.Show();
         }
     }

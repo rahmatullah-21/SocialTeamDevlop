@@ -1820,8 +1820,8 @@
     <system:String x:Key="LangKeyRemoveSelectedFromWhitelist">Remove Selected From Whitelist</system:String>
     <system:String x:Key="LangKeyRemoveSourceIfFollowBackRatioIsLowerThan">Remove Source If Follow Back Ratio Is Lower Than</system:String>
     <system:String x:Key="LangKeyRemoveTagsFromPostTextAsTheyAreAddedInTheTagsSectionOnTumblr">Remove Tags From Post Text (As They Are Added In The Tags Section On Tumblr)</system:String>
-    <system:String x:Key="LangKeyRemoveThe">Remove The</system:String>
-    <system:String x:Key="LangKeyRemoveTheLinkFromThePostAfterFacebook/GooglePlus/Linkedin/PinterestDisplaysThePreview">Remove The Link From The Post After Facebook/Google Plus/Linkedin/Pinterest Displays The Preview.</system:String>
+    <system:String x:Key="LangKeyRemoveThe">Remove the via option from Facebook Page Shares.</system:String>
+    <system:String x:Key="LangKeyRemoveTheLinkFromThePostAfterDisplaysThePreview">Remove The Link From The Post After Facebook/Google Plus/Linkedin/Pinterest Displays The Preview.</system:String>
     <system:String x:Key="LangKeyRemoveUserFromListAfterHeIsTagged">Remove User From List After He Is Tagged</system:String>
     <system:String x:Key="LangKeyRepin">Repin</system:String>
     <system:String x:Key="LangKeyRepinFilter">Repin Filter</system:String>

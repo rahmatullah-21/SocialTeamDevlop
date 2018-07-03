@@ -55,7 +55,7 @@
                     </ListView.View>
 
                 </ListView>-->
-                <CheckBox Content="{DynamicResource LangKeyPostUsingGeoLocation﻿}"
+                <CheckBox Content="{DynamicResource LangKeyPostUsingGeoLocation}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding InstagramModel.IsPostusingGeoLocation}"/>
                 <TextBox HorizontalAlignment="Left" Width="200" Margin="30,0" Text="{Binding InstagramModel.GeoLocation}" Visibility="{Binding InstagramModel.IsPostusingGeoLocation,
                          Converter={StaticResource BooleanToVisibilityConverter}}"

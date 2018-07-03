@@ -41,13 +41,12 @@ namespace DominatorHouseCore.Process
                     GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
 
-                // if (campaignStatusModel.IsTakeRandomDestination)
 
-                if (false)
+                if (campaignStatusModel.IsTakeRandomDestination)
                 {
                     if (campaignStatusModel.TotalRandomDestination == 0)
                     {
-                        GlobusLogHelper.log.Info($"{campaignStatusModel.CampaignName} has zero publishing count!");
+                        GlobusLogHelper.log.Info($"{campaignStatusModel.CampaignName} has zero as maximum publishing count!");
                         return;
                     }
 
@@ -220,7 +219,7 @@ namespace DominatorHouseCore.Process
                                     var selectDestinationPerAccount =
                                         campaignStatusModel.MinRandomDestinationPerAccount - accountCount;
 
-                                    if (currentProcessCount > remainingDestinationCount)
+                                    if (currentProcessCount >= remainingDestinationCount)
                                         return;
 
                                     if (currentProcessCount < remainingDestinationCount
@@ -336,10 +335,11 @@ namespace DominatorHouseCore.Process
                 }
                 else
                 {
+
                     #region publish on all destination with single post
 
                     var deletedDestinationCount = 0;
-
+                   
                     publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                                {
                                    try
@@ -356,10 +356,10 @@ namespace DominatorHouseCore.Process
 
                                            var selectedPageOrBoardDestinations =
                                                destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
-
+                                        
                                            var selectedCustomDestinations =
                                                destinationDetails.CustomDestinations.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
-
+                                          
                                            var isPublishOnOwnWall =
                                                destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
 
@@ -613,6 +613,8 @@ namespace DominatorHouseCore.Process
         private static void SchedulePublisher(PublisherCampaignStatusModel campaign)
         {
             #region Schedule
+
+            StartPublishingPosts(campaign);
 
             campaign.SpecificRunningTime.ForEach(runningTime =>
             {

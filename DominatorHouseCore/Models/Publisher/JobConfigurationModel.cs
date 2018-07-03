@@ -294,19 +294,19 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private int _publishOn;
+        private int _randomDestinationCount = 2;
         [ProtoMember(27)]
-        public int PublishOn
+        public int RandomDestinationCount
         {
             get
             {
-                return _publishOn;
+                return _randomDestinationCount;
             }
             set
             {
-                if (value == _publishOn)
+                if (value == _randomDestinationCount)
                     return;
-                SetProperty(ref _publishOn, value);
+                SetProperty(ref _randomDestinationCount, value);
             }
         }
 

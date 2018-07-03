@@ -75,7 +75,7 @@
                 <CheckBox Content="{DynamicResource LangKeyDoNotPublishPostsOnMultipleAccountsInParallelDelayEveryPostOnEveryAccount}" 
                           VerticalAlignment="Center" Margin="5" 
                           IsChecked="{Binding GeneralModel.IsDoNotPublishPostsChecked}"/>
-                <CheckBox Content="{DynamicResource LangKeyRemoveTheLinkFromThePostAfterFacebookGooglePlusLinkedinPinterestDisplaysThePreview}"
+                <CheckBox Content="{DynamicResource LangKeyRemoveTheLinkFromThePostAfterDisplaysThePreview}"
                           IsChecked="{Binding GeneralModel.IsRemoveLinkFromPostsChecked}"
                           VerticalAlignment="Center" Margin="5"/>
                 <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyForTumblrItRemovedForImagePostsAsTheLinkIsAttechedToTheImage}" Margin="25,5"/>-->

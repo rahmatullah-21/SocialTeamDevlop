@@ -139,7 +139,7 @@
 
             <TextBlock Text="{DynamicResource LangKeyPublishOn}" VerticalAlignment="Center"  Margin="5"/>
             <control:NumericUpDown Minimum="0"
-                     Value="{Binding PublishOn}"
+                     Value="{Binding RandomDestinationCount}"
                      VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource LangKeyRandomDestinationsWithAMaximumOf}"  VerticalAlignment="Center" Margin="5"/>
             <control:NumericUpDown Minimum="{Binding MaxDestination}" Value="{Binding PostBetween.EndValue}" VerticalAlignment="Center"  Margin="5"/>
