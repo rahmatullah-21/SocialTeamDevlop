@@ -285,10 +285,9 @@ namespace EmbeddedBrowser
             }
             var Result = GetLoggedInPageSource();
 
-            if (!string.IsNullOrEmpty(Result))
+            if (!string.IsNullOrEmpty(Result) && Result.Contains("profile_icon"))
             {
-                bool isLoggedIn = Result.Contains("profile_icon");
-                LoadPostPage(isLoggedIn);
+                LoadPostPage(true);
             }
         }
 
@@ -365,10 +364,9 @@ namespace EmbeddedBrowser
             }
             var Result = GetLoggedInPageSource();
 
-            if (!string.IsNullOrEmpty(Result))
+            if (!string.IsNullOrEmpty(Result) && Result.Contains("Switch accounts"))
             {
-                bool isLoggedIn = Result.Contains("Switch accounts");
-                LoadPostPage(isLoggedIn);
+                LoadPostPage(true);
             }
         }
 
@@ -402,7 +400,7 @@ namespace EmbeddedBrowser
                         LoadPostPage(true);
                     }
                 }
-               
+
             }
         }
 
@@ -470,10 +468,9 @@ namespace EmbeddedBrowser
             }
             var Result = GetLoggedInPageSource();
 
-            if (!string.IsNullOrEmpty(Result))
+            if (!string.IsNullOrEmpty(Result) && Result.Contains("\"isAuth\": true"))
             {
-                bool isLoggedIn = Result.Contains("\"isAuth\": true");
-                LoadPostPage(isLoggedIn);
+                LoadPostPage(true);
             }
 
 
@@ -540,10 +537,9 @@ namespace EmbeddedBrowser
             }
 
             var Result = GetLoggedInPageSource();
-            if (!string.IsNullOrEmpty(Result))
+            if (!string.IsNullOrEmpty(Result) && Result.Contains("logged-in"))
             {
-                bool isLoggedIn = Result.Contains("logged-in");
-                LoadPostPage(isLoggedIn);
+                LoadPostPage(true);
             }
         }
 
@@ -563,12 +559,13 @@ namespace EmbeddedBrowser
                     "document.getElementsByClassName('submit EdgeButton EdgeButton--primary EdgeButtom--medium')[0].click()");
                 Thread.Sleep(4000);
 
-                var Result = GetLoggedInPageSource();
+            }
 
-                if (Result != null && Result.Contains("signout") && Result.Contains("timeline-tweet-box"))
-                {
-                    LoadPostPage(true);
-                }
+            var Result = GetLoggedInPageSource();
+
+            if (!string.IsNullOrEmpty(Result) && Result.Contains("signout") && Result.Contains("timeline-tweet-box"))
+            {
+                LoadPostPage(true);
             }
         }
 
@@ -591,10 +588,9 @@ namespace EmbeddedBrowser
 
                 var Result = GetLoggedInPageSource();
 
-                if (!string.IsNullOrEmpty(Result))
+                if (!string.IsNullOrEmpty(Result) && Result.Contains("\"logged_in\": true"))
                 {
-                    bool isLoggedIn = Result.Contains("\"logged_in\": true");
-                    LoadPostPage(isLoggedIn);
+                    LoadPostPage(true);
                 }
 
             }
@@ -620,6 +616,13 @@ namespace EmbeddedBrowser
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('submit').click()");
 
             }
+
+            var Result = GetLoggedInPageSource();
+
+            if (Result != null && Result.Contains("Log out") || Result.Contains("logged in"))
+            {
+                LoadPostPage(true);
+            }
         }
 
         private void TumblrBrowserLogin(string html)
@@ -636,7 +639,8 @@ namespace EmbeddedBrowser
             }
             if (html.Contains("signup_view magiclink active"))
             {
-                Browser.ExecuteScriptAsync("document.getElementById('signup_forms_submit').click()");
+                // Browser.ExecuteScriptAsync("document.getElementById('signup_forms_submit').click()");
+                Browser.ExecuteScriptAsync("document.getElementsByClassName('forgot_password_link')[0].click()");
             }
             if (html.Contains("loginUsername"))
             {
@@ -652,11 +656,19 @@ namespace EmbeddedBrowser
                 Thread.Sleep(1000);
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('submit').click()");
             }
+
+            var Result = GetLoggedInPageSource();
+
+            if (!string.IsNullOrEmpty(Result) && Result.Contains("'User_Logged_In', 'Yes'") || Result.Contains("logged_in"))
+            {
+                LoadPostPage(true);
+            }
         }
         private void LoadPostPage(bool isLoggedIn)
         {
             if (isLoggedIn)
             {
+
                 Browser.Load(TargetUrl);
             }
         }
