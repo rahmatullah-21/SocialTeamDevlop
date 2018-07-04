@@ -6,10 +6,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.SocioPublisher;
+using EmbeddedBrowser;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -28,7 +31,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand ExportCommand { get; set; }
         public ICommand PublishedDetailsCommand { get; set; }
         public ICommand ReportCommand { get; set; }
-        public ICommand ExportSelectedCommand { get; set; }
 
         #endregion
 
@@ -163,6 +165,59 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
       
 
+
+    }
+
+    public class PublishedPostDetailsViewModel:BindableBase
+    {
+        public PublishedPostDetailsViewModel()
+        {
+            ViewInBrowserCommand= new BaseCommand<object>(ViewInBrowserCanExecute, ViewInBrowserExecute);
+        }
+
+
+        #region Command
+
+        public ICommand ViewInBrowserCommand { get; set; } 
+
+        #endregion
+
+        #region Properties
+
+        private PublisherPostlistModel _publisherPostlist = new PublisherPostlistModel();
+
+        public PublisherPostlistModel PublisherPostlist
+        {
+            get
+            {
+                return _publisherPostlist;
+            }
+            set
+            {
+
+                if (value == _publisherPostlist)
+                    return;
+                SetProperty(ref _publisherPostlist, value);
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void ViewInBrowserExecute(object sender)
+        {
+            var currentPost = (PublishedPostDetailsModel) sender;
+          var dominatorAccountModel =  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social).DominatorAccountViewModel
+                .LstDominatorAccountModel.FirstOrDefault(x => x.AccountId == currentPost.AccountId);
+            BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link);
+            browserWindow.Show();
+        }
+
+        private bool ViewInBrowserCanExecute(object sender) => true;
+
+
+        #endregion
 
     }
 }
