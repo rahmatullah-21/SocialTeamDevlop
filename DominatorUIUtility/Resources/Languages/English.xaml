@@ -2702,6 +2702,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyStopSendingFriendRequestsWhenReached">Stop Sending Friend Requests When Reached</system:String>
     <system:String x:Key="LangKeyStopUnJoinTool">Stop Unjoin Tool</system:String>
     <system:String x:Key="LangKeyStopUnjoinAndStartJoinTool">Stop Unjoin And Start Join Tool</system:String>
-
+    <system:String x:Key="LangKeyFilterByNetwork">Filter By Network</system:String>
+    <system:String x:Key="LangKeyFilterByActivityType">Filter By Activity Type</system:String>
+    <system:String x:Key="LangKeyActivityType">Activity Type</system:String>
 
 </ResourceDictionary>
