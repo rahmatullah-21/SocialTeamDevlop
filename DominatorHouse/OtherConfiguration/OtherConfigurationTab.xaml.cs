@@ -35,11 +35,11 @@ namespace Socinator.Social.OtherConfiguration
                     Title =FindResource("LangKeySoftwareSettings").ToString(),
                    Content = new Lazy<UserControl>(SoftwareSettings.GetSingeltonObjectSoftwareSettings)
                 },
-                //new TabItemTemplates
-                //{
-                //    Title=FindResource("DHlangEmbeddedBrowserSettings").ToString(),
-                //  Content = new Lazy<UserControl>(EmbeddedBrowserSettings.GetSingeltonObjectEmbeddedBrowserSettings)
-                //},
+                new TabItemTemplates
+                {
+                    Title=FindResource("LangKeyMacroS").ToString(),
+                  Content = new Lazy<UserControl>(SocinatorMacros.GetSingeltonSocinatorMacros)
+                },
                 //new TabItemTemplates
                 //{
                 //    Title=FindResource("langFacebook").ToString(),

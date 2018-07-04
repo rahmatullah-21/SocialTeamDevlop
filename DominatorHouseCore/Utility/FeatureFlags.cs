@@ -30,10 +30,10 @@ namespace DominatorHouseCore.Utility
             return value;
         }
 
-        public static bool Check(string key) => Instance[key];
+        public static bool Check(string key) => Instance.ContainsKey(key);
 
         
         public static Visibility Check(SocialNetworks network) 
-            => Instance[network.ToString()] ? Visibility.Visible : Visibility.Collapsed;
+            => Instance.ContainsKey(network.ToString())? Visibility.Visible : Visibility.Collapsed;
     }
 }

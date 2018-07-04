@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
@@ -24,51 +25,104 @@ namespace DominatorUIUtility.Views.Publisher
         public CampaignsAdvanceSetting()
         {
             InitializeComponent();
-
-            var TabItems = new List<TabItemTemplates>
-            {
-                new TabItemTemplates
+            var tabItems = new List<TabItemTemplates> { new TabItemTemplates
                 {
                     Title=FindResource("LangKeyGeneral").ToString(),
                     Content=new Lazy<UserControl>(General.GetSingeltonGeneralObject)
-                },
-                new TabItemTemplates
+                } };
+
+            #region Facebook
+
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
+            {
+                tabItems.Add(new TabItemTemplates
                 {
-                    Title=FindResource("LangKeyFacebook").ToString(),
-                    Content=new Lazy<UserControl>(Facebook.GetSingeltonFacebookObject)
-                },
-                new TabItemTemplates
+                    Title = FindResource("LangKeyFacebook").ToString(),
+                    Content = new Lazy<UserControl>(Facebook.GetSingeltonFacebookObject)
+                });
+            }
+
+            #endregion
+
+            #region Gplus
+
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Gplus))
+            {
+                tabItems.Add(new TabItemTemplates
                 {
-                    Title=FindResource("LangKeyGoogle+").ToString(),
-                    Content=new Lazy<UserControl>(GooglePlus.GetSingeltonGooglePlusObject)
-                },
-                new TabItemTemplates
+                    Title = FindResource("LangKeyGoogle+").ToString(),
+                    Content = new Lazy<UserControl>(GooglePlus.GetSingeltonGooglePlusObject)
+                });
+            }
+
+            #endregion
+
+            #region Pinterest
+
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Pinterest))
+            {
+                tabItems.Add(new TabItemTemplates
                 {
-                    Title=FindResource("LangKeyPinterest").ToString(),
-                    Content=new Lazy<UserControl>(Pinterest.GetSingeltonPinterestObject)
-                },
-                new TabItemTemplates
+                    Title = FindResource("LangKeyPinterest").ToString(),
+                    Content = new Lazy<UserControl>(Pinterest.GetSingeltonPinterestObject)
+                });
+            }
+
+            #endregion
+
+            #region Twitter
+
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Twitter))
+            {
+                tabItems.Add(new TabItemTemplates
                 {
-                    Title=FindResource("LangKeyTwitter").ToString(),
-                    Content=new Lazy<UserControl>(Twitter.GetSingletonTwitterObject)
-                },
-                new TabItemTemplates
+                    Title = FindResource("LangKeyTwitter").ToString(),
+                    Content = new Lazy<UserControl>(Twitter.GetSingletonTwitterObject)
+                });
+            }
+
+            #endregion
+
+            #region Instagram
+
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Instagram))
+            {
+                tabItems.Add(new TabItemTemplates
                 {
-                    Title=FindResource("LangKeyInstagram").ToString(),
-                    Content=new Lazy<UserControl>(Instagram.GetSingeltonInstagramObject)
-                } ,
-                new TabItemTemplates
+                    Title = FindResource("LangKeyInstagram").ToString(),
+                    Content = new Lazy<UserControl>(Instagram.GetSingeltonInstagramObject)
+                });
+            }
+
+            #endregion
+
+            #region Tumblr
+
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Tumblr))
+            {
+                tabItems.Add(new TabItemTemplates
                 {
-                    Title=FindResource("LangKeyTumblr").ToString(),
-                    Content=new Lazy<UserControl>(Tumblr.GetSingeltonTumblr)
-                },
-                new TabItemTemplates
+                    Title = FindResource("LangKeyTumblr").ToString(),
+                    Content = new Lazy<UserControl>(Tumblr.GetSingeltonTumblr)
+                });
+            }
+
+            #endregion
+
+            #region Reddit
+
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Reddit))
+            {
+                tabItems.Add(new TabItemTemplates
                 {
-                    Title=FindResource("LangKeyReddit").ToString(),
-                    Content=new Lazy<UserControl>(Reddit.GetSingeltonRedditObject)
-                }
-            };
-            CampaignsAdvanceSettingTab.ItemsSource = TabItems;
+                    Title = FindResource("LangKeyReddit").ToString(),
+                    Content = new Lazy<UserControl>(Reddit.GetSingeltonRedditObject)
+                });
+            }
+
+            #endregion
+
+            CampaignsAdvanceSettingTab.ItemsSource = tabItems;
             AdvanceSetting = new AdvanceSetting();
         }
 

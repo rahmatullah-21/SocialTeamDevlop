@@ -83,6 +83,12 @@ namespace DominatorHouseCore.Process
 
                                 destinationDetails?.AccountsWithNetwork.ForEach(networkWithAccount =>
                                 {
+                                    if (!SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
+                                    {
+                                        GlobusLogHelper.log.Info($"You don't have a permission to run with {networkWithAccount.Key} network, please purchase !");
+                                        return;
+                                    }
+
                                     var selectedGroupDestinations = new List<string>();
                                     var selectedPageOrBoardDestinations = new List<string>();
                                     var selectedCustomDestinations = new List<PublisherCustomDestinationModel>();
@@ -204,6 +210,12 @@ namespace DominatorHouseCore.Process
 
                                 destinationDetails?.AccountsWithNetwork.ForEach(networkWithAccount =>
                                 {
+                                    if (!SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
+                                    {
+                                        GlobusLogHelper.log.Info($"You don't have a permission to run with {networkWithAccount.Key} network, please purchase !");
+                                        return;
+                                    }
+
                                     var selectedGroupDestinations = new List<string>();
                                     var selectedPageOrBoardDestinations = new List<string>();
                                     var selectedCustomDestinations = new List<PublisherCustomDestinationModel>();
@@ -339,7 +351,7 @@ namespace DominatorHouseCore.Process
                     #region publish on all destination with single post
 
                     var deletedDestinationCount = 0;
-                   
+
                     publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                                {
                                    try
@@ -351,15 +363,21 @@ namespace DominatorHouseCore.Process
 
                                        destinationDetails?.AccountsWithNetwork.ForEach(networkWithAccount =>
                                        {
+                                           if (!SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
+                                           {
+                                               GlobusLogHelper.log.Info($"You don't have a permission to run with {networkWithAccount.Key} network, please purchase !");
+                                               return;
+                                           }
+
                                            var selectedGroupDestinations =
                                                destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
 
                                            var selectedPageOrBoardDestinations =
                                                destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
-                                        
+
                                            var selectedCustomDestinations =
                                                destinationDetails.CustomDestinations.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
-                                          
+
                                            var isPublishOnOwnWall =
                                                destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
 
@@ -423,7 +441,7 @@ namespace DominatorHouseCore.Process
             }
         }
 
-        public static void StartPublishingPosts(PublisherPostlistModel post)
+        public static void StartPublishingPosts(PublisherPostlistModel post, Action startAction)
         {
             try
             {
@@ -462,6 +480,12 @@ namespace DominatorHouseCore.Process
 
                     destinationDetails?.AccountsWithNetwork.ForEach(networkWithAccount =>
                     {
+                        if (!SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
+                        {
+                            GlobusLogHelper.log.Info($"You don't have a permission to run with {networkWithAccount.Key} network, please purchase !");
+                            return;
+                        }
+                           
                         var selectedGroupDestinations =
                             destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
 
@@ -478,6 +502,7 @@ namespace DominatorHouseCore.Process
                             selectedPageOrBoardDestinations.Count > 0 ||
                             selectedGroupDestinations.Count > 0 || isPublishOnOwnWall)
                         {
+                            startAction.Invoke();
 
                             var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
                                 .GetPublisherCoreFactory()

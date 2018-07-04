@@ -33,6 +33,7 @@ using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
+using DominatorUIUtility.Views.SocioPublisher;
 using EmbeddedBrowser;
 // using EmbeddedBrowser;
 using FluentScheduler;
@@ -425,6 +426,10 @@ namespace Socinator
                 if (textBlockDetails.Text == FindResource("LangKeyAccountsManager").ToString())
                 {
                     AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl= AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+                }
+                if (textBlockDetails.Text == FindResource("LangKeySociopublisher").ToString())
+                {
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl= PublisherDefaultPage.Instance();
                 }
             }
             catch (Exception ex)

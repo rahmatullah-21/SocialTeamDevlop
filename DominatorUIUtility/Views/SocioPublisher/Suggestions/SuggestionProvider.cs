@@ -17,6 +17,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
 
         public IEnumerable GetSuggestions(string filter)
         {
+            SocinatorInitialize.InitializeMacros();
+            ListOfMacros = SocinatorInitialize.Macros;
+
             if (string.IsNullOrEmpty(filter))
                 return null;
 
@@ -24,39 +27,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
                 return null;
 
             return ListOfMacros.Where(x => x.Key.ToLower().Contains(filter.ToLower()));
-        }
-
-        public SuggestionProvider()
-        {
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Hello}", Value = "Hello" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Globussoft}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{DotNet}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Android}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Hello}", Value = "Hello" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Globussoft}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{DotNet}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Android}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Hello}", Value = "Hello" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Globussoft}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{DotNet}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Hello}", Value = "Hello" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Globussoft}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{DotNet}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Android}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Hello}", Value = "Hello" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Globussoft}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{DotNet}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Android}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Hello}", Value = "Hello" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Globussoft}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{DotNet}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Android}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Android}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Hello}", Value = "Hello" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Globussoft}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{DotNet}", Value = "Globussoft" });
-            SocinatorInitialize.Macros.Add(new SocinatorIntellisenseModel { Key = "{Android}", Value = "Globussoft" });
-            ListOfMacros = SocinatorInitialize.Macros;
         }
     }
 }

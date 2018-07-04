@@ -183,6 +183,8 @@ namespace DominatorHouseCore.Utility
 
         public static string GetPublisherPostFetchFile => GetOtherDir() + "\\PublisherPostFetcherDetails.bin";
 
+        public static string GetMacroDetails => GetOtherDir() + "\\SocinatorMacros.bin";
+
         public static string GetPublishedSuccessDetails => GetOtherDir() + "\\PublishedSuccessDetails.bin";
 
         public static  string GetDeletePublisherPostModel => GetOtherDir() + "\\PublisherDeletionPosts.bin";
@@ -190,6 +192,8 @@ namespace DominatorHouseCore.Utility
         public static string Yes { get; set; } = "Yes";
 
         public static string No { get; set; } = "No";
+
+        public static string NoError { get; set; } = "No Error!";
 
         public static string NotPublished { get; set; } = "Not Published Yet";
 

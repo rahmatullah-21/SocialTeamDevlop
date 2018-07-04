@@ -31,10 +31,14 @@ namespace DominatorHouseCore.Diagnostics
         private static Dictionary<SocialNetworks, INetworkCollectionFactory> RegisteredNetworks { get; } =
             new Dictionary<SocialNetworks, INetworkCollectionFactory>();
 
+        public static string RegisteredUserName { get; set; } = string.Empty;
 
         public static int MaximumAccountCount { get; set; } = 10000;
 
         public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();
+
+        public static bool IsNetworkAvailable(SocialNetworks network)
+            => AvailableNetworks.Contains(network);
 
         public static HashSet<SocinatorIntellisenseModel> Macros { get; set; } = new HashSet<SocinatorIntellisenseModel>();
 
@@ -178,7 +182,7 @@ namespace DominatorHouseCore.Diagnostics
                                     var networkSplit = Regex.Split(tokenString, "},");
 
                                     MaximumAccountCount = 10000;
-                                                                      
+
                                     foreach (var networkValues in networkSplit)
                                     {
                                         try
@@ -210,8 +214,6 @@ namespace DominatorHouseCore.Diagnostics
                             MaximumAccountCount = 0;
                         }
                     }
-
-
                     #endregion
 
                     #region Invididual Networks
@@ -221,9 +223,9 @@ namespace DominatorHouseCore.Diagnostics
                         try
                         {
                             AvailableNetworks.Clear();
-                            FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, {"Social", true}};
+                            FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, { "Social", true } };
                             AvailableNetworks.Add(SocialNetworks.Social);
-                         
+
                             var itemTitleDescription = arrayInvoiceItems["item_description"].ToString();
                             itemTitleDescription = itemTitleDescription.Replace("Marketing Software", string.Empty).Trim();
                             var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), itemTitleDescription);
@@ -239,6 +241,9 @@ namespace DominatorHouseCore.Diagnostics
                     }
 
                     #endregion
+
+                    AvailableNetworks.Add(SocialNetworks.Facebook);
+                    FeatureFlags.Instance.Add(SocialNetworks.Facebook.ToString(), true);
 
                     return AvailableNetworks;
                 }
@@ -258,6 +263,23 @@ namespace DominatorHouseCore.Diagnostics
                 ex.DebugLog();
             }
             return AvailableNetworks;
+        }
+
+        public static void InitializeMacros()
+        {
+            try
+            {
+                var macros = GenericFileManager.GetModuleDetails<SocinatorIntellisenseModel>(ConstantVariable.GetMacroDetails);
+                Macros.Clear();
+                macros?.ForEach(macro =>
+                {                    
+                        Macros.Add(new SocinatorIntellisenseModel { Key = @"{" + macro.Key + @"}", Value = macro.Value });
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private static async Task<HashSet<SocialNetworks>> SetAllLicensedSocialNetworks(string code, string license, string macId)
@@ -329,7 +351,7 @@ namespace DominatorHouseCore.Diagnostics
                         using (var streamReader = new StreamReader(licenseDetails))
                         {
                             string invoice;
-                            var availbleNetworkResponse = streamReader.ReadToEnd();
+                            var availbleNetworkResponse = streamReader.ReadToEnd();                          
                             var invoiceNumber = JObject.Parse(availbleNetworkResponse)["invoice_id"].ToString();
                             var invoiceDetails = await GetInvoiceDetails(license, invoiceNumber);
                             using (var invoiceStream = new StreamReader(invoiceDetails))
@@ -378,11 +400,13 @@ namespace DominatorHouseCore.Diagnostics
             var url = $"https://socinator.com/amember/softsale/api/activate?key={license}&request[hardware-id]={macId}";
             return await HttpHelper.GetResponseStreamAsync(url);
         }
+
         private static async Task<Stream> DeActivateLicense(string license, string macId)
         {
             var url = $"https://socinator.com/amember/softsale/api/deactivate?key={license}&request[hardware-id]={macId}";
             return await HttpHelper.GetResponseStreamAsync(url);
         }
+
         public static string GetMacId()
         {
             var macAddresses = string.Empty;
