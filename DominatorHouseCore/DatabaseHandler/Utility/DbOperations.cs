@@ -129,7 +129,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 _context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
