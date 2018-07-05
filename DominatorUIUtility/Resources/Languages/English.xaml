@@ -2739,10 +2739,10 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyStoppedCurrentJobTo">Stopped Current Job To</system:String>
     <system:String x:Key="LangKeyAs">As</system:String>
     <system:String x:Key="LangKeySuccessfullySaved">Successfully Saved</system:String>
-    <system:String x:Key="LangKeySuccessfullyDeleted.">Successfully Deleted.</system:String>
-    <system:String x:Key="LangKeySuccessfullyUpdated.">Successfully Updated.</system:String>
-    <system:String x:Key="LangKeySuccessfullyPaused.">Successfully Paused.</system:String>
-    <system:String x:Key="LangKeyActivatedSuccessfully.">Activated Successfully.</system:String>
+  
+    <system:String x:Key="LangKeySuccessfullyUpdated">Successfully Updated.</system:String>
+    <system:String x:Key="LangKeySuccessfullyPaused">Successfully Paused.</system:String>
+    <system:String x:Key="LangKeyActivatedSuccessfully">Activated Successfully.</system:String>
     <system:String x:Key="LangKeyStarted">Started</system:String>
     <system:String x:Key="LangKeySynchronization">Synchronization</system:String>
     <system:String x:Key="LangKeySuccessfullyAdded">Successfully Added</system:String>
@@ -2766,7 +2766,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyIsCompleted">Is Completed</system:String>
     <system:String x:Key="LangKeyAppliedFilterTo">Applied Filter To</system:String>
     <system:String x:Key="LangKeySearchResults">Search Results</system:String>
-    <system:String x:Key="LangKeyScrapetypeToActivity.">Scrapetype To Activity.</system:String>
+    <system:String x:Key="LangKeyScrapetypeToActivity">Scrapetype To Activity.</system:String>
     <system:String x:Key="LangKeyRemoved">Removed</system:String>
     <system:String x:Key="LangKeyUsersBelongingToBlacklistToProcess">Users Belonging To Blacklist To Process</system:String>
     <system:String x:Key="LangKeyToBlacklist">To Blacklist</system:String>
@@ -2784,14 +2784,14 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyStoppedProcessTo">Stopped Process To</system:String>
     <system:String x:Key="LangKeySuccessfullyDeleted">Successfully Deleted</system:String>
     <system:String x:Key="LangKeySuccessfullyExported">Successfully Exported</system:String>
-    <system:String x:Key="LangKeyHavingIssuesToAdd!">Having Issues To Add!</system:String>
-    <system:String x:Key="LangKeyAlreadyAdded!">Already Added!</system:String>
-    <system:String x:Key="LangKeyAlreadyStopped!">Already Stopped!</system:String>
-    <system:String x:Key="LangKeyAlreadyStarted!">Already Started!</system:String>
-    <system:String x:Key="LangKeyStoppedForFurtherFriendshipUpdate!">Stopped For Further Friendship Update!</system:String>
+    <system:String x:Key="LangKeyHavingIssuesToAdd">Having Issues To Add!</system:String>
+    <system:String x:Key="LangKeyAlreadyAdded">Already Added!</system:String>
+    <system:String x:Key="LangKeyAlreadyStopped">Already Stopped!</system:String>
+    <system:String x:Key="LangKeyAlreadyStarted">Already Started!</system:String>
+    <system:String x:Key="LangKeyStoppedForFurtherFriendshipUpdate">Stopped For Further Friendship Update!</system:String>
     <system:String x:Key="LangKeyPublishingStartedWith">Publishing Started With</system:String>
     <system:String x:Key="LangKeyNextPostWillStartPublishingIn">Next Post Will Start Publishing In</system:String>
-    <system:String x:Key="LangKeyPostHasAlreadyPostedOnOwnWall/Profile">Post Has Already Posted On Own Wall/Profile</system:String>
+    <system:String x:Key="LangKeyPostHasAlreadyPostedOnOwnWallProfile">Post Has Already Posted On Own Wall/Profile</system:String>
     <system:String x:Key="LangKeyPostHasAlreadyPostedWithDestintion">Post Has Already Posted With Destintion</system:String>
     <system:String x:Key="LangKeyPostAlreadyExpired">Post Already Expired</system:String>
     <system:String x:Key="LangKeyPublishedSuccessfullyOn">Published Successfully On</system:String>
@@ -2802,7 +2802,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySuccessfullyUploadedMediaFile">Successfully Uploaded Media File</system:String>
     <system:String x:Key="LangKeyErrorWhileUploadingMediaFile">Error While Uploading Media File</system:String>
     <system:String x:Key="LangKeyFailedDueTo">Failed Due To</system:String>
-
+    <system:String x:Key="LangKeyAccountCampaignName">Account Name/Campaign Name</system:String>
 
     <!-- End Log Constants -->
 </ResourceDictionary>

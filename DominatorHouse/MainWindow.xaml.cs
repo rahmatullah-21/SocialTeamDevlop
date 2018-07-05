@@ -284,7 +284,7 @@ namespace Socinator
             GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (logLevel == LogLevel.Info || logLevel == LogLevel.Warn)
+                if (logLevel == LogLevel.Info)
                     LoggerCollection.Filter += FilterByInfo;
                 else
                     LoggerCollection.Filter += FilterByError;
@@ -449,7 +449,7 @@ namespace Socinator
                 }
                 if (textBlockDetails.Text == FindResource("LangKeySociopublisher").ToString())
                 {
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl= PublisherDefaultPage.Instance();
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherDefaultPage.Instance();
                 }
             }
             catch (Exception ex)
@@ -815,16 +815,16 @@ namespace Socinator
                 ex.DebugLog();
                 return false;
             }
-          
+
         }
         private bool FilterByNetwork(object sender)
         {
             try
             {
                 var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
-                var type = (selectedTab == "Info" || selectedTab == "Warn") ? "Info" : "Error";
+                var type = (selectedTab == "Info") ? "Info" : "Error";
                 var logger = sender as LoggerModel;
-              
+
                 return logger?.Network.IndexOf(CmbAvailableNetworks.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0
                     && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
@@ -833,7 +833,7 @@ namespace Socinator
                 ex.DebugLog();
                 return false;
             }
-           
+
         }
 
         private bool FilterByInfo(object sender)
@@ -841,7 +841,7 @@ namespace Socinator
             try
             {
                 var logger = sender as LoggerModel;
-                return logger?.LogType.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) >= 0 || logger?.LogType.IndexOf("Warn", StringComparison.InvariantCultureIgnoreCase) >= 0;
+                return logger?.LogType.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
             catch (Exception ex)
             {
@@ -856,7 +856,7 @@ namespace Socinator
             try
             {
                 var logger = sender as LoggerModel;
-                return logger?.LogType.IndexOf("Error", StringComparison.InvariantCultureIgnoreCase) >= 0;
+                return logger?.LogType.IndexOf("Error", StringComparison.InvariantCultureIgnoreCase) >= 0 || logger?.LogType.IndexOf("Warn", StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
             catch (Exception ex)
             {
@@ -919,7 +919,7 @@ namespace Socinator
                     try
                     {
                         var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
-                        if (selectedTab?.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) == 0 || selectedTab?.IndexOf("Warn", StringComparison.InvariantCultureIgnoreCase) == 0)
+                        if (selectedTab?.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) == 0)
                         {
                             LoggerCollection.Filter += FilterByInfo;
                         }
@@ -945,14 +945,21 @@ namespace Socinator
         private void CopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
-           
+
         }
 
         private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            ListView lb = (ListView)(sender);
-            var message = (lb.SelectedItem as LoggerModel).Message;
-            if (!string.IsNullOrEmpty(message)) Clipboard.SetText(message);
+            try
+            {
+                ListView lb = (ListView)(sender);
+                var message = (lb?.SelectedItem as LoggerModel).Message;
+                if (!string.IsNullOrEmpty(message)) Clipboard.SetText(message);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
     }
 }

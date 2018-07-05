@@ -5,6 +5,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 
 namespace DominatorHouseCore.LogHelper
@@ -96,7 +97,6 @@ namespace DominatorHouseCore.LogHelper
                 if (lstLoggerModels.Count > 1000)
                     lstLoggerModels.RemoveAt(lstLoggerModels.Count - 1);
 
-                #region Split by comma
 
                 var messages = message.Split('\t');
 
@@ -104,14 +104,13 @@ namespace DominatorHouseCore.LogHelper
                 {
                     DateTime = DateTime.Now,
                     Network = messages[0],
-                    Account = messages[1],
+                    AccountCampaign = messages[1],
                     ActivityType = messages[2],
                     Message = messages[3],
+                    MessageCode = messages[4],
                     LogType = logLevel.ToString()
 
                 };
-
-                #endregion
 
                 Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
             }
@@ -121,10 +120,11 @@ namespace DominatorHouseCore.LogHelper
                 {
                     var log = new LoggerModel
                     {
+                        Network = SocialNetworks.Social.ToString(),
                         DateTime = DateTime.Now,
                         Message = message,
                     };
-                    Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log)); 
+                    Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
                 }
                 ex.DebugLog();
             }

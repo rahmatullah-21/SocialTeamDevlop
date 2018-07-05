@@ -47,16 +47,16 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _activityType, value);
             }
         }
-        private string _account;
+        private string _accountCampaign;
 
-        public string Account
+        public string AccountCampaign
         {
-            get { return _account; }
+            get { return _accountCampaign; }
             set
             {
-                if (_account != null && value == _account)
+                if (_accountCampaign != null && value == _accountCampaign)
                     return;
-                SetProperty(ref _account, value);
+                SetProperty(ref _accountCampaign, value);
             }
         }
         private string _message;

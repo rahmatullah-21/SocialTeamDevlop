@@ -264,8 +264,14 @@
     <Compile Include="CustomControl\ManageComment.xaml.cs">
       <DependentUpon>ManageComment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\ManageMediaMessages.xaml.cs">
+      <DependentUpon>ManageMediaMessages.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\ManageMessages.xaml.cs">
       <DependentUpon>ManageMessages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\MessageMediaControl.xaml.cs">
+      <DependentUpon>MessageMediaControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\MessagesControl.xaml.cs">
       <DependentUpon>MessagesControl.xaml</DependentUpon>
@@ -617,9 +623,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="CustomControl\ManageMediaMessages.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CustomControl\ManageMessages.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\MessageMediaControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\MessagesControl.xaml">
       <Generator>MSBuild:Compile</Generator>
