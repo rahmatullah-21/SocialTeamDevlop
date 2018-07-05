@@ -117,6 +117,15 @@ namespace DominatorHouseCore.LogHelper
             }
             catch (Exception ex)
             {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    var log = new LoggerModel
+                    {
+                        DateTime = DateTime.Now,
+                        Message = message,
+                    };
+                    Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log)); 
+                }
                 ex.DebugLog();
             }
 
