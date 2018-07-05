@@ -39,8 +39,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ActiveSelectedCampaignCommand = new BaseCommand<object>(ActiveSelectedCampaignCanExecute, ActiveSelectedCampaignExecute);
             PauseSelectedCampaignCommand = new BaseCommand<object>(PauseSelectedCampaignCanExecute, PauseSelectedCampaignExecute);
             PublishNowSelectedCampaignCommand = new BaseCommand<object>(PublishNowSelectedCampaignCanExecute, PublishNowSelectedCampaignExecute);
-            InitializeDefaultCampaignStatus();
-            IsAllCampaignSelected = true;
+            InitializeDefaultCampaignStatus();           
         }
 
         #region Command

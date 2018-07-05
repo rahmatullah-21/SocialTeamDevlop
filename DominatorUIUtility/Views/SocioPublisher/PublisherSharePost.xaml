@@ -5,10 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              mc:Ignorable="d" 
-             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:FeatureVisibilityConverter x:Key="FeatureVisibilityConverter" />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical" Name="MainGrid">
         <StackPanel Orientation="Vertical">
@@ -19,7 +22,7 @@
         </StackPanel>
 
 
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" Visibility="{Binding Source={x:Static enums:SocialNetworks.Facebook},Converter={StaticResource FeatureVisibilityConverter}}">
             <CheckBox Margin="2" Content="{DynamicResource LangKeySharePostsFromFacebookPages}" IsChecked="{Binding SharePostModel.IsShareFdPagePost}" />
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPageUrl}"
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"

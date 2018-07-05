@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Utility
 {
@@ -618,6 +620,16 @@ namespace DominatorHouseCore.Utility
 
             var extension = System.IO.Path.GetExtension(filePath);
             return GetMimeType(extension);
+        }
+
+
+        public static byte[] GetImageBytesFromUrl(string url)
+        {
+            using (var webClient = new WebClient())
+            {
+                var buffer = webClient.DownloadData(url);
+                return buffer;
+            }
         }
     }
 }

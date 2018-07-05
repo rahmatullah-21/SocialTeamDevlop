@@ -36,6 +36,7 @@ using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
+using DominatorUIUtility.Views.SocioPublisher;
 using EmbeddedBrowser;
 // using EmbeddedBrowser;
 using FluentScheduler;
@@ -446,6 +447,10 @@ namespace Socinator
                 {
                     AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
                 }
+                if (textBlockDetails.Text == FindResource("LangKeySociopublisher").ToString())
+                {
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl= PublisherDefaultPage.Instance();
+                }
             }
             catch (Exception ex)
             {
@@ -457,8 +462,8 @@ namespace Socinator
 
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (MainGrid.RowDefinitions[2].Height.Value <= 200 && MainGrid.RowDefinitions[2].Height.Value > 25)
-                MainGrid.RowDefinitions[2].Height = new GridLength(25);
+            if (MainGrid.RowDefinitions[2].Height.Value <= 200 && MainGrid.RowDefinitions[2].Height.Value > 45)
+                MainGrid.RowDefinitions[2].Height = new GridLength(45);
             else
                 MainGrid.RowDefinitions[2].Height = new GridLength(200);
         }
@@ -803,13 +808,14 @@ namespace Socinator
             try
             {
                 var logger = sender as LoggerModel;
-                return logger?.ActivityType.IndexOf(CmbActivityType.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0;
+                return logger?.ActivityType?.IndexOf(CmbActivityType.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
+                return false;
             }
-            return true;
+          
         }
         private bool FilterByNetwork(object sender)
         {
@@ -818,8 +824,7 @@ namespace Socinator
                 var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
                 var type = (selectedTab == "Info" || selectedTab == "Warn") ? "Info" : "Error";
                 var logger = sender as LoggerModel;
-                var v = logger?.Network.IndexOf(CmbAvailableNetworks.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0;
-
+              
                 return logger?.Network.IndexOf(CmbAvailableNetworks.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0
                     && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
@@ -828,7 +833,7 @@ namespace Socinator
                 ex.DebugLog();
                 return false;
             }
-            return false;
+           
         }
 
         private bool FilterByInfo(object sender)

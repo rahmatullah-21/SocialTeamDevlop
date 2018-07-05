@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,8 +15,6 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
-using FluentScheduler;
-using ProtoBuf;
 
 namespace DominatorHouseCore.Process
 {
@@ -161,7 +158,7 @@ namespace DominatorHouseCore.Process
 
                     foreach (var groupUrl in GroupDestinationList)
                     {
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         if (isReachedMaximumCount)
@@ -186,7 +183,7 @@ namespace DominatorHouseCore.Process
 
                         PublishedCount++;
 
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         PublishOnGroups(AccountModel.AccountId, groupUrl, post, !isReachedMaximumCount);
@@ -202,7 +199,7 @@ namespace DominatorHouseCore.Process
 
                     foreach (var pageUrl in PageDestinationList)
                     {
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         if (isReachedMaximumCount)
@@ -227,7 +224,7 @@ namespace DominatorHouseCore.Process
 
                         PublishedCount++;
 
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         PublishOnPages(AccountModel.AccountId, pageUrl, post, !isReachedMaximumCount);
@@ -243,7 +240,7 @@ namespace DominatorHouseCore.Process
 
                     foreach (var customList in CustomDestinationList)
                     {
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         if (isReachedMaximumCount)
@@ -269,7 +266,7 @@ namespace DominatorHouseCore.Process
 
                         PublishedCount++;
 
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         PublishOnCustomDestination(AccountModel.AccountId, customList, post,
@@ -326,7 +323,7 @@ namespace DominatorHouseCore.Process
 
                             PublishedCount++;
 
-                            if (PublishedCount > maximumPostCount)
+                            if (PublishedCount >= maximumPostCount)
                                 isReachedMaximumCount = true;
 
                             PublishOnGroups(AccountModel.AccountId, destination.Key, post,
@@ -351,7 +348,7 @@ namespace DominatorHouseCore.Process
 
                             PublishedCount++;
 
-                            if (PublishedCount > maximumPostCount)
+                            if (PublishedCount >= maximumPostCount)
                                 isReachedMaximumCount = true;
 
                             PublishOnPages(AccountModel.AccountId, destination.Key, post,
@@ -371,7 +368,7 @@ namespace DominatorHouseCore.Process
 
                     foreach (var customList in CustomDestinationList)
                     {
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         if (isReachedMaximumCount)
@@ -398,7 +395,7 @@ namespace DominatorHouseCore.Process
 
                         PublishedCount++;
 
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         PublishOnCustomDestination(AccountModel.AccountId, customList, post,
@@ -414,7 +411,7 @@ namespace DominatorHouseCore.Process
                 if (IsPublishOnOwnWall)
                 {
 
-                    if (PublishedCount > maximumPostCount)
+                    if (PublishedCount >= maximumPostCount)
                         isReachedMaximumCount = true;
 
                     if (isReachedMaximumCount || isNoPostAvailable)
@@ -435,7 +432,7 @@ namespace DominatorHouseCore.Process
 
                     PublishedCount++;
 
-                    if (PublishedCount > maximumPostCount)
+                    if (PublishedCount >= maximumPostCount)
                         isReachedMaximumCount = true;
 
                     PublishOnOwnWall(AccountModel.AccountId, ownWallpost, !isReachedMaximumCount);
@@ -509,7 +506,7 @@ namespace DominatorHouseCore.Process
                         if (!ValidateNetworkAdvancedSettings(post, "Group", groupUrl, true))
                             continue;
 
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         if (isReachedMaximumCount)
@@ -525,7 +522,7 @@ namespace DominatorHouseCore.Process
 
                         PublishedCount++;
 
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         PublishOnGroups(AccountModel.AccountId, groupUrl, post, !isReachedMaximumCount);
@@ -547,7 +544,7 @@ namespace DominatorHouseCore.Process
                         if (!ValidateNetworkAdvancedSettings(post, "Page", pageUrl, true))
                             continue;
 
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         if (isReachedMaximumCount)
@@ -563,7 +560,7 @@ namespace DominatorHouseCore.Process
 
                         PublishedCount++;
 
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         PublishOnPages(AccountModel.AccountId, pageUrl, post, !isReachedMaximumCount);
@@ -580,7 +577,7 @@ namespace DominatorHouseCore.Process
 
                     foreach (var customList in CustomDestinationList)
                     {
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         if (isReachedMaximumCount)
@@ -601,7 +598,7 @@ namespace DominatorHouseCore.Process
 
                         PublishedCount++;
 
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         PublishOnCustomDestination(AccountModel.AccountId, customList, post, !isReachedMaximumCount);
@@ -652,7 +649,7 @@ namespace DominatorHouseCore.Process
 
                             PublishedCount++;
 
-                            if (PublishedCount > maximumPostCount)
+                            if (PublishedCount >= maximumPostCount)
                                 isReachedMaximumCount = true;
 
                             GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{x.Key}]");
@@ -666,7 +663,7 @@ namespace DominatorHouseCore.Process
 
                             PublishedCount++;
 
-                            if (PublishedCount > maximumPostCount)
+                            if (PublishedCount >= maximumPostCount)
                                 isReachedMaximumCount = true;
 
                             GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{x.Key}]");
@@ -687,7 +684,7 @@ namespace DominatorHouseCore.Process
 
                     foreach (var customList in CustomDestinationList)
                     {
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         if (isReachedMaximumCount)
@@ -708,7 +705,7 @@ namespace DominatorHouseCore.Process
 
                         PublishedCount++;
 
-                        if (PublishedCount > maximumPostCount)
+                        if (PublishedCount >= maximumPostCount)
                             isReachedMaximumCount = true;
 
                         PublishOnCustomDestination(AccountModel.AccountId, customList, post, !isReachedMaximumCount);
@@ -721,7 +718,7 @@ namespace DominatorHouseCore.Process
 
                 if (IsPublishOnOwnWall)
                 {
-                    if (PublishedCount > maximumPostCount)
+                    if (PublishedCount >= maximumPostCount)
                         isReachedMaximumCount = true;
 
                     if (isReachedMaximumCount)
@@ -744,7 +741,7 @@ namespace DominatorHouseCore.Process
 
                     PublishedCount++;
 
-                    if (PublishedCount > maximumPostCount)
+                    if (PublishedCount >= maximumPostCount)
                         isReachedMaximumCount = true;
 
                      PublishOnOwnWall(AccountModel.AccountId, post, false);
@@ -783,11 +780,27 @@ namespace DominatorHouseCore.Process
             post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.Yes;
             post.LstPublishedPostDetailsModels[postIndex].Link = publishedUrl;
             post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
-
+            post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.NoError; 
             PostlistFileManager.UpdatePost(CampaignId, post);
             PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
             GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], ConstantVariable.GetPublishedSuccessDetails);
+        }
+
+
+        public void UpdatePostWithFailed(string destinationUrl, PublisherPostlistModel post, string errorMessage)
+        {
+            var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+
+            if (postIndex == -1)
+                return;
+
+            post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.No;
+            post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = errorMessage;
+            post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
+
+            PostlistFileManager.UpdatePost(CampaignId, post);
+            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
         }
 
 
@@ -980,7 +993,8 @@ namespace DominatorHouseCore.Process
                     Link = ConstantVariable.NotPublished,
                     CampaignId = CampaignId,
                     CampaignName = CampaignName,
-                    AccountId = AccountModel.AccountBaseModel.AccountId
+                    AccountId = AccountModel.AccountBaseModel.AccountId,
+                    ErrorDetails = ConstantVariable.NotPublished,
                 });
 
                 filterPostModel.PostQueuedStatus = PostQueuedStatus.Published;

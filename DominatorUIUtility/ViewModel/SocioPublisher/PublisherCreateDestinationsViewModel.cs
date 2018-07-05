@@ -694,7 +694,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         ? "0" + "/" + publisherCreateDestinationSelectModel.TotalPagesOrBoards
                         : "NA";
 
-                PublisherCreateDestinationModel.ListSelectDestination.Add(publisherCreateDestinationSelectModel);
+                if (SocinatorInitialize.IsNetworkAvailable(x.AccountBaseModel.AccountNetwork))
+                {
+                    PublisherCreateDestinationModel.ListSelectDestination.Add(publisherCreateDestinationSelectModel);
+                }
             });
 
             DestinationCollectionView = CollectionViewSource.GetDefaultView(PublisherCreateDestinationModel.ListSelectDestination);
@@ -973,8 +976,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             AccountId = x.AccountBaseModel.AccountId,
                             AccountName = x.AccountBaseModel.UserName,
                             SocialNetworks = x.AccountBaseModel.AccountNetwork,
-                            IsGroupsAvailable = GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
-                            IsPagesOrBoardsAvailable = BoardsOrPagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
+                            IsGroupsAvailable =
+                                GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
+                            IsPagesOrBoardsAvailable =
+                                BoardsOrPagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                             PublishonOwnWall = false,
                             SelectedGroups = 0,
                             TotalGroups = x.DisplayColumnValue2 ?? 0,
@@ -989,7 +994,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             BoardsOrPagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                                 ? "0" + "/" + publisherCreateDestinationSelectModel.TotalPagesOrBoards
                                 : "NA";
-                        PublisherCreateDestinationModel.ListSelectDestination.Add(publisherCreateDestinationSelectModel);
+                        if (SocinatorInitialize.IsNetworkAvailable(x.AccountBaseModel.AccountNetwork))
+                        {
+                            PublisherCreateDestinationModel.ListSelectDestination.Add(
+                                publisherCreateDestinationSelectModel);
+                        }
                     }
                 });
                 DestinationCollectionView = CollectionViewSource.GetDefaultView(PublisherCreateDestinationModel.ListSelectDestination);

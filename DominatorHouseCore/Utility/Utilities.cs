@@ -256,5 +256,26 @@ namespace DominatorHouseCore.Utility
             return longUrl;
         }
 
+
+        /// <summary>
+        /// Extract integer only value from string
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+
+        public static string GetIntegerOnlyString(string data)
+        {
+            if (data.Contains("null"))
+                return "0";
+
+            return Regex.Replace(data, "[^0-9]+", string.Empty);
+        }
+
+
+        public static string FirstMatchExtractor(string decodedResponse, string pattern)
+        {
+            var match = Regex.Matches(decodedResponse, pattern, RegexOptions.Singleline);
+            return match.Count > 0 ? match[0].Groups[1].ToString() : string.Empty;
+        }
     }
 }

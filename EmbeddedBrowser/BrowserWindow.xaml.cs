@@ -281,11 +281,15 @@ namespace EmbeddedBrowser
 
                 Browser.ExecuteScriptAsync("document.getElementById('u_0_5').click()");
 
-                Browser.LoadingStateChanged -= BrowserOnLoaded;
+                if (string.IsNullOrEmpty(TargetUrl))
+                {
+                    Browser.LoadingStateChanged -= BrowserOnLoaded;
+                    return;
+                }                
             }
-            var Result = GetLoggedInPageSource();
+            var result = GetLoggedInPageSource();
 
-            if (!string.IsNullOrEmpty(Result) && Result.Contains("profile_icon"))
+            if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon"))
             {
                 LoadPostPage(true);
             }
@@ -362,9 +366,9 @@ namespace EmbeddedBrowser
             {
                 SaveCookie();
             }
-            var Result = GetLoggedInPageSource();
+            var result = GetLoggedInPageSource();
 
-            if (!string.IsNullOrEmpty(Result) && Result.Contains("Switch accounts"))
+            if (!string.IsNullOrEmpty(result) && result.Contains("Switch accounts"))
             {
                 LoadPostPage(true);
             }
@@ -389,13 +393,13 @@ namespace EmbeddedBrowser
 
                 }
             }
-            var Result = GetLoggedInPageSource();
+            var result = GetLoggedInPageSource();
 
-            if (!string.IsNullOrEmpty(Result))
+            if (!string.IsNullOrEmpty(result))
             {
-                if (!Result.Contains("LinkedIn: Log In or Sign Up") && !Result.Contains("Be great at what you do") && !Result.Contains("By clicking Join now, you agree to the LinkedIn") && !Result.Contains("Your LinkedIn account has been temporarily restricted"))
+                if (!result.Contains("LinkedIn: Log In or Sign Up") && !result.Contains("Be great at what you do") && !result.Contains("By clicking Join now, you agree to the LinkedIn") && !result.Contains("Your LinkedIn account has been temporarily restricted"))
                 {
-                    if (!Result.Contains("Sign in to LinkedIn") || !Result.Contains("Sign in"))
+                    if (!result.Contains("Sign in to LinkedIn") || !result.Contains("Sign in"))
                     {
                         LoadPostPage(true);
                     }
@@ -466,9 +470,9 @@ namespace EmbeddedBrowser
 
                 }
             }
-            var Result = GetLoggedInPageSource();
+            var result = GetLoggedInPageSource();
 
-            if (!string.IsNullOrEmpty(Result) && Result.Contains("\"isAuth\": true"))
+            if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true"))
             {
                 LoadPostPage(true);
             }
@@ -536,8 +540,8 @@ namespace EmbeddedBrowser
 
             }
 
-            var Result = GetLoggedInPageSource();
-            if (!string.IsNullOrEmpty(Result) && Result.Contains("logged-in"))
+            var result = GetLoggedInPageSource();
+            if (!string.IsNullOrEmpty(result) && result.Contains("logged-in"))
             {
                 LoadPostPage(true);
             }
@@ -561,9 +565,9 @@ namespace EmbeddedBrowser
 
             }
 
-            var Result = GetLoggedInPageSource();
+            var result = GetLoggedInPageSource();
 
-            if (!string.IsNullOrEmpty(Result) && Result.Contains("signout") && Result.Contains("timeline-tweet-box"))
+            if (!string.IsNullOrEmpty(result) && result.Contains("signout") && result.Contains("timeline-tweet-box"))
             {
                 LoadPostPage(true);
             }
@@ -586,9 +590,9 @@ namespace EmbeddedBrowser
 
                 }
 
-                var Result = GetLoggedInPageSource();
+                var result = GetLoggedInPageSource();
 
-                if (!string.IsNullOrEmpty(Result) && Result.Contains("\"logged_in\": true"))
+                if (!string.IsNullOrEmpty(result) && result.Contains("\"logged_in\": true"))
                 {
                     LoadPostPage(true);
                 }
@@ -617,9 +621,9 @@ namespace EmbeddedBrowser
 
             }
 
-            var Result = GetLoggedInPageSource();
+            var result = GetLoggedInPageSource();
 
-            if (Result != null && Result.Contains("Log out") || Result.Contains("logged in"))
+            if (result != null && result.Contains("Log out") || result.Contains("logged in"))
             {
                 LoadPostPage(true);
             }
@@ -657,9 +661,9 @@ namespace EmbeddedBrowser
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('submit').click()");
             }
 
-            var Result = GetLoggedInPageSource();
+            var result = GetLoggedInPageSource();
 
-            if (!string.IsNullOrEmpty(Result) && Result.Contains("'User_Logged_In', 'Yes'") || Result.Contains("logged_in"))
+            if (!string.IsNullOrEmpty(result) && result.Contains("'User_Logged_In', 'Yes'") || result.Contains("logged_in"))
             {
                 LoadPostPage(true);
             }
@@ -668,8 +672,8 @@ namespace EmbeddedBrowser
         {
             if (isLoggedIn)
             {
-
                 Browser.Load(TargetUrl);
+                Browser.LoadingStateChanged -= BrowserOnLoaded;
             }
         }
 

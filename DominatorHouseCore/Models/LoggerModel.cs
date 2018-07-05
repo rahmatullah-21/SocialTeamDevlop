@@ -83,5 +83,17 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _logType, value);
             }
         }
+        private string _messageCode ;
+
+        public string MessageCode
+        {
+            get { return _messageCode; }
+            set
+            {
+                if (_messageCode != null && value == _messageCode)
+                    return;
+                SetProperty(ref _messageCode, value);
+            }
+        }
     }
 }

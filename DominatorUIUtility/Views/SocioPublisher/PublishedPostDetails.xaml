@@ -24,6 +24,7 @@
                     <GridViewColumn Header="{DynamicResource LangKeyPublishedDate}" DisplayMemberBinding="{Binding PublishedDate}"/>
                     <GridViewColumn Header="{DynamicResource LangKeyLink}" DisplayMemberBinding="{Binding Link}"/>
                     <GridViewColumn Header="{DynamicResource LangKeyDestinationURL}" DisplayMemberBinding="{Binding DestinationUrl}"/>
+                    <GridViewColumn Header="{DynamicResource LangKeyErrorDetails}" DisplayMemberBinding="{Binding ErrorDetails}"/>
                     <GridViewColumn  Header="{DynamicResource LangKeyActions}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

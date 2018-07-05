@@ -1,4 +1,7 @@
-﻿namespace DominatorHouseCore.Utility
+﻿using System.Net.Mime;
+using System.Windows;
+
+namespace DominatorHouseCore.Utility
 {
     public static class Log
     {
@@ -304,13 +307,14 @@
         /// 2 = Post Source
         /// </summary>
         public static string UploadingMedia { get; set; } = "{0}\t {1}\t Uploading media file [{2}]";
-        
+
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username  
         /// 2 = Post Source
         /// </summary>
         public static string UploadingMediaSuccessful { get; set; } = "{0}\t {1}\t Successfully uploaded media file [{2}]";
+
 
 
         /// <summary>
