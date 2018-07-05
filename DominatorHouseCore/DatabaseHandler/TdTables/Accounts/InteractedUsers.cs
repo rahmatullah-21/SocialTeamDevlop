@@ -115,6 +115,8 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 
         [Column(Order = 27)]
         public int IsVerified { get; set; }
+        [Column(Order = 28)]
+        public string MediaPath { get; set; }
 
     }
 }
