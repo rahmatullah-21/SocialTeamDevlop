@@ -37,7 +37,20 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _messagesText, value);
             }
         }
-        
+        public string _MediaPath = string.Empty;
+        public string MediaPath
+        {
+            get
+            {
+                return _MediaPath;
+            }
+            set
+            {
+                if (value == _MediaPath)
+                    return;
+                SetProperty(ref _MediaPath, value);
+            }
+        }
 
         public ObservableCollection<QueryContent> SelectedQuery { get; set; } = new ObservableCollection<QueryContent>();
 
