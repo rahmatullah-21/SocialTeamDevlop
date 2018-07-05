@@ -76,7 +76,8 @@ namespace DominatorHouseCore.Diagnostics
                             IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign,
                             IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
                             TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
-                            MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue
+                            MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
+                            IsDeselectUsedDestination = campaigns.IsDeselectUsedDestination
                         };
 
                         ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
@@ -109,7 +110,8 @@ namespace DominatorHouseCore.Diagnostics
                         IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign,
                         IsTakeRandomDestination = campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
                         TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
-                        MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue
+                        MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
+                        IsDeselectUsedDestination = campaigns.IsDeselectUsedDestination
                     };
 
                     GetPostStatus(publisherCampaignStatusModel);

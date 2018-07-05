@@ -38,6 +38,7 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper.UpdateAllPostlists(campaignId,all);
         }
 
+
         public static void UpdatePost(string campaignId, PublisherPostlistModel posts)
         {
             var all = BinFileHelper.GetPublisherPostListModels(campaignId);
@@ -48,7 +49,6 @@ namespace DominatorHouseCore.FileManagers
 
             BinFileHelper.UpdateAllPostlists(campaignId, all);
         }
-
 
 
         public static List<PublisherPostlistModel> GetAll(string campaignId) => BinFileHelper.GetPublisherPostListModels(campaignId);

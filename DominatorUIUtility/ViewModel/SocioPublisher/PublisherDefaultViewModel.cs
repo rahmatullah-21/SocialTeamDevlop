@@ -143,6 +143,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublishScheduler.StopPublishingPosts(x.CampaignId);
                 PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Paused);
                 InitializeDefaultCampaignStatus();
+                GlobusLogHelper.log.Info(Log.PublisherCampaignPaused,x.CampaignName);
             });
         }
 

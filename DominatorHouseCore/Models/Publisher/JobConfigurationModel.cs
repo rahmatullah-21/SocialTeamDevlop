@@ -345,7 +345,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private RangeUtilities _delayBetween = new RangeUtilities();
+        private RangeUtilities _delayBetween = new RangeUtilities(10,30);
         [ProtoMember(30)]
         public RangeUtilities DelayBetween
         {
@@ -362,7 +362,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private RangeUtilities _postRange = new RangeUtilities();
+        private RangeUtilities _postRange = new RangeUtilities(2,4);
         [ProtoMember(31)]
         public RangeUtilities PostRange
         {
@@ -379,7 +379,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private RangeUtilities _delayBetweenPost = new RangeUtilities();
+        private RangeUtilities _delayBetweenPost = new RangeUtilities(10,30);
         [ProtoMember(32)]
         public RangeUtilities DelayBetweenPost
         {

@@ -69,6 +69,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public int MinRandomDestinationPerAccount { get; set; }
 
+        public bool IsDeselectUsedDestination { get; set; }
+
         #endregion
 
 

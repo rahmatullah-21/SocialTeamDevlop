@@ -242,9 +242,6 @@ namespace DominatorHouseCore.Diagnostics
 
                     #endregion
 
-                    AvailableNetworks.Add(SocialNetworks.Facebook);
-                    FeatureFlags.Instance.Add(SocialNetworks.Facebook.ToString(), true);
-
                     return AvailableNetworks;
                 }
                 catch (Exception ex)
@@ -253,10 +250,6 @@ namespace DominatorHouseCore.Diagnostics
                 }
 
                 #endregion
-
-
-
-
             }
             catch (Exception ex)
             {
