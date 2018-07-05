@@ -2711,5 +2711,16 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMacroSList">Macro(S) List</system:String>
     <system:String x:Key="LangKeyErrorDetails">Error Details</system:String>
     <!--Ends Newly Added-->
+    <!--Begins Newly Added on (05/07/2018)-->
+    <system:String x:Key="LangKeyUpvoteFromRandom">Vote from random</system:String>
+    <system:String x:Key="LangKeyPercentageOfSelectedAccounts">% of selected accounts</system:String>
+    <system:String x:Key="LangKeyKeepDelayBetween">Keep delay between</system:String>
+    <system:String x:Key="LangKeySecondsWhenUpvotingSamePost">seconds when voting same post</system:String>
+
+
+    <system:String x:Key="LangKeyFilterByNetwork">Filter By Network</system:String>
+    <system:String x:Key="LangKeyFilterByActivityType">Filter By Activity Type</system:String>
+    <system:String x:Key="LangKeyActivityType">Activity Type</system:String>
+    <!--Ends Newly Added-->
 
 </ResourceDictionary>
