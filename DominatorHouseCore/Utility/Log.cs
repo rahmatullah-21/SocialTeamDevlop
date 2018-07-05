@@ -29,7 +29,7 @@ namespace DominatorHouseCore.Utility
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
         /// </summary>
-        public static string SuccessfulLogin { get; set; } = "{0}\t {1}\t Login successful.";
+        public static string SuccessfulLogin { get; set; } = "{0},{1},{2},Login successful.";
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -285,7 +285,6 @@ namespace DominatorHouseCore.Utility
         /// 3 = Destination Url    
         /// </summary>
         public static string PublishingFailed { get; set; } = "{0}\t {1}\t Error while publishing on {2} [{3}]";
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username   
@@ -318,53 +317,6 @@ namespace DominatorHouseCore.Utility
         public static string UploadingMediaSuccessful { get; set; } = "{0}\t {1}\t Successfully uploaded media file [{2}]";
 
 
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = Account's Username  
-        /// 2 = Post Source
-        /// </summary>
-        public static string UploadingMediaFailed { get; set; } = "{0}\t {1}\t Error while uploading media file [{2}]";
-
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = Account's Username  
-        /// 2 = Failed reason
-        /// </summary>
-        public static string UploadingMediaFailedReason { get; set; } = "{0}\t {1}\t Failed due to {2}";
-
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = Account's Username   
-        /// 2 = Destination type
-        /// 3 = Destination Url    
-        /// </summary>
-        public static string SharedSuccessfully { get; set; } = "{0}\t {1}\t Shared successfully on {2} [{3}]";
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = Account's Username   
-        /// 2 = Destination type
-        /// 3 = Destination Url    
-        /// </summary>
-        public static string ShareFailed { get; set; } = "{0}\t {1}\t Error while sharing on {2} [{3}]";
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = Account's Username  
-        /// 2 = Post Source
-        /// </summary>
-        public static string UploadingMedia { get; set; } = "{0}\t {1}\t Uploading media file [{2}]";
-        
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = Account's Username  
-        /// 2 = Post Source
-        /// </summary>
-        public static string UploadingMediaSuccessful { get; set; } = "{0}\t {1}\t Successfully uploaded media file [{2}]";
-
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -380,7 +332,6 @@ namespace DominatorHouseCore.Utility
         /// 2 = Failed reason
         /// </summary>
         public static string UploadingMediaFailedReason { get; set; } = "{0}\t {1}\t Failed due to {2}";
-
 
     }
 }
