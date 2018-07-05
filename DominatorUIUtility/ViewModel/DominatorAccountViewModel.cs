@@ -353,6 +353,7 @@ namespace DominatorUIUtility.ViewModel
                         var groupname = splitAccount[0];
 
                         var socialNetwork = splitAccount[1];
+                        if (socialNetwork == "AccountNetwork")continue;
                         var username = splitAccount[2];
                         var password = splitAccount[3];
 
@@ -371,6 +372,12 @@ namespace DominatorUIUtility.ViewModel
                                 proxyport = splitAccount[5];
                                 break;
                             case 8:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                proxyusername = splitAccount[6];
+                                proxypassword = splitAccount[7];
+                                break;
+                            case 9:
                                 proxyaddress = splitAccount[4];
                                 proxyport = splitAccount[5];
                                 proxyusername = splitAccount[6];
@@ -1274,7 +1281,7 @@ namespace DominatorUIUtility.ViewModel
             if (string.IsNullOrEmpty(exportPath))
                 return;
 
-            const string header = "AccountNetwok,Username,Password,Account Group,Status,Proxy Address,Proxy Port,Proxy Username,Proxy Password";
+            const string header = "Account Group,AccountNetwork,Username,Password,Status,Proxy Address,Proxy Port,Proxy Username,Proxy Password";
 
             var filename = $"{exportPath}\\AccountExport {ConstantVariable.DateasFileName}.csv";
 
@@ -1289,15 +1296,16 @@ namespace DominatorUIUtility.ViewModel
             {
                 try
                 {
-                    var csvData = account.AccountBaseModel.AccountNetwork + ","
+                    var csvData = 
+                    account.AccountBaseModel.AccountGroup.Content + ","
+                    + account.AccountBaseModel.AccountNetwork + ","
                     + account.AccountBaseModel.UserName + ","
                     + account.AccountBaseModel.Password + ","
-                    + account.AccountBaseModel.AccountGroup.Content + ","
-                    + account.AccountBaseModel.Status + ","
                     + account.AccountBaseModel.AccountProxy.ProxyIp + ","
                     + account.AccountBaseModel.AccountProxy.ProxyPort + ","
                     + account.AccountBaseModel.AccountProxy.ProxyUsername + ","
-                    + account.AccountBaseModel.AccountProxy.ProxyPassword;
+                    + account.AccountBaseModel.AccountProxy.ProxyPassword + ","
+                    + account.AccountBaseModel.Status;
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {

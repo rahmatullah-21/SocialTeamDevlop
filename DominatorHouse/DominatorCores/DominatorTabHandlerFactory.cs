@@ -66,7 +66,7 @@ namespace Socinator.DominatorCores
                 },
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("LangKeyAutoActivity") == null? "Auto Activity" : Application.Current.FindResource("LangKeyAutoActivity")?.ToString(),
+                    Title = Application.Current.FindResource("LangKeyAccountsActivity") == null? "Accounts Activity" : Application.Current.FindResource("LangKeyAccountsActivity")?.ToString(),
                     Content = new Lazy<UserControl>(() => DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
                 },
                 //new TabItemTemplates

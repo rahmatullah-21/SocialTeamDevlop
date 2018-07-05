@@ -2,8 +2,10 @@
 using NLog.Config;
 using NLog.Targets;
 using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore.Models;
 
 namespace DominatorHouseCore.LogHelper
 {
@@ -54,9 +56,16 @@ namespace DominatorHouseCore.LogHelper
 
         internal static void InitializeLoggerUI(ILoggableWindow window)
         {
-            ((Window)window).Loaded += (s, e) => {
+            ((Window)window).Loaded += (s, e) =>
+            {
+                //var target = new NlogUiTarget("Activity Log", LogLevel.Info);
+                //target.Log += (log, error) => window.LogText(log, error);
+
+                //var warning = new NlogUiTarget("Activity Warning", LogLevel.Warn);
+                //warning.Log += (log, warns) => window.LogText(log, warns);
+
                 var target = new NlogUiTarget("Activity Log", LogLevel.Info);
-                target.Log += (log, error) => window.LogText(log, error);                
+                target.Log += (log, loglevel) => window.LogText(log, loglevel);
             };
         }
 
@@ -69,7 +78,7 @@ namespace DominatorHouseCore.LogHelper
                     if (list.Items.Count > 1000)
                         list.Items.RemoveAt(list.Items.Count - 1);
 
-                   // list.Items.Insert(0, $"{DateTime.Now.ToString()}\tGram Dominator 3.0\t{message.Replace("\t", " ")}");
+                    // list.Items.Insert(0, $"{DateTime.Now.ToString()}\tGram Dominator 3.0\t{message.Replace("\t", " ")}");
 
                     list.Items.Insert(0, $"{DateTime.Now.ToString()}\t{message}");
 
@@ -80,6 +89,37 @@ namespace DominatorHouseCore.LogHelper
                 }
             }));
         }
+        public static void LogTextToList(ObservableCollection<LoggerModel> lstLoggerModels, string message, LogLevel logLevel)
+        {
+            try
+            {
+                if (lstLoggerModels.Count > 1000)
+                    lstLoggerModels.RemoveAt(lstLoggerModels.Count - 1);
 
+                #region Split by comma
+
+                var messages = message.Split('\t');
+
+                var log = new LoggerModel
+                {
+                    DateTime = DateTime.Now,
+                    Network = messages[0],
+                    Account = messages[1],
+                    ActivityType = messages[2],
+                    Message = messages[3],
+                    LogType = logLevel.ToString()
+
+                };
+
+                #endregion
+
+                Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+        }
     }
 }
