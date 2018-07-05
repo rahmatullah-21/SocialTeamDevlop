@@ -201,6 +201,9 @@
     <Compile Include="ConfigControl\Pinterest.xaml.cs">
       <DependentUpon>Pinterest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ConfigControl\SocinatorMacros.xaml.cs">
+      <DependentUpon>SocinatorMacros.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConfigControl\SoftwareSettings.xaml.cs">
       <DependentUpon>SoftwareSettings.xaml</DependentUpon>
     </Compile>
@@ -509,6 +512,10 @@
     <Page Include="ConfigControl\Pinterest.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\SocinatorMacros.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ConfigControl\SoftwareSettings.xaml">
       <Generator>MSBuild:Compile</Generator>

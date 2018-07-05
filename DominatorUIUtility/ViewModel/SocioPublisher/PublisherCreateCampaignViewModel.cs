@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,6 +13,7 @@ using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -49,7 +51,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
 
             JobConfiguration = CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
-           
+
             JobConfigurationControl = JobConfiguration;
 
             JobConfiguration.IsAllowEdit = true;
@@ -93,7 +95,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
 
         public CustomControl.Publisher.JobConfiguration JobConfiguration { get; set; }
-        
+
 
 
         private UserControl _jobConfigurationControl;
@@ -164,28 +166,47 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     Title= Application.Current.FindResource("LangKeyCreatePost")?.ToString(),
                     Content=new Lazy<UserControl>(()=> new PublisherDirectPosts(tabItemsControl))
-                },
-                new TabItemTemplates
-                {
-                    Title=Application.Current.FindResource("LangKeyScrapePost")?.ToString(),
-                    Content=new Lazy<UserControl>(()=>PublisherScrapePost.GetPublisherScrapePost(tabItemsControl))
-                },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("LangKeySharePost")?.ToString(),
-                    Content=new Lazy<UserControl>(()=>PublisherSharePost.GetPublisherSharePost(tabItemsControl))
-                },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("LangKeyRSSFeed")?.ToString(),
-                    Content = new Lazy<UserControl>(()=> PublisherRssFeed.GetPublisherRssFeed(tabItemsControl))
-                },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("LangKeyMonitorFolder")?.ToString(),
-                    Content = new Lazy<UserControl>(()=>PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl))
                 }
             };
+
+            #region Scrape Posts
+
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook) ||
+                   SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Pinterest) ||
+                   SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Twitter))
+            {
+                tabItems.Add(new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("LangKeyScrapePost")?.ToString(),
+                    Content = new Lazy<UserControl>(() => PublisherScrapePost.GetPublisherScrapePost(tabItemsControl))
+                });
+            }
+
+            #endregion
+
+            #region Share , Monitor Folder, Rss
+
+            tabItems.Add(new TabItemTemplates
+            {
+                Title = Application.Current.FindResource("LangKeySharePost")?.ToString(),
+                Content = new Lazy<UserControl>(() => PublisherSharePost.GetPublisherSharePost(tabItemsControl))
+            });
+
+
+            tabItems.Add(new TabItemTemplates
+            {
+                Title = Application.Current.FindResource("LangKeyRSSFeed")?.ToString(),
+                Content = new Lazy<UserControl>(() => PublisherRssFeed.GetPublisherRssFeed(tabItemsControl))
+            });
+
+            tabItems.Add(new TabItemTemplates
+            {
+                Title = Application.Current.FindResource("LangKeyMonitorFolder")?.ToString(),
+                Content = new Lazy<UserControl>(() => PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl))
+            });
+
+            #endregion
+
             return tabItems;
         }
 
@@ -237,13 +258,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (GenericFileManager.UpdateModuleDetails<PublisherCreateCampaignModel>(lstCampaign,
                         ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully updated.");
-                   
+
                 }
                 else
                 {
                     if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully saved.");
-                  
+
                     CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
                 }
 
@@ -286,8 +307,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     publisherPostlistModel.IsFdSellPost =
                         PublisherCreateCampaignModel.PostDetailsModel.IsFdSellPost;
 
-                    PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
-
+                    if (!string.IsNullOrEmpty(publisherPostlistModel.PostDescription) ||
+                        publisherPostlistModel.MediaList.Count > 0 ||
+                        !string.IsNullOrEmpty(publisherPostlistModel.PublisherInstagramTitle) ||
+                        !string.IsNullOrEmpty(publisherPostlistModel.PdSourceUrl))
+                    {
+                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+                    }
                 }
                 else if (PublisherCreateCampaignModel.PostDetailsModel.IsMultiPost)
                 {
@@ -320,7 +346,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         if (PublisherCreateCampaignModel.PostDetailsModel.IsUseFileNameAsDescription)
                         {
                             publisherPostlistModel.PostDescription = new Uri(image).Segments.Last();
-                        }                                               
+                        }
+                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+                    });
+                }
+
+                if (PublisherCreateCampaignModel.SharePostModel.IsShareCustomPostList)
+                {
+                    var shareUrls = Regex
+                        .Split(PublisherCreateCampaignModel.SharePostModel.ShareAddCustomPostList, "\r\n").ToList();
+
+                    shareUrls.ForEach(shareUrl =>
+                    {
+                        publisherPostlistModel.PostId = Utilities.GetGuid();
+                        publisherPostlistModel.ShareUrl = shareUrl.Trim();
+                        publisherPostlistModel.PostSource = PostSource.SharePost;
                         PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
                     });
                 }
@@ -428,9 +468,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
                         SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
                     };
-
                     currentCampaignsFetchDetails.Add(shareFetchModel);
-
                 }
 
                 #endregion
@@ -490,7 +528,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
             PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
-            SelectedItem =null;
+            SelectedItem = null;
             SetDataContext();
             IsCampaignNameEdit = true;
         }
@@ -533,7 +571,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 IsCampaignNameEdit = false;
                 var campaignlists = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
                     (ConstantVariable.GetPublisherCampaignFile());
-               
+
                 PublisherCreateCampaignModel = campaignlists.FirstOrDefault(x => x.CampaignName == (string)sender);
                 BindTabItemsControlProperties();
                 SetDataContext();
@@ -555,15 +593,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var publisherSharePost = PublisherSharePost.GetPublisherSharePost(tabItemsControl);
             var publisherScrapePost = PublisherScrapePost.GetPublisherScrapePost(tabItemsControl);
 
-            JobConfiguration = CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);            
+            JobConfiguration = CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
             JobConfigurationControl = JobConfiguration;
-            
+
             SetPostContectData(publisherDirectPosts);
             SetPublisherRssFeedData(publisherRssFeed);
             SetPublisherMonitorFolder(publisherMonitorFolder);
             SetPublisherSharePost(publisherSharePost);
             SetPublisherScrapePost(publisherScrapePost);
-            
+
         }
         private void SetPublisherSharePost(PublisherSharePost publisherScrapePost)
         {

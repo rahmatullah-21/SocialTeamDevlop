@@ -43,5 +43,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(12)]
         public string AccountId { get; set; }
 
+        [ProtoMember(13)]
+        public string ErrorDetails { get; set; } 
+
     }
 }

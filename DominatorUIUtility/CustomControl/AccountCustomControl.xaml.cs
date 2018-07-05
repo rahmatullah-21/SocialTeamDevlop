@@ -59,7 +59,6 @@ namespace DominatorUIUtility.CustomControl
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;
             DominatorAccountViewModel.PropertyChanged += DominatorAccountViewModel_PropertyChanged;
-
         }
 
         List<GridViewColumn> _addedColumns = new List<GridViewColumn>();

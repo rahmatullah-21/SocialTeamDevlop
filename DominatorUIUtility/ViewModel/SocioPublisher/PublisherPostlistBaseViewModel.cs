@@ -24,6 +24,7 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl;
 using DominatorUIUtility.Views.SocioPublisher.Suggestions;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using PublisherEditPost = DominatorUIUtility.Views.SocioPublisher.CustomControl.PublisherEditPost;
 
@@ -43,7 +44,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             DuplicateCommand = new BaseCommand<object>(DuplicateCanExecute, DuplicateExecute);
             PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
             ChangePostStatusCommand = new BaseCommand<object>(ChangePostStatusCanExecute, ChangePostStatusExecute);
-            PublishNowCommand = new BaseCommand<object>(PublishNowCanExecute, PublishNowExecute);
+
             RefreshCommand = new BaseCommand<object>(RefreshCanExecute, RefreshExecute);
         }
 
@@ -56,7 +57,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand DeleteCommand { get; set; }
         public ICommand DeleteSinglePostCommand { get; set; }
         public ICommand EditSinglePostCommand { get; set; }
-        public ICommand PublishNowCommand { get; set; }
         public ICommand DuplicateCommand { get; set; }
         public ICommand ChangePostStatusCommand { get; set; }
         public ICommand RefreshCommand { get; set; }
@@ -709,13 +709,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 var post = PostlistFileManager.GetByPostId(publisherPostlistModel.CampaignId, publisherPostlistModel.PostId);
 
                 if (statusToChange.ToString() == (string)Application.Current.FindResource("LangKeyPublishNow"))
-                { 
-                    publisherPostlistModel.PostQueuedStatus = PostQueuedStatus.Published;
-                    post.PostQueuedStatus = PostQueuedStatus.Published;
-                    PostProcessOfStatusChange(publisherPostlistModel, post);
+                {
                     PublishNow(publisherPostlistModel);
                 }
-                else if (statusToChange.ToString() == (string) Application.Current.FindResource("LangKeyReAdd"))
+                else if (statusToChange.ToString() == (string)Application.Current.FindResource("LangKeyReAdd"))
                 {
                     var readdPost = post.DeepClone();
                     readdPost.GenerateClonePostId();
@@ -745,9 +742,28 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void PostProcessOfStatusChange(PublisherPostlistModel campaignStatus, PublisherPostlistModel post)
         {
-            PostlistFileManager.UpdatePost(campaignStatus.CampaignId, post);
-            PublisherInitialize.GetInstance.UpdatePostStatus(campaignStatus.CampaignId);
-            PublisherPostlist.Remove(campaignStatus);
+            try
+            {
+                if (!Application.Current.CheckAccess())
+                {
+                    Application.Current.Invoke(() =>
+                    {
+                        PostlistFileManager.UpdatePost(campaignStatus.CampaignId, post);
+                        PublisherInitialize.GetInstance.UpdatePostStatus(campaignStatus.CampaignId);
+                        PublisherPostlist.Remove(campaignStatus);
+                    });
+                }
+                else
+                {
+                    PostlistFileManager.UpdatePost(campaignStatus.CampaignId, post);
+                    PublisherInitialize.GetInstance.UpdatePostStatus(campaignStatus.CampaignId);
+                    PublisherPostlist.Remove(campaignStatus);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public void PublishNow(PublisherPostlistModel postlistModel)
@@ -758,8 +774,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     Task.Factory.StartNew(() =>
                     {
-                        PublishScheduler.StartPublishingPosts(postlistModel);
-                        //RefreshExecute(this);
+                        PublishScheduler.StartPublishingPosts(postlistModel, () =>
+                        {
+                            postlistModel.PostQueuedStatus = PostQueuedStatus.Published;
+                            PostProcessOfStatusChange(postlistModel, postlistModel);
+                        });
                     });
                 }
                 catch (OperationCanceledException ex)
@@ -785,46 +804,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #endregion
 
-        #region Publish Now
-
-        public bool PublishNowCanExecute(object sender) => true;
-
-        public void PublishNowExecute(object sender)
-        {
-            var postlistModel = ((FrameworkElement)sender).DataContext as PublisherPostlistModel;
-            if (postlistModel != null)
-            {
-                try
-                {
-                    Task.Factory.StartNew(() =>
-                    {
-                        PublishScheduler.StartPublishingPosts(postlistModel);
-                        RefreshExecute(this);
-                    });
-                }
-                catch (OperationCanceledException ex)
-                {
-                    ex.DebugLog("Cancellation Requested!");
-                }
-                catch (AggregateException ae)
-                {
-                    foreach (var e in ae.InnerExceptions)
-                    {
-                        if (e is TaskCanceledException || e is OperationCanceledException)
-                            e.DebugLog("Cancellation requested before task completion!");
-                        else
-                            e.DebugLog(e.StackTrace + e.Message);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }
-        }
-
-        
-        #endregion
 
         #region Refresh 
 
