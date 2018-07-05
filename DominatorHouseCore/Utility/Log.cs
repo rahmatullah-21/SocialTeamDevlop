@@ -10,33 +10,33 @@ namespace DominatorHouseCore.Utility
         /// 1 = Account's Username
         /// 2 = ActivityType
         /// </summary>
-        public static string StartingJob { get; set; } = "{0}\t {1}\t Started job to {2}.";
+        public static string StartingJob { get; set; } = "{0}\t {1}\t {2}\t LangKeyStartedJobTo {2}. \t"+ CodeConstants.StartedJob;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
         /// 2 = ActivityType
         /// </summary>
-        public static string JobCompleted { get; set; } = "{0}\t {1}\t successfully complete job to {2}";
+        public static string JobCompleted { get; set; } = "{0}\t {1}\t {2}\t LangKeySuccessfullyCompleteJobTo {2}. \t" + CodeConstants.CompletedJob;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
         /// </summary>
-        public static string AccountLogin { get; set; } = "{0}\t {1}\t Attempt to login";
+        public static string AccountLogin { get; set; } = "{0}\t {1}\t Login \t " + "LangKeyAttemptToLogin".FromResourceDictionary() + " {2}. \t" + CodeConstants.LoginAttempt;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
         /// </summary>
-        public static string SuccessfulLogin { get; set; } = "{0},{1},{2},Login successful.";
+        public static string SuccessfulLogin { get; set; } = "{0}\t {1}\t Login Success \t " + "LangKeyLoginSuccessful".FromResourceDictionary() + " {2}. \t" + CodeConstants.LoginSuccessful;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
         /// 2 = ActivityType
         /// </summary>
-        public static string LoginFailed { get; set; } = "{0}\t {1}\t Login failed with error: {2}";
+        public static string LoginFailed { get; set; } = "{0}\t {1}\t Login Failed \t " + "LangKeyLoginFailedWithError".FromResourceDictionary() + " {2}. \t" + CodeConstants.LoginFailed;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -151,7 +151,7 @@ namespace DominatorHouseCore.Utility
         public static string NoMoreDataToPerform { get; set; } = "{0}\t {1}\t No more data available to perform {2}";
 
         public static string FoundXResults { get; set; } = "{0}\t {1}\t Found {2} results by Query type {3} and Query value {4} to {5}";
-        public static string AlreadyExistQuery { get; set; } = "{0}\t {1} index(ies) are already added in {2} search query(ies)";
+        public static string AlreadyExistQuery { get; set; } = "{0}\t {1} index(es) are already added in {2} search query(ies)";
         public static string AlreadyExistQueryCount { get; set; } = "{0}\t {1} are already added in {2} search query(ies)";
 
         public static string AccountNeedsVerification { get; set; } = "{0}\t {1}\t needs to verified to perform next activities.";
