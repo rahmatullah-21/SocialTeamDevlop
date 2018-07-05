@@ -98,7 +98,7 @@ namespace DominatorHouseCore.LogHelper
 
                 #region Split by comma
 
-                var messages = message.Split(',');
+                var messages = message.Split('\t');
 
                 var log = new LoggerModel
                 {

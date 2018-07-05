@@ -2723,4 +2723,86 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyActivityType">Activity Type</system:String>
     <!--Ends Newly Added-->
 
+    <!--Log Constants-->
+
+    <system:String x:Key="LangKeyStartedJobTo">Started Job To</system:String>
+    <system:String x:Key="LangKeySuccessfullyCompleteJobTo">Successfully Complete Job To</system:String>
+    <system:String x:Key="LangKeyAttemptToLogin">Attempt To Login</system:String>
+    <system:String x:Key="LangKeyLoginSuccessful">Login Successful</system:String>
+    <system:String x:Key="LangKeyLoginFailedWithError">Login Failed With Error</system:String>
+    <system:String x:Key="LangKeyTryingTo">Trying To</system:String>
+    <system:String x:Key="LangKeySuccessfulTo">Successful To</system:String>
+    <system:String x:Key="LangKeyFailedTo">Failed To</system:String>
+    <system:String x:Key="LangKeyWithError">With Error</system:String>
+    <system:String x:Key="LangKeyFailedBecauseOf">Failed Because Of</system:String>
+    <system:String x:Key="LangKeyIs/AreNotCorrect">Is/Are Not Correct</system:String>
+    <system:String x:Key="LangKeyStoppedCurrentJobTo">Stopped Current Job To</system:String>
+    <system:String x:Key="LangKeyAs">As</system:String>
+    <system:String x:Key="LangKeySuccessfullySaved">Successfully Saved</system:String>
+    <system:String x:Key="LangKeySuccessfullyDeleted.">Successfully Deleted.</system:String>
+    <system:String x:Key="LangKeySuccessfullyUpdated.">Successfully Updated.</system:String>
+    <system:String x:Key="LangKeySuccessfullyPaused.">Successfully Paused.</system:String>
+    <system:String x:Key="LangKeyActivatedSuccessfully.">Activated Successfully.</system:String>
+    <system:String x:Key="LangKeyStarted">Started</system:String>
+    <system:String x:Key="LangKeySynchronization">Synchronization</system:String>
+    <system:String x:Key="LangKeySuccessfullyAdded">Successfully Added</system:String>
+    <system:String x:Key="LangKeyAccountTo">Account To</system:String>
+    <system:String x:Key="LangKeyDeleted">Deleted</system:String>
+    <system:String x:Key="LangKeyAccountsFrom">Accounts From</system:String>
+    <system:String x:Key="LangKeyDetailsUpdatedSuccessfully">Details Updated Successfully</system:String>
+    <system:String x:Key="LangKeyNextOperationTo">Next Operation To</system:String>
+    <system:String x:Key="LangKeyWillPerformIn">Will Perform In</system:String>
+    <system:String x:Key="LangKeyIsScheduledToRunBy">Is Scheduled To Run By</system:String>
+    <system:String x:Key="LangKeyNextJobTo">Next Job To</system:String>
+    <system:String x:Key="LangKeyIsExpectedToStartBy">Is Expected To Start By</system:String>
+    <system:String x:Key="LangKeyHasReachedPerJobLimitOf">Has Reached Per Job Limit Of</system:String>
+    <system:String x:Key="LangKeyHasReachedPerDayLimitOf">Has Reached Per Day Limit Of</system:String>
+    <system:String x:Key="LangKeyHasReachedPerHourLimitOf">Has Reached Per Hour Limit Of</system:String>
+    <system:String x:Key="LangKeyHasReachedPerWeekLimitOf">Has Reached Per Week Limit Of</system:String>
+    <system:String x:Key="LangKeyHasReached">Has Reached</system:String>
+    <system:String x:Key="LangKeyLimitOf">Limit Of</system:String>
+    <system:String x:Key="LangKeyOtherConfigurationFor">Other Configuration For</system:String>
+    <system:String x:Key="LangKeyIsStarted">Is Started</system:String>
+    <system:String x:Key="LangKeyIsCompleted">Is Completed</system:String>
+    <system:String x:Key="LangKeyAppliedFilterTo">Applied Filter To</system:String>
+    <system:String x:Key="LangKeySearchResults">Search Results</system:String>
+    <system:String x:Key="LangKeyScrapetypeToActivity.">Scrapetype To Activity.</system:String>
+    <system:String x:Key="LangKeyRemoved">Removed</system:String>
+    <system:String x:Key="LangKeyUsersBelongingToBlacklistToProcess">Users Belonging To Blacklist To Process</system:String>
+    <system:String x:Key="LangKeyToBlacklist">To Blacklist</system:String>
+    <system:String x:Key="LangKeyNoMoreDataAvailableToPerform">No More Data Available To Perform</system:String>
+    <system:String x:Key="LangKeyFound">Found</system:String>
+    <system:String x:Key="LangKeyResultsByQueryType">Results By Query Type</system:String>
+    <system:String x:Key="LangKeyAndQueryValue">And Query Value</system:String>
+    <system:String x:Key="LangKeyIndexIesAreAlreadyAddedIn">Index(Ies) Are Already Added In</system:String>
+    <system:String x:Key="LangKeySearchQuer">Search Quer</system:String>
+    <system:String x:Key="LangKeyAreAlreadyAddedIn">Are Already Added In</system:String>
+    <system:String x:Key="LangKeySearchQueryIes">Search Query(Ies)</system:String>
+    <system:String x:Key="LangKeyNeedsToVerifiedToPerformNextActivities">Needs To Verified To Perform Next Activities</system:String>
+    <system:String x:Key="LangKeySuccessfullyCompleteProcessTo">Successfully Complete Process To</system:String>
+    <system:String x:Key="LangKeyStartedProcessTo">Started Process To</system:String>
+    <system:String x:Key="LangKeyStoppedProcessTo">Stopped Process To</system:String>
+    <system:String x:Key="LangKeySuccessfullyDeleted">Successfully Deleted</system:String>
+    <system:String x:Key="LangKeySuccessfullyExported">Successfully Exported</system:String>
+    <system:String x:Key="LangKeyHavingIssuesToAdd!">Having Issues To Add!</system:String>
+    <system:String x:Key="LangKeyAlreadyAdded!">Already Added!</system:String>
+    <system:String x:Key="LangKeyAlreadyStopped!">Already Stopped!</system:String>
+    <system:String x:Key="LangKeyAlreadyStarted!">Already Started!</system:String>
+    <system:String x:Key="LangKeyStoppedForFurtherFriendshipUpdate!">Stopped For Further Friendship Update!</system:String>
+    <system:String x:Key="LangKeyPublishingStartedWith">Publishing Started With</system:String>
+    <system:String x:Key="LangKeyNextPostWillStartPublishingIn">Next Post Will Start Publishing In</system:String>
+    <system:String x:Key="LangKeyPostHasAlreadyPostedOnOwnWall/Profile">Post Has Already Posted On Own Wall/Profile</system:String>
+    <system:String x:Key="LangKeyPostHasAlreadyPostedWithDestintion">Post Has Already Posted With Destintion</system:String>
+    <system:String x:Key="LangKeyPostAlreadyExpired">Post Already Expired</system:String>
+    <system:String x:Key="LangKeyPublishedSuccessfullyOn">Published Successfully On</system:String>
+    <system:String x:Key="LangKeyErrorWhilePublishingOn">Error While Publishing On</system:String>
+    <system:String x:Key="LangKeySharedSuccessfullyOn">Shared Successfully On</system:String>
+    <system:String x:Key="LangKeyErrorWhileSharingOn">Error While Sharing On</system:String>
+    <system:String x:Key="LangKeyUploadingMediaFile">Uploading Media File</system:String>
+    <system:String x:Key="LangKeySuccessfullyUploadedMediaFile">Successfully Uploaded Media File</system:String>
+    <system:String x:Key="LangKeyErrorWhileUploadingMediaFile">Error While Uploading Media File</system:String>
+    <system:String x:Key="LangKeyFailedDueTo">Failed Due To</system:String>
+
+
+    <!-- End Log Constants -->
 </ResourceDictionary>
