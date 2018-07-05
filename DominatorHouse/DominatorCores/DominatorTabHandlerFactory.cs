@@ -74,11 +74,11 @@ namespace Socinator.DominatorCores
                 //    Title = Application.Current.FindResource("langPublisher") == null? "Publisher" : Application.Current.FindResource("langPublisher")?.ToString(),
                 //    Content = new Lazy<UserControl>(()=> PublisherIndexPage.Instance)
                 //},
-                //new TabItemTemplates
-                //{
-                //    Title = Application.Current.FindResource("LangKeySociopublisher") == null? "Socio Publisher" : Application.Current.FindResource("LangKeySociopublisher")?.ToString(),
-                //    Content = new Lazy<UserControl>(()=>PublisherHome.Instance)
-                //},
+                new TabItemTemplates
+                {
+                    Title = Application.Current.FindResource("LangKeySociopublisher") == null? "Socio Publisher" : Application.Current.FindResource("LangKeySociopublisher")?.ToString(),
+                    Content = new Lazy<UserControl>(()=>PublisherHome.Instance)
+                },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("LangKeyProxyManager")?.ToString(),
