@@ -751,7 +751,7 @@ namespace DominatorUIUtility.CustomControl
                     {
                         _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
                         this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
-                        GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, _footerControl.list_SelectedAccounts.Count, _activityType);
+                        GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork,"", _footerControl.list_SelectedAccounts.Count, _activityType);
                     }
                     else
                     {
@@ -783,7 +783,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 _footerControl.list_SelectedAccounts = listOfSelectedAccounts;
                 this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
-                GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, _footerControl.list_SelectedAccounts.Count, _activityType);
+                GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork,"", _footerControl.list_SelectedAccounts.Count, _activityType);
             }
             else
             {

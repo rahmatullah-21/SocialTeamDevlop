@@ -2735,7 +2735,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFailedTo">Failed To</system:String>
     <system:String x:Key="LangKeyWithError">With Error</system:String>
     <system:String x:Key="LangKeyFailedBecauseOf">Failed Because Of</system:String>
-    <system:String x:Key="LangKeyIs/AreNotCorrect">Is/Are Not Correct</system:String>
+    <system:String x:Key="LangKeyIsAreNotCorrect">Is/Are Not Correct</system:String>
     <system:String x:Key="LangKeyStoppedCurrentJobTo">Stopped Current Job To</system:String>
     <system:String x:Key="LangKeyAs">As</system:String>
     <system:String x:Key="LangKeySuccessfullySaved">Successfully Saved</system:String>
@@ -2746,7 +2746,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyStarted">Started</system:String>
     <system:String x:Key="LangKeySynchronization">Synchronization</system:String>
     <system:String x:Key="LangKeySuccessfullyAdded">Successfully Added</system:String>
-    <system:String x:Key="LangKeyAccountTo">Account To</system:String>
+    <system:String x:Key="LangKeyAccountTo">Account(s) To</system:String>
     <system:String x:Key="LangKeyDeleted">Deleted</system:String>
     <system:String x:Key="LangKeyAccountsFrom">Accounts From</system:String>
     <system:String x:Key="LangKeyDetailsUpdatedSuccessfully">Details Updated Successfully</system:String>
@@ -2803,6 +2803,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyErrorWhileUploadingMediaFile">Error While Uploading Media File</system:String>
     <system:String x:Key="LangKeyFailedDueTo">Failed Due To</system:String>
     <system:String x:Key="LangKeyAccountCampaignName">Account Name/Campaign Name</system:String>
+    <system:String x:Key="LangKeyPublish">Publish</system:String>
+    <system:String x:Key="LangKeyMedia">Media</system:String>
+    <system:String x:Key="LangKeyAccountSelection">Account Selection</system:String>
 
     <!-- End Log Constants -->
 </ResourceDictionary>

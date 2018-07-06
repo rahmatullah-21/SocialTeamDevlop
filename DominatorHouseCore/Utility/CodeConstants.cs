@@ -65,6 +65,8 @@
         public static string UploadingMediaSuccessful { get; } = "I1061";
         public static string UploadingMediaFailed { get; } = "I1062";
         public static string UploadingMediaFailedReason { get; } = "I1063";
+        public static string FoundXResults { get; } = "I1064";
+        public static string CustomMessage { get; } = "I1065";
      
     }
 }
