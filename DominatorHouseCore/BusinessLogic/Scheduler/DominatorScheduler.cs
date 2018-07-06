@@ -80,7 +80,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                             ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
                         return;
                     }
-                    GlobusLogHelper.log.Info($"{module}-{templateId}" + " stopped");
+                    GlobusLogHelper.log.Info(Log.ProcessStopped, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName, module, $"{module}-{templateId}" + " stopped");
+
+                   // GlobusLogHelper.log.Info($"{module}-{templateId}" + " stopped");
                 }
                 catch (Exception ex)
                 {

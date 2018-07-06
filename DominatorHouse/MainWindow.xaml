@@ -35,8 +35,10 @@
             <ComboBox Background="Transparent" ItemsSource="{Binding AvailableNetworks}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="{Binding SelectedNetworkIndex}" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" />
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" 
                       Name="cmbLanguage" ItemsSource="{Binding Languages}"/>
-                <!--<ComboBoxItem>English</ComboBoxItem>
-                --><!--<ComboBoxItem>Portuguese</ComboBoxItem>--><!--
+            <!--<ComboBoxItem>English</ComboBoxItem>
+                -->
+            <!--<ComboBoxItem>Portuguese</ComboBoxItem>-->
+            <!--
             </ComboBox>-->
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
@@ -54,7 +56,7 @@
                    Name="MainTabControl" VerticalAlignment="Stretch" ItemsSource="{Binding TabItems}"
                     ItemContainerStyle="{StaticResource TabItemStyle}">
 
-       
+
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Title}" MouseLeftButtonDown="TabItem_OnMouseLeftButtonDown"/>
@@ -70,20 +72,81 @@
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="{DynamicResource AccentBaseColorBrush}"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows"/>
 
-        <!--<Button Content="Test Switch" Click="TestSwitchButton_Click" Width="100" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>-->
+        <Grid Name="Logger" Grid.Row="2" Margin="5">
+      
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  VerticalAlignment="Top" 
+                       Margin="0,0,15,0">
+               
+                <Label Content="{DynamicResource LangKeyFilterByNetwork}" FontWeight="SemiBold"/>
+                <ComboBox ItemsSource="{Binding AvailableNetworks}" Width="200" SelectedIndex="-1" Name="CmbAvailableNetworks"
+                          controls:TextBoxHelper.ClearTextButton="True"
+                          SelectionChanged="CmbAvailableNetworks_OnSelectionChanged"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=CmbAvailableNetworks,Path=SelectedIndex}" Value="-1">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <Label Content="{DynamicResource LangKeyFilterByActivityType}" FontWeight="SemiBold"/>
+                    <ComboBox ItemsSource="{Binding ActivityType}" Width="200" controls:TextBoxHelper.ClearTextButton="True"
+                              Name="CmbActivityType"
+                              SelectionChanged="CmbActivityType_OnSelectionChanged"/>
+                </StackPanel>
+            </StackPanel>
 
-        <Grid Name="Logger" Grid.Row="2">
-            <dockable:Layout  Name="RootLayout">
-                <dragable:TabablzControl x:Name="InitialTabablzControl"  Style="{StaticResource TabablzControlStyle}" MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" >
-                    <TabItem Header="Info">
-                        <ListBox x:Name="InfoLogger" IsSelected="True"/>
+            <dockable:Layout  Name="RootLayout" >
+                <dragable:TabablzControl x:Name="InitialTabablzControl"  Style="{StaticResource TabablzControlStyle}" Margin="0,5,0,0"
+                                         MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" 
+                                         SelectionChanged="InitialTabablzControl_OnSelectionChanged">
+                    <TabItem Header="Info" Name="InfoTab" >
+                        <ListView x:Name="InfoLogger" ItemsSource="{Binding LoggerCollection}">
+                            <ListView.CommandBindings>
+                                <CommandBinding Command="ApplicationCommands.Copy"
+                                                CanExecute="CopyCanExecute" Executed="CopyExecuted" />
+                            </ListView.CommandBindings>
+                            <ListView.View>
+                                <GridView>
+                                    <GridView.Columns>
+                                        <GridViewColumn Header="{DynamicResource LangKeyDatetime}" DisplayMemberBinding="{Binding DateTime}" Width="130" />
+                                        <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}" Width="130"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}" Width="130"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" Width="Auto"/>
+                                    </GridView.Columns>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <!--<ListBox x:Name="InfoLogger" IsSelected="True"/>-->
                     </TabItem>
-                    <TabItem Header="Error List" >
-                        <ListBox x:Name="ErrorLogger"/>
+                    <TabItem Header="Error List" Name="ErrorTab" >
+                        <ListView x:Name="ErrorLogger" ItemsSource="{Binding LoggerCollection}">
+                            <ListView.CommandBindings>
+                                <CommandBinding Command="ApplicationCommands.Copy"
+                                                CanExecute="CopyCanExecute" Executed="CopyExecuted" />
+                            </ListView.CommandBindings>
+                            <ListView.View>
+                                <GridView>
+                                    <GridView.Columns>
+                                        <GridViewColumn Header="{DynamicResource LangKeyDatetime}" DisplayMemberBinding="{Binding DateTime}"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}"/>
+                                    </GridView.Columns>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <!--<ListBox x:Name="ErrorLogger"/>-->
                     </TabItem>
 
                 </dragable:TabablzControl>
             </dockable:Layout>
+     
         </Grid>
 
         <Grid Grid.Row="3" VerticalAlignment="Bottom">
@@ -106,25 +169,18 @@
                 <StatusBarItem  Grid.Column="0" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{DynamicResource LangKeyLoadedMemory}"
-                               Foreground="White"
-                              />
+                               Foreground="White" />
                         <TextBlock Name="lbl_LoadedMemory" Text="{DynamicResource LangKey0MB}"
-                           Foreground="White"
-                           />
+                           Foreground="White"/>
                     </StackPanel>
 
                 </StatusBarItem>
 
                 <StatusBarItem  Grid.Column="1" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                 
-                   Text="{DynamicResource LangKeyAvailableMemory}"
-                   Foreground="White"
-                   />
+                        <TextBlock Text="{DynamicResource LangKeyAvailableMemory}" Foreground="White"/>
                         <TextBlock Name="lbl_Availablememory"  Text="{DynamicResource LangKey0MB}"
-                   Foreground="White"
-                   />
+                   Foreground="White" />
                     </StackPanel>
 
                 </StatusBarItem>
@@ -135,28 +191,16 @@
                 <StatusBarItem  Grid.Column="3" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
 
-                        <TextBlock
-                               Text="{DynamicResource LangKeyCPUUsage}"
-                               Foreground="White"
-                             />
-                        <TextBlock Name="lbl_CPUUsage"
-                               Text=" 0% "
-                               Foreground="White"
-                               />
+                        <TextBlock Text="{DynamicResource LangKeyCPUUsage}"
+                               Foreground="White" />
+                        <TextBlock Name="lbl_CPUUsage" Text=" 0% " Foreground="White" />
                     </StackPanel>
 
                 </StatusBarItem>
                 <StatusBarItem  Grid.Column="4" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock 
-                  
-                   Text="{DynamicResource LangKeyDate}" 
-                   Foreground="White"
-                 />
-                        <TextBlock Name="lbl_Datetime"
-                   Text="{Binding Source={x:Static sys:DateTime.Now}}"
-                   Foreground="White"
-                  />
+                        <TextBlock    Text="{DynamicResource LangKeyDate}" Foreground="White" />
+                        <TextBlock Name="lbl_Datetime" Text="{Binding Source={x:Static sys:DateTime.Now}}"  Foreground="White"  />
                     </StackPanel>
 
                 </StatusBarItem>

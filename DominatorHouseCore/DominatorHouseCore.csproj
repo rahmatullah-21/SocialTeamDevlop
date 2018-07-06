@@ -443,6 +443,7 @@
     <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
+    <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\InstagramModel.cs" />
@@ -460,6 +461,7 @@
     <Compile Include="Models\SocioPublisher\Settings\RedditPostSetting.cs" />
     <Compile Include="Process\PublisherPostFetcher.cs" />
     <Compile Include="Settings\SoftwareSettings.cs" />
+    <Compile Include="Utility\CodeConstants.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherMonitorFolderModel.cs" />

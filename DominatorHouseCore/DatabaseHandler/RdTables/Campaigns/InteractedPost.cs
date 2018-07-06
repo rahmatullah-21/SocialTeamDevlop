@@ -102,5 +102,8 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
 
         [Column(Order = 38)]
         public string SinAccUsername { get; set; }
+
+        [Column(Order = 39)]
+        public string Status { get; set; }
     }
 }

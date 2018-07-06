@@ -15,11 +15,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
 using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.Converters;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -27,6 +29,7 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
@@ -40,6 +43,7 @@ using FluentScheduler;
 using Languages;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using NLog;
 using Socinator.Social.AutoActivity.Views;
 
 #endregion
@@ -57,6 +61,7 @@ namespace Socinator
         private Dock _tabDock = Dock.Left;
         private ObservableCollection<TabItemTemplates> _tabItems;
         private ObservableCollection<string> _languages;
+
         private Dictionary<string, CancellationToken> _accountUpdater = new Dictionary<string, CancellationToken>();
 
         private bool IsClickedFromMainWindow { get; set; } = true;
@@ -76,7 +81,12 @@ namespace Socinator
                 InitializeComponent();
                 SocinatorInitialize.LogInitializer(this);
                 SocinatorWindow.DataContext = this;
-                Loaded += (o, e) => GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
+                Loaded += (o, e) =>
+                {
+                    GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
+                };
+                LoggerCollection =
+                    CollectionViewSource.GetDefaultView(LstLoggerModels);
             }
             catch (Exception ex)
             {
@@ -268,11 +278,21 @@ namespace Socinator
             }
         }
 
-        public void LogText(string message, bool error)
+        public void LogText(string message, LogLevel logLevel)
         {
-            GlobusLogHelper.LogTextToList(!error ? InfoLogger : ErrorLogger, message);
-        }
+            //  GlobusLogHelper.LogTextToList(!error ? InfoLogger : ErrorLogger, message);
+            GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (logLevel == LogLevel.Info)
+                    LoggerCollection.Filter += FilterByInfo;
+                else
+                    LoggerCollection.Filter += FilterByError;
+            });
 
+
+
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -442,8 +462,8 @@ namespace Socinator
 
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (MainGrid.RowDefinitions[2].Height.Value <= 200 && MainGrid.RowDefinitions[2].Height.Value > 25)
-                MainGrid.RowDefinitions[2].Height = new GridLength(25);
+            if (MainGrid.RowDefinitions[2].Height.Value <= 200 && MainGrid.RowDefinitions[2].Height.Value > 45)
+                MainGrid.RowDefinitions[2].Height = new GridLength(45);
             else
                 MainGrid.RowDefinitions[2].Height = new GridLength(200);
         }
@@ -453,17 +473,28 @@ namespace Socinator
             if (IsClickedFromMainWindow)
             {
                 var dialog = new Dialog();
-                var activityLogWindow = dialog.GetMetroWindow(sender, "Activity Log");
+
+                // var activityLogWindow = dialog.GetMetroWindow(sender, "Activity Log");
+
+                var activityLogWindow = dialog.GetMetroWindow(Logger, "Activity Log");
+
+
                 activityLogWindow.Topmost = false;
                 IsClickedFromMainWindow = false;
                 activityLogWindow.Closing += (senders, events) =>
                 {
+                    activityLogWindow.Content = null;
+                    Grid.SetRow(Logger, 2);
+                    MainGrid.Children.Add(Logger);
+
                     Logger.Children.Remove(RootLayout);
                     Logger.Children.Add(RootLayout);
                     MainGrid.RowDefinitions[2].Height = new GridLength(200);
                     IsClickedFromMainWindow = true;
                 };
+
                 MainGrid.RowDefinitions[2].Height = new GridLength(0);
+                MainGrid.Children.Remove(Logger);
                 activityLogWindow.ShowDialog();
             }
         }
@@ -734,6 +765,202 @@ namespace Socinator
                 Process.GetCurrentProcess().Kill();
             }
 
+        }
+
+        private void CmbAvailableNetworks_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            try
+            {
+                ActivityType.Clear();
+                if (CmbAvailableNetworks.SelectedItem.ToString() == SocialNetworks.Social.ToString())
+                {
+                    ActivityType = new ObservableCollection<string>(Enum.GetNames(typeof(ActivityType)));
+                    LoggerCollection.Filter += FilterByNetwork;
+                    return;
+                }
+
+                foreach (var name in Enum.GetNames(typeof(ActivityType)))
+                {
+                    if (EnumDescriptionConverter.GetDescription((ActivityType)Enum.Parse(typeof(ActivityType), name)).Contains(CmbAvailableNetworks.SelectedItem.ToString()))
+                        ActivityType.Add(name);
+                }
+                LoggerCollection.Filter += FilterByNetwork;
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                LoggerCollection.Filter = null;
+            }
+            // GlobusLogHelper.log.Error("this is error");
+        }
+
+
+        private void CmbActivityType_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LoggerCollection.Filter += FilterByActivityType;
+        }
+
+        #region Filteration
+
+        private bool FilterByActivityType(object sender)
+        {
+            try
+            {
+                var logger = sender as LoggerModel;
+                return logger?.ActivityType?.IndexOf(CmbActivityType.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+
+        }
+        private bool FilterByNetwork(object sender)
+        {
+            try
+            {
+                var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
+                var type = (selectedTab == "Info") ? "Info" : "Error";
+                var logger = sender as LoggerModel;
+
+                return logger?.Network.IndexOf(CmbAvailableNetworks.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0
+                    && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+
+        }
+
+        private bool FilterByInfo(object sender)
+        {
+            try
+            {
+                var logger = sender as LoggerModel;
+                return logger?.LogType.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) >= 0;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+
+        }
+
+        private bool FilterByError(object sender)
+        {
+            try
+            {
+                var logger = sender as LoggerModel;
+                return logger?.LogType.IndexOf("Error", StringComparison.InvariantCultureIgnoreCase) >= 0 || logger?.LogType.IndexOf("Warn", StringComparison.InvariantCultureIgnoreCase) >= 0;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+        }
+        #endregion
+
+
+        #region Properties
+
+        private ObservableCollection<LoggerModel> _lstLoggerModels = new ObservableCollection<LoggerModel>();
+        public ObservableCollection<LoggerModel> LstLoggerModels
+        {
+            get
+            {
+                return _lstLoggerModels;
+            }
+            set
+            {
+                _lstLoggerModels = value;
+                OnPropertyChanged(nameof(LstLoggerModels));
+            }
+        }
+        private ObservableCollection<string> _activityType = new ObservableCollection<string>();
+        public ObservableCollection<string> ActivityType
+        {
+            get
+            {
+                return _activityType;
+            }
+            set
+            {
+                _activityType = value;
+                OnPropertyChanged(nameof(ActivityType));
+            }
+        }
+        private ICollectionView _loggerCollection;
+
+        public ICollectionView LoggerCollection
+        {
+            get { return _loggerCollection; }
+            set
+            {
+                _loggerCollection = value;
+                OnPropertyChanged(nameof(LoggerCollection));
+            }
+        }
+
+        #endregion
+
+
+        private void InitialTabablzControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (CmbAvailableNetworks.SelectedItem == null)
+                {
+                    try
+                    {
+                        var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
+                        if (selectedTab?.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) == 0)
+                        {
+                            LoggerCollection.Filter += FilterByInfo;
+                        }
+                        else
+                            LoggerCollection.Filter += FilterByError;
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+
+                }
+                else
+                    LoggerCollection.Filter += FilterByNetwork;
+            }
+            catch (Exception ex)
+            {
+                LoggerCollection.Filter += FilterByNetwork;
+                ex.DebugLog();
+            }
+        }
+
+        private void CopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+
+        }
+
+        private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            try
+            {
+                ListView lb = (ListView)(sender);
+                var message = (lb?.SelectedItem as LoggerModel).Message;
+                if (!string.IsNullOrEmpty(message)) Clipboard.SetText(message);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
     }
 }

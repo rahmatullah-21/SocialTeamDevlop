@@ -276,7 +276,7 @@ namespace DominatorUIUtility.ViewModel
                         LstProxyManagerModel.Add(ProxyManagerModel);
 
                         GlobusLogHelper.log.Info(Log.Added, SocialNetworks.Social, ProxyManagerModel.AccountProxy.ProxyIp + " : " +
-                                                                                   ProxyManagerModel.AccountProxy.ProxyPort);
+                                                                                   ProxyManagerModel.AccountProxy.ProxyPort, "LangKeyProxy".FromResourceDictionary());
                         window.Close();
                     }
                     catch (Exception e)
@@ -499,7 +499,7 @@ namespace DominatorUIUtility.ViewModel
                         using (var streamWriter = new StreamWriter(filename, true))
                         {
                             streamWriter.WriteLine(csvData);
-                            GlobusLogHelper.log.Info(Log.Exported, SocialNetworks.Social, proxy.AccountProxy.ProxyIp + " : " + proxy.AccountProxy.ProxyPort);
+                            GlobusLogHelper.log.Info(Log.Exported, SocialNetworks.Social, proxy.AccountProxy.ProxyIp + " : " + proxy.AccountProxy.ProxyPort, "LangKeyProxy".FromResourceDictionary());
                         }
 
                     }
@@ -700,7 +700,7 @@ namespace DominatorUIUtility.ViewModel
                                 DialogCoordinator.Instance.ShowModalMessageExternal(
                                     Application.Current.MainWindow, "Success",
                                     $"{SelectedProxies.Count} proxies successfully Deleted.");
-                                GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{SelectedProxies.Count} proxies");
+                                GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{SelectedProxies.Count} proxies", "LangKeyProxy".FromResourceDictionary());
                             });
 
 
