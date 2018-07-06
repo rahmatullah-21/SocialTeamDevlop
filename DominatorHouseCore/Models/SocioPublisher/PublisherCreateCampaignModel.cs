@@ -245,5 +245,26 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+
+        private bool _isDeselectUsedDestination;
+        [ProtoMember(17)]
+        public bool IsDeselectUsedDestination
+        {
+            get
+            {
+                return _isDeselectUsedDestination;
+            }
+            set
+            {
+                _isDeselectUsedDestination = value;
+
+                if (_isDeselectUsedDestination == value)
+                    return;
+                SetProperty(ref _isDeselectUsedDestination, value);
+            }
+        }
+
+
+
     }
 }

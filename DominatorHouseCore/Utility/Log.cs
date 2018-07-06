@@ -277,6 +277,14 @@ namespace DominatorHouseCore.Utility
 
         /// <summary>
         /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username   
+        /// 2 = delay in seconds 
+        /// </summary>
+        public static string DelayBetweenMultiPost { get; set; } = "{0}\t {1}\t Next post will start publishing in {2} minutes";
+
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
         /// 1 = Account's Username          
         /// </summary>
         public static string AlreadyPublishedOnOwnWall { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPostHasAlreadyPostedOnOwnWallProfile".FromResourceDictionary() + "\t" + CodeConstants.AlreadyPublishedOnOwnWall;
@@ -364,6 +372,23 @@ namespace DominatorHouseCore.Utility
         public static string UploadingMediaFailedReason { get; set; } = "{0}\t {1}\t" + "LangKeyMedia".FromResourceDictionary() + "\t" + "LangKeyFailedDueTo".FromResourceDictionary() + " [{2}]\t" + CodeConstants.UploadingMediaFailedReason;
 
 
+
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = CampaignName
+        /// </summary>
+        public static string PublisherCampaignPaused { get; set; } = "Campaign : {0} successfully paused.";
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username  
+        /// 2 = destination type
+        /// 3 = destination Value
+        /// </summary>
+        public static string NoPost { get; set; } = "{0}\t {1}\t No more post are available for {2}[{3}].";
+
+        //
 
     }
 }

@@ -141,8 +141,7 @@ namespace DominatorHouseCore.Process
         {
             PublishedCount = 0;
             var isReachedMaximumCount = false;
-            var isNoPostAvailable = false;
-
+            
             try
             {
                 GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork,
@@ -152,10 +151,13 @@ namespace DominatorHouseCore.Process
 
                 var usedDestination = publishedDetails.Select(x => x.DestinationUrl).ToList();
 
+                var multipostDelayCount = RandomUtilties.GetRandomNumber(JobConfigurations.PostRange.EndValue, JobConfigurations.PostRange.StartValue);
+
                 if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
                 {
                     #region Publish on Groups
 
+                  
                     foreach (var groupUrl in GroupDestinationList)
                     {
                         if (PublishedCount >= maximumPostCount)
@@ -173,8 +175,8 @@ namespace DominatorHouseCore.Process
 
                         if (post == null)
                         {
-                            isNoPostAvailable = true;
-                            break;
+                            GlobusLogHelper.log.Info(Log.NoPost,AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName,"group", groupUrl);
+                            continue;
                         }
 
                         GlobusLogHelper.log.Info(Log.StartPublishing,
@@ -188,13 +190,16 @@ namespace DominatorHouseCore.Process
 
                         PublishOnGroups(AccountModel.AccountId, groupUrl, post, !isReachedMaximumCount);
 
+                        if (PublishedCount % multipostDelayCount == 0)
+                            DelayBetweenMultiPublish();
+
                     }
 
                     #endregion
 
                     #region Publish on Pages
 
-                    if (isReachedMaximumCount || isNoPostAvailable)
+                    if (isReachedMaximumCount)
                         return;
 
                     foreach (var pageUrl in PageDestinationList)
@@ -214,8 +219,8 @@ namespace DominatorHouseCore.Process
 
                         if (post == null)
                         {
-                            isNoPostAvailable = true;
-                            break;
+                            GlobusLogHelper.log.Info(Log.NoPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, "page", pageUrl);
+                            continue;
                         }
 
                         GlobusLogHelper.log.Info(Log.StartPublishing,
@@ -229,13 +234,15 @@ namespace DominatorHouseCore.Process
 
                         PublishOnPages(AccountModel.AccountId, pageUrl, post, !isReachedMaximumCount);
 
+                        if (PublishedCount % multipostDelayCount == 0)
+                            DelayBetweenMultiPublish();
                     }
 
                     #endregion
 
                     #region Custom Destination
 
-                    if (isReachedMaximumCount || isNoPostAvailable)
+                    if (isReachedMaximumCount )
                         return;
 
                     foreach (var customList in CustomDestinationList)
@@ -260,8 +267,8 @@ namespace DominatorHouseCore.Process
 
                         if (post == null)
                         {
-                            isNoPostAvailable = true;
-                            break;
+                            GlobusLogHelper.log.Info(Log.NoPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, customList.DestinationType.ToLower(), customList.DestinationValue);
+                            continue;
                         }
 
                         PublishedCount++;
@@ -271,6 +278,9 @@ namespace DominatorHouseCore.Process
 
                         PublishOnCustomDestination(AccountModel.AccountId, customList, post,
                             !isReachedMaximumCount);
+
+                        if (PublishedCount % multipostDelayCount == 0)
+                            DelayBetweenMultiPublish();
                     }
 
                     #endregion
@@ -313,8 +323,9 @@ namespace DominatorHouseCore.Process
 
                             if (post == null)
                             {
-                                isNoPostAvailable = true;
-                                break;
+                                GlobusLogHelper.log.Info(Log.NoPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, "group", destination.Key);
+
+                                continue;
                             }
 
                             GlobusLogHelper.log.Info(Log.StartPublishing,
@@ -328,6 +339,9 @@ namespace DominatorHouseCore.Process
 
                             PublishOnGroups(AccountModel.AccountId, destination.Key, post,
                                 !isReachedMaximumCount);
+
+                            if (PublishedCount % multipostDelayCount == 0)
+                                DelayBetweenMultiPublish();
                         }
                         else
                         {
@@ -335,8 +349,8 @@ namespace DominatorHouseCore.Process
 
                             if (post == null)
                             {
-                                isNoPostAvailable = true;
-                                break;
+                                GlobusLogHelper.log.Info(Log.NoPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, "page", destination.Key);
+                                continue;
                             }
 
                             if (GeneralSettingsModel.IsUnselectDestination && usedDestination.Contains(destination.Key))
@@ -353,6 +367,9 @@ namespace DominatorHouseCore.Process
 
                             PublishOnPages(AccountModel.AccountId, destination.Key, post,
                                 isReachedMaximumCount);
+
+                            if (PublishedCount % multipostDelayCount == 0)
+                                DelayBetweenMultiPublish();
                         }
 
                     }
@@ -361,7 +378,7 @@ namespace DominatorHouseCore.Process
 
                     #region Shuffle custom destination
 
-                    if (isReachedMaximumCount || isNoPostAvailable)
+                    if (isReachedMaximumCount)
                         return;
 
                     CustomDestinationList.Shuffle();
@@ -374,7 +391,7 @@ namespace DominatorHouseCore.Process
                         if (isReachedMaximumCount)
                             break;
 
-                        if (GeneralSettingsModel.IsUnselectDestination && 
+                        if (GeneralSettingsModel.IsUnselectDestination &&
                             usedDestination.Contains(customList.DestinationValue))
                             continue;
 
@@ -384,8 +401,8 @@ namespace DominatorHouseCore.Process
 
                         if (post == null)
                         {
-                            isNoPostAvailable = true;
-                            break;
+                            GlobusLogHelper.log.Info(Log.NoPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, customList.DestinationType.ToLower(), customList.DestinationValue);
+                            continue;
                         }
 
                         GlobusLogHelper.log.Info(Log.StartPublishing,
@@ -401,6 +418,9 @@ namespace DominatorHouseCore.Process
                         PublishOnCustomDestination(AccountModel.AccountId, customList, post,
                             !isReachedMaximumCount);
 
+                        if (PublishedCount % multipostDelayCount == 0)
+                            DelayBetweenMultiPublish();
+
                     }
 
                     #endregion
@@ -414,10 +434,10 @@ namespace DominatorHouseCore.Process
                     if (PublishedCount >= maximumPostCount)
                         isReachedMaximumCount = true;
 
-                    if (isReachedMaximumCount || isNoPostAvailable)
+                    if (isReachedMaximumCount)
                         return;
 
-                    if (GeneralSettingsModel.IsUnselectDestination && 
+                    if (GeneralSettingsModel.IsUnselectDestination &&
                         usedDestination.Contains(AccountModel.AccountBaseModel.UserName))
                         return;
 
@@ -495,6 +515,8 @@ namespace DominatorHouseCore.Process
 
                 var usedDestination = publishedDetails.Select(x => x.DestinationUrl).ToList();
 
+                var multipostDelayCount = RandomUtilties.GetRandomNumber(JobConfigurations.PostRange.EndValue, JobConfigurations.PostRange.StartValue);
+
                 if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
                 {
                     #region Publish on Groups
@@ -527,6 +549,8 @@ namespace DominatorHouseCore.Process
 
                         PublishOnGroups(AccountModel.AccountId, groupUrl, post, !isReachedMaximumCount);
 
+                        if (PublishedCount % multipostDelayCount == 0)
+                            DelayBetweenMultiPublish();
 
                     }
 
@@ -565,6 +589,8 @@ namespace DominatorHouseCore.Process
 
                         PublishOnPages(AccountModel.AccountId, pageUrl, post, !isReachedMaximumCount);
 
+                        if (PublishedCount % multipostDelayCount == 0)
+                            DelayBetweenMultiPublish();
                     }
 
                     #endregion
@@ -594,7 +620,7 @@ namespace DominatorHouseCore.Process
 
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
-                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{customList.DestinationValue}]");
+                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"{customList.DestinationType} [{customList.DestinationValue}]");
 
                         PublishedCount++;
 
@@ -603,6 +629,8 @@ namespace DominatorHouseCore.Process
 
                         PublishOnCustomDestination(AccountModel.AccountId, customList, post, !isReachedMaximumCount);
 
+                        if (PublishedCount % multipostDelayCount == 0)
+                            DelayBetweenMultiPublish();
                     }
 
                     #endregion
@@ -655,6 +683,9 @@ namespace DominatorHouseCore.Process
                             GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{x.Key}]");
 
                             PublishOnGroups(AccountModel.AccountId, x.Key, post, !isReachedMaximumCount);
+
+                            if (PublishedCount % multipostDelayCount == 0)
+                                DelayBetweenMultiPublish();
                         }
                         else
                         {
@@ -669,6 +700,9 @@ namespace DominatorHouseCore.Process
                             GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{x.Key}]");
 
                             PublishOnPages(AccountModel.AccountId, x.Key, post, !isReachedMaximumCount);
+
+                            if (PublishedCount % multipostDelayCount == 0)
+                                DelayBetweenMultiPublish();
                         }
 
                     }
@@ -701,7 +735,7 @@ namespace DominatorHouseCore.Process
 
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
-                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{customList.DestinationValue}]");
+                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"{customList.DestinationType}  [{customList.DestinationValue}]");
 
                         PublishedCount++;
 
@@ -709,6 +743,9 @@ namespace DominatorHouseCore.Process
                             isReachedMaximumCount = true;
 
                         PublishOnCustomDestination(AccountModel.AccountId, customList, post, !isReachedMaximumCount);
+
+                        if (PublishedCount % multipostDelayCount == 0)
+                            DelayBetweenMultiPublish();
                     }
 
                     #endregion
@@ -744,8 +781,8 @@ namespace DominatorHouseCore.Process
                     if (PublishedCount >= maximumPostCount)
                         isReachedMaximumCount = true;
 
-                     PublishOnOwnWall(AccountModel.AccountId, post, false);
-                  
+                    PublishOnOwnWall(AccountModel.AccountId, post, false);
+
                 }
 
                 #endregion
@@ -770,37 +807,52 @@ namespace DominatorHouseCore.Process
             }
         }
 
-        public void UpdatePostWithSuccessful(string destinationUrl, PublisherPostlistModel post, string publishedUrl)
+        public void UpdatePostWithSuccessful(string destinationUrl, PublisherPostlistModel posts, string publishedUrl)
         {
-            var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+            var updatelock = PublishScheduler.UpdatingLock.GetOrAdd(posts.PostId, _lock => new object());
 
-            if (postIndex == -1)
-                return;
+            lock (updatelock)
+            {
+                var post = PostlistFileManager.GetByPostId(CampaignId, posts.PostId);
 
-            post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.Yes;
-            post.LstPublishedPostDetailsModels[postIndex].Link = publishedUrl;
-            post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
-            post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.NoError; 
-            PostlistFileManager.UpdatePost(CampaignId, post);
-            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
 
-            GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], ConstantVariable.GetPublishedSuccessDetails);
+                if (postIndex == -1)
+                    return;
+
+                post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.Yes;
+                post.LstPublishedPostDetailsModels[postIndex].Link = publishedUrl;
+                post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
+                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.NoError;
+                PostlistFileManager.UpdatePost(CampaignId, post);
+                PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
+                GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], ConstantVariable.GetPublishedSuccessDetails);
+
+            }
         }
 
-
-        public void UpdatePostWithFailed(string destinationUrl, PublisherPostlistModel post, string errorMessage)
+        public void UpdatePostWithFailed(string destinationUrl, PublisherPostlistModel posts, string errorMessage)
         {
-            var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+            var updatelock = PublishScheduler.UpdatingLock.GetOrAdd(posts.PostId, _lock => new object());
 
-            if (postIndex == -1)
-                return;
+            lock (updatelock)
+            {
+                var post = PostlistFileManager.GetByPostId(CampaignId, posts.PostId);
 
-            post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.No;
-            post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = errorMessage;
-            post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
+                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(
+                    post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
 
-            PostlistFileManager.UpdatePost(CampaignId, post);
-            PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+                if (postIndex == -1)
+                    return;
+
+                post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.No;
+                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = errorMessage;
+                post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
+
+                PostlistFileManager.UpdatePost(CampaignId, post);
+                PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+            }
         }
 
 
@@ -895,12 +947,21 @@ namespace DominatorHouseCore.Process
         public void DelayBeforeNextPublish()
         {
 
-            var delay = RandomUtilties.GetRandomNumber(JobConfigurations.DelayBetweenPost.StartValue,
-                  JobConfigurations.DelayBetweenPost.EndValue);
+            var delay = RandomUtilties.GetRandomNumber(JobConfigurations.DelayBetweenPost.EndValue, JobConfigurations.DelayBetweenPost.StartValue);
 
             GlobusLogHelper.log.Info(Log.DelayBetweenPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, delay);
 
             Thread.Sleep(delay * 1000);
+        }
+
+        public void DelayBetweenMultiPublish()
+        {
+
+            var delay = RandomUtilties.GetRandomNumber(JobConfigurations.DelayBetween.EndValue, JobConfigurations.DelayBetween.StartValue);
+
+            GlobusLogHelper.log.Info(Log.DelayBetweenMultiPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, delay);
+
+            Thread.Sleep(delay * 1000 * 60);
         }
 
         public PublisherPostlistModel GetPostModel(string destination, string destinationUrl)
@@ -920,18 +981,19 @@ namespace DominatorHouseCore.Process
                 if (GeneralSettingsModel.IsWhenPublishingSendOnePostChecked)
                     pendingPostList = pendingPostList.Where(x => x.LstPublishedPostDetailsModels.Count == 0).ToList();
                 else
-                    pendingPostList = (from postlist in pendingPostList
-                                       let allDestinations = postlist.LstPublishedPostDetailsModels.Select(x => x.DestinationUrl).ToList()
-                                       where !allDestinations.Contains(destinationUrl)
-                                       select postlist).ToList();
+                    pendingPostList = (from posts in pendingPostList
+                                       let successfulDestinations = posts.LstPublishedPostDetailsModels.Where(x => x.Successful == ConstantVariable.Yes).Select(x => x.DestinationUrl)
+                                       where !successfulDestinations.Contains(destinationUrl)
+                                       select posts).ToList();
 
-                var loopCount = 0;
+
+                var iterationCount = 0;
 
                 while (true)
                 {
                     CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
-                    if (loopCount >= pendingPostList.Count)
+                    if (iterationCount >= pendingPostList.Count)
                         break;
 
                     var filterPostModel = GeneralSettingsModel.IsChooseRandomPostsChecked ?
@@ -943,7 +1005,7 @@ namespace DominatorHouseCore.Process
                         return filterPostModel;
                     }
 
-                    loopCount++;
+                    iterationCount++;
                 }
             }
             catch (OperationCanceledException)
@@ -971,9 +1033,16 @@ namespace DominatorHouseCore.Process
         {
             try
             {
-                var allDestinations = filterPostModel.LstPublishedPostDetailsModels.Select(x => x.DestinationUrl).ToList();
+                var post = PostlistFileManager.GetByPostId(CampaignId, filterPostModel.PostId);
 
-                if (allDestinations.Contains(destinationUrl))
+                var postTriedAndSuccessdestinations = post?.LstPublishedPostDetailsModels.ToList();
+
+                if (postTriedAndSuccessdestinations == null)
+                    return false;
+
+                var successfulDestinations = postTriedAndSuccessdestinations.Where(x => x.Successful == ConstantVariable.Yes).Select(x => x.DestinationUrl).ToList();
+
+                if (successfulDestinations.Contains(destinationUrl))
                 {
                     GlobusLogHelper.log.Info(destination == "OwnWall"
                         ? string.Format(Log.AlreadyPublishedOnOwnWall, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName)
@@ -981,39 +1050,44 @@ namespace DominatorHouseCore.Process
                     return false;
                 }
 
-                filterPostModel?.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel
-                {
-                    AccountName = AccountModel.AccountBaseModel.UserName,
-                    Destination = destination,
-                    DestinationUrl = destination == "OwnWall" ? AccountModel.AccountBaseModel.UserName : destinationUrl,
-                    Description = filterPostModel.PostDescription,
-                    IsPublished = ConstantVariable.Yes,
-                    Successful = ConstantVariable.No,
-                    PublishedDate = DateTime.Now,
-                    Link = ConstantVariable.NotPublished,
-                    CampaignId = CampaignId,
-                    CampaignName = CampaignName,
-                    AccountId = AccountModel.AccountBaseModel.AccountId,
-                    ErrorDetails = ConstantVariable.NotPublished,
-                });
+                var allDestinations = postTriedAndSuccessdestinations.Select(x => x.DestinationUrl);
 
-                filterPostModel.PostQueuedStatus = PostQueuedStatus.Published;
+                if (!allDestinations.Contains(destinationUrl))
+                {
+                    post.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel
+                    {
+                        AccountName = AccountModel.AccountBaseModel.UserName,
+                        Destination = destination,
+                        DestinationUrl = destination == "OwnWall" ? AccountModel.AccountBaseModel.UserName : destinationUrl,
+                        Description = post.PostDescription,
+                        IsPublished = ConstantVariable.Yes,
+                        Successful = ConstantVariable.No,
+                        PublishedDate = DateTime.Now,
+                        Link = ConstantVariable.NotPublished,
+                        CampaignId = CampaignId,
+                        CampaignName = CampaignName,
+                        AccountId = AccountModel.AccountBaseModel.AccountId,
+                        ErrorDetails = ConstantVariable.NotPublished,
+                    });
+                }
+
+                post.PostQueuedStatus = PostQueuedStatus.Published;
 
                 var triedCount =
-                    filterPostModel.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
+                    post.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
 
                 var successCount =
-                    filterPostModel.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
+                    post.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
 
-                filterPostModel.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
+                post.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
 
-                filterPostModel.PostRunningStatus = DateTime.Now > filterPostModel.ExpiredTime
+                post.PostRunningStatus = DateTime.Now > post.ExpiredTime
                     ? PostRunningStatus.Completed
                     : PostRunningStatus.Active;
 
-                PostlistFileManager.UpdatePost(CampaignId, filterPostModel);
+                PostlistFileManager.UpdatePost(CampaignId, post);
 
-                if (filterPostModel.PostRunningStatus == PostRunningStatus.Completed)
+                if (post.PostRunningStatus == PostRunningStatus.Completed)
                 {
                     if (isDirectPost)
                         GlobusLogHelper.log.Info(Log.PostExpired, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName);
