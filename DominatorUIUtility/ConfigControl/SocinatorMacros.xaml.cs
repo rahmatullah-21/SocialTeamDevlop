@@ -139,8 +139,7 @@ namespace DominatorUIUtility.ConfigControl
             if (socinatorIntellisenseModel == null)
                 return;
 
-            if (!string.IsNullOrEmpty(socinatorIntellisenseModel.InputMacro.Value) &&
-                !string.IsNullOrEmpty(socinatorIntellisenseModel.InputMacro.Key))
+            if (!string.IsNullOrEmpty(socinatorIntellisenseModel.InputMacro.Key))
             {
                 MacrosCollection.Add(socinatorIntellisenseModel.InputMacro);
                 GenericFileManager.AddModule(socinatorIntellisenseModel.InputMacro, ConstantVariable.GetMacroDetails);

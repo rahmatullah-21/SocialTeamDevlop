@@ -31,12 +31,12 @@
             <StackPanel Margin="10,0,0,0">
                 <StackPanel Orientation="Horizontal">
                     <CheckBox  Margin="2" Content="{DynamicResource LangKeyCheckThePageForNewPostsEvery}" IsChecked="{Binding SharePostModel.IsNewPagePost}"/>
-                    <controls:NumericUpDown Width="40" Height="25" Margin="2" Minimum="0" Value="{Binding SharePostModel.PostPerMinute}" IsEnabled="{Binding SharePostModel.IsNewPagePost}"/>
+                    <controls:NumericUpDown  Height="25" Margin="2" Minimum="0" Value="{Binding SharePostModel.PostPerMinute}" IsEnabled="{Binding SharePostModel.IsNewPagePost}"/>
                     <TextBlock Text="{DynamicResource LangKeyMinutes}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox  Margin="2" Content="{DynamicResource LangKeyExtractAMaximumOf}" IsChecked="{Binding SharePostModel.IsExtractMinimumPost}"/>
-                    <controls:NumericUpDown Width="40" Height="25" Margin="2" Minimum="0" IsEnabled="{Binding SharePostModel.IsExtractMinimumPost}" Value="{Binding SharePostModel.MaxPost}"/>
+                    <controls:NumericUpDown  Height="25" Margin="2" Minimum="0" IsEnabled="{Binding SharePostModel.IsExtractMinimumPost}" Value="{Binding SharePostModel.MaxPost}"/>
                     <TextBlock Text="{DynamicResource LangKeyPostsPerOperation}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
@@ -47,15 +47,15 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox  Margin="2" Content="{DynamicResource LangKeySharePostsThatHaveMaximum}" IsChecked="{Binding SharePostModel.IsMinimumDays}"/>
-                    <controls:NumericUpDown Width="40" Height="25" Margin="2" Minimum="0" Value="{Binding SharePostModel.MinimumDays}" IsEnabled="{Binding SharePostModel.IsMinimumDays}"/>
+                    <controls:NumericUpDown Height="25" Margin="2" Minimum="0" Value="{Binding SharePostModel.MinimumDays}" IsEnabled="{Binding SharePostModel.IsMinimumDays}"/>
                     <TextBlock Text="{DynamicResource LangKeyDaysOld}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox  Margin="2" Content="{DynamicResource LangKeySharePostsHaveBetween}" IsChecked="{Binding SharePostModel.IsPostBetween}" />
-                    <controls:NumericUpDown Width="40" Height="25" Margin="2" Minimum="0" IsEnabled="{Binding SharePostModel.IsPostBetween}"
+                    <controls:NumericUpDown Height="25" Margin="2" Minimum="0" IsEnabled="{Binding SharePostModel.IsPostBetween}"
                                             Value="{Binding SharePostModel.PostBetween.StartValue}"/>
                     <TextBlock Text="{DynamicResource LangKeyAnd}" VerticalAlignment="Center" Margin="5"/>
-                    <controls:NumericUpDown Width="40" Height="25" Margin="2"  Minimum="{Binding SharePostModel.PostBetween.StartValue}"  IsEnabled="{Binding SharePostModel.IsPostBetween}"
+                    <controls:NumericUpDown  Height="25" Margin="2"  Minimum="{Binding SharePostModel.PostBetween.StartValue}"  IsEnabled="{Binding SharePostModel.IsPostBetween}"
                                             Value="{Binding SharePostModel.PostBetween.EndValue}"/>
                     <TextBlock Text="{DynamicResource LangKeyLikes}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>

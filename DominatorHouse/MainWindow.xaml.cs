@@ -58,7 +58,7 @@ namespace Socinator
         private ObservableCollection<TabItemTemplates> _tabItems;
         private ObservableCollection<string> _languages;
         private Dictionary<string, CancellationToken> _accountUpdater = new Dictionary<string, CancellationToken>();
-        
+
         private bool IsClickedFromMainWindow { get; set; } = true;
 
         private DominatorAccountViewModel.AccessorStrategies _strategies;
@@ -68,7 +68,7 @@ namespace Socinator
         public MainWindow()
         {
             try
-            {               
+            {
                 DialogParticipation.SetRegister(this, this);
                 Dispatcher.Invoke(async () => { await LicenseCheck(); });
                 _languages = new ObservableCollection<string>();
@@ -83,7 +83,7 @@ namespace Socinator
                 ex.DebugLog();
             }
         }
-       
+
         private async Task LicenseCheck()
         {
             try
@@ -425,11 +425,11 @@ namespace Socinator
                 }
                 if (textBlockDetails.Text == FindResource("LangKeyAccountsManager").ToString())
                 {
-                    AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl= AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+                    AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
                 }
                 if (textBlockDetails.Text == FindResource("LangKeySociopublisher").ToString())
                 {
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl= PublisherDefaultPage.Instance();
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherDefaultPage.Instance();
                 }
             }
             catch (Exception ex)
@@ -483,6 +483,7 @@ namespace Socinator
 
                 AvailableNetworks = SocinatorInitialize.AvailableNetworks;
                 var to_remove = new List<SocialNetworks>();
+                FeatureFlags.UpdateFeatures();
                 foreach (var network in AvailableNetworks)
                 {
                     FeatureFlags.Check(network.ToString(), () =>
@@ -561,7 +562,7 @@ namespace Socinator
 
                 AvailableNetworks.ExceptWith(to_remove);
 
-                var accountDetails = AccountsFileManager.GetAll();
+                FeatureFlags.UpdateFeatures();
 
                 var softWareSettings = new DominatorHouse.Utilities.SoftwareSettings();
                 Task.Factory.StartNew(() => { softWareSettings.InitializeOnLoadConfigurations(_strategies); });
