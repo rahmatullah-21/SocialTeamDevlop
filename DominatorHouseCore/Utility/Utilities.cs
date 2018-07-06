@@ -139,7 +139,18 @@ namespace DominatorHouseCore.Utility
 
         // Returns string from resource dictionary
         public static string FromResourceDictionary(this string resourceDictionaryKey)
-            => Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ?? resourceDictionaryKey;
+        {
+            try
+            {
+                var lang = Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ?? resourceDictionaryKey;
+                return lang;
+            }
+            catch (Exception ex)
+            {
+                var keySubstring = resourceDictionaryKey.Substring(resourceDictionaryKey.IndexOf("LangKey", StringComparison.Ordinal));
+                return Regex.Replace(keySubstring, "(\\B[A-Z])", " $1");
+            }
+        }
 
         public static void testContent()
         {
@@ -161,7 +172,7 @@ namespace DominatorHouseCore.Utility
 
             }
             catch (Exception ex)
-            { 
+            {
 
                 throw;
             }

@@ -116,7 +116,7 @@
                                         <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}" Width="130"/>
                                         <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
                                         <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}" Width="130"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" Width="Auto"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" Width="700"/>
                                     </GridView.Columns>
                                 </GridView>
                             </ListView.View>
@@ -136,7 +136,7 @@
                                         <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}"/>
                                         <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
                                         <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" Width="700"/>
                                     </GridView.Columns>
                                 </GridView>
                             </ListView.View>
