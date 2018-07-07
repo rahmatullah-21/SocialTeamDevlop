@@ -25,6 +25,10 @@ namespace DominatorHouseCore.Process
         public static Dictionary<string, CancellationTokenSource> CampaignsCancellationTokens { get; set; }
         = new Dictionary<string, CancellationTokenSource>();
 
+        public static ConcurrentDictionary<string, Dictionary<DateTime, Action>> AttachedActions { get; set; }
+            = new ConcurrentDictionary<string, Dictionary<DateTime, Action>>();
+
+
         #endregion
 
         public static void StartPublishingPosts(PublisherCampaignStatusModel campaignStatusModel)
@@ -169,9 +173,38 @@ namespace DominatorHouseCore.Process
                                         .GetPublisherCoreFactory()
                                         .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
 
-                                    publisherJobProcess.StartPublishing(publishingCount, !campaignStatusModel.IsRunSingleAccountPerCampaign);
+                                    #region Under Development
+                                    //if (campaignStatusModel.IsWaitToStartAction)
+                                    if (false)
+                                    {
+                                        var dateTime = DateTime.Now;
+                                        var activityDictionary = new Dictionary<DateTime, Action>
+                                        {
+                                            {
+                                                dateTime, () =>
+                                                    publisherJobProcess.StartPublishing(publishingCount,
+                                                        !campaignStatusModel.IsRunSingleAccountPerCampaign)
+                                            }
+                                        };
 
+                                        AttachedActions.TryAdd(campaignStatusModel.CampaignId, activityDictionary);
 
+                                        if (AttachedActions.Count >= campaignStatusModel.JobProcessRunningCount)
+                                            return;
+
+                                        var actionKeyPair = AttachedActions.FirstOrDefault(x =>
+                                            x.Key == campaignStatusModel.CampaignId);
+                                        var dictionaryWithAction = actionKeyPair.Value;
+                                        var action = dictionaryWithAction.FirstOrDefault(x => true).Value;
+                                        dictionaryWithAction.Remove(dictionaryWithAction.FirstOrDefault(x => true).Key);
+                                        action.Invoke();
+                                    }
+                                    #endregion
+
+                                    else
+                                    {
+                                        publisherJobProcess.StartPublishing(publishingCount, !campaignStatusModel.IsRunSingleAccountPerCampaign);
+                                    }
                                 });
                             }
                             catch (OperationCanceledException ex)

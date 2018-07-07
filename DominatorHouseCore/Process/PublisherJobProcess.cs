@@ -127,10 +127,12 @@ namespace DominatorHouseCore.Process
         {
             lock (SyncJobProcess)
             {
-
                 if (isRunParallel)
                 {
-                    ThreadFactory.Instance.Start(() => { Publish(maximumPostCount); }, CampaignCancellationToken.Token);
+                    ThreadFactory.Instance.Start(() =>
+                    {
+                        Publish(maximumPostCount);
+                    }, CampaignCancellationToken.Token);
                 }
                 else
                     Publish(maximumPostCount);
@@ -900,6 +902,20 @@ namespace DominatorHouseCore.Process
 
             #endregion
 
+            #region Spin Text
+
+            postModelWithGeneralSettings.PostDescription =
+                SpinTexHelper.GetSpinText(postModelWithGeneralSettings.PostDescription);
+
+            #endregion
+
+            #region Macro Substitution
+
+            postModelWithGeneralSettings.PostDescription =
+                MacrosHelper.SubstituteMacroValues(postModelWithGeneralSettings.PostDescription);
+
+            #endregion
+
             #region Remove link
 
             if (GeneralSettingsModel.IsRemoveLinkFromPostsChecked)
@@ -927,21 +943,7 @@ namespace DominatorHouseCore.Process
             }
 
             #endregion
-
-            #region Spin Text
-
-            postModelWithGeneralSettings.PostDescription =
-                SpinTexHelper.GetSpinText(postModelWithGeneralSettings.PostDescription);
-
-            #endregion
-
-            #region Macro Substitution
-
-            var allMacros = SocinatorInitialize.Macros;
-
-
-            #endregion
-
+          
             return postModelWithGeneralSettings;
 
         }

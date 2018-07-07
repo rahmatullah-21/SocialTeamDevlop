@@ -8,9 +8,9 @@ namespace DominatorHouseCore.Utility
     public static class SpinTexHelper
     {
         public static string GetSpinText(string content)
-        {           
+        {
             var spintexCollection = GetSpinMessageCollection(content);
-            var randomNumber = RandomUtilties.GetRandomNumber(spintexCollection.Count-1);
+            var randomNumber = RandomUtilties.GetRandomNumber(spintexCollection.Count - 1);
             return spintexCollection[randomNumber];
         }
 

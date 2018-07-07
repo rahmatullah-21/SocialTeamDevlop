@@ -501,8 +501,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     IsTakeRandomDestination = !PublisherCreateCampaignModel.JobConfigurations.IsPublishPostOnDestinationsChecked,
                     TotalRandomDestination = PublisherCreateCampaignModel.JobConfigurations.RandomDestinationCount,
                     MinRandomDestinationPerAccount = PublisherCreateCampaignModel.JobConfigurations.PostBetween.EndValue,
-                    IsDeselectUsedDestination = generalSettingsModel.IsUnselectDestination
-
+                    IsDeselectUsedDestination = generalSettingsModel.IsUnselectDestination,
+                    IsWaitToStartAction = generalSettingsModel.IsWaitToStartNewPost,
+                    JobProcessRunningCount = generalSettingsModel.WaitToStartNewPost
                 };
 
                 PublisherInitialize.GetInstance.AddCampaignDetails(publisherCampaignStatusModel);
