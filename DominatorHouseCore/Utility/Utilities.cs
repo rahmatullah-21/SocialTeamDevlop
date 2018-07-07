@@ -147,7 +147,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                var keySubstring = resourceDictionaryKey.Substring(resourceDictionaryKey.IndexOf("LangKey", StringComparison.Ordinal));
+                var keySubstring = resourceDictionaryKey.Substring("LangKey".Length);
                 return Regex.Replace(keySubstring, "(\\B[A-Z])", " $1");
             }
         }
