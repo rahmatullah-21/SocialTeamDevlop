@@ -2806,6 +2806,14 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPublish">Publish</system:String>
     <system:String x:Key="LangKeyMedia">Media</system:String>
     <system:String x:Key="LangKeyAccountSelection">Account Selection</system:String>
+    <system:String x:Key="LangKeyThirdPartyServices">Third Party Services</system:String>
+    <system:String x:Key="LangKeyUrlShortnerServices">URL Shortner Services</system:String>
+    <system:String x:Key="LangKeyBitly">Bitly</system:String>
+    <system:String x:Key="LangKeyCaptchaServices">Captcha Services</system:String>
+    <system:String x:Key="LangKeyTwoCaptcha">2 Captcha</system:String>
+    <system:String x:Key="LangKeyAntiCaptcha">Anti Captcha</system:String>
+    <system:String x:Key="LangKeyLogIn">Log In</system:String>
+    <system:String x:Key="LangKeyApiKey">Api Key</system:String>
 
     <!-- End Log Constants -->
 </ResourceDictionary>

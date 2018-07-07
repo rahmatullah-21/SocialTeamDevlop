@@ -166,7 +166,45 @@ namespace DominatorHouseCore.FileManagers
             UpdateModuleDetails(lstModel, file);
             GlobusLogHelper.log.Debug("Details successfully saved");
         }
+        internal static bool Save<T>(T model, string file) where T : class
+        {
+            try
+            {
 
+                using (var stream = File.Create(file))
+                {
+                    Serializer.Serialize(stream, model);
+                    GlobusLogHelper.log.Debug("Details successfully saved");
+                    return true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error("Saving error - " + ex.Message);
+                ex.DebugLog();
+                return false;
+            }
+
+        }
+
+        public static T GetModel<T>(string filePath) where T : class
+        {
+            try
+            {
+                using (var stream = File.Open(filePath, FileMode.Open))
+                {
+                    return Serializer.Deserialize<T>(stream);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ex.DebugLog();
+                return null;
+            }
+            
+        }
         public static bool UpdateModuleDetails<T>(List<T> detailsList, string file) where T : class
         {
             try
@@ -184,7 +222,7 @@ namespace DominatorHouseCore.FileManagers
             }
         }
 
-       
+
 
         internal static bool AddRangeModule<T>(List<T> moduleToSave, string filePath) where T : class
         {
@@ -193,7 +231,7 @@ namespace DominatorHouseCore.FileManagers
                 moduleToSave.ForEach(x =>
                 {
                     ProtoBuffBase.AppendObject(x, filePath);
-                });              
+                });
                 return true;
             }
             catch (Exception ex)
@@ -216,11 +254,11 @@ namespace DominatorHouseCore.FileManagers
                 return false;
             }
         }
-        public static void Delete<T>(Predicate<T> match,string filePath) where T : class
+        public static void Delete<T>(Predicate<T> match, string filePath) where T : class
         {
             var moduleDetails = GetModuleDetails<T>(filePath);
             moduleDetails.RemoveAll(match);
-            UpdateModuleDetails<T>(moduleDetails,filePath);
+            UpdateModuleDetails<T>(moduleDetails, filePath);
         }
 
 
@@ -233,7 +271,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (IOException ex)
             {
-                GlobusLogHelper.log.Error($"Unable to delete file {filepath} - {ex.Message}");               
+                GlobusLogHelper.log.Error($"Unable to delete file {filepath} - {ex.Message}");
             }
             catch (Exception ex)
             {

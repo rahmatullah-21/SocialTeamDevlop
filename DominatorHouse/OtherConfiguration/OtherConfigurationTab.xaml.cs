@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouse.OtherConfiguration;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.ConfigControl;
@@ -39,6 +40,11 @@ namespace Socinator.Social.OtherConfiguration
                 {
                     Title=FindResource("LangKeyMacroS").ToString(),
                   Content = new Lazy<UserControl>(SocinatorMacros.GetSingeltonSocinatorMacros)
+                },
+                new TabItemTemplates
+                {
+                    Title=FindResource("LangKeyThirdPartyServices").ToString(),
+                    Content = new Lazy<UserControl>(ThirdPartyServices.GetSingeltonThirdPartyServices)
                 },
                 //new TabItemTemplates
                 //{

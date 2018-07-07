@@ -210,6 +210,9 @@
     <Compile Include="OtherConfiguration\OtherConfigurationTab.xaml.cs">
       <DependentUpon>OtherConfigurationTab.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OtherConfiguration\ThirdPartyServices.xaml.cs">
+      <DependentUpon>ThirdPartyServices.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Social\Accounts\AccountTab.xaml.cs">
       <DependentUpon>AccountTab.xaml</DependentUpon>
     </Compile>
@@ -246,6 +249,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="OtherConfiguration\OtherConfigurationTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OtherConfiguration\ThirdPartyServices.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
