@@ -928,6 +928,20 @@ namespace DominatorHouseCore.Process
 
             #endregion
 
+            #region Spin Text
+
+            postModelWithGeneralSettings.PostDescription =
+                SpinTexHelper.GetSpinText(postModelWithGeneralSettings.PostDescription);
+
+            #endregion
+
+            #region Macro Substitution
+
+            var allMacros = SocinatorInitialize.Macros;
+
+
+            #endregion
+
             return postModelWithGeneralSettings;
 
         }

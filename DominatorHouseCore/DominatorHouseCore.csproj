@@ -491,6 +491,7 @@
     <Compile Include="Utility\ObjectComparer.cs" />
     <Compile Include="Utility\PublisherHelper.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
+    <Compile Include="Utility\SpinTexHelper.cs" />
     <Compile Include="ViewModel\AdvancedSettings\FacebookViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GooglePlusViewModel.cs" />

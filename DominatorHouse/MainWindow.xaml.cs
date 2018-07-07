@@ -514,6 +514,7 @@ namespace Socinator
 
                 AvailableNetworks = SocinatorInitialize.AvailableNetworks;
                 var to_remove = new List<SocialNetworks>();
+                FeatureFlags.UpdateFeatures();
                 foreach (var network in AvailableNetworks)
                 {
                     FeatureFlags.Check(network.ToString(), () =>
@@ -592,7 +593,7 @@ namespace Socinator
 
                 AvailableNetworks.ExceptWith(to_remove);
 
-                var accountDetails = AccountsFileManager.GetAll();
+                FeatureFlags.UpdateFeatures();
 
                 var softWareSettings = new DominatorHouse.Utilities.SoftwareSettings();
                 Task.Factory.StartNew(() => { softWareSettings.InitializeOnLoadConfigurations(_strategies); });

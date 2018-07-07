@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
@@ -30,8 +31,9 @@ namespace DominatorHouseCore.Diagnostics
 
         public static string DecryptAes(string decryptedString)
         {
+            var aesKey = ConfigurationManager.AppSettings["AesKey"];
             var decryptedKey = decryptedString.Replace("\\/", "/").Replace("\"","");
-            byte[] bytes = Decrypt(Convert.FromBase64String(decryptedKey), "3sc3RLrpd17");
+            var bytes = Decrypt(Convert.FromBase64String(decryptedKey), aesKey);
             return Encoding.UTF8.GetString(bytes);
         }
     }

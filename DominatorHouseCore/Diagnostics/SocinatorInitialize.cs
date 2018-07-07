@@ -21,6 +21,8 @@ using Newtonsoft.Json.Linq;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using Newtonsoft.Json;
+using NLog.Internal;
+using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -97,7 +99,6 @@ namespace DominatorHouseCore.Diagnostics
                 if (string.IsNullOrEmpty(details))
                     return AvailableNetworks;
 
-
                 #region All networks with unlimited Networks
 
                 try
@@ -134,22 +135,7 @@ namespace DominatorHouseCore.Diagnostics
                             AvailableNetworks.Add(SocialNetworks.Pinterest);
                             AvailableNetworks.Add(SocialNetworks.Tumblr);
                             AvailableNetworks.Add(SocialNetworks.Youtube);
-                            AvailableNetworks.Add(SocialNetworks.Reddit);
-
-                            FeatureFlags.Instance = new FeatureFlags()
-                            {
-                               { "SocinatorInitializer", true },
-                                {"Twitter", true},
-                                {"Social", true},
-                                {"Instagram", true},
-                                {"Gplus", true},
-                                {"LinkedIn", true},
-                                {"Quora", true},
-                                {"Facebook", true},
-                                {"Youtube", true},
-                                {"Reddit", true},
-                                {"Tumblr", true},
-                                {"Pinterest", true}};
+                            AvailableNetworks.Add(SocialNetworks.Reddit);  
                         }
                         catch (Exception ex)
                         {
@@ -192,8 +178,7 @@ namespace DominatorHouseCore.Diagnostics
                                                 continue;
                                             var network = Utilities.FirstMatchExtractor(networkValues, "optionLabel\":\"(.*?)\"");
                                             var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), network);
-                                            AvailableNetworks.Add(networks);
-                                            FeatureFlags.Instance.Add(network, true);
+                                            AvailableNetworks.Add(networks);                                            
                                         }
                                         catch (Exception ex)
                                         {
@@ -229,8 +214,7 @@ namespace DominatorHouseCore.Diagnostics
                             var itemTitleDescription = arrayInvoiceItems["item_description"].ToString();
                             itemTitleDescription = itemTitleDescription.Replace("Marketing Software", string.Empty).Trim();
                             var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), itemTitleDescription);
-                            AvailableNetworks.Add(networks);
-                            FeatureFlags.Instance.Add(networks.ToString(), true);
+                            AvailableNetworks.Add(networks);                            
                             MaximumAccountCount = 10000;
                         }
                         catch (Exception ex)
@@ -346,7 +330,7 @@ namespace DominatorHouseCore.Diagnostics
                             string invoice;
                             var availbleNetworkResponse = streamReader.ReadToEnd();                          
                             var invoiceNumber = JObject.Parse(availbleNetworkResponse)["invoice_id"].ToString();
-                            var invoiceDetails = await GetInvoiceDetails(license, invoiceNumber);
+                            var invoiceDetails = await GetInvoiceDetails(invoiceNumber);
                             using (var invoiceStream = new StreamReader(invoiceDetails))
                             {
                                 invoice = invoiceStream.ReadToEnd();
@@ -381,9 +365,9 @@ namespace DominatorHouseCore.Diagnostics
             return await HttpHelper.GetResponseStreamAsync(url);
         }
 
-        private static async Task<Stream> GetInvoiceDetails(string license, string invoicenumber)
-        {
-            var key = "4A8Re6saPmIlEnEpzT3Z";
+        private static async Task<Stream> GetInvoiceDetails(string invoicenumber)
+        {           
+            var key = ConfigurationManager.AppSettings["InvoiceKey"];
             var url = $"http://socinator.com/amember/api/invoices/{invoicenumber}?_key={key}";
             return await HttpHelper.GetResponseStreamAsync(url);
         }
