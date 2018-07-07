@@ -256,14 +256,44 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-                _isDeselectUsedDestination = value;
-
                 if (_isDeselectUsedDestination == value)
                     return;
                 SetProperty(ref _isDeselectUsedDestination, value);
             }
         }
 
+        private bool _isWaitToStartAction;
+        [ProtoMember(18)]
+        public bool IsWaitToStartAction
+        {
+            get
+            {
+                return _isWaitToStartAction;
+            }
+            set
+            {
+                if (_isWaitToStartAction == value)
+                    return;
+                SetProperty(ref _isWaitToStartAction, value);
+            }
+        }
+
+
+        private int _jobProcessRunningCount;
+        [ProtoMember(19)]
+        public int JobProcessRunningCount
+        {
+            get
+            {
+                return _jobProcessRunningCount;
+            }
+            set
+            {
+                if (_jobProcessRunningCount == value)
+                    return;
+                SetProperty(ref _jobProcessRunningCount, value);
+            }
+        }
 
 
     }

@@ -251,8 +251,8 @@ namespace DominatorHouseCore.Utility
                     {
                         var reader = new StreamReader(responseStream, Encoding.UTF8);
                         dynamic jsonResponse = JsonConvert.DeserializeObject(reader.ReadToEnd());
-                        string s = jsonResponse["results"][longUrl]["shortUrl"];
-                        return s;
+                        string shortUrl = jsonResponse["results"][longUrl]["shortUrl"];
+                        return shortUrl;
                     }
                 }
             }

@@ -71,6 +71,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public bool IsDeselectUsedDestination { get; set; }
 
+        public bool IsWaitToStartAction { get; set; }
+
+        public int JobProcessRunningCount { get; set; }
+
         #endregion
 
 

@@ -8,9 +8,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Process;
 using ConstantVariable = DominatorHouseCore.Utility.ConstantVariable;
 
 namespace DominatorHouseCore.Diagnostics
@@ -26,7 +24,7 @@ namespace DominatorHouseCore.Diagnostics
         private static Dictionary<SocialNetworks, IPublisherCollectionFactory> NetworkWisePublishers { get; } =
             new Dictionary<SocialNetworks, IPublisherCollectionFactory>();
 
-        private static PublisherInitialize _publisherInitialize = null;
+        private static PublisherInitialize _publisherInitialize;
 
         public static PublisherInitialize GetInstance => _publisherInitialize ?? (_publisherInitialize = new PublisherInitialize());
 
@@ -77,7 +75,9 @@ namespace DominatorHouseCore.Diagnostics
                             IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
                             TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
                             MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
-                            IsDeselectUsedDestination = campaigns.IsDeselectUsedDestination
+                            IsDeselectUsedDestination = campaigns.IsDeselectUsedDestination,
+                            IsWaitToStartAction = campaigns.IsWaitToStartAction,
+                            JobProcessRunningCount = campaigns.JobProcessRunningCount
                         };
 
                         ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
