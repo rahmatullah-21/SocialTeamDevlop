@@ -8,8 +8,6 @@ namespace DominatorHouseCore.Enums.TumblrQuery
         Keyword,
         [Description("LangKeySomeonesFollowings")]
         UserFollowing,
-        [Description("LangKeySomeonesFollowers")]
-        UserFollower,
         [Description("LangKeyHashtagUserS")]
         HashtagUsers,
         [Description("LangKeyUsersWhoCommentedOnPosts")]
