@@ -10,14 +10,14 @@ namespace DominatorHouseCore.Utility
         /// 1 = Account's Username
         /// 2 = ActivityType
         /// </summary>
-        public static string StartingJob { get; set; } = "{0}\t {1}\t {2}\t LangKeyStartedJobTo {2}. \t" + CodeConstants.StartedJob;
+        public static string StartingJob { get; set; } = "{0}\t {1}\t {2}\t" + "LangKeyStartedJobTo".FromResourceDictionary() + "{2}. \t" + CodeConstants.StartedJob;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
         /// 2 = ActivityType
         /// </summary>
-        public static string JobCompleted { get; set; } = "{0}\t {1}\t {2}\t LangKeySuccessfullyCompleteJobTo {2}. \t" + CodeConstants.CompletedJob;
+        public static string JobCompleted { get; set; } = "{0}\t {1}\t {2}\t" + "LangKeySuccessfullyCompleteJobTo".FromResourceDictionary() + " {2}. \t" + CodeConstants.CompletedJob;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -161,9 +161,9 @@ namespace DominatorHouseCore.Utility
         /// 1 = Account's Username
         /// 2 = ActivityType
         /// </summary>
-        public static string OtherConfigurationStarted { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyOtherConfigurationFor".FromResourceDictionary() + " {2} " + "LangKeyIsStarted".FromResourceDictionary() + " {3}\t" + CodeConstants.OtherConfigurationStarted;
+        public static string OtherConfigurationStarted { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyOtherConfigurationFor".FromResourceDictionary() + " {2} " + "LangKeyIsStarted".FromResourceDictionary() + "\t" + CodeConstants.OtherConfigurationStarted;
 
-        public static string OtherCongigurationCompleted { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyOtherConfigurationFor".FromResourceDictionary() + " {2} " + "LangKeyIsCompleted".FromResourceDictionary() + " {3}\t" + CodeConstants.OtherCongigurationCompleted;
+        public static string OtherCongigurationCompleted { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyOtherConfigurationFor".FromResourceDictionary() + " {2} " + "LangKeyIsCompleted".FromResourceDictionary() + "\t" + CodeConstants.OtherCongigurationCompleted;
 
         public static string FilterApplied { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyAppliedFilterTo".FromResourceDictionary() + " {2} " + "LangKeySearchResults".FromResourceDictionary() + " {3}\t" + CodeConstants.FilterApplied;
 
@@ -272,7 +272,7 @@ namespace DominatorHouseCore.Utility
         /// 1 = Account's Username   
         /// 2 = delay in seconds 
         /// </summary>
-        public static string DelayBetweenPublishing { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPublishingStartedWith".FromResourceDictionary() + " {2} " + "LangKeySeconds".FromResourceDictionary() + "\t" + CodeConstants.DelayBetweenPublishing;
+        public static string DelayBetweenPublishing { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyNextPostWillStartPublishingIn".FromResourceDictionary() + " {2} " + "LangKeySeconds".FromResourceDictionary() + "\t" + CodeConstants.DelayBetweenPublishing;
 
 
         /// <summary>
