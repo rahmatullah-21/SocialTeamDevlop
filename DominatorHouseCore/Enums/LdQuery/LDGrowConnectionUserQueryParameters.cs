@@ -12,5 +12,7 @@ namespace DominatorHouseCore.Enums.LdQuery
         ProfileUrl,
         [Description("LangKeySearchUrl")]
         SearchUrl,
+        [Description("LangKeyJoinedGroupUrl")]
+        JoinedGroupUrl,
     }
 }

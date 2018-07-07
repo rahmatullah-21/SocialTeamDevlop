@@ -10,14 +10,14 @@ namespace DominatorHouseCore.Utility
         /// 1 = Account's Username
         /// 2 = ActivityType
         /// </summary>
-        public static string StartingJob { get; set; } = "{0}\t {1}\t {2}\t" + " LangKeyStartedJobTo ".FromResourceDictionary() + "{2}. \t" + CodeConstants.StartedJob;
+        public static string StartingJob { get; set; } = "{0}\t {1}\t {2}\t" + "LangKeyStartedJobTo".FromResourceDictionary() + "{2}. \t" + CodeConstants.StartedJob;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
         /// 2 = ActivityType
         /// </summary>
-        public static string JobCompleted { get; set; } = "{0}\t {1}\t {2}\t" + " LangKeySuccessfullyCompleteJobTo".FromResourceDictionary() + " {2}. \t" + CodeConstants.CompletedJob;
+        public static string JobCompleted { get; set; } = "{0}\t {1}\t {2}\t" + "LangKeySuccessfullyCompleteJobTo".FromResourceDictionary() + " {2}. \t" + CodeConstants.CompletedJob;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
