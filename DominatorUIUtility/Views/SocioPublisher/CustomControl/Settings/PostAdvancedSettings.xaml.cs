@@ -18,19 +18,17 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
         public PostAdvancedSettings()
         {
             InitializeComponent();
-
-            
         }
 
-        public PostAdvancedSettings(PublisherPostSettings PublisherPostSettings):this()
+        public PostAdvancedSettings(PublisherPostSettings PublisherPostSettings) : this()
         {
             var items = new List<TabItemTemplates>
             {
                 new TabItemTemplates
                 {
-                    Title=FindResource("DHlangGeneralSettings").ToString(),
-                    Content = new Lazy<UserControl>(()=>new PostGeneralSettings(PublisherPostSettings))
-                }
+                    Title=FindResource("LangKeyGeneralSettings").ToString(),
+                    Content = new Lazy<UserControl>(() => new PostGeneralSettings(PublisherPostSettings))
+                }              
             };
 
             var availableNetworks = SocinatorInitialize.AvailableNetworks;
@@ -58,41 +56,46 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                     case SocialNetworks.Facebook:
                         items.Add(new TabItemTemplates
                         {
-                            Title = FindResource("langFacebook").ToString(),
+                            Title = FindResource("LangKeyFacebook").ToString(),
                             Content = new Lazy<UserControl>(() => new PostFacebookSettings(PublisherPostSettings))
                         });
                         break;
                     case SocialNetworks.Instagram:
                         items.Add(new TabItemTemplates
                         {
-                            Title = FindResource("langInstagram").ToString(),
-                            Content = new Lazy<UserControl>(() => new PostInstagramSettings())
+                            Title = FindResource("LangKeyInstagram").ToString(),
+                            Content = new Lazy<UserControl>(() => new PostInstagramSettings(PublisherPostSettings))
                         });
                         break;
                     case SocialNetworks.Twitter:
                         items.Add(new TabItemTemplates
                         {
-                            Title = FindResource("DHlangTwitter").ToString(),
-                            Content = new Lazy<UserControl>(() => new PostTwitterSettings())
+                            Title = FindResource("LangKeyTwitter").ToString(),
+                            Content = new Lazy<UserControl>(() => new PostTwitterSettings(PublisherPostSettings))
                         });
                         break;
                     case SocialNetworks.LinkedIn:
                         items.Add(new TabItemTemplates
                         {
-                            Title = FindResource("DHlangLinkedIn").ToString(),
-                            Content = new Lazy<UserControl>(() => new PostLinkedInSettings())
+                            Title = FindResource("LangKeyLinkedIn").ToString(),
+                            Content = new Lazy<UserControl>(() => new PostLinkedInSettings(PublisherPostSettings))
                         });
                         break;
-
                     case SocialNetworks.Tumblr:
                         items.Add(new TabItemTemplates
                         {
-                            Title = FindResource("DHlangTumblr").ToString(),
-                            Content = new Lazy<UserControl>(() => new PostTumblrSettings())
+                            Title = FindResource("LangKeyTumblr").ToString(),
+                            Content = new Lazy<UserControl>(() => new PostTumblrSettings(PublisherPostSettings))
                         });
                         break;
                     case SocialNetworks.Pinterest:
                     case SocialNetworks.Reddit:
+                        items.Add(new TabItemTemplates
+                        {
+                            Title = FindResource("LangKeyReddit").ToString(),
+                            Content = new Lazy<UserControl>(() => new PostRedditSettings(PublisherPostSettings))
+                        });
+                        break;
                     case SocialNetworks.Quora:
                     case SocialNetworks.Gplus:
                     case SocialNetworks.Youtube:

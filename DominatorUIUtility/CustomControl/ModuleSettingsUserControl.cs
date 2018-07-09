@@ -357,6 +357,7 @@ namespace DominatorUIUtility.CustomControl
 
             if (IsNeedToSaveTemplate())
             {
+           //     UpdateJobconfiguration();
                 TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork, CampaignName);
                 SaveTemplateToAccounts(TemplateId);
                 SaveTemplateToCampaigns();
@@ -405,6 +406,23 @@ namespace DominatorUIUtility.CustomControl
                 SetDataContext();
 
                 TabSwitcher.GoToCampaign();
+            }
+        }
+
+        private void UpdateJobconfiguration()
+        {
+           string speed = Model.JobConfiguration.SelectedItem.ToString();
+            switch (speed)
+            {
+                case "Slow":
+
+                    Model.SlowSpeed.RunningTime = Model.JobConfiguration.RunningTime;
+                    Model.JobConfiguration = Model.SlowSpeed;
+                    break;
+                case "Fast":
+                    Model.FastSpeed.RunningTime = Model.JobConfiguration.RunningTime;
+                    Model.JobConfiguration = Model.FastSpeed;
+                    break;
             }
         }
 
@@ -573,11 +591,11 @@ namespace DominatorUIUtility.CustomControl
                 }
             });
 
-            var warningWindow = new Dialog().GetMetroWindow(objErrorModelControl, "Warning");
-            warningWindow.Closed += (senders, events) =>
-            {
-                needToCancel = true;
-            };
+            var warningWindow = new Dialog().GetMetroWindowWithOutClose(objErrorModelControl, "Warning");
+            //warningWindow.Closed += (senders, events) =>
+            //{
+            //    needToCancel = true;
+            //};
             #endregion
 
             #region Warning windows save button event
@@ -636,7 +654,7 @@ namespace DominatorUIUtility.CustomControl
 
             objErrorModelControl.BtnCancel.Click += (senders, events) =>
             {
-
+                needToCancel = true;
                 warningWindow.Close();
 
             };
@@ -733,7 +751,7 @@ namespace DominatorUIUtility.CustomControl
                     {
                         _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
                         this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
-                        GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, _footerControl.list_SelectedAccounts.Count, _activityType);
+                        GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork,"", _footerControl.list_SelectedAccounts.Count, _activityType);
                     }
                     else
                     {
@@ -757,6 +775,21 @@ namespace DominatorUIUtility.CustomControl
         {
             SetDataContext();
             TabSwitcher.GoToCampaign();
+        }
+
+        protected void FooterControl_OnSelectAccountChanged(List<string> listOfSelectedAccounts)
+        {
+            if (listOfSelectedAccounts.Count > 0)
+            {
+                _footerControl.list_SelectedAccounts = listOfSelectedAccounts;
+                this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+                GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork,"", _footerControl.list_SelectedAccounts.Count, _activityType);
+            }
+            else
+            {
+                this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                _footerControl.list_SelectedAccounts = listOfSelectedAccounts;
+            }
         }
 
 
@@ -907,6 +940,7 @@ namespace DominatorUIUtility.CustomControl
         bool UpdateNewlyAddedAccounts(List<string> newlyAddedAccounts)
         {
             bool isProcessSuccessful = false;
+            bool needToCancel = false;
             #region Get the accounts which holds template Id
 
             var accountDetails = AccountsFileManager.GetAllAccounts(newlyAddedAccounts, SocialNetwork);
@@ -938,19 +972,8 @@ namespace DominatorUIUtility.CustomControl
                     }
                 });
 
-                var warningWindow = new Dialog().GetMetroWindow(objErrorModelControl, "Warning");
-                warningWindow.Closed += (senders, events) =>
-                {
-                    #region Remove not selected accounts from errorModelControl
-
-                    var nonSelectedAccounts = objErrorModelControl.Accounts.Where(x => !x.IsChecked)
-                        .Select(x => x.UserName)
-                        .ToList();
-
-                    nonSelectedAccounts.ForEach(removingAccount => { _footerControl.list_SelectedAccounts.Remove(removingAccount); });
-
-                    #endregion
-                };
+                var warningWindow = new Dialog().GetMetroWindowWithOutClose(objErrorModelControl, "Warning");
+               
                 #endregion
 
                 #region Warning windows save button event
@@ -1015,7 +1038,7 @@ namespace DominatorUIUtility.CustomControl
 
                 objErrorModelControl.BtnCancel.Click += (senders, events) =>
                 {
-
+                    needToCancel = true;
                     warningWindow.Close();
                 };
 
@@ -1043,7 +1066,7 @@ namespace DominatorUIUtility.CustomControl
             }
             #endregion
             this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
-            if (_footerControl.list_SelectedAccounts.Count == 0) return false;
+            if (_footerControl.list_SelectedAccounts.Count == 0 || needToCancel) return false;
             return isProcessSuccessful;
         }
 

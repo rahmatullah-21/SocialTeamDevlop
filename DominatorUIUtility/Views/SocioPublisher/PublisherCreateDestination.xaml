@@ -50,7 +50,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangSaveDestination}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeySave}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -67,7 +67,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_clean}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangClearDestination}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeyClear}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -83,7 +83,7 @@
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <StackPanel Orientation="Horizontal" >
                                     <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                    <Label Content="{DynamicResource DHlangSelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -91,7 +91,7 @@
 
                     <Button.ContextMenu>
                         <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="MenuSelectAllDestinations" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
+                            <MenuItem Header="{DynamicResource LangKeySelectAll}" Name="MenuSelectAllDestinations" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -100,7 +100,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="MenuSelectNoneOfDestination" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
+                            <MenuItem Header="{DynamicResource LangKeySelectNone}" Name="MenuSelectNoneOfDestination" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -109,7 +109,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllWallsProfiles}" Name="MenuSelectAllWallsProfiles"  Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="OwnProfile" >
+                            <MenuItem Header="{DynamicResource LangKeySelectWallsProfilesAll}" Name="MenuSelectAllWallsProfiles"  Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="OwnProfile" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -118,7 +118,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllPagesBoard}" Name="MenuSelectPagesBoards" Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="Pages" >
+                            <MenuItem Header="{DynamicResource LangKeySelectPagesBoardsAll}" Name="MenuSelectPagesBoards" Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="Pages" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -127,7 +127,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllGroup}" Name="MenuSelectGroups" Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="Groups" >
+                            <MenuItem Header="{DynamicResource LangKeySelectGroupsAll}" Name="MenuSelectGroups" Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="Groups" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -150,7 +150,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeyBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -169,22 +169,22 @@
             <Grid Grid.Row="0">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource DHlangDestinationName}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource LangKeyDestinationName}" VerticalAlignment="Center"/>
                         <TextBox Margin="20,5" VerticalAlignment="Center" Width="250" Text="{Binding PublisherCreateDestinationModel.DestinationName}"/>
                     </StackPanel>
 
-                    <TextBlock Text="{DynamicResource DHlangSettings}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
-                    <CheckBox Content="{DynamicResource langAutoSelectNewGroups}" Margin="5" IsChecked="{Binding PublisherCreateDestinationModel.IsAddedNewGroups}"/>
-                    <CheckBox Content="{DynamicResource langUncheckGroups}" Margin="5" IsChecked="{Binding PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval}"/>
+                    <TextBlock Text="{DynamicResource LangKeySettings}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                    <CheckBox Content="{DynamicResource LangKeyAutoSelectNewGroupsForTheChosenAccounts}" Margin="5" IsChecked="{Binding PublisherCreateDestinationModel.IsAddedNewGroups}"/>
+                    <CheckBox Content="{DynamicResource LangKeyUncheckGroupsThatRequireAdminValidationForPosts}" Margin="5" IsChecked="{Binding PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval}"/>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource DHlangSelectDestinations}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                        <TextBlock Text="{DynamicResource LangKeySelectDestinations}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
                         <Button Cursor="Hand" Margin="2"                               
                                 x:Name="ButtonAddFreshAccount" 
                                 FontSize="12"                         
                                 Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding AddFreshAccounts}"  CommandParameter="{Binding ElementName=ButtonAddFreshAccount}"                              
                                 Background="Transparent">
-                            <TextBlock Text="{DynamicResource DHlangAddNewAccounts}" >
+                            <TextBlock Text="{DynamicResource LangKeyClickToAddFreshAccounts}" >
                                 <TextBlock.TextDecorations>
                                     <TextDecoration Location="Underline" PenOffset="1"/>
                                 </TextBlock.TextDecorations>
@@ -234,7 +234,10 @@
                                     <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                         <CheckBox IsChecked="{Binding IsAccountSelected}" 
                                               x:Name="ChkSingleCampaign"
-                                          Margin="6,2,6,2" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},  Converter={StaticResource ListViewItemIndexConverter}}" />
+                                          Margin="6,2,6,2" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},
+                                            Converter={StaticResource ListViewItemIndexConverter}}"
+                                                  Command="{Binding DataContext.SelectionCommand,
+                                      RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="SelectManually"/>
                                     </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -242,7 +245,7 @@
 
                         <GridViewColumn  Width="250">
                             <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource DHlangUsername}"/>
+                                <TextBlock Text="{DynamicResource LangKeyNameOrUsername}"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -255,7 +258,7 @@
 
                         <GridViewColumn Width="130">
                             <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource DHlangPlatform}"/>
+                                <TextBlock Text="{DynamicResource LangKeyPlatform}"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -431,7 +434,7 @@
 
                         <GridViewColumn Width="130">
                             <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource DHlangGroups}"/>
+                                <TextBlock Text="{DynamicResource LangKeyGroups}"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -453,7 +456,7 @@
 
                         <GridViewColumn Width="130">
                             <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource DHlangPagesBoard}"/>
+                                <TextBlock Text="{DynamicResource LangKeyPagesOrBoards}"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -471,7 +474,25 @@
 
                         <GridViewColumn Width="130">
                             <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource DHlangWallsProfiles}"/>
+                                <TextBlock Text="{DynamicResource LangKeyCustomDestination}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <Button Cursor="Hand" Margin="6,2,6,2" 
+                                                Content="{Binding CustomDestinationSelectorText}" 
+                                                x:Name="ButtonSelectGroups" 
+                                                FontWeight="SemiBold"      
+                                                Command="{Binding Path=DataContext.AddCustomDestinationCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Background="Transparent"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="130">
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{DynamicResource LangKeyWallsProfiles}"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -487,14 +508,14 @@
 
                         <GridViewColumn Width="150">
                             <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource DHlangStatus}"/>
+                                <TextBlock Text="{DynamicResource LangKeyStatus}"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="1,1,1,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                         <Button Cursor="Hand" Margin="6,2,6,2" IsEnabled="{Binding StatusSyncContent, Converter={StaticResource SyncStringToBooleanConverter}}"
                                                 Content="{Binding StatusSyncContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                x:Name="ButtonStatusSync" FontSize="12"   ToolTip="{DynamicResource DHlangToolTipForSync}"                                            
+                                                x:Name="ButtonStatusSync" FontSize="12"   ToolTip="{DynamicResource LangKeyToolTipForSync}"                                            
                                                 Command="{Binding Path=DataContext.StatusSyncCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                 Background="Transparent">
                                         </Button>

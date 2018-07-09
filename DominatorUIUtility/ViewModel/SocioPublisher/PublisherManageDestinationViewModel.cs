@@ -29,8 +29,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             SelectionCommand = new BaseCommand<object>(SelectionCanExecute, SelectionExecute);
             DeleteDestinationCommand = new BaseCommand<object>(DeleteDestinationCanExecute, DeleteDestinationExecute);
-            OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
-            InitializeDefaultDestinations();
+            OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);            
         }
 
         public ICommand NavigationCommand { get; set; }
@@ -51,7 +50,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 if (_listPublisherManageDestinationModels == value)
                     return;
-                _listPublisherManageDestinationModels = value;
+                
                 SetProperty(ref _listPublisherManageDestinationModels, value);
             }
         }
@@ -87,10 +86,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
                 SetProperty(ref _isAllDestinationSelected, value);
 
-                //if (_isAllDestinationSelected)
-                //    SelectAllDestination();
-                //else
-                //    SelectNoneDestination();
+               
                 SelectAllDestination(_isAllDestinationSelected);
                 _isUncheckedFromList = false;
             }
@@ -104,22 +100,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 x.IsSelected = isAllSelected; return x;
             }).ToList();
         }
-        //public void SelectAllDestination()
-        //{
-        //    ListPublisherManageDestinationModels.Select(x =>
-        //    {
-        //        x.IsSelected = true; return x;
-        //    }).ToList();
-        //}
-
-        //public void SelectNoneDestination()
-        //{
-        //    ListPublisherManageDestinationModels.Select(x =>
-        //    {
-        //        x.IsSelected = false; return x;
-        //    }).ToList();
-        //}
-
+       
 
         private bool NavigationCanExecute(object sender) => true;
 
@@ -130,7 +111,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 case "Back":
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
-                        = PublisherDefaultPage.Instance;
+                        = PublisherDefaultPage.Instance();
                     break;
                 case "CreateDestination":
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
@@ -186,8 +167,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-
-
         public bool DeleteDestinationCanExecute(object sender) => true;
 
         public void DeleteDestinationExecute(object sender)
@@ -207,7 +186,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
 
                 ListPublisherManageDestinationModels.Remove(destination);
-                ManageDestinationFileManager.Delete(d => d.DestinationId != null);
+                ManageDestinationFileManager.Delete(d => d.DestinationId == destination.DestinationId);
+                GenericFileManager.DeleteBinFiles(
+                    $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destination.DestinationId}.bin");
             }
             else
             {
@@ -229,8 +210,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
 
                 publisherManageDestinationModel.ForEach(x =>
-                ListPublisherManageDestinationModels.Remove(x)
-                );
+                {
+                    ListPublisherManageDestinationModels.Remove(x);
+                    GenericFileManager.DeleteBinFiles(
+                        $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{x.DestinationId}.bin");
+                });
+
                 ManageDestinationFileManager.DeleteSelected(publisherManageDestinationModel);
             }
         }
@@ -241,8 +226,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeDefaultDestinations()
         {
+            ListPublisherManageDestinationModels = new ObservableCollection<PublisherManageDestinationModel>();
+            PublisherManageDestinationModelView = null;
             PublisherManageDestinationModelView = CollectionViewSource.GetDefaultView(ListPublisherManageDestinationModels);
             var savedDestinations = ManageDestinationFileManager.GetAll();
+
             savedDestinations.ForEach(x => { AddDestinations(x, false); });
         }
 
@@ -250,7 +238,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             if (ListPublisherManageDestinationModels.Any(x => x.DestinationName == publisherManageDestinationModel.DestinationName))
             {
-                GlobusLogHelper.log.Info("Campaign name already present!");
+                GlobusLogHelper.log.Info("Destination name already present!");
                 return false;
             }
             try
@@ -258,10 +246,22 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (!Application.Current.Dispatcher.CheckAccess())
                     Application.Current.Dispatcher.Invoke(delegate
                     {
+                        publisherManageDestinationModel.AddUsedCampaignId =
+                            publisherManageDestinationModel.AddUsedCampaignId.Distinct().ToList();
+                        publisherManageDestinationModel.CampaignsCount =
+                            publisherManageDestinationModel.AddUsedCampaignId.Count;
+
                         ListPublisherManageDestinationModels.Add(publisherManageDestinationModel);
                     });
                 else
+                {
+                    publisherManageDestinationModel.AddUsedCampaignId =
+                        publisherManageDestinationModel.AddUsedCampaignId.Distinct().ToList();
+                    publisherManageDestinationModel.CampaignsCount =
+                        publisherManageDestinationModel.AddUsedCampaignId.Count;
                     ListPublisherManageDestinationModels.Add(publisherManageDestinationModel);
+                }
+                    
 
                 if (isNewDestination)
                     ManageDestinationFileManager.Add(publisherManageDestinationModel);
@@ -294,6 +294,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         destination.IsSelected = publisherManageDestinationModel.IsSelected;
                         destination.PagesOrBoardsCount = publisherManageDestinationModel.PagesOrBoardsCount;
                         destination.WallsOrProfilesCount = publisherManageDestinationModel.WallsOrProfilesCount;
+                        destination.CustomDestinationsCount = publisherManageDestinationModel.CustomDestinationsCount;
+                        destination.IsAddNewGroups = publisherManageDestinationModel.IsAddNewGroups;
+                        destination.IsRemoveGroupsRequiresValidation =
+                            publisherManageDestinationModel.IsRemoveGroupsRequiresValidation;
                     });
                 else
                 {
@@ -309,6 +313,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         destination.IsSelected = publisherManageDestinationModel.IsSelected;
                         destination.PagesOrBoardsCount = publisherManageDestinationModel.PagesOrBoardsCount;
                         destination.WallsOrProfilesCount = publisherManageDestinationModel.WallsOrProfilesCount;
+                        destination.CustomDestinationsCount = publisherManageDestinationModel.CustomDestinationsCount;
+                        destination.IsAddNewGroups = publisherManageDestinationModel.IsAddNewGroups;
+                        destination.IsRemoveGroupsRequiresValidation =
+                            publisherManageDestinationModel.IsRemoveGroupsRequiresValidation;
                     }
                 }
 

@@ -13,17 +13,17 @@
       
             <StackPanel  Margin="0,50,0,10">
             <StackPanel Orientation="Horizontal" Margin="5" >
-                <Label Content="{DynamicResource langCampaign}"/>
+                <Label Content="{DynamicResource LangKeyCampaign}"/>
                 <ComboBox x:Name="cmbCampaign" Height="25" Width="250" ItemsSource="{Binding LstCampaign}" DisplayMemberPath="CampaignName" 
                             controls:TextBoxHelper.ClearTextButton="True"   SelectionChanged="cmbCampaign_SelectionChanged" SelectedIndex="-1"/>
-                <Label Content="{DynamicResource langType}" Margin="10,0"/>
+                <Label Content="{DynamicResource LangKeyType}" Margin="10,0"/>
                 <ComboBox x:Name="cmbStatus"  Height="25" Width="200"  ItemsSource="{Binding LstStatus}" SelectedItem="{Binding SelectedStatus}"/>
             </StackPanel>
-            <TextBox controls:TextBoxHelper.Watermark="{DynamicResource langCampaign}" 
+            <TextBox controls:TextBoxHelper.Watermark="{DynamicResource LangKeyCampaign}" 
                  Name="txtCampaign" Width="310" HorizontalAlignment="Left" Margin="10,5"
                  Text="{Binding CampaignName,UpdateSourceTrigger=PropertyChanged}"/>
             <StackPanel Orientation="Horizontal" Margin="5">
-                <Label Content="{DynamicResource langStatus}" VerticalAlignment="Center"/>
+                <Label Content="{DynamicResource LangKeyStatus}" VerticalAlignment="Center"/>
                 <controls:ToggleSwitch VerticalAlignment="Center" x:Name="tglStatus" HorizontalContentAlignment="Center"
                                   FontSize="12"   OnLabel="{Binding Status}" OffLabel="{Binding Status}" Margin="10,0"                
                                   IsCheckedChanged="tglStatus_IsCheckedChanged">

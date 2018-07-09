@@ -9,16 +9,16 @@
     <Grid Name="MainGrid">
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DHlangExpireDate}" Margin="5"
+                <CheckBox Content="{DynamicResource LangKeyExpireDate}" Margin="5"
                           IsChecked="{Binding IsExpireDate}"/>
                 <DatePicker Name="DatePicker" Margin="5" SelectedDate="{Binding ExpireDate}"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DHlangReaddCount}" Margin="5"
+                <CheckBox Content="{DynamicResource LangKeyReaddPostToPostList}" Margin="5"
                           IsChecked="{Binding IsReaddCount}"/>
                 <control:NumericUpDown Minimum="0" Value="{Binding ReaddCount}"/>
-                <TextBlock Text="{DynamicResource DHlangTimes}" Name="TextBlockTimes" VerticalAlignment="Center" Margin="5"/>
+                <TextBlock Text="{DynamicResource LangKeyTimes}" Name="TextBlockTimes" VerticalAlignment="Center" Margin="5"/>
             </StackPanel>
 
           

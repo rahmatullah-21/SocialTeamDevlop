@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.BusinessLogic.Scheduler;
+﻿using System;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
@@ -43,5 +44,6 @@ namespace Socinator.DominatorCores
 
         public ICampaignInteractionDetails CampaignInteractionDetails { get; set; }
 
+        public IAccountVerificationFactory AccountVerificationFactory { get; set; }
     }
 }

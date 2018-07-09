@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using System.Threading.Tasks;
 using System.Windows;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 
 
@@ -30,10 +31,19 @@ namespace DominatorHouseCore.Utility
             return value;
         }
 
-        public static bool Check(string key) => Instance[key];
+        public static void UpdateFeatures()
+        {
+            Instance = new FeatureFlags { { "SocinatorInitializer", true } };
 
-        
-        public static Visibility Check(SocialNetworks network) 
-            => Instance[network.ToString()] ? Visibility.Visible : Visibility.Collapsed;
+            SocinatorInitialize.AvailableNetworks.ForEach(networks =>
+            {
+                Instance.Add(networks.ToString(),true);
+            });
+        }
+
+        public static bool Check(string key) => Instance.ContainsKey(key);
+
+        public static Visibility Check(SocialNetworks network)
+            => Instance.ContainsKey(network.ToString()) ? Visibility.Visible : Visibility.Collapsed;
     }
 }

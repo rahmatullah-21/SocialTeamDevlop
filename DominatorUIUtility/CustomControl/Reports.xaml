@@ -20,7 +20,7 @@
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
         <Grid>
-            <CheckBox Content="{DynamicResource langFilter}" x:Name="ChkFilter"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
+            <CheckBox Content="{DynamicResource LangKeyFilter}" x:Name="ChkFilter"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
             <Button HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Background="{DynamicResource AccentColorBrush3}" Margin="10" x:Name="ExportReport" x:FieldModifier="public">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
@@ -29,30 +29,30 @@
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_out}"></VisualBrush>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <TextBlock Text="{DynamicResource langExport}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+                        <TextBlock Text="{DynamicResource LangKeyExport}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="White"/>
                     </StackPanel>
                 </Button.Content>
             </Button>
         </Grid>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center"  Visibility="{Binding IsChecked, ElementName=ChkFilter,Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ComboBox VerticalAlignment="Center" x:Name="CmbAccounts" x:FieldModifier="public" Width="130" Margin="10 0 0 5" ItemsSource="{Binding ReportModel.AccountList}" Visibility="{Binding ReportModel.AccountList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource langSelectAccount}">
+            <ComboBox VerticalAlignment="Center" x:Name="CmbAccounts" x:FieldModifier="public" Width="130" Margin="10 0 0 5" ItemsSource="{Binding ReportModel.AccountList}" Visibility="{Binding ReportModel.AccountList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource LangKeySelectAccountS}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Content="{Binding Content}" Name="AccountCheckBox" IsChecked="{Binding IsContentSelected}"  />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ComboBox VerticalAlignment="Center"  x:Name="CmbQueries" x:FieldModifier="public" Width="130" Margin="8 0 0 5" ItemsSource="{Binding ReportModel.QueryList}" Visibility="{Binding ReportModel.QueryList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource langSelectQuery}">
+            <ComboBox VerticalAlignment="Center"  x:Name="CmbQueries" x:FieldModifier="public" Width="130" Margin="8 0 0 5" ItemsSource="{Binding ReportModel.QueryList}" Visibility="{Binding ReportModel.QueryList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource LangKeySelectQuery}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Content="{Binding Content}" Name="QueryCheckBox" IsChecked="{Binding IsContentSelected}"  />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <DatePicker VerticalAlignment="Center" Width="130" Margin="8 0 0 5"  controls:TextBoxHelper.Watermark="{DynamicResource langStartDate}"/>
-            <DatePicker VerticalAlignment="Center" Width="130" Margin="8 0 0 5"  controls:TextBoxHelper.Watermark="{DynamicResource langEndDate}"/>
-            <ComboBox VerticalAlignment="Center" x:Name="CmbStatus" x:FieldModifier="public" Width="130" Margin="8 0 10 5" ItemsSource="{Binding ReportModel.StatusList}" Visibility="{Binding ReportModel.StatusList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource langStatus}">
+            <DatePicker VerticalAlignment="Center" Width="130" Margin="8 0 0 5"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyStartDate}"/>
+            <DatePicker VerticalAlignment="Center" Width="130" Margin="8 0 0 5"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEndDate}"/>
+            <ComboBox VerticalAlignment="Center" x:Name="CmbStatus" x:FieldModifier="public" Width="130" Margin="8 0 10 5" ItemsSource="{Binding ReportModel.StatusList}" Visibility="{Binding ReportModel.StatusList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyStatus}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Content="{Binding Content}" Name="StatusCheckBox" IsChecked="{Binding IsContentSelected}"  />

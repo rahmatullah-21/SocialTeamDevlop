@@ -21,14 +21,14 @@ namespace DominatorHouseCore.FileManagers
 
 
         // Update publisher entries and save to PublisherDestinations.bin        
-        public static void UpdatePostlists(string campaignId, IList<PublisherPostlistModel> libraryDestinations)
+        public static void UpdatePostlists(string campaignId, IList<PublisherPostlistModel> libraryposts)
         {
             var all = BinFileHelper.GetPublisherPostListModels(campaignId);
 
             // Update all entries that exists in libraryDestinations, and add that does not exists
-            for (int i = 0; i < libraryDestinations.Count; i++)
+            for (int i = 0; i < libraryposts.Count; i++)
             {
-                var acc = libraryDestinations[i];
+                var acc = libraryposts[i];
                 var ix = all.FindIndex(a => acc.PostId == a.PostId);
                 if (ix == -1)
                     all.Add(acc);
@@ -37,7 +37,19 @@ namespace DominatorHouseCore.FileManagers
             }
             BinFileHelper.UpdateAllPostlists(campaignId,all);
         }
-      
+
+
+        public static void UpdatePost(string campaignId, PublisherPostlistModel posts)
+        {
+            var all = BinFileHelper.GetPublisherPostListModels(campaignId);
+
+            var requiredPost = all.FindIndex(a => posts.PostId == a.PostId);
+
+            all[requiredPost] = posts;
+
+            BinFileHelper.UpdateAllPostlists(campaignId, all);
+        }
+
 
         public static List<PublisherPostlistModel> GetAll(string campaignId) => BinFileHelper.GetPublisherPostListModels(campaignId);
 

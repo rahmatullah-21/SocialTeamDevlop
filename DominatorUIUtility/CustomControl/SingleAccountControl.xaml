@@ -39,7 +39,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Name="txtblockGroupName" Text="{DynamicResource langGroupName}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+            <TextBlock Name="txtblockGroupName" Text="{DynamicResource LangKeyGroupName}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
             <TextBox Name="txtGroupName" Text="{Binding GroupName}"  Controls:TextBoxHelper.Watermark="Type Group Name" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"/>
         </Grid>
         <Grid Grid.Row="2">
@@ -47,7 +47,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Name="txtblockUserName" Text="{DynamicResource langUsername}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+            <TextBlock Name="txtblockUserName" Text="{DynamicResource LangKeyUsername}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
             <TextBox Name="txtUserName"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Controls:TextBoxHelper.Watermark="Type User Name" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1" >
                 <TextBox.Text>
                     <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged">
@@ -63,7 +63,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Name="txtblockPassword" Text="{DynamicResource langPassword}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+            <TextBlock Name="txtblockPassword" Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
             <PasswordBox Name="txtPassword"  passwordHelper:PasswordBoxHelper.Attach="True" Style="{StaticResource MetroButtonRevealedPasswordBox}"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                          Controls:TextBoxHelper.Watermark="Enter Password" 
                          Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
@@ -92,7 +92,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2.5*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Name="txtblockProxyAddress" Text="{DynamicResource langProxyAddress}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Name="txtblockProxyAddress" Text="{DynamicResource LangKeyProxyAddress}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  Controls:TextBoxHelper.Watermark="Format:{XXX.XXX.XXX.XXX}" Width="230" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                     <TextBox.Text>
                         <Binding Path="AccountProxy.ProxyIp" UpdateSourceTrigger="PropertyChanged">
@@ -108,7 +108,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2.5*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Name="txtblockProxyPort" Text="{DynamicResource langProxyPort}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Name="txtblockProxyPort" Text="{DynamicResource LangKeyProxyPort}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Controls:TextBoxHelper.Watermark="Type Proxy Port" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                     <TextBox.Text>
                         <Binding Path="AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged">
@@ -124,7 +124,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2.5*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Name="txtblockProxyUserName" Text="{DynamicResource langProxyUsername}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Name="txtblockProxyUserName" Text="{DynamicResource LangKeyProxyUsername}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <TextBox Name="txtProxyUserName" Text="{Binding AccountProxy.ProxyUsername}" Controls:TextBoxHelper.Watermark="Type Proxy User Name" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"/>
             </Grid>
             <Grid Grid.Row="3">
@@ -132,7 +132,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2.5*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Name="txtblockProxyPassword" Text="{DynamicResource langProxyPassword}" Width="120" FontSize="13" Margin="5,11" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Name="txtblockProxyPassword" Text="{DynamicResource LangKeyProxyPassword}" Width="120" FontSize="13" Margin="5,11" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <TextBox Name="txtProxyPassword"  Text="{Binding AccountProxy.ProxyPassword}" Controls:TextBoxHelper.Watermark="Type Proxy Password" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1" Grid.ColumnSpan="2"/>
             </Grid>
         </Grid>
@@ -160,7 +160,7 @@
                     </Style>
                     </Button.Style>
                 </Button>
-                <Button x:Name="btnCancel" x:FieldModifier="public" Margin="0,0,8,10"  Content="{DynamicResource langCancel}" />
+                <Button x:Name="btnCancel" x:FieldModifier="public" Margin="0,0,8,10"  Content="{DynamicResource LangKeyCancel}" />
             </StackPanel>
         </Grid>
     </Grid>

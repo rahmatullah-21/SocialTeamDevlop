@@ -209,7 +209,7 @@ namespace DominatorHouseCore.Process
         /// <param name="scrapeResult"></param>
         public virtual void StartOtherConfiguration(ScrapeResultNew scrapeResult)
         {
-            GlobusLogHelper.log.Info(Log.OtherConfigurationStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+           // GlobusLogHelper.log.Info(Log.OtherConfigurationStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
         }
 
         /// <summary>
@@ -222,6 +222,7 @@ namespace DominatorHouseCore.Process
         {
             var jobProcessResult = PostScrapeProcess(scrapedResult);
 
+          
             jobProcessResult.IsProcessCompleted = CheckJobProcessLimitsReached();
 
             if (jobProcessResult.IsProcessCompleted)

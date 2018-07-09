@@ -301,7 +301,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isPostMultipleImagesVideoPostsAsAlbum, value);
             }
         }
-        private string _geoLocation;
+        private string _geoLocation=string.Empty;
 
         [ProtoMember(19)]
         public string GeoLocation
@@ -319,6 +319,38 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         }
         [ProtoMember(20)]
         public string CampaignId { get; set; }
+        private string _hashtagsFromList1;
+        [ProtoMember(21)]
+        public string HashtagsFromList1
+        {
+            get
+            {
+                return _hashtagsFromList1;
+            }
+            set
+            {
+                if (_hashtagsFromList1 == value)
+                    return;
+                SetProperty(ref _hashtagsFromList1, value);
+            }
+        }
+
+        private string _hashtagsFromList2;
+
+        [ProtoMember(22)]
+        public string HashtagsFromList2
+        {
+            get
+            {
+                return _hashtagsFromList2;
+            }
+            set
+            {
+                if (_hashtagsFromList2 == value)
+                    return;
+                SetProperty(ref _hashtagsFromList2, value);
+            }
+        }
         public InstagramModel Clone()
         {
             return (InstagramModel)MemberwiseClone();

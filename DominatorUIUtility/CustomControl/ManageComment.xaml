@@ -7,7 +7,7 @@
              mc:Ignorable="d" >
 
     <StackPanel Margin="10"  x:Name="MainGrid">
-        <TextBlock FontWeight="Bold" Margin="0,10,0,5" FontSize="16" Text="{DynamicResource langCommentList}" VerticalAlignment="Center"/>
+        <TextBlock FontWeight="Bold" Margin="0,10,0,5" FontSize="16" Text="{DynamicResource LangKeyCommentLists}" VerticalAlignment="Center"/>
         <ListView x:Name="CommentList" ItemsSource="{Binding LstManageCommentModel}"
                       ItemContainerStyle="{StaticResource ListViewItems}" Margin="5">
                     <ListView.Resources>
@@ -18,9 +18,9 @@
                     <ListView.View>
                         <GridView>
                             <GridView.Columns>
-                        <GridViewColumn  Header="{DynamicResource langSNo}" DisplayMemberBinding="{Binding SerialNo}"/>
-                        <GridViewColumn Header="{DynamicResource langComment}" DisplayMemberBinding="{Binding CommentText}" />
-                        <GridViewColumn Header="{DynamicResource langQuery}">
+                        <GridViewColumn  Header="{DynamicResource LangKeySNo}" DisplayMemberBinding="{Binding SerialNo}"/>
+                        <GridViewColumn Header="{DynamicResource LangKeyComment}" DisplayMemberBinding="{Binding CommentText}" />
+                        <GridViewColumn Header="{DynamicResource LangKeyQuery}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <ListBox Name="chkSelectAccount" HorizontalAlignment="Center"
@@ -41,8 +41,8 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn> 
-                        <GridViewColumn Header="{DynamicResource langFilter}" DisplayMemberBinding="{Binding FilterText}"/>
-                                <GridViewColumn Header="{DynamicResource langAction}">
+                        <GridViewColumn Header="{DynamicResource LangKeyFilter}" DisplayMemberBinding="{Binding FilterText}"/>
+                                <GridViewColumn Header="{DynamicResource LangKeyAction}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" Margin="4" >
@@ -58,7 +58,7 @@
                                                     
                                                     <Button.ContextMenu>
                                                         <ContextMenu >
-                                                            <MenuItem Header="{DynamicResource langEdit}" Height="30"  VerticalContentAlignment="Center"
+                                                    <MenuItem Header="{DynamicResource LangKeyEdit}" Height="30"  VerticalContentAlignment="Center"
                                                                       Name="EditComment" Click="EditComment_Click">
                                                                 <MenuItem.Icon>
                                                                     <Rectangle Width="20" Height="20" Fill="Black">
@@ -70,8 +70,8 @@
                                                             </MenuItem>
 
                                                             <Separator />
-                                                            
-                                                            <MenuItem Header="{DynamicResource langDelete}" Height="30" Click="DeleteSingleComment_Click"
+
+                                                    <MenuItem Header="{DynamicResource LangKeyDelete}" Height="30" Click="DeleteSingleComment_Click"
                                                                       x:Name="DeleteSingleComment" VerticalContentAlignment="Center">
                                                                 <MenuItem.Icon>
                                                                     <Rectangle Width="15" Height="20" Fill="Black">

@@ -2,6 +2,7 @@
 using System.IO;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
@@ -9,13 +10,14 @@ namespace DominatorHouseCore.FileManagers
 {
     public class SoftwareSettingsFileManager
     {
-        public static bool SaveSoftwareSettings<T>(T softwareSetting) where T : class
+        public static bool SaveSoftwareSettings(SoftwareSettingsModel softwareSetting)
         {
             try
             {
                 using (var stream = File.Create(ConstantVariable.GetOtherSoftwareSettingsFile()))
                 {
                     Serializer.Serialize(stream, softwareSetting);
+                    SoftwareSettings.Settings = softwareSetting;
                     return true;
                 }
             }

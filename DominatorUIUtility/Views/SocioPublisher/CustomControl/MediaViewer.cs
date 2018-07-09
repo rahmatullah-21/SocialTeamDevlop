@@ -369,6 +369,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public void DeleteImageClick(object sender, RoutedEventArgs args)
         {
+            MediaList.RemoveAt(ImagePointer);
+            Initialize();
             //Raise your event
             OnDeleteImage();
         }

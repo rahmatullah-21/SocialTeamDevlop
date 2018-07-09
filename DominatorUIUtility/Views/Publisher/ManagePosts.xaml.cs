@@ -27,7 +27,7 @@ namespace DominatorUIUtility.Views.Publisher
         public ManagePosts()
         {
             InitializeComponent();
-            publishersHeader.HeaderText = FindResource("langManagePosts").ToString();
+            publishersHeader.HeaderText = FindResource("LangKeyManagePosts").ToString();
             MainGrid.DataContext = ObjAddPostViewModel.AddPostModel;
             ObjAddPostViewModel.AddPostModel.PostsDetailCollection = CollectionViewSource.GetDefaultView(PostFileManager.GetAllPost());
         }

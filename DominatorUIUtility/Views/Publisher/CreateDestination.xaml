@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource DHlangCreateDestination}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource LangKeyCreateDestination}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White"/>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
@@ -30,7 +30,7 @@
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <StackPanel Orientation="Horizontal" >
                                     <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
-                                    <Label Content="{DynamicResource langSelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -38,19 +38,19 @@
 
                     <Button.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="{DynamicResource DHlangSelectAll}" Name="SelectAllAccounts" >
+                            <MenuItem Header="{DynamicResource LangKeySelectAllPagesOrBoards}" Name="SelectAllAccounts" >
                                 <MenuItem.Icon>
                                     <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="15" Height="15"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="{DynamicResource DHlangSelectNone}" Name="SelectNoneAccounts" >
+                            <MenuItem Header="{DynamicResource LangKeySelectNone}" Name="SelectNoneAccounts" >
                                 <MenuItem.Icon>
                                     <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="15" Height="15"  />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="{DynamicResource DHlangSelectAllWallsAndProfile}" Name="SelectAllWallsOrProfiles" >
+                            <MenuItem Header="{DynamicResource LangKeySelectAllWallsOrProfiles}" Name="SelectAllWallsOrProfiles" >
                                 <MenuItem.Icon>
                                     <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="15" Height="15"  />
                                 </MenuItem.Icon>
@@ -69,7 +69,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangSelectAllPagesAndBoards}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeySelectAllPagesOrBoards}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -86,7 +86,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_checkmark_thick}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangSelectAllGroups}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeySelectAllGroups}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -103,7 +103,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeyBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -118,16 +118,16 @@
             <Grid>
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5" >
-                        <TextBlock Text="{DynamicResource langName}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource LangKeyName}" VerticalAlignment="Center"/>
                         <TextBox Margin="20,0" VerticalAlignment="Center" Width="200" Text="{Binding Name}"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="{DynamicResource langAutoSelectNewGroups}" Margin="5" IsChecked="{Binding IsAutoSelectNewGroupsChecked}"/>
-                        <CheckBox Content="{DynamicResource langUncheckGroups}" Margin="5" IsChecked="{Binding IsUncheckGroupsChecked}"/>
+                        <CheckBox Content="{DynamicResource LangKeyAutoSelectNewGroupsForTheChosenAccounts}" Margin="5" IsChecked="{Binding IsAutoSelectNewGroupsChecked}"/>
+                        <CheckBox Content="{DynamicResource LangKeyUncheckGroupsThatRequireAdminValidationForPosts}" Margin="5" IsChecked="{Binding IsUncheckGroupsChecked}"/>
                     </StackPanel>
-                    
-                    <Button Content="{DynamicResource langSaveDestination}" Height="30" x:Name="SaveDestination" Margin="5,5,20,5" HorizontalAlignment="Left" Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
+
+                    <Button Content="{DynamicResource LangKeySaveDestination}" Height="30" x:Name="SaveDestination" Margin="5,5,20,5" HorizontalAlignment="Left" Foreground="White" Background="{StaticResource AccentBaseColorBrush}" />
 
                     <ListView  ItemContainerStyle="{StaticResource ListViewItems}" Margin="5" ItemsSource="{Binding DestinationCollection}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <ListView.Resources>
@@ -138,18 +138,18 @@
                         <ListView.View>
                             <GridView>
                                 <GridView.Columns>
-                                    <GridViewColumn Header="{DynamicResource langSelected}">
+                                    <GridViewColumn Header="{DynamicResource LangKeySelected}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <CheckBox/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource langName}" Width="100" DisplayMemberBinding="{Binding Name}" />
-                                    <GridViewColumn Header="{DynamicResource langPlatform}" DisplayMemberBinding="{Binding Platform}"/>
-                                    <GridViewColumn Header="{DynamicResource langGroup}" DisplayMemberBinding="{Binding Groups}"/>
-                                    <GridViewColumn Header="{DynamicResource langPagesBoards}" DisplayMemberBinding="{Binding PagesBoards}"/>
-                                    <GridViewColumn Header="{DynamicResource langWallsProfiles}" DisplayMemberBinding="{Binding WallsProfiles}"/>
+                                    <GridViewColumn Header="{DynamicResource LangKeyName}" Width="100" DisplayMemberBinding="{Binding Name}" />
+                                    <GridViewColumn Header="{DynamicResource LangKeyPlatform}" DisplayMemberBinding="{Binding Platform}"/>
+                                    <GridViewColumn Header="{DynamicResource LangKeyGroup}" DisplayMemberBinding="{Binding Groups}"/>
+                                    <GridViewColumn Header="{DynamicResource LangKeyNumOfPagesBoards}" DisplayMemberBinding="{Binding PagesBoards}"/>
+                                    <GridViewColumn Header="{DynamicResource LangKeyNumOfWallsOrProfiles}" DisplayMemberBinding="{Binding WallsProfiles}"/>
                                 </GridView.Columns>
                             </GridView>
                         </ListView.View>

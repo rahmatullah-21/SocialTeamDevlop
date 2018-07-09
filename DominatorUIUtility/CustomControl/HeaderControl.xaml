@@ -7,7 +7,7 @@
              mc:Ignorable="d" MinHeight="40">
     <Grid Name="mainGrid"  Background="{DynamicResource AccentBaseColorBrush}"  Margin="5,0,5,0">
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{DynamicResource langNameCampaign}"  Margin="10,0" Foreground="White" VerticalAlignment="Center"  FontSize="13" FontWeight="SemiBold"/>
+            <TextBlock Text="{DynamicResource LangKeyNameYourCampaign}"  Margin="10,0" Foreground="White" VerticalAlignment="Center"  FontSize="13" FontWeight="SemiBold"/>
             <TextBox Name="txtblkCampaignName" Margin="100,0,0,0" IsEnabled="{Binding IsCampaignNameEditable}" Foreground="White" Text="{Binding CampaignName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="White" CaretBrush="White" VerticalAlignment="Center"  FontSize="13" Background="Transparent" Width="300" FontWeight="SemiBold" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -17,10 +17,10 @@
                         <Setter Property="IsChecked" Value="{Binding IsExpanded}" />
                         <Style.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Content" Value="{DynamicResource DHlangCollapseAll}" />
+                                <Setter Property="Content" Value="{DynamicResource LangKeyCollapseAll}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
-                                <Setter Property="Content" Value="{DynamicResource langExpandAll}" />
+                                <Setter Property="Content" Value="{DynamicResource LangKeyExpandAll}" />
                             </Trigger>
                         </Style.Triggers>
 
@@ -38,13 +38,13 @@
                                 <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <TextBlock Text="{DynamicResource langCancelEdit}" Margin="6,0"/>
+                        <TextBlock Text="{DynamicResource LangKeyCancelEditing}" Margin="6,0"/>
                     </StackPanel>
                 </Button.Content>
             </Button>
             <Rectangle Width="25" Height="25" Fill="White" 
                        x:Name="Info"
-                       MouseDown="Info_OnMouseDown" Margin="10,0" ToolTip="{DynamicResource langInfo}">
+                       MouseDown="Info_OnMouseDown" Margin="10,0" ToolTip="{DynamicResource LangKeyInfo}">
                 <Rectangle.OpacityMask>
                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
                 </Rectangle.OpacityMask>

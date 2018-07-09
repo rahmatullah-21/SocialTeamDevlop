@@ -29,15 +29,15 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 
-                    <Label Content="{DynamicResource DHlangCreateCampaign}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                    <Label Content="{DynamicResource LangKeyCreateCampaign}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
             </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <Label Foreground="White" Name="LabelSelectCampaign" Content="{DynamicResource DHlangSelectCampaign}"/>
+                    <Label Foreground="White" Name="LabelSelectCampaign" Content="{DynamicResource LangKeySelectCampaign}"/>
                     <ComboBox x:Name="ComboCampaignList" Height="25" Width="250" ItemsSource="{Binding CampaignList}" 
                               behaviours:SelectionChangedBehaviour.Command="{Binding CampaignChangedCommand}"
-                              SelectedItem="{Binding SelectedItem}" metroControls:TextBoxHelper.ClearTextButton="True"/>
+                              SelectedItem="{Binding SelectedItem}" metroControls:TextBoxHelper.ClearTextButton="True" />
                 </StackPanel>
 
                 <Button x:Name="BtnSelectDestination" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
@@ -52,7 +52,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_table_select}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangSelectDestinations}" Margin="0,0,0,0"
+                                    <Label Content="{DynamicResource LangKeySelectDestinations}" Margin="0,0,0,0"
                                            Foreground="White" FontSize="13" FontWeight="SemiBold" 
                                            VerticalContentAlignment="Center"/>
                                 </StackPanel>
@@ -71,7 +71,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource langSave}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeySave}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -87,7 +87,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Label Content="{DynamicResource DHlangBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    <Label Content="{DynamicResource LangKeyBack}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -108,12 +108,12 @@
 
 
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <Label Content="{DynamicResource langCampaignName}" FontWeight="SemiBold"/>
-                    <TextBox metroControls:TextBoxHelper.Watermark="{DynamicResource langCampaign}" 
+                    <Label Content="{DynamicResource LangKeyCampaignName}" FontWeight="SemiBold"/>
+                    <TextBox metroControls:TextBoxHelper.Watermark="{DynamicResource LangKeyCampaign}" 
                              Name="TextBoxCampaignName" 
                              Width="250" 
                              HorizontalAlignment="Left" 
-                             Margin="10,5"
+                             Margin="10,5" IsReadOnly="{Binding IsCampaignNameEdit}"
                              Text="{Binding PublisherCreateCampaignModel.CampaignName,UpdateSourceTrigger=PropertyChanged}"/>
 
                     <metroControls:ToggleSwitch VerticalAlignment="Center" 
@@ -127,21 +127,18 @@
                             <Style TargetType="metroControls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
                                 <Style.Triggers>
                                     <Trigger Property="OnLabel" Value="Active">
-                                        <Setter Property="OffSwitchBrush" Value="LightGreen"/>
-                                        <Setter Property="OnSwitchBrush" Value="LightGreen"/>
-                                    </Trigger>
-                                    <Trigger Property="OnLabel" Value="Completed">
                                         <Setter Property="OffSwitchBrush" Value="DarkGreen"/>
                                         <Setter Property="OnSwitchBrush" Value="DarkGreen"/>
                                     </Trigger>
-                                    <Trigger Property="OffLabel" Value="Paused">
-                                        <Setter Property="OffSwitchBrush" Value="Yellow"/>
-                                        <Setter Property="OnSwitchBrush" Value="Yellow"/>
+                                    <Trigger Property="OnLabel" Value="Completed">
+                                        <Setter Property="OffSwitchBrush" Value="DodgerBlue"/>
+                                        <Setter Property="OnSwitchBrush" Value="DodgerBlue"/>
                                     </Trigger>
-                                    <Trigger Property="OffLabel" Value="Stopped">
+                                    <Trigger Property="OffLabel" Value="Paused">
                                         <Setter Property="OffSwitchBrush" Value="Red"/>
                                         <Setter Property="OnSwitchBrush" Value="Red"/>
                                     </Trigger>
+                                  
                                 </Style.Triggers>
                             </Style>
                         </metroControls:ToggleSwitch.Style>
@@ -177,7 +174,7 @@
                 </TabControl.ItemContainerStyle>
 
                 <!--Options selections like create post, create post by multiple area, Scarpe post, Share post, Rss feed , Monitor folder-->
-                <TabItem Header="{DynamicResource DhlangPostManager}" >
+                <TabItem Header="{DynamicResource LangKeyPostManager}" >
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                         <TabControl x:Name="CreateCampaignTabs" ItemsSource="{Binding PostTabItems}" TabStripPlacement="Top"  Margin="10,5,5,5"
                                 metroControls:TabControlHelper.IsUnderlined="True"
@@ -195,14 +192,15 @@
                         </TabControl>
                     </ScrollViewer>
                 </TabItem>
-                <TabItem Header="{DynamicResource DhlangPostConfiguration}" >
+                <TabItem Header="{DynamicResource LangKeyPostConfiguration}" >
                     <!--Job Configuration and Other Configuration-->
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                         <StackPanel>
-                            <Expander Header="{DynamicResource langJobConfiguration}" Margin="15,5,5,5">
-                                <publisher:JobConfiguration JobConfigurations="{Binding PublisherCreateCampaignModel.JobConfigurations,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="15,5,5,5">
+                                <ContentControl Content="{Binding JobConfigurationControl}"></ContentControl>
+                                <!--<publisher:JobConfiguration JobConfigurations="{Binding PublisherCreateCampaignModel.JobConfigurations,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>-->
                             </Expander>
-                            <Expander Header="{DynamicResource langOtherConfigurations}" Margin="15,5,5,5">
+                            <Expander Header="{DynamicResource LangKeyOtherConfigurations}" Margin="15,5,5,5">
                                 <publisher:OtherConfiguration OtherConfigurations="{Binding PublisherCreateCampaignModel.OtherConfiguration}"/>
                             </Expander>
                         </StackPanel>

@@ -192,7 +192,7 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var selectedGroups = _objAccountViewModel.Groups.Count(x => x.IsContentSelected);
-                cmbAllGroups.Text = $"{selectedGroups} {FindResource("langGroupSelected").ToString()}";
+                cmbAllGroups.Text = $"{selectedGroups} {FindResource("LangKeyGroupSSelected").ToString()}";
             }
             catch (Exception ex)
             {

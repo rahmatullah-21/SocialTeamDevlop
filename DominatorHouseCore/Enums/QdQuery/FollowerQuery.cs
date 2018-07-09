@@ -4,17 +4,17 @@ namespace DominatorHouseCore.Enums.QdQuery
 {
     public enum FollowerQuery
     {
-        [Description("langKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords,
-        [Description("langSomeonesFollowers")]
+        [Description("LangKeySomeonesFollowers")]
         SomeonesFollowers,
-        [Description("QDlangSomeonesFollowings")]
+        [Description("LangKeySomeonesFollowings")]
         SomeonesFollowings,
-        [Description("langFollowersOfSomeonesFollowings")]
+        [Description("LangKeyFollowersOfSomeonesFollowings")]
         FollowersOfFollowings ,
-        [Description("langFollowersOfSomeonesFollowers")]
+        [Description("LangKeyFollowersOfSomeonesFollowers")]
         FollowersOfFollowers ,
-        [Description("langCustomUser")]
+        [Description("LangKeyCustomUsersList")]
         CustomUsers,
     }
 }

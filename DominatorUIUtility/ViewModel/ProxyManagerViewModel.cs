@@ -238,11 +238,11 @@ namespace DominatorUIUtility.ViewModel
             ProxyManagerModel = new ProxyManagerModel();
             try
             {
-                objAddProxyControl.btnSave.Content = Application.Current.FindResource("langSave").ToString();
+                objAddProxyControl.btnSave.Content = Application.Current.FindResource("LangKeySave").ToString();
                 objAddProxyControl.MainGrid.DataContext = ProxyManagerModel;
                 // ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyManagerModel.AccountProxy.ProxyIp.Replace(".", "")}";
                 Dialog dialog = new Dialog();
-                Window window = dialog.GetMetroWindow(objAddProxyControl, Application.Current.FindResource("langAddProxy").ToString());
+                Window window = dialog.GetMetroWindow(objAddProxyControl, Application.Current.FindResource("LangKeyAddProxy").ToString());
                 DialogParticipation.SetRegister(window, window);
                 objAddProxyControl.btnSave.Click += (o, ex) =>
                 {
@@ -276,7 +276,7 @@ namespace DominatorUIUtility.ViewModel
                         LstProxyManagerModel.Add(ProxyManagerModel);
 
                         GlobusLogHelper.log.Info(Log.Added, SocialNetworks.Social, ProxyManagerModel.AccountProxy.ProxyIp + " : " +
-                                                                                   ProxyManagerModel.AccountProxy.ProxyPort);
+                                                                                   ProxyManagerModel.AccountProxy.ProxyPort, "LangKeyProxy".FromResourceDictionary());
                         window.Close();
                     }
                     catch (Exception e)
@@ -499,7 +499,7 @@ namespace DominatorUIUtility.ViewModel
                         using (var streamWriter = new StreamWriter(filename, true))
                         {
                             streamWriter.WriteLine(csvData);
-                            GlobusLogHelper.log.Info(Log.Exported, SocialNetworks.Social, proxy.AccountProxy.ProxyIp + " : " + proxy.AccountProxy.ProxyPort);
+                            GlobusLogHelper.log.Info(Log.Exported, SocialNetworks.Social, proxy.AccountProxy.ProxyIp + " : " + proxy.AccountProxy.ProxyPort, "LangKeyProxy".FromResourceDictionary());
                         }
 
                     }
@@ -549,7 +549,7 @@ namespace DominatorUIUtility.ViewModel
                 var dataGrid = ((FrameworkElement)senderList[0]) as DataGrid;
 
                 var columnToChangeVisiblity = dataGrid.Columns.Single(gridColumn => gridColumn.Header.ToString() ==
-                                               Application.Current.FindResource("langSocialProfiles").ToString());
+                                               Application.Current.FindResource("LangKeySocialProfiles").ToString());
                 if ((bool)senderList[1])
                     columnToChangeVisiblity.Visibility = Visibility.Collapsed;
                 else
@@ -571,9 +571,9 @@ namespace DominatorUIUtility.ViewModel
                 var dataGrid = ((FrameworkElement)senderList[0]) as DataGrid;
 
                 var proxyUserVisiblity = dataGrid.Columns.Single(gridColumn => gridColumn.Header.ToString() ==
-                                                                                    Application.Current.FindResource("langProxyUsername").ToString());
+                                                                                    Application.Current.FindResource("LangKeyProxyUsername").ToString());
                 var proxyPasswordVisiblity = dataGrid.Columns.Single(gridColumn => gridColumn.Header.ToString() ==
-                                                                                    Application.Current.FindResource("langProxyPassword").ToString());
+                                                                                    Application.Current.FindResource("LangKeyProxyPassword").ToString());
                 if ((bool)senderList[1])
                 {
                     proxyUserVisiblity.Visibility = Visibility.Collapsed;
@@ -700,7 +700,7 @@ namespace DominatorUIUtility.ViewModel
                                 DialogCoordinator.Instance.ShowModalMessageExternal(
                                     Application.Current.MainWindow, "Success",
                                     $"{SelectedProxies.Count} proxies successfully Deleted.");
-                                GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{SelectedProxies.Count} proxies");
+                                GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{SelectedProxies.Count} proxies", "LangKeyProxy".FromResourceDictionary());
                             });
 
 

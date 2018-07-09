@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouse.OtherConfiguration;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.ConfigControl;
@@ -32,14 +33,19 @@ namespace Socinator.Social.OtherConfiguration
             {
                 new TabItemTemplates
                 {
-                    Title =FindResource("DHlangSoftwareSettings").ToString(),
+                    Title =FindResource("LangKeySoftwareSettings").ToString(),
                    Content = new Lazy<UserControl>(SoftwareSettings.GetSingeltonObjectSoftwareSettings)
                 },
-                //new TabItemTemplates
-                //{
-                //    Title=FindResource("DHlangEmbeddedBrowserSettings").ToString(),
-                //  Content = new Lazy<UserControl>(EmbeddedBrowserSettings.GetSingeltonObjectEmbeddedBrowserSettings)
-                //},
+                new TabItemTemplates
+                {
+                    Title=FindResource("LangKeyMacroS").ToString(),
+                  Content = new Lazy<UserControl>(SocinatorMacros.GetSingeltonSocinatorMacros)
+                },
+                new TabItemTemplates
+                {
+                    Title=FindResource("LangKeyThirdPartyServices").ToString(),
+                    Content = new Lazy<UserControl>(ThirdPartyServices.GetSingeltonThirdPartyServices)
+                },
                 //new TabItemTemplates
                 //{
                 //    Title=FindResource("langFacebook").ToString(),

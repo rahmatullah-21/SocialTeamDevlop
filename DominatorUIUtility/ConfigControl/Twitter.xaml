@@ -9,7 +9,7 @@
     <GroupBox Background="{DynamicResource AccentBaseColorBrush}" >
         <GroupBox.Header>
             <Grid>
-                <Label Content="{DynamicResource langConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
+                <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
                 <Button Name="BtnSave" Click="BtnSave_OnClick"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"
                         VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button.Content>
@@ -29,22 +29,22 @@
 
            
                 <StackPanel Orientation="Horizontal">
-                    <Label Margin="5" Content="{DynamicResource DHlangWaitMinimumOf}"/>
+                <Label Margin="5" Content="{DynamicResource LangKeyWaitAMinimumOf}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
-                <Label Content="{DynamicResource DHlangHoursBeforeRefreshingTd}"/>
+                <Label Content="{DynamicResource LangKeyHoursBeforeRefreshingTheFriendListForATwitterAccountFriendBackupOrInviteToolsMustBeStarted}"/>
                 </StackPanel>
-                <CheckBox Margin="5" Content="{DynamicResource DHlangDisableSyncForNewAccounts}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyDisableSyncForNewAccounts}"
                           IsChecked="{Binding IsDisableSyncForNewAccountsChecked}"/>
                 <StackPanel Orientation="Horizontal">
-                    <Label Margin="5" Content="{DynamicResource DHlangAllowSyncsToExecute}"/>
+                <Label Margin="5" Content="{DynamicResource LangKeyAllowSyncsToExecuteOnAMaximumOf}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding MaxOfFbAccount}"/>
-                <Label Content="{DynamicResource DHlangFacebookAccountsAtSameTimeTd}"/>
+                <Label Content="{DynamicResource LangKeyTwitterAccountsAtTheSameTime}"/>
                 </StackPanel>
 
-           
-            <!--<CheckBox Margin="5" Content="{DynamicResource DHlangEnableFollowDifferentUsersAcrossTwitterAccounts}"
+
+            <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyEnableFollowDifferentUsersAcrossAllTwitterAccountsConfiguredInSocinator}"
                       IsChecked="{Binding IsEnableFollowDifferentUsersAcrossTwitterAccountsChecked}"/>
-            <CheckBox Margin="5" Content="{DynamicResource DHlangEnableFollowDifferentUsersAcrossTwitterAccountsWithSameTagname}"
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableDifferentUsersPostsAcrossTwitterAccountsWithSameTagname}"
                       IsChecked="{Binding IsEnableFollowDifferentUsersAcrossTwitterAccountsWithSameTagnameChecked}"/>-->
        </StackPanel>
         </GroupBox>

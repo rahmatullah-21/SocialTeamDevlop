@@ -27,7 +27,7 @@
                 <!--Groups combobox-->
                 <Grid Height="30" VerticalAlignment="Center" >
                     <ComboBox x:Name="cmbAllGroups" Margin="10,0,0,0"
-                      Grid.Column="0" Text="{DynamicResource langSelectGroup}"
+                      Grid.Column="0" Text="{DynamicResource LangKeySelectGroups}"
                        Width="200" Height="30"
                       VerticalAlignment="Center" VerticalContentAlignment="Top"
                       FontSize="14" Background="White"
@@ -45,13 +45,13 @@
 
                 <!--Filter Section-->
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource langSearch}" 
+                    <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" 
                               VerticalAlignment="Center" Height="30"  HorizontalAlignment="Left" Width="150"
                               Style="{StaticResource SearchMetroTextBox}" Name="txtSearch" TextChanged="txtSearch_TextChanged"/>
                     <ComboBox Margin="10,0"  Controls:TextBoxHelper.ClearTextButton="True" SelectedIndex="0" Width="150" 
                               VerticalAlignment="Center" HorizontalAlignment="Right" Height="30"  Name="cmbSearchFilter" >
-                        <ComboBoxItem Content="{DynamicResource langByGroupName}"/>
-                        <ComboBoxItem Content="{DynamicResource langByAccount}"/>
+                        <ComboBoxItem Content="{DynamicResource LangKeyByGroupName}"/>
+                        <ComboBoxItem Content="{DynamicResource LangKeyByAccount}"/>
                     </ComboBox>
                 </StackPanel>
             </Grid>
@@ -86,9 +86,9 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <!--<GridViewColumn  Header="{DynamicResource langSNo}" DisplayMemberBinding="{Binding RowNo}" />-->
-                            <GridViewColumn   Header="{DynamicResource langAccounts}" DisplayMemberBinding="{Binding UserName}" />
-                            <GridViewColumn   Header="{DynamicResource langGroupName}" DisplayMemberBinding="{Binding GroupName}"/>
+                            <!--<GridViewColumn  Header="{DynamicResource LangKeySNo}" DisplayMemberBinding="{Binding RowNo}" />-->
+                            <GridViewColumn   Header="{DynamicResource LangKeyAccounts}" DisplayMemberBinding="{Binding UserName}" />
+                            <GridViewColumn   Header="{DynamicResource LangKeyGroupName}" DisplayMemberBinding="{Binding GroupName}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -101,8 +101,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-                    <Button  Content="{DynamicResource langSave}" Name="btnSave" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" />
-                    <Button Content="{DynamicResource langCancel}" Name="btnCancel" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
+                    <Button  Content="{DynamicResource LangKeySave}" Name="btnSave" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" />
+                    <Button Content="{DynamicResource LangKeyCancel}" Name="btnCancel" x:FieldModifier="public" HorizontalAlignment="Center" Margin="0,0,10,0" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
                 </StackPanel>
             </Grid>
 

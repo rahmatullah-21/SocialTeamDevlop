@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Windows;
@@ -20,7 +24,7 @@ namespace DominatorHouseCore.Utility
         public static string GetMobileDeviceId(string Guid = "")
         {
             // Collect the random inputString with five character, convert those character to byte array with help of the MD5
-            return "android-" + (String.IsNullOrEmpty(Guid)?RandomUtilties.GetRandomString(5).GetHexFromString().Substring(0, 16):Guid);
+            return "android-" + (String.IsNullOrEmpty(Guid) ? RandomUtilties.GetRandomString(5).GetHexFromString().Substring(0, 16) : Guid);
         }
 
 
@@ -122,22 +126,57 @@ namespace DominatorHouseCore.Utility
         }
 
 
-      /// <summary>
-      /// Calculates percentage
-      /// </summary>
-      /// <param name="value"></param>
-      /// <param name="percentage"></param>
-      /// <returns></returns>
+        /// <summary>
+        /// Calculates percentage
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="percentage"></param>
+        /// <returns></returns>
         public static int PercentageCalculator(int value, int percentage)
         {
-          return (value * percentage) / 100;
+            return (value * percentage) / 100;
         }
 
         // Returns string from resource dictionary
         public static string FromResourceDictionary(this string resourceDictionaryKey)
-            => Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ?? resourceDictionaryKey;
+        {
+            try
+            {
+                var lang = Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ?? resourceDictionaryKey;
+                return lang;
+            }
+            catch (Exception ex)
+            {
+                var keySubstring = resourceDictionaryKey.Substring("LangKey".Length);
+                return Regex.Replace(keySubstring, "(\\B[A-Z])", " $1");
+            }
+        }
 
+        public static void testContent()
+        {
+            try
+            {
+                var abc = Application.Current.MainWindow.Resources.MergedDictionaries;
+                var abcd = Application.Current.Resources.MergedDictionaries;
+                var ab = abcd[3];
+                var a = ab.Keys;
+                ResourceDictionary resource = new ResourceDictionary();
+                resource = ab;
+                var abcde = ab["LangKeyGrowFollowers"];
+                var Path = new Uri("/DominatorUIUtility;component/Resources/Languages/English.xaml", UriKind.RelativeOrAbsolute);
+                var tet = abcd.Where(x => x.Contains(Path.ToString()));
+                var abcdedf = abcd.Where(x => x.Source.OriginalString.Contains("English"));
+                resource = abcd.Where(x => x.Source.OriginalString.Contains("English")).FirstOrDefault();
+                resource = abcd.FirstOrDefault(x =>
+                        x.Source.OriginalString == "/DominatorUIUtility;component/Resources/Languages/English.xaml");
 
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
 
         public static void ExportReports(string fileName, string csvHeader, List<string> csvData)
         {
@@ -177,6 +216,77 @@ namespace DominatorHouseCore.Utility
                 urlFormData += (urlFormData == String.Empty ? String.Empty : "&") + dictKey + "=" + dict[dictKey];
             }
             return urlFormData;
+        }
+
+        public static string RemoveUrls(string text) =>
+            Regex.Replace(text, @"\b(?:https?://|www\.)\S+\b", string.Empty).Trim();
+
+        public static string ReplaceWithShortenUrl(string text)
+        {
+            var linkParser = new Regex(@"\b(?:https?://|www\.)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return linkParser.Replace(text, ReplaceMatchEvaluator);
+        }
+
+        public static string ReplaceMatchEvaluator(Match match) => Shorten(match.Value);
+
+        public static string Shorten(string longUrl)
+        {
+            if (string.IsNullOrEmpty(longUrl))
+                return longUrl;
+
+            var login = ConstantVariable.BitlyLogin;
+            var apikey = ConstantVariable.BitlyApiKey;
+
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(apikey))
+                return longUrl;
+
+            var url = $"http://api.bit.ly/shorten?format=json&version=2.0.1&longUrl={HttpUtility.UrlEncode(longUrl)}&login={login}&apiKey={apikey}";
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            try
+            {
+                var response = request.GetResponse();
+                using (var responseStream = response.GetResponseStream())
+                {
+                    if (responseStream != null)
+                    {
+                        var reader = new StreamReader(responseStream, Encoding.UTF8);
+                        dynamic jsonResponse = JsonConvert.DeserializeObject(reader.ReadToEnd());
+                        string shortUrl = jsonResponse["results"][longUrl]["shortUrl"];
+                        return shortUrl;
+                    }
+                }
+            }
+            catch (WebException)
+            {
+                return longUrl;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return longUrl;
+        }
+
+
+        /// <summary>
+        /// Extract integer only value from string
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+
+        public static string GetIntegerOnlyString(string data)
+        {
+            if (data.Contains("null"))
+                return "0";
+
+            return Regex.Replace(data, "[^0-9]+", string.Empty);
+        }
+
+
+        public static string FirstMatchExtractor(string decodedResponse, string pattern)
+        {
+            var match = Regex.Matches(decodedResponse, pattern, RegexOptions.Singleline);
+            return match.Count > 0 ? match[0].Groups[1].ToString() : string.Empty;
         }
     }
 }

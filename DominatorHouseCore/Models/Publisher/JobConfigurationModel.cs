@@ -26,7 +26,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private TimeRange _timeRange = new TimeRange(new TimeSpan(0, 0, 0), new TimeSpan(23, 59, 59));
+        private TimeRange _timeRange;
         [ProtoMember(2)]
         public TimeRange TimeRange
         {
@@ -52,9 +52,7 @@ namespace DominatorHouseCore.Models.Publisher
                 return _isSpecifyPostingIntervalChecked;
             }
             set
-            {
-                if (!value)
-                    LstTimer.Clear();
+            {               
                 if (value == _isSpecifyPostingIntervalChecked)
                     return;
                 SetProperty(ref _isSpecifyPostingIntervalChecked, value);
@@ -71,9 +69,7 @@ namespace DominatorHouseCore.Models.Publisher
                 return _isRandomizePublishingTimerChecked;
             }
             set
-            {
-                if (!value)
-                    LstTimer.Clear();
+            {             
                 if (value == _isRandomizePublishingTimerChecked)
                     return;
                 SetProperty(ref _isRandomizePublishingTimerChecked, value);
@@ -275,15 +271,13 @@ namespace DominatorHouseCore.Models.Publisher
         {
             get { return _weekday; }
             set
-            {
-                if (value == _weekday)
-                    return;
+            {                
                 SetProperty(ref _weekday, value);
             }
         }
 
 
-        private ObservableCollection<TimeSpanHelper> _lstTimer =  new ObservableCollection<TimeSpanHelper> ();
+        private ObservableCollection<TimeSpanHelper> _lstTimer = new ObservableCollection<TimeSpanHelper>();
         [ProtoMember(26)]
         public ObservableCollection<TimeSpanHelper> LstTimer
         {
@@ -300,19 +294,19 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private int _publishOn;
+        private int _randomDestinationCount = 2;
         [ProtoMember(27)]
-        public int PublishOn
+        public int RandomDestinationCount
         {
             get
             {
-                return _publishOn;
+                return _randomDestinationCount;
             }
             set
             {
-                if (value == _publishOn)
+                if (value == _randomDestinationCount)
                     return;
-                SetProperty(ref _publishOn, value);
+                SetProperty(ref _randomDestinationCount, value);
             }
         }
 
@@ -351,7 +345,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private RangeUtilities _delayBetween = new RangeUtilities();
+        private RangeUtilities _delayBetween = new RangeUtilities(10,30);
         [ProtoMember(30)]
         public RangeUtilities DelayBetween
         {
@@ -368,7 +362,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private RangeUtilities _postRange = new RangeUtilities();
+        private RangeUtilities _postRange = new RangeUtilities(2,4);
         [ProtoMember(31)]
         public RangeUtilities PostRange
         {
@@ -385,7 +379,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private RangeUtilities _delayBetweenPost = new RangeUtilities();
+        private RangeUtilities _delayBetweenPost = new RangeUtilities(10,30);
         [ProtoMember(32)]
         public RangeUtilities DelayBetweenPost
         {
@@ -419,7 +413,7 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private DateTime _campaignEndDate = DateTime.Now.AddDays(10);
+        private DateTime _campaignEndDate = DateTime.Now.AddYears(2);
         [ProtoMember(34)]
         public DateTime CampaignEndDate
         {
@@ -434,12 +428,34 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _campaignEndDate, value);
             }
         }
+
+
+        public void InitializeDefaultJobConfiguration()
+        {
+            Weekday.Clear();
+
+            foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+            {
+                Weekday.Add(new ContentSelectGroup
+                {
+                    Content = day.ToString(),
+                    IsContentSelected = true
+                });
+            }
+
+            TimeRange = new TimeRange(new TimeSpan(0, 0, 0), new TimeSpan(23, 59, 59));
+            IsSpecifyPostingIntervalChecked = true;
+        }
     }
 
     [Serializable]
     [ProtoContract]
     public class TimeRange : BindableBase
     {
+        public TimeRange()
+        {
+            
+        }
 
         // Constructor for initialize the start time and end time to local property
         public TimeRange(TimeSpan startTime, TimeSpan endTime)

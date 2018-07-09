@@ -11,8 +11,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         Paused = 1,
 
         [Description("Campaign Completed")]
-        Completed = 2,
-        [Description("Campaign Stopped")]
-        Stopped = 2
+        Completed = 2
+
     }
 }

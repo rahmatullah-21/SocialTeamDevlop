@@ -9,7 +9,7 @@
     <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
         <GroupBox.Header>
             <Grid>
-                <Label Content="{DynamicResource langConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
+                <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
                 <Button Name="BtnSave" Click="BtnSave_OnClick"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"
                     VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button.Content>
@@ -29,108 +29,108 @@
         <ScrollViewer x:Name="MainGrid">
             <StackPanel Margin="10,10,0,0">
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <CheckBox Content="{DynamicResource langMaxInstaConnections}"
+                    <CheckBox Content="{DynamicResource LangKeyMaximumNumberOfConcurrentInstagramConnections}"
                                   IsChecked="{Binding IsMaxInstaConnectionsChecked}"/>
                     <Controls:NumericUpDown Value="{Binding InstaConnectionsValue}"
                                             IsEnabled="{Binding IsMaxInstaConnectionsChecked}" Minimum="0"/>
                 </StackPanel>
-                <CheckBox Margin="5" Content="{DynamicResource langEnableFollowDifferentUser}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableFollowDifferentUsersAcrossAllInstagramAccountsConfiguredInInstagram}"
                               x:Name="ChkEnableFollowDifferentUser" IsChecked="{Binding IsEnableFollowDifferentUserChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource langEnableLikeDifferentUser}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableLikeDifferentUsersAcrossAllInstagramAccountsConfiguredInInstagram}"
                               x:Name="ChkEnableLikeDifferentUser" IsChecked="{Binding IsEnableLikeDifferentUserChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource langEnableCommentDifferentUser}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableCommentDifferentUsersAcrossAllInstagramAccountsConfiguredInInstagram}"
                               x:Name="ChkEnableCommentDifferentUser" IsChecked="{Binding IsEnableCommentDifferentUserChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource langEnableRepostDifferentUser}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableRepostDifferentPostsAcrossAllInstagramAccountsConfiguredInInstagram}"
                               x:Name="ChkEnableRepostDifferentUser" IsChecked="{Binding IsEnableRepostDifferentUserChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource langEnablePostDifferentUser}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableDifferentUsersPostsAcrossAllInstagramAccountsWithSameTagName}"
                               x:Name="ChkEnablePostDifferentUser" IsChecked="{Binding IsEnablePostDifferentUserChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource langEnableMinimumDelay}" 
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableMinimumDelayBetweenOperations}" 
                               x:Name="ChkEnableMinimumDelay" IsChecked="{Binding IsEnableMinimumDelayChecked}"/>
                 <StackPanel Margin="5" Orientation="Horizontal" x:Name="StkPnlEnableMinimumDelay">
-                    <CheckBox Content="{DynamicResource langWaitBetween}" 
+                    <CheckBox Content="{DynamicResource LangKeyWaitBetween}" 
                                   IsChecked="{Binding IsWaitBetweenMinimumDelayChecked}"/>
                     <Controls:NumericUpDown IsEnabled="{Binding IsWaitBetweenMinimumDelayChecked}"
                                                 Value="{Binding WaitBetweenMinimumDelay.StartValue}" Minimum="0"/>
-                    <Label Content="{DynamicResource langAnd}"/>
+                    <Label Content="{DynamicResource LangKeyAnd}"/>
                     <Controls:NumericUpDown  IsEnabled="{Binding IsWaitBetweenMinimumDelayChecked}"
                                                  Minimum="{Binding WaitBetweenMinimumDelay.StartValue}"
                                                  Value="{Binding WaitBetweenMinimumDelay.EndValue}"/>
-                    <Label Content="{DynamicResource langminimumBetweenEachAccount}"/>
+                    <Label Content="{DynamicResource LangKeySecondsMinimumBetweenEachAccountActions}"/>
                 </StackPanel>
-                <CheckBox Margin="5" Content="{DynamicResource langUpdateAccountName}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyUpdateAccountNameWhenChangingInstagramUsername}"
                               x:Name="ChkUpdateAccountName" IsChecked="{Binding IsUpdateAccountNameChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource langDoNotUseEmbeddedBrowserToLogin}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotUseEmbeddedBrowserToLoginOnInstagram}"
                               x:Name="ChkDoNotUseEmbeddedBrowserToLogin" IsChecked="{Binding IsDoNotUseEmbeddedBrowserToLoginChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource langDoNotUseEmbeddedBrowserToFollow}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNoUseEmbeddedBrowserToFollowOnInstagram}"
                               x:Name="ChkDoNotUseEmbeddedBrowserToFollow" IsChecked="{Binding IsDoNotUseEmbeddedBrowserToFollowChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource langAutoPhoneVerifyAccount}" 
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyAutomaticallyPhoneVerifyAccountWhenNeeded}" 
                               x:Name="ChkAutoPhoneVerifyAccount" IsChecked="{Binding IsAutoPhoneVerifyAccountChecked}"/>
                 <StackPanel Margin="5" Orientation="Horizontal" x:Name="StkPnlAutoPhoneVerifyAccount">
-                    <CheckBox Content="{DynamicResource langWaitBetween}"
+                    <CheckBox Content="{DynamicResource LangKeyWaitBetween}"
                                   IsChecked="{Binding IsWaitBetweenVerifyAccountChecked}"/>
                     <Controls:NumericUpDown Value="{Binding WaitBetweenVerifyAccount.StartValue}"
                                                 IsEnabled="{Binding IsWaitBetweenVerifyAccountChecked}" Minimum="0"/>
-                    <Label Content="{DynamicResource langAnd}"/>
+                    <Label Content="{DynamicResource LangKeyAnd}"/>
                     <Controls:NumericUpDown Minimum="{Binding WaitBetweenVerifyAccount.StartValue}" 
                                                 Value="{Binding WaitBetweenVerifyAccount.EndValue}"
                                                 IsEnabled="{Binding IsWaitBetweenVerifyAccountChecked}"/>
-                    <Label Content="{DynamicResource langMinutesBeforeVerifiyingAccount}"/>
+                    <Label Content="{DynamicResource LangKeyMinutesBeforeVerifiyingTheAccount}"/>
                 </StackPanel>
-                <CheckBox Margin="5" Content="{DynamicResource langAutoLoginAfterPhoneVerification}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyAutomaticallyLoginAfterPhoneVerification}"
                               x:Name="ChkAutoLoginAfterPhoneVerification"
                               IsChecked="{Binding IsAutoLoginAfterPhoneVerificationChecked}"/>
-                <CheckBox Margin="5" Content="{DynamicResource langEnableDelayForBulk}"
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableDelayForBulkProfileEdit}"
                               x:Name="ChkEnableDelayForBulk" IsChecked="{Binding IsEnableDelayForBulkChecked}"/>
                 <StackPanel Margin="5" Orientation="Horizontal" x:Name="StkPnlEnableDelayForBulk">
-                    <CheckBox Content="{DynamicResource langWaitBetween}"
+                    <CheckBox Content="{DynamicResource LangKeyWaitBetween}"
                                   IsChecked="{Binding IsWaitBetweenBulkDelayChecked}"/>
                     <Controls:NumericUpDown IsEnabled="{Binding IsWaitBetweenBulkDelayChecked}"
                                                 Value="{Binding WaitBetweenBulkDelay.StartValue}" Minimum="0"/>
-                    <Label Content="{DynamicResource langAnd}"/>
+                    <Label Content="{DynamicResource LangKeyAnd}"/>
                     <Controls:NumericUpDown IsEnabled="{Binding IsWaitBetweenBulkDelayChecked}"
                                                 Minimum="{Binding WaitBetweenBulkDelay.StartValue}"
                                                 Value="{Binding WaitBetweenBulkDelay.EndValue}"/>
-                    <Label Content="{DynamicResource GDlangSecondsBetweenEachProfileUpdate}"/>
+                    <Label Content="{DynamicResource LangKeySecondsBetweenEachProfileUpdate}"/>
                 </StackPanel>
-                <CheckBox Margin="5"  Content="{DynamicResource langDisableAutoReportProblem}" 
+                <CheckBox Margin="5"  Content="{DynamicResource LangKeyDisableAutoReportProblemWhenGettingASpamErrorMessageForFollowLikeOrComments}" 
                               x:Name="ChkDisableAutoReportProblem" IsChecked="{Binding IsDisableAutoReportProblemChecked}"/>
-                <CheckBox Margin="5"  Content="{DynamicResource langDisableOptimizationForGettingUserInfo}" 
+                <CheckBox Margin="5"  Content="{DynamicResource LangKeyDisableOptimizationForGettingUserInfo}" 
                               x:Name="ChkDisableOptimizationForGettingUserInfo" IsChecked="{Binding IsDisableOptimizationForGettingUserInfoChecked}"/>
-                <CheckBox Margin="5"  Content="{DynamicResource langApiToSaveBandwidth}"
+                <CheckBox Margin="5"  Content="{DynamicResource LangKeyUserOnlyApiToSaveBandwidth}"
                               x:Name="ChkApiToSaveBandwidth" IsChecked="{Binding IsApiToSaveBandwidthChecked}"/>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource langStopAllAccountsIfMoreThan}" 
+                    <CheckBox Content="{DynamicResource LangKeyStopAllAccountsIfMoreThan}" 
                                  IsChecked="{Binding IsStopAllAccountsIfMoreThanChecked}"/>
                     <Controls:NumericUpDown IsEnabled="{Binding IsStopAllAccountsIfMoreThanChecked}" 
                                                 Value="{Binding WaitBetweenStopAllAccounts.StartValue}" Minimum="0"/>
-                    <Label Content="{DynamicResource langAccountsGetDisabledInDay}"/>
+                    <Label Content="{DynamicResource LangKeyAccountsGetDisabledInADay}"/>
                     <Controls:NumericUpDown IsEnabled="{Binding IsStopAllAccountsIfMoreThanChecked}" 
                                                 Value="{Binding WaitBetweenStopAllAccounts.EndValue}" Minimum="0"/>
-                    <Label Content="{DynamicResource langDisableAccountInDay}"/>
+                    <Label Content="{DynamicResource LangKeyDisabledAccountInADay}"/>
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource langStopAllAccountsIfMoreThan}"
+                    <CheckBox Content="{DynamicResource LangKeyStopAllAccountsIfMoreThan}"
                                  IsChecked="{Binding IsStopAllPhoneVerificationChecked}"/>
                     <Controls:NumericUpDown IsEnabled="{Binding IsStopAllPhoneVerificationChecked}"
                                                 Value="{Binding PhoneVerification.StartValue}" Minimum="0"/>
-                    <Label Content="{DynamicResource langAccountsGetPhoneVerificationInDay}"/>
+                    <Label Content="{DynamicResource LangKeyAccountsGetPhoneVerificationInADay}"/>
                     <Controls:NumericUpDown IsEnabled="{Binding IsStopAllPhoneVerificationChecked}"
                                                 Value="{Binding PhoneVerification.EndValue}" Minimum="0"/>
-                    <Label Content="{DynamicResource langPhoneVerificationAccountsInDay}"/>
+                    <Label Content="{DynamicResource LangKeyPhoneVerificationAccountsInADay}"/>
                 </StackPanel>
-                <CheckBox Margin="5" Content="{DynamicResource langTreatActionBlocksAsTemporaryBlocks}" 
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyTreatActionBlocksAsTemporaryBlocks}" 
                             IsChecked="{Binding IsTreatActionBlockTemporaryBlocksChecked}"/>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource langSupspendToolWhenGettingTemporaryBlockedBetween}"
+                    <CheckBox Content="{DynamicResource LangKeySupspendTheToolWhenGettingTemporaryBlockedBetween}"
                                   IsChecked="{Binding IsSupspendToolWhenTemporaryBlockedChecked}"
                                  />
                     <Controls:NumericUpDown Value="{Binding TemporaryBlockedBetween.StartValue}"
                                                 IsEnabled="{Binding IsSupspendToolWhenTemporaryBlockedChecked}" Minimum="0"/>
-                    <Label Content="{DynamicResource langAnd}"/>
+                    <Label Content="{DynamicResource LangKeyAnd}"/>
                     <Controls:NumericUpDown Minimum="{Binding TemporaryBlockedBetween.StartValue}"
                                                 Value="{Binding TemporaryBlockedBetween.EndValue}"
                                                 IsEnabled="{Binding IsSupspendToolWhenTemporaryBlockedChecked}"/>
-                    <Label Content="{DynamicResource langMinutes}"/>
+                    <Label Content="{DynamicResource LangKeyMinutes}"/>
                 </StackPanel>
             </StackPanel>
 

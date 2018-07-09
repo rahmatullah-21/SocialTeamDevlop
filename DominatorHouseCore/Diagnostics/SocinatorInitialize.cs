@@ -11,6 +11,7 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
 using System.Net.NetworkInformation;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Models;
@@ -19,6 +20,9 @@ using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json.Linq;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
+using Newtonsoft.Json;
+using NLog.Internal;
+using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -29,7 +33,14 @@ namespace DominatorHouseCore.Diagnostics
         private static Dictionary<SocialNetworks, INetworkCollectionFactory> RegisteredNetworks { get; } =
             new Dictionary<SocialNetworks, INetworkCollectionFactory>();
 
+        public static string RegisteredUserName { get; set; } = string.Empty;
+
+        public static int MaximumAccountCount { get; set; } = 10000;
+
         public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();
+
+        public static bool IsNetworkAvailable(SocialNetworks network)
+            => AvailableNetworks.Contains(network);
 
         public static HashSet<SocinatorIntellisenseModel> Macros { get; set; } = new HashSet<SocinatorIntellisenseModel>();
 
@@ -55,7 +66,7 @@ namespace DominatorHouseCore.Diagnostics
                     finalResponse = streamReader.ReadToEnd();
                 }
 
-                await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
+                return await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
 
             }
             catch (Exception ex)
@@ -77,40 +88,175 @@ namespace DominatorHouseCore.Diagnostics
             return AvailableNetworks;
         }
 
-        public static HashSet<SocialNetworks> SetLicensedSocialNetworks()
+        public static HashSet<SocialNetworks> SetLicensedSocialNetworks(string details)
         {
-            FeatureFlags.Instance = new FeatureFlags()
+            try
             {
-                {"SocinatorInitializer", true}
-            };
-            AvailableNetworks.Add(SocialNetworks.Social);
-            AvailableNetworks.Add(SocialNetworks.Twitter);
-            AvailableNetworks.Add(SocialNetworks.Facebook);
-            AvailableNetworks.Add(SocialNetworks.Gplus);
-            AvailableNetworks.Add(SocialNetworks.Instagram);
-            AvailableNetworks.Add(SocialNetworks.LinkedIn);
-            AvailableNetworks.Add(SocialNetworks.Quora);
-            AvailableNetworks.Add(SocialNetworks.Pinterest);
-            AvailableNetworks.Add(SocialNetworks.Tumblr);
-            AvailableNetworks.Add(SocialNetworks.Youtube);
-            AvailableNetworks.Add(SocialNetworks.Reddit);
+                FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true } };
 
-            FeatureFlags.Instance = new FeatureFlags()
+                AvailableNetworks.Add(SocialNetworks.Social);
+
+                if (string.IsNullOrEmpty(details))
+                    return AvailableNetworks;
+
+                #region All networks with unlimited Networks
+
+                try
+                {
+                    var jsonArray = JArray.Parse(details);
+
+                    #region Getting Item Title
+
+                    var invoiceItems = jsonArray.Children()["nested"].First()["invoice-items"].ToString();
+                    var arrayInvoiceItems = JArray.Parse(invoiceItems)[0];
+                    var itemTitle = arrayInvoiceItems["item_title"].ToString();
+
+                    #endregion
+
+                    #region Socinator Pricing
+
+                    if (itemTitle == "Socinator Pricing")
+                    {
+                        try
+                        {
+                            var options = jsonArray.Children()["nested"].First()["invoice-items"].First()["options"]
+                                               .ToString();
+                            var accountCountStatus =
+                                JObject.Parse(options)["Select Accounts Package"]["value"].ToString();
+
+                            MaximumAccountCount = int.Parse(Utilities.GetIntegerOnlyString(accountCountStatus));
+
+                            AvailableNetworks.Add(SocialNetworks.Twitter);
+                            AvailableNetworks.Add(SocialNetworks.Facebook);
+                            AvailableNetworks.Add(SocialNetworks.Gplus);
+                            AvailableNetworks.Add(SocialNetworks.Instagram);
+                            AvailableNetworks.Add(SocialNetworks.LinkedIn);
+                            AvailableNetworks.Add(SocialNetworks.Quora);
+                            AvailableNetworks.Add(SocialNetworks.Pinterest);
+                            AvailableNetworks.Add(SocialNetworks.Tumblr);
+                            AvailableNetworks.Add(SocialNetworks.Youtube);
+                            AvailableNetworks.Add(SocialNetworks.Reddit);  
+                        }
+                        catch (Exception ex)
+                        {
+                            MaximumAccountCount = 0;
+                            ex.DebugLog();
+                        }
+                    }
+                    #endregion
+
+                    #region Socinator CustomPlan
+
+                    else if (itemTitle == "Socinator Custom Plan")
+                    {
+                        try
+                        {
+                            var arrInvoiceItems = JArray.Parse(invoiceItems);
+
+                            AvailableNetworks.Clear();
+
+                            FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, { "Social", true } };
+
+                            AvailableNetworks.Add(SocialNetworks.Social);
+
+                            foreach (var token in arrInvoiceItems)
+                            {
+                                try
+                                {
+                                    var tokenString = token["options"].ToString();
+
+                                    var networkSplit = Regex.Split(tokenString, "},");
+
+                                    MaximumAccountCount = 10000;
+
+                                    foreach (var networkValues in networkSplit)
+                                    {
+                                        try
+                                        {
+                                            var isSelected = Utilities.GetBetween(networkValues, "value\":[\"", "\"],");
+                                            if (isSelected != "1")
+                                                continue;
+                                            var network = Utilities.FirstMatchExtractor(networkValues, "optionLabel\":\"(.*?)\"");
+                                            var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), network);
+                                            AvailableNetworks.Add(networks);                                            
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            ex.DebugLog();
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MaximumAccountCount = 0;
+                                    ex.DebugLog();
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                            MaximumAccountCount = 0;
+                        }
+                    }
+                    #endregion
+
+                    #region Invididual Networks
+
+                    else
+                    {
+                        try
+                        {
+                            AvailableNetworks.Clear();
+                            FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, { "Social", true } };
+                            AvailableNetworks.Add(SocialNetworks.Social);
+
+                            var itemTitleDescription = arrayInvoiceItems["item_description"].ToString();
+                            itemTitleDescription = itemTitleDescription.Replace("Marketing Software", string.Empty).Trim();
+                            var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), itemTitleDescription);
+                            AvailableNetworks.Add(networks);                            
+                            MaximumAccountCount = 10000;
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                            MaximumAccountCount = 0;
+                        }
+                    }
+
+                    #endregion
+
+                    return AvailableNetworks;
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+
+                #endregion
+            }
+            catch (Exception ex)
             {
-                {"SocinatorInitializer", true},
-                {"Twitter", true},
-                {"Social", true},
-                {"Instagram", true},
-                {"Gplus", true},
-                {"LinkedIn", true},
-                {"Quora", true},
-                {"Facebook", true},
-                {"Youtube", true},
-                {"Reddit", true},
-                {"Tumblr", true},
-                {"Pinterest", true}
-            };
+                ex.DebugLog();
+            }
             return AvailableNetworks;
+        }
+
+        public static void InitializeMacros()
+        {
+            try
+            {
+                var macros = GenericFileManager.GetModuleDetails<SocinatorIntellisenseModel>(ConstantVariable.GetMacroDetails);
+                Macros.Clear();
+                macros?.ForEach(macro =>
+                {                    
+                        Macros.Add(new SocinatorIntellisenseModel { Key = @"{" + macro.Key + @"}", Value = macro.Value });
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private static async Task<HashSet<SocialNetworks>> SetAllLicensedSocialNetworks(string code, string license, string macId)
@@ -119,76 +265,85 @@ namespace DominatorHouseCore.Diagnostics
 
             try
             {
-                if (license == "Beta_BHWLaunch")
+                switch (code)
                 {
-                    return SetLicensedSocialNetworks();
-                }
-                else
-                {
-                    switch (code)
-                    {
-                        case "no_activation_found":
-                            string finalResponse;
-                            using (var streamReader = new StreamReader(await ActivateLicense(license, macId)))
-                            {
-                                finalResponse = streamReader.ReadToEnd();
-                            }
-                            return await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
+                    case "no_activation_found":
+                        string finalResponse;
+                        using (var streamReader = new StreamReader(await ActivateLicense(license, macId)))
+                        {
+                            finalResponse = streamReader.ReadToEnd();
+                        }
+                        return await SetAllLicensedSocialNetworks(JObject.Parse(finalResponse)["code"].ToString(), license, macId);
 
-                        case "license_empty":
-                            message = "Empty or invalid license key submitted, Please check your license key and enter again.";
-                            break;
-                        case "license_not_found":
-                            message =
-                                "Oops, we are unable to find key you have entered, please recheck once at your end or contact support.";
-                            break;
-                        case "license_disabled":
-                            message = "Your License key has been disabled, please contact support for more information.";
-                            break;
-                        case "license_expired":
-                            message = "Your license key has got expired, please renew your subscription or contact support";
-                            break;
-                        case "invalid_input":
-                            message = "Your entered license key is invalid, please check your license key and enter again.";
-                            break;
-                        case "no_spare_activations":
-                            message =
-                                "You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation.";
-                            //var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                            //      "License Error",
-                            //      "You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation."
-                            // , MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
-                            // {
-                            //     AffirmativeButtonText = "Deactivate Previous Activation"
-                            // });
-                            //if (dialogResult == MessageDialogResult.Affirmative)
-                            //{
-                            //    using (var streamReader = new StreamReader( await DeActivateLicense(license, macId)))
-                            //    {
-                            //        finalResponse = streamReader.ReadToEnd();
-                            //    }
-                            //    if(JObject.Parse(finalResponse)["code"].ToString()=="ok")
-                            //    {
-                            //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                            //            "License", "Sucessfully Deactivated.");
-                            //        var licence =
-                            //            DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow,
-                            //                "Socinator", "License");
-                            //        return await SetAvailableSocialNetworks(license);
-                            //    }
-                            //}
-                            break;
-                        case "no_reactivation_allowed":
-                            message = "Sorry, but we are unable to reactivate your license key, please contact support.";
-                            break;
-                        case "ok":
-                            return SetLicensedSocialNetworks();
-                        case "other_error":
-                            message = "Sorry, some unknown error occured, please contact support.";
-                            break;
-                    }
-                    Dialog.ShowDialog("License Error", message);
+                    case "license_empty":
+                        message = "Empty or invalid license key submitted, Please check your license key and enter again.";
+                        break;
+                    case "license_not_found":
+                        message =
+                            "Oops, we are unable to find key you have entered, please recheck once at your end or contact support.";
+                        break;
+                    case "license_disabled":
+                        message = "Your License key has been disabled, please contact support for more information.";
+                        break;
+                    case "license_expired":
+                        message = "Your license key has got expired, please renew your subscription or contact support";
+                        break;
+                    case "invalid_input":
+                        message = "Your entered license key is invalid, please check your license key and enter again.";
+                        break;
+                    case "no_spare_activations":
+                        message =
+                            "You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation.";
+                        //var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        //      "License Error",
+                        //      "You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation."
+                        // , MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
+                        // {
+                        //     AffirmativeButtonText = "Deactivate Previous Activation"
+                        // });
+                        //if (dialogResult == MessageDialogResult.Affirmative)
+                        //{
+                        //    using (var streamReader = new StreamReader( await DeActivateLicense(license, macId)))
+                        //    {
+                        //        finalResponse = streamReader.ReadToEnd();
+                        //    }
+                        //    if(JObject.Parse(finalResponse)["code"].ToString()=="ok")
+                        //    {
+                        //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        //            "License", "Sucessfully Deactivated.");
+                        //        var licence =
+                        //            DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow,
+                        //                "Socinator", "License");
+                        //        return await SetAvailableSocialNetworks(license);
+                        //    }
+                        //}
+                        break;
+                    case "no_reactivation_allowed":
+                        message = "Sorry, but we are unable to reactivate your license key, please contact support.";
+                        break;
+                    case "ok":
+                        var licenseDetails = await GetLicenseStatus(license);
+
+                        string licenses;
+                        using (var streamReader = new StreamReader(licenseDetails))
+                        {
+                            string invoice;
+                            var availbleNetworkResponse = streamReader.ReadToEnd();                          
+                            var invoiceNumber = JObject.Parse(availbleNetworkResponse)["invoice_id"].ToString();
+                            var invoiceDetails = await GetInvoiceDetails(invoiceNumber);
+                            using (var invoiceStream = new StreamReader(invoiceDetails))
+                            {
+                                invoice = invoiceStream.ReadToEnd();
+                            }
+                            licenses = AesDecryption.DecryptAes(invoice);
+                        }
+                        return SetLicensedSocialNetworks(licenses);
+                    case "other_error":
+                        message = "Sorry, some unknown error occured, please contact support.";
+                        break;
                 }
+                Dialog.ShowDialog("License Error", message);
+
             }
             catch (Exception ex)
             {
@@ -197,9 +352,23 @@ namespace DominatorHouseCore.Diagnostics
 
             return new HashSet<SocialNetworks>();
         }
+
         private static async Task<Stream> CheckLicenseActivation(string license, string macId)
         {
             var url = $"https://socinator.com/amember/softsale/api/check-activation?key={license}&request[hardware-id]={macId}";
+            return await HttpHelper.GetResponseStreamAsync(url);
+        }
+
+        private static async Task<Stream> GetLicenseStatus(string license)
+        {
+            var url = $"http://socinator.com/amember/softsale/api/check-license?key={license}";
+            return await HttpHelper.GetResponseStreamAsync(url);
+        }
+
+        private static async Task<Stream> GetInvoiceDetails(string invoicenumber)
+        {           
+            var key = ConfigurationManager.AppSettings["InvoiceKey"];
+            var url = $"http://socinator.com/amember/api/invoices/{invoicenumber}?_key={key}";
             return await HttpHelper.GetResponseStreamAsync(url);
         }
 
@@ -208,11 +377,13 @@ namespace DominatorHouseCore.Diagnostics
             var url = $"https://socinator.com/amember/softsale/api/activate?key={license}&request[hardware-id]={macId}";
             return await HttpHelper.GetResponseStreamAsync(url);
         }
+
         private static async Task<Stream> DeActivateLicense(string license, string macId)
         {
             var url = $"https://socinator.com/amember/softsale/api/deactivate?key={license}&request[hardware-id]={macId}";
             return await HttpHelper.GetResponseStreamAsync(url);
         }
+
         public static string GetMacId()
         {
             var macAddresses = string.Empty;
@@ -371,7 +542,7 @@ namespace DominatorHouseCore.Diagnostics
 
             if (moduleSettings != null)
                 DominatorAccountModel.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-            
+
             return this;
         }
 
@@ -424,7 +595,7 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
-       public SocinatorAccountBuilder AddOrUpdateExtraParameter(string key, string value)
+        public SocinatorAccountBuilder AddOrUpdateExtraParameter(string key, string value)
         {
             try
             {
@@ -533,7 +704,7 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.AccountDetailsSelectors = destinationSelectors;
             return this;
         }
-       
+
         public NetworkCoreLibraryBuilder AddAccountDbConnection(IDatabaseConnection accountDbConnection)
         {
             NetworkCoreFactory.AccountDatabase = accountDbConnection;
@@ -563,6 +734,10 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.CampaignInteractionDetails = campaignInteractionDetails;
             return this;
         }
-
+        public NetworkCoreLibraryBuilder AddAccountVerificationFactory(IAccountVerificationFactory accountVerification)
+        {
+            NetworkCoreFactory.AccountVerificationFactory = accountVerification;
+            return this;
+        }
     }
 }

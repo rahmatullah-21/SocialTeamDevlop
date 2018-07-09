@@ -14,7 +14,5 @@ namespace DominatorHouseCore.Interfaces
 
         IPublisherPostScraper PostScraper { get; set; }
 
-        IPublishingPost PublishingPost { get; set; }
-
     }
 }

@@ -15,14 +15,16 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// </summary>
     public partial class PublisherManageDestinations : UserControl, INotifyPropertyChanged
     {
-        
+
         private PublisherManageDestinations()
         {
             InitializeComponent();
             ManageDestination.DataContext = PublisherManageDestinationViewModel;
-            
         }
-       public PublisherManageDestinationViewModel PublisherManageDestinationViewModel
+
+        private PublisherManageDestinationViewModel _publisherManageDestinationViewModel = new PublisherManageDestinationViewModel();
+
+        public PublisherManageDestinationViewModel PublisherManageDestinationViewModel
         {
             get
             {
@@ -35,12 +37,17 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
         }
 
-
-        private PublisherManageDestinationViewModel _publisherManageDestinationViewModel = new PublisherManageDestinationViewModel();
-
+        
         private static PublisherManageDestinations _indexPage;
-        public static PublisherManageDestinations Instance { get; set; }
-            = _indexPage ?? (_indexPage = new PublisherManageDestinations());
+        public static PublisherManageDestinations Instance()
+        {
+            if (_indexPage == null)
+                _indexPage = new PublisherManageDestinations();
+
+            _indexPage.PublisherManageDestinationViewModel.InitializeDefaultDestinations();
+
+            return _indexPage;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

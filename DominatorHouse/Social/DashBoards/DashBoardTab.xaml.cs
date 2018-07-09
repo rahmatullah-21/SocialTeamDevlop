@@ -29,7 +29,7 @@ namespace DominatorHouse.Social.DashBoards
             {
                 new TabItemTemplates
                 {
-                    Title = FindResource("DHlangRevisionHistory").ToString(),
+                    Title = FindResource("LangKeyRevisionHistory").ToString(),
                     Content = new Lazy<UserControl>(RevisionHistory.GetSingeltonObjectRevisionHistory)
                 },
             };

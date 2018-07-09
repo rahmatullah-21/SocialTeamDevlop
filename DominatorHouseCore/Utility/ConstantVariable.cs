@@ -33,6 +33,10 @@ namespace DominatorHouseCore.Utility
 
         public static string ApplicationName { get; } = "Socinator";
 
+        public static string BitlyApiKey { get; set; } = string.Empty;
+
+        public static string BitlyLogin { get; set; } = string.Empty;
+
         public static string GetPlatformBaseDirectory()
         {
             string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}";
@@ -149,7 +153,8 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherFacebookSettingsFile() => GetOtherDir() + @"\Facebook.bin";
         public static string GetOtherInstagramSettingsFile() => GetOtherDir() + @"\Instagram.bin";
         public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
-
+        public static string GetURLShortnerServicesFile() => GetOtherDir() + @"\URLShortnerServices.bin";
+        public static string GetCaptchaServicesFile() => GetOtherDir() + @"\CaptchaServices.bin";
         public static string SaveAction { get; set; } = "Save";
 
         public static string UpdateAction { get; set; } = "Update";
@@ -174,10 +179,24 @@ namespace DominatorHouseCore.Utility
             return dir;
         }
         public static string GetPublisherOtherConfigFile(SocialNetworks networks) => GetPublisherOtherConfigDir() + $"\\{networks}.bin";
+
         public static string GetPublisherCampaignFile() => GetOtherDir() + "\\PublisherCampaign.bin";
 
-
         public static string GetPublisherPostFetchFile => GetOtherDir() + "\\PublisherPostFetcherDetails.bin";
+
+        public static string GetMacroDetails => GetOtherDir() + "\\SocinatorMacros.bin";
+
+        public static string GetPublishedSuccessDetails => GetOtherDir() + "\\PublishedSuccessDetails.bin";
+
+        public static  string GetDeletePublisherPostModel => GetOtherDir() + "\\PublisherDeletionPosts.bin";
+
+        public static string Yes { get; set; } = "Yes";
+
+        public static string No { get; set; } = "No";
+
+        public static string NoError { get; set; } = "No Error!";
+
+        public static string NotPublished { get; set; } = "Not Published Yet";
 
         #endregion
 
@@ -199,9 +218,8 @@ namespace DominatorHouseCore.Utility
 
         public static string Separator = "<:>";
 
-        public static string VideoToImageConvertFileName = "_SOCINATORIMAGE.jpg";
+        public static string VideoToImageConvertFileName { get; set; } = "_SOCINATORIMAGE.jpg";
 
         public static List<string> SupportedVideoFormat = new List<string> { "3g2", "3gp", "3gpp", "asf", "avi", "dat", "divx", "dv", "f4v", "flv", "m2ts", "m4v", "mkv", "mod", "mov", "mp4", "mpe", "mpeg", "mpeg4", "mpg", "mts", "nsv", "ogm", "ogv", "qt", "tod", "ts", "vob", "wmv" };
-
     }
 }

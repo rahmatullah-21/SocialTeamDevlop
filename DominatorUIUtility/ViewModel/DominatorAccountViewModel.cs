@@ -249,6 +249,12 @@ namespace DominatorUIUtility.ViewModel
 
                     dialogWindow.Close();
 
+                    if ( LstDominatorAccountModel.Count + 1 >=
+                        SocinatorInitialize.MaximumAccountCount)
+                    {
+                        GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
+                    }
+
                     Task.Factory.StartNew(() =>
                     {
                         AddAccount(objDominatorAccountBaseModel, act =>
@@ -304,6 +310,13 @@ namespace DominatorUIUtility.ViewModel
                 ////add the account to DominatorAccountModel list and bin file
                 allAccountsQueued = false;
 
+
+                if (loadedAccountlist.Count + LstDominatorAccountModel.Count >=
+                    SocinatorInitialize.MaximumAccountCount)
+                {
+                    GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
+                }
+
                 try
                 {
                     new Thread(() =>
@@ -340,6 +353,7 @@ namespace DominatorUIUtility.ViewModel
                         var groupname = splitAccount[0];
 
                         var socialNetwork = splitAccount[1];
+                        if (socialNetwork == "AccountNetwork")continue;
                         var username = splitAccount[2];
                         var password = splitAccount[3];
 
@@ -358,6 +372,12 @@ namespace DominatorUIUtility.ViewModel
                                 proxyport = splitAccount[5];
                                 break;
                             case 8:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                proxyusername = splitAccount[6];
+                                proxypassword = splitAccount[7];
+                                break;
+                            case 9:
                                 proxyaddress = splitAccount[4];
                                 proxyport = splitAccount[5];
                                 proxyusername = splitAccount[6];
@@ -443,9 +463,19 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
+        
 
         public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, Func<Action, Action> secondaryTaskStrategyReturningCancellation)
         {
+            #region Check account limits
+
+            if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
+            {               
+                return;
+            } 
+
+            #endregion
+
             #region Add Account
             //check the account is already present or not
             if (LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == objDominatorAccountBaseModel.UserName && x.AccountBaseModel.AccountNetwork == objDominatorAccountBaseModel.AccountNetwork))
@@ -517,7 +547,7 @@ namespace DominatorUIUtility.ViewModel
                     LstDominatorAccountModel.Add(dominatorAccountModel);
                 }
 
-                GlobusLogHelper.log.Info(Log.Added, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
+                GlobusLogHelper.log.Info(Log.Added, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
             }
             else
             {
@@ -1112,7 +1142,7 @@ namespace DominatorUIUtility.ViewModel
                 dbOperations.Remove<AccountDetails>(user =>
                     user.AccountNetwork == item.AccountBaseModel.AccountNetwork.ToString() &&
                     user.UserName == item.UserName);
-                GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork, item.AccountBaseModel.UserName);
+                GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork, item.AccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
                 DeleteAccountFromCampaign(item);
                 item.NotifyCancelled();
             });
@@ -1251,7 +1281,7 @@ namespace DominatorUIUtility.ViewModel
             if (string.IsNullOrEmpty(exportPath))
                 return;
 
-            const string header = "AccountNetwok,Username,Password,Account Group,Status,Proxy Address,Proxy Port,Proxy Username,Proxy Password";
+            const string header = "Account Group,AccountNetwork,Username,Password,Status,Proxy Address,Proxy Port,Proxy Username,Proxy Password";
 
             var filename = $"{exportPath}\\AccountExport {ConstantVariable.DateasFileName}.csv";
 
@@ -1266,15 +1296,16 @@ namespace DominatorUIUtility.ViewModel
             {
                 try
                 {
-                    var csvData = account.AccountBaseModel.AccountNetwork + ","
+                    var csvData = 
+                    account.AccountBaseModel.AccountGroup.Content + ","
+                    + account.AccountBaseModel.AccountNetwork + ","
                     + account.AccountBaseModel.UserName + ","
                     + account.AccountBaseModel.Password + ","
-                    + account.AccountBaseModel.AccountGroup.Content + ","
-                    + account.AccountBaseModel.Status + ","
                     + account.AccountBaseModel.AccountProxy.ProxyIp + ","
                     + account.AccountBaseModel.AccountProxy.ProxyPort + ","
                     + account.AccountBaseModel.AccountProxy.ProxyUsername + ","
-                    + account.AccountBaseModel.AccountProxy.ProxyPassword;
+                    + account.AccountBaseModel.AccountProxy.ProxyPassword + ","
+                    + account.AccountBaseModel.Status;
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
@@ -1666,6 +1697,11 @@ namespace DominatorUIUtility.ViewModel
                     {
                         if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel.AccountNetwork))
                         {
+                            if (LstDominatorAccountModel.Count > SocinatorInitialize.MaximumAccountCount)
+                            {
+                                GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
+                                return;
+                            }                         
                             LstDominatorAccountModel.Add(account);
                             AccountCollectionView = CollectionViewSource.GetDefaultView(LstDominatorAccountModel);
                         }                      

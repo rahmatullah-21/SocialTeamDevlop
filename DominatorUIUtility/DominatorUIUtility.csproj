@@ -178,12 +178,16 @@
       <DependentUpon>ErrorModelControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviours\HeaderHelper.cs" />
+    <Compile Include="Behaviours\Lang.cs" />
     <Compile Include="Behaviours\NetworkAvailablity.cs" />
     <Compile Include="Behaviours\PasswordBoxHelper.cs" />
     <Compile Include="Behaviours\ReportManager.cs" />
     <Compile Include="Behaviours\SelectionChangedBehaviour.cs" />
     <Compile Include="Behaviours\UserFilterAction.cs" />
     <Compile Include="Behaviours\Utilities.cs" />
+    <Compile Include="ConfigControl\CaptchaServices.xaml.cs">
+      <DependentUpon>CaptchaServices.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConfigControl\EmailNotifications.xaml.cs">
       <DependentUpon>EmailNotifications.xaml</DependentUpon>
     </Compile>
@@ -199,6 +203,9 @@
     <Compile Include="ConfigControl\Pinterest.xaml.cs">
       <DependentUpon>Pinterest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ConfigControl\SocinatorMacros.xaml.cs">
+      <DependentUpon>SocinatorMacros.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConfigControl\SoftwareSettings.xaml.cs">
       <DependentUpon>SoftwareSettings.xaml</DependentUpon>
     </Compile>
@@ -207,6 +214,9 @@
     </Compile>
     <Compile Include="ConfigControl\Twitter.xaml.cs">
       <DependentUpon>Twitter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\URLShortnerServices.xaml.cs">
+      <DependentUpon>URLShortnerServices.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConfigControl\Youtube.xaml.cs">
       <DependentUpon>Youtube.xaml</DependentUpon>
@@ -225,6 +235,9 @@
     </Compile>
     <Compile Include="CustomControl\AddOrUpdateProxyControl.xaml.cs">
       <DependentUpon>AddOrUpdateProxyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\AccountDetail.xaml.cs">
+      <DependentUpon>AccountDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\AddUpdateAccountControl.xaml.cs">
       <DependentUpon>AddUpdateAccountControl.xaml</DependentUpon>
@@ -259,8 +272,14 @@
     <Compile Include="CustomControl\ManageComment.xaml.cs">
       <DependentUpon>ManageComment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\ManageMediaMessages.xaml.cs">
+      <DependentUpon>ManageMediaMessages.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\ManageMessages.xaml.cs">
       <DependentUpon>ManageMessages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\MessageMediaControl.xaml.cs">
+      <DependentUpon>MessageMediaControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControl\MessagesControl.xaml.cs">
       <DependentUpon>MessagesControl.xaml</DependentUpon>
@@ -290,11 +309,8 @@
     <Compile Include="CustomControl\SelectAccountControl.xaml.cs">
       <DependentUpon>SelectAccountControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Languages\GDLanguages\Language.en.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Language.en.resx</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModel\AccountManagerViewModel.cs" />
+    <Compile Include="ViewModel\Config\URLShortnerServicesViewModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\ProxyManagerViewModel.cs" />
@@ -316,6 +332,9 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherRssFeedViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherScrapePostViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherSharePostViewModel.cs" />
+    <Compile Include="Views\AccountManager.xaml.cs">
+      <DependentUpon>AccountManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
     </Compile>
@@ -342,6 +361,9 @@
     </Compile>
     <Compile Include="Views\Publisher\AdvancedSettings\Pinterest.xaml.cs">
       <DependentUpon>Pinterest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Publisher\AdvancedSettings\Reddit.xaml.cs">
+      <DependentUpon>Reddit.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Publisher\AdvancedSettings\Tumblr.xaml.cs">
       <DependentUpon>Tumblr.xaml</DependentUpon>
@@ -381,6 +403,12 @@
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\MediaViewer.cs" />
     <Compile Include="Views\SocioPublisher\CustomControl\MediaViewerAssist.cs" />
+    <Compile Include="Views\SocioPublisher\CustomControl\PublisherEditShareUrl.xaml.cs">
+      <DependentUpon>PublisherEditShareUrl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\PublisherUpdateMultiPost.xaml.cs">
+      <DependentUpon>PublisherUpdateMultiPost.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostAdvancedSettings.xaml.cs">
       <DependentUpon>PostAdvancedSettings.xaml</DependentUpon>
     </Compile>
@@ -397,6 +425,9 @@
     <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostLinkedInSettings.xaml.cs">
       <DependentUpon>PostLinkedInSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostRedditSettings.xaml.cs">
+      <DependentUpon>PostRedditSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostTumblrSettings.xaml.cs">
       <DependentUpon>PostTumblrSettings.xaml</DependentUpon>
     </Compile>
@@ -404,9 +435,16 @@
       <DependentUpon>PostTwitterSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\SocinatorTextBox.cs" />
+    <Compile Include="Views\SocioPublisher\PublishedPostDetails.xaml.cs">
+      <DependentUpon>PublishedPostDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\PublisherAddCustomDestination.xaml.cs">
+      <DependentUpon>PublisherAddCustomDestination.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublisherCreateNewPost.xaml.cs">
       <DependentUpon>PublisherCreateNewPost.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\SocioPublisher\PublisherCustomDestinationViewModel.cs" />
     <Compile Include="Views\SocioPublisher\PublisherDirectPosts.xaml.cs">
       <DependentUpon>PublisherDirectPosts.xaml</DependentUpon>
     </Compile>
@@ -417,7 +455,7 @@
       <DependentUpon>SelectDestinations.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\Suggestions\FdFriendSuggestionProvider.cs" />
-    <Compile Include="Views\SocioPublisher\Suggestions\PublisherEditPost.xaml.cs">
+    <Compile Include="Views\SocioPublisher\CustomControl\PublisherEditPost.xaml.cs">
       <DependentUpon>PublisherEditPost.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\Suggestions\SuggestionProvider.cs" />
@@ -470,6 +508,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ConfigControl\CaptchaServices.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ConfigControl\EmailNotifications.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -490,6 +532,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ConfigControl\SocinatorMacros.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ConfigControl\SoftwareSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -501,6 +547,10 @@
     <Page Include="ConfigControl\Twitter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\URLShortnerServices.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ConfigControl\Youtube.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -529,6 +579,10 @@
     <Page Include="CustomControl\AddOrUpdateProxyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\AccountDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\AddUpdateAccountControl.xaml">
       <SubType>Designer</SubType>
@@ -590,9 +644,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="CustomControl\ManageMediaMessages.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CustomControl\ManageMessages.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\MessageMediaControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\MessagesControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -654,17 +716,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Languages\DHLanguages\English.xaml">
+    <Page Include="Resources\Languages\English.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Languages\FDLanguages\English.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Languages\GDLanguages\English.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -705,38 +759,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Resources\Languages\GpDLanguages\English.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Languages\LDLanguages\English.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Languages\PdLanguages\English.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Languages\QDLanguages\English.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Languages\RdLanguages\English.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Languages\TdLanguages\English.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Languages\TumblrLanguage\English.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Languages\YdLanguages\English.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Styles\BaseStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -748,6 +770,10 @@
     <Page Include="Themes\PrussianBlue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Publisher\AddPosts.xaml">
       <SubType>Designer</SubType>
@@ -782,6 +808,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Publisher\AdvancedSettings\Pinterest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Publisher\AdvancedSettings\Reddit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -833,6 +863,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\PublisherEditShareUrl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\PublisherUpdateMultiPost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SocioPublisher\CustomControl\Settings\PostAdvancedSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -853,11 +891,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SocioPublisher\CustomControl\Settings\PostRedditSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SocioPublisher\CustomControl\Settings\PostTumblrSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\CustomControl\Settings\PostTwitterSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublishedPostDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\PublisherAddCustomDestination.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -937,7 +987,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SocioPublisher\Suggestions\PublisherEditPost.xaml">
+    <Page Include="Views\SocioPublisher\CustomControl\PublisherEditPost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -956,10 +1006,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Resources\Languages\GDLanguages\Language.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Language.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -1035,6 +1081,10 @@
     <ProjectReference Include="..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
       <Name>DominatorHouseCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmbeddedBrowser\EmbeddedBrowser.csproj">
+      <Project>{21F00635-AAF7-466B-9214-A830EA9C8963}</Project>
+      <Name>EmbeddedBrowser</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

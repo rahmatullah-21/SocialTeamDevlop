@@ -73,7 +73,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var generaldata = GenericFileManager.GetModuleDetails<GeneralModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            GeneralViewModel.GeneralModel = generaldata ?? GeneralViewModel.GeneralModel;
+            GeneralViewModel.GeneralModel = generaldata ?? (generaldata = new GeneralModel());
         }
     }
 }

@@ -42,23 +42,46 @@ namespace EmbeddedBrowser
         public BrowserWindow(DominatorAccountModel dominatorAccountModel)
             : this()
         {
-            
-                DominatorAccountModel = dominatorAccountModel;
 
-                InitializeComponent();
+            DominatorAccountModel = dominatorAccountModel;
 
-                Browser.RequestContext = new RequestContext(new RequestContextSettings
-                {
-                    CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
-                });
+            InitializeComponent();
 
-                Browser.RequestHandler = new RequestHandlerCustom(this);
-                var url = GetNetworksHomeUrl();
-                Browser.Address = url;
-                Browser.IsBrowserInitializedChanged += LoadSettings;
+            Browser.RequestContext = new RequestContext(new RequestContextSettings
+            {
+                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
+            });
+
+            Browser.RequestHandler = new RequestHandlerCustom(this);
+            var url = GetNetworksHomeUrl();
+            Browser.Address = url;
+            Browser.IsBrowserInitializedChanged += LoadSettings;
 
         }
 
+
+        public string TargetUrl { get; set; } = string.Empty;
+
+
+        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl)
+            : this()
+        {
+
+            DominatorAccountModel = dominatorAccountModel;
+            TargetUrl = targetUrl;
+            InitializeComponent();
+
+            Browser.RequestContext = new RequestContext(new RequestContextSettings
+            {
+                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
+            });
+
+            Browser.RequestHandler = new RequestHandlerCustom(this);
+            var url = GetNetworksHomeUrl();
+            Browser.Address = url;
+            Browser.IsBrowserInitializedChanged += LoadSettings;
+
+        }
 
         private DominatorAccountModel _dominatorAccountModel;
         public DominatorAccountModel DominatorAccountModel
@@ -258,7 +281,17 @@ namespace EmbeddedBrowser
 
                 Browser.ExecuteScriptAsync("document.getElementById('u_0_5').click()");
 
-                Browser.LoadingStateChanged -= BrowserOnLoaded;
+                if (string.IsNullOrEmpty(TargetUrl))
+                {
+                    Browser.LoadingStateChanged -= BrowserOnLoaded;
+                    return;
+                }                
+            }
+            var result = GetLoggedInPageSource();
+
+            if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon"))
+            {
+                LoadPostPage(true);
             }
         }
 
@@ -326,11 +359,18 @@ namespace EmbeddedBrowser
                 {
                     Browser.Load("https://plus.google.com/");
                 }
+
             }
 
             if ((html.Contains(DominatorAccountModel.UserName) || !html.Contains("Sign in now to see your channels")) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
             {
                 SaveCookie();
+            }
+            var result = GetLoggedInPageSource();
+
+            if (!string.IsNullOrEmpty(result) && result.Contains("Switch accounts"))
+            {
+                LoadPostPage(true);
             }
         }
 
@@ -352,6 +392,19 @@ namespace EmbeddedBrowser
                     Browser.ExecuteScriptAsync("document.getElementById('login-submit').click()");
 
                 }
+            }
+            var result = GetLoggedInPageSource();
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                if (!result.Contains("LinkedIn: Log In or Sign Up") && !result.Contains("Be great at what you do") && !result.Contains("By clicking Join now, you agree to the LinkedIn") && !result.Contains("Your LinkedIn account has been temporarily restricted"))
+                {
+                    if (!result.Contains("Sign in to LinkedIn") || !result.Contains("Sign in"))
+                    {
+                        LoadPostPage(true);
+                    }
+                }
+
             }
         }
 
@@ -417,6 +470,14 @@ namespace EmbeddedBrowser
 
                 }
             }
+            var result = GetLoggedInPageSource();
+
+            if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true"))
+            {
+                LoadPostPage(true);
+            }
+
+
         }
 
         private void InstagramBrowserLogin(string html)
@@ -478,6 +539,12 @@ namespace EmbeddedBrowser
                 Thread.Sleep(2000);
 
             }
+
+            var result = GetLoggedInPageSource();
+            if (!string.IsNullOrEmpty(result) && result.Contains("logged-in"))
+            {
+                LoadPostPage(true);
+            }
         }
 
         private void TwitterLogin(string html)
@@ -495,6 +562,14 @@ namespace EmbeddedBrowser
                 this.Browser.ExecuteScriptAsync(
                     "document.getElementsByClassName('submit EdgeButton EdgeButton--primary EdgeButtom--medium')[0].click()");
                 Thread.Sleep(4000);
+
+            }
+
+            var result = GetLoggedInPageSource();
+
+            if (!string.IsNullOrEmpty(result) && result.Contains("signout") && result.Contains("timeline-tweet-box"))
+            {
+                LoadPostPage(true);
             }
         }
 
@@ -504,14 +579,24 @@ namespace EmbeddedBrowser
             {
                 if (html != null && html.Contains("name=\"password\"") && html.Contains("name=\"email\""))
                 {
-                    Browser.ExecuteScriptAsync("document.getElementsByName('email')[0].value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
+                    Browser.ExecuteScriptAsync("document.getElementsByName('email')[1].value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
 
-                    Browser.ExecuteScriptAsync("document.getElementsByName('password')[0].value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
+                    Browser.ExecuteScriptAsync("document.getElementsByName('password')[1].value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
 
                     Browser.ExecuteScriptAsync("document.getElementsByClassName('submit_button ignore_interaction submit_button_disabled')[0].class='submit_button ignore_interaction'");
 
                     Browser.ExecuteScriptAsync("document.getElementsByClassName('submit_button ignore_interaction')[0].click()");
+
+
                 }
+
+                var result = GetLoggedInPageSource();
+
+                if (!string.IsNullOrEmpty(result) && result.Contains("\"logged_in\": true"))
+                {
+                    LoadPostPage(true);
+                }
+
             }
 
         }
@@ -523,6 +608,8 @@ namespace EmbeddedBrowser
                 Browser.ExecuteScriptAsync("document.getElementById('loginUsername').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
                 Browser.ExecuteScriptAsync("document.getElementById('loginPassword').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('AnimatedForm__submitButton')[0].click()");
+
+
             }
 
             if (html.Contains("login_login-main"))
@@ -531,6 +618,14 @@ namespace EmbeddedBrowser
                 Browser.ExecuteScriptAsync("document.getElementsByName('passwd')[0].value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
                 Thread.Sleep(1000);
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('submit').click()");
+
+            }
+
+            var result = GetLoggedInPageSource();
+
+            if (result != null && result.Contains("Log out") || result.Contains("logged in"))
+            {
+                LoadPostPage(true);
             }
         }
 
@@ -548,7 +643,8 @@ namespace EmbeddedBrowser
             }
             if (html.Contains("signup_view magiclink active"))
             {
-                Browser.ExecuteScriptAsync("document.getElementById('signup_forms_submit').click()");
+                // Browser.ExecuteScriptAsync("document.getElementById('signup_forms_submit').click()");
+                Browser.ExecuteScriptAsync("document.getElementsByClassName('forgot_password_link')[0].click()");
             }
             if (html.Contains("loginUsername"))
             {
@@ -564,8 +660,32 @@ namespace EmbeddedBrowser
                 Thread.Sleep(1000);
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('submit').click()");
             }
+
+            var result = GetLoggedInPageSource();
+
+            if (!string.IsNullOrEmpty(result) && result.Contains("'User_Logged_In', 'Yes'") || result.Contains("logged_in"))
+            {
+                LoadPostPage(true);
+            }
+        }
+        private void LoadPostPage(bool isLoggedIn)
+        {
+            if (isLoggedIn)
+            {
+                Browser.Load(TargetUrl);
+                Browser.LoadingStateChanged -= BrowserOnLoaded;
+            }
         }
 
+        private string GetLoggedInPageSource()
+        {
+            if (!string.IsNullOrEmpty(TargetUrl) && TargetUrl != "Not Published Yet")
+            {
+                var sourceAsync = Browser.GetSourceAsync();
+                return sourceAsync.Result;
+            }
+            return String.Empty;
+        }
 
         public string GetNetworksHomeUrl()
         {
@@ -946,7 +1066,7 @@ namespace EmbeddedBrowser
                                      .Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()) && !string.IsNullOrEmpty(objResponseParameter.Response) && objResponseParameter.Response != "<html><head></head><body></body></html>")
                                 return;
                         }
-                      
+
 
                         if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                         {

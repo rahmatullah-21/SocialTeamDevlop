@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
+using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
+    [ProtoContract]
     public class SocinatorIntellisenseModel : INotifyPropertyChanged
     {
         private string _key = string.Empty;
-
+        [ProtoMember(1)]
         public string Key
         {
             get
@@ -24,7 +26,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private string _value;
-
+        [ProtoMember(2)]
         public string Value
         {
             get

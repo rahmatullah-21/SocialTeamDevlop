@@ -60,7 +60,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var tumblrModel = GenericFileManager.GetModuleDetails<TumblrModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            TumblrViewModel.TumblrModel = tumblrModel ?? TumblrViewModel.TumblrModel;
+            TumblrViewModel.TumblrModel = tumblrModel ?? (tumblrModel = new TumblrModel());
         }
     }
 }

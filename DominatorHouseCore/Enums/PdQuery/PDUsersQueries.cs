@@ -4,23 +4,23 @@ namespace DominatorHouseCore.Enums.PdQuery
 {
     public enum PDUsersQueries
     {
-        [Description("PDlangKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords = 1,
-        [Description("PDlangSomeonesFollowers")]
+        [Description("LangKeySomeonesFollowers")]
         SomeonesFollowers = 2,
-        [Description("PDlangSomeonesFollowings")]
+        [Description("LangKeySomeonesFollowings")]
         SomeonesFollowings = 3,
-        [Description("PDlangFollowersOfSomeonesFollowings")]
+        [Description("LangKeyFollowersOfSomeonesFollowings")]
         FollowersOfSomeonesFollowings = 4,
-        [Description("PDlangFollowersOfSomeonesFollowers")]
+        [Description("LangKeyFollowersOfSomeonesFollowers")]
         FollowersOfSomeonesFollowers = 5,
-        [Description("PDlangCustomUser")]
+        [Description("LangKeyCustomUsers")]
         Customusers = 6,
-        [Description("PDlangBoardFollowers")]
+        [Description("LangKeyBoardFollowers")]
         BoardFollowers = 7,
-        [Description("PDlangUsersWhoTried")]
+        [Description("LangKeyUsersWhoTriedPins")]
         UsersWhoTriedPins = 8,
-        [Description("PDlangCustomBoard")]
+        [Description("LangKeyCustomBoard")]
         CustomBoard = 9
     }
 }

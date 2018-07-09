@@ -16,11 +16,11 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                     <Controls:TimePicker VerticalAlignment="Center" Name="StartTimePicker"  IsClockVisible="False"  x:FieldModifier="public" Controls:TextBoxHelper.Watermark="Select start time" HandVisibility="All" PickerVisibility="HourMinute" />
-                    <Label  Content="{DynamicResource langAnd}" VerticalAlignment="Center"/>
+                    <Label  Content="{DynamicResource LangKeyAnd}" VerticalAlignment="Center"/>
                     <Controls:TimePicker VerticalAlignment="Center" Name="EndTimePicker" IsClockVisible="False"  x:FieldModifier="public" Controls:TextBoxHelper.Watermark="Select end time" HandVisibility="All"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
-                    <Button  Content="{DynamicResource langAddInterval}" Height="25" FontSize="12" Name="btnAddInterval" x:FieldModifier="public" Margin="10,0,0,0" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
+                    <Button  Content="{DynamicResource LangKeyAddInterval}" Height="25" FontSize="12" Name="btnAddInterval" x:FieldModifier="public" Margin="10,0,0,0" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
                 </StackPanel>
             </Grid>
             <StackPanel>

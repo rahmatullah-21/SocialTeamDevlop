@@ -4,19 +4,19 @@ namespace DominatorHouseCore.Enums.QdQuery
 {
     public enum BroadcastMessageQuery
     {
-        [Description("langKeywords")]
+        [Description("LangKeyKeywords")]
         Keywords,
-        [Description("langSomeonesFollowers")]
+        [Description("LangKeySomeonesFollowers")]
         SomeonesFollowers,
-        [Description("langSomeonesFollowings")]
+        [Description("LangKeySomeonesFollowings")]
         SomeonesFollowings,
-        [Description("langFollowersOfSomeonesFollowings")]
+        [Description("LangKeyFollowersOfSomeonesFollowings")]
         FollowersOfFollowings,
-        [Description("langFollowersOfSomeonesFollowers")]
+        [Description("LangKeyFollowersOfSomeonesFollowers")]
         FollowersOfFollowers,
-        [Description("langCustomUser")]
+        [Description("LangKeyCustomUsersList")]
         CustomUsers,
-        [Description("langCustomUrl")]
+        [Description("LangKeyCustomURLS")]
         CustomUrl
     }
 }

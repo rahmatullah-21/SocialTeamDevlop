@@ -77,7 +77,40 @@ namespace DominatorHouseCore.Utility
             dialogWindow.Content = dialog;
             return dialogWindow;
         }
+        public Window GetMetroWindowWithOutClose(Object window, string title)
+        {
+            var MetroWindow = new MetroWindow
+            {
+                ShowInTaskbar = true,
+                ShowActivated = true,
+                Topmost = false,
+                ResizeMode = ResizeMode.NoResize,
+                WindowStyle = WindowStyle.SingleBorderWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                ShowTitleBar = true,
+                ShowCloseButton = false,
+                WindowTransitionsEnabled = false,
+                Title = title,
+                BorderThickness = new Thickness(0),
+                GlowBrush = Brushes.Black
+            };
 
+            try
+            {
+                MetroWindow.GlowBrush = MetroWindow.FindResource("AccentColorBrush") as SolidColorBrush;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            MetroWindow.MinHeight = (SystemParameters.PrimaryScreenHeight / 4.0) - 80;
+            MetroWindow.MinWidth = SystemParameters.PrimaryScreenHeight / 1.3;
+            MetroWindow.SizeToContent = SizeToContent.WidthAndHeight;
+            MetroWindow.Content = window;
+            MetroWindow.MaxHeight = SystemParameters.PrimaryScreenHeight - 100;
+            MetroWindow.MaxWidth = SystemParameters.PrimaryScreenWidth - 100;
+            return MetroWindow;
+        }
 
         public Window GetMetroWindow(Object window, string title)
         {

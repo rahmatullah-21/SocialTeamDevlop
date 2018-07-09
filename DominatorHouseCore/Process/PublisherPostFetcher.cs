@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
@@ -22,22 +23,22 @@ namespace DominatorHouseCore.Process
                 GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                     .GetPublisherPostFetchFile);
 
-            getFetchDetails.ForEach(publisherPostFetchModel =>
-            {
-                FetchPosts(publisherPostFetchModel);
-            });
+            getFetchDetails.ForEach(FetchPosts);
         }
 
         public void FetchPostsForCampaign(string campaignId)
-        {
-            var publisherPostFetchModel =
-                GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
-                    .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignId);
-            FetchPosts(publisherPostFetchModel);
+        {           
+            var postFetchModels = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaignId && x.PostSource != PostSource.NormalPost);
+
+            Task.Factory.StartNew(() => { postFetchModels.ForEach(FetchPosts); });                  
         }
 
         public void FetchPosts(PublisherPostFetchModel publisherPostFetchModel)
         {
+            if (publisherPostFetchModel.PostSource == PostSource.NormalPost)
+                return;
+
             // Check whether campaign expired or not
             if (publisherPostFetchModel.ExpireDate < DateTime.Now)
             {
@@ -116,11 +117,12 @@ namespace DominatorHouseCore.Process
                                 .PostScraper.GetPostScraperLibrary();
 
                             if (publisherPostFetchModel.PostSource == PostSource.SharePost)
+                            {
                                 if (networkWithAccount.Key == SocialNetworks.Facebook)
                                     networkPostScraper.ScrapeFdPagePostUrl(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails);
-
-                                else if (publisherPostFetchModel.PostSource == PostSource.ScrapedPost)
-                                    networkPostScraper.ScrapePosts(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails);
+                            }
+                            else if (publisherPostFetchModel.PostSource == PostSource.ScrapedPost)
+                                networkPostScraper.ScrapePosts(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails);
                         });
                     });
                     break;

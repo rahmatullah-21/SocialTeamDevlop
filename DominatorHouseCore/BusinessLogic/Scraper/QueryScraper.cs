@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
@@ -59,6 +60,9 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 {
                     try
                     {
+                      //  ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.SelectedQueryEnumId}"]?.Invoke(query);
+
+                        
                         ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
                     }
                     catch (KeyNotFoundException ex)
@@ -66,6 +70,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                         ex.ErrorLog($"Unable to find key for query type - {query.QueryType}. {ex.Message}");
                     }
                 }
+                GlobusLogHelper.log.Info(Log.NoMoreDataToPerform,_jobProcess.SocialNetworks,_jobProcess.DominatorAccountModel.AccountBaseModel.UserName,_jobProcess.ActivityType);
             }
             catch (OperationCanceledException)
             {

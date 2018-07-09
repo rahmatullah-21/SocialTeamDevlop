@@ -78,5 +78,6 @@ namespace DominatorHouseCore.Utility
         {
             return new string(Enumerable.Repeat<string>("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", length).Select<string, char>((Func<string, char>)(s => s[RandomUtilties.ObjRandom.Next(s.Length)])).ToArray<char>());
         }
+       
     }
 }

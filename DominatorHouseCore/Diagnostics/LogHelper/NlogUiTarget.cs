@@ -8,7 +8,7 @@ namespace DominatorHouseCore.LogHelper
 {
     public class NlogUiTarget : Target
     {
-        public Action<string, bool> Log = delegate { };
+        public Action<string, LogLevel> Log = delegate { };
 
         public NlogUiTarget(string name, LogLevel level)
         {
@@ -34,10 +34,13 @@ namespace DominatorHouseCore.LogHelper
 
         protected override void Write(LogEventInfo logEvent)
         {
-            if (logEvent.Level != LogLevel.Error)
-                Log(logEvent.FormattedMessage, false);
-            else
-                Log(logEvent.FormattedMessage, true);
+            //if (logEvent.Level != LogLevel.Error)
+            //    Log(logEvent.FormattedMessage, false);
+            //else
+            //    Log(logEvent.FormattedMessage, true);
+            
+                Log(logEvent.FormattedMessage, logEvent.Level);
+          
         }
     }
 }

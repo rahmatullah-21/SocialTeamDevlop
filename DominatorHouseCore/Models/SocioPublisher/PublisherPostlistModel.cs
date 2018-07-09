@@ -281,6 +281,57 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isFdSellPost, value);
             }
         }
+        private ObservableCollection<PublishedPostDetailsModel> _lstPublishedPostDetailsModels=new ObservableCollection<PublishedPostDetailsModel>();
+        [ProtoMember(23)]
+        public ObservableCollection<PublishedPostDetailsModel> LstPublishedPostDetailsModels
+        {
+            get
+            {
+                return _lstPublishedPostDetailsModels;
+            }
+            set
+            {
+              
+
+                if (value == _lstPublishedPostDetailsModels)
+                    return;
+                SetProperty(ref _lstPublishedPostDetailsModels, value);
+            }
+        }
+
+
+        private string _fetchedPostId=string.Empty;
+        [ProtoMember(25)]
+        public string FetchedPostIdOrUrl
+        {
+            get
+            {
+                return _fetchedPostId;
+            }
+            set
+            {              
+                if (_fetchedPostId == value)
+                    return;
+                SetProperty(ref _fetchedPostId, value);
+            }
+        }
+
+
+        private string _publishedTriedAndSuccessStatus="00/00";
+        [ProtoMember(26)]
+        public string PublishedTriedAndSuccessStatus
+        {
+            get
+            {
+                return _publishedTriedAndSuccessStatus;
+            }
+            set
+            {               
+                if (_publishedTriedAndSuccessStatus == value)
+                    return;
+                SetProperty(ref _publishedTriedAndSuccessStatus, value);
+            }
+        }
 
 
         #region Postlist
@@ -478,6 +529,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        private RedditPostSetting _redditPostSetting = new RedditPostSetting();
+        [ProtoMember(24)]
+        public RedditPostSetting RedditPostSetting
+        {
+            get
+            {
+                return _redditPostSetting;
+            }
+            set
+            {
+
+                if (_redditPostSetting == value)
+                    return;
+                SetProperty(ref _redditPostSetting, value);
+            }
+        }
 
         private TumberPostSettings _tumberPostSettings = new TumberPostSettings();
         [ProtoMember(15)]
@@ -595,6 +662,15 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 TotalMediaCount = MediaList.Count;
                 NextImageEnable = (TotalMediaCount - ImagePointer) > -1;
                 PreviousImageEnable = ImagePointer > 0;
+            }
+            else
+            {
+                ImagePointer = 0;
+                MediaCurrentPointer = 0;
+                CurrentMediaUrl = string.Empty;
+                TotalMediaCount = MediaList.Count;
+                NextImageEnable = false;
+                PreviousImageEnable = false;
             }
         }
 

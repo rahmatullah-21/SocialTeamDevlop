@@ -20,7 +20,7 @@
                     <TextBlock Text="Whitelist User" Foreground="White"  FontSize="30" FontWeight="SemiBold"/>
                     <Rectangle Width="20" Height="20" Fill="White"  Margin="10,0" Grid.Column="1"
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
-                                   x:Name="RefreshWhitelistedUsers" ToolTip="{DynamicResource langRefreshWhitelistedUsersList}"
+                                   x:Name="RefreshWhitelistedUsers" ToolTip="{DynamicResource LangKeyRefreshWhitelistedUsersList}"
                                    MouseDown="RefreshWhitelistedUsers_OnMouseDown">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_reset}" />
@@ -33,13 +33,13 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource langUsernameWhiteListTag}"  
+                <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToWhitelistedOneUsernamePerLine}"  
                               TextWrapping="Wrap" AcceptsReturn="True"
-                              ToolTip="{DynamicResource langUsernameWhiteListTag}"  
+                              ToolTip="{DynamicResource LangKeyPleaseEnterUsernamesToAddToWhitelistedOneUsernamePerLine}"  
                               Name="Txtusername"  VerticalScrollBarVisibility="Auto" 
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                               BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
-                <Button Grid.Row="1" Name="BtnAddtoWhitelist" x:FieldModifier="public" Content="{DynamicResource langAddToWhitelist}" 
+                <Button Grid.Row="1" Name="BtnAddtoWhitelist" x:FieldModifier="public" Content="{DynamicResource LangKeyAddToWhitelist}" 
                             VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Stretch" Background="Green" Foreground="White"
                             Click="BtnAddtoWhitelist_OnClick"/>
             </Grid>
@@ -52,10 +52,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Label  Content="{DynamicResource langWhitelistedUsers}" Foreground="White"
+                    <Label  Content="{DynamicResource LangKeyWhitelistedUsers}" Foreground="White"
                                 VerticalAlignment="Center" FontSize="30" FontWeight="SemiBold"/>
                     <CheckBox Name="SelectAll" Grid.Column="1" Foreground="White" IsChecked="{Binding IsAllWhiteListUserChecked}"
-                              Margin="10,0"    VerticalAlignment="Center" HorizontalAlignment="Right" Content="{DynamicResource langSelectAll}"
+                              Margin="10,0"    VerticalAlignment="Center" HorizontalAlignment="Right" Content="{DynamicResource LangKeySelectAll}"
                               Checked="SelectAll_OnChecked"  Unchecked="SelectAll_OnUnchecked"/>
                 </Grid>
             </GroupBox.Header>
@@ -73,7 +73,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Button Grid.Row="1" Name="DeletedSelected" Content="{DynamicResource langRemoveSelectedFromWhitelist}"
+                <Button Grid.Row="1" Name="DeletedSelected" Content="{DynamicResource LangKeyRemoveSelectedFromWhitelist}"
                         Background="{DynamicResource AccentBaseColorBrush}" 
                         Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
                         Click="DeletedSelected_OnClick">

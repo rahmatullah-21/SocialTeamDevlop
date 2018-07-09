@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.PublishedPostDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+             mc:Ignorable="d" 
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+    <UserControl.Resources>
+        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <ListView AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding PublisherPostlist.LstPublishedPostDetailsModels}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="{DynamicResource LangKeySrNo}"  DisplayMemberBinding="{Binding (ItemsControl.AlternationIndex),
+                                                  RelativeSource={RelativeSource AncestorType=ListViewItem},
+                                                  Converter={StaticResource IndexToRowNoConverter}}"/>
+                    <GridViewColumn Header="{DynamicResource LangKeyAccounts}" DisplayMemberBinding="{Binding AccountName}"/>
+                    <GridViewColumn Header="{DynamicResource LangKeyDestination}" DisplayMemberBinding="{Binding Destination}"/>
+                    <GridViewColumn Header="{DynamicResource LangKeyDescription}" DisplayMemberBinding="{Binding Description}"/>
+                    <GridViewColumn Header="{DynamicResource LangKeyPublished}" DisplayMemberBinding="{Binding IsPublished}"/>
+                    <GridViewColumn Header="{DynamicResource LangKeySuccessful}" DisplayMemberBinding="{Binding Successful}"/>
+                    <GridViewColumn Header="{DynamicResource LangKeyPublishedDate}" DisplayMemberBinding="{Binding PublishedDate}"/>
+                    <GridViewColumn Header="{DynamicResource LangKeyLink}" DisplayMemberBinding="{Binding Link}"/>
+                    <GridViewColumn Header="{DynamicResource LangKeyDestinationURL}" DisplayMemberBinding="{Binding DestinationUrl}"/>
+                    <GridViewColumn Header="{DynamicResource LangKeyErrorDetails}" DisplayMemberBinding="{Binding ErrorDetails}"/>
+                    <GridViewColumn  Header="{DynamicResource LangKeyActions}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Cursor="Hand" 
+                                        Content="{DynamicResource LangKeyViewInBrowser}" 
+                                        x:Name="BtnViewInBrowser" 
+                                        FontWeight="SemiBold"       
+                                        Command="{Binding Path=DataContext.ViewInBrowserCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                        Background="Transparent"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

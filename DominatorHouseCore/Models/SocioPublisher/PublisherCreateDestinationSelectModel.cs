@@ -105,6 +105,24 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        private string _customDestinationSelectorText="0";
+        [ProtoMember(14)]
+        public string CustomDestinationSelectorText
+        {
+            get
+            {
+                return _customDestinationSelectorText;
+            }
+            set
+            {
+                if (_customDestinationSelectorText == value)
+                    return;
+                _customDestinationSelectorText = value;
+                OnPropertyChanged(nameof(CustomDestinationSelectorText));
+            }
+        }
+
+
         private int _totalGroups;
         [ProtoMember(9)]
         public int TotalGroups
@@ -238,5 +256,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public void UpdatePagesOrBoardsText() => 
             PagesOrBoardsSelectorText = IsPagesOrBoardsAvailable ? SelectedPagesOrBoards + "/" + TotalPagesOrBoards : "NA";
+        
+
+
+
     }
 }

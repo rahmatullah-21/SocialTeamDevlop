@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.Publisher.AdvancedSettings;
@@ -23,181 +25,252 @@ namespace DominatorUIUtility.Views.Publisher
         public CampaignsAdvanceSetting()
         {
             InitializeComponent();
-
-            var TabItems = new List<TabItemTemplates>
-            {
-                new TabItemTemplates
+            var tabItems = new List<TabItemTemplates> { new TabItemTemplates
                 {
-                    Title=FindResource("langGeneral").ToString(),
+                    Title=FindResource("LangKeyGeneral").ToString(),
                     Content=new Lazy<UserControl>(General.GetSingeltonGeneralObject)
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("langFacebook").ToString(),
-                    Content=new Lazy<UserControl>(Facebook.GetSingeltonFacebookObject)
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("langGooglePlus").ToString(),
-                    Content=new Lazy<UserControl>(GooglePlus.GetSingeltonGooglePlusObject)
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("langPinterest").ToString(),
-                    Content=new Lazy<UserControl>(Pinterest.GetSingeltonPinterestObject)
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("langTwitter").ToString(),
-                    Content=new Lazy<UserControl>(Twitter.GetSingletonTwitterObject)
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("langInstagram").ToString(),
-                    Content=new Lazy<UserControl>(Instagram.GetSingeltonInstagramObject)
-                } ,
-                new TabItemTemplates
-                {
-                    Title=FindResource("DHlangTumblr").ToString(),
-                    Content=new Lazy<UserControl>(Tumblr.GetSingeltonTumblr)
-                },
-                //new TabItemTemplates
-                //{
-                //    Title=FindResource("langErrorHandling").ToString(),
-                //    Content=new Lazy<UserControl>(ErrorHandling.GetSingeltonErrorHandlingObject)
-                //}
+                } };
 
-            };
-            CampaignsAdvanceSettingTab.ItemsSource = TabItems;
-            AdvanceSetting = new AdvanceSetting();
-        }
+            #region Facebook
 
-        private AdvanceSetting AdvanceSetting { get; set; }
-        private void BtnSave_OnClick(object sender, RoutedEventArgs e)
-        {
-            var campaignId = AdvanceSetting.CampaignId;
-
-            #region General
-
-            var oldGeneralModel = AdvanceSetting.GeneralModel;
-            var newGeneralModel = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel;
-            newGeneralModel = ObjectComparer.CompareAndGetChangedObject<GeneralModel>(oldGeneralModel, newGeneralModel);
-            if (newGeneralModel != null)
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
             {
-                newGeneralModel.CampaignId = campaignId;
-                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social);
-                var generalModels = GenericFileManager.GetModuleDetails<GeneralModel>(file);
-                var moduleToUpdate = generalModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                AddUpdateDetails(moduleToUpdate, newGeneralModel, generalModels, file, SocialNetworks.Social);
+                tabItems.Add(new TabItemTemplates
+                {
+                    Title = FindResource("LangKeyFacebook").ToString(),
+                    Content = new Lazy<UserControl>(Facebook.GetSingeltonFacebookObject)
+                });
             }
 
             #endregion
 
-            #region FaceBook
+            #region Gplus
 
-            var oldFacebookModel = AdvanceSetting.FacebookModel;
-            var newFacebookModel = Facebook.GetSingeltonFacebookObject().FacebookViewModel.FacebookModel;
-            newFacebookModel = ObjectComparer.CompareAndGetChangedObject<FacebookModel>(oldFacebookModel, newFacebookModel);
-            if (newFacebookModel != null)
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Gplus))
             {
-                newFacebookModel.CampaignId = campaignId;
-                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook);
-                var lstFacebookModels = GenericFileManager.GetModuleDetails<FacebookModel>(file);
-                var moduleToUpdate = lstFacebookModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                AddUpdateDetails(moduleToUpdate, newFacebookModel, lstFacebookModels, file, SocialNetworks.Facebook);
-            }
-
-            #endregion
-
-            #region Google+
-
-            var oldGooglePlusModel = AdvanceSetting.GooglePlusModel;
-            var newGooglePlusModel = GooglePlus.GetSingeltonGooglePlusObject().GooglePlusViewModel.GooglePlusModel;
-            newGooglePlusModel = ObjectComparer.CompareAndGetChangedObject<GooglePlusModel>(oldGooglePlusModel, newGooglePlusModel);
-
-            if (newGooglePlusModel != null)
-            {
-                newGeneralModel.CampaignId = campaignId;
-                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
-                var lstGooglePlusModels = GenericFileManager.GetModuleDetails<GooglePlusModel>(file);
-                var moduleToUpdate = lstGooglePlusModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                AddUpdateDetails(moduleToUpdate, newGooglePlusModel, lstGooglePlusModels, file, SocialNetworks.Gplus);
-            }
-            #endregion
-
-            #region Instagram
-
-            var oldInstagramModel = AdvanceSetting.InstagramModel;
-            var newInstagramModel = Instagram.GetSingeltonInstagramObject().InstagramViewModel.InstagramModel;
-            newInstagramModel =
-                ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(oldInstagramModel,
-                    newInstagramModel);
-            if (newInstagramModel != null)
-            {
-                newInstagramModel.CampaignId = campaignId;
-                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
-                var lstInstagramModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(file);
-                var moduleToUpdate = lstInstagramModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                AddUpdateDetails(moduleToUpdate, newInstagramModel, lstInstagramModels, file, SocialNetworks.Instagram);
+                tabItems.Add(new TabItemTemplates
+                {
+                    Title = FindResource("LangKeyGoogle+").ToString(),
+                    Content = new Lazy<UserControl>(GooglePlus.GetSingeltonGooglePlusObject)
+                });
             }
 
             #endregion
 
             #region Pinterest
 
-            var oldPinterestModel = AdvanceSetting.PinterestModel;
-            var newPinterestModel = Pinterest.GetSingeltonPinterestObject().PinterestViewModel.PinterestModel;
-            newPinterestModel = ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(oldPinterestModel, newPinterestModel);
-
-            if (newPinterestModel != null)
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Pinterest))
             {
-                newPinterestModel.CampaignId = campaignId;
-                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest);
-                var lstPinterestModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(file);
-                var moduleToUpdate = lstPinterestModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                AddUpdateDetails(moduleToUpdate, newPinterestModel, lstPinterestModels, file, SocialNetworks.Pinterest);
-            }
-            #endregion
-
-            #region Tumblr
-
-            var oldTumblrModel = AdvanceSetting.TumblrModel;
-            var newTumblrModel = Tumblr.GetSingeltonTumblr().TumblrViewModel.TumblrModel;
-            newTumblrModel =
-                ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(oldTumblrModel,
-                    newTumblrModel);
-            if (newTumblrModel != null)
-            {
-                newPinterestModel.CampaignId = campaignId;
-                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
-                var lstTumblrModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(file);
-                var moduleToUpdate = lstTumblrModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                AddUpdateDetails(moduleToUpdate, newTumblrModel, lstTumblrModels, file, SocialNetworks.Tumblr);
+                tabItems.Add(new TabItemTemplates
+                {
+                    Title = FindResource("LangKeyPinterest").ToString(),
+                    Content = new Lazy<UserControl>(Pinterest.GetSingeltonPinterestObject)
+                });
             }
 
             #endregion
 
             #region Twitter
 
-            var oldTwitterModel = AdvanceSetting.TwitterModel;
-            var newTwitterModel = Twitter.GetSingletonTwitterObject().TwitterViewModel.TwitterModel;
-            newTwitterModel = ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(oldTwitterModel, newTwitterModel);
-
-            if (newTwitterModel != null)
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Twitter))
             {
-                newTwitterModel.CampaignId = campaignId;
-                string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
-                var lstTwitterModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(file);
-                var moduleToUpdate = lstTwitterModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                AddUpdateDetails(moduleToUpdate, newTwitterModel, lstTwitterModels, file, SocialNetworks.Twitter);
+                tabItems.Add(new TabItemTemplates
+                {
+                    Title = FindResource("LangKeyTwitter").ToString(),
+                    Content = new Lazy<UserControl>(Twitter.GetSingletonTwitterObject)
+                });
             }
 
             #endregion
-            
-            GlobusLogHelper.log.Info("Details successfully saved");
+
+            #region Instagram
+
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Instagram))
+            {
+                tabItems.Add(new TabItemTemplates
+                {
+                    Title = FindResource("LangKeyInstagram").ToString(),
+                    Content = new Lazy<UserControl>(Instagram.GetSingeltonInstagramObject)
+                });
+            }
+
+            #endregion
+
+            #region Tumblr
+
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Tumblr))
+            {
+                tabItems.Add(new TabItemTemplates
+                {
+                    Title = FindResource("LangKeyTumblr").ToString(),
+                    Content = new Lazy<UserControl>(Tumblr.GetSingeltonTumblr)
+                });
+            }
+
+            #endregion
+
+            #region Reddit
+
+            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Reddit))
+            {
+                tabItems.Add(new TabItemTemplates
+                {
+                    Title = FindResource("LangKeyReddit").ToString(),
+                    Content = new Lazy<UserControl>(Reddit.GetSingeltonRedditObject)
+                });
+            }
+
+            #endregion
+
+            CampaignsAdvanceSettingTab.ItemsSource = tabItems;
+            AdvanceSetting = new AdvanceSetting();
         }
 
-        private void AddUpdateDetails<T>(T moduleToUpdate, T updatedModel,
+        public AdvanceSetting AdvanceSetting { get; set; }
+
+        //private void BtnSave_OnClick(object sender, RoutedEventArgs e)
+        //{
+        //    //var campaignId = AdvanceSetting.CampaignId;
+
+        //    //#region General
+
+        //    //var oldGeneralModel = AdvanceSetting.GeneralModel;
+        //    //var newGeneralModel = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel;
+        //    //newGeneralModel = ObjectComparer.CompareAndGetChangedObject<GeneralModel>(oldGeneralModel, newGeneralModel);
+        //    //if (newGeneralModel != null)
+        //    //{
+        //    //    newGeneralModel.CampaignId = campaignId;
+        //    //    string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social);
+        //    //    var generalModels = GenericFileManager.GetModuleDetails<GeneralModel>(file);
+        //    //    var moduleToUpdate = generalModels.FirstOrDefault(x => x.CampaignId == campaignId);
+        //    //    AddUpdateDetails(moduleToUpdate, newGeneralModel, generalModels, file, SocialNetworks.Social);
+        //    //}
+
+        //    //#endregion
+
+        //    //#region FaceBook
+
+        //    //var oldFacebookModel = AdvanceSetting.FacebookModel;
+        //    //var newFacebookModel = Facebook.GetSingeltonFacebookObject().FacebookViewModel.FacebookModel;
+        //    //newFacebookModel = ObjectComparer.CompareAndGetChangedObject<FacebookModel>(oldFacebookModel, newFacebookModel);
+        //    //if (newFacebookModel != null)
+        //    //{
+        //    //    newFacebookModel.CampaignId = campaignId;
+        //    //    string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook);
+        //    //    var lstFacebookModels = GenericFileManager.GetModuleDetails<FacebookModel>(file);
+        //    //    var moduleToUpdate = lstFacebookModels.FirstOrDefault(x => x.CampaignId == campaignId);
+        //    //    AddUpdateDetails(moduleToUpdate, newFacebookModel, lstFacebookModels, file, SocialNetworks.Facebook);
+        //    //}
+
+        //    //#endregion
+
+        //    //#region Google+
+
+        //    //var oldGooglePlusModel = AdvanceSetting.GooglePlusModel;
+        //    //var newGooglePlusModel = GooglePlus.GetSingeltonGooglePlusObject().GooglePlusViewModel.GooglePlusModel;
+        //    //newGooglePlusModel = ObjectComparer.CompareAndGetChangedObject<GooglePlusModel>(oldGooglePlusModel, newGooglePlusModel);
+
+        //    //if (newGooglePlusModel != null)
+        //    //{
+        //    //    newGeneralModel.CampaignId = campaignId;
+        //    //    string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
+        //    //    var lstGooglePlusModels = GenericFileManager.GetModuleDetails<GooglePlusModel>(file);
+        //    //    var moduleToUpdate = lstGooglePlusModels.FirstOrDefault(x => x.CampaignId == campaignId);
+        //    //    AddUpdateDetails(moduleToUpdate, newGooglePlusModel, lstGooglePlusModels, file, SocialNetworks.Gplus);
+        //    //}
+        //    //#endregion
+
+        //    //#region Instagram
+
+        //    //var oldInstagramModel = AdvanceSetting.InstagramModel;
+        //    //var newInstagramModel = Instagram.GetSingeltonInstagramObject().InstagramViewModel.InstagramModel;
+        //    //newInstagramModel =
+        //    //    ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(oldInstagramModel,
+        //    //        newInstagramModel);
+        //    //if (newInstagramModel != null)
+        //    //{
+        //    //    newInstagramModel.CampaignId = campaignId;
+        //    //    string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
+        //    //    var lstInstagramModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(file);
+        //    //    var moduleToUpdate = lstInstagramModels.FirstOrDefault(x => x.CampaignId == campaignId);
+        //    //    AddUpdateDetails(moduleToUpdate, newInstagramModel, lstInstagramModels, file, SocialNetworks.Instagram);
+        //    //}
+
+        //    //#endregion
+
+        //    //#region Pinterest
+
+        //    //var oldPinterestModel = AdvanceSetting.PinterestModel;
+        //    //var newPinterestModel = Pinterest.GetSingeltonPinterestObject().PinterestViewModel.PinterestModel;
+        //    //newPinterestModel = ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(oldPinterestModel, newPinterestModel);
+
+        //    //if (newPinterestModel != null)
+        //    //{
+        //    //    newPinterestModel.CampaignId = campaignId;
+        //    //    string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest);
+        //    //    var lstPinterestModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(file);
+        //    //    var moduleToUpdate = lstPinterestModels.FirstOrDefault(x => x.CampaignId == campaignId);
+        //    //    AddUpdateDetails(moduleToUpdate, newPinterestModel, lstPinterestModels, file, SocialNetworks.Pinterest);
+        //    //}
+        //    //#endregion
+
+        //    //#region Tumblr
+
+        //    //var oldTumblrModel = AdvanceSetting.TumblrModel;
+        //    //var newTumblrModel = Tumblr.GetSingeltonTumblr().TumblrViewModel.TumblrModel;
+        //    //newTumblrModel =
+        //    //    ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(oldTumblrModel,
+        //    //        newTumblrModel);
+        //    //if (newTumblrModel != null)
+        //    //{
+        //    //    newTumblrModel.CampaignId = campaignId;
+        //    //    string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
+        //    //    var lstTumblrModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(file);
+        //    //    var moduleToUpdate = lstTumblrModels.FirstOrDefault(x => x.CampaignId == campaignId);
+        //    //    AddUpdateDetails(moduleToUpdate, newTumblrModel, lstTumblrModels, file, SocialNetworks.Tumblr);
+        //    //}
+
+        //    //#endregion
+
+        //    //#region Twitter
+
+        //    //var oldTwitterModel = AdvanceSetting.TwitterModel;
+        //    //var newTwitterModel = Twitter.GetSingletonTwitterObject().TwitterViewModel.TwitterModel;
+        //    //newTwitterModel = ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(oldTwitterModel, newTwitterModel);
+
+        //    //if (newTwitterModel != null)
+        //    //{
+        //    //    newTwitterModel.CampaignId = campaignId;
+        //    //    string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
+        //    //    var lstTwitterModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(file);
+        //    //    var moduleToUpdate = lstTwitterModels.FirstOrDefault(x => x.CampaignId == campaignId);
+        //    //    AddUpdateDetails(moduleToUpdate, newTwitterModel, lstTwitterModels, file, SocialNetworks.Twitter);
+        //    //}
+
+        //    //#endregion
+
+        //    //#region Reddit
+
+        //    //var oldRedditModel = AdvanceSetting.RedditModel;
+        //    //var newRedditModel = Reddit.GetSingeltonRedditObject().RedditViewModel.RedditModel;
+        //    //newRedditModel = ObjectComparer.CompareAndGetChangedObject<RedditModel>(oldRedditModel, newRedditModel);
+
+        //    //if (newRedditModel != null)
+        //    //{
+        //    //    newRedditModel.CampaignId = campaignId;
+        //    //    string file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit);
+        //    //    var lstRedditModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.RedditModel>(file);
+        //    //    var moduleToUpdate = lstRedditModels.FirstOrDefault(x => x.CampaignId == campaignId);
+        //    //    AddUpdateDetails(moduleToUpdate, newRedditModel, lstRedditModels, file, SocialNetworks.Reddit);
+        //    //}
+
+        //    //#endregion
+
+        //    //GlobusLogHelper.log.Info("Details successfully saved");
+            
+        //}
+
+        public void AddUpdateDetails<T>(T moduleToUpdate, T updatedModel,
             List<T> lstModels, string file, SocialNetworks networks) where T : class
         {
             if (moduleToUpdate == null)

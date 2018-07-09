@@ -29,5 +29,9 @@ namespace DominatorUIUtility.Behaviours
         public TumblrModel TumblrModel { get; set; } = Tumblr.GetSingeltonTumblr().TumblrViewModel.TumblrModel.Clone();
 
         public TwitterModel TwitterModel { get; set; } = Twitter.GetSingletonTwitterObject().TwitterViewModel.TwitterModel.Clone();
+
+        public RedditModel RedditModel { get; set; } =
+            Reddit.GetSingeltonRedditObject().RedditViewModel.RedditModel.Clone();
+
     }
 }
