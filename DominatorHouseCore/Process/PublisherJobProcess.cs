@@ -131,11 +131,18 @@ namespace DominatorHouseCore.Process
                 {
                     ThreadFactory.Instance.Start(() =>
                     {
-                        Publish(maximumPostCount);
+                        Publish(maximumPostCount);                       
+                        PublishScheduler.RunAndRemovePublisherAction(CampaignId);
+                        PublishScheduler.DecreasePublishingCount(CampaignId);
                     }, CampaignCancellationToken.Token);
                 }
                 else
-                    Publish(maximumPostCount);
+                {
+                    Publish(maximumPostCount);                    
+                    PublishScheduler.RunAndRemovePublisherAction(CampaignId);
+                    PublishScheduler.DecreasePublishingCount(CampaignId);
+                }
+                    
             }
         }
 

@@ -278,7 +278,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isWaitToStartNewPost, value);
             }
         }
-        private int _waitToStartNewPost;
+        private int _waitToStartNewPost=1;
 
         [ProtoMember(18)]
         public int WaitToStartNewPost

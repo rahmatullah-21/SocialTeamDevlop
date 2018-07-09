@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.SessionState;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
@@ -20,16 +21,142 @@ namespace DominatorHouseCore.Process
 
         #region Properties
 
-
-
         public static Dictionary<string, CancellationTokenSource> CampaignsCancellationTokens { get; set; }
         = new Dictionary<string, CancellationTokenSource>();
 
-        public static ConcurrentDictionary<string, Dictionary<DateTime, Action>> AttachedActions { get; set; }
-            = new ConcurrentDictionary<string, Dictionary<DateTime, Action>>();
+        public static ConcurrentDictionary<string, int> AttachedActionCounts { get; set; } = new ConcurrentDictionary<string, int>();
 
+        public static ConcurrentDictionary<string, LinkedList<Action>> PublisherActionList { get; set; }
+            = new ConcurrentDictionary<string, LinkedList<Action>>();
 
         #endregion
+
+        public static void IncreasePublishingCount(string campaignId)
+        {
+            try
+            {
+                if (!AttachedActionCounts.ContainsKey(campaignId))
+                    return;
+
+                var runningCount = AttachedActionCounts[campaignId];
+                ++runningCount;
+                AttachedActionCounts.AddOrUpdate(campaignId, runningCount, (id, count) =>
+                {
+                    if (count <= 0)
+                        throw new ArgumentOutOfRangeException(nameof(count));
+                    count = runningCount;
+                    return count;
+                });
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        public static void DecreasePublishingCount(string campaignId)
+        {
+            try
+            {
+                if (!AttachedActionCounts.ContainsKey(campaignId))
+                    return;
+
+                var runningCount = AttachedActionCounts[campaignId];
+                --runningCount;
+
+                AttachedActionCounts.AddOrUpdate(campaignId, runningCount, (id, count) =>
+                {
+                    if (count <= 0)
+                        throw new ArgumentOutOfRangeException(nameof(count));
+                    count = runningCount;
+                    return count;
+                });
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        public static void AddPublisherAction(string campaignId, Action action)
+        {
+            try
+            {
+                if (PublisherActionList.ContainsKey(campaignId))
+                {
+                    var actionCollection = PublisherActionList[campaignId];
+
+                    actionCollection.AddLast(action);
+
+                    PublisherActionList.AddOrUpdate(campaignId, actionCollection, (id, actions) =>
+                        {
+                            if (actions == null)
+                                throw new ArgumentNullException(nameof(actions));
+                            actions = actionCollection;
+                            return actions;
+                        });
+
+                }
+                else
+                {
+                    var list = new LinkedList<Action>();
+
+                    list.AddFirst(action);
+
+                    PublisherActionList.GetOrAdd(campaignId, list);
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        public static void RunAndRemovePublisherAction(string campaignId)
+        {
+            try
+            {
+                if (!PublisherActionList.ContainsKey(campaignId))
+                    return;
+
+                var actionCollection = PublisherActionList[campaignId];
+
+                var action = actionCollection.First();
+
+                actionCollection.RemoveFirst();
+
+                PublisherActionList.AddOrUpdate(campaignId, actionCollection, (id, actions) =>
+                {
+                    if (actions == null)
+                        throw new ArgumentNullException(nameof(actions));
+                    actions = actionCollection;
+                    return actions;
+                });
+
+                action.Invoke();
+            }
+            catch (ArgumentNullException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
 
         public static void StartPublishingPosts(PublisherCampaignStatusModel campaignStatusModel)
         {
@@ -174,31 +301,31 @@ namespace DominatorHouseCore.Process
                                         .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
 
                                     #region Under Development
-                                    //if (campaignStatusModel.IsWaitToStartAction)
-                                    if (false)
+
+                                    if (campaignStatusModel.IsWaitToStartAction)
                                     {
-                                        var dateTime = DateTime.Now;
-                                        var activityDictionary = new Dictionary<DateTime, Action>
+                                        var runningCount = 0;
+
+                                        if (AttachedActionCounts.ContainsKey(campaignStatusModel.CampaignId))
                                         {
-                                            {
-                                                dateTime, () =>
-                                                    publisherJobProcess.StartPublishing(publishingCount,
-                                                        !campaignStatusModel.IsRunSingleAccountPerCampaign)
-                                            }
-                                        };
+                                            runningCount = AttachedActionCounts[campaignStatusModel.CampaignId];
+                                        }
 
-                                        AttachedActions.TryAdd(campaignStatusModel.CampaignId, activityDictionary);
+                                        IncreasePublishingCount(campaignStatusModel.CampaignId);
 
-                                        if (AttachedActions.Count >= campaignStatusModel.JobProcessRunningCount)
-                                            return;
-
-                                        var actionKeyPair = AttachedActions.FirstOrDefault(x =>
-                                            x.Key == campaignStatusModel.CampaignId);
-                                        var dictionaryWithAction = actionKeyPair.Value;
-                                        var action = dictionaryWithAction.FirstOrDefault(x => true).Value;
-                                        dictionaryWithAction.Remove(dictionaryWithAction.FirstOrDefault(x => true).Key);
-                                        action.Invoke();
+                                        if (runningCount >= campaignStatusModel.JobProcessRunningCount)
+                                        {
+                                            AddPublisherAction(campaignStatusModel.CampaignId, () =>
+                                                publisherJobProcess.StartPublishing(publishingCount,
+                                                    !campaignStatusModel.IsRunSingleAccountPerCampaign));
+                                        }
+                                        else
+                                        {
+                                            publisherJobProcess.StartPublishing(publishingCount,
+                                                !campaignStatusModel.IsRunSingleAccountPerCampaign);
+                                        }                                          
                                     }
+
                                     #endregion
 
                                     else
