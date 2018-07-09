@@ -282,16 +282,17 @@ namespace Socinator
         {
             //  GlobusLogHelper.LogTextToList(!error ? InfoLogger : ErrorLogger, message);
             GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
-            Application.Current.Dispatcher.Invoke(() =>
+
+            if (!string.IsNullOrEmpty(message))
             {
-                if (logLevel == LogLevel.Info)
-                    LoggerCollection.Filter += FilterByInfo;
-                else
-                    LoggerCollection.Filter += FilterByError;
-            });
-
-
-
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (logLevel == LogLevel.Info)
+                        LoggerCollection.Filter += FilterByInfo;
+                    else
+                        LoggerCollection.Filter += FilterByError;
+                });
+            }         
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -931,7 +932,6 @@ namespace Socinator
                     {
                         ex.DebugLog();
                     }
-
                 }
                 else
                     LoggerCollection.Filter += FilterByNetwork;

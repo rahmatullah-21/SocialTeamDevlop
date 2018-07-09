@@ -70,14 +70,10 @@ namespace DominatorHouseCore.Diagnostics
                             IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                             TimeRange = campaigns.JobConfigurations.TimeRange,
                             SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                            ScheduledWeekday = campaigns.JobConfigurations.Weekday,
-                            IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign,
+                            ScheduledWeekday = campaigns.JobConfigurations.Weekday,                            
                             IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
                             TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
-                            MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
-                            IsDeselectUsedDestination = campaigns.IsDeselectUsedDestination,
-                            IsWaitToStartAction = campaigns.IsWaitToStartAction,
-                            JobProcessRunningCount = campaigns.JobProcessRunningCount
+                            MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,                          
                         };
 
                         ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
@@ -106,12 +102,10 @@ namespace DominatorHouseCore.Diagnostics
                         IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                         TimeRange = campaigns.JobConfigurations.TimeRange,
                         SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                        ScheduledWeekday = campaigns.JobConfigurations.Weekday,
-                        IsRunSingleAccountPerCampaign = campaigns.IsRunSingleAccountPerCampaign,
+                        ScheduledWeekday = campaigns.JobConfigurations.Weekday,                       
                         IsTakeRandomDestination = campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
                         TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
-                        MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
-                        IsDeselectUsedDestination = campaigns.IsDeselectUsedDestination
+                        MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,                     
                     };
 
                     GetPostStatus(publisherCampaignStatusModel);

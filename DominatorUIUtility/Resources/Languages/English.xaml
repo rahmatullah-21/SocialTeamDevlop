@@ -2710,6 +2710,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySaveToMacroList">Save To Macro List</system:String>
     <system:String x:Key="LangKeyMacroSList">Macro(S) List</system:String>
     <system:String x:Key="LangKeyErrorDetails">Error Details</system:String>
+    <system:String x:Key="LangKeyPublishingProcessCompleted">Publish process completed with campaign</system:String>
     <!--Ends Newly Added-->
     <!--Begins Newly Added on (05/07/2018)-->
     <system:String x:Key="LangKeyUpvoteFromRandom">Vote from random</system:String>

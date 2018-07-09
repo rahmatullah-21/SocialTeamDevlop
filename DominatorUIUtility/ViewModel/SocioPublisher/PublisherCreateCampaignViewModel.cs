@@ -247,25 +247,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 #region Saving Campign to PublisherCampaign.bin file
 
+                var generalSettingsModel = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel;
+
                 var lstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
                     ConstantVariable.GetPublisherCampaignFile());
 
                 if (!string.IsNullOrEmpty(SelectedItem) || lstCampaign.Any(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId))
                 {
                     var campaignIndex = lstCampaign.IndexOf(lstCampaign.FirstOrDefault(x => x.CampaignName == SelectedItem));
+
                     lstCampaign[campaignIndex] = PublisherCreateCampaignModel;
 
                     if (GenericFileManager.UpdateModuleDetails<PublisherCreateCampaignModel>(lstCampaign,
                         ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully updated.");
-
                 }
                 else
                 {
                     if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully saved.");
 
-                    CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
+                    CampaignList.Add(PublisherCreateCampaignModel.CampaignName);  
                 }
 
                 #endregion
@@ -373,7 +375,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 var currentCampaignsFetchDetails = new List<PublisherPostFetchModel>();
 
-                var generalSettingsModel = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel;
+
 
                 #region DirectPostPosts
 
@@ -491,19 +493,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     CreatedDate = PublisherCreateCampaignModel.CreatedDate,
                     Status = PublisherCreateCampaignModel.CampaignStatus,
                     DestinationCount = PublisherCreateCampaignModel.LstDestinationId.Count,
-                    IsRunSingleAccountPerCampaign = generalSettingsModel.IsDoNotPublishPostsChecked,
                     IsRotateDayChecked = PublisherCreateCampaignModel.JobConfigurations.IsRotateDayChecked,
                     TimeRange = PublisherCreateCampaignModel.JobConfigurations.TimeRange,
                     SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                     ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
                     PendingCount = publisherPostlistModel.LstPublishedPostDetailsModels.Count,
-                    DestinationTimeout = generalSettingsModel.WaitMaxOf,
                     IsTakeRandomDestination = !PublisherCreateCampaignModel.JobConfigurations.IsPublishPostOnDestinationsChecked,
                     TotalRandomDestination = PublisherCreateCampaignModel.JobConfigurations.RandomDestinationCount,
                     MinRandomDestinationPerAccount = PublisherCreateCampaignModel.JobConfigurations.PostBetween.EndValue,
-                    IsDeselectUsedDestination = generalSettingsModel.IsUnselectDestination,
-                    IsWaitToStartAction = generalSettingsModel.IsWaitToStartNewPost,
-                    JobProcessRunningCount = generalSettingsModel.WaitToStartNewPost
                 };
 
                 PublisherInitialize.GetInstance.AddCampaignDetails(publisherCampaignStatusModel);

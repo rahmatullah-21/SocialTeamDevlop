@@ -67,6 +67,11 @@
         public static string UploadingMediaFailedReason { get; } = "I1063";
         public static string FoundXResults { get; } = "I1064";
         public static string CustomMessage { get; } = "I1065";
-     
+
+        public static string DelayBetweenMultiPost { get; } = "I1066";
+       
+        public static string PublishingProcessCompleted { get; } = "I1067";
+
+
     }
 }
