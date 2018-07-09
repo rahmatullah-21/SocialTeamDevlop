@@ -153,7 +153,8 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherFacebookSettingsFile() => GetOtherDir() + @"\Facebook.bin";
         public static string GetOtherInstagramSettingsFile() => GetOtherDir() + @"\Instagram.bin";
         public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
-
+        public static string GetURLShortnerServicesFile() => GetOtherDir() + @"\URLShortnerServices.bin";
+        public static string GetCaptchaServicesFile() => GetOtherDir() + @"\CaptchaServices.bin";
         public static string SaveAction { get; set; } = "Save";
 
         public static string UpdateAction { get; set; } = "Update";
