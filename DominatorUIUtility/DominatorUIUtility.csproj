@@ -186,6 +186,9 @@
     <Compile Include="Behaviours\SelectionChangedBehaviour.cs" />
     <Compile Include="Behaviours\UserFilterAction.cs" />
     <Compile Include="Behaviours\Utilities.cs" />
+    <Compile Include="ConfigControl\CaptchaServices.xaml.cs">
+      <DependentUpon>CaptchaServices.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConfigControl\EmailNotifications.xaml.cs">
       <DependentUpon>EmailNotifications.xaml</DependentUpon>
     </Compile>
@@ -212,6 +215,9 @@
     </Compile>
     <Compile Include="ConfigControl\Twitter.xaml.cs">
       <DependentUpon>Twitter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\URLShortnerServices.xaml.cs">
+      <DependentUpon>URLShortnerServices.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConfigControl\Youtube.xaml.cs">
       <DependentUpon>Youtube.xaml</DependentUpon>
@@ -302,6 +308,7 @@
       <DependentUpon>SelectAccountControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AccountManagerViewModel.cs" />
+    <Compile Include="ViewModel\Config\URLShortnerServicesViewModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\ProxyManagerViewModel.cs" />
@@ -499,6 +506,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ConfigControl\CaptchaServices.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ConfigControl\EmailNotifications.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -534,6 +545,10 @@
     <Page Include="ConfigControl\Twitter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\URLShortnerServices.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ConfigControl\Youtube.xaml">
       <Generator>MSBuild:Compile</Generator>
