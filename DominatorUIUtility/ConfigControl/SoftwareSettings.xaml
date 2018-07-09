@@ -117,6 +117,8 @@
                 </StackPanel>
                 <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAdvancedUserMode}"
                           IsChecked="{Binding IsEnableAdvancedUserMode}"/>
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
+                          IsChecked="{Binding IsDoNotAutoLoginAccountsWhileAddingToSoftware}"/>
                 <!--<StackPanel Orientation="Horizontal">
                     <Label Margin="5" Content="{DynamicResource LangKeyInstallNewAvailableUpdatesBetween}"/>
                     <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding AvailableUpdatesBetween.StartValue}"/>

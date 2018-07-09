@@ -188,7 +188,7 @@ namespace DominatorHouseCore.FileManagers
 
         }
 
-        public static T GetModel<T>(string filePath) where T : class
+        public static T GetModel<T>(string filePath) where T :class, new()
         {
             try
             {
@@ -201,7 +201,7 @@ namespace DominatorHouseCore.FileManagers
             {
 
                 ex.DebugLog();
-                return null;
+                return new T();
             }
             
         }

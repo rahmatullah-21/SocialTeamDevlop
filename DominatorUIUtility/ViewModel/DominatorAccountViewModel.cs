@@ -29,6 +29,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
@@ -249,7 +250,7 @@ namespace DominatorUIUtility.ViewModel
 
                     dialogWindow.Close();
 
-                    if ( LstDominatorAccountModel.Count + 1 >=
+                    if (LstDominatorAccountModel.Count + 1 >=
                         SocinatorInitialize.MaximumAccountCount)
                     {
                         GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
@@ -353,7 +354,7 @@ namespace DominatorUIUtility.ViewModel
                         var groupname = splitAccount[0];
 
                         var socialNetwork = splitAccount[1];
-                        if (socialNetwork == "AccountNetwork")continue;
+                        if (socialNetwork == "AccountNetwork") continue;
                         var username = splitAccount[2];
                         var password = splitAccount[3];
 
@@ -463,36 +464,46 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
-        
 
-        public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, Func<Action, Action> secondaryTaskStrategyReturningCancellation)
+
+        public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel,
+            Func<Action, Action> secondaryTaskStrategyReturningCancellation)
         {
             #region Check account limits
 
             if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
-            {               
+            {
                 return;
-            } 
+            }
 
             #endregion
 
             #region Add Account
+
             //check the account is already present or not
-            if (LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == objDominatorAccountBaseModel.UserName && x.AccountBaseModel.AccountNetwork == objDominatorAccountBaseModel.AccountNetwork))
+            if (LstDominatorAccountModel.Any(x =>
+                x.AccountBaseModel.UserName == objDominatorAccountBaseModel.UserName &&
+                x.AccountBaseModel.AccountNetwork == objDominatorAccountBaseModel.AccountNetwork))
             {
                 /*INFO*/
-                GlobusLogHelper.log.Info(Log.AlreadyAddedAccount, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
+                GlobusLogHelper.log.Info(Log.AlreadyAddedAccount, objDominatorAccountBaseModel.AccountNetwork,
+                    objDominatorAccountBaseModel.UserName);
                 return;
             }
 
-            objDominatorAccountBaseModel.AccountGroup.Content = string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountGroup.Content) ? ConstantVariable.UnGrouped : objDominatorAccountBaseModel.AccountGroup.Content;
+            objDominatorAccountBaseModel.AccountGroup.Content =
+                string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountGroup.Content)
+                    ? ConstantVariable.UnGrouped
+                    : objDominatorAccountBaseModel.AccountGroup.Content;
 
             //Initialize the given account to account model
             var dominatorAccountBaseModel = new DominatorAccountBaseModel
             {
                 AccountGroup =
                 {
-                    Content = string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountGroup.Content) ? ConstantVariable.UnGrouped : objDominatorAccountBaseModel.AccountGroup.Content
+                    Content = string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountGroup.Content)
+                        ? ConstantVariable.UnGrouped
+                        : objDominatorAccountBaseModel.AccountGroup.Content
                 },
                 UserName = objDominatorAccountBaseModel.UserName,
                 Password = objDominatorAccountBaseModel.Password,
@@ -519,7 +530,8 @@ namespace DominatorUIUtility.ViewModel
 
             //var cancel = secondaryTaskStrategyReturningCancellation(() => UpdateProxy(objDominatorAccountBaseModel));
             //dominatorAccountModel.Token.Register(cancel);
-            if (!String.IsNullOrEmpty(dominatorAccountBaseModel.AccountProxy.ProxyIp) && !String.IsNullOrEmpty(dominatorAccountBaseModel.AccountProxy.ProxyPort))
+            if (!String.IsNullOrEmpty(dominatorAccountBaseModel.AccountProxy.ProxyIp) &&
+                !String.IsNullOrEmpty(dominatorAccountBaseModel.AccountProxy.ProxyPort))
             {
                 if (!IsDuplicatProxyAvailable(objDominatorAccountBaseModel, oldproxies, null))
                 {
@@ -547,12 +559,14 @@ namespace DominatorUIUtility.ViewModel
                     LstDominatorAccountModel.Add(dominatorAccountModel);
                 }
 
-                GlobusLogHelper.log.Info(Log.Added, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
+                GlobusLogHelper.log.Info(Log.Added, objDominatorAccountBaseModel.AccountNetwork,
+                    objDominatorAccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
             }
             else
             {
                 /*INFO*/
-                GlobusLogHelper.log.Info(Log.NotAddedAccount, objDominatorAccountBaseModel.AccountNetwork, objDominatorAccountBaseModel.UserName);
+                GlobusLogHelper.log.Info(Log.NotAddedAccount, objDominatorAccountBaseModel.AccountNetwork,
+                    objDominatorAccountBaseModel.UserName);
 
             }
 
@@ -591,91 +605,93 @@ namespace DominatorUIUtility.ViewModel
             dominatorAccountModel.Token.Register(databaseCreation);
 
             #endregion
-
-
-            try
+            if (!SoftwareSettings.Settings.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
             {
-                var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
-                    .GetNetworkCoreFactory().AccountUpdateFactory;
-
-                if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
+                try
                 {
-                    // this account supports async modules
-                    var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
+                    var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
 
-                    try
+                    if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
                     {
-                        asyncAccount
-                            .CheckStatusAsync(dominatorAccountModel, dominatorAccountModel.Token)
-                            .ContinueWith(checkSucceeded =>
-                            {
-                                try
-                                {
-                                    if (checkSucceeded.Result)
-                                    {
-                                        return asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
-                                               dominatorAccountModel.Token);
-                                    }
-                                    return new Task(() => { });
-                                }
-                                catch (OperationCanceledException)
-                                {
-                                    return new Task(() => { });
-                                }
-                                catch (AggregateException ae)
-                                {
-                                    foreach (var e in ae.InnerExceptions)
-                                    {
-                                        if (e is TaskCanceledException || e is OperationCanceledException)
-                                            e.DebugLog("Cancellation requested before task completion!");
-                                        else
-                                            e.DebugLog(e.StackTrace + e.Message);
-                                    }
-                                    return new Task(() => { });
-                                }
-                                catch (Exception)
-                                {
-                                    return new Task(() => { });
-                                }
-                            })
-                            .Start();
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        throw new OperationCanceledException();
-                    }
-                    catch (AggregateException ae)
-                    {
-                        foreach (var e in ae.InnerExceptions)
+                        // this account supports async modules
+                        var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
+
+                        try
                         {
-                            if (e is TaskCanceledException || e is OperationCanceledException)
-                                e.DebugLog("Cancellation requested before task completion!");
-                            else
-                                e.DebugLog(e.StackTrace + e.Message);
+                            asyncAccount
+                                .CheckStatusAsync(dominatorAccountModel, dominatorAccountModel.Token)
+                                .ContinueWith(checkSucceeded =>
+                                {
+                                    try
+                                    {
+                                        if (checkSucceeded.Result)
+                                        {
+                                            return asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
+                                                dominatorAccountModel.Token);
+                                        }
+
+                                        return new Task(() => { });
+                                    }
+                                    catch (OperationCanceledException)
+                                    {
+                                        return new Task(() => { });
+                                    }
+                                    catch (AggregateException ae)
+                                    {
+                                        foreach (var e in ae.InnerExceptions)
+                                        {
+                                            if (e is TaskCanceledException || e is OperationCanceledException)
+                                                e.DebugLog("Cancellation requested before task completion!");
+                                            else
+                                                e.DebugLog(e.StackTrace + e.Message);
+                                        }
+
+                                        return new Task(() => { });
+                                    }
+                                    catch (Exception)
+                                    {
+                                        return new Task(() => { });
+                                    }
+                                })
+                                .Start();
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            throw new OperationCanceledException();
+                        }
+                        catch (AggregateException ae)
+                        {
+                            foreach (var e in ae.InnerExceptions)
+                            {
+                                if (e is TaskCanceledException || e is OperationCanceledException)
+                                    e.DebugLog("Cancellation requested before task completion!");
+                                else
+                                    e.DebugLog(e.StackTrace + e.Message);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
                         }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        ex.DebugLog();
+                        // TODO: Add on-deleted cancellation mechanics for non-async modules 
+                        var cancelUpdate = secondaryTaskStrategyReturningCancellation(() =>
+                        {
+                            accountFactory.CheckStatus(dominatorAccountModel);
+
+                            accountFactory.UpdateDetails(dominatorAccountModel);
+                        });
+                        dominatorAccountModel.Token.Register(cancelUpdate);
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    // TODO: Add on-deleted cancellation mechanics for non-async modules 
-                    var cancelUpdate = secondaryTaskStrategyReturningCancellation(() =>
-                    {
-                        accountFactory.CheckStatus(dominatorAccountModel);
-
-                        accountFactory.UpdateDetails(dominatorAccountModel);
-                    });
-                    dominatorAccountModel.Token.Register(cancelUpdate);
+                    ex.DebugLog();
                 }
             }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-
         }
         public bool UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
         {
@@ -1296,7 +1312,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 try
                 {
-                    var csvData = 
+                    var csvData =
                     account.AccountBaseModel.AccountGroup.Content + ","
                     + account.AccountBaseModel.AccountNetwork + ","
                     + account.AccountBaseModel.UserName + ","
@@ -1395,7 +1411,7 @@ namespace DominatorUIUtility.ViewModel
                 selectedAccount.AccountBaseModel.AccountGroup.Content = objDominatorAccountBaseModel.AccountGroup.Content;
                 if (selectedAccount.AccountBaseModel.UserName != objDominatorAccountBaseModel.UserName || selectedAccount.AccountBaseModel.Password != objDominatorAccountBaseModel.Password)
                 {
-                  selectedAccount.Cookies = new CookieCollection();
+                    selectedAccount.Cookies = new CookieCollection();
                 }
 
                 selectedAccount.AccountBaseModel.UserName = objDominatorAccountBaseModel.UserName;
@@ -1468,8 +1484,8 @@ namespace DominatorUIUtility.ViewModel
 
                          if (selectedAccount.AccountBaseModel.Status == "Success")
                          {
-                            //To update proxy status
-                            UpdateProxyStatus(selectedAccount.AccountBaseModel);
+                             //To update proxy status
+                             UpdateProxyStatus(selectedAccount.AccountBaseModel);
                          }
 
                      }
@@ -1701,10 +1717,10 @@ namespace DominatorUIUtility.ViewModel
                             {
                                 GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
                                 return;
-                            }                         
+                            }
                             LstDominatorAccountModel.Add(account);
                             AccountCollectionView = CollectionViewSource.GetDefaultView(LstDominatorAccountModel);
-                        }                      
+                        }
                         //Global.ScheduleForEachModule(null, account);
                     });
                 }

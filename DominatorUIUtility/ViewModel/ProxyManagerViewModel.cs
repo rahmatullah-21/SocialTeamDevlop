@@ -49,10 +49,10 @@ namespace DominatorUIUtility.ViewModel
             RemoveAccountFromProxyCommand = new BaseCommand<object>(RemoveAccountFromProxyCanExecute, RemoveAccountFromProxyExecute);
             AccountToAddToProxyCommand = new BaseCommand<object>(AccountToAddToProxyCanExecute, AccountToAddToProxyExecute);
             DropDownCommand = new BaseCommand<object>(DropDownCanExecute, DropDownExecute);
+            AssignRandomProxyCommand = new BaseCommand<object>(AssignRandomProxyCanExecute, AssignRandomProxyExecute);
             BindingOperations.EnableCollectionSynchronization(lstProxyManagerModel, _lock);
 
         }
-
 
 
         #region Commands
@@ -74,7 +74,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand RemoveAccountFromProxyCommand { get; set; }
         public ICommand AccountToAddToProxyCommand { get; set; }
         public ICommand DropDownCommand { get; set; }
-
+        public ICommand AssignRandomProxyCommand { get; set; }
         #endregion
 
         #region Properies
@@ -321,7 +321,7 @@ namespace DominatorUIUtility.ViewModel
             int noOfInvalidProxies = 0;
             List<string> lstInvalidProxies = new List<string>();
 
-            
+
             Task.Factory.StartNew(() =>
             {
                 foreach (var givenProxy in loadedProxylist)
@@ -426,7 +426,7 @@ namespace DominatorUIUtility.ViewModel
                 }
                 #endregion
             });
-          
+
 
         }
 
@@ -778,7 +778,7 @@ namespace DominatorUIUtility.ViewModel
                         var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
                             .AddOrUpdateDominatorAccountBase(account.AccountBaseModel)
                             .SaveToBinFile();
-                       // AccountsFileManager.Edit(account);
+                        // AccountsFileManager.Edit(account);
                     });
 
 
@@ -863,7 +863,7 @@ namespace DominatorUIUtility.ViewModel
             {
 
                 acc.AccountBaseModel.AccountProxy = oldProxy.AccountProxy;
-               // AccountsFileManager.Edit(acc);
+                // AccountsFileManager.Edit(acc);
 
                 var socinatorAccountBuilder = new SocinatorAccountBuilder(acc.AccountBaseModel.AccountId)
                     .AddOrUpdateDominatorAccountBase(acc.AccountBaseModel)
@@ -915,14 +915,14 @@ namespace DominatorUIUtility.ViewModel
                             ex.DebugLog();
                         }
                     });
-                   
+
                 }
             }
 
 
 
 
-          
+
         }
         private async Task CheckProxyAsync(ProxyManagerModel currentProxyManager)
         {
@@ -971,7 +971,7 @@ namespace DominatorUIUtility.ViewModel
                 var accountToDeleteProxy = AccountsFileManager.GetAccount(account.UserName, account.AccountNetwork);
                 accountToDeleteProxy.AccountBaseModel.AccountProxy = new Proxy();
 
-               // AccountsFileManager.Edit(accountToDeleteProxy);
+                // AccountsFileManager.Edit(accountToDeleteProxy);
 
                 var socinatorAccountBuilder = new SocinatorAccountBuilder(accountToDeleteProxy.AccountBaseModel.AccountId)
                     .AddOrUpdateDominatorAccountBase(accountToDeleteProxy.AccountBaseModel)
@@ -1099,6 +1099,46 @@ namespace DominatorUIUtility.ViewModel
             }
 
         }
+        private bool AssignRandomProxyCanExecute(object sender) => true;
+        private void AssignRandomProxyExecute(object sender)
+        {
+            try
+            {
+                var accounts = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social).DominatorAccountViewModel
+                         .LstDominatorAccountModel.Where(x => string.IsNullOrEmpty(x.AccountBaseModel.AccountProxy.ProxyIp) && string.IsNullOrEmpty(x.AccountBaseModel.AccountProxy.ProxyPort)).ToList();
+
+                if (LstProxyManagerModel.Count != 0)
+                {
+                    Random random = new Random();
+                    accounts.ForEach(acc =>
+                      {
+                          int randomIndex = random.Next(LstProxyManagerModel.Count);
+                          new SocinatorAccountBuilder(acc.AccountBaseModel.AccountId)
+                              .AddOrUpdateProxy(LstProxyManagerModel[randomIndex].AccountProxy)
+                              .SaveToBinFile();
+                          var accountAssignTo = new AccountAssign
+                          {
+                              UserName = acc.UserName,
+                              AccountNetwork = acc.AccountBaseModel.AccountNetwork
+                          };
+                          CurrentProxyManagerModel = LstProxyManagerModel[randomIndex];
+                          CurrentProxyManagerModel.AccountsAssignedto.Add(accountAssignTo);
+                          accountsAlreadyAssigned.Add(accountAssignTo);
+                          AccountToAddToProxyExecute(accountAssignTo);
+
+
+                      });
+                }
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error(ex.Message);
+            }
+
+        }
+
+      
+
 
 
     }

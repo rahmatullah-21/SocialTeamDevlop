@@ -16,7 +16,7 @@ namespace DominatorHouseCore.Settings
             Settings = SoftwareSettingsFileManager.GetSoftwareSettings();
 
             var shortnerServices =
-                GenericFileManager.GetModel<UrlShortnerServicesModel>(ConstantVariable.GetURLShortnerServicesFile())??new UrlShortnerServicesModel();
+                GenericFileManager.GetModel<UrlShortnerServicesModel>(ConstantVariable.GetURLShortnerServicesFile());
             ConstantVariable.BitlyLogin= shortnerServices.Login;
             ConstantVariable.BitlyApiKey = shortnerServices.ApiKey;
         }

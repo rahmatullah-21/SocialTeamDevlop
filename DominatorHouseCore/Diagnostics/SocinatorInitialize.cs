@@ -639,6 +639,11 @@ namespace DominatorHouseCore.Diagnostics
             DominatorAccountModel.LastUpdateTime = value;
             return this;
         }
+        public SocinatorAccountBuilder AddOrUpdateProxy(Proxy proxy)
+        {
+            DominatorAccountModel.AccountBaseModel.AccountProxy = proxy;
+            return this;
+        }
         public bool SaveToBinFile()
          => AccountsFileManager.Edit(DominatorAccountModel);
     }

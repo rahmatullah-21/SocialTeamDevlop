@@ -156,6 +156,17 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
+                <CheckBox Margin="5"  Content="{DynamicResource LangKeyAssignRandomProxyToUnassignedAccounts}" >
+                    <CheckBox.Style>
+                        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Command" Value="{Binding AssignRandomProxyCommand}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
                 <StackPanel Orientation="Horizontal" x:Name="cmbFilterBytag" Margin="30,0"
                             Visibility="{Binding ElementName=FilterByGroup, Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource LangKeySelectTag}"/>
@@ -564,7 +575,7 @@
 
                     </Style.Triggers>
                 </Style>
-              
+
 
             </DataGrid.Resources>
             <DataGrid.GroupStyle>

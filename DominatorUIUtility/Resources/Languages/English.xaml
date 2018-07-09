@@ -2814,6 +2814,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAntiCaptcha">Anti Captcha</system:String>
     <system:String x:Key="LangKeyLogIn">Log In</system:String>
     <system:String x:Key="LangKeyApiKey">Api Key</system:String>
+    <system:String x:Key="LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware">Do not auto login accounts while adding to the software.</system:String>
+    <system:String x:Key="LangKeyAssignRandomProxyToUnassignedAccounts">Assign Random proxy to unassigned accounts</system:String>
 
     <!-- End Log Constants -->
 </ResourceDictionary>

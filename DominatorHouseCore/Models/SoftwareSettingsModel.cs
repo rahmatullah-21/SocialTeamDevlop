@@ -583,6 +583,20 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isEnableAdvancedUserMode, value);
             }
         }
-
+        private bool _isDoNotAutoLoginAccountsWhileAddingToSoftware;
+        [ProtoMember(39)]
+        public bool IsDoNotAutoLoginAccountsWhileAddingToSoftware
+        {
+            get
+            {
+                return _isDoNotAutoLoginAccountsWhileAddingToSoftware;
+            }
+            set
+            {
+                if (value == _isDoNotAutoLoginAccountsWhileAddingToSoftware)
+                    return;
+                SetProperty(ref _isDoNotAutoLoginAccountsWhileAddingToSoftware, value);
+            }
+        }
     }
 }

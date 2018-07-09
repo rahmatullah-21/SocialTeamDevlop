@@ -5,6 +5,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 
@@ -112,7 +113,7 @@ namespace DominatorHouseCore.LogHelper
 
                 };
 
-                Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));
             }
             catch (Exception ex)
             {
@@ -123,8 +124,9 @@ namespace DominatorHouseCore.LogHelper
                         Network = SocialNetworks.Social.ToString(),
                         DateTime = DateTime.Now,
                         Message = message,
+                        LogType = logLevel.ToString()
                     };
-                    Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));
                 }
                 ex.DebugLog();
             }
