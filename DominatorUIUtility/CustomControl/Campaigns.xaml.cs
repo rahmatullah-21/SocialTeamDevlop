@@ -412,16 +412,20 @@ namespace DominatorUIUtility.CustomControl
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
             var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
-            campaign.ForEach(camp =>
+            Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                var selectedAccount = camp.SelectedAccountList;
-                CampaignsFileManager.Delete(camp);
+                campaign.ForEach(camp =>
+                {
+                    var selectedAccount = camp.SelectedAccountList;
+                    CampaignsFileManager.Delete(camp);
 
-                UpdateAccount(allAccounts, camp, selectedAccount);
-                objCampaignDetails.ObjCampaignDetails.Remove(objCampaignDetails.ObjCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
-                //  GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, camp.CampaignName, camp.SubModule, "  Campaign deleted permanently from campaigns.","");
+                    UpdateAccount(allAccounts, camp, selectedAccount);
+                    objCampaignDetails.ObjCampaignDetails.Remove(
+                        objCampaignDetails.ObjCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
+                    //  GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, camp.CampaignName, camp.SubModule, "  Campaign deleted permanently from campaigns.","");
+                });
             });
-            GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "");
+            GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ "+campaign.Count+" ] Campaigns");
 
             if (objCampaignDetails.ObjCampaignDetails.Count == 0 || !objCampaignDetails.ObjCampaignDetails.All(x => x.IsCampaignChecked))
                 objCampaignDetails.IsAllCampaignChecked = false;
