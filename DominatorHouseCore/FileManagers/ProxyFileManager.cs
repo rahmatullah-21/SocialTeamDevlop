@@ -86,7 +86,7 @@ namespace DominatorHouseCore.FileManagers
                     currentProxyManager.ResponseTime = $"{ts.Milliseconds} milli seconds";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 if (currentProxyManager != null)
                 {

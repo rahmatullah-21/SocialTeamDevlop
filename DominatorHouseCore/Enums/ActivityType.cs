@@ -204,7 +204,8 @@ namespace DominatorHouseCore.Enums
 
         [Description("LinkedIn")] WithdrawConnectionRequest = 92,
 
-        [Description("Reddit")] RemoveVote = 93
+        [Description("Reddit")] RemoveVote = 93,
+        [Description("LinkedIn")] ExportConnection = 94
 
 
     }

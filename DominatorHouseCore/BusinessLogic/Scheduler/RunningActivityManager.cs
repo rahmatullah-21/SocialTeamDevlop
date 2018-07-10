@@ -13,7 +13,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         public static void Initialize(IEnumerable<DominatorAccountModel> accountDetails)
         {
             // decide activities to run
-            IEnumerable<Tuple<DominatorAccountModel, Utility.ModuleConfiguration>> jobConfigs;
+            //IEnumerable<Tuple<DominatorAccountModel, Utility.ModuleConfiguration>> jobConfigs;
             if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
             {
                 // everything is allowed

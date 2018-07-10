@@ -344,7 +344,9 @@
     <Compile Include="Diagnostics\Helpers\ConsoleManager.cs" />
     <Compile Include="Diagnostics\Helpers\ObjectDumper.cs" />
     <Compile Include="Diagnostics\PublisherInitialize.cs" />
+    <Compile Include="Enums\AccountStatus.cs" />
     <Compile Include="Enums\ActivitySpeed.cs" />
+    <Compile Include="Enums\DatabaseType.cs" />
     <Compile Include="Enums\DHEnum\UserType.cs" />
     <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
     <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
@@ -363,6 +365,7 @@
     <Compile Include="Enums\PdQuery\PDUsersQueries.cs" />
     <Compile Include="Enums\QdQuery\BroadcastMessageQuery.cs" />
     <Compile Include="Enums\QdQuery\FollowerQuery.cs" />
+    <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
     <Compile Include="Enums\TumblrQuery\TumblrQuery.cs" />

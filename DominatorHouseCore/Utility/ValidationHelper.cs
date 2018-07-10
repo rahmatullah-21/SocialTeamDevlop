@@ -125,7 +125,7 @@ namespace DominatorHouseCore.Utility
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new ValidationResult(false, "Invalid IP address");
             }
@@ -145,7 +145,7 @@ namespace DominatorHouseCore.Utility
                 if (!Regex.IsMatch(value.ToString(), "(http(s)?://)?(www\\.)+([\\w-]+\\.)+[\\w-]+[.\\w]+(/[/?%&=]*)?"))
                     return new ValidationResult(false, "Invalid URL");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new ValidationResult(false, "Invalid URL");
             }

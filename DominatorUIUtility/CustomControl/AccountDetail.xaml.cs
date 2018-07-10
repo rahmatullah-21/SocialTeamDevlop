@@ -97,7 +97,7 @@ namespace DominatorUIUtility.CustomControl
                     await asyncAccount.CheckStatusAsync(DominatorAccountModel, DominatorAccountModel.Token);
 
 
-                    if (DominatorAccountModel.AccountBaseModel.Status == "Success")
+                    if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
                         await asyncAccount.UpdateDetailsAsync(DominatorAccountModel, DominatorAccountModel.Token);
                     else
                     {

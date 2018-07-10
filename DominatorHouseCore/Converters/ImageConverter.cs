@@ -14,9 +14,8 @@ namespace DominatorHouseCore.Converters
             {
                 return string.IsNullOrEmpty(value?.ToString()) ? new BitmapImage() : new BitmapImage(new Uri(value.ToString()));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
                 return new BitmapImage();
             }
         }
