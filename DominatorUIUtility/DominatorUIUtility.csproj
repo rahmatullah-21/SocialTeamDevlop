@@ -228,6 +228,9 @@
     <Compile Include="CustomControl\AccountDetailsSelector.xaml.cs">
       <DependentUpon>AccountDetailsSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\AccountGrowthControl.xaml.cs">
+      <DependentUpon>AccountGrowthControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\AccountTabCustomControl.xaml.cs">
       <DependentUpon>AccountTabCustomControl.xaml</DependentUpon>
     </Compile>
@@ -561,6 +564,10 @@
     <Page Include="CustomControl\AccountDetailsSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\AccountGrowthControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\AccountGrowthModeHeader.xaml">
       <SubType>Designer</SubType>

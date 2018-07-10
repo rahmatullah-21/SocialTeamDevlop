@@ -178,7 +178,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private AccountStatus _status = AccountStatus.NotChecked;
+        private AccountStatus _status;
         /// <summary>
         /// To define the status of the account
         /// </summary>
