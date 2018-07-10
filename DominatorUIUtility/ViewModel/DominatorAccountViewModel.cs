@@ -734,7 +734,14 @@ namespace DominatorUIUtility.ViewModel
                         {
                             try
                             {
+                                if (string.IsNullOrEmpty(proxy.AccountProxy.ProxyUsername) || proxy.AccountProxy.ProxyUsername != objAccountBaseModel.AccountProxy.ProxyUsername)
+                                    proxy.AccountProxy.ProxyUsername = objAccountBaseModel.AccountProxy.ProxyUsername;
+
+                                if (string.IsNullOrEmpty(proxy.AccountProxy.ProxyPassword) || proxy.AccountProxy.ProxyPassword != objAccountBaseModel.AccountProxy.ProxyPassword)
+                                    proxy.AccountProxy.ProxyPassword = objAccountBaseModel.AccountProxy.ProxyPassword;
+
                                 objAccountBaseModel.AccountProxy = proxy.AccountProxy;
+
                                 var accountTomodified = new AccountAssign
                                 {
                                     UserName = objAccountBaseModel.UserName,

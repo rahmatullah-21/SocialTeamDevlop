@@ -67,7 +67,12 @@ namespace DominatorUIUtility.CustomControl
         {
 
             var socinatorAccountBuilder = new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId);
-
+            DominatorAccountModel.CookieHelperList.ToList().ForEach(cookie =>
+                {
+                    if(string.IsNullOrEmpty(cookie.Name) || string.IsNullOrEmpty(cookie.Value))
+                        DominatorAccountModel.CookieHelperList.Remove(cookie);
+                });
+              
             socinatorAccountBuilder.AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
                                    .AddOrUpdateCookies(DominatorAccountModel.Cookies)
                                    .AddOrUpdateUserAgentWeb(DominatorAccountModel.UserAgentWeb)

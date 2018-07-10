@@ -239,8 +239,8 @@ namespace DominatorHouseCore.Utility
 
         public static DateTime GetStartTimeForHourly(ModuleConfiguration moduleConfiguration, int? delayBetweenJob = null)
         {
-           var minutes = 60 - DateTime.Now.Minute; //To get the remaining minutes for completion of current hour.
-           return GetStartTimeOfNextJob(moduleConfiguration, minutes);
+            var minutes = 60 - DateTime.Now.Minute; //To get the remaining minutes for completion of current hour.
+            return GetStartTimeOfNextJob(moduleConfiguration, minutes);
         }
 
         public static DateTime GetDateOfDateTime(this DateTime startDate, DayOfWeek requiredDay)
@@ -284,7 +284,7 @@ namespace DominatorHouseCore.Utility
                     return GetStartTimeOfNextJob(moduleConfiguration, delayBetweenJob);
 
             }
-            
+
             return nextStartTime;
         }
 
@@ -309,6 +309,10 @@ namespace DominatorHouseCore.Utility
                 if (now <= end || start > now)
                     return true;
             return false;
+        }
+        public static DateTime EpochToDateTimeLocal(this int epoch)
+        {
+            return EpochToDateTimeUtc(epoch) + (DateTime.Now - DateTime.UtcNow);
         }
     }
 
