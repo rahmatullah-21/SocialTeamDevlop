@@ -282,17 +282,7 @@ namespace Socinator
         {
             //  GlobusLogHelper.LogTextToList(!error ? InfoLogger : ErrorLogger, message);
             GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
-
-            if (!string.IsNullOrEmpty(message))
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    if (logLevel == LogLevel.Info)
-                        LoggerCollection.Filter += FilterByInfo;
-                    else
-                        LoggerCollection.Filter += FilterByError;
-                });
-            }         
+    
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
