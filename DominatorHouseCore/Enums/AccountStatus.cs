@@ -14,7 +14,7 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyPermanentlyBlocked")]PermanentlyBlocked,
         [Description("LangKeyTemporarilyBlocked")]TemporarilyBlocked,
         [Description("LangKeyNotChecked")]NotChecked,
-        [Description("LangKeyNotChecked")]TryingToLogin
+        [Description("LangKeyTryingToLogin")]TryingToLogin
 
     }
 }

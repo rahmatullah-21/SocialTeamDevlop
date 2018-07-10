@@ -1,6 +1,8 @@
 ﻿using DominatorHouseCore.Models;
 using System.Threading;
 using System.Threading.Tasks;
+using DominatorHouseCore.DatabaseHandler.TdTables.Accounts;
+using DominatorHouseCore.Enums.DHEnum;
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -9,6 +11,8 @@ namespace DominatorHouseCore.Interfaces
         bool CheckStatus(DominatorAccountModel accountModel);
 
         void UpdateDetails(DominatorAccountModel accountModel);
+
+        DailyGrowth GetDailyGrowth(string accuntId, string username, GrowthPeriod period);
     }
     public interface IAccountUpdateFactoryAsync: IAccountUpdateFactory
     {

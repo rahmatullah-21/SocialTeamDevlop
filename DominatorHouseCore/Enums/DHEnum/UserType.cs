@@ -3,7 +3,8 @@
     public enum UserType
     {
         BlackListedUser,
-        WhiteListedUser
+        WhiteListedUser,
+        User
     }
 
 }

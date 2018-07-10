@@ -179,11 +179,13 @@
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\IndexToRowNoConverter.cs" />
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
+    <Compile Include="Converters\IsPositiveValueConvertor.cs" />
     <Compile Include="Converters\ListCountBoolConverter.cs" />
     <Compile Include="Converters\ListCountVisiblityConverter.cs" />
     <Compile Include="Converters\ListViewItemIndexConverter.cs" />
     <Compile Include="Converters\MessegeTypeToHorizontalAlignmentConverter.cs" />
     <Compile Include="Converters\PercentageToColorConverter.cs" />
+    <Compile Include="Converters\PositiveValueConvertor.cs" />
     <Compile Include="Converters\PublisherSyncStringToBooleanConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
@@ -298,6 +300,7 @@
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedSubreddit.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\RdTables\Campaigns\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\TdTables\Accounts\DailyGrowth.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\TdTables\Accounts\Friendship.cs" />
@@ -347,6 +350,7 @@
     <Compile Include="Enums\AccountStatus.cs" />
     <Compile Include="Enums\ActivitySpeed.cs" />
     <Compile Include="Enums\DatabaseType.cs" />
+    <Compile Include="Enums\DHEnum\GrowthPeriod.cs" />
     <Compile Include="Enums\DHEnum\UserType.cs" />
     <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
     <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />

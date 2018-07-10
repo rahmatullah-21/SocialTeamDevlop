@@ -92,6 +92,14 @@ namespace DominatorHouseCore.Models
         #region Http
 
         [ProtoIgnore]
+        public int FollowersGrowth { get; set; }
+        [ProtoIgnore]
+        public int FollowingsGrowth { get; set; }
+
+        [ProtoIgnore]
+        public int TweetGrowth { get; set; }
+
+        [ProtoIgnore]
         public bool IsUserLoggedIn { get; set; }
 
         [ProtoMember(9)]

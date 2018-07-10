@@ -213,6 +213,7 @@
     <Compile Include="OtherConfiguration\ThirdPartyServices.xaml.cs">
       <DependentUpon>ThirdPartyServices.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Social\Accounts\AccountGrowthTab.xaml.cs" />
     <Compile Include="Social\Accounts\AccountTab.xaml.cs">
       <DependentUpon>AccountTab.xaml</DependentUpon>
     </Compile>
@@ -253,6 +254,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="OtherConfiguration\ThirdPartyServices.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Social\Accounts\AccountGrowthTab.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -377,14 +382,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\facedominator-library\FaceDominatorCore\FaceDominatorCore.csproj">
-      <Project>{36f8a922-028e-49dd-bbd6-d7daab339491}</Project>
-      <Name>FaceDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\facedominator-library\FaceDominatorUI\FaceDominatorUI.csproj">
-      <Project>{1c0beb70-f243-4a53-983e-ce25a1b722f6}</Project>
-      <Name>FaceDominatorUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorCore\GplusDominatorCore.csproj">
       <Project>{eaffb84c-f492-4ee5-aa11-c285aaf4e154}</Project>
       <Name>GplusDominatorCore</Name>

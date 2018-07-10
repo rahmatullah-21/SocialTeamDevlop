@@ -2820,12 +2820,16 @@ Type 3. IP:Port
 
     <system:String x:Key="LangKeySuccess">Success</system:String>
     <system:String x:Key="LangKeyFailed">Failed</system:String>
-    <system:String x:Key="LangKeyProxyNotWorking">Success</system:String>
-    <system:String x:Key="LangKeyEmailVerification">Success</system:String>
-    <system:String x:Key="LangKeyPhoneVerification">Success</system:String>
-    <system:String x:Key="LangKeyNeedsVerification">Success</system:String>
-    <system:String x:Key="LangKeyPermanentlyBlocked">Success</system:String>
-    <system:String x:Key="LangKeyTemporarilyBlocked">Success</system:String>
+    <system:String x:Key="LangKeyProxyNotWorking">Proxy Not Working</system:String>
+    <system:String x:Key="LangKeyEmailVerification">Requires Email Verification</system:String>
+    <system:String x:Key="LangKeyPhoneVerification">Requires Phone Verification</system:String>
+    <system:String x:Key="LangKeyNeedsVerification">Requires Verification</system:String>
+    <system:String x:Key="LangKeyPermanentlyBlocked">Permanently Blocked</system:String>
+    <system:String x:Key="LangKeyTemporarilyBlocked">Temporarily Blocked</system:String>
+    <system:String x:Key="LangKeyTryingToLogin">Trying to login</system:String>
+    
+    <system:String x:Key="LangKeyAccountGrowth">Account Growth</system:String>
+    <system:String x:Key="LangKeyFilterGrowth">Filter Growth</system:String>
 
     <!-- End Log Constants -->
 </ResourceDictionary>
