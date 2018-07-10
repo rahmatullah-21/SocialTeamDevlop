@@ -514,7 +514,7 @@ namespace DominatorUIUtility.ViewModel
                     ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
                     ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword
                 },
-                Status = ConstantVariable.NotChecked,
+                Status = AccountStatus.NotChecked,
                 AccountNetwork = objDominatorAccountBaseModel.AccountNetwork,
                 AccountId = objDominatorAccountBaseModel.AccountId
             };
@@ -591,7 +591,7 @@ namespace DominatorUIUtility.ViewModel
                     UserName = objDominatorAccountBaseModel.UserName,
                     Password = objDominatorAccountBaseModel.Password,
                     UserFullName = objDominatorAccountBaseModel.UserFullName,
-                    Status = objDominatorAccountBaseModel.Status,
+                    Status = objDominatorAccountBaseModel.Status.ToString(),
                     ProxyIP = objDominatorAccountBaseModel.AccountProxy.ProxyIp,
                     ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort,
                     ProxyUserName = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
@@ -1482,7 +1482,7 @@ namespace DominatorUIUtility.ViewModel
                          await asyncAccount.CheckStatusAsync(selectedAccount, selectedAccount.Token);
                          await asyncAccount.UpdateDetailsAsync(selectedAccount, selectedAccount.Token);
 
-                         if (selectedAccount.AccountBaseModel.Status == "Success")
+                         if (selectedAccount.AccountBaseModel.Status == AccountStatus.Success)
                          {
                              //To update proxy status
                              UpdateProxyStatus(selectedAccount.AccountBaseModel);
@@ -1583,7 +1583,7 @@ namespace DominatorUIUtility.ViewModel
                 case "Working":
                     if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
                     {
-                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == "Success").Select(x =>
+                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == AccountStatus.Success).Select(x =>
                         {
                             x.IsAccountManagerAccountSelected = true;
                             return x;
@@ -1591,7 +1591,7 @@ namespace DominatorUIUtility.ViewModel
                     }
                     else
                     {
-                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == "Success" && x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).Select(x =>
+                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == AccountStatus.Success && x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).Select(x =>
                        {
                            x.IsAccountManagerAccountSelected = true;
                            return x;
@@ -1606,9 +1606,9 @@ namespace DominatorUIUtility.ViewModel
                         {
                             switch (x.AccountBaseModel.Status)
                             {
-                                case "Success":
-                                case "Not Checked":
-                                case "Logging...":
+                                case AccountStatus.Success:
+                                case AccountStatus.NotChecked:
+                                case AccountStatus.TryingToLogin:
                                     break;
                                 default:
                                     x.IsAccountManagerAccountSelected = true;
@@ -1622,9 +1622,9 @@ namespace DominatorUIUtility.ViewModel
                          {
                              switch (x.AccountBaseModel.Status)
                              {
-                                 case "Success":
-                                 case "Not Checked":
-                                 case "Logging...":
+                                 case AccountStatus.Success:
+                                 case AccountStatus.NotChecked:
+                                 case AccountStatus.TryingToLogin:
                                      break;
                                  default:
                                      x.IsAccountManagerAccountSelected = true;
@@ -1636,7 +1636,7 @@ namespace DominatorUIUtility.ViewModel
                 case "NotChecked":
                     if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
                     {
-                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == "Not Checked").Select(x =>
+                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == AccountStatus.NotChecked).Select(x =>
                         {
                             x.IsAccountManagerAccountSelected = true;
                             return x;
@@ -1644,7 +1644,7 @@ namespace DominatorUIUtility.ViewModel
                     }
                     else
                     {
-                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == "Not Checked" && x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).Select(x =>
+                        LstDominatorAccountModel.Where(x => x.AccountBaseModel.Status == AccountStatus.NotChecked && x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).Select(x =>
                         {
                             x.IsAccountManagerAccountSelected = true;
                             return x;
@@ -1876,7 +1876,7 @@ namespace DominatorUIUtility.ViewModel
                     var checkAccount = new Task(async () =>
                     {
                         await asyncAccount.CheckStatusAsync(account, account.Token);
-                        if (account.AccountBaseModel.Status == "Success")
+                        if (account.AccountBaseModel.Status == AccountStatus.Success)
                         {
                             //To update proxy status
                             UpdateProxyStatus(account.AccountBaseModel);

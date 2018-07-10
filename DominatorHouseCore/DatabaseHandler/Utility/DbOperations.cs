@@ -129,7 +129,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 _context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -148,7 +148,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
 
                 dataToUpdate.AccountNetwork = dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString();
                 dataToUpdate.UserFullName = dominatorAccountModel.AccountBaseModel.UserFullName;
-                dataToUpdate.Status = dominatorAccountModel.AccountBaseModel.Status;
+                dataToUpdate.Status = dominatorAccountModel.AccountBaseModel.Status.ToString();
                 dataToUpdate.Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies);
                 dataToUpdate.ProfilePictureUrl = dominatorAccountModel.AccountBaseModel.ProfilePictureUrl;
                 _context.SaveChangesAsync();

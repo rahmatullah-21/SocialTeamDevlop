@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -38,7 +39,7 @@ namespace DominatorUIUtility.CustomControl
 
                 //add only account status should be success
 
-                if (x.AccountBaseModel.Status == "Success")
+                if (x.AccountBaseModel.Status == AccountStatus.Success)
                 {
                     _objAccountViewModel.LstSelectAccount.Add(new SelectAccountViewModel
                     {

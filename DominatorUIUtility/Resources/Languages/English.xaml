@@ -2818,5 +2818,14 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware">Do not auto login accounts while adding to the software.</system:String>
     <system:String x:Key="LangKeyAssignRandomProxyToUnassignedAccounts">Assign Random proxy to unassigned accounts</system:String>
 
+    <system:String x:Key="LangKeySuccess">Success</system:String>
+    <system:String x:Key="LangKeyFailed">Failed</system:String>
+    <system:String x:Key="LangKeyProxyNotWorking">Success</system:String>
+    <system:String x:Key="LangKeyEmailVerification">Success</system:String>
+    <system:String x:Key="LangKeyPhoneVerification">Success</system:String>
+    <system:String x:Key="LangKeyNeedsVerification">Success</system:String>
+    <system:String x:Key="LangKeyPermanentlyBlocked">Success</system:String>
+    <system:String x:Key="LangKeyTemporarilyBlocked">Success</system:String>
+
     <!-- End Log Constants -->
 </ResourceDictionary>

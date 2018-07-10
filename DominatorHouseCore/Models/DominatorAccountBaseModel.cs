@@ -178,12 +178,12 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private string _status = ConstantVariable.NotChecked;
+        private AccountStatus _status = AccountStatus.NotChecked;
         /// <summary>
         /// To define the status of the account
         /// </summary>
         [ProtoMember(10)]
-        public string Status
+        public AccountStatus Status
         {
             get
             {
@@ -191,7 +191,7 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_status != null && _status == value)
+                if (_status == value)
                     return;
                 SetProperty(ref _status, value);
             }

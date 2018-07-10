@@ -14,19 +14,4 @@
         Youtube,
         Tumblr
     }
-
-
-    public enum DatabaseType
-    {
-        CampaignType = 1,
-        AccountType = 2,
-        GlobalType = 3
-    }
-    public enum ReportType
-    {
-        Campaign = 1,
-        Account = 2
-        
-    }
-
 }

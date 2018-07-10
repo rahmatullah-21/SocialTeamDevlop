@@ -145,7 +145,7 @@ namespace DominatorHouseCore.Utility
                 var lang = Application.Current?.FindResource(resourceDictionaryKey)?.ToString() ?? resourceDictionaryKey;
                 return lang;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 var keySubstring = resourceDictionaryKey.Substring("LangKey".Length);
                 return Regex.Replace(keySubstring, "(\\B[A-Z])", " $1");
@@ -173,8 +173,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-
-                throw;
+                ex.DebugLog();
             }
         }
 

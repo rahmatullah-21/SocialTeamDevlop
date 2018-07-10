@@ -256,12 +256,12 @@ namespace DominatorUIUtility.CustomControl
                     });
 
                     if (ObjReports.ReportModel.StatusList.Count > 1 &&
-                        ObjReports.ReportModel.StatusList.Any(status => status.Content == objDominatorAccountModel.AccountBaseModel.Status) ==
+                        ObjReports.ReportModel.StatusList.Any(status => status.Content == objDominatorAccountModel.AccountBaseModel.Status.ToString()) ==
                         false)
                         ObjReports.ReportModel.StatusList.Add(new ContentSelectGroup()
                         {
                             IsContentSelected = false,
-                            Content = objDominatorAccountModel.AccountBaseModel.Status
+                            Content = objDominatorAccountModel.AccountBaseModel.Status.ToString()
                         });
 
                 });
