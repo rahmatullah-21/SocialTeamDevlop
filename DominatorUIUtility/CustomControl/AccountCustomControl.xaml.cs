@@ -396,7 +396,7 @@ namespace DominatorUIUtility.CustomControl
             if (dominatorAccountModel == null)
                 return;
 
-            DominatorHouseCore.Utility.TabSwitcher.ChangeTabWithNetwork(2, dominatorAccountModel.AccountBaseModel.AccountNetwork, dominatorAccountModel.AccountBaseModel.UserName);
+            DominatorHouseCore.Utility.TabSwitcher.ChangeTabWithNetwork(3, dominatorAccountModel.AccountBaseModel.AccountNetwork, dominatorAccountModel.AccountBaseModel.UserName);
         }
 
         public void BrowserLogin(object sender, RoutedEventArgs e)

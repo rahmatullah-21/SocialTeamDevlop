@@ -471,7 +471,7 @@
                         <GridViewColumn  Header="{DynamicResource LangKeyStatus}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding AccountBaseModel.Status}">
+                                    <TextBlock >
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Style.Triggers>
@@ -479,7 +479,7 @@
                                                         <Setter Property="Text" Value="{DynamicResource LangKeyInvalidCredentials}" />
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TryingToLogin}" >
-                                                        <Setter Property="Text" Value="{DynamicResource LangKeyInvalidCredentials}" />
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyTryingToLogin}" />
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Success}">
                                                         <Setter Property="Text" Value="{DynamicResource LangKeySuccess}" />
@@ -487,29 +487,26 @@
                                                     <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Failed}" >
                                                         <Setter Property="Text" Value="{DynamicResource LangKeyFailed}" />
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Invalid Credentials">
-                                                        <Setter Property="Text" Value="{DynamicResource LangKeyInvalidCredentials}" />
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyNeedsVerification}" />
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Incorrect password">
-                                                        <Setter Property="Text" Value="{DynamicResource LangKeyInvalidCredentials}" />
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}">
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyEmailVerification}" />
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Email">
-                                                        <Setter Property="Text" Value="{DynamicResource LangKeyInvalidCredentials}" />
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}">
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyPhoneVerification}" />
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Phone Number">
-                                                        <Setter Property="Background" Value=" #701f28" />
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NotChecked}" >
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyNotChecked}" />
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Email">
-                                                        <Setter Property="Background" Value=" #701f28" />
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.ProxyNotWorking}" >
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyProxyNotWorking}" />
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Phone Number or Email">
-                                                        <Setter Property="Background" Value=" #701f28" />
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PermanentlyBlocked}" >
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyPermanentlyBlocked}" />
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Not Checked">
-                                                        <Setter Property="Background" Value="#778899" />
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Proxy is Not Working">
-                                                        <Setter Property="Background" Value="#9b111e" />
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.TemporarilyBlocked}" >
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyTemporarilyBlocked}" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
