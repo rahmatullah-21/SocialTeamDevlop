@@ -22,20 +22,20 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _triggerNotificationCount, value);
             }
         }
-        private int _waitMaxOf;
+        private int _destinationTimeout;
 
         [ProtoMember(2)]
-        public int WaitMaxOf
+        public int DestinationTimeout
         {
             get
             {
-                return _waitMaxOf;
+                return _destinationTimeout;
             }
             set
             {
-                if (_waitMaxOf == value)
+                if (_destinationTimeout == value)
                     return;
-                SetProperty(ref _waitMaxOf, value);
+                SetProperty(ref _destinationTimeout, value);
             }
         }
         private int _maxPostCountToStore=300;
@@ -214,20 +214,20 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isInsertPostsAtRandomChecked, value);
             }
         }
-        private bool _isDoNotPublishPostsChecked;
+        private bool _isRunSingleAccountPerCampaign;
 
         [ProtoMember(14)]
-        public bool IsDoNotPublishPostsChecked
+        public bool IsRunSingleAccountPerCampaign
         {
             get
             {
-                return _isDoNotPublishPostsChecked;
+                return _isRunSingleAccountPerCampaign;
             }
             set
             {
-                if (_isDoNotPublishPostsChecked == value)
+                if (_isRunSingleAccountPerCampaign == value)
                     return;
-                SetProperty(ref _isDoNotPublishPostsChecked, value);
+                SetProperty(ref _isRunSingleAccountPerCampaign, value);
             }
         }
         private bool _isRemoveLinkFromPostsChecked;
@@ -262,52 +262,52 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isDisableTemporarySleep, value);
             }
         }
-        private bool _isWaitToStartNewPost;
+        private bool _isWaitToStartAction;
 
         [ProtoMember(17)]
-        public bool IsWaitToStartNewPost
+        public bool IsWaitToStartAction
         {
             get
             {
-                return _isWaitToStartNewPost;
+                return _isWaitToStartAction;
             }
             set
             {
-                if (_isWaitToStartNewPost == value)
+                if (_isWaitToStartAction == value)
                     return;
-                SetProperty(ref _isWaitToStartNewPost, value);
+                SetProperty(ref _isWaitToStartAction, value);
             }
         }
-        private int _waitToStartNewPost;
+        private int _jobProcessRunningCount=1;
 
         [ProtoMember(18)]
-        public int WaitToStartNewPost
+        public int JobProcessRunningCount
         {
             get
             {
-                return _waitToStartNewPost;
+                return _jobProcessRunningCount;
             }
             set
             {
-                if (_waitToStartNewPost == value)
+                if (_jobProcessRunningCount == value)
                     return;
-                SetProperty(ref _waitToStartNewPost, value);
+                SetProperty(ref _jobProcessRunningCount, value);
             }
         }
-        private bool _isUnselectDestination;
+        private bool _isDeselectUsedDestination;
 
         [ProtoMember(19)]
-        public bool IsUnselectDestination
+        public bool IsDeselectUsedDestination
         {
             get
             {
-                return _isUnselectDestination;
+                return _isDeselectUsedDestination;
             }
             set
             {
-                if (_isUnselectDestination == value)
+                if (_isDeselectUsedDestination == value)
                     return;
-                SetProperty(ref _isUnselectDestination, value);
+                SetProperty(ref _isDeselectUsedDestination, value);
             }
         }
         private bool _isKeepPostsInitialCreationDate;

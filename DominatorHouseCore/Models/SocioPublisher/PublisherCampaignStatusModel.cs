@@ -58,22 +58,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public List<TimeSpan> SpecificRunningTime { get; set; } = new List<TimeSpan>();
 
         public TimeRange TimeRange { get; set; } 
-
-        public bool IsRunSingleAccountPerCampaign { get; set; }
-
-        public int DestinationTimeout { get; set; }
-
+  
         public bool IsTakeRandomDestination { get; set; }
 
         public int TotalRandomDestination { get; set; }
 
         public int MinRandomDestinationPerAccount { get; set; }
-
-        public bool IsDeselectUsedDestination { get; set; }
-
-        public bool IsWaitToStartAction { get; set; }
-
-        public int JobProcessRunningCount { get; set; }
 
         #endregion
 

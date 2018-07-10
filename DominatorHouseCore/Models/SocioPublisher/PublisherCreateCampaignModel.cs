@@ -225,76 +225,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _lstPostDetailsModel, value);
             }
         }
-
-        private bool _isRunSingleAccountPerCampaign;
      
         private OtherConfigurationModel _otherConfiguration = new OtherConfigurationModel();
 
-        [ProtoMember(16)]
-        public bool IsRunSingleAccountPerCampaign
-        {
-            get
-            {
-                return _isRunSingleAccountPerCampaign;
-            }
-            set
-            {               
-                if (value == _isRunSingleAccountPerCampaign)
-                    return;
-                SetProperty(ref _isRunSingleAccountPerCampaign, value);
-            }
-        }
-
-
-        private bool _isDeselectUsedDestination;
-        [ProtoMember(17)]
-        public bool IsDeselectUsedDestination
-        {
-            get
-            {
-                return _isDeselectUsedDestination;
-            }
-            set
-            {
-                if (_isDeselectUsedDestination == value)
-                    return;
-                SetProperty(ref _isDeselectUsedDestination, value);
-            }
-        }
-
-        private bool _isWaitToStartAction;
-        [ProtoMember(18)]
-        public bool IsWaitToStartAction
-        {
-            get
-            {
-                return _isWaitToStartAction;
-            }
-            set
-            {
-                if (_isWaitToStartAction == value)
-                    return;
-                SetProperty(ref _isWaitToStartAction, value);
-            }
-        }
-
-
-        private int _jobProcessRunningCount;
-        [ProtoMember(19)]
-        public int JobProcessRunningCount
-        {
-            get
-            {
-                return _jobProcessRunningCount;
-            }
-            set
-            {
-                if (_jobProcessRunningCount == value)
-                    return;
-                SetProperty(ref _jobProcessRunningCount, value);
-            }
-        }
-
+       
+      
 
     }
 }

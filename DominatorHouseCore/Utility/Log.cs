@@ -263,7 +263,7 @@ namespace DominatorHouseCore.Utility
         /// 1 = Account's Username   
         /// 2 = campaign name    
         /// </summary>
-        public static string StartPublishing { get; set; } = "{0}\t {1}\t" + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPublishingStartedWith".FromResourceDictionary() + "{2}\t" + CodeConstants.StartPublishing;
+        public static string StartPublishing { get; set; } = "{0}\t {1}\t" + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPublishingStartedWith".FromResourceDictionary() + " {2}\t" + CodeConstants.StartPublishing;
 
 
 
@@ -280,7 +280,7 @@ namespace DominatorHouseCore.Utility
         /// 1 = Account's Username   
         /// 2 = delay in seconds 
         /// </summary>
-        public static string DelayBetweenMultiPost { get; set; } = "{0}\t {1}\t Next post will start publishing in {2} minutes";
+        public static string DelayBetweenMultiPost { get; set; } = "{0}\t {1}\t"+ "LangKeyPublish".FromResourceDictionary() + "\t" + "Next post will start publishing in {2} minutes";
 
 
         /// <summary>
@@ -388,7 +388,14 @@ namespace DominatorHouseCore.Utility
         /// </summary>
         public static string NoPost { get; set; } = "{0}\t {1}\t No more post are available for {2}[{3}].";
 
-        //
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username   
+        /// 2 = CampaignName       
+        /// </summary>
+       
+        public static string PublishingProcessCompleted { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPublishingProcessCompleted".FromResourceDictionary() + " -[{2}]\t" + CodeConstants.PublishingProcessCompleted;
 
     }
 }
