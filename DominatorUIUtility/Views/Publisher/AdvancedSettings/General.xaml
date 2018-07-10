@@ -21,7 +21,7 @@
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyWaitAMaximumOf}" Margin="0,0,10,0"/>
                     <controls:NumericUpDown  VerticalAlignment="Center" Minimum="0"
-                                             Value="{Binding GeneralModel.WaitMaxOf}" />
+                                             Value="{Binding GeneralModel.DestinationTimeout}" />
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMinutesForAPostToFinishOnAllDestinationsTimeoutStateAfterThat}" Margin="10,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -74,7 +74,7 @@
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsInsertPostsAtRandomChecked}"/>-->
                 <CheckBox Content="{DynamicResource LangKeyDoNotPublishPostsOnMultipleAccountsInParallelDelayEveryPostOnEveryAccount}" 
                           VerticalAlignment="Center" Margin="5" 
-                          IsChecked="{Binding GeneralModel.IsDoNotPublishPostsChecked}"/>
+                          IsChecked="{Binding GeneralModel.IsRunSingleAccountPerCampaign}"/>
                 <CheckBox Content="{DynamicResource LangKeyRemoveTheLinkFromThePostAfterDisplaysThePreview}"
                           IsChecked="{Binding GeneralModel.IsRemoveLinkFromPostsChecked}"
                           VerticalAlignment="Center" Margin="5"/>
@@ -84,15 +84,15 @@
                           IsChecked="{Binding GeneralModel.IsDisableTemporarySleep}"/>-->
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <CheckBox Content="{DynamicResource LangKeyWaitToStartANewPostIfYouHaveMoreThan}" 
-                              VerticalAlignment="Center" IsChecked="{Binding GeneralModel.IsWaitToStartNewPost}"/>
+                              VerticalAlignment="Center" IsChecked="{Binding GeneralModel.IsWaitToStartAction}"/>
                     <controls:NumericUpDown  VerticalAlignment="Center" Margin="5,0" Minimum="0"
-                                             IsEnabled="{Binding GeneralModel.IsWaitToStartNewPost}"
-                                             Value="{Binding GeneralModel.WaitToStartNewPost}"/>
+                                             IsEnabled="{Binding GeneralModel.IsWaitToStartAction}"
+                                             Value="{Binding GeneralModel.JobProcessRunningCount}"/>
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyActiveInHistory}" Margin="0,0,10,0"/>
                 </StackPanel>
                 <CheckBox Content="{DynamicResource LangKeyUnselectTheDestinationAfterASuccessfulPostTheCampaignWillPostOnlyOnceInEachDestination}"
                           VerticalAlignment="Center" Margin="5" 
-                          IsChecked="{Binding GeneralModel.IsUnselectDestination}"/>
+                          IsChecked="{Binding GeneralModel.IsDeselectUsedDestination}"/>
                 <CheckBox Content="{DynamicResource LangKeyKeepThePostsInitialCreationDateWhenReAddingPostsFromHistoryToPostList}" 
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GeneralModel.IsKeepPostsInitialCreationDate}"/>

@@ -91,6 +91,8 @@ namespace DominatorHouseCore.LogHelper
                 }
             }));
         }
+
+
         public static void LogTextToList(ObservableCollection<LoggerModel> lstLoggerModels, string message, LogLevel logLevel)
         {
             try
@@ -104,16 +106,19 @@ namespace DominatorHouseCore.LogHelper
                 var log = new LoggerModel
                 {
                     DateTime = DateTime.Now,
-                    Network = messages[0],
-                    AccountCampaign = messages[1],
-                    ActivityType = messages[2],
-                    Message = messages[3],
-                    MessageCode = messages[4],
-                    LogType = logLevel.ToString()
+                    Network = messages[0].Trim(),
+                    AccountCampaign = messages[1].Trim(),
+                    ActivityType = messages[2].Trim(),
+                    Message = messages[3].Trim(),
+                    MessageCode = messages[4].Trim(),
+                    LogType = logLevel.ToString().Trim()
 
                 };
 
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));
+
+                //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));
+                ////Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
             }
             catch (Exception ex)
             {
@@ -126,6 +131,8 @@ namespace DominatorHouseCore.LogHelper
                         Message = message,
                         LogType = logLevel.ToString()
                     };
+
+                    //Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
                     Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));
                 }
                 ex.DebugLog();

@@ -131,11 +131,20 @@ namespace DominatorHouseCore.Process
                 {
                     ThreadFactory.Instance.Start(() =>
                     {
-                        Publish(maximumPostCount);
+                        Publish(maximumPostCount);                       
+                        PublishScheduler.RunAndRemovePublisherAction($"{CampaignId}-{AccountModel.AccountBaseModel.AccountId}");
+                        PublishScheduler.DecreasePublishingCount(CampaignId);
+                        GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName,CampaignName);                        
                     }, CampaignCancellationToken.Token);
                 }
                 else
-                    Publish(maximumPostCount);
+                {
+                    Publish(maximumPostCount);                    
+                    PublishScheduler.RunAndRemovePublisherAction($"{CampaignId}-{AccountModel.AccountBaseModel.AccountId}");
+                    PublishScheduler.DecreasePublishingCount(CampaignId);
+                    GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
+                }
+                    
             }
         }
 
@@ -168,7 +177,7 @@ namespace DominatorHouseCore.Process
                         if (isReachedMaximumCount)
                             break;
 
-                        if (GeneralSettingsModel.IsUnselectDestination && usedDestination.Contains(groupUrl))
+                        if (GeneralSettingsModel.IsDeselectUsedDestination && usedDestination.Contains(groupUrl))
                             continue;
 
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
@@ -212,7 +221,7 @@ namespace DominatorHouseCore.Process
                         if (isReachedMaximumCount)
                             break;
 
-                        if (GeneralSettingsModel.IsUnselectDestination && usedDestination.Contains(pageUrl))
+                        if (GeneralSettingsModel.IsDeselectUsedDestination && usedDestination.Contains(pageUrl))
                             continue;
 
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
@@ -255,7 +264,7 @@ namespace DominatorHouseCore.Process
                         if (isReachedMaximumCount)
                             break;
 
-                        if (GeneralSettingsModel.IsUnselectDestination && usedDestination.Contains(customList.DestinationValue))
+                        if (GeneralSettingsModel.IsDeselectUsedDestination && usedDestination.Contains(customList.DestinationValue))
                             continue;
 
                         CampaignCancellationToken.Token.ThrowIfCancellationRequested();
@@ -316,7 +325,7 @@ namespace DominatorHouseCore.Process
                         if (isReachedMaximumCount)
                             break;
 
-                        if (GeneralSettingsModel.IsUnselectDestination && usedDestination.Contains(destination.Key))
+                        if (GeneralSettingsModel.IsDeselectUsedDestination && usedDestination.Contains(destination.Key))
                             continue;
 
                         if (destination.Value == "Group")
@@ -355,7 +364,7 @@ namespace DominatorHouseCore.Process
                                 continue;
                             }
 
-                            if (GeneralSettingsModel.IsUnselectDestination && usedDestination.Contains(destination.Key))
+                            if (GeneralSettingsModel.IsDeselectUsedDestination && usedDestination.Contains(destination.Key))
                                 continue;
 
                             GlobusLogHelper.log.Info(Log.StartPublishing,
@@ -393,7 +402,7 @@ namespace DominatorHouseCore.Process
                         if (isReachedMaximumCount)
                             break;
 
-                        if (GeneralSettingsModel.IsUnselectDestination &&
+                        if (GeneralSettingsModel.IsDeselectUsedDestination &&
                             usedDestination.Contains(customList.DestinationValue))
                             continue;
 
@@ -439,7 +448,7 @@ namespace DominatorHouseCore.Process
                     if (isReachedMaximumCount)
                         return;
 
-                    if (GeneralSettingsModel.IsUnselectDestination &&
+                    if (GeneralSettingsModel.IsDeselectUsedDestination &&
                         usedDestination.Contains(AccountModel.AccountBaseModel.UserName))
                         return;
 
@@ -495,11 +504,13 @@ namespace DominatorHouseCore.Process
                     ThreadFactory.Instance.Start(() =>
                      {
                          PublishWithDirectPost(post, count);
+                         GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
                      }, CampaignCancellationToken.Token);
                 }
                 else
                 {
                     PublishWithDirectPost(post, count);
+                    GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
                 }
             }
         }
@@ -536,7 +547,7 @@ namespace DominatorHouseCore.Process
                         if (isReachedMaximumCount)
                             break;
 
-                        if (GeneralSettingsModel.IsUnselectDestination &&
+                        if (GeneralSettingsModel.IsDeselectUsedDestination &&
                             usedDestination.Contains(groupUrl))
                             continue;
 
@@ -576,7 +587,7 @@ namespace DominatorHouseCore.Process
                         if (isReachedMaximumCount)
                             break;
 
-                        if (GeneralSettingsModel.IsUnselectDestination &&
+                        if (GeneralSettingsModel.IsDeselectUsedDestination &&
                             usedDestination.Contains(pageUrl))
                             continue;
 
@@ -614,7 +625,7 @@ namespace DominatorHouseCore.Process
                         if (!ValidateNetworkAdvancedSettings(post, customList.DestinationType, customList.DestinationValue, true))
                             continue;
 
-                        if (GeneralSettingsModel.IsUnselectDestination &&
+                        if (GeneralSettingsModel.IsDeselectUsedDestination &&
                             usedDestination.Contains(customList.DestinationValue))
                             continue;
 
@@ -668,7 +679,7 @@ namespace DominatorHouseCore.Process
                         if (isReachedMaximumCount)
                             break;
 
-                        if (GeneralSettingsModel.IsUnselectDestination &&
+                        if (GeneralSettingsModel.IsDeselectUsedDestination &&
                             usedDestination.Contains(x.Key))
                             continue;
 
@@ -729,7 +740,7 @@ namespace DominatorHouseCore.Process
                         if (!ValidateNetworkAdvancedSettings(post, customList.DestinationType, customList.DestinationValue, true))
                             continue;
 
-                        if (GeneralSettingsModel.IsUnselectDestination &&
+                        if (GeneralSettingsModel.IsDeselectUsedDestination &&
                             usedDestination.Contains(customList.DestinationValue))
                             continue;
 
@@ -763,7 +774,7 @@ namespace DominatorHouseCore.Process
                     if (isReachedMaximumCount)
                         return;
 
-                    if (GeneralSettingsModel.IsUnselectDestination &&
+                    if (GeneralSettingsModel.IsDeselectUsedDestination &&
                         usedDestination.Contains(AccountModel.AccountBaseModel.UserName))
                         return;
 
