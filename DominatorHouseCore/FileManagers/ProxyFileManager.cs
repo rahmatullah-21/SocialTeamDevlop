@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -75,6 +76,7 @@ namespace DominatorHouseCore.FileManagers
 
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
+                    GlobusLogHelper.log.Info(Log.ProxyVerificationStarted, SocialNetworks.Social, currentProxyManager.AccountProxy.ProxyIp + ":" + currentProxyManager.AccountProxy.ProxyPort);
 
                     using (var response = (HttpWebResponse)await request.GetResponseAsync())
                     {

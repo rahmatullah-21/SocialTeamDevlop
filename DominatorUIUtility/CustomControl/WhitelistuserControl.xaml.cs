@@ -2,9 +2,11 @@
 using System.Collections.Specialized;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.DatabaseHandler.Utility;
@@ -38,12 +40,14 @@ namespace DominatorUIUtility.CustomControl
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
             dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
             dbOperations = new DbOperations(dbContext);
-
-            dbOperations.Get<WhiteListUser>()?.ForEach(user =>
+            Task.Factory.StartNew(() =>
             {
-                WhitelistUserModel.LstWhiteListUsers.Add(new WhitelistUserModel
+                dbOperations.Get<WhiteListUser>()?.ForEach(user =>
                 {
-                    WhitelistUser = user.UserName
+                    Application.Current.Dispatcher.Invoke(() => WhitelistUserModel.LstWhiteListUsers.Add(new WhitelistUserModel
+                    {
+                        WhitelistUser = user.UserName
+                    }));
                 });
             });
             MainGrid.DataContext = WhitelistUserModel;
@@ -168,6 +172,22 @@ namespace DominatorUIUtility.CustomControl
                 x.IsWhiteListUserChecked = isChecked;
                 return x;
             }).ToList();
+        }
+
+        private void Refresh_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+            WhitelistUserModel.LstWhiteListUsers.Clear();
+            Task.Factory.StartNew(() =>
+            {
+                dbOperations.Get<WhiteListUser>()?.ForEach(user =>
+                {
+                    Application.Current.Dispatcher.Invoke(() => WhitelistUserModel.LstWhiteListUsers.Add(new WhitelistUserModel
+                    {
+                        WhitelistUser = user.UserName
+                    }));
+                });
+            });
         }
     }
 }
