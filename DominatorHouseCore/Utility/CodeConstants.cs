@@ -71,6 +71,8 @@
         public static string DelayBetweenMultiPost { get; } = "I1066";
        
         public static string PublishingProcessCompleted { get; } = "I1067";
+        public static string ProxyVerificationStarted { get; } = "I1068";
+        public static string ProxyVerificationCompleted { get; } = "I1069";
 
 
     }
