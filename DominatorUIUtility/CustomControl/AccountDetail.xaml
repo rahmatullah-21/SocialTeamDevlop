@@ -220,14 +220,8 @@
                      FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"/>
                 </StackPanel>
 
-                <StackPanel  Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource LangKeyEmailIdUsername}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                    <TextBox Name="TxtEmail" Text="{Binding AccountBaseModel.UserId}"  controls:TextBoxHelper.Watermark="Enter Email" Width="230"
-                     FontSize="13" FontWeight="SemiBold" Margin="5,5,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"/>
-                </StackPanel>
-
                 <StackPanel  Orientation="Horizontal" >
-                    <TextBlock Text="{DynamicResource LangKeyUsername}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource LangKeyEmailIdUsername}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                     <TextBox Name="txtUserName"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                      controls:TextBoxHelper.Watermark="Type User Name" Width="230" FontSize="13"
                      FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
@@ -316,13 +310,13 @@
                         <Style TargetType="StackPanel">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Email">
+                               <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Phone Number">
+                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Phone Number or Email">
+                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>

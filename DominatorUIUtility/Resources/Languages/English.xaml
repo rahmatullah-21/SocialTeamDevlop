@@ -2832,6 +2832,11 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAccountGrowth">Account Growth</system:String>
     <system:String x:Key="LangKeyFilterGrowth">Filter Growth</system:String>
     <system:String x:Key="LangKeyNotChecked">Not Checked</system:String>
-
+    <system:String x:Key="LangKeyProxyVerificationStarted">Proxy Verification Started</system:String>
+    <system:String x:Key="LangKeyProxyVerificationCompleted">Proxy Verification Completed</system:String>
+    <system:String x:Key="LangKeyProxyVerification">Proxy Verification</system:String>
+    <system:String x:Key="LangKeyForSelectedProxy">For Selected Proxy</system:String>
+    <system:String x:Key="LangKeyClearUsersList">Clear Users List</system:String>
+    <system:String x:Key="LangKeyAddPhoneNumberToYourAccount">Add phone number to your account</system:String>
     <!-- End Log Constants -->
 </ResourceDictionary>
