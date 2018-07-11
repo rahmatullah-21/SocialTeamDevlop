@@ -136,7 +136,7 @@ namespace Socinator
                 "this will take few moments...");
             controller.SetIndeterminate();
             _licenseKey = license;
-            var networks = await SocinatorInitialize.SetAvailableSocialNetworks(_licenseKey);
+            var networks = await UtilityManager.LogIndividualNetworksExceptions(_licenseKey);
             if (networks == null)
             {
                 await controller.CloseAsync();
@@ -396,13 +396,15 @@ namespace Socinator
             try
             {
                 var tabHandler = SocinatorInitialize.GetSocialLibrary(network).GetNetworkCoreFactory().TabHandlerFactory;
+                if (tabHandler == null)
+                    return;
                 TabItems = new ObservableCollection<TabItemTemplates>(tabHandler.NetworkTabs);
                 Title = tabHandler.NetworkName;
                 SelectedViewIndex = 0;
                 tabHandler.UpdateAccountCustomControl(network);
                 SocinatorInitialize.SetAsActiveNetwork(network);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 TabDock = Dock.Left;
 
