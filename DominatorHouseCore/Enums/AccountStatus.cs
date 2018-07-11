@@ -4,6 +4,7 @@ namespace DominatorHouseCore.Enums
 {
     public enum AccountStatus
     {
+        //Test Comment
         [Description("LangKeySuccess")]Success,
         [Description("LangKeyFailed")]Failed,
         [Description("LangKeyInvalidCredentials")]InvalidCredentials,
