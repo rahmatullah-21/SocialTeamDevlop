@@ -13,7 +13,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         public int Id { get; set; }
 
         /// <summary>
-        /// Usre unique id
+        /// UserName of Account
         /// </summary>
 
 
