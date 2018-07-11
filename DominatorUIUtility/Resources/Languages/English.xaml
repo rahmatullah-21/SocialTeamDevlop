@@ -719,6 +719,7 @@
     <system:String x:Key="LangKeyExportSavedPostListToCsvFileS">Export Saved Post List To Csv File(S)</system:String>
     <system:String x:Key="LangKeyExportSelected">Export Selected</system:String>
     <system:String x:Key="LangKeyExportsImageAs">Exports Image As :</system:String>
+    <system:String x:Key="LangKeyExportConnection">Export Connection</system:String>
     <system:String x:Key="LangKeyExtractAMaximumOf">Extract A Maximum Of</system:String>
     <system:String x:Key="LangKeyExtractNow">Extract Now</system:String>
     <system:String x:Key="LangKeyFacebook">Facebook</system:String>

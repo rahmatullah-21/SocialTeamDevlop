@@ -27,25 +27,25 @@ namespace DominatorHouseCore.Models
         public JobConfiguration()
         {
             //  Delay between each operations (seconds)
-            DelayBetweenActivity = new RangeUtilities(30, 60);
+            DelayBetweenActivity = new RangeUtilities(0, 0);
 
             //  Delay between jobs (minutes)
-            DelayBetweenJobs = new RangeUtilities(10, 20);
+            DelayBetweenJobs = new RangeUtilities(0, 0);
 
             // Number of <activities> per Job (users)
-            ActivitiesPerJob = new RangeUtilities(10, 20);
+            ActivitiesPerJob = new RangeUtilities(0, 0);
 
             // Number of <activities> per Hour (users)
-            ActivitiesPerHour = new RangeUtilities(10, 20);
+            ActivitiesPerHour = new RangeUtilities(0, 0);
 
             // Number of <activities> per Day (users)
-            ActivitiesPerDay = new RangeUtilities(50, 60);
+            ActivitiesPerDay = new RangeUtilities(0, 0);
 
             // Number of <activities> per Week (users)
-            ActivitiesPerWeek = new RangeUtilities(350, 420);
+            ActivitiesPerWeek = new RangeUtilities(0, 0);
 
             // Increase each day with 10 until it reaches 100 max <activity> per day
-            IncreaseActivitiesEachDay = new IncreaseActivityRange(10, 100, false);
+            IncreaseActivitiesEachDay = new IncreaseActivityRange(0, 0, false);
 
         }
 
