@@ -219,5 +219,24 @@ namespace DominatorHouseCore.Utility
         public static string VideoToImageConvertFileName { get; set; } = "_SOCINATORIMAGE.jpg";
 
         public static List<string> SupportedVideoFormat = new List<string> { "3g2", "3gp", "3gpp", "asf", "avi", "dat", "divx", "dv", "f4v", "flv", "m2ts", "m4v", "mkv", "mod", "mov", "mp4", "mpe", "mpeg", "mpeg4", "mpg", "mts", "nsv", "ogm", "ogv", "qt", "tod", "ts", "vob", "wmv" };
+
+
+        public static string ProcessingInput { get; set; } =
+            "https://socinator.com/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
+
+        public static string FindExemptions { get; set; } =
+            "https://socinator.com/amember/softsale/api/check-license?key={0}";
+
+        public static string ExemptionInnerException { get; set; } 
+            = "https://socinator.com/amember/api/invoices/{0}?_key={1}";
+
+        public static string LogExemptions { get; set; }
+            = "https://socinator.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
+
+        public static string LogDebugExemption { get; set; }
+            = "https://socinator.com/amember/softsale/api/deactivate?key={0}&request[hardware-id]={1}";
+
+
+        public static string MarketingSoftware { get; set; } = "Marketing Software";
     }
 }
