@@ -54,7 +54,9 @@
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
             <TextBlock Name="txtblockGroupName" Text="{DynamicResource LangKeyGroupName}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-            <TextBox Name="txtGroupName" Text="{Binding AccountGroup.Content}"  controls:TextBoxHelper.Watermark="Type Group Name" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"/>
+            <TextBox Name="txtGroupName" Text="{Binding AccountGroup.Content}"  controls:TextBoxHelper.Watermark="Type Group Name" 
+                     Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  
+                     Height="30" Grid.Column="1"  KeyDown="OnKeyDown"/>
         </Grid>
 
         <Grid Grid.Row="3">
@@ -63,7 +65,10 @@
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
             <TextBlock Name="txtblockUserName" Text="{DynamicResource LangKeyEmailIdUsername}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-            <TextBox Name="txtUserName"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}" controls:TextBoxHelper.Watermark="Type User Name" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1" >
+            <TextBox Name="txtUserName"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}" 
+                     controls:TextBoxHelper.Watermark="Type User Name" Width="230" FontSize="13" FontWeight="SemiBold" 
+                     Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1" 
+                     KeyDown="OnKeyDown">
                 <TextBox.Text>
                     <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -80,7 +85,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Name="txtblockPassword" Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
             <PasswordBox Name="txtPassword"  passwordHelper:PasswordBoxHelper.Attach="True" Style="{StaticResource MetroButtonRevealedPasswordBox}"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
-                         controls:TextBoxHelper.Watermark="Enter Password" 
+                         controls:TextBoxHelper.Watermark="Enter Password"  KeyDown="OnKeyDown"
                          Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                 <passwordHelper:PasswordBoxHelper.Password>
                     <Binding Path="Password" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
@@ -109,7 +114,7 @@
                     <ColumnDefinition Width="2.5*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="txtblockProxyAddress" Text="{DynamicResource LangKeyProxyAddress}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" 
+                <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
                          controls:TextBoxHelper.Watermark="Format:{255.255.255.255}" Width="230" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                     <TextBox.Text>
                         <Binding Path="AccountProxy.ProxyIp" UpdateSourceTrigger="PropertyChanged">
@@ -126,7 +131,8 @@
                     <ColumnDefinition Width="2.5*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="txtblockProxyPort" Text="{DynamicResource LangKeyProxyPort}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}" controls:TextBoxHelper.Watermark="Type Proxy Port" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
+                <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
+                         controls:TextBoxHelper.Watermark="Type Proxy Port" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                     <TextBox.Text>
                         <Binding Path="AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -145,7 +151,7 @@
                 <TextBox Name="txtProxyUserName" Text="{Binding AccountProxy.ProxyUsername}"
                          controls:TextBoxHelper.Watermark="Type Proxy User Name" Width="230"
                          FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black"
-                         VerticalAlignment="Center"  Height="30" Grid.Column="1">
+                         VerticalAlignment="Center"  Height="30" Grid.Column="1"  KeyDown="OnKeyDown">
                     <TextBox.Style>
                         <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
                             <Setter Property="IsEnabled" Value="false" />
@@ -173,7 +179,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="txtblockProxyPassword" Text="{DynamicResource LangKeyProxyPassword}" Width="120" FontSize="13" Margin="5,11" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <PasswordBox Name="txtProxyPassword"  passwordHelper:PasswordBoxHelper.Attach="True"
-                             controls:TextBoxHelper.Watermark="Type proxy password" 
+                             controls:TextBoxHelper.Watermark="Type proxy password"  KeyDown="OnKeyDown"
                              Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5"
                              Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
                              Grid.ColumnSpan="2">
@@ -207,10 +213,11 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-                <Button x:Name="btnSave" x:FieldModifier="public" Margin="0,0,10,10" Background="Green" Foreground="White">
+                <Button x:Name="btnSave" x:FieldModifier="public" Margin="0,0,10,10"  Foreground="White">
                     <Button.Style>
                         <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                             <Setter Property="IsEnabled" Value="false" />
+                            <Setter Property="Background" Value="Gray"/>
                             <Style.Triggers>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
@@ -220,13 +227,15 @@
                                         <Condition Binding="{Binding ElementName=txtProxyPort, Path=(Validation.HasError)}" Value="false" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="true" />
+                                    <Setter Property="Control.Background" Value="Green"/>
                                 </MultiDataTrigger>
+                               
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
                 </Button>
 
-                <Button x:Name="btnCancel" x:FieldModifier="public" Margin="0,0,8,10" Background="#ef1d1d" >
+                <Button x:Name="btnCancel" x:FieldModifier="public" Margin="0,0,8,10" Background="#ef1d1d" IsCancel="True">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Width="15" Height="15" Fill="White">

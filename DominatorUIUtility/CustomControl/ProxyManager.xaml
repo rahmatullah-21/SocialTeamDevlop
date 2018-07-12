@@ -85,7 +85,7 @@
                     </Button.Content>
                 </Button>
 
-                <Button  Height="30"  x:Name="btnAddProxy" Margin="10,5"
+                <Button  Height="30"  x:Name="btnAddProxy" Margin="10,5" IsEnabled="{Binding IsAddProxyEnabled}"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Command="{Binding AddProxyCommand}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">

@@ -33,10 +33,10 @@ namespace DominatorHouseCore.Models
             DelayBetweenJobs = new RangeUtilities(0, 0);
 
             // Number of <activities> per Job (users)
-            ActivitiesPerJob = new RangeUtilities(0, 0);
+            ActivitiesPerJob = new RangeUtilities(1, 1);
 
             // Number of <activities> per Hour (users)
-            ActivitiesPerHour = new RangeUtilities(0, 0);
+            ActivitiesPerHour = new RangeUtilities(1, 1);
 
             // Number of <activities> per Day (users)
             ActivitiesPerDay = new RangeUtilities(0, 0);
@@ -81,6 +81,10 @@ namespace DominatorHouseCore.Models
         {
             get
             {
+                if (_activitiesPerJob.StartValue > ActivitiesPerDay.StartValue)
+                    ActivitiesPerDay.StartValue = _activitiesPerJob.StartValue;
+                if (_activitiesPerJob.StartValue > ActivitiesPerWeek.StartValue)
+                    ActivitiesPerWeek.StartValue = _activitiesPerJob.StartValue;
                 return _activitiesPerJob;
             }
             set

@@ -180,7 +180,21 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+        private bool _isAddProxyEnabled = true;
 
+        public bool IsAddProxyEnabled
+        {
+            get
+            {
+                return _isAddProxyEnabled;
+            }
+            set
+            {
+                if (_isAddProxyEnabled == value)
+                    return;
+                SetProperty(ref _isAddProxyEnabled, value);
+            }
+        }
 
         #endregion
 
@@ -195,7 +209,7 @@ namespace DominatorUIUtility.ViewModel
                 {
                     ProxyFileManager.GetAllProxy().ForEach(proxy =>
                     {
-                        lstProxyManagerModel.Add(proxy);
+                        Application.Current.Dispatcher.InvokeAsync(() => lstProxyManagerModel.Add(proxy));
                         Thread.Sleep(50);
                         LstProxyManagerModel.ForEach(pr => ProxyManagerModel.Groups.Add(pr.AccountProxy.ProxyGroup));
                         proxy.AccountsAssignedto.ForEach(x =>
@@ -206,6 +220,7 @@ namespace DominatorUIUtility.ViewModel
                                 AccountNetwork = x.AccountNetwork
                             });
                         });
+                       
                     });
                 }
                 catch (Exception ex)
@@ -234,58 +249,15 @@ namespace DominatorUIUtility.ViewModel
 
         private void AddProxyExecute(object sender)
         {
-            AddOrUpdateProxyControl objAddProxyControl = new AddOrUpdateProxyControl();
+            AddOrUpdateProxyControl objAddProxyControl = new AddOrUpdateProxyControl(this);
             ProxyManagerModel = new ProxyManagerModel();
             try
             {
-                objAddProxyControl.btnSave.Content = Application.Current.FindResource("LangKeySave").ToString();
-                objAddProxyControl.MainGrid.DataContext = ProxyManagerModel;
-                // ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyManagerModel.AccountProxy.ProxyIp.Replace(".", "")}";
                 Dialog dialog = new Dialog();
                 Window window = dialog.GetMetroWindow(objAddProxyControl, Application.Current.FindResource("LangKeyAddProxy").ToString());
-                DialogParticipation.SetRegister(window, window);
-                objAddProxyControl.btnSave.Click += (o, ex) =>
-                {
-                    try
-                    {
-                        var proxyById = ProxyFileManager.GetProxyById(ProxyManagerModel.AccountProxy.ProxyId);
-                        if (proxyById != null && !string.IsNullOrEmpty(proxyById.AccountProxy.ProxyId))
-                        {
-                            DialogCoordinator.Instance.ShowModalMessageExternal(window, "Proxy Warning",
-                                $"Proxy with name {ProxyManagerModel.AccountProxy.ProxyName} already exist.");
-                            return;
-                        }
-                        foreach (var proxy in LstProxyManagerModel)
-                        {
-                            if (ProxyManagerModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
-                              && ProxyManagerModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
-                            {
-                                DialogCoordinator.Instance.ShowModalMessageExternal(window, "Proxy Warning", "Proxy already exist !!!");
-                                return;
-                            }
-
-                        }
-
-                        //  UpdateAccountsToBeAssign(ProxyManagerModel);
-
-
-                        if (IsAllProxySelected)
-                            ProxyManagerModel.IsProxySelected = true;
-                        ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyManagerModel.AccountProxy.ProxyIp.Replace(".", "")}{ProxyManagerModel.AccountProxy.ProxyPort}";
-                        ProxyFileManager.SaveProxy(ProxyManagerModel);
-                        LstProxyManagerModel.Add(ProxyManagerModel);
-
-                        GlobusLogHelper.log.Info(Log.Added, SocialNetworks.Social, ProxyManagerModel.AccountProxy.ProxyIp + " : " +
-                                                                                   ProxyManagerModel.AccountProxy.ProxyPort, "LangKeyProxy".FromResourceDictionary());
-                        window.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        e.DebugLog();
-                    }
-
-                };
                 window.Show();
+                window.Closing += (sr, ev) => IsAddProxyEnabled = true;
+                IsAddProxyEnabled = false;
             }
             catch (Exception ex)
             {

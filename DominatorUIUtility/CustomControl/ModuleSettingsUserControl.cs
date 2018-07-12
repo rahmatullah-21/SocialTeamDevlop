@@ -357,7 +357,7 @@ namespace DominatorUIUtility.CustomControl
 
             if (IsNeedToSaveTemplate())
             {
-           //     UpdateJobconfiguration();
+                //     UpdateJobconfiguration();
                 TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork, CampaignName);
                 SaveTemplateToAccounts(TemplateId);
                 SaveTemplateToCampaigns();
@@ -411,7 +411,7 @@ namespace DominatorUIUtility.CustomControl
 
         private void UpdateJobconfiguration()
         {
-           string speed = Model.JobConfiguration.SelectedItem.ToString();
+            string speed = Model.JobConfiguration.SelectedItem.ToString();
             switch (speed)
             {
                 case "Slow":
@@ -751,7 +751,7 @@ namespace DominatorUIUtility.CustomControl
                     {
                         _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
                         this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
-                        GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork,CampaignName, _footerControl.list_SelectedAccounts.Count, CampaignName);
+                        GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _footerControl.list_SelectedAccounts.Count, CampaignName);
                     }
                     else
                     {
@@ -783,7 +783,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 _footerControl.list_SelectedAccounts = listOfSelectedAccounts;
                 this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
-                GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork,"", _footerControl.list_SelectedAccounts.Count, _activityType);
+                GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, "", _footerControl.list_SelectedAccounts.Count, _activityType);
             }
             else
             {
@@ -973,7 +973,7 @@ namespace DominatorUIUtility.CustomControl
                 });
 
                 var warningWindow = new Dialog().GetMetroWindowWithOutClose(objErrorModelControl, "Warning");
-               
+
                 #endregion
 
                 #region Warning windows save button event
@@ -1276,11 +1276,11 @@ namespace DominatorUIUtility.CustomControl
                     {
                         if (queryValuIndex.Count <= 10)
                         {
-                            GlobusLogHelper.log.Info(Log.AlreadyExistQuery, SocinatorInitialize.ActiveSocialNetwork, "{ " + string.Join(" },{ ", queryValuIndex.ToArray()) + " }", _activityType);
+                            GlobusLogHelper.log.Info(Log.AlreadyExistQuery, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _activityType, "{ " + string.Join(" },{ ", queryValuIndex.ToArray()) + " }");
                         }
                         else
                         {
-                            GlobusLogHelper.log.Info(Log.AlreadyExistQueryCount, SocinatorInitialize.ActiveSocialNetwork, queryValuIndex.Count, _activityType);
+                            GlobusLogHelper.log.Info(Log.AlreadyExistQueryCount, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _activityType, queryValuIndex.Count);
 
                         }
                     }
