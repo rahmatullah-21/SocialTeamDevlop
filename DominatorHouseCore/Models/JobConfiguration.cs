@@ -98,7 +98,10 @@ namespace DominatorHouseCore.Models
         [ProtoMember(4)]
         public RangeUtilities ActivitiesPerHour
         {
-            get { return _activitiesPerHour; }
+            get
+            {
+                return _activitiesPerHour;
+            }
             set
             {
                 if (_activitiesPerHour == value)

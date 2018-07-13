@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.DatabaseHandler.TdTables.Accounts;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.DHEnum;
 
 namespace DominatorHouseCore.Interfaces
@@ -22,7 +23,8 @@ namespace DominatorHouseCore.Interfaces
     }
     public interface IAccountVerificationFactory
     {
-        Task<bool> VerifyAccountAsync(DominatorAccountModel accountModel, CancellationToken token);
-
+        Task<bool> VerifyAccountAsync(DominatorAccountModel accountModel, VerificationType verificationType, CancellationToken token);
+        Task<bool> SendVerificationCode(DominatorAccountModel accountModel, VerificationType verificationType, CancellationToken token);
+       
     }
 }

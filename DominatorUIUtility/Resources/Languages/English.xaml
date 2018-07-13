@@ -2839,5 +2839,11 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyClearUsersList">Clear Users List</system:String>
     <system:String x:Key="LangKeyAddPhoneNumberToYourAccount">Add phone number to your account</system:String>
     <system:String x:Key="LangKeyUpdateAccount">Update Account</system:String>
+    <system:String x:Key="LangKeySendVerificationCode">Send Verification Code</system:String>
+    <system:String x:Key="LangKeyEmailVerifications">Email Verification</system:String>
+    <system:String x:Key="LangKeyPhoneVerifications">Phone Verification</system:String>
+    <system:String x:Key="LangKeyIgnoreNoMedia">Ignore Posts without media</system:String>
+    <system:String x:Key="LangKeyPostLike">Post Like</system:String>
+    <system:String x:Key="LangKeyPostComment">Post Comment</system:String>
     <!-- End Log Constants -->
 </ResourceDictionary>

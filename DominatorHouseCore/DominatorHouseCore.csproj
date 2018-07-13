@@ -376,6 +376,7 @@
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
     <Compile Include="Enums\TumblrQuery\TumblrQuery.cs" />
+    <Compile Include="Enums\VerificationType.cs" />
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />

@@ -594,7 +594,7 @@ namespace DominatorUIUtility.ViewModel
 
             if ((bool)sender)
             {
-                foreach (var proxy in ProxyFileManager.GetAllProxy())
+                foreach (var proxy in LstProxyManagerModel)
                 {
                     if (proxy.AccountsAssignedto.Count == 0)
                     {
