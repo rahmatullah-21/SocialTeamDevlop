@@ -280,7 +280,7 @@ namespace DominatorHouseCore.Utility
         /// 1 = Account's Username   
         /// 2 = delay in seconds 
         /// </summary>
-        public static string DelayBetweenMultiPost { get; set; } = "{0}\t {1}\t"+ "LangKeyPublish".FromResourceDictionary() + "\t" + "Next post will start publishing in {2} minutes";
+        public static string DelayBetweenMultiPost { get; set; } = "{0}\t {1}\t"+ "LangKeyPublish".FromResourceDictionary() + "\t" + "Next post will start publishing in {2} minutes" + "\t" + CodeConstants.DelayBetweenMultiPost;
 
 
         /// <summary>
@@ -396,6 +396,8 @@ namespace DominatorHouseCore.Utility
         /// </summary>
        
         public static string PublishingProcessCompleted { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPublishingProcessCompleted".FromResourceDictionary() + " -[{2}]\t" + CodeConstants.PublishingProcessCompleted;
+        public static string ProxyVerificationStarted { get; set; } = "{0}\t {1}\t " + "LangKeyProxyVerification".FromResourceDictionary() + "\t" + "LangKeyProxyVerificationStarted".FromResourceDictionary() + "\t" + CodeConstants.ProxyVerificationStarted;
+        public static string ProxyVerificationCompleted { get; set; } = "{0}\t {1}\t " + "LangKeyProxyVerification".FromResourceDictionary() + "\t" + "LangKeyProxyVerificationCompleted".FromResourceDictionary() + "\t" + CodeConstants.ProxyVerificationCompleted;
 
     }
 }

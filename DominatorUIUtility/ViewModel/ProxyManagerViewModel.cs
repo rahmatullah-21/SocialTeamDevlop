@@ -901,6 +901,7 @@ namespace DominatorUIUtility.ViewModel
 
                 if (SelectedProxies.Count != 0)
                 {
+
                     SelectedProxies.ForEach(proxy =>
                     {
                         try
@@ -937,7 +938,11 @@ namespace DominatorUIUtility.ViewModel
                 var indexToUpdate = LstProxyManagerModel.IndexOf(item);
 
                 if (currentProxyManager != null)
+                {
                     LstProxyManagerModel[indexToUpdate].Status = currentProxyManager.Status;
+                    GlobusLogHelper.log.Info(Log.ProxyVerificationCompleted, SocialNetworks.Social, currentProxyManager.AccountProxy.ProxyIp + ":" + currentProxyManager.AccountProxy.ProxyPort);
+
+                }
             }
             catch (Exception ex)
             {
@@ -1137,7 +1142,7 @@ namespace DominatorUIUtility.ViewModel
 
         }
 
-      
+
 
 
 

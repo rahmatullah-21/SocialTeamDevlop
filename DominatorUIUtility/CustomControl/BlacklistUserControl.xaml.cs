@@ -2,9 +2,11 @@
 using System.Collections.Specialized;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.DatabaseHandler.Utility;
@@ -37,18 +39,21 @@ namespace DominatorUIUtility.CustomControl
         public BlacklistUserControl()
         {
             InitializeComponent();
-
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-            dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork,UserType.BlackListedUser);
+            dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser);
             dbOperations = new DbOperations(dbContext);
-
-            dbOperations.Get<BlackListUser>()?.ForEach(user =>
+            Task.Factory.StartNew(() =>
+            {
+                dbOperations.Get<BlackListUser>()?.ForEach(user =>
                 {
-                    BlacklistUserModel.LstBlackListUsers.Add(new BlacklistUserModel
-                    {
-                        BlacklistUser = user.UserName
-                    });
+                    Application.Current.Dispatcher.Invoke(() => BlacklistUserModel.LstBlackListUsers.Add(
+                        new BlacklistUserModel
+                        {
+                            BlacklistUser = user.UserName
+                        }));
                 });
+            });
+
             MainGrid.DataContext = BlacklistUserModel;
             BlacklistUserModel.LstBlackListUsers.CollectionChanged += UpdateBlackListUsers;
         }
@@ -99,7 +104,7 @@ namespace DominatorUIUtility.CustomControl
                             {
                                 UserName = userName,
                                 AddedDateTime = DateTime.Now,
-                               
+
                             });
                         }
                         else
@@ -178,6 +183,22 @@ namespace DominatorUIUtility.CustomControl
                 }
 
             }
+        }
+
+        private void Refresh_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            BlacklistUserModel.LstBlackListUsers.Clear();
+            Task.Factory.StartNew(() =>
+            {
+                dbOperations.Get<BlackListUser>()?.ForEach(user =>
+                {
+                    Application.Current.Dispatcher.Invoke(() => BlacklistUserModel.LstBlackListUsers.Add(
+                        new BlacklistUserModel
+                        {
+                            BlacklistUser = user.UserName
+                        }));
+                });
+            });
         }
     }
 }
