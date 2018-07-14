@@ -457,6 +457,7 @@
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
     <Compile Include="Models\Config\CaptchaServicesModel.cs" />
     <Compile Include="Models\Config\URLShortnerServicesModel.cs" />
+    <Compile Include="Models\EditProfileModel.cs" />
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
@@ -563,6 +564,7 @@
     <Compile Include="Models\SocioPublisher\PublisherManagePostsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherMediaViewerModel.cs" />
     <Compile Include="Utility\MediaUtilites.cs" />
+    <Compile Include="ViewModel\EditProfileViewModel.cs" />
     <Compile Include="ViewModel\RevisionHistoryViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />

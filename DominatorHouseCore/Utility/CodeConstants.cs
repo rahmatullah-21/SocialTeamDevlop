@@ -69,11 +69,11 @@
         public static string CustomMessage { get; } = "I1065";
 
         public static string DelayBetweenMultiPost { get; } = "I1066";
-       
+
         public static string PublishingProcessCompleted { get; } = "I1067";
         public static string ProxyVerificationStarted { get; } = "I1068";
         public static string ProxyVerificationCompleted { get; } = "I1069";
-
-
+        public static string SentVerificationCode { get; } = "I1070";
+        public static string FailedToSendVerificationCodeFaild { get; } = "I1070";
     }
 }

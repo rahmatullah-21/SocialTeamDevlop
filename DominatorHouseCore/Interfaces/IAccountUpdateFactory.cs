@@ -15,7 +15,7 @@ namespace DominatorHouseCore.Interfaces
 
         DailyGrowth GetDailyGrowth(string accuntId, string username, GrowthPeriod period);
     }
-    public interface IAccountUpdateFactoryAsync: IAccountUpdateFactory
+    public interface IAccountUpdateFactoryAsync : IAccountUpdateFactory
     {
         Task<bool> CheckStatusAsync(DominatorAccountModel accountModel, CancellationToken token);
 
@@ -25,6 +25,13 @@ namespace DominatorHouseCore.Interfaces
     {
         Task<bool> VerifyAccountAsync(DominatorAccountModel accountModel, VerificationType verificationType, CancellationToken token);
         Task<bool> SendVerificationCode(DominatorAccountModel accountModel, VerificationType verificationType, CancellationToken token);
-       
+
     }
+
+    public abstract class ProfileFactory
+    {
+        public virtual void EditProfile(DominatorAccountModel accountModel) { }
+        public virtual void RemovePhoneVerification(DominatorAccountModel accountModel) { }
+    }
+
 }
