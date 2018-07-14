@@ -81,11 +81,11 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
             catch (Exception)
             {
-                return null;
+                return new List<T>();
             }
         }
 
-        public T GetSingle<T>(Expression<Func<T, bool>> expression) where T : class
+        public T GetSingle<T>(Expression<Func<T, bool>> expression) where T : class, new()
         {
             try
             {
@@ -93,7 +93,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
             catch (Exception)
             {
-                return null;
+                return new T();
             }
         }
 
@@ -104,9 +104,9 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             var lstData = new List<T>();
             try
             {
-                lstData = await Task.Factory.StartNew(() => 
-                expression == null 
-                ? _context.Set<T>().ToList() 
+                lstData = await Task.Factory.StartNew(() =>
+                expression == null
+                ? _context.Set<T>().ToList()
                 : _context.Set<T>().Where(expression).ToList());
             }
             catch (Exception)

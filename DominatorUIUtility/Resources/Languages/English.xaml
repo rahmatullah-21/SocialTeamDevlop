@@ -2845,5 +2845,17 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyIgnoreNoMedia">Ignore Posts without media</system:String>
     <system:String x:Key="LangKeyPostLike">Post Like</system:String>
     <system:String x:Key="LangKeyPostComment">Post Comment</system:String>
+    <system:String x:Key="LangKeyVerification">Verification</system:String>
+    <system:String x:Key="LangKeyVerificationCodeHasBeenSentToRregistered">Verification code has been sent to the registered</system:String>
+    <system:String x:Key="LangKeyfailedToSendVerificationCodeToRregistered">Failed to send verification code to the registered</system:String>
+    <system:String x:Key="LangKeyPleaseTryAgain">Please try again</system:String>
+    <system:String x:Key="LangKeyKindlyCheckAndEnterInTheVerificationCodeField">Kindly check and enter in the verification code field.</system:String>
+    <system:String x:Key="LangKeyEditProfile">Edit Profile</system:String>
+    <system:String x:Key="LangKeyPhoneNumber">Phone Number</system:String>
+    <system:String x:Key="LangKeyPrivateInformation">Private information</system:String>
+    <system:String x:Key="LangKeyGender">Gender</system:String>
+    <system:String x:Key="LangKeyNotSpecified">Not Specified</system:String>
+    <system:String x:Key="LangKeySubmit">Submit</system:String>
+
     <!-- End Log Constants -->
 </ResourceDictionary>

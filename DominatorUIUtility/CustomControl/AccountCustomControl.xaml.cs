@@ -223,17 +223,17 @@ namespace DominatorUIUtility.CustomControl
 
             #endregion
 
-            #region Edit Profile Menu
+            //#region Edit Profile Menu
 
-            image = Application.Current.FindResource("appbar_edit_box");
-            convasImage = GetConvasImage(image);
+            //image = Application.Current.FindResource("appbar_edit_box");
+            //convasImage = GetConvasImage(image);
 
-            var editProfileMenu = new MenuItem { Header = "Edit Profile", Icon = convasImage };
-            editProfileMenu.Click += EditProfile;
-            editProfileMenu.DataContext = dominatorAccountModel;
-            menuOptions.Add(editProfileMenu);
+            //var editProfileMenu = new MenuItem { Header = "Edit Profile", Icon = convasImage };
+            //editProfileMenu.Click += EditProfile;
+            //editProfileMenu.DataContext = dominatorAccountModel;
+            //menuOptions.Add(editProfileMenu);
 
-            #endregion
+            //#endregion
 
             #region Delete Profile Menu
 
@@ -303,13 +303,13 @@ namespace DominatorUIUtility.CustomControl
 
                     #region Remove Phone Verification Menu
 
-                    image = Application.Current.FindResource("appbar_iphone");
-                    convasImage = GetConvasImage(image);
+                    //image = Application.Current.FindResource("appbar_iphone");
+                    //convasImage = GetConvasImage(image);
 
-                    var removePhoneVerificationMenu = new MenuItem { Header = "Remove Phone Verification", Icon = convasImage };
-                    removePhoneVerificationMenu.Click += FacebookRemovePhoneVerification;
-                    removePhoneVerificationMenu.DataContext = dominatorAccountModel;
-                    menuOptions.Add(removePhoneVerificationMenu);
+                    //var removePhoneVerificationMenu = new MenuItem { Header = "Remove Phone Verification", Icon = convasImage };
+                    //removePhoneVerificationMenu.Click += FacebookRemovePhoneVerification;
+                    //removePhoneVerificationMenu.DataContext = dominatorAccountModel;
+                    //menuOptions.Add(removePhoneVerificationMenu);
 
                     #endregion
 
@@ -329,16 +329,16 @@ namespace DominatorUIUtility.CustomControl
 
                     #endregion
 
-                    #region Phone Verification Menu
+                    //#region Phone Verification Menu
 
-                    image = Application.Current.FindResource("appbar_iphone");
-                    convasImage = GetConvasImage(image);
-                    var phoneVerificationMenu = new MenuItem { Header = "Phone Verification", Icon = convasImage };
-                    phoneVerificationMenu.Click += InstaPhoneVerification;
-                    phoneVerificationMenu.DataContext = dominatorAccountModel;
-                    menuOptions.Add(phoneVerificationMenu);
+                    //image = Application.Current.FindResource("appbar_iphone");
+                    //convasImage = GetConvasImage(image);
+                    //var phoneVerificationMenu = new MenuItem { Header = "Phone Verification", Icon = convasImage };
+                    //phoneVerificationMenu.Click += InstaPhoneVerification;
+                    //phoneVerificationMenu.DataContext = dominatorAccountModel;
+                    //menuOptions.Add(phoneVerificationMenu);
 
-                    #endregion
+                    //#endregion
 
                     break;
             }
@@ -444,7 +444,16 @@ namespace DominatorUIUtility.CustomControl
 
         public void EditInstaProfile(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+               
+                DominatorAccountViewModel.EditProfile(dominatorAccountModel);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
         }
 
         public void InstaPhoneVerification(object sender, RoutedEventArgs e)
@@ -471,7 +480,15 @@ namespace DominatorUIUtility.CustomControl
 
         public void FacebookRemovePhoneVerification(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+                DominatorAccountViewModel.RemovePhoneVerification(dominatorAccountModel);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
         }
 
 

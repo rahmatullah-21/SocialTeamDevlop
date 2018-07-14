@@ -157,7 +157,9 @@ namespace Socinator
                 AccountBrowserLogin = AccountBrowserLogin,
                 _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
                 _inform_warnings = GlobusLogHelper.log.Warn,
-                action_UpdateFollower = AccountUpdate
+                action_UpdateFollower = AccountUpdate,
+                EditProfile= EditProfile,
+                RemovePhoneVerification = RemovePhoneVerification
             };
             DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
 
@@ -171,6 +173,42 @@ namespace Socinator
             FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
             await controller.CloseAsync();
             return true;
+        }
+
+        private void RemovePhoneVerification(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    var profileFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().ProfileFactory;
+                    profileFactory.RemovePhoneVerification(dominatorAccountModel);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void EditProfile(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    var profileFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().ProfileFactory;
+                    profileFactory.EditProfile(dominatorAccountModel);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private async Task<bool> IsValidateAgain(string license)
