@@ -267,14 +267,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully saved.");
 
-                    CampaignList.Add(PublisherCreateCampaignModel.CampaignName);  
+                    CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
                 }
 
                 #endregion
 
                 #region Saving post
 
-                PostlistFileManager.SaveAll(PublisherCreateCampaignModel.CampaignId, new List<PublisherPostlistModel>());
+                var postlist = PostlistFileManager.GetAll(PublisherCreateCampaignModel.CampaignId)
+                    .Where(x => x.PostQueuedStatus == PostQueuedStatus.Published).ToList();
+
+                PostlistFileManager.SaveAll(PublisherCreateCampaignModel.CampaignId, postlist);
 
                 var publisherPostlistModel = new PublisherPostlistModel
                 {
@@ -503,7 +506,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     MinRandomDestinationPerAccount = PublisherCreateCampaignModel.JobConfigurations.PostBetween.EndValue,
                 };
 
-                PublisherInitialize.GetInstance.AddCampaignDetails(publisherCampaignStatusModel);
+                var publishIntialize = PublisherInitialize.GetInstance;
+                publishIntialize.AddCampaignDetails(publisherCampaignStatusModel);
+                
 
                 #region Update Destination
 
@@ -517,6 +522,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 ClearCurrentCampaigns();
 
                 #endregion
+
+                PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
+                    = PublisherDefaultPage.Instance();
             }
             catch (Exception ex)
             {

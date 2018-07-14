@@ -171,6 +171,19 @@ namespace DominatorHouseCore.Diagnostics
 
         }
 
+        public void UpdatePostCounts(string campaignId)
+        {
+            var campaignItem = ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignId == campaignId);
+
+            if (campaignItem == null)
+                return;
+
+            var currentCampaignIndex = ListPublisherCampaignStatusModels.IndexOf(campaignItem);
+
+            GetPostStatus(ListPublisherCampaignStatusModels[currentCampaignIndex]);           
+        }
+
+
         public bool AddCampaignDetails(PublisherCampaignStatusModel publisherCampaignStatusModel)
         {
 
@@ -202,7 +215,6 @@ namespace DominatorHouseCore.Diagnostics
                         GetPostStatus(publisherCampaignStatusModel);
                         ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
                     }
-
                 }
                 catch (Exception)
                 {

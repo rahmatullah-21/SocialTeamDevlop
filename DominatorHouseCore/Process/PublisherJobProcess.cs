@@ -131,20 +131,20 @@ namespace DominatorHouseCore.Process
                 {
                     ThreadFactory.Instance.Start(() =>
                     {
-                        Publish(maximumPostCount);                       
+                        Publish(maximumPostCount);
                         PublishScheduler.RunAndRemovePublisherAction($"{CampaignId}-{AccountModel.AccountBaseModel.AccountId}");
                         PublishScheduler.DecreasePublishingCount(CampaignId);
-                        GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName,CampaignName);                        
+                        GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
                     }, CampaignCancellationToken.Token);
                 }
                 else
                 {
-                    Publish(maximumPostCount);                    
+                    Publish(maximumPostCount);
                     PublishScheduler.RunAndRemovePublisherAction($"{CampaignId}-{AccountModel.AccountBaseModel.AccountId}");
                     PublishScheduler.DecreasePublishingCount(CampaignId);
                     GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
                 }
-                    
+
             }
         }
 
@@ -152,11 +152,10 @@ namespace DominatorHouseCore.Process
         {
             PublishedCount = 0;
             var isReachedMaximumCount = false;
-            
+
             try
             {
-                GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork,
-                    AccountModel.AccountBaseModel.UserName, CampaignName);
+
 
                 var publishedDetails = GenericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == CampaignId).ToList();
 
@@ -168,7 +167,7 @@ namespace DominatorHouseCore.Process
                 {
                     #region Publish on Groups
 
-                  
+
                     foreach (var groupUrl in GroupDestinationList)
                     {
                         if (PublishedCount >= maximumPostCount)
@@ -186,7 +185,7 @@ namespace DominatorHouseCore.Process
 
                         if (post == null)
                         {
-                            GlobusLogHelper.log.Info(Log.NoPost,AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName,"group", groupUrl);
+                            GlobusLogHelper.log.Info(Log.NoPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, "group", groupUrl);
                             continue;
                         }
 
@@ -253,7 +252,7 @@ namespace DominatorHouseCore.Process
 
                     #region Custom Destination
 
-                    if (isReachedMaximumCount )
+                    if (isReachedMaximumCount)
                         return;
 
                     foreach (var customList in CustomDestinationList)
@@ -522,8 +521,6 @@ namespace DominatorHouseCore.Process
 
             try
             {
-                GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
-
                 var publishedDetails = GenericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == CampaignId).ToList();
 
                 var usedDestination = publishedDetails.Select(x => x.DestinationUrl).ToList();
@@ -822,6 +819,8 @@ namespace DominatorHouseCore.Process
 
         public void UpdatePostWithSuccessful(string destinationUrl, PublisherPostlistModel posts, string publishedUrl)
         {
+            Thread.Sleep(1000);
+
             var updatelock = PublishScheduler.UpdatingLock.GetOrAdd(posts.PostId, _lock => new object());
 
             lock (updatelock)
@@ -915,6 +914,9 @@ namespace DominatorHouseCore.Process
 
             #region Spin Text
 
+
+            postModelWithGeneralSettings.PostDescription = string.Empty;
+
             postModelWithGeneralSettings.PostDescription =
                 SpinTexHelper.GetSpinText(postModelWithGeneralSettings.PostDescription);
 
@@ -954,7 +956,7 @@ namespace DominatorHouseCore.Process
             }
 
             #endregion
-          
+
             return postModelWithGeneralSettings;
 
         }
@@ -1058,74 +1060,89 @@ namespace DominatorHouseCore.Process
 
         public bool ValidateNetworkAdvancedSettings(PublisherPostlistModel filterPostModel, string destination, string destinationUrl, bool isDirectPost = false)
         {
-            try
+            Thread.Sleep(1000);
+
+            var updatelock = PublishScheduler.UpdatingLock.GetOrAdd(filterPostModel.PostId, _lock => new object());
+
+            lock (updatelock)
             {
-                var post = PostlistFileManager.GetByPostId(CampaignId, filterPostModel.PostId);
 
-                var postTriedAndSuccessdestinations = post?.LstPublishedPostDetailsModels.ToList();
-
-                if (postTriedAndSuccessdestinations == null)
-                    return false;
-
-                var successfulDestinations = postTriedAndSuccessdestinations.Where(x => x.Successful == ConstantVariable.Yes).Select(x => x.DestinationUrl).ToList();
-
-                if (successfulDestinations.Contains(destinationUrl))
+                try
                 {
-                    GlobusLogHelper.log.Info(destination == "OwnWall"
-                        ? string.Format(Log.AlreadyPublishedOnOwnWall, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName)
-                        : string.Format(Log.AlreadyPublishedOnDestination, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, destination, destinationUrl));
-                    return false;
-                }
+                    var post = PostlistFileManager.GetByPostId(CampaignId, filterPostModel.PostId);
 
-                var allDestinations = postTriedAndSuccessdestinations.Select(x => x.DestinationUrl);
+                    var postTriedAndSuccessdestinations = post?.LstPublishedPostDetailsModels.ToList();
 
-                if (!allDestinations.Contains(destinationUrl))
-                {
-                    post.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel
+                    if (postTriedAndSuccessdestinations == null)
+                        return false;
+
+                    var successfulDestinations = postTriedAndSuccessdestinations
+                        .Where(x => x.Successful == ConstantVariable.Yes).Select(x => x.DestinationUrl).ToList();
+
+                    if (successfulDestinations.Contains(destinationUrl))
                     {
-                        AccountName = AccountModel.AccountBaseModel.UserName,
-                        Destination = destination,
-                        DestinationUrl = destination == "OwnWall" ? AccountModel.AccountBaseModel.UserName : destinationUrl,
-                        Description = post.PostDescription,
-                        IsPublished = ConstantVariable.Yes,
-                        Successful = ConstantVariable.No,
-                        PublishedDate = DateTime.Now,
-                        Link = ConstantVariable.NotPublished,
-                        CampaignId = CampaignId,
-                        CampaignName = CampaignName,
-                        AccountId = AccountModel.AccountBaseModel.AccountId,
-                        ErrorDetails = ConstantVariable.NotPublished,
-                    });
+                        GlobusLogHelper.log.Info(destination == "OwnWall"
+                            ? string.Format(Log.AlreadyPublishedOnOwnWall, AccountModel.AccountBaseModel.AccountNetwork,
+                                AccountModel.AccountBaseModel.UserName)
+                            : string.Format(Log.AlreadyPublishedOnDestination,
+                                AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName,
+                                destination, destinationUrl));
+                        return false;
+                    }
+
+                    var allDestinations = postTriedAndSuccessdestinations.Select(x => x.DestinationUrl);
+
+                    if (!allDestinations.Contains(destinationUrl))
+                    {
+                        post.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel
+                        {
+                            AccountName = AccountModel.AccountBaseModel.UserName,
+                            Destination = destination,
+                            DestinationUrl = destination == "OwnWall"
+                                ? AccountModel.AccountBaseModel.UserName
+                                : destinationUrl,
+                            Description = post.PostDescription,
+                            IsPublished = ConstantVariable.Yes,
+                            Successful = ConstantVariable.No,
+                            PublishedDate = DateTime.Now,
+                            Link = ConstantVariable.NotPublished,
+                            CampaignId = CampaignId,
+                            CampaignName = CampaignName,
+                            AccountId = AccountModel.AccountBaseModel.AccountId,
+                            ErrorDetails = ConstantVariable.NotPublished,
+                        });
+                    }
+
+                    post.PostQueuedStatus = PostQueuedStatus.Published;
+
+                    var triedCount =
+                        post.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
+
+                    var successCount =
+                        post.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
+
+                    post.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
+
+                    post.PostRunningStatus = DateTime.Now > post.ExpiredTime
+                        ? PostRunningStatus.Completed
+                        : PostRunningStatus.Active;
+
+                    PostlistFileManager.UpdatePost(CampaignId, post);
+
+                    if (post.PostRunningStatus == PostRunningStatus.Completed)
+                    {
+                        if (isDirectPost)
+                            GlobusLogHelper.log.Info(Log.PostExpired, AccountModel.AccountBaseModel.AccountNetwork,
+                                AccountModel.AccountBaseModel.UserName);
+                        return false;
+                    }
+
+                    PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
                 }
-
-                post.PostQueuedStatus = PostQueuedStatus.Published;
-
-                var triedCount =
-                    post.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
-
-                var successCount =
-                    post.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
-
-                post.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
-
-                post.PostRunningStatus = DateTime.Now > post.ExpiredTime
-                    ? PostRunningStatus.Completed
-                    : PostRunningStatus.Active;
-
-                PostlistFileManager.UpdatePost(CampaignId, post);
-
-                if (post.PostRunningStatus == PostRunningStatus.Completed)
+                catch (Exception ex)
                 {
-                    if (isDirectPost)
-                        GlobusLogHelper.log.Info(Log.PostExpired, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName);
-                    return false;
+                    ex.DebugLog();
                 }
-
-                PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
             }
             return true;
         }

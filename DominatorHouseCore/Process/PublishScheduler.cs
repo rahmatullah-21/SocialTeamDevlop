@@ -763,6 +763,9 @@ namespace DominatorHouseCore.Process
         {
             try
             {
+               
+
+
                 var campaignDetails =
                     PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
 
@@ -773,6 +776,7 @@ namespace DominatorHouseCore.Process
                     GlobusLogHelper.log.Info("Current post isn't register with any campaign!");
                     return;
                 }
+                GlobusLogHelper.log.Info(Log.StartPublishing, SocialNetworks.Social, string.Empty, specificCampaign.CampaignName);
 
                 var currentCampaignsCancallationToken = new CancellationTokenSource();
 
