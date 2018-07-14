@@ -50,7 +50,9 @@ namespace DominatorHouseCore.Utility
                             .Replace("[FeedDescription]", description)
                             .Replace("[FeedUrl]", link)
                             .Replace("[FeedPublishedDate]", pubDate)),
-                        ShareUrl = link
+                        ShareUrl = link,
+                        PdSourceUrl = link,
+                        PublisherInstagramTitle = title,
                     }).ToList();
 
                 PostlistFileManager.AddRange(campaignId, postlists);
