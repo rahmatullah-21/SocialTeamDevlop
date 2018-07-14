@@ -334,6 +334,7 @@
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Accounts\OwnChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\UnfollowedUsers.cs" />
