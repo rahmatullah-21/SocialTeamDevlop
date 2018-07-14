@@ -522,6 +522,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 ClearCurrentCampaigns();
 
                 #endregion
+
+                PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
+                    = PublisherDefaultPage.Instance();
             }
             catch (Exception ex)
             {
