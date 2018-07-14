@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
 using  System.Windows;
@@ -6,6 +7,7 @@ using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
+    [Serializable]
     [ProtoContract]
     public class PostDetailsModel : BindableBase
     {
@@ -265,5 +267,41 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
             }
         }
+
+
+        private DateTime _createdDateTime;
+        [ProtoMember(17)]
+        public DateTime CreatedDateTime
+        {
+            get
+            {
+                return _createdDateTime;
+            }
+            set
+            {              
+                if (value == _createdDateTime)
+                    return;
+                SetProperty(ref _createdDateTime, value);
+            }
+        }
+
+
+        private string _postDetailsId;
+        [ProtoMember(18)]
+        public string PostDetailsId
+        {
+            get
+            {
+                return _postDetailsId;
+            }
+            set
+            {
+                if (value == _postDetailsId)
+                    return;
+                SetProperty(ref _postDetailsId, value);
+            }
+        }
+
+
     }
 }

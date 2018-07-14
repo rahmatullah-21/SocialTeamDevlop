@@ -16,6 +16,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public string CampaignId { get; set; } = string.Empty;
 
         private bool _isSelected;
+        private int _destinationCount;
+        private int _draftCount;
+        private int _pendingCount;
+        private int _publishedCount;
+        private DateTime _createdDate;
+        private DateTime _startDate;
+        private DateTime _endDate;
 
         public bool IsSelected
         {
@@ -34,19 +41,96 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public PublisherCampaignStatus Status { get; set; } = PublisherCampaignStatus.Completed;
 
-        public int DestinationCount { get; set; }
+        public int DestinationCount
+        {
+            get
+            {
+                return _destinationCount;
+            }
+            set
+            {
+                _destinationCount = value;
+                OnPropertyChanged(nameof(DestinationCount));
+            }
+        }
 
-        public int DraftCount { get; set; }
+        public int DraftCount
+        {
+            get
+            {
+                return _draftCount;
+            }
+            set
+            {
+                _draftCount = value;
+                OnPropertyChanged(nameof(DraftCount));
+            }
+        }
 
-        public int PendingCount { get; set; }
+        public int PendingCount
+        {
+            get
+            {
+                return _pendingCount;
+            }
+            set
+            {
+                _pendingCount = value;
+                OnPropertyChanged(nameof(PendingCount));
+            }
+        }
 
-        public int PublishedCount { get; set; }
+        public int PublishedCount
+        {
+            get
+            {
+                return _publishedCount;
+            }
+            set
+            {
+                _publishedCount = value;
+                OnPropertyChanged(nameof(PublishedCount));
+            }
+        }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate
+        {
+            get
+            {
+                return _createdDate;
+            }
+            set
+            {
+                _createdDate = value;
+                OnPropertyChanged(nameof(CreatedDate));
+            }
+        }
 
-        public DateTime StartDate { get; set; }
+        public DateTime StartDate
+        {
+            get
+            {
+                return _startDate;
+            }
+            set
+            {
+                _startDate = value;
+                OnPropertyChanged(nameof(StartDate));
+            }
+        }
 
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate
+        {
+            get
+            {
+                return _endDate;
+            }
+            set
+            {
+                _endDate = value;
+                OnPropertyChanged(nameof(EndDate));
+            }
+        }
 
 
         #region Job Scheduling

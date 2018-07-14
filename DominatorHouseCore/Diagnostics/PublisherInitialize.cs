@@ -187,9 +187,9 @@ namespace DominatorHouseCore.Diagnostics
         public bool AddCampaignDetails(PublisherCampaignStatusModel publisherCampaignStatusModel)
         {
 
-            if (ListPublisherCampaignStatusModels.Any(x => x.CampaignName == publisherCampaignStatusModel.CampaignName))
+            if (ListPublisherCampaignStatusModels.Any(x => x.CampaignId == publisherCampaignStatusModel.CampaignId))
             {
-                var currentItem = ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignName == publisherCampaignStatusModel.CampaignName);
+                var currentItem = ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignId == publisherCampaignStatusModel.CampaignId);
 
                 var index = ListPublisherCampaignStatusModels.IndexOf(currentItem);
 
