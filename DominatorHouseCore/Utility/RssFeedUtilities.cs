@@ -10,6 +10,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Request;
 using HtmlAgilityPack;
 using System.Threading.Tasks;
+using DominatorHouseCore.Diagnostics;
 
 namespace DominatorHouseCore.Utility
 {
@@ -56,6 +57,8 @@ namespace DominatorHouseCore.Utility
                     }).ToList();
 
                 PostlistFileManager.AddRange(campaignId, postlists);
+                var publisherInitialize = PublisherInitialize.GetInstance;
+                publisherInitialize.UpdatePostCounts(campaignId);
             }
             catch (Exception ex)
             {

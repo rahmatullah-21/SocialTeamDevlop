@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
@@ -49,104 +50,114 @@ namespace DominatorHouseCore.Utility
 
         public void GetFoldersFileDetails(string folderpath, string campaignId, string postTemplate)
         {
-            var postlists = new List<PublisherPostlistModel>();
-
-            var foldersFiles = Directory.EnumerateFiles(folderpath, "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".mp4") || s.EndsWith(".jpg") || s.EndsWith(".png") || s.EndsWith(".wmv")).ToList();
-
-            var monitorFolderFiles = PostlistFileManager.GetAll(campaignId)
-                .Where(x => x.PostSource == PostSource.MonitorFolderPost);
-
-            PostlistFileManager.DeleteSelected(campaignId, monitorFolderFiles.ToList());
-
-            var mediaUtilites = new MediaUtilites();
-
-            foldersFiles.ForEach(file =>
+            try
             {
-                var publisherPostlistModel = new PublisherPostlistModel
-                {
-                    MediaList = new ObservableCollection<string> { mediaUtilites.GetThumbnail(file)  },
-                    CampaignId = campaignId,
-                    CreatedTime = DateTime.Now,
-                    ExpiredTime = DateTime.Now.AddYears(1),
-                    PostId = Utilities.GetGuid(),
-                    PostCategory = PostCategory.OrdinaryPost,
-                    PostQueuedStatus = PostQueuedStatus.Pending,
-                    PostRunningStatus = PostRunningStatus.Active,
-                    PostSource = PostSource.MonitorFolderPost
-                };
+                var postlists = new List<PublisherPostlistModel>();
 
-                var fileDetails = GetDetailedFileInfo(file);
-                var monitorFolderModel = new MonitorFolderModel
+                var foldersFiles = Directory.EnumerateFiles(folderpath, "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".mp4") || s.EndsWith(".jpg") || s.EndsWith(".png") || s.EndsWith(".wmv")).ToList();
+
+                var monitorFolderFiles = PostlistFileManager.GetAll(campaignId)
+                    .Where(x => x.PostSource == PostSource.MonitorFolderPost);
+
+                PostlistFileManager.DeleteSelected(campaignId, monitorFolderFiles.ToList());
+
+                var mediaUtilites = new MediaUtilites();
+
+                foldersFiles.ForEach(file =>
                 {
-                    FolderPath = folderpath,
-                    FilePath = file
-                };
+                    var publisherPostlistModel = new PublisherPostlistModel
+                    {
+                        MediaList = new ObservableCollection<string> { mediaUtilites.GetThumbnail(file) },
+                        CampaignId = campaignId,
+                        CreatedTime = DateTime.Now,
+                        ExpiredTime = DateTime.Now.AddYears(1),
+                        PostId = Utilities.GetGuid(),
+                        PostCategory = PostCategory.OrdinaryPost,
+                        PostQueuedStatus = PostQueuedStatus.Pending,
+                        PostRunningStatus = PostRunningStatus.Active,
+                        PostSource = PostSource.MonitorFolderPost
+                    };
+
+                    var fileDetails = GetDetailedFileInfo(file);
+                    var monitorFolderModel = new MonitorFolderModel
+                    {
+                        FolderPath = folderpath,
+                        FilePath = file
+                    };
 
                 #region Get from Files
 
                 foreach (var objDetailedFileInfo in fileDetails)
-                {
-                    switch (objDetailedFileInfo.Id)
                     {
-                        case 0:
-                            monitorFolderModel.FileName =
-                                !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : string.Empty;
-                            break;
-                        case 9:
-                            monitorFolderModel.FileType =
-                                !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : string.Empty;
-                            break;
-                        case 20:
-                            monitorFolderModel.FileAuthor =
-                                !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : string.Empty;
-                            break;
-                        case 21:
-                            monitorFolderModel.FileTitle =
-                                !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : string.Empty;
-                            break;
-                        case 22:
-                            monitorFolderModel.FileSubject =
-                                !string.IsNullOrEmpty(objDetailedFileInfo.Value)
-                                    ? objDetailedFileInfo.Value : string.Empty;
-                            break;
-                        case 4:
-                            monitorFolderModel.FileCreationDate =
-                                !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : string.Empty;
-                            break;
-                        case 24:
-                            monitorFolderModel.FileComment =
-                                !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : string.Empty;
-                            break;
-                        case 18:
-                            monitorFolderModel.FileTags =
-                                !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                    objDetailedFileInfo.Value : string.Empty;
-                            break;
-                        default:
-                            break;
+                        switch (objDetailedFileInfo.Id)
+                        {
+                            case 0:
+                                monitorFolderModel.FileName =
+                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                        objDetailedFileInfo.Value : string.Empty;
+                                break;
+                            case 9:
+                                monitorFolderModel.FileType =
+                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                        objDetailedFileInfo.Value : string.Empty;
+                                break;
+                            case 20:
+                                monitorFolderModel.FileAuthor =
+                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                        objDetailedFileInfo.Value : string.Empty;
+                                break;
+                            case 21:
+                                monitorFolderModel.FileTitle =
+                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                        objDetailedFileInfo.Value : string.Empty;
+                                break;
+                            case 22:
+                                monitorFolderModel.FileSubject =
+                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value)
+                                        ? objDetailedFileInfo.Value : string.Empty;
+                                break;
+                            case 4:
+                                monitorFolderModel.FileCreationDate =
+                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                        objDetailedFileInfo.Value : string.Empty;
+                                break;
+                            case 24:
+                                monitorFolderModel.FileComment =
+                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                        objDetailedFileInfo.Value : string.Empty;
+                                break;
+                            case 18:
+                                monitorFolderModel.FileTags =
+                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                        objDetailedFileInfo.Value : string.Empty;
+                                break;
+                            default:
+                                break;
+                        }
                     }
-                }
 
                 #endregion
 
-                publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName,String.Empty))
-                    .Replace("[FileType]", monitorFolderModel.FileType)
-                    .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
-                    .Replace("[FileTitle]", monitorFolderModel.FileTitle)
-                    .Replace("[FileSubject]", monitorFolderModel.FileSubject)
-                    .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
-                    .Replace("[FileComments]", monitorFolderModel.FileComment)
-                    .Replace("[FileTags]", monitorFolderModel.FileTags);
+                publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName, String.Empty))
+                        .Replace("[FileType]", monitorFolderModel.FileType)
+                        .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
+                        .Replace("[FileTitle]", monitorFolderModel.FileTitle)
+                        .Replace("[FileSubject]", monitorFolderModel.FileSubject)
+                        .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
+                        .Replace("[FileComments]", monitorFolderModel.FileComment)
+                        .Replace("[FileTags]", monitorFolderModel.FileTags);
 
-                postlists.Add(publisherPostlistModel);
-            });
-            PostlistFileManager.AddRange(campaignId, postlists);
+                    postlists.Add(publisherPostlistModel);
+                });
+                PostlistFileManager.AddRange(campaignId, postlists);
+
+                var publisherInitialize = PublisherInitialize.GetInstance;
+                publisherInitialize.UpdatePostCounts(campaignId);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private static Folder GetShell32NameSpaceFolder(object folder)
