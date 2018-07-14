@@ -827,7 +827,7 @@ namespace DominatorHouseCore.Process
             {
                 var post = PostlistFileManager.GetByPostId(CampaignId, posts.PostId);
 
-                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl && y.AccountId == AccountModel.AccountId));
 
                 if (postIndex == -1)
                     return;
@@ -853,7 +853,7 @@ namespace DominatorHouseCore.Process
                 var post = PostlistFileManager.GetByPostId(CampaignId, posts.PostId);
 
                 var postIndex = post.LstPublishedPostDetailsModels.IndexOf(
-                    post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+                    post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl && y.AccountId == AccountModel.AccountId));
 
                 if (postIndex == -1)
                     return;
@@ -1090,7 +1090,7 @@ namespace DominatorHouseCore.Process
                         return false;
                     }
 
-                    var allDestinations = postTriedAndSuccessdestinations.Select(x => x.DestinationUrl);
+                    var allDestinations = postTriedAndSuccessdestinations.Where(x=> x.AccountId == AccountModel.AccountId).Select(x => x.DestinationUrl);
 
                     if (!allDestinations.Contains(destinationUrl))
                     {
