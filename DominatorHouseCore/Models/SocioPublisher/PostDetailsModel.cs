@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
 using  System.Windows;
+using DominatorHouseCore.Enums.SocioPublisher;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
@@ -301,6 +302,23 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _postDetailsId, value);
             }
         }
+
+        private PostQueuedStatus _postQueuedStatus = PostQueuedStatus.Pending;
+        [ProtoMember(19)]
+        public PostQueuedStatus PostQueuedStatus
+        {
+            get
+            {
+                return _postQueuedStatus;
+            }
+            set
+            {
+                if (value == _postQueuedStatus)
+                    return;
+                SetProperty(ref _postQueuedStatus, value);
+            }
+        }
+
 
 
     }

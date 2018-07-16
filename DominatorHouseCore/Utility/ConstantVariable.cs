@@ -194,6 +194,8 @@ namespace DominatorHouseCore.Utility
 
         public static string NoError { get; set; } = "No Error!";
 
+        public static string Deleted { get; set; } = $"Post has been deleted on {DateTime.Now}!";
+
         public static string NotPublished { get; set; } = "Not Published Yet";
 
         #endregion

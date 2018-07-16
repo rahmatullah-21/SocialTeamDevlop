@@ -312,8 +312,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
+               
                 PostlistFileManager.Delete(campaignId, x => selectedPublisherPostlist.FirstOrDefault(a => a.PostId == x.PostId) != null);
-                selectedPublisherPostlist.ForEach(x => PublisherPostlist.Remove(x));
+
+                selectedPublisherPostlist.ForEach(x =>
+                {
+                    PublisherPostlist.Remove(x);
+                    GenericFileManager.Delete<PostDeletionModel>(y => x.CampaignId == y.CampaignId && x.PostId == y.PostId, ConstantVariable.GetDeletePublisherPostModel);
+                });
             }
             PublisherInitialize.GetInstance.UpdatePostStatus(campaignId);
         }
@@ -336,6 +342,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 return;
 
             PostlistFileManager.Delete(campaign.CampaignId, y => campaign.PostId == y.PostId);
+
+            GenericFileManager.Delete<PostDeletionModel>(y => campaign.CampaignId == y.CampaignId && campaign.PostId == y.PostId, ConstantVariable.GetDeletePublisherPostModel);
 
             PublisherPostlist.Remove(campaign);
 

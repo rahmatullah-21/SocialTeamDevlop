@@ -868,6 +868,30 @@ namespace DominatorHouseCore.Process
         }
 
 
+        public void UpdatePostWithDeletion(string destinationUrl, string postId)
+        {
+            Thread.Sleep(1000);
+
+            var updatelock = PublishScheduler.UpdatingLock.GetOrAdd(postId, _lock => new object());
+
+            lock (updatelock)
+            {
+                var post = PostlistFileManager.GetByPostId(CampaignId, postId);
+
+                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+
+                if (postIndex == -1)
+                    return;
+
+                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.Deleted;
+                PostlistFileManager.UpdatePost(CampaignId, post);
+                PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
+                GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], ConstantVariable.GetPublishedSuccessDetails);
+
+            }
+        }
+
         public PublisherPostlistModel PerformGeneralSettings(PublisherPostlistModel givenPostModel)
         {
 
@@ -914,8 +938,8 @@ namespace DominatorHouseCore.Process
 
             #region Spin Text
 
-
-            postModelWithGeneralSettings.PostDescription = string.Empty;
+            if (string.IsNullOrEmpty(postModelWithGeneralSettings.PostDescription))
+                postModelWithGeneralSettings.PostDescription = string.Empty;
 
             postModelWithGeneralSettings.PostDescription =
                 SpinTexHelper.GetSpinText(postModelWithGeneralSettings.PostDescription);
