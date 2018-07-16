@@ -51,6 +51,9 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         [Column(Order = 12)]
         public ActivityType OperationType { get; set; }
 
+        [Column(Order = 13)]
+        public string Category { get; set; }
+
 
 
 
