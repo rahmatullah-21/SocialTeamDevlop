@@ -52,14 +52,14 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
+
+
                 var postlists = new List<PublisherPostlistModel>();
 
                 var foldersFiles = Directory.EnumerateFiles(folderpath, "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".mp4") || s.EndsWith(".jpg") || s.EndsWith(".png") || s.EndsWith(".wmv")).ToList();
 
                 var monitorFolderFiles = PostlistFileManager.GetAll(campaignId)
                     .Where(x => x.PostSource == PostSource.MonitorFolderPost);
-
-                PostlistFileManager.DeleteSelected(campaignId, monitorFolderFiles.ToList());
 
                 var mediaUtilites = new MediaUtilites();
 
@@ -70,12 +70,13 @@ namespace DominatorHouseCore.Utility
                         MediaList = new ObservableCollection<string> { mediaUtilites.GetThumbnail(file) },
                         CampaignId = campaignId,
                         CreatedTime = DateTime.Now,
-                        ExpiredTime = DateTime.Now.AddYears(1),
+                        ExpiredTime = DateTime.Now.AddYears(2),
                         PostId = Utilities.GetGuid(),
                         PostCategory = PostCategory.OrdinaryPost,
                         PostQueuedStatus = PostQueuedStatus.Pending,
                         PostRunningStatus = PostRunningStatus.Active,
-                        PostSource = PostSource.MonitorFolderPost
+                        PostSource = PostSource.MonitorFolderPost,
+                        MonitorFilePath = file
                     };
 
                     var fileDetails = GetDetailedFileInfo(file);
@@ -85,9 +86,9 @@ namespace DominatorHouseCore.Utility
                         FilePath = file
                     };
 
-                #region Get from Files
+                    #region Get from Files
 
-                foreach (var objDetailedFileInfo in fileDetails)
+                    foreach (var objDetailedFileInfo in fileDetails)
                     {
                         switch (objDetailedFileInfo.Id)
                         {
@@ -136,19 +137,25 @@ namespace DominatorHouseCore.Utility
                         }
                     }
 
-                #endregion
+                    #endregion
 
-                publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName, String.Empty))
-                        .Replace("[FileType]", monitorFolderModel.FileType)
-                        .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
-                        .Replace("[FileTitle]", monitorFolderModel.FileTitle)
-                        .Replace("[FileSubject]", monitorFolderModel.FileSubject)
-                        .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
-                        .Replace("[FileComments]", monitorFolderModel.FileComment)
-                        .Replace("[FileTags]", monitorFolderModel.FileTags);
+                    publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName, String.Empty))
+                            .Replace("[FileType]", monitorFolderModel.FileType)
+                            .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
+                            .Replace("[FileTitle]", monitorFolderModel.FileTitle)
+                            .Replace("[FileSubject]", monitorFolderModel.FileSubject)
+                            .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
+                            .Replace("[FileComments]", monitorFolderModel.FileComment)
+                            .Replace("[FileTags]", monitorFolderModel.FileTags);
 
-                    postlists.Add(publisherPostlistModel);
+
+                    if (monitorFolderFiles.All(x => x.MonitorFilePath != file))
+                    {
+                        postlists.Add(publisherPostlistModel);
+                    }
+
                 });
+
                 PostlistFileManager.AddRange(campaignId, postlists);
 
                 var publisherInitialize = PublisherInitialize.GetInstance;

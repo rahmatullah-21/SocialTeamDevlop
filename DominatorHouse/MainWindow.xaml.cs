@@ -94,11 +94,26 @@ namespace Socinator
             }
         }
 
-        private void IsCheck()
+        private async Task IsCheck()
         {
-            var key = SocinatorKeyHelper.GetKey();
-        }
+            try
+            {
+                var key = SocinatorKeyHelper.GetKey();
 
+                var networks = await UtilityManager.LogIndividualNetworksExceptions(key.LicenseKey);
+
+                if (networks.Count <= 1)
+                {
+                    Application.Current.Shutdown();
+                    Process.GetCurrentProcess().Kill();
+                }
+            }
+            catch (Exception)
+            {
+                Application.Current.Shutdown();
+                Process.GetCurrentProcess().Kill();
+            }
+        }
 
         private async Task LicenseCheck()
         {
@@ -197,7 +212,6 @@ namespace Socinator
         }
 
        
-
         public ObservableCollection<string> Languages
         {
             get
@@ -626,11 +640,19 @@ namespace Socinator
                     });
 
                 #endregion
+
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+
+            //Task.Factory.StartNew(() =>
+            //{
+            //    JobManager.AddJob(async () => await IsCheck(),
+            //        x => x.ToRunOnceAt(DateTime.Now.AddMinutes(1))
+            //            .AndEvery(1).Minutes());
+            //});
         }
 
         [NotifyPropertyChangedInvocator]

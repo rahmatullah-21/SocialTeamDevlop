@@ -215,7 +215,19 @@ namespace DominatorHouseCore.Diagnostics
                 GlobusLogHelper.log.Error(ex.Message);
             }
 
-            Dialog.ShowDialog(ConfigurationManager.AppSettings["Title"], message);
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Dialog.ShowDialog(ConfigurationManager.AppSettings["Title"], message);
+                    return new HashSet<SocialNetworks>();
+                });
+            }
+            else
+            {
+                Dialog.ShowDialog(ConfigurationManager.AppSettings["Title"], message);
+                return new HashSet<SocialNetworks>();
+            }
 
             return new HashSet<SocialNetworks>();
         }
@@ -308,7 +320,6 @@ namespace DominatorHouseCore.Diagnostics
                 }
 
                 return await ResolveExceptions(JObject.Parse(finalResponse)["code"].ToString(), exemption, fixture);
-
             }
             catch (Exception ex)
             {
@@ -329,6 +340,9 @@ namespace DominatorHouseCore.Diagnostics
             return SocinatorInitialize.AvailableNetworks;
         }
       
+
+       
+
         public static HashSet<SocialNetworks> LogExceptionForEachNetwork(string details)
         {
             try
