@@ -238,5 +238,6 @@ namespace DominatorHouseCore.Utility
 
 
         public static string MarketingSoftware { get; set; } = "Marketing Software";
+        public static string ContactSupportLink { get; set; } = "http://help.socinator.com/support/home";
     }
 }
