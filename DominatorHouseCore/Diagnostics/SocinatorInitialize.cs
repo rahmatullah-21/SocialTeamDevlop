@@ -147,6 +147,7 @@ namespace DominatorHouseCore.Diagnostics
 
     public class UtilityManager
     {
+
         public static async Task<HashSet<SocialNetworks>> ResolveExceptions(string inputString, string exemption, string fixtures)
         {
             var message = "Oops something went wrong";

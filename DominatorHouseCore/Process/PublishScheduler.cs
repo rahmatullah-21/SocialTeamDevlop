@@ -892,12 +892,33 @@ namespace DominatorHouseCore.Process
             GenericFileManager.AddModule(postDeletionModel,
                 ConstantVariable.GetDeletePublisherPostModel);
 
+            DeletePublishedPost(postDeletionModel);
+        }
+
+        public static void DeletePublishedPost(PostDeletionModel postDeletionModel)
+        {
             JobManager.AddJob(() =>
             {
                 var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(postDeletionModel.Networks)
                     .GetPublisherCoreFactory()
                     .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null, null, null, false, new CancellationTokenSource());
-                publisherJobProcess.DeletePost(postDeletionModel.PublishedIdOrUrl);
+
+                if (publisherJobProcess.DeletePost(postDeletionModel.PublishedIdOrUrl))
+                {
+                    publisherJobProcess.UpdatePostWithDeletion(postDeletionModel.DestinationUrl,
+                        postDeletionModel.PostId);
+
+                    postDeletionModel.IsDeletedAlready = true;
+
+                    var allDeletionList =
+                        GenericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable.GetDeletePublisherPostModel);
+                    var index = allDeletionList.FindIndex(x =>
+                        x.PublishedIdOrUrl == postDeletionModel.PublishedIdOrUrl);
+                    allDeletionList[index].IsDeletedAlready = true;
+
+                    GenericFileManager.UpdateModuleDetails(allDeletionList, ConstantVariable.GetDeletePublisherPostModel);
+                }
+
             }, s => s.WithName($"{postDeletionModel.CampaignId}- Delete Posts -{ConstantVariable.GetDate()}").ToRunOnceAt(postDeletionModel.DeletionTime));
         }
 

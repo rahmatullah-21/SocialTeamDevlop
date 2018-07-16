@@ -561,10 +561,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 #endregion
 
-
-
-
-
                 PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
                     = PublisherDefaultPage.Instance();
             }
@@ -581,7 +577,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 CampaignId = PublisherCreateCampaignModel.CampaignId,
                 CreatedTime = DateTime.Now,
                 PostSource = PostSource.NormalPost,
-                PostQueuedStatus = PostQueuedStatus.Pending,
+                PostQueuedStatus = post.PostQueuedStatus,
                 PostRunningStatus = PostRunningStatus.Active,
                 PostDescription = post.PostDescription,
                 MediaList = post.MediaViewer.MediaList,

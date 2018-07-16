@@ -2850,6 +2850,8 @@ Type 3. IP:Port
     <!--Newly Added on 17-07-2018-->
     <system:String x:Key="LangKeyEditCampaign">Edit Campaign</system:String>
     <system:String x:Key="LangKeyPostSaved">Post has been successfully saved!</system:String>
+    <system:String x:Key="LangKeySavePostToDraft">Save To Draft Post List</system:String>
+    <system:String x:Key="LangKeySavePostToPending">Save To Pending Post List</system:String>
     <!--End Added on 17-07-2018-->
 
 
