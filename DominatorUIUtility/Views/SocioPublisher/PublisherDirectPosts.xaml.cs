@@ -1,10 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher

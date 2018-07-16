@@ -141,8 +141,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public List<TimeSpan> SpecificRunningTime { get; set; } = new List<TimeSpan>();
 
-        public TimeRange TimeRange { get; set; } 
-  
+        public TimeRange TimeRange { get; set; }
+
         public bool IsTakeRandomDestination { get; set; }
 
         public int TotalRandomDestination { get; set; }
@@ -165,7 +165,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
         {
             CampaignName = $"{name}-clone-{ConstantVariable.GetHourDateTime()}";
             CampaignId = Utilities.GetGuid();
-            CreatedDate = DateTime.Today;
+            CreatedDate = DateTime.Now;
+            StartDate = DateTime.Now;
             IsSelected = false;
         }
 

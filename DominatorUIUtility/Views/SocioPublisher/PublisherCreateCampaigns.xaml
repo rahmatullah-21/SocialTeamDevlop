@@ -29,7 +29,7 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 
-                    <Label Content="{DynamicResource LangKeyCreateCampaign}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                    <Label Content="{Binding PageTitle}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
             </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">

@@ -2846,4 +2846,11 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPostLike">Post Like</system:String>
     <system:String x:Key="LangKeyPostComment">Post Comment</system:String>
     <!-- End Log Constants -->
+    
+    <!--Newly Added on 17-07-2018-->
+    <system:String x:Key="LangKeyEditCampaign">Edit Campaign</system:String>
+    <system:String x:Key="LangKeyPostSaved">Post has been successfully saved!</system:String>
+    <!--End Added on 17-07-2018-->
+
+
 </ResourceDictionary>
