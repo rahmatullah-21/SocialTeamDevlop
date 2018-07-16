@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
@@ -111,12 +112,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public void CanSaveSinglePost(object sender)
         {
 
+            var saveLocation = sender as string;
+
             try
             {
                 if (!string.IsNullOrEmpty(PostDetailsModel.PostDescription) ||
-                        PostDetailsModel.MediaList.Count > 0 ||
-                        !string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle) ||
-                        !string.IsNullOrEmpty(PostDetailsModel.PdSourceUrl))
+                    PostDetailsModel.MediaList.Count > 0 ||
+                    !string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle) ||
+                    !string.IsNullOrEmpty(PostDetailsModel.PdSourceUrl))
 
                 {
                     var postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
@@ -125,6 +128,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var cloneObject = PostDetailsModel.DeepClone();
                     cloneObject.CreatedDateTime = DateTime.Now;
                     cloneObject.PostDetailsId = Utilities.GetGuid();
+                    cloneObject.PostQueuedStatus = saveLocation == "SaveToPending" ? PostQueuedStatus.Pending : PostQueuedStatus.Draft;
                     postDetails.Add(cloneObject);
                     PostDetailsModel = new PostDetailsModel();
                     var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
@@ -136,13 +140,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         GlobusLogHelper.log.Info(loggerMessage);
                     }
                 }
-               
+
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-           
+
+
+
         }
 
         public bool CanExecuteMultiPost(object sender) => true;

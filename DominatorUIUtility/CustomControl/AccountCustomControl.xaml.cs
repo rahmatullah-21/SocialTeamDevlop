@@ -1,27 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.Factories;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views;
 

@@ -94,6 +94,12 @@ namespace Socinator
             }
         }
 
+        private void IsCheck()
+        {
+            var key = SocinatorKeyHelper.GetKey();
+        }
+
+
         private async Task LicenseCheck()
         {
             try
@@ -227,6 +233,9 @@ namespace Socinator
 
             return false;
         }
+
+       
+
         public ObservableCollection<string> Languages
         {
             get
@@ -650,8 +659,8 @@ namespace Socinator
                     {
                         var deletionPostlist =
                         GenericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
-                            .GetDeletePublisherPostModel);
-                        deletionPostlist.ForEach(PublishScheduler.EnableDeletePost);
+                            .GetDeletePublisherPostModel).Where(x=> x.IsDeletedAlready == false).ToList();
+                        deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
                     });
 
                 #endregion

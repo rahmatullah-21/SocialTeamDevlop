@@ -31,6 +31,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         [ProtoMember(8)]
         public string DestinationUrl { get; set; }
-       
+
+        [ProtoMember(9)]
+        public bool IsDeletedAlready { get; set; } = false;
+
     }
 }
