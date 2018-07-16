@@ -104,14 +104,38 @@ namespace Socinator
 
                 if (networks.Count <= 1)
                 {
-                    Application.Current.Shutdown();
-                    Process.GetCurrentProcess().Kill();
+
+
+                    if (!Application.Current.Dispatcher.CheckAccess())
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            Application.Current.Shutdown();
+                            Process.GetCurrentProcess().Kill();
+                        });
+                    }
+                    else
+                    {
+                        Application.Current.Shutdown();
+                        Process.GetCurrentProcess().Kill();
+                    }
                 }
             }
             catch (Exception)
             {
-                Application.Current.Shutdown();
-                Process.GetCurrentProcess().Kill();
+                if (!Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Application.Current.Shutdown();
+                        Process.GetCurrentProcess().Kill();
+                    });
+                }
+                else
+                {
+                    Application.Current.Shutdown();
+                    Process.GetCurrentProcess().Kill();
+                }
             }
         }
 
@@ -647,12 +671,27 @@ namespace Socinator
                 ex.DebugLog();
             }
 
-            //Task.Factory.StartNew(() =>
-            //{
-            //    JobManager.AddJob(async () => await IsCheck(),
-            //        x => x.ToRunOnceAt(DateTime.Now.AddMinutes(1))
-            //            .AndEvery(1).Minutes());
-            //});
+            try
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    JobManager.AddJob(async () => await IsCheck(),
+                        x => x.ToRunOnceAt(DateTime.Now.AddHours(1))
+                            .AndEvery(1).Hours());
+                });
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (AggregateException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         [NotifyPropertyChangedInvocator]
