@@ -333,6 +333,24 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        private string _monitorFilePath = string.Empty;
+        [ProtoMember(28)]
+        public string MonitorFilePath
+        {
+            get
+            {
+                return _monitorFilePath;
+            }
+            set
+            {
+               
+                if (_monitorFilePath == value)
+                    return;
+                SetProperty(ref _monitorFilePath, value);
+            }
+        }
+
+
 
         #region Postlist
 

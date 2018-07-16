@@ -295,7 +295,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PostSource = PostSource.NormalPost,
                     PostQueuedStatus = PostQueuedStatus.Pending,
                     PostRunningStatus = PostRunningStatus.Active,
-                };
+                    ExpiredTime = DateTime.Now.AddYears(2)
+            };
 
                 //if (PublisherCreateCampaignModel.PostDetailsModel.IsSinglePost)
                 //{                  
@@ -401,6 +402,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     shareUrls.ForEach(shareUrl =>
                     {
+                        
                         publisherPostlistModel.PostId = Utilities.GetGuid();
                         publisherPostlistModel.ShareUrl = shareUrl.Trim();
                         publisherPostlistModel.PostSource = PostSource.SharePost;
