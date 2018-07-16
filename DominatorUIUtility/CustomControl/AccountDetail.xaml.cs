@@ -38,7 +38,7 @@ namespace DominatorUIUtility.CustomControl
 
 
         public DominatorAccountModel DominatorAccountModel { get; set; }
-        public DominatorAccountModel OldDominatorAccountModel { get; }
+        public DominatorAccountModel OldDominatorAccountModel { get; set; }
 
 
         /// <summary>
@@ -140,7 +140,15 @@ namespace DominatorUIUtility.CustomControl
                 {
                     ex.DebugLog();
                 }
+                OldDominatorAccountModel.AccountBaseModel = new DominatorAccountBaseModel
+                {
+                    UserName = DominatorAccountModel.AccountBaseModel.UserName,
+                    Password = DominatorAccountModel.AccountBaseModel.Password,
+                };
+                OldDominatorAccountModel.UserAgentWeb = DominatorAccountModel.UserAgentWeb;
+                OldDominatorAccountModel.CookieHelperList = DominatorAccountModel.CookieHelperList;
             });
+
 
             #endregion
 

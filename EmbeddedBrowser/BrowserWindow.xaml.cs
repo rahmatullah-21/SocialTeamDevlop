@@ -13,13 +13,11 @@ using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
-using Cookie = CefSharp.Cookie;
 
 namespace EmbeddedBrowser
 {
@@ -61,8 +59,6 @@ namespace EmbeddedBrowser
 
 
         public string TargetUrl { get; set; } = string.Empty;
-
-
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl)
             : this()
         {
@@ -285,7 +281,7 @@ namespace EmbeddedBrowser
                 {
                     Browser.LoadingStateChanged -= BrowserOnLoaded;
                     return;
-                }                
+                }
             }
             var result = GetLoggedInPageSource();
 
@@ -480,7 +476,7 @@ namespace EmbeddedBrowser
 
         }
 
-        private void InstagramBrowserLogin(string html)
+        private async void InstagramBrowserLogin(string html)
         {
             if (html.Contains("Phone number, username, or email"))
             {
@@ -535,8 +531,14 @@ namespace EmbeddedBrowser
                 Browser.GetBrowser().GetHost().SendKeyEvent(k);
                 Thread.Sleep(1000);
 
-                Browser.ExecuteScriptAsync("document.getElementsByClassName(\"_5f5mN\")[0].click()");
-                Thread.Sleep(2000);
+                var updatedHtml = Browser.GetSourceAsync().Result;
+
+                var require = updatedHtml.Contains("choice_1") && updatedHtml.Contains("choice_0");
+                if (!require && !updatedHtml.Contains("Submit"))
+                {
+                    Browser.ExecuteScriptAsync("document.getElementsByClassName(\"_5f5mN\")[0].click()");
+                    Thread.Sleep(2000);
+                }
 
             }
 

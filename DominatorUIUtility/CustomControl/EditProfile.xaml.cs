@@ -39,7 +39,7 @@ namespace DominatorUIUtility.CustomControl
         {
             if (e.Key == Key.Enter)
             {
-                btnSave.IsDefault = true;
+                btnSubmit.IsDefault = true;
             }
         }
         private EditProfileViewModel _editProfileViewModel=new EditProfileViewModel();
