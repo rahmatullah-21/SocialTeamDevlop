@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
@@ -20,9 +19,9 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
 using DominatorUIUtility.Views.Publisher.AdvancedSettings;
-using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
@@ -129,6 +128,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
+
+        private string _pageTitle;
+
+        public string PageTitle
+        {
+            get
+            {
+                return _pageTitle;
+            }
+            set
+            {
+                if (_pageTitle == value)
+                    return;
+
+                _pageTitle = value;
+
+                OnPropertyChanged(nameof(PageTitle));
+            }
+        }
+
+
         #region Command
         public ICommand NavigationCommand { get; set; }
         public ICommand SaveCommand { get; set; }
@@ -251,7 +271,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 else
                 {
-                   
+
 
                     if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully saved.");
@@ -272,7 +292,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     CampaignId = PublisherCreateCampaignModel.CampaignId,
                     CreatedTime = DateTime.Now,
-                    PostSource = PostSource.NormalPost,                   
+                    PostSource = PostSource.NormalPost,
                     PostQueuedStatus = PostQueuedStatus.Pending,
                     PostRunningStatus = PostRunningStatus.Active,
                 };
@@ -307,37 +327,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 //{
 
 
-               
+
                 var postIdlist = PostlistFileManager.GetAll(PublisherCreateCampaignModel.CampaignId).Select(x => x.PostId).ToList();
 
                 foreach (var post in PublisherCreateCampaignModel.LstPostDetailsModels)
                 {
-                    publisherPostlistModel.PostDescription = post.PostDescription;
-                    publisherPostlistModel.MediaList = post.MediaViewer.MediaList;
-                    publisherPostlistModel.PublisherInstagramTitle = post.PublisherInstagramTitle;
-                    publisherPostlistModel.PdSourceUrl = post.PdSourceUrl;
-                    publisherPostlistModel.FdSellLocation = post.FdSellLocation;
-                    publisherPostlistModel.FdSellPrice = post.FdSellPrice;
-                    publisherPostlistModel.FdSellProductTitle = post.FdSellProductTitle;
-                    publisherPostlistModel.CreatedTime = post.CreatedDateTime;
-                    publisherPostlistModel.PostId = post.PostDetailsId;
+                    AddPostlists(postIdlist, post);
 
-                    publisherPostlistModel.FdPostSettings = post.PublisherPostSettings.FdPostSettings;
-                    publisherPostlistModel.GdPostSettings = post.PublisherPostSettings.GdPostSettings;
-                    publisherPostlistModel.TdPostSettings = post.PublisherPostSettings.TdPostSettings;
-                    publisherPostlistModel.LdPostSettings = post.PublisherPostSettings.LdPostSettings;
-                    publisherPostlistModel.TumberPostSettings = post.PublisherPostSettings.TumberPostSettings;
-                    publisherPostlistModel.RedditPostSetting = post.PublisherPostSettings.RedditPostSetting;
-
-                    publisherPostlistModel.ExpiredTime = DateTime.Today.AddYears(2);
-                    publisherPostlistModel.PostCategory =
-                        post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost;
-                    
-                    if (postIdlist.Contains(post.PostDetailsId))
-                        PostlistFileManager.UpdatePost(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
-                    else
-                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
-
+                    if (!post.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
+                        continue;
+                    for (var readdCount = 1; readdCount < post.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdCount++)
+                    {
+                        var newpost = post.DeepClone();
+                        newpost.PostDetailsId = Utilities.GetGuid();
+                        AddPostlists(postIdlist, newpost);
+                    }
                 }
 
                 // }
@@ -558,7 +562,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 #endregion
 
 
-        
+
 
 
                 PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
@@ -570,6 +574,42 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        private void AddPostlists(List<string> postIdlist, PostDetailsModel post)
+        {
+            var postlistModel = new PublisherPostlistModel
+            {
+                CampaignId = PublisherCreateCampaignModel.CampaignId,
+                CreatedTime = DateTime.Now,
+                PostSource = PostSource.NormalPost,
+                PostQueuedStatus = PostQueuedStatus.Pending,
+                PostRunningStatus = PostRunningStatus.Active,
+                PostDescription = post.PostDescription,
+                MediaList = post.MediaViewer.MediaList,
+                PublisherInstagramTitle = post.PublisherInstagramTitle,
+                PdSourceUrl = post.PdSourceUrl,
+                FdSellLocation = post.FdSellLocation,
+                FdSellPrice = post.FdSellPrice,
+                FdSellProductTitle = post.FdSellProductTitle,
+                PostId = post.PostDetailsId,
+                GeneralPostSettings = post.PublisherPostSettings.GeneralPostSettings,
+                FdPostSettings = post.PublisherPostSettings.FdPostSettings,
+                GdPostSettings = post.PublisherPostSettings.GdPostSettings,
+                TdPostSettings = post.PublisherPostSettings.TdPostSettings,
+                LdPostSettings = post.PublisherPostSettings.LdPostSettings,
+                TumberPostSettings = post.PublisherPostSettings.TumberPostSettings,
+                RedditPostSetting = post.PublisherPostSettings.RedditPostSetting,
+                ExpiredTime = DateTime.Today.AddYears(2),
+                PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
+            };
+
+            postlistModel.CreatedTime = post.CreatedDateTime;
+
+            if (postIdlist.Contains(post.PostDetailsId))
+                PostlistFileManager.UpdatePost(PublisherCreateCampaignModel.CampaignId, postlistModel);
+            else
+                PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, postlistModel);
+        }
+
         public void ClearCurrentCampaigns()
         {
             PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
@@ -577,6 +617,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             CampaignList = new ObservableCollection<string>(
                 GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
             SelectedItem = null;
+            PageTitle = Application.Current.FindResource("LangKeyCreateCampaign")?.ToString();
             SetDataContext();
         }
 
@@ -615,12 +656,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-
                 var campaignlists = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
                     (ConstantVariable.GetPublisherCampaignFile());
 
                 PublisherCreateCampaignModel = campaignlists.FirstOrDefault(x => x.CampaignName == (string)sender);
                 BindTabItemsControlProperties();
+                PageTitle = Application.Current.FindResource("LangKeyEditCampaign")?.ToString();
                 SetDataContext();
             }
             catch (Exception)

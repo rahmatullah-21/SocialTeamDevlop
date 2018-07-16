@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
@@ -110,25 +111,38 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public void CanSaveSinglePost(object sender)
         {
 
-            if (!string.IsNullOrEmpty(PostDetailsModel.PostDescription) ||
-                PostDetailsModel.MediaList.Count > 0 ||
-                !string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle) ||
-                !string.IsNullOrEmpty(PostDetailsModel.PdSourceUrl))
-
+            try
             {
-                var postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels;
+                if (!string.IsNullOrEmpty(PostDetailsModel.PostDescription) ||
+                        PostDetailsModel.MediaList.Count > 0 ||
+                        !string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle) ||
+                        !string.IsNullOrEmpty(PostDetailsModel.PdSourceUrl))
 
-                var cloneObject = PostDetailsModel.DeepClone();
-                cloneObject.CreatedDateTime = DateTime.Now;
-                cloneObject.PostDetailsId = Utilities.GetGuid();
-                postDetails.Add(cloneObject);
-                PostDetailsModel = new PostDetailsModel();
-                var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
-                publisherDirectPosts.PostContentControl.SetMedia();
-                publisherDirectPosts.ImageMediaViewer.Initialize();
-            }
+                {
+                    var postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                        .PublisherCreateCampaignModel.LstPostDetailsModels;
+
+                    var cloneObject = PostDetailsModel.DeepClone();
+                    cloneObject.CreatedDateTime = DateTime.Now;
+                    cloneObject.PostDetailsId = Utilities.GetGuid();
+                    postDetails.Add(cloneObject);
+                    PostDetailsModel = new PostDetailsModel();
+                    var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
+                    publisherDirectPosts.PostContentControl.SetMedia();
+                    publisherDirectPosts.ImageMediaViewer.Initialize();
+                    var loggerMessage = new Func<string>(Application.Current.FindResource("LangKeyPostSaved").ToString).Invoke();
+                    if (!string.IsNullOrEmpty(loggerMessage))
+                    {
+                        GlobusLogHelper.log.Info(loggerMessage);
+                    }
+                }
                
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+           
         }
 
         public bool CanExecuteMultiPost(object sender) => true;
@@ -163,14 +177,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 ObservableCollection<PostDetailsModel> postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                     .PublisherCreateCampaignModel.LstPostDetailsModels;
-             
+
                 foreach (var image in PostDetailsModel.MediaList)
                 {
                     var publisherMediaViewerModel = new PublisherMediaViewerModel { MediaList = new ObservableCollection<string> { image } };
 
                     var postDetailsModel = new PostDetailsModel
                     {
-                        MediaList = new ObservableCollection<string> {image},
+                        MediaList = new ObservableCollection<string> { image },
                         PostDetailsId = Utilities.GetGuid(),
                         PostDescription = new Uri(image).Segments.Last(),
                         CreatedDateTime = DateTime.Now,
@@ -223,7 +237,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     #region FdSell
 
                     var Fdsell = Regex.Split(allData[4], separator);
-                    if ( string.Compare(Fdsell[0],"Yes",StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                    if (string.Compare(Fdsell[0], "Yes", StringComparison.CurrentCultureIgnoreCase) == 0 ||
                          string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
                        string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
                     {
@@ -244,7 +258,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
 
             });
-            if (postDetails?.Count!=0)
+            if (postDetails?.Count != 0)
             {
                 try
                 {
@@ -256,7 +270,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 catch (Exception ex)
                 {
                     ex.DebugLog();
-                } 
+                }
             }
         }
         #endregion
