@@ -2856,6 +2856,13 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyGender">Gender</system:String>
     <system:String x:Key="LangKeyNotSpecified">Not Specified</system:String>
     <system:String x:Key="LangKeySubmit">Submit</system:String>
-
+    <system:String x:Key="LangKeyRemoveVote">Remove Vote</system:String>
+    <system:String x:Key="LangKeySecondsBetweenEachTry">Seconds Between Each Try.</system:String>
+    <system:String x:Key="LangKeySecondsBetweenEachLikeComments">Seconds Between Each Like Comments.</system:String>
+    <system:String x:Key="LangKeyRemoveVotePerDay">Number Of Upvote Per Day</system:String>
+    <system:String x:Key="LangKeyRemoveVotePerHour">Number Of Upvote Per Hour</system:String>
+    <system:String x:Key="LangKeyRemoveVotePerJob">Number Of Upvote Per Job</system:String>
+    <system:String x:Key="LangKeyRemoveVotePerWeek">Number Of Upvote Per Week</system:String>
+    <system:String x:Key="LangKeyMaxRemoveVotePerDay">Max Remove Votes Per Day</system:String>
     <!-- End Log Constants -->
 </ResourceDictionary>
