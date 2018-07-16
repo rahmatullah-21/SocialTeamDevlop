@@ -29,7 +29,7 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 
-                    <Label Content="{DynamicResource LangKeyCreateCampaign}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                    <Label Content="{Binding PageTitle}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
             </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
@@ -113,7 +113,7 @@
                              Name="TextBoxCampaignName" 
                              Width="250" 
                              HorizontalAlignment="Left" 
-                             Margin="10,5" IsReadOnly="{Binding IsCampaignNameEdit}"
+                             Margin="10,5" 
                              Text="{Binding PublisherCreateCampaignModel.CampaignName,UpdateSourceTrigger=PropertyChanged}"/>
 
                     <metroControls:ToggleSwitch VerticalAlignment="Center" 

@@ -8,7 +8,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl;
@@ -26,6 +28,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             MultiplePostCommand = new BaseCommand<object>(CanExecuteMultiPost, ExecuteMultiPost);
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);
+            SaveCurrentPostCommand = new BaseCommand<object>(CanExecuteSaveSinglePost, CanSaveSinglePost);
         }
 
 
@@ -43,6 +46,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand MultiplePostCommand { get; set; }
         public ICommand ImportFromCsvCommand { get; set; }
         public ICommand SearchCommand { get; set; }
+
+        public ICommand SaveCurrentPostCommand { get; set; }
 
         private PostDetailsModel _postDetailsModel = new PostDetailsModel();
 
@@ -101,6 +106,45 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Methods
 
+        public bool CanExecuteSaveSinglePost(object sender) => true;
+
+        public void CanSaveSinglePost(object sender)
+        {
+
+            try
+            {
+                if (!string.IsNullOrEmpty(PostDetailsModel.PostDescription) ||
+                        PostDetailsModel.MediaList.Count > 0 ||
+                        !string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle) ||
+                        !string.IsNullOrEmpty(PostDetailsModel.PdSourceUrl))
+
+                {
+                    var postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                        .PublisherCreateCampaignModel.LstPostDetailsModels;
+
+                    var cloneObject = PostDetailsModel.DeepClone();
+                    cloneObject.CreatedDateTime = DateTime.Now;
+                    cloneObject.PostDetailsId = Utilities.GetGuid();
+                    postDetails.Add(cloneObject);
+                    PostDetailsModel = new PostDetailsModel();
+                    var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
+                    publisherDirectPosts.PostContentControl.SetMedia();
+                    publisherDirectPosts.ImageMediaViewer.Initialize();
+                    var loggerMessage = new Func<string>(Application.Current.FindResource("LangKeyPostSaved").ToString).Invoke();
+                    if (!string.IsNullOrEmpty(loggerMessage))
+                    {
+                        GlobusLogHelper.log.Info(loggerMessage);
+                    }
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+           
+        }
+
         public bool CanExecuteMultiPost(object sender) => true;
 
         public void ExecuteMultiPost(object sender)
@@ -130,6 +174,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
 
                 PostDetailsModel.MediaList = new ObservableCollection<string>(ImageExtracter.ExtractImageUrls(PostDetailsModel.ImagesUrl));
+
+                ObservableCollection<PostDetailsModel> postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels;
+
+                foreach (var image in PostDetailsModel.MediaList)
+                {
+                    var publisherMediaViewerModel = new PublisherMediaViewerModel { MediaList = new ObservableCollection<string> { image } };
+
+                    var postDetailsModel = new PostDetailsModel
+                    {
+                        MediaList = new ObservableCollection<string> { image },
+                        PostDetailsId = Utilities.GetGuid(),
+                        PostDescription = new Uri(image).Segments.Last(),
+                        CreatedDateTime = DateTime.Now,
+                        MediaViewer = publisherMediaViewerModel,
+                    };
+                    postDetails.Add(postDetailsModel);
+                }
+
                 mediaViewer.MediaList = PostDetailsModel.MediaList;
                 mediaViewer?.Initialize();
             }
@@ -174,7 +237,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     #region FdSell
 
                     var Fdsell = Regex.Split(allData[4], separator);
-                    if ( string.Compare(Fdsell[0],"Yes",StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                    if (string.Compare(Fdsell[0], "Yes", StringComparison.CurrentCultureIgnoreCase) == 0 ||
                          string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
                        string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
                     {
@@ -184,6 +247,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         postDetailsModel.FdSellLocation = Fdsell[3];
                     }
                     #endregion
+                    postDetailsModel.CreatedDateTime = DateTime.Now;
+                    postDetailsModel.PostDetailsId = Utilities.GetGuid();
+
                     postDetails.Add(postDetailsModel);
                 }
                 catch (Exception ex)
@@ -192,7 +258,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
 
             });
-            if (postDetails?.Count!=0)
+            if (postDetails?.Count != 0)
             {
                 try
                 {
@@ -204,7 +270,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 catch (Exception ex)
                 {
                     ex.DebugLog();
-                } 
+                }
             }
         }
         #endregion

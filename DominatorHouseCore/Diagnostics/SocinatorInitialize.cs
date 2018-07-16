@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Management;
 using System.Windows;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
@@ -240,25 +241,47 @@ namespace DominatorHouseCore.Diagnostics
 
         public static string GetFixtures()
         {
-            var fixtures = string.Empty;
+            var uuid = string.Empty;
             try
             {
-                foreach (var nic in NetworkInterface.GetAllNetworkInterfaces())
+                var ComputerName = "localhost";
+                var scope = new ManagementScope($"\\\\{ComputerName}\\root\\CIMV2", null);
+                scope.Connect();
+                var query = new ObjectQuery("SELECT UUID FROM Win32_ComputerSystemProduct");
+                var searcher = new ManagementObjectSearcher(scope, query);
+                foreach (var wmiObject in searcher.Get())
                 {
-                    if (nic.OperationalStatus != OperationalStatus.Up)
-                        continue;
-
-                    if (!string.IsNullOrEmpty(fixtures))
-                        break;
-
-                    fixtures += nic.GetPhysicalAddress().ToString();
+                    uuid = wmiObject["UUID"].ToString();
                 }
+
+                var split = Regex.Split(uuid, "-");
+                return split.Last();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine(ex.Message);
+                e.DebugLog($"Exception {e.Message} Trace {e.StackTrace}");
             }
-            return fixtures;
+            return null;
+
+            //var fixtures = string.Empty;
+            //try
+            //{
+            //    foreach (var nic in NetworkInterface.GetAllNetworkInterfaces())
+            //    {
+            //        if (nic.OperationalStatus != OperationalStatus.Up)
+            //            continue;
+
+            //        if (!string.IsNullOrEmpty(fixtures))
+            //            break;
+
+            //        fixtures += nic.GetPhysicalAddress().ToString();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
+            //return fixtures;
         }
 
         public static async Task<HashSet<SocialNetworks>> LogIndividualNetworksExceptions(string exemption)

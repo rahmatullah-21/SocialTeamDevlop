@@ -10,6 +10,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Request;
 using HtmlAgilityPack;
 using System.Threading.Tasks;
+using DominatorHouseCore.Diagnostics;
 
 namespace DominatorHouseCore.Utility
 {
@@ -50,10 +51,14 @@ namespace DominatorHouseCore.Utility
                             .Replace("[FeedDescription]", description)
                             .Replace("[FeedUrl]", link)
                             .Replace("[FeedPublishedDate]", pubDate)),
-                        ShareUrl = link
+                        ShareUrl = link,
+                        PdSourceUrl = link,
+                        PublisherInstagramTitle = title,
                     }).ToList();
 
                 PostlistFileManager.AddRange(campaignId, postlists);
+                var publisherInitialize = PublisherInitialize.GetInstance;
+                publisherInitialize.UpdatePostCounts(campaignId);
             }
             catch (Exception ex)
             {

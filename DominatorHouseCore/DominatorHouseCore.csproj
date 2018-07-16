@@ -137,6 +137,7 @@
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.108.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -334,6 +335,7 @@
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Accounts\OwnChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\UnfollowedUsers.cs" />

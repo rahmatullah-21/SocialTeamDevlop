@@ -84,7 +84,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void ExecuteCreateNewPost(object sender)
         {
-            PostDetailsModel postDetailsModel = new PostDetailsModel();
+            PostDetailsModel postDetailsModel = new PostDetailsModel
+            {
+                CreatedDateTime = DateTime.Now,
+                PostDetailsId = Utilities.GetGuid()
+            };
             LstPostDetailsModel.Add(postDetailsModel);
             PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
@@ -135,6 +139,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         postDetailsModel.FdSellLocation = Fdsell[3];
                     }
                     #endregion
+
+                    postDetailsModel.CreatedDateTime = DateTime.Now;
+                    postDetailsModel.PostDetailsId = Utilities.GetGuid();
 
                     LstPostDetailsModel.Add(postDetailsModel);
                 }

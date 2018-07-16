@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
@@ -20,9 +19,9 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
 using DominatorUIUtility.Views.Publisher.AdvancedSettings;
-using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
@@ -54,29 +53,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             JobConfigurationControl = JobConfiguration;
 
-            JobConfiguration.IsAllowEdit = true;
+
         }
 
 
         #region Properties
-
-
-
-        private bool _isCampaignNameEdit;
-
-        public bool IsCampaignNameEdit
-        {
-            get
-            {
-                return _isCampaignNameEdit;
-            }
-            set
-            {
-                _isCampaignNameEdit = value;
-                OnPropertyChanged(nameof(IsCampaignNameEdit));
-            }
-        }
-
 
         private PublisherCreateCampaignModel _publisherCreateCampaignModel = new PublisherCreateCampaignModel();
 
@@ -147,6 +128,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
+
+        private string _pageTitle;
+
+        public string PageTitle
+        {
+            get
+            {
+                return _pageTitle;
+            }
+            set
+            {
+                if (_pageTitle == value)
+                    return;
+
+                _pageTitle = value;
+
+                OnPropertyChanged(nameof(PageTitle));
+            }
+        }
+
+
         #region Command
         public ICommand NavigationCommand { get; set; }
         public ICommand SaveCommand { get; set; }
@@ -222,6 +224,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 case "Back":
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
                         = PublisherDefaultPage.Instance();
+                    ClearCurrentCampaigns();
                     break;
             }
         }
@@ -243,16 +246,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 return;
             }
 
+
             try
             {
+                var generalSettingsModel = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel;
+
                 #region Saving Campign to PublisherCampaign.bin file
 
-                var generalSettingsModel = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel;
 
                 var lstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
                     ConstantVariable.GetPublisherCampaignFile());
 
-                if (!string.IsNullOrEmpty(SelectedItem) || lstCampaign.Any(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId))
+                PublisherCreateCampaignModel.PostDetailsModel = new PostDetailsModel();
+
+                if (lstCampaign.Any(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId))
                 {
                     var campaignIndex = lstCampaign.IndexOf(lstCampaign.FirstOrDefault(x => x.CampaignName == SelectedItem));
 
@@ -264,94 +271,128 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 else
                 {
+
+
                     if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully saved.");
 
-                    CampaignList.Add(PublisherCreateCampaignModel.CampaignName);  
+                    CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
                 }
 
                 #endregion
 
                 #region Saving post
 
-                PostlistFileManager.SaveAll(PublisherCreateCampaignModel.CampaignId, new List<PublisherPostlistModel>());
+                //var postlist = PostlistFileManager.GetAll(PublisherCreateCampaignModel.CampaignId)
+                //    .Where(x => x.PostQueuedStatus == PostQueuedStatus.Published).ToList();
+
+                //PostlistFileManager.SaveAll(PublisherCreateCampaignModel.CampaignId, postlist);
 
                 var publisherPostlistModel = new PublisherPostlistModel
                 {
                     CampaignId = PublisherCreateCampaignModel.CampaignId,
                     CreatedTime = DateTime.Now,
                     PostSource = PostSource.NormalPost,
-                    PostCategory = PublisherCreateCampaignModel.PostDetailsModel.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
                     PostQueuedStatus = PostQueuedStatus.Pending,
                     PostRunningStatus = PostRunningStatus.Active,
-                    ExpiredTime = DateTime.Today.AddDays(10),
-                    FdPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.FdPostSettings,
-                    GdPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.GdPostSettings,
-                    TdPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.TdPostSettings,
-                    LdPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.LdPostSettings,
-                    TumberPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.TumberPostSettings,
-                    RedditPostSetting = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.RedditPostSetting,
                 };
 
-                if (PublisherCreateCampaignModel.PostDetailsModel.IsSinglePost)
-                {
-                    publisherPostlistModel.PostId = Utilities.GetGuid();
-                    publisherPostlistModel.PostDescription = PublisherCreateCampaignModel.PostDetailsModel.PostDescription;
-                    publisherPostlistModel.MediaList = PublisherCreateCampaignModel.PostDetailsModel.MediaViewer.MediaList;
-                    publisherPostlistModel.PublisherInstagramTitle =
-                        PublisherCreateCampaignModel.PostDetailsModel.PublisherInstagramTitle;
-                    publisherPostlistModel.PdSourceUrl = PublisherCreateCampaignModel.PostDetailsModel.PdSourceUrl;
-                    publisherPostlistModel.FdSellLocation =
-                        PublisherCreateCampaignModel.PostDetailsModel.FdSellLocation;
-                    publisherPostlistModel.FdSellPrice = PublisherCreateCampaignModel.PostDetailsModel.FdSellPrice;
-                    publisherPostlistModel.FdSellProductTitle =
-                        PublisherCreateCampaignModel.PostDetailsModel.FdSellProductTitle;
-                    publisherPostlistModel.IsFdSellPost =
-                        PublisherCreateCampaignModel.PostDetailsModel.IsFdSellPost;
+                //if (PublisherCreateCampaignModel.PostDetailsModel.IsSinglePost)
+                //{                  
+                //    publisherPostlistModel.PostDescription = PublisherCreateCampaignModel.PostDetailsModel.PostDescription;
+                //    publisherPostlistModel.MediaList = PublisherCreateCampaignModel.PostDetailsModel.MediaViewer.MediaList;
+                //    publisherPostlistModel.PublisherInstagramTitle =
+                //        PublisherCreateCampaignModel.PostDetailsModel.PublisherInstagramTitle;
+                //    publisherPostlistModel.PdSourceUrl = PublisherCreateCampaignModel.PostDetailsModel.PdSourceUrl;
+                //    publisherPostlistModel.FdSellLocation =
+                //        PublisherCreateCampaignModel.PostDetailsModel.FdSellLocation;
+                //    publisherPostlistModel.FdSellPrice = PublisherCreateCampaignModel.PostDetailsModel.FdSellPrice;
+                //    publisherPostlistModel.FdSellProductTitle =
+                //        PublisherCreateCampaignModel.PostDetailsModel.FdSellProductTitle;
+                //    publisherPostlistModel.IsFdSellPost =
+                //        PublisherCreateCampaignModel.PostDetailsModel.IsFdSellPost;
 
-                    if (!string.IsNullOrEmpty(publisherPostlistModel.PostDescription) ||
-                        publisherPostlistModel.MediaList.Count > 0 ||
-                        !string.IsNullOrEmpty(publisherPostlistModel.PublisherInstagramTitle) ||
-                        !string.IsNullOrEmpty(publisherPostlistModel.PdSourceUrl))
+                //    publisherPostlistModel.CreatedTime = PublisherCreateCampaignModel.PostDetailsModel.CreatedDateTime;
+                //    publisherPostlistModel.PostId = PublisherCreateCampaignModel.PostDetailsModel.PostDetailsId;
+                //    if (!string.IsNullOrEmpty(publisherPostlistModel.PostDescription) ||
+                //        publisherPostlistModel.MediaList.Count > 0 ||
+                //        !string.IsNullOrEmpty(publisherPostlistModel.PublisherInstagramTitle) ||
+                //        !string.IsNullOrEmpty(publisherPostlistModel.PdSourceUrl))
+                //    {
+                //        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+                //    }
+                //}
+                //else if (PublisherCreateCampaignModel.PostDetailsModel.IsMultiPost)
+                //if (PublisherCreateCampaignModel.PostDetailsModel.IsMultiPost)
+                //{
+
+
+
+                var postIdlist = PostlistFileManager.GetAll(PublisherCreateCampaignModel.CampaignId).Select(x => x.PostId).ToList();
+
+                foreach (var post in PublisherCreateCampaignModel.LstPostDetailsModels)
+                {
+                    AddPostlists(postIdlist, post);
+
+                    if (!post.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
+                        continue;
+                    for (var readdCount = 1; readdCount < post.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdCount++)
                     {
-                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+                        var newpost = post.DeepClone();
+                        newpost.PostDetailsId = Utilities.GetGuid();
+                        AddPostlists(postIdlist, newpost);
                     }
                 }
-                else if (PublisherCreateCampaignModel.PostDetailsModel.IsMultiPost)
-                {
-                    PublisherCreateCampaignModel.LstPostDetailsModels.ForEach(post =>
-                    {
-                        publisherPostlistModel.PostId = Utilities.GetGuid();
-                        publisherPostlistModel.PostDescription = post.PostDescription;
-                        publisherPostlistModel.MediaList = post.MediaViewer.MediaList;
-                        publisherPostlistModel.PublisherInstagramTitle = post.PublisherInstagramTitle;
-                        publisherPostlistModel.PdSourceUrl = post.PdSourceUrl;
-                        publisherPostlistModel.FdSellLocation = post.FdSellLocation;
-                        publisherPostlistModel.FdSellPrice = post.FdSellPrice;
-                        publisherPostlistModel.FdSellProductTitle = post.FdSellProductTitle;
-                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
-                    });
-                }
-                else
-                {
-                    var images = PublisherCreateCampaignModel.PostDetailsModel.MediaList;
 
-                    if (PublisherCreateCampaignModel.PostDetailsModel.IsUniquePost)
-                    {
-                        images = new ObservableCollection<string>(images.ToList().Distinct());
-                    }
+                // }
+                //else if (PublisherCreateCampaignModel.PostDetailsModel.IsMultipleImagePost)
+                //{
+                //    var postlist = PostlistFileManager.GetAll(PublisherCreateCampaignModel.CampaignId);
 
-                    images.ForEach(image =>
-                    {
-                        publisherPostlistModel.MediaList = new ObservableCollection<string> { image };
-                        publisherPostlistModel.PostId = Utilities.GetGuid();
-                        if (PublisherCreateCampaignModel.PostDetailsModel.IsUseFileNameAsDescription)
-                        {
-                            publisherPostlistModel.PostDescription = new Uri(image).Segments.Last();
-                        }
-                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
-                    });
-                }
+                //    var postIdlist = postlist.Select(x => x.PostId).ToList();
+
+                //    foreach (var post in PublisherCreateCampaignModel.LstPostDetailsModels)
+                //    {
+                //        if (!PublisherCreateCampaignModel.PostDetailsModel.IsUseFileNameAsDescription)
+                //        {
+                //            publisherPostlistModel.PostDescription = string.Empty;
+                //        }
+
+                //        publisherPostlistModel.PostDescription = post.PostDescription;
+                //        publisherPostlistModel.MediaList = post.MediaViewer.MediaList;
+                //        publisherPostlistModel.PublisherInstagramTitle = post.PublisherInstagramTitle;
+                //        publisherPostlistModel.PdSourceUrl = post.PdSourceUrl;
+                //        publisherPostlistModel.FdSellLocation = post.FdSellLocation;
+                //        publisherPostlistModel.FdSellPrice = post.FdSellPrice;
+                //        publisherPostlistModel.FdSellProductTitle = post.FdSellProductTitle;
+                //        publisherPostlistModel.CreatedTime = post.CreatedDateTime;
+                //        publisherPostlistModel.PostId = post.PostDetailsId;
+                //        if (postIdlist.Contains(post.PostDetailsId))
+                //            PostlistFileManager.UpdatePost(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+                //        else
+                //            PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+
+                //    }
+
+                //    //var images = PublisherCreateCampaignModel.PostDetailsModel.MediaList;
+
+                //    //    if (PublisherCreateCampaignModel.PostDetailsModel.IsUniquePost)
+                //    //    {
+                //    //        images = new ObservableCollection<string>(images.ToList().Distinct());
+                //    //    }
+
+                //    //    images.ForEach(image =>
+                //    //    {
+                //    //        publisherPostlistModel.MediaList = new ObservableCollection<string> { image };
+                //    //        publisherPostlistModel.PostId = Utilities.GetGuid();
+                //    //        if (PublisherCreateCampaignModel.PostDetailsModel.IsUseFileNameAsDescription)
+                //    //        {
+                //    //            publisherPostlistModel.PostDescription = new Uri(image).Segments.Last();
+                //    //        }
+                //    //        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+                //    //    });
+
+                //}
 
                 if (PublisherCreateCampaignModel.SharePostModel.IsShareCustomPostList)
                 {
@@ -374,8 +415,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 GenericFileManager.Delete<PublisherPostFetchModel>(y => PublisherCreateCampaignModel.CampaignId == y.CampaignId, ConstantVariable.GetPublisherPostFetchFile);
 
                 var currentCampaignsFetchDetails = new List<PublisherPostFetchModel>();
-
-
 
                 #region DirectPostPosts
 
@@ -484,6 +523,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 #region Updating PublisherDefaultPage
 
+
                 var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                 {
                     CampaignName = PublisherCreateCampaignModel.CampaignName,
@@ -503,7 +543,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     MinRandomDestinationPerAccount = PublisherCreateCampaignModel.JobConfigurations.PostBetween.EndValue,
                 };
 
-                PublisherInitialize.GetInstance.AddCampaignDetails(publisherCampaignStatusModel);
+                var publishIntialize = PublisherInitialize.GetInstance;
+                publishIntialize.AddCampaignDetails(publisherCampaignStatusModel);
+
+
 
                 #region Update Destination
 
@@ -517,6 +560,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 ClearCurrentCampaigns();
 
                 #endregion
+
+
+
+
+
+                PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
+                    = PublisherDefaultPage.Instance();
             }
             catch (Exception ex)
             {
@@ -524,13 +574,51 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        private void AddPostlists(List<string> postIdlist, PostDetailsModel post)
+        {
+            var postlistModel = new PublisherPostlistModel
+            {
+                CampaignId = PublisherCreateCampaignModel.CampaignId,
+                CreatedTime = DateTime.Now,
+                PostSource = PostSource.NormalPost,
+                PostQueuedStatus = PostQueuedStatus.Pending,
+                PostRunningStatus = PostRunningStatus.Active,
+                PostDescription = post.PostDescription,
+                MediaList = post.MediaViewer.MediaList,
+                PublisherInstagramTitle = post.PublisherInstagramTitle,
+                PdSourceUrl = post.PdSourceUrl,
+                FdSellLocation = post.FdSellLocation,
+                FdSellPrice = post.FdSellPrice,
+                FdSellProductTitle = post.FdSellProductTitle,
+                PostId = post.PostDetailsId,
+                GeneralPostSettings = post.PublisherPostSettings.GeneralPostSettings,
+                FdPostSettings = post.PublisherPostSettings.FdPostSettings,
+                GdPostSettings = post.PublisherPostSettings.GdPostSettings,
+                TdPostSettings = post.PublisherPostSettings.TdPostSettings,
+                LdPostSettings = post.PublisherPostSettings.LdPostSettings,
+                TumberPostSettings = post.PublisherPostSettings.TumberPostSettings,
+                RedditPostSetting = post.PublisherPostSettings.RedditPostSetting,
+                ExpiredTime = DateTime.Today.AddYears(2),
+                PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
+            };
+
+            postlistModel.CreatedTime = post.CreatedDateTime;
+
+            if (postIdlist.Contains(post.PostDetailsId))
+                PostlistFileManager.UpdatePost(PublisherCreateCampaignModel.CampaignId, postlistModel);
+            else
+                PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, postlistModel);
+        }
+
         public void ClearCurrentCampaigns()
         {
             PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
             PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
+            CampaignList = new ObservableCollection<string>(
+                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
             SelectedItem = null;
+            PageTitle = Application.Current.FindResource("LangKeyCreateCampaign")?.ToString();
             SetDataContext();
-            IsCampaignNameEdit = true;
         }
 
         private bool SelectDestinationCanExecute(object sender) => true;
@@ -568,16 +656,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                IsCampaignNameEdit = false;
                 var campaignlists = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
                     (ConstantVariable.GetPublisherCampaignFile());
 
                 PublisherCreateCampaignModel = campaignlists.FirstOrDefault(x => x.CampaignName == (string)sender);
                 BindTabItemsControlProperties();
+                PageTitle = Application.Current.FindResource("LangKeyEditCampaign")?.ToString();
                 SetDataContext();
-
-                JobConfiguration.IsAllowEdit = IsCampaignNameEdit;
-
             }
             catch (Exception)
             {

@@ -9,9 +9,15 @@ namespace DominatorHouseCore.Utility
     {
         public static string GetSpinText(string content)
         {
-            var spintexCollection = GetSpinMessageCollection(content);
-            var randomNumber = RandomUtilties.GetRandomNumber(spintexCollection.Count - 1);
-            return spintexCollection[randomNumber];
+            const string pattern = @"\(([^)]*)\)";
+            var match = Regex.Match(content, pattern);
+            if (match.Success)
+            {
+                var spintexCollection = GetSpinMessageCollection(content);
+                var randomNumber = RandomUtilties.GetRandomNumber(spintexCollection.Count - 1);
+                return spintexCollection[randomNumber];
+            }
+            return content;
         }
 
         public static List<string> GetSpinMessageCollection(string content)
