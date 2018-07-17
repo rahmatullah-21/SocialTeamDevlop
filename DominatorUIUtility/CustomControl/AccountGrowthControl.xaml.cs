@@ -122,9 +122,9 @@ namespace DominatorUIUtility.CustomControl
             {
                 x.IsAccountManagerAccountSelected = false;
                 var AccoutGrowth = accountUpdateFactory.GetDailyGrowth(x.AccountId, x.AccountBaseModel.ProfileId, period);
-                x.FollowersGrowth = AccoutGrowth != null ? AccoutGrowth.Followers : 0;
-                x.FollowingsGrowth = AccoutGrowth != null ? AccoutGrowth.Followings : 0;
-                x.TweetGrowth = AccoutGrowth != null ? AccoutGrowth.Tweets : 0;
+                x.DisplayColumnValue4 = AccoutGrowth != null ? AccoutGrowth.Followers : 0;
+                x.DisplayColumnValue5 = AccoutGrowth != null ? AccoutGrowth.Followings : 0;
+                x.DisplayColumnValue6 = AccoutGrowth != null ? AccoutGrowth.Tweets : 0;
                 return x;
             }).ToList();
             listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == socialNetworks;

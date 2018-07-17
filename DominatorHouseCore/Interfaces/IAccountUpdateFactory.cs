@@ -12,7 +12,7 @@ namespace DominatorHouseCore.Interfaces
 
         void UpdateDetails(DominatorAccountModel accountModel);
 
-        DailyGrowth GetDailyGrowth(string accuntId, string username, GrowthPeriod period);
+        DailyStatitics GetDailyGrowth(string accuntId, string username, GrowthPeriod period);
     }
     public interface IAccountUpdateFactoryAsync: IAccountUpdateFactory
     {
