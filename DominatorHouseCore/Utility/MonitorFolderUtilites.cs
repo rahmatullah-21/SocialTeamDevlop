@@ -9,6 +9,7 @@ using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Patterns;
 using Shell32;
 
 namespace DominatorHouseCore.Utility
@@ -48,7 +49,7 @@ namespace DominatorHouseCore.Utility
             return lstDetailedFileInfo;
         }
 
-        public void GetFoldersFileDetails(string folderpath, string campaignId, string postTemplate)
+        public void GetFoldersFileDetails(string folderpath, string campaignId, string postTemplate, PostDetailsModel postDetailsModel)
         {
             try
             {
@@ -68,13 +69,28 @@ namespace DominatorHouseCore.Utility
                         MediaList = new ObservableCollection<string> { mediaUtilites.GetThumbnail(file) },
                         CampaignId = campaignId,
                         CreatedTime = DateTime.Now,
-                        ExpiredTime = DateTime.Now.AddYears(2),
+                        ExpiredTime = postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate ?
+                            postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate
+                            : DateTime.Now.AddYears(2),
                         PostId = Utilities.GetGuid(),
                         PostCategory = PostCategory.OrdinaryPost,
                         PostQueuedStatus = PostQueuedStatus.Pending,
                         PostRunningStatus = PostRunningStatus.Active,
                         PostSource = PostSource.MonitorFolderPost,
-                        MonitorFilePath = file
+                        MonitorFilePath = file,
+                        PdSourceUrl = postDetailsModel.PdSourceUrl,
+                        PublisherInstagramTitle = postDetailsModel.PublisherInstagramTitle,
+                        GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
+                        FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
+                        GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
+                        TdPostSettings = postDetailsModel.PublisherPostSettings.TdPostSettings,
+                        LdPostSettings = postDetailsModel.PublisherPostSettings.LdPostSettings,
+                        TumberPostSettings = postDetailsModel.PublisherPostSettings.TumberPostSettings,
+                        RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
+                        FdSellLocation = postDetailsModel.FdSellLocation,
+                        FdSellPrice = postDetailsModel.FdSellPrice,
+                        FdSellProductTitle = postDetailsModel.FdSellProductTitle,
+                        IsFdSellPost = postDetailsModel.IsFdSellPost,
                     };
 
                     var fileDetails = GetDetailedFileInfo(file);
@@ -152,6 +168,32 @@ namespace DominatorHouseCore.Utility
                         postlists.Add(publisherPostlistModel);
                     }
                 });
+
+
+                if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
+                {
+                    var duplicatedPostlist = new List<PublisherPostlistModel>();
+
+                    foreach (var post in postlists)
+                    {
+                        try
+                        {
+                            for (var readdIndex = 1; readdIndex < postDetailsModel.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdIndex++)
+                            {
+                                var newPost = post.DeepClone();
+                                newPost.PostId = Utilities.GetGuid();
+                                duplicatedPostlist.Add(newPost);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    }
+
+                    postlists.AddRange(duplicatedPostlist);
+                }
+
 
                 PostlistFileManager.AddRange(campaignId, postlists);
 

@@ -528,6 +528,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 FdSellLocation = post.FdSellLocation,
                 FdSellPrice = post.FdSellPrice,
                 FdSellProductTitle = post.FdSellProductTitle,
+                IsFdSellPost = post.IsFdSellPost,
                 PostId = post.PostDetailsId,
                 GeneralPostSettings = post.PublisherPostSettings.GeneralPostSettings,
                 FdPostSettings = post.PublisherPostSettings.FdPostSettings,
@@ -640,11 +641,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             publisherMonitorFolder.PublisherMonitorFolderViewModel.LstFolderPath =
                 PublisherCreateCampaignModel.LstFolderPath;
+            publisherMonitorFolder.PublisherMonitorFolderViewModel.PublisherMonitorFolderModel = new PublisherMonitorFolderModel();
+            publisherMonitorFolder.PostContentControl.SetMedia();
         }
         private void SetPublisherRssFeedData(PublisherRssFeed publisherRssFeed)
         {
             publisherRssFeed.PublisherRssFeedViewModel.LstFeedUrl =
                 PublisherCreateCampaignModel.LstFeedUrl;
+            publisherRssFeed.PublisherRssFeedViewModel.PublisherRssFeedModel = new PublisherRssFeedModel();
+            publisherRssFeed.PostContentControl.SetMedia();
         }
         private void SetPostContectData(PublisherDirectPosts publisherDirectPosts)
         {
