@@ -11,12 +11,13 @@ using DominatorHouseCore.Request;
 using HtmlAgilityPack;
 using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Patterns;
 
 namespace DominatorHouseCore.Utility
 {
     public class RssFeedUtilities
     {
-        public async Task RssFeedFetchMethod(string feedUrl, string feedTemplate, string campaignId)
+        public async Task RssFeedFetchMethod(string feedUrl, string feedTemplate, PostDetailsModel postDetailsModel, string campaignId)
         {
             try
             {
@@ -28,33 +29,72 @@ namespace DominatorHouseCore.Utility
                 var htmlDoc = new HtmlDocument();
                 htmlDoc.LoadHtml(htmlResponse.Response);
                 var postItems = htmlDoc.DocumentNode.Descendants("item");
+
                 var postlists = (from node in postItems
-                    let innerHtml = node.InnerHtml
-                    let title = RemoveCdata(node.Element("title").InnerHtml)
-                    let description = RemoveCdata(node.Element("description").InnerHtml)
-                    let link = RemoveCdata(node.Element("link").NextSibling.InnerText)
-                    let pubDate = RemoveCdata(node.Element("pubdate").InnerHtml)
-                    let url = RemoveCdata(node.Element("url")?.InnerHtml)
-                    where !postdetails.Contains(link)
-                    select new PublisherPostlistModel
+                                 let innerHtml = node.InnerHtml
+                                 let title = RemoveCdata(node.Element("title").InnerHtml)
+                                 let description = RemoveCdata(node.Element("description").InnerHtml)
+                                 let link = RemoveCdata(node.Element("link").NextSibling.InnerText)
+                                 let pubDate = RemoveCdata(node.Element("pubdate").InnerHtml)
+                                 let url = RemoveCdata(node.Element("url")?.InnerHtml)
+                                 where !postdetails.Contains(link)
+                                 select new PublisherPostlistModel
+                                 {
+                                     MediaList = new ObservableCollection<string>(postDetailsModel.MediaViewer.MediaList),
+                                     CampaignId = campaignId,
+                                     CreatedTime = DateTime.Now,
+                                     ExpiredTime = postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate ?
+                                     postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate
+                                     : DateTime.Now.AddYears(2),
+                                     PostId = Utilities.GetGuid(),
+                                     PostCategory = PostCategory.OrdinaryPost,
+                                     PostQueuedStatus = PostQueuedStatus.Pending,
+                                     PostRunningStatus = PostRunningStatus.Active,
+                                     PostSource = PostSource.RssFeedPost,
+                                     PostDescription = WebUtility.HtmlDecode(feedTemplate.Replace("[FeedTitle]", title)
+                                         .Replace("[FeedDescription]", description)
+                                         .Replace("[FeedUrl]", link)
+                                         .Replace("[FeedPublishedDate]", pubDate)),
+                                     ShareUrl = link,
+                                     PdSourceUrl = postDetailsModel.PdSourceUrl.Replace("[FeedUrl]", link),
+                                     PublisherInstagramTitle = postDetailsModel.PublisherInstagramTitle.Replace("[FeedTitle]", title),
+                                     GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
+                                     FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
+                                     GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
+                                     TdPostSettings = postDetailsModel.PublisherPostSettings.TdPostSettings,
+                                     LdPostSettings = postDetailsModel.PublisherPostSettings.LdPostSettings,
+                                     TumberPostSettings = postDetailsModel.PublisherPostSettings.TumberPostSettings,
+                                     RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
+                                     FdSellLocation = postDetailsModel.FdSellLocation,
+                                     FdSellPrice = postDetailsModel.FdSellPrice,
+                                     FdSellProductTitle = postDetailsModel.FdSellProductTitle,
+                                     IsFdSellPost = postDetailsModel.IsFdSellPost,
+                                 }).ToList();
+
+
+                if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
+                {
+                    var duplicatedPostlist = new List<PublisherPostlistModel>();
+
+                    foreach (var post in postlists)
                     {
-                        MediaList = new ObservableCollection<string>(),
-                        CampaignId = campaignId,
-                        CreatedTime = DateTime.Now,
-                        ExpiredTime = DateTime.Now.AddYears(1),
-                        PostId = Utilities.GetGuid(),
-                        PostCategory = PostCategory.OrdinaryPost,
-                        PostQueuedStatus = PostQueuedStatus.Pending,
-                        PostRunningStatus = PostRunningStatus.Active,
-                        PostSource = PostSource.RssFeedPost,
-                        PostDescription = WebUtility.HtmlDecode(feedTemplate.Replace("[FeedTitle]", title)
-                            .Replace("[FeedDescription]", description)
-                            .Replace("[FeedUrl]", link)
-                            .Replace("[FeedPublishedDate]", pubDate)),
-                        ShareUrl = link,
-                        PdSourceUrl = link,
-                        PublisherInstagramTitle = title,
-                    }).ToList();
+                        try
+                        {
+                            for (var readdIndex = 1; readdIndex < postDetailsModel.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdIndex++)
+                            {
+                                var newPost = post.DeepClone();
+                                newPost.PostId = Utilities.GetGuid();
+                                duplicatedPostlist.Add(newPost);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    }
+
+                    postlists.AddRange(duplicatedPostlist);
+                }
 
                 PostlistFileManager.AddRange(campaignId, postlists);
                 var publisherInitialize = PublisherInitialize.GetInstance;

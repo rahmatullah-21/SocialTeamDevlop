@@ -89,7 +89,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private PostDetailsModel _postDetailsModel { get; set; } = new PostDetailsModel();
+        private PostDetailsModel _postDetailsModel = new PostDetailsModel();
 
         [ProtoMember(7)]
         public PostDetailsModel PostDetailsModel
