@@ -167,10 +167,10 @@
                         </Style>
                     </CheckBox.Style>
                 </CheckBox>
-                <StackPanel Orientation="Horizontal" x:Name="cmbFilterBytag" Margin="30,0"
+                <StackPanel Orientation="Horizontal" x:Name="cmbFilterBytag" Margin="5,0"
                             Visibility="{Binding ElementName=FilterByGroup, Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource LangKeySelectTag}"/>
-                    <ComboBox  Width="200" ItemsSource="{Binding ProxyManagerModel.Groups}" Name="Group" 
+                    <TextBlock VerticalAlignment="Center" Margin="5,5" Text="{DynamicResource LangKeySelectTag}"/>
+                    <ComboBox  Width="100" ItemsSource="{Binding ProxyManagerModel.Groups}" Name="Group" 
                                behaviours:SelectionChangedBehaviour.Command="{Binding GroupsChangedCommand}"/>
                 </StackPanel>
             </StackPanel>
@@ -224,13 +224,15 @@
         </StackPanel>
 
         <DataGrid Grid.Row="1" ItemsSource="{Binding ProxyManagerCollection, IsAsync=True}"
-                  AutoGenerateColumns="False" EnableRowVirtualization="False" 
+                  AutoGenerateColumns="False" EnableRowVirtualization="True" 
                   CanUserAddRows="False" Foreground="White" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                   AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   GridLinesVisibility="All" 
-                  x:Name="ProxyDataGrid" >
+                  x:Name="ProxyDataGrid" VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  ScrollViewer.IsDeferredScrollingEnabled="True">
             <DataGrid.Resources>
 
                 <DataTemplate x:Key="AccountsAssignedToTemplate">

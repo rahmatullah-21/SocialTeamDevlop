@@ -37,7 +37,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _folderTemplate, value);
             }
         }
-        private string _buttonContent = "Save to List";
+        private string _buttonContent = "LangKeySaveFolderPath".FromResourceDictionary();
         [ProtoIgnore]
         public string ButtonContent
         {
@@ -50,6 +50,21 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 if (value == _buttonContent)
                     return;
                 SetProperty(ref _buttonContent, value);
+            }
+        }
+        private PostDetailsModel _postDetailsModel = new PostDetailsModel();
+        [ProtoMember(3)]
+        public PostDetailsModel PostDetailsModel
+        {
+            get
+            {
+                return _postDetailsModel;
+            }
+            set
+            {
+                if (value == _postDetailsModel)
+                    return;
+                SetProperty(ref _postDetailsModel, value);
             }
         }
     }
