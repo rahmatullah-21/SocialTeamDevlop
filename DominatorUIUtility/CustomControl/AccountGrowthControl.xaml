@@ -78,7 +78,7 @@
                         <EventSetter Event="ContextMenu.ContextMenuOpening" Handler="Row_ContextMenuOpening"/>
                         <!--<Setter Property="Foreground" Value="White"/>-->
                         <Setter Property="Height" Value="30"/>
-                        
+
                     </Style>
                 </ListView.ItemContainerStyle>
 
@@ -281,7 +281,7 @@
 
 
 
-                                                        <DataTrigger Binding="{Binding Path=FollowersGrowth, Converter={StaticResource objNegationConvertor}}" Value="true">
+                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue4, Converter={StaticResource objNegationConvertor}}" Value="true">
                                                             <Setter Property="Content" >
                                                                 <Setter.Value>
                                                                     <Rectangle Fill="#28A745" Width="20" Height="20">
@@ -295,7 +295,7 @@
                                                                 </Setter.Value>
                                                             </Setter>
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Path=FollowersGrowth, Converter={StaticResource objNegationConvertor}}" Value="false">
+                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue4, Converter={StaticResource objNegationConvertor}}" Value="false">
                                                             <Setter Property="Content" >
                                                                 <Setter.Value>
                                                                     <Rectangle Fill="#DC3545" Width="20" Height="20">
@@ -315,7 +315,7 @@
                                             </ContentControl.Style>
                                         </ContentControl>
                                         <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
-               Content="{Binding Path=FollowersGrowth, Converter={StaticResource objPositiveValueConvertor}}"/>
+               Content="{Binding Path=DisplayColumnValue4, Converter={StaticResource objPositiveValueConvertor}}"/>
                                     </StackPanel>
 
                                 </DataTemplate>
@@ -340,7 +340,7 @@
 
 
 
-                                                        <DataTrigger Binding="{Binding Path=FollowingsGrowth, Converter={StaticResource objNegationConvertor}}" Value="true">
+                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue5, Converter={StaticResource objNegationConvertor}}" Value="true">
                                                             <Setter Property="Content" >
                                                                 <Setter.Value>
                                                                     <Rectangle Fill="#28A745" Width="20" Height="20">
@@ -354,66 +354,7 @@
                                                                 </Setter.Value>
                                                             </Setter>
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Path=FollowingsGrowth, Converter={StaticResource objNegationConvertor}}" Value="false" >
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="#28A745" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </ContentControl.Style>
-                                        </ContentControl>
-                                        <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
-               Content="{Binding Path=FollowingsGrowth, Converter={StaticResource objPositiveValueConvertor}}"/>
-                                        
-                                    </StackPanel>
-
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="{DynamicResource langTweetCount}" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
-               Content="{Binding DisplayColumnValue3}"/>
-                                        <ContentControl>
-                                            <ContentControl.Style>
-                                               
-                                                <Style TargetType="{x:Type ContentControl}">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                    <Style.Triggers>
-
-
-
-
-
-                                                        <DataTrigger Binding="{Binding Path=TweetGrowth, Converter={StaticResource objNegationConvertor}}" Value="true" >
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="#28A745" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_up_arrow}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Path=TweetGrowth, Converter={StaticResource objNegationConvertor}}" Value="false" >
+                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue5, Converter={StaticResource objNegationConvertor}}" Value="false" >
                                                             <Setter Property="Content" >
                                                                 <Setter.Value>
                                                                     <Rectangle Fill="#DC3545" Width="20" Height="20">
@@ -433,13 +374,72 @@
                                             </ContentControl.Style>
                                         </ContentControl>
                                         <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
-               Content="{Binding Path=TweetGrowth, Converter={StaticResource objPositiveValueConvertor}}"/>
+               Content="{Binding Path=DisplayColumnValue5, Converter={StaticResource objPositiveValueConvertor}}"/>
+
                                     </StackPanel>
 
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        
+                        <GridViewColumn Header="{DynamicResource langTweetCount}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+               Content="{Binding DisplayColumnValue3}"/>
+                                        <ContentControl>
+                                            <ContentControl.Style>
+
+                                                <Style TargetType="{x:Type ContentControl}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                    <Style.Triggers>
+
+
+
+
+
+                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue6, Converter={StaticResource objNegationConvertor}}" Value="true" >
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#28A745" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_up_arrow}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue6, Converter={StaticResource objNegationConvertor}}" Value="false" >
+                                                            <Setter Property="Content" >
+                                                                <Setter.Value>
+                                                                    <Rectangle Fill="#DC3545" Width="20" Height="20">
+                                                                        <Rectangle.Resources>
+                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                        </Rectangle.Resources>
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+                                        <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+               Content="{Binding Path=DisplayColumnValue6, Converter={StaticResource objPositiveValueConvertor}}"/>
+                                    </StackPanel>
+
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
 
                     </GridView>
 
@@ -461,6 +461,6 @@
                 </Controls:Flyout>
             </Controls:FlyoutsControl>
         </Grid>
-       
+
     </Grid>
 </UserControl>
