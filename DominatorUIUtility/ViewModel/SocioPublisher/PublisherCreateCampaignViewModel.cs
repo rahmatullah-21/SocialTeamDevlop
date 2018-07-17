@@ -245,14 +245,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
 
             if (!PublisherCreateCampaignModel.JobConfigurations.IsCampaignHasEndDateChecked)
-            {
-                PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Active;
                 PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate = null;
-            }
 
             if (!PublisherCreateCampaignModel.JobConfigurations.IsCampaignHasStartDateChecked)
                 PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate = null;
-
 
             if (PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate != null &&
                 PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate != null &&
@@ -263,11 +259,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 return;
             }
 
-            if (PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate != null &&
-                PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate < DateTime.Now)
+            if (PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate != null
+                && PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate < DateTime.Now)
                 PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Completed;
-            else
-                PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Active;
 
             try
             {
@@ -544,7 +538,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             postlistModel.CreatedTime = post.CreatedDateTime;
 
             if (postIdlist.Contains(post.PostDetailsId))
+            {
+                var savedPost = PostlistFileManager.GetByPostId(PublisherCreateCampaignModel.CampaignId,post.PostDetailsId);
+                postlistModel.LstPublishedPostDetailsModels = savedPost.LstPublishedPostDetailsModels;
+                postlistModel.PostQueuedStatus = savedPost.PostQueuedStatus;
                 PostlistFileManager.UpdatePost(PublisherCreateCampaignModel.CampaignId, postlistModel);
+            }                
             else
                 PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, postlistModel);
         }

@@ -165,8 +165,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         {
             CampaignName = $"{name}-clone-{ConstantVariable.GetHourDateTime()}";
             CampaignId = Utilities.GetGuid();
-            CreatedDate = DateTime.Now;
-            StartDate = DateTime.Now;
+            CreatedDate = DateTime.Now;            
             IsSelected = false;
         }
 
