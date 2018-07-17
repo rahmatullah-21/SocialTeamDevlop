@@ -135,6 +135,17 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
 
 
+        public Visibility IsImportOptionsVisibility
+        {
+            get { return (Visibility)GetValue(IsImportOptionsVisibilityProperty); }
+            set { SetValue(IsImportOptionsVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsImportOptionsVisibilityProperty =
+            DependencyProperty.Register("IsImportOptionsVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Visible));
+
+
         public bool IsFdSellPost
         {
             get { return (bool)GetValue(IsFdSellPostProperty); }

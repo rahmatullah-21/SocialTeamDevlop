@@ -86,6 +86,7 @@
                                                 FdSellProductTitle="{Binding PublisherMonitorFolderModel.PostDetailsModel.FdSellProductTitle, Mode=TwoWay}"
                                                 IsFdSellPost="{Binding PublisherMonitorFolderModel.PostDetailsModel.IsFdSellPost, Mode=TwoWay}"
                                                 PdSourceUrl="{Binding PublisherMonitorFolderModel.PostDetailsModel.PdSourceUrl, Mode=TwoWay}"
+                                                        IsImportOptionsVisibility ="Collapsed"
                                                 x:Name="PostContentControl"/>
 
 
