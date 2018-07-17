@@ -202,7 +202,7 @@ namespace DominatorUIUtility.ViewModel
 
         public void StartAddingItems()
         {
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
 
                 try
@@ -236,7 +236,7 @@ namespace DominatorUIUtility.ViewModel
         {
             if (_isUncheckedFromLstProxyManagerModel)
                 return;
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 LstProxyManagerModel.Select(proxy =>
                 {
@@ -294,7 +294,7 @@ namespace DominatorUIUtility.ViewModel
             List<string> lstInvalidProxies = new List<string>();
 
 
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 foreach (var givenProxy in loadedProxylist)
                 {
@@ -857,7 +857,7 @@ namespace DominatorUIUtility.ViewModel
                 var currentProxyManager = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
                 try
                 {
-                    Task.Factory.StartNew(async () =>
+                    ThreadFactory.Instance.Start(async () =>
                     {
                         await CheckProxyAsync(currentProxyManager);
                     });
@@ -878,7 +878,7 @@ namespace DominatorUIUtility.ViewModel
                     {
                         try
                         {
-                            Task.Factory.StartNew(async () =>
+                            ThreadFactory.Instance.Start(async () =>
                             {
                                 await CheckProxyAsync(proxy);
                             });

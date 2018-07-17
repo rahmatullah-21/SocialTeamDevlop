@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.SocioPublisher;
@@ -80,18 +81,18 @@ namespace DominatorUIUtility.CustomControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void UpdateUi() => Task.Factory.StartNew(() =>
+        public void UpdateUi() => ThreadFactory.Instance.Start(() =>
         {
             _updateUiDetails.Invoke(_accountId, _accountName, this);           
         });
 
 
-        public void UpdateUiAllData() => Task.Factory.StartNew(() =>
+        public void UpdateUiAllData() => ThreadFactory.Instance.Start(() =>
         {
             _updateAllDetails.Invoke(this);
         });
 
-        public void UpdateUiSingleData() => Task.Factory.StartNew(() =>
+        public void UpdateUiSingleData() => ThreadFactory.Instance.Start(() =>
         {
             _updateSinlgeDetails.Invoke(this, _publisherCreateDestinationSelectModel);
         });

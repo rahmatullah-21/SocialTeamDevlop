@@ -14,9 +14,11 @@ using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
@@ -723,9 +725,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 else if (statusToChange.ToString() == (string)Application.Current.FindResource("LangKeyReAdd"))
                 {
                     var readdPost = post.DeepClone();
-                    readdPost.GenerateClonePostId();
+                    readdPost.GenerateNewPostId();
                     readdPost.PostQueuedStatus = PostQueuedStatus.Pending;
                     readdPost.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
+                    var generalModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                               .FirstOrDefault(x => x.CampaignId == readdPost.CampaignId) ?? new GeneralModel();
+
+                    if (!generalModel.IsKeepPostsInitialCreationDate)
+                        readdPost.CreatedTime = DateTime.Now;                  
                     PostlistFileManager.Add(readdPost.CampaignId, readdPost);
                     PublisherInitialize.GetInstance.UpdatePostStatus(publisherPostlistModel.CampaignId);
                 }
@@ -780,7 +788,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 try
                 {
-                    Task.Factory.StartNew(() =>
+                    ThreadFactory.Instance.Start(() =>
                     {
                         PublishScheduler.StartPublishingPosts(postlistModel, () =>
                         {
@@ -824,7 +832,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 var queuestatus = (PostQueuedStatus)sender;
 
-                Task.Factory.StartNew(() => ReadPostList(CampaignId, cancellationToken, queuestatus), cancellationToken.Token);
+                ThreadFactory.Instance.Start(() => ReadPostList(CampaignId, cancellationToken, queuestatus), cancellationToken.Token);
             }
             catch (OperationCanceledException ex)
             {

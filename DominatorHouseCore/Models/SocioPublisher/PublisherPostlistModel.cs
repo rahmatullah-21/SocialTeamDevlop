@@ -686,6 +686,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
             CreatedTime = DateTime.Now;
         }
 
+        public void GenerateNewPostId()
+        {
+            PostId = Utilities.GetGuid();
+        }
+
         public void InitializePostData()
         {
             IsPostListPresent = MediaList.Count > 0;

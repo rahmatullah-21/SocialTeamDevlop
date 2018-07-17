@@ -21,8 +21,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private int _pendingCount;
         private int _publishedCount;
         private DateTime _createdDate;
-        private DateTime _startDate;
-        private DateTime _endDate;
+        private DateTime? _startDate;
+        private DateTime? _endDate;
 
         public bool IsSelected
         {
@@ -106,7 +106,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        public DateTime StartDate
+        public DateTime? StartDate
         {
             get
             {
@@ -119,7 +119,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        public DateTime EndDate
+        public DateTime? EndDate
         {
             get
             {
@@ -170,7 +170,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
             IsSelected = false;
         }
 
-        public bool ValidDateTime() => StartDate < EndDate;
+        public bool ValidDateTime()
+        {
+            if (StartDate == null || EndDate == null)
+                return true;
+
+            return StartDate < EndDate;
+        }
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;

@@ -3,26 +3,20 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
-using DominatorUIUtility.Behaviours;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
@@ -293,7 +287,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     {
                         x.GenerateClonePostId();
                         x.CampaignId = clonedCampaignStatus.CampaignId;
-                        x.PostQueuedStatus = PostQueuedStatus.Pending;
+                        x.PostQueuedStatus = x.PostQueuedStatus == PostQueuedStatus.Published ? PostQueuedStatus.Pending : x.PostQueuedStatus;
                         x.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
                         clonedPostlist.Add(x);
                     });
@@ -340,6 +334,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         SaveClonedCampaign(clonedCampaignStatus, campaign.CampaignId);
                         PublisherInitialize.GetInstance.AddCampaignDetails(clonedCampaignStatus);
 
+                        if (campaign.IsSelected)
+                            clonedCampaignStatus.IsSelected = true;
+
                         var allSavedPosts = PostlistFileManager.GetAll(campaign.CampaignId);
 
                         var clonedPostlist = new List<PublisherPostlistModel>();
@@ -347,7 +344,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         {
                             x.GenerateClonePostId();
                             x.CampaignId = clonedCampaignStatus.CampaignId;
-                            x.PostQueuedStatus = PostQueuedStatus.Pending;
+                            x.PostQueuedStatus = x.PostQueuedStatus == PostQueuedStatus.Published ? PostQueuedStatus.Pending : x.PostQueuedStatus;
                             x.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
                             clonedPostlist.Add(x);
                         });

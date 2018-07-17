@@ -117,7 +117,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 if (!string.IsNullOrEmpty(PostDetailsModel.PostDescription) ||
-                    PostDetailsModel.MediaList.Count > 0 ||
+                    PostDetailsModel.MediaViewer.MediaList.Count > 0 ||
                     !string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle) ||
                     !string.IsNullOrEmpty(PostDetailsModel.PdSourceUrl))
 

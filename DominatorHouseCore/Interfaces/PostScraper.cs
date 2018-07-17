@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 
@@ -28,7 +29,7 @@ namespace DominatorHouseCore.Interfaces
 
         public void ScrapeRssPosts(string campaignId, ObservableCollection<PublisherRssFeedModel> rssFeedModels)
         {
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 var rssFeedUtilities = new RssFeedUtilities();
                 rssFeedModels.ForEach(async x =>
@@ -44,7 +45,7 @@ namespace DominatorHouseCore.Interfaces
 
         public void FetchMonitorFoldersPosts(string campaignId, ObservableCollection<PublisherMonitorFolderModel> monitorFolderModels )
         {
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 var monitorFolderUtilites = new MonitorFolderUtilites();
                 monitorFolderModels.ForEach( x =>
