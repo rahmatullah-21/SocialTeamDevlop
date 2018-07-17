@@ -4,81 +4,124 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+             xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+             xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
              mc:Ignorable="d" >
+    <UserControl.Resources>
+        <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
+        <DataTemplate x:Key="MacroTemplate">
+            <Grid>
+                <TextBlock Text="{Binding Path=Key}"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <StackPanel x:Name="MainGrid" Margin="10">
         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-            <GroupBox Header="{DynamicResource LangKeyFeedUrlDetails}">
-                <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400" Text="{Binding PublisherRssFeedModel.FeedUrl}"/>
-            </GroupBox>
-            <GroupBox Header="{DynamicResource LangKeyFeedTemplates}" Margin="10,0">
-                <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400"
+            <StackPanel>
+                <GroupBox Header="{DynamicResource LangKeyFeedUrlDetails}">
+                    <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400" Text="{Binding PublisherRssFeedModel.FeedUrl}"/>
+                </GroupBox>
+                <StackPanel Margin="2">
+                    <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource LangKeyPostDescription}" VerticalAlignment="Center" FontSize="12" />
+                    <customControl:SocinatorTextBox   
+                    MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
+                    SuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
+                    Watermark="{DynamicResource LangKeyWhatsOnYourMind}"
+                    Text="{Binding PublisherRssFeedModel.FeedTemplate, Mode=TwoWay}" TextHeight="60" TextWidth="300" Margin="2" TextWrapping="Wrap"
+                    DisplayMember="Key">
+                        <customControl:SocinatorTextBox.LoadingContent>
+                            <TextBlock Text="Loading Macros..." Margin="5" FontSize="14" />
+                        </customControl:SocinatorTextBox.LoadingContent>
+                    </customControl:SocinatorTextBox>
+                    <customControl:PostContent  PublisherPostSettings="{Binding PublisherRssFeedModel.PostDetailsModel.PublisherPostSettings,Mode=TwoWay}" 
+                                                customControl:MediaViewerAssist.MediaList="{Binding PublisherRssFeedModel.PostDetailsModel.MediaViewer.MediaList,Mode=TwoWay}" 
+                                                customControl:MediaViewerAssist.CurrentMediaUrl="{Binding PublisherRssFeedModel.PostDetailsModel.MediaViewer.MediaUrl,Mode=TwoWay}"
+                                                customControl:MediaViewerAssist.MediaHeight="75"
+                                                customControl:MediaViewerAssist.MediaWidth="75"
+                                                customControl:MediaViewerAssist.TotalMediaCount="{Binding PublisherRssFeedModel.PostDetailsModel.MediaViewer.TotalItem}"
+                                                customControl:MediaViewerAssist.CurrentMediaPointer="{Binding PublisherRssFeedModel.PostDetailsModel.MediaViewer.CurrentItem}"
+                                                customControl:MediaViewerAssist.DeleteMenu="Visible"
+                                                PublisherInstagramTitle="{Binding PublisherRssFeedModel.PostDetailsModel.PublisherInstagramTitle, Mode=TwoWay}"
+                                                FdSellLocation="{Binding PublisherRssFeedModel.PostDetailsModel.FdSellLocation, Mode=TwoWay}"
+                                                FdSellPrice="{Binding PublisherRssFeedModel.PostDetailsModel.FdSellPrice, Mode=TwoWay}"
+                                                FdSellProductTitle="{Binding PublisherRssFeedModel.PostDetailsModel.FdSellProductTitle, Mode=TwoWay}"
+                                                IsFdSellPost="{Binding PublisherRssFeedModel.PostDetailsModel.IsFdSellPost, Mode=TwoWay}"
+                                                PdSourceUrl="{Binding PublisherRssFeedModel.PostDetailsModel.PdSourceUrl, Mode=TwoWay}"
+                                                x:Name="PostContentControl"/>
+
+
+                </StackPanel>
+            </StackPanel>
+           
+                <GroupBox Header="{DynamicResource LangKeyFeedUrlDetails}" Width="400" HorizontalAlignment="Left" Margin="10,0">
+                    <GroupBox.Style>
+                        <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding LstFeedUrl.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </GroupBox.Style>
+                    <ItemsControl ItemsSource="{Binding LstFeedUrl}" MaxHeight="390" Name="UrlFeedItems">
+                        <ItemsControl.Template>
+                            <ControlTemplate>
+                                <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </ControlTemplate>
+                        </ItemsControl.Template>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="100"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding FeedUrl}"  Margin="4" TextWrapping="Wrap"/>
+                                    <StackPanel Orientation="Horizontal" Margin="4" Grid.Column="1" VerticalAlignment="Center">
+                                        <Button Name="BtnEdit" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
+                                        VerticalAlignment="Top"
+                                        Command="{Binding ElementName=UrlFeedItems,Path=DataContext.EditCommand}"
+                                        CommandParameter="{Binding ElementName=BtnEdit}">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Rectangle Width="15" Height="15" Fill="White">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Name="BtnDelete" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
+                                        VerticalAlignment="Top" Margin="10,0" 
+                                        Command="{Binding  ElementName=UrlFeedItems,Path=DataContext.DeleteCommand}"
+                                        CommandParameter="{Binding ElementName=BtnDelete}">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Rectangle Width="12" Height="15" Fill="White">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </GroupBox>
+                <!--<GroupBox Header="{DynamicResource LangKeyFeedTemplates}" Margin="10,0">
+                    <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400"
                          Text="{Binding PublisherRssFeedModel.FeedTemplate}" FontWeight="SemiBold"/>
-            </GroupBox>
+                </GroupBox>-->
+           
 
         </StackPanel>
         <Button Background="{DynamicResource AccentBaseColorBrush}" Height="30" Width="150" 
                 HorizontalAlignment="Center" Margin="0,10,300,10" Name="BtnSave" Foreground="White"
                 Command="{Binding SaveCommand}" Content="{Binding PublisherRssFeedModel.ButtonContent}"
                 CommandParameter="{Binding ElementName=BtnSave}" />
-        <GroupBox Header="{DynamicResource LangKeyFeedUrlDetails}" Width="830" HorizontalAlignment="Left">
-            <GroupBox.Style>
-                <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
-                    <Setter Property="Visibility" Value="Visible"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding LstFeedUrl.Count}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </GroupBox.Style>
-            <ItemsControl ItemsSource="{Binding LstFeedUrl}" MaxHeight="200" Name="UrlFeedItems">
-                <ItemsControl.Template>
-                    <ControlTemplate>
-                        <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}">
-                            <ItemsPresenter />
-                        </ScrollViewer>
-                    </ControlTemplate>
-                </ItemsControl.Template>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="100"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding FeedUrl}"  Margin="4" TextWrapping="Wrap"/>
-                            <StackPanel Orientation="Horizontal" Margin="4" Grid.Column="1" VerticalAlignment="Center">
-                                <Button Name="BtnEdit" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
-                                        VerticalAlignment="Top"
-                                        Command="{Binding ElementName=UrlFeedItems,Path=DataContext.EditCommand}"
-                                        CommandParameter="{Binding ElementName=BtnEdit}">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Rectangle Width="15" Height="15" Fill="White">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                        <!--<TextBlock Text="{DynamicResource langEdit}"/>-->
-                                    </StackPanel>
-                                </Button>
-                                <Button Name="BtnDelete" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
-                                        VerticalAlignment="Top" Margin="10,0" 
-                                        Command="{Binding  ElementName=UrlFeedItems,Path=DataContext.DeleteCommand}"
-                                        CommandParameter="{Binding ElementName=BtnDelete}">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Rectangle Width="12" Height="15" Fill="White">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                        <!--<TextBlock Text="{DynamicResource LangKeyDelete}"/>-->
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </GroupBox>
+
     </StackPanel>
 </UserControl>

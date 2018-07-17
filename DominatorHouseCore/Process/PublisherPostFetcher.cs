@@ -31,7 +31,7 @@ namespace DominatorHouseCore.Process
             var postFetchModels = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                 .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaignId && x.PostSource != PostSource.NormalPost);
 
-            Task.Factory.StartNew(() => { postFetchModels.ForEach(FetchPosts); });                  
+            ThreadFactory.Instance.Start(() => { postFetchModels.ForEach(FetchPosts); });                  
         }
 
         public void FetchPosts(PublisherPostFetchModel publisherPostFetchModel)
@@ -40,7 +40,7 @@ namespace DominatorHouseCore.Process
                 return;
 
             // Check whether campaign expired or not
-            if (publisherPostFetchModel.ExpireDate < DateTime.Now)
+            if (publisherPostFetchModel.ExpireDate!=null && publisherPostFetchModel.ExpireDate < DateTime.Now)
             {
                 GlobusLogHelper.log.Info(
                     $"{publisherPostFetchModel.CampaignName} expired on {publisherPostFetchModel.ExpireDate}");

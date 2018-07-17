@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.Diagnostics;
@@ -104,10 +105,10 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             var lstData = new List<T>();
             try
             {
-                lstData = await Task.Factory.StartNew(() =>
-                expression == null
-                ? _context.Set<T>().ToList()
-                : _context.Set<T>().Where(expression).ToList());
+                lstData = await ThreadFactory.Instance.Start(() => 
+                expression == null 
+                ? _context.Set<T>().ToList() 
+                : _context.Set<T>().Where(expression).ToList(),TaskCreationOptions.LongRunning);
             }
             catch (Exception)
             {

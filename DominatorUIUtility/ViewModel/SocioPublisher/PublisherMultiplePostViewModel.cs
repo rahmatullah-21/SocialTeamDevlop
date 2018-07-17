@@ -30,7 +30,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             DeletePostCommand = new BaseCommand<object>(DeletePostCanExecute, DeletePostExecute);
         }
 
-       
+
         #region Command
 
         public ICommand CreateNewPost { get; set; }
@@ -75,7 +75,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-     
+
         #endregion
 
         #region Create New Post
@@ -161,8 +161,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void DeletePostExecute(object sender)
         {
-            var postToDelete =sender as PostDetailsModel;
-            LstPostDetailsModel.Remove(postToDelete);
+            try
+            {
+                var postToDelete = sender as PostDetailsModel;
+                LstPostDetailsModel.Remove(postToDelete);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
         #endregion
     }

@@ -396,9 +396,9 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private DateTime _campaignStartDate = DateTime.Now;
+        private DateTime? _campaignStartDate;
         [ProtoMember(33)]
-        public DateTime CampaignStartDate
+        public DateTime? CampaignStartDate
         {
             get
             {
@@ -413,9 +413,9 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private DateTime _campaignEndDate = DateTime.Now.AddYears(2);
+        private DateTime? _campaignEndDate;
         [ProtoMember(34)]
-        public DateTime CampaignEndDate
+        public DateTime? CampaignEndDate
         {
             get
             {

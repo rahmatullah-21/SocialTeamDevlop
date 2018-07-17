@@ -258,7 +258,7 @@ namespace DominatorUIUtility.ViewModel
                         GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
                     }
 
-                    Task.Factory.StartNew(() =>
+                    ThreadFactory.Instance.Start(() =>
                     {
                         AddAccount(objDominatorAccountBaseModel, act =>
                         {
@@ -1072,7 +1072,7 @@ namespace DominatorUIUtility.ViewModel
         {
             var proxyManager = ProxyManager.GetProxyManagerControl(strategyPack);
             var allProxy = ProxyFileManager.GetAllProxy();
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 allProxy?.ForEach(proxy =>
                 {
@@ -1148,7 +1148,7 @@ namespace DominatorUIUtility.ViewModel
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
-                Task.Factory.StartNew(() => { DeleteAccounts(selectAccounts); });
+                ThreadFactory.Instance.Start(() => { DeleteAccounts(selectAccounts); });
 
             }
             catch (Exception ex)
@@ -1484,7 +1484,7 @@ namespace DominatorUIUtility.ViewModel
                 #region Checking status
 
 
-                Task.Factory.StartNew(async () =>
+                ThreadFactory.Instance.Start(async () =>
                  {
                      try
                      {
@@ -1909,7 +1909,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void StopProcess()
         {
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 _updateAccountList.ForEach(accountSelected =>
                 {

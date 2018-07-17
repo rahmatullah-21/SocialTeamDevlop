@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using System.Windows;
+using DominatorHouseCore.Diagnostics;
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -22,7 +23,7 @@ namespace DominatorHouseCore.ViewModel
 
         private void AddingVersionDetails(List<string> result)
         {
-            Task.Factory.StartNew(async () =>
+            ThreadFactory.Instance.Start(async () =>
             {
                 result.ForEach(version =>
                 {
@@ -46,9 +47,7 @@ namespace DominatorHouseCore.ViewModel
                             });
                             await Task.Delay(1);
                         });
-
                     }
-
                 });
                 await Task.Delay(1);
             });

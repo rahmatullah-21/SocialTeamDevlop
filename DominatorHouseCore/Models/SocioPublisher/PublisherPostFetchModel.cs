@@ -22,7 +22,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public string PostDetailsWithFilters { get; set; } = string.Empty;
 
         [ProtoMember(5)]
-        public DateTime ExpireDate { get; set; } = DateTime.Now.AddYears(1);
+        public DateTime? ExpireDate { get; set; } = DateTime.Now.AddYears(1);
 
         [ProtoMember(6)]
         public int DelayForNext { get; set; } = 30;

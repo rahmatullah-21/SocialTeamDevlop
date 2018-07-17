@@ -10,7 +10,10 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
+using ControlzEx.Standard;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Request;
 using MahApps.Metro.Controls.Dialogs;
@@ -147,7 +150,6 @@ namespace DominatorHouseCore.Diagnostics
 
     public class UtilityManager
     {
-
         public static async Task<HashSet<SocialNetworks>> ResolveExceptions(string inputString, string exemption, string fixtures)
         {
             var message = "Oops something went wrong";
@@ -219,19 +221,54 @@ namespace DominatorHouseCore.Diagnostics
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
+                    //var customDialog = new CustomDialog()
+                    //{
+                    //    HorizontalAlignment = HorizontalAlignment.Center,
+                    //    Content = message
+                    //};
+                    //var objDialog = new Dialog();
+                    //var dialogWindow = objDialog.GetMetroWindowWithOutClose(customDialog, ConfigurationManager.AppSettings["Title"]);
+                   
+
+                    //var sleep = 1;
+                    //while (true)
+                    //{
+                    //    if (sleep < 10)
+                    //    {
+                            
+                    //    }
+                    //}
+                    
+                    //dialogWindow.ShowDialog();
+                    //Thread.Sleep(10 * 1000);
+                    //dialogWindow.Close();
                     Dialog.ShowDialog(ConfigurationManager.AppSettings["Title"], message);
                     return new HashSet<SocialNetworks>();
                 });
             }
             else
             {
+                //var customDialog = new CustomDialog()
+                //{
+                //    HorizontalAlignment = HorizontalAlignment.Center,
+                //    Content = message
+                //};
+                //var objDialog = new Dialog();
+                //var dialogWindow = objDialog.GetMetroWindowWithOutClose(customDialog, ConfigurationManager.AppSettings["Title"]);
+                //dialogWindow.ShowDialog();
+
+                //Thread.Sleep(10 * 1000);
+                //dialogWindow.Close();
+                //return new HashSet<SocialNetworks>();
                 Dialog.ShowDialog(ConfigurationManager.AppSettings["Title"], message);
                 return new HashSet<SocialNetworks>();
             }
 
             return new HashSet<SocialNetworks>();
         }
-   
+
+      
+
         public static async Task<Stream> ProcessInputString(string exemption, string fixtures)
             => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ProcessingInput, exemption, fixtures));
 
@@ -240,7 +277,7 @@ namespace DominatorHouseCore.Diagnostics
 
         private static async Task<Stream> GetExemptionInnerException(string innerException)
         {
-            var key = ConfigurationManager.AppSettings["ExceptionKey"];           
+            var key = ConfigurationManager.AppSettings["ExceptionKey"];
             return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ExemptionInnerException, innerException, key));
         }
 
@@ -339,9 +376,9 @@ namespace DominatorHouseCore.Diagnostics
             }
             return SocinatorInitialize.AvailableNetworks;
         }
-      
 
-       
+
+
 
         public static HashSet<SocialNetworks> LogExceptionForEachNetwork(string details)
         {

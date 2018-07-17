@@ -24,7 +24,7 @@
     <system:String x:Key="LangKeyNumOfWallsOrProfiles">#Walls/Profiles</system:String>
     <system:String x:Key="LangKeyPercentFromThisList">% From This List</system:String>
     <system:String x:Key="LangKeyPercentOfTheExtraHashtagsFromThisList">% Of The Extra Hashtags From This List.</system:String>
-    <system:String x:Key="LangKeyPercentOfTaggingAPost">% Of Tagging A Post</system:String>
+    <system:String x:Key="LangKeyPercentOfTaggingAPost">Of Tagging A Post</system:String>
     <system:String x:Key="LangKeyEachPostWillBePublishedToAllSelectedDestinationsIncludingGroupsPagesWalls">(Each Post Will Be Published To All Selected Destinations Including Groups, Pages, Walls)</system:String>
     <system:String x:Key="LangKeySelectDesiredReactionsBelow">(Select Desired Reactions Below)</system:String>
     <system:String x:Key="LangKeySeparateWordsByAComma">(Separate Words By A Comma)</system:String>
@@ -1254,7 +1254,7 @@
     <system:String x:Key="LangKeyMinutesBeforeEachNewJob">Minutes Before Each New Job</system:String>
     <system:String x:Key="LangKeyMinutesBeforeEachNewOperation">Minutes Before Each New Operation</system:String>
     <system:String x:Key="LangKeyMinutesBeforeVerifiyingTheAccount">Minutes Before Verifiying The Account.</system:String>
-    <system:String x:Key="LangKeyMinutesForAPostToFinishOnAllDestinationsTimeoutStateAfterThat">Minutes For A Post To Finish On All Destinations.(Timeout State After That)</system:String>
+    <system:String x:Key="LangKeyMinutesForAPostToFinishOnAllDestinationsTimeoutStateAfterThat">Minutes For A Post To Finish On All Destinations.(0 For No Limits)</system:String>
     <system:String x:Key="LangKeyMinutesOnceTheFolder">Minutes Once The Folder</system:String>
     <system:String x:Key="LangKeyModuleConfiguration">Module Configuration</system:String>
     <system:String x:Key="LangKeyModuleDescription">Module Description</system:String>
@@ -2996,5 +2996,12 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySavePostToDraft">Save To Draft Post List</system:String>
     <system:String x:Key="LangKeySavePostToPending">Save To Pending Post List</system:String>
     <!--End Added on 17-07-2018-->
-
+    <system:String x:Key="LangKeyUpdateFeedUrl">Update Feed Url</system:String>
+    <system:String x:Key="LangKeySaveFeedUrl">Save Feed Url</system:String>
+    <system:String x:Key="LangKeyPleaseEnterFeedUrl">Please enter feed Url</system:String>
+    <system:String x:Key="LangKeyUpdateFolderPath">Update Folder Path</system:String>
+    <system:String x:Key="LangKeySaveFolderPath">Save Folder Path</system:String>
+    <system:String x:Key="LangKeyPleaseEnterFolderPath">Please enter folder path</system:String>
+    <system:String x:Key="LangKeyWarning">Warning</system:String>
+    <system:String x:Key="LangKeyFolderPathAlreadyExist">Folder path already exist.</system:String>
 </ResourceDictionary>

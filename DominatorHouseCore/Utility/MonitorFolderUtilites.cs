@@ -52,8 +52,6 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-
-
                 var postlists = new List<PublisherPostlistModel>();
 
                 var foldersFiles = Directory.EnumerateFiles(folderpath, "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".mp4") || s.EndsWith(".jpg") || s.EndsWith(".png") || s.EndsWith(".wmv")).ToList();
@@ -153,7 +151,6 @@ namespace DominatorHouseCore.Utility
                     {
                         postlists.Add(publisherPostlistModel);
                     }
-
                 });
 
                 PostlistFileManager.AddRange(campaignId, postlists);

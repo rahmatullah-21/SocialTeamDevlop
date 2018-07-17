@@ -9,7 +9,7 @@
         xmlns:dockable="http://dragablz.net/winfx/xaml/dockablz"
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
-        BorderThickness="1" Icon="Images/SociNator.ico"
+        BorderThickness="1" Icon="SociNator.ico"
         Title="{DynamicResource LangKeySocinator}" 
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"

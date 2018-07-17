@@ -58,6 +58,15 @@ namespace DominatorHouseCore.Diagnostics
                 {
                     allCampaign.ForEach(campaigns =>
                     {
+                        var publisherCampaignStatus = campaigns.CampaignStatus;
+
+                        if (campaigns.JobConfigurations.CampaignEndDate!=null && DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
+                        {
+                            publisherCampaignStatus = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate
+                                ? campaigns.CampaignStatus
+                                : PublisherCampaignStatus.Completed;
+                        }
+                       
                         var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                         {
                             CampaignName = campaigns.CampaignName,
@@ -65,7 +74,7 @@ namespace DominatorHouseCore.Diagnostics
                             StartDate = campaigns.JobConfigurations.CampaignStartDate,
                             EndDate = campaigns.JobConfigurations.CampaignEndDate,
                             CreatedDate = campaigns.CreatedDate,
-                            Status = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate ? campaigns.CampaignStatus : PublisherCampaignStatus.Completed,
+                            Status = publisherCampaignStatus,
                             DestinationCount = campaigns.LstDestinationId.Count,
                             IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                             TimeRange = campaigns.JobConfigurations.TimeRange,
@@ -90,6 +99,15 @@ namespace DominatorHouseCore.Diagnostics
             {
                 allCampaign.ForEach(campaigns =>
                 {
+                    var publisherCampaignStatus = campaigns.CampaignStatus;
+
+                    if (campaigns.JobConfigurations.CampaignEndDate != null && DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
+                    {
+                        publisherCampaignStatus = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate
+                            ? campaigns.CampaignStatus
+                            : PublisherCampaignStatus.Completed;
+                    }
+
                     var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                     {
                         CampaignName = campaigns.CampaignName,
@@ -97,7 +115,7 @@ namespace DominatorHouseCore.Diagnostics
                         StartDate = campaigns.JobConfigurations.CampaignStartDate,
                         EndDate = campaigns.JobConfigurations.CampaignEndDate,
                         CreatedDate = campaigns.CreatedDate,
-                        Status = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate ? campaigns.CampaignStatus : PublisherCampaignStatus.Completed,
+                        Status = publisherCampaignStatus,
                         DestinationCount = campaigns.LstDestinationId.Count,
                         IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                         TimeRange = campaigns.JobConfigurations.TimeRange,

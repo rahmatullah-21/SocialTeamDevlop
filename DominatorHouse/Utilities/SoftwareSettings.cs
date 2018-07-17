@@ -83,19 +83,33 @@ namespace DominatorHouse.Utilities
             {
                 if ((DateTimeUtilities.GetEpochTime() - account.LastUpdateTime) > AccountSynchronizationHours * 3600)
                 {
-                    var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().AccountUpdateFactory;
-                    UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                    try
+                    {
+                        var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                       .GetNetworkCoreFactory().AccountUpdateFactory;
+                        UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
                 }
                 else
                 {
                     var dateTime = DateTimeUtilities.EpochToDateTimeUtc(account.LastUpdateTime + (AccountSynchronizationHours * 3600));
                     JobManager.AddJob(() =>
                     {
-                        var accountFactory = SocinatorInitialize
-                            .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                            .GetNetworkCoreFactory().AccountUpdateFactory;
-                        UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                        try
+                        {
+                            var accountFactory = SocinatorInitialize
+                                              .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                              .GetNetworkCoreFactory().AccountUpdateFactory;
+                            UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
                     }, s => s.ToRunOnceAt(dateTime).AndEvery(AccountSynchronizationHours).Hours());
                 }
             });

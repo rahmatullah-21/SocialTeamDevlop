@@ -42,7 +42,7 @@ namespace DominatorUIUtility.CustomControl
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
             dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser);
             dbOperations = new DbOperations(dbContext);
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 dbOperations.Get<BlackListUser>()?.ForEach(user =>
                 {
@@ -188,7 +188,7 @@ namespace DominatorUIUtility.CustomControl
         private void Refresh_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             BlacklistUserModel.LstBlackListUsers.Clear();
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 dbOperations.Get<BlackListUser>()?.ForEach(user =>
                 {

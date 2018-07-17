@@ -30,6 +30,8 @@ namespace DominatorHouseCore.Process
         public static ConcurrentDictionary<string, LinkedList<Action>> PublisherActionList { get; set; }
             = new ConcurrentDictionary<string, LinkedList<Action>>();
 
+        public static SortedSet<string> PublisherScheduledList { get; set; } = new SortedSet<string>();
+
         #endregion
 
         public static void IncreasePublishingCount(string campaignId)
@@ -763,11 +765,11 @@ namespace DominatorHouseCore.Process
         {
             try
             {
-               
-
-
                 var campaignDetails =
-                    PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
+                    PublisherInitialize.GetInstance.GetSavedCampaigns().ToList();
+
+                //var campaignDetails =
+                //    PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
 
                 var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == post.CampaignId);
 
@@ -776,6 +778,16 @@ namespace DominatorHouseCore.Process
                     GlobusLogHelper.log.Info("Current post isn't register with any campaign!");
                     return;
                 }
+
+                var isStart = ValidateCampaignsTime(specificCampaign);
+
+                if (!isStart)
+                {
+                    GlobusLogHelper.log.Info("Current post's campaign expired!");
+                    return;
+                }
+
+
                 GlobusLogHelper.log.Info(Log.StartPublishing, SocialNetworks.Social, string.Empty, specificCampaign.CampaignName);
 
                 var currentCampaignsCancallationToken = new CancellationTokenSource();
@@ -847,6 +859,7 @@ namespace DominatorHouseCore.Process
                 });
                 if (deletedDestinationCount > 0)
                     GlobusLogHelper.log.Info($"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {specificCampaign.CampaignName}");
+
             }
             catch (OperationCanceledException ex)
             {
@@ -869,6 +882,24 @@ namespace DominatorHouseCore.Process
 
         }
 
+        private static bool ValidateCampaignsTime(PublisherCampaignStatusModel specificCampaign)
+        {
+            var isStart = true;
+
+            if (specificCampaign.StartDate != null)
+            {
+                if (!(DateTime.Now >= specificCampaign.StartDate))
+                    isStart = false;
+            }
+            if (specificCampaign.EndDate != null)
+            {
+                if (!(DateTime.Now <= specificCampaign.EndDate))
+                    isStart = false;
+            }
+
+            return isStart;
+        }
+
         public static void StopPublishingPosts(string campaignId)
         {
             try
@@ -878,6 +909,8 @@ namespace DominatorHouseCore.Process
 
                 if (CampaignsCancellationTokens.ContainsKey(campaignId))
                     CampaignsCancellationTokens.Remove(campaignId);
+
+                StopScheduledPublisher(campaignId);
             }
             catch (Exception ex)
             {
@@ -925,12 +958,15 @@ namespace DominatorHouseCore.Process
         public static void SchedulePublishNowByCampaign(string campaignId)
         {
             // get the all campaigns which should be present in between 
+            //var campaignDetails =
+            //    PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
+
             var campaignDetails =
-                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
+                PublisherInitialize.GetInstance.GetSavedCampaigns().ToList();
 
             var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == campaignId);
 
-            if (specificCampaign != null)
+            if (specificCampaign != null && ValidateCampaignsTime(specificCampaign))
             {
                 if (specificCampaign.IsRotateDayChecked)
                     StartPublishingPosts(specificCampaign);
@@ -948,10 +984,13 @@ namespace DominatorHouseCore.Process
         {
             // get the all campaigns which should be present in between 
             var campaignDetails =
-                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate && x.Status == PublisherCampaignStatus.Active).ToList();
+                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => x.Status == PublisherCampaignStatus.Active).ToList();
 
             campaignDetails.ForEach(campaign =>
             {
+                if (!ValidateCampaignsTime(campaign))
+                    return;
+
                 if (campaign.IsRotateDayChecked)
                     SchedulePublisher(campaign);
                 else
@@ -966,13 +1005,15 @@ namespace DominatorHouseCore.Process
 
         public static void ScheduleTodaysPublisherByCampaign(string campaignId)
         {
+            //var campaignDetails =
+            //    PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
 
             var campaignDetails =
-                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
+                PublisherInitialize.GetInstance.GetSavedCampaigns().ToList();
 
             var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == campaignId);
 
-            if (specificCampaign != null)
+            if (specificCampaign != null && ValidateCampaignsTime(specificCampaign))
             {
                 if (specificCampaign.IsRotateDayChecked)
                     SchedulePublisher(specificCampaign);
@@ -990,32 +1031,47 @@ namespace DominatorHouseCore.Process
         {
             #region Schedule
 
+            StopScheduledPublisher(campaign.CampaignId);
+
             campaign.SpecificRunningTime.ForEach(runningTime =>
             {
                 var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
                 if (startTime > DateTime.Now)
                 {
+                    var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDate()}";
+                    PublisherScheduledList.Add(addJobName);
+
                     JobManager.AddJob(() =>
                     {
                         StartPublishingPosts(campaign);
-                    }, s => s.WithName($"{campaign.CampaignId}-{ConstantVariable.GetDate()}").ToRunOnceAt(startTime));
-
+                    }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
 
                     var advancedSettings = GenericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
 
-
                     if (advancedSettings?.DestinationTimeout > 0)
                     {
+                        var stopJobName = $"{campaign.CampaignId}-StopRunningDueToTimeOut";
+                        PublisherScheduledList.Add(stopJobName);
                         var stopTime = DateTime.Now.AddMinutes(advancedSettings.DestinationTimeout);
                         JobManager.AddJob(() =>
                         {
                             StopPublishingPosts(campaign.CampaignId);
-                        }, s => s.WithName($"{campaign.CampaignId}-StopRunningDueToTimeOut").ToRunOnceAt(stopTime));
+                        }, s => s.WithName(stopJobName).ToRunOnceAt(stopTime));
                     }
                 }
             });
 
             #endregion
+        }
+
+        private static void StopScheduledPublisher(string campaignId)
+        {
+            var currentCampaignsItems = PublisherScheduledList.Where(x => x.Contains(campaignId)).ToList();
+            currentCampaignsItems.ForEach(name =>
+            {
+                JobManager.RemoveJob(name);
+                PublisherScheduledList.Remove(name);
+            });
         }
 
         public static void UpdateNewGroupList()
