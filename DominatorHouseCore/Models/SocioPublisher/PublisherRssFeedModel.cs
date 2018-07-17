@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
+    [Serializable]
     [ProtoContract]
     public class PublisherRssFeedModel : BindableBase
     {

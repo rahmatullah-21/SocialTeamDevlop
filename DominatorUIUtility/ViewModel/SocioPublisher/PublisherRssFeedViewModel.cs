@@ -18,7 +18,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public PublisherRssFeedViewModel()
         {
             #region Command Initilization
-
+            ClearCommand = new BaseCommand<object>(ClearCanExecute, ClearExecute);
             SaveCommand = new BaseCommand<object>(SaveCanExecute, SaveExecute);
             EditCommand = new BaseCommand<object>(EditCanExecute, EditExecute);
             DeleteCommand = new BaseCommand<object>(DeleteCanExecute, DeleteExecute);
@@ -34,6 +34,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         }
         #region Command
+        public ICommand ClearCommand { get; set; }
 
         public ICommand SaveCommand { get; set; }
         public ICommand EditCommand { get; set; }
@@ -120,17 +121,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     if (PublisherRssFeedModel.ButtonContent == "LangKeySaveFeedUrl".FromResourceDictionary())
                     {
-                        if (!LstFeedUrl.Any(x =>
-                                string.Compare(x.FeedUrl, PublisherRssFeedModel.FeedUrl,
-                                    StringComparison.CurrentCultureIgnoreCase) == 0))
+                        if (LstFeedUrl.All(x => string.Compare(x.FeedUrl, PublisherRssFeedModel.FeedUrl, StringComparison.CurrentCultureIgnoreCase) != 0))
                         {
-                            LstFeedUrl.Add(new PublisherRssFeedModel()
+                            PublisherRssFeedModel.PostDetailsModel.PostDetailsId = Utilities.GetGuid();
+                            PublisherRssFeedModel.PostDetailsModel.CreatedDateTime = DateTime.Now;
+                            LstFeedUrl.Add(new PublisherRssFeedModel
                             {
                                 FeedUrl = PublisherRssFeedModel.FeedUrl.Trim(),
                                 FeedTemplate = PublisherRssFeedModel.FeedTemplate,
                                 PostDetailsModel = PublisherRssFeedModel.PostDetailsModel
                             });
-
                         }
                     }
                     else
@@ -161,6 +161,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 GlobusLogHelper.log.Info("LangKeyPleaseEnterFeedUrl".FromResourceDictionary);
             }
+        }
+
+        private bool ClearCanExecute(object sender) => true;
+        private void ClearExecute(object sender)
+        {
+            try
+            {
+                PublisherRssFeedModel = new PublisherRssFeedModel();
+                PublisherRssFeed.GetPublisherRssFeed(tabItemsControl).PostContentControl.SetMedia();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
         }
 
         #endregion

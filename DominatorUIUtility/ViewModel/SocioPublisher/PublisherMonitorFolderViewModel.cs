@@ -19,6 +19,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             #region Command Initilization
 
+            ClearCommand = new BaseCommand<object>(ClearCanExecute, ClearExecute);
             SaveCommand = new BaseCommand<object>(SaveCanExecute, SaveExecute);
             EditCommand = new BaseCommand<object>(EditCanExecute, EditExecute);
             DeleteCommand = new BaseCommand<object>(DeleteCanExecute, DeleteExecute);
@@ -35,6 +36,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Command
 
+
+        public ICommand ClearCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand EditCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
@@ -119,8 +122,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     if (PublisherMonitorFolderModel.ButtonContent == "LangKeySaveFolderPath".FromResourceDictionary())
                     {
-                        if (!LstFolderPath.Any(x => string.Compare(x.FolderPath, PublisherMonitorFolderModel.FolderPath, StringComparison.CurrentCultureIgnoreCase) == 0))
+                        if (LstFolderPath.All(x => string.Compare(x.FolderPath, PublisherMonitorFolderModel.FolderPath, StringComparison.CurrentCultureIgnoreCase) != 0))
                         {
+                            PublisherMonitorFolderModel.PostDetailsModel.PostDetailsId = Utilities.GetGuid();
+                            PublisherMonitorFolderModel.PostDetailsModel.CreatedDateTime = DateTime.Now;
                             LstFolderPath.Add(new PublisherMonitorFolderModel()
                             {
                                 FolderPath = PublisherMonitorFolderModel.FolderPath.Trim(),
@@ -158,6 +163,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 GlobusLogHelper.log.Info("LangKeyPleaseEnterFolderPath".FromResourceDictionary);
             }
         }
+
+        private bool ClearCanExecute(object sender) => true;
+        private void ClearExecute(object sender)
+        {
+            try
+            {
+                PublisherMonitorFolderModel = new PublisherMonitorFolderModel();
+                PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl).PostContentControl.SetMedia();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
 
         private bool BrowseFolderCanExecute(object arg) => true;
 

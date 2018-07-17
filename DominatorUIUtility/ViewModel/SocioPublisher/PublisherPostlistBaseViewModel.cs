@@ -391,18 +391,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var currentPost = sender as PublisherPostlistModel;
 
                     Dialog dialog = new Dialog();
-                    if (!string.IsNullOrEmpty(currentPost.ShareUrl))
-                    {
-                        PublisherEditShareUrl publisherEditShareUrl = new PublisherEditShareUrl(currentPost, PublisherPostlist);
-                        var window = dialog.GetMetroWindow(publisherEditShareUrl, "Edit Share Url");
-                        window.ShowDialog();
-                    }
-                    else
-                    {
+                    //if (!string.IsNullOrEmpty(currentPost.ShareUrl))
+                    //{
+                    //    PublisherEditShareUrl publisherEditShareUrl = new PublisherEditShareUrl(currentPost, PublisherPostlist);
+                    //    var window = dialog.GetMetroWindow(publisherEditShareUrl, "Edit Share Url");
+                    //    window.ShowDialog();
+                    //}
+                   // else
+                    //{
                         PublisherEditPost publisherEditPost = new PublisherEditPost(currentPost, PublisherPostlist);
                         var window = dialog.GetMetroWindow(publisherEditPost, "Edit Post");
                         window.ShowDialog();
-                    }
+                   // }
 
 
 

@@ -34,7 +34,7 @@ namespace DominatorHouseCore.Interfaces
                 var rssFeedUtilities = new RssFeedUtilities();
                 rssFeedModels.ForEach(async x =>
                 {
-                    await rssFeedUtilities.RssFeedFetchMethod(x.FeedUrl, x.FeedTemplate, campaignId);
+                    await rssFeedUtilities.RssFeedFetchMethod(x.FeedUrl, x.FeedTemplate,x.PostDetailsModel, campaignId);
                 });               
             });
         }
@@ -50,7 +50,7 @@ namespace DominatorHouseCore.Interfaces
                 var monitorFolderUtilites = new MonitorFolderUtilites();
                 monitorFolderModels.ForEach( x =>
                 {
-                     monitorFolderUtilites.GetFoldersFileDetails(x.FolderPath, campaignId, x.FolderTemplate );
+                     monitorFolderUtilites.GetFoldersFileDetails(x.FolderPath, campaignId, x.FolderTemplate,x.PostDetailsModel );
                 });
             });
         }
