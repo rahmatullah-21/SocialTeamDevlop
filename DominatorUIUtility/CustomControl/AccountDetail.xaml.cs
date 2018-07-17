@@ -97,7 +97,7 @@ namespace DominatorUIUtility.CustomControl
             #region Checking status
 
 
-            ThreadFactory.Instance.Start(async () =>
+            Task.Factory.StartNew(async () =>
             {
                 try
                 {

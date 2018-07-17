@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -51,6 +52,8 @@ namespace DominatorUIUtility.ViewModel
             DropDownCommand = new BaseCommand<object>(DropDownCanExecute, DropDownExecute);
             AssignRandomProxyCommand = new BaseCommand<object>(AssignRandomProxyCanExecute, AssignRandomProxyExecute);
             BindingOperations.EnableCollectionSynchronization(lstProxyManagerModel, _lock);
+            ProxyManagerCollection = CollectionViewSource.GetDefaultView(LstProxyManagerModel);
+            StartAddingItems();
 
         }
 
@@ -142,7 +145,10 @@ namespace DominatorUIUtility.ViewModel
                 if (_filter == value)
                     return;
                 SetProperty(ref _filter, value);
-                ProxyManagerCollection.Filter += FilterByNameOrIp;
+               if (string.IsNullOrEmpty(_filter))
+                    ProxyManagerCollection.Filter = null;
+                else
+                    ProxyManagerCollection.Filter += FilterByNameOrIp;
             }
         }
         private bool _isAllProxySelected;
@@ -220,7 +226,7 @@ namespace DominatorUIUtility.ViewModel
                                 AccountNetwork = x.AccountNetwork
                             });
                         });
-                       
+
                     });
                 }
                 catch (Exception ex)
@@ -496,10 +502,14 @@ namespace DominatorUIUtility.ViewModel
 
             try
             {
-                if ((bool)sender)
-                    ProxyManagerCollection.GroupDescriptions.Add(new PropertyGroupDescription("AccountProxy.ProxyGroup"));
-                else
-                    ProxyManagerCollection.GroupDescriptions.Clear();
+                Application.Current.Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    if ((bool)sender)
+                        ProxyManagerCollection.GroupDescriptions.Add(
+                            new PropertyGroupDescription("AccountProxy.ProxyGroup"));
+                    else
+                        ProxyManagerCollection.GroupDescriptions.Clear();
+                }));
 
             }
             catch (Exception ex)
@@ -626,6 +636,7 @@ namespace DominatorUIUtility.ViewModel
             }
             catch (Exception ex)
             {
+                ProxyManagerCollection.Filter = null;
                 ex.DebugLog();
             }
         }
@@ -636,12 +647,14 @@ namespace DominatorUIUtility.ViewModel
                 ProxyManagerModel ProxyGroup = nameOrIp as ProxyManagerModel;
                 return ProxyGroup.AccountProxy.ProxyIp.IndexOf(Filter, StringComparison.InvariantCultureIgnoreCase) >= 0
                        || ProxyGroup.AccountProxy.ProxyName.IndexOf(Filter, StringComparison.InvariantCultureIgnoreCase) >= 0;
+
+
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-            return true;
+            return false;
         }
 
         private bool DeleteCanExecute(object sender) => true;
