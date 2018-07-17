@@ -5,8 +5,10 @@ using System.Windows;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -98,8 +100,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 var itemToEdit = ((FrameworkElement)sender).DataContext as PublisherMonitorFolderModel;
-                itemToEdit.ButtonContent = "Update folder path";
+                itemToEdit.ButtonContent = "LangKeyUpdateFolderPath".FromResourceDictionary();
                 PublisherMonitorFolderModel = itemToEdit;
+                PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl).PostContentControl.SetMedia();
             }
             catch (Exception ex)
             {
@@ -110,31 +113,49 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private bool SaveCanExecute(object sender) => true;
         private void SaveExecute(object sender)
         {
-
-            try
+            if (!string.IsNullOrEmpty(PublisherMonitorFolderModel.FolderPath))
             {
-                if (PublisherMonitorFolderModel.ButtonContent == "Save to List")
+                try
                 {
-                    if (!string.IsNullOrEmpty(PublisherMonitorFolderModel.FolderPath) && !LstFolderPath.Any(x => string.Compare(x.FolderPath, PublisherMonitorFolderModel.FolderPath, StringComparison.CurrentCultureIgnoreCase) == 0))
+                    if (PublisherMonitorFolderModel.ButtonContent == "LangKeySaveFolderPath".FromResourceDictionary())
                     {
-                        LstFolderPath.Add(new PublisherMonitorFolderModel()
+                        if (!LstFolderPath.Any(x => string.Compare(x.FolderPath, PublisherMonitorFolderModel.FolderPath, StringComparison.CurrentCultureIgnoreCase) == 0))
                         {
-                            FolderPath = PublisherMonitorFolderModel.FolderPath,
-                            FolderTemplate = PublisherMonitorFolderModel.FolderTemplate
-                        });
-
+                            LstFolderPath.Add(new PublisherMonitorFolderModel()
+                            {
+                                FolderPath = PublisherMonitorFolderModel.FolderPath.Trim(),
+                                FolderTemplate = PublisherMonitorFolderModel.FolderTemplate,
+                                PostDetailsModel = PublisherMonitorFolderModel.PostDetailsModel
+                            });
+                        }
                     }
+                    else
+                    {
+                        var itemToUpdate = LstFolderPath.FirstOrDefault(x => x.FolderPath == PublisherMonitorFolderModel.FolderPath);
+                        if (itemToUpdate == null)
+                        {
+                            LstFolderPath.Add(new PublisherMonitorFolderModel()
+                            {
+                                FolderPath = PublisherMonitorFolderModel.FolderPath.Trim(),
+                                FolderTemplate = PublisherMonitorFolderModel.FolderTemplate,
+                                PostDetailsModel = PublisherMonitorFolderModel.PostDetailsModel
+                            });
+
+                        }
+                        else
+                            itemToUpdate = PublisherMonitorFolderModel;
+                    }
+                    PublisherMonitorFolderModel = new PublisherMonitorFolderModel();
+                    PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl).PostContentControl.SetMedia();
                 }
-                else
+                catch (Exception ex)
                 {
-                    var itemToUpdate = LstFolderPath.FirstOrDefault(x => x.FolderPath == PublisherMonitorFolderModel.FolderPath);
-                    itemToUpdate = PublisherMonitorFolderModel;
+                    ex.DebugLog();
                 }
-                PublisherMonitorFolderModel = new PublisherMonitorFolderModel();
             }
-            catch (Exception ex)
+            else
             {
-                ex.DebugLog();
+                GlobusLogHelper.log.Info("LangKeyPleaseEnterFolderPath".FromResourceDictionary);
             }
         }
 
@@ -145,10 +166,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var folderPath = FileUtilities.GetExportPath();
             if (!LstFolderPath.Any(x =>
                 string.Compare(x.FolderPath, folderPath, StringComparison.CurrentCultureIgnoreCase) == 0))
-                PublisherMonitorFolderModel.FolderPath = folderPath;
+                PublisherMonitorFolderModel.FolderPath = folderPath.Trim();
             else
-                Dialog.ShowDialog("Warning", "Folder path already exist.");
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyFolderPathAlreadyExist".FromResourceDictionary());
         }
+
         #endregion
     }
 }

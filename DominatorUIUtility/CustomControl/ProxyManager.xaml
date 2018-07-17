@@ -224,7 +224,7 @@
         </StackPanel>
 
         <DataGrid Grid.Row="1" ItemsSource="{Binding ProxyManagerCollection, IsAsync=True}"
-                  AutoGenerateColumns="False" EnableRowVirtualization="False" 
+                  AutoGenerateColumns="False" EnableRowVirtualization="True"  EnableColumnVirtualization="True"
                   CanUserAddRows="False" Foreground="White" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                   AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"

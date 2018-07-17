@@ -5,8 +5,10 @@ using System.Windows;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -98,8 +100,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 var itemToEdit = ((FrameworkElement)sender).DataContext as PublisherRssFeedModel;
-                itemToEdit.ButtonContent = "Update Feed Url";
+                itemToEdit.ButtonContent = "LangKeyUpdateFeedUrl".FromResourceDictionary();
                 PublisherRssFeedModel = itemToEdit;
+                PublisherRssFeed.GetPublisherRssFeed(tabItemsControl).PostContentControl.SetMedia();
             }
             catch (Exception ex)
             {
@@ -111,30 +114,52 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void SaveExecute(object sender)
         {
 
-            try
+            if (!string.IsNullOrEmpty(PublisherRssFeedModel.FeedUrl))
             {
-                if (PublisherRssFeedModel.ButtonContent == "Save to List")
+                try
                 {
-                    if (!string.IsNullOrEmpty(PublisherRssFeedModel.FeedUrl) && !LstFeedUrl.Any(x => string.Compare(x.FeedUrl, PublisherRssFeedModel.FeedUrl, StringComparison.CurrentCultureIgnoreCase) == 0))
+                    if (PublisherRssFeedModel.ButtonContent == "LangKeySaveFeedUrl".FromResourceDictionary())
                     {
-                        LstFeedUrl.Add(new PublisherRssFeedModel()
+                        if (!LstFeedUrl.Any(x =>
+                                string.Compare(x.FeedUrl, PublisherRssFeedModel.FeedUrl,
+                                    StringComparison.CurrentCultureIgnoreCase) == 0))
                         {
-                            FeedUrl = PublisherRssFeedModel.FeedUrl,
-                            FeedTemplate = PublisherRssFeedModel.FeedTemplate
-                        });
+                            LstFeedUrl.Add(new PublisherRssFeedModel()
+                            {
+                                FeedUrl = PublisherRssFeedModel.FeedUrl.Trim(),
+                                FeedTemplate = PublisherRssFeedModel.FeedTemplate,
+                                PostDetailsModel = PublisherRssFeedModel.PostDetailsModel
+                            });
 
+                        }
                     }
+                    else
+                    {
+                        var itemToUpdate = LstFeedUrl.FirstOrDefault(x => x.FeedUrl == PublisherRssFeedModel.FeedUrl);
+                        if (itemToUpdate == null)
+                        {
+                            LstFeedUrl.Add(new PublisherRssFeedModel()
+                            {
+                                FeedUrl = PublisherRssFeedModel.FeedUrl.Trim(),
+                                FeedTemplate = PublisherRssFeedModel.FeedTemplate,
+                                PostDetailsModel = PublisherRssFeedModel.PostDetailsModel
+                            });
+                        }
+                        else
+                            itemToUpdate = PublisherRssFeedModel;
+                    }
+
+                    PublisherRssFeedModel = new PublisherRssFeedModel();
+                    PublisherRssFeed.GetPublisherRssFeed(tabItemsControl).PostContentControl.SetMedia();
                 }
-                else
+                catch (Exception ex)
                 {
-                    var itemToUpdate = LstFeedUrl.FirstOrDefault(x => x.FeedUrl == PublisherRssFeedModel.FeedUrl);
-                    itemToUpdate = PublisherRssFeedModel;
+                    ex.DebugLog();
                 }
-                PublisherRssFeedModel = new PublisherRssFeedModel();
             }
-            catch (Exception ex)
+            else
             {
-                ex.DebugLog();
+                GlobusLogHelper.log.Info("LangKeyPleaseEnterFeedUrl".FromResourceDictionary);
             }
         }
 

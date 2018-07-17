@@ -2996,5 +2996,12 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySavePostToDraft">Save To Draft Post List</system:String>
     <system:String x:Key="LangKeySavePostToPending">Save To Pending Post List</system:String>
     <!--End Added on 17-07-2018-->
-
+    <system:String x:Key="LangKeyUpdateFeedUrl">Update Feed Url</system:String>
+    <system:String x:Key="LangKeySaveFeedUrl">Save Feed Url</system:String>
+    <system:String x:Key="LangKeyPleaseEnterFeedUrl">Please enter feed Url</system:String>
+    <system:String x:Key="LangKeyUpdateFolderPath">Update Folder Path</system:String>
+    <system:String x:Key="LangKeySaveFolderPath">Save Folder Path</system:String>
+    <system:String x:Key="LangKeyPleaseEnterFolderPath">Please enter folder path</system:String>
+    <system:String x:Key="LangKeyWarning">Warning</system:String>
+    <system:String x:Key="LangKeyFolderPathAlreadyExist">Folder path already exist.</system:String>
 </ResourceDictionary>
