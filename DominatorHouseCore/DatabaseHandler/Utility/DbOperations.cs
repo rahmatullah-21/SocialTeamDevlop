@@ -82,11 +82,11 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
             catch (Exception)
             {
-                return null;
+                return new List<T>();
             }
         }
 
-        public T GetSingle<T>(Expression<Func<T, bool>> expression) where T : class
+        public T GetSingle<T>(Expression<Func<T, bool>> expression) where T : class, new()
         {
             try
             {
@@ -94,7 +94,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             }
             catch (Exception)
             {
-                return null;
+                return new T();
             }
         }
 

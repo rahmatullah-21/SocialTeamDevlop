@@ -8,15 +8,16 @@
              xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"  
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
-             mc:Ignorable="d" >
-
-
+             mc:Ignorable="d"  xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+    <UserControl.Resources>
+        <converters:StringLengthToBooleanConverter x:Key="LengthToBooleanConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid  Background="{DynamicResource AccentBaseColorBrush}" Height="40"  VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right"  
                         Background="{DynamicResource AccentBaseColorBrush}">
 
-                <Button x:Name="btnSave"  Margin="75,0,5,0" Background="Green" Foreground="White"
+                <Button x:Name="btnSave"  Margin="75,0,5,0" Foreground="White"
                         Click="BtnSave_OnClick" Height="30">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
@@ -31,13 +32,17 @@
                     <Button.Style>
                         <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                             <Setter Property="IsEnabled" Value="false" />
+                            <Setter Property="Background" Value="Gray"/>
                             <Style.Triggers>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding ElementName=txtUserName, Path=(Validation.HasError)}" Value="false" />
                                         <Condition Binding="{Binding ElementName=txtPassword, Path=(Validation.HasError)}" Value="false" />
+                                        <Condition Binding="{Binding ElementName=txtProxyAddress, Path=(Validation.HasError)}" Value="false" />
+                                        <Condition Binding="{Binding ElementName=txtProxyPort, Path=(Validation.HasError)}" Value="false" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="true" />
+                                    <Setter Property="Control.Background" Value="Green"/>
                                 </MultiDataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -60,7 +65,7 @@
 
             </StackPanel>
         </Grid>
-        <ScrollViewer Margin="0,35,0,0">
+        <ScrollViewer Margin="0,40,0,0">
 
             <StackPanel HorizontalAlignment="Left" Margin="20,0">
                 <StackPanel.Resources>
@@ -217,13 +222,14 @@
                 <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyAccountName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                     <TextBox Name="TxtAccountName" Text="{Binding AccountBaseModel.UserFullName}"  controls:TextBoxHelper.Watermark="Enter Account Name" Width="230"
-                     FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"/>
+                     FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"
+                             KeyDown="OnKeyDown"/>
                 </StackPanel>
 
                 <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyEmailIdUsername}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                     <TextBox Name="txtUserName"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
-                     controls:TextBoxHelper.Watermark="Type User Name" Width="230" FontSize="13"
+                     controls:TextBoxHelper.Watermark="Type User Name" Width="230" FontSize="13" KeyDown="OnKeyDown"
                      FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
                      VerticalAlignment="Center"  Height="30" >
                         <TextBox.Text>
@@ -238,7 +244,7 @@
 
                 <StackPanel  Orientation="Horizontal" >
                     <TextBlock Name="txtblockPassword" Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                    <PasswordBox Name="txtPassword"  passwordHelper:PasswordBoxHelper.Attach="True"
+                    <PasswordBox Name="txtPassword"  passwordHelper:PasswordBoxHelper.Attach="True" KeyDown="OnKeyDown"
                          Style="{StaticResource MetroButtonRevealedPasswordBox}"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                          controls:TextBoxHelper.Watermark="Enter Password" 
                          Width="230" FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
@@ -255,7 +261,7 @@
 
                 <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyBrowser}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                    <TextBox Name="TxtBrowser" Text="{Binding UserAgentWeb}"
+                    <TextBox Name="TxtBrowser" Text="{Binding UserAgentWeb}" KeyDown="OnKeyDown"
                      controls:TextBoxHelper.Watermark="{DynamicResource LangKeyBrowser}" Width="230"
                      FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" />
                 </StackPanel>
@@ -323,85 +329,51 @@
                 </StackPanel>
 
 
-                <RadioButton Content="{DynamicResource LangKeyPhoneVerifications}" Name="ChkPhoneVerification" Margin="5" FontWeight="Bold" >
-                    <RadioButton.Style>
-                        <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}" >
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </RadioButton.Style>
-                </RadioButton>
+                <StackPanel Name="verificationSection">
+                    <RadioButton Content="{DynamicResource LangKeyPhoneVerifications}" Name="ChkPhoneVerification" Margin="5" FontWeight="Bold" >
+                        <RadioButton.Style>
+                            <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}" >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </RadioButton.Style>
+                    </RadioButton>
 
-                <RadioButton Content="{DynamicResource LangKeyEmailVerifications}" Name="ChkEmailVerification" Margin="5" FontWeight="Bold" >
-                    <RadioButton.Style>
-                        <Style TargetType="RadioButton"  BasedOn="{StaticResource {x:Type RadioButton}}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}" >
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </RadioButton.Style>
-                </RadioButton>
-                <Button Name="BtnSendVerificationCode" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5"
+                    <RadioButton Content="{DynamicResource LangKeyEmailVerifications}" Name="ChkEmailVerification" Margin="5" FontWeight="Bold" >
+                        <RadioButton.Style>
+                            <Style TargetType="RadioButton"  BasedOn="{StaticResource {x:Type RadioButton}}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}" >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </RadioButton.Style>
+                    </RadioButton>
+                    <Button Name="BtnSendVerificationCode" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5"
                         Click="BtnSendVerificationCode_OnClick" Width="200" HorizontalAlignment="Left">
-                    <Button.Style>
-                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=ChkEmailVerification,Path=IsChecked}" Value="True" >
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding ElementName=ChkPhoneVerification,Path=IsChecked}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <Rectangle Width="15" Height="15" Fill="White">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Visual="{StaticResource appbar_email}" Stretch="Fill"/>
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <TextBlock Text="{DynamicResource LangKeySendVerificationCode}" Margin="6,0" Foreground="White"/>
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-                <StackPanel  Orientation="Horizontal" Margin="20,5" Name="CodeSection" Visibility="Collapsed">
-                
-                    <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterVerificationCode}"
-                              Width="230" Text="{Binding VarificationCode}"  Name="TxtVarificationCode"
-                              FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" VerticalAlignment="Center"  
-                              Height="30" />
-
-                    <Button x:Name="btnVerifyAccount"  Margin="5,0"  Foreground="White" 
-                            Click="BtnVerifyAccount_OnClick">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                <Setter Property="IsEnabled" Value="True"/>
-                                <Setter Property="Background" Value="Green"/>
+                                <Setter Property="Visibility" Value="Collapsed" />
                                 <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="Green"/>
-                                    </Trigger>
-                                    <DataTrigger Binding="{Binding ElementName=TxtVarificationCode,Path=Text}" Value="">
-                                        <Setter Property="Control.IsEnabled" Value="False"/>
-                                        <Setter Property="Control.Background" Value="Gray"/>
+                                    <DataTrigger Binding="{Binding ElementName=ChkEmailVerification,Path=IsChecked}" Value="True" >
+                                        <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=ChkPhoneVerification,Path=IsChecked}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
@@ -409,47 +381,189 @@
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="15" Height="15" Fill="White">
                                     <Rectangle.OpacityMask>
-                                        <VisualBrush Visual="{StaticResource appbar_social_pocket}" Stretch="Fill"/>
+                                        <VisualBrush Visual="{StaticResource appbar_email}" Stretch="Fill"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                                <TextBlock Text="{DynamicResource LangKeyVerify}" Margin="6,0" Foreground="White"/>
+                                <TextBlock Text="{DynamicResource LangKeySendVerificationCode}" Margin="6,0" Foreground="White"/>
                             </StackPanel>
                         </Button.Content>
                     </Button>
+                    <StackPanel  Orientation="Horizontal" Margin="20,5" Name="CodeSection" Visibility="Collapsed">
+
+                        <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterVerificationCode}"
+                              Width="230" Text="{Binding VarificationCode}"  Name="TxtVarificationCode"
+                              FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" VerticalAlignment="Center"  
+                              Height="30" KeyDown="OnVerificationKeyDown"/>
+
+                        <Button x:Name="btnVerifyAccount"  Margin="5,0"  Foreground="White" 
+                            Click="BtnVerifyAccount_OnClick">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                    <Setter Property="Background" Value="Green"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Green"/>
+                                        </Trigger>
+                                        <DataTrigger Binding="{Binding ElementName=TxtVarificationCode,Path=Text}" Value="">
+                                            <Setter Property="Control.IsEnabled" Value="False"/>
+                                            <Setter Property="Control.Background" Value="Gray"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Width="15" Height="15" Fill="White">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Visual="{StaticResource appbar_social_pocket}" Stretch="Fill"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <TextBlock Text="{DynamicResource LangKeyVerify}" Margin="6,0" Foreground="White"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
 
-
                 <CheckBox Content="{DynamicResource LangKeyAdvancedSettings}" FontWeight="SemiBold"  Name="ChkAdvanceSetting" Margin="5"/>
-                <StackPanel  Orientation="Horizontal" 
-                     Visibility="{Binding ElementName=ChkAdvanceSetting,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock Text="{DynamicResource LangKeyCookies}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Button Content="{DynamicResource LangKeyAddNewCookies}" Name="BtnAddNewCookies" Click="BtnAddNewCookies_OnClick"
+                <StackPanel  Visibility="{Binding ElementName=ChkAdvanceSetting,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid Margin="0,0,0,10" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="2.5*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Name="txtblockProxyAddress" Text="{DynamicResource LangKeyProxyAddress}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
+                         controls:TextBoxHelper.Watermark="Format:{255.255.255.255}" Width="230" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
+                                <TextBox.Text>
+                                    <Binding Path="AccountBaseModel.AccountProxy.ProxyIp" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validation:ValidationHelper Sender="txtProxyAddress" ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="2.5*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Name="txtblockProxyPort" Text="{DynamicResource LangKeyProxyPort}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
+                         controls:TextBoxHelper.Watermark="Type Proxy Port" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
+                                <TextBox.Text>
+                                    <Binding Path="AccountBaseModel.AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validation:ValidationHelper Sender="txtProxyPort"  ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="2.5*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Name="txtblockProxyUserName" Text="{DynamicResource LangKeyProxyUsername}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBox Name="txtProxyUserName" Text="{Binding AccountBaseModel.AccountProxy.ProxyUsername}"
+                         controls:TextBoxHelper.Watermark="Type Proxy User Name" Width="230"
+                         FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black"
+                         VerticalAlignment="Center"  Height="30" Grid.Column="1"  KeyDown="OnKeyDown">
+                                <TextBox.Style>
+                                    <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+                                        <Setter Property="IsEnabled" Value="false" />
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding ElementName=txtProxyAddress, Path=(Validation.HasError)}" Value="false" />
+                                                    <Condition Binding="{Binding ElementName=txtProxyPort, Path=(Validation.HasError)}" Value="false" />
+                                                    <Condition Binding="{Binding ElementName=txtProxyAddress, 
+                                                               Path=Text.Length,Converter={StaticResource LengthToBooleanConverter}}" Value="true" />
+                                                    <Condition Binding="{Binding ElementName=txtProxyPort, Path=Text.Length,
+                                                               Converter={StaticResource LengthToBooleanConverter}}" Value="true" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="IsEnabled" Value="true" />
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="2.5*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Name="txtblockProxyPassword" Text="{DynamicResource LangKeyProxyPassword}" Width="120" FontSize="13" Margin="5,11" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <PasswordBox Name="txtProxyPassword"  passwordHelper:PasswordBoxHelper.Attach="True"
+                             controls:TextBoxHelper.Watermark="Type proxy password"  KeyDown="OnKeyDown"
+                             Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5"
+                             Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
+                             Grid.ColumnSpan="2">
+                                <PasswordBox.Style>
+                                    <Style BasedOn="{StaticResource MetroButtonRevealedPasswordBox}" TargetType="PasswordBox">
+                                        <Setter Property="IsEnabled" Value="false" />
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding ElementName=txtProxyAddress, Path=(Validation.HasError)}" Value="false" />
+                                                    <Condition Binding="{Binding ElementName=txtProxyPort, Path=(Validation.HasError)}" Value="false" />
+                                                    <Condition Binding="{Binding ElementName=txtProxyAddress, 
+                                                               Path=Text.Length,Converter={StaticResource LengthToBooleanConverter}}" Value="true" />
+                                                    <Condition Binding="{Binding ElementName=txtProxyPort, Path=Text.Length,
+                                                               Converter={StaticResource LengthToBooleanConverter}}" Value="true" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="IsEnabled" Value="true" />
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </PasswordBox.Style>
+                                <passwordHelper:PasswordBoxHelper.Password>
+                                    <Binding Path="AccountBaseModel.AccountProxy.ProxyPassword" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay"/>
+                                </passwordHelper:PasswordBoxHelper.Password>
+                            </PasswordBox>
+                        </Grid>
+                    </Grid>
+                    <StackPanel  Orientation="Horizontal" >
+                        <TextBlock Text="{DynamicResource LangKeyCookies}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="{DynamicResource LangKeyAddNewCookies}" Name="BtnAddNewCookies" Click="BtnAddNewCookies_OnClick"
                             Background="Transparent" FontWeight="SemiBold" Foreground="{DynamicResource AccentBaseColorBrush}"/>
-                            <Button Content="{DynamicResource LangKeyRemoveSelectedCookies}" Background="Transparent" Name="BtnRemoveNewCookies"
+                                <Button Content="{DynamicResource LangKeyRemoveSelectedCookies}" Background="Transparent" Name="BtnRemoveNewCookies"
                             Click="BtnRemoveNewCookies_OnClick"  FontWeight="SemiBold" Foreground="{DynamicResource AccentBaseColorBrush}"/>
-                        </StackPanel>
-                        <DataGrid Margin="5" ItemsSource="{Binding CookieHelperList}" MaxHeight="200" Width="500"
+                            </StackPanel>
+                            <DataGrid Margin="5" ItemsSource="{Binding CookieHelperList}" MaxHeight="200" Width="500"
                       AutoGenerateColumns="False" CanUserAddRows="True" Name="Cookies">
 
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Key" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="Value" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="Key" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Value" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
 

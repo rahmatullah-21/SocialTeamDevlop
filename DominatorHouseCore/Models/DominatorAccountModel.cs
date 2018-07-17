@@ -294,6 +294,7 @@ namespace DominatorHouseCore.Models
             CancellationSource.Cancel();
         }
         public string VarificationCode { get; set; } = string.Empty;
+        public string ChallengeUrl { get; set; } = string.Empty;
         public DominatorAccountModel Clone()
         {
             return (DominatorAccountModel)this.MemberwiseClone();

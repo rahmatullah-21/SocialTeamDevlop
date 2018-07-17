@@ -57,6 +57,9 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         [Column(Order = 14)]
         public string SinAccUsername { get; set; }
 
+        [Column(Order = 15)]
+        public string Category { get; set; }
+
 
     }
 }

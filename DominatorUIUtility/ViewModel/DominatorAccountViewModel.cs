@@ -48,6 +48,8 @@ namespace DominatorUIUtility.ViewModel
             public Action<DominatorAccountModel> ActionCheckAccount;
             public Action<DominatorAccountModel> AccountBrowserLogin;
             public Action<DominatorAccountModel> action_UpdateFollower;
+            public Action<DominatorAccountModel> EditProfile;
+            public Action<DominatorAccountModel> RemovePhoneVerification;
         }
 
 
@@ -1983,6 +1985,10 @@ namespace DominatorUIUtility.ViewModel
 
         public void ActionUpdateAccount(DominatorAccountModel model)
             => strategyPack.action_UpdateFollower(model);
+        public void EditProfile(DominatorAccountModel model)
+            => strategyPack.EditProfile(model);
+        public void RemovePhoneVerification(DominatorAccountModel model)
+            => strategyPack.RemovePhoneVerification(model);
         public void UpdateProxyStatus(DominatorAccountBaseModel objDominatorAccountBaseModel)
         {
             try
@@ -1997,7 +2003,6 @@ namespace DominatorUIUtility.ViewModel
             }
         }
     }
-
 
 
     public class GridViewHeader : BindableBase

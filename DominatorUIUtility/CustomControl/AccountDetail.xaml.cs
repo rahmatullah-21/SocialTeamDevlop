@@ -38,7 +38,7 @@ namespace DominatorUIUtility.CustomControl
 
 
         public DominatorAccountModel DominatorAccountModel { get; set; }
-        public DominatorAccountModel OldDominatorAccountModel { get; }
+        public DominatorAccountModel OldDominatorAccountModel { get; set; }
 
 
         /// <summary>
@@ -140,7 +140,15 @@ namespace DominatorUIUtility.CustomControl
                 {
                     ex.DebugLog();
                 }
+                OldDominatorAccountModel.AccountBaseModel = new DominatorAccountBaseModel
+                {
+                    UserName = DominatorAccountModel.AccountBaseModel.UserName,
+                    Password = DominatorAccountModel.AccountBaseModel.Password,
+                };
+                OldDominatorAccountModel.UserAgentWeb = DominatorAccountModel.UserAgentWeb;
+                OldDominatorAccountModel.CookieHelperList = DominatorAccountModel.CookieHelperList;
             });
+
 
             #endregion
 
@@ -196,7 +204,20 @@ namespace DominatorUIUtility.CustomControl
             {
                 var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
                 var verificationType = ChkEmailVerification.IsChecked == true ? VerificationType.Email : VerificationType.Phone;
-                accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, verificationType, DominatorAccountModel.Token);
+                Task.Factory.StartNew(() =>
+                {
+                    if (accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, verificationType,
+                        DominatorAccountModel.Token).Result)
+                        Application.Current.Dispatcher.Invoke(
+                            () => verificationSection.Visibility = Visibility.Collapsed
+                        );
+
+                    else
+                        Application.Current.Dispatcher.Invoke(
+                            () => verificationSection.Visibility = Visibility.Visible
+                        );
+                });
+
             }
         }
 
@@ -208,15 +229,41 @@ namespace DominatorUIUtility.CustomControl
 
             var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
             var verificationType = ChkEmailVerification.IsChecked == true ? VerificationType.Email : VerificationType.Phone;
-
-            if (accountVerificationFactory
+            Task.Factory.StartNew(() =>
+            {
+                if (accountVerificationFactory
                 .SendVerificationCode(DominatorAccountModel, verificationType, DominatorAccountModel.Token).Result)
-                CodeSection.Visibility = Visibility.Visible;
-            else
-                CodeSection.Visibility = Visibility.Collapsed;
+                    Application.Current.Dispatcher.Invoke(
+                        () =>
+                        {
+                            CodeSection.Visibility = Visibility.Visible;
+                           // GlobusLogHelper.log.Info(Log.SentVerificationCode, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
+                        });
+                else
+                    Application.Current.Dispatcher.Invoke(
+                        () =>
+                        {
+                            CodeSection.Visibility = Visibility.Collapsed;
+                           // GlobusLogHelper.log.Info(Log.FailedToSendVerificationCodeFaild, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
 
+                        });
+
+            });
+        }
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnSave.IsDefault = true;
+            }
+        }
+        private void OnVerificationKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnVerifyAccount.IsDefault = true;
+            }
         }
 
-       
     }
 }
