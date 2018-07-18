@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Migrations.Model;
 using System.Windows;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;

@@ -187,6 +187,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             CampaignId = Utilities.GetGuid();
             CreatedDate = DateTime.Now;            
             IsSelected = false;
+            UpdatedTime = DateTime.Now;
         }
 
         public bool ValidDateTime()

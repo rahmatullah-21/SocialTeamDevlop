@@ -1,15 +1,14 @@
 ﻿using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace DominatorHouseCore.ViewModel
 {
     public class LiveChatViewModel : BindableBase
     {
+
         private LiveChatModel _liveChatModel = new LiveChatModel();
        
-
         public LiveChatModel LiveChatModel
         {
             get
@@ -24,8 +23,7 @@ namespace DominatorHouseCore.ViewModel
             }
         }
 
-
-        public List<DominatorAccountModel> lstAccountModel { get; set; } = new List<DominatorAccountModel>();
+        public List<DominatorAccountModel> LstAccountModel { get; set; } = new List<DominatorAccountModel>();
 
        
     }

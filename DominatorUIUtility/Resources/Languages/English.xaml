@@ -3004,4 +3004,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPleaseEnterFolderPath">Please enter folder path</system:String>
     <system:String x:Key="LangKeyWarning">Warning</system:String>
     <system:String x:Key="LangKeyFolderPathAlreadyExist">Folder path already exist.</system:String>
+    <system:String x:Key="LangKeyLastModifiedDate">Last Modified Date</system:String>
 </ResourceDictionary>
