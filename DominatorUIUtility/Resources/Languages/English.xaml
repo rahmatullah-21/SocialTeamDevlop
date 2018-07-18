@@ -3002,8 +3002,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPleaseEnterFolderPath">Please enter folder path</system:String>
     <system:String x:Key="LangKeyWarning">Warning</system:String>
     <system:String x:Key="LangKeyFolderPathAlreadyExist">Folder path already exist.</system:String>
+    <system:String x:Key="LangKeyLastModifiedDate">Last Modified Date</system:String>
 
-
+    <!--Start Added By Kamal on 18-07-2018-->
     <system:String x:Key="LangKeyFilterCommunityNsfw">Should be NSFW Community</system:String>
     <system:String x:Key="LangKeyFilterQuarantinedCommunity">Should be Quarantined Community</system:String>
     <system:String x:Key="LangKeyFilteruserIsSubscriberCommunity">User should be a subscriber</system:String>
@@ -3013,4 +3014,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFilterOriginalContentCommunity">Should support original content</system:String>
     <system:String x:Key="LangKeyFilterBySubscribersCounts">Should have subscribers count in specific range</system:String>
     <system:String x:Key="LangKeyFilterBywlsCounts">Should have WLS count in specific range</system:String>
+    <!--End Added on 18-07-2018-->
+
+
 </ResourceDictionary>

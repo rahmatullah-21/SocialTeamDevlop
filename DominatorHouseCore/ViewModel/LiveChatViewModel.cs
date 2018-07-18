@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 namespace DominatorHouseCore.ViewModel
 {
-    public class LiveChatViewModel:BindableBase
+    public class LiveChatViewModel : BindableBase
     {
-        private LiveChatModel _liveChatModel=new LiveChatModel();
 
+        private LiveChatModel _liveChatModel = new LiveChatModel();
+       
         public LiveChatModel LiveChatModel
         {
             get
@@ -22,8 +23,8 @@ namespace DominatorHouseCore.ViewModel
             }
         }
 
+        public List<DominatorAccountModel> LstAccountModel { get; set; } = new List<DominatorAccountModel>();
 
-        public List<DominatorAccountModel> lstAccountModel = new List<DominatorAccountModel>();
-
+       
     }
 }

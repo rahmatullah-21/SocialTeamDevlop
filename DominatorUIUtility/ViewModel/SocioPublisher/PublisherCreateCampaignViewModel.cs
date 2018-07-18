@@ -273,6 +273,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     ConstantVariable.GetPublisherCampaignFile());
 
                 PublisherCreateCampaignModel.PostDetailsModel = new PostDetailsModel();
+                PublisherCreateCampaignModel.UpdatedDate = DateTime.Now;
 
                 if (lstCampaign.Any(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId))
                 {
@@ -468,10 +469,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     StartDate = startTime,
                     EndDate = endTime,
                     CreatedDate = PublisherCreateCampaignModel.CreatedDate,
+                    UpdatedTime = PublisherCreateCampaignModel.UpdatedDate,
                     Status = PublisherCreateCampaignModel.CampaignStatus,
                     DestinationCount = PublisherCreateCampaignModel.LstDestinationId.Count,
                     IsRotateDayChecked = PublisherCreateCampaignModel.JobConfigurations.IsRotateDayChecked,
                     TimeRange = PublisherCreateCampaignModel.JobConfigurations.TimeRange,
+                    IsRandomRunningTime = PublisherCreateCampaignModel.JobConfigurations.IsRandomizePublishingTimerChecked,                 
+                    MaximumTime = PublisherCreateCampaignModel.JobConfigurations.MaxPost,
                     SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                     ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
                     PendingCount = publisherPostlistModel.LstPublishedPostDetailsModels.Count,

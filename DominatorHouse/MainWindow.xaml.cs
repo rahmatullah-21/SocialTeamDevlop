@@ -73,7 +73,7 @@ namespace Socinator
         public MainWindow()
         {
             try
-            {
+            {                
                 DialogParticipation.SetRegister(this, this);
                 Dispatcher.Invoke(async () => { await LicenseCheck(); });
                 _languages = new ObservableCollection<string>();
@@ -683,8 +683,12 @@ namespace Socinator
 
                 var softWareSettings = new DominatorHouse.Utilities.SoftwareSettings();
                 ThreadFactory.Instance.Start(() => { softWareSettings.InitializeOnLoadConfigurations(_strategies); });
+
                 var softWareSetting = new DominatorHouseCore.Settings.SoftwareSettings();
                 ThreadFactory.Instance.Start(() => { softWareSetting.InitializeOnLoadConfigurations(); });
+
+                // For Every day backup
+                ThreadFactory.Instance.Start(DirectoryUtilities.Compress);
 
                 #region Publisher
 

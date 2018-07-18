@@ -106,6 +106,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        private DateTime _updatedTime;
+
+        public DateTime UpdatedTime
+        {
+            get
+            {
+                return _updatedTime;
+            }
+            set
+            {
+                _updatedTime = value;
+                OnPropertyChanged(nameof(UpdatedTime));
+            }
+        }
+
+
         public DateTime? StartDate
         {
             get
@@ -141,6 +157,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public List<TimeSpan> SpecificRunningTime { get; set; } = new List<TimeSpan>();
 
+        public bool IsRandomRunningTime { get; set; }
+
+        public int MaximumTime { get; set; }
+
         public TimeRange TimeRange { get; set; }
 
         public bool IsTakeRandomDestination { get; set; }
@@ -167,6 +187,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             CampaignId = Utilities.GetGuid();
             CreatedDate = DateTime.Now;            
             IsSelected = false;
+            UpdatedTime = DateTime.Now;
         }
 
         public bool ValidDateTime()

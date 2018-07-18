@@ -11,16 +11,19 @@
         <converter:MessegeTypeToHorizontalAlignmentConverter x:Key="MessegeTypeToHorizontalAlignmentConverter"/>
         <converter:EpochToDateTimeConverter x:Key="EpochToDateTimeConverter"/>
     </UserControl.Resources>
+
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
         <Grid  Background="{DynamicResource AccentBaseColorBrush}">
-            <ComboBox x:Name="cmbAccounts" Width="200" HorizontalAlignment="Right"
-                      VerticalAlignment="Center" Margin="20,0" SelectedIndex="0"
+            <ComboBox x:Name="Accounts" Width="200" HorizontalAlignment="Right" ItemsSource="{Binding AccountNames}"
+                      VerticalAlignment="Center" Margin="20,0" SelectedIndex="0" SelectedItem="{Binding SelectedAccount}"
                       SelectionChanged="cmbAccounts_SelectionChanged"/>
         </Grid>
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" MinWidth="120" MaxWidth="800"/>
@@ -29,33 +32,33 @@
             </Grid.ColumnDefinitions>
             <ListBox x:Name="Senders" Margin="0,5"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding LstSender}" SelectionChanged="Senders_SelectionChanged">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="120"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                    <Ellipse Height="60" Width="60" >
-                                        <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding SenderImage}"/>
-                                        </Ellipse.Fill>
-                                    </Ellipse>
-                                <StackPanel Grid.Column="1" Margin="5">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock x:Name="Sender" Text="{Binding SenderName}"  FontWeight="Bold"/>
-                                        <TextBlock x:Name="LastMessegeDate" Text="{Binding LastMessegedate,Converter={StaticResource EpochToDateTimeConverter}}" Margin="10,0" Grid.Column="1"/>
-                                    </Grid>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Ellipse Height="60" Width="60" >
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding SenderImage}"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <StackPanel Grid.Column="1" Margin="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="150" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock x:Name="Sender" Text="{Binding SenderName}"  FontWeight="Bold"/>
+                                    <TextBlock x:Name="LastMessegeDate" Text="{Binding LastMessegedate,Converter={StaticResource EpochToDateTimeConverter}}" Margin="10,0" Grid.Column="1"/>
+                                </Grid>
                                 <TextBlock x:Name="LastMessege"  Text="{Binding LastMesseges}"/>
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
             <GridSplitter Width="5" Grid.Column="1" HorizontalAlignment="Right" 
                    VerticalAlignment="Stretch"   ResizeBehavior="PreviousAndNext"
                    Background="{DynamicResource AccentBaseColorBrush}" ResizeDirection="Columns"/>
@@ -70,14 +73,13 @@
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Focusable" Value="False"/>
                         </Style>
-                        
+
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border Padding="5" >
                                 <Grid>
-                                    <Grid HorizontalAlignment="{Binding Type, 
-                                        Converter={StaticResource MessegeTypeToHorizontalAlignmentConverter}}">
+                                    <Grid HorizontalAlignment="{Binding Type, Converter={StaticResource MessegeTypeToHorizontalAlignmentConverter}}">
 
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*" />
@@ -86,7 +88,7 @@
                                         </Grid.RowDefinitions>
 
                                         <Border CornerRadius="10"  Padding="15"  Background="{DynamicResource AccentColorBrush}">
-                                           <TextBox IsReadOnly="True" BorderThickness="0" Background="Transparent" 
+                                            <TextBox IsReadOnly="True" BorderThickness="0" Background="Transparent" 
                                                     x:Name="Messege"  Text="{Binding Messeges}" Grid.Column="0" Foreground="White"
                                                     VerticalAlignment="Top"  Margin="10,5" HorizontalAlignment="Left"/>
                                         </Border>
@@ -111,6 +113,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                
                 <Grid Grid.Row="1" MinHeight="50" MaxHeight="114" Visibility="{Binding ElementName=Senders,
                     Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
@@ -127,14 +130,14 @@
                                     <VisualBrush Visual="{StaticResource appbar_paperclip}" Stretch="Fill"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                        </Button.Content>  
+                        </Button.Content>
                     </Button>
 
                     <!-- Message box -->
                     <TextBox Grid.Column="1" x:Name="TxtMessege"
                      controls:TextBoxHelper.Watermark="Write a message..."
                      VerticalAlignment="Center" Height="40"
-                     BorderThickness="0"  AcceptsReturn="True"
+                     BorderThickness="0"  AcceptsReturn="True" Text="{Binding TextMessage}"
                      AcceptsTab="True"  VerticalScrollBarVisibility="Auto" >
                         <TextBox.Effect>
                             <DropShadowEffect BlurRadius="10"  Direction="90" />
@@ -167,6 +170,7 @@
                         </Button>
                     </StackPanel>
                 </Grid>
+                
             </Grid>
         </Grid>
     </Grid>
