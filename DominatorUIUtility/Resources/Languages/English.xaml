@@ -2428,12 +2428,7 @@
     <system:String x:Key="LangKeyType">Type</system:String>
     <system:String x:Key="LangKeyTypeHere">Type Here..</system:String>
     <system:String x:Key="LangKeyTypeYourMessageHere">Type Your Message Here...</system:String>
-    <system:String x:Key="LangKeyUpvoteUniqueUsersFromThisAccount">Upvote unique users from the account</system:String>
-    <system:String x:Key="LangKeyUpvoteUniqueUsersForCampaign">Upvote unique users from all accounts in this campaign</system:String>
-    <system:String x:Key="LangKeyUpvoteUniquePostForCampaign">Upvote unique posts for this campaign</system:String>
-    <system:String x:Key="LangKeyDownvoteUniqueUsersFromThisAccount">Downvote unique users from the account</system:String>
-    <system:String x:Key="LangKeyDownvoteUniqueUsersForCampaign">Downvote unique users from all accounts in this campaign</system:String>
-    <system:String x:Key="LangKeyDownvoteUniquePostForCampaign">Downvote unique posts for this campaign</system:String>
+    
     <system:String x:Key="LangKeyUncheckGroupsThatRequireAdminValidationForPosts">Uncheck Groups That Require Admin Validation For Posts</system:String>
     <system:String x:Key="LangKeyUncheckIncludeOriginalPostFromFacebookPageShare">Uncheck 'Include Original Post' From Facebook Page Share</system:String>
     <system:String x:Key="LangKeyUndoRandomRetweets">Undo Random Retweets</system:String>
@@ -2714,10 +2709,13 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPublishingProcessCompleted">Publish process completed with campaign</system:String>
     <!--Ends Newly Added-->
     <!--Begins Newly Added on (05/07/2018)-->
-    <system:String x:Key="LangKeyUpvoteFromRandom">Vote from random</system:String>
     <system:String x:Key="LangKeyPercentageOfSelectedAccounts">% of selected accounts</system:String>
     <system:String x:Key="LangKeyKeepDelayBetween">Keep delay between</system:String>
-    <system:String x:Key="LangKeySecondsWhenUpvotingSamePost">seconds when voting same post</system:String>
+    <system:String x:Key="LangKeyPerformActionOnUniquePostFromAllAccountsInThisCampaign">Perform action on unique post from all accounts in this campaign.</system:String>
+    <system:String x:Key="LangKeyPerformActionOnPostsOfUniqueUserFromAllAccountsInThisCampaign">Perform action on posts of unique user from all accounts in this campaign.</system:String>
+    <system:String x:Key="LangKeyPerformActionOnPostsOfUniqueUserFromEachAccountsInThisCampaign">Perform action on posts of unique user from each accounts in this campaign.</system:String>
+    <system:String x:Key="LangKeyPerformActionFromRandom">Perform action from random</system:String>
+    <system:String x:Key="LangKeySecondsWhenPerformingActionOnASpecificPost">seconds when performing action on a specific post.</system:String>
 
 
     <system:String x:Key="LangKeyFilterByNetwork">Filter By Network</system:String>
@@ -3004,4 +3002,15 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPleaseEnterFolderPath">Please enter folder path</system:String>
     <system:String x:Key="LangKeyWarning">Warning</system:String>
     <system:String x:Key="LangKeyFolderPathAlreadyExist">Folder path already exist.</system:String>
+
+
+    <system:String x:Key="LangKeyFilterCommunityNsfw">Should be NSFW Community</system:String>
+    <system:String x:Key="LangKeyFilterQuarantinedCommunity">Should be Quarantined Community</system:String>
+    <system:String x:Key="LangKeyFilteruserIsSubscriberCommunity">User should be a subscriber</system:String>
+    <system:String x:Key="LangKeyFiltershowMediaCommunity">Should show media</system:String>
+    <system:String x:Key="LangKeyFilteremojisEnabledCommunity">Should have Emojis Enabled</system:String>
+    <system:String x:Key="LangKeyFilteroriginalContentTagEnabledCommunity">Should have original tag enabled</system:String>
+    <system:String x:Key="LangKeyFilterOriginalContentCommunity">Should support original content</system:String>
+    <system:String x:Key="LangKeyFilterBySubscribersCounts">Should have subscribers count in specific range</system:String>
+    <system:String x:Key="LangKeyFilterBywlsCounts">Should have WLS count in specific range</system:String>
 </ResourceDictionary>
