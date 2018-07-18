@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.Models;
+using DominatorHouseCore.ViewModel;
 using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.DatabaseHandler.TdTables.Accounts;
@@ -12,7 +13,7 @@ namespace DominatorHouseCore.Interfaces
 
         void UpdateDetails(DominatorAccountModel accountModel);
 
-        DailyStatitics GetDailyGrowth(string accuntId, string username, GrowthPeriod period);
+        TwitterDailyStatisticsViewModel GetDailyGrowth(string accuntId, string username, GrowthPeriod period);
     }
     public interface IAccountUpdateFactoryAsync: IAccountUpdateFactory
     {
