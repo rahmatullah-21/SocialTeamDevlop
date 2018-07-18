@@ -13,7 +13,7 @@ namespace DominatorHouseCore.Interfaces
 
         void UpdateDetails(DominatorAccountModel accountModel);
 
-        TwitterDailyStatisticsViewModel GetDailyGrowth(string accuntId, string username, GrowthPeriod period);
+        DailyStatisticsViewModel GetDailyGrowth(string accuntId, string username, GrowthPeriod period);
     }
     public interface IAccountUpdateFactoryAsync: IAccountUpdateFactory
     {
