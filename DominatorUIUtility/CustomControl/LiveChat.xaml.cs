@@ -74,6 +74,8 @@ namespace DominatorUIUtility.CustomControl
                 }
             };
 
+            LiveChatViewModel.LiveChatModel.SenderDetails = LiveChatViewModel.LiveChatModel.LstSender[0];
+
             #endregion
 
             SendMessage = SendMessage;
@@ -100,7 +102,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-
         }
 
         public void UpdateAccountChatName() =>
@@ -128,12 +129,12 @@ namespace DominatorUIUtility.CustomControl
 
         private void GetCurrentChat()
         {
-            if (Senders.SelectedItem != null)
+            if (LiveChatViewModel.LiveChatModel.SenderDetails != null)
             {
                 try
                 {
-                    var senderDetails = Senders.SelectedItem as SenderDetails;
-                    LiveChatViewModel.LiveChatModel.SenderDetails = senderDetails;
+                    //var senderDetails = Senders.SelectedItem as SenderDetails;
+                    //LiveChatViewModel.LiveChatModel.SenderDetails = senderDetails;
                     UpdatePerticularThread(LiveChatViewModel.LiveChatModel);
                 }
                 catch (Exception ex)
@@ -150,6 +151,8 @@ namespace DominatorUIUtility.CustomControl
                     x.UserName == LiveChatViewModel.LiveChatModel.SelectedAccount);
 
             ThreadFactory.Instance.Start(() => { UpdateAccountChatList?.Invoke(LiveChatViewModel.LiveChatModel); });
+
+            ThreadFactory.Instance.Start(GetCurrentChat);
         }
     }
 }
