@@ -35,6 +35,8 @@ namespace DominatorHouseCore.Utility
 
         public static string BitlyLogin { get; set; } = string.Empty;
 
+        public static string Revision { get; set; }
+
         public static string GetPlatformBaseDirectory()
         {
             string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}";

@@ -28,13 +28,13 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://169.50.161.212/socinator/</InstallUrl>
-    <UpdateUrl>http://169.50.161.212/socinator/</UpdateUrl>
+    <InstallUrl>http://169.50.161.212/soctest/</InstallUrl>
+    <UpdateUrl>http://169.50.161.212/soctest/</UpdateUrl>
     <SupportUrl>https://socinator.com/contact-us/</SupportUrl>
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -307,6 +307,7 @@
     <Resource Include="SociNator.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <EmbeddedResource Include="RevisionHistory\revisionhistory.txt" />
     <Content Include="SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -389,6 +390,14 @@
     <ProjectReference Include="..\..\facedominator-library\FaceDominatorUI\FaceDominatorUI.csproj">
       <Project>{1c0beb70-f243-4a53-983e-ce25a1b722f6}</Project>
       <Name>FaceDominatorUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorCore\GplusDominatorCore.csproj">
+      <Project>{eaffb84c-f492-4ee5-aa11-c285aaf4e154}</Project>
+      <Name>GplusDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorUI\GplusDominatorUI.csproj">
+      <Project>{654340fb-7bc9-427a-9439-1091bdb15c84}</Project>
+      <Name>GplusDominatorUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\gramdominator-library\GramDominatorCore\GramDominatorCore.csproj">
       <Project>{b04813ea-a4b5-40ae-b705-743687f74770}</Project>

@@ -51,7 +51,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         public void ScrapeWithQueries()
         {
             Debug.Assert(_jobProcess.SavedQueries.Count > 0);
-
+            int totalQueries = _jobProcess.SavedQueries.Count;
+            int usedQueries = 0;
             _jobProcess.SavedQueries.Shuffle();
 
             try
@@ -69,7 +70,10 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     {
                         ex.ErrorLog($"Unable to find key for query type - {query.QueryType}. {ex.Message}");
                     }
+
+                    usedQueries++;
                 }
+                if(totalQueries == usedQueries)
                 GlobusLogHelper.log.Info(Log.NoMoreDataToPerform,_jobProcess.SocialNetworks,_jobProcess.DominatorAccountModel.AccountBaseModel.UserName,_jobProcess.ActivityType);
             }
             catch (OperationCanceledException)

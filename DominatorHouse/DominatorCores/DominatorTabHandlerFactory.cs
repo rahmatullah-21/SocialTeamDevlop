@@ -60,11 +60,11 @@ namespace Socinator.DominatorCores
                     Content = new Lazy<UserControl>(() => AccountManager.GetSingletonAccountManager("AccountManager",null,SocialNetworks.Social))
                    // Content = new Lazy<UserControl>(() => new AccountTab(_strategies))
                 },
-                new TabItemTemplates
-                {
-                    Title = "Account Growth",
-                    Content = new Lazy<UserControl>(() => new AccountGrowthTab(_strategies))
-                },
+                //new TabItemTemplates
+                //{
+                //    Title = "Account Growth",
+                //    Content = new Lazy<UserControl>(() => new AccountGrowthTab(_strategies))
+                //},
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),

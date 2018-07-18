@@ -376,6 +376,8 @@ namespace Socinator
         {
             try
             {
+                var streamq = Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt");
                 var accountCustomControl =
                     AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);
 
@@ -577,8 +579,16 @@ namespace Socinator
 
         public void InitializeJobCores(string license)
         {
+           
             try
             {
+                var streamq = Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt");
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt"))
+                {
+                    TextReader tr = new StreamReader(stream);
+                    ConstantVariable.Revision = tr.ReadToEnd();
+                }
                 ThreadFactory.Instance.Start(() =>
                     {
                         var nextDayTime = DateTime.Now.AddDays(1);

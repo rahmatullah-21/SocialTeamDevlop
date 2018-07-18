@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -13,12 +15,18 @@ namespace DominatorHouseCore.ViewModel
     {
         public RevisionHistoryViewModel()
         {
-            //var fileContent = System.IO.File.ReadAllText(@"C:\Users\GLB-259\Desktop\version.txt").Trim();
-           // var result = Regex.Split(fileContent, "version").ToList();
-            //if (result != null && result.Count != 0)
-            //{
-            //    AddingVersionDetails(result);
-            //}
+            try
+            {
+                var result = Regex.Split(ConstantVariable.Revision, "version").ToList();
+                if (result != null && result.Count != 0)
+                {
+                    AddingVersionDetails(result);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void AddingVersionDetails(List<string> result)
