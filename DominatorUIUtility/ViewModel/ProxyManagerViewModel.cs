@@ -52,8 +52,7 @@ namespace DominatorUIUtility.ViewModel
             DropDownCommand = new BaseCommand<object>(DropDownCanExecute, DropDownExecute);
             AssignRandomProxyCommand = new BaseCommand<object>(AssignRandomProxyCanExecute, AssignRandomProxyExecute);
             BindingOperations.EnableCollectionSynchronization(lstProxyManagerModel, _lock);
-            ProxyManagerCollection = CollectionViewSource.GetDefaultView(LstProxyManagerModel);
-            StartAddingItems();
+           
 
         }
 
@@ -1127,7 +1126,357 @@ namespace DominatorUIUtility.ViewModel
 
         }
 
+        #region Methods for account proxy updation
+        public void UpdateProxy(DominatorAccountBaseModel objAccountBaseModel, List<ProxyManagerModel> ProxyDetail, DominatorAccountViewModel.AccessorStrategies strategy)
+        {
+            try
+            {
+                var proxyManager = ProxyManager.GetProxyManagerControl(strategy);
 
+                #region if proxy | port empty then that account will remove from proxy AccountsAssignedto list and that account will add to all proxies
+
+                foreach (var proxy in ProxyDetail)
+                {
+
+                    try
+                    {
+                        var account = proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName == objAccountBaseModel.UserName && x.AccountNetwork == objAccountBaseModel.AccountNetwork);
+
+                        if (account != null)
+                        {
+                            proxy.AccountsAssignedto.Remove(account);
+                            ProxyFileManager.EditProxy(proxy);
+                            proxyManager = ProxyManager.GetProxyManagerControl(strategy);
+                            proxyManager.ProxyManagerViewModel.LstProxyManagerModel
+                                .FirstOrDefault(x => x.AccountProxy.ProxyId == proxy.AccountProxy.ProxyId)
+                                .AccountsAssignedto = proxy.AccountsAssignedto;
+                            proxyManager.ProxyManagerViewModel.accountsAlreadyAssigned.
+                                Remove(proxyManager.ProxyManagerViewModel.accountsAlreadyAssigned.FirstOrDefault(x => x.UserName == objAccountBaseModel.UserName
+                                                                                                                      && x.AccountNetwork == objAccountBaseModel.AccountNetwork));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                }
+
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+        }
+
+        public bool IsProxyAvailable(DominatorAccountBaseModel objAccountBaseModel, List<ProxyManagerModel> oldProxies,
+       DominatorAccountBaseModel oldAccount, DominatorAccountViewModel.AccessorStrategies strategy)
+        {
+            bool isDuplicatProxyAvailable = false;
+            ProxyManager proxyManager = ProxyManager.GetProxyManagerControl(strategy);
+            foreach (var proxy in oldProxies)
+            {
+                #region To check for available proxy 
+                try
+                {
+
+                    if (objAccountBaseModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
+                        && objAccountBaseModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
+                    {
+                        #region If other proxy with same ip/port is present
+
+                        try
+                        {
+                            if (string.IsNullOrEmpty(proxy.AccountProxy.ProxyUsername) || proxy.AccountProxy.ProxyUsername != objAccountBaseModel.AccountProxy.ProxyUsername)
+                                proxy.AccountProxy.ProxyUsername = objAccountBaseModel.AccountProxy.ProxyUsername;
+
+                            if (string.IsNullOrEmpty(proxy.AccountProxy.ProxyPassword) || proxy.AccountProxy.ProxyPassword != objAccountBaseModel.AccountProxy.ProxyPassword)
+                                proxy.AccountProxy.ProxyPassword = objAccountBaseModel.AccountProxy.ProxyPassword;
+
+                            objAccountBaseModel.AccountProxy = proxy.AccountProxy;
+
+                            var accountTomodified = new AccountAssign
+                            {
+                                UserName = objAccountBaseModel.UserName,
+                                AccountNetwork = objAccountBaseModel.AccountNetwork
+                            };
+
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                try
+                                {
+                                    if (oldAccount != null)
+                                    {
+                                        oldProxies.ForEach(pr =>
+                                        {
+
+                                            var accountToRemove = pr.AccountsAssignedto.FirstOrDefault(acc =>
+                                                acc.UserName == oldAccount.UserName &&
+                                                acc.AccountNetwork == oldAccount.AccountNetwork);
+
+                                            if (accountToRemove != null)
+                                            {
+                                                pr.AccountsAssignedto.Remove(accountToRemove);
+                                                ProxyFileManager.EditProxy(pr);
+                                            }
+
+                                        });
+                                        var proxyToUpdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == oldAccount.AccountProxy.ProxyIp
+                                                                                                                                        && x.AccountProxy.ProxyPort == oldAccount.AccountProxy.ProxyPort);
+                                        proxyToUpdate?.AccountsAssignedto.Remove(proxyToUpdate?.AccountsAssignedto.FirstOrDefault(x => x.UserName == oldAccount.UserName && x.AccountNetwork == oldAccount.AccountNetwork));
+
+                                        proxyToUpdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == objAccountBaseModel.AccountProxy.ProxyIp
+                                                                                                                                    && x.AccountProxy.ProxyPort == objAccountBaseModel.AccountProxy.ProxyPort);
+                                        proxyToUpdate?.AccountsAssignedto.Add(
+                                            new AccountAssign
+                                            {
+                                                UserName = objAccountBaseModel.UserName,
+                                                AccountNetwork = objAccountBaseModel.AccountNetwork
+                                            });
+
+                                    }
+                                    else
+                                    {
+                                        var proxyToUpdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == objAccountBaseModel.AccountProxy.ProxyIp
+                                                                                                                                        && x.AccountProxy.ProxyPort == objAccountBaseModel.AccountProxy.ProxyPort);
+                                        proxyToUpdate?.AccountsAssignedto.Add(
+                                            new AccountAssign
+                                            {
+                                                UserName = objAccountBaseModel.UserName,
+                                                AccountNetwork = objAccountBaseModel.AccountNetwork
+                                            });
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    ex.DebugLog();
+                                }
+
+
+                                proxy.AccountsAssignedto.Add(accountTomodified);
+
+                                ProxyFileManager.EditProxy(proxy);
+                                proxyManager.ProxyManagerViewModel.accountsAlreadyAssigned.Add(
+                                    new AccountAssign
+                                    {
+                                        UserName = accountTomodified.UserName,
+                                        AccountNetwork = accountTomodified.AccountNetwork
+                                    });
+                            });
+
+                            isDuplicatProxyAvailable = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                        break;
+
+                        #endregion
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog(ex.Message);
+                }
+
+                #endregion
+
+            }
+
+            return isDuplicatProxyAvailable;
+        }
+        public async Task<bool> IsProxyUpdated(DominatorAccountBaseModel objDominatorAccountBaseModel, List<ProxyManagerModel> oldProxies,
+            DominatorAccountBaseModel oldAccount, DominatorAccountViewModel.AccessorStrategies strategy)
+        {
+            bool isProxyUpdated = false;
+            ProxyManager proxyManager = ProxyManager.GetProxyManagerControl(strategy);
+            foreach (var proxy in oldProxies)
+            {
+                #region If old proxy for account is updated
+
+                if (objDominatorAccountBaseModel.AccountProxy.ProxyIp != oldAccount.AccountProxy.ProxyIp
+                    || objDominatorAccountBaseModel.AccountProxy.ProxyPort != oldAccount.AccountProxy.ProxyPort)
+                {
+                    if (objDominatorAccountBaseModel.AccountProxy.ProxyId == proxy.AccountProxy.ProxyId)
+                    {
+                        isProxyUpdated = true;
+                        proxy.AccountProxy.ProxyIp = objDominatorAccountBaseModel.AccountProxy.ProxyIp;
+                        proxy.AccountProxy.ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort;
+                        proxy.AccountProxy.ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername;
+                        proxy.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
+
+                        await ProxyFileManager.UpdateProxyStatusAsync(proxy, ConstantVariable.GoogleLink);
+                        UpdateProxyList(proxy, proxyManager);
+                        ProxyFileManager.EditProxy(proxy);
+                        break;
+                    }
+                }
+
+                #endregion
+
+                #region To check proxy is Exist or not
+
+                if (objDominatorAccountBaseModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
+                    && objDominatorAccountBaseModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
+                {
+                    #region If other proxy with same ip/port not there
+
+                    if (objDominatorAccountBaseModel.AccountProxy.ProxyId == proxy.AccountProxy.ProxyId)
+                    {
+
+                        if (objDominatorAccountBaseModel.AccountProxy.ProxyUsername != proxy.AccountProxy.ProxyUsername
+                            || objDominatorAccountBaseModel.AccountProxy.ProxyPassword != proxy.AccountProxy.ProxyPassword)
+                        {
+                            proxy.AccountProxy.ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername;
+                            proxy.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
+                            await ProxyFileManager.UpdateProxyStatusAsync(proxy, ConstantVariable.GoogleLink);
+                            UpdateProxyList(proxy, proxyManager);
+                            //  ProxyFileManager.EditProxy(proxy);
+                        }
+
+                        var account = proxy.AccountsAssignedto.FirstOrDefault(x =>
+                            x.UserName == objDominatorAccountBaseModel.UserName);
+                        if (account == null)
+                        {
+                            #region Add account to AccountsAssignedto list if current proxy is not Assigned to current Account
+
+                            proxy.AccountsAssignedto.Add(new AccountAssign
+                            {
+                                UserName = objDominatorAccountBaseModel.UserName,
+                                AccountNetwork = objDominatorAccountBaseModel.AccountNetwork
+                            });
+
+                            #endregion
+
+                            await ProxyFileManager.UpdateProxyStatusAsync(proxy, ConstantVariable.GoogleLink);
+                            isProxyUpdated = true;
+                        }
+
+                        break;
+                    }
+
+                    #endregion
+                }
+
+                #endregion
+
+            }
+
+            return isProxyUpdated;
+        }
+        public void UpdateProxyList(ProxyManagerModel proxy, ProxyManager proxyManager)
+        {
+            try
+            {
+
+                var proxyToupdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x =>
+                    x.AccountProxy.ProxyId == proxy.AccountProxy.ProxyId);
+
+                if (proxyToupdate != null)
+                    proxyToupdate.AccountProxy = proxy.AccountProxy;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        public async void AddProxyIfNotExist(DominatorAccountBaseModel objAccount, DominatorAccountViewModel.AccessorStrategies strategyPack)
+        {
+
+            ProxyManagerModel ProxyManagerModel = new ProxyManagerModel
+            {
+                AccountProxy =
+                    {
+                        ProxyName = $"Proxy {objAccount.AccountProxy.ProxyIp.Replace(".","")}{objAccount.AccountProxy.ProxyPort}",
+                        ProxyId = objAccount.AccountProxy.ProxyId,
+                        ProxyIp = objAccount.AccountProxy.ProxyIp,
+                        ProxyPort = objAccount.AccountProxy.ProxyPort,
+                        ProxyUsername = objAccount.AccountProxy.ProxyUsername,
+                        ProxyPassword = objAccount.AccountProxy.ProxyPassword
+                    }
+            };
+
+
+            #region remove account from AccountsAssignedto if any proxy having account
+
+            ProxyFileManager.GetAllProxy().ForEach(proxy =>
+            {
+                AccountsFileManager.GetAll().ForEach(acc =>
+                {
+                    if (proxy.AccountsAssignedto.Any(x =>
+                        x.UserName == acc.UserName && x.AccountNetwork == acc.AccountBaseModel.AccountNetwork))
+                    {
+                        proxy.AccountsAssignedto.Remove(proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName ==
+                            acc.UserName
+                                && x.AccountNetwork == acc.AccountBaseModel.AccountNetwork));
+
+                    }
+                });
+
+                ProxyFileManager.EditProxy(proxy);
+            });
+
+            #endregion
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var proxyManager = ProxyManager.GetProxyManagerControl(strategyPack);
+                proxyManager.ProxyManagerViewModel.LstProxyManagerModel.ForEach(x =>
+                {
+                    if (x.AccountsAssignedto.Any(y => y.UserName == objAccount.UserName &&
+                                                      y.AccountNetwork == objAccount.AccountNetwork))
+                        x.AccountsAssignedto.Remove(x.AccountsAssignedto.FirstOrDefault(y =>
+                            y.UserName == objAccount.UserName &&
+                            y.AccountNetwork == objAccount.AccountNetwork));
+                });
+                proxyManager.ProxyManagerViewModel.LstProxyManagerModel.Add(ProxyManagerModel);
+                proxyManager.ProxyManagerViewModel.accountsAlreadyAssigned.Add(
+                    new AccountAssign
+                    {
+                        UserName = objAccount.UserName,
+                        AccountNetwork = objAccount.AccountNetwork
+                    });
+            }
+            );
+
+            ProxyManagerModel.AccountsAssignedto.Add(new AccountAssign
+            {
+                UserName = objAccount.UserName,
+                AccountNetwork = objAccount.AccountNetwork
+            });
+
+            ProxyFileManager.SaveProxy(ProxyManagerModel);
+
+            await ProxyFileManager.UpdateProxyStatusAsync(ProxyManagerModel, ConstantVariable.GoogleLink);
+
+
+
+        }
+        public bool UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel, DominatorAccountViewModel.AccessorStrategies strategy)
+        {
+
+            var oldproxies = ProxyFileManager.GetAllProxy();
+
+            bool isProxyUpdated = false;
+            try
+            {
+                var oldAccount = AccountsFileManager.GetAccount(objDominatorAccountBaseModel.UserName, objDominatorAccountBaseModel.AccountNetwork).AccountBaseModel;
+
+                isProxyUpdated = IsProxyUpdated(objDominatorAccountBaseModel, oldproxies, oldAccount,strategy).Result;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            return isProxyUpdated;
+        }
+
+        #endregion
 
 
 

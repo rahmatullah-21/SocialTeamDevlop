@@ -22,8 +22,9 @@ namespace DominatorHouseCore.ViewModel
         private void UploadPhotoExecute(object sender)
         {
             string filters = "Image Files | *.jpg; *.jpeg; *.png; *.gif";
-           
-            EditProfileModel.ProfilePicPath = FileUtilities.GetImageOrVideo(false, filters);
+            var picPath = FileUtilities.GetImageOrVideo(false, filters);
+            if (picPath != null)
+                EditProfileModel.ProfilePicPath = picPath;
         }
     }
 }

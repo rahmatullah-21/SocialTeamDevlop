@@ -21,11 +21,11 @@
         </Grid.Resources>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="2.5*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="5*" />
             <RowDefinition Height="*" />
@@ -37,7 +37,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel  Grid.Column="1" Orientation="Horizontal" Margin="30,0,0,0">
-                <Ellipse Height="50" Width="50" >
+                <Ellipse Height="70" Width="70" >
                     <Ellipse.Fill>
                         <ImageBrush ImageSource="{Binding EditProfileModel.ProfilePicPath}"/>
                     </Ellipse.Fill>
@@ -95,9 +95,9 @@
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
             <TextBlock  Text="{DynamicResource LangKeyBio}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-            <TextBox Name="TxtBio" AcceptsReturn="True"
+            <TextBox Name="TxtBio" AcceptsReturn="True" TextWrapping="Wrap"  VerticalScrollBarVisibility="Auto"
                      controls:TextBoxHelper.Watermark="Type Bio" Width="230" FontSize="13" FontWeight="SemiBold" 
-                     Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1" 
+                     Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="80" Grid.Column="1" 
                      KeyDown="OnKeyDown" Text="{Binding EditProfileModel.Bio}"/>
         </Grid>
         <CheckBox Name="ChkPrivateInfo" Margin="5" IsChecked="False" MinWidth="200" Grid.Row="5" Content="{DynamicResource LangKeyPrivateInformation}" HorizontalAlignment="Left"  Width="120" FontWeight="SemiBold" />

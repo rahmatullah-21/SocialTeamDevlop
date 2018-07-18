@@ -48,11 +48,11 @@ namespace DominatorHouseCore.Models
         {
             get
             {
-                return _fullname;
+                return _username;
             }
             set
             {
-                _fullname = value;
+                _username = value;
                 OnPropertyChanged("Username");
             }
         }
