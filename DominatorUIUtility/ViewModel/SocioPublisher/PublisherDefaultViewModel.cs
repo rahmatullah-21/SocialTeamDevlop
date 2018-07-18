@@ -401,6 +401,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 duplicatedCampaign.CampaignName = clonedCampaignStatus.CampaignName;
                 duplicatedCampaign.CampaignId = clonedCampaignStatus.CampaignId;
                 duplicatedCampaign.CreatedDate = clonedCampaignStatus.CreatedDate;
+                duplicatedCampaign.UpdatedDate = clonedCampaignStatus.UpdatedTime;
                 duplicatedCampaign.JobConfigurations.CampaignStartDate = clonedCampaignStatus.StartDate;            
                 GenericFileManager.AddModule(duplicatedCampaign, ConstantVariable.GetPublisherCampaignFile());
 

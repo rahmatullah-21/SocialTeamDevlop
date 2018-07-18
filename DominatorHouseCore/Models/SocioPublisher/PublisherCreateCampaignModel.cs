@@ -158,6 +158,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(11)]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
+        [ProtoMember(16)]
+        public DateTime UpdatedDate { get; set; } = DateTime.Now;
+
         //private PublisherMediaViewerModel _publisherMediaViewerModel = new PublisherMediaViewerModel();
         //[ProtoMember(12)]
         //public PublisherMediaViewerModel PublisherMediaViewerModel

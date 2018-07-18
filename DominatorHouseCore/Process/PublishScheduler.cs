@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
@@ -1033,35 +1036,59 @@ namespace DominatorHouseCore.Process
 
             StopScheduledPublisher(campaign.CampaignId);
 
-            campaign.SpecificRunningTime.ForEach(runningTime =>
+            var timeRange = campaign.SpecificRunningTime;
+
+            if (campaign.IsRandomRunningTime)
             {
-                var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
-                if (startTime > DateTime.Now)
+                if (campaign.UpdatedTime.Date != DateTime.Today)
+                    timeRange = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);                              
+            }
+
+            timeRange.ForEach(runningTime =>
                 {
-                    var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDate()}";
-                    PublisherScheduledList.Add(addJobName);
-
-                    JobManager.AddJob(() =>
+                    var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
+                    if (startTime > DateTime.Now)
                     {
-                        StartPublishingPosts(campaign);
-                    }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
+                        var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDate()}";
+                        PublisherScheduledList.Add(addJobName);
 
-                    var advancedSettings = GenericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
-
-                    if (advancedSettings?.DestinationTimeout > 0)
-                    {
-                        var stopJobName = $"{campaign.CampaignId}-StopRunningDueToTimeOut";
-                        PublisherScheduledList.Add(stopJobName);
-                        var stopTime = DateTime.Now.AddMinutes(advancedSettings.DestinationTimeout);
                         JobManager.AddJob(() =>
                         {
-                            StopPublishingPosts(campaign.CampaignId);
-                        }, s => s.WithName(stopJobName).ToRunOnceAt(stopTime));
+                            StartPublishingPosts(campaign);
+                        }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
+
+                        var advancedSettings = GenericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
+
+                        if (advancedSettings?.DestinationTimeout > 0)
+                        {
+                            var stopJobName = $"{campaign.CampaignId}-StopRunningDueToTimeOut";
+                            PublisherScheduledList.Add(stopJobName);
+                            var stopTime = DateTime.Now.AddMinutes(advancedSettings.DestinationTimeout);
+                            JobManager.AddJob(() =>
+                            {
+                                StopPublishingPosts(campaign.CampaignId);
+                            }, s => s.WithName(stopJobName).ToRunOnceAt(stopTime));
+                        }
                     }
-                }
-            });
+                });
 
             #endregion
+        }
+
+
+       
+
+        public static List<TimeSpan> GenerateRandomIntervals(int maxCount, TimeRange timeRange)
+        {
+            var timer = new List<TimeSpan>();
+            var random = new Random();
+            var startTime = timeRange.StartTime;
+            var endTime = timeRange.EndTime;
+            for (int countIndex = 0; countIndex < maxCount; countIndex++)
+            {
+                timer.Add(DateTimeUtilities.GetRandomTime(startTime, endTime, random));
+            }
+            return timer;
         }
 
         private static void StopScheduledPublisher(string campaignId)
