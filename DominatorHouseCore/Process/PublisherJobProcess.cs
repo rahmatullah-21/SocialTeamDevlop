@@ -936,6 +936,13 @@ namespace DominatorHouseCore.Process
 
             #endregion
 
+            #region Macro Substitution
+
+            postModelWithGeneralSettings.PostDescription =
+                MacrosHelper.SubstituteMacroValues(postModelWithGeneralSettings.PostDescription);
+
+            #endregion
+
             #region Spin Text
 
             if (string.IsNullOrEmpty(postModelWithGeneralSettings.PostDescription))
@@ -943,13 +950,6 @@ namespace DominatorHouseCore.Process
 
             postModelWithGeneralSettings.PostDescription =
                 SpinTexHelper.GetSpinText(postModelWithGeneralSettings.PostDescription);
-
-            #endregion
-
-            #region Macro Substitution
-
-            postModelWithGeneralSettings.PostDescription =
-                MacrosHelper.SubstituteMacroValues(postModelWithGeneralSettings.PostDescription);
 
             #endregion
 

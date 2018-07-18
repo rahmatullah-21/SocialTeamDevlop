@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*" MinWidth="400"/>
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="Senders" Margin="0,5"
+            <ListBox x:Name="Senders" Margin="0,5" SelectedItem="{Binding SenderDetails}"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding LstSender}" SelectionChanged="Senders_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
