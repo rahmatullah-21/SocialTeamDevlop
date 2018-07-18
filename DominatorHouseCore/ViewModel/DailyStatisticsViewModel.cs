@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace DominatorHouseCore.ViewModel
 {
-    public class TwitterDailyStatisticsViewModel : BindableBase
+    public class DailyStatisticsViewModel : BindableBase
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public int Followers { get; set; }
-        public int Followings { get; set; }
-        public int Tweets { get; set; }
-        public int Likes { get; set; }
+        public int GrowthColumnValue1 { get; set; }
+        public int GrowthColumnValue2 { get; set; }
+        public int GrowthColumnValue3 { get; set; }
+        public int GrowthColumnValue4 { get; set; }
 
     }
 
