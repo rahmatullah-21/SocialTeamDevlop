@@ -313,6 +313,7 @@
     <Compile Include="CustomControl\SelectAccountControl.xaml.cs">
       <DependentUpon>SelectAccountControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\AccountDetailsViewModel.cs" />
     <Compile Include="ViewModel\AccountManagerViewModel.cs" />
     <Compile Include="ViewModel\Config\URLShortnerServicesViewModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />

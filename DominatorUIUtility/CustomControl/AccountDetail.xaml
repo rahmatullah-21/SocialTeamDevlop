@@ -18,7 +18,7 @@
                         Background="{DynamicResource AccentBaseColorBrush}">
 
                 <Button x:Name="btnSave"  Margin="75,0,5,0" Foreground="White"
-                        Click="BtnSave_OnClick" Height="30">
+                        Command="{Binding SaveCommand}" Height="30">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Width="15" Height="15" Fill="White">
@@ -50,7 +50,7 @@
                 </Button>
 
                 <Button x:Name="btnCancel" x:FieldModifier="public"  Margin="5,0,10,0" Background="#ef1d1d"
-                        Click="BtnCancel_OnClick" Height="30">
+                        Command="{Binding CancelCommand}" Height="30">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Width="15" Height="15" Fill="White">
@@ -77,7 +77,7 @@
                             <TextBlock  VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0" Text="{Binding ElementName=ErrorHolder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" Foreground="Red"/>
                         </StackPanel>
                     </ControlTemplate>
-                    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+                    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
                 </StackPanel.Resources>
 
                 <StackPanel Orientation="Horizontal" >
@@ -90,7 +90,7 @@
                                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                                     <Style.Triggers>
 
-                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
+                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
                                             <Setter Property="Content" >
                                                 <Setter.Value>
                                                     <Rectangle Fill="#003569" Width="20" Height="20">
@@ -102,7 +102,7 @@
                                             </Setter>
                                         </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
+                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
                                             <Setter Property="Content" >
                                                 <Setter.Value>
                                                     <Rectangle Fill="Red" Width="20" Height="20">
@@ -114,7 +114,7 @@
                                             </Setter>
                                         </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
+                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
                                             <Setter Property="Content" >
                                                 <Setter.Value>
                                                     <Rectangle Fill="#3897F0" Width="20" Height="20">
@@ -126,7 +126,7 @@
                                             </Setter>
                                         </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
+                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
                                             <Setter Property="Content" >
                                                 <Setter.Value>
                                                     <Rectangle Fill="Red" Width="20" Height="20">
@@ -138,7 +138,7 @@
                                             </Setter>
                                         </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
+                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
                                             <Setter Property="Content" >
                                                 <Setter.Value>
                                                     <Rectangle Fill="Red" Width="20" Height="20">
@@ -152,7 +152,7 @@
 
 
 
-                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
+                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
                                             <Setter Property="Content" >
                                                 <Setter.Value>
                                                     <Rectangle Fill="OrangeRed" Width="20" Height="20">
@@ -164,7 +164,7 @@
                                             </Setter>
                                         </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
+                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
                                             <Setter Property="Content" >
                                                 <Setter.Value>
                                                     <Rectangle Fill="DodgerBlue" Width="20" Height="20">
@@ -175,7 +175,7 @@
                                                 </Setter.Value>
                                             </Setter>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
                                             <Setter Property="Content" >
                                                 <Setter.Value>
                                                     <Rectangle Fill="#FF0000" Width="20" Height="20">
@@ -187,7 +187,7 @@
                                             </Setter>
                                         </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
                                             <Setter Property="Content" >
                                                 <Setter.Value>
                                                     <Rectangle Fill="#FF0000" Width="20" Height="20">
@@ -199,7 +199,7 @@
                                             </Setter>
                                         </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
+                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
                                             <Setter Property="Content" >
                                                 <Setter.Value>
                                                     <Rectangle Fill="DimGray" Width="16" Height="20">
@@ -214,14 +214,14 @@
                                 </Style>
                             </ContentControl.Style>
                         </ContentControl>
-                        <Label  Width="230" Height="30" VerticalAlignment="Center" Content="{Binding AccountBaseModel.AccountNetwork}" FontWeight="SemiBold" Margin="5" />
+                        <Label  Width="230" Height="30" VerticalAlignment="Center" Content="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" FontWeight="SemiBold" Margin="5" />
                     </StackPanel>
 
                 </StackPanel>
 
                 <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyAccountName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                    <TextBox Name="TxtAccountName" Text="{Binding AccountBaseModel.UserFullName}"  controls:TextBoxHelper.Watermark="Enter Account Name" Width="230"
+                    <TextBox Name="TxtAccountName" Text="{Binding DominatorAccountModel.AccountBaseModel.UserFullName}"  controls:TextBoxHelper.Watermark="Enter Account Name" Width="230"
                      FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"
                              KeyDown="OnKeyDown"/>
                 </StackPanel>
@@ -233,7 +233,7 @@
                      FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
                      VerticalAlignment="Center"  Height="30" >
                         <TextBox.Text>
-                            <Binding Path="AccountBaseModel.UserName" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="DominatorAccountModel.AccountBaseModel.UserName" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <validation:ValidationHelper Sender="txtUserName" ValidatesOnTargetUpdated="True"/>
                                 </Binding.ValidationRules>
@@ -249,7 +249,7 @@
                          controls:TextBoxHelper.Watermark="Enter Password" 
                          Width="230" FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                         <passwordHelper:PasswordBoxHelper.Password>
-                            <Binding Path="AccountBaseModel.Password" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                            <Binding Path="DominatorAccountModel.AccountBaseModel.Password" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                                 <Binding.ValidationRules>
                                     <validation:ValidationHelper Sender="txtPassword" ValidatesOnTargetUpdated="True"/>
                                 </Binding.ValidationRules>
@@ -260,9 +260,9 @@
                 </StackPanel>
 
                 <StackPanel  Orientation="Horizontal" >
-                    <TextBlock Text="{DynamicResource LangKeyBrowser}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                    <TextBox Name="TxtBrowser" Text="{Binding UserAgentWeb}" KeyDown="OnKeyDown"
-                     controls:TextBoxHelper.Watermark="{DynamicResource LangKeyBrowser}" Width="230"
+                    <TextBlock Text="{DynamicResource LangKeyWebsite}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBox Name="TxtBrowser" Text="{Binding DominatorAccountModel.UserAgentWeb}" KeyDown="OnKeyDown"
+                     controls:TextBoxHelper.Watermark="{DynamicResource LangKeyWebsite}" Width="230"
                      FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" />
                 </StackPanel>
 
@@ -273,51 +273,51 @@
                         <Label.Style>
                             <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.InvalidCredentials}">
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.InvalidCredentials}">
                                         <Setter Property="Content" Value="{DynamicResource LangKeyInvalidCredentials}" />
                                         <Setter Property="Foreground" Value="#b22222" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TryingToLogin}" >
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TryingToLogin}" >
                                         <Setter Property="Content" Value="{DynamicResource LangKeyTryingToLogin}" />
                                         <Setter Property="Foreground" Value="MediumSeaGreen" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Success}">
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Success}">
                                         <Setter Property="Content" Value="{DynamicResource LangKeySuccess}" />
                                         <Setter Property="Foreground" Value="DarkGreen" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Failed}" >
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Failed}" >
                                         <Setter Property="Content" Value="{DynamicResource LangKeyFailed}" />
                                         <Setter Property="Foreground" Value="DarkRed" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
                                         <Setter Property="Content" Value="{DynamicResource LangKeyNeedsVerification}" />
                                         <Setter Property="Foreground" Value=" #701f28" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}">
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}">
                                         <Setter Property="Content" Value="{DynamicResource LangKeyEmailVerification}" />
                                         <Setter Property="Foreground" Value=" #701f28" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}">
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}">
                                         <Setter Property="Content" Value="{DynamicResource LangKeyPhoneVerification}" />
                                         <Setter Property="Foreground" Value=" #701f28" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NotChecked}" >
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NotChecked}" >
                                         <Setter Property="Content" Value="{DynamicResource LangKeyNotChecked}" />
                                         <Setter Property="Foreground" Value="#778899" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.ProxyNotWorking}" >
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.ProxyNotWorking}" >
                                         <Setter Property="Content" Value="{DynamicResource LangKeyProxyNotWorking}" />
                                         <Setter Property="Foreground" Value="#9b111e" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PermanentlyBlocked}" >
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PermanentlyBlocked}" >
                                         <Setter Property="Content" Value="{DynamicResource LangKeyPermanentlyBlocked}" />
                                         <Setter Property="Foreground" Value="Red" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.TemporarilyBlocked}" >
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.TemporarilyBlocked}" >
                                         <Setter Property="Content" Value="{DynamicResource LangKeyTemporarilyBlocked}" />
                                         <Setter Property="Foreground" Value="IndianRed" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.AddPhoneNumberToYourAccount}" >
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.AddPhoneNumberToYourAccount}" >
                                         <Setter Property="Content" Value="{DynamicResource LangKeyAddPhoneNumberToYourAccount}" />
                                         <Setter Property="Foreground" Value="Aqua" />
                                     </DataTrigger>
@@ -329,16 +329,16 @@
                 </StackPanel>
 
 
-                <StackPanel Name="verificationSection">
+                <StackPanel Name="verificationSection" Visibility="{Binding VerificationSectionVisibility}">
                     <RadioButton Content="{DynamicResource LangKeyPhoneVerifications}" Name="ChkPhoneVerification" Margin="5" FontWeight="Bold" >
                         <RadioButton.Style>
                             <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
                                 <Setter Property="Visibility" Value="Collapsed" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}" >
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}" >
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -346,15 +346,15 @@
                         </RadioButton.Style>
                     </RadioButton>
 
-                    <RadioButton Content="{DynamicResource LangKeyEmailVerifications}" Name="ChkEmailVerification" Margin="5" FontWeight="Bold" >
+                    <RadioButton Content="{DynamicResource LangKeyEmailVerifications}" Name="ChkEmailVerification" Margin="5" FontWeight="Bold" IsChecked="{Binding IsEmailVerification}">
                         <RadioButton.Style>
                             <Style TargetType="RadioButton"  BasedOn="{StaticResource {x:Type RadioButton}}">
                                 <Setter Property="Visibility" Value="Collapsed" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}" >
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}" >
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -362,7 +362,7 @@
                         </RadioButton.Style>
                     </RadioButton>
                     <Button Name="BtnSendVerificationCode" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5"
-                        Click="BtnSendVerificationCode_OnClick" Width="200" HorizontalAlignment="Left">
+                        Command="{Binding SendVerificationCodeCommand}" Width="200" HorizontalAlignment="Left">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -388,15 +388,15 @@
                             </StackPanel>
                         </Button.Content>
                     </Button>
-                    <StackPanel  Orientation="Horizontal" Margin="20,5" Name="CodeSection" Visibility="Collapsed">
+                    <StackPanel  Orientation="Horizontal" Margin="20,5" Name="CodeSection" Visibility="{Binding CodeSectionVisibility}">
 
                         <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterVerificationCode}"
-                              Width="230" Text="{Binding VarificationCode}"  Name="TxtVarificationCode"
+                              Width="230" Text="{Binding DominatorAccountModel.VarificationCode}"  Name="TxtVarificationCode"
                               FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" VerticalAlignment="Center"  
                               Height="30" KeyDown="OnVerificationKeyDown"/>
 
                         <Button x:Name="btnVerifyAccount"  Margin="5,0"  Foreground="White" 
-                            Click="BtnVerifyAccount_OnClick">
+                            Command="{Binding VerifyAccountCommand}">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                                     <Setter Property="IsEnabled" Value="True"/>
@@ -444,7 +444,7 @@
                             <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
                          controls:TextBoxHelper.Watermark="Format:{255.255.255.255}" Width="230" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                                 <TextBox.Text>
-                                    <Binding Path="AccountBaseModel.AccountProxy.ProxyIp" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Path="DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
                                             <validation:ValidationHelper Sender="txtProxyAddress" ValidatesOnTargetUpdated="True"/>
                                         </Binding.ValidationRules>
@@ -461,7 +461,7 @@
                             <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
                          controls:TextBoxHelper.Watermark="Type Proxy Port" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                                 <TextBox.Text>
-                                    <Binding Path="AccountBaseModel.AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Path="DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
                                             <validation:ValidationHelper Sender="txtProxyPort"  ValidatesOnTargetUpdated="True"/>
                                         </Binding.ValidationRules>
@@ -475,7 +475,7 @@
                                 <ColumnDefinition Width="2.5*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Name="txtblockProxyUserName" Text="{DynamicResource LangKeyProxyUsername}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                            <TextBox Name="txtProxyUserName" Text="{Binding AccountBaseModel.AccountProxy.ProxyUsername}"
+                            <TextBox Name="txtProxyUserName" Text="{Binding DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername}"
                          controls:TextBoxHelper.Watermark="Type Proxy User Name" Width="230"
                          FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black"
                          VerticalAlignment="Center"  Height="30" Grid.Column="1"  KeyDown="OnKeyDown">
@@ -529,7 +529,7 @@
                                     </Style>
                                 </PasswordBox.Style>
                                 <passwordHelper:PasswordBoxHelper.Password>
-                                    <Binding Path="AccountBaseModel.AccountProxy.ProxyPassword" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay"/>
+                                    <Binding Path="DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay"/>
                                 </passwordHelper:PasswordBoxHelper.Password>
                             </PasswordBox>
                         </Grid>
@@ -538,12 +538,14 @@
                         <TextBlock Text="{DynamicResource LangKeyCookies}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="{DynamicResource LangKeyAddNewCookies}" Name="BtnAddNewCookies" Click="BtnAddNewCookies_OnClick"
+                                <Button Content="{DynamicResource LangKeyAddNewCookies}" Name="BtnAddNewCookies" Command="{Binding AddNewCookiesCommand}"
+                                        CommandParameter="{Binding ElementName=Cookies}"
                             Background="Transparent" FontWeight="SemiBold" Foreground="{DynamicResource AccentBaseColorBrush}"/>
                                 <Button Content="{DynamicResource LangKeyRemoveSelectedCookies}" Background="Transparent" Name="BtnRemoveNewCookies"
-                            Click="BtnRemoveNewCookies_OnClick"  FontWeight="SemiBold" Foreground="{DynamicResource AccentBaseColorBrush}"/>
+                                        Command="{Binding RemoveCookiesCommand}"
+                                        CommandParameter="{Binding ElementName=Cookies}"  FontWeight="SemiBold" Foreground="{DynamicResource AccentBaseColorBrush}"/>
                             </StackPanel>
-                            <DataGrid Margin="5" ItemsSource="{Binding CookieHelperList}" MaxHeight="200" Width="500"
+                            <DataGrid Margin="5" ItemsSource="{Binding DominatorAccountModel.CookieHelperList}" MaxHeight="200" Width="500"
                       AutoGenerateColumns="False" CanUserAddRows="True" Name="Cookies">
 
                                 <DataGrid.Columns>
@@ -566,8 +568,6 @@
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
-
-
 
             </StackPanel>
         </ScrollViewer>

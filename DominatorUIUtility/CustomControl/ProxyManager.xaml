@@ -60,42 +60,42 @@
                 <Button Height="30"   x:Name="btnImportProxies" Margin="10,5" Command="{Binding ImportProxyCommand}"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" ToolTip="{DynamicResource LangKeyImportProxyDescription}">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal">
+                        <VirtualizingStackPanel Orientation="Horizontal">
                             <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
                                 <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_in}"></VisualBrush>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_in}"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                             <TextBlock Text="{DynamicResource LangKeyImportProxies}" Margin="5,0"/>
-                        </StackPanel>
+                        </VirtualizingStackPanel>
                     </Button.Content>
                 </Button>
 
                 <Button  Height="30"  x:Name="btnExportProxies" Margin="10,5" Command="{Binding ExportProxyCommand}"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" >
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal">
+                        <VirtualizingStackPanel Orientation="Horizontal">
                             <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
                                 <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_out}"></VisualBrush>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_out}"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                             <TextBlock Text="{DynamicResource LangKeyExportProxies}" Margin="5,0"/>
-                        </StackPanel>
+                        </VirtualizingStackPanel>
                     </Button.Content>
                 </Button>
 
                 <Button  Height="30"  x:Name="btnAddProxy" Margin="10,5" IsEnabled="{Binding IsAddProxyEnabled}"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Command="{Binding AddProxyCommand}">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal">
+                        <VirtualizingStackPanel Orientation="Horizontal">
                             <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
                                 <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add}"></VisualBrush>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add}"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                             <TextBlock Text="{DynamicResource LangKeyAddProxy}" Margin="5,0"/>
-                        </StackPanel>
+                        </VirtualizingStackPanel>
                     </Button.Content>
                 </Button>
 
@@ -170,7 +170,7 @@
                 <StackPanel Orientation="Horizontal" x:Name="cmbFilterBytag" Margin="5,0"
                             Visibility="{Binding ElementName=FilterByGroup, Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock VerticalAlignment="Center" Margin="5,5" Text="{DynamicResource LangKeySelectTag}"/>
-                    <ComboBox  Width="100" ItemsSource="{Binding ProxyManagerModel.Groups}" Name="Group" 
+                    <ComboBox  Width="150" ItemsSource="{Binding ProxyManagerModel.Groups}" Name="Group" Controls:TextBoxHelper.ClearTextButton="True"
                                behaviours:SelectionChangedBehaviour.Command="{Binding GroupsChangedCommand}"/>
                 </StackPanel>
             </StackPanel>
@@ -664,7 +664,7 @@
                 <DataGridTemplateColumn Header="{DynamicResource LangKeySocialProfiles}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
+                            <VirtualizingStackPanel Orientation="Horizontal">
                                 <Controls:DropDownButton x:Name="dropdown" Width="40" Height="20"
                                           ItemTemplate="{StaticResource AccountsAssignedToTemplate}" 
                                           ItemsSource="{Binding AccountsAssignedto}" 
@@ -702,7 +702,7 @@
                                     </Controls:DropDownButton.Style>-->
                                 </Controls:DropDownButton>
 
-                            </StackPanel>
+                            </VirtualizingStackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -715,7 +715,7 @@
                 <DataGridTemplateColumn Header="{DynamicResource LangKeyAction}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
+                            <VirtualizingStackPanel Orientation="Horizontal">
                                 <Button Content="{DynamicResource LangKeyUpdateProxy}" x:Name="btnUpdateProxy" 
                                         FontWeight="SemiBold" Command="{Binding DataContext.UpdateProxyCommand,
                                         RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
@@ -732,7 +732,7 @@
                                         CommandParameter="{Binding ElementName=btnVerifyProxy}"
                                         Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent"/>
 
-                            </StackPanel>
+                            </VirtualizingStackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
