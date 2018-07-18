@@ -53,7 +53,7 @@ namespace DominatorHouseCore.Utility
                 {
                     var fileInfo = new FileInfo(file);
                     var daysCount = DateTime.Today - fileInfo.CreationTime.Date;
-                    if (daysCount.Days >= 0)
+                    if (daysCount.Days > 7)
                         File.Delete(file);
                 });
             }

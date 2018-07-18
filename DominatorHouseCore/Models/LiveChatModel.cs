@@ -81,6 +81,21 @@ namespace DominatorHouseCore.Models
 
         public DominatorAccountModel dominatorAccountModel { get; set; }
 
+
+        private ObservableCollection<string> _accountNames = new ObservableCollection<string>();
+        [ProtoIgnore]
+        public ObservableCollection<string> AccountNames
+        {
+            get
+            {
+                return _accountNames;
+            }
+            set
+            {
+                SetProperty(ref _accountNames, value);
+            }
+        }
+
     }
 
 
