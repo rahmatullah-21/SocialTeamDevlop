@@ -90,12 +90,9 @@ namespace DominatorHouseCore.Models
         #endregion
 
         #region Http
-<<<<<<< .merge_file_a17164
 
-=======
         [ProtoIgnore]
         public bool IsUserLoggedIn { get; set; }
->>>>>>> .merge_file_a02604
 
         [ProtoMember(9)]
         public string UserAgentWeb { get; set; } = string.Empty;
