@@ -3016,5 +3016,12 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFilterBywlsCounts">Should have WLS count in specific range</system:String>
     <!--End Added on 18-07-2018-->
 
+    <!--Start Added By Kamal on 19-07-2018-->
+    <system:String x:Key="LangKeyCommunitiesSubscribedBySoftware">Communities Subscribed By Software</system:String>
+    <system:String x:Key="LangKeyCommunitiesSubscribedOutsideSoftware">Communities Subscribed Outside Software</system:String>
+    <system:String x:Key="LangKeyCommunityShouldHaveBeenSubscribedBefore">Community Should Have Been Subscribed Before</system:String>
+    <system:String x:Key="LangKeyUnSubscribeSource">Unsubscribe Source</system:String>
+    <system:String x:Key="LangKeyCustomCommunityList">Custom Community List</system:String>
+    <!--End Added on 19-07-2018-->
 
 </ResourceDictionary>
