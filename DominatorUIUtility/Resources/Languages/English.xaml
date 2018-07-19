@@ -3027,5 +3027,7 @@ Type 3. IP:Port
 
     <system:String x:Key="LangKeySettingToolTip">Click to configure individual post settings</system:String>
     <system:String x:Key="LangKeySocinatorPublisherCampaign">Socinator Publisher Campaign</system:String>
+    <system:String x:Key="LangKeySkipPrivateCommunity">Skip Private Community</system:String>
+    <system:String x:Key="LangKeySkipPublicCommunity">Skip Public Community</system:String>
     <!--End Added on 19-07-2018-->
 </ResourceDictionary>
