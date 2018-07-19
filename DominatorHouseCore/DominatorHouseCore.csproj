@@ -381,6 +381,9 @@
     <Compile Include="Enums\PdQuery\PDUsersQueries.cs" />
     <Compile Include="Enums\QdQuery\BroadcastMessageQuery.cs" />
     <Compile Include="Enums\QdQuery\FollowerQuery.cs" />
+    <Compile Include="Enums\RdQuery\CommunityQuery.cs" />
+    <Compile Include="Enums\RdQuery\PostQuery.cs" />
+    <Compile Include="Enums\RdQuery\UserQuery.cs" />
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
@@ -674,9 +677,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\RdQuery\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">
       <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>

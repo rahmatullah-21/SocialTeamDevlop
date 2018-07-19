@@ -51,7 +51,7 @@ namespace DominatorUIUtility.ViewModel
             AccountToAddToProxyCommand = new BaseCommand<object>(AccountToAddToProxyCanExecute, AccountToAddToProxyExecute);
             DropDownCommand = new BaseCommand<object>(DropDownCanExecute, DropDownExecute);
             AssignRandomProxyCommand = new BaseCommand<object>(AssignRandomProxyCanExecute, AssignRandomProxyExecute);
-            BindingOperations.EnableCollectionSynchronization(lstProxyManagerModel, _lock);
+            BindingOperations.EnableCollectionSynchronization(LstProxyManagerModel, _lock);
            
 
         }

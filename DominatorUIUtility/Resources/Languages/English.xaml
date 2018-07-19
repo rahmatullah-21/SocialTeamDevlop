@@ -3026,5 +3026,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyExportCampaignId">Export Campaign's Id</system:String>
 
     <system:String x:Key="LangKeySettingToolTip">Click to configure individual post settings</system:String>
+    <system:String x:Key="LangKeySocinatorPublisherCampaign">Socinator Publisher Campaign</system:String>
     <!--End Added on 19-07-2018-->
 </ResourceDictionary>

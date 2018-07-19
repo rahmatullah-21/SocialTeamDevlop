@@ -29,6 +29,8 @@ namespace DominatorHouseCore.Enums.GdQuery
         [Description("LangKeyPostsOfUsersWhoCommentedOnPost")]
         PostOfUsersWhoCommentedOnPost,
         [Description("LangKeySpecificUsersPosts")]
-        SpecificUsersPosts
+        SpecificUsersPosts,
+        [Description("LangKeySocinatorPublisherCampaign")]
+        SocinatorPublisherCampaign,
     }
 }
