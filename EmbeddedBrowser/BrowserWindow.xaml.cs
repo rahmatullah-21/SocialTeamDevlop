@@ -476,7 +476,7 @@ namespace EmbeddedBrowser
 
         }
 
-        private async void InstagramBrowserLogin(string html)
+        private void InstagramBrowserLogin(string html)
         {
             if (html.Contains("Phone number, username, or email"))
             {
@@ -490,7 +490,9 @@ namespace EmbeddedBrowser
                 var userName = " " + DominatorAccountModel.AccountBaseModel.UserName;
                 Browser.ExecuteScriptAsync("document.getElementsByName(\"username\")[0].click()");
                 Thread.Sleep(TimeSpan.FromSeconds(1));
-                userName.ToList<char>().ForEach((x) =>
+
+
+                foreach (var x in userName.ToList<char>())
                 {
                     k = new KeyEvent
                     {
@@ -500,8 +502,9 @@ namespace EmbeddedBrowser
                         Type = KeyEventType.Char
                     };
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
-                });
-
+                }
+                
+               Thread.Sleep(TimeSpan.FromSeconds(1));
                 k = new KeyEvent();
                 k.FocusOnEditableField = false;
                 k.WindowsKeyCode = 9;
@@ -512,7 +515,7 @@ namespace EmbeddedBrowser
 
                 var password = " " + DominatorAccountModel.AccountBaseModel.Password;
                 //cefBrowser.ExecuteScriptAsync("document.getElementsByName(\"password\")[0].click()");
-                password.ToList<char>().ForEach((x) =>
+                foreach (var x in password.ToList<char>())
                 {
                     k = new KeyEvent();
                     k.WindowsKeyCode = (int)x;
@@ -520,8 +523,17 @@ namespace EmbeddedBrowser
                     k.IsSystemKey = false;
                     k.Type = KeyEventType.Char;
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
+                }
+                //password.ToList<char>().ForEach((x) =>
+                //{
+                //    k = new KeyEvent();
+                //    k.WindowsKeyCode = (int)x;
+                //    k.FocusOnEditableField = false;
+                //    k.IsSystemKey = false;
+                //    k.Type = KeyEventType.Char;
+                //    Browser.GetBrowser().GetHost().SendKeyEvent(k);
 
-                });
+                //});
 
                 k = new KeyEvent();
                 k.FocusOnEditableField = false;
