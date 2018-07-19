@@ -701,6 +701,16 @@ namespace EmbeddedBrowser
             return String.Empty;
         }
 
+        public string GetLoggedInPageSourceLinkedin()
+        {
+            if (!string.IsNullOrEmpty(TargetUrl) && TargetUrl != "Not Published Yet")
+            {
+                var sourceAsync = Browser.GetSourceAsync();
+                return sourceAsync.Result;
+            }
+            return String.Empty;
+        }
+
         public string GetNetworksHomeUrl()
         {
             switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
