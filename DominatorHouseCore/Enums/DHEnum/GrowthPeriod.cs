@@ -3,7 +3,8 @@
   
     public enum GrowthPeriod
     {
-        Daily = 0,
+        NoPeriod = 0,
+        Daily ,
         Weekly,
         Monthly,
         LifeTime

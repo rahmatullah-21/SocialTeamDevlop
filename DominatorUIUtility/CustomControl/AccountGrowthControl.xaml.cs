@@ -28,9 +28,10 @@ namespace DominatorUIUtility.CustomControl
     public partial class AccountGrowthControl : UserControl, INotifyPropertyChanged
     {
         private DominatorAccountViewModel _dominatorAccountViewModel;
+        private readonly BackgroundWorker worker = new BackgroundWorker();
 
         #region Property
-       
+
         public DominatorAccountViewModel DominatorAccountViewModel
         {
             get
@@ -57,10 +58,16 @@ namespace DominatorUIUtility.CustomControl
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;
             DominatorAccountViewModel.PropertyChanged += DominatorAccountViewModel_PropertyChanged;
+            worker.DoWork += ReloadGridWithGrowth;
+            worker.RunWorkerAsync();
 
         }
 
-        
+        private void ReloadGridWithGrowth(object sender, DoWorkEventArgs e)
+        {
+            _accountGrowthInstance.GetRespectiveAccounts(SocialNetworks.Twitter, GrowthPeriod.Daily);
+        }
+
         List<GridViewColumn> _addedColumns = new List<GridViewColumn>();
 
         private void DominatorAccountViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -110,24 +117,46 @@ namespace DominatorUIUtility.CustomControl
             return _accountGrowthInstance;
         }
 
-        private void GetRespectiveAccounts(SocialNetworks socialNetworks, GrowthPeriod period = GrowthPeriod.Daily)
+        private void GetRespectiveAccounts(SocialNetworks socialNetworks, GrowthPeriod period = GrowthPeriod.NoPeriod)
         {
+
             var accountUpdateFactory = SocinatorInitialize
                        .GetSocialLibrary(SocialNetworks.Twitter)
                        .GetNetworkCoreFactory().AccountUpdateFactory;
-           
+
 
             var listCollection = (ListCollectionView)DominatorAccountViewModel.AccountCollectionView;
-            DominatorAccountViewModel.LstDominatorAccountModel.Select(x =>
+            if (period == GrowthPeriod.NoPeriod)
             {
-                x.IsAccountManagerAccountSelected = false;
-                var AccoutGrowth = accountUpdateFactory.GetDailyGrowth(x.AccountId, x.AccountBaseModel.ProfileId, period);
-                x.DisplayColumnValue4 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue1 : 0;
-                x.DisplayColumnValue5 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue2 : 0;
-                x.DisplayColumnValue6 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue3 : 0;
-                return x;
-            }).ToList();
-            listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == socialNetworks;
+                DominatorAccountViewModel.LstDominatorAccountModel.Select(x =>
+                {
+                    x.IsAccountManagerAccountSelected = false;
+                    x.DisplayColumnValue4 = 0;
+                    x.DisplayColumnValue5 = 0;
+                    x.DisplayColumnValue6 = 0;
+                    return x;
+                }).ToList();
+
+                listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == socialNetworks;
+            }
+            else
+            {
+                DominatorAccountViewModel.LstDominatorAccountModel.Select(x =>
+                {
+                    x.IsAccountManagerAccountSelected = false;
+                    var AccoutGrowth = accountUpdateFactory.GetDailyGrowth(x.AccountId, x.AccountBaseModel.ProfileId, period);
+                    x.DisplayColumnValue4 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue1 : 0;
+                    x.DisplayColumnValue5 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue2 : 0;
+                    x.DisplayColumnValue6 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue3 : 0;
+                    return x;
+                }).ToList();
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == socialNetworks;
+
+                });
+            }
 
             if (socialNetworks == SocialNetworks.Social)
                 listCollection.Filter = null;
@@ -144,13 +173,15 @@ namespace DominatorUIUtility.CustomControl
 
         }
 
-        
-        
 
-      
-       
 
-       
+
+
+
+
+
+
+
         private void Row_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             List<string> menuOptions = new List<string>();
