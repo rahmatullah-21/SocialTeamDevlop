@@ -106,7 +106,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _imagesUrl, value);
             }
         }
-        private string _publisherInstagramTitle ;
+        private string _publisherInstagramTitle =string.Empty;
         [ProtoMember(7)]
         public string PublisherInstagramTitle
         {
@@ -236,7 +236,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _pdSourceUrl;
+        private string _pdSourceUrl=string.Empty;
         [ProtoMember(15)]
         public string PdSourceUrl
         {
