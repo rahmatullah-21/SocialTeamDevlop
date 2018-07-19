@@ -115,7 +115,6 @@ namespace DominatorHouseCore.Process
 
                             destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
                             {
-
                                 if(SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
                                 {
                                     var networkPostScraper = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key).GetPublisherCoreFactory()
