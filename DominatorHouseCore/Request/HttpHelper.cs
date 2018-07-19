@@ -5,13 +5,11 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.Request
 {
     public class HttpHelper : IHttpHelper
     {
-
         public HttpHelper()
         {
             // call to valid the certificates
@@ -24,14 +22,15 @@ namespace DominatorHouseCore.Request
             SetRequestParameter(requestParameters);
         }
 
+
         /// <summary>
         /// Gets or Sets the header details of <see cref="HttpHelper"/>
         /// </summary>
         protected virtual IRequestParameters RequestParameters { get; set; } = new RequestParameters();
 
-        protected HttpWebRequest Request = null;
+        protected HttpWebRequest Request;
 
-        protected HttpWebResponse Response = null;
+        protected HttpWebResponse Response;
 
         /// <summary>
         /// Validate the server certificates
@@ -45,7 +44,7 @@ namespace DominatorHouseCore.Request
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.StackTrace);
+                ex.DebugLog();
             }
         }
 
@@ -65,7 +64,7 @@ namespace DominatorHouseCore.Request
             => RequestParameters = requestParameters;
 
 
-      
+
         /// <summary>
         /// <para>Set <see cref="IRequestParameters"/> details to the followings.</para>
         /// <para> 1.<see cref="IRequestParameters.Headers"/> to <see cref="HttpWebRequest.Headers"/></para>
@@ -108,7 +107,7 @@ namespace DominatorHouseCore.Request
                         }
                         catch (Exception ex)
                         {
-                            ex.DebugLog(ex.StackTrace);
+                            ex.DebugLog();
                         }
                     }
                 }
@@ -141,7 +140,7 @@ namespace DominatorHouseCore.Request
                         }
                         catch (Exception ex)
                         {
-                            ex.DebugLog(ex.StackTrace);
+                            ex.DebugLog();
                         }
                     }
                 }
@@ -157,7 +156,7 @@ namespace DominatorHouseCore.Request
             }
             catch (Exception ex)
             {
-                ex.DebugLog(ex.StackTrace);
+                ex.DebugLog();
             }
         }
 
@@ -184,7 +183,7 @@ namespace DominatorHouseCore.Request
             }
             catch (Exception ex)
             {
-                ex.DebugLog(ex.StackTrace);
+                ex.DebugLog();
             }
         }
 
@@ -203,7 +202,7 @@ namespace DominatorHouseCore.Request
             }
             catch (Exception ex)
             {
-                ex.DebugLog(ex.StackTrace);
+                ex.DebugLog();
             }
         }
 
@@ -226,7 +225,7 @@ namespace DominatorHouseCore.Request
             }
             catch (Exception ex)
             {
-                ex.DebugLog(ex.StackTrace);
+                ex.DebugLog();
             }
         }
 
@@ -271,7 +270,7 @@ namespace DominatorHouseCore.Request
             }
             catch (Exception ex)
             {
-                ex.DebugLog(ex.StackTrace);
+                ex.DebugLog();
             }
         }
 
@@ -282,7 +281,52 @@ namespace DominatorHouseCore.Request
         /// <returns><see cref="IResponseParameter"/></returns>
         protected virtual IResponseParameter GetFinalResponse()
         {
-            return GetFinalResponseAsync(default(CancellationToken)).Result;
+            return DoGetFinalResponse();
+        }
+
+        private IResponseParameter DoGetFinalResponse(Func<bool> wasCancelled = null)
+        {
+            try
+            {
+                // Get the reponse from request
+                return GetReponse((HttpWebResponse)Request.GetResponse());
+            }
+            catch (WebException ex)
+            {
+                if (wasCancelled != null && wasCancelled())
+                {
+                    throw new OperationCanceledException();
+                }
+                try
+                {
+                    // Get error message from the response
+                    return ex.Response != null
+                        ? GetReponse((HttpWebResponse)ex.Response)
+                        : new ResponseParameter
+                        {
+                            HasError = true,
+                            Exception = ex
+                        };
+                }
+                catch (WebException exception)
+                {
+                    // return the exceptions of response in ResponseParameter
+                    return new ResponseParameter()
+                    {
+                        HasError = true,
+                        Exception = exception
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                // return the actual exceptions in ResponseParameter
+                return new ResponseParameter
+                {
+                    HasError = true,
+                    Exception = ex
+                };
+            }
         }
 
         protected virtual async Task<IResponseParameter> GetFinalResponseAsync(CancellationToken cancellationToken)
@@ -291,12 +335,10 @@ namespace DominatorHouseCore.Request
             {
                 return await DoGetFinalResponseAsync();
             }
-            else
+
+            using (cancellationToken.Register(() => Request.Abort()))
             {
-                using (cancellationToken.Register(() => Request.Abort()))
-                {
-                    return await DoGetFinalResponseAsync(() => cancellationToken.IsCancellationRequested);
-                }
+                return await DoGetFinalResponseAsync(() => cancellationToken.IsCancellationRequested);
             }
         }
 
@@ -364,7 +406,7 @@ namespace DominatorHouseCore.Request
 
             // Check null integrity
             if (responseStream == null)
-                return new ResponseParameter {Response = string.Empty};
+                return new ResponseParameter { Response = string.Empty };
 
             // return as proper ResponseParameter with appropriate reponse
             using (var streamReader = new StreamReader(responseStream))
@@ -373,10 +415,8 @@ namespace DominatorHouseCore.Request
                 {
                     Response = streamReader.ReadToEnd()
                 };
-            }           
+            }
         }
-
-
 
 
         #region Get Request And Post Request With Synchronous And Asynchronous Methods
@@ -411,21 +451,21 @@ namespace DominatorHouseCore.Request
         /// Asynchronous Get Request
         /// </summary>
         /// <param name="url"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public virtual Task<IResponseParameter> GetRequestAsync(string url, CancellationToken cancellationToken)
         {
             Request = (HttpWebRequest)WebRequest.Create(url);
-            SetRequestParametersToWebRequest(ref Request, this.RequestParameters);
+            SetRequestParametersToWebRequest(ref Request, RequestParameters);
             return GetFinalResponseAsync(cancellationToken);
         }
-
-
 
         /// <summary>
         /// Async Get Request With RequestParameters
         /// </summary>
         /// <param name="url"></param>
         /// <param name="requestParameters"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public virtual Task<IResponseParameter> GetRequestAsync(string url, IRequestParameters requestParameters, CancellationToken cancellationToken)
         {
@@ -433,22 +473,6 @@ namespace DominatorHouseCore.Request
             SetRequestParametersToWebRequest(ref Request, requestParameters);
             return GetFinalResponseAsync(cancellationToken);
         }
-
-
-        /// <summary>
-        /// Post Request with url and postdata with already saved RequestParameter
-        /// </summary>
-        /// <param name="url">url of tha page</param>
-        /// <param name="postData">post data which while pass with url</param>
-        /// <returns><see cref="IResponseParameter"/></returns>
-        public virtual IResponseParameter PostRequest(string url, string postData)
-        {
-            Request = (HttpWebRequest)WebRequest.Create(url);
-            SetRequestParametersToWebRequest(ref Request, this.RequestParameters);
-            WritePostData(ref Request, postData);
-            return GetFinalResponse();
-        }
-
 
         /// <summary>
         /// Post Request with url and postdata with already saved RequestParameter
@@ -458,8 +482,12 @@ namespace DominatorHouseCore.Request
         /// <returns><see cref="IResponseParameter"/></returns>
         public virtual IResponseParameter PostRequest(string url, byte[] postData)
         {
-            return PostRequestAsync(url, postData, default(CancellationToken)).Result;
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            SetRequestParametersToWebRequest(ref Request, RequestParameters);
+            WritePostData(ref Request, postData);
+            return GetFinalResponse();
         }
+
         public virtual Task<IResponseParameter> PostRequestAsync(string url, byte[] postData, CancellationToken cancellationToken)
         {
             Request = (HttpWebRequest)WebRequest.Create(url);
@@ -467,28 +495,6 @@ namespace DominatorHouseCore.Request
             WritePostData(ref Request, postData);
             return GetFinalResponseAsync(cancellationToken);
         }
-
-        /// <summary>
-        /// Post Request with url and postdata with new RequestParameter
-        /// </summary>
-        /// <param name="url">url of tha page</param>
-        /// <param name="postData">post data in byte array which while pass with url</param>
-        /// <param name="requestParamater"><see cref="IRequestParameters"/></param>
-        /// <returns><see cref="IResponseParameter"/></returns>
-        public virtual IResponseParameter PostRequest(string url, string postData, IRequestParameters requestParamater)
-        {
-            return PostRequestAsync(url, postData, requestParamater, default(CancellationToken)).Result;
-        }
-
-        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters requestParamater, CancellationToken cancellationToken)
-        {
-            Request = (HttpWebRequest)WebRequest.Create(url);
-            Request.Host = Request.RequestUri.Host;
-            SetRequestParametersToWebRequest(ref Request, requestParamater);
-            WritePostData(ref Request, postData);
-            return GetFinalResponseAsync(cancellationToken);
-        }
-
 
         /// <summary>
         /// Post Request with url and postdata as sequences of bytes with new RequestParameter
@@ -505,41 +511,86 @@ namespace DominatorHouseCore.Request
             return GetFinalResponse();
         }
 
+        /// <summary>
+        /// Post Request with url and postdata with already saved RequestParameter
+        /// </summary>
+        /// <param name="url">url of tha page</param>
+        /// <param name="postData">post data which while pass with url</param>
+        /// <returns><see cref="IResponseParameter"/></returns>
+        public virtual IResponseParameter PostRequest(string url, string postData)
+        {
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            SetRequestParametersToWebRequest(ref Request, RequestParameters);
+            WritePostData(ref Request, postData);
+            return GetFinalResponse();
+        }
+
+        /// <summary>
+        /// Post Request with url and postdata with new RequestParameter
+        /// </summary>
+        /// <param name="url">url of tha page</param>
+        /// <param name="postData">post data in byte array which while pass with url</param>
+        /// <param name="requestParamater"><see cref="IRequestParameters"/></param>
+        /// <returns><see cref="IResponseParameter"/></returns>
+        public virtual IResponseParameter PostRequest(string url, string postData, IRequestParameters requestParamater)
+        {
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            Request.Host = Request.RequestUri.Host;
+            SetRequestParametersToWebRequest(ref Request, requestParamater);
+            WritePostData(ref Request, postData);
+            return DoGetFinalResponse();
+        }
 
         /// <summary>
         /// Async Post Request
         /// </summary>
         /// <param name="url"></param>
         /// <param name="postData"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData, CancellationToken cancellationToken)
         {
-            this.Request = (HttpWebRequest)WebRequest.Create(url);
-            this.Response = null;
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            Response = null;
             SetRequestParametersToWebRequest(ref Request, RequestParameters);
             WritePostData(ref Request, postData);
             return GetFinalResponseAsync(cancellationToken);
         }
-
 
         /// <summary>
         /// Async Post Request With RequestParameters
         /// </summary>
         /// <param name="url"></param>
         /// <param name="postData"></param>
-        /// <param name="RequestParameters"></param>
+        /// <param name="requestParameters"></param>
         /// <returns></returns>
-        //public virtual async Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters RequestParameters)
-        //{
-        //    throw new NotImplementedException();
-        //    //Request = (HttpWebRequest)WebRequest.Create(url);
-        //    //this.Response = null;
-        //    //string Reponce = string.Empty;
-        //    //SetRequestParametersToWebRequest(ref Request, this.RequestParameters);
-        //    //WritePostData(ref Request, postData);
-        //    //return GetFinalResponse();
-        //}
+        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters requestParameters)
+        {
 
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            Response = null;          
+            SetRequestParametersToWebRequest(ref Request, requestParameters);
+            WritePostData(ref Request, postData);
+            var response= GetFinalResponseAsync(default(CancellationToken));
+            return response;
+        }
+
+        /// <summary>
+        /// Async Post Request With RequestParameters
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postData"></param>
+        /// <param name="requestParamater"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters requestParamater, CancellationToken cancellationToken)
+        {
+            Request = (HttpWebRequest)WebRequest.Create(url);
+            Request.Host = Request.RequestUri.Host;
+            SetRequestParametersToWebRequest(ref Request, requestParamater);
+            WritePostData(ref Request, postData);
+            return GetFinalResponseAsync(cancellationToken);
+        }
 
         #endregion
 

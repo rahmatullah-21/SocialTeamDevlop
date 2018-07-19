@@ -458,5 +458,17 @@ namespace DominatorHouseCore.Request
                 return memoryStream.ToArray();
             }
         }
+
+
+        /// <summary>
+        /// To generate the normal post data from json string
+        /// </summary>
+        /// <param name="jsonString">post data which will pass as bytes</param>
+        /// <returns>post data in sequences of bytes</returns>
+        public virtual byte[] GeneratePostDataFromDirectJson(string jsonString)
+        {
+            var jobject = JObject.Parse(jsonString);
+            return Encoding.UTF8.GetBytes(jobject.ToString());
+        }
     }
 }
