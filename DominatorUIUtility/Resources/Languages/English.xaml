@@ -2428,7 +2428,7 @@
     <system:String x:Key="LangKeyType">Type</system:String>
     <system:String x:Key="LangKeyTypeHere">Type Here..</system:String>
     <system:String x:Key="LangKeyTypeYourMessageHere">Type Your Message Here...</system:String>
-    
+
     <system:String x:Key="LangKeyUncheckGroupsThatRequireAdminValidationForPosts">Uncheck Groups That Require Admin Validation For Posts</system:String>
     <system:String x:Key="LangKeyUncheckIncludeOriginalPostFromFacebookPageShare">Uncheck 'Include Original Post' From Facebook Page Share</system:String>
     <system:String x:Key="LangKeyUndoRandomRetweets">Undo Random Retweets</system:String>
@@ -2739,7 +2739,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyStoppedCurrentJobTo">Stopped Current Job To</system:String>
     <system:String x:Key="LangKeyAs">As</system:String>
     <system:String x:Key="LangKeySuccessfullySaved">Successfully Saved</system:String>
-  
+
     <system:String x:Key="LangKeySuccessfullyUpdated">Successfully Updated.</system:String>
     <system:String x:Key="LangKeySuccessfullyPaused">Successfully Paused.</system:String>
     <system:String x:Key="LangKeyActivatedSuccessfully">Activated Successfully.</system:String>
@@ -2826,7 +2826,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPermanentlyBlocked">Permanently Blocked</system:String>
     <system:String x:Key="LangKeyTemporarilyBlocked">Temporarily Blocked</system:String>
     <system:String x:Key="LangKeyTryingToLogin">Trying to login</system:String>
-    
+
     <system:String x:Key="LangKeyAccountGrowth">Account Growth</system:String>
     <system:String x:Key="LangKeyFilterGrowth">Filter Growth</system:String>
     <system:String x:Key="LangKeyNotChecked">Not Checked</system:String>
@@ -3003,7 +3003,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFolderPathAlreadyExist">Folder path already exist.</system:String>
     <system:String x:Key="LangKeyLastModifiedDate">Last Modified Date</system:String>
     <!--End Added on 17-07-2018-->
-    
+
     <!--Start Added By Kamal on 18-07-2018-->
     <system:String x:Key="LangKeyFilterCommunityNsfw">Should be NSFW Community</system:String>
     <system:String x:Key="LangKeyFilterQuarantinedCommunity">Should be Quarantined Community</system:String>
@@ -3016,9 +3016,13 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFilterBywlsCounts">Should have WLS count in specific range</system:String>
     <!--End Added on 18-07-2018-->
 
-    <!--Newly Added on 19-07-2018-->
+    <!--Start Added By Kamal on 19-07-2018-->
+    <system:String x:Key="LangKeyCommunitiesSubscribedBySoftware">Communities Subscribed By Software</system:String>
+    <system:String x:Key="LangKeyCommunitiesSubscribedOutsideSoftware">Communities Subscribed Outside Software</system:String>
+    <system:String x:Key="LangKeyCommunityShouldHaveBeenSubscribedBefore">Community Should Have Been Subscribed Before</system:String>
+    <system:String x:Key="LangKeyUnSubscribeSource">Unsubscribe Source</system:String>
+    <system:String x:Key="LangKeyCustomCommunityList">Custom Community List</system:String>
     <system:String x:Key="LangKeyCopyCampaignId">Copy Campaign's Id</system:String>
     <system:String x:Key="LangKeyExportCampaignId">Export Campaign's Id</system:String>
     <!--End Added on 19-07-2018-->
-    
 </ResourceDictionary>

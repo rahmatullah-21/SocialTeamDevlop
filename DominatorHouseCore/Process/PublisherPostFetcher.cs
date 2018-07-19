@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -17,6 +20,10 @@ namespace DominatorHouseCore.Process
 {
     public class PublisherPostFetcher
     {
+
+        public ConcurrentDictionary<string,CancellationTokenSource> FetchingCampaignId { get; set; } = new ConcurrentDictionary<string, CancellationTokenSource>();
+
+
         public void StartFetchingPostData()
         {
             var getFetchDetails =
@@ -27,11 +34,20 @@ namespace DominatorHouseCore.Process
         }
 
         public void FetchPostsForCampaign(string campaignId)
-        {           
+        {
             var postFetchModels = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                 .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaignId && x.PostSource != PostSource.NormalPost);
 
-            ThreadFactory.Instance.Start(() => { postFetchModels.ForEach(FetchPosts); });                  
+            ThreadFactory.Instance.Start(() => { postFetchModels.ForEach(FetchPosts); });                                
+        }
+
+        public void StopFetchingPosts(string campaignId)
+        {
+            if (!FetchingCampaignId.ContainsKey(campaignId))
+                return;
+
+            var cancellationToken = FetchingCampaignId[campaignId];
+            cancellationToken.Cancel();
         }
 
         public void FetchPosts(PublisherPostFetchModel publisherPostFetchModel)
