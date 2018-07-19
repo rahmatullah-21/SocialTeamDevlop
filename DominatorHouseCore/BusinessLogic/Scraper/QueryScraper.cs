@@ -5,6 +5,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {   
@@ -73,12 +74,27 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
                     usedQueries++;
                 }
+                _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 if(totalQueries == usedQueries)
                 GlobusLogHelper.log.Info(Log.NoMoreDataToPerform,_jobProcess.SocialNetworks,_jobProcess.DominatorAccountModel.AccountBaseModel.UserName,_jobProcess.ActivityType);
             }
             catch (OperationCanceledException)
             {
                 Console.WriteLine(@"Cancellation Requested !");
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation requested before task completion!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
         }
     }
