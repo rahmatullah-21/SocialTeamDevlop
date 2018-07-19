@@ -94,6 +94,51 @@ namespace Socinator
             }
         }
 
+        private async Task IsCheck()
+        {
+            try
+            {
+                var key = SocinatorKeyHelper.GetKey();
+
+                var networks = await UtilityManager.LogIndividualNetworksExceptions(key.LicenseKey);
+
+                if (networks.Count <= 1)
+                {
+
+
+                    if (!Application.Current.Dispatcher.CheckAccess())
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            Application.Current.Shutdown();
+                            Process.GetCurrentProcess().Kill();
+                        });
+                    }
+                    else
+                    {
+                        Application.Current.Shutdown();
+                        Process.GetCurrentProcess().Kill();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                if (!Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Application.Current.Shutdown();
+                        Process.GetCurrentProcess().Kill();
+                    });
+                }
+                else
+                {
+                    Application.Current.Shutdown();
+                    Process.GetCurrentProcess().Kill();
+                }
+            }
+        }
+
         private async Task LicenseCheck()
         {
             try
@@ -157,7 +202,9 @@ namespace Socinator
                 AccountBrowserLogin = AccountBrowserLogin,
                 _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
                 _inform_warnings = GlobusLogHelper.log.Warn,
-                action_UpdateFollower = AccountUpdate
+                action_UpdateFollower = AccountUpdate,
+                EditProfile= EditProfile,
+                RemovePhoneVerification = RemovePhoneVerification
             };
             DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
 
@@ -171,6 +218,42 @@ namespace Socinator
             FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
             await controller.CloseAsync();
             return true;
+        }
+
+        private void RemovePhoneVerification(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    var profileFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().ProfileFactory;
+                    profileFactory.RemovePhoneVerification(dominatorAccountModel);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void EditProfile(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    var profileFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().ProfileFactory;
+                    profileFactory.EditProfile(dominatorAccountModel);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private async Task<bool> IsValidateAgain(string license)
@@ -189,6 +272,8 @@ namespace Socinator
 
             return false;
         }
+
+       
         public ObservableCollection<string> Languages
         {
             get
@@ -291,15 +376,15 @@ namespace Socinator
         {
             try
             {
+                var streamq = Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt");
                 var accountCustomControl =
                     AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);
 
-                Task.Factory.StartNew(() =>
+                ThreadFactory.Instance.Start(() =>
                 {
                     JobManager.AddJob(() => InitializeJobCores(_licenseKey), x => x.ToRunNow());
                 });
-
-
 
                 //Init UI delegates            
                 CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
@@ -494,9 +579,17 @@ namespace Socinator
 
         public void InitializeJobCores(string license)
         {
+           
             try
             {
-                Task.Factory.StartNew(() =>
+                var streamq = Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt");
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt"))
+                {
+                    TextReader tr = new StreamReader(stream);
+                    ConstantVariable.Revision = tr.ReadToEnd();
+                }
+                ThreadFactory.Instance.Start(() =>
                     {
                         var nextDayTime = DateTime.Now.AddDays(1);
 
@@ -589,34 +682,61 @@ namespace Socinator
                 FeatureFlags.UpdateFeatures();
 
                 var softWareSettings = new DominatorHouse.Utilities.SoftwareSettings();
-                Task.Factory.StartNew(() => { softWareSettings.InitializeOnLoadConfigurations(_strategies); });
+                ThreadFactory.Instance.Start(() => { softWareSettings.InitializeOnLoadConfigurations(_strategies); });
+
                 var softWareSetting = new DominatorHouseCore.Settings.SoftwareSettings();
-                Task.Factory.StartNew(() => { softWareSetting.InitializeOnLoadConfigurations(); });
+                ThreadFactory.Instance.Start(() => { softWareSetting.InitializeOnLoadConfigurations(); });
+
+                // For Every day backup
+                ThreadFactory.Instance.Start(DirectoryUtilities.Compress);
 
                 #region Publisher
 
-                Task.Factory.StartNew(() =>
+                ThreadFactory.Instance.Start(() =>
                 {
                     PublisherInitialize.GetInstance.PublishCampaignInitializer();
                     PublishScheduler.ScheduleTodaysPublisher();
                     PublishScheduler.UpdateNewGroupList();
                 });
 
-                Task.Factory.StartNew(() =>
+                ThreadFactory.Instance.Start(() =>
                 {
                     var publisherPostFetcher = new PublisherPostFetcher();
                     publisherPostFetcher.StartFetchingPostData();
                 });
 
-                Task.Factory.StartNew(() =>
+                ThreadFactory.Instance.Start(() =>
                     {
                         var deletionPostlist =
                         GenericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
-                            .GetDeletePublisherPostModel);
-                        deletionPostlist.ForEach(PublishScheduler.EnableDeletePost);
+                            .GetDeletePublisherPostModel).Where(x=> x.IsDeletedAlready == false).ToList();
+                        deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
                     });
 
                 #endregion
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            try
+            {
+                ThreadFactory.Instance.Start(() =>
+                {
+                    JobManager.AddJob(async () => await IsCheck(),
+                        x => x.ToRunOnceAt(DateTime.Now.AddHours(1))
+                            .AndEvery(1).Hours());
+                });
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (AggregateException ex)
+            {
+                ex.DebugLog();
             }
             catch (Exception ex)
             {
@@ -634,7 +754,7 @@ namespace Socinator
         {
             try
             {
-                Task.Factory.StartNew(() =>
+                ThreadFactory.Instance.Start(() =>
                 {
                     var accountUpdateFactory = SocinatorInitialize
                         .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
@@ -652,7 +772,7 @@ namespace Socinator
         {
             try
             {
-                Task.Factory.StartNew(() =>
+                ThreadFactory.Instance.Start(() =>
                 {
                     var accountUpdateFactory = SocinatorInitialize
                         .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)

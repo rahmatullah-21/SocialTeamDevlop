@@ -142,7 +142,7 @@
                      Value="{Binding RandomDestinationCount}"
                      VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource LangKeyRandomDestinationsWithAMaximumOf}"  VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown Minimum="{Binding MaxDestination}" Value="{Binding PostBetween.EndValue}" VerticalAlignment="Center"  Margin="5"/>
+            <control:NumericUpDown Minimum="0" Value="{Binding PostBetween.EndValue}" Maximum="{Binding RandomDestinationCount}" VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource LangKeyDestinationsFromEachAccount0ForNoLimits}"  VerticalAlignment="Center" Margin="5"/>
         </StackPanel>
         <CheckBox Content="{DynamicResource LangKeyAddDelayBetweenPublishingMultiplePosts}" IsChecked="{Binding IsAddDelayBetweenPublishingPost}"  Margin="5"/>
@@ -161,7 +161,7 @@
                      Value="{Binding PostRange.StartValue}"
                      VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource LangKeyTo}"  VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown Minimum="{Binding PostRange.EndValue}" Value="{Binding PostBetween.EndValue}" VerticalAlignment="Center"  Margin="5"/>
+            <control:NumericUpDown Minimum="{Binding PostRange.StartValue}" Value="{Binding PostRange.EndValue}" VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource LangKeyPost}"  VerticalAlignment="Center" Margin="5"/>
         </StackPanel>
         <CheckBox Content="{DynamicResource LangKeyCampaignHasStartDate}" 

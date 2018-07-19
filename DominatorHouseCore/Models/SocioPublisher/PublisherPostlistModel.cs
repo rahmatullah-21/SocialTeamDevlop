@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Migrations.Model;
 using System.Windows;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
@@ -333,6 +334,24 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        private string _monitorFilePath = string.Empty;
+        [ProtoMember(28)]
+        public string MonitorFilePath
+        {
+            get
+            {
+                return _monitorFilePath;
+            }
+            set
+            {
+               
+                if (_monitorFilePath == value)
+                    return;
+                SetProperty(ref _monitorFilePath, value);
+            }
+        }
+
+
 
         #region Postlist
 
@@ -457,6 +476,24 @@ namespace DominatorHouseCore.Models.SocioPublisher
         #endregion
 
         #region Settings
+   
+        private GeneralPostSettings _generalPostSettings;
+        [ProtoMember(27)]
+        public GeneralPostSettings GeneralPostSettings
+        {
+            get
+            {
+                return _generalPostSettings;
+            }
+            set
+            {
+                if (_generalPostSettings == value)
+                    return;
+                SetProperty(ref _generalPostSettings, value);
+            }
+        }
+
+
 
         private FdPostSettings _fdPostSettings = new FdPostSettings();
 
@@ -470,8 +507,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             set
             {
                 if (_fdPostSettings == value)
-                    return;
-                _fdPostSettings = value;
+                    return;              
                 SetProperty(ref _fdPostSettings, value);
             }
         }
@@ -489,7 +525,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_gdPostSettings == value)
                     return;
-                _gdPostSettings = value;
+               
                 SetProperty(ref _gdPostSettings, value);
             }
         }
@@ -507,7 +543,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_tdPostSettings == value)
                     return;
-                _tdPostSettings = value;
+               
                 SetProperty(ref _tdPostSettings, value);
             }
         }
@@ -524,7 +560,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_ldPostSettings == value)
                     return;
-                _ldPostSettings = value;
+               
                 SetProperty(ref _ldPostSettings, value);
             }
         }
@@ -558,7 +594,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_tumberPostSettings == value)
                     return;
-                _tumberPostSettings = value;
+               
                 SetProperty(ref _tumberPostSettings, value);
             }
         }
@@ -621,7 +657,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 if (_publisherInstagramTitle == value)
                     return;
                 _publisherInstagramTitle = value;
-                OnPropertyChanged(nameof(_publisherInstagramTitle));
+                OnPropertyChanged(nameof(PublisherInstagramTitle));
             }
         }
         private string _pdSourceUrl;
@@ -649,6 +685,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         {
             PostId = Utilities.GetGuid();
             CreatedTime = DateTime.Now;
+        }
+
+        public void GenerateNewPostId()
+        {
+            PostId = Utilities.GetGuid();
         }
 
         public void InitializePostData()

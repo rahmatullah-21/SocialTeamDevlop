@@ -1,11 +1,14 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
 using  System.Windows;
+using DominatorHouseCore.Enums.SocioPublisher;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
+    [Serializable]
     [ProtoContract]
     public class PostDetailsModel : BindableBase
     {
@@ -103,7 +106,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _imagesUrl, value);
             }
         }
-        private string _publisherInstagramTitle ;
+        private string _publisherInstagramTitle =string.Empty;
         [ProtoMember(7)]
         public string PublisherInstagramTitle
         {
@@ -233,7 +236,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _pdSourceUrl;
+        private string _pdSourceUrl=string.Empty;
         [ProtoMember(15)]
         public string PdSourceUrl
         {
@@ -265,5 +268,58 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
             }
         }
+
+
+        private DateTime _createdDateTime;
+        [ProtoMember(17)]
+        public DateTime CreatedDateTime
+        {
+            get
+            {
+                return _createdDateTime;
+            }
+            set
+            {              
+                if (value == _createdDateTime)
+                    return;
+                SetProperty(ref _createdDateTime, value);
+            }
+        }
+
+
+        private string _postDetailsId;
+        [ProtoMember(18)]
+        public string PostDetailsId
+        {
+            get
+            {
+                return _postDetailsId;
+            }
+            set
+            {
+                if (value == _postDetailsId)
+                    return;
+                SetProperty(ref _postDetailsId, value);
+            }
+        }
+
+        private PostQueuedStatus _postQueuedStatus = PostQueuedStatus.Pending;
+        [ProtoMember(19)]
+        public PostQueuedStatus PostQueuedStatus
+        {
+            get
+            {
+                return _postQueuedStatus;
+            }
+            set
+            {
+                if (value == _postQueuedStatus)
+                    return;
+                SetProperty(ref _postQueuedStatus, value);
+            }
+        }
+
+
+
     }
 }

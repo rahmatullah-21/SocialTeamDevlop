@@ -40,7 +40,7 @@ namespace DominatorUIUtility.CustomControl
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
             dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
             dbOperations = new DbOperations(dbContext);
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 dbOperations.Get<WhiteListUser>()?.ForEach(user =>
                 {
@@ -178,7 +178,7 @@ namespace DominatorUIUtility.CustomControl
         {
 
             WhitelistUserModel.LstWhiteListUsers.Clear();
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 dbOperations.Get<WhiteListUser>()?.ForEach(user =>
                 {

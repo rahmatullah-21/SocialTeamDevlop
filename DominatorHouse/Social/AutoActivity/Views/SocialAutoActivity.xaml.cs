@@ -98,7 +98,7 @@ namespace Socinator.Social.AutoActivity.Views
 
         private void SocialAutoActivity_OnLoaded(object sender, RoutedEventArgs e)
         {
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 DominatorAutoActivityViewModel.InitializeAccounts();
                 SetDataContext();

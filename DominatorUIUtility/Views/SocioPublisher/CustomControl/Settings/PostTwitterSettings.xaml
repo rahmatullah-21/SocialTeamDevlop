@@ -11,7 +11,7 @@
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <CheckBox Name="CheckBoxDeletePost" Margin="2" Content="{DynamicResource LangKeyDeleteThePostAfter}" IsChecked="{Binding IsDeletePostAfterHours}"/>
-                <TextBox Width="40" Height="25" Text="{Binding DeletePostAfterHours}" Margin="2"/>
+                <mah:NumericUpDown Width="40" Height="25" Minimum="0" Value="{Binding DeletePostAfterHours}" Margin="2"/>
                 <TextBlock Text="{DynamicResource LangKeyHours}"  VerticalAlignment="Center" Margin="5"/>
             </StackPanel>
             <StackPanel Orientation="Vertical">

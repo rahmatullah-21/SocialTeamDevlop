@@ -9,6 +9,7 @@ using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
+    [Serializable]
     [ProtoContract]
     public class GeneralPostSettings: BindableBase, IGeneralPostSettings
     {

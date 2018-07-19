@@ -23,7 +23,9 @@ namespace DominatorHouseCore.Converters
             if (string.IsNullOrEmpty(network.ToString()))
                 return Visibility.Collapsed;
 
-            return FeatureFlags.Check(network.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+            var visibilityStatus = FeatureFlags.Check(network.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+
+            return visibilityStatus;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

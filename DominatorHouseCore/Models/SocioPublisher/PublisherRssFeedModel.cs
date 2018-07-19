@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
+    [Serializable]
     [ProtoContract]
     public class PublisherRssFeedModel : BindableBase
     {
@@ -22,7 +24,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _feedUrl, value);
             }
         }
-        private string _feedTemplate =Application.Current.FindResource("LangKeyRssFeedTemplate").ToString();
+        private string _feedTemplate ="LangKeyRssFeedTemplate".FromResourceDictionary();
         [ProtoMember(2)]
         public string FeedTemplate
         {
@@ -37,7 +39,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _feedTemplate, value);
             }
         }
-        private string _buttonContent = "Save to List";
+        private string _buttonContent = "LangKeySaveFeedUrl".FromResourceDictionary();
         [ProtoIgnore]
         public string ButtonContent
         {
@@ -52,5 +54,21 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _buttonContent, value);
             }
         }
+        private PostDetailsModel _postDetailsModel=new PostDetailsModel();
+        [ProtoMember(3)]
+        public PostDetailsModel PostDetailsModel
+        {
+            get
+            {
+                return _postDetailsModel;
+            }
+            set
+            {
+                if (value == _postDetailsModel)
+                    return;
+                SetProperty(ref _postDetailsModel, value);
+            }
+        }
+
     }
 }

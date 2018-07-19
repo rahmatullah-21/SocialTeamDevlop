@@ -5,8 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl" 
+               xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              Name="CustomDestination"
              mc:Ignorable="d" Width="800" Height="600">
+    <UserControl.Resources>
+        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -21,7 +25,7 @@
                                Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
                     <TextBox Width="350" Margin="5" Text="{Binding InputDestination.DestinationType}"></TextBox>
                 </StackPanel>
-                
+
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource LangKeyDestinationURL}" Width="100" Margin="5"/>
                     <customControl:InputBoxControl Margin="5" x:Name="InputBoxControl" SaveVisiblity="Collapsed" InputCollection="{Binding InputCollectionList}" InputText="{Binding InputDestination.DestinationValue}" ></customControl:InputBoxControl>
@@ -61,42 +65,100 @@
                         </Style.Triggers>
                     </Style>
                 </GroupBox.Style>
-                <ItemsControl ItemsSource="{Binding LstCustomDestination}" Name="CustomDestinationList">
-                    <ItemsControl.Template>
-                        <ControlTemplate>
-                            <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}">
-                                <ItemsPresenter />
-                            </ScrollViewer>
-                        </ControlTemplate>
-                    </ItemsControl.Template>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding DestinationType}"  Margin="4" TextWrapping="Wrap"/>
-                                <TextBlock Text="{Binding DestinationValue}"  Grid.Column="1"  Margin="4" TextWrapping="Wrap"/>
-                                <StackPanel Orientation="Horizontal" Margin="4" Grid.Column="2" VerticalAlignment="Center">
-                                    <Button Name="BtnDelete" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
+
+                <!--<ItemsControl ItemsSource="{Binding LstCustomDestination}" >
+                        <ItemsControl.Template>
+                            <ControlTemplate>
+                                <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </ControlTemplate>
+                        </ItemsControl.Template>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding DestinationType}"  Margin="4" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding DestinationValue}"  Grid.Column="1"  Margin="4" TextWrapping="Wrap"/>
+                                    <StackPanel Orientation="Horizontal" Margin="4" Grid.Column="2" VerticalAlignment="Center">
+                                        <Button Name="BtnDelete" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
                                         VerticalAlignment="Top" Margin="10,0"   
                                             Command="{Binding ElementName=CustomDestinationList,Path=DataContext.DeleteCommand}"
                                             CommandParameter="{Binding ElementName=BtnDelete}">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Rectangle Width="12" Height="15" Fill="White">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>-->
+
+
+                <DataGrid ItemsSource="{Binding LstCustomDestination}" GridLinesVisibility="All" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
+                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+                              CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" Name="CustomDestinationList">
+                    <DataGrid.Columns>
+                        <!--<DataGridTextColumn  Width="20" Binding="{Binding (ItemsControl.AlternationIndex),
+                                                  RelativeSource={RelativeSource AncestorType=DataGridRow},
+                                                  Converter={StaticResource IndexToRowNoConverter}}" ></DataGridTextColumn>-->
+
+                        <DataGridTemplateColumn Width="30" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" Text="{Binding (ItemsControl.AlternationIndex),
+                                                  RelativeSource={RelativeSource AncestorType=DataGridRow},
+                                                  Converter={StaticResource IndexToRowNoConverter}}"  Margin="4" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
+                        
+                        <DataGridTemplateColumn Header="{DynamicResource LangKeyActions}" Width="80" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="BtnDelete" Width="40" Height="25" 
+                                                VerticalAlignment="Top" Margin="10,0"   
+                                                Command="{Binding ElementName=CustomDestinationList,Path=DataContext.DeleteCommand}"
+                                                CommandParameter="{Binding ElementName=BtnDelete}">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Rectangle Width="12" Height="15" Fill="White">
+                                            <Rectangle Width="12" Height="15" Fill="{DynamicResource AccentBaseColorBrush}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
                                         </StackPanel>
                                     </Button>
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{DynamicResource LangKeyDestination}" Width="100" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DestinationType}"  Margin="4" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{DynamicResource LangKeyDestinationURL}" Width="*" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DestinationValue}"  Margin="4" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+
             </GroupBox>
         </Grid>
 

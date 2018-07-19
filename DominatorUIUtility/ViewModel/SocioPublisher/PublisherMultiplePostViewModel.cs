@@ -30,7 +30,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             DeletePostCommand = new BaseCommand<object>(DeletePostCanExecute, DeletePostExecute);
         }
 
-       
+
         #region Command
 
         public ICommand CreateNewPost { get; set; }
@@ -75,7 +75,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-     
+
         #endregion
 
         #region Create New Post
@@ -84,7 +84,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void ExecuteCreateNewPost(object sender)
         {
-            PostDetailsModel postDetailsModel = new PostDetailsModel();
+            PostDetailsModel postDetailsModel = new PostDetailsModel
+            {
+                CreatedDateTime = DateTime.Now,
+                PostDetailsId = Utilities.GetGuid()
+            };
             LstPostDetailsModel.Add(postDetailsModel);
             PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
@@ -136,6 +140,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
                     #endregion
 
+                    postDetailsModel.CreatedDateTime = DateTime.Now;
+                    postDetailsModel.PostDetailsId = Utilities.GetGuid();
+
                     LstPostDetailsModel.Add(postDetailsModel);
                 }
                 catch (Exception ex)
@@ -154,8 +161,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void DeletePostExecute(object sender)
         {
-            var postToDelete =sender as PostDetailsModel;
-            LstPostDetailsModel.Remove(postToDelete);
+            try
+            {
+                var postToDelete = sender as PostDetailsModel;
+                LstPostDetailsModel.Remove(postToDelete);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
         #endregion
     }

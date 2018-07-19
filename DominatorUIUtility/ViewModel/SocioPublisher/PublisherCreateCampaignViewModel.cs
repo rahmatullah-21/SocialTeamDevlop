@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
@@ -20,9 +19,9 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
 using DominatorUIUtility.Views.Publisher.AdvancedSettings;
-using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
@@ -54,29 +53,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             JobConfigurationControl = JobConfiguration;
 
-            JobConfiguration.IsAllowEdit = true;
+
         }
 
 
         #region Properties
-
-
-
-        private bool _isCampaignNameEdit;
-
-        public bool IsCampaignNameEdit
-        {
-            get
-            {
-                return _isCampaignNameEdit;
-            }
-            set
-            {
-                _isCampaignNameEdit = value;
-                OnPropertyChanged(nameof(IsCampaignNameEdit));
-            }
-        }
-
 
         private PublisherCreateCampaignModel _publisherCreateCampaignModel = new PublisherCreateCampaignModel();
 
@@ -147,6 +128,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
+
+        private string _pageTitle;
+
+        public string PageTitle
+        {
+            get
+            {
+                return _pageTitle;
+            }
+            set
+            {
+                if (_pageTitle == value)
+                    return;
+
+                _pageTitle = value;
+
+                OnPropertyChanged(nameof(PageTitle));
+            }
+        }
+
+
         #region Command
         public ICommand NavigationCommand { get; set; }
         public ICommand SaveCommand { get; set; }
@@ -222,6 +224,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 case "Back":
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
                         = PublisherDefaultPage.Instance();
+                    ClearCurrentCampaigns();
                     break;
             }
         }
@@ -229,8 +232,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private bool SaveCanExecute(object sender) => true;
         private void SaveExecute(object sender)
         {
-
-
             if (_publisherCreateCampaignModel.JobConfigurations.LstTimer.Count == 0)
             {
                 Dialog.ShowDialog("Warning", "Please select proper time to run!");
@@ -243,16 +244,38 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 return;
             }
 
+            if (!PublisherCreateCampaignModel.JobConfigurations.IsCampaignHasEndDateChecked)
+                PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate = null;
+
+            if (!PublisherCreateCampaignModel.JobConfigurations.IsCampaignHasStartDateChecked)
+                PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate = null;
+
+            if (PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate != null &&
+                PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate != null &&
+                PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate >
+                PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate)
+            {
+                Dialog.ShowDialog("Warning", "Please check campaign's start time, Should be less than end time!");
+                return;
+            }
+
+            if (PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate != null
+                && PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate < DateTime.Now)
+                PublisherCreateCampaignModel.CampaignStatus = PublisherCampaignStatus.Completed;
+
             try
             {
-                #region Saving Campign to PublisherCampaign.bin file
-
                 var generalSettingsModel = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel;
+
+                #region Saving Campign to PublisherCampaign.bin file
 
                 var lstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
                     ConstantVariable.GetPublisherCampaignFile());
 
-                if (!string.IsNullOrEmpty(SelectedItem) || lstCampaign.Any(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId))
+                PublisherCreateCampaignModel.PostDetailsModel = new PostDetailsModel();
+                PublisherCreateCampaignModel.UpdatedDate = DateTime.Now;
+
+                if (lstCampaign.Any(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId))
                 {
                     var campaignIndex = lstCampaign.IndexOf(lstCampaign.FirstOrDefault(x => x.CampaignName == SelectedItem));
 
@@ -274,86 +297,30 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 #region Saving post
 
-                var postlist = PostlistFileManager.GetAll(PublisherCreateCampaignModel.CampaignId)
-                    .Where(x => x.PostQueuedStatus == PostQueuedStatus.Published).ToList();
-
-                PostlistFileManager.SaveAll(PublisherCreateCampaignModel.CampaignId, postlist);
-
                 var publisherPostlistModel = new PublisherPostlistModel
                 {
                     CampaignId = PublisherCreateCampaignModel.CampaignId,
                     CreatedTime = DateTime.Now,
                     PostSource = PostSource.NormalPost,
-                    PostCategory = PublisherCreateCampaignModel.PostDetailsModel.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
                     PostQueuedStatus = PostQueuedStatus.Pending,
                     PostRunningStatus = PostRunningStatus.Active,
-                    ExpiredTime = DateTime.Today.AddDays(10),
-                    FdPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.FdPostSettings,
-                    GdPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.GdPostSettings,
-                    TdPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.TdPostSettings,
-                    LdPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.LdPostSettings,
-                    TumberPostSettings = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.TumberPostSettings,
-                    RedditPostSetting = PublisherCreateCampaignModel.PostDetailsModel.PublisherPostSettings.RedditPostSetting,
+                    ExpiredTime = DateTime.Now.AddYears(2)
                 };
 
-                if (PublisherCreateCampaignModel.PostDetailsModel.IsSinglePost)
-                {
-                    publisherPostlistModel.PostId = Utilities.GetGuid();
-                    publisherPostlistModel.PostDescription = PublisherCreateCampaignModel.PostDetailsModel.PostDescription;
-                    publisherPostlistModel.MediaList = PublisherCreateCampaignModel.PostDetailsModel.MediaViewer.MediaList;
-                    publisherPostlistModel.PublisherInstagramTitle =
-                        PublisherCreateCampaignModel.PostDetailsModel.PublisherInstagramTitle;
-                    publisherPostlistModel.PdSourceUrl = PublisherCreateCampaignModel.PostDetailsModel.PdSourceUrl;
-                    publisherPostlistModel.FdSellLocation =
-                        PublisherCreateCampaignModel.PostDetailsModel.FdSellLocation;
-                    publisherPostlistModel.FdSellPrice = PublisherCreateCampaignModel.PostDetailsModel.FdSellPrice;
-                    publisherPostlistModel.FdSellProductTitle =
-                        PublisherCreateCampaignModel.PostDetailsModel.FdSellProductTitle;
-                    publisherPostlistModel.IsFdSellPost =
-                        PublisherCreateCampaignModel.PostDetailsModel.IsFdSellPost;
+                var postIdlist = PostlistFileManager.GetAll(PublisherCreateCampaignModel.CampaignId).Select(x => x.PostId).ToList();
 
-                    if (!string.IsNullOrEmpty(publisherPostlistModel.PostDescription) ||
-                        publisherPostlistModel.MediaList.Count > 0 ||
-                        !string.IsNullOrEmpty(publisherPostlistModel.PublisherInstagramTitle) ||
-                        !string.IsNullOrEmpty(publisherPostlistModel.PdSourceUrl))
+                foreach (var post in PublisherCreateCampaignModel.LstPostDetailsModels)
+                {
+                    AddPostlists(postIdlist, post);
+
+                    if (!post.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
+                        continue;
+                    for (var readdCount = 1; readdCount < post.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdCount++)
                     {
-                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
+                        var newpost = post.DeepClone();
+                        newpost.PostDetailsId = Utilities.GetGuid();
+                        AddPostlists(postIdlist, newpost);
                     }
-                }
-                else if (PublisherCreateCampaignModel.PostDetailsModel.IsMultiPost)
-                {
-                    PublisherCreateCampaignModel.LstPostDetailsModels.ForEach(post =>
-                    {
-                        publisherPostlistModel.PostId = Utilities.GetGuid();
-                        publisherPostlistModel.PostDescription = post.PostDescription;
-                        publisherPostlistModel.MediaList = post.MediaViewer.MediaList;
-                        publisherPostlistModel.PublisherInstagramTitle = post.PublisherInstagramTitle;
-                        publisherPostlistModel.PdSourceUrl = post.PdSourceUrl;
-                        publisherPostlistModel.FdSellLocation = post.FdSellLocation;
-                        publisherPostlistModel.FdSellPrice = post.FdSellPrice;
-                        publisherPostlistModel.FdSellProductTitle = post.FdSellProductTitle;
-                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
-                    });
-                }
-                else
-                {
-                    var images = PublisherCreateCampaignModel.PostDetailsModel.MediaList;
-
-                    if (PublisherCreateCampaignModel.PostDetailsModel.IsUniquePost)
-                    {
-                        images = new ObservableCollection<string>(images.ToList().Distinct());
-                    }
-
-                    images.ForEach(image =>
-                    {
-                        publisherPostlistModel.MediaList = new ObservableCollection<string> { image };
-                        publisherPostlistModel.PostId = Utilities.GetGuid();
-                        if (PublisherCreateCampaignModel.PostDetailsModel.IsUseFileNameAsDescription)
-                        {
-                            publisherPostlistModel.PostDescription = new Uri(image).Segments.Last();
-                        }
-                        PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
-                    });
                 }
 
                 if (PublisherCreateCampaignModel.SharePostModel.IsShareCustomPostList)
@@ -363,6 +330,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     shareUrls.ForEach(shareUrl =>
                     {
+
                         publisherPostlistModel.PostId = Utilities.GetGuid();
                         publisherPostlistModel.ShareUrl = shareUrl.Trim();
                         publisherPostlistModel.PostSource = PostSource.SharePost;
@@ -377,8 +345,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 GenericFileManager.Delete<PublisherPostFetchModel>(y => PublisherCreateCampaignModel.CampaignId == y.CampaignId, ConstantVariable.GetPublisherPostFetchFile);
 
                 var currentCampaignsFetchDetails = new List<PublisherPostFetchModel>();
-
-
 
                 #region DirectPostPosts
 
@@ -487,17 +453,29 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 #region Updating PublisherDefaultPage
 
+                DateTime? startTime = null;
+                DateTime? endTime = null;
+
+                if (PublisherCreateCampaignModel.JobConfigurations.IsCampaignHasStartDateChecked)
+                    startTime = PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate;
+
+                if (PublisherCreateCampaignModel.JobConfigurations.IsCampaignHasEndDateChecked)
+                    endTime = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate;
+
                 var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                 {
                     CampaignName = PublisherCreateCampaignModel.CampaignName,
                     CampaignId = PublisherCreateCampaignModel.CampaignId,
-                    StartDate = PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate,
-                    EndDate = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate,
+                    StartDate = startTime,
+                    EndDate = endTime,
                     CreatedDate = PublisherCreateCampaignModel.CreatedDate,
+                    UpdatedTime = PublisherCreateCampaignModel.UpdatedDate,
                     Status = PublisherCreateCampaignModel.CampaignStatus,
                     DestinationCount = PublisherCreateCampaignModel.LstDestinationId.Count,
                     IsRotateDayChecked = PublisherCreateCampaignModel.JobConfigurations.IsRotateDayChecked,
                     TimeRange = PublisherCreateCampaignModel.JobConfigurations.TimeRange,
+                    IsRandomRunningTime = PublisherCreateCampaignModel.JobConfigurations.IsRandomizePublishingTimerChecked,                 
+                    MaximumTime = PublisherCreateCampaignModel.JobConfigurations.MaxPost,
                     SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                     ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
                     PendingCount = publisherPostlistModel.LstPublishedPostDetailsModels.Count,
@@ -508,7 +486,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 var publishIntialize = PublisherInitialize.GetInstance;
                 publishIntialize.AddCampaignDetails(publisherCampaignStatusModel);
-                
 
                 #region Update Destination
 
@@ -525,6 +502,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
                     = PublisherDefaultPage.Instance();
+
             }
             catch (Exception ex)
             {
@@ -532,13 +510,57 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        private void AddPostlists(List<string> postIdlist, PostDetailsModel post)
+        {
+            var postlistModel = new PublisherPostlistModel
+            {
+                CampaignId = PublisherCreateCampaignModel.CampaignId,
+                CreatedTime = DateTime.Now,
+                PostSource = PostSource.NormalPost,
+                PostQueuedStatus = post.PostQueuedStatus,
+                PostRunningStatus = PostRunningStatus.Active,
+                PostDescription = post.PostDescription,
+                MediaList = post.MediaViewer.MediaList,
+                PublisherInstagramTitle = post.PublisherInstagramTitle,
+                PdSourceUrl = post.PdSourceUrl,
+                FdSellLocation = post.FdSellLocation,
+                FdSellPrice = post.FdSellPrice,
+                FdSellProductTitle = post.FdSellProductTitle,
+                IsFdSellPost = post.IsFdSellPost,
+                PostId = post.PostDetailsId,
+                GeneralPostSettings = post.PublisherPostSettings.GeneralPostSettings,
+                FdPostSettings = post.PublisherPostSettings.FdPostSettings,
+                GdPostSettings = post.PublisherPostSettings.GdPostSettings,
+                TdPostSettings = post.PublisherPostSettings.TdPostSettings,
+                LdPostSettings = post.PublisherPostSettings.LdPostSettings,
+                TumberPostSettings = post.PublisherPostSettings.TumberPostSettings,
+                RedditPostSetting = post.PublisherPostSettings.RedditPostSetting,
+                ExpiredTime = DateTime.Today.AddYears(2),
+                PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
+            };
+
+            postlistModel.CreatedTime = post.CreatedDateTime;
+
+            if (postIdlist.Contains(post.PostDetailsId))
+            {
+                var savedPost = PostlistFileManager.GetByPostId(PublisherCreateCampaignModel.CampaignId,post.PostDetailsId);
+                postlistModel.LstPublishedPostDetailsModels = savedPost.LstPublishedPostDetailsModels;
+                postlistModel.PostQueuedStatus = savedPost.PostQueuedStatus;
+                PostlistFileManager.UpdatePost(PublisherCreateCampaignModel.CampaignId, postlistModel);
+            }                
+            else
+                PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, postlistModel);
+        }
+
         public void ClearCurrentCampaigns()
         {
             PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
             PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
+            CampaignList = new ObservableCollection<string>(
+                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
             SelectedItem = null;
+            PageTitle = Application.Current.FindResource("LangKeyCreateCampaign")?.ToString();
             SetDataContext();
-            IsCampaignNameEdit = true;
         }
 
         private bool SelectDestinationCanExecute(object sender) => true;
@@ -576,16 +598,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                IsCampaignNameEdit = false;
                 var campaignlists = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
                     (ConstantVariable.GetPublisherCampaignFile());
 
                 PublisherCreateCampaignModel = campaignlists.FirstOrDefault(x => x.CampaignName == (string)sender);
                 BindTabItemsControlProperties();
+                PageTitle = Application.Current.FindResource("LangKeyEditCampaign")?.ToString();
                 SetDataContext();
-
-                JobConfiguration.IsAllowEdit = IsCampaignNameEdit;
-
             }
             catch (Exception)
             {
@@ -625,11 +644,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             publisherMonitorFolder.PublisherMonitorFolderViewModel.LstFolderPath =
                 PublisherCreateCampaignModel.LstFolderPath;
+            publisherMonitorFolder.PublisherMonitorFolderViewModel.PublisherMonitorFolderModel = new PublisherMonitorFolderModel();
+            publisherMonitorFolder.PostContentControl.SetMedia();
         }
         private void SetPublisherRssFeedData(PublisherRssFeed publisherRssFeed)
         {
             publisherRssFeed.PublisherRssFeedViewModel.LstFeedUrl =
                 PublisherCreateCampaignModel.LstFeedUrl;
+            publisherRssFeed.PublisherRssFeedViewModel.PublisherRssFeedModel = new PublisherRssFeedModel();
+            publisherRssFeed.PostContentControl.SetMedia();
         }
         private void SetPostContectData(PublisherDirectPosts publisherDirectPosts)
         {

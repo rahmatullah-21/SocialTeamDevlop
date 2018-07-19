@@ -113,7 +113,12 @@ namespace DominatorHouseCore.Models
         [ProtoMember(5)]
         public RangeUtilities ActivitiesPerDay
         {
-            get { return _activitiesPerDay; }
+            get
+            {
+                if (_activitiesPerDay.StartValue > ActivitiesPerWeek.StartValue)
+                    ActivitiesPerWeek.StartValue = _activitiesPerDay.StartValue;
+                return _activitiesPerDay;
+            }
             set
             {
                 if (_activitiesPerDay == value)

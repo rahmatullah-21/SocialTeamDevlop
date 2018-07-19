@@ -827,7 +827,7 @@ namespace DominatorHouseCore.Process
             {
                 var post = PostlistFileManager.GetByPostId(CampaignId, posts.PostId);
 
-                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl && y.AccountId == AccountModel.AccountId));
 
                 if (postIndex == -1)
                     return;
@@ -853,7 +853,7 @@ namespace DominatorHouseCore.Process
                 var post = PostlistFileManager.GetByPostId(CampaignId, posts.PostId);
 
                 var postIndex = post.LstPublishedPostDetailsModels.IndexOf(
-                    post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+                    post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl && y.AccountId == AccountModel.AccountId));
 
                 if (postIndex == -1)
                     return;
@@ -867,6 +867,29 @@ namespace DominatorHouseCore.Process
             }
         }
 
+        public void UpdatePostWithDeletion(string destinationUrl, string postId)
+        {
+            Thread.Sleep(1000);
+
+            var updatelock = PublishScheduler.UpdatingLock.GetOrAdd(postId, _lock => new object());
+
+            lock (updatelock)
+            {
+                var post = PostlistFileManager.GetByPostId(CampaignId, postId);
+
+                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+
+                if (postIndex == -1)
+                    return;
+
+                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.Deleted;
+                PostlistFileManager.UpdatePost(CampaignId, post);
+                PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
+                GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], ConstantVariable.GetPublishedSuccessDetails);
+
+            }
+        }
 
         public PublisherPostlistModel PerformGeneralSettings(PublisherPostlistModel givenPostModel)
         {
@@ -912,20 +935,20 @@ namespace DominatorHouseCore.Process
 
             #endregion
 
-            #region Spin Text
-
-
-            postModelWithGeneralSettings.PostDescription = string.Empty;
-
-            postModelWithGeneralSettings.PostDescription =
-                SpinTexHelper.GetSpinText(postModelWithGeneralSettings.PostDescription);
-
-            #endregion
-
             #region Macro Substitution
 
             postModelWithGeneralSettings.PostDescription =
                 MacrosHelper.SubstituteMacroValues(postModelWithGeneralSettings.PostDescription);
+
+            #endregion
+
+            #region Spin Text
+
+            if (string.IsNullOrEmpty(postModelWithGeneralSettings.PostDescription))
+                postModelWithGeneralSettings.PostDescription = string.Empty;
+
+            postModelWithGeneralSettings.PostDescription =
+                SpinTexHelper.GetSpinText(postModelWithGeneralSettings.PostDescription);
 
             #endregion
 
@@ -1090,7 +1113,7 @@ namespace DominatorHouseCore.Process
                         return false;
                     }
 
-                    var allDestinations = postTriedAndSuccessdestinations.Select(x => x.DestinationUrl);
+                    var allDestinations = postTriedAndSuccessdestinations.Where(x=> x.AccountId == AccountModel.AccountId).Select(x => x.DestinationUrl);
 
                     if (!allDestinations.Contains(destinationUrl))
                     {
@@ -1108,6 +1131,7 @@ namespace DominatorHouseCore.Process
                             Link = ConstantVariable.NotPublished,
                             CampaignId = CampaignId,
                             CampaignName = CampaignName,
+                            SocialNetworks = AccountModel.AccountBaseModel.AccountNetwork,
                             AccountId = AccountModel.AccountBaseModel.AccountId,
                             ErrorDetails = ConstantVariable.NotPublished,
                         });

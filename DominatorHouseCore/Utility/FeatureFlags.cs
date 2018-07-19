@@ -41,9 +41,28 @@ namespace DominatorHouseCore.Utility
             });
         }
 
-        public static bool Check(string key) => Instance.ContainsKey(key);
+        public static bool Check(string key)
+        {
+            try
+            {
+                return Instance.ContainsKey(key);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
         public static Visibility Check(SocialNetworks network)
-            => Instance.ContainsKey(network.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+        {
+            try
+            {
+                return Instance.ContainsKey(network.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+            }
+            catch (Exception)
+            {
+              return Visibility.Collapsed;
+            }
+        }
     }
 }

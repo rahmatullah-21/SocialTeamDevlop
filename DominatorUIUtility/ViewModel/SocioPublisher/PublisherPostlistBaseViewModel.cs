@@ -14,9 +14,11 @@ using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
@@ -284,7 +286,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
-                selectedPublisherPostlist.ForEach(x => PublisherPostlist.Remove(x));
+                selectedPublisherPostlist.ForEach(x =>
+                {
+                    PublisherPostlist.Remove(x);
+                    PostlistFileManager.Delete(campaignId, y => x.PostId == y.PostId);
+                });
+
             }
             else if (deleteOptions == "MenuDuplicateImages")
             {
@@ -312,8 +319,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
+               
                 PostlistFileManager.Delete(campaignId, x => selectedPublisherPostlist.FirstOrDefault(a => a.PostId == x.PostId) != null);
-                selectedPublisherPostlist.ForEach(x => PublisherPostlist.Remove(x));
+
+                selectedPublisherPostlist.ForEach(x =>
+                {
+                    PublisherPostlist.Remove(x);
+                    GenericFileManager.Delete<PostDeletionModel>(y => x.CampaignId == y.CampaignId && x.PostId == y.PostId, ConstantVariable.GetDeletePublisherPostModel);
+                });
             }
             PublisherInitialize.GetInstance.UpdatePostStatus(campaignId);
         }
@@ -336,6 +349,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 return;
 
             PostlistFileManager.Delete(campaign.CampaignId, y => campaign.PostId == y.PostId);
+
+            GenericFileManager.Delete<PostDeletionModel>(y => campaign.CampaignId == y.CampaignId && campaign.PostId == y.PostId, ConstantVariable.GetDeletePublisherPostModel);
 
             PublisherPostlist.Remove(campaign);
 
@@ -381,18 +396,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var currentPost = sender as PublisherPostlistModel;
 
                     Dialog dialog = new Dialog();
-                    if (!string.IsNullOrEmpty(currentPost.ShareUrl))
-                    {
-                        PublisherEditShareUrl publisherEditShareUrl = new PublisherEditShareUrl(currentPost, PublisherPostlist);
-                        var window = dialog.GetMetroWindow(publisherEditShareUrl, "Edit Share Url");
-                        window.ShowDialog();
-                    }
-                    else
-                    {
+                    //if (!string.IsNullOrEmpty(currentPost.ShareUrl))
+                    //{
+                    //    PublisherEditShareUrl publisherEditShareUrl = new PublisherEditShareUrl(currentPost, PublisherPostlist);
+                    //    var window = dialog.GetMetroWindow(publisherEditShareUrl, "Edit Share Url");
+                    //    window.ShowDialog();
+                    //}
+                   // else
+                    //{
                         PublisherEditPost publisherEditPost = new PublisherEditPost(currentPost, PublisherPostlist);
                         var window = dialog.GetMetroWindow(publisherEditPost, "Edit Post");
                         window.ShowDialog();
-                    }
+                   // }
 
 
 
@@ -715,9 +730,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 else if (statusToChange.ToString() == (string)Application.Current.FindResource("LangKeyReAdd"))
                 {
                     var readdPost = post.DeepClone();
-                    readdPost.GenerateClonePostId();
+                    readdPost.GenerateNewPostId();
                     readdPost.PostQueuedStatus = PostQueuedStatus.Pending;
                     readdPost.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
+                    var generalModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                               .FirstOrDefault(x => x.CampaignId == readdPost.CampaignId) ?? new GeneralModel();
+
+                    if (!generalModel.IsKeepPostsInitialCreationDate)
+                        readdPost.CreatedTime = DateTime.Now;                  
                     PostlistFileManager.Add(readdPost.CampaignId, readdPost);
                     PublisherInitialize.GetInstance.UpdatePostStatus(publisherPostlistModel.CampaignId);
                 }
@@ -772,7 +793,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 try
                 {
-                    Task.Factory.StartNew(() =>
+                    ThreadFactory.Instance.Start(() =>
                     {
                         PublishScheduler.StartPublishingPosts(postlistModel, () =>
                         {
@@ -816,7 +837,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 var queuestatus = (PostQueuedStatus)sender;
 
-                Task.Factory.StartNew(() => ReadPostList(CampaignId, cancellationToken, queuestatus), cancellationToken.Token);
+                ThreadFactory.Instance.Start(() => ReadPostList(CampaignId, cancellationToken, queuestatus), cancellationToken.Token);
             }
             catch (OperationCanceledException ex)
             {

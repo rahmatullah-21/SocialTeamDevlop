@@ -11,6 +11,10 @@
     </UserControl.Resources>
     <Grid>
         <ListView AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding PublisherPostlist.LstPublishedPostDetailsModels}">
+            <ListView.CommandBindings>
+                <CommandBinding Command="ApplicationCommands.Copy"
+                                CanExecute="CopyCanExecute" Executed="CopyExecuted" />
+            </ListView.CommandBindings>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{DynamicResource LangKeySrNo}"  DisplayMemberBinding="{Binding (ItemsControl.AlternationIndex),

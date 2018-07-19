@@ -258,6 +258,9 @@
     <Compile Include="CustomControl\DayTimerControl.xaml.cs">
       <DependentUpon>DayTimerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\EditProfile.xaml.cs">
+      <DependentUpon>EditProfile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\ExtraFooterControl.xaml.cs">
       <DependentUpon>ExtraFooterControl.xaml</DependentUpon>
     </Compile>
@@ -310,6 +313,7 @@
     <Compile Include="CustomControl\SelectAccountControl.xaml.cs">
       <DependentUpon>SelectAccountControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\AccountDetailsViewModel.cs" />
     <Compile Include="ViewModel\AccountManagerViewModel.cs" />
     <Compile Include="ViewModel\Config\URLShortnerServicesViewModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
@@ -610,6 +614,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\DayTimerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\EditProfile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

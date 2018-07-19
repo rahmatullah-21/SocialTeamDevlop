@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
@@ -6,6 +7,7 @@ using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
+    [Serializable]
     [ProtoContract]
     public class PublisherPostSettings 
     {

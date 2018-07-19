@@ -8,6 +8,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using ConstantVariable = DominatorHouseCore.Utility.ConstantVariable;
 
@@ -58,6 +59,15 @@ namespace DominatorHouseCore.Diagnostics
                 {
                     allCampaign.ForEach(campaigns =>
                     {
+                        var publisherCampaignStatus = campaigns.CampaignStatus;
+
+                        if (campaigns.JobConfigurations.CampaignEndDate != null && DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
+                        {
+                            publisherCampaignStatus = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate
+                                ? campaigns.CampaignStatus
+                                : PublisherCampaignStatus.Completed;
+                        }
+
                         var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                         {
                             CampaignName = campaigns.CampaignName,
@@ -65,15 +75,18 @@ namespace DominatorHouseCore.Diagnostics
                             StartDate = campaigns.JobConfigurations.CampaignStartDate,
                             EndDate = campaigns.JobConfigurations.CampaignEndDate,
                             CreatedDate = campaigns.CreatedDate,
-                            Status = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate ? campaigns.CampaignStatus : PublisherCampaignStatus.Completed,
+                            UpdatedTime = campaigns.UpdatedDate,
+                            Status = publisherCampaignStatus,
                             DestinationCount = campaigns.LstDestinationId.Count,
                             IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                             TimeRange = campaigns.JobConfigurations.TimeRange,
                             SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                            ScheduledWeekday = campaigns.JobConfigurations.Weekday,                            
+                            ScheduledWeekday = campaigns.JobConfigurations.Weekday,
                             IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
                             TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
                             MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,                          
+                            IsRandomRunningTime = campaigns.JobConfigurations.IsRandomizePublishingTimerChecked,
+                            MaximumTime = campaigns.JobConfigurations.MaxPost
                         };
 
                         ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
@@ -90,6 +103,15 @@ namespace DominatorHouseCore.Diagnostics
             {
                 allCampaign.ForEach(campaigns =>
                 {
+                    var publisherCampaignStatus = campaigns.CampaignStatus;
+
+                    if (campaigns.JobConfigurations.CampaignEndDate != null && DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
+                    {
+                        publisherCampaignStatus = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate
+                            ? campaigns.CampaignStatus
+                            : PublisherCampaignStatus.Completed;
+                    }
+
                     var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                     {
                         CampaignName = campaigns.CampaignName,
@@ -97,26 +119,33 @@ namespace DominatorHouseCore.Diagnostics
                         StartDate = campaigns.JobConfigurations.CampaignStartDate,
                         EndDate = campaigns.JobConfigurations.CampaignEndDate,
                         CreatedDate = campaigns.CreatedDate,
-                        Status = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate ? campaigns.CampaignStatus : PublisherCampaignStatus.Completed,
+                        UpdatedTime = campaigns.UpdatedDate,
+                        Status = publisherCampaignStatus,
                         DestinationCount = campaigns.LstDestinationId.Count,
                         IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                         TimeRange = campaigns.JobConfigurations.TimeRange,
                         SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                        ScheduledWeekday = campaigns.JobConfigurations.Weekday,                       
+                        ScheduledWeekday = campaigns.JobConfigurations.Weekday,
                         IsTakeRandomDestination = campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
                         TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
-                        MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,                     
+                        MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,                       
+                        IsRandomRunningTime = campaigns.JobConfigurations.IsRandomizePublishingTimerChecked,
+                        MaximumTime = campaigns.JobConfigurations.MaxPost
                     };
 
                     GetPostStatus(publisherCampaignStatusModel);
 
                     ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
 
+                    
+
                     if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
                         UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
                 });
             }
         }
+
+     
 
         public void UpdateCampaignStatus(string campaignId, PublisherCampaignStatus status)
         {
@@ -130,7 +159,7 @@ namespace DominatorHouseCore.Diagnostics
             ListPublisherCampaignStatusModels[currentCampaignIndex].Status = status;
 
             var allCampaign = GenericFileManager
-                  .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+                .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
 
             var currentCampaign = allCampaign.FirstOrDefault(x => x.CampaignId == campaignId);
 
@@ -180,16 +209,16 @@ namespace DominatorHouseCore.Diagnostics
 
             var currentCampaignIndex = ListPublisherCampaignStatusModels.IndexOf(campaignItem);
 
-            GetPostStatus(ListPublisherCampaignStatusModels[currentCampaignIndex]);           
+            GetPostStatus(ListPublisherCampaignStatusModels[currentCampaignIndex]);
         }
 
 
         public bool AddCampaignDetails(PublisherCampaignStatusModel publisherCampaignStatusModel)
         {
 
-            if (ListPublisherCampaignStatusModels.Any(x => x.CampaignName == publisherCampaignStatusModel.CampaignName))
+            if (ListPublisherCampaignStatusModels.Any(x => x.CampaignId == publisherCampaignStatusModel.CampaignId))
             {
-                var currentItem = ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignName == publisherCampaignStatusModel.CampaignName);
+                var currentItem = ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignId == publisherCampaignStatusModel.CampaignId);
 
                 var index = ListPublisherCampaignStatusModels.IndexOf(currentItem);
 
@@ -237,6 +266,22 @@ namespace DominatorHouseCore.Diagnostics
             objPublisherCreateDestinationModel.RemoveGroupsFromDestination(destinationId, accountId, network, groupUrl);
         }
 
+        public static List<PublishedPostDetailsModel> GetNetworksPublishedPost(string campaignId, SocialNetworks network)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(campaignId) || network == SocialNetworks.Social)
+                    return new List<PublishedPostDetailsModel>();
+
+                return GenericFileManager
+                    .GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails)
+                    .Where(x => x.CampaignId == campaignId && x.SocialNetworks == network).ToList();
+            }
+            catch (Exception)
+            {
+                return new List<PublishedPostDetailsModel>();
+            }
+        }
     }
 
     public class PublisherCoreLibraryBuilder

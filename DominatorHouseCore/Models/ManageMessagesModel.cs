@@ -38,6 +38,9 @@ namespace DominatorHouseCore.Models
             }
         }
         public string _MediaPath = string.Empty;
+        private ObservableCollection<QueryContent> _lstQueries = new ObservableCollection<QueryContent>();
+        private ObservableCollection<QueryContent> _selectedQuery = new ObservableCollection<QueryContent>();
+
         public string MediaPath
         {
             get
@@ -52,12 +55,28 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        public ObservableCollection<QueryContent> SelectedQuery { get; set; } = new ObservableCollection<QueryContent>();
+        public ObservableCollection<QueryContent> SelectedQuery
+        {
+            get { return _selectedQuery; }
+            set
+            {
+                if (value == _selectedQuery)
+                    return;
+                SetProperty(ref _selectedQuery, value);
+            }
+        }
 
-
-        public ObservableCollection<QueryContent> LstQueries { get; set; } = new ObservableCollection<QueryContent>();
-
-
+        [ProtoMember(1)]
+        public ObservableCollection<QueryContent> LstQueries
+        {
+            get { return _lstQueries; }
+            set
+            {
+                if (value == _lstQueries)
+                    return;
+                SetProperty(ref _lstQueries, value);
+            }
+        }
     }
 
   

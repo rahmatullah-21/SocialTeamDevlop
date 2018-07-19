@@ -156,7 +156,7 @@
                                                                />
                                     <StackPanel Orientation="Vertical" Margin="5,0,0,0">
 
-                                        <Button Name="PART_ImportImage" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30" Width="100" VerticalAlignment="Center" >
+                                        <Button Name="PART_ImportImage" Foreground="White" Margin="2" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsImportOptionsVisibility}" Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30" Width="100" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal" ToolTip="{DynamicResource LangKeyLoadImageSOrVideoS}">
                                                 <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Center">
                                                     <Rectangle.OpacityMask>
@@ -168,7 +168,7 @@
                                         </Button>
 
                                         <Button Name="PART_Settings" Foreground="White" Margin="1"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="32" Width="100" Cursor="Hand" VerticalAlignment="Center" >
-                                            <StackPanel Orientation="Horizontal" ToolTip="{DynamicResource LangKeyLoadImageSOrVideoS}">
+                                            <StackPanel Orientation="Horizontal" ToolTip="{DynamicResource LangKeySettingToolTip}">
 
                                                 <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
                                                     <Rectangle.OpacityMask>

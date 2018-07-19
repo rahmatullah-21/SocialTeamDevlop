@@ -13,13 +13,11 @@ using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
-using Cookie = CefSharp.Cookie;
 
 namespace EmbeddedBrowser
 {
@@ -61,8 +59,6 @@ namespace EmbeddedBrowser
 
 
         public string TargetUrl { get; set; } = string.Empty;
-
-
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl)
             : this()
         {
@@ -285,7 +281,7 @@ namespace EmbeddedBrowser
                 {
                     Browser.LoadingStateChanged -= BrowserOnLoaded;
                     return;
-                }                
+                }
             }
             var result = GetLoggedInPageSource();
 
@@ -494,7 +490,9 @@ namespace EmbeddedBrowser
                 var userName = " " + DominatorAccountModel.AccountBaseModel.UserName;
                 Browser.ExecuteScriptAsync("document.getElementsByName(\"username\")[0].click()");
                 Thread.Sleep(TimeSpan.FromSeconds(1));
-                userName.ToList<char>().ForEach((x) =>
+
+
+                foreach (var x in userName.ToList<char>())
                 {
                     k = new KeyEvent
                     {
@@ -504,8 +502,9 @@ namespace EmbeddedBrowser
                         Type = KeyEventType.Char
                     };
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
-                });
-
+                }
+                
+               Thread.Sleep(TimeSpan.FromSeconds(1));
                 k = new KeyEvent();
                 k.FocusOnEditableField = false;
                 k.WindowsKeyCode = 9;
@@ -516,7 +515,7 @@ namespace EmbeddedBrowser
 
                 var password = " " + DominatorAccountModel.AccountBaseModel.Password;
                 //cefBrowser.ExecuteScriptAsync("document.getElementsByName(\"password\")[0].click()");
-                password.ToList<char>().ForEach((x) =>
+                foreach (var x in password.ToList<char>())
                 {
                     k = new KeyEvent();
                     k.WindowsKeyCode = (int)x;
@@ -524,8 +523,17 @@ namespace EmbeddedBrowser
                     k.IsSystemKey = false;
                     k.Type = KeyEventType.Char;
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
+                }
+                //password.ToList<char>().ForEach((x) =>
+                //{
+                //    k = new KeyEvent();
+                //    k.WindowsKeyCode = (int)x;
+                //    k.FocusOnEditableField = false;
+                //    k.IsSystemKey = false;
+                //    k.Type = KeyEventType.Char;
+                //    Browser.GetBrowser().GetHost().SendKeyEvent(k);
 
-                });
+                //});
 
                 k = new KeyEvent();
                 k.FocusOnEditableField = false;
@@ -535,8 +543,14 @@ namespace EmbeddedBrowser
                 Browser.GetBrowser().GetHost().SendKeyEvent(k);
                 Thread.Sleep(1000);
 
-                Browser.ExecuteScriptAsync("document.getElementsByClassName(\"_5f5mN\")[0].click()");
-                Thread.Sleep(2000);
+                var updatedHtml = Browser.GetSourceAsync().Result;
+
+                var require = updatedHtml.Contains("choice_1") && updatedHtml.Contains("choice_0");
+                if (!require && !updatedHtml.Contains("Submit"))
+                {
+                    Browser.ExecuteScriptAsync("document.getElementsByClassName(\"_5f5mN\")[0].click()");
+                    Thread.Sleep(2000);
+                }
 
             }
 
@@ -678,6 +692,16 @@ namespace EmbeddedBrowser
         }
 
         private string GetLoggedInPageSource()
+        {
+            if (!string.IsNullOrEmpty(TargetUrl) && TargetUrl != "Not Published Yet")
+            {
+                var sourceAsync = Browser.GetSourceAsync();
+                return sourceAsync.Result;
+            }
+            return String.Empty;
+        }
+
+        public string GetLoggedInPageSourceLinkedin()
         {
             if (!string.IsNullOrEmpty(TargetUrl) && TargetUrl != "Not Published Yet")
             {

@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Management;
 using System.Windows;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
-using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DominatorHouseCore.DatabaseHandler.Utility;
@@ -99,6 +99,8 @@ namespace DominatorHouseCore.Diagnostics
 
         public static void LogInitializer(Window mainWindow)
         {
+            var notifier = new ToasterNotification();
+
             GlobalExceptionInitializer();
 
             var window = mainWindow as ILoggableWindow;
@@ -213,11 +215,58 @@ namespace DominatorHouseCore.Diagnostics
                 GlobusLogHelper.log.Error(ex.Message);
             }
 
-            Dialog.ShowDialog(ConfigurationManager.AppSettings["Title"], message);
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    //var customDialog = new CustomDialog()
+                    //{
+                    //    HorizontalAlignment = HorizontalAlignment.Center,
+                    //    Content = message
+                    //};
+                    //var objDialog = new Dialog();
+                    //var dialogWindow = objDialog.GetMetroWindowWithOutClose(customDialog, ConfigurationManager.AppSettings["Title"]);
+                   
+
+                    //var sleep = 1;
+                    //while (true)
+                    //{
+                    //    if (sleep < 10)
+                    //    {
+                            
+                    //    }
+                    //}
+                    
+                    //dialogWindow.ShowDialog();
+                    //Thread.Sleep(10 * 1000);
+                    //dialogWindow.Close();
+                    Dialog.ShowDialog(ConfigurationManager.AppSettings["Title"], message);
+                    return new HashSet<SocialNetworks>();
+                });
+            }
+            else
+            {
+                //var customDialog = new CustomDialog()
+                //{
+                //    HorizontalAlignment = HorizontalAlignment.Center,
+                //    Content = message
+                //};
+                //var objDialog = new Dialog();
+                //var dialogWindow = objDialog.GetMetroWindowWithOutClose(customDialog, ConfigurationManager.AppSettings["Title"]);
+                //dialogWindow.ShowDialog();
+
+                //Thread.Sleep(10 * 1000);
+                //dialogWindow.Close();
+                //return new HashSet<SocialNetworks>();
+                Dialog.ShowDialog(ConfigurationManager.AppSettings["Title"], message);
+                return new HashSet<SocialNetworks>();
+            }
 
             return new HashSet<SocialNetworks>();
         }
-   
+
+      
+
         public static async Task<Stream> ProcessInputString(string exemption, string fixtures)
             => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ProcessingInput, exemption, fixtures));
 
@@ -226,7 +275,7 @@ namespace DominatorHouseCore.Diagnostics
 
         private static async Task<Stream> GetExemptionInnerException(string innerException)
         {
-            var key = ConfigurationManager.AppSettings["ExceptionKey"];           
+            var key = ConfigurationManager.AppSettings["ExceptionKey"];
             return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ExemptionInnerException, innerException, key));
         }
 
@@ -240,25 +289,47 @@ namespace DominatorHouseCore.Diagnostics
 
         public static string GetFixtures()
         {
-            var fixtures = string.Empty;
+            var uuid = string.Empty;
             try
             {
-                foreach (var nic in NetworkInterface.GetAllNetworkInterfaces())
+                var ComputerName = "localhost";
+                var scope = new ManagementScope($"\\\\{ComputerName}\\root\\CIMV2", null);
+                scope.Connect();
+                var query = new ObjectQuery("SELECT UUID FROM Win32_ComputerSystemProduct");
+                var searcher = new ManagementObjectSearcher(scope, query);
+                foreach (var wmiObject in searcher.Get())
                 {
-                    if (nic.OperationalStatus != OperationalStatus.Up)
-                        continue;
-
-                    if (!string.IsNullOrEmpty(fixtures))
-                        break;
-
-                    fixtures += nic.GetPhysicalAddress().ToString();
+                    uuid = wmiObject["UUID"].ToString();
                 }
+
+                var split = Regex.Split(uuid, "-");
+                return split.Last();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine(ex.Message);
+                e.DebugLog($"Exception {e.Message} Trace {e.StackTrace}");
             }
-            return fixtures;
+            return null;
+
+            //var fixtures = string.Empty;
+            //try
+            //{
+            //    foreach (var nic in NetworkInterface.GetAllNetworkInterfaces())
+            //    {
+            //        if (nic.OperationalStatus != OperationalStatus.Up)
+            //            continue;
+
+            //        if (!string.IsNullOrEmpty(fixtures))
+            //            break;
+
+            //        fixtures += nic.GetPhysicalAddress().ToString();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
+            //return fixtures;
         }
 
         public static async Task<HashSet<SocialNetworks>> LogIndividualNetworksExceptions(string exemption)
@@ -284,7 +355,6 @@ namespace DominatorHouseCore.Diagnostics
                 }
 
                 return await ResolveExceptions(JObject.Parse(finalResponse)["code"].ToString(), exemption, fixture);
-
             }
             catch (Exception ex)
             {
@@ -304,7 +374,10 @@ namespace DominatorHouseCore.Diagnostics
             }
             return SocinatorInitialize.AvailableNetworks;
         }
-      
+
+
+
+
         public static HashSet<SocialNetworks> LogExceptionForEachNetwork(string details)
         {
             try

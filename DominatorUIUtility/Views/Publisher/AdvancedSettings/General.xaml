@@ -99,7 +99,7 @@
                 <CheckBox Content="{DynamicResource LangKeyStopRandomisingDestinationsOrderForPosts}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GeneralModel.IsStopRandomisingDestinationsOrder}"/>
-                <CheckBox Content="{DynamicResource LangKeyAutoTagFriendsInPosts}"
+                <!--<CheckBox Content="{DynamicResource LangKeyAutoTagFriendsInPosts}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GeneralModel.IsAutoTagFriends}"/>
                 <StackPanel Margin="25,5" Visibility="{Binding GeneralModel.IsAutoTagFriends,
@@ -118,7 +118,7 @@
                                                 Value="{Binding GeneralModel.PercentageOfTaggingPost}"/>
                         <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPercentOfTaggingAPost}" Margin="0,0,10,0"/>
                     </StackPanel>
-                </StackPanel>
+                </StackPanel>-->
                 <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyClickableImagePostServerOneServerPerLine}" Margin="10,0"/>
                 <TextBox AcceptsReturn="True" Height="50" Width="250" HorizontalAlignment="Left" Margin="15,5"/>-->
             </StackPanel>

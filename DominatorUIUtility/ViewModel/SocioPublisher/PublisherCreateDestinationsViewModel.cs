@@ -165,6 +165,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             switch (module)
             {
                 case "Back":
+                    ClearCurrentDestination();
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
                         = PublisherManageDestinations.Instance();
                     break;
@@ -881,9 +882,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Clear Destination
 
+
+
         private bool ClearCanExecute(object sender) => true;
 
         private void ClearExecute(object sender)
+        {
+            ClearCurrentDestination();
+        }
+
+        private void ClearCurrentDestination()
         {
             try
             {

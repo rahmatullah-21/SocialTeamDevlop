@@ -156,5 +156,22 @@ namespace DominatorHouseCore.Utility
                 streamWriter.WriteLine(header);
             }
         }
+
+        public static dynamic GetImageOrVideo(bool multiselect,string filter)
+        {
+
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Multiselect = multiselect,
+                Filter = filter
+            };
+            var openFileDialogResult = openFileDialog.ShowDialog();
+            if (openFileDialogResult != true)
+                return null;
+            if (multiselect)
+                return openFileDialog.FileNames.ToList();
+            else
+                return openFileDialog.FileNames[0];
+        }
     }
 }

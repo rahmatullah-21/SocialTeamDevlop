@@ -138,7 +138,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         currentData?.LstPublishedPostDetailsModels.ForEach(post =>
                         {
                             var csvData = post.AccountName + "," + post.CampaignName + "," + post.Destination + "," + post.DestinationUrl + "," +
-                                          post.Description + ","
+                                          post.Description.Replace("\r\n","<n>") + ","
                                           + post.IsPublished + "," + post.Successful + "," + post.PublishedDate.ToString(CultureInfo.InvariantCulture) + "," +
                                           post.Link;
                             using (var streamWriter = new StreamWriter(filename, true))

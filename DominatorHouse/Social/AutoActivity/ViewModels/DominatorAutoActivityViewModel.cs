@@ -111,7 +111,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
                 // If passed network is social then initialize the account details
                 if (networks == SocialNetworks.Social)
-                    Task.Factory.StartNew(InitializeAccounts);
+                    ThreadFactory.Instance.Start(InitializeAccounts);
             }
             catch (Exception ex)
             {

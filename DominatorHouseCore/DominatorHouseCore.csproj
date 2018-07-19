@@ -137,6 +137,8 @@
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.108.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -151,6 +153,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="ToastNotifications">
+      <HintPath>..\packages\ToastNotifications.2.3.1\lib\net40\ToastNotifications.dll</HintPath>
+    </Reference>
+    <Reference Include="ToastNotifications.Messages">
+      <HintPath>..\packages\ToastNotifications.Messages.2.3.1\lib\net40\ToastNotifications.Messages.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WPFFolderBrowser, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFFolderBrowser.1.0.2\lib\WPFFolderBrowser.dll</HintPath>
@@ -373,6 +381,9 @@
     <Compile Include="Enums\PdQuery\PDUsersQueries.cs" />
     <Compile Include="Enums\QdQuery\BroadcastMessageQuery.cs" />
     <Compile Include="Enums\QdQuery\FollowerQuery.cs" />
+    <Compile Include="Enums\RdQuery\CommunityQuery.cs" />
+    <Compile Include="Enums\RdQuery\PostQuery.cs" />
+    <Compile Include="Enums\RdQuery\UserQuery.cs" />
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
@@ -457,6 +468,7 @@
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
     <Compile Include="Models\Config\CaptchaServicesModel.cs" />
     <Compile Include="Models\Config\URLShortnerServicesModel.cs" />
+    <Compile Include="Models\EditProfileModel.cs" />
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
@@ -505,6 +517,7 @@
     <Compile Include="Utility\PublisherHelper.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="Utility\SpinTexHelper.cs" />
+    <Compile Include="Utility\ToasterNotification.cs" />
     <Compile Include="ViewModel\AdvancedSettings\FacebookViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GooglePlusViewModel.cs" />
@@ -563,6 +576,7 @@
     <Compile Include="Models\SocioPublisher\PublisherManagePostsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherMediaViewerModel.cs" />
     <Compile Include="Utility\MediaUtilites.cs" />
+    <Compile Include="ViewModel\EditProfileViewModel.cs" />
     <Compile Include="ViewModel\RevisionHistoryViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />
@@ -663,9 +677,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\RdQuery\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">
       <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>
