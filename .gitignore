@@ -3,7 +3,7 @@
 _ReSharper.*
 bin
 obj
-
+packages
 .vs
 gramUISetup/Debug/
 gramUISetup/Release/
