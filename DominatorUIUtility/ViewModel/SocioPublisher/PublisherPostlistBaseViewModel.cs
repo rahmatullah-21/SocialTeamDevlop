@@ -286,7 +286,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
-                selectedPublisherPostlist.ForEach(x => PublisherPostlist.Remove(x));
+                selectedPublisherPostlist.ForEach(x =>
+                {
+                    PublisherPostlist.Remove(x);
+                    PostlistFileManager.Delete(campaignId, y => x.PostId == y.PostId);
+                });
+
             }
             else if (deleteOptions == "MenuDuplicateImages")
             {

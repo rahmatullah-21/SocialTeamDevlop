@@ -99,6 +99,8 @@ namespace DominatorHouseCore.Diagnostics
 
         public static void LogInitializer(Window mainWindow)
         {
+            var notifier = new ToasterNotification();
+
             GlobalExceptionInitializer();
 
             var window = mainWindow as ILoggableWindow;

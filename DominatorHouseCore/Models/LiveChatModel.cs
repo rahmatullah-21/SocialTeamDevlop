@@ -82,7 +82,6 @@ namespace DominatorHouseCore.Models
         [ProtoMember(4)]
         public string SenderDetailsCursorId { get; set; }
 
-
         public DominatorAccountModel DominatorAccountModel { get; set; }
 
 
@@ -218,6 +217,11 @@ namespace DominatorHouseCore.Models
 
         public string NextMaxId { get; set; }
         public string NextMinId { get; set; }
+
+
+        [ProtoMember(7)]
+        public string AccountId { get; set; } = string.Empty;
+
     }
 
     [ProtoContract]

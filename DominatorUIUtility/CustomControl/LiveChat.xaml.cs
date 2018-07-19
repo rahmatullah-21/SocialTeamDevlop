@@ -50,46 +50,47 @@ namespace DominatorUIUtility.CustomControl
 
             MainGrid.DataContext = LiveChatViewModel.LiveChatModel;
 
+            SendMessage = SendMessage;
+
             #region SnderDetails
 
-            LiveChatViewModel.LiveChatModel.LstSender = new List<SenderDetails>
-            {
-                new SenderDetails{
-                    SenderImage=@"C:\Users\Public\Pictures\Sample Pictures\1.jpg",
-                    SenderName="AQQ",
-                    LastMessegedate="1520857863",
-                    LastMesseges="Hi"
-                },
-                new SenderDetails{
-                    SenderImage=@"C:\Users\Public\Pictures\Sample Pictures\1.jpg",
-                    SenderName="B",
-                    LastMessegedate="1520832687",
-                    LastMesseges="Hi2"
-                },
-                new SenderDetails{
-                    SenderImage=@"C:\Users\Public\Pictures\Sample Pictures\1.jpg",
-                    SenderName="CQQ",
-                    LastMessegedate="1520816427",
-                    LastMesseges="Hi3"
-                }
-            };
+            //LiveChatViewModel.LiveChatModel.LstSender = new List<SenderDetails>
+            //{
+            //    new SenderDetails{
+            //        SenderImage=@"C:\Users\Public\Pictures\Sample Pictures\1.jpg",
+            //        SenderName="AQQ",
+            //        LastMessegedate="1520857863",
+            //        LastMesseges="Hi"
+            //    },
+            //    new SenderDetails{
+            //        SenderImage=@"C:\Users\Public\Pictures\Sample Pictures\1.jpg",
+            //        SenderName="B",
+            //        LastMessegedate="1520832687",
+            //        LastMesseges="Hi2"
+            //    },
+            //    new SenderDetails{
+            //        SenderImage=@"C:\Users\Public\Pictures\Sample Pictures\1.jpg",
+            //        SenderName="CQQ",
+            //        LastMessegedate="1520816427",
+            //        LastMesseges="Hi3"
+            //    }
+            //};
 
-            LiveChatViewModel.LiveChatModel.SenderDetails = LiveChatViewModel.LiveChatModel.LstSender[0];
+            //LiveChatViewModel.LiveChatModel.SenderDetails = LiveChatViewModel.LiveChatModel.LstSender[0];
 
             #endregion
 
-            SendMessage = SendMessage;
-
             var accountCustom = AccountCustomControl.GetAccountCustomControl(SocialNetworks);
 
-            var accoutns = accountCustom.DominatorAccountViewModel.LstDominatorAccountModel
+            var accounts = accountCustom.DominatorAccountViewModel.LstDominatorAccountModel
                 .Where(x => x.AccountBaseModel.AccountNetwork == SocialNetworks).Select(x => x.UserName).ToList();
 
-            LiveChatViewModel.LiveChatModel.AccountNames = new ObservableCollection<string>(accoutns);
+            LiveChatViewModel.LiveChatModel.AccountNames = new ObservableCollection<string>(accounts);
 
             if (LiveChatViewModel.LiveChatModel.AccountNames.Count > 0)
+            {
                 LiveChatViewModel.LiveChatModel.SelectedAccount = LiveChatViewModel.LiveChatModel.AccountNames.First();
-
+            }                
             try
             {
                 LiveChatViewModel.LstAccountModel =
@@ -135,7 +136,7 @@ namespace DominatorUIUtility.CustomControl
                 {
                     //var senderDetails = Senders.SelectedItem as SenderDetails;
                     //LiveChatViewModel.LiveChatModel.SenderDetails = senderDetails;
-                    UpdatePerticularThread(LiveChatViewModel.LiveChatModel);
+                    ThreadFactory.Instance.Start(() => { UpdatePerticularThread(LiveChatViewModel.LiveChatModel); });
                 }
                 catch (Exception ex)
                 {
@@ -152,7 +153,7 @@ namespace DominatorUIUtility.CustomControl
 
             ThreadFactory.Instance.Start(() => { UpdateAccountChatList?.Invoke(LiveChatViewModel.LiveChatModel); });
 
-            ThreadFactory.Instance.Start(GetCurrentChat);
+           // ThreadFactory.Instance.Start(GetCurrentChat);
         }
     }
 }

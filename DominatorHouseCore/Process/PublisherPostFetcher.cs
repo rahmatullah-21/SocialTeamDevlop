@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
@@ -15,13 +16,14 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Newtonsoft.Json;
+using ToastNotifications.Messages;
 
 namespace DominatorHouseCore.Process
 {
     public class PublisherPostFetcher
     {
 
-        public ConcurrentDictionary<string,CancellationTokenSource> FetchingCampaignId { get; set; } = new ConcurrentDictionary<string, CancellationTokenSource>();
+        public ConcurrentDictionary<string, CancellationTokenSource> FetchingCampaignId { get; set; } = new ConcurrentDictionary<string, CancellationTokenSource>();
 
 
         public void StartFetchingPostData()
@@ -38,7 +40,7 @@ namespace DominatorHouseCore.Process
             var postFetchModels = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                 .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaignId && x.PostSource != PostSource.NormalPost);
 
-            ThreadFactory.Instance.Start(() => { postFetchModels.ForEach(FetchPosts); });                                
+            ThreadFactory.Instance.Start(() => { postFetchModels.ForEach(FetchPosts); });
         }
 
         public void StopFetchingPosts(string campaignId)
@@ -69,10 +71,13 @@ namespace DominatorHouseCore.Process
                 var alreadyPresentedCount = PostlistFileManager.GetAll(publisherPostFetchModel.CampaignId).Count;
 
                 // Check already max posts has reached or not
+
                 if (alreadyPresentedCount >= publisherPostFetchModel.MaximumPostLimitToStore)
                 {
-                    GlobusLogHelper.log.Info(
-                        $"{publisherPostFetchModel.CampaignName} have more than {publisherPostFetchModel.MaximumPostLimitToStore} posts in their postlist. Can't fetch new posts!");
+                    ToasterNotification.ShowInfomation(
+                        $"{publisherPostFetchModel.CampaignName} have more than {publisherPostFetchModel.MaximumPostLimitToStore} posts in their postlist");
+                    //GlobusLogHelper.log.Info(
+                    //    $"{publisherPostFetchModel.CampaignName} have more than {publisherPostFetchModel.MaximumPostLimitToStore} posts in their postlist. Can't fetch new posts!");
                     return;
                 }
 
@@ -131,7 +136,7 @@ namespace DominatorHouseCore.Process
 
                             destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
                             {
-                                if(SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
+                                if (SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
                                 {
                                     var networkPostScraper = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key).GetPublisherCoreFactory()
                                    .PostScraper.GetPostScraperLibrary();

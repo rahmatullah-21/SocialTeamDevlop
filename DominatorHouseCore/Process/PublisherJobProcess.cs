@@ -867,7 +867,6 @@ namespace DominatorHouseCore.Process
             }
         }
 
-
         public void UpdatePostWithDeletion(string destinationUrl, string postId)
         {
             Thread.Sleep(1000);
