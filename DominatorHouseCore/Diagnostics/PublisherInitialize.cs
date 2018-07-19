@@ -266,6 +266,22 @@ namespace DominatorHouseCore.Diagnostics
             objPublisherCreateDestinationModel.RemoveGroupsFromDestination(destinationId, accountId, network, groupUrl);
         }
 
+        public static List<PublishedPostDetailsModel> GetNetworksPublishedPost(string campaignId, SocialNetworks network)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(campaignId) || network == SocialNetworks.Social)
+                    return new List<PublishedPostDetailsModel>();
+
+                return GenericFileManager
+                    .GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails)
+                    .Where(x => x.CampaignId == campaignId && x.SocialNetworks == network).ToList();
+            }
+            catch (Exception)
+            {
+                return new List<PublishedPostDetailsModel>();
+            }
+        }
     }
 
     public class PublisherCoreLibraryBuilder

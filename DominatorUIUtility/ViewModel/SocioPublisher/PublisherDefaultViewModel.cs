@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
@@ -33,10 +35,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ActiveSelectedCampaignCommand = new BaseCommand<object>(ActiveSelectedCampaignCanExecute, ActiveSelectedCampaignExecute);
             PauseSelectedCampaignCommand = new BaseCommand<object>(PauseSelectedCampaignCanExecute, PauseSelectedCampaignExecute);
             PublishNowSelectedCampaignCommand = new BaseCommand<object>(PublishNowSelectedCampaignCanExecute, PublishNowSelectedCampaignExecute);
+            CopyCampaignId = new BaseCommand<object>(CopyCampaignIdCanExecute, CopyCampaignIdExecute);           
             InitializeDefaultCampaignStatus();           
         }
 
         #region Command
+
+
+        public ICommand CopyCampaignId { get; set; }
 
         public ICommand NavigationCommand { get; set; }
 
@@ -155,6 +161,51 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             });
         }
 
+        private bool CopyCampaignIdCanExecute(object sender) => true;
+
+        private void CopyCampaignIdExecute(object sender)
+        {
+            if (sender is PublisherCampaignStatusModel)
+            {
+                var campaignDetails = sender as PublisherCampaignStatusModel;
+                Clipboard.SetText(campaignDetails.CampaignId);
+            }
+            else
+            {
+                var selectedCampaigns = GetSelectedCampaigns().Select(x=> x.CampaignId).ToList();
+
+                if (selectedCampaigns.Count != 0)
+                {
+                    var exportPath = FileUtilities.GetExportPath();
+
+                    if (!string.IsNullOrEmpty(exportPath))
+                    {
+                        var header ="Campaign Id";
+
+                        var filename = $"{exportPath}\\{ConstantVariable.GetDateTime()}.csv";
+
+                        FileUtilities.AddHeaderToCsv(filename, header);
+
+                        selectedCampaigns.ForEach(campaignId=>
+                        {                          
+                            var csvData = campaignId;
+                            using (var streamWriter = new StreamWriter(filename, true))
+                            {
+                                streamWriter.WriteLine(csvData);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Dialog.ShowDialog("Warning", "Please select path to export.");
+                    }
+                }
+                else
+                {
+                    Dialog.ShowDialog("Warning", "Please select atleast one campaign to export.");
+                }
+            }
+        }
 
 
         private bool NavigationCanExecute(object sender) => true;

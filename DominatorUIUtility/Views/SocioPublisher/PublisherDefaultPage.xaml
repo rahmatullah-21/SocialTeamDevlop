@@ -263,6 +263,16 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
+                            <MenuItem Header="{DynamicResource LangKeyExportCampaignId}" Name="MenuExportCampaignId" Command="{Binding CopyCampaignId}" CommandParameter="MultipleCopy">
+                                <MenuItem.Icon>
+                                    <Rectangle Width="15" Height="15" Fill="Black">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_out}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
@@ -366,7 +376,7 @@
 
                     <GridViewColumn Width="240"  HeaderTemplate="{StaticResource MultiColumnHeaderTemplate}" CellTemplate="{StaticResource MultiColumnCellTemplate}" />
 
-                    <GridViewColumn Width="200">
+                    <GridViewColumn Width="360">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyActions}"/>
                         </GridViewColumn.Header>
@@ -389,7 +399,9 @@
                                                 Command="{Binding Path=DataContext.DeleteCampaignCommand,  RelativeSource={RelativeSource AncestorType=ListView}}"
                                                 CommandParameter="{Binding}"  
                                                 Background="Transparent" />
-
+                                        <Button Cursor="Hand" Content="{DynamicResource LangKeyCopyCampaignId}" x:Name="ButtonCopyCampaignId" 
+                                                FontWeight="SemiBold"  Background="Transparent" 
+                                                Command="{Binding Path=DataContext.CopyCampaignId,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"/>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

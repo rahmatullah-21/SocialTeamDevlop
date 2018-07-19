@@ -1132,6 +1132,7 @@ namespace DominatorHouseCore.Process
                             Link = ConstantVariable.NotPublished,
                             CampaignId = CampaignId,
                             CampaignName = CampaignName,
+                            SocialNetworks = AccountModel.AccountBaseModel.AccountNetwork,
                             AccountId = AccountModel.AccountBaseModel.AccountId,
                             ErrorDetails = ConstantVariable.NotPublished,
                         });

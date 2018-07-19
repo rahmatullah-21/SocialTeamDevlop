@@ -2993,7 +2993,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPostSaved">Post has been successfully saved!</system:String>
     <system:String x:Key="LangKeySavePostToDraft">Save To Draft Post List</system:String>
     <system:String x:Key="LangKeySavePostToPending">Save To Pending Post List</system:String>
-    <!--End Added on 17-07-2018-->
     <system:String x:Key="LangKeyUpdateFeedUrl">Update Feed Url</system:String>
     <system:String x:Key="LangKeySaveFeedUrl">Save Feed Url</system:String>
     <system:String x:Key="LangKeyPleaseEnterFeedUrl">Please enter feed Url</system:String>
@@ -3003,7 +3002,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyWarning">Warning</system:String>
     <system:String x:Key="LangKeyFolderPathAlreadyExist">Folder path already exist.</system:String>
     <system:String x:Key="LangKeyLastModifiedDate">Last Modified Date</system:String>
-
+    <!--End Added on 17-07-2018-->
+    
     <!--Start Added By Kamal on 18-07-2018-->
     <system:String x:Key="LangKeyFilterCommunityNsfw">Should be NSFW Community</system:String>
     <system:String x:Key="LangKeyFilterQuarantinedCommunity">Should be Quarantined Community</system:String>
@@ -3016,5 +3016,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFilterBywlsCounts">Should have WLS count in specific range</system:String>
     <!--End Added on 18-07-2018-->
 
-
+    <!--Newly Added on 19-07-2018-->
+    <system:String x:Key="LangKeyCopyCampaignId">Copy Campaign's Id</system:String>
+    <system:String x:Key="LangKeyExportCampaignId">Export Campaign's Id</system:String>
+    <!--End Added on 19-07-2018-->
+    
 </ResourceDictionary>
