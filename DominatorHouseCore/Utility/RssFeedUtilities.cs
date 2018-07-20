@@ -17,15 +17,16 @@ namespace DominatorHouseCore.Utility
 {
     public class RssFeedUtilities
     {
-        public async Task RssFeedFetchMethod(string feedUrl, string feedTemplate, PostDetailsModel postDetailsModel, string campaignId)
+        public async Task RssFeedFetchMethod(string feedUrl, string feedTemplate, PostDetailsModel postDetailsModel, string campaignId, CancellationTokenSource cancellationTokenSource,int notifyCount ,string campaignName)
         {
             try
             {
-                var postdetails = PostlistFileManager.GetAll(campaignId)
-                    .Where(x => x.PostSource == PostSource.RssFeedPost).Select(x => x.ShareUrl).ToList();
+                var campaignDetails = PostlistFileManager.GetAll(campaignId);
+
+                var postdetails =    campaignDetails.Where(x => x.PostSource == PostSource.RssFeedPost).Select(x => x.ShareUrl).ToList();
 
                 var httpHelper = new HttpHelper();
-                var htmlResponse = await httpHelper.GetRequestAsync(feedUrl, new CancellationToken());
+                var htmlResponse = await httpHelper.GetRequestAsync(feedUrl, cancellationTokenSource.Token);
                 var htmlDoc = new HtmlDocument();
                 htmlDoc.LoadHtml(htmlResponse.Response);
                 var postItems = htmlDoc.DocumentNode.Descendants("item");
@@ -92,17 +93,38 @@ namespace DominatorHouseCore.Utility
                             ex.DebugLog();
                         }
                     }
-
                     postlists.AddRange(duplicatedPostlist);
                 }
+             
+                cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                 PostlistFileManager.AddRange(campaignId, postlists);
                 var publisherInitialize = PublisherInitialize.GetInstance;
                 publisherInitialize.UpdatePostCounts(campaignId);
+
+              
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog("Cancellation Requested!");
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation Requested!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                ex.DebugLog();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ex.DebugLog();
             }
         }
 

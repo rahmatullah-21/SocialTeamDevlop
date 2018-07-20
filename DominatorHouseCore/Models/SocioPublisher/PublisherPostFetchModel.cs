@@ -33,5 +33,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(8)]
         public ObservableCollection<string> SelectedDestinations { get; set; } = new ObservableCollection<string>();
 
+        [ProtoMember(9)]
+        public int NotifyCount { get; set; }
+
     }
 }

@@ -53,6 +53,18 @@ namespace DominatorHouseCore.Utility
             return basePath;
         }
 
+
+        public static string GetPlatformLogDirectory()
+        {
+            string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}\\logs";
+
+            if (!Directory.Exists(basePath))
+                DirectoryUtilities.CreateDirectory(basePath);
+
+            return basePath;
+        }
+
+
         public static string GetConfigurationDir()
         {
             string dir = $"{GetPlatformBaseDirectory()}\\Configurations";
@@ -153,6 +165,7 @@ namespace DominatorHouseCore.Utility
         public static string GetDownloadedMediaFolderPath =>
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+        public static string GetNotFoundImage() => GetOtherDir() + @"\NotFoundImage.png";
         public static string GetOtherEmailNotificationFile() => GetOtherDir() + @"\EmailNotification.bin";
         public static string GetOtherEmbeddedBrowserSettingsFile() => GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
         public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";
@@ -202,7 +215,9 @@ namespace DominatorHouseCore.Utility
 
         public static string NoError { get; set; } = "No Error!";
 
-        public static string Deleted { get; set; } = $"Post has been deleted on {DateTime.Now}!";
+        public static DateTime GetCurrentDateTime() => DateTime.Now;
+
+        public static string DeletedDateText() => $"Post has been deleted on {GetCurrentDateTime()}!";
 
         public static string NotPublished { get; set; } = "Not Published Yet";
 

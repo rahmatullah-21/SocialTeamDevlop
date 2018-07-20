@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity.Migrations.Model;
-using System.Windows;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
-using DominatorHouseCore.ViewModel.SocioPublisher;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
@@ -17,7 +13,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
     {
         #region Properties
      
-        private string _postDescription;
+        private string _postDescription=string.Empty;
         /// <summary>
         /// To describe the post data
         /// </summary>
@@ -104,7 +100,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _campaignId;
+        private string _campaignId=string.Empty;
 
         /// <summary>
         /// To specify the post category

@@ -513,6 +513,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 GenericFileManager.Delete<PostDeletionModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetDeletePublisherPostModel);
 
+                PublisherPostFetcher.StopFetchingPostsByCampaignId(campaign.CampaignId);
 
                 GlobusLogHelper.log.Info($"{campaign.CampaignName} deleted Successfully!");
 
@@ -543,6 +544,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublishScheduler.StopPublishingPosts(x.CampaignId);
                     PublisherManageDestinationModel.RemoveDestinationFromCampaign(x.CampaignId);
                     GenericFileManager.Delete<PostDeletionModel>(y => x.CampaignId == y.CampaignId, ConstantVariable.GetDeletePublisherPostModel);
+                    PublisherPostFetcher.StopFetchingPostsByCampaignId(x.CampaignId);
                 });
 
 

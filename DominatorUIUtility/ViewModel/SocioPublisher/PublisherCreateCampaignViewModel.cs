@@ -376,6 +376,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             JsonConvert.SerializeObject(PublisherCreateCampaignModel.LstFolderPath),
                         MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
                         SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
+                        NotifyCount = generalSettingsModel.TriggerNotificationCount
                     };
 
                     currentCampaignsFetchDetails.Add(monitorFolderFetchModel);
@@ -397,6 +398,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         DelayForNext = generalSettingsModel.CheckRssFeedsminutes,
                         MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
                         SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
+                        NotifyCount = generalSettingsModel.TriggerNotificationCount
                     };
 
                     currentCampaignsFetchDetails.Add(rssFetchModel);
@@ -419,6 +421,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         PostDetailsWithFilters = JsonConvert.SerializeObject(PublisherCreateCampaignModel.ScrapePostModel),
                         MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
                         SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
+                        NotifyCount = generalSettingsModel.TriggerNotificationCount
                     };
                     currentCampaignsFetchDetails.Add(scrapeFetchModel);
                 }
@@ -438,6 +441,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         PostDetailsWithFilters = JsonConvert.SerializeObject(PublisherCreateCampaignModel.SharePostModel),
                         MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
                         SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
+                        NotifyCount = generalSettingsModel.TriggerNotificationCount
                     };
                     currentCampaignsFetchDetails.Add(shareFetchModel);
                 }

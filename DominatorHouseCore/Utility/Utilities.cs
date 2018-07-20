@@ -291,5 +291,12 @@ namespace DominatorHouseCore.Utility
             var match = Regex.Matches(decodedResponse, pattern, RegexOptions.Singleline);
             return match.Count > 0 ? match[0].Groups[1].ToString() : string.Empty;
         }
+
+        public static bool DownloadNotFound()
+        {
+            var webclient = new WebClient();
+            webclient.DownloadFile("https://cdn.browshot.com/static/images/not-found.png", $"{ConstantVariable.GetNotFoundImage()}");
+            return true;
+        }
     }
 }

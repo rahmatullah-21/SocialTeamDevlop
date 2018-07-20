@@ -203,7 +203,7 @@ namespace Socinator
                 _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
                 _inform_warnings = GlobusLogHelper.log.Warn,
                 action_UpdateFollower = AccountUpdate,
-                EditProfile= EditProfile,
+                EditProfile = EditProfile,
                 RemovePhoneVerification = RemovePhoneVerification
             };
             DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
@@ -273,7 +273,7 @@ namespace Socinator
             return false;
         }
 
-       
+
         public ObservableCollection<string> Languages
         {
             get
@@ -367,7 +367,7 @@ namespace Socinator
         {
             //  GlobusLogHelper.LogTextToList(!error ? InfoLogger : ErrorLogger, message);
             GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
-    
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -579,7 +579,7 @@ namespace Socinator
 
         public void InitializeJobCores(string license)
         {
-           
+
             try
             {
                 var streamq = Assembly.GetExecutingAssembly()
@@ -688,7 +688,11 @@ namespace Socinator
                 ThreadFactory.Instance.Start(() => { softWareSetting.InitializeOnLoadConfigurations(); });
 
                 // For Every day backup
-                ThreadFactory.Instance.Start(DirectoryUtilities.Compress);
+                ThreadFactory.Instance.Start(() =>
+                {
+                    DirectoryUtilities.DeleteOldLogsFile();
+                    DirectoryUtilities.Compress();
+                });
 
                 #region Publisher
 
@@ -709,7 +713,7 @@ namespace Socinator
                     {
                         var deletionPostlist =
                         GenericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
-                            .GetDeletePublisherPostModel).Where(x=> x.IsDeletedAlready == false).ToList();
+                            .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
                         deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
                     });
 

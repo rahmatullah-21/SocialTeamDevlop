@@ -63,6 +63,31 @@ namespace DominatorHouseCore.Utility
             }
         }
 
+
+        public static void DeleteOldLogsFile()
+        {
+            try
+            {
+                var directoryPath = ConstantVariable.GetPlatformLogDirectory();
+
+                if (!Directory.Exists(directoryPath))
+                    return;
+
+                var directoryFiles = Directory.EnumerateFiles(directoryPath, "*.*", SearchOption.AllDirectories);
+                directoryFiles.ForEach(file =>
+                {
+                    var fileInfo = new FileInfo(file);
+                    var daysCount = DateTime.Today - fileInfo.CreationTime.Date;
+                    if (daysCount.Days > 7)
+                        File.Delete(file);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
         public static void DeleteFile(string filePath)
         {
             try

@@ -882,7 +882,7 @@ namespace DominatorHouseCore.Process
                 if (postIndex == -1)
                     return;
 
-                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.Deleted;
+                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.DeletedDateText();
                 PostlistFileManager.UpdatePost(CampaignId, post);
                 PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
