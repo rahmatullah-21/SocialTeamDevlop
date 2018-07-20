@@ -7,6 +7,7 @@ using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
@@ -69,7 +70,11 @@ namespace DominatorUIUtility.Views.SocioPublisher
             {
                 ListView lb = (ListView)(sender);
                 var postLink = (lb?.SelectedItem as PublishedPostDetailsModel).Link;
-                if (!string.IsNullOrEmpty(postLink)) Clipboard.SetText(postLink);
+                if (!string.IsNullOrEmpty(postLink))
+                {
+                    Clipboard.SetText(postLink);
+                    ToasterNotification.ShowSuccess("Message copied");
+                }
             }
             catch (Exception ex)
             {
