@@ -1067,7 +1067,11 @@ namespace Socinator
             {
                 ListView lb = (ListView)(sender);
                 var message = (lb?.SelectedItem as LoggerModel).Message;
-                if (!string.IsNullOrEmpty(message)) Clipboard.SetText(message);
+                if (!string.IsNullOrEmpty(message))
+                {
+                    Clipboard.SetText(message);
+                    ToasterNotification.ShowSuccess("Message copied");
+                }
             }
             catch (Exception ex)
             {
