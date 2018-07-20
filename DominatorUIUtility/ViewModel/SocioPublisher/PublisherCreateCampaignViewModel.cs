@@ -309,15 +309,33 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 var postIdlist = PostlistFileManager.GetAll(PublisherCreateCampaignModel.CampaignId).Select(x => x.PostId).ToList();
 
+                var directpostViewModel = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl).PublisherDirectPostsViewModel;
+
+                var mediaUrl = new List<string>();
+
                 foreach (var post in PublisherCreateCampaignModel.LstPostDetailsModels)
                 {
-                    AddPostlists(postIdlist, post);
-
-                    if (!post.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
-                        continue;
-                    for (var readdCount = 1; readdCount < post.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdCount++)
+                    var postData = post.DeepClone();
+                    if (postData.IsMultipleImagePost)
                     {
-                        var newpost = post.DeepClone();
+                        if (!directpostViewModel.PostDetailsModel.IsUseFileNameAsDescription)
+                        {
+                            postData.PostDescription = string.Empty;
+                        }
+                        if (directpostViewModel.PostDetailsModel.IsUniquePost)
+                        {
+                            if(mediaUrl.Contains(postData.MediaList[0]))
+                                continue;
+                        }
+                    }
+
+                    AddPostlists(postIdlist, postData);
+
+                    if (!postData.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
+                        continue;
+                    for (var readdCount = 1; readdCount < postData.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdCount++)
+                    {
+                        var newpost = postData.DeepClone();
                         newpost.PostDetailsId = Utilities.GetGuid();
                         AddPostlists(postIdlist, newpost);
                     }
@@ -478,7 +496,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     DestinationCount = PublisherCreateCampaignModel.LstDestinationId.Count,
                     IsRotateDayChecked = PublisherCreateCampaignModel.JobConfigurations.IsRotateDayChecked,
                     TimeRange = PublisherCreateCampaignModel.JobConfigurations.TimeRange,
-                    IsRandomRunningTime = PublisherCreateCampaignModel.JobConfigurations.IsRandomizePublishingTimerChecked,                 
+                    IsRandomRunningTime = PublisherCreateCampaignModel.JobConfigurations.IsRandomizePublishingTimerChecked,
                     MaximumTime = PublisherCreateCampaignModel.JobConfigurations.MaxPost,
                     SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                     ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
@@ -547,11 +565,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (postIdlist.Contains(post.PostDetailsId))
             {
-                var savedPost = PostlistFileManager.GetByPostId(PublisherCreateCampaignModel.CampaignId,post.PostDetailsId);
+                var savedPost = PostlistFileManager.GetByPostId(PublisherCreateCampaignModel.CampaignId, post.PostDetailsId);
                 postlistModel.LstPublishedPostDetailsModels = savedPost.LstPublishedPostDetailsModels;
                 postlistModel.PostQueuedStatus = savedPost.PostQueuedStatus;
                 PostlistFileManager.UpdatePost(PublisherCreateCampaignModel.CampaignId, postlistModel);
-            }                
+            }
             else
                 PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, postlistModel);
         }

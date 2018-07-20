@@ -102,7 +102,6 @@ namespace DominatorHouseCore.Utility
                 var publisherInitialize = PublisherInitialize.GetInstance;
                 publisherInitialize.UpdatePostCounts(campaignId);
 
-              
             }
             catch (OperationCanceledException ex)
             {

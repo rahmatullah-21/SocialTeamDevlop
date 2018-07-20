@@ -65,10 +65,25 @@ namespace DominatorUIUtility.Views.SocioPublisher
         private void PublisherMultiplePost_OnLoaded(object sender, RoutedEventArgs e)
         {
 
-            PublisherMultiplePostViewModel.LstPostDetailsModel = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    PublisherMultiplePostViewModel.LstPostDetailsModel = PublisherCreateCampaigns
+                        .GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                        .PublisherCreateCampaignModel.LstPostDetailsModels;
+                    PublisherMultiplePostViewModel.PostListsCollectionView =
+                        CollectionViewSource.GetDefaultView(PublisherMultiplePostViewModel.LstPostDetailsModel);
+                });
+            }
+            else
+            {
+                PublisherMultiplePostViewModel.LstPostDetailsModel = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                     .PublisherCreateCampaignModel.LstPostDetailsModels;
-            PublisherMultiplePostViewModel.PostListsCollectionView = CollectionViewSource.GetDefaultView(PublisherMultiplePostViewModel.LstPostDetailsModel);
-           
+                PublisherMultiplePostViewModel.PostListsCollectionView = CollectionViewSource.GetDefaultView(PublisherMultiplePostViewModel.LstPostDetailsModel);
+
+            }
+
         }
     }
 }

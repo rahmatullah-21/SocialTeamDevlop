@@ -258,21 +258,9 @@ namespace DominatorHouseCore.Utility
                     }
                 }
 
-                // Get all post lists and count 
-                var presentedCount = PostlistFileManager.GetAll(campaignId).Count;
-
-                int requiredCount;
-                if (presentedCount < notifyCount)
-                    requiredCount = notifyCount - presentedCount;
-                else
-                    requiredCount = notifyCount - (presentedCount % notifyCount);
-
                 PostlistFileManager.AddRange(campaignId, postlists);
              
                 publisherInitialize.UpdatePostCounts(campaignId);
-
-                if (postlists.Count >= requiredCount)
-                    ToasterNotification.ShowInfomation($"{campaignName} is reached {presentedCount + requiredCount } posts!");
 
             }
             catch (OperationCanceledException ex)

@@ -1,8 +1,13 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorUIUtility.ViewModel.SocioPublisher;
+using DominatorUIUtility.Views.SocioPublisher.CustomControl;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
@@ -59,5 +64,29 @@ namespace DominatorUIUtility.Views.SocioPublisher
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void ImageMediaViewer_OnDeleteImage(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var mediaViewer = (MediaViewer)sender;
+
+                var postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                       .PublisherCreateCampaignModel.LstPostDetailsModels;
+
+                var notAvailableMedias = PublisherDirectPostsViewModel.MediaList.Except(mediaViewer.MediaList).ToList();
+
+                notAvailableMedias.ForEach(y =>
+                {
+                    postDetails.Remove(postDetails.FirstOrDefault(x => x.MediaList.Contains(y)));
+                });
+
+                PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels = postDetails;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
     }
 }
