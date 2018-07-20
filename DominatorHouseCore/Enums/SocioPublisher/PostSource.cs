@@ -6,6 +6,7 @@
         SharePost = 2,
         ScrapedPost = 3,
         RssFeedPost = 4,
-        MonitorFolderPost = 5
+        MonitorFolderPost = 5,
+       
     }
 }

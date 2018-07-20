@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
@@ -11,6 +12,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using Shell32;
+using System.Threading;
 
 namespace DominatorHouseCore.Utility
 {
@@ -49,156 +51,235 @@ namespace DominatorHouseCore.Utility
             return lstDetailedFileInfo;
         }
 
-        public void GetFoldersFileDetails(string folderpath, string campaignId, string postTemplate, PostDetailsModel postDetailsModel)
+        public void GetFoldersFileDetails(string folderpath, string campaignId, string postTemplate, PostDetailsModel postDetailsModel, CancellationTokenSource cancellationTokenSource, int notifyCount, string campaignName)
         {
             try
             {
                 var postlists = new List<PublisherPostlistModel>();
 
+                var publisherInitialize = PublisherInitialize.GetInstance;
+
                 var foldersFiles = Directory.EnumerateFiles(folderpath, "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".mp4") || s.EndsWith(".jpg") || s.EndsWith(".png") || s.EndsWith(".wmv")).ToList();
 
                 var monitorFolderFiles = PostlistFileManager.GetAll(campaignId)
-                    .Where(x => x.PostSource == PostSource.MonitorFolderPost);
+                    .Where(x => x.PostSource == PostSource.MonitorFolderPost).ToList();
+
+                if (foldersFiles.Count < monitorFolderFiles.Count)
+                {
+                    var notAvailableFiles = monitorFolderFiles.Select(x => x.MonitorFilePath).Except(foldersFiles).ToList();
+                    notAvailableFiles.ForEach(filePath =>
+                    {
+                        var post = monitorFolderFiles.FirstOrDefault(x => x.MonitorFilePath == filePath);
+                        if (post?.LstPublishedPostDetailsModels.Count <= 0)                        
+                            PostlistFileManager.Delete(post.CampaignId, x=>x.PostId == post.PostId);                                               
+                    });
+                    publisherInitialize.UpdatePostCounts(campaignId);
+                }
 
                 var mediaUtilites = new MediaUtilites();
 
                 foldersFiles.ForEach(file =>
                 {
-                    var publisherPostlistModel = new PublisherPostlistModel
+                    try
                     {
-                        MediaList = new ObservableCollection<string> { mediaUtilites.GetThumbnail(file) },
-                        CampaignId = campaignId,
-                        CreatedTime = DateTime.Now,
-                        ExpiredTime = postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate ?
-                            postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate
-                            : DateTime.Now.AddYears(2),
-                        PostId = Utilities.GetGuid(),
-                        PostCategory = PostCategory.OrdinaryPost,
-                        PostQueuedStatus = PostQueuedStatus.Pending,
-                        PostRunningStatus = PostRunningStatus.Active,
-                        PostSource = PostSource.MonitorFolderPost,
-                        MonitorFilePath = file,
-                        PdSourceUrl = postDetailsModel.PdSourceUrl,
-                        PublisherInstagramTitle = postDetailsModel.PublisherInstagramTitle,
-                        GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
-                        FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
-                        GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
-                        TdPostSettings = postDetailsModel.PublisherPostSettings.TdPostSettings,
-                        LdPostSettings = postDetailsModel.PublisherPostSettings.LdPostSettings,
-                        TumberPostSettings = postDetailsModel.PublisherPostSettings.TumberPostSettings,
-                        RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
-                        FdSellLocation = postDetailsModel.FdSellLocation,
-                        FdSellPrice = postDetailsModel.FdSellPrice,
-                        FdSellProductTitle = postDetailsModel.FdSellProductTitle,
-                        IsFdSellPost = postDetailsModel.IsFdSellPost,
-                    };
-
-                    var fileDetails = GetDetailedFileInfo(file);
-                    var monitorFolderModel = new MonitorFolderModel
-                    {
-                        FolderPath = folderpath,
-                        FilePath = file
-                    };
-
-                    #region Get from Files
-
-                    foreach (var objDetailedFileInfo in fileDetails)
-                    {
-                        switch (objDetailedFileInfo.Id)
+                        var publisherPostlistModel = new PublisherPostlistModel
                         {
-                            case 0:
-                                monitorFolderModel.FileName =
-                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                        objDetailedFileInfo.Value : string.Empty;
-                                break;
-                            case 9:
-                                monitorFolderModel.FileType =
-                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                        objDetailedFileInfo.Value : string.Empty;
-                                break;
-                            case 20:
-                                monitorFolderModel.FileAuthor =
-                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                        objDetailedFileInfo.Value : string.Empty;
-                                break;
-                            case 21:
-                                monitorFolderModel.FileTitle =
-                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                        objDetailedFileInfo.Value : string.Empty;
-                                break;
-                            case 22:
-                                monitorFolderModel.FileSubject =
-                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value)
-                                        ? objDetailedFileInfo.Value : string.Empty;
-                                break;
-                            case 4:
-                                monitorFolderModel.FileCreationDate =
-                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                        objDetailedFileInfo.Value : string.Empty;
-                                break;
-                            case 24:
-                                monitorFolderModel.FileComment =
-                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                        objDetailedFileInfo.Value : string.Empty;
-                                break;
-                            case 18:
-                                monitorFolderModel.FileTags =
-                                    !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
-                                        objDetailedFileInfo.Value : string.Empty;
-                                break;
-                            default:
-                                break;
+                            MediaList = new ObservableCollection<string> { mediaUtilites.GetThumbnail(file) },
+                            CampaignId = campaignId,
+                            CreatedTime = DateTime.Now,
+                            ExpiredTime = postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate ?
+                                            postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate
+                                            : DateTime.Now.AddYears(2),
+                            PostId = Utilities.GetGuid(),
+                            PostCategory = PostCategory.OrdinaryPost,
+                            PostQueuedStatus = PostQueuedStatus.Pending,
+                            PostRunningStatus = PostRunningStatus.Active,
+                            PostSource = PostSource.MonitorFolderPost,
+                            MonitorFilePath = file,
+                            PdSourceUrl = postDetailsModel.PdSourceUrl,
+                            PublisherInstagramTitle = postDetailsModel.PublisherInstagramTitle,
+                            GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
+                            FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
+                            GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
+                            TdPostSettings = postDetailsModel.PublisherPostSettings.TdPostSettings,
+                            LdPostSettings = postDetailsModel.PublisherPostSettings.LdPostSettings,
+                            TumberPostSettings = postDetailsModel.PublisherPostSettings.TumberPostSettings,
+                            RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
+                            FdSellLocation = postDetailsModel.FdSellLocation,
+                            FdSellPrice = postDetailsModel.FdSellPrice,
+                            FdSellProductTitle = postDetailsModel.FdSellProductTitle,
+                            IsFdSellPost = postDetailsModel.IsFdSellPost,
+                        };
+
+                        var fileDetails = GetDetailedFileInfo(file);
+                        var monitorFolderModel = new MonitorFolderModel
+                        {
+                            FolderPath = folderpath,
+                            FilePath = file
+                        };
+
+                        #region Get from Files
+
+                        foreach (var objDetailedFileInfo in fileDetails)
+                        {
+                            switch (objDetailedFileInfo.Id)
+                            {
+                                case 0:
+                                    monitorFolderModel.FileName =
+                                        !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                            objDetailedFileInfo.Value : string.Empty;
+                                    break;
+                                case 9:
+                                    monitorFolderModel.FileType =
+                                        !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                            objDetailedFileInfo.Value : string.Empty;
+                                    break;
+                                case 20:
+                                    monitorFolderModel.FileAuthor =
+                                        !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                            objDetailedFileInfo.Value : string.Empty;
+                                    break;
+                                case 21:
+                                    monitorFolderModel.FileTitle =
+                                        !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                            objDetailedFileInfo.Value : string.Empty;
+                                    break;
+                                case 22:
+                                    monitorFolderModel.FileSubject =
+                                        !string.IsNullOrEmpty(objDetailedFileInfo.Value)
+                                            ? objDetailedFileInfo.Value : string.Empty;
+                                    break;
+                                case 4:
+                                    monitorFolderModel.FileCreationDate =
+                                        !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                            objDetailedFileInfo.Value : string.Empty;
+                                    break;
+                                case 24:
+                                    monitorFolderModel.FileComment =
+                                        !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                            objDetailedFileInfo.Value : string.Empty;
+                                    break;
+                                case 18:
+                                    monitorFolderModel.FileTags =
+                                        !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
+                                            objDetailedFileInfo.Value : string.Empty;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        #endregion
+
+                        publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName, String.Empty))
+                                .Replace("[FileType]", monitorFolderModel.FileType)
+                                .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
+                                .Replace("[FileTitle]", monitorFolderModel.FileTitle)
+                                .Replace("[FileSubject]", monitorFolderModel.FileSubject)
+                                .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
+                                .Replace("[FileComments]", monitorFolderModel.FileComment)
+                                .Replace("[FileTags]", monitorFolderModel.FileTags);
+
+                        cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                        if (monitorFolderFiles.All(x => x.MonitorFilePath != file))
+                        {
+                            postlists.Add(publisherPostlistModel);
                         }
                     }
-
-                    #endregion
-
-                    publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName, String.Empty))
-                            .Replace("[FileType]", monitorFolderModel.FileType)
-                            .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
-                            .Replace("[FileTitle]", monitorFolderModel.FileTitle)
-                            .Replace("[FileSubject]", monitorFolderModel.FileSubject)
-                            .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
-                            .Replace("[FileComments]", monitorFolderModel.FileComment)
-                            .Replace("[FileTags]", monitorFolderModel.FileTags);
-
-
-                    if (monitorFolderFiles.All(x => x.MonitorFilePath != file))
+                    catch (OperationCanceledException)
                     {
-                        postlists.Add(publisherPostlistModel);
+                        throw new OperationCanceledException("Cancellation Requested!");
+                    }
+                    catch (AggregateException ae)
+                    {
+                        foreach (var e in ae.InnerExceptions)
+                        {
+                            if (e is TaskCanceledException || e is OperationCanceledException)
+                                throw new OperationCanceledException("Cancellation Requested!");
+                            else
+                                e.DebugLog(e.StackTrace + e.Message);
+                        }
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ex.DebugLog();
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
                     }
                 });
 
 
                 if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
                 {
-                    var duplicatedPostlist = new List<PublisherPostlistModel>();
-
-                    foreach (var post in postlists)
+                    try
                     {
-                        try
+                        var duplicatedPostlist = new List<PublisherPostlistModel>();
+
+                        foreach (var post in postlists)
                         {
-                            for (var readdIndex = 1; readdIndex < postDetailsModel.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdIndex++)
+                            try
                             {
-                                var newPost = post.DeepClone();
-                                newPost.PostId = Utilities.GetGuid();
-                                duplicatedPostlist.Add(newPost);
+                                for (var readdIndex = 1; readdIndex < postDetailsModel.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdIndex++)
+                                {
+                                    var newPost = post.DeepClone();
+                                    newPost.PostId = Utilities.GetGuid();
+                                    duplicatedPostlist.Add(newPost);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.DebugLog();
                             }
                         }
-                        catch (Exception ex)
+                        cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                        postlists.AddRange(duplicatedPostlist);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        throw new OperationCanceledException("Cancellation Requested!");
+                    }
+                    catch (AggregateException ae)
+                    {
+                        foreach (var e in ae.InnerExceptions)
                         {
-                            ex.DebugLog();
+                            if (e is TaskCanceledException || e is OperationCanceledException)
+                                throw new OperationCanceledException("Cancellation Requested!");
+                            else
+                                e.DebugLog(e.StackTrace + e.Message);
                         }
                     }
-
-                    postlists.AddRange(duplicatedPostlist);
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
                 }
 
-
                 PostlistFileManager.AddRange(campaignId, postlists);
-
-                var publisherInitialize = PublisherInitialize.GetInstance;
+             
                 publisherInitialize.UpdatePostCounts(campaignId);
+
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog("Cancellation Requested!");
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation requested before task completion!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                ex.DebugLog();
             }
             catch (Exception ex)
             {

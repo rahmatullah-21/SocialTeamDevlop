@@ -179,7 +179,6 @@ namespace DominatorHouseCore.Process
             }
         }
 
-
         public static void StartPublishingPosts(PublisherCampaignStatusModel campaignStatusModel)
         {
             try
@@ -256,7 +255,7 @@ namespace DominatorHouseCore.Process
                                         return;
                                     }
 
-                                    if (currentProcessCount > remainingDestinationCount)
+                                    if (currentProcessCount >= remainingDestinationCount)
                                         return;
 
                                     var selectedGroupDestinations = new List<string>();
@@ -1041,7 +1040,7 @@ namespace DominatorHouseCore.Process
             if (campaign.IsRandomRunningTime)
             {
                 if (campaign.UpdatedTime.Date != DateTime.Today)
-                    timeRange = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);                              
+                    timeRange = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);
             }
 
             timeRange.ForEach(runningTime =>
@@ -1074,9 +1073,6 @@ namespace DominatorHouseCore.Process
 
             #endregion
         }
-
-
-       
 
         public static List<TimeSpan> GenerateRandomIntervals(int maxCount, TimeRange timeRange)
         {
@@ -1113,7 +1109,6 @@ namespace DominatorHouseCore.Process
                 }
             });
         }
-
 
         public static ConcurrentDictionary<string, object> UpdatingLock { get; set; } = new ConcurrentDictionary<string, object>();
 

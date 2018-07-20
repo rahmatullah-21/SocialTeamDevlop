@@ -167,7 +167,6 @@ namespace DominatorHouseCore.Process
                 {
                     #region Publish on Groups
 
-
                     foreach (var groupUrl in GroupDestinationList)
                     {
                         if (PublishedCount >= maximumPostCount)
@@ -882,7 +881,7 @@ namespace DominatorHouseCore.Process
                 if (postIndex == -1)
                     return;
 
-                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.Deleted;
+                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.DeletedDateText();
                 PostlistFileManager.UpdatePost(CampaignId, post);
                 PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
@@ -1038,6 +1037,11 @@ namespace DominatorHouseCore.Process
                                        where !successfulDestinations.Contains(destinationUrl)
                                        select posts).ToList();
 
+                if (ConstantVariable.IsToasterNotificationNeed)
+                {
+                    if (pendingPostList.Count < GeneralSettingsModel.TriggerNotificationCount && GeneralSettingsModel.TriggerNotificationCount > 0)
+                        ToasterNotification.ShowInfomation($"{AccountModel.AccountBaseModel.UserName} has {pendingPostList.Count} pending post for {destination}({destinationUrl}) in the {CampaignName} campaign!");
+                }
 
                 var iterationCount = 0;
 
@@ -1113,7 +1117,7 @@ namespace DominatorHouseCore.Process
                         return false;
                     }
 
-                    var allDestinations = postTriedAndSuccessdestinations.Where(x=> x.AccountId == AccountModel.AccountId).Select(x => x.DestinationUrl);
+                    var allDestinations = postTriedAndSuccessdestinations.Where(x => x.AccountId == AccountModel.AccountId).Select(x => x.DestinationUrl);
 
                     if (!allDestinations.Contains(destinationUrl))
                     {

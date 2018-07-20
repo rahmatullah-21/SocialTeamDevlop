@@ -2,19 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
@@ -683,7 +678,7 @@ namespace DominatorUIUtility.ViewModel
                                 });
                                 DialogCoordinator.Instance.ShowModalMessageExternal(
                                     Application.Current.MainWindow, "Success",
-                                    $"{SelectedProxies.Count} proxies successfully Deleted.");
+                                    $"{SelectedProxies.Count} proxies successfully DeletedDateText.");
                                 GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{SelectedProxies.Count} proxies", "LangKeyProxy".FromResourceDictionary());
                             });
 
@@ -705,7 +700,7 @@ namespace DominatorUIUtility.ViewModel
                     {
                         RemoveProxy(currentProxy);
                         Application.Current.Dispatcher.Invoke(() => DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                       $"{currentProxy.AccountProxy.ProxyIp}:{currentProxy.AccountProxy.ProxyPort} Successfully Deleted."));
+                       $"{currentProxy.AccountProxy.ProxyIp}:{currentProxy.AccountProxy.ProxyPort} Successfully DeletedDateText."));
                     }
                 }
 

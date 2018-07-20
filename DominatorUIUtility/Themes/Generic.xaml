@@ -58,9 +58,10 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-
+                          
 
                             <Border>
+                                
                                 <Image x:Name="PART_Image" Margin="1" Width="{TemplateBinding MediaWidth}" Height="{TemplateBinding MediaHeight}"  Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
                                     <Image.ContextMenu>
                                         <ContextMenu>

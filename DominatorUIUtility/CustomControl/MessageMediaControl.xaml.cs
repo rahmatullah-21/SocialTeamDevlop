@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore;
 using DominatorHouseCore.Models;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
@@ -140,7 +141,7 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
         }
 

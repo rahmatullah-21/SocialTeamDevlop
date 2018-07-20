@@ -152,7 +152,7 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception ex)
             {
-
+                ex.DebugLog();
                 GlobusLogHelper.log.Info("There is error in uploading query !!");
             }
 

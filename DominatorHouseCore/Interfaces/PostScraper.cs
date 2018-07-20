@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -27,32 +28,32 @@ namespace DominatorHouseCore.Interfaces
 
         #region Rss feed
 
-        public void ScrapeRssPosts(string campaignId, ObservableCollection<PublisherRssFeedModel> rssFeedModels)
+        public void ScrapeRssPosts(string campaignId, ObservableCollection<PublisherRssFeedModel> rssFeedModels, CancellationTokenSource cancellationTokenSource, int notifyCount , string campaignName)
         {
             ThreadFactory.Instance.Start(() =>
             {
                 var rssFeedUtilities = new RssFeedUtilities();
                 rssFeedModels.ForEach(async x =>
                 {
-                    await rssFeedUtilities.RssFeedFetchMethod(x.FeedUrl, x.FeedTemplate,x.PostDetailsModel, campaignId);
+                    await rssFeedUtilities.RssFeedFetchMethod(x.FeedUrl, x.FeedTemplate,x.PostDetailsModel, campaignId, cancellationTokenSource, notifyCount, campaignName);
                 });               
-            });
+            }, cancellationTokenSource.Token);
         }
 
         #endregion
 
         #region MonitorFolder
 
-        public void FetchMonitorFoldersPosts(string campaignId, ObservableCollection<PublisherMonitorFolderModel> monitorFolderModels )
+        public void FetchMonitorFoldersPosts(string campaignId, ObservableCollection<PublisherMonitorFolderModel> monitorFolderModels ,CancellationTokenSource cancellationTokenSource, int notifyCount, string campaignName)
         {
             ThreadFactory.Instance.Start(() =>
             {
                 var monitorFolderUtilites = new MonitorFolderUtilites();
                 monitorFolderModels.ForEach( x =>
                 {
-                     monitorFolderUtilites.GetFoldersFileDetails(x.FolderPath, campaignId, x.FolderTemplate,x.PostDetailsModel );
+                     monitorFolderUtilites.GetFoldersFileDetails(x.FolderPath, campaignId, x.FolderTemplate,x.PostDetailsModel, cancellationTokenSource, notifyCount, campaignName);
                 });
-            });
+            }, cancellationTokenSource.Token);
         }
 
         #endregion

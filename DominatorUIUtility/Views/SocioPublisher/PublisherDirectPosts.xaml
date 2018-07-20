@@ -135,7 +135,7 @@
                                                MediaWidth="75" 
                                                MediaHeight="75"
                                                DeleteMenuVisibility="Visible"                                            
-                                               IsPostDataPresent="False" 
+                                               IsPostDataPresent="False" DeleteImage="ImageMediaViewer_OnDeleteImage"
                                                MediaList="{Binding PostDetailsModel.MediaList,Mode=TwoWay}" />
                 </StackPanel>
 

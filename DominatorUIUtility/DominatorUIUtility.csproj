@@ -1072,7 +1072,9 @@
     <Resource Include="Images\groupsearch.png" />
     <Resource Include="Images\groupupdate.png" />
     <Resource Include="Images\help.png" />
-    <Resource Include="Images\NotChecked.png" />
+    <Resource Include="Images\NotChecked.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\notworking.png" />
     <Resource Include="Images\Select.png" />
     <Resource Include="Images\selectall.png" />

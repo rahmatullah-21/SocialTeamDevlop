@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -103,6 +105,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        public List<string> MediaList { get; set; } = new List<string>();
+
+
         #endregion
 
         #region Methods
@@ -155,6 +160,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void ExecuteMultiPost(object sender)
         {
+            //ThreadFactory.Instance.Start(() =>
+            //{
             try
             {
                 var publisherMultiplePost = new PublisherMultiplePost();
@@ -166,6 +173,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 ex.DebugLog();
             }
+            //}); 
         }
 
         private bool SearchCanExecute(object sender) => true;
@@ -181,7 +189,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 PostDetailsModel.MediaList = new ObservableCollection<string>(ImageExtracter.ExtractImageUrls(PostDetailsModel.ImagesUrl));
 
-                ObservableCollection<PostDetailsModel> postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                PostDetailsModel.MediaList.ForEach(x => MediaList.Add(x));
+
+                var postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                     .PublisherCreateCampaignModel.LstPostDetailsModels;
 
                 foreach (var image in PostDetailsModel.MediaList)
@@ -195,6 +205,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         PostDescription = new Uri(image).Segments.Last(),
                         CreatedDateTime = DateTime.Now,
                         MediaViewer = publisherMediaViewerModel,
+                        IsMultipleImagePost = true
                     };
                     postDetails.Add(postDetailsModel);
                 }
