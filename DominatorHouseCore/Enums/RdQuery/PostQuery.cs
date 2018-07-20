@@ -14,6 +14,6 @@ namespace DominatorHouseCore.Enums.RdQuery
         [Description("LangKeyCustomurl")]
         CustomUrl = 2,
         [Description("LangKeySocinatorPublisherCampaign")]
-        SocinatorPublisherCampaign,
+        SocinatorPublisherCampaign = 3,
     }
 }
