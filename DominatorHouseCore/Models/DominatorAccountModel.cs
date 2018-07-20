@@ -92,14 +92,6 @@ namespace DominatorHouseCore.Models
         #region Http
 
         [ProtoIgnore]
-        public int FollowersGrowth { get; set; }
-        [ProtoIgnore]
-        public int FollowingsGrowth { get; set; }
-
-        [ProtoIgnore]
-        public int TweetGrowth { get; set; }
-
-        [ProtoIgnore]
         public bool IsUserLoggedIn { get; set; }
 
         [ProtoMember(9)]
@@ -216,6 +208,20 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _displayColumnValue4, value); }
         }
 
+        [ProtoIgnore]
+        public int? DisplayColumnValue5
+        {
+            get { return _displayColumnValue5; }
+            set { SetProperty(ref _displayColumnValue5, value); }
+        }
+
+        [ProtoIgnore]
+        public int? DisplayColumnValue6
+        {
+            get { return _displayColumnValue6; }
+            set { SetProperty(ref _displayColumnValue6, value); }
+        }
+
         #endregion
 
         #region Aliases of AccountBaseModel
@@ -245,6 +251,8 @@ namespace DominatorHouseCore.Models
         private int? _displayColumnValue2;
         private int? _displayColumnValue3;
         private int? _displayColumnValue4;
+        private int? _displayColumnValue5;
+        private int? _displayColumnValue6;
 
         [ProtoIgnore]
         public CookieCollection Cookies

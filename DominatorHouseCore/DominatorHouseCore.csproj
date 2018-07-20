@@ -91,7 +91,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>..\packages\HtmlAgilityPack.1.7.2\lib\Net40\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Source\Repos\DominatorHouse Social\packages\HtmlAgilityPack.1.8.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.0.362, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -664,6 +664,7 @@
     <Compile Include="ViewModel\DestinationSelectionList.cs" />
     <Compile Include="ViewModel\LiveChatViewModel.cs" />
     <Compile Include="ViewModel\ManageDestinationViewModel.cs" />
+    <Compile Include="ViewModel\DailyStatisticsViewModel.cs" />
     <Compile Include="ViewModel\UserControlSwitchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
