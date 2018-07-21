@@ -315,31 +315,37 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 foreach (var post in PublisherCreateCampaignModel.LstPostDetailsModels)
                 {
-                    var postData = post.DeepClone();
-                    if (postData.IsMultipleImagePost)
+                    if (!string.IsNullOrEmpty(post.PostDescription) ||
+                        post.MediaViewer.MediaList.Count > 0 ||
+                        !string.IsNullOrEmpty(post.PublisherInstagramTitle) ||
+                        !string.IsNullOrEmpty(post.PdSourceUrl))
                     {
-                        if (!directpostViewModel.PostDetailsModel.IsUseFileNameAsDescription)
+                        var postData = post.DeepClone();
+                        if (postData.IsMultipleImagePost)
                         {
-                            postData.PostDescription = string.Empty;
+                            if (!directpostViewModel.PostDetailsModel.IsUseFileNameAsDescription)
+                            {
+                                postData.PostDescription = string.Empty;
+                            }
+                            if (directpostViewModel.PostDetailsModel.IsUniquePost)
+                            {
+                                if (mediaUrl.Contains(postData.MediaList[0]))
+                                    continue;
+
+                                mediaUrl.Add(postData.MediaList[0]);
+                            }
                         }
-                        if (directpostViewModel.PostDetailsModel.IsUniquePost)
+
+                        AddPostlists(postIdlist, postData);
+
+                        if (!postData.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
+                            continue;
+                        for (var readdCount = 1; readdCount < postData.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdCount++)
                         {
-                            if(mediaUrl.Contains(postData.MediaList[0]))
-                                continue;
-
-                            mediaUrl.Add(postData.MediaList[0]);
+                            var newpost = postData.DeepClone();
+                            newpost.PostDetailsId = Utilities.GetGuid();
+                            AddPostlists(postIdlist, newpost);
                         }
-                    }
-
-                    AddPostlists(postIdlist, postData);
-
-                    if (!postData.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
-                        continue;
-                    for (var readdCount = 1; readdCount < postData.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdCount++)
-                    {
-                        var newpost = postData.DeepClone();
-                        newpost.PostDetailsId = Utilities.GetGuid();
-                        AddPostlists(postIdlist, newpost);
                     }
                 }
 

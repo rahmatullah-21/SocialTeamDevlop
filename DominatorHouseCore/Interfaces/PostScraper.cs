@@ -13,7 +13,7 @@ namespace DominatorHouseCore.Interfaces
 
         #region Post Scrapers
 
-        public virtual void ScrapePosts(string accountId, string campaignId, ScrapePostModel scrapePostDetails,int count = 10)
+        public virtual void ScrapePosts(string accountId, string campaignId, ScrapePostModel scrapePostDetails, CancellationTokenSource cancellationTokenSource, int count = 10)
         { }
 
         #endregion
@@ -21,7 +21,7 @@ namespace DominatorHouseCore.Interfaces
         #region Scrape page post url 
 
         // Note : Only for Facebook
-        public virtual void ScrapeFdPagePostUrl(string accountId, string campaignId, SharePostModel fdPagePostUrlScraperDetails, int count = 10)
+        public virtual void ScrapeFdPagePostUrl(string accountId, string campaignId, SharePostModel fdPagePostUrlScraperDetails, CancellationTokenSource cancellationTokenSource, int count = 10)
         { }
 
         #endregion

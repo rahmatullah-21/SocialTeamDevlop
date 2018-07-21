@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
@@ -11,10 +10,7 @@ using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Windows;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models.SocioPublisher;
 
 namespace DominatorHouseCore.Utility
 {

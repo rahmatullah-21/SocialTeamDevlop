@@ -210,10 +210,9 @@ namespace DominatorHouseCore.Process
 
                 IncreasePublishingCount(campaignStatusModel.CampaignId);
 
-
                 #region Random Destination
-
-                if (campaignStatusModel.IsTakeRandomDestination)
+               
+                 if (campaignStatusModel.IsTakeRandomDestination)
                 {
                     if (campaignStatusModel.TotalRandomDestination == 0)
                     {
@@ -620,7 +619,6 @@ namespace DominatorHouseCore.Process
 
                 else
                 {
-
                     #region publish on all destination with single post
 
                     // To specify deleted destination, like suppose while making campaign with 10 destination then after some time 5 destination

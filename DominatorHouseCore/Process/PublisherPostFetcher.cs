@@ -19,7 +19,6 @@ namespace DominatorHouseCore.Process
 {
     public class PublisherPostFetcher
     {
-
         public static ConcurrentDictionary<string, CancellationTokenSource> FetchingCampaignsCancellationToken { get; set; } = new ConcurrentDictionary<string, CancellationTokenSource>();
 
         public static SortedSet<string> RssMonitorFetcherId { get; set; } = new SortedSet<string>();
@@ -249,10 +248,10 @@ namespace DominatorHouseCore.Process
                                         if (publisherPostFetchModel.PostSource == PostSource.SharePost)
                                         {
                                             if (networkWithAccount.Key == SocialNetworks.Facebook)
-                                                networkPostScraper.ScrapeFdPagePostUrl(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails);
+                                                networkPostScraper.ScrapeFdPagePostUrl(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource);
                                         }
                                         else if (publisherPostFetchModel.PostSource == PostSource.ScrapedPost)
-                                            networkPostScraper.ScrapePosts(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails);
+                                            networkPostScraper.ScrapePosts(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource);
                                     }
                                     catch (OperationCanceledException ex)
                                     {

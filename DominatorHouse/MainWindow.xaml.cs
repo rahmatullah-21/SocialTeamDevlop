@@ -182,6 +182,7 @@ namespace Socinator
             controller.SetIndeterminate();
             _licenseKey = license;
             var networks = await UtilityManager.LogIndividualNetworksExceptions(_licenseKey);
+         
             if (networks == null)
             {
                 await controller.CloseAsync();
