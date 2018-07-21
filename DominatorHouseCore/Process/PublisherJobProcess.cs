@@ -1151,9 +1151,16 @@ namespace DominatorHouseCore.Process
 
                     post.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
 
-                    post.PostRunningStatus = DateTime.Now > post.ExpiredTime
-                        ? PostRunningStatus.Completed
-                        : PostRunningStatus.Active;
+                    if(post.ExpiredTime == null)
+                        post.PostRunningStatus = PostRunningStatus.Active;
+                    else
+                    {
+                        post.PostRunningStatus = DateTime.Now > post.ExpiredTime
+                            ? PostRunningStatus.Completed
+                            : PostRunningStatus.Active;
+                    }
+
+                    
 
                     PostlistFileManager.UpdatePost(CampaignId, post);
 

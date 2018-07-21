@@ -161,12 +161,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private DateTime _expiredTime;
+        private DateTime? _expiredTime;
         /// <summary>
         /// To specify the post expired time
         /// </summary>
         [ProtoMember(8)]
-        public DateTime ExpiredTime
+        public DateTime? ExpiredTime
         {
             get
             {
@@ -657,6 +657,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
         private string _pdSourceUrl;
+        private PublisherPostSettings _publisherPostSettings = new PublisherPostSettings();
+
         [ProtoMember(20)]
         public string PdSourceUrl
         {
@@ -671,6 +673,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _pdSourceUrl, value);
             }
         }
+
+        [ProtoMember(29)]
+        public PublisherPostSettings PublisherPostSettings
+        {
+            get
+            {
+                return _publisherPostSettings;
+            }
+            set
+            {             
+                if (value == _publisherPostSettings)
+                    return;
+                SetProperty(ref _publisherPostSettings, value);
+            }
+        }
+
         #endregion
 
         #endregion

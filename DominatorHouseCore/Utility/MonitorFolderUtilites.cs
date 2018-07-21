@@ -78,6 +78,11 @@ namespace DominatorHouseCore.Utility
 
                 var mediaUtilites = new MediaUtilites();
 
+                DateTime? expireDate = null;
+
+                if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate)
+                    expireDate = postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate;
+
                 foldersFiles.ForEach(file =>
                 {
                     try
@@ -87,9 +92,7 @@ namespace DominatorHouseCore.Utility
                             MediaList = new ObservableCollection<string> { mediaUtilites.GetThumbnail(file) },
                             CampaignId = campaignId,
                             CreatedTime = DateTime.Now,
-                            ExpiredTime = postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate ?
-                                            postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate
-                                            : DateTime.Now.AddYears(2),
+                            ExpiredTime = expireDate,
                             PostId = Utilities.GetGuid(),
                             PostCategory = PostCategory.OrdinaryPost,
                             PostQueuedStatus = PostQueuedStatus.Pending,
