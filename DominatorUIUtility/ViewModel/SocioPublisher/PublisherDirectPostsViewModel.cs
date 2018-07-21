@@ -133,7 +133,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var cloneObject = PostDetailsModel.DeepClone();
                     cloneObject.CreatedDateTime = DateTime.Now;
                     cloneObject.PostDetailsId = Utilities.GetGuid();
-                    cloneObject.PostQueuedStatus = saveLocation == "SaveToPending" ? PostQueuedStatus.Pending : PostQueuedStatus.Draft;
+                    cloneObject.PostQueuedStatus = saveLocation == "SaveToPending" ? PostQueuedStatus.Pending : PostQueuedStatus.Draft;                
                     postDetails.Add(cloneObject);
                     PostDetailsModel = new PostDetailsModel();
                     var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);

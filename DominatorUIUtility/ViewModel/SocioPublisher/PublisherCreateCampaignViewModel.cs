@@ -304,7 +304,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PostSource = PostSource.NormalPost,
                     PostQueuedStatus = PostQueuedStatus.Pending,
                     PostRunningStatus = PostRunningStatus.Active,
-                    ExpiredTime = DateTime.Now.AddYears(2)
+                    ExpiredTime = null
                 };
 
                 var postIdlist = PostlistFileManager.GetAll(PublisherCreateCampaignModel.CampaignId).Select(x => x.PostId).ToList();
@@ -326,6 +326,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         {
                             if(mediaUrl.Contains(postData.MediaList[0]))
                                 continue;
+
+                            mediaUrl.Add(postData.MediaList[0]);
                         }
                     }
 
@@ -534,6 +536,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void AddPostlists(List<string> postIdlist, PostDetailsModel post)
         {
+            DateTime? expireDate = null;
+
+            if (post.PublisherPostSettings.GeneralPostSettings.IsExpireDate)
+                expireDate = post.PublisherPostSettings.GeneralPostSettings.ExpireDate;
+
             var postlistModel = new PublisherPostlistModel
             {
                 CampaignId = PublisherCreateCampaignModel.CampaignId,
@@ -557,7 +564,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 LdPostSettings = post.PublisherPostSettings.LdPostSettings,
                 TumberPostSettings = post.PublisherPostSettings.TumberPostSettings,
                 RedditPostSetting = post.PublisherPostSettings.RedditPostSetting,
-                ExpiredTime = DateTime.Today.AddYears(2),
+                PublisherPostSettings = post.PublisherPostSettings,
+                ExpiredTime = expireDate,
                 PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
             };
 
