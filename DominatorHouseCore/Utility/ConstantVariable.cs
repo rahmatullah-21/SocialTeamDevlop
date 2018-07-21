@@ -166,6 +166,7 @@ namespace DominatorHouseCore.Utility
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         public static string GetNotFoundImage() => GetOtherDir() + @"\NotFoundImage.png";
+        public static string GetSocinatorIcon() => GetOtherDir() + @"SocinatorIcon.png";
         public static string GetOtherEmailNotificationFile() => GetOtherDir() + @"\EmailNotification.bin";
         public static string GetOtherEmbeddedBrowserSettingsFile() => GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
         public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";

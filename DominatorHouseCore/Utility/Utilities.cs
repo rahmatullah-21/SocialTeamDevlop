@@ -298,5 +298,12 @@ namespace DominatorHouseCore.Utility
             webclient.DownloadFile("https://cdn.browshot.com/static/images/not-found.png", $"{ConstantVariable.GetNotFoundImage()}");
             return true;
         }
+
+        public static bool DownloadSocinatorIcon()
+        {
+            var webclient = new WebClient();
+            webclient.DownloadFile("https://socinator.com/wp-content/uploads/2018/07/fav_64.png", $"{ConstantVariable.GetSocinatorIcon()}");
+            return true;
+        }
     }
 }
