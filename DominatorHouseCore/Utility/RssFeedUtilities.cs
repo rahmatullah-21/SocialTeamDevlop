@@ -31,6 +31,11 @@ namespace DominatorHouseCore.Utility
                 htmlDoc.LoadHtml(htmlResponse.Response);
                 var postItems = htmlDoc.DocumentNode.Descendants("item");
 
+                DateTime? expireDate = null;
+
+                if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate)
+                    expireDate = postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate;
+
                 var postlists = (from node in postItems
                                  let innerHtml = node.InnerHtml
                                  let title = RemoveCdata(node.Element("title").InnerHtml)
@@ -44,9 +49,7 @@ namespace DominatorHouseCore.Utility
                                      MediaList = new ObservableCollection<string>(postDetailsModel.MediaViewer.MediaList),
                                      CampaignId = campaignId,
                                      CreatedTime = DateTime.Now,
-                                     ExpiredTime = postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate ?
-                                     postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate
-                                     : DateTime.Now.AddYears(2),
+                                     ExpiredTime = expireDate,
                                      PostId = Utilities.GetGuid(),
                                      PostCategory = PostCategory.OrdinaryPost,
                                      PostQueuedStatus = PostQueuedStatus.Pending,
