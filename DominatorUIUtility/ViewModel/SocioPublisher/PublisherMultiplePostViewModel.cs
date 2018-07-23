@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
@@ -106,7 +108,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PostDetailsModel postDetailsModel = new PostDetailsModel();
                 try
                 {
-                    var allData = x.Split(',');
+                    var allData = x.Split('\t');
                     postDetailsModel.PostDescription = allData[0];
 
                     #region Medialist
@@ -122,23 +124,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     #endregion
 
                     postDetailsModel.PublisherInstagramTitle = allData[2];
-                    postDetailsModel.PublisherInstagramTitle = allData[3];
+                    postDetailsModel.PdSourceUrl = allData[3];
 
                     #region FdSell
 
-                    var Fdsell = Regex.Split(allData[4], separator);
-                    if (Fdsell[0] == "IsEnable")
+                    if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
                     {
-                        postDetailsModel.IsFdSellPost = true;
-                        postDetailsModel.FdSellProductTitle = Fdsell[1];
-                        postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
-                        postDetailsModel.FdSellLocation = Fdsell[3];
+                        var Fdsell = Regex.Split(allData[4], separator);
+                        if (Fdsell[0] == "IsEnable")
+                        {
+                            postDetailsModel.IsFdSellPost = true;
+                            postDetailsModel.FdSellProductTitle = Fdsell[1];
+                            postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
+                            postDetailsModel.FdSellLocation = Fdsell[3];
+                        }
                     }
                     #endregion
 
                     postDetailsModel.CreatedDateTime = DateTime.Now;
                     postDetailsModel.PostDetailsId = Utilities.GetGuid();
-
                     LstPostDetailsModel.Add(postDetailsModel);
                 }
                 catch (Exception ex)
@@ -159,8 +163,22 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                var postToDelete = sender as PostDetailsModel;
-                LstPostDetailsModel.Remove(postToDelete);
+                var content = sender as string;
+                if (content == "DeleteAll")
+                    LstPostDetailsModel.Clear();
+                else
+                {
+                    try
+                    {
+                        var postToDelete = sender as PostDetailsModel;
+                        LstPostDetailsModel.Remove(postToDelete);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                }
+
             }
             catch (Exception ex)
             {

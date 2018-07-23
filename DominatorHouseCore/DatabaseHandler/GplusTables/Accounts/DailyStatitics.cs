@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 {
@@ -13,51 +14,28 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public int Id { get; set; }
 
         [Column(Order = 2)]
-        public int Date
+        public DateTime Date
         { get; set; }
 
         [Column(Order = 3)]
-        public int Followed
+        public int Followers
         { get; set; }
+
+        /// <summary>
+        /// LinkedinGroups count of the DB owner when the statistics has got updated
+        /// </summary>
 
         [Column(Order = 4)]
-        public int Unfollowed
+        public int Followings
         { get; set; }
 
-        
+        /// <summary>
+        /// Posts count of the DB owner when the statistics has got updated
+        /// </summary>
 
         [Column(Order = 5)]
-        public int LikesDone
+        public int Communities
         { get; set; }
-
-        [Column(Order = 6)]
-        public int CommentsDone
-        { get; set; }
-
-        [Column(Order = 7)]
-        public int JoinedCommunities
-        { get; set; }
-
-        [Column(Order = 8)]
-        public int UnjoinedCommunities
-        { get; set; }
-
-        [Column(Order = 9)]
-        public int PeopleScraped
-        { get; set; }
-
-        [Column(Order = 10)]
-        public int PostScraped
-        { get; set; }
-
-        [Column(Order = 11)]
-        public int CommunityScraped
-        { get; set; }
-
-        //[Column(Order = 5)]
-        //public int Uploads
-        //{ get; set; }
-
 
     }
 }

@@ -62,6 +62,15 @@ namespace DominatorHouse.Utilities
         private void CheckConfigurationFiles()
         {
             CheckOrAddSoftwareSettingsFile();
+            CheckSocinatorIcon();
+        }
+
+        private void CheckSocinatorIcon()
+        {
+            if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
+            {
+                DominatorHouseCore.Utility.Utilities.DownloadSocinatorIcon();
+            }
         }
 
         private void CheckOrAddSoftwareSettingsFile()

@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using CsvHelper;
 using Microsoft.Win32;
 using WPFFolderBrowser;
+using Excel = Microsoft.Office.Interop.Excel;
+using Microsoft.VisualBasic.FileIO;
 
 namespace DominatorHouseCore.Utility
 {
@@ -35,10 +41,26 @@ namespace DominatorHouseCore.Utility
                 try
                 {
                     var extension = Path.GetExtension(fileName);
+                    if (!string.IsNullOrEmpty(extension))
+                    {
+                        if (extension.Contains(".xls") || extension.Contains(".xlsx"))
+                            fileData.AddRange(GetExcelFileContent(fileName));
+                        else if (extension.Contains(".csv"))
+                            fileData.AddRange(GetCsvFileContent(fileName));
+                        else if (extension.Contains(".txt"))
+                            fileData.AddRange(GetTextFileContent(fileName));
+                        else continue;
 
-                    if (extension != null && (!extension.Contains(".txt") && !extension.Contains(".csv"))) continue;
+                        //if (!extension.Contains(".txt") && !extension.Contains(".csv"))
+                        //        continue;
 
-                     fileData.AddRange(GetFileContent(fileName));
+                        //fileData.AddRange(GetFileContent(fileName));
+
+
+                    }
+
+
+
 
                 }
                 catch (Exception ex)
@@ -86,7 +108,7 @@ namespace DominatorHouseCore.Utility
                         var contentArray = stringBuilder.ToString().Split('\r', '\n');
 
                         var data = contentArray.Select(line => line.EndsWith("\0") ? line.Replace("\0", "") : line);
-                  
+
                         listFileContent.AddRange(data.Distinct(StringComparer.CurrentCultureIgnoreCase));
 
                         listFileContent.RemoveAll(string.IsNullOrEmpty);
@@ -102,9 +124,6 @@ namespace DominatorHouseCore.Utility
 
         }
 
-
-
-
         /// <summary>
         /// GetExportPath is used to get the selected path
         /// </summary>
@@ -118,7 +137,7 @@ namespace DominatorHouseCore.Utility
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
-            
+
             var result = openBrowserDialog.ShowDialog(Application.Current.MainWindow);
 
             if (result == true)
@@ -157,7 +176,7 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static dynamic GetImageOrVideo(bool multiselect,string filter)
+        public static dynamic GetImageOrVideo(bool multiselect, string filter)
         {
 
             var openFileDialog = new Microsoft.Win32.OpenFileDialog
@@ -173,5 +192,84 @@ namespace DominatorHouseCore.Utility
             else
                 return openFileDialog.FileNames[0];
         }
+
+        public static List<string> GetExcelFileContent(string fileName)
+        {
+            Excel.Application excel = new Excel.Application();
+            Excel.Workbook workBook = excel.Workbooks.Open(fileName, 0, true, 5, "", "", true,
+                Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+            Excel.Worksheet workSheet = (Excel.Worksheet)workBook.Worksheets.Item[1];
+            Excel.Range range = workSheet.UsedRange;
+
+            List<string> content = new List<string>();
+            for (int row = 1; row <= range.Rows.Count; row++)
+            {
+                string rowContent = String.Empty;
+                for (int colum = 1; colum <= range.Columns.Count; colum++)
+                {
+                    rowContent += (string)(range.Cells[row, colum] as Excel.Range)?.Value2 + "\t";
+                }
+
+                content.Add(rowContent.Trim());
+            }
+            workBook.Close(true);
+            excel.Quit();
+            return content;
+        }
+
+        public static List<string> GetCsvFileContent(string fileName)
+        {
+            using (TextReader reader = File.OpenText(fileName))
+            {
+                try
+                {
+                    var csv = new CsvReader(reader);
+                    List<string> csvSplitList = new List<string>();
+
+                    while (csv.Read())
+                    {
+                        string rowContent = String.Empty;
+                        int columnCount = 0;
+                        bool hasColumn = true;
+                        string columnValue = String.Empty;
+
+                        while (hasColumn)
+                        {
+                            hasColumn = csv.TryGetField(columnCount, out columnValue);
+
+                            if (hasColumn)
+                            {
+                                columnCount += 1;
+                                if (!string.IsNullOrEmpty(columnValue.Trim()))
+                                    rowContent += columnValue + "\t";
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(rowContent.Trim()))
+                            csvSplitList.Add(rowContent);
+                    }
+                    return csvSplitList;
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                    return new List<string>();
+                }
+            }
+        }
+
+        public static List<string> GetTextFileContent(string fileName)
+        {
+            using (StreamReader file = new StreamReader(fileName))
+            {
+                List<string> csvSplitList = new List<string>();
+                var line = String.Empty;
+                while ((line = file.ReadLine()) != null)
+                {
+                    csvSplitList.Add(line);
+                }
+                return csvSplitList;
+            }
+        }
+
     }
 }
