@@ -216,7 +216,7 @@ namespace DominatorUIUtility.ViewModel
         {
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
 
-            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Add Account", "Save", false, SocinatorInitialize.ActiveSocialNetwork.ToString());
+            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "LangKeyAddAccount".FromResourceDictionary(), "LangKeySave".FromResourceDictionary(), false, SocinatorInitialize.ActiveSocialNetwork.ToString());
 
             var customDialog = new CustomDialog()
             {
@@ -312,7 +312,7 @@ namespace DominatorUIUtility.ViewModel
                 allAccountsQueued = false;
 
 
-                if (loadedAccountlist.Count + LstDominatorAccountModel.Count >=
+                if (loadedAccountlist.Count + LstDominatorAccountModel.Count >
                     SocinatorInitialize.MaximumAccountCount)
                 {
                     GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
@@ -471,7 +471,7 @@ namespace DominatorUIUtility.ViewModel
         {
             #region Check account limits
 
-            if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
+            if (LstDominatorAccountModel.Count > SocinatorInitialize.MaximumAccountCount)
             {
                 return;
             }
@@ -730,9 +730,9 @@ namespace DominatorUIUtility.ViewModel
                     {
                         #region If other proxy with same ip/port is present
 
-                        if (objAccountBaseModel.AccountProxy.ProxyId != proxy.AccountProxy.ProxyId)
-                        {
-                            try
+                        //if (objAccountBaseModel.AccountProxy.ProxyId != proxy.AccountProxy.ProxyId)
+                        //{
+                           try
                             {
                                 if (string.IsNullOrEmpty(proxy.AccountProxy.ProxyUsername) || proxy.AccountProxy.ProxyUsername != objAccountBaseModel.AccountProxy.ProxyUsername)
                                     proxy.AccountProxy.ProxyUsername = objAccountBaseModel.AccountProxy.ProxyUsername;
@@ -757,32 +757,36 @@ namespace DominatorUIUtility.ViewModel
                                             oldProxies.ForEach(pr =>
                                             {
 
-                                                pr.AccountsAssignedto.Remove(pr.AccountsAssignedto.FirstOrDefault(acc =>
+                                                var accountToRemove = pr.AccountsAssignedto.FirstOrDefault(acc =>
                                                     acc.UserName == oldAccount.UserName &&
-                                                    acc.AccountNetwork == oldAccount.AccountNetwork));
-                                                ProxyFileManager.EditProxy(pr);
+                                                    acc.AccountNetwork == oldAccount.AccountNetwork);
+
+                                                if (accountToRemove != null)
+                                                {
+                                                    pr.AccountsAssignedto.Remove(accountToRemove);
+                                                    ProxyFileManager.EditProxy(pr);
+                                                }
 
                                             });
-                                            if (!string.IsNullOrEmpty(oldAccount.AccountProxy.ProxyIp) || !string.IsNullOrEmpty(oldAccount.AccountProxy.ProxyPort))
-                                            {
-                                                var proxyToUpdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == oldAccount.AccountProxy.ProxyIp
-                                                                                                                                                && x.AccountProxy.ProxyPort == oldAccount.AccountProxy.ProxyPort);
-                                                proxyToUpdate.AccountsAssignedto.Remove(proxyToUpdate.AccountsAssignedto.FirstOrDefault(
-                                                    x => x.UserName == objAccountBaseModel.UserName &&
-                                                         x.AccountNetwork == objAccountBaseModel.AccountNetwork));
-                                                proxyToUpdate =
-                                                    proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x =>
-                                                        x.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
-                                                        && x.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort);
-                                                proxyToUpdate.AccountsAssignedto.Add(accountTomodified);
-                                            }
+                                            var proxyToUpdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == oldAccount.AccountProxy.ProxyIp
+                                                                                                                                            && x.AccountProxy.ProxyPort == oldAccount.AccountProxy.ProxyPort);
+                                            proxyToUpdate?.AccountsAssignedto.Remove(proxyToUpdate?.AccountsAssignedto.FirstOrDefault(x=>x.UserName==oldAccount.UserName && x.AccountNetwork==oldAccount.AccountNetwork));
+
+                                            proxyToUpdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == objAccountBaseModel.AccountProxy.ProxyIp
+                                                                                                                                        && x.AccountProxy.ProxyPort == objAccountBaseModel.AccountProxy.ProxyPort);
+                                            proxyToUpdate?.AccountsAssignedto.Add(
+                                                new AccountAssign
+                                                {
+                                                    UserName = objAccountBaseModel.UserName,
+                                                    AccountNetwork = objAccountBaseModel.AccountNetwork
+                                                });
 
                                         }
                                         else
                                         {
                                             var proxyToUpdate = proxyManager.ProxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == objAccountBaseModel.AccountProxy.ProxyIp
                                                                                                                                             && x.AccountProxy.ProxyPort == objAccountBaseModel.AccountProxy.ProxyPort);
-                                            proxyToUpdate.AccountsAssignedto.Add(
+                                            proxyToUpdate?.AccountsAssignedto.Add(
                                                 new AccountAssign
                                                 {
                                                     UserName = objAccountBaseModel.UserName,
@@ -816,7 +820,7 @@ namespace DominatorUIUtility.ViewModel
                                 ex.DebugLog();
                             }
                             break;
-                        }
+                       // }
 
 
                         #endregion
@@ -1386,7 +1390,7 @@ namespace DominatorUIUtility.ViewModel
                 AccountId = selectedAccount.AccountId
             };
 
-            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "Update Account", "Update", !string.IsNullOrEmpty(selectedAccount.AccountBaseModel.AccountProxy.ProxyIp), objDominatorAccountBaseModel.AccountNetwork.ToString());
+            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "LangKeyUpdateAccount".FromResourceDictionary(), "LangKeyUpdate".FromResourceDictionary(), !string.IsNullOrEmpty(selectedAccount.AccountBaseModel.AccountProxy.ProxyIp), objDominatorAccountBaseModel.AccountNetwork.ToString());
 
             var customDialog = new CustomDialog()
             {
@@ -1482,6 +1486,8 @@ namespace DominatorUIUtility.ViewModel
                  {
                      try
                      {
+                         selectedAccount.CookieHelperList.Clear();
+                         selectedAccount.AccountBaseModel.Status=AccountStatus.TryingToLogin;
                          var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
                              .GetNetworkCoreFactory().AccountUpdateFactory;
                          var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;

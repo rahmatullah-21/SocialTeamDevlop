@@ -33,7 +33,7 @@ namespace DominatorHouseCore.Utility
         /// <param name="oldModel"></param>
         /// <param name="newModel"></param>
         /// <returns></returns>
-        private static bool Compare<T>(T oldModel, T newModel) where T : class
+        public static bool Compare<T>(T oldModel, T newModel) where T : class
         {
             var objectCompare = new ObjectsComparer.Comparer<T>();
             return objectCompare.Compare(oldModel, newModel);

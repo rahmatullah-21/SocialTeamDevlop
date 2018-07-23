@@ -248,6 +248,7 @@ namespace DominatorUIUtility.CustomControl
             DeleteQueryEventHandler();
             if (ListQueryInfo.Any(x => CurrentQuery != null && x.Id == CurrentQuery.Id))
             {
+                QueryCollection.Remove(CurrentQuery.QueryValue);
                 ListQueryInfo.Remove(CurrentQuery);
             }
             //var currentRow = ((FrameworkElement)sender).DataContext as QueryInfo;
@@ -305,14 +306,19 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                if (string.IsNullOrEmpty(TxtInputQuery.Text.Trim()) && QueryCollection.Count == 0)
+                    return;
                 if (TxtInputQuery.Text.Contains(","))
                 {
-                    QueryCollection.AddRange(TxtInputQuery.Text.Split(','));
+                    CurrentQuery.QueryValue = String.Empty;
+                    QueryCollection.AddRange(TxtInputQuery.Text.Split(',').Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct());
                 }
                 else
-                 CurrentQuery.QueryValue = TxtInputQuery.Text.ToString();
-                  CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
-               
+                {
+                    CurrentQuery.QueryValue = TxtInputQuery.Text.ToString();
+                }
+                CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
+
                 TxtInputQuery.Text = string.Empty;
                 SelectedIndex = 0;
                 AddQueryEventHandler();
@@ -343,7 +349,7 @@ namespace DominatorUIUtility.CustomControl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
+
     }
 
 

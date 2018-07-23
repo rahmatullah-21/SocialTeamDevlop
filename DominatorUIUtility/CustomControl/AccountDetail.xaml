@@ -77,7 +77,7 @@
 
                 <StackPanel Orientation="Horizontal" >
                     <TextBlock Name="TxtblockSelectNetWork" Text="{DynamicResource LangKeySocialNetwork}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
                         <ContentControl>
                             <ContentControl.Style>
                                 <Style TargetType="{x:Type ContentControl}">
@@ -262,75 +262,134 @@
 
                 <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyStatus}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                    <Label Name="TxtStatus" Content="{Binding AccountBaseModel.Status}"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyStatus}" Width="230"
+                    <Label Name="TxtStatus" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyStatus}" Width="230"
                        FontSize="13" FontWeight="Bold"  Margin="5,0,5,0" >
                         <Label.Style>
                             <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Email not found">
-                                        <Setter Property="Foreground" Value="#722f37" />
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.InvalidCredentials}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyInvalidCredentials}" />
+                                        <Setter Property="Foreground" Value="#b22222" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Logging...">
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TryingToLogin}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyTryingToLogin}" />
                                         <Setter Property="Foreground" Value="MediumSeaGreen" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Success">
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Success}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeySuccess}" />
                                         <Setter Property="Foreground" Value="DarkGreen" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Failed">
-                                        <Setter Property="Foreground" Value="#830303" />
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Failed}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyFailed}" />
+                                        <Setter Property="Foreground" Value="DarkRed" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Invalid Credentials">
-                                        <Setter Property="Foreground" Value="#b22222" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Incorrect password">
-                                        <Setter Property="Foreground" Value="#b22222" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Email">
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyNeedsVerification}" />
                                         <Setter Property="Foreground" Value=" #701f28" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Phone Number">
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyEmailVerification}" />
                                         <Setter Property="Foreground" Value=" #701f28" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Verify via Phone Number or Email">
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyPhoneVerification}" />
                                         <Setter Property="Foreground" Value=" #701f28" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Not Checked">
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NotChecked}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyNotChecked}" />
                                         <Setter Property="Foreground" Value="#778899" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="Proxy is Not Working">
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.ProxyNotWorking}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyProxyNotWorking}" />
                                         <Setter Property="Foreground" Value="#9b111e" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PermanentlyBlocked}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyPermanentlyBlocked}" />
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.TemporarilyBlocked}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyTemporarilyBlocked}" />
+                                        <Setter Property="Foreground" Value="IndianRed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.AddPhoneNumberToYourAccount}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyAddPhoneNumberToYourAccount}" />
+                                        <Setter Property="Foreground" Value="Aqua" />
+                                    </DataTrigger>
+
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>
                     </Label>
                 </StackPanel>
-                <StackPanel  Orientation="Horizontal" >
-                    <StackPanel.Style>
-                        <Style TargetType="StackPanel">
+
+
+                <RadioButton Content="{DynamicResource LangKeyPhoneVerifications}" Name="ChkPhoneVerification" Margin="5" FontWeight="Bold" >
+                    <RadioButton.Style>
+                        <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                               <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
+                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}">
+                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </StackPanel.Style>
-                    <TextBlock Text="{DynamicResource LangKeyVerificationCode}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold"
-                       Foreground="Black" VerticalAlignment="Center" />
+                    </RadioButton.Style>
+                </RadioButton>
+
+                <RadioButton Content="{DynamicResource LangKeyEmailVerifications}" Name="ChkEmailVerification" Margin="5" FontWeight="Bold" >
+                    <RadioButton.Style>
+                        <Style TargetType="RadioButton"  BasedOn="{StaticResource {x:Type RadioButton}}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}" >
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </RadioButton.Style>
+                </RadioButton>
+                <Button Name="BtnSendVerificationCode" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5"
+                        Click="BtnSendVerificationCode_OnClick" Width="200" HorizontalAlignment="Left">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=ChkEmailVerification,Path=IsChecked}" Value="True" >
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=ChkPhoneVerification,Path=IsChecked}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Width="15" Height="15" Fill="White">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_email}" Stretch="Fill"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Text="{DynamicResource LangKeySendVerificationCode}" Margin="6,0" Foreground="White"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <StackPanel  Orientation="Horizontal" Margin="20,5" Name="CodeSection" Visibility="Collapsed">
+                
                     <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterVerificationCode}"
-                      Width="230" Text="{Binding VarificationCode}" Name="TxtVarificationCode"
-                      FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" VerticalAlignment="Center"  
-                      Height="30"/>
+                              Width="230" Text="{Binding VarificationCode}"  Name="TxtVarificationCode"
+                              FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" VerticalAlignment="Center"  
+                              Height="30" />
 
                     <Button x:Name="btnVerifyAccount"  Margin="5,0"  Foreground="White" 
-                    Click="BtnVerifyAccount_OnClick">
+                            Click="BtnVerifyAccount_OnClick">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                                 <Setter Property="IsEnabled" Value="True"/>
@@ -357,10 +416,10 @@
                             </StackPanel>
                         </Button.Content>
                     </Button>
-
                 </StackPanel>
-                <CheckBox Content="{DynamicResource LangKeyAdvancedSettings}" FontWeight="SemiBold"  Name="ChkAdvanceSetting" Margin="5"/>
 
+
+                <CheckBox Content="{DynamicResource LangKeyAdvancedSettings}" FontWeight="SemiBold"  Name="ChkAdvanceSetting" Margin="5"/>
                 <StackPanel  Orientation="Horizontal" 
                      Visibility="{Binding ElementName=ChkAdvanceSetting,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="{DynamicResource LangKeyCookies}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />

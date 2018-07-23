@@ -35,11 +35,11 @@ namespace DominatorUIUtility.CustomControl
     public partial class AccountDetail : UserControl
     {
 
-        
+
 
         public DominatorAccountModel DominatorAccountModel { get; set; }
-        public DominatorAccountModel OldDominatorAccountModel { get;}
-      
+        public DominatorAccountModel OldDominatorAccountModel { get; }
+
 
         /// <summary>
         /// Constructor with default data context
@@ -53,13 +53,28 @@ namespace DominatorUIUtility.CustomControl
         {
             DominatorAccountModel = dataContext;
             this.DataContext = DominatorAccountModel;
-            OldDominatorAccountModel = DominatorAccountModel.Clone();
+            OldDominatorAccountModel = new DominatorAccountModel();
+            OldDominatorAccountModel.AccountBaseModel = new DominatorAccountBaseModel
+            {
+                UserName = DominatorAccountModel.AccountBaseModel.UserName,
+                Password = DominatorAccountModel.AccountBaseModel.Password,
+            };
+            OldDominatorAccountModel.UserAgentWeb = DominatorAccountModel.UserAgentWeb;
+            OldDominatorAccountModel.CookieHelperList = DominatorAccountModel.CookieHelperList;
         }
 
         private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
         {
-            DominatorAccountModel = OldDominatorAccountModel;
-            AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+            var controlToselect = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+            var lstAccount = controlToselect.DominatorAccountViewModel.LstDominatorAccountModel;
+            var indexOfAccount = lstAccount.IndexOf(lstAccount.FirstOrDefault(x => x.AccountId == DominatorAccountModel.AccountId));
+
+            lstAccount[indexOfAccount].AccountBaseModel.UserName = OldDominatorAccountModel.UserName;
+            lstAccount[indexOfAccount].AccountBaseModel.Password = OldDominatorAccountModel.AccountBaseModel.Password;
+            lstAccount[indexOfAccount].UserAgentWeb = OldDominatorAccountModel.UserAgentWeb;
+            lstAccount[indexOfAccount].CookieHelperList = OldDominatorAccountModel.CookieHelperList;
+
+            AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = controlToselect;
 
         }
 
@@ -69,10 +84,10 @@ namespace DominatorUIUtility.CustomControl
             var socinatorAccountBuilder = new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId);
             DominatorAccountModel.CookieHelperList.ToList().ForEach(cookie =>
                 {
-                    if(string.IsNullOrEmpty(cookie.Name) || string.IsNullOrEmpty(cookie.Value))
+                    if (string.IsNullOrEmpty(cookie.Name) || string.IsNullOrEmpty(cookie.Value))
                         DominatorAccountModel.CookieHelperList.Remove(cookie);
                 });
-              
+
             socinatorAccountBuilder.AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
                                    .AddOrUpdateCookies(DominatorAccountModel.Cookies)
                                    .AddOrUpdateUserAgentWeb(DominatorAccountModel.UserAgentWeb)
@@ -93,6 +108,14 @@ namespace DominatorUIUtility.CustomControl
                     var accountFactory = networkCoreFactory.AccountUpdateFactory;
                     var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
 
+                    DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
+                    if (OldDominatorAccountModel.AccountBaseModel.UserName != DominatorAccountModel.AccountBaseModel.UserName
+                        || OldDominatorAccountModel.AccountBaseModel.Password != DominatorAccountModel.AccountBaseModel.Password
+                        || OldDominatorAccountModel.UserAgentWeb != DominatorAccountModel.UserAgentWeb)
+                    {
+                        if (ObjectComparer.Compare(OldDominatorAccountModel.CookieHelperList, DominatorAccountModel.CookieHelperList))
+                            DominatorAccountModel.CookieHelperList.Clear();
+                    }
 
                     await asyncAccount.CheckStatusAsync(DominatorAccountModel, DominatorAccountModel.Token);
 
@@ -162,7 +185,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-             
+
         private void BtnVerifyAccount_OnClick(object sender, RoutedEventArgs e)
         {
             var networkCoreFactory = SocinatorInitialize
@@ -172,9 +195,28 @@ namespace DominatorUIUtility.CustomControl
             if (!string.IsNullOrEmpty(DominatorAccountModel.VarificationCode))
             {
                 var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
-
-                accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, DominatorAccountModel.Token);
+                var verificationType = ChkEmailVerification.IsChecked == true ? VerificationType.Email : VerificationType.Phone;
+                accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, verificationType, DominatorAccountModel.Token);
             }
         }
+
+        private void BtnSendVerificationCode_OnClick(object sender, RoutedEventArgs e)
+        {
+            var networkCoreFactory = SocinatorInitialize
+                .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                .GetNetworkCoreFactory();
+
+            var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
+            var verificationType = ChkEmailVerification.IsChecked == true ? VerificationType.Email : VerificationType.Phone;
+
+            if (accountVerificationFactory
+                .SendVerificationCode(DominatorAccountModel, verificationType, DominatorAccountModel.Token).Result)
+                CodeSection.Visibility = Visibility.Visible;
+            else
+                CodeSection.Visibility = Visibility.Collapsed;
+
+        }
+
+       
     }
 }

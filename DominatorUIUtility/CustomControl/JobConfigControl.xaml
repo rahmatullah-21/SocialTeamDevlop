@@ -152,14 +152,14 @@
                     <Label VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerDayDisplayName}"  />
                     <controls:NumericUpDown Minimum="{Binding Value, ElementName=MinJobFollowCount}" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerDay.StartValue,UpdateSourceTrigger=PropertyChanged}" Name="MinActionsPerDay"/>
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource LangKeyTo}" />
-                    <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerDay.EndValue,UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Value, ElementName=MinActionsPerDay}"/>
+                    <controls:NumericUpDown  Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerDay.EndValue,UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Value, ElementName=MinActionsPerDay}" Name="MaxActionsPerDay"/>
                     <Label  VerticalAlignment="Center" Content="{DynamicResource LangKeyUsers}"  />
 
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
                     <Label    VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerHourDisplayName}"  />
-                    <controls:NumericUpDown Minimum="1" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.StartValue}" Name="OperationCountStartValue" />
+                    <controls:NumericUpDown Maximum="{Binding ElementName=MaxActionsPerDay,Path=Value}" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.StartValue}" Name="OperationCountStartValue" />
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource LangKeyTo}" />
                     <controls:NumericUpDown Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.EndValue}" Minimum="{Binding Value, ElementName=OperationCountStartValue}"/>
                     <Label  VerticalAlignment="Center" Content="{DynamicResource LangKeyUsers}"  />
