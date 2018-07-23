@@ -28,14 +28,14 @@ namespace DominatorHouseCore.Interfaces
 
         #region Rss feed
 
-        public void ScrapeRssPosts(string campaignId, ObservableCollection<PublisherRssFeedModel> rssFeedModels, CancellationTokenSource cancellationTokenSource, int notifyCount , string campaignName)
+        public void ScrapeRssPosts(string campaignId, ObservableCollection<PublisherRssFeedModel> rssFeedModels, CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
         {
             ThreadFactory.Instance.Start(() =>
             {
                 var rssFeedUtilities = new RssFeedUtilities();
                 rssFeedModels.ForEach(async x =>
                 {
-                    await rssFeedUtilities.RssFeedFetchMethod(x.FeedUrl, x.FeedTemplate,x.PostDetailsModel, campaignId, cancellationTokenSource, notifyCount, campaignName);
+                    await rssFeedUtilities.RssFeedFetchMethod(x.FeedUrl, x.FeedTemplate,x.PostDetailsModel, campaignId, cancellationTokenSource, maximumPostLimitToStore, campaignName);
                 });               
             }, cancellationTokenSource.Token);
         }
@@ -44,14 +44,14 @@ namespace DominatorHouseCore.Interfaces
 
         #region MonitorFolder
 
-        public void FetchMonitorFoldersPosts(string campaignId, ObservableCollection<PublisherMonitorFolderModel> monitorFolderModels ,CancellationTokenSource cancellationTokenSource, int notifyCount, string campaignName)
+        public void FetchMonitorFoldersPosts(string campaignId, ObservableCollection<PublisherMonitorFolderModel> monitorFolderModels ,CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
         {
             ThreadFactory.Instance.Start(() =>
             {
                 var monitorFolderUtilites = new MonitorFolderUtilites();
                 monitorFolderModels.ForEach( x =>
                 {
-                     monitorFolderUtilites.GetFoldersFileDetails(x.FolderPath, campaignId, x.FolderTemplate,x.PostDetailsModel, cancellationTokenSource, notifyCount, campaignName);
+                     monitorFolderUtilites.GetFoldersFileDetails(x.FolderPath, campaignId, x.FolderTemplate,x.PostDetailsModel, cancellationTokenSource, maximumPostLimitToStore, campaignName);
                 });
             }, cancellationTokenSource.Token);
         }

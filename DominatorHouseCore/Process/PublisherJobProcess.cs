@@ -901,7 +901,7 @@ namespace DominatorHouseCore.Process
             {
                 if (givenPostModel.MediaList.Count > 0)
                 {
-                    var randomNumber = RandomUtilties.GetRandomNumber(postModelWithGeneralSettings.MediaList.Count, 0);
+                    var randomNumber = RandomUtilties.GetRandomNumber(postModelWithGeneralSettings.MediaList.Count - 1);
                     postModelWithGeneralSettings.MediaList = new ObservableCollection<string> { givenPostModel.MediaList[randomNumber] };
                 }
             }
@@ -1017,70 +1017,82 @@ namespace DominatorHouseCore.Process
 
         public PublisherPostlistModel GetPostModel(string destination, string destinationUrl)
         {
-            try
+            Thread.Sleep(1000);
+
+            var updatelock = PublishScheduler.GetPostsForPublishing.GetOrAdd(CampaignId, _lock => new object());
+
+            lock (updatelock)
             {
-                CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                var pendingPostList = PostlistFileManager.GetAll(CampaignId).Where(x => x.PostQueuedStatus != PostQueuedStatus.Draft).ToList();
-
-                if (!pendingPostList.Any())
-                {
-                    GlobusLogHelper.log.Info($"No more post are available for campaign {CampaignName}!");
-                    return null;
-                }
-
-                if (GeneralSettingsModel.IsWhenPublishingSendOnePostChecked)
-                    pendingPostList = pendingPostList.Where(x => x.LstPublishedPostDetailsModels.Count == 0).ToList();
-                else
-                    pendingPostList = (from posts in pendingPostList
-                                       let successfulDestinations = posts.LstPublishedPostDetailsModels.Where(x => x.Successful == ConstantVariable.Yes).Select(x => x.DestinationUrl)
-                                       where !successfulDestinations.Contains(destinationUrl)
-                                       select posts).ToList();
-
-                if (ConstantVariable.IsToasterNotificationNeed)
-                {
-                    if (pendingPostList.Count < GeneralSettingsModel.TriggerNotificationCount && GeneralSettingsModel.TriggerNotificationCount > 0)
-                        ToasterNotification.ShowInfomation($"{AccountModel.AccountBaseModel.UserName} has {pendingPostList.Count} pending post for {destination}({destinationUrl}) in the {CampaignName} campaign!");
-                }
-
-                var iterationCount = 0;
-
-                while (true)
+                try
                 {
                     CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
-                    if (iterationCount >= pendingPostList.Count)
-                        break;
+                    var pendingPostList = PostlistFileManager.GetAll(CampaignId)
+                        .Where(x => x.PostQueuedStatus != PostQueuedStatus.Draft).ToList();
 
-                    var filterPostModel = GeneralSettingsModel.IsChooseRandomPostsChecked ?
-                        pendingPostList[RandomUtilties.GetRandomNumber(pendingPostList.Count - 1, 0)] :
-                        pendingPostList.FirstOrDefault(x => x.PostId != null);
-
-                    if (ValidateNetworkAdvancedSettings(filterPostModel, destination, destinationUrl))
+                    if (!pendingPostList.Any())
                     {
-                        return filterPostModel;
+                        GlobusLogHelper.log.Info($"No more post are available for campaign {CampaignName}!");
+                        return null;
                     }
 
-                    iterationCount++;
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                throw new OperationCanceledException("Cancellation Requested!");
-            }
-            catch (AggregateException ae)
-            {
-                foreach (var e in ae.InnerExceptions)
-                {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        throw new AggregateException("Cancellation requested before task completion!");
+                    if (GeneralSettingsModel.IsWhenPublishingSendOnePostChecked)
+                        pendingPostList = pendingPostList.Where(x => x.LstPublishedPostDetailsModels.Count == 0)
+                            .ToList();
                     else
-                        throw new AggregateException(e.StackTrace + e.Message);
+                        pendingPostList = (from posts in pendingPostList
+                                           let successfulDestinations = posts.LstPublishedPostDetailsModels
+                                               .Where(x => x.Successful == ConstantVariable.Yes).Select(x => x.DestinationUrl)
+                                           where !successfulDestinations.Contains(destinationUrl)
+                                           select posts).ToList();
+
+                    if (ConstantVariable.IsToasterNotificationNeed)
+                    {
+                        if (pendingPostList.Count < GeneralSettingsModel.TriggerNotificationCount &&
+                            GeneralSettingsModel.TriggerNotificationCount > 0)
+                            ToasterNotification.ShowInfomation(
+                                $"{AccountModel.AccountBaseModel.UserName} has {pendingPostList.Count} pending post for {destination}({destinationUrl}) in the {CampaignName} campaign!");
+                    }
+
+                    var iterationCount = 0;
+
+                    while (true)
+                    {
+                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+
+                        if (iterationCount >= pendingPostList.Count)
+                            break;
+
+                        var filterPostModel = GeneralSettingsModel.IsChooseRandomPostsChecked
+                            ? pendingPostList[RandomUtilties.GetRandomNumber(pendingPostList.Count - 1, 0)]
+                            : pendingPostList.FirstOrDefault(x => x.PostId != null);
+
+                        if (ValidateNetworkAdvancedSettings(filterPostModel, destination, destinationUrl))
+                        {
+                            return filterPostModel;
+                        }
+
+                        iterationCount++;
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
+                catch (OperationCanceledException)
+                {
+                    throw new OperationCanceledException("Cancellation Requested!");
+                }
+                catch (AggregateException ae)
+                {
+                    foreach (var e in ae.InnerExceptions)
+                    {
+                        if (e is TaskCanceledException || e is OperationCanceledException)
+                            throw new AggregateException("Cancellation requested before task completion!");
+                        else
+                            throw new AggregateException(e.StackTrace + e.Message);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
             return null;
         }
@@ -1151,7 +1163,7 @@ namespace DominatorHouseCore.Process
 
                     post.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
 
-                    if(post.ExpiredTime == null)
+                    if (post.ExpiredTime == null)
                         post.PostRunningStatus = PostRunningStatus.Active;
                     else
                     {
@@ -1160,7 +1172,7 @@ namespace DominatorHouseCore.Process
                             : PostRunningStatus.Active;
                     }
 
-                    
+
 
                     PostlistFileManager.UpdatePost(CampaignId, post);
 
