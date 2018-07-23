@@ -300,9 +300,10 @@ namespace DominatorUIUtility.ViewModel
                 {
                     try
                     {
-                        var proxy = givenProxy.Replace(",", ":");
+                       // var proxy = givenProxy.Replace(",", ":");
+                        var proxy = givenProxy;
 
-                        var selectedProxy = Regex.Split(proxy, ":");
+                        var selectedProxy = Regex.Split(proxy, "\t");
                         if (selectedProxy.Length < 2)
                             continue;
 

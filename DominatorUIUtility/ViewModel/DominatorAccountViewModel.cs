@@ -348,8 +348,10 @@ namespace DominatorUIUtility.ViewModel
                 {
                     try
                     {
-                        var finalAccount = singleAccount.Replace(",", ":").Replace("<NA>", "");
-                        var splitAccount = Regex.Split(finalAccount, ":");
+                       // var finalAccount = singleAccount.Replace(",", ":").Replace("<NA>", "");
+                        var finalAccount = singleAccount.Replace("<NA>", "\t");
+                        var splitAccount = Regex.Split(finalAccount, "\t");
+                        //var splitAccount = Regex.Split(finalAccount, ":");
                         if (splitAccount.Length <= 1) continue;
 
                         //assign the username, password and groupname
