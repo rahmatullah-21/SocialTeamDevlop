@@ -29,7 +29,7 @@ namespace DominatorUIUtility.CustomControl
     {
         private DominatorAccountViewModel _dominatorAccountViewModel;
         private readonly BackgroundWorker worker = new BackgroundWorker();
-
+        private static SocialNetworks socialNetwork;
         #region Property
 
         public DominatorAccountViewModel DominatorAccountViewModel
@@ -144,6 +144,9 @@ namespace DominatorUIUtility.CustomControl
                 DominatorAccountViewModel.LstDominatorAccountModel.Select(x =>
                 {
                     x.IsAccountManagerAccountSelected = false;
+                    var accountUpdateFactory = SocinatorInitialize
+                        .GetSocialLibrary(x.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
                     var AccoutGrowth = accountUpdateFactory.GetDailyGrowth(x.AccountId, x.AccountBaseModel.ProfileId, period);
                     x.DisplayColumnValue4 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue1 : 0;
                     x.DisplayColumnValue5 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue2 : 0;
@@ -428,7 +431,7 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var selectedGrowthPeriod = (GrowthPeriod)cmbGrowthPeriod.SelectedIndex;
-                _accountGrowthInstance.GetRespectiveAccounts(SocialNetworks.Twitter, selectedGrowthPeriod);
+                _accountGrowthInstance.GetRespectiveAccounts(socialNetwork, selectedGrowthPeriod);
             }
             catch (Exception ex)
             {
