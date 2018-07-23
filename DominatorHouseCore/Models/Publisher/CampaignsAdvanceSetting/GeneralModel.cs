@@ -6,7 +6,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
     [ProtoContract]
    public class GeneralModel : BindableBase
     {
-        private int _triggerNotificationCount=50;
+        private int _triggerNotificationCount;
       
         [ProtoMember(1)]
         public int TriggerNotificationCount

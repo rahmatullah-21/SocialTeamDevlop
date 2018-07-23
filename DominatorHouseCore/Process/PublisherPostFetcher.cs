@@ -19,40 +19,70 @@ namespace DominatorHouseCore.Process
 {
     public class PublisherPostFetcher
     {
-
+        /// <summary>
+        /// To keep the cancellation token for the campaign to avoid scraping after deleted the campaign
+        /// </summary>
         public static ConcurrentDictionary<string, CancellationTokenSource> FetchingCampaignsCancellationToken { get; set; } = new ConcurrentDictionary<string, CancellationTokenSource>();
 
+        /// <summary>
+        /// Campaign Id which are running under RSS or Monitor Folder
+        /// </summary>
         public static SortedSet<string> RssMonitorFetcherId { get; set; } = new SortedSet<string>();
 
+        /// <summary>
+        /// To Start fetching the post from Scrape Post, Share Post(only for Facebook), Rss and Monitor folder
+        /// </summary>
         public void StartFetchingPostData()
         {
+            // Get the post fetch details from bin file <see cref="ConstantVariable.GetPublisherPostFetchFile" /> other than normal post
             var getFetchDetails =
                 GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
-                    .GetPublisherPostFetchFile).Where(x=> x.PostSource != PostSource.NormalPost);
+                    .GetPublisherPostFetchFile).Where(x => x.PostSource != PostSource.NormalPost);
 
+            // Iterate the post fetch detail
             getFetchDetails.ForEach(postFetchModel =>
             {
+                // Register the campaign its running from current fetcher with respective post source and get the cancellation token
                 var cancellationTokenSource = RegisterPostFetcher(postFetchModel.CampaignId, postFetchModel.PostSource);
+
+                // Call the fetch methods with passing respective cancellation source
                 FetchPosts(postFetchModel, cancellationTokenSource);
             });
         }
 
-        public static string GetCampaignFetcherId(string campaignId, PostSource postSource) => $"{campaignId}-{postSource.ToString()}-PostFetcher";
+        /// <summary>
+        /// To receive the campaign Id for give post source and campaign Id
+        /// </summary>
+        /// <param name="campaignId">Campaign Id</param>
+        /// <param name="postSource"><see cref=" DominatorHouseCore.Enums.SocioPublisher.PostSource"/></param>
+        /// <returns></returns>
+        public static string GetCampaignFetcherId(string campaignId, PostSource postSource)
+            => $"{campaignId}-{postSource.ToString()}-PostFetcher";
 
+        /// <summary>
+        /// Start fetching the post by using campaing Id, Its used in while saving the campaign and cloned campaigns
+        /// </summary>
+        /// <param name="campaignId">campaign Id</param>
         public void FetchPostsForCampaign(string campaignId)
         {
             try
             {
+                // Collect the respective Fetcher model
                 var postFetchModels = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                       .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaignId && x.PostSource != PostSource.NormalPost);
 
+                // Call with Task factory
                 ThreadFactory.Instance.Start(() =>
                 {
+                    // Iterate the post fetcher, because for a same campaign we may have to run RSS , Monitor Folder
                     postFetchModels.ForEach(postFetchModel =>
                     {
+                        // Register the campaign its running from current fetcher with respective post source and get the cancellation token
                         var cancellationTokenSource = RegisterPostFetcher(campaignId, postFetchModel.PostSource);
+
+                        // Call the fetch methods with passing respective cancellation source
                         FetchPosts(postFetchModel, cancellationTokenSource);
-                    });                   
+                    });
                 });
             }
             catch (ArgumentNullException ex)
@@ -79,20 +109,32 @@ namespace DominatorHouseCore.Process
             }
         }
 
-        private CancellationTokenSource RegisterPostFetcher(string campaignId , PostSource postSource)
+        /// <summary>
+        /// Register the campaign with their running cancellation token per every post source
+        /// </summary>
+        /// <param name="campaignId">Campaign Id</param>
+        /// <param name="postSource"><see cref=" DominatorHouseCore.Enums.SocioPublisher.PostSource"/></param>
+        /// <returns></returns>
+        private CancellationTokenSource RegisterPostFetcher(string campaignId, PostSource postSource)
         {
+            // Get new cancellation token
             var cancellationTokenSource = new CancellationTokenSource();
 
+            // Get the unique fetcher name, its generated from campaign Id and Post source
             var fetcherName = GetCampaignFetcherId(campaignId, postSource);
 
+            // Its already present, update the new Cancellation token source. Otherwise add new cancellation along with fetcher name
             if (!FetchingCampaignsCancellationToken.ContainsKey(fetcherName))
             {
+                // Register fercher name with cancellation token
                 cancellationTokenSource = FetchingCampaignsCancellationToken.GetOrAdd(fetcherName, cancellationTokenSource);
             }
             else
             {
+                // If, fetcher already prensent, stop all running instance
                 StopFetchingPosts(campaignId, postSource);
 
+                // Update cancellation token source along with fetcher name
                 FetchingCampaignsCancellationToken.AddOrUpdate(fetcherName, cancellationTokenSource, (fetcher, oldvalue) =>
                 {
                     if (oldvalue == null)
@@ -106,16 +148,27 @@ namespace DominatorHouseCore.Process
             return cancellationTokenSource;
         }
 
+        /// <summary>
+        /// Stop post fetcher by using campaign Id
+        /// </summary>
+        /// <param name="campaignId">Campaign Id</param>
         public static void StopFetchingPostsByCampaignId(string campaignId)
         {
             try
             {
+                // Get the fetcher details from the campaign ID
                 var getFetchDetails =
                        GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                            .GetPublisherPostFetchFile).Where(x => x.PostSource != PostSource.NormalPost && x.CampaignId == campaignId);
 
-                getFetchDetails.ForEach(fetchModel => { StopFetchingPosts(campaignId, fetchModel.PostSource); });
-                
+                // Iterate all fetcher from list
+                getFetchDetails.ForEach(fetchModel =>
+                {
+                    // Call stop fetching 
+                    StopFetchingPosts(campaignId, fetchModel.PostSource);                     
+                });
+
+                // Delete all fetcher
                 GenericFileManager.Delete<PublisherPostFetchModel>(x => x.CampaignId == campaignId, ConstantVariable
                     .GetPublisherPostFetchFile);
             }
@@ -125,22 +178,35 @@ namespace DominatorHouseCore.Process
             }
         }
 
-        public static void StopFetchingPosts(string campaignId , PostSource postSource)
+        /// <summary>
+        /// Stop running post fetcher details
+        /// </summary>
+        /// <param name="campaignId">Campaign Id</param>
+        /// <param name="postSource"><see cref=" DominatorHouseCore.Enums.SocioPublisher.PostSource"/></param>
+        public static void StopFetchingPosts(string campaignId, PostSource postSource)
         {
             try
-            {                
+            {
+                // Get the unique fetcher name, its generated from campaign Id and Post source
                 var fetcherCampaignId = GetCampaignFetcherId(campaignId, postSource);
 
+                // Its not present in running fetcher list, simply return
                 if (!FetchingCampaignsCancellationToken.ContainsKey(fetcherCampaignId))
                     return;
 
+                // Gather all Rss and monitor folder fetcher Id
                 var relatedPostFectcher = RssMonitorFetcherId.Where(x => x.Contains(campaignId));
 
+                // Remove all post fetcher details
                 relatedPostFectcher.ForEach(JobManager.RemoveJob);
 
+                // Remove Post fetcher Id from Sorted set
                 RssMonitorFetcherId.RemoveWhere(x => x.Contains(campaignId));
 
+                // Get the cancellation of fetcher
                 var cancellationToken = FetchingCampaignsCancellationToken[fetcherCampaignId];
+
+                //Cancel the operation which is running
                 cancellationToken.Cancel();
             }
             catch (ArgumentNullException ex)
@@ -153,6 +219,11 @@ namespace DominatorHouseCore.Process
             }
         }
 
+        /// <summary>
+        /// Start fetching post for all Scarpe post(Facebook,Twitter,Pinterest),Share post(Facebook), Rss and Monitor Folder
+        /// </summary>
+        /// <param name="publisherPostFetchModel"><see cref=""/></param>
+        /// <param name="cancellationTokenSource"></param>
         public void FetchPosts(PublisherPostFetchModel publisherPostFetchModel, CancellationTokenSource cancellationTokenSource)
         {
             try
@@ -175,8 +246,10 @@ namespace DominatorHouseCore.Process
 
                 if (alreadyPresentedCount >= publisherPostFetchModel.MaximumPostLimitToStore)
                 {
-                    GlobusLogHelper.log.Info(
-                        $"{publisherPostFetchModel.CampaignName} have more than {publisherPostFetchModel.MaximumPostLimitToStore} posts in their postlist. Can't fetch new posts!");
+
+                    ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {publisherPostFetchModel.CampaignName} already have {publisherPostFetchModel.MaximumPostLimitToStore}+ posts in postlist!");
+                    //GlobusLogHelper.log.Info(
+                    //    $"{publisherPostFetchModel.CampaignName} have more than {publisherPostFetchModel.MaximumPostLimitToStore} posts in their postlist. Can't fetch new posts!");
                     return;
                 }
 
@@ -185,7 +258,7 @@ namespace DominatorHouseCore.Process
                 // Collect neccessary details for fetching and assign to dynamic type variable
                 switch (publisherPostFetchModel.PostSource)
                 {
-                    case PostSource.SharePost:
+                    case PostSource.SharePost:                   
                         postFetchDetails =
                             JsonConvert.DeserializeObject<SharePostModel>(publisherPostFetchModel.PostDetailsWithFilters);
                         break;
@@ -215,32 +288,46 @@ namespace DominatorHouseCore.Process
                 switch (publisherPostFetchModel.PostSource)
                 {
                     case PostSource.RssFeedPost:
+                        // Get the proper name for monitor job process
                         var jobName = $"{publisherPostFetchModel.CampaignId}-{PostSource.RssFeedPost.ToString()}";
+                        // Register to sorted set
                         RssMonitorFetcherId.Add(jobName);
+                        // Add the Job for Rss feed 
                         JobManager.AddJob(() =>
                         {
-                            postScraper.ScrapeRssPosts(publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource, publisherPostFetchModel.NotifyCount, publisherPostFetchModel.CampaignName);
+                            // Call the Rss feed fetcher
+                            postScraper.ScrapeRssPosts(publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource, publisherPostFetchModel.MaximumPostLimitToStore, publisherPostFetchModel.CampaignName);
                         }, s => s.WithName(jobName).ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
                         break;
                     case PostSource.MonitorFolderPost:
+                        // Get the proper name for monitor job process
                         var monitorJobName = $"{publisherPostFetchModel.CampaignId}-{PostSource.MonitorFolderPost.ToString()}";
+
+                        // Register to sorted set
                         RssMonitorFetcherId.Add(monitorJobName);
+
+                        // Add the Job for Monitor Folder
                         JobManager.AddJob(() =>
                         {
-                            postScraper.FetchMonitorFoldersPosts(publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource, publisherPostFetchModel.NotifyCount, publisherPostFetchModel.CampaignName);
+                            // Call the Monitor folder fetcher
+                            postScraper.FetchMonitorFoldersPosts(publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource, publisherPostFetchModel.MaximumPostLimitToStore, publisherPostFetchModel.CampaignName);
                         }, s => s.WithName(monitorJobName).ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
                         break;
                     case PostSource.NormalPost:
                         break;
                     default:
+                        // Iterate the selected destination Id
                         publisherPostFetchModel.SelectedDestinations.ToList().ForEach(destinationId =>
                         {
+                            // Get the details of Destination Id
                             var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
 
+                            // Itereate the destination
                             destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>
                             {
                                 if (SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
                                 {
+                                    // Get the proper library for publisher
                                     var networkPostScraper = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key).GetPublisherCoreFactory()
                                    .PostScraper.GetPostScraperLibrary();
 
@@ -248,11 +335,13 @@ namespace DominatorHouseCore.Process
                                     {
                                         if (publisherPostFetchModel.PostSource == PostSource.SharePost)
                                         {
+                                            // Call Share post from facebook
                                             if (networkWithAccount.Key == SocialNetworks.Facebook)
-                                                networkPostScraper.ScrapeFdPagePostUrl(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails);
+                                                networkPostScraper.ScrapeFdPagePostUrl(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource);
                                         }
+                                        // Scarpe the posts from Facebook, Twitter, Pinterest
                                         else if (publisherPostFetchModel.PostSource == PostSource.ScrapedPost)
-                                            networkPostScraper.ScrapePosts(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails);
+                                            networkPostScraper.ScrapePosts(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource);
                                     }
                                     catch (OperationCanceledException ex)
                                     {

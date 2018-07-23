@@ -10,6 +10,7 @@
     <UserControl.Resources>
         <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
         <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
+        <!--Display the border for list view-->
         <GridViewColumnCollection x:Key="ColumnSubHeading">
             <GridViewColumn Width="80">
                 <GridViewColumn.Header>
@@ -49,7 +50,7 @@
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,2,6,2" Text="{Binding PublishedCount}"/>
                             </StackPanel>
-                            
+
                         </Border>
                     </DataTemplate>
                 </GridViewColumn.CellTemplate>
@@ -81,13 +82,15 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
+        <!--Header Sections-->
         <Grid Background="{DynamicResource AccentBaseColorBrush}" Name="HeaderGrid">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-
+            
+            <!--Publisher Title Sections-->
             <TextBlock HorizontalAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White">
                     <Rectangle Width="25" Height="25" Fill="White" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Rectangle.OpacityMask>
@@ -98,8 +101,10 @@
                     <Label Content="{DynamicResource LangKeyPublisher}"  Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
             </TextBlock>
 
+            <!--Menu Options-->
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
+                <!--Button for navigate into managing destination-->
                 <Button Background="Transparent" ToolTip="{DynamicResource LangKeyGoToManageDestination}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManageDestinations" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManageDestinations">
                     <Button.Template>
                         <ControlTemplate>
@@ -117,6 +122,7 @@
                     </Button.Template>
                 </Button>
 
+                <!--Button for navigate into managing posts-->
                 <Button Background="Transparent" Cursor="Hand" ToolTip="{DynamicResource LangKeyGoToManagePosts}" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManagePosts" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManagePosts">
                     <Button.Template>
                         <ControlTemplate>
@@ -133,6 +139,8 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+
+                <!--Button for navigate into create campaign-->
                 <Button Background="Transparent" ToolTip="{DynamicResource LangKeyGoToCreateCampaign}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonCreateCampaigns" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="CreateCampaigns">
                     <Button.Template>
                         <ControlTemplate>
@@ -150,7 +158,7 @@
                     </Button.Template>
                 </Button>
 
-
+                <!--Button for Select/Deselect the campaigns -->
                 <Button Name="BtnSelect" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=BtnSelect}" Background="Transparent" ToolTip="{DynamicResource LangKeySelectMeBeforeNextAction}"  Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Margin="5" >
                     <Button.Template>
                         <ControlTemplate>
@@ -165,6 +173,7 @@
 
                     <Button.ContextMenu>
                         <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                            <!--Menu to select all campaigns-->
                             <MenuItem Header="{DynamicResource LangKeySelectAll}" Name="MenuSelectAllCampaigns" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectAll" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -174,6 +183,8 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
+
+                            <!--Menu to Deselect all campaigns-->
                             <MenuItem Header="{DynamicResource LangKeySelectNone}" Name="MenuDeselectAllCampaigns" Command="{Binding SelectionCommand}" CommandParameter="MenuSelectNone">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -187,6 +198,8 @@
                     </Button.ContextMenu>
                 </Button>
 
+                <!--Button will help to do following stuff's-->
+                <!--1.Active, 2.Pause, 3.Delete, 4.Duplicate, 5.Publish Now, 6.Export CampaignId-->
                 <Button Background="Transparent" Name="PublisherAction" ToolTip="{DynamicResource LangKeySelectYoursAction}" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding OpenContextMenuCommand}"  CommandParameter="{Binding ElementName=PublisherAction}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"   Margin="5">
                     <Button.Template>
                         <ControlTemplate>
@@ -205,6 +218,8 @@
 
                     <Button.ContextMenu>
                         <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+
+                            <!--Make all selected campaign to Active-->
                             <MenuItem Header="{DynamicResource LangKeySwitchToActive}" Name="MenuSwitchToActive" Command="{Binding ActiveSelectedCampaignCommand}" CommandParameter="MakeCampaignActive" >
                                 <MenuItem.Icon>
                                     <StackPanel>
@@ -216,6 +231,8 @@
                                     </StackPanel>
                                 </MenuItem.Icon>
                             </MenuItem>
+
+                            <!--Make all selected campaign to Pause-->
                             <MenuItem Header="{DynamicResource LangKeySwitchToPause}" Name="MenuSwitchToPause" Command="{Binding PauseSelectedCampaignCommand}" CommandParameter="MakeCampaignPause" >
                                 <MenuItem.Icon>
                                     <StackPanel>
@@ -227,15 +244,8 @@
                                     </StackPanel>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource LangKeySwitchToPending}" Name="MenuSwitchToPending" Visibility="Collapsed" >
-                                <MenuItem.Icon>
-                                    <Rectangle Width="15" Height="15" Fill="DarkRed">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_moon_full}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </MenuItem.Icon>
-                            </MenuItem>
+
+                            <!--Delete all selected campaign-->
                             <MenuItem Header="{DynamicResource LangKeyDelete}" Name="MenuDelete" Command="{Binding DeleteCampaignCommand}" CommandParameter="MenuDelete">
                                 <MenuItem.Icon>
                                     <Rectangle Width="12" Height="15" Fill="Black">
@@ -245,6 +255,8 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
+
+                            <!--Duplicate all selected campaign-->
                             <MenuItem Header="{DynamicResource LangKeyDuplicate}" Name="MenuDuplicate" Command="{Binding CampaignCloneCommand}" CommandParameter="MenuClone">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black">
@@ -254,6 +266,8 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
+
+                            <!--Publish Now all selected campaign-->
                             <MenuItem Header="{DynamicResource LangKeyPublishNow}" Name="MenuPublishNow" Command="{Binding PublishNowSelectedCampaignCommand}" CommandParameter="PublishNow">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black">
@@ -263,6 +277,8 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
+
+                            <!--Export the campaign Id all selected campaign-->
                             <MenuItem Header="{DynamicResource LangKeyExportCampaignId}" Name="MenuExportCampaignId" Command="{Binding CopyCampaignId}" CommandParameter="MultipleCopy">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black">
@@ -272,17 +288,15 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
 
-
             </StackPanel>
-
         </Grid>
 
 
+        <!--Display the details of the campaign-->
         <ListView Grid.Row="1"
                   x:Name="CampaignStatusList"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"                  
@@ -308,6 +322,7 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
+                    <!--Selecting campaigns-->
                     <GridViewColumn Width="80">
                         <GridViewColumn.Header>
                             <Border BorderThickness="1,0,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
@@ -329,6 +344,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <!--Campaign Name-->
                     <GridViewColumn  Width="250">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyCampaignName}"/>
@@ -344,6 +360,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <!--Campaign Status-->
                     <GridViewColumn Width="100">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyStatus}"/>
@@ -359,6 +376,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <!--Destination Count-->
                     <GridViewColumn Width="100">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyDestination}"/>
@@ -374,8 +392,10 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <!--Post Count-->
                     <GridViewColumn Width="240"  HeaderTemplate="{StaticResource MultiColumnHeaderTemplate}" CellTemplate="{StaticResource MultiColumnCellTemplate}" />
 
+                    <!--Edit Campaign-->
                     <GridViewColumn Width="360">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyActions}"/>
@@ -408,6 +428,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <!--Create Campaign Date-->
                     <GridViewColumn Width="150">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyCreatedDate}"/>
@@ -423,7 +444,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-
+                    <!--Create Last Modified Date-->
                     <GridViewColumn Width="150">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyLastModifiedDate}"/>
@@ -439,6 +460,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <!--Create campaign start date-->
                     <GridViewColumn Width="150">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyStartDate}"/>
@@ -454,6 +476,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <!--Create Campaign end Date-->
                     <GridViewColumn Width="150">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyEndDate}"/>

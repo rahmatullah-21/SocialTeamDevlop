@@ -35,8 +35,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ActiveSelectedCampaignCommand = new BaseCommand<object>(ActiveSelectedCampaignCanExecute, ActiveSelectedCampaignExecute);
             PauseSelectedCampaignCommand = new BaseCommand<object>(PauseSelectedCampaignCanExecute, PauseSelectedCampaignExecute);
             PublishNowSelectedCampaignCommand = new BaseCommand<object>(PublishNowSelectedCampaignCanExecute, PublishNowSelectedCampaignExecute);
-            CopyCampaignId = new BaseCommand<object>(CopyCampaignIdCanExecute, CopyCampaignIdExecute);           
-            InitializeDefaultCampaignStatus();           
+            CopyCampaignId = new BaseCommand<object>(CopyCampaignIdCanExecute, CopyCampaignIdExecute);
+            InitializeDefaultCampaignStatus();
         }
 
         #region Command
@@ -143,8 +143,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublishScheduler.StopPublishingPosts(x.CampaignId);
                 PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Paused);
                 InitializeDefaultCampaignStatus();
-                GlobusLogHelper.log.Info(Log.PublisherCampaignPaused,x.CampaignName);
+                GlobusLogHelper.log.Info(Log.PublisherCampaignPaused, x.CampaignName);
             });
+
+            if (selectedCampaigns.Count > 0)
+                GlobusLogHelper.log.Info("Campaign's status changed to pause!");
         }
 
 
@@ -159,6 +162,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
                 InitializeDefaultCampaignStatus();
             });
+            if (selectedCampaigns.Count > 0)
+                GlobusLogHelper.log.Info("Campaign's status changed to active!");
         }
 
         private bool CopyCampaignIdCanExecute(object sender) => true;
@@ -172,7 +177,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             else
             {
-                var selectedCampaigns = GetSelectedCampaigns().Select(x=> x.CampaignId).ToList();
+                var selectedCampaigns = GetSelectedCampaigns().Select(x => x.CampaignId).ToList();
 
                 if (selectedCampaigns.Count != 0)
                 {
@@ -180,14 +185,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     if (!string.IsNullOrEmpty(exportPath))
                     {
-                        var header ="Campaign Id";
+                        var header = "Campaign Id";
 
                         var filename = $"{exportPath}\\{ConstantVariable.GetDateTime()}.csv";
 
                         FileUtilities.AddHeaderToCsv(filename, header);
 
-                        selectedCampaigns.ForEach(campaignId=>
-                        {                          
+                        selectedCampaigns.ForEach(campaignId =>
+                        {
                             var csvData = campaignId;
                             using (var streamWriter = new StreamWriter(filename, true))
                             {
@@ -453,7 +458,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 duplicatedCampaign.CampaignId = clonedCampaignStatus.CampaignId;
                 duplicatedCampaign.CreatedDate = clonedCampaignStatus.CreatedDate;
                 duplicatedCampaign.UpdatedDate = clonedCampaignStatus.UpdatedTime;
-                duplicatedCampaign.JobConfigurations.CampaignStartDate = clonedCampaignStatus.StartDate;            
+                duplicatedCampaign.JobConfigurations.CampaignStartDate = clonedCampaignStatus.StartDate;
                 GenericFileManager.AddModule(duplicatedCampaign, ConstantVariable.GetPublisherCampaignFile());
 
                 PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
