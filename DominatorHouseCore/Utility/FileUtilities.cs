@@ -209,8 +209,10 @@ namespace DominatorHouseCore.Utility
                 {
                     rowContent += (string)(range.Cells[row, colum] as Excel.Range)?.Value2 + "\t";
                 }
-
-                content.Add(rowContent.Trim());
+                var data = rowContent.Trim();
+                if (!string.IsNullOrEmpty(data))
+                    content.Add(data);
+                
             }
             workBook.Close(true);
             excel.Quit();
@@ -244,8 +246,10 @@ namespace DominatorHouseCore.Utility
                                     rowContent += columnValue + "\t";
                             }
                         }
-                        if (!string.IsNullOrEmpty(rowContent.Trim()))
-                            csvSplitList.Add(rowContent);
+
+                        var data = rowContent.Trim();
+                        if (!string.IsNullOrEmpty(data))
+                            csvSplitList.Add(data);
                     }
                     return csvSplitList;
                 }
