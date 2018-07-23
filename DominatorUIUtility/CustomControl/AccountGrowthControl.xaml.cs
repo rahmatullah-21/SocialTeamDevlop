@@ -132,9 +132,11 @@ namespace DominatorUIUtility.CustomControl
                 DominatorAccountViewModel.LstDominatorAccountModel.Select(x =>
                 {
                     x.IsAccountManagerAccountSelected = false;
-                    x.DisplayColumnValue4 = 0;
-                    x.DisplayColumnValue5 = 0;
                     x.DisplayColumnValue6 = 0;
+                    x.DisplayColumnValue7 = 0;
+                    x.DisplayColumnValue8 = 0;
+                    x.DisplayColumnValue9 = 0;
+                    x.DisplayColumnValue10 = 0;
                     return x;
                 }).ToList();
 
@@ -149,9 +151,11 @@ namespace DominatorUIUtility.CustomControl
                        .GetNetworkCoreFactory().AccountUpdateFactory;
                     x.IsAccountManagerAccountSelected = false;
                     var AccoutGrowth = accountUpdateFactory.GetDailyGrowth(x.AccountId, x.AccountBaseModel.ProfileId, period);
-                    x.DisplayColumnValue4 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue1 : 0;
-                    x.DisplayColumnValue5 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue2 : 0;
-                    x.DisplayColumnValue6 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue3 : 0;
+                    x.DisplayColumnValue6 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue1 : 0;
+                    x.DisplayColumnValue7 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue2 : 0;
+                    x.DisplayColumnValue8 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue3 : 0;
+                    x.DisplayColumnValue9 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue4 : 0;
+                    x.DisplayColumnValue10 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue5 : 0;
                     return x;
                 }).ToList();
 
