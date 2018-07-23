@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 {
@@ -13,7 +14,7 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
         public int Id { get; set; }
 
         [Column(Order = 2)]
-        public int Date
+        public DateTime Date
         { get; set; }
 
         [Column(Order = 3)]

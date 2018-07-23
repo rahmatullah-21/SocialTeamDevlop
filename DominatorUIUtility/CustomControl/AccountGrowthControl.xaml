@@ -73,14 +73,14 @@
         <Grid Grid.Row="1">
             <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" 
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
+                <!--<ListView.ItemContainerStyle>
+                    --><!--<Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
                         <EventSetter Event="ContextMenu.ContextMenuOpening" Handler="Row_ContextMenuOpening"/>
-                        <!--<Setter Property="Foreground" Value="White"/>-->
+                        --><!--<Setter Property="Foreground" Value="White"/>--><!--
                         <Setter Property="Height" Value="30"/>
 
-                    </Style>
-                </ListView.ItemContainerStyle>
+                    </Style>--><!--
+                </ListView.ItemContainerStyle>-->
 
                 <ListView.View>
                     <GridView >
@@ -453,7 +453,7 @@
             </ListView>
             <!--Help section-->
             <Controls:FlyoutsControl>
-                <Controls:Flyout Header="{DynamicResource langModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
+                <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
                                  Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
                     <local:HelpControl ModuleDescription="Text for account"
                                                  VideoTutorial="{Binding VideoTutorialLink}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 

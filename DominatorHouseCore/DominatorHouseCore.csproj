@@ -306,6 +306,7 @@
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedPost.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedSubreddit.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedUsers.cs" />

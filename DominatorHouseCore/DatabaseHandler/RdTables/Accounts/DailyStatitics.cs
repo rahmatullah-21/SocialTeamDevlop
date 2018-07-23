@@ -1,9 +1,9 @@
-﻿using SQLite.CodeFirst;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SQLite.CodeFirst;
 
-namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
+namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 {
     public class DailyStatitics
     {
@@ -16,33 +16,33 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// <summary>
         /// Date when statistics are entered in Unix Timestamp
         /// </summary>
-
+        
         [Column(Order = 2)]
         public DateTime Date
         { get; set; }
-
+       
         /// <summary>
-        /// Connections count of the DB owner when the statistics has got updated
+        /// Followers count of the DB owner when the statistics has got updated
         /// </summary>
-
+        
         [Column(Order = 3)]
-        public int Followers
+        public int Score
         { get; set; }
 
         /// <summary>
-        /// LinkedinGroups count of the DB owner when the statistics has got updated
+        /// Followings count of the DB owner when the statistics has got updated
         /// </summary>
-
+       
         [Column(Order = 4)]
-        public int Followings
+        public int Communities
         { get; set; }
 
         /// <summary>
-        /// Posts count of the DB owner when the statistics has got updated
+        /// Tweets count of the DB owner when the statistics has got updated
         /// </summary>
-
+        
         [Column(Order = 5)]
-        public int PostsCount
+        public int PostKarma
         { get; set; }
 
         /// <summary>
@@ -50,6 +50,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// </summary>
 
         [Column(Order = 6)]
-        public int ChannelsCount { get; set; }
+        public int CommentKarma { get; set; }
+
     }
 }
