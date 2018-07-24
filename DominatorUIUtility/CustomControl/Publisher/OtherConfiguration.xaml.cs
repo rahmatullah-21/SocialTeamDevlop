@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DominatorHouseCore;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -19,7 +9,6 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.Publisher.AdvancedSettings;
 
@@ -53,6 +42,7 @@ namespace DominatorUIUtility.CustomControl.Publisher
         {
             var newValue = e.NewValue;
         }
+
         private void btnAdvancedSettings_Click(object sender, RoutedEventArgs e)
         {
             CampaignsAdvanceSetting ObjCampaignsAdvanceSetting = new CampaignsAdvanceSetting();

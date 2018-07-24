@@ -7,21 +7,9 @@ namespace DominatorHouseCore.Models.Publisher
     [ProtoContract]
     public class OtherConfigurationModel : BindableBase
     {
-        private string _campaigntTag;
-        [ProtoMember(1)]
-        public string CampaignTag
-        {
-            get
-            {
-                return _campaigntTag;
-            }
-            set
-            {
-                if (value == _campaigntTag)
-                    return;
-                SetProperty(ref _campaigntTag, value);
-            }
-        }
+        /// <summary>
+        /// To specify the whether to use the signature
+        /// </summary>
         private bool _isEnableSignatureChecked;
         [ProtoMember(2)]
         public bool IsEnableSignatureChecked
@@ -37,6 +25,10 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isEnableSignatureChecked, value);
             }
         }
+
+        /// <summary>
+        /// To specify the shorten url for link
+        /// </summary>
         private bool _isShortenURLsChecked;
         [ProtoMember(3)]
         public bool IsShortenURLsChecked
@@ -52,21 +44,11 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isShortenURLsChecked, value);
             }
         }
-        private bool _isPostTextChecked;
-        [ProtoMember(4)]
-        public bool IsPostTextChecked
-        {
-            get
-            {
-                return _isPostTextChecked;
-            }
-            set
-            {
-                if (value == _isPostTextChecked)
-                    return;
-                SetProperty(ref _isPostTextChecked, value);
-            }
-        }
+
+
+        /// <summary>
+        /// To specify the publishing post with texts and link.Its only for Pinterest
+        /// </summary>
         private bool _isAllowPublishingPinterestChecked;
         [ProtoMember(5)]
         public bool IsAllowPublishingPinterestChecked
@@ -82,6 +64,10 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isAllowPublishingPinterestChecked, value);
             }
         }
+
+        /// <summary>
+        /// To publish as story instead of own wall. Its only for instagram
+        /// </summary>
         private bool _isPostAsStoryChecked;
         [ProtoMember(6)]
         public bool IsPostAsStoryChecked
@@ -97,36 +83,75 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isPostAsStoryChecked, value);
             }
         }
-        private bool _isMakeImagesUniqueChecked;
-        [ProtoMember(7)]
-        public bool IsMakeImagesUniqueChecked
+       
+        /// <summary>
+        /// Adding signature to your post descriptions
+        /// </summary>
+        private string _signatureText;
+        [ProtoMember(10)]
+        public string SignatureText
+        {
+            get { return _signatureText; }
+            set
+            {
+                if (value == _signatureText)
+                    return;
+                SetProperty(ref _signatureText, value);
+            }
+        }
+
+
+        #region Not Used
+
+        private string _campaigntTag;
+        [ProtoMember(1)]
+        public string CampaignTag
         {
             get
             {
-                return _isMakeImagesUniqueChecked;
+                return _campaigntTag;
             }
             set
             {
-                if (value == _isMakeImagesUniqueChecked)
+                if (value == _campaigntTag)
                     return;
-                SetProperty(ref _isMakeImagesUniqueChecked, value);
+                SetProperty(ref _campaigntTag, value);
             }
         }
-        private bool _isEnableWatermarkChecked;
-        [ProtoMember(8)]
-        public bool IsEnableWatermarkChecked
+
+
+
+        private bool _isPostTextChecked;
+        [ProtoMember(4)]
+        public bool IsPostTextChecked
         {
             get
             {
-                return _isEnableWatermarkChecked;
+                return _isPostTextChecked;
             }
             set
             {
-                if (value == _isEnableWatermarkChecked)
+                if (value == _isPostTextChecked)
                     return;
-                SetProperty(ref _isEnableWatermarkChecked, value);
+                SetProperty(ref _isPostTextChecked, value);
             }
         }
+
+
+
+        private List<string> _makeImagesUniqueStatus = new List<string>();
+
+        public List<string> MakeImagesUniqueStatus
+        {
+            get { return _makeImagesUniqueStatus; }
+            set
+            {
+                if (value == _makeImagesUniqueStatus)
+                    return;
+                SetProperty(ref _makeImagesUniqueStatus, value);
+            }
+        }
+
 
         private bool _isEnableCustomTokensChecked;
         [ProtoMember(9)]
@@ -143,30 +168,43 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isEnableCustomTokensChecked, value);
             }
         }
-        private List<string> _makeImagesUniqueStatus = new List<string>();
 
-        public List<string> MakeImagesUniqueStatus
+
+        private bool _isEnableWatermarkChecked;
+        [ProtoMember(8)]
+        public bool IsEnableWatermarkChecked
         {
-            get { return _makeImagesUniqueStatus; }
+            get
+            {
+                return _isEnableWatermarkChecked;
+            }
             set
             {
-                if (value == _makeImagesUniqueStatus)
+                if (value == _isEnableWatermarkChecked)
                     return;
-                SetProperty(ref _makeImagesUniqueStatus, value);
+                SetProperty(ref _isEnableWatermarkChecked, value);
             }
         }
-        
-        private string _signatureText;
-        [ProtoMember(10)]
-        public string SignatureText
+
+
+        private bool _isMakeImagesUniqueChecked;
+        [ProtoMember(7)]
+        public bool IsMakeImagesUniqueChecked
         {
-            get { return _signatureText; }
+            get
+            {
+                return _isMakeImagesUniqueChecked;
+            }
             set
             {
-                if (value == _signatureText)
+                if (value == _isMakeImagesUniqueChecked)
                     return;
-                SetProperty(ref _signatureText, value);
+                SetProperty(ref _isMakeImagesUniqueChecked, value);
             }
         }
+
+
+
+        #endregion
     }
 }
