@@ -147,7 +147,7 @@ namespace DominatorUIUtility.ConfigControl
 
             MacrosCollection.Remove(socinatorIntellisenseModel);
 
-            GenericFileManager.Delete<SocinatorIntellisenseModel>(x=> socinatorIntellisenseModel != null && x.Key == socinatorIntellisenseModel.Key, ConstantVariable.GetMacroDetails);
+            GenericFileManager.Delete<SocinatorIntellisenseModel>(x => socinatorIntellisenseModel != null && x.Key == socinatorIntellisenseModel.Key, ConstantVariable.GetMacroDetails);
         }
 
 
@@ -159,16 +159,18 @@ namespace DominatorUIUtility.ConfigControl
 
             loadedMacroslist?.ForEach(macros =>
             {
-                var inputMacro = macros.Replace(",", ":");
-                var splitMacros = Regex.Split(inputMacro, ":");
+                //var inputMacro = macros.Replace(",", ":");
+                // var splitMacros = Regex.Split(inputMacro, ":");
+
+                var splitMacros = Regex.Split(macros, "\t");
 
                 if (splitMacros.Length == 2)
                 {
                     var isPresent = MacrosCollection.Any(x => x.Key == splitMacros[0]);
-                    if(isPresent)                   
-                        GlobusLogHelper.log.Info($"Macro key : {splitMacros[0]} already present!");                    
-                    else                   
-                        MacrosCollection.Add(new SocinatorIntellisenseModel{Key = splitMacros[0] ,Value= splitMacros[1] });                    
+                    if (isPresent)
+                        GlobusLogHelper.log.Info($"Macro key : {splitMacros[0]} already present!");
+                    else
+                        MacrosCollection.Add(new SocinatorIntellisenseModel { Key = splitMacros[0], Value = splitMacros[1] });
                 }
             });
 

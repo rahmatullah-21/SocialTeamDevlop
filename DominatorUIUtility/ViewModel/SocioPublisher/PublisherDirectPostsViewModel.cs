@@ -20,7 +20,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherDirectPostsViewModel : BindableBase
     {
-    
+
 
         #region Constructor
 
@@ -261,17 +261,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             //{
             try
             {
-                 // Get the object of multiple post UI
-                    var publisherMultiplePost = new PublisherMultiplePost();
+                // Get the object of multiple post UI
+                var publisherMultiplePost = new PublisherMultiplePost();
 
-                    // Get the core dialog object
-                    var dialog = new Dialog();
+                // Get the core dialog object
+                var dialog = new Dialog();
 
-                    // Pass the object with Title
-                    var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
+                // Pass the object with Title
+                var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
 
-                    //DisplayAttribute the dialog
-                    window.ShowDialog();
+                //DisplayAttribute the dialog
+                window.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -365,7 +365,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 try
                 {
                     // Split the file details
-                    var allData = x.Split(',');
+                    var allData = x.Split('\t');
+
                     postDetailsModel.PostDescription = allData[0];
 
                     // Media list

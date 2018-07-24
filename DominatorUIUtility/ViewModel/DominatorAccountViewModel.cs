@@ -722,7 +722,10 @@ namespace DominatorUIUtility.ViewModel
          DominatorAccountBaseModel oldAccount)
         {
             bool isDuplicatProxyAvailable = false;
-            ProxyManager proxyManager = ProxyManager.GetProxyManagerControl(strategyPack);
+            ProxyManager proxyManager = null;
+            Application.Current.Dispatcher.Invoke(
+                () => proxyManager = ProxyManager.GetProxyManagerControl(strategyPack));
+          //  ProxyManager proxyManager = ProxyManager.GetProxyManagerControl(strategyPack);
             foreach (var proxy in oldProxies)
             {
                 #region To check for duplicate proxy 
@@ -807,7 +810,7 @@ namespace DominatorUIUtility.ViewModel
                                     proxy.AccountsAssignedto.Add(accountTomodified);
 
                                     ProxyFileManager.EditProxy(proxy);
-                                    proxyManager.ProxyManagerViewModel.accountsAlreadyAssigned.Add(
+                                    proxyManager?.ProxyManagerViewModel.accountsAlreadyAssigned.Add(
                                         new AccountAssign
                                         {
                                             UserName = accountTomodified.UserName,

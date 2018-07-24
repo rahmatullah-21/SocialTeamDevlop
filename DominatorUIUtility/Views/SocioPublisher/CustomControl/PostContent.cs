@@ -172,7 +172,41 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public static readonly DependencyProperty PublisherPostSettingsProperty =
             DependencyProperty.Register("PublisherPostSettings", typeof(PublisherPostSettings), typeof(PostContent), new PropertyMetadata(new PublisherPostSettings()));
 
+        public bool IsRandomlyPickTitleFromList
+        {
+            get { return (bool)GetValue(IsRandomlyPickTitleFromListProperty); }
+            set { SetValue(IsRandomlyPickTitleFromListProperty, value); }
+        }
 
+        public static readonly DependencyProperty IsRandomlyPickTitleFromListProperty =
+            DependencyProperty.Register("IsRandomlyPickTitleFromList", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
+        public bool IsRemoveTitleOnceUsed
+        {
+            get { return (bool)GetValue(IsRemoveTitleOnceUsedProperty); }
+            set { SetValue(IsRemoveTitleOnceUsedProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsRemoveTitleOnceUsedProperty =
+            DependencyProperty.Register("IsRemoveTitleOnceUsed", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
+
+        public Visibility IsPostTitleOptionVisibility
+        {
+            get { return (Visibility)GetValue(IsPostTitleOptionVisibilityProperty); }
+            set { SetValue(IsPostTitleOptionVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsPostTitleOptionVisibilityProperty =
+            DependencyProperty.Register("IsPostTitleOptionVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Collapsed));
+        public double PostTitleHeight
+        {
+            get { return (double)GetValue(PostTitleHeightProperty); }
+            set { SetValue(PostTitleHeightProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PostTitleHeightProperty =
+            DependencyProperty.Register("PostTitleHeight", typeof(double), typeof(PostContent), new PropertyMetadata(30.0));
 
         #endregion
 

@@ -58,10 +58,10 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                          
+
 
                             <Border>
-                                
+
                                 <Image x:Name="PART_Image" Margin="1" Width="{TemplateBinding MediaWidth}" Height="{TemplateBinding MediaHeight}"  Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
                                     <Image.ContextMenu>
                                         <ContextMenu>
@@ -81,7 +81,7 @@
                                     <DropShadowEffect Color="Gray" Opacity="0.5" />
                                 </Border.Effect>
                             </Border>
-                           
+
 
 
                             <Button x:Name="PART_NavigateNextImage" Cursor="Hand" IsEnabled="{TemplateBinding IsEnableNextPointer}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5,0,2,0" >
@@ -115,7 +115,7 @@
 
     <!--Post Content-->
     <Style TargetType="{x:Type customControl:PostContent}">
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type customControl:PostContent}">
@@ -125,10 +125,12 @@
                         <StackPanel>
                             <!--<StackPanel Margin="1">
                                 <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource LangKeyPostDescription}" VerticalAlignment="Center" FontSize="12" />
-                                --><!--<TextBox x:Name="PART_PostDescription" VerticalScrollBarVisibility="Auto"
+                                -->
+                            <!--<TextBox x:Name="PART_PostDescription" VerticalScrollBarVisibility="Auto"
                                          mah:TextBoxHelper.Watermark="{DynamicResource LangKeyWhatsOnYourMind}"
                                          Margin="2" TextWrapping="Wrap" Height="60" Width="300"
-                                         Text="{Binding Path=PostDescription, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"></TextBox>--><!--
+                                         Text="{Binding Path=PostDescription, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"></TextBox>-->
+                            <!--
 
                                 <customControl:SocinatorTextBox                    
                                     MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
@@ -184,11 +186,17 @@
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel>
-                                <StackPanel Orientation="Horizontal" >
-                                    <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPostTitle}"
-                                             Margin="2" TextWrapping="Wrap" Height="30" Width="300"  AcceptsReturn="True"
-                                             Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PublisherInstagramTitle}"></TextBox>
+                                <!--<StackPanel>-->
+                                <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPostTitle}"
+                                             Margin="2" TextWrapping="Wrap" Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=PostTitleHeight}" Width="300"  AcceptsReturn="True"
+                                             Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PublisherInstagramTitle}"/>
+                                <StackPanel Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsPostTitleOptionVisibility}">
+                                    <RadioButton Content="{DynamicResource LangKeyRandomlyPickTitleFromList}" GroupName="title" Margin="0,5"
+                                                 IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsRandomlyPickTitleFromList}" />
+                                    <RadioButton Content="{DynamicResource LangKeyRemoveTitleOnceUsed}"  GroupName="title" Margin="0,5"
+                                                 IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsRemoveTitleOnceUsed}"/>
                                 </StackPanel>
+                                <!--</StackPanel>-->
 
                                 <StackPanel Orientation="Horizontal" >
                                     <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
