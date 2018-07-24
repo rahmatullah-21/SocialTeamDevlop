@@ -29,6 +29,7 @@ namespace DominatorUIUtility.CustomControl
     {
         private DominatorAccountViewModel _dominatorAccountViewModel;
         private readonly BackgroundWorker worker = new BackgroundWorker();
+
         private static SocialNetworks socialNetworks;
 
         #region Property
@@ -150,6 +151,7 @@ namespace DominatorUIUtility.CustomControl
                        .GetSocialLibrary(x.AccountBaseModel.AccountNetwork)
                        .GetNetworkCoreFactory().AccountUpdateFactory;
                     x.IsAccountManagerAccountSelected = false;
+                  
                     var AccoutGrowth = accountUpdateFactory.GetDailyGrowth(x.AccountId, x.AccountBaseModel.ProfileId, period);
                     x.DisplayColumnValue6 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue1 : 0;
                     x.DisplayColumnValue7 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue2 : 0;
@@ -167,7 +169,12 @@ namespace DominatorUIUtility.CustomControl
             }
 
             if (socialNetworks == SocialNetworks.Social)
-                listCollection.Filter = null;
+                this.Dispatcher.Invoke(() =>
+                {
+                    listCollection.Filter = null;
+
+                });
+           
 
             var spec = (socialNetworks == SocialNetworks.Social) ?
                DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
@@ -436,7 +443,9 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var selectedGrowthPeriod = (GrowthPeriod)cmbGrowthPeriod.SelectedIndex;
+
                 _accountGrowthInstance.GetRespectiveAccounts(socialNetworks, selectedGrowthPeriod);
+
             }
             catch (Exception ex)
             {

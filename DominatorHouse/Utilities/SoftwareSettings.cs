@@ -36,6 +36,9 @@ namespace DominatorHouse.Utilities
         private void OtherInitializers()
         {
             var settings = SoftwareSettingsFileManager.GetSoftwareSettings();
+
+            if (settings == null)
+                SoftwareSettingsFileManager.SaveSoftwareSettings(new SoftwareSettingsModel());
             AddDHToStartup(settings);
 
         }

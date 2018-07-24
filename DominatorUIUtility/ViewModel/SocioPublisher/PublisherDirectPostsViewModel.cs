@@ -345,7 +345,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// <param name="sender"></param>
         private void ImportFromCsvExecute(object sender)
         {
-
             // select the file path
             var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
 
@@ -364,8 +363,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PostDetailsModel postDetailsModel = new PostDetailsModel();
                 try
                 {
+
                     // Split the file details
-                    var allData = x.Split(',');
+                    var allData = x.Split('\t');
+
                     postDetailsModel.PostDescription = allData[0];
 
                     // Media list

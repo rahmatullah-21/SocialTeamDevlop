@@ -556,9 +556,7 @@ namespace Socinator
                 // var activityLogWindow = dialog.GetMetroWindow(sender, "Activity Log");
 
                 var activityLogWindow = dialog.GetMetroWindow(Logger, "Activity Log");
-
-
-                activityLogWindow.Topmost = false;
+                
                 IsClickedFromMainWindow = false;
                 activityLogWindow.Closing += (senders, events) =>
                 {
@@ -574,7 +572,7 @@ namespace Socinator
 
                 MainGrid.RowDefinitions[2].Height = new GridLength(0);
                 MainGrid.Children.Remove(Logger);
-                activityLogWindow.ShowDialog();
+                activityLogWindow.Show();
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
 
@@ -13,7 +14,7 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         public int Id { get; set; }
 
         [Column(Order = 2)]
-        public int Date
+        public DateTime Date
         { get; set; }
 
         [Column(Order = 3)]

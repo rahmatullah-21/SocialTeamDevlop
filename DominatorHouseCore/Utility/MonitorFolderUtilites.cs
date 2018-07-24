@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
@@ -91,6 +93,45 @@ namespace DominatorHouseCore.Utility
                 var monitorFolderFiles = campaignDetails
                     .Where(x => x.PostSource == PostSource.MonitorFolderPost).ToList();
 
+
+                var usedMonitorFolderTitle = monitorFolderFiles.Where(x=> x.PublisherInstagramTitle!=null).Select(x => x.PublisherInstagramTitle).ToList();
+
+                var postTitles = Regex.Split(postDetailsModel.PublisherInstagramTitle, "\r\n").ToList();
+
+                var givenPostTitle = new List<string>();
+
+                postTitles.ForEach(title =>
+                {
+                    givenPostTitle.Add(title.Trim());
+                });
+
+
+                var postTitle = string.Empty;
+
+                if (postDetailsModel.IsRandomlyPickTitleFromList)
+                {
+                    var randomNumber = RandomUtilties.GetRandomNumber(givenPostTitle.Count - 1);
+                    postTitle = givenPostTitle[randomNumber];
+                }
+
+                // if (postDetailsModel.IsRemoveTitleOnceUsed)
+                else
+                {
+                    var availablePostTitles = givenPostTitle.Except(usedMonitorFolderTitle).ToList();
+
+                    if (availablePostTitles.Count > 0)
+                    {
+                        var randomNumber = RandomUtilties.GetRandomNumber(availablePostTitles.Count - 1);
+                        postTitle = givenPostTitle[randomNumber];
+                    }
+                    else
+                    {
+                        ToasterNotification.ShowInfomation($"No More unique titles are present in {campaignName}!");                  
+                        postTitle =string.Empty;
+                    }
+                }
+
+
                 // If any files are deleted, then remove from post list
                 if (foldersFiles.Count < monitorFolderFiles.Count)
                 {
@@ -101,8 +142,8 @@ namespace DominatorHouseCore.Utility
                     notAvailableFiles.ForEach(filePath =>
                     {
                         var post = monitorFolderFiles.FirstOrDefault(x => x.MonitorFilePath == filePath);
-                        if (post?.LstPublishedPostDetailsModels.Count <= 0)                        
-                            PostlistFileManager.Delete(post.CampaignId, x=>x.PostId == post.PostId);                                               
+                        if (post?.LstPublishedPostDetailsModels.Count <= 0)
+                            PostlistFileManager.Delete(post.CampaignId, x => x.PostId == post.PostId);
                     });
 
                     // Update the post count
@@ -135,7 +176,7 @@ namespace DominatorHouseCore.Utility
                             PostSource = PostSource.MonitorFolderPost,
                             MonitorFilePath = file,
                             PdSourceUrl = postDetailsModel.PdSourceUrl,
-                            PublisherInstagramTitle = postDetailsModel.PublisherInstagramTitle,
+                            PublisherInstagramTitle = postTitle,
                             GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
                             FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
                             GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
