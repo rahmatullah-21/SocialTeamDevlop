@@ -169,7 +169,12 @@ namespace DominatorUIUtility.CustomControl
             }
 
             if (socialNetworks == SocialNetworks.Social)
-                listCollection.Filter = null;
+                this.Dispatcher.Invoke(() =>
+                {
+                    listCollection.Filter = null;
+
+                });
+           
 
             var spec = (socialNetworks == SocialNetworks.Social) ?
                DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :

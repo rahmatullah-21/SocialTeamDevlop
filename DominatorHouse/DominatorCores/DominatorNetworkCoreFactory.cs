@@ -46,5 +46,6 @@ namespace Socinator.DominatorCores
 
         public IAccountVerificationFactory AccountVerificationFactory { get; set; }
         public ProfileFactory ProfileFactory { get; set; }
+        public ChatFactory ChatFactory { get; set; }
     }
 }

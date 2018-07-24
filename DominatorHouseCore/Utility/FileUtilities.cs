@@ -202,20 +202,32 @@ namespace DominatorHouseCore.Utility
             Excel.Range range = workSheet.UsedRange;
 
             List<string> content = new List<string>();
-            for (int row = 1; row <= range.Rows.Count; row++)
+            try
             {
-                string rowContent = String.Empty;
-                for (int colum = 1; colum <= range.Columns.Count; colum++)
+                for (int row = 1; row <= range.Rows.Count; row++)
                 {
-                    rowContent += (string)(range.Cells[row, colum] as Excel.Range)?.Value2 + "\t";
+                    string rowContent = String.Empty;
+                    for (int colum = 1; colum <= range.Columns.Count; colum++)
+                    {
+                        var val = Convert.ToString(range.Cells[row, colum].Value2);
+                        rowContent += (String.IsNullOrEmpty(val) ? String.Empty : val.ToString()) + "\t";
+                    }
+                    var data = rowContent.Trim();
+                    if (!string.IsNullOrEmpty(data))
+                        content.Add(rowContent.Substring(0, rowContent.Length - 1));
+
                 }
-                var data = rowContent.Trim();
-                if (!string.IsNullOrEmpty(data))
-                    content.Add(data);
-                
             }
-            workBook.Close(true);
-            excel.Quit();
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            finally
+            {
+                workBook.Close(true);
+                excel.Quit();
+            }
+
             return content;
         }
 
@@ -242,14 +254,13 @@ namespace DominatorHouseCore.Utility
                             if (hasColumn)
                             {
                                 columnCount += 1;
-                                if (!string.IsNullOrEmpty(columnValue.Trim()))
-                                    rowContent += columnValue + "\t";
+                                rowContent += columnValue + "\t";
                             }
                         }
 
                         var data = rowContent.Trim();
                         if (!string.IsNullOrEmpty(data))
-                            csvSplitList.Add(data);
+                            csvSplitList.Add(rowContent.Substring(0, rowContent.Length - 1));
                     }
                     return csvSplitList;
                 }

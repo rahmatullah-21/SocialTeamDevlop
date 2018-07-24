@@ -105,5 +105,10 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.ProfileFactory = profileFactory;
             return this;
         }
+        public NetworkCoreLibraryBuilder AddChatFactory(ChatFactory chatFactory)
+        {
+            NetworkCoreFactory.ChatFactory = chatFactory;
+            return this;
+        }
     }
 }

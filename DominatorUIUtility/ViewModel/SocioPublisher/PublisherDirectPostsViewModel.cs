@@ -233,7 +233,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PostDetailsModel postDetailsModel = new PostDetailsModel();
                 try
                 {
-                    var allData = x.Split(',');
+                    var allData = x.Split('\t');
                     postDetailsModel.PostDescription = allData[0];
 
                     #region Medialist

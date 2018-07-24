@@ -8,4 +8,15 @@ namespace DominatorHouseCore.Enums
         Unknown = 3,
         Unisex = 4,
     }
+    public enum Message
+    {
+        Sent = 1,
+        Received = 2,
+    }
+    public enum MessageType
+    {
+        Text,
+        Media,
+        Link,
+    }
 }

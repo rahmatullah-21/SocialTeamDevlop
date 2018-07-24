@@ -90,7 +90,7 @@ namespace DominatorUIUtility.CustomControl
             if (LiveChatViewModel.LiveChatModel.AccountNames.Count > 0)
             {
                 LiveChatViewModel.LiveChatModel.SelectedAccount = LiveChatViewModel.LiveChatModel.AccountNames.First();
-            }                
+            }
             try
             {
                 LiveChatViewModel.LstAccountModel =
@@ -104,7 +104,67 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
+        public LiveChat(SocialNetworks network)
+        {
 
+            InitializeComponent();
+
+            LiveChatViewModel = new LiveChatViewModel();
+            SocialNetworks = network;
+            MainGrid.DataContext = LiveChatViewModel.LiveChatModel;
+
+            #region SnderDetails
+
+            //LiveChatViewModel.LiveChatModel.LstSender = new List<SenderDetails>
+            //{
+            //    new SenderDetails{
+            //        SenderImage=@"C:\Users\Public\Pictures\Sample Pictures\1.jpg",
+            //        SenderName="AQQ",
+            //        LastMessegedate="1520857863",
+            //        LastMesseges="Hi"
+            //    },
+            //    new SenderDetails{
+            //        SenderImage=@"C:\Users\Public\Pictures\Sample Pictures\1.jpg",
+            //        SenderName="B",
+            //        LastMessegedate="1520832687",
+            //        LastMesseges="Hi2"
+            //    },
+            //    new SenderDetails{
+            //        SenderImage=@"C:\Users\Public\Pictures\Sample Pictures\1.jpg",
+            //        SenderName="CQQ",
+            //        LastMessegedate="1520816427",
+            //        LastMesseges="Hi3"
+            //    }
+            //};
+
+            //LiveChatViewModel.LiveChatModel.SenderDetails = LiveChatViewModel.LiveChatModel.LstSender[0];
+
+            #endregion
+
+            var accountCustom = AccountCustomControl.GetAccountCustomControl(SocialNetworks);
+
+            var accounts = accountCustom.DominatorAccountViewModel.LstDominatorAccountModel
+                .Where(x => x.AccountBaseModel.AccountNetwork == SocialNetworks).Select(x => x.UserName).ToList();
+
+            LiveChatViewModel.LiveChatModel.AccountNames = new ObservableCollection<string>(accounts);
+
+            if (LiveChatViewModel.LiveChatModel.AccountNames.Count > 0)
+            {
+                LiveChatViewModel.LiveChatModel.SelectedAccount = LiveChatViewModel.LiveChatModel.AccountNames.First();
+            }
+            try
+            {
+                LiveChatViewModel.LstAccountModel =
+                    accountCustom.DominatorAccountViewModel.LstDominatorAccountModel.ToList();
+                LiveChatViewModel.LiveChatModel.DominatorAccountModel =
+                    LiveChatViewModel.LstAccountModel.FirstOrDefault(x =>
+                        x.UserName == LiveChatViewModel.LstAccountModel[0].UserName.ToString());
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
         public void UpdateAccountChatName() =>
             UpdateAccountChatList?.Invoke(LiveChatViewModel.LiveChatModel);
 
@@ -112,7 +172,10 @@ namespace DominatorUIUtility.CustomControl
         {
             if (!string.IsNullOrEmpty(LiveChatViewModel.LiveChatModel.TextMessage))
             {
-                if (SendMessageToUser(LiveChatViewModel.LiveChatModel, LiveChatViewModel.LiveChatModel.TextMessage))
+             bool isSent=   SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
+                    .SendMessageToUser(LiveChatViewModel.LiveChatModel, LiveChatViewModel.LiveChatModel.TextMessage,
+                        MessageType.Text);
+                if (isSent)
                 {
                     LiveChatViewModel.LiveChatModel.TextMessage = string.Empty;
                 }
@@ -120,6 +183,15 @@ namespace DominatorUIUtility.CustomControl
                 {
                     MessageBox.Show("Got some error while sending message");
                 }
+
+                //if (SendMessageToUser(LiveChatViewModel.LiveChatModel, LiveChatViewModel.LiveChatModel.TextMessage))
+                //{
+                //    LiveChatViewModel.LiveChatModel.TextMessage = string.Empty;
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Got some error while sending message");
+                //}
             }
         }
 
@@ -136,7 +208,14 @@ namespace DominatorUIUtility.CustomControl
                 {
                     //var senderDetails = Senders.SelectedItem as SenderDetails;
                     //LiveChatViewModel.LiveChatModel.SenderDetails = senderDetails;
-                    ThreadFactory.Instance.Start(() => { UpdatePerticularThread(LiveChatViewModel.LiveChatModel); });
+                    ThreadFactory.Instance.Start(() =>
+                    {
+                       SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
+                            .UpdateCurrentChat(LiveChatViewModel.LiveChatModel);
+
+
+                      //  UpdatePerticularThread(LiveChatViewModel.LiveChatModel);
+                    });
                 }
                 catch (Exception ex)
                 {
@@ -151,9 +230,16 @@ namespace DominatorUIUtility.CustomControl
                 LiveChatViewModel.LstAccountModel.FirstOrDefault(x =>
                     x.UserName == LiveChatViewModel.LiveChatModel.SelectedAccount);
 
-            ThreadFactory.Instance.Start(() => { UpdateAccountChatList?.Invoke(LiveChatViewModel.LiveChatModel); });
+            ThreadFactory.Instance.Start(() =>
+            {
+                SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
+                    .UpdateFriendList(LiveChatViewModel.LiveChatModel);
 
-           // ThreadFactory.Instance.Start(GetCurrentChat);
+
+              //  UpdateAccountChatList?.Invoke(LiveChatViewModel.LiveChatModel);
+            });
+
+            // ThreadFactory.Instance.Start(GetCurrentChat);
         }
     }
 }

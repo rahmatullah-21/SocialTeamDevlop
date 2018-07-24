@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
-using  System.Windows;
+using System.Windows;
 using DominatorHouseCore.Enums.SocioPublisher;
 using ProtoBuf;
 
@@ -13,7 +13,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
     public class PostDetailsModel : BindableBase
     {
 
-        private string _postDescription =string.Empty;
+        private string _postDescription = string.Empty;
         [ProtoMember(1)]
         public string PostDescription
         {
@@ -91,7 +91,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _imagesUrl=string.Empty;
+        private string _imagesUrl = string.Empty;
         [ProtoMember(6)]
         public string ImagesUrl
         {
@@ -106,7 +106,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _imagesUrl, value);
             }
         }
-        private string _publisherInstagramTitle =string.Empty;
+        private string _publisherInstagramTitle = "Good ";
         [ProtoMember(7)]
         public string PublisherInstagramTitle
         {
@@ -168,9 +168,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _fdSellLocation, value);
             }
         }
-       
 
-        private PublisherMediaViewerModel _mediaViewer =new PublisherMediaViewerModel();
+
+        private PublisherMediaViewerModel _mediaViewer = new PublisherMediaViewerModel();
         [ProtoMember(11)]
         public PublisherMediaViewerModel MediaViewer
         {
@@ -179,7 +179,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _mediaViewer;
             }
             set
-            {            
+            {
                 if (_mediaViewer == value)
                     return;
                 _mediaViewer = value;
@@ -205,7 +205,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PublisherPostSettings));
             }
         }
-        private bool _isSinglePost=true;
+        private bool _isSinglePost = true;
         [ProtoMember(13)]
         public bool IsSinglePost
         {
@@ -236,7 +236,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _pdSourceUrl=string.Empty;
+        private string _pdSourceUrl = string.Empty;
         [ProtoMember(15)]
         public string PdSourceUrl
         {
@@ -252,7 +252,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
         private ObservableCollection<string> _mediaList = new ObservableCollection<string>();
-       
+
         [ProtoMember(16)]
         public ObservableCollection<string> MediaList
         {
@@ -279,7 +279,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _createdDateTime;
             }
             set
-            {              
+            {
                 if (value == _createdDateTime)
                     return;
                 SetProperty(ref _createdDateTime, value);
@@ -318,6 +318,39 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _postQueuedStatus, value);
             }
         }
+
+        private bool _isRandomlyPickTitleFromList = true;
+
+        [ProtoMember(20)]
+        public bool IsRandomlyPickTitleFromList
+        {
+            get
+            {
+                return _isRandomlyPickTitleFromList;
+            }
+            set
+            {
+                if (value == _isRandomlyPickTitleFromList)
+                    return;
+                SetProperty(ref _isRandomlyPickTitleFromList, value);
+            }
+        }
+        private bool _isRemoveTitleOnceUsed;
+        [ProtoMember(21)]
+        public bool IsRemoveTitleOnceUsed
+        {
+            get
+            {
+                return _isRemoveTitleOnceUsed;
+            }
+            set
+            {
+                if (value == _isRemoveTitleOnceUsed)
+                    return;
+                SetProperty(ref _isRemoveTitleOnceUsed, value);
+            }
+        }
+
 
     }
 }
