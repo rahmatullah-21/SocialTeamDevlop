@@ -316,34 +316,36 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 publisherCreateDestinationModel.AccountsWithNetwork.ForEach(async x =>
                 {
-                    var accountsDetailsSelector = SocinatorInitialize
-                        .GetSocialLibrary(x.Key)
-                        .GetNetworkCoreFactory().AccountDetailsSelectors;
-
-                    if (accountsDetailsSelector.IsGroupsAvailables)
+                    if (FeatureFlags.IsNetworkAvailable(x.Key))
                     {
-                        try
+                        var accountsDetailsSelector = SocinatorInitialize
+                            .GetSocialLibrary(x.Key)
+                            .GetNetworkCoreFactory().AccountDetailsSelectors;
+
+                        if (accountsDetailsSelector.IsGroupsAvailables)
                         {
-                            var groups = await accountsDetailsSelector.GetGroupUrls(x.Value, publisherCreateDestinationModel.CreatedDate);
-                            var alreadyPresentedGroups =
-                                publisherCreateDestinationModel.AccountGroupPair.Select(y => y.Value).ToList();
-                            foreach (var group in groups)
+                            try
                             {
-                                if (!alreadyPresentedGroups.Contains(group))
+                                var groups = await accountsDetailsSelector.GetGroupUrls(x.Value, publisherCreateDestinationModel.CreatedDate);
+                                var alreadyPresentedGroups =
+                                    publisherCreateDestinationModel.AccountGroupPair.Select(y => y.Value).ToList();
+                                foreach (var group in groups)
                                 {
-                                    publisherCreateDestinationModel.AccountGroupPair.Add(new KeyValuePair<string, string>(x.Value, group));
+                                    if (!alreadyPresentedGroups.Contains(group))
+                                    {
+                                        publisherCreateDestinationModel.AccountGroupPair.Add(new KeyValuePair<string, string>(x.Value, group));
+                                    }
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
+                            catch (Exception ex)
+                            {
 
-                           ex.DebugLog();
+                                ex.DebugLog();
+                            }
                         }
+                        PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId,
+                            publisherCreateDestinationModel.AccountGroupPair.Count);
                     }
-
-                    PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId,
-                        publisherCreateDestinationModel.AccountGroupPair.Count);
                 });
             }
         }
