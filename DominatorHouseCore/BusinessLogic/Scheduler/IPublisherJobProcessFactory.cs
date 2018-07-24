@@ -7,6 +7,17 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public interface IPublisherJobProcessFactory
     {
+        /// <summary>
+        /// To create the Publisher job process objects from each networks
+        /// </summary>
+        /// <param name="campaignId">Campaign Id for job process resposible</param>
+        /// <param name="accountId">Account Id which is running currently</param>
+        /// <param name="groupLists">groups destinations</param>
+        /// <param name="pageLists">pages destinations</param>
+        /// <param name="customDestinationModels">custom destinations</param>
+        /// <param name="isPublishOnOwnWall">Is need to publish on own wall</param>
+        /// <param name="campaignCancellationToken">Cancellation token</param>
+        /// <returns><see cref="PublisherJobProcess"/></returns>
         PublisherJobProcess Create(string campaignId,
             string accountId,
             List<string> groupLists,

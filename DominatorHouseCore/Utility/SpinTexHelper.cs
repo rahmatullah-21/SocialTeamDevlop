@@ -7,34 +7,54 @@ namespace DominatorHouseCore.Utility
 {
     public static class SpinTexHelper
     {
+        /// <summary>
+        /// Get a single text from collection spin text
+        /// </summary>
+        /// <param name="content">text sources</param>
+        /// <returns></returns>
         public static string GetSpinText(string content)
         {
+            // pattern for spin text
             const string pattern = @"\(([^)]*)\)";
+
+            // Check whether pattern are present in given content
             var match = Regex.Match(content, pattern);
             if (match.Success)
             {
+                // call the spin text generator to fetch all posts
                 var spintexCollection = GetSpinMessageCollection(content);
+
+                // select a random spin text and return an item
                 var randomNumber = RandomUtilties.GetRandomNumber(spintexCollection.Count - 1);
                 return spintexCollection[randomNumber];
             }
             return content;
         }
 
+        /// <summary>
+        /// Get the spin text collections from text 
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
         public static List<string> GetSpinMessageCollection(string content)
         {
             try
             {
+                // if given content length is lesser than 150 character
                 if (content.Length <= 150)
-                    return GetSpinnedComments(content);
+                    return GetSpinnedTexts(content);
 
                 var spinnedList = new List<string>();
-                while (spinnedList.Count < 50)
+
+                // Iterate until getting 30 unique texts
+                while (spinnedList.Count < 30)
                 {
                     var spinnedText = SpinText(new Random(), content);
                     if (spinnedList.Contains(spinnedText))
                         continue;
                     spinnedList.Add(spinnedText);
                 }
+                // return 30 unique spin text
                 return spinnedList;
             }
             catch (Exception ex)
@@ -44,10 +64,18 @@ namespace DominatorHouseCore.Utility
             return new List<string>();
         }
 
+        /// <summary>
+        /// Generate a spin for vast amount of text as input
+        /// </summary>
+        /// <param name="random">random objects</param>
+        /// <param name="text">input text</param>
+        /// <returns></returns>
         private static string SpinText(Random random, string text)
         {
+            // pattern
             const string pattern = @"\(([^)]*)\)";
             var match = Regex.Match(text, pattern);
+            // Iterate untill match success
             while (match.Success)
             {
                 // Get random choice and replace pattern match.
@@ -61,7 +89,12 @@ namespace DominatorHouseCore.Utility
             return text;
         }
 
-        private static List<string> GetSpinnedComments(string text)
+        /// <summary>
+        /// Generate spin text from small amount of text
+        /// </summary>
+        /// <param name="text">input text</param>
+        /// <returns></returns>
+        private static List<string> GetSpinnedTexts(string text)
         {
 
             #region Properties
@@ -75,11 +108,14 @@ namespace DominatorHouseCore.Utility
 
             #region given Text Combinations
 
+            // Iterate all matches
             foreach (Match match in spinTextPattern.Matches(text))
             {
                 try
                 {
+                    // Get all spin texts
                     var dataInsideBracesArray = match.Value.Replace("(", "").Replace(")", "").Split('|');
+                    // Add into text list
                     matchDictionary.Add(match, dataInsideBracesArray);
                     splittedDataInsideBraces.Add(dataInsideBracesArray);
                 }
@@ -93,15 +129,18 @@ namespace DominatorHouseCore.Utility
 
             #region Generate the proper combinations
 
+            // get the enumerators for the dictionary
             IDictionaryEnumerator enumerator = matchDictionary.GetEnumerator();
 
             var possibleTextCollection = new List<string> { text };
 
+            // iterate splitted datas inside spin pattern
             foreach (var splitArray in splittedDataInsideBraces)
             {
                 enumerator.MoveNext();
                 try
                 {
+                    // Iterate all possible text combinations
                     foreach (var possibleText in possibleTextCollection)
                     {
                         try
@@ -114,6 +153,7 @@ namespace DominatorHouseCore.Utility
                                         continue;
 
                                     var modComment = possibleText.Replace(enumerator.Key.ToString(), individualValue);
+                                    // Add the possible text combinations
                                     possibleTexts.Add(modComment);
                                 }
                                 catch (Exception ex)
@@ -136,7 +176,7 @@ namespace DominatorHouseCore.Utility
             }
 
             #endregion
-
+            // return proper spin texts
             return possibleTextCollection.FindAll(s => !s.Contains("("));
         }
 

@@ -95,6 +95,7 @@ namespace DominatorHouseCore.Utility
                 var monitorFolderFiles = campaignDetails
                     .Where(x => x.PostSource == PostSource.MonitorFolderPost).ToList();
 
+
                 var usedMonitorFolderTitle = monitorFolderFiles.Where(x => x.PublisherInstagramTitle != null).Select(x => x.PublisherInstagramTitle).ToList();
 
                 var postTitles = Regex.Split(postDetailsModel.PublisherInstagramTitle, "\r\n").ToList();
@@ -106,9 +107,7 @@ namespace DominatorHouseCore.Utility
                     givenPostTitle.Add(title.Trim());
                 });
 
-
                 // If any files are deleted, then remove from post list
-
                 if (foldersFiles.Count < monitorFolderFiles.Count)
                 {
                     // Gather not available post list
@@ -351,7 +350,6 @@ namespace DominatorHouseCore.Utility
 
                 // Get the current campaign Count 
                 campaignDetails = PostlistFileManager.GetAll(campaignId);
-
 
                 // Get the available post counts
                 var postCount = maximumPostLimitToStore - campaignDetails.Count;
