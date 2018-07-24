@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Controls;
 using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
@@ -17,6 +14,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             CampaignId = Utilities.GetGuid(true);
             JobConfigurations = new JobConfigurationModel();
         }
+        /// <summary>
+        /// To Specify the campaign Id
+        /// </summary>
         [ProtoMember(1)]
         public string CampaignId { get; set; }
 
@@ -56,6 +56,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// To specify the Job Configuration Model
+        /// </summary>
         private JobConfigurationModel _jobConfigurations;
         [ProtoMember(5)]
         public JobConfigurationModel JobConfigurations
@@ -65,7 +68,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _jobConfigurations;
             }
             set
-            {              
+            {
                 if (_jobConfigurations == value)
                     return;
                 _jobConfigurations = value;
@@ -73,6 +76,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// To specify the other configuration moodel
+        /// </summary>
+        private OtherConfigurationModel _otherConfiguration = new OtherConfigurationModel();
         [ProtoMember(6)]
         public OtherConfigurationModel OtherConfiguration
         {
@@ -81,7 +88,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _otherConfiguration;
             }
             set
-            {             
+            {
                 if (_otherConfiguration == value)
                     return;
                 _otherConfiguration = value;
@@ -89,6 +96,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// Post Details for the campaigns
+        /// </summary>
         private PostDetailsModel _postDetailsModel = new PostDetailsModel();
 
         [ProtoMember(7)]
@@ -106,6 +116,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PostDetailsModel));
             }
         }
+
+        /// <summary>
+        /// To specify the destination which is related with campaign
+        /// </summary>
         private ObservableCollection<string> _lstDestinationId = new ObservableCollection<string>();
 
         [ProtoMember(8)]
@@ -123,6 +137,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(_lstDestinationId));
             }
         }
+
+        /// <summary>
+        /// To specify the scarpe post details for a campaign
+        /// </summary>
         private ScrapePostModel _scrapePostModel = new ScrapePostModel();
         [ProtoMember(9)]
         public ScrapePostModel ScrapePostModel
@@ -139,6 +157,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(ScrapePostModel));
             }
         }
+
+        /// <summary>
+        /// To specify the share post details for a campaign
+        /// </summary>
         private SharePostModel _sharePostModel = new SharePostModel();
         [ProtoMember(10)]
         public SharePostModel SharePostModel
@@ -155,9 +177,18 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(SharePostModel));
             }
         }
+
+
+        /// <summary>
+        /// Campaign Created date time
+        /// </summary>
         [ProtoMember(11)]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
+
+        /// <summary>
+        /// Campaign Last modified date time
+        /// </summary>
         [ProtoMember(16)]
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
@@ -178,7 +209,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         //    }
         //}
 
+        /// <summary>
+        /// Rss Feed url collection for the campaign with default template
+        /// </summary>
         private ObservableCollection<PublisherRssFeedModel> _lstFeedUrl = new ObservableCollection<PublisherRssFeedModel>();
+
         [ProtoMember(13)]
         public ObservableCollection<PublisherRssFeedModel> LstFeedUrl
         {
@@ -194,6 +229,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// Monitor Folder path collection for the campaign with default template
+        /// </summary>
         private ObservableCollection<PublisherMonitorFolderModel> _lstFolderPath =
             new ObservableCollection<PublisherMonitorFolderModel>();
         [ProtoMember(14)]
@@ -212,6 +250,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
+        /// <summary>
+        /// Post Collection details for multiple post details
+        /// </summary>
         private ObservableCollection<PostDetailsModel> _lstPostDetailsModel =
            new ObservableCollection<PostDetailsModel>();
         [ProtoMember(15)]
@@ -228,11 +269,27 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _lstPostDetailsModel, value);
             }
         }
-     
-        private OtherConfigurationModel _otherConfiguration = new OtherConfigurationModel();
 
-       
-      
+        /// <summary>
+        /// Post Collection details for single post details
+        /// </summary>
+        public ObservableCollection<PostDetailsModel> LstSinglePostCollection { get; set; } = new ObservableCollection<PostDetailsModel>();
+
+        /// <summary>
+        /// Post collection which holds all direct post collection, where post may belongs to Draft, Pending, Published
+        /// </summary>
+        public ObservableCollection<PostDetailsModel> PostCollection { get; set; } = new ObservableCollection<PostDetailsModel>();
+
+        /// <summary>
+        /// Post Collection details for Multiple Image post details
+        /// </summary>
+        public ObservableCollection<PostDetailsModel> LstMultipleImagePostCollection { get; set; } = new ObservableCollection<PostDetailsModel>();
+
+
+
+
+
+
 
     }
 }

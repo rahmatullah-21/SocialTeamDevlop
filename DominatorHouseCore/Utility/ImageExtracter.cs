@@ -12,24 +12,37 @@ namespace DominatorHouseCore.Utility
 {
     public class ImageExtracter
     {
+        /// <summary>
+        /// Extract the images url from the url
+        /// </summary>
+        /// <param name="url">url for fetching image</param>
+        /// <param name="isBackgroundImageNeed">pass true for fetching css, backgroud images need from the website</param>
+        /// <returns></returns>
         public static IEnumerable<string> ExtractImageUrls(string url, bool isBackgroundImageNeed = false)
         {
             var imageUrl = new List<string>();
 
+            // check whether url contains comma (",") then split with comma and check whether its proper image or not 
             if (url.Contains(",") || IsImageUrl(url))
             {
                 if (!url.Contains(","))
                 {
+                    // Add a image
                     imageUrl.Add(url);
                 }
                 else
                 {
+                    // split all images url  with comma
                     var imageUrls = Regex.Split(url, ",").ToList();
+
+                    // Add to list
                     imageUrl.AddRange(imageUrls);
                 }
             }
             else
             {
+
+                // Create a request to getting response of given url
                 var webClient = new WebClient();
                 var pageResult = webClient.DownloadString(new Uri(url));
 
@@ -41,16 +54,22 @@ namespace DominatorHouseCore.Utility
                 };
 
                 htmlDocument.LoadHtml(pageResult);
+
+                // Select the nodes
                 var htmlNodeCollection = htmlDocument.DocumentNode.SelectNodes("//img[@src]");
 
+                // Fetching Src values from response
                 if (htmlNodeCollection != null)
                     imageUrl.AddRange(RemoveInvalidUrls(htmlNodeCollection.Select(node => node.Attributes["src"].Value)));
 
+
+                // Check if background images are needed from the website 
                 if (!isBackgroundImageNeed)
                     return imageUrl;
 
                 using (var enumerator = htmlDocument.DocumentNode.Descendants().Where(d =>
                 {
+                    // get the style image 
                     if (d.Attributes.Contains("style"))
                         return d.Attributes["style"].Value.Contains("background:url");
                     return false;
@@ -58,6 +77,7 @@ namespace DominatorHouseCore.Utility
                 {
                     while (enumerator.MoveNext())
                     {
+                        // Getting the background images
                         var input = enumerator.Current?.Attributes["style"].Value;
                         var regex = new Regex(".*?background:url\\('?(?<bgpath>.*)'?\\).*?", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
                         if (input != null && regex.IsMatch(input))
@@ -69,12 +89,21 @@ namespace DominatorHouseCore.Utility
             return imageUrl;
         }
 
+        /// <summary>
+        /// To Check whether give url is proper image or not
+        /// </summary>
+        /// <param name="url">image url</param>
+        /// <returns>returns true, if url is valid image otherwise false</returns>
         public static bool IsImageUrl(string url)
         {
+            // Create a web request for url
             var req = (HttpWebRequest)WebRequest.Create(url);
+
+            // Request method as HEAD
             req.Method = "HEAD";
             using (var resp = req.GetResponse())
             {
+                // Check the content type contains image/ type or not
                 return resp.ContentType.ToLower(CultureInfo.InvariantCulture)
                     .StartsWith("image/");
             }
@@ -91,11 +120,19 @@ namespace DominatorHouseCore.Utility
             }
         }
 
+        /// <summary>
+        /// Remove invalid image url from given collections
+        /// </summary>
+        /// <param name="urls"></param>
+        /// <returns></returns>
         public static IEnumerable<string> RemoveInvalidUrls(IEnumerable<string> urls)
         {
             var validUrls = new List<string>();
+
+            // Iterate the collection of url to filter is valid or not
             urls.ToList().ForEach(x =>
             {
+                // Check whether Valid Url or not
                 if (IsValidUrl(x))
                     validUrls.Add(DecodeHtml(x));
             });
@@ -105,23 +142,31 @@ namespace DominatorHouseCore.Utility
         public static string DecodeHtml(string text)
             => HttpUtility.HtmlDecode(text);
 
+        /// <summary>
+        /// Check whether url in valid or not
+        /// </summary>
+        /// <param name="sourceUrl"></param>
+        /// <returns></returns>
         public static bool IsValidUrl(string sourceUrl)
         {
+            // encode the url and get source url
             sourceUrl = HttpUtility.UrlPathEncode(sourceUrl);
             return CheckUrlValid(sourceUrl);
         }
 
+        /// <summary>
+        /// Is give url is valid or not
+        /// </summary>
+        /// <param name="source">url</param>
+        /// <returns></returns>
         public static bool CheckUrlValid(string source)
         {
             Uri result;
+            // Check whether Url is based on http or https schema
             if (Uri.TryCreate(source, UriKind.Absolute, out result))
                 return result.Scheme == Uri.UriSchemeHttp | result.Scheme == Uri.UriSchemeHttps;
             return false;
         }
-
-
-
-
 
     }
 }

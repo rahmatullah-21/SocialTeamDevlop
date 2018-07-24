@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
@@ -30,8 +24,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             CreateNewPost = new BaseCommand<object>(CanExecuteCreateNewPost, ExecuteCreateNewPost);
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             DeletePostCommand = new BaseCommand<object>(DeletePostCanExecute, DeletePostExecute);
-        }
 
+        }
 
         #region Command
 
@@ -91,7 +85,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 CreatedDateTime = DateTime.Now,
                 PostDetailsId = Utilities.GetGuid()
             };
+
             LstPostDetailsModel.Add(postDetailsModel);
+
             PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
         }
@@ -128,11 +124,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     #endregion
 
                     postDetailsModel.PublisherInstagramTitle = allData[2];
+
+                    if(allData.Length >3)
                     postDetailsModel.PdSourceUrl = allData[3];
 
                     #region FdSell
 
-                    if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
+
+                        if (allData.Length > 4 && SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
                     {
                         var Fdsell = Regex.Split(allData[4], separator);
                         if (Fdsell[0] == "IsEnable")

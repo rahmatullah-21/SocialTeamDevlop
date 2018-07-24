@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+
 using System.Net;
 using System.Text.RegularExpressions;
+
 using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
@@ -19,6 +21,11 @@ namespace DominatorHouseCore.Utility
 {
     public class MonitorFolderUtilites
     {
+        /// <summary>
+        /// Get the file information for the file path
+        /// </summary>
+        /// <param name="filePath">Pass the file name</param>
+        /// <returns> Return as detailed info file<see cref="DominatorHouseCore.Models.SocioPublisher.DetailedFileInfo"/></returns>
         private static IEnumerable<DetailedFileInfo> GetDetailedFileInfo(string filePath)
         {
             var lstDetailedFileInfo = new List<DetailedFileInfo>();
@@ -29,14 +36,22 @@ namespace DominatorHouseCore.Utility
             try
             {
                 // Folder All_Directory = objShellClass.NameSpace(System.IO.Path.GetDirectoryName(FilePath));
-                var allDirectory = GetShell32NameSpaceFolder(System.IO.Path.GetDirectoryName(filePath));
-                var folderItem = allDirectory.ParseName(System.IO.Path.GetFileName(filePath));
+                // Get the proper namespace
+                var allDirectory = GetShell32NameSpaceFolder(Path.GetDirectoryName(filePath));
+
+                // Get the file Items
+                var folderItem = allDirectory.ParseName(Path.GetFileName(filePath));
+
                 for (var index = 0; index < 30; index++)
                 {
                     try
                     {
+                        // get the details of a file 
                         var details = allDirectory.GetDetailsOf(folderItem, index);
+
+                        // Assigned to detailed file info
                         var objDetailedFileInfo = new DetailedFileInfo(index, details);
+
                         lstDetailedFileInfo.Add(objDetailedFileInfo);
                     }
                     catch (Exception ex)
@@ -52,7 +67,17 @@ namespace DominatorHouseCore.Utility
             return lstDetailedFileInfo;
         }
 
-        public void GetFoldersFileDetails(string folderpath, string campaignId, string postTemplate, PostDetailsModel postDetailsModel, CancellationTokenSource cancellationTokenSource, int notifyCount, string campaignName)
+        /// <summary>
+        /// To Get the folder details 
+        /// </summary>
+        /// <param name="folderpath">Folder path</param>
+        /// <param name="campaignId">Campaign Id</param>
+        /// <param name="postTemplate">Post template for monitor folder</param>
+        /// <param name="postDetailsModel">Post Details-> from here we are getting post's general settings</param>
+        /// <param name="cancellationTokenSource">Cancellation Token</param>
+        /// <param name="maximumPostLimitToStore">Count for maximum posts for a post list</param>
+        /// <param name="campaignName">Campaign Name</param>
+        public void GetFoldersFileDetails(string folderpath, string campaignId, string postTemplate, PostDetailsModel postDetailsModel, CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
         {
             try
             {
@@ -60,13 +85,17 @@ namespace DominatorHouseCore.Utility
 
                 var publisherInitialize = PublisherInitialize.GetInstance;
 
+                // Get the folder details
                 var foldersFiles = Directory.EnumerateFiles(folderpath, "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".mp4") || s.EndsWith(".jpg") || s.EndsWith(".png") || s.EndsWith(".wmv")).ToList();
 
-                var monitorFolderFiles = PostlistFileManager.GetAll(campaignId)
+                // Get the campaigns Post details 
+                var campaignDetails = PostlistFileManager.GetAll(campaignId);
+
+                // Filter only monitor folder details
+                var monitorFolderFiles = campaignDetails
                     .Where(x => x.PostSource == PostSource.MonitorFolderPost).ToList();
 
-
-                var usedMonitorFolderTitle = monitorFolderFiles.Where(x=> x.PublisherInstagramTitle!=null).Select(x => x.PublisherInstagramTitle).ToList();
+                var usedMonitorFolderTitle = monitorFolderFiles.Where(x => x.PublisherInstagramTitle != null).Select(x => x.PublisherInstagramTitle).ToList();
 
                 var postTitles = Regex.Split(postDetailsModel.PublisherInstagramTitle, "\r\n").ToList();
 
@@ -78,55 +107,66 @@ namespace DominatorHouseCore.Utility
                 });
 
 
-                var postTitle = string.Empty;
-
-                if (postDetailsModel.IsRandomlyPickTitleFromList)
-                {
-                    var randomNumber = RandomUtilties.GetRandomNumber(givenPostTitle.Count - 1);
-                    postTitle = givenPostTitle[randomNumber];
-                }
-
-                // if (postDetailsModel.IsRemoveTitleOnceUsed)
-                else
-                {
-                    var availablePostTitles = givenPostTitle.Except(usedMonitorFolderTitle).ToList();
-
-                    if (availablePostTitles.Count > 0)
-                    {
-                        var randomNumber = RandomUtilties.GetRandomNumber(availablePostTitles.Count - 1);
-                        postTitle = givenPostTitle[randomNumber];
-                    }
-                    else
-                    {
-                        ToasterNotification.ShowInfomation($"No More unique titles are present in {campaignName}!");                  
-                        postTitle =string.Empty;
-                    }
-                }
-
+                // If any files are deleted, then remove from post list
 
                 if (foldersFiles.Count < monitorFolderFiles.Count)
                 {
+                    // Gather not available post list
                     var notAvailableFiles = monitorFolderFiles.Select(x => x.MonitorFilePath).Except(foldersFiles).ToList();
+
+                    // Iterate One by one and remove
                     notAvailableFiles.ForEach(filePath =>
                     {
                         var post = monitorFolderFiles.FirstOrDefault(x => x.MonitorFilePath == filePath);
                         if (post?.LstPublishedPostDetailsModels.Count <= 0)
                             PostlistFileManager.Delete(post.CampaignId, x => x.PostId == post.PostId);
                     });
+
+                    // Update the post count
                     publisherInitialize.UpdatePostCounts(campaignId);
                 }
 
                 var mediaUtilites = new MediaUtilites();
 
+                // Calculate the post expire date time
                 DateTime? expireDate = null;
-
                 if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate)
                     expireDate = postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate;
 
-                foldersFiles.ForEach(file =>
+                // Iterate the files from folder and fetch the neccessary details
+                foreach (var file in foldersFiles)
                 {
                     try
                     {
+
+                        var postTitle = string.Empty;
+
+                        if (postDetailsModel.IsRandomlyPickTitleFromList)
+                        {
+                            var randomNumber = RandomUtilties.GetRandomNumber(givenPostTitle.Count - 1);
+                            postTitle = givenPostTitle[randomNumber];
+                        }
+
+                        // if (postDetailsModel.IsRemoveTitleOnceUsed)
+                        else
+                        {
+                            var availablePostTitles = givenPostTitle.Except(usedMonitorFolderTitle).ToList();
+
+                            if (availablePostTitles.Count > 0)
+                            {
+                                var randomNumber = RandomUtilties.GetRandomNumber(availablePostTitles.Count - 1);
+                                postTitle = availablePostTitles[randomNumber];
+                            }
+                            else
+                            {
+                                ToasterNotification.ShowInfomation($"No More unique titles are present in {campaignName}!");
+                                postTitle = string.Empty;
+                            }
+                        }
+
+                        usedMonitorFolderTitle.Add(postTitle);
+
+                        // Generate the post model
                         var publisherPostlistModel = new PublisherPostlistModel
                         {
                             MediaList = new ObservableCollection<string> { mediaUtilites.GetThumbnail(file) },
@@ -153,7 +193,7 @@ namespace DominatorHouseCore.Utility
                             FdSellProductTitle = postDetailsModel.FdSellProductTitle,
                             IsFdSellPost = postDetailsModel.IsFdSellPost,
                         };
-
+                        // Get the file info
                         var fileDetails = GetDetailedFileInfo(file);
                         var monitorFolderModel = new MonitorFolderModel
                         {
@@ -161,6 +201,7 @@ namespace DominatorHouseCore.Utility
                             FilePath = file
                         };
 
+                        // Assign the folder's file details to respective values, Which is going with index value or enum value of file 
                         #region Get from Files
 
                         foreach (var objDetailedFileInfo in fileDetails)
@@ -214,17 +255,20 @@ namespace DominatorHouseCore.Utility
 
                         #endregion
 
+                        // Manipulate the post descriptions
                         publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName, String.Empty))
-                                .Replace("[FileType]", monitorFolderModel.FileType)
-                                .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
-                                .Replace("[FileTitle]", monitorFolderModel.FileTitle)
-                                .Replace("[FileSubject]", monitorFolderModel.FileSubject)
-                                .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
-                                .Replace("[FileComments]", monitorFolderModel.FileComment)
-                                .Replace("[FileTags]", monitorFolderModel.FileTags);
+                            .Replace("[FileType]", monitorFolderModel.FileType)
+                            .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
+                            .Replace("[FileTitle]", monitorFolderModel.FileTitle)
+                            .Replace("[FileSubject]", monitorFolderModel.FileSubject)
+                            .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
+                            .Replace("[FileComments]", monitorFolderModel.FileComment)
+                            .Replace("[FileTags]", monitorFolderModel.FileTags);
 
+                        // Check whether Cancellation Requested or not
                         cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
+                        // Add the current post to post list
                         if (monitorFolderFiles.All(x => x.MonitorFilePath != file))
                         {
                             postlists.Add(publisherPostlistModel);
@@ -252,19 +296,21 @@ namespace DominatorHouseCore.Utility
                     {
                         ex.DebugLog();
                     }
-                });
+                }
 
-
+                // Check whether need to readd the post 
                 if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
                 {
                     try
                     {
                         var duplicatedPostlist = new List<PublisherPostlistModel>();
 
+                        // Iterate the post lists 
                         foreach (var post in postlists)
                         {
                             try
                             {
+                                // Iterate post with readd count for achevie x time post
                                 for (var readdIndex = 1; readdIndex < postDetailsModel.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdIndex++)
                                 {
                                     var newPost = post.DeepClone();
@@ -277,8 +323,10 @@ namespace DominatorHouseCore.Utility
                                 ex.DebugLog();
                             }
                         }
+                        // Check whether Cancellation Requested or not
                         cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
+                        // Add the current post to post list
                         postlists.AddRange(duplicatedPostlist);
                     }
                     catch (OperationCanceledException)
@@ -301,10 +349,27 @@ namespace DominatorHouseCore.Utility
                     }
                 }
 
-                PostlistFileManager.AddRange(campaignId, postlists);
+                // Get the current campaign Count 
+                campaignDetails = PostlistFileManager.GetAll(campaignId);
 
-                publisherInitialize.UpdatePostCounts(campaignId);
 
+                // Get the available post counts
+                var postCount = maximumPostLimitToStore - campaignDetails.Count;
+
+                if (postCount > 0)
+                {
+                    // Take need to posts from postlist 
+                    var neededPostLists = postlists.Take(postCount).ToList();
+                    PostlistFileManager.AddRange(campaignId, neededPostLists);
+
+                    // Update the current post count
+                    publisherInitialize.UpdatePostCounts(campaignId);
+                }
+                else
+                {
+                    // Inform the maximum post has reached via Toaster notification
+                    ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {campaignName} already have {maximumPostLimitToStore}+ posts in postlist!");
+                }
             }
             catch (OperationCanceledException ex)
             {
@@ -330,11 +395,22 @@ namespace DominatorHouseCore.Utility
             }
         }
 
+        /// <summary>
+        /// Get the folder details
+        /// </summary>
+        /// <param name="folder">Directory details</param>
+        /// <returns>return as Shell 32 folder details <see cref="Shell32.Folder"/></returns>
         private static Folder GetShell32NameSpaceFolder(object folder)
         {
+            // Get the program Identifier details
             var shellAppType = Type.GetTypeFromProgID("Shell.Application");
+
+            // Initializer for current program 
             var shell = Activator.CreateInstance(shellAppType);
+
+            // Get the proper folder details
             return (Folder)shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, new[] { folder });
         }
+
     }
 }

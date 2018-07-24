@@ -17,14 +17,28 @@ namespace DominatorHouseCore.Utility
 {
     public class RssFeedUtilities
     {
-        public async Task RssFeedFetchMethod(string feedUrl, string feedTemplate, PostDetailsModel postDetailsModel, string campaignId, CancellationTokenSource cancellationTokenSource,int notifyCount ,string campaignName)
+        /// <summary>
+        /// Fetching Post Details from Rss Feed
+        /// </summary>
+        /// <param name="feedUrl">Feed Url</param>
+        /// <param name="feedTemplate">Feed Template</param>
+        /// <param name="postDetailsModel">Post Details-> from here we are getting post's general settings</param>
+        /// <param name="campaignId">Campaign Id</param>
+        /// <param name="cancellationTokenSource">Cancellation Token</param>
+        /// <param name="maximumPostLimitToStore">Specify Maximum Count to store for a campaign</param>
+        /// <param name="campaignName">Campaign Name</param>
+        /// <returns></returns>
+        public async Task RssFeedFetchMethod(string feedUrl, string feedTemplate, PostDetailsModel postDetailsModel, string campaignId, CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
         {
             try
             {
+                // Get all Campaign Details
                 var campaignDetails = PostlistFileManager.GetAll(campaignId);
 
-                var postdetails =    campaignDetails.Where(x => x.PostSource == PostSource.RssFeedPost).Select(x => x.ShareUrl).ToList();
+                // Get Rss Campaign Details
+                var postdetails = campaignDetails.Where(x => x.PostSource == PostSource.RssFeedPost).Select(x => x.ShareUrl).ToList();
 
+                // Requesting Rss feed urls
                 var httpHelper = new HttpHelper();
                 var htmlResponse = await httpHelper.GetRequestAsync(feedUrl, cancellationTokenSource.Token);
                 var htmlDoc = new HtmlDocument();
@@ -32,10 +46,12 @@ namespace DominatorHouseCore.Utility
                 var postItems = htmlDoc.DocumentNode.Descendants("item");
 
                 DateTime? expireDate = null;
-
+                // Calculate Expire date of the post
                 if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate)
                     expireDate = postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate;
 
+                // Scrape the posts from Http Response
+                #region Http Response
                 var postlists = (from node in postItems
                                  let innerHtml = node.InnerHtml
                                  let title = RemoveCdata(node.Element("title").InnerHtml)
@@ -75,7 +91,10 @@ namespace DominatorHouseCore.Utility
                                      IsFdSellPost = postDetailsModel.IsFdSellPost,
                                  }).ToList();
 
+                #endregion
 
+                // If Readd Checked, then readd the same posts in selected/given times
+                #region Readd
                 if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
                 {
                     var duplicatedPostlist = new List<PublisherPostlistModel>();
@@ -96,15 +115,33 @@ namespace DominatorHouseCore.Utility
                             ex.DebugLog();
                         }
                     }
+
                     postlists.AddRange(duplicatedPostlist);
-                }
-             
+                } 
+                #endregion
+
+                // Check whether cancellation token arised or not
                 cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                PostlistFileManager.AddRange(campaignId, postlists);
-                var publisherInitialize = PublisherInitialize.GetInstance;
-                publisherInitialize.UpdatePostCounts(campaignId);
+                campaignDetails = PostlistFileManager.GetAll(campaignId);
 
+                var postCount = maximumPostLimitToStore - campaignDetails.Count;
+
+                // Checking whether maximum count reached or not
+                #region Add to bin Files
+                if (postCount > 0)
+                {
+                    var neededPostLists = postlists.Take(postCount).ToList();
+                    PostlistFileManager.AddRange(campaignId, neededPostLists);
+                    var publisherInitialize = PublisherInitialize.GetInstance;
+                    publisherInitialize.UpdatePostCounts(campaignId);
+                }
+                else
+                {
+                    // Inform the maximum post has reached via Toaster notification
+                    ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {campaignName} already have {maximumPostLimitToStore}+ posts in postlist!");
+                } 
+                #endregion
             }
             catch (OperationCanceledException ex)
             {
@@ -130,6 +167,11 @@ namespace DominatorHouseCore.Utility
             }
         }
 
+        /// <summary>
+        /// Remove Cdata Details from Rss Feed
+        /// </summary>
+        /// <param name="node">Rss node Details</param>
+        /// <returns></returns>
         private static string RemoveCdata(string node) => node?.Replace("<![CDATA[", "").Replace("]]>", "") ?? string.Empty;
     }
 }
