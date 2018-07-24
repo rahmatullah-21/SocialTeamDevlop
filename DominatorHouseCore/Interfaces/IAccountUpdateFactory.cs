@@ -39,7 +39,7 @@ namespace DominatorHouseCore.Interfaces
         public virtual void UpdateFriendList(LiveChatModel liveChatModel) { }
         public virtual void UpdateCurrentChat(LiveChatModel liveChatModel) { }
 
-        public virtual bool SendMessageToUser(LiveChatModel liveChatModel, string message, MessageType messageType) =>
+        public virtual bool SendMessageToUser(LiveChatModel liveChatModel, string message, ChatMessageType messageType) =>
             true;
     }
 
