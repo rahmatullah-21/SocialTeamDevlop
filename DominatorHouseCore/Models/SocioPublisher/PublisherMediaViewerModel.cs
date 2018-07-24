@@ -136,6 +136,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// To Specify whether post detail are present or not 
+        /// </summary>
         public bool IsPostDetailsPresent
         {
             get

@@ -9,6 +9,9 @@ namespace DominatorHouseCore.Models.Publisher
     [ProtoContract]
     public class JobConfigurationModel : BindableBase
     {
+        /// <summary>
+        /// To Specify the 
+        /// </summary>
         private int _maxPost;
         [ProtoMember(1)]
         public int MaxPost

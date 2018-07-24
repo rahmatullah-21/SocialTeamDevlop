@@ -1125,40 +1125,49 @@ namespace DominatorHouseCore.Process
         /// <param name="postDeletionModel"></param>
         public static void DeletePublishedPost(PostDeletionModel postDeletionModel)
         {
-            // Add into job process
-            JobManager.AddJob(() =>
+            // Check whether network present or not
+            if (FeatureFlags.IsNetworkAvailable(postDeletionModel.Networks))
             {
-                // Get the publisher Job Process factory
-                var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(postDeletionModel.Networks)
-                    .GetPublisherCoreFactory()
-                    .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null, null, null, false, new CancellationTokenSource());
+                // Add into job process
+                JobManager.AddJob(() =>
+                    {
+                        // Get the publisher Job Process factory
+                        var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(postDeletionModel.Networks)
+                            .GetPublisherCoreFactory()
+                            .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null,
+                                null, null, false, new CancellationTokenSource());
 
-                // Call is delete options
-                if (publisherJobProcess.DeletePost(postDeletionModel.PublishedIdOrUrl))
-                {
-                    // If successfully deleted , update the details
-                    publisherJobProcess.UpdatePostWithDeletion(postDeletionModel.DestinationUrl,
-                        postDeletionModel.PostId);
+                        // Call is delete options
+                        if (publisherJobProcess.DeletePost(postDeletionModel.PublishedIdOrUrl))
+                        {
+                            // If successfully deleted , update the details
+                            publisherJobProcess.UpdatePostWithDeletion(postDeletionModel.DestinationUrl,
+                                postDeletionModel.PostId);
 
-                    // Make already deleted true
-                    postDeletionModel.IsDeletedAlready = true;
+                            // Make already deleted true
+                            postDeletionModel.IsDeletedAlready = true;
 
-                    // Get deletion model
-                    var allDeletionList =
-                        GenericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable.GetDeletePublisherPostModel);
+                            // Get deletion model
+                            var allDeletionList =
+                                GenericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                                    .GetDeletePublisherPostModel);
 
-                    // Find the index of particular published Id
-                    var index = allDeletionList.FindIndex(x =>
-                        x.PublishedIdOrUrl == postDeletionModel.PublishedIdOrUrl);
+                            // Find the index of particular published Id
+                            var index = allDeletionList.FindIndex(x =>
+                                x.PublishedIdOrUrl == postDeletionModel.PublishedIdOrUrl);
 
-                    // Update bin file objects
-                    allDeletionList[index].IsDeletedAlready = true;
+                            // Update bin file objects
+                            allDeletionList[index].IsDeletedAlready = true;
 
-                    // save the updated details into bin files
-                    GenericFileManager.UpdateModuleDetails(allDeletionList, ConstantVariable.GetDeletePublisherPostModel);
-                }
+                            // save the updated details into bin files
+                            GenericFileManager.UpdateModuleDetails(allDeletionList,
+                                ConstantVariable.GetDeletePublisherPostModel);
+                        }
 
-            }, s => s.WithName($"{postDeletionModel.CampaignId}- Delete Posts -{ConstantVariable.GetDate()}").ToRunOnceAt(postDeletionModel.DeletionTime));
+                    },
+                    s => s.WithName($"{postDeletionModel.CampaignId}- Delete Posts -{ConstantVariable.GetDate()}")
+                        .ToRunOnceAt(postDeletionModel.DeletionTime));
+            }
         }
 
         /// <summary>
