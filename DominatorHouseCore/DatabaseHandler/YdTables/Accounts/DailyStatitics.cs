@@ -1,4 +1,5 @@
 ﻿using SQLite.CodeFirst;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,7 +18,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         /// </summary>
 
         [Column(Order = 2)]
-        public int Date
+        public DateTime Date
         { get; set; }
 
         /// <summary>
@@ -25,7 +26,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         /// </summary>
 
         [Column(Order = 3)]
-        public int Followers
+        public int Subscribers
         { get; set; }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         /// </summary>
 
         [Column(Order = 4)]
-        public int Followings
+        public int Channels
         { get; set; }
 
         /// <summary>
@@ -41,15 +42,9 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         /// </summary>
 
         [Column(Order = 5)]
-        public int Tweets
+        public int Views
         { get; set; }
 
-        /// <summary>
-        /// Likes count of the DB owner when the statistics has got updated
-        /// </summary>
-
-        [Column(Order = 6)]
-        public int Likes { get; set; }
 
     }
 }
