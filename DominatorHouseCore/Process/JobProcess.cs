@@ -268,7 +268,7 @@ namespace DominatorHouseCore.Process
         public void RunScrapper()
         {
             try
-            {
+             {
                 var scraperFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().QueryScraperFactory;
 
                 var scraper = scraperFactory.Create(this);

@@ -408,6 +408,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (value == _isRandomlyPickTitleFromList)
                     return;
+                if (value)
+                    IsRemoveTitleOnceUsed = false;
                 SetProperty(ref _isRandomlyPickTitleFromList, value);
             }
         }
@@ -423,6 +425,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (value == _isRemoveTitleOnceUsed)
                     return;
+                if (value)
+                    IsRandomlyPickTitleFromList = false;
                 SetProperty(ref _isRemoveTitleOnceUsed, value);
             }
         }

@@ -87,9 +87,9 @@
                                                 IsFdSellPost="{Binding PublisherMonitorFolderModel.PostDetailsModel.IsFdSellPost, Mode=TwoWay}"
                                                 PdSourceUrl="{Binding PublisherMonitorFolderModel.PostDetailsModel.PdSourceUrl, Mode=TwoWay}"
                                                 IsImportOptionsVisibility ="Collapsed" IsPostTitleOptionVisibility="Visible"
-                                                PostTitleHeight="80"  
-                                                IsRemoveTitleOnceUsed="{Binding PublisherMonitorFolderModel.PostDetailsModel.IsRemoveTitleOnceUsed, Mode=TwoWay}"
-                                                IsRandomlyPickTitleFromList="{Binding PublisherMonitorFolderModel.PostDetailsModel.IsRandomlyPickTitleFromList, Mode=TwoWay}"
+                                                PostTitleHeight="80" IsImportPostTitleOptionVisibility="Visible" IsClearPostTitleOptionVisibility="Visible" 
+                                                IsRemoveTitleOnceUsed="{Binding PublisherMonitorFolderModel.PostDetailsModel.IsRemoveTitleOnceUsed, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                IsRandomlyPickTitleFromList="{Binding PublisherMonitorFolderModel.PostDetailsModel.IsRandomlyPickTitleFromList, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                 x:Name="PostContentControl"/>
 
 
