@@ -345,7 +345,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// <param name="sender"></param>
         private void ImportFromCsvExecute(object sender)
         {
-
             // select the file path
             var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
 

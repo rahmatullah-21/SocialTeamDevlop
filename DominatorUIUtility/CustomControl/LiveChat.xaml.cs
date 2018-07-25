@@ -172,9 +172,11 @@ namespace DominatorUIUtility.CustomControl
         {
             if (!string.IsNullOrEmpty(LiveChatViewModel.LiveChatModel.TextMessage))
             {
+
                 bool isSent = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
                        .SendMessageToUser(LiveChatViewModel.LiveChatModel, LiveChatViewModel.LiveChatModel.TextMessage,
-                           MessageType.Text);
+                           ChatMessageType.Text);
+
                 if (isSent)
                 {
                     LiveChatViewModel.LiveChatModel.TextMessage = string.Empty;

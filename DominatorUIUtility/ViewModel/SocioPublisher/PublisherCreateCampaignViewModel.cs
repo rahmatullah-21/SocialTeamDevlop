@@ -578,6 +578,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // PublisherCreateCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
 
                 #region Update the Campaigns
+
                 if (lstCampaign.Any(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId))
                 {
                     var campaignIndex = lstCampaign.IndexOf(lstCampaign.FirstOrDefault(x => x.CampaignName == SelectedItem));
@@ -588,6 +589,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully updated.");
                 }
+
                 #endregion
 
                 #region Save the campaigns
@@ -753,52 +755,112 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// To set the data context for Post fetecher details
+        /// </summary>
         private void SetDataContext()
         {
+            // get the direct posts ui 
             var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
+
+            // get the rss posts ui 
             var publisherRssFeed = PublisherRssFeed.GetPublisherRssFeed(tabItemsControl);
+
+            // get the monitor folder posts ui 
             var publisherMonitorFolder = PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl);
+
+            // get the share post UI
             var publisherSharePost = PublisherSharePost.GetPublisherSharePost(tabItemsControl);
+
+            // get the scrape post UI
             var publisherScrapePost = PublisherScrapePost.GetPublisherScrapePost(tabItemsControl);
 
+            // get the job configurations
             JobConfiguration = CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+
             JobConfigurationControl = JobConfiguration;
 
+            // set the direct post saved post details
             SetPostContectData(publisherDirectPosts);
+
+            // set the rss feed post saved post details
             SetPublisherRssFeedData(publisherRssFeed);
+
+            // set the monitor folder saved post details
             SetPublisherMonitorFolder(publisherMonitorFolder);
+
+            // set the share saved post details
             SetPublisherSharePost(publisherSharePost);
+
+            // set the scrape post input details
             SetPublisherScrapePost(publisherScrapePost);
 
         }
+
+        /// <summary>
+        /// To change the share posts details
+        /// </summary>
+        /// <param name="publisherScrapePost"><see cref="PublisherSharePost"/> given scarpe post details</param>
         private void SetPublisherSharePost(PublisherSharePost publisherScrapePost)
         {
+            // assign the share post model with given input, which holds already saved details
             publisherScrapePost.PublisherSharePostViewModel.SharePostModel =
                 PublisherCreateCampaignModel.SharePostModel;
         }
+
+        /// <summary>
+        /// To change the scrape posts details
+        /// </summary>
+        /// <param name="publisherScrapePost"><see cref="PublisherScrapePost"/>given input while saving</param>
         private void SetPublisherScrapePost(PublisherScrapePost publisherScrapePost)
         {
+            // Assign the scrape posts model
             publisherScrapePost.PublisherScrapePostViewModel.ScrapePostModel =
                 PublisherCreateCampaignModel.ScrapePostModel;
         }
+
+        /// <summary>
+        /// To change the monitor folder details
+        /// </summary>
+        /// <param name="publisherMonitorFolder"><see cref="PublisherMonitorFolder"/> given input details</param>
         private void SetPublisherMonitorFolder(PublisherMonitorFolder publisherMonitorFolder)
         {
+            // Assign model for to Ui 
             publisherMonitorFolder.PublisherMonitorFolderViewModel.LstFolderPath =
                 PublisherCreateCampaignModel.LstFolderPath;
+
             publisherMonitorFolder.PublisherMonitorFolderViewModel.PublisherMonitorFolderModel = new PublisherMonitorFolderModel();
+
+            // Set the saved media url
             publisherMonitorFolder.PostContentControl.SetMedia();
         }
+
+        /// <summary>
+        /// To change the Rss Feed 
+        /// </summary>
+        /// <param name="publisherRssFeed"><see cref="PublisherRssFeed"/> Rss feed details</param>
         private void SetPublisherRssFeedData(PublisherRssFeed publisherRssFeed)
         {
+            // Assign already saved feed url's
             publisherRssFeed.PublisherRssFeedViewModel.LstFeedUrl =
                 PublisherCreateCampaignModel.LstFeedUrl;
             publisherRssFeed.PublisherRssFeedViewModel.PublisherRssFeedModel = new PublisherRssFeedModel();
+
+            // Set the save media urls
             publisherRssFeed.PostContentControl.SetMedia();
         }
+
+        /// <summary>
+        /// To change the direct post details
+        /// </summary>
+        /// <param name="publisherDirectPosts"><see cref="PublisherDirectPosts"/>Saved direct post details</param>
         private void SetPostContectData(PublisherDirectPosts publisherDirectPosts)
         {
+            // Assign direct post model
             publisherDirectPosts.PublisherDirectPostsViewModel.PostDetailsModel =
                 PublisherCreateCampaignModel.PostDetailsModel;
+
+            //Set the Images and initialize neccessary image viewer details
             publisherDirectPosts.PostContentControl.SetMedia();
             publisherDirectPosts.ImageMediaViewer.Initialize();
         }

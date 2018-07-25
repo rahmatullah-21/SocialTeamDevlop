@@ -98,5 +98,8 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         [Column(Order = 36)]
         public DateTime InteractionDateTime { get; set; }
 
+        [Column(Order = 37)]
+        public string CommentText { get; set; }
+
     }
 }

@@ -288,11 +288,5 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(19)]
         public ObservableCollection<PostDetailsModel> LstMultipleImagePostCollection { get; set; } = new ObservableCollection<PostDetailsModel>();
 
-
-
-
-
-
-
     }
 }

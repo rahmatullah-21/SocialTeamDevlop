@@ -8,12 +8,12 @@ namespace DominatorHouseCore.Enums
         Unknown = 3,
         Unisex = 4,
     }
-    public enum Message
+    public enum ChatMessage
     {
         Sent = 1,
         Received = 2,
     }
-    public enum MessageType
+    public enum ChatMessageType
     {
         Text,
         Media,
