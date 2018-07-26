@@ -250,6 +250,25 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
+
+        private List<PublisherDestinationDetailsModel> _destinationDetailsModels = new List<PublisherDestinationDetailsModel>();
+        [ProtoMember(13)]
+        public List<PublisherDestinationDetailsModel> DestinationDetailsModels
+        {
+            get
+            {
+                return _destinationDetailsModels;
+            }
+            set
+            {
+                if (_destinationDetailsModels == value)
+                    return;
+                _destinationDetailsModels = value;
+                OnPropertyChanged(nameof(DestinationDetailsModels));
+            }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -273,7 +292,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SelectedAccountIds = new List<string>(),
                 CustomDestinations = new List<KeyValuePair<string, PublisherCustomDestinationModel>>(),
                 AccountsWithNetwork = new List<KeyValuePair<SocialNetworks, string>>(),
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                DestinationDetailsModels = new List<PublisherDestinationDetailsModel>()
             };
 
 
@@ -368,5 +388,33 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
             UpdateDestination(updateCreateDestinationModel);
         }        
+        
+
+
+    }
+
+
+
+    [ProtoContract]
+    public class PublisherDestinationDetailsModel
+    {
+        [ProtoMember(1)]
+        public string DestinationUrl { get; set; } =string.Empty;
+
+        [ProtoMember(2)]
+        public string DestinationType { get; set; } = string.Empty;
+
+        [ProtoMember(3)]
+        public string AccountId { get; set; } = string.Empty;
+
+        [ProtoMember(4)]
+        public SocialNetworks SocialNetworks { get; set; } = SocialNetworks.Social;
+
+        [ProtoIgnore]
+        public PublisherPostlistModel PublisherPostlistModel { get; set; } = new PublisherPostlistModel();
+
+        [ProtoMember(5)]
+        public bool IsCustomDestintions { get; set; }
+
     }
 }

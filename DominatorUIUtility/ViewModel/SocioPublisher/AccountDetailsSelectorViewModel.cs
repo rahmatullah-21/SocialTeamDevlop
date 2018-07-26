@@ -262,5 +262,26 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             });
             return selectedItems;
         }
+
+        public IEnumerable<PublisherDestinationDetailsModel> GetSelectedItemsDestinations(string destinationType)
+        {
+            var selectedDestinations = new List<PublisherDestinationDetailsModel>();
+
+            ListAccountDetailsSelectorModels.ForEach(x =>
+            {
+                if (x.IsSelected)
+                    selectedDestinations.Add(new PublisherDestinationDetailsModel
+                    {
+                        AccountId = x.AccountId ,
+                        DestinationType = destinationType,
+                        DestinationUrl = x.DetailUrl,
+                        SocialNetworks = x.Network,
+                        PublisherPostlistModel = new PublisherPostlistModel()
+
+                    });
+            });
+
+            return selectedDestinations;
+        }
     }
 }

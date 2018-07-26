@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.Publisher;
@@ -755,20 +756,27 @@ namespace DominatorHouseCore.Process
                         return;
                     }
 
-                    var allDestinations = new List<string>();
+                    var postsMaximumDestinationCount = campaignStatusModel.TotalRandomDestination;
+
+                    var postsAccountDestinationLimits = campaignStatusModel.MinRandomDestinationPerAccount;
+
+                    var allDestinations = new ConcurrentBag<PublisherDestinationDetailsModel>();
+                    var allAccountsId = new List<string>();
 
                     // Iterate all selected destinations
                     publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                     {
                         // Get destination details
                         var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
-
-                        if (destinationDetails != null)
-                        {
-                            
-                        }
-
+                        allAccountsId.AddRange(destinationDetails.SelectedAccountIds);
+                        destinationDetails?.DestinationDetailsModels.ForEach(x => allDestinations.Add(x));
                     });
+
+                    allAccountsId = allAccountsId.Distinct().ToList();
+
+                    var destinations = AddPostsToDestination(allDestinations, allAccountsId,campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount, postsAccountDestinationLimits);
+
+
 
                 }
 
@@ -955,6 +963,105 @@ namespace DominatorHouseCore.Process
                 ex.DebugLog();
             }
         }
+
+
+
+        public static List<PublisherDestinationDetailsModel> AddPostsToDestination(ConcurrentBag<PublisherDestinationDetailsModel> destinationDetails,List<string> accountIds, string campaignId, string campaignName, int postsMaximumDestinationCount, int postsAccountDestinationLimits)
+        {
+            var destinationWithPosts = new List<PublisherDestinationDetailsModel>();
+
+            var updatelock = GetPostsForPublishing.GetOrAdd(campaignId, _lock => new object());
+
+            lock (updatelock)
+            {
+                // Getting all pending post lists
+                var pendingPostList = PostlistFileManager.GetAll(campaignId)
+                    .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
+
+                // Checking, If no more post available
+                if (!pendingPostList.Any())
+                {
+                    GlobusLogHelper.log.Info($"No more unique post are available for campaign {campaignName}!");
+                    return null;
+                }
+
+                //Get the general settings from bin files
+                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                                              (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                              .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
+
+                // Validate the toaster notifications is needed
+                if (ConstantVariable.IsToasterNotificationNeed)
+                {
+                    // If user needs to notify when postlists going lesser than specified post, then trigger a notifications
+                    if (pendingPostList.Count < generalSettingsModel.TriggerNotificationCount &&
+                        generalSettingsModel.TriggerNotificationCount > 0)
+                        ToasterNotification.ShowInfomation(
+                            $"{campaignName} has {pendingPostList.Count} pending post!");
+                }
+
+                // Check whether needs to shuffle postlist order
+                if (generalSettingsModel.IsChooseRandomPostsChecked)
+                    pendingPostList.Shuffle();
+
+                // if(!generalSettingsModel.IsStopRandomisingDestinationsOrder)
+             
+                foreach (var post in pendingPostList)
+                {
+                    // No Accounts limit
+                    if (postsAccountDestinationLimits == 0)
+                    {
+                        for (var initial = 0; initial < postsMaximumDestinationCount; initial++)
+                        {
+                            PublisherDestinationDetailsModel destination;
+                            var isRetrieved = destinationDetails.TryTake(out destination);
+                            if (!isRetrieved)
+                                continue;
+                            destination.PublisherPostlistModel = post;
+
+                            destinationWithPosts.Add(destination);
+
+                            if (destinationDetails.Count == 0)
+                                return destinationWithPosts;
+                        }
+                    }
+                    else
+                    {
+                        var addedCount = 0;
+
+                        foreach (var accountId in accountIds)
+                        {
+                            var destinations = destinationDetails.Where(x => x.AccountId == accountId)
+                                .Take(postsMaximumDestinationCount).ToList();
+
+                            foreach (var destination in destinations)
+                            {
+                                destination.PublisherPostlistModel = post;
+                                destinationWithPosts.Add(destination);
+                            }
+
+                            addedCount += destinations.Count;
+
+                            var remainingDestinations = destinationDetails.ToList().Except(destinations);
+
+                            destinationDetails = new ConcurrentBag<PublisherDestinationDetailsModel>(remainingDestinations);
+
+                            if (addedCount > postsMaximumDestinationCount)
+                                break;
+                        }
+                    }
+
+                    if (destinationDetails.Count == 0)
+                        return destinationWithPosts;
+                }
+            }
+
+            return destinationWithPosts;
+        }
+
+
+
+
 
         public static void StartPublishingPosts(PublisherPostlistModel post, Action startAction)
         {

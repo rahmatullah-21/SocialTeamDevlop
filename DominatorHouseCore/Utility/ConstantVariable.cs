@@ -267,5 +267,13 @@ namespace DominatorHouseCore.Utility
         public static string ContactSupportLink { get; set; } = "http://help.socinator.com/support/home";
 
         public static bool IsToasterNotificationNeed { get; set; } = true;
+
+
+        public static string PageOrBoard { get; set; } = "PageOrBoard";
+
+        public static string Group { get; set; } = "Group";
+
+        public static string OwnWall { get; set; } = "OwnWall";
+
     }
 }
