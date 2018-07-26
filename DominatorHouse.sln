@@ -57,6 +57,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeDominatorUI", "..\yo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorUIUtility", "DominatorUIUtility\DominatorUIUtility.csproj", "{E8D95AF0-E99B-4059-9140-5C02B3F52E06}"
 EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "PublisherModeling", "PublisherModeling\PublisherModeling.modelproj", "{8A985047-6C85-4B66-9D67-5076F1468EAA}"
+EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "DominatorHouseSocialModeling", "DominatorHouseSocialModeling\DominatorHouseSocialModeling.modelproj", "{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -385,6 +389,30 @@ Global
 		{E8D95AF0-E99B-4059-9140-5C02B3F52E06}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8D95AF0-E99B-4059-9140-5C02B3F52E06}.Release|x86.ActiveCfg = Release|x86
 		{E8D95AF0-E99B-4059-9140-5C02B3F52E06}.Release|x86.Build.0 = Release|x86
+		{8A985047-6C85-4B66-9D67-5076F1468EAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A985047-6C85-4B66-9D67-5076F1468EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A985047-6C85-4B66-9D67-5076F1468EAA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8A985047-6C85-4B66-9D67-5076F1468EAA}.Debug|x86.Build.0 = Debug|Any CPU
+		{8A985047-6C85-4B66-9D67-5076F1468EAA}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A985047-6C85-4B66-9D67-5076F1468EAA}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{8A985047-6C85-4B66-9D67-5076F1468EAA}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{8A985047-6C85-4B66-9D67-5076F1468EAA}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{8A985047-6C85-4B66-9D67-5076F1468EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A985047-6C85-4B66-9D67-5076F1468EAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A985047-6C85-4B66-9D67-5076F1468EAA}.Release|x86.ActiveCfg = Release|Any CPU
+		{8A985047-6C85-4B66-9D67-5076F1468EAA}.Release|x86.Build.0 = Release|Any CPU
+		{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}.Debug|x86.Build.0 = Debug|Any CPU
+		{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}.Release|x86.ActiveCfg = Release|Any CPU
+		{FF54A68B-88E9-4056-83A4-2EF08D5DB7DD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

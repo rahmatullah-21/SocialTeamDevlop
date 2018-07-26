@@ -753,7 +753,7 @@ namespace DominatorHouseCore.Process
                         PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
                         // Check whether current post has already published with destinations 
-                        if (!ValidateNetworkAdvancedSettings(post, "Group", groupUrl, true))
+                        if (!PostValidations(post, "Group", groupUrl, true))
                             continue;
 
                         // check already maximum post has reached or not
@@ -804,7 +804,7 @@ namespace DominatorHouseCore.Process
                         PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
                         // Check whether current post has already published with destinations 
-                        if (!ValidateNetworkAdvancedSettings(post, "Page", pageUrl, true))
+                        if (!PostValidations(post, "Page", pageUrl, true))
                             continue;
 
                         // check already maximum post has reached or not
@@ -859,7 +859,7 @@ namespace DominatorHouseCore.Process
                             break;
 
                         // Check whether current post has already published with destinations 
-                        if (!ValidateNetworkAdvancedSettings(post, customList.DestinationType, customList.DestinationValue, true))
+                        if (!PostValidations(post, customList.DestinationType, customList.DestinationValue, true))
                             continue;
 
                         // If user needs to publish on a destination only once, then check its used already or not
@@ -940,7 +940,7 @@ namespace DominatorHouseCore.Process
                         if (x.Value == "Group")
                         {
                             // Check whether current post has already published with destinations 
-                            if (!ValidateNetworkAdvancedSettings(post, "Group", x.Key, true))
+                            if (!PostValidations(post, "Group", x.Key, true))
                                 continue;
 
                             // Increase the published count 
@@ -962,7 +962,7 @@ namespace DominatorHouseCore.Process
                         else
                         {
                             // Check whether current post has already published with destinations 
-                            if (!ValidateNetworkAdvancedSettings(post, "Page", x.Key, true))
+                            if (!PostValidations(post, "Page", x.Key, true))
                                 continue;
 
                             // Increase the published count
@@ -1006,7 +1006,7 @@ namespace DominatorHouseCore.Process
                             break;
 
                         // Check whether current post has already published with destinations 
-                        if (!ValidateNetworkAdvancedSettings(post, customList.DestinationType, customList.DestinationValue, true))
+                        if (!PostValidations(post, customList.DestinationType, customList.DestinationValue, true))
                             continue;
 
                         // If user needs to publish on a destination only once, then check its used already or not
@@ -1064,7 +1064,7 @@ namespace DominatorHouseCore.Process
                     CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
                     // Check whether current post has already published with destinations 
-                    if (!ValidateNetworkAdvancedSettings(post, "OwnWall", AccountModel.AccountBaseModel.UserName,
+                    if (!PostValidations(post, "OwnWall", AccountModel.AccountBaseModel.UserName,
                         true))
                         return;
 
@@ -1460,7 +1460,7 @@ namespace DominatorHouseCore.Process
                             : pendingPostList.FirstOrDefault(x => x.PostId != null);
 
                         // Validate current post is fit to publish or not
-                        if (ValidateNetworkAdvancedSettings(filterPostModel, destination, destinationUrl))
+                        if (PostValidations(filterPostModel, destination, destinationUrl))
                         {
                             return filterPostModel;
                         }
@@ -1498,7 +1498,7 @@ namespace DominatorHouseCore.Process
         /// <param name="destinationUrl">destination url</param>
         /// <param name="isDirectPost">specify its direct posts or not</param>
         /// <returns></returns>
-        public bool ValidateNetworkAdvancedSettings(PublisherPostlistModel filterPostModel, string destination, string destinationUrl, bool isDirectPost = false)
+        public bool PostValidations(PublisherPostlistModel filterPostModel, string destination, string destinationUrl, bool isDirectPost = false)
         {
             Thread.Sleep(1000);
 
