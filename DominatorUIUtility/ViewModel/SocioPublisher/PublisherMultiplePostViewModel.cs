@@ -24,8 +24,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             CreateNewPost = new BaseCommand<object>(CanExecuteCreateNewPost, ExecuteCreateNewPost);
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             DeletePostCommand = new BaseCommand<object>(DeletePostCanExecute, DeletePostExecute);
-        }
 
+        }
 
         #region Command
 
@@ -124,11 +124,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     #endregion
 
                     postDetailsModel.PublisherInstagramTitle = allData[2];
+
+                    if(allData.Length >3)
                     postDetailsModel.PdSourceUrl = allData[3];
 
                     #region FdSell
 
-                    if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
+
+                        if (allData.Length > 4 && SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
                     {
                         var Fdsell = Regex.Split(allData[4], separator);
                         if (Fdsell[0] == "IsEnable")

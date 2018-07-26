@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
-
+using System.Windows;
 using DominatorHouseCore.Enums.SocioPublisher;
 using ProtoBuf;
 
@@ -132,8 +132,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-
-
         /// <summary>
         /// Title of the post
         /// </summary>
@@ -213,7 +211,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-       
         /// <summary>
         /// Media Viewer Details
         /// </summary>

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+
 using System.Net;
 using System.Text.RegularExpressions;
+
 using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
@@ -94,7 +96,7 @@ namespace DominatorHouseCore.Utility
                     .Where(x => x.PostSource == PostSource.MonitorFolderPost).ToList();
 
 
-                var usedMonitorFolderTitle = monitorFolderFiles.Where(x=> x.PublisherInstagramTitle!=null).Select(x => x.PublisherInstagramTitle).ToList();
+                var usedMonitorFolderTitle = monitorFolderFiles.Where(x => x.PublisherInstagramTitle != null).Select(x => x.PublisherInstagramTitle).ToList();
 
                 var postTitles = Regex.Split(postDetailsModel.PublisherInstagramTitle, "\r\n").ToList();
 
@@ -104,33 +106,6 @@ namespace DominatorHouseCore.Utility
                 {
                     givenPostTitle.Add(title.Trim());
                 });
-
-
-                var postTitle = string.Empty;
-
-                if (postDetailsModel.IsRandomlyPickTitleFromList)
-                {
-                    var randomNumber = RandomUtilties.GetRandomNumber(givenPostTitle.Count - 1);
-                    postTitle = givenPostTitle[randomNumber];
-                }
-
-                // if (postDetailsModel.IsRemoveTitleOnceUsed)
-                else
-                {
-                    var availablePostTitles = givenPostTitle.Except(usedMonitorFolderTitle).ToList();
-
-                    if (availablePostTitles.Count > 0)
-                    {
-                        var randomNumber = RandomUtilties.GetRandomNumber(availablePostTitles.Count - 1);
-                        postTitle = givenPostTitle[randomNumber];
-                    }
-                    else
-                    {
-                        ToasterNotification.ShowInfomation($"No More unique titles are present in {campaignName}!");                  
-                        postTitle =string.Empty;
-                    }
-                }
-
 
                 // If any files are deleted, then remove from post list
                 if (foldersFiles.Count < monitorFolderFiles.Count)
@@ -158,10 +133,38 @@ namespace DominatorHouseCore.Utility
                     expireDate = postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate;
 
                 // Iterate the files from folder and fetch the neccessary details
-                foldersFiles.ForEach(file =>
+                foreach (var file in foldersFiles)
                 {
                     try
                     {
+
+                        var postTitle = string.Empty;
+
+                        if (postDetailsModel.IsRandomlyPickTitleFromList)
+                        {
+                            var randomNumber = RandomUtilties.GetRandomNumber(givenPostTitle.Count - 1);
+                            postTitle = givenPostTitle[randomNumber];
+                        }
+
+                        // if (postDetailsModel.IsRemoveTitleOnceUsed)
+                        else
+                        {
+                            var availablePostTitles = givenPostTitle.Except(usedMonitorFolderTitle).ToList();
+
+                            if (availablePostTitles.Count > 0)
+                            {
+                                var randomNumber = RandomUtilties.GetRandomNumber(availablePostTitles.Count - 1);
+                                postTitle = availablePostTitles[randomNumber];
+                            }
+                            else
+                            {
+                                ToasterNotification.ShowInfomation($"No More unique titles are present in {campaignName}!");
+                                postTitle = string.Empty;
+                            }
+                        }
+
+                        usedMonitorFolderTitle.Add(postTitle);
+
                         // Generate the post model
                         var publisherPostlistModel = new PublisherPostlistModel
                         {
@@ -253,13 +256,13 @@ namespace DominatorHouseCore.Utility
 
                         // Manipulate the post descriptions
                         publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName, String.Empty))
-                                .Replace("[FileType]", monitorFolderModel.FileType)
-                                .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
-                                .Replace("[FileTitle]", monitorFolderModel.FileTitle)
-                                .Replace("[FileSubject]", monitorFolderModel.FileSubject)
-                                .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
-                                .Replace("[FileComments]", monitorFolderModel.FileComment)
-                                .Replace("[FileTags]", monitorFolderModel.FileTags);
+                            .Replace("[FileType]", monitorFolderModel.FileType)
+                            .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
+                            .Replace("[FileTitle]", monitorFolderModel.FileTitle)
+                            .Replace("[FileSubject]", monitorFolderModel.FileSubject)
+                            .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
+                            .Replace("[FileComments]", monitorFolderModel.FileComment)
+                            .Replace("[FileTags]", monitorFolderModel.FileTags);
 
                         // Check whether Cancellation Requested or not
                         cancellationTokenSource.Token.ThrowIfCancellationRequested();
@@ -292,7 +295,7 @@ namespace DominatorHouseCore.Utility
                     {
                         ex.DebugLog();
                     }
-                });
+                }
 
                 // Check whether need to readd the post 
                 if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
@@ -361,7 +364,7 @@ namespace DominatorHouseCore.Utility
                     publisherInitialize.UpdatePostCounts(campaignId);
                 }
                 else
-                {                 
+                {
                     // Inform the maximum post has reached via Toaster notification
                     ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {campaignName} already have {maximumPostLimitToStore}+ posts in postlist!");
                 }
