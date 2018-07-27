@@ -273,16 +273,19 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// Post Collection details for single post details
         /// </summary>
+        [ProtoMember(17)]
         public ObservableCollection<PostDetailsModel> LstSinglePostCollection { get; set; } = new ObservableCollection<PostDetailsModel>();
 
         /// <summary>
         /// Post collection which holds all direct post collection, where post may belongs to Draft, Pending, Published
         /// </summary>
+        [ProtoMember(18)]
         public ObservableCollection<PostDetailsModel> PostCollection { get; set; } = new ObservableCollection<PostDetailsModel>();
 
         /// <summary>
         /// Post Collection details for Multiple Image post details
         /// </summary>
+        [ProtoMember(19)]
         public ObservableCollection<PostDetailsModel> LstMultipleImagePostCollection { get; set; } = new ObservableCollection<PostDetailsModel>();
 
     }

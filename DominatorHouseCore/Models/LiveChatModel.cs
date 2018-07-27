@@ -13,9 +13,9 @@ namespace DominatorHouseCore.Models
     public class LiveChatModel:BindableBase
     {
        
-        private List<SenderDetails> _lstSender=new List<SenderDetails>();
+        private ObservableCollection<SenderDetails> _lstSender=new ObservableCollection<SenderDetails>();
         [ProtoMember(1)]
-        public List<SenderDetails> LstSender
+        public ObservableCollection<SenderDetails> LstSender
         {
             get
             {
