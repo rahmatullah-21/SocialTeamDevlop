@@ -64,5 +64,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(9)]
         public int NotifyCount { get; set; }
 
+
     }
 }

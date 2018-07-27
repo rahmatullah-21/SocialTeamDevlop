@@ -29,7 +29,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherCreateCampaignViewModel : INotifyPropertyChanged
     {
-      
+
         #region Constructor
 
         public PublisherCreateCampaignViewModel()
@@ -166,7 +166,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
 
-      
+
 
         public List<TabItemTemplates> PostTabItems { get; set; }
 
@@ -300,7 +300,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     // Direct Post Sections
                     #region Direct Post Sections
-                   
+
                     // Add all post in PublisherCreateCampaignModel.PostCollection to Bin file
                     foreach (var post in PublisherCreateCampaignModel.PostCollection)
                     {
@@ -377,15 +377,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
                             postCount++;
                         }
-                    } 
+                    }
                     #endregion
                 }
                 else
                 {
                     // Inform the maximum post has reached via Toaster notification
-                    ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {PublisherCreateCampaignModel.CampaignName} already have {generalSettingsModel.MaxPostCountToStore}+ posts in postlist!");                   
+                    ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {PublisherCreateCampaignModel.CampaignName} already have {generalSettingsModel.MaxPostCountToStore}+ posts in postlist!");
                 }
-            
+
                 #endregion
 
                 #region Fetch Post Details
@@ -431,7 +431,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             JsonConvert.SerializeObject(PublisherCreateCampaignModel.LstFolderPath),
                         MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
                         SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
-                        NotifyCount = generalSettingsModel.TriggerNotificationCount
+                        NotifyCount = generalSettingsModel.TriggerNotificationCount,
+
                     };
 
                     currentCampaignsFetchDetails.Add(monitorFolderFetchModel);
@@ -572,9 +573,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 var lstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
                     ConstantVariable.GetPublisherCampaignFile());
 
-                PublisherCreateCampaignModel.PostDetailsModel = new PostDetailsModel();
+                //  PublisherCreateCampaignModel.PostDetailsModel = new PostDetailsModel();
                 PublisherCreateCampaignModel.UpdatedDate = DateTime.Now;
-                PublisherCreateCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
+                // PublisherCreateCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
 
                 #region Update the Campaigns
 
@@ -598,7 +599,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         Dialog.ShowDialog("Success", "Campaign successfully saved.");
 
                     CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
-                } 
+                }
                 #endregion
 
                 #endregion
@@ -737,7 +738,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 // Get the current campaign Name 
                 PublisherCreateCampaignModel = campaignlists.FirstOrDefault(x => x.CampaignName == (string)sender);
-                
+
                 // Initialize the respective tab items of post sources
                 BindTabItemsControlProperties();
 
@@ -963,8 +964,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             #endregion
 
             return tabItems;
-        } 
-   
+        }
+
         #endregion
     }
 }

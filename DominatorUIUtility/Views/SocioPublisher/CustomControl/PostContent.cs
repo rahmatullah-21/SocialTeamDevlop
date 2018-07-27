@@ -67,6 +67,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public const string ButtonImportImage = "PART_ImportImage";
         public const string ButtonSettings = "PART_Settings";
         public const string MediaViewerControl = "PART_MediaViewer";
+        public const string ImportPostTitle = "PART_ImportPostTitle";
+        public const string ClearPostTitle = "PART_ClearPostTitle";
 
         public string PostDescription
         {
@@ -160,6 +162,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         Button _selectMedia = new Button();
         private Button _buttonSettings = new Button();
+        private Button _buttonImportPostTitle = new Button();
+        private Button _buttonClearPostTitle = new Button();
 
 
         public PublisherPostSettings PublisherPostSettings
@@ -207,7 +211,24 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PostTitleHeightProperty =
             DependencyProperty.Register("PostTitleHeight", typeof(double), typeof(PostContent), new PropertyMetadata(30.0));
+        public Visibility IsImportPostTitleOptionVisibility
+        {
+            get { return (Visibility)GetValue(IsImportPostTitleOptionVisibilityProperty); }
+            set { SetValue(IsImportPostTitleOptionVisibilityProperty, value); }
+        }
 
+        // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsImportPostTitleOptionVisibilityProperty =
+            DependencyProperty.Register("IsImportPostTitleOptionVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Collapsed));
+        public Visibility IsClearPostTitleOptionVisibility
+        {
+            get { return (Visibility)GetValue(IsClearPostTitleOptionVisibilityProperty); }
+            set { SetValue(IsClearPostTitleOptionVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsClearPostTitleOptionVisibilityProperty =
+            DependencyProperty.Register("IsClearPostTitleOptionVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Collapsed));
         #endregion
 
         #region Apply Template
@@ -234,7 +255,39 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             }
 
             #endregion
+            #region Button Import Post title
 
+            var importPostTitle = Template.FindName(ImportPostTitle, this) as Button;
+
+            if (!_buttonImportPostTitle.Equals(importPostTitle))
+            {
+                if (importPostTitle != null)
+                    importPostTitle.Click -= ImportPostTitleClick;
+
+                _buttonImportPostTitle = importPostTitle;
+
+                if (importPostTitle != null)
+                    importPostTitle.Click += ImportPostTitleClick;
+            }
+
+            #endregion
+
+            #region Button Clear Post title
+
+            var clearPostTitle = Template.FindName(ClearPostTitle, this) as Button;
+
+            if (!_buttonClearPostTitle.Equals(clearPostTitle))
+            {
+                if (clearPostTitle != null)
+                    clearPostTitle.Click -= clearPostTitleClick;
+
+                _buttonClearPostTitle = importPostTitle;
+
+                if (clearPostTitle != null)
+                    clearPostTitle.Click += clearPostTitleClick;
+            }
+
+            #endregion
             #region Settings 
 
             var buttonSettingChanges = Template.FindName(ButtonSettings, this) as Button;
@@ -257,6 +310,35 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
 
             this.Loaded += PostContentLoad;
+
+        }
+
+        private void clearPostTitleClick(object sender, RoutedEventArgs e)
+        {
+            PublisherInstagramTitle = String.Empty;
+            tempList = new List<string>();
+        }
+
+        private List<string> tempList = new List<string>();
+        private void ImportPostTitleClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var lstPostTitle = FileUtilities.FileBrowseAndReader();
+                lstPostTitle.ForEach(title =>
+                {
+                    if (!tempList.Any(x => x == title))
+                        tempList.Add(title);
+                });
+
+
+                PublisherInstagramTitle = string.Join("\n", tempList.ToArray());
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
 
         }
 

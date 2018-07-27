@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              mc:Ignorable="d" xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+             xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:behaviour="clr-namespace:DominatorUIUtility.Behaviours"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converter:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
         <converter:MessegeTypeToHorizontalAlignmentConverter x:Key="MessegeTypeToHorizontalAlignmentConverter"/>
@@ -19,19 +21,20 @@
         </Grid.RowDefinitions>
 
         <Grid  Background="{DynamicResource AccentBaseColorBrush}">
-            <ComboBox x:Name="Accounts" Width="200" HorizontalAlignment="Right" ItemsSource="{Binding AccountNames}"
-                      VerticalAlignment="Center" Margin="20,0" SelectedIndex="0" SelectedItem="{Binding SelectedAccount}"
-                      SelectionChanged="cmbAccounts_SelectionChanged"/>
+            <ComboBox x:Name="Accounts" Width="200" HorizontalAlignment="Right" ItemsSource="{Binding LiveChatModel.AccountNames}"
+                      VerticalAlignment="Center" Margin="20,0" SelectedIndex="0" SelectedItem="{Binding LiveChatModel.SelectedAccount}"
+                     behaviour:SelectionChangedBehaviour.Command="{Binding UserSelectionChangedCommand}"/>
         </Grid>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" MinWidth="300" MaxWidth="800"/>
+                <ColumnDefinition Width="Auto" MinWidth="350" MaxWidth="800"/>
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="*" MinWidth="400"/>
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="Senders" Margin="0,5" SelectedItem="{Binding SenderDetails}"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding LstSender}" SelectionChanged="Senders_SelectionChanged">
+            <ListBox x:Name="Senders" Margin="0,5" SelectedItem="{Binding LiveChatModel.SenderDetails}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding LiveChatModel.LstSender}"
+                     behaviour:SelectionChangedBehaviour.Command="{Binding FriendSelectionChangedCommand}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -60,7 +63,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <GridSplitter Width="5" Grid.Column="1" HorizontalAlignment="Right" 
+            <GridSplitter Width="5" Grid.Column="1" HorizontalAlignment="Right"
                    VerticalAlignment="Stretch"   ResizeBehavior="PreviousAndNext"
                    Background="{DynamicResource AccentBaseColorBrush}" ResizeDirection="Columns"/>
             <Grid Grid.Column="2" >
@@ -68,7 +71,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <ListBox ItemsSource="{Binding LstChat}" Visibility="{Binding ElementName=Senders,
+                <ListBox ItemsSource="{Binding LiveChatModel.LstChat}" Visibility="{Binding ElementName=Senders,
                     Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
@@ -90,7 +93,7 @@
 
                                         <Border CornerRadius="10"  Padding="15"  Background="{DynamicResource AccentColorBrush}">
                                             <TextBox IsReadOnly="True" BorderThickness="0" Background="Transparent" 
-                                                    x:Name="Messege"  Text="{Binding Messeges}" Grid.Column="0" Foreground="White"
+                                                    x:Name="Messege"  Text="{Binding Messeges}" Foreground="White"
                                                     VerticalAlignment="Top"  Margin="10,5" HorizontalAlignment="Left"/>
                                         </Border>
 
@@ -114,64 +117,83 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                
-                <Grid Grid.Row="1" MinHeight="50" MaxHeight="114" Visibility="{Binding ElementName=Senders,
+
+                <Border BorderThickness="2" Margin="5,0,0,0" Grid.Row="1" BorderBrush="Gainsboro" Visibility="{Binding ElementName=Senders,
                     Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                    <Grid MinHeight="50" MaxHeight="114" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                    <!-- Attach button -->
-                    <Button  VerticalAlignment="Center" Background="Transparent">
-                        <Button.Content>
-                            <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="30" Width="20">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Visual="{StaticResource appbar_paperclip}" Stretch="Fill"/>
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button.Content>
-                    </Button>
-
-                    <!-- Message box -->
-                    <TextBox Grid.Column="1" x:Name="TxtMessege"
-                     controls:TextBoxHelper.Watermark="Write a message..."
-                     VerticalAlignment="Center" Height="40"
-                     BorderThickness="0"  AcceptsReturn="True" Text="{Binding TextMessage}"
-                     AcceptsTab="True"  VerticalScrollBarVisibility="Auto" >
-                        <TextBox.Effect>
-                            <DropShadowEffect BlurRadius="10"  Direction="90" />
-                        </TextBox.Effect>
-                    </TextBox>
-
-                    <StackPanel Grid.Column="2" Orientation="Horizontal"
-                        VerticalAlignment="Top" Margin="0 0 8 0" >
-
-                        <!-- Emoji button -->
-                        <Button Background="Transparent" >
+                        <!-- Attach button -->
+                        <Button  VerticalAlignment="Center" Background="Transparent" Command="{Binding AttachFileCommand}">
                             <Button.Content>
-                                <Rectangle Fill="Orange" HorizontalAlignment="Center" Height="30" Width="30">
+                                <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="35" Width="15">
                                     <Rectangle.OpacityMask>
-                                        <VisualBrush Visual="{StaticResource appbar_social_drupal}" Stretch="Fill"/>
+                                        <VisualBrush Visual="{StaticResource appbar_paperclip}" Stretch="Fill"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                             </Button.Content>
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Quora }">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
                         </Button>
 
-                        <!-- Send button -->
-                        <Button Padding="8"  Background="Transparent" x:Name="BtnSend" Click="BtnSend_Click">
-                            <Button.Content>
-                                <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="30" Width="30">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Visual="{StaticResource appbar_chevron_right}" Stretch="Fill"/>
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                            </Button.Content>
-                        </Button>
-                    </StackPanel>
-                </Grid>
-                
+                        <!-- Message box -->
+                        <TextBox Grid.Column="1" x:Name="TxtMessege"
+                                 controls:TextBoxHelper.Watermark="{DynamicResource LangKeyWriteAMessage}"
+                                 VerticalAlignment="Center" Height="40"
+                                 BorderThickness="0"  AcceptsReturn="True" Text="{Binding LiveChatModel.TextMessage, Mode=TwoWay}"
+                                 AcceptsTab="True"  VerticalScrollBarVisibility="Auto" />
+                           
+
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 8 0" >
+
+                            <!-- Emoji button -->
+                            <Button Background="Transparent" Command="{Binding EmojiCommand}">
+                                <Button.Content>
+                                    <Rectangle Fill="Orange" HorizontalAlignment="Center" Height="30" Width="30">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Visual="{StaticResource appbar_social_drupal}" Stretch="Fill"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button.Content>
+                            </Button>
+
+                            <!-- Send button -->
+                            <Button Padding="8"  Background="Transparent" x:Name="BtnSend" Command="{Binding SendMessageCommand}">
+                                <Button.Content>
+                                    <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="30" Width="30" VerticalAlignment="Center">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill">
+                                                <VisualBrush.Visual>
+                                                    <Path  Canvas.Left="11.0833" Canvas.Top="17.4167" Stretch="Fill"
+                                                           Fill="Gainsboro" Data="M17.218,2.268L2.477,8.388C2.13,8.535,2.164,9.05,2.542,9.134L9.33,10.67l1.535,6.787c0.083,0.377,0.602,0.415,0.745,0.065l6.123-14.74C17.866,2.46,17.539,2.134,17.218,2.268 M3.92,8.641l11.772-4.89L9.535,9.909L3.92,8.641z M11.358,16.078l-1.268-5.613l6.157-6.157L11.358,16.078z"></Path>
+                                       
+                                                </VisualBrush.Visual>
+                                            </VisualBrush>
+                                            <!--<VisualBrush Visual="{StaticResource appbar_chevron_right}" Stretch="Fill"/>-->
+                                        </Rectangle.OpacityMask>
+                                        <Rectangle.LayoutTransform>
+                                            <RotateTransform Angle="45"/>
+                                        </Rectangle.LayoutTransform>
+                                    </Rectangle>
+                                </Button.Content>
+                               
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
             </Grid>
         </Grid>
     </Grid>

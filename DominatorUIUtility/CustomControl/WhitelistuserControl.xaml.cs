@@ -83,12 +83,17 @@ namespace DominatorUIUtility.CustomControl
             }
             else
             {
+                DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
+                dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser);
+                var blackListdbOperations = new DbOperations(dbContext);
+                var blacklistUser = blackListdbOperations.Get<BlackListUser>();
                 Txtusername.Text.Split('\n').ForEach(user =>
                 {
                     var userName = user.Trim();
                     if (!string.IsNullOrEmpty(userName))
                     {
-                        if (!WhitelistUserModel.LstWhiteListUsers.Any(x => x.WhitelistUser == userName))
+                        if (!WhitelistUserModel.LstWhiteListUsers.Any(x =>string.Compare(x.WhitelistUser,userName,StringComparison.InvariantCultureIgnoreCase)==0)
+                            && !blacklistUser.Any(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) == 0 ))
                         {
                             WhitelistUserModel.LstWhiteListUsers.Add(
                                 new WhitelistUserModel()
@@ -102,7 +107,8 @@ namespace DominatorUIUtility.CustomControl
                             });
                         }
                         else
-                            GlobusLogHelper.log.Info($"{userName} already added to Whitelist");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork,  userName, UserType.WhiteListedUser, $"{userName} already added to Whitelist/Blacklist");
+
                     }
                 });
                 Txtusername.Clear();

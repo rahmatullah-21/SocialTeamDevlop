@@ -88,14 +88,14 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                             Content = new Lazy<UserControl>(() => new PostTumblrSettings(PublisherPostSettings))
                         });
                         break;
-                    case SocialNetworks.Pinterest:
-                    case SocialNetworks.Reddit:
+                  case SocialNetworks.Reddit:
                         items.Add(new TabItemTemplates
                         {
                             Title = FindResource("LangKeyReddit").ToString(),
                             Content = new Lazy<UserControl>(() => new PostRedditSettings(PublisherPostSettings))
                         });
                         break;
+                    case SocialNetworks.Pinterest:
                     case SocialNetworks.Quora:
                     case SocialNetworks.Gplus:
                     case SocialNetworks.Youtube:

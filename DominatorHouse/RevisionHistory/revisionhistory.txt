@@ -1,3 +1,11 @@
+Version[1.0.0.5],[25th-July-18]
+
+Fixed:
+Issues with importing CSV, Excel and Text Files
+
+New Feature:
+Added option to create posts with multiple titles in monitor folder
+
 Version[1.0.0.4],[24th-July-18]
 
 New Features:-
