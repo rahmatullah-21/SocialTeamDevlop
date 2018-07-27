@@ -17,7 +17,7 @@ namespace DominatorHouseCore.ViewModel
         {
             try
             {
-                var result = Regex.Split(ConstantVariable.Revision, "version").ToList();
+                var result = Regex.Split(ConstantVariable.Revision, "Version").ToList();
                 if (result != null && result.Count != 0)
                 {
                     AddingVersionDetails(result);
@@ -49,7 +49,7 @@ namespace DominatorHouseCore.ViewModel
                         {
                             _lstRevisionHistoryModel.Add(new RevisionHistoryModel
                             {
-                                Version = _lstRevisionHistoryModel.Count + ". " + versionDatails[0],
+                                Version = versionDatails[0],
                                 RevisionDate = versionDatails[1],
                                 LstContent = LstContent
                             });
