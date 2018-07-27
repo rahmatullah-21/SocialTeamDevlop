@@ -21,9 +21,14 @@
         </Grid.RowDefinitions>
 
         <Grid  Background="{DynamicResource AccentBaseColorBrush}">
-            <ComboBox x:Name="Accounts" Width="200" HorizontalAlignment="Right" ItemsSource="{Binding LiveChatModel.AccountNames}"
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Content="{DynamicResource LangKeyRefreshEvery}"  Foreground="White" VerticalAlignment="Center"/>
+                <controls:NumericUpDown Minimum="0" Value="{Binding LiveChatModel.Seconds}" VerticalAlignment="Center"/>
+                <Label Content="{DynamicResource LangKeySeconds}" Foreground="White" VerticalAlignment="Center"/>
+                <ComboBox x:Name="Accounts" Width="200" HorizontalAlignment="Right" ItemsSource="{Binding LiveChatModel.AccountNames}"
                       VerticalAlignment="Center" Margin="20,0" SelectedIndex="0" SelectedItem="{Binding LiveChatModel.SelectedAccount}"
                      behaviour:SelectionChangedBehaviour.Command="{Binding UserSelectionChangedCommand}"/>
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Row="1">

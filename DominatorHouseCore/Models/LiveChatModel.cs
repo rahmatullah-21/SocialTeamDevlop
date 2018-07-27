@@ -133,6 +133,23 @@ namespace DominatorHouseCore.Models
             }
         }
 
+        private int _seconds;
+
+        public int Seconds
+        {
+            get
+            {
+                return _seconds;
+            }
+            set
+            {
+                if (_seconds == value)
+                    return;
+                SetProperty(ref _seconds, value);
+            }
+        }
+
+
     }
 
 
