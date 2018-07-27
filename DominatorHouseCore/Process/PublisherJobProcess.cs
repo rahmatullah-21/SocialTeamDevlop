@@ -22,14 +22,14 @@ namespace DominatorHouseCore.Process
     {
         #region Constructor
 
-        protected PublisherJobProcess(string campaignId,
-            string accountId,
+        protected PublisherJobProcess(string campaignId, 
+            string accountId, 
             SocialNetworks network,
-            List<string> groupDestinationLists,
-            List<string> pageDestinationList,
+            List<string> groupDestinationLists, 
+            List<string> pageDestinationList, 
             List<PublisherCustomDestinationModel> customDestinationModels,
             bool isPublishOnOwnWall,
-            CancellationTokenSource camapignCancellationToken)
+            CancellationTokenSource campaignCancellationToken)
         {
             // assign campaign Id
             CampaignId = campaignId;
@@ -62,7 +62,7 @@ namespace DominatorHouseCore.Process
 
             OtherConfiguration = publisherCampaign?.OtherConfiguration;
 
-            CampaignCancellationToken = camapignCancellationToken;
+            CampaignCancellationToken = campaignCancellationToken;
 
             CurrentJobCancellationToken = new CancellationTokenSource();
 
@@ -75,6 +75,47 @@ namespace DominatorHouseCore.Process
 
             CampaignName = campaign?.CampaignName;
 
+        }
+
+
+        protected PublisherJobProcess(string campaignId, string campaignName, string accountId,SocialNetworks network,
+            IEnumerable<PublisherDestinationDetailsModel> destinationDetails,
+            CancellationTokenSource campaignCancellationToken)
+        {
+
+            // assign campaign Id
+            CampaignId = campaignId;
+
+            // assign network 
+            Network = network;
+
+            //Get the general settings from bin files
+            GeneralSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                                       (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                       .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
+
+            // Get the full account details from account Id
+            AccountModel = AccountsFileManager.GetAccountById(accountId);
+
+            PublisherDestinationDetailsModels = destinationDetails.ToList();
+
+               // Get the campaigns full model
+            var publisherCampaign =
+                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable
+                    .GetPublisherCampaignFile()).FirstOrDefault(x => x.CampaignId == CampaignId);
+
+            JobConfigurations = publisherCampaign?.JobConfigurations;
+
+            OtherConfiguration = publisherCampaign?.OtherConfiguration;
+
+            CampaignCancellationToken = campaignCancellationToken;
+
+            CurrentJobCancellationToken = new CancellationTokenSource();
+
+            //Linked the job configuration's cancellation token source with campaign's cancellation token
+            CombinedCancellationToken = CancellationTokenSource.CreateLinkedTokenSource(CampaignCancellationToken.Token, CurrentJobCancellationToken.Token);
+
+            CampaignName = campaignName;
         }
 
         #endregion
@@ -130,6 +171,9 @@ namespace DominatorHouseCore.Process
         /// Pages destination collections
         /// </summary>
         public List<string> PageDestinationList { get; set; }
+
+
+        public List<PublisherDestinationDetailsModel> PublisherDestinationDetailsModels { get; set; } 
 
         /// <summary>
         /// Custom destination collections
@@ -265,6 +309,133 @@ namespace DominatorHouseCore.Process
 
             }
         }
+
+
+        /// <summary>
+        /// To Start publishing a post for an account
+        /// </summary>      
+        /// <param name="isRunParallel">Specify whether need to run on parallely or not</param>
+        public void StartPublishingPosts( bool isRunParallel)
+        {
+            lock (SyncJobProcess)
+            {
+                // check whether need to run parallel
+                if (isRunParallel)
+                {
+                    // Call with task
+                    ThreadFactory.Instance.Start(() =>
+                    {
+                        // start publishing with max post count
+                        StartPublish();
+
+                        // check any action waiting to perform
+                        PublishScheduler.RunAndRemovePublisherAction($"{CampaignId}-{AccountModel.AccountBaseModel.AccountId}");
+
+                        // after completion of publishing, decrease a publishing count
+                        PublishScheduler.DecreasePublishingCount(CampaignId);
+
+                        GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
+
+                    }, CampaignCancellationToken.Token);
+                }
+                else
+                {
+                    // start publishing with max post count
+                    StartPublish();
+
+                    // check any action waiting to perform
+                    PublishScheduler.RunAndRemovePublisherAction($"{CampaignId}-{AccountModel.AccountBaseModel.AccountId}");
+
+                    // after completion of publishing, decrease a publishing count
+                    PublishScheduler.DecreasePublishingCount(CampaignId);
+
+                    GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// Starting a post for a current accounts with selected destinations
+        /// </summary>     
+        private void StartPublish()
+        {
+            PublishedCount=0;
+
+            try
+            {
+                // Getting the delay while running after a x posts completions
+                var multipostDelayCount = RandomUtilties.GetRandomNumber(JobConfigurations.PostRange.EndValue, JobConfigurations.PostRange.StartValue);
+
+                foreach (var destination in PublisherDestinationDetailsModels)
+                {
+                    // check whether cancellation token source already arised or not 
+                    CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+
+                    var destinationUrls = destination.DestinationType == ConstantVariable.OwnWall
+                        ? AccountModel.AccountBaseModel.UserName
+                        : destination.DestinationUrl;
+
+                    GlobusLogHelper.log.Info(Log.StartPublishing,
+                        AccountModel.AccountBaseModel.AccountNetwork,
+                        AccountModel.AccountBaseModel.UserName, $"{destination.DestinationType} [{destinationUrls}]");
+
+                    if (destination.DestinationType == ConstantVariable.Group)
+                    {
+                        // call networks to publishing on groups 
+                        PublishOnGroups(AccountModel.AccountId, destination.DestinationUrl, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
+                        
+                    }
+                    else if (destination.DestinationType == ConstantVariable.PageOrBoard)
+                    {
+                        // call networks to publishing on pages
+                        PublishOnPages(AccountModel.AccountId, destination.DestinationUrl, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
+                    }
+                    else if (destination.DestinationType == ConstantVariable.OwnWall)
+                    {
+                        // call networks to publishing on own wall of an account
+                        PublishOnOwnWall(AccountModel.AccountId, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
+                    }
+                    else
+                    {
+                        var customList = new PublisherCustomDestinationModel
+                        {
+                            DestinationType = destination.DestinationType,
+                            DestinationValue = destination.DestinationUrl
+                        };
+
+                        // call networks to publishing on custom destinations 
+                        PublishOnCustomDestination(AccountModel.AccountId, customList, destination.PublisherPostlistModel,
+                            destination != PublisherDestinationDetailsModels.Last());
+                    }
+
+                    PublishedCount++;
+
+                    // check whether multiple post delay reached or not
+                    if (PublishedCount % multipostDelayCount == 0)
+                        DelayBetweenMultiPublish();
+                }              
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog("Cancellation Requested!");
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation requested before task completion!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
 
         /// <summary>
         /// Starting a post for a current accounts with selected destinations

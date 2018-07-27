@@ -235,6 +235,10 @@ namespace DominatorHouseCore.Process
             }
         }
 
+
+
+
+
         /// <summary>
         /// Start publishing posts 
         /// </summary>
@@ -760,24 +764,116 @@ namespace DominatorHouseCore.Process
 
                     var postsAccountDestinationLimits = campaignStatusModel.MinRandomDestinationPerAccount;
 
-                    var allDestinations = new ConcurrentBag<PublisherDestinationDetailsModel>();
-                    var allAccountsId = new List<string>();
+                    var accountsWithDestinations = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
+
+                    //Get the general settings from bin files
+                    var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                                                   (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                                   .FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ?? new GeneralModel();
+
+
+                    var accountIds = new SortedSet<string>();
+
+                    var allDestination = new Queue<PublisherDestinationDetailsModel>();
+
+                    var accountsWithNetworks = new Dictionary<string, SocialNetworks>();
+
+                    var totalDestinationCount = 0;
+
+                    // To specify deleted destination, like suppose while making campaign with 10 destination then after some time 5 destination
+                    var deletedDestinationCount = 0;
 
                     // Iterate all selected destinations
                     publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                     {
                         // Get destination details
                         var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
-                        allAccountsId.AddRange(destinationDetails.SelectedAccountIds);
-                        destinationDetails?.DestinationDetailsModels.ForEach(x => allDestinations.Add(x));
+
+                        // If destination is aleady deleted, process will give null from above statement, if its null increase destination count
+                        if (destinationDetails == null)
+                            deletedDestinationCount++;
+
+                        if (!generalSettingsModel.IsStopRandomisingDestinationsOrder)
+                            destinationDetails?.DestinationDetailsModels.Shuffle();
+
+                        destinationDetails?.DestinationDetailsModels.ForEach(x =>
+                        {
+                            // If campaign saved remove already used destination, then remove used destinations
+                            if (advancedSettings.IsDeselectUsedDestination && usedDestination.Contains(x.DestinationUrl))
+                                return;
+
+                            ++totalDestinationCount;
+
+                            accountIds.Add(x.AccountId);
+
+                            if (!accountsWithNetworks.ContainsKey(x.AccountId))
+                                accountsWithNetworks.Add(x.AccountId, x.SocialNetworks);
+
+                            if (postsAccountDestinationLimits > 0)
+                            {
+                                var currentAccountQueue = accountsWithDestinations.GetOrAdd(x.AccountId,
+                                    queue => new Queue<PublisherDestinationDetailsModel>());
+                                currentAccountQueue.Enqueue(x);
+                            }
+                            else
+                                allDestination.Enqueue(x);
+                        });
                     });
 
-                    allAccountsId = allAccountsId.Distinct().ToList();
+                    if (deletedDestinationCount > 0)
+                        GlobusLogHelper.log.Info(
+                            $"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {campaignStatusModel.CampaignName}");
 
-                    var destinations = AddPostsToDestination(allDestinations, allAccountsId,campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount, postsAccountDestinationLimits);
+                    var destinations = postsAccountDestinationLimits > 0 ?
+                         AssignPostsToDestinationWithAccountLimit(accountsWithDestinations, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount, postsAccountDestinationLimits) :
+                         AssignPostsToDestinationWithNoAccountLimit(allDestination, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount);
 
+                    foreach (var destination in destinations)
+                    {
+                        var accountsNetwork = accountsWithNetworks[destination.Key];
 
+                        // Check whether current accounts network present or not
+                        if (!SocinatorInitialize.IsNetworkAvailable(accountsNetwork))
+                        {
+                            GlobusLogHelper.log.Info(
+                                $"You don't have a permission to run with {accountsNetwork} network, please purchase !");
+                            continue;
+                        }
 
+                        // Get the publisher Job process
+                        var publisherJobProcess = PublisherInitialize
+                            .GetPublisherLibrary(accountsNetwork)
+                            .GetPublisherCoreFactory()
+                            .PublisherJobFactory.Create(campaignStatusModel.CampaignId, campaignStatusModel.CampaignName,
+                                destination.Key, accountsNetwork, destination.Value,
+                                currentCampaignsCancallationToken);
+
+                        #region Wait to start actions
+
+                        // Check whether wait to start action after x actions are running parallely
+                        if (advancedSettings.IsWaitToStartAction)
+                        {
+                            if (runningCount >= advancedSettings.JobProcessRunningCount)
+                            {
+                                AddPublisherAction(
+                                    $"{campaignStatusModel.CampaignId}-{destination.Key}", () =>
+                                        publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign));
+                            }
+                            else
+                            {
+                                // Otherwise start calling
+                                publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign);
+                            }
+                        }         
+                                                         
+                        #endregion
+
+                        else
+                        {
+                            // If there is no settings for wait to start, then call directly publishing methods
+                            publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign);
+                        }
+                    }
                 }
 
                 #endregion
@@ -966,7 +1062,280 @@ namespace DominatorHouseCore.Process
 
 
 
-        public static List<PublisherDestinationDetailsModel> AddPostsToDestination(ConcurrentBag<PublisherDestinationDetailsModel> destinationDetails,List<string> accountIds, string campaignId, string campaignName, int postsMaximumDestinationCount, int postsAccountDestinationLimits)
+        public static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> AssignPostsToDestinationWithNoAccountLimit(
+            Queue<PublisherDestinationDetailsModel> totalDestinations,
+            SortedSet<string> accountId,
+            int totalDestinationCount,
+            string campaignId,
+            string campaignName,
+            int postsMaximumDestinationCount)
+        {
+            ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> destinationWithPosts;
+
+
+            var updatelock = GetPostsForPublishing.GetOrAdd(campaignId, _lock => new object());
+
+            lock (updatelock)
+            {
+
+                var givenDestinations = totalDestinations.ToList();
+
+                var accounts = accountId.ToList();
+
+                accounts.Shuffle();
+
+                var postsDestinations = new List<List<string>>();
+
+                #region Split the destinations for a post
+
+                while (true)
+                {
+                    // Split the destination with maximum destinations
+                    var currentPostsDestination = new List<string>();
+
+                    for (var initial = 0; initial < postsMaximumDestinationCount; initial++)
+                    {
+                        if (totalDestinations.Count <= 0)
+                            break;
+                        // Get the destinations
+                        var destination = totalDestinations.Dequeue();
+                        currentPostsDestination.Add(destination.DestinationGuid);
+                    }
+                    if (currentPostsDestination.Count > 0)
+                        // Add the splitted destinations
+                        postsDestinations.Add(currentPostsDestination);
+                    else
+                        break;
+                }
+
+                #endregion
+
+                destinationWithPosts = SubstitudePoststoDestinations(campaignId, campaignName, givenDestinations, postsDestinations);
+            }
+
+            return destinationWithPosts;
+        }
+
+
+        public static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> AssignPostsToDestinationWithAccountLimit
+            (ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> totalDestinations,
+            SortedSet<string> accountId,
+            int totalDestinationCount,
+            string campaignId,
+            string campaignName,
+            int postsMaximumDestinationCount,
+            int postsAccountDestinationLimits)
+        {
+            ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> destinationWithPosts;
+
+            var updatelock = GetPostsForPublishing.GetOrAdd(campaignId, _lock => new object());
+
+            lock (updatelock)
+            {
+                var accountsDestinations = new List<PublisherDestinationDetailsModel>();
+
+                var accounts = accountId.ToList();
+
+                accounts.Shuffle();
+
+                var postsDestinations = new List<List<string>>();
+
+                #region Split the destinations for a post
+
+                while (true)
+                {
+                    // Split the destination with maximum destinations
+                    var currentPostsDestination = new List<string>();
+
+                    foreach (var account in accounts)
+                    {
+                        // Check all destination already partcipate for splitting
+                        if (accountsDestinations.Count >= totalDestinationCount)
+                            break;
+
+                        // current split already assigned reached accounts limits
+                        if (currentPostsDestination.Count >= postsMaximumDestinationCount)
+                            break;
+
+                        // Get the destinations queue   
+                        var currentAccountQueue = totalDestinations[account];
+
+                        for (var accountLimit = 0; accountLimit < postsAccountDestinationLimits; accountLimit++)
+                        {
+                            // current split already assigned reached accounts limits
+                            if (currentPostsDestination.Count >= postsMaximumDestinationCount)
+                                break;
+
+                            if (currentAccountQueue.Count == 0)
+                                break;
+                            var destination = currentAccountQueue.Dequeue();
+                            accountsDestinations.Add(destination);
+                            currentPostsDestination.Add(destination.DestinationGuid);
+                        }
+                    }
+                    if (currentPostsDestination.Count > 0)
+                        // Add the splitted destinations
+                        postsDestinations.Add(currentPostsDestination);
+                    else
+                        break;
+                }
+
+                #endregion
+
+                destinationWithPosts = SubstitudePoststoDestinations(campaignId, campaignName, accountsDestinations, postsDestinations);
+            }
+
+            return destinationWithPosts;
+        }
+
+
+        private static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> SubstitudePoststoDestinations(
+            string campaignId,
+            string campaignName,
+            IReadOnlyCollection<PublisherDestinationDetailsModel> givenDestinations,
+            IReadOnlyList<List<string>> postsDestinations)
+        {
+            if (givenDestinations.Count == 0)
+            {
+                GlobusLogHelper.log.Info("No more unique destinations are present!");
+                return new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
+            }
+
+            var destinationWithPosts = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
+
+            try
+            {
+                // Getting all pending post lists
+                var pendingPostList = PostlistFileManager.GetAll(campaignId)
+                    .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
+
+                // Checking, If no more post available
+                if (!pendingPostList.Any())
+                {
+                    GlobusLogHelper.log.Info($"No more unique post are available for campaign {campaignName}!");
+                    return null;
+                }
+
+                //Get the general settings from bin files
+                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                               .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
+
+                // Validate the toaster notifications is needed
+                if (ConstantVariable.IsToasterNotificationNeed)
+                {
+                    // If user needs to notify when postlists going lesser than specified post, then trigger a notifications
+                    if (pendingPostList.Count < generalSettingsModel.TriggerNotificationCount &&
+                        generalSettingsModel.TriggerNotificationCount > 0)
+                        ToasterNotification.ShowInfomation(
+                            $"{campaignName} has {pendingPostList.Count} pending post!");
+                }
+
+                // Check whether needs to shuffle postlist order
+                if (generalSettingsModel.IsChooseRandomPostsChecked)
+                    pendingPostList.Shuffle();
+
+
+                // Validate whether all destinations contains posts or not
+                if (pendingPostList.Count < postsDestinations.Count)
+                    GlobusLogHelper.log.Info("Pending postlist counts are lesser than required count!");
+
+                #region Assigning the Posts to Destinations
+
+                for (var count = 0; count < pendingPostList.Count; count++)
+                {
+                    // Get the posts
+                    var post = pendingPostList[count];
+
+                    // Check whether count exceeds destinations
+                    if (count >= postsDestinations.Count)
+                        break;
+
+                    // Get the destination
+                    var destinations = postsDestinations[count];
+
+                    // Iterate and assign current post to selected destinations
+                    destinations.ForEach(destinationId =>
+                    {
+                        // get the destination
+                        var destinationDetails = givenDestinations.FirstOrDefault(x => x.DestinationGuid == destinationId);
+
+                        // check null destinations
+                        if (destinationDetails == null)
+                            return;
+
+                        // Assign the posts
+                        destinationDetails.PublisherPostlistModel = post;
+
+                        // get the accounts queue
+                        var accountsQueue = destinationWithPosts.GetOrAdd(destinationDetails.AccountId,
+                                queue => new Queue<PublisherDestinationDetailsModel>());
+
+                        // Add to queue
+                        accountsQueue.Enqueue(destinationDetails);
+
+                        // Append the post list details 
+                        post.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel
+                        {
+                            AccountName = destinationDetails.AccountName,
+                            Destination = destinationDetails.DestinationType,
+                            DestinationUrl = destinationDetails.DestinationType == ConstantVariable.OwnWall
+                                    ? destinationDetails.AccountName
+                                    : destinationDetails.DestinationUrl,
+                            Description = post.PostDescription,
+                            IsPublished = ConstantVariable.Yes,
+                            Successful = ConstantVariable.No,
+                            PublishedDate = DateTime.Now,
+                            Link = ConstantVariable.NotPublished,
+                            CampaignId = campaignId,
+                            CampaignName = campaignName,
+                            SocialNetworks = destinationDetails.SocialNetworks,
+                            AccountId = destinationDetails.AccountId,
+                            ErrorDetails = ConstantVariable.NotPublished,
+                        });
+
+                    });
+
+                    // Mark as published one
+                    post.PostQueuedStatus = PostQueuedStatus.Published;
+
+                    // Calculate already tried count
+                    var triedCount =
+                        post.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
+
+                    // Calculate already success count
+                    var successCount =
+                        post.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
+
+                    // Update the stats
+                    post.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
+
+                    // Checking post expire date time
+                    if (post.ExpiredTime == null)
+                        post.PostRunningStatus = PostRunningStatus.Active;
+                    else
+                    {
+                        post.PostRunningStatus = DateTime.Now > post.ExpiredTime
+                            ? PostRunningStatus.Completed
+                            : PostRunningStatus.Active;
+                    }
+
+                    // Update to bin file
+                    PostlistFileManager.UpdatePost(campaignId, post);
+                }
+                #endregion
+
+                // update stats to publisher default view
+                PublisherInitialize.GetInstance.UpdatePostStatus(campaignId);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return destinationWithPosts;
+        }
+
+        public static List<PublisherDestinationDetailsModel> AddPostsToDestination(ConcurrentBag<PublisherDestinationDetailsModel> destinationDetails, List<string> accountIds, string campaignId, string campaignName, int postsMaximumDestinationCount, int postsAccountDestinationLimits)
         {
             var destinationWithPosts = new List<PublisherDestinationDetailsModel>();
 
@@ -1005,26 +1374,48 @@ namespace DominatorHouseCore.Process
                     pendingPostList.Shuffle();
 
                 // if(!generalSettingsModel.IsStopRandomisingDestinationsOrder)
-             
+
+                var isProcessCompleted = false;
+
+                var usedPosts = new SortedSet<string>();
+
+
+
+
                 foreach (var post in pendingPostList)
                 {
+                    #region Destination assign without accounts limit
+
                     // No Accounts limit
                     if (postsAccountDestinationLimits == 0)
                     {
                         for (var initial = 0; initial < postsMaximumDestinationCount; initial++)
                         {
+                            usedPosts.Add(post.PostId);
+
                             PublisherDestinationDetailsModel destination;
+
                             var isRetrieved = destinationDetails.TryTake(out destination);
+
                             if (!isRetrieved)
                                 continue;
+
                             destination.PublisherPostlistModel = post;
 
                             destinationWithPosts.Add(destination);
 
                             if (destinationDetails.Count == 0)
-                                return destinationWithPosts;
+                            {
+                                isProcessCompleted = true;
+                                break;
+                            }
                         }
                     }
+
+                    #endregion
+
+                    #region Destination assign with account limits
+
                     else
                     {
                         var addedCount = 0;
@@ -1036,6 +1427,7 @@ namespace DominatorHouseCore.Process
 
                             foreach (var destination in destinations)
                             {
+                                usedPosts.Add(post.PostId);
                                 destination.PublisherPostlistModel = post;
                                 destinationWithPosts.Add(destination);
                             }
@@ -1048,19 +1440,35 @@ namespace DominatorHouseCore.Process
 
                             if (addedCount > postsMaximumDestinationCount)
                                 break;
+
+                            if (destinationDetails.Count == 0)
+                            {
+                                isProcessCompleted = true;
+                                break;
+                            }
                         }
                     }
 
-                    if (destinationDetails.Count == 0)
+                    #endregion
+
+                    var allpostlists = PostlistFileManager.GetAll(campaignId);
+                    allpostlists.ForEach(x =>
+                    {
+                        if (usedPosts.Contains(x.PostId))
+                        {
+                            x.PostQueuedStatus = PostQueuedStatus.Published;
+                        }
+                    });
+
+                    PostlistFileManager.UpdatePostlists(campaignId, allpostlists);
+
+                    if (isProcessCompleted)
                         return destinationWithPosts;
                 }
             }
 
             return destinationWithPosts;
         }
-
-
-
 
 
         public static void StartPublishingPosts(PublisherPostlistModel post, Action startAction)
@@ -1245,7 +1653,12 @@ namespace DominatorHouseCore.Process
 
                 // After cancelling remove the token sources from collections
                 if (CampaignsCancellationTokens.ContainsKey(campaignId))
+                {
                     CampaignsCancellationTokens.Remove(campaignId);
+                    var deletedList = new LinkedList<Action>();
+                    PublisherActionList.TryRemove(campaignId, out deletedList);
+                    DecreasePublishingCount(campaignId);
+                }
 
                 // Call to stop already scheduled Jobs
                 StopScheduledPublisher(campaignId);

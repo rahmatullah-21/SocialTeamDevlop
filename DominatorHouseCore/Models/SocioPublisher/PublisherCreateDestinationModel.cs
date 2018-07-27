@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces.SocioPublisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
@@ -249,8 +250,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-
-
         private List<PublisherDestinationDetailsModel> _destinationDetailsModels = new List<PublisherDestinationDetailsModel>();
         [ProtoMember(13)]
         public List<PublisherDestinationDetailsModel> DestinationDetailsModels
@@ -396,8 +395,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
     [ProtoContract]
-    public class PublisherDestinationDetailsModel
+    public class PublisherDestinationDetailsModel : IPublisherDestinationDetailsModel
     {
+
         [ProtoMember(1)]
         public string DestinationUrl { get; set; } =string.Empty;
 
@@ -408,13 +408,19 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public string AccountId { get; set; } = string.Empty;
 
         [ProtoMember(4)]
-        public SocialNetworks SocialNetworks { get; set; } = SocialNetworks.Social;
+        public SocialNetworks SocialNetworks { get; set; }
 
         [ProtoIgnore]
         public PublisherPostlistModel PublisherPostlistModel { get; set; } = new PublisherPostlistModel();
 
         [ProtoMember(5)]
         public bool IsCustomDestintions { get; set; }
+
+        [ProtoMember(6)]
+        public string DestinationGuid { get; set; } = string.Empty;
+
+        [ProtoMember(7)]
+        public string AccountName { get; set; } = string.Empty;
 
     }
 }

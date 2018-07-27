@@ -19,7 +19,6 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
 using DominatorUIUtility.Views.Publisher.AdvancedSettings;
@@ -562,10 +561,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 #endregion
 
-                // If campaign is active then schedule for posting
-                if (PublisherCreateCampaignModel.CampaignStatus == PublisherCampaignStatus.Active)
-                    PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignModel.CampaignId);
-
                 #endregion
 
                 #region Saving Campign to PublisherCampaign.bin file
@@ -588,6 +583,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (GenericFileManager.UpdateModuleDetails<PublisherCreateCampaignModel>(lstCampaign,
                         ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully updated.");
+
+                    // Stop Scheduled Activities
+                    PublishScheduler.StopPublishingPosts(PublisherCreateCampaignModel.CampaignId);
                 }
 
                 #endregion
@@ -603,6 +601,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 #endregion
 
                 #endregion
+
+                // If campaign is active then schedule for posting
+                if (PublisherCreateCampaignModel.CampaignStatus == PublisherCampaignStatus.Active)
+                    PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignModel.CampaignId);
 
                 // Send back to default page
                 PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl

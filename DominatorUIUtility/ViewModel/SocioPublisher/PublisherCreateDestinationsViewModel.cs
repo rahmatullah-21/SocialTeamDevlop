@@ -251,6 +251,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 groups.ForEach(group =>
                 {
+                    group.Network = publisherCreateDestinationSelectModel.SocialNetworks;
+
                     if (!Application.Current.Dispatcher.CheckAccess())
                     {
                         Application.Current.Dispatcher.Invoke(() =>
@@ -346,6 +348,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 pagesOrBoards.ForEach(page =>
                 {
+                    page.Network = publisherCreateDestinationSelectModel.SocialNetworks;
+
                     if (!Application.Current.Dispatcher.CheckAccess())
                     {
                         Application.Current.Dispatcher.Invoke(() =>
@@ -535,6 +539,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     groups.ForEach(group =>
                     {
+                        group.Network = x.SocialNetworks;
                         if (!Application.Current.Dispatcher.CheckAccess())
                         {
                             Application.Current.Dispatcher.Invoke(() =>
@@ -631,6 +636,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         pages.ForEach(group =>
                         {
+                            group.Network = x.SocialNetworks;
                             if (!Application.Current.Dispatcher.CheckAccess())
                             {
                                 Application.Current.Dispatcher.Invoke(() =>
@@ -652,9 +658,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     UpdateStatus(accountDetailsSelector);
             });
         }
-
-
-
 
 
         private static void UpdateStatus(AccountDetailsSelector accountDetailsSelector)
@@ -695,6 +698,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     AccountId = x.AccountBaseModel.AccountId,
                     AccountName = x.AccountBaseModel.UserName,
                     SocialNetworks = x.AccountBaseModel.AccountNetwork,
+                    IsOwnWallAvailable= x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
                     IsGroupsAvailable =
                         GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     IsPagesOrBoardsAvailable =
@@ -794,7 +798,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         if (x.PublishonOwnWall)
                         {
                             PublisherCreateDestinationModel.PublishOwnWallAccount.Add(x.AccountId);
-                            PublisherCreateDestinationModel.DestinationDetailsModels.Add(new PublisherDestinationDetailsModel {AccountId = x.AccountId, SocialNetworks = x.SocialNetworks, DestinationType = ConstantVariable.OwnWall ,DestinationUrl = x.AccountId, PublisherPostlistModel = new PublisherPostlistModel() });
+                            PublisherCreateDestinationModel.DestinationDetailsModels.Add(new PublisherDestinationDetailsModel
+                            {
+                                AccountId = x.AccountId,
+                                SocialNetworks = x.SocialNetworks,
+                                DestinationType = ConstantVariable.OwnWall ,
+                                DestinationUrl = x.AccountId,
+                                PublisherPostlistModel = new PublisherPostlistModel(),
+                                DestinationGuid = Utilities.GetGuid(),
+                                AccountName = x.AccountName
+                            });
                         }
                         else
                         {
@@ -1024,6 +1037,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             AccountId = x.AccountBaseModel.AccountId,
                             AccountName = x.AccountBaseModel.UserName,
                             SocialNetworks = x.AccountBaseModel.AccountNetwork,
+                            IsOwnWallAvailable = x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
                             IsGroupsAvailable =
                                 GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                             IsPagesOrBoardsAvailable =
@@ -1110,7 +1124,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         DestinationUrl = x.DestinationValue,
                         SocialNetworks = publisherCreateDestinationSelectModel.SocialNetworks,
                         PublisherPostlistModel = new PublisherPostlistModel(),
-                        IsCustomDestintions = true
+                        IsCustomDestintions = true,
+                        DestinationGuid = Utilities.GetGuid(),
+                        AccountName = publisherCreateDestinationSelectModel.AccountName
                     });
                 });
 

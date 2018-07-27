@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,9 +11,7 @@ using DominatorHouseCore.Command;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -23,7 +19,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherManageDestinationViewModel : BindableBase
     {
-
         #region Constructor
         public PublisherManageDestinationViewModel()
         {

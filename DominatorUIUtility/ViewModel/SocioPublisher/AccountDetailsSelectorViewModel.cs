@@ -276,8 +276,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         DestinationType = destinationType,
                         DestinationUrl = x.DetailUrl,
                         SocialNetworks = x.Network,
-                        PublisherPostlistModel = new PublisherPostlistModel()
-
+                        PublisherPostlistModel = new PublisherPostlistModel(),
+                        DestinationGuid = Utilities.GetGuid(),
+                        AccountName = x.AccountName                                              
                     });
             });
 
