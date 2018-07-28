@@ -77,7 +77,7 @@ namespace DominatorHouseCore.Process
                 AttachedActionCounts.AddOrUpdate(campaignId, runningCount, (id, count) =>
                 {
                     if (count < 0)
-                       count=0;
+                        count = 0;
                     count = runningCount;
                     return count;
                 });
@@ -235,10 +235,6 @@ namespace DominatorHouseCore.Process
             }
         }
 
-
-
-
-
         /// <summary>
         /// Start publishing posts 
         /// </summary>
@@ -283,472 +279,88 @@ namespace DominatorHouseCore.Process
                 // Increase the running count
                 IncreasePublishingCount(campaignStatusModel.CampaignId);
 
-                #region Random Destination
+                #region Assigning Destinations with posts
 
-                // If Campaign start with random destination
-                // if (campaignStatusModel.IsTakeRandomDestination)
-                if (false)
-                {
-                    // Check whether total destination is zero 
-                    if (campaignStatusModel.TotalRandomDestination == 0)
-                    {
-                        GlobusLogHelper.log.Info($"{campaignStatusModel.CampaignName} has zero as maximum publishing count!");
-                        return;
-                    }
+                #region Initializations
 
-                    var remainingDestinationCount = campaignStatusModel.TotalRandomDestination;
+                var accountsWithDestinations = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
 
-                    //var remainingDestinationCount = campaignStatusModel.TotalRandomDestination - publishedDetails.Count;
+                //Get the general settings from bin files
+                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                               .FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ?? new GeneralModel();
 
-                    // shuffle the selected destination list
-                    publisherPostFetchModel?.SelectedDestinations.Shuffle();
+                var accountIds = new SortedSet<string>();
 
-                    // If campaign saved without any account specific count
-                    #region Perform random destinations without per account count
+                var allDestination = new Queue<PublisherDestinationDetailsModel>();
 
-                    if (campaignStatusModel.MinRandomDestinationPerAccount == 0)
-                    {
-                        var deletedDestinationCount = 0;
+                var accountsWithNetworks = new Dictionary<string, SocialNetworks>();
 
-                        var currentProcessCount = 0;
+                var totalDestinationCount = 0;
 
-                        // Iterate all destinations
-                        publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
-                        {
-                            try
-                            {
-                                // Fetch the destination details
-                                var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
+                // To specify deleted destination, like suppose while making campaign with 10 destination then after some time 5 destination
+                var deletedDestinationCount = 0;
 
-                                // If destination is aleady deleted, process will give null from above statement, if its null increase destination count
-                                if (destinationDetails == null)
-                                    deletedDestinationCount++;
+                var postsMaximumDestinationCount = campaignStatusModel.TotalRandomDestination;
 
-                                destinationDetails?.AccountsWithNetwork.ForEach(networkWithAccount =>
-                                {
-
-                                    #region Properties and Initialize
-
-                                    if (!SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
-                                    {
-                                        GlobusLogHelper.log.Info($"You don't have a permission to run with {networkWithAccount.Key} network, please purchase !");
-                                        return;
-                                    }
-
-                                    // Check whether already reached neccessary count or not
-                                    if (currentProcessCount >= remainingDestinationCount)
-                                        return;
-
-                                    var selectedGroupDestinations = new List<string>();
-                                    var selectedPageOrBoardDestinations = new List<string>();
-                                    var selectedCustomDestinations = new List<PublisherCustomDestinationModel>();
-
-                                    #endregion
-
-                                    #region Group Destinations
-
-                                    if (currentProcessCount < remainingDestinationCount)
-                                    {
-                                        // Get the group destinations
-                                        var getGroupDestinations =
-                                            destinationDetails.AccountGroupPair
-                                                .Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value)
-                                                .ToList();
-
-                                        // If campaign saved remove already used destination, then remove used destinations
-                                        if (advancedSettings.IsDeselectUsedDestination)
-                                            getGroupDestinations.RemoveAll(x => usedDestination.Contains(x));
-
-                                        // From reminding destination take neccessary count
-                                        selectedGroupDestinations = getGroupDestinations.Take(remainingDestinationCount - currentProcessCount).ToList();
-
-                                        // Update current processing count
-                                        currentProcessCount += selectedGroupDestinations.Count;
-                                    }
-
-                                    #endregion
-
-                                    #region Page Destinations
-
-                                    if (currentProcessCount < remainingDestinationCount)
-                                    {
-                                        // Get the page destinations
-                                        var getPageOrBoardDestinations =
-                                            destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
-
-                                        // If campaign saved remove already used destination, then remove used destinations
-                                        if (advancedSettings.IsDeselectUsedDestination)
-                                            getPageOrBoardDestinations.RemoveAll(x => usedDestination.Contains(x));
-
-                                        // From reminding destination take neccessary count
-                                        selectedPageOrBoardDestinations = getPageOrBoardDestinations.Take(remainingDestinationCount - currentProcessCount).ToList();
-
-                                        // Update current processing count
-                                        currentProcessCount += selectedPageOrBoardDestinations.Count;
-                                    }
-
-                                    #endregion
-
-                                    #region Custom Destinations
-
-                                    if (currentProcessCount < remainingDestinationCount)
-                                    {
-                                        // Get the custom destinations
-                                        var getCustomDestinations =
-                                            destinationDetails.CustomDestinations
-                                                .Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value)
-                                                .ToList();
-
-                                        // If campaign saved remove already used destination, then remove used destinations
-                                        if (advancedSettings.IsDeselectUsedDestination)
-                                            getCustomDestinations.RemoveAll(x => usedDestination.Contains(x.DestinationValue));
-
-                                        // From reminding destination take neccessary count
-                                        selectedCustomDestinations = getCustomDestinations.Take(remainingDestinationCount - currentProcessCount).ToList();
-
-                                        // Update current processing count
-                                        currentProcessCount += selectedCustomDestinations.Count;
-                                    }
-
-                                    #endregion
-
-                                    #region Own Wall 
-
-                                    // Check whether own wall has selected or not
-                                    var isPublishOnOwnWall = destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
-
-                                    if (isPublishOnOwnWall)
-                                    {
-                                        // Get the account Name
-                                        var accountName = AccountsFileManager.GetAccountById(networkWithAccount.Value)
-                                            .AccountBaseModel.UserName;
-
-                                        // If campaign saved remove already used destination, then make isPublishOnOwnWall to false
-                                        if (advancedSettings.IsDeselectUsedDestination &&
-                                            usedDestination.Contains(accountName)) isPublishOnOwnWall = false;
-
-                                        // Update current processing count
-                                        if (isPublishOnOwnWall)
-                                            currentProcessCount++;
-                                    }
-
-                                    #endregion
-
-                                    #region Publishing
-
-                                    // Calculate the publishing count
-                                    var publishingCount = selectedGroupDestinations.Count + selectedPageOrBoardDestinations.Count +
-                                                          selectedCustomDestinations.Count;
-
-                                    if (isPublishOnOwnWall)
-                                        publishingCount++;
-
-                                    // If publishing count is zero means then there is no destination 
-                                    if (publishingCount <= 0)
-                                    {
-                                        if (advancedSettings.IsDeselectUsedDestination)
-                                            GlobusLogHelper.log.Info("No more unique destinations are present!");
-                                        return;
-                                    }
-
-                                    // Get the publisher Job process
-                                    var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
-                                        .GetPublisherCoreFactory()
-                                        .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
-
-                                    #region Wait to start an action after previous one completes its task
-
-                                    // Check whether wait to start action after x actions are running parallely
-                                    if (advancedSettings.IsWaitToStartAction)
-                                    {
-                                        // If its running more than give count and add into linked list
-                                        if (runningCount >= advancedSettings.JobProcessRunningCount)
-                                        {
-                                            AddPublisherAction($"{campaignStatusModel.CampaignId}-{networkWithAccount.Value}", () =>
-                                                publisherJobProcess.StartPublishing(publishingCount,
-                                                    !advancedSettings.IsRunSingleAccountPerCampaign));
-                                        }
-                                        else
-                                        {
-                                            // Otherwise start calling
-                                            publisherJobProcess.StartPublishing(publishingCount,
-                                                !advancedSettings.IsRunSingleAccountPerCampaign);
-                                        }
-                                    }
-
-                                    #endregion
-
-                                    else
-                                    {
-                                        // If there is no settings for wait to start, then call directly publishing methods
-                                        publisherJobProcess.StartPublishing(publishingCount, !advancedSettings.IsRunSingleAccountPerCampaign);
-                                    }
-
-                                    #endregion
-
-                                });
-                            }
-                            catch (OperationCanceledException ex)
-                            {
-                                ex.DebugLog("Cancellation Requested!");
-                            }
-                            catch (AggregateException ae)
-                            {
-                                foreach (var e in ae.InnerExceptions)
-                                {
-                                    if (e is TaskCanceledException || e is OperationCanceledException)
-                                        e.DebugLog("Cancellation requested before task completion!");
-                                    else
-                                        e.DebugLog(e.StackTrace + e.Message);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.DebugLog();
-                            }
-                        });
-
-                        if (deletedDestinationCount > 0)
-                            GlobusLogHelper.log.Info($"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {campaignStatusModel.CampaignName}");
-
-                    }
-
-                    #endregion
-
-                    #region Perform random destinations with per account count
-
-                    else
-                    {
-                        var deletedDestinationCount = 0;
-
-                        var currentProcessCount = 0;
-
-                        // Iterate all destinations
-                        publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
-                        {
-                            try
-                            {
-                                // Fetch the destination details
-                                var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
-
-                                // If destination is aleady deleted, process will give null from above statement, if its null increase destination count
-                                if (destinationDetails == null)
-                                    deletedDestinationCount++;
-
-                                destinationDetails?.AccountsWithNetwork.ForEach(networkWithAccount =>
-                                {
-                                    #region Properties and Initialization
-
-                                    // Check whether current accounts network present or not
-                                    if (!SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
-                                    {
-                                        GlobusLogHelper.log.Info($"You don't have a permission to run with {networkWithAccount.Key} network, please purchase !");
-                                        return;
-                                    }
-
-                                    if (currentProcessCount >= remainingDestinationCount)
-                                        return;
-
-                                    var selectedGroupDestinations = new List<string>();
-                                    var selectedPageOrBoardDestinations = new List<string>();
-                                    var selectedCustomDestinations = new List<PublisherCustomDestinationModel>();
-
-                                    var accountProcessCount = 0;
-
-                                    var selectDestinationPerAccount =
-                                        campaignStatusModel.MinRandomDestinationPerAccount;
-
-                                    #endregion
-
-                                    #region Group Destinations
-
-                                    if (currentProcessCount < remainingDestinationCount
-                                                                && accountProcessCount < selectDestinationPerAccount)
-                                    {
-                                        // Get the group destinations
-                                        var getGroupDestinations =
-                                            destinationDetails.AccountGroupPair
-                                                .Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value)
-                                                .ToList();
-
-                                        // If campaign saved remove already used destination, then remove used destinations
-                                        if (advancedSettings.IsDeselectUsedDestination)
-                                            getGroupDestinations.RemoveAll(x => usedDestination.Contains(x));
-
-                                        // From reminding destination take neccessary count
-                                        selectedGroupDestinations = getGroupDestinations.Take(selectDestinationPerAccount - accountProcessCount).ToList();
-
-                                        // Update current account processing count
-                                        accountProcessCount += selectedGroupDestinations.Count;
-
-                                        // Update current processing count
-                                        currentProcessCount += selectedGroupDestinations.Count;
-                                    }
-
-                                    #endregion
-
-                                    #region Page Destination
-
-                                    if (currentProcessCount < remainingDestinationCount &&
-                                                                   accountProcessCount < selectDestinationPerAccount)
-                                    {
-                                        // Get the page destinations
-                                        var getPageOrBoardDestinations =
-                                            destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
-
-                                        // If campaign saved remove already used destination, then remove used destinations
-                                        if (advancedSettings.IsDeselectUsedDestination)
-                                            getPageOrBoardDestinations.RemoveAll(x => usedDestination.Contains(x));
-
-                                        // From reminding destination take neccessary count
-                                        selectedPageOrBoardDestinations = getPageOrBoardDestinations.Take(selectDestinationPerAccount - accountProcessCount).ToList();
-
-                                        // Update current processing count
-                                        currentProcessCount += selectedPageOrBoardDestinations.Count;
-
-                                        // Update current account processing count
-                                        accountProcessCount += selectedPageOrBoardDestinations.Count;
-                                    }
-
-                                    #endregion
-
-                                    #region Custom Destination
-
-                                    if (currentProcessCount < remainingDestinationCount &&
-                                                                   accountProcessCount < selectDestinationPerAccount)
-                                    {
-                                        // Get the custom destinations
-                                        var getCustomDestinations =
-                                            destinationDetails.CustomDestinations
-                                                .Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value)
-                                                .ToList();
-
-                                        // If campaign saved remove already used destination, then remove used destinations
-                                        if (advancedSettings.IsDeselectUsedDestination)
-                                            getCustomDestinations.RemoveAll(x => usedDestination.Contains(x.DestinationValue));
-
-                                        // From reminding destination take neccessary count
-                                        selectedCustomDestinations = getCustomDestinations.Take(selectDestinationPerAccount - accountProcessCount).ToList();
-
-                                        // Update current processing count
-                                        currentProcessCount += selectedCustomDestinations.Count;
-
-                                        // Update current account processing count
-                                        accountProcessCount += selectedCustomDestinations.Count;
-                                    }
-
-                                    #endregion
-
-                                    #region Own Wall Destination
-
-                                    // Check whether own wall has selected or not
-                                    var isPublishOnOwnWall = destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
-
-                                    if (isPublishOnOwnWall)
-                                    {
-                                        // Validate is already reached processing count or not
-                                        isPublishOnOwnWall = currentProcessCount < remainingDestinationCount;
-
-                                        if (isPublishOnOwnWall)
-                                            isPublishOnOwnWall = accountProcessCount < selectDestinationPerAccount;
-
-                                        if (isPublishOnOwnWall)
-                                        {
-                                            // Get the account Name
-                                            var accountName = AccountsFileManager.GetAccountById(networkWithAccount.Value)
-                                                .AccountBaseModel.UserName;
-
-                                            // If campaign saved remove already used destination, then make isPublishOnOwnWall to false
-                                            if (advancedSettings.IsDeselectUsedDestination &&
-                                                usedDestination.Contains(accountName)) isPublishOnOwnWall = false;
-                                        }
-                                        // Update current processing count
-                                        if (isPublishOnOwnWall)
-                                            currentProcessCount += 1;
-                                    }
-                                    #endregion
-
-                                    #region Scheduling
-
-                                    // Calculate the publishing count
-                                    var publishingCount = selectedGroupDestinations.Count + selectedPageOrBoardDestinations.Count +
-                                                                                    selectedCustomDestinations.Count;
-
-                                    if (isPublishOnOwnWall)
-                                        publishingCount++;
-
-                                    // If publishing count is zero means then there is no destination 
-                                    if (publishingCount <= 0)
-                                    {
-                                        if (advancedSettings.IsDeselectUsedDestination)
-                                            GlobusLogHelper.log.Info("No more unique destinations are present!");
-                                        return;
-                                    }
-                                    // Get the publisher Job process
-                                    var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
-                                        .GetPublisherCoreFactory()
-                                        .PublisherJobFactory.Create(campaignStatusModel.CampaignId, networkWithAccount.Value, selectedGroupDestinations, selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
-
-
-                                    #region Wait to start an action after previous one completes its task
-
-                                    // Check whether wait to start action after x actions are running parallely
-                                    if (advancedSettings.IsWaitToStartAction)
-                                    {
-                                        // If its running more than give count and add into linked list
-                                        if (runningCount >= advancedSettings.JobProcessRunningCount)
-                                        {
-                                            AddPublisherAction($"{campaignStatusModel.CampaignId}-{networkWithAccount.Value}", () =>
-                                                publisherJobProcess.StartPublishing(publishingCount,
-                                                    !advancedSettings.IsRunSingleAccountPerCampaign));
-                                        }
-                                        else
-                                        {
-                                            // Otherwise start calling
-                                            publisherJobProcess.StartPublishing(publishingCount,
-                                                !advancedSettings.IsRunSingleAccountPerCampaign);
-                                        }
-                                    }
-
-                                    #endregion
-                                    // If there is no settings for wait to start, then call directly publishing methods
-                                    else
-                                        publisherJobProcess.StartPublishing(publishingCount, !advancedSettings.IsRunSingleAccountPerCampaign);
-
-                                    #endregion
-                                });
-                            }
-                            catch (OperationCanceledException ex)
-                            {
-                                ex.DebugLog("Cancellation Requested!");
-                            }
-                            catch (AggregateException ae)
-                            {
-                                foreach (var e in ae.InnerExceptions)
-                                {
-                                    if (e is TaskCanceledException || e is OperationCanceledException)
-                                        e.DebugLog("Cancellation requested before task completion!");
-                                    else
-                                        e.DebugLog(e.StackTrace + e.Message);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.DebugLog();
-                            }
-                        });
-
-                        if (deletedDestinationCount > 0)
-                            GlobusLogHelper.log.Info($"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {campaignStatusModel.CampaignName}");
-
-                    }
-
-                    #endregion
-                }
+                var postsAccountDestinationLimits = campaignStatusModel.MinRandomDestinationPerAccount;
 
                 #endregion
 
-                #region New Random Destinations
+                #region Gathering details about all selected destinations
+
+                // Iterate all selected destinations
+                publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
+                {
+                    // Get destination details
+                    var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
+
+                    // If destination is aleady deleted, process will give null from above statement, if its null increase destination count
+                    if (destinationDetails == null)
+                        deletedDestinationCount++;
+
+                    if (!generalSettingsModel.IsStopRandomisingDestinationsOrder)
+                        destinationDetails?.DestinationDetailsModels.Shuffle();
+
+                    #region Adding destinations
+
+                    destinationDetails?.DestinationDetailsModels.ForEach(x =>
+                    {
+                        // If campaign saved remove already used destination, then remove used destinations
+                        if (advancedSettings.IsDeselectUsedDestination && usedDestination.Contains(x.DestinationUrl))
+                            return;
+
+                        ++totalDestinationCount;
+
+                        accountIds.Add(x.AccountId);
+
+                        if (!accountsWithNetworks.ContainsKey(x.AccountId))
+                            accountsWithNetworks.Add(x.AccountId, x.SocialNetworks);
+
+                        if (campaignStatusModel.IsTakeRandomDestination && postsAccountDestinationLimits > 0)
+                        {
+                            var currentAccountQueue = accountsWithDestinations.GetOrAdd(x.AccountId,
+                                queue => new Queue<PublisherDestinationDetailsModel>());
+                            currentAccountQueue.Enqueue(x);
+                        }
+                        else
+                            allDestination.Enqueue(x);
+                    });
+
+                    #endregion
+
+                });
+
+                #endregion
+
+                // Check any destinations has been deleted
+                if (deletedDestinationCount > 0)
+                    GlobusLogHelper.log.Info(
+                        $"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {campaignStatusModel.CampaignName}");
+
+                ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> destinations;
+
+                #region Random Destinations
 
                 if (campaignStatusModel.IsTakeRandomDestination)
                 {
@@ -760,285 +372,240 @@ namespace DominatorHouseCore.Process
                         return;
                     }
 
-                    var postsMaximumDestinationCount = campaignStatusModel.TotalRandomDestination;
-
-                    var postsAccountDestinationLimits = campaignStatusModel.MinRandomDestinationPerAccount;
-
-                    var accountsWithDestinations = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
-
-                    //Get the general settings from bin files
-                    var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
-                                                   (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
-                                                   .FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ?? new GeneralModel();
-
-
-                    var accountIds = new SortedSet<string>();
-
-                    var allDestination = new Queue<PublisherDestinationDetailsModel>();
-
-                    var accountsWithNetworks = new Dictionary<string, SocialNetworks>();
-
-                    var totalDestinationCount = 0;
-
-                    // To specify deleted destination, like suppose while making campaign with 10 destination then after some time 5 destination
-                    var deletedDestinationCount = 0;
-
-                    // Iterate all selected destinations
-                    publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
-                    {
-                        // Get destination details
-                        var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
-
-                        // If destination is aleady deleted, process will give null from above statement, if its null increase destination count
-                        if (destinationDetails == null)
-                            deletedDestinationCount++;
-
-                        if (!generalSettingsModel.IsStopRandomisingDestinationsOrder)
-                            destinationDetails?.DestinationDetailsModels.Shuffle();
-
-                        destinationDetails?.DestinationDetailsModels.ForEach(x =>
-                        {
-                            // If campaign saved remove already used destination, then remove used destinations
-                            if (advancedSettings.IsDeselectUsedDestination && usedDestination.Contains(x.DestinationUrl))
-                                return;
-
-                            ++totalDestinationCount;
-
-                            accountIds.Add(x.AccountId);
-
-                            if (!accountsWithNetworks.ContainsKey(x.AccountId))
-                                accountsWithNetworks.Add(x.AccountId, x.SocialNetworks);
-
-                            if (postsAccountDestinationLimits > 0)
-                            {
-                                var currentAccountQueue = accountsWithDestinations.GetOrAdd(x.AccountId,
-                                    queue => new Queue<PublisherDestinationDetailsModel>());
-                                currentAccountQueue.Enqueue(x);
-                            }
-                            else
-                                allDestination.Enqueue(x);
-                        });
-                    });
-
-                    if (deletedDestinationCount > 0)
-                        GlobusLogHelper.log.Info(
-                            $"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {campaignStatusModel.CampaignName}");
-
-                    var destinations = postsAccountDestinationLimits > 0 ?
-                         AssignPostsToDestinationWithAccountLimit(accountsWithDestinations, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount, postsAccountDestinationLimits) :
-                         AssignPostsToDestinationWithNoAccountLimit(allDestination, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount);
-
-                    if (destinations == null)                  
-                        return;
-                    
-                    foreach (var destination in destinations)
-                    {
-                        var accountsNetwork = accountsWithNetworks[destination.Key];
-
-                        // Check whether current accounts network present or not
-                        if (!SocinatorInitialize.IsNetworkAvailable(accountsNetwork))
-                        {
-                            GlobusLogHelper.log.Info(
-                                $"You don't have a permission to run with {accountsNetwork} network, please purchase !");
-                            continue;
-                        }
-
-                        // Get the publisher Job process
-                        var publisherJobProcess = PublisherInitialize
-                            .GetPublisherLibrary(accountsNetwork)
-                            .GetPublisherCoreFactory()
-                            .PublisherJobFactory.Create(campaignStatusModel.CampaignId, campaignStatusModel.CampaignName,
-                                destination.Key, accountsNetwork, destination.Value,
-                                currentCampaignsCancallationToken);
-
-                        #region Wait to start actions
-
-                        // Check whether wait to start action after x actions are running parallely
-                        if (advancedSettings.IsWaitToStartAction)
-                        {
-                            if (runningCount >= advancedSettings.JobProcessRunningCount)
-                            {
-                                AddPublisherAction(
-                                    $"{campaignStatusModel.CampaignId}-{destination.Key}", () =>
-                                        publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign));
-                            }
-                            else
-                            {
-                                // Otherwise start calling
-                                publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign);
-                            }
-                        }         
-                                                         
-                        #endregion
-
-                        else
-                        {
-                            // If there is no settings for wait to start, then call directly publishing methods
-                            publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign);
-                        }
-                    }
+                    destinations = postsAccountDestinationLimits > 0 ?
+                        AssignPostsToDestinationWithAccountLimit(accountsWithDestinations, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount, postsAccountDestinationLimits) :
+                        AssignPostsToDestinationWithNoAccountLimit(allDestination, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount);
                 }
 
                 #endregion
 
-                #region All destination
+                #region All Destinations
 
                 else
+                    destinations = AssignPostToSelectAllDestination(allDestination, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount);
+
+                #endregion
+
+                if (destinations == null)
+                    return;
+
+                #region Assign and start publishing
+
+                foreach (var destination in destinations)
                 {
-                    #region publish on all destination with single post
+                    var accountsNetwork = accountsWithNetworks[destination.Key];
 
-                    // To specify deleted destination, like suppose while making campaign with 10 destination then after some time 5 destination
-                    var deletedDestinationCount = 0;
-
-                    // Iterate all selected destinations
-                    publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
+                    // Check whether current accounts network present or not
+                    if (!SocinatorInitialize.IsNetworkAvailable(accountsNetwork))
                     {
-                        try
-                        {
-                            // Get destination details
-                            var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
-
-                            // If destination is aleady deleted, process will give null from above statement, if its null increase destination count
-                            if (destinationDetails == null)
-                                deletedDestinationCount++;
-
-                            destinationDetails?.AccountsWithNetwork.ForEach(networkWithAccount =>
-                            {
-
-                                // Check whether current accounts network present or not
-                                if (!SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
-                                {
-                                    GlobusLogHelper.log.Info(
-                                        $"You don't have a permission to run with {networkWithAccount.Key} network, please purchase !");
-                                    return;
-                                }
-
-                                // Get the all selected group destinations
-                                var selectedGroupDestinations =
-                                    destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value)
-                                        .Select(x => x.Value).ToList();
-
-                                // Get all pages Or Boards destinations
-                                var selectedPageOrBoardDestinations =
-                                    destinationDetails.AccountPagesBoardsPair
-                                        .Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
-
-                                // Get all custom destinations
-                                var selectedCustomDestinations =
-                                    destinationDetails.CustomDestinations.Where(x => x.Key == networkWithAccount.Value)
-                                        .Select(x => x.Value).ToList();
-
-                                // Is validate Own wall selected or not
-                                var isPublishOnOwnWall =
-                                    destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
-
-                                // If campaign saved remove already used destination, then remove used destinations
-                                if (advancedSettings.IsDeselectUsedDestination)
-                                {
-                                    // removed used group destinations
-                                    selectedGroupDestinations.RemoveAll(x => usedDestination.Contains(x));
-
-                                    // removed used page destinations
-                                    selectedPageOrBoardDestinations.RemoveAll(x => usedDestination.Contains(x));
-
-                                    // removed used custom destinations
-                                    selectedCustomDestinations.RemoveAll(x =>
-                                        usedDestination.Contains(x.DestinationValue));
-
-                                    // Check own wall is selected or not
-                                    if (isPublishOnOwnWall)
-                                    {
-                                        var accountName = AccountsFileManager.GetAccountById(networkWithAccount.Value)
-                                            .AccountBaseModel.UserName;
-
-                                        if (usedDestination.Contains(accountName))
-                                            isPublishOnOwnWall = false;
-                                    }
-                                }
-
-                                // Calculate the publishing count
-                                var publishingCount =
-                                    selectedGroupDestinations.Count + selectedPageOrBoardDestinations.Count +
-                                    selectedCustomDestinations.Count;
-
-                                if (isPublishOnOwnWall)
-                                    publishingCount++;
-
-                                // If publishing count is zero means then there is no destination 
-                                if (publishingCount <= 0)
-                                {
-                                    if (advancedSettings.IsDeselectUsedDestination)
-                                        GlobusLogHelper.log.Info("No more unique destinations are present!");
-                                    return;
-                                }
-
-                                // Get the publisher Job process
-                                var publisherJobProcess = PublisherInitialize
-                                    .GetPublisherLibrary(networkWithAccount.Key)
-                                    .GetPublisherCoreFactory()
-                                    .PublisherJobFactory.Create(campaignStatusModel.CampaignId,
-                                        networkWithAccount.Value, selectedGroupDestinations,
-                                        selectedPageOrBoardDestinations, selectedCustomDestinations, isPublishOnOwnWall,
-                                        currentCampaignsCancallationToken);
-
-                                #region Wait to start actions
-
-                                // Check whether wait to start action after x actions are running parallely
-                                if (advancedSettings.IsWaitToStartAction)
-                                {
-                                    if (runningCount >= advancedSettings.JobProcessRunningCount)
-                                    {
-                                        AddPublisherAction(
-                                            $"{campaignStatusModel.CampaignId}-{networkWithAccount.Value}", () =>
-                                                publisherJobProcess.StartPublishing(publishingCount,
-                                                    !advancedSettings.IsRunSingleAccountPerCampaign));
-                                    }
-                                    else
-                                    {
-                                        // Otherwise start calling
-                                        publisherJobProcess.StartPublishing(publishingCount,
-                                            !advancedSettings.IsRunSingleAccountPerCampaign);
-                                    }
-                                }
-
-                                #endregion
-
-                                else
-                                {
-                                    // If there is no settings for wait to start, then call directly publishing methods
-                                    publisherJobProcess.StartPublishing(publishingCount,
-                                        !advancedSettings.IsRunSingleAccountPerCampaign);
-                                }
-
-                                //publisherJobProcess.StartPublishing(publishingCount, !campaignStatusModel.IsRunSingleAccountPerCampaign);
-                            });
-                        }
-                        catch (OperationCanceledException ex)
-                        {
-                            ex.DebugLog("Cancellation Requested!");
-                        }
-                        catch (AggregateException ae)
-                        {
-                            foreach (var e in ae.InnerExceptions)
-                            {
-                                if (e is TaskCanceledException || e is OperationCanceledException)
-                                    e.DebugLog("Cancellation requested before task completion!");
-                                else
-                                    e.DebugLog(e.StackTrace + e.Message);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    });
-
-                    if (deletedDestinationCount > 0)
                         GlobusLogHelper.log.Info(
-                            $"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {campaignStatusModel.CampaignName}");
+                            $"You don't have a permission to run with {accountsNetwork} network, please purchase !");
+                        continue;
+                    }
+
+                    // Get the publisher Job process
+                    var publisherJobProcess = PublisherInitialize
+                        .GetPublisherLibrary(accountsNetwork)
+                        .GetPublisherCoreFactory()
+                        .PublisherJobFactory.Create(campaignStatusModel.CampaignId, campaignStatusModel.CampaignName,
+                            destination.Key, accountsNetwork, destination.Value,
+                            currentCampaignsCancallationToken);
+
+                    #region Wait to start actions
+
+                    // Check whether wait to start action after x actions are running parallely
+                    if (advancedSettings.IsWaitToStartAction)
+                    {
+                        if (runningCount >= advancedSettings.JobProcessRunningCount)
+                        {
+                            AddPublisherAction(
+                                $"{campaignStatusModel.CampaignId}-{destination.Key}", () =>
+                                    publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign));
+                        }
+                        else
+                        {
+                            // Otherwise start calling
+                            publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign);
+                        }
+                    }
 
                     #endregion
+
+                    #region Without waiting to next action count
+                    else
+                    {
+                        // If there is no settings for wait to start, then call directly publishing methods
+                        publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign);
+                    }
+                    #endregion
                 }
+
+                #endregion
+
+                #endregion
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog("Cancellation Requested!");
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation requested before task completion!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        public static void StartPublishingPosts(PublisherPostlistModel post)
+        {
+            try
+            {
+                // Get the campaign Details
+                var campaignDetails =
+                    PublisherInitialize.GetInstance.GetSavedCampaigns().ToList();
+
+                // Get the specific campaign Details
+                var campaignStatusModel = campaignDetails.FirstOrDefault(x => x.CampaignId == post.CampaignId);
+
+                if (campaignStatusModel == null)
+                {
+                    GlobusLogHelper.log.Info("Current post isn't register with any campaign!");
+                    return;
+                }
+
+                // Validate the campaign Time
+                var isStart = ValidateCampaignsTime(campaignStatusModel);
+
+                if (!isStart)
+                {
+                    GlobusLogHelper.log.Info("Current post's campaign expired!");
+                    return;
+                }
+
+                // create a new cancellation token source
+                var currentCampaignsCancallationToken = new CancellationTokenSource();
+
+                // If CampaignsCancellationTokens dictionary doesnt contains for current campaign, add to with proper campaign Id
+                if (!CampaignsCancellationTokens.ContainsKey(campaignStatusModel.CampaignId))
+                    CampaignsCancellationTokens.Add(campaignStatusModel.CampaignId, currentCampaignsCancallationToken);
+                else
+                    // If its already present fetch that cancellation token
+                    currentCampaignsCancallationToken = CampaignsCancellationTokens[campaignStatusModel.CampaignId];
+
+                // Get he post fetcher details
+                var publisherPostFetchModel =
+                    GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                        .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
+
+
+                // Get the advanced settings for current campaign Id
+                var advancedSettings = GenericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
+                                       new GeneralModel();
+
+                #region Assigning Destinations with posts
+
+                #region Initializations
+
+                //Get the general settings from bin files
+                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                               .FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ?? new GeneralModel();
+
+                var accountIds = new SortedSet<string>();
+
+                var allDestination = new Queue<PublisherDestinationDetailsModel>();
+
+                var accountsWithNetworks = new Dictionary<string, SocialNetworks>();
+
+
+
+                // To specify deleted destination, like suppose while making campaign with 10 destination then after some time 5 destination
+                var deletedDestinationCount = 0;
+
+                var allDestinaionGuid = new List<string>();
+
+                #endregion
+
+                #region Gathering details about all selected destinations
+
+                // Iterate all selected destinations
+                publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
+                {
+                    // Get destination details
+                    var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
+
+                    // If destination is aleady deleted, process will give null from above statement, if its null increase destination count
+                    if (destinationDetails == null)
+                        deletedDestinationCount++;
+
+                    if (!generalSettingsModel.IsStopRandomisingDestinationsOrder)
+                        destinationDetails?.DestinationDetailsModels.Shuffle();
+
+                    #region Adding destinations
+
+                    destinationDetails?.DestinationDetailsModels.ForEach(x =>
+                    {
+                        accountIds.Add(x.AccountId);
+
+                        if (!accountsWithNetworks.ContainsKey(x.AccountId))
+                            accountsWithNetworks.Add(x.AccountId, x.SocialNetworks);
+
+                        allDestinaionGuid.Add(x.DestinationGuid);
+
+                        allDestination.Enqueue(x);
+                    });
+
+                    #endregion
+
+                });
+
+                #endregion
+
+                // Check any destinations has been deleted
+                if (deletedDestinationCount > 0)
+                    GlobusLogHelper.log.Info(
+                        $"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {campaignStatusModel.CampaignName}");
+
+                var destinations = UpdatePostDetails(campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, allDestination, post, allDestinaionGuid);
+
+                if (destinations == null)
+                    return;
+
+                #region Assign and start publishing
+
+                foreach (var destination in destinations)
+                {
+                    var accountsNetwork = accountsWithNetworks[destination.Key];
+
+                    // Check whether current accounts network present or not
+                    if (!SocinatorInitialize.IsNetworkAvailable(accountsNetwork))
+                    {
+                        GlobusLogHelper.log.Info($"You don't have a permission to run with {accountsNetwork} network, please purchase !");
+                        continue;
+                    }
+
+                    // Get the publisher Job process
+                    var publisherJobProcess = PublisherInitialize
+                        .GetPublisherLibrary(accountsNetwork)
+                        .GetPublisherCoreFactory()
+                        .PublisherJobFactory.Create(campaignStatusModel.CampaignId, campaignStatusModel.CampaignName,
+                            destination.Key, accountsNetwork, destination.Value,
+                            currentCampaignsCancallationToken);
+
+                    // If there is no settings for wait to start, then call directly publishing methods
+                    publisherJobProcess.StartPublishingPosts(!advancedSettings.IsRunSingleAccountPerCampaign);
+
+                }
+
+                #endregion
 
                 #endregion
 
@@ -1061,17 +628,18 @@ namespace DominatorHouseCore.Process
             {
                 ex.DebugLog();
             }
+
         }
 
-
+        #region Helper functionality : To Assign Posts to Destinations
 
         public static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> AssignPostsToDestinationWithNoAccountLimit(
-            Queue<PublisherDestinationDetailsModel> totalDestinations,
-            SortedSet<string> accountId,
-            int totalDestinationCount,
-            string campaignId,
-            string campaignName,
-            int postsMaximumDestinationCount)
+         Queue<PublisherDestinationDetailsModel> totalDestinations,
+         SortedSet<string> accountId,
+         int totalDestinationCount,
+         string campaignId,
+         string campaignName,
+         int postsMaximumDestinationCount)
         {
             ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> destinationWithPosts;
 
@@ -1118,7 +686,6 @@ namespace DominatorHouseCore.Process
 
             return destinationWithPosts;
         }
-
 
         public static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> AssignPostsToDestinationWithAccountLimit
             (ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> totalDestinations,
@@ -1191,12 +758,11 @@ namespace DominatorHouseCore.Process
             return destinationWithPosts;
         }
 
-
         private static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> SubstitudePoststoDestinations(
-            string campaignId,
-            string campaignName,
-            IReadOnlyCollection<PublisherDestinationDetailsModel> givenDestinations,
-            IReadOnlyList<List<string>> postsDestinations)
+           string campaignId,
+           string campaignName,
+           IReadOnlyCollection<PublisherDestinationDetailsModel> givenDestinations,
+           IReadOnlyList<List<string>> postsDestinations)
         {
             if (givenDestinations.Count == 0)
             {
@@ -1257,74 +823,7 @@ namespace DominatorHouseCore.Process
                     // Get the destination
                     var destinations = postsDestinations[count];
 
-                    // Iterate and assign current post to selected destinations
-                    destinations.ForEach(destinationId =>
-                    {
-                        // get the destination
-                        var destinationDetails = givenDestinations.FirstOrDefault(x => x.DestinationGuid == destinationId);
-
-                        // check null destinations
-                        if (destinationDetails == null)
-                            return;
-
-                        // Assign the posts
-                        destinationDetails.PublisherPostlistModel = post;
-
-                        // get the accounts queue
-                        var accountsQueue = destinationWithPosts.GetOrAdd(destinationDetails.AccountId,
-                                queue => new Queue<PublisherDestinationDetailsModel>());
-
-                        // Add to queue
-                        accountsQueue.Enqueue(destinationDetails);
-
-                        // Append the post list details 
-                        post.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel
-                        {
-                            AccountName = destinationDetails.AccountName,
-                            Destination = destinationDetails.DestinationType,
-                            DestinationUrl = destinationDetails.DestinationType == ConstantVariable.OwnWall
-                                    ? destinationDetails.AccountName
-                                    : destinationDetails.DestinationUrl,
-                            Description = post.PostDescription,
-                            IsPublished = ConstantVariable.Yes,
-                            Successful = ConstantVariable.No,
-                            PublishedDate = DateTime.Now,
-                            Link = ConstantVariable.NotPublished,
-                            CampaignId = campaignId,
-                            CampaignName = campaignName,
-                            SocialNetworks = destinationDetails.SocialNetworks,
-                            AccountId = destinationDetails.AccountId,
-                            ErrorDetails = ConstantVariable.NotPublished,
-                        });
-
-                    });
-
-                    // Mark as published one
-                    post.PostQueuedStatus = PostQueuedStatus.Published;
-
-                    // Calculate already tried count
-                    var triedCount =
-                        post.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
-
-                    // Calculate already success count
-                    var successCount =
-                        post.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
-
-                    // Update the stats
-                    post.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
-
-                    // Checking post expire date time
-                    if (post.ExpiredTime == null)
-                        post.PostRunningStatus = PostRunningStatus.Active;
-                    else
-                    {
-                        post.PostRunningStatus = DateTime.Now > post.ExpiredTime
-                            ? PostRunningStatus.Completed
-                            : PostRunningStatus.Active;
-                    }
-
-                    // Update to bin file
-                    PostlistFileManager.UpdatePost(campaignId, post);
+                    UpdatePostDetails(campaignId, campaignName, givenDestinations, destinationWithPosts, post, destinations);
                 }
                 #endregion
 
@@ -1338,280 +837,310 @@ namespace DominatorHouseCore.Process
             return destinationWithPosts;
         }
 
-        public static List<PublisherDestinationDetailsModel> AddPostsToDestination(ConcurrentBag<PublisherDestinationDetailsModel> destinationDetails, List<string> accountIds, string campaignId, string campaignName, int postsMaximumDestinationCount, int postsAccountDestinationLimits)
+        public static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> AssignPostToSelectAllDestination(
+           Queue<PublisherDestinationDetailsModel> totalDestinations,
+           SortedSet<string> accountId,
+           int totalDestinationCount,
+           string campaignId,
+           string campaignName,
+           int postsMaximumDestinationCount)
         {
-            var destinationWithPosts = new List<PublisherDestinationDetailsModel>();
+            var destinationWithPosts = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
 
             var updatelock = GetPostsForPublishing.GetOrAdd(campaignId, _lock => new object());
 
             lock (updatelock)
             {
-                // Getting all pending post lists
-                var pendingPostList = PostlistFileManager.GetAll(campaignId)
-                    .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
+                var givenDestinations = totalDestinations.ToList();
 
-                // Checking, If no more post available
-                if (!pendingPostList.Any())
+                if (givenDestinations.Count == 0)
                 {
-                    GlobusLogHelper.log.Info($"No more unique post are available for campaign {campaignName}!");
-                    return null;
+                    GlobusLogHelper.log.Info("No more unique destinations are present!");
+                    return new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
                 }
 
-                //Get the general settings from bin files
-                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
-                                              (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
-                                              .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
+                var alldestinations = givenDestinations.Select(x => x.DestinationGuid).ToList();
 
-                // Validate the toaster notifications is needed
-                if (ConstantVariable.IsToasterNotificationNeed)
+                var accounts = accountId.ToList();
+
+                accounts.Shuffle();
+
+                var postsDestinations = new List<List<string>> { alldestinations };
+
+                #region Split the destinations for a post
+
+                try
                 {
-                    // If user needs to notify when postlists going lesser than specified post, then trigger a notifications
-                    if (pendingPostList.Count < generalSettingsModel.TriggerNotificationCount &&
-                        generalSettingsModel.TriggerNotificationCount > 0)
-                        ToasterNotification.ShowInfomation(
-                            $"{campaignName} has {pendingPostList.Count} pending post!");
-                }
+                    // Getting all pending post lists
+                    var pendingPostList = PostlistFileManager.GetAll(campaignId)
+                        .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
 
-                // Check whether needs to shuffle postlist order
-                if (generalSettingsModel.IsChooseRandomPostsChecked)
-                    pendingPostList.Shuffle();
-
-                // if(!generalSettingsModel.IsStopRandomisingDestinationsOrder)
-
-                var isProcessCompleted = false;
-
-                var usedPosts = new SortedSet<string>();
-
-
-
-
-                foreach (var post in pendingPostList)
-                {
-                    #region Destination assign without accounts limit
-
-                    // No Accounts limit
-                    if (postsAccountDestinationLimits == 0)
+                    // Checking, If no more post available
+                    if (!pendingPostList.Any())
                     {
-                        for (var initial = 0; initial < postsMaximumDestinationCount; initial++)
-                        {
-                            usedPosts.Add(post.PostId);
-
-                            PublisherDestinationDetailsModel destination;
-
-                            var isRetrieved = destinationDetails.TryTake(out destination);
-
-                            if (!isRetrieved)
-                                continue;
-
-                            destination.PublisherPostlistModel = post;
-
-                            destinationWithPosts.Add(destination);
-
-                            if (destinationDetails.Count == 0)
-                            {
-                                isProcessCompleted = true;
-                                break;
-                            }
-                        }
+                        GlobusLogHelper.log.Info($"No more unique post are available for campaign {campaignName}!");
+                        return null;
                     }
 
-                    #endregion
+                    //Get the general settings from bin files
+                    var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                                                   (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                                   .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
-                    #region Destination assign with account limits
+                    // Validate the toaster notifications is needed
+                    if (ConstantVariable.IsToasterNotificationNeed)
+                    {
+                        // If user needs to notify when postlists going lesser than specified post, then trigger a notifications
+                        if (pendingPostList.Count < generalSettingsModel.TriggerNotificationCount &&
+                            generalSettingsModel.TriggerNotificationCount > 0)
+                            ToasterNotification.ShowInfomation(
+                                $"{campaignName} has {pendingPostList.Count} pending post!");
+                    }
 
+                    // Check whether needs to shuffle postlist order
+                    if (generalSettingsModel.IsChooseRandomPostsChecked)
+                        pendingPostList.Shuffle();
+
+                    // Validate whether all destinations contains posts or not
+                    if (pendingPostList.Count < postsDestinations.Count)
+                        GlobusLogHelper.log.Info("Pending postlist counts are lesser than required count!");
+
+                    #region Assigning the Posts to Destinations
+
+                    if (generalSettingsModel.IsWhenPublishingSendOnePostChecked)
+                    {
+                        for (var count = 0; count < pendingPostList.Count; count++)
+                        {
+                            // Get the posts
+                            var post = pendingPostList[count];
+
+                            // Check whether count exceeds destinations
+                            if (count >= alldestinations.Count)
+                                break;
+
+                            // Get the destination
+                            var destination = alldestinations[count];
+
+                            var destinations = new List<string> { destination };
+
+                            UpdatePostDetails(campaignId, campaignName, givenDestinations, destinationWithPosts, post, destinations);
+
+                        }
+                    }
                     else
                     {
-                        var addedCount = 0;
+                        // Get the posts
+                        var post = pendingPostList.First();
 
-                        foreach (var accountId in accountIds)
-                        {
-                            var destinations = destinationDetails.Where(x => x.AccountId == accountId)
-                                .Take(postsMaximumDestinationCount).ToList();
-
-                            foreach (var destination in destinations)
-                            {
-                                usedPosts.Add(post.PostId);
-                                destination.PublisherPostlistModel = post;
-                                destinationWithPosts.Add(destination);
-                            }
-
-                            addedCount += destinations.Count;
-
-                            var remainingDestinations = destinationDetails.ToList().Except(destinations);
-
-                            destinationDetails = new ConcurrentBag<PublisherDestinationDetailsModel>(remainingDestinations);
-
-                            if (addedCount > postsMaximumDestinationCount)
-                                break;
-
-                            if (destinationDetails.Count == 0)
-                            {
-                                isProcessCompleted = true;
-                                break;
-                            }
-                        }
+                        // Update a post to all destinations
+                        destinationWithPosts = UpdatePostDetails(campaignId, campaignName, givenDestinations, post, alldestinations);
                     }
 
                     #endregion
 
-                    var allpostlists = PostlistFileManager.GetAll(campaignId);
-                    allpostlists.ForEach(x =>
-                    {
-                        if (usedPosts.Contains(x.PostId))
-                        {
-                            x.PostQueuedStatus = PostQueuedStatus.Published;
-                        }
-                    });
-
-                    PostlistFileManager.UpdatePostlists(campaignId, allpostlists);
-
-                    if (isProcessCompleted)
-                        return destinationWithPosts;
+                    // update stats to publisher default view
+                    PublisherInitialize.GetInstance.UpdatePostStatus(campaignId);
                 }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+
+                #endregion
             }
 
             return destinationWithPosts;
         }
 
-
-        public static void StartPublishingPosts(PublisherPostlistModel post, Action startAction)
+        private static ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> UpdatePostDetails(string campaignId,
+            string campaignName,
+            IReadOnlyCollection<PublisherDestinationDetailsModel> givenDestinations,
+            PublisherPostlistModel post,
+            List<string> destinations)
         {
+            var destinationWithPosts = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
+
             try
             {
-                // Get the campaign Details
-                var campaignDetails =
-                    PublisherInitialize.GetInstance.GetSavedCampaigns().ToList();
-
-                //var campaignDetails =
-                //    PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => DateTime.Now >= x.StartDate && DateTime.Now <= x.EndDate).ToList();
-
-                // Get the specific campaign Details
-                var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == post.CampaignId);
-
-                if (specificCampaign == null)
+                // Iterate and assign -> given post to all given destinations
+                destinations.ForEach(destinationId =>
                 {
-                    GlobusLogHelper.log.Info("Current post isn't register with any campaign!");
-                    return;
-                }
+                    // get the destination full details
+                    var destinationDetails = givenDestinations.FirstOrDefault(x => x.DestinationGuid == destinationId);
 
-                // Validate the campaign Time
-                var isStart = ValidateCampaignsTime(specificCampaign);
-
-                if (!isStart)
-                {
-                    GlobusLogHelper.log.Info("Current post's campaign expired!");
-                    return;
-                }
-
-
-                GlobusLogHelper.log.Info(Log.StartPublishing, SocialNetworks.Social, string.Empty, specificCampaign.CampaignName);
-
-                var currentCampaignsCancallationToken = new CancellationTokenSource();
-                // Registering the cancellation token if its not present
-                if (!CampaignsCancellationTokens.ContainsKey(post.CampaignId))
-                    CampaignsCancellationTokens.Add(post.CampaignId, currentCampaignsCancallationToken);
-                else
-                    // Otherwise get the cancellation token source of the campaign
-                    currentCampaignsCancallationToken = CampaignsCancellationTokens[post.CampaignId];
-
-                // Get the post fetch details
-                var publisherPostFetchModel =
-                    GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
-                        .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == post.CampaignId);
-
-                int publishCount;
-
-                // Fetch the advanced settings
-                var advancedSettings = GenericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == post.CampaignId) ??
-                                       new GeneralModel();
-
-
-                var deletedDestinationCount = 0;
-
-                // Iterate selected destinations
-                publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
-                {
-                    // Get destination details
-                    var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
-
-                    // If destination is aleady deleted, process will give null from above statement, if its null increase destination count
+                    // check null destinations
                     if (destinationDetails == null)
-                        deletedDestinationCount++;
+                        return;
 
-                    destinationDetails?.AccountsWithNetwork.ForEach(networkWithAccount =>
+                    // Assign the current destination url in case of Own wall 
+                    var currentDestinationUrl = destinationDetails.DestinationType == ConstantVariable.OwnWall
+                        ? destinationDetails.AccountName
+                        : destinationDetails.DestinationUrl;
+
+                    if (post.LstPublishedPostDetailsModels.Any(x =>
+                        x.DestinationUrl == currentDestinationUrl && destinationDetails.AccountId == x.AccountId))
                     {
-                        // Check whether current accounts network present or not
-                        if (!SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
-                        {
-                            GlobusLogHelper.log.Info($"You don't have a permission to run with {networkWithAccount.Key} network, please purchase !");
-                            return;
-                        }
+                        GlobusLogHelper.log.Info($"Current posts has already published on account {destinationDetails.AccountName}'s destination - {destinationDetails.DestinationType}[{destinationDetails.DestinationUrl}]");
+                        return;
+                    }
 
-                        // Get the all selected group destinations
-                        var selectedGroupDestinations =
-                            destinationDetails.AccountGroupPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+                    // Assign the posts
+                    destinationDetails.PublisherPostlistModel = post;
 
-                        // Get all pages Or Boards destinations
-                        var selectedPageOrBoardDestinations =
-                            destinationDetails.AccountPagesBoardsPair.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+                    // get the accounts queue
+                    var accountsQueue = destinationWithPosts.GetOrAdd(destinationDetails.AccountId,
+                                queue => new Queue<PublisherDestinationDetailsModel>());
 
-                        // Get all custom destinations
-                        var selectedCustomDestinations =
-                            destinationDetails.CustomDestinations.Where(x => x.Key == networkWithAccount.Value).Select(x => x.Value).ToList();
+                    // Add to queue
+                    accountsQueue.Enqueue(destinationDetails);
 
-                        // Is validate Own wall selected or not
-                        var isPublishOnOwnWall =
-                            destinationDetails.PublishOwnWallAccount.Any(x => x == networkWithAccount.Value);
-
-                        // Calculate the publishing count
-                        publishCount = selectedGroupDestinations.Count + selectedPageOrBoardDestinations.Count +
-                                       selectedCustomDestinations.Count;
-
-                        if (isPublishOnOwnWall)
-                            publishCount++;
-
-                        if (publishCount <= 0)
-                            return;
-
-                        // Start updating publisher Intialize count of manage post
-                        startAction.Invoke();
-
-                        // Get the job process factory object
-                        var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key)
-                            .GetPublisherCoreFactory()
-                            .PublisherJobFactory.Create(post.CampaignId, networkWithAccount.Value,
-                                selectedGroupDestinations, selectedPageOrBoardDestinations,
-                                selectedCustomDestinations, isPublishOnOwnWall, currentCampaignsCancallationToken);
-
-                        // Call start publishing
-                        publisherJobProcess.StartPublishing(post, publishCount, !advancedSettings.IsRunSingleAccountPerCampaign);
-
+                    // Append the post list details 
+                    post.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel
+                    {
+                        AccountName = destinationDetails.AccountName,
+                        Destination = destinationDetails.DestinationType,
+                        DestinationUrl = currentDestinationUrl,
+                        Description = post.PostDescription,
+                        IsPublished = ConstantVariable.Yes,
+                        Successful = ConstantVariable.No,
+                        PublishedDate = DateTime.Now,
+                        Link = ConstantVariable.NotPublished,
+                        CampaignId = campaignId,
+                        CampaignName = campaignName,
+                        SocialNetworks = destinationDetails.SocialNetworks,
+                        AccountId = destinationDetails.AccountId,
+                        ErrorDetails = ConstantVariable.NotPublished,
                     });
                 });
-                if (deletedDestinationCount > 0)
-                    GlobusLogHelper.log.Info($"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {specificCampaign.CampaignName}");
 
-            }
-            catch (OperationCanceledException ex)
-            {
-                ex.DebugLog("Cancellation Requested!");
-            }
-            catch (AggregateException ae)
-            {
-                foreach (var e in ae.InnerExceptions)
+                // Mark as published one
+                post.PostQueuedStatus = PostQueuedStatus.Published;
+
+                // Calculate already tried count
+                var triedCount =
+                    post.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
+
+                // Calculate already success count
+                var successCount =
+                    post.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
+
+                // Update the stats
+                post.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
+
+                // Checking post expire date time
+                if (post.ExpiredTime == null)
+                    post.PostRunningStatus = PostRunningStatus.Active;
+                else
                 {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        e.DebugLog("Cancellation requested before task completion!");
-                    else
-                        e.DebugLog(e.StackTrace + e.Message);
+                    post.PostRunningStatus = DateTime.Now > post.ExpiredTime
+                        ? PostRunningStatus.Completed
+                        : PostRunningStatus.Active;
                 }
+
+                // Update to bin file
+                PostlistFileManager.UpdatePost(campaignId, post);
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-
+            return destinationWithPosts;
         }
+
+        private static void UpdatePostDetails(string campaignId,
+           string campaignName,
+           IReadOnlyCollection<PublisherDestinationDetailsModel> givenDestinations,
+           ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> destinationWithPosts,
+           PublisherPostlistModel post,
+           List<string> destinations)
+        {
+            try
+            {
+                // Iterate and assign -> given post to all given destinations
+                destinations.ForEach(destinationId =>
+                {
+                    // get the destination full details
+                    var destinationDetails = givenDestinations.FirstOrDefault(x => x.DestinationGuid == destinationId);
+
+                    // check null destinations
+                    if (destinationDetails == null)
+                        return;
+
+                    // Assign the current destination url in case of Own wall 
+                    var currentDestinationUrl = destinationDetails.DestinationType == ConstantVariable.OwnWall
+                        ? destinationDetails.AccountName
+                        : destinationDetails.DestinationUrl;
+
+                    if (post.LstPublishedPostDetailsModels.Any(x =>
+                        x.DestinationUrl == currentDestinationUrl && destinationDetails.AccountId == x.AccountId))
+                    {
+                        GlobusLogHelper.log.Info($"Current posts has already published on account {destinationDetails.AccountName}'s destination - {destinationDetails.DestinationType}[{destinationDetails.DestinationUrl}]");
+                        return;
+                    }
+
+                    // Assign the posts
+                    destinationDetails.PublisherPostlistModel = post;
+
+                    // get the accounts queue
+                    var accountsQueue = destinationWithPosts.GetOrAdd(destinationDetails.AccountId,
+                                queue => new Queue<PublisherDestinationDetailsModel>());
+
+                    // Add to queue
+                    accountsQueue.Enqueue(destinationDetails);
+
+                    // Append the post list details 
+                    post.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel
+                    {
+                        AccountName = destinationDetails.AccountName,
+                        Destination = destinationDetails.DestinationType,
+                        DestinationUrl = currentDestinationUrl,
+                        Description = post.PostDescription,
+                        IsPublished = ConstantVariable.Yes,
+                        Successful = ConstantVariable.No,
+                        PublishedDate = DateTime.Now,
+                        Link = ConstantVariable.NotPublished,
+                        CampaignId = campaignId,
+                        CampaignName = campaignName,
+                        SocialNetworks = destinationDetails.SocialNetworks,
+                        AccountId = destinationDetails.AccountId,
+                        ErrorDetails = ConstantVariable.NotPublished,
+                    });
+                });
+
+                // Mark as published one
+                post.PostQueuedStatus = PostQueuedStatus.Published;
+
+                // Calculate already tried count
+                var triedCount =
+                    post.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
+
+                // Calculate already success count
+                var successCount =
+                    post.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
+
+                // Update the stats
+                post.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
+
+                // Checking post expire date time
+                if (post.ExpiredTime == null)
+                    post.PostRunningStatus = PostRunningStatus.Active;
+                else
+                {
+                    post.PostRunningStatus = DateTime.Now > post.ExpiredTime
+                        ? PostRunningStatus.Completed
+                        : PostRunningStatus.Active;
+                }
+
+                // Update to bin file
+                PostlistFileManager.UpdatePost(campaignId, post);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Check whether start date is greater than or equal to today and check end date is already expire or not

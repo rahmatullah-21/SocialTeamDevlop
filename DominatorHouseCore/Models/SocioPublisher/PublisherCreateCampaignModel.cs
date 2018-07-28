@@ -279,7 +279,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// Post collection which holds all direct post collection, where post may belongs to Draft, Pending, Published
         /// </summary>
-        [ProtoMember(18)]
+        [ProtoIgnore]
         public ObservableCollection<PostDetailsModel> PostCollection { get; set; } = new ObservableCollection<PostDetailsModel>();
 
         /// <summary>
