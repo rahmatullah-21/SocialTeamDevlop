@@ -6,7 +6,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
     [ProtoContract]
     public class PublisherCustomDestinationModel : BindableBase
     {
-
         private string _destinationType=string.Empty;
         [ProtoMember(1)]
         public string DestinationType

@@ -795,11 +795,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     ThreadFactory.Instance.Start(() =>
                     {
-                        PublishScheduler.StartPublishingPosts(postlistModel, () =>
-                        {
-                            postlistModel.PostQueuedStatus = PostQueuedStatus.Published;
-                            PostProcessOfStatusChange(postlistModel, postlistModel);
-                        });
+                        PublishScheduler.StartPublishingPosts(postlistModel);
+                        //PublishScheduler.StartPublishingPosts(postlistModel, () =>
+                        //{
+                        //    postlistModel.PostQueuedStatus = PostQueuedStatus.Published;
+                        //    PostProcessOfStatusChange(postlistModel, postlistModel);
+                        //});
                     });
                 }
                 catch (OperationCanceledException ex)

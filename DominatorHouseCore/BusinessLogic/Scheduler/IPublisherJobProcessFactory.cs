@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
 
@@ -25,5 +27,24 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             List<PublisherCustomDestinationModel> customDestinationModels,
             bool isPublishOnOwnWall,
             CancellationTokenSource campaignCancellationToken);
+
+     
+
+        /// <summary>
+        /// To create the Publisher job process objects from each networks
+        /// </summary>
+        /// <param name="campaignId">Campaign Id</param>
+        /// <param name="campaignName">Campaign Name</param>
+        /// <param name="accountId">Account's Id</param>
+        /// <param name="network">SocialNetwork</param>
+        /// <param name="destinationDetails">Destination with Post Details</param>
+        /// <param name="campaignCancellationToken">Cancellation token</param>
+        /// <returns></returns>
+        PublisherJobProcess Create(string campaignId, string campaignName, string accountId, SocialNetworks network,
+            IEnumerable<PublisherDestinationDetailsModel> destinationDetails,
+            CancellationTokenSource campaignCancellationToken);
+
     }
+
+   
 }
