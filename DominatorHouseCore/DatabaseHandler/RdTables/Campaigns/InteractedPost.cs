@@ -107,5 +107,7 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Campaigns
         public string Status { get; set; }
         [Column(Order = 40)]
         public string CommentText { get; set; }
+        [Column(Order = 41)]
+        public string CommentId { get; set; }
     }
 }

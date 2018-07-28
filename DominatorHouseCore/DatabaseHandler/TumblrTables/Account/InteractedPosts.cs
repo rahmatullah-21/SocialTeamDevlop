@@ -76,5 +76,8 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// </summary>
         [Column(Order = 11)]
         public int InteractionTimeStamp { get; set; }
+
+        [Column(Order = 12)]
+        public string CommentId { get; set; }
     }
 }

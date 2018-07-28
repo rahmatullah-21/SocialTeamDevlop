@@ -88,6 +88,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         [Column(Order = 21)]
         public string SinAccUsername { get; set; }
 
-
+        [Column(Order = 22)]
+        public string CommentId { get; set; }
     }
 }

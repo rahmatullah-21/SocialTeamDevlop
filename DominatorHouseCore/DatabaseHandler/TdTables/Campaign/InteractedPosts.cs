@@ -169,5 +169,8 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
         [Column(Order = 26)]
         public DateTime InteractionDate { get; set; }
 
+        [Column(Order = 27)]
+        public string CommentId { get; set; }
+
     }
 }

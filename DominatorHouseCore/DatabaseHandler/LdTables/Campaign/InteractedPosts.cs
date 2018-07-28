@@ -111,5 +111,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         [Column(Order = 18)]
         public int InteractionTimeStamp { get; set; }
 
+        [Column(Order = 19)]
+        public string CommentId { get; set; }
     }
 }

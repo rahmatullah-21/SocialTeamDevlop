@@ -63,6 +63,9 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         [Column(Order = 17)]
         public int IsLiked { get; set; }
 
+        [Column(Order = 18)]
+        public string CommentId { get; set; }
+
 
     }
 }
