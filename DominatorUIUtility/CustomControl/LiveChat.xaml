@@ -22,9 +22,24 @@
 
         <Grid  Background="{DynamicResource AccentBaseColorBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Content="{DynamicResource LangKeyRefreshEvery}"  Foreground="White" VerticalAlignment="Center"/>
-                <controls:NumericUpDown Minimum="0" Value="{Binding LiveChatModel.Seconds}" VerticalAlignment="Center"/>
-                <Label Content="{DynamicResource LangKeySeconds}" Foreground="White" VerticalAlignment="Center"/>
+                <Button  Cursor="Hand"  Foreground="White" Command="{Binding FriendSelectionChangedCommand}"
+                        Background="Transparent" VerticalAlignment="Center">
+                    <Button.Content>
+                        <TextBlock Text="{DynamicResource LangKeyRefreshChat}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="TextDecorations" Value="Underline" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Button.Content>
+                   
+                </Button>
+                
                 <ComboBox x:Name="Accounts" Width="200" HorizontalAlignment="Right" ItemsSource="{Binding LiveChatModel.AccountNames}"
                       VerticalAlignment="Center" Margin="20,0" SelectedIndex="0" SelectedItem="{Binding LiveChatModel.SelectedAccount}"
                      behaviour:SelectionChangedBehaviour.Command="{Binding UserSelectionChangedCommand}"/>
@@ -70,7 +85,18 @@
             </ListBox>
             <GridSplitter Width="5" Grid.Column="1" HorizontalAlignment="Right"
                    VerticalAlignment="Stretch"   ResizeBehavior="PreviousAndNext"
-                   Background="{DynamicResource AccentBaseColorBrush}" ResizeDirection="Columns"/>
+                   Background="Gainsboro" ResizeDirection="Columns">
+                <GridSplitter.Style>
+                    <Style TargetType="GridSplitter" >
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding LiveChatModel.LstSender.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </GridSplitter.Style>
+            </GridSplitter>
             <Grid Grid.Column="2" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -159,7 +185,7 @@
                                  VerticalAlignment="Center" Height="40"
                                  BorderThickness="0"  AcceptsReturn="True" Text="{Binding LiveChatModel.TextMessage, Mode=TwoWay}"
                                  AcceptsTab="True"  VerticalScrollBarVisibility="Auto" />
-                           
+
 
                         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 8 0" >
 
@@ -183,17 +209,16 @@
                                                 <VisualBrush.Visual>
                                                     <Path  Canvas.Left="11.0833" Canvas.Top="17.4167" Stretch="Fill"
                                                            Fill="Gainsboro" Data="M17.218,2.268L2.477,8.388C2.13,8.535,2.164,9.05,2.542,9.134L9.33,10.67l1.535,6.787c0.083,0.377,0.602,0.415,0.745,0.065l6.123-14.74C17.866,2.46,17.539,2.134,17.218,2.268 M3.92,8.641l11.772-4.89L9.535,9.909L3.92,8.641z M11.358,16.078l-1.268-5.613l6.157-6.157L11.358,16.078z"></Path>
-                                       
+
                                                 </VisualBrush.Visual>
                                             </VisualBrush>
-                                            <!--<VisualBrush Visual="{StaticResource appbar_chevron_right}" Stretch="Fill"/>-->
                                         </Rectangle.OpacityMask>
                                         <Rectangle.LayoutTransform>
                                             <RotateTransform Angle="45"/>
                                         </Rectangle.LayoutTransform>
                                     </Rectangle>
                                 </Button.Content>
-                               
+
                             </Button>
                         </StackPanel>
                     </Grid>

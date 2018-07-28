@@ -280,7 +280,7 @@ namespace DominatorHouseCore.Utility
                 var line = String.Empty;
                 while ((line = file.ReadLine()) != null)
                 {
-                    csvSplitList.Add(line);
+                    csvSplitList.Add(line.Replace(":","\t"));
                 }
                 return csvSplitList;
             }

@@ -86,6 +86,8 @@ namespace DominatorHouseCore.ViewModel
                 {
                     ThreadFactory.Instance.Start(() =>
                     {
+                        Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
+
                         SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
                             .UpdateCurrentChat(LiveChatModel);
 
@@ -110,7 +112,7 @@ namespace DominatorHouseCore.ViewModel
         }
         private void EmojiExecute(object sender)
         {
-          
+
         }
 
 
@@ -127,8 +129,9 @@ namespace DominatorHouseCore.ViewModel
             {
                 ThreadFactory.Instance.Start(() =>
                 {
+                    Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Clear());
                     SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
-                        .UpdateFriendList(LiveChatModel);
+                          .UpdateFriendList(LiveChatModel);
                 });
             }
             catch (Exception ex)
@@ -143,7 +146,7 @@ namespace DominatorHouseCore.ViewModel
                 if (!string.IsNullOrEmpty(message))
                 {
                     bool isSent = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
-                        .SendMessageToUser(LiveChatModel, message,chatMessageType);
+                        .SendMessageToUser(LiveChatModel, message, chatMessageType);
 
                     if (isSent)
                     {
@@ -151,7 +154,7 @@ namespace DominatorHouseCore.ViewModel
                     }
                     else
                     {
-                        GlobusLogHelper.log.Info("Got some error while sending message");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks, LiveChatModel.DominatorAccountModel.AccountBaseModel.UserName, "Chat", "message sending fail");
                     }
                 }
             }

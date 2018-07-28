@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.CustomControl
@@ -88,7 +78,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 LstManageMessagesModel.Select(x =>
                 {
-                    if (x.SerialNo == Messages.SerialNo)
+                    if (x.MessageId == Messages.MessageId)
                     {
                         x.MessagesText = Messages.MessagesText;
                         x.LstQueries = Messages.LstQueries;
@@ -97,7 +87,7 @@ namespace DominatorUIUtility.CustomControl
                 });
                 Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
                 Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
-                Window.GetWindow(this).Close();
+                Dialog.CloseDialog(this);
             }
             else
             {

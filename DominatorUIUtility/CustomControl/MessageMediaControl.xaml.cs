@@ -80,7 +80,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 LstManageMessagesModel.Select(x =>
                 {
-                    if (x.SerialNo == Messages.SerialNo)
+                    if (x.MessageId == Messages.MessageId)
                     {
                         x.MessagesText = Messages.MessagesText;
                         x.LstQueries = Messages.LstQueries;

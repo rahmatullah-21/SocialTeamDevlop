@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Utility;
+﻿using System;
+using DominatorHouseCore.Utility;
 using ProtoBuf;
 using System.Collections.ObjectModel;
 
@@ -8,20 +9,23 @@ namespace DominatorHouseCore.Models
     public class ManageCommentModel : BindableBase
     {
 
+        public ManageCommentModel()
+        {
+            CommentId = Utilities.GetGuid(true);
+        }
+        private string _commentId;
 
-        private int _serialNo;
-
-        public int SerialNo
+        public string CommentId
         {
             get
             {
-                return _serialNo;
+                return _commentId;
             }
             set
             {
-                if (value == _serialNo)
+                if (value == _commentId)
                     return;
-                SetProperty(ref _serialNo, value);
+                SetProperty(ref _commentId, value);
             }
         }
         private string _commentText;
