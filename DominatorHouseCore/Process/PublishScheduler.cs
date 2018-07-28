@@ -77,7 +77,7 @@ namespace DominatorHouseCore.Process
                 AttachedActionCounts.AddOrUpdate(campaignId, runningCount, (id, count) =>
                 {
                     if (count < 0)
-                        throw new ArgumentOutOfRangeException();
+                       count=0;
                     count = runningCount;
                     return count;
                 });
@@ -828,6 +828,9 @@ namespace DominatorHouseCore.Process
                          AssignPostsToDestinationWithAccountLimit(accountsWithDestinations, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount, postsAccountDestinationLimits) :
                          AssignPostsToDestinationWithNoAccountLimit(allDestination, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount);
 
+                    if (destinations == null)                  
+                        return;
+                    
                     foreach (var destination in destinations)
                     {
                         var accountsNetwork = accountsWithNetworks[destination.Key];
