@@ -353,6 +353,7 @@
     <Compile Include="Enums\AccountStatus.cs" />
     <Compile Include="Enums\ActivitySpeed.cs" />
     <Compile Include="Enums\DatabaseType.cs" />
+    <Compile Include="Enums\DHEnum\GrowthChartPeriod.cs" />
     <Compile Include="Enums\DHEnum\GrowthPeriod.cs" />
     <Compile Include="Enums\DHEnum\UserType.cs" />
     <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />

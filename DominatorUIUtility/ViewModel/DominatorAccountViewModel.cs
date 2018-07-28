@@ -31,8 +31,10 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
+using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
+using LiveCharts;
 using MahApps.Metro.Controls.Dialogs;
 using ProtoBuf;
 
@@ -186,7 +188,20 @@ namespace DominatorUIUtility.ViewModel
         }
 
 
+        public string[] Labels { get; set; }
+        public Func<int, string> YFormatter { get; set; }
+        public SeriesCollection SeriesCollection { get; set; }
+        public string GrowthChartAccountNumber { get; set; }
+        public string GrowthChartPeriod { get; set; }
+        public string GrowthChartProperty { get; set; }
+        public string GrowthChartType { get; set; }
+        public List<string> GrowthChartProperties { get; set; }
+        public List<string> GrowthChartPeriods { get; set; }
+        public List<string> GrowthChartTypes { get; set; }
 
+        public int? YMaxValue { get; set; }
+
+        public List<DailyStatisticsViewModel> GrowthList { get; set; }
 
         #endregion
 
