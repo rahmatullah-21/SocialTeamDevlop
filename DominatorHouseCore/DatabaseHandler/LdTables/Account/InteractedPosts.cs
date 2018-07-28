@@ -101,5 +101,8 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// </summary>
         [Column(Order = 17)]
         public DateTime InteractionDatetime { get; set; }
+
+        [Column(Order = 18)]
+        public string CommentId { get; set; }
     }
 }

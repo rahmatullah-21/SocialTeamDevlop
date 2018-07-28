@@ -346,8 +346,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _monitorFilePath, value);
             }
         }
-
-
+      
 
         #region Postlist
 

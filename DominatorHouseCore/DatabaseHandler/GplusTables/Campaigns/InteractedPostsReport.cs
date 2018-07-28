@@ -67,7 +67,8 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Campaigns
 
         [Column(Order = 18)]
         public int IsLiked { get; set; }
-
+        [Column(Order = 19)]
+        public string CommentId { get; set; }
 
     }
 }

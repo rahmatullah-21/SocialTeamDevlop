@@ -122,5 +122,8 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
 
         [Column(Order = 19)]
         public DateTime InteractionDate { get; set; }
+
+        [Column(Order = 20)]
+        public string CommentId { get; set; }
     }
 }

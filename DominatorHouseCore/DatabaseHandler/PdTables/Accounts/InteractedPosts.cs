@@ -84,7 +84,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public string QueryType
         { get; set; }
 
-
+        [Column(Order = 19)]
+        public string CommentId { get; set; }
 
     }
 }

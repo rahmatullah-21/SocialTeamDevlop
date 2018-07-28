@@ -80,5 +80,8 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
 
         [Column(Order = 24)]
         public string ReplyToComment { get; set; }
+
+        [Column(Order = 25)]
+        public string CommentId { get; set; }
     }
 }

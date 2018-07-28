@@ -112,13 +112,24 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public static string GetBetween(string strSource, string strStart, string strEnd)
         {
-            if (strSource.Contains(strStart) && strSource.Contains(strEnd))
+            try
             {
-                var start = strSource.IndexOf(strStart, 0, StringComparison.Ordinal) + strStart.Length;
-                var end = strSource.IndexOf(strEnd, start, StringComparison.Ordinal);
-                return strSource.Substring(start, end - start);
+                if (strSource.Contains(strStart) && strSource.Contains(strEnd))
+                {
+                    var start = strSource.IndexOf(strStart, 0, StringComparison.Ordinal) + strStart.Length;
+                    var end = strSource.IndexOf(strEnd, start, StringComparison.Ordinal);
+
+                    if (end < 0 || start < 0)
+                        return string.Empty;
+
+                    return strSource.Substring(start, end - start);
+                }
+                return string.Empty;
             }
-          return string.Empty;
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
         }
 
 
