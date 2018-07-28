@@ -19,6 +19,10 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.ViewModel;
+using LiveCharts;
+using LiveCharts.Wpf;
+using System.Reflection;
+using DominatorHouseCore.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -29,8 +33,10 @@ namespace DominatorUIUtility.CustomControl
     {
         private DominatorAccountViewModel _dominatorAccountViewModel;
         private readonly BackgroundWorker worker = new BackgroundWorker();
+        private readonly BackgroundWorker chartWorker = new BackgroundWorker();
 
         #region Property
+
 
         public DominatorAccountViewModel DominatorAccountViewModel
         {
@@ -46,27 +52,67 @@ namespace DominatorUIUtility.CustomControl
         }
 
         #endregion
-        
 
-       
-            private AccountGrowthControl(DominatorAccountViewModel.AccessorStrategies strategyPack)
+
+        private AccountGrowthControl(DominatorAccountViewModel.AccessorStrategies strategyPack)
         {
-            
             _dominatorAccountViewModel = new DominatorAccountViewModel(strategyPack);
             InitializeComponent();
+
+
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
+
+
             AccountModule.DataContext = DominatorAccountViewModel;
             DominatorAccountViewModel.PropertyChanged += DominatorAccountViewModel_PropertyChanged;
+            InitializeChart();
+
+
             worker.DoWork += ReloadGridWithGrowth;
+
             worker.RunWorkerAsync();
+
+
+
 
         }
 
+        private void InitializeChart()
+        {
+            DominatorAccountViewModel.GrowthChartProperties = new List<string>() { "Followers", "Followings", "Tweets" };
+            DominatorAccountViewModel.GrowthChartPeriods = GetChartPeriodEnumStringList();
+            DominatorAccountViewModel.GrowthChartTypes = new List<string>() { "Gain", "Total", "Both" };
+            DominatorAccountViewModel.GrowthChartAccountNumber = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountId;
+            DominatorAccountViewModel.GrowthChartPeriod = "Past 30 days";
+            DominatorAccountViewModel.GrowthChartProperty = "Followers";
+            DominatorAccountViewModel.GrowthChartType = "Total";
+            DominatorAccountViewModel.SeriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Followers",
+                    Values = new ChartValues<double> {0,1,3,4,5, 6,7,8,11,10,20,19,19,19,19,19,19,19,20,20,21,21,24,24,24,24,24,28,29,29 }
+                }
+
+            };
+
+        }
+
+
+
+
+        private void CartesianChart1OnDataClick(object sender, ChartPoint chartPoint)
+        {
+            MessageBox.Show("You clicked (" + chartPoint.X + "," + chartPoint.Y + ")");
+        }
         private void ReloadGridWithGrowth(object sender, DoWorkEventArgs e)
         {
             _accountGrowthInstance.GetRespectiveAccounts(SocialNetworks.Twitter, GrowthPeriod.Daily);
+            PlotChart();
+
         }
+
 
         List<GridViewColumn> _addedColumns = new List<GridViewColumn>();
 
@@ -94,10 +140,10 @@ namespace DominatorUIUtility.CustomControl
         }
 
         private static AccountGrowthControl _accountGrowthInstance = null;
-        
+
         public static AccountGrowthControl GetAccountGrowthControl(SocialNetworks socialNetworks, DominatorAccountViewModel.AccessorStrategies strategies)
         {
-            if (_accountGrowthInstance == null) 
+            if (_accountGrowthInstance == null)
             {
                 _accountGrowthInstance = new AccountGrowthControl(strategies);
             }
@@ -107,6 +153,28 @@ namespace DominatorUIUtility.CustomControl
             return _accountGrowthInstance;
         }
 
+        public List<string> GetChartPeriodEnumStringList()
+        {
+            var list = new List<string>();
+            foreach (GrowthChartPeriod period in Enum.GetValues(typeof(GrowthChartPeriod)))
+            {
+                list.Add(StringValueOfEnum(period));
+            }
+            return list;
+        }
+        static string StringValueOfEnum(Enum value)
+        {
+            FieldInfo fi = value.GetType().GetField(value.ToString());
+            DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            if (attributes.Length > 0)
+            {
+                return attributes[0].Description;
+            }
+            else
+            {
+                return value.ToString();
+            }
+        }
 
         public static AccountGrowthControl GetAccountGrowthControl(DominatorAccountViewModel.AccessorStrategies strategies)
         {
@@ -148,6 +216,8 @@ namespace DominatorUIUtility.CustomControl
                     x.DisplayColumnValue4 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue1 : 0;
                     x.DisplayColumnValue5 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue2 : 0;
                     x.DisplayColumnValue6 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue3 : 0;
+
+
                     return x;
                 }).ToList();
 
@@ -172,8 +242,6 @@ namespace DominatorUIUtility.CustomControl
             DominatorAccountViewModel.SocialNetwork = socialNetworks;
 
         }
-
-
 
 
 
@@ -264,7 +332,7 @@ namespace DominatorUIUtility.CustomControl
                 menuOptions.Add(goToToolsMenu);
             }
 
-        
+
 
 
             var loginStatusMenu = new MenuItem { Header = "Check Account Status" };
@@ -342,7 +410,7 @@ namespace DominatorUIUtility.CustomControl
             if (dataContext != null) DominatorAccountViewModel.EditAccount(sender);
         }
 
-       
+
 
         public void GotoTools(object sender, RoutedEventArgs e)
         {
@@ -435,6 +503,219 @@ namespace DominatorUIUtility.CustomControl
                 Console.WriteLine(ex.Message);
             }
         }
+        private void CmbboxGrowthChartAccount_OnDropDownClosed(object sender, EventArgs e)
+        {
+            try
+            {
+
+                GetGrowthForAccount();
+                UpdateChart(1);
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void UpdateChart(int eventType = 0)
+        {
+
+            var selectedGrowthChartType = DominatorAccountViewModel.GrowthChartType;
+
+            if (selectedGrowthChartType == "Total")
+            {
+
+                DominatorAccountViewModel.SeriesCollection.FirstOrDefault().Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, DominatorAccountViewModel.GrowthChartProperty, "Total");
+                if (DominatorAccountViewModel.SeriesCollection.Count > 1)
+                    DominatorAccountViewModel.SeriesCollection.RemoveAt(1);
+                DominatorAccountViewModel.Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
+                //DominatorAccountViewModel.Labels = GetChartLabels();
+                DominatorAccountViewModel.YFormatter = value => value.ToString();
+
+            }
+            else if (selectedGrowthChartType == "Gain")
+            {
+                DominatorAccountViewModel.SeriesCollection.FirstOrDefault().Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, DominatorAccountViewModel.GrowthChartProperty, "Gain");
+                if (DominatorAccountViewModel.SeriesCollection.Count > 1)
+                    DominatorAccountViewModel.SeriesCollection.RemoveAt(1);
+                DominatorAccountViewModel.Labels = GetChartLabels();
+                DominatorAccountViewModel.YFormatter = value => value.ToString();
+            }
+
+            else
+            {
+                if (DominatorAccountViewModel.SeriesCollection.Count() < 2 && eventType != 1)
+                {
+
+                    DominatorAccountViewModel.SeriesCollection.FirstOrDefault().Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, DominatorAccountViewModel.GrowthChartProperty, "Total");
+                    var series = new LineSeries
+                    {
+                        Title = DominatorAccountViewModel.GrowthChartProperty + " Gain",
+                        Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, DominatorAccountViewModel.GrowthChartProperty, "Gain")
+                    };
+                    DominatorAccountViewModel.SeriesCollection.Add(series);
+                }
+                else if (DominatorAccountViewModel.SeriesCollection.Count() == 2 && eventType == 1)
+                {
+                    DominatorAccountViewModel.SeriesCollection.FirstOrDefault().Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, DominatorAccountViewModel.GrowthChartProperty, "Total");
+                    DominatorAccountViewModel.SeriesCollection.ElementAt(1).Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, DominatorAccountViewModel.GrowthChartProperty, "Gain");
+                }
+
+                DominatorAccountViewModel.Labels = GetChartLabels();
+                DominatorAccountViewModel.YFormatter = value => value.ToString();
+            }
+
+
+
+        }
+        private void PlotChart()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+
+                DominatorAccountViewModel.GrowthList = new List<DominatorHouseCore.ViewModel.DailyStatisticsViewModel>();
+
+                // DominatorAccountViewModel.GrowthList = accountUpdateFactory.GetDailyGrowthForAccount(DominatorAccountViewModel.GrowthChartAccountNumber, GetValueFromDescription<GrowthChartPeriod>(DominatorAccountViewModel.GrowthChartPeriod));
+                //DominatorAccountViewModel.GrowthList = accountUpdateFactory.GetDailyGrowthForAccount(DominatorAccountViewModel.GrowthChartAccountNumber, GrowthChartPeriod.Past30Days);
+
+                GetGrowthForAccount();
+                if (DominatorAccountViewModel.GrowthChartType == "Total" || DominatorAccountViewModel.GrowthChartType == "Both")
+                {
+                    DominatorAccountViewModel.SeriesCollection.FirstOrDefault().Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, DominatorAccountViewModel.GrowthChartProperty, "Total");
+
+
+
+                }
+                if (DominatorAccountViewModel.GrowthChartType == "Gain" || DominatorAccountViewModel.GrowthChartType == "Both")
+                {
+
+
+                    DominatorAccountViewModel.SeriesCollection.FirstOrDefault().Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, DominatorAccountViewModel.GrowthChartProperty, "Gain");
+
+
+                }
+
+                DominatorAccountViewModel.Labels = GetChartLabels();
+                DominatorAccountViewModel.YFormatter = value => value.ToString();
+            });
+
+        }
+
+        private void GetGrowthForAccount()
+        {
+            var accountUpdateFactory = SocinatorInitialize
+                 .GetSocialLibrary(SocialNetworks.Twitter)
+                 .GetNetworkCoreFactory().AccountUpdateFactory;
+            DominatorAccountViewModel.GrowthList = accountUpdateFactory.GetDailyGrowthForAccount(DominatorAccountViewModel.GrowthChartAccountNumber, GetValueFromDescription<GrowthChartPeriod>(DominatorAccountViewModel.GrowthChartPeriod));
+        }
+
+        private string[] GetChartLabels()
+        {
+
+            if (DominatorAccountViewModel.GrowthChartPeriod == "Past 30 days" || DominatorAccountViewModel.GrowthChartPeriod == "Past week")
+            {
+
+                string[] datesArray = DominatorAccountViewModel.GrowthList.Select(x => x.Date.ToString("MM/dd/yyyy")).ToArray();
+
+                return datesArray;
+
+            }
+            if (DominatorAccountViewModel.GrowthChartPeriod == "Past day")
+            {
+
+                string[] datesArray = DominatorAccountViewModel.GrowthList.Select(x => x.Date.ToString("MM/dd/yyyy")).ToArray();
+
+                return datesArray;
+
+            }
+
+            return new string[] { };
+        }
+
+        private ChartValues<int> getGrowthValueList(List<DailyStatisticsViewModel> growthList, string growthChartProperty, string type)
+        {
+            var list = new ChartValues<int>();
+            if (growthChartProperty == "Followers")
+            {
+
+                foreach (var g in growthList)
+                {
+                    list.Add(g.GrowthColumnValue1);
+                }
+            }
+            if (growthChartProperty == "Followings")
+            {
+                foreach (var g in growthList)
+                {
+                    list.Add(g.GrowthColumnValue2);
+                }
+            }
+            if (growthChartProperty == "Tweets")
+            {
+                foreach (var g in growthList)
+                {
+                    list.Add(g.GrowthColumnValue3);
+                }
+            }
+
+
+            if (type == "Gain")
+            {
+                var gainList = new ChartValues<int>();
+                for (int i = 0; i < list.Count; i++)
+                {
+
+                    var value = i == 0 ? 0 : (list[i] - list[i - 1]);
+                    //var value = i == 0 ? 0 : (i == 1 ? list[i] - 0 : (list[i] - list[i - 1]));
+                    gainList.Add(value);
+                }
+                list = gainList;
+            }
+
+            return list;
+        }
+
+        private void CmbboxGrowthChartPeriod_OnDropDownClosed(object sender, EventArgs e)
+        {
+            try
+            {
+                GetGrowthForAccount();
+                UpdateChart(1);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        private void CmbboxGrowthChartType_OnDropDownClosed(object sender, EventArgs e)
+        {
+            try
+            {
+                UpdateChart(0);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
+        private void CmbboxGrowthType_OnDropDownClosed(object sender, EventArgs e)
+        {
+            try
+            {
+                UpdateChart(1);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
+
         public void FacebookRemovePhoneVerification(object sender, RoutedEventArgs e)
         {
 
@@ -448,7 +729,28 @@ namespace DominatorUIUtility.CustomControl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public static T GetValueFromDescription<T>(string description)
+        {
+            var type = typeof(T);
+            if (!type.IsEnum) throw new InvalidOperationException();
+            foreach (var field in type.GetFields())
+            {
+                var attribute = Attribute.GetCustomAttribute(field,
+                    typeof(DescriptionAttribute)) as DescriptionAttribute;
+                if (attribute != null)
+                {
+                    if (attribute.Description == description)
+                        return (T)field.GetValue(null);
+                }
+                else
+                {
+                    if (field.Name == description)
+                        return (T)field.GetValue(null);
+                }
+            }
 
+            return default(T);
+        }
 
 
     }
