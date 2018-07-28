@@ -301,5 +301,13 @@ namespace DominatorHouseCore.Utility
             webclient.DownloadFile("https://socinator.com/wp-content/uploads/2018/07/fav_64.png", $"{ConstantVariable.GetSocinatorIcon()}");
             return true;
         }
+        public static string ReplaceUniCode(string messeges)
+        {
+            Regex _regex = new Regex(@"\\u(?<Value>[a-zA-Z0-9]{4})", RegexOptions.Compiled);
+            messeges = _regex.Replace(messeges,
+                m => ((char)int.Parse(m.Groups["Value"].Value, System.Globalization.NumberStyles.HexNumber)).ToString()
+            );
+            return messeges;
+        }
     }
 }
