@@ -7,19 +7,23 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class ManageMessagesModel : BindableBase
     {
-        private int _serialNo;
+        public ManageMessagesModel()
+        {
+            MessageId = Utilities.GetGuid(true);
+        }
+        private string _messageId;
 
-        public int SerialNo
+        public string MessageId
         {
             get
             {
-                return _serialNo;
+                return _messageId;
             }
             set
             {
-                if (value == _serialNo)
+                if (value == _messageId)
                     return;
-                SetProperty(ref _serialNo, value);
+                SetProperty(ref _messageId, value);
             }
         }
         private string _messagesText;

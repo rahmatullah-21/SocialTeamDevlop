@@ -3037,5 +3037,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyRandomlyPickTitleFromList">Randomly pick title from the list.</system:String>
     <system:String x:Key="LangKeyRemoveTitleOnceUsed">Remove title once used.</system:String>
     <system:String x:Key="LangKeyWriteAMessage">Write a message...</system:String>
+    <system:String x:Key="LangKeyRefreshChat">Refresh Chat</system:String>
     <!--End Added on 19-07-2018-->
 </ResourceDictionary>

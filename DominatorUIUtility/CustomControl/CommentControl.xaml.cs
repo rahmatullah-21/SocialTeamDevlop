@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.CustomControl
@@ -74,7 +75,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 LstManageCommentModel.Select(x =>
                 {
-                    if (x.SerialNo == Comments.SerialNo)
+                    if (x.CommentId == Comments.CommentId)
                     {
                         x.CommentText = Comments.CommentText;
                         x.FilterText = Comments.FilterText;
@@ -84,7 +85,7 @@ namespace DominatorUIUtility.CustomControl
                 });
                 Comments.SelectedQuery.Remove(Comments.SelectedQuery.FirstOrDefault(x=>x.Content.QueryValue=="All"));
                 Comments.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
-                Window.GetWindow(this).Close();
+                Dialog.CloseDialog(this);
             }
             else
             {
