@@ -13,6 +13,6 @@ namespace DominatorHouseCore.Enums.PdQuery
         [Description("LangKeyCustomPin")]
         CustomPin = 4,
         [Description("LangKeySocinatorPublisherCampaign")]
-        SocinatorPublisherCampaign = 3,
+        SocinatorPublisherCampaign = 5,
     }
 }
