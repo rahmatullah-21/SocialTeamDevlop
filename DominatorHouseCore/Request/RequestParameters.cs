@@ -105,7 +105,7 @@ namespace DominatorHouseCore.Request
         /// So UrlParameters contains two items
         /// UrlParameters  = new Dictionary &lt;string, string &gt;() { { "paramkey1", "paramvalue1" } , { "paramkey2", "paramvalue2" } };
         /// </summary>
-        public Dictionary<string, string> UrlParameters { get; set; } 
+        public Dictionary<string, string> UrlParameters { get; set; }
             = new Dictionary<string, string>();
 
         /// <summary>
@@ -115,10 +115,10 @@ namespace DominatorHouseCore.Request
         /// So PostDataParameters contains two items
         /// PostDataParameters  = new Dictionary &lt;string, string &gt;() { { "paramkey1", "paramvalue1" } , { "paramkey2", "paramvalue3" } };
         /// </summary>
-        public Dictionary<string, string> PostDataParameters { get; set; } 
+        public Dictionary<string, string> PostDataParameters { get; set; }
             = new Dictionary<string, string>();
 
-       
+
 
         /// <summary>
         /// To add the extra parameter along with url.
@@ -206,7 +206,7 @@ namespace DominatorHouseCore.Request
                 throw new ArgumentNullException(nameof(url));
 
             var array = GetUrlParameterValues();
-          
+
             return $"{url}{(array.Length != 0 ? "?" : string.Empty)}{string.Join("&", array)}";
         }
 
@@ -255,7 +255,7 @@ namespace DominatorHouseCore.Request
                 stringBuilder.Append("=");
                 stringBuilder.Append((object)keyValuePair.Value);
                 stringBuilder.Append("&");
-            }            
+            }
             --stringBuilder.Length;
             return Encoding.UTF8.GetBytes(stringBuilder.ToString());
         }
@@ -376,7 +376,7 @@ namespace DominatorHouseCore.Request
                     stringBuilder.AppendLine($"Content-Disposition: form-data; name=\"{keyValuePair.Key as object}\"");
                     stringBuilder.AppendLine();
                     stringBuilder.AppendLine(keyValuePair.Value.ToString());
-                }              
+                }
                 foreach (KeyValuePair<string, FileData> file in FileList)
                 {
                     stringBuilder.AppendLine(strMultipartBoundary);
@@ -396,7 +396,7 @@ namespace DominatorHouseCore.Request
                 byte[] bytes1 = Encoding.UTF8.GetBytes(Environment.NewLine + strMultipartBoundary);
                 memoryStream.Write(bytes1, 0, bytes1.Length);
 
-             //   AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
+                //   AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
                 this.ContentType = $"multipart/form-data; boundary={multipartBoundary}";
                 return memoryStream.ToArray();
             }
@@ -457,6 +457,18 @@ namespace DominatorHouseCore.Request
                 this.ContentType = $"multipart/form-data; boundary={multipartBoundary}";
                 return memoryStream.ToArray();
             }
+        }
+
+
+        /// <summary>
+        /// To generate the normal post data from json string
+        /// </summary>
+        /// <param name="jsonString">post data which will pass as bytes</param>
+        /// <returns>post data in sequences of bytes</returns>
+        public virtual byte[] GeneratePostDataFromDirectJson(string jsonString)
+        {
+            var jobject = JObject.Parse(jsonString);
+            return Encoding.UTF8.GetBytes(jobject.ToString());
         }
     }
 }

@@ -17,7 +17,8 @@ namespace DominatorHouseCore.Diagnostics
         {
             Error += (t, e) =>
             {
-               GlobusExceptionHandler.HandleGlobalException(e, t.ToString());                 
+               //GlobusExceptionHandler.HandleGlobalException(e, t.ToString()); 
+               e.DebugLog();                
             };
         }
 

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore;
 using DominatorHouseCore.Models;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
@@ -79,7 +80,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 LstManageMessagesModel.Select(x =>
                 {
-                    if (x.SerialNo == Messages.SerialNo)
+                    if (x.MessageId == Messages.MessageId)
                     {
                         x.MessagesText = Messages.MessagesText;
                         x.LstQueries = Messages.LstQueries;
@@ -140,7 +141,7 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
         }
 

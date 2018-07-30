@@ -106,28 +106,29 @@
                                                  Minimum="{Binding PinterestModel.MaxHashtagsPerPostRange.StartValue}"
                                                 Value="{Binding PinterestModel.MaxHashtagsPerPostRange.EndValue}"/>
                     </StackPanel>
-                    <Grid Margin="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{DynamicResource LangKeyPick}" VerticalAlignment="Center" Margin="5"/>
-                                <controls:NumericUpDown Minimum="0" VerticalAlignment="Center"
-                                                        Value="{Binding PinterestModel.PickPercentHashTag}"/>
-                                <TextBlock Text="{DynamicResource LangKeyPercentOfTheExtraHashtagsFromThisList}" VerticalAlignment="Center" Margin="5"/>
+                 
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Margin="50,0">
+                                <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPick}"/>
+                                <controls:NumericUpDown Margin="5" Minimum="0" Value="{Binding PinterestModel.PickPercentHashTag}"/>
+                                <TextBlock Text="{DynamicResource LangKeyPercentOfTheExtraHashtagsFromThisList}" VerticalAlignment="Center"/>
                             </StackPanel>
+                            <TextBox Height="50" Width="300" AcceptsReturn="True"
+                                     HorizontalAlignment="Left" Margin="50,5" Text="{Binding PinterestModel.HashtagsFromList1}"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource LangKeyPick}" VerticalAlignment="Center" Margin="5"/>
-                            <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 
-                                                    Value="{Binding PinterestModel.PickPercentFromList}"/>
-                            <TextBlock Text="{DynamicResource LangKeyPercentFromThisList}" VerticalAlignment="Center" Margin="5"/>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Margin="50,0">
+                                <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPick}"/>
+                                <controls:NumericUpDown Margin="5" Minimum="0" Value="{Binding PinterestModel.PickPercentFromList}"/>
+                                <TextBlock Text="{DynamicResource LangKeyPercentFromThisList}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <TextBox Height="50" Width="300" AcceptsReturn="True"
+                                     HorizontalAlignment="Left" Margin="50,5" Text="{Binding PinterestModel.HashtagsFromList2}"/>
                         </StackPanel>
 
-                    </Grid>
+
+                    
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

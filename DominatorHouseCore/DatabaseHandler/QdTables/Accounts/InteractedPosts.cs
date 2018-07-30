@@ -37,5 +37,8 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 
         [Column(Order = 9)]
         public string Comment { get; set; }
+
+        [Column(Order = 10)]
+        public string CommentId { get; set; }
     }
 }

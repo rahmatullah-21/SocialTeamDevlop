@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
+    [Serializable]
     [ProtoContract]
     public class PublisherMediaViewerModel : BindableBase
     {     
@@ -134,6 +136,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// To Specify whether post detail are present or not 
+        /// </summary>
         public bool IsPostDetailsPresent
         {
             get

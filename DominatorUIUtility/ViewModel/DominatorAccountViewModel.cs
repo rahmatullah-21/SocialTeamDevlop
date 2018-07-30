@@ -50,6 +50,8 @@ namespace DominatorUIUtility.ViewModel
             public Action<DominatorAccountModel> ActionCheckAccount;
             public Action<DominatorAccountModel> AccountBrowserLogin;
             public Action<DominatorAccountModel> action_UpdateFollower;
+            public Action<DominatorAccountModel> EditProfile;
+            public Action<DominatorAccountModel> RemovePhoneVerification;
         }
 
 
@@ -271,7 +273,7 @@ namespace DominatorUIUtility.ViewModel
                         GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
                     }
 
-                    Task.Factory.StartNew(() =>
+                    ThreadFactory.Instance.Start(() =>
                     {
                         AddAccount(objDominatorAccountBaseModel, act =>
                         {
@@ -361,8 +363,10 @@ namespace DominatorUIUtility.ViewModel
                 {
                     try
                     {
-                        var finalAccount = singleAccount.Replace(",", ":").Replace("<NA>", "");
-                        var splitAccount = Regex.Split(finalAccount, ":");
+                       // var finalAccount = singleAccount.Replace(",", ":").Replace("<NA>", "");
+                        var finalAccount = singleAccount.Replace("<NA>", "\t");
+                        var splitAccount = Regex.Split(finalAccount, "\t");
+                        //var splitAccount = Regex.Split(finalAccount, ":");
                         if (splitAccount.Length <= 1) continue;
 
                         //assign the username, password and groupname
@@ -733,7 +737,10 @@ namespace DominatorUIUtility.ViewModel
          DominatorAccountBaseModel oldAccount)
         {
             bool isDuplicatProxyAvailable = false;
-            ProxyManager proxyManager = ProxyManager.GetProxyManagerControl(strategyPack);
+            ProxyManager proxyManager = null;
+            Application.Current.Dispatcher.Invoke(
+                () => proxyManager = ProxyManager.GetProxyManagerControl(strategyPack));
+          //  ProxyManager proxyManager = ProxyManager.GetProxyManagerControl(strategyPack);
             foreach (var proxy in oldProxies)
             {
                 #region To check for duplicate proxy 
@@ -818,7 +825,7 @@ namespace DominatorUIUtility.ViewModel
                                     proxy.AccountsAssignedto.Add(accountTomodified);
 
                                     ProxyFileManager.EditProxy(proxy);
-                                    proxyManager.ProxyManagerViewModel.accountsAlreadyAssigned.Add(
+                                    proxyManager?.ProxyManagerViewModel.accountsAlreadyAssigned.Add(
                                         new AccountAssign
                                         {
                                             UserName = accountTomodified.UserName,
@@ -1085,7 +1092,7 @@ namespace DominatorUIUtility.ViewModel
         {
             var proxyManager = ProxyManager.GetProxyManagerControl(strategyPack);
             var allProxy = ProxyFileManager.GetAllProxy();
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 allProxy?.ForEach(proxy =>
                 {
@@ -1161,7 +1168,7 @@ namespace DominatorUIUtility.ViewModel
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
-                Task.Factory.StartNew(() => { DeleteAccounts(selectAccounts); });
+                ThreadFactory.Instance.Start(() => { DeleteAccounts(selectAccounts); });
 
             }
             catch (Exception ex)
@@ -1497,7 +1504,7 @@ namespace DominatorUIUtility.ViewModel
                 #region Checking status
 
 
-                Task.Factory.StartNew(async () =>
+                ThreadFactory.Instance.Start(async () =>
                  {
                      try
                      {
@@ -1922,7 +1929,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void StopProcess()
         {
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 _updateAccountList.ForEach(accountSelected =>
                 {
@@ -1998,6 +2005,10 @@ namespace DominatorUIUtility.ViewModel
 
         public void ActionUpdateAccount(DominatorAccountModel model)
             => strategyPack.action_UpdateFollower(model);
+        public void EditProfile(DominatorAccountModel model)
+            => strategyPack.EditProfile(model);
+        public void RemovePhoneVerification(DominatorAccountModel model)
+            => strategyPack.RemovePhoneVerification(model);
         public void UpdateProxyStatus(DominatorAccountBaseModel objDominatorAccountBaseModel)
         {
             try
@@ -2012,7 +2023,6 @@ namespace DominatorUIUtility.ViewModel
             }
         }
     }
-
 
 
     public class GridViewHeader : BindableBase

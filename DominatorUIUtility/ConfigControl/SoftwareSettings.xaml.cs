@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ConfigControl
@@ -23,7 +24,7 @@ namespace DominatorUIUtility.ConfigControl
     /// </summary>
     public partial class SoftwareSettings : UserControl
     {
-        private SoftwareSettingsModel SoftwareSettingsModel { get; set; }=new SoftwareSettingsModel();
+        private SoftwareSettingsModel SoftwareSettingsModel { get; set; } = new SoftwareSettingsModel();
         private SoftwareSettings()
         {
             InitializeComponent();
@@ -41,9 +42,18 @@ namespace DominatorUIUtility.ConfigControl
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
             if (SoftwareSettingsFileManager.SaveSoftwareSettings(SoftwareSettingsModel))
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                    "Software Settings sucessfully saved !!");
+            {
+                var result = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
+                      "Software Settings sucessfully saved.To apply this setting you need to restart.\nDo you want to Restart?", MessageDialogStyle.AffirmativeAndNegative,
+                      Dialog.SetMetroDialogButton("Restart now", "Restart later"));
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    Application.Current.Shutdown();
+                    System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                    Environment.Exit(0);
 
+                }
+            }
         }
     }
 }

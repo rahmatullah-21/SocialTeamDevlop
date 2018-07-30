@@ -1,16 +1,23 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
-using  System.Windows;
+using System.Windows;
+using DominatorHouseCore.Enums.SocioPublisher;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
+    [Serializable]
     [ProtoContract]
     public class PostDetailsModel : BindableBase
     {
 
+        /// <summary>
+        /// To specify the Post Description
+        /// </summary>
         private string _postDescription =string.Empty;
+
         [ProtoMember(1)]
         public string PostDescription
         {
@@ -27,6 +34,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// To specify whether multiple post
+        /// </summary>
         private bool _isMultiPost;
         [ProtoMember(2)]
         public bool IsMultiPost
@@ -42,6 +52,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isMultiPost, value);
             }
         }
+
+
+        /// <summary>
+        /// To specify whether multiple image posts
+        /// </summary>
         private bool _isMultipleImagePost;
         [ProtoMember(3)]
         public bool IsMultipleImagePost
@@ -57,6 +72,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isMultipleImagePost, value);
             }
         }
+
+        /// <summary>
+        /// Is need to use file name as a description for multiple image posts
+        /// </summary>
         private bool _isUseFileNameAsDescription;
         [ProtoMember(4)]
         public bool IsUseFileNameAsDescription
@@ -72,6 +91,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isUseFileNameAsDescription, value);
             }
         }
+
+        /// <summary>
+        /// Is need to add only unique post for multiple images
+        /// </summary>
         private bool _isUniquePost;
         [ProtoMember(5)]
         public bool IsUniquePost
@@ -88,7 +111,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+
+        /// <summary>
+        /// Image url for multiple image post
+        /// </summary>
         private string _imagesUrl=string.Empty;
+
         [ProtoMember(6)]
         public string ImagesUrl
         {
@@ -103,7 +131,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _imagesUrl, value);
             }
         }
-        private string _publisherInstagramTitle ;
+
+        /// <summary>
+        /// Title of the post
+        /// </summary>
+        private string _publisherInstagramTitle =string.Empty;
+
         [ProtoMember(7)]
         public string PublisherInstagramTitle
         {
@@ -119,6 +152,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(_publisherInstagramTitle));
             }
         }
+
+        /// <summary>
+        /// Facebook Sell post Title
+        /// </summary>
         private string _fdSellProductTitle;
         [ProtoMember(8)]
         public string FdSellProductTitle
@@ -135,6 +172,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// Facebook Sell price for the post 
+        /// </summary>
+
         private double _fdSellPrice;
         [ProtoMember(9)]
         public double FdSellPrice
@@ -150,6 +191,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _fdSellPrice, value);
             }
         }
+
+        /// <summary>
+        /// Facebook sell post available locaion
+        /// </summary>
         private string _fdSellLocation;
         [ProtoMember(10)]
         public string FdSellLocation
@@ -165,9 +210,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _fdSellLocation, value);
             }
         }
-       
 
+        /// <summary>
+        /// Media Viewer Details
+        /// </summary>
         private PublisherMediaViewerModel _mediaViewer =new PublisherMediaViewerModel();
+
         [ProtoMember(11)]
         public PublisherMediaViewerModel MediaViewer
         {
@@ -176,7 +224,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _mediaViewer;
             }
             set
-            {            
+            {
                 if (_mediaViewer == value)
                     return;
                 _mediaViewer = value;
@@ -185,7 +233,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-
+        /// <summary>
+        /// To Specify the settings for the posts
+        /// </summary>
         private PublisherPostSettings _publisherPostSettings = new PublisherPostSettings();
         [ProtoMember(12)]
         public PublisherPostSettings PublisherPostSettings
@@ -202,7 +252,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(PublisherPostSettings));
             }
         }
+
+        /// <summary>
+        /// Is a single or direct post
+        /// </summary>
         private bool _isSinglePost=true;
+
         [ProtoMember(13)]
         public bool IsSinglePost
         {
@@ -217,6 +272,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isSinglePost, value);
             }
         }
+
+        /// <summary>
+        /// Is Facebook sell post
+        /// </summary>
         private bool _isFdSellPost;
         [ProtoMember(14)]
         public bool IsFdSellPost
@@ -233,7 +292,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _pdSourceUrl;
+
+        /// <summary>
+        /// Soruce url
+        /// </summary>
+
+        private string _pdSourceUrl=string.Empty;
+
         [ProtoMember(15)]
         public string PdSourceUrl
         {
@@ -248,8 +313,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _pdSourceUrl, value);
             }
         }
+
+
+        /// <summary>
+        /// To Specify the Media lists
+        /// </summary>
         private ObservableCollection<string> _mediaList = new ObservableCollection<string>();
-       
+
         [ProtoMember(16)]
         public ObservableCollection<string> MediaList
         {
@@ -265,5 +335,100 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
             }
         }
+
+        /// <summary>
+        /// To Specify the created date time 
+        /// </summary>
+        private DateTime _createdDateTime;
+        [ProtoMember(17)]
+        public DateTime CreatedDateTime
+        {
+            get
+            {
+                return _createdDateTime;
+            }
+            set
+            {
+                if (value == _createdDateTime)
+                    return;
+                SetProperty(ref _createdDateTime, value);
+            }
+        }
+
+        /// <summary>
+        /// To specify the post ID
+        /// </summary>
+        private string _postDetailsId;
+        [ProtoMember(18)]
+        public string PostDetailsId
+        {
+            get
+            {
+                return _postDetailsId;
+            }
+            set
+            {
+                if (value == _postDetailsId)
+                    return;
+                SetProperty(ref _postDetailsId, value);
+            }
+        }
+
+        /// <summary>
+        /// To Specify the post queued status
+        /// </summary>
+        private PostQueuedStatus _postQueuedStatus = PostQueuedStatus.Pending;
+        [ProtoMember(19)]
+        public PostQueuedStatus PostQueuedStatus
+        {
+            get
+            {
+                return _postQueuedStatus;
+            }
+            set
+            {
+                if (value == _postQueuedStatus)
+                    return;
+                SetProperty(ref _postQueuedStatus, value);
+            }
+        }
+
+        private bool _isRandomlyPickTitleFromList = true;
+
+        [ProtoMember(20)]
+        public bool IsRandomlyPickTitleFromList
+        {
+            get
+            {
+                return _isRandomlyPickTitleFromList;
+            }
+            set
+            {
+                if (value == _isRandomlyPickTitleFromList)
+                    return;
+                if (value)
+                    IsRemoveTitleOnceUsed = false;
+                SetProperty(ref _isRandomlyPickTitleFromList, value);
+            }
+        }
+        private bool _isRemoveTitleOnceUsed;
+        [ProtoMember(21)]
+        public bool IsRemoveTitleOnceUsed
+        {
+            get
+            {
+                return _isRemoveTitleOnceUsed;
+            }
+            set
+            {
+                if (value == _isRemoveTitleOnceUsed)
+                    return;
+                if (value)
+                    IsRandomlyPickTitleFromList = false;
+                SetProperty(ref _isRemoveTitleOnceUsed, value);
+            }
+        }
+
+
     }
 }

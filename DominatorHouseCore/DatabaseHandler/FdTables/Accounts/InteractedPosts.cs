@@ -100,5 +100,8 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         [Column(Order = 15)]
         public string Comment { get; set; }
 
+        [Column(Order = 16)]
+        public string CommentId { get; set; }
+
     }
 }

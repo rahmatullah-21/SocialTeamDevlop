@@ -105,5 +105,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         [Column(Order = 15)]
         public DateTime InteractionDateTime { get; set; }
 
+        [Column(Order = 17)]
+        public string CommentId { get; set; }
     }
 }

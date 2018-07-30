@@ -11,6 +11,8 @@ namespace DominatorHouseCore.Enums.PdQuery
         [Description("LangKeyCustomBoard")]
         CustomBoard = 3,
         [Description("LangKeyCustomPin")]
-        CustomPin = 4
+        CustomPin = 4,
+        [Description("LangKeySocinatorPublisherCampaign")]
+        SocinatorPublisherCampaign = 5,
     }
 }

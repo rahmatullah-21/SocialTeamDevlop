@@ -1,4 +1,5 @@
 ﻿using SQLite.CodeFirst;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,7 +18,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// </summary>
 
         [Column(Order = 2)]
-        public int TimeStamp
+        public DateTime Date
         { get; set; }
 
         /// <summary>
@@ -25,7 +26,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// </summary>
 
         [Column(Order = 3)]
-        public int Connections
+        public int Followers
         { get; set; }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// </summary>
 
         [Column(Order = 4)]
-        public int LinkedinGroups
+        public int Followings
         { get; set; }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// </summary>
 
         [Column(Order = 5)]
-        public int Posts
+        public int PostsCount
         { get; set; }
 
         /// <summary>
@@ -49,14 +50,6 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// </summary>
 
         [Column(Order = 6)]
-        public int Likes { get; set; }
-
-        /// <summary>
-        /// Comments count of the DB owner when the statistics has got updated
-        /// </summary>
-
-        [Column(Order = 7)]
-        public int Comments { get; set; }
-
+        public int ChannelsCount { get; set; }
     }
 }

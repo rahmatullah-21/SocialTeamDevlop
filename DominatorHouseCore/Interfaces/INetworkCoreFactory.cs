@@ -44,5 +44,7 @@ namespace DominatorHouseCore.Interfaces
 
         ICampaignInteractionDetails CampaignInteractionDetails { get; set; }
         IAccountVerificationFactory AccountVerificationFactory { get; set; }
-     }
+        ProfileFactory ProfileFactory { get; set; }
+        ChatFactory ChatFactory { get; set; }
+    }
 }

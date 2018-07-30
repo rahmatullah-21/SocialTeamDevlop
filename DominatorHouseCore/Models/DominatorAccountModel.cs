@@ -208,7 +208,7 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _displayColumnValue4, value); }
         }
 
-        [ProtoIgnore]
+        [ProtoMember(20)]
         public int? DisplayColumnValue5
         {
             get { return _displayColumnValue5; }
@@ -220,6 +220,31 @@ namespace DominatorHouseCore.Models
         {
             get { return _displayColumnValue6; }
             set { SetProperty(ref _displayColumnValue6, value); }
+        }
+
+        [ProtoIgnore]
+        public int? DisplayColumnValue7
+        {
+            get { return _displayColumnValue7; }
+            set { SetProperty(ref _displayColumnValue7, value); }
+        }
+        [ProtoIgnore]
+        public int? DisplayColumnValue8
+        {
+            get { return _displayColumnValue8; }
+            set { SetProperty(ref _displayColumnValue8, value); }
+        }
+        [ProtoIgnore]
+        public int? DisplayColumnValue9
+        {
+            get { return _displayColumnValue9; }
+            set { SetProperty(ref _displayColumnValue9, value); }
+        }
+        [ProtoIgnore]
+        public int? DisplayColumnValue10
+        {
+            get { return _displayColumnValue10; }
+            set { SetProperty(ref _displayColumnValue10, value); }
         }
 
         #endregion
@@ -253,6 +278,10 @@ namespace DominatorHouseCore.Models
         private int? _displayColumnValue4;
         private int? _displayColumnValue5;
         private int? _displayColumnValue6;
+        private int? _displayColumnValue7;
+        private int? _displayColumnValue8;
+        private int? _displayColumnValue9;
+        private int? _displayColumnValue10;
 
         [ProtoIgnore]
         public CookieCollection Cookies
@@ -302,6 +331,7 @@ namespace DominatorHouseCore.Models
             CancellationSource.Cancel();
         }
         public string VarificationCode { get; set; } = string.Empty;
+        public string ChallengeUrl { get; set; } = string.Empty;
         public DominatorAccountModel Clone()
         {
             return (DominatorAccountModel)this.MemberwiseClone();

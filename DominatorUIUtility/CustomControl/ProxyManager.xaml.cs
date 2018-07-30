@@ -64,14 +64,11 @@ namespace DominatorUIUtility.CustomControl
         {
 
             InitializeComponent();
+            _proxyManagerInstance = this;
             ProxyManagerViewModel._strategies = strategies;
             MainGrid.DataContext = ProxyManagerViewModel;
-            ProxyManagerViewModel.ProxyManagerCollection =
-                CollectionViewSource.GetDefaultView(ProxyManagerViewModel.LstProxyManagerModel);
+            ProxyManagerViewModel.ProxyManagerCollection = CollectionViewSource.GetDefaultView(ProxyManagerViewModel.LstProxyManagerModel);
             ProxyManagerViewModel.StartAddingItems();
-
-
-
         }
 
         private static ProxyManager _proxyManagerInstance = null;

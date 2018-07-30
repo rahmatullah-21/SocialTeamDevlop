@@ -16,6 +16,7 @@ namespace DominatorHouseCore.ViewModel
         public int GrowthColumnValue2 { get; set; }
         public int GrowthColumnValue3 { get; set; }
         public int GrowthColumnValue4 { get; set; }
+        public int GrowthColumnValue5 { get; set; }
 
     }
 

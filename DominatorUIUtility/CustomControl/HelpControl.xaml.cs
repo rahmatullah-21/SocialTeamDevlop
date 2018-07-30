@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using DominatorHouseCore;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -127,9 +129,9 @@ namespace DominatorUIUtility.CustomControl
                 Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
                 e.Handled = true;
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
         }
     }

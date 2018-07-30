@@ -22,23 +22,27 @@ namespace DominatorHouseCore.Process
     {
         #region Constructor
 
-        public PublisherJobProcess(string campaignId,
-            string accountId,
+        protected PublisherJobProcess(string campaignId, 
+            string accountId, 
             SocialNetworks network,
-            List<string> groupDestinationLists,
-            List<string> pageDestinationList,
+            List<string> groupDestinationLists, 
+            List<string> pageDestinationList, 
             List<PublisherCustomDestinationModel> customDestinationModels,
             bool isPublishOnOwnWall,
-            CancellationTokenSource camapignCancellationToken)
+            CancellationTokenSource campaignCancellationToken)
         {
+            // assign campaign Id
             CampaignId = campaignId;
 
+            // assign network 
             Network = network;
 
+            //Get the general settings from bin files
             GeneralSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
                                        (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                        .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
+            // Get the full account details from account Id
             AccountModel = AccountsFileManager.GetAccountById(accountId);
 
             PageDestinationList = pageDestinationList;
@@ -49,6 +53,7 @@ namespace DominatorHouseCore.Process
 
             IsPublishOnOwnWall = isPublishOnOwnWall;
 
+            // Get the campaigns full model
             var publisherCampaign =
                 GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable
                     .GetPublisherCampaignFile()).FirstOrDefault(x => x.CampaignId == CampaignId);
@@ -57,12 +62,14 @@ namespace DominatorHouseCore.Process
 
             OtherConfiguration = publisherCampaign?.OtherConfiguration;
 
-            CampaignCancellationToken = camapignCancellationToken;
+            CampaignCancellationToken = campaignCancellationToken;
 
             CurrentJobCancellationToken = new CancellationTokenSource();
 
+            //Linked the job configuration's cancellation token source with campaign's cancellation token
             CombinedCancellationToken = CancellationTokenSource.CreateLinkedTokenSource(CampaignCancellationToken.Token, CurrentJobCancellationToken.Token);
 
+            // Get the fetcher details, its useful for getting campaigns Name
             var campaign = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                 .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == CampaignId);
 
@@ -70,409 +77,300 @@ namespace DominatorHouseCore.Process
 
         }
 
+
+        protected PublisherJobProcess(string campaignId, string campaignName, string accountId,SocialNetworks network,
+            IEnumerable<PublisherDestinationDetailsModel> destinationDetails,
+            CancellationTokenSource campaignCancellationToken)
+        {
+
+            // assign campaign Id
+            CampaignId = campaignId;
+
+            // assign network 
+            Network = network;
+
+            //Get the general settings from bin files
+            GeneralSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                                       (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                       .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
+
+            // Get the full account details from account Id
+            AccountModel = AccountsFileManager.GetAccountById(accountId);
+
+            PublisherDestinationDetailsModels = destinationDetails.ToList();
+
+               // Get the campaigns full model
+            var publisherCampaign =
+                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable
+                    .GetPublisherCampaignFile()).FirstOrDefault(x => x.CampaignId == CampaignId);
+
+            JobConfigurations = publisherCampaign?.JobConfigurations;
+
+            OtherConfiguration = publisherCampaign?.OtherConfiguration;
+
+            CampaignCancellationToken = campaignCancellationToken;
+
+            CurrentJobCancellationToken = new CancellationTokenSource();
+
+            //Linked the job configuration's cancellation token source with campaign's cancellation token
+            CombinedCancellationToken = CancellationTokenSource.CreateLinkedTokenSource(CampaignCancellationToken.Token, CurrentJobCancellationToken.Token);
+
+            CampaignName = campaignName;
+        }
+
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// To specify the campaign Id
+        /// </summary>
         public string CampaignId { get; set; }
 
+        /// <summary>
+        /// To Specify the campaign Name
+        /// </summary>
         public string CampaignName { get; set; }
 
+        /// <summary>
+        /// To Specify the social network
+        /// </summary>
         public SocialNetworks Network { get; set; }
 
+        /// <summary>
+        /// To Hold Job's configuration settings
+        /// </summary>
         public JobConfigurationModel JobConfigurations { get; set; }
 
+        /// <summary>
+        /// To holds other configurations settings
+        /// </summary>
         public OtherConfigurationModel OtherConfiguration { get; set; }
 
+        /// <summary>
+        /// To holds advanced general settings of the campaign
+        /// </summary>
         public GeneralModel GeneralSettingsModel { get; set; }
 
+        /// <summary>
+        /// lock for job process
+        /// </summary>
         private static readonly object SyncJobProcess = new object();
 
+        /// <summary>
+        /// Current account details
+        /// </summary>
         public DominatorAccountModel AccountModel { get; set; }
 
+        /// <summary>
+        /// Groups destinations Collection
+        /// </summary>
         public List<string> GroupDestinationList { get; set; }
 
+        /// <summary>
+        /// Pages destination collections
+        /// </summary>
         public List<string> PageDestinationList { get; set; }
 
+
+        public List<PublisherDestinationDetailsModel> PublisherDestinationDetailsModels { get; set; } 
+
+        /// <summary>
+        /// Custom destination collections
+        /// </summary>
         public List<PublisherCustomDestinationModel> CustomDestinationList { get; set; }
 
+        /// <summary>
+        /// Is need to publish on own wall
+        /// </summary>
         public bool IsPublishOnOwnWall { get; set; }
 
+        /// <summary>
+        /// Campaign's cancellation token
+        /// </summary>
         public CancellationTokenSource CampaignCancellationToken { get; set; }
 
+        /// <summary>
+        /// Job's cancellation token
+        /// </summary>
         public CancellationTokenSource CurrentJobCancellationToken { get; set; }
 
+        /// <summary>
+        /// Combined cancellation token source for campaigns and jobs
+        /// </summary>
         public CancellationTokenSource CombinedCancellationToken { get; set; }
 
+        /// <summary>
+        /// The method for override to publishing to group for an accounts
+        /// </summary>
+        /// <param name="accountId">Account Id</param>
+        /// <param name="groupUrl">Group Url</param>
+        /// <param name="postDetails">Publishing post details<see cref="PublisherPostlistModel"/></param>
+        /// <param name="isDelayNeed">Specify is delay needed after success/failed post</param>
+        /// <returns></returns>
         public virtual bool PublishOnGroups(string accountId, string groupUrl, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
 
+
+        /// <summary>
+        /// The method for override to publishing to page for an accounts
+        /// </summary>
+        /// <param name="accountId">Account Id</param>
+        /// <param name="pageUrl">Page Url</param>
+        /// <param name="postDetails">Publishing post details<see cref="PublisherPostlistModel"/></param>
+        /// <param name="isDelayNeed">Specify is delay needed after success/failed post</param>
         public virtual bool PublishOnPages(string accountId, string pageUrl, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
 
+
+        /// <summary>
+        /// The method for override to publishing to own profile for an accounts
+        /// </summary>
+        /// <param name="accountId">Account Id</param>
+        /// <param name="postDetails">Publishing post details<see cref="PublisherPostlistModel"/></param>
+        /// <param name="isDelayNeed">Specify is delay needed after success/failed post</param>
         public virtual bool PublishOnOwnWall(string accountId, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
 
+        /// <summary>
+        /// The method for override to publishing to custom destination for an accounts
+        /// </summary>
+        /// <param name="accountId">Account Id</param>
+        /// <param name="customDestinationModel">custom destination tyoe and Url <see cref="PublisherCustomDestinationModel"/></param>
+        /// <param name="postDetails">Publishing post details<see cref="PublisherPostlistModel"/></param>
+        /// <param name="isDelayNeed">Specify is delay needed after success/failed post</param>
         public virtual bool PublishOnCustomDestination(string accountId,
             PublisherCustomDestinationModel customDestinationModel, PublisherPostlistModel postDetails, bool isDelayNeed = true) => false;
 
+        /// <summary>
+        /// To specify already published count
+        /// </summary>
         public int PublishedCount { get; set; }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// To validate the networks settings for each network
+        /// </summary>
+        /// <param name="campaign">Campaign details</param>
+        /// <returns></returns>
         protected abstract bool ValidateNetworksSettings(string campaign);
 
-        public virtual bool DeletePost(string postId) => true;
-
-        public void StartPublishing(int maximumPostCount, bool isRunParallel)
+        /// <summary>
+        /// To delete a published post after x hours
+        /// </summary>
+        /// <param name="postId">Published Post Id/Post Url</param>
+        /// <returns></returns>
+        public virtual bool DeletePost(string postId)
+        {
+            return true;
+        }
+ 
+        /// <summary>
+        /// To Start publishing a post for an account
+        /// </summary>      
+        /// <param name="isRunParallel">Specify whether need to run on parallely or not</param>
+        public void StartPublishingPosts( bool isRunParallel)
         {
             lock (SyncJobProcess)
             {
+                // check whether need to run parallel
                 if (isRunParallel)
                 {
+                    // Call with task
                     ThreadFactory.Instance.Start(() =>
                     {
-                        Publish(maximumPostCount);                       
+                        // start publishing with max post count
+                        StartPublish();
+
+                        // check any action waiting to perform
                         PublishScheduler.RunAndRemovePublisherAction($"{CampaignId}-{AccountModel.AccountBaseModel.AccountId}");
+
+                        // after completion of publishing, decrease a publishing count
                         PublishScheduler.DecreasePublishingCount(CampaignId);
-                        GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName,CampaignName);                        
+
+                        GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
+
                     }, CampaignCancellationToken.Token);
                 }
                 else
                 {
-                    Publish(maximumPostCount);                    
+                    // start publishing with max post count
+                    StartPublish();
+
+                    // check any action waiting to perform
                     PublishScheduler.RunAndRemovePublisherAction($"{CampaignId}-{AccountModel.AccountBaseModel.AccountId}");
+
+                    // after completion of publishing, decrease a publishing count
                     PublishScheduler.DecreasePublishingCount(CampaignId);
+
                     GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
                 }
-                    
+
             }
         }
 
-        private void Publish(int maximumPostCount)
+        /// <summary>
+        /// Starting a post for a current accounts with selected destinations
+        /// </summary>     
+        private void StartPublish()
         {
-            PublishedCount = 0;
-            var isReachedMaximumCount = false;
-            
+            PublishedCount=0;
             try
             {
-                GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork,
-                    AccountModel.AccountBaseModel.UserName, CampaignName);
-
-                var publishedDetails = GenericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == CampaignId).ToList();
-
-                var usedDestination = publishedDetails.Select(x => x.DestinationUrl).ToList();
-
+                // Getting the delay while running after a x posts completions
                 var multipostDelayCount = RandomUtilties.GetRandomNumber(JobConfigurations.PostRange.EndValue, JobConfigurations.PostRange.StartValue);
 
-                if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
+                foreach (var destination in PublisherDestinationDetailsModels)
                 {
-                    #region Publish on Groups
-
-                  
-                    foreach (var groupUrl in GroupDestinationList)
-                    {
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        if (isReachedMaximumCount)
-                            break;
-
-                        if (GeneralSettingsModel.IsDeselectUsedDestination && usedDestination.Contains(groupUrl))
-                            continue;
-
-                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                        var post = GetPostModel("Group", groupUrl);
-
-                        if (post == null)
-                        {
-                            GlobusLogHelper.log.Info(Log.NoPost,AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName,"group", groupUrl);
-                            continue;
-                        }
-
-                        GlobusLogHelper.log.Info(Log.StartPublishing,
-                            AccountModel.AccountBaseModel.AccountNetwork,
-                            AccountModel.AccountBaseModel.UserName, $"group [{groupUrl}]");
-
-                        PublishedCount++;
-
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        PublishOnGroups(AccountModel.AccountId, groupUrl, post, !isReachedMaximumCount);
-
-                        if (PublishedCount % multipostDelayCount == 0)
-                            DelayBetweenMultiPublish();
-
-                    }
-
-                    #endregion
-
-                    #region Publish on Pages
-
-                    if (isReachedMaximumCount)
-                        return;
-
-                    foreach (var pageUrl in PageDestinationList)
-                    {
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        if (isReachedMaximumCount)
-                            break;
-
-                        if (GeneralSettingsModel.IsDeselectUsedDestination && usedDestination.Contains(pageUrl))
-                            continue;
-
-                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                        var post = GetPostModel("Page", pageUrl);
-
-                        if (post == null)
-                        {
-                            GlobusLogHelper.log.Info(Log.NoPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, "page", pageUrl);
-                            continue;
-                        }
-
-                        GlobusLogHelper.log.Info(Log.StartPublishing,
-                            AccountModel.AccountBaseModel.AccountNetwork,
-                            AccountModel.AccountBaseModel.UserName, $"page [{pageUrl}]");
-
-                        PublishedCount++;
-
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        PublishOnPages(AccountModel.AccountId, pageUrl, post, !isReachedMaximumCount);
-
-                        if (PublishedCount % multipostDelayCount == 0)
-                            DelayBetweenMultiPublish();
-                    }
-
-                    #endregion
-
-                    #region Custom Destination
-
-                    if (isReachedMaximumCount )
-                        return;
-
-                    foreach (var customList in CustomDestinationList)
-                    {
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        if (isReachedMaximumCount)
-                            break;
-
-                        if (GeneralSettingsModel.IsDeselectUsedDestination && usedDestination.Contains(customList.DestinationValue))
-                            continue;
-
-                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                        GlobusLogHelper.log.Info(Log.StartPublishing,
-                            AccountModel.AccountBaseModel.AccountNetwork,
-                            AccountModel.AccountBaseModel.UserName,
-                            $"{customList.DestinationType} [{customList.DestinationValue}]");
-
-                        var post = GetPostModel(customList.DestinationType, customList.DestinationValue);
-
-                        if (post == null)
-                        {
-                            GlobusLogHelper.log.Info(Log.NoPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, customList.DestinationType.ToLower(), customList.DestinationValue);
-                            continue;
-                        }
-
-                        PublishedCount++;
-
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        PublishOnCustomDestination(AccountModel.AccountId, customList, post,
-                            !isReachedMaximumCount);
-
-                        if (PublishedCount % multipostDelayCount == 0)
-                            DelayBetweenMultiPublish();
-                    }
-
-                    #endregion
-                }
-                else
-                {
-                    #region Shuffle the groups and pages
-
-                    var allGroupsPages = new Dictionary<string, string>();
-
-                    GroupDestinationList.Shuffle();
-                    PageDestinationList.Shuffle();
-
-                    GroupDestinationList.ForEach(x =>
-                    {
-                        allGroupsPages.Add(x, "Group");
-                    });
-
-                    PageDestinationList.ForEach(x =>
-                    {
-                        allGroupsPages.Add(x, "Page");
-                    });
-
-                    foreach (var destination in allGroupsPages)
-                    {
-                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        if (isReachedMaximumCount)
-                            break;
-
-                        if (GeneralSettingsModel.IsDeselectUsedDestination && usedDestination.Contains(destination.Key))
-                            continue;
-
-                        if (destination.Value == "Group")
-                        {
-                            var post = GetPostModel("Group", destination.Key);
-
-                            if (post == null)
-                            {
-                                GlobusLogHelper.log.Info(Log.NoPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, "group", destination.Key);
-
-                                continue;
-                            }
-
-                            GlobusLogHelper.log.Info(Log.StartPublishing,
-                                AccountModel.AccountBaseModel.AccountNetwork,
-                                AccountModel.AccountBaseModel.UserName, $"group [{destination.Key}]");
-
-                            PublishedCount++;
-
-                            if (PublishedCount >= maximumPostCount)
-                                isReachedMaximumCount = true;
-
-                            PublishOnGroups(AccountModel.AccountId, destination.Key, post,
-                                !isReachedMaximumCount);
-
-                            if (PublishedCount % multipostDelayCount == 0)
-                                DelayBetweenMultiPublish();
-                        }
-                        else
-                        {
-                            var post = GetPostModel("Page", destination.Key);
-
-                            if (post == null)
-                            {
-                                GlobusLogHelper.log.Info(Log.NoPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, "page", destination.Key);
-                                continue;
-                            }
-
-                            if (GeneralSettingsModel.IsDeselectUsedDestination && usedDestination.Contains(destination.Key))
-                                continue;
-
-                            GlobusLogHelper.log.Info(Log.StartPublishing,
-                                AccountModel.AccountBaseModel.AccountNetwork,
-                                AccountModel.AccountBaseModel.UserName, $"page [{destination.Key}]");
-
-                            PublishedCount++;
-
-                            if (PublishedCount >= maximumPostCount)
-                                isReachedMaximumCount = true;
-
-                            PublishOnPages(AccountModel.AccountId, destination.Key, post,
-                                isReachedMaximumCount);
-
-                            if (PublishedCount % multipostDelayCount == 0)
-                                DelayBetweenMultiPublish();
-                        }
-
-                    }
-
-                    #endregion
-
-                    #region Shuffle custom destination
-
-                    if (isReachedMaximumCount)
-                        return;
-
-                    CustomDestinationList.Shuffle();
-
-                    foreach (var customList in CustomDestinationList)
-                    {
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        if (isReachedMaximumCount)
-                            break;
-
-                        if (GeneralSettingsModel.IsDeselectUsedDestination &&
-                            usedDestination.Contains(customList.DestinationValue))
-                            continue;
-
-                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                        var post = GetPostModel(customList.DestinationType, customList.DestinationValue);
-
-                        if (post == null)
-                        {
-                            GlobusLogHelper.log.Info(Log.NoPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, customList.DestinationType.ToLower(), customList.DestinationValue);
-                            continue;
-                        }
-
-                        GlobusLogHelper.log.Info(Log.StartPublishing,
-                            AccountModel.AccountBaseModel.AccountNetwork,
-                            AccountModel.AccountBaseModel.UserName,
-                            $"{customList.DestinationType} [{customList.DestinationValue}]");
-
-                        PublishedCount++;
-
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        PublishOnCustomDestination(AccountModel.AccountId, customList, post,
-                            !isReachedMaximumCount);
-
-                        if (PublishedCount % multipostDelayCount == 0)
-                            DelayBetweenMultiPublish();
-
-                    }
-
-                    #endregion
-                }
-
-                #region Own Wall
-
-                if (IsPublishOnOwnWall)
-                {
-
-                    if (PublishedCount >= maximumPostCount)
-                        isReachedMaximumCount = true;
-
-                    if (isReachedMaximumCount)
-                        return;
-
-                    if (GeneralSettingsModel.IsDeselectUsedDestination &&
-                        usedDestination.Contains(AccountModel.AccountBaseModel.UserName))
-                        return;
-
-                    var ownWallpost = GetPostModel("OwnWall", AccountModel.AccountBaseModel.UserName);
-
-                    if (ownWallpost == null)
-                        return;
+                    // check whether cancellation token source already arised or not 
+                    CampaignCancellationToken.Token.ThrowIfCancellationRequested();
+
+                    var destinationUrls = destination.DestinationType == ConstantVariable.OwnWall
+                        ? AccountModel.AccountBaseModel.UserName
+                        : destination.DestinationUrl;
 
                     GlobusLogHelper.log.Info(Log.StartPublishing,
                         AccountModel.AccountBaseModel.AccountNetwork,
-                        AccountModel.AccountBaseModel.UserName, "Own wall");
+                        AccountModel.AccountBaseModel.UserName, $"{destination.DestinationType} [{destinationUrls}]");
+
+                    if (destination.DestinationType == ConstantVariable.Group)
+                    {
+                        // call networks to publishing on groups 
+                        PublishOnGroups(AccountModel.AccountId, destination.DestinationUrl, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
+                        
+                    }
+                    else if (destination.DestinationType == ConstantVariable.PageOrBoard)
+                    {
+                        // call networks to publishing on pages
+                        PublishOnPages(AccountModel.AccountId, destination.DestinationUrl, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
+                    }
+                    else if (destination.DestinationType == ConstantVariable.OwnWall)
+                    {
+                        // call networks to publishing on own wall of an account
+                        PublishOnOwnWall(AccountModel.AccountId, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
+                    }
+                    else
+                    {
+                        var customList = new PublisherCustomDestinationModel
+                        {
+                            DestinationType = destination.DestinationType,
+                            DestinationValue = destination.DestinationUrl
+                        };
+
+                        // call networks to publishing on custom destinations 
+                        PublishOnCustomDestination(AccountModel.AccountId, customList, destination.PublisherPostlistModel,
+                            destination != PublisherDestinationDetailsModels.Last());
+                    }
 
                     PublishedCount++;
 
-                    if (PublishedCount >= maximumPostCount)
-                        isReachedMaximumCount = true;
+                    if (!JobConfigurations.IsAddDelayBetweenPublishingPost)
+                        continue;
 
-                    PublishOnOwnWall(AccountModel.AccountId, ownWallpost, !isReachedMaximumCount);
-
-
-                }
-
-                #endregion
-
+                    // check whether multiple post delay reached or not
+                    if (PublishedCount % multipostDelayCount == 0)
+                        DelayBetweenMultiPublish();
+                }              
             }
             catch (OperationCanceledException ex)
             {
@@ -494,416 +392,179 @@ namespace DominatorHouseCore.Process
             }
         }
 
-
-        public void StartPublishing(PublisherPostlistModel post, int count, bool isStartParallel)
-        {
-            lock (SyncJobProcess)
-            {
-                if (isStartParallel)
-                {
-                    ThreadFactory.Instance.Start(() =>
-                     {
-                         PublishWithDirectPost(post, count);
-                         GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
-                     }, CampaignCancellationToken.Token);
-                }
-                else
-                {
-                    PublishWithDirectPost(post, count);
-                    GlobusLogHelper.log.Info(Log.PublishingProcessCompleted, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
-                }
-            }
-        }
-
-        private void PublishWithDirectPost(PublisherPostlistModel post, int maximumPostCount)
-        {
-            PublishedCount = 0;
-            var isReachedMaximumCount = false;
-
-            try
-            {
-                GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, CampaignName);
-
-                var publishedDetails = GenericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == CampaignId).ToList();
-
-                var usedDestination = publishedDetails.Select(x => x.DestinationUrl).ToList();
-
-                var multipostDelayCount = RandomUtilties.GetRandomNumber(JobConfigurations.PostRange.EndValue, JobConfigurations.PostRange.StartValue);
-
-                if (GeneralSettingsModel.IsStopRandomisingDestinationsOrder)
-                {
-                    #region Publish on Groups
-
-                    foreach (var groupUrl in GroupDestinationList)
-                    {
-                        PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-
-                        if (!ValidateNetworkAdvancedSettings(post, "Group", groupUrl, true))
-                            continue;
-
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        if (isReachedMaximumCount)
-                            break;
-
-                        if (GeneralSettingsModel.IsDeselectUsedDestination &&
-                            usedDestination.Contains(groupUrl))
-                            continue;
-
-                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{groupUrl}]");
-
-                        PublishedCount++;
-
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        PublishOnGroups(AccountModel.AccountId, groupUrl, post, !isReachedMaximumCount);
-
-                        if (PublishedCount % multipostDelayCount == 0)
-                            DelayBetweenMultiPublish();
-
-                    }
-
-                    #endregion
-
-                    #region Publish on Pages
-
-                    if (isReachedMaximumCount)
-                        return;
-
-                    foreach (var pageUrl in PageDestinationList)
-                    {
-                        PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-
-                        if (!ValidateNetworkAdvancedSettings(post, "Page", pageUrl, true))
-                            continue;
-
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        if (isReachedMaximumCount)
-                            break;
-
-                        if (GeneralSettingsModel.IsDeselectUsedDestination &&
-                            usedDestination.Contains(pageUrl))
-                            continue;
-
-                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{pageUrl}]");
-
-                        PublishedCount++;
-
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        PublishOnPages(AccountModel.AccountId, pageUrl, post, !isReachedMaximumCount);
-
-                        if (PublishedCount % multipostDelayCount == 0)
-                            DelayBetweenMultiPublish();
-                    }
-
-                    #endregion
-
-                    #region Publish on Custom destination
-
-
-                    if (isReachedMaximumCount)
-                        return;
-
-                    foreach (var customList in CustomDestinationList)
-                    {
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        if (isReachedMaximumCount)
-                            break;
-
-                        if (!ValidateNetworkAdvancedSettings(post, customList.DestinationType, customList.DestinationValue, true))
-                            continue;
-
-                        if (GeneralSettingsModel.IsDeselectUsedDestination &&
-                            usedDestination.Contains(customList.DestinationValue))
-                            continue;
-
-                        PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-
-                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"{customList.DestinationType} [{customList.DestinationValue}]");
-
-                        PublishedCount++;
-
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        PublishOnCustomDestination(AccountModel.AccountId, customList, post, !isReachedMaximumCount);
-
-                        if (PublishedCount % multipostDelayCount == 0)
-                            DelayBetweenMultiPublish();
-                    }
-
-                    #endregion
-                }
-                else
-                {
-                    #region Shuffle Groups and pages
-
-                    var allGroupsPages = new Dictionary<string, string>();
-
-                    GroupDestinationList.Shuffle();
-                    PageDestinationList.Shuffle();
-
-                    GroupDestinationList.ForEach(x =>
-                    {
-                        allGroupsPages.Add(x, "Group");
-                    });
-
-                    PageDestinationList.ForEach(x =>
-                    {
-                        allGroupsPages.Add(x, "Page");
-                    });
-
-                    foreach (var x in allGroupsPages)
-                    {
-                        PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-
-                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        if (isReachedMaximumCount)
-                            break;
-
-                        if (GeneralSettingsModel.IsDeselectUsedDestination &&
-                            usedDestination.Contains(x.Key))
-                            continue;
-
-                        if (x.Value == "Group")
-                        {
-                            if (!ValidateNetworkAdvancedSettings(post, "Group", x.Key, true))
-                                continue;
-
-                            PublishedCount++;
-
-                            if (PublishedCount >= maximumPostCount)
-                                isReachedMaximumCount = true;
-
-                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"group [{x.Key}]");
-
-                            PublishOnGroups(AccountModel.AccountId, x.Key, post, !isReachedMaximumCount);
-
-                            if (PublishedCount % multipostDelayCount == 0)
-                                DelayBetweenMultiPublish();
-                        }
-                        else
-                        {
-                            if (!ValidateNetworkAdvancedSettings(post, "Page", x.Key, true))
-                                continue;
-
-                            PublishedCount++;
-
-                            if (PublishedCount >= maximumPostCount)
-                                isReachedMaximumCount = true;
-
-                            GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"page [{x.Key}]");
-
-                            PublishOnPages(AccountModel.AccountId, x.Key, post, !isReachedMaximumCount);
-
-                            if (PublishedCount % multipostDelayCount == 0)
-                                DelayBetweenMultiPublish();
-                        }
-
-                    }
-
-                    #endregion
-
-                    #region Custom Destination
-
-                    if (isReachedMaximumCount)
-                        return;
-
-                    CustomDestinationList.Shuffle();
-
-                    foreach (var customList in CustomDestinationList)
-                    {
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        if (isReachedMaximumCount)
-                            break;
-
-                        if (!ValidateNetworkAdvancedSettings(post, customList.DestinationType, customList.DestinationValue, true))
-                            continue;
-
-                        if (GeneralSettingsModel.IsDeselectUsedDestination &&
-                            usedDestination.Contains(customList.DestinationValue))
-                            continue;
-
-                        PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-
-                        CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                        GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, $"{customList.DestinationType}  [{customList.DestinationValue}]");
-
-                        PublishedCount++;
-
-                        if (PublishedCount >= maximumPostCount)
-                            isReachedMaximumCount = true;
-
-                        PublishOnCustomDestination(AccountModel.AccountId, customList, post, !isReachedMaximumCount);
-
-                        if (PublishedCount % multipostDelayCount == 0)
-                            DelayBetweenMultiPublish();
-                    }
-
-                    #endregion
-                }
-
-                #region OwnWall
-
-                if (IsPublishOnOwnWall)
-                {
-                    if (PublishedCount >= maximumPostCount)
-                        isReachedMaximumCount = true;
-
-                    if (isReachedMaximumCount)
-                        return;
-
-                    if (GeneralSettingsModel.IsDeselectUsedDestination &&
-                        usedDestination.Contains(AccountModel.AccountBaseModel.UserName))
-                        return;
-
-                    PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-
-                    CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                    if (!ValidateNetworkAdvancedSettings(post, "OwnWall", AccountModel.AccountBaseModel.UserName,
-                        true))
-                        return;
-
-                    GlobusLogHelper.log.Info(Log.StartPublishing, AccountModel.AccountBaseModel.AccountNetwork,
-                        AccountModel.AccountBaseModel.UserName, "Own wall");
-
-                    PublishedCount++;
-
-                    if (PublishedCount >= maximumPostCount)
-                        isReachedMaximumCount = true;
-
-                    PublishOnOwnWall(AccountModel.AccountId, post, false);
-
-                }
-
-                #endregion
-            }
-            catch (OperationCanceledException ex)
-            {
-                ex.DebugLog("Cancellation Requested!");
-            }
-            catch (AggregateException ae)
-            {
-                foreach (var e in ae.InnerExceptions)
-                {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        e.DebugLog("Cancellation requested before task completion!");
-                    else
-                        e.DebugLog(e.StackTrace + e.Message);
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
+     
+        /// <summary>
+        /// Update Post with specified success status
+        /// </summary>
+        /// <param name="destinationUrl">>Destination Url</param>
+        /// <param name="posts">Post model <see cref="PublisherPostlistModel"/></param>
+        /// <param name="publishedUrl">Published Post Id/ Url</param>
         public void UpdatePostWithSuccessful(string destinationUrl, PublisherPostlistModel posts, string publishedUrl)
         {
+            Thread.Sleep(1000);
+
+            //Get the locking objects
             var updatelock = PublishScheduler.UpdatingLock.GetOrAdd(posts.PostId, _lock => new object());
 
             lock (updatelock)
             {
+                // get the post details
                 var post = PostlistFileManager.GetByPostId(CampaignId, posts.PostId);
 
-                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+                // get the post index where current destination present
+                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl && y.AccountId == AccountModel.AccountId));
 
+                // if post index is not present,then return
                 if (postIndex == -1)
                     return;
 
+                // Pass the information about success
                 post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.Yes;
                 post.LstPublishedPostDetailsModels[postIndex].Link = publishedUrl;
                 post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
                 post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.NoError;
+
+                // Update the post details to bin file
                 PostlistFileManager.UpdatePost(CampaignId, post);
+
+                // Update the used post status
                 PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
+                // Add into success details
+                GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], ConstantVariable.GetPublishedSuccessDetails);
+            }
+        }
+
+
+        /// <summary>
+        /// Update Post with specified failed status
+        /// </summary>
+        /// <param name="destinationUrl">Destination Url</param>
+        /// <param name="posts">Post model <see cref="PublisherPostlistModel"/></param>
+        /// <param name="errorMessage">Pass the error message</param>
+        public void UpdatePostWithFailed(string destinationUrl, PublisherPostlistModel posts, string errorMessage)
+        {
+            //Get the locking objects
+            var updatelock = PublishScheduler.UpdatingLock.GetOrAdd(posts.PostId, _lock => new object());
+
+            lock (updatelock)
+            {
+                // get the post details
+                var post = PostlistFileManager.GetByPostId(CampaignId, posts.PostId);
+
+                // get the post index where current destination present
+                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(
+                    post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl && y.AccountId == AccountModel.AccountId));
+
+                // if post index is not present,then return
+                if (postIndex == -1)
+                    return;
+
+                // Pass error message with current date time
+                post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.No;
+                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = errorMessage;
+                post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
+
+                // Update the post details to bin file
+                PostlistFileManager.UpdatePost(CampaignId, post);
+
+                // Update the used post status
+                PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+            }
+        }
+
+        /// <summary>
+        /// Update Post for successful deletion after specified time
+        /// </summary>
+        /// <param name="destinationUrl">Destination url</param>
+        /// <param name="postId">Post Id</param>
+        public void UpdatePostWithDeletion(string destinationUrl, string postId)
+        {
+            Thread.Sleep(1000);
+
+            // Get the locking objects
+            var updatelock = PublishScheduler.UpdatingLock.GetOrAdd(postId, _lock => new object());
+
+            lock (updatelock)
+            {
+                // get the post details
+                var post = PostlistFileManager.GetByPostId(CampaignId, postId);
+
+                // get the post index where current destination present
+                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
+
+                // if post index is not present,then return
+                if (postIndex == -1)
+                    return;
+
+                // Pass the proper delete post text
+                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.DeletedDateText();
+
+                // Update the post details to bin file
+                PostlistFileManager.UpdatePost(CampaignId, post);
+
+                // Update the used post status
+                PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
+
+                // Add into success details
                 GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], ConstantVariable.GetPublishedSuccessDetails);
 
             }
         }
 
-        public void UpdatePostWithFailed(string destinationUrl, PublisherPostlistModel posts, string errorMessage)
-        {
-            var updatelock = PublishScheduler.UpdatingLock.GetOrAdd(posts.PostId, _lock => new object());
-
-            lock (updatelock)
-            {
-                var post = PostlistFileManager.GetByPostId(CampaignId, posts.PostId);
-
-                var postIndex = post.LstPublishedPostDetailsModels.IndexOf(
-                    post.LstPublishedPostDetailsModels.FirstOrDefault(y => y.DestinationUrl == destinationUrl));
-
-                if (postIndex == -1)
-                    return;
-
-                post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.No;
-                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = errorMessage;
-                post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
-
-                PostlistFileManager.UpdatePost(CampaignId, post);
-                PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-            }
-        }
-
-
+        /// <summary>
+        /// To apply user selected general settings for campaigns
+        /// </summary>
+        /// <param name="givenPostModel">post list model <see cref="PublisherPostlistModel"/></param>
+        /// <returns></returns>
         public PublisherPostlistModel PerformGeneralSettings(PublisherPostlistModel givenPostModel)
         {
-
+            // Get the deep clone of the post list
             var postModelWithGeneralSettings = givenPostModel.DeepClone();
 
             #region Fetch Post media list
 
+            // is user need to get a random single post or not
             if (GeneralSettingsModel.IsChooseSingleRandomImageChecked)
             {
+                // Validate media list atleast contains a single post
                 if (givenPostModel.MediaList.Count > 0)
                 {
-                    var randomNumber = RandomUtilties.GetRandomNumber(postModelWithGeneralSettings.MediaList.Count, 0);
+                    // get a random number
+                    var randomNumber = RandomUtilties.GetRandomNumber(postModelWithGeneralSettings.MediaList.Count - 1);
+
+                    // Fetch the media
                     postModelWithGeneralSettings.MediaList = new ObservableCollection<string> { givenPostModel.MediaList[randomNumber] };
                 }
             }
+            // If user need first image 
             else if (GeneralSettingsModel.IsChooseOnlyFirstImageChecked)
             {
+                // Validate media list atleast contains a single post
                 if (givenPostModel.MediaList.Count > 0)
+                    //Get the first image
                     postModelWithGeneralSettings.MediaList = new ObservableCollection<string> { givenPostModel.MediaList[0] };
             }
+            // If user needs select between random no of images
             else if (GeneralSettingsModel.IsChooseBetweenChecked)
             {
+                // Validate media list atleast contains a single post
                 if (givenPostModel.MediaList.Count > 0)
                 {
+                    // get the random no of counts for fetching medias
                     var randomNumber = RandomUtilties.GetRandomNumber(GeneralSettingsModel.ChooseBetween.EndValue, GeneralSettingsModel.ChooseBetween.StartValue);
                     if (randomNumber < givenPostModel.MediaList.Count)
                     {
+                        // shuffle the image media lists
                         givenPostModel.MediaList.Shuffle();
                         postModelWithGeneralSettings.MediaList = new ObservableCollection<string>(givenPostModel.MediaList.Take(randomNumber));
                     }
                 }
             }
-
+            // In socinator we are appending "_SOCINATORIMAGE.jpg" text for video url, before publishing we need to remove those constant text
             var removeVideoExtension = new ObservableCollection<string>();
 
+            // Removing extra added media lists
             foreach (var media in postModelWithGeneralSettings.MediaList)
             {
                 removeVideoExtension.Add(media.Replace(ConstantVariable.VideoToImageConvertFileName, string.Empty));
@@ -913,24 +574,32 @@ namespace DominatorHouseCore.Process
 
             #endregion
 
-            #region Spin Text
-
-            postModelWithGeneralSettings.PostDescription =
-                SpinTexHelper.GetSpinText(postModelWithGeneralSettings.PostDescription);
-
-            #endregion
-
             #region Macro Substitution
 
+            // Substitute the macros for a post descriptions
             postModelWithGeneralSettings.PostDescription =
                 MacrosHelper.SubstituteMacroValues(postModelWithGeneralSettings.PostDescription);
 
             #endregion
 
+            #region Spin Text
+
+            // check whether post description is null or not
+            if (string.IsNullOrEmpty(postModelWithGeneralSettings.PostDescription))
+                postModelWithGeneralSettings.PostDescription = string.Empty;
+
+            // Substitute the spin text for post descriptions
+            postModelWithGeneralSettings.PostDescription =
+                SpinTexHelper.GetSpinText(postModelWithGeneralSettings.PostDescription);
+
+            #endregion
+
             #region Remove link
 
+            // Check user need to remove the links from post descriptions
             if (GeneralSettingsModel.IsRemoveLinkFromPostsChecked)
             {
+                // Call to remove urls from post descriptions
                 postModelWithGeneralSettings.PostDescription = Utilities.RemoveUrls(givenPostModel.PostDescription);
             }
 
@@ -938,8 +607,10 @@ namespace DominatorHouseCore.Process
 
             #region Shorten Url
 
+            // Check user needs to make shorten url for long url
             if (OtherConfiguration.IsShortenURLsChecked)
             {
+                // call to replace the long url to shorten rul by using Bitly 
                 postModelWithGeneralSettings.PostDescription = Utilities.ReplaceWithShortenUrl(postModelWithGeneralSettings.PostDescription);
             }
 
@@ -947,22 +618,28 @@ namespace DominatorHouseCore.Process
 
             #region Adding Signature
 
+            // Check user needs to append signature to post descriptions 
             if (OtherConfiguration.IsEnableSignatureChecked)
             {
+                // Append the post signatures
                 postModelWithGeneralSettings.PostDescription = postModelWithGeneralSettings.PostDescription + "\r\n" +
                                                   OtherConfiguration.SignatureText;
             }
 
             #endregion
-          
+
             return postModelWithGeneralSettings;
 
         }
 
+        /// <summary>
+        /// To stop the current running jobs
+        /// </summary>
         public void Stop()
         {
             try
             {
+                //Cancell the cancellation token sources
                 CurrentJobCancellationToken.Cancel();
             }
             catch (Exception ex)
@@ -971,163 +648,32 @@ namespace DominatorHouseCore.Process
             }
         }
 
+        /// <summary>
+        /// Apply the delay for next publish
+        /// </summary>
         public void DelayBeforeNextPublish()
         {
-
+            // Fetching delay seconds count
             var delay = RandomUtilties.GetRandomNumber(JobConfigurations.DelayBetweenPost.EndValue, JobConfigurations.DelayBetweenPost.StartValue);
 
             GlobusLogHelper.log.Info(Log.DelayBetweenPublishing, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, delay);
 
+            // Apply the delay to current campaign specifically for current account to next post in seconds
             Thread.Sleep(delay * 1000);
         }
 
+        /// <summary>
+        /// Make a delay between every x to y posts for specified minutes
+        /// </summary>
         public void DelayBetweenMultiPublish()
         {
-
+            // Fetching delay minute count
             var delay = RandomUtilties.GetRandomNumber(JobConfigurations.DelayBetween.EndValue, JobConfigurations.DelayBetween.StartValue);
 
             GlobusLogHelper.log.Info(Log.DelayBetweenMultiPost, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, delay);
 
+            // Apply the delay to current campaign specifically for current account to next post in minutes
             Thread.Sleep(delay * 1000 * 60);
-        }
-
-        public PublisherPostlistModel GetPostModel(string destination, string destinationUrl)
-        {
-            try
-            {
-                CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                var pendingPostList = PostlistFileManager.GetAll(CampaignId).Where(x => x.PostQueuedStatus != PostQueuedStatus.Draft).ToList();
-
-                if (!pendingPostList.Any())
-                {
-                    GlobusLogHelper.log.Info($"No more post are available for campaign {CampaignName}!");
-                    return null;
-                }
-
-                if (GeneralSettingsModel.IsWhenPublishingSendOnePostChecked)
-                    pendingPostList = pendingPostList.Where(x => x.LstPublishedPostDetailsModels.Count == 0).ToList();
-                else
-                    pendingPostList = (from posts in pendingPostList
-                                       let successfulDestinations = posts.LstPublishedPostDetailsModels.Where(x => x.Successful == ConstantVariable.Yes).Select(x => x.DestinationUrl)
-                                       where !successfulDestinations.Contains(destinationUrl)
-                                       select posts).ToList();
-
-
-                var iterationCount = 0;
-
-                while (true)
-                {
-                    CampaignCancellationToken.Token.ThrowIfCancellationRequested();
-
-                    if (iterationCount >= pendingPostList.Count)
-                        break;
-
-                    var filterPostModel = GeneralSettingsModel.IsChooseRandomPostsChecked ?
-                        pendingPostList[RandomUtilties.GetRandomNumber(pendingPostList.Count - 1, 0)] :
-                        pendingPostList.FirstOrDefault(x => x.PostId != null);
-
-                    if (ValidateNetworkAdvancedSettings(filterPostModel, destination, destinationUrl))
-                    {
-                        return filterPostModel;
-                    }
-
-                    iterationCount++;
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                throw new OperationCanceledException("Cancellation Requested!");
-            }
-            catch (AggregateException ae)
-            {
-                foreach (var e in ae.InnerExceptions)
-                {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        throw new AggregateException("Cancellation requested before task completion!");
-                    else
-                        throw new AggregateException(e.StackTrace + e.Message);
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-            return null;
-        }
-
-        public bool ValidateNetworkAdvancedSettings(PublisherPostlistModel filterPostModel, string destination, string destinationUrl, bool isDirectPost = false)
-        {
-            try
-            {
-                var post = PostlistFileManager.GetByPostId(CampaignId, filterPostModel.PostId);
-
-                var postTriedAndSuccessdestinations = post?.LstPublishedPostDetailsModels.ToList();
-
-                if (postTriedAndSuccessdestinations == null)
-                    return false;
-
-                var successfulDestinations = postTriedAndSuccessdestinations.Where(x => x.Successful == ConstantVariable.Yes).Select(x => x.DestinationUrl).ToList();
-
-                if (successfulDestinations.Contains(destinationUrl))
-                {
-                    GlobusLogHelper.log.Info(destination == "OwnWall"
-                        ? string.Format(Log.AlreadyPublishedOnOwnWall, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName)
-                        : string.Format(Log.AlreadyPublishedOnDestination, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName, destination, destinationUrl));
-                    return false;
-                }
-
-                var allDestinations = postTriedAndSuccessdestinations.Select(x => x.DestinationUrl);
-
-                if (!allDestinations.Contains(destinationUrl))
-                {
-                    post.LstPublishedPostDetailsModels.Add(new PublishedPostDetailsModel
-                    {
-                        AccountName = AccountModel.AccountBaseModel.UserName,
-                        Destination = destination,
-                        DestinationUrl = destination == "OwnWall" ? AccountModel.AccountBaseModel.UserName : destinationUrl,
-                        Description = post.PostDescription,
-                        IsPublished = ConstantVariable.Yes,
-                        Successful = ConstantVariable.No,
-                        PublishedDate = DateTime.Now,
-                        Link = ConstantVariable.NotPublished,
-                        CampaignId = CampaignId,
-                        CampaignName = CampaignName,
-                        AccountId = AccountModel.AccountBaseModel.AccountId,
-                        ErrorDetails = ConstantVariable.NotPublished,
-                    });
-                }
-
-                post.PostQueuedStatus = PostQueuedStatus.Published;
-
-                var triedCount =
-                    post.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
-
-                var successCount =
-                    post.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
-
-                post.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
-
-                post.PostRunningStatus = DateTime.Now > post.ExpiredTime
-                    ? PostRunningStatus.Completed
-                    : PostRunningStatus.Active;
-
-                PostlistFileManager.UpdatePost(CampaignId, post);
-
-                if (post.PostRunningStatus == PostRunningStatus.Completed)
-                {
-                    if (isDirectPost)
-                        GlobusLogHelper.log.Info(Log.PostExpired, AccountModel.AccountBaseModel.AccountNetwork, AccountModel.AccountBaseModel.UserName);
-                    return false;
-                }
-
-                PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-            return true;
         }
 
         #endregion

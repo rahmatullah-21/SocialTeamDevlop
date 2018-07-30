@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using DominatorHouseCore.Enums;
@@ -23,7 +19,9 @@ namespace DominatorHouseCore.Converters
             if (string.IsNullOrEmpty(network.ToString()))
                 return Visibility.Collapsed;
 
-            return FeatureFlags.Check(network.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+            var visibilityStatus = FeatureFlags.Check(network.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+
+            return visibilityStatus;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

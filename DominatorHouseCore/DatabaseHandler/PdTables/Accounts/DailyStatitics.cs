@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SQLite.CodeFirst;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
@@ -15,7 +16,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         //Date when statistics are entered in Unix Timestamp
         [Column(Order = 2)]
-        public int Date
+        public DateTime Date
         { get; set; }
 
         //Followers count of the DB owner when the statistics has got updated

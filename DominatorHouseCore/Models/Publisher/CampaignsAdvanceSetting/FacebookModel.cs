@@ -463,7 +463,38 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
 
         [ProtoMember(29)]
         public string CampaignId { get; set; }
+        private string _hashtagsFromList1;
+        [ProtoMember(30)]
+        public string HashtagsFromList1
+        {
+            get
+            {
+                return _hashtagsFromList1;
+            }
+            set
+            {
+                if (_hashtagsFromList1 == value)
+                    return;
+                SetProperty(ref _hashtagsFromList1, value);
+            }
+        }
 
+        private string _hashtagsFromList2;
+
+        [ProtoMember(31)]
+        public string HashtagsFromList2
+        {
+            get
+            {
+                return _hashtagsFromList2;
+            }
+            set
+            {
+                if (_hashtagsFromList2 == value)
+                    return;
+                SetProperty(ref _hashtagsFromList2, value);
+            }
+        }
 
         public FacebookModel Clone()
         {

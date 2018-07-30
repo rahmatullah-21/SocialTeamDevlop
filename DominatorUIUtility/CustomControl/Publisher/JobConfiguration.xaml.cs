@@ -33,7 +33,7 @@ namespace DominatorUIUtility.CustomControl.Publisher
         {
             if (_jobConfiguration == null)
                 _jobConfiguration = new JobConfiguration(jobConfigurationModel);
-            _jobConfiguration.IsAllowEdit = false;
+           
             _jobConfiguration.JobConfigurations = jobConfigurationModel;
             _jobConfiguration.MainGrid.DataContext = _jobConfiguration.JobConfigurations;
             
@@ -49,9 +49,6 @@ namespace DominatorUIUtility.CustomControl.Publisher
         }
 
         #region Properties
-
-        public bool IsAllowEdit { get; set; }
-
 
         public JobConfigurationModel JobConfigurations { get; set; }
 

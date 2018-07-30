@@ -1,8 +1,10 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace DominatorHouseCore.Utility
 {
@@ -23,7 +25,8 @@ namespace DominatorHouseCore.Utility
                 WindowTransitionsEnabled = false,
                 Background = dialog.Background,
                 BorderThickness = new Thickness(0),
-                GlowBrush = Brushes.Black
+                GlowBrush = Brushes.Black,
+                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
             };
 
             
@@ -60,7 +63,8 @@ namespace DominatorHouseCore.Utility
                 Background = dialog.Background,
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black, 
-                Title = title
+                Title = title,
+                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
             };
 
             try
@@ -92,7 +96,9 @@ namespace DominatorHouseCore.Utility
                 WindowTransitionsEnabled = false,
                 Title = title,
                 BorderThickness = new Thickness(0),
-                GlowBrush = Brushes.Black
+                GlowBrush = Brushes.Black,
+                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
+
             };
 
             try
@@ -127,7 +133,8 @@ namespace DominatorHouseCore.Utility
                 WindowTransitionsEnabled = false,
                 Title = title,
                 BorderThickness = new Thickness(0),
-                GlowBrush = Brushes.Black
+                GlowBrush = Brushes.Black,
+                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
             };
 
             try
@@ -168,7 +175,7 @@ namespace DominatorHouseCore.Utility
                 NegativeButtonText = negativeText,
                 AnimateShow = true,
                 AnimateHide = false,
-                DefaultButtonFocus = MessageDialogResult.Affirmative
+                DefaultButtonFocus = MessageDialogResult.Affirmative,
             };
             return metroDialogButton;
         }

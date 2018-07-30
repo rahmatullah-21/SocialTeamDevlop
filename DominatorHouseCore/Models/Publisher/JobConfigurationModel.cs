@@ -9,6 +9,9 @@ namespace DominatorHouseCore.Models.Publisher
     [ProtoContract]
     public class JobConfigurationModel : BindableBase
     {
+        /// <summary>
+        /// To Specify the maximum post time
+        /// </summary>
         private int _maxPost;
         [ProtoMember(1)]
         public int MaxPost
@@ -26,6 +29,9 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
+        /// <summary>
+        /// To specify the time range when to start the publishing and when to should end the publishing
+        /// </summary>
         private TimeRange _timeRange;
         [ProtoMember(2)]
         public TimeRange TimeRange
@@ -42,7 +48,9 @@ namespace DominatorHouseCore.Models.Publisher
             }
         }
 
-
+        /// <summary>
+        /// To specify whether posting time in specific interval
+        /// </summary>
         private bool _isSpecifyPostingIntervalChecked;
         [ProtoMember(4)]
         public bool IsSpecifyPostingIntervalChecked
@@ -59,7 +67,9 @@ namespace DominatorHouseCore.Models.Publisher
             }
         }
 
-
+        /// <summary>
+        /// To specify the posting time is in randomize every day 
+        /// </summary>
         private bool _isRandomizePublishingTimerChecked;
         [ProtoMember(5)]
         public bool IsRandomizePublishingTimerChecked
@@ -76,6 +86,47 @@ namespace DominatorHouseCore.Models.Publisher
 
             }
         }
+
+        /// <summary>
+        /// To specify the publishing count for an specific accounts
+        /// </summary>
+        private RangeUtilities _postBetween = new RangeUtilities();
+        [ProtoMember(7)]
+        public RangeUtilities PostBetween
+        {
+            get
+            {
+                return _postBetween;
+            }
+            set
+            {
+                if (value == _postBetween)
+                    return;
+                SetProperty(ref _postBetween, value);
+            }
+        }
+
+
+        /// <summary>
+        /// To Specify the publisher to all postlists
+        /// </summary>
+        private bool _isPublishPostOnDestinationsChecked;
+        [ProtoMember(9)]
+        public bool IsPublishPostOnDestinationsChecked
+        {
+            get
+            {
+                return _isPublishPostOnDestinationsChecked;
+            }
+            set
+            {
+                if (value == _isPublishPostOnDestinationsChecked)
+                    return;
+                SetProperty(ref _isPublishPostOnDestinationsChecked, value);
+            }
+        }
+
+        #region Not Used
 
 
         private bool _isRandomizeNumberOfPostsChecked;
@@ -94,24 +145,6 @@ namespace DominatorHouseCore.Models.Publisher
             }
         }
 
-
-        private RangeUtilities _postBetween = new RangeUtilities();
-        [ProtoMember(7)]
-        public RangeUtilities PostBetween
-        {
-            get
-            {
-                return _postBetween;
-            }
-            set
-            {
-                if (value == _postBetween)
-                    return;
-                SetProperty(ref _postBetween, value);
-            }
-        }
-
-
         private RangeUtilities _increaseEachDay = new RangeUtilities();
         [ProtoMember(8)]
         public RangeUtilities IncreaseEachDay
@@ -127,24 +160,6 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _increaseEachDay, value);
             }
         }
-
-
-        private bool _isPublishPostOnDestinationsChecked;
-        [ProtoMember(9)]
-        public bool IsPublishPostOnDestinationsChecked
-        {
-            get
-            {
-                return _isPublishPostOnDestinationsChecked;
-            }
-            set
-            {
-                if (value == _isPublishPostOnDestinationsChecked)
-                    return;
-                SetProperty(ref _isPublishPostOnDestinationsChecked, value);
-            }
-        }
-
 
         private bool _isAddRandomSleepTimeWhilePublishingChecked;
         [ProtoMember(10)]
@@ -214,103 +229,6 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private bool _isCampaignHasStartDateChecked;
-        [ProtoMember(14)]
-        public bool IsCampaignHasStartDateChecked
-        {
-            get
-            {
-                return _isCampaignHasStartDateChecked;
-            }
-            set
-            {
-                if (value == _isCampaignHasStartDateChecked)
-                    return;
-                SetProperty(ref _isCampaignHasStartDateChecked, value);
-            }
-        }
-
-
-        private bool _isCampaignHasEndDateChecked;
-        [ProtoMember(15)]
-        public bool IsCampaignHasEndDateChecked
-        {
-            get
-            {
-                return _isCampaignHasEndDateChecked;
-            }
-            set
-            {
-                if (value == _isCampaignHasEndDateChecked)
-                    return;
-                SetProperty(ref _isCampaignHasEndDateChecked, value);
-            }
-        }
-
-
-        private bool _isRotateDayChecked;
-        [ProtoMember(24)]
-        public bool IsRotateDayChecked
-        {
-            get
-            {
-                return _isRotateDayChecked;
-            }
-            set
-            {
-                if (value == _isRotateDayChecked)
-                    return;
-                SetProperty(ref _isRotateDayChecked, value);
-            }
-        }
-
-
-        private List<ContentSelectGroup> _weekday = new List<ContentSelectGroup>();
-        [ProtoMember(25)]
-        public List<ContentSelectGroup> Weekday
-        {
-            get { return _weekday; }
-            set
-            {                
-                SetProperty(ref _weekday, value);
-            }
-        }
-
-
-        private ObservableCollection<TimeSpanHelper> _lstTimer = new ObservableCollection<TimeSpanHelper>();
-        [ProtoMember(26)]
-        public ObservableCollection<TimeSpanHelper> LstTimer
-        {
-            get
-            {
-                return _lstTimer;
-            }
-            set
-            {
-                if (value == _lstTimer)
-                    return;
-                SetProperty(ref _lstTimer, value);
-            }
-        }
-
-
-        private int _randomDestinationCount = 2;
-        [ProtoMember(27)]
-        public int RandomDestinationCount
-        {
-            get
-            {
-                return _randomDestinationCount;
-            }
-            set
-            {
-                if (value == _randomDestinationCount)
-                    return;
-                SetProperty(ref _randomDestinationCount, value);
-            }
-        }
-
-
         private int _maxDestination;
         [ProtoMember(28)]
         public int MaxDestination
@@ -344,7 +262,123 @@ namespace DominatorHouseCore.Models.Publisher
             }
         }
 
+        #endregion
 
+        /// <summary>
+        /// To specify whether campaign Contains start date
+        /// </summary>
+        private bool _isCampaignHasStartDateChecked;
+        [ProtoMember(14)]
+        public bool IsCampaignHasStartDateChecked
+        {
+            get
+            {
+                return _isCampaignHasStartDateChecked;
+            }
+            set
+            {
+                if (value == _isCampaignHasStartDateChecked)
+                    return;
+                SetProperty(ref _isCampaignHasStartDateChecked, value);
+            }
+        }
+
+        /// <summary>
+        /// To specify whether campaign contains end date
+        /// </summary>
+        private bool _isCampaignHasEndDateChecked;
+        [ProtoMember(15)]
+        public bool IsCampaignHasEndDateChecked
+        {
+            get
+            {
+                return _isCampaignHasEndDateChecked;
+            }
+            set
+            {
+                if (value == _isCampaignHasEndDateChecked)
+                    return;
+                SetProperty(ref _isCampaignHasEndDateChecked, value);
+            }
+        }
+
+        /// <summary>
+        /// Is need to rotate the campaigns running day
+        /// </summary>
+        private bool _isRotateDayChecked;
+        [ProtoMember(24)]
+        public bool IsRotateDayChecked
+        {
+            get
+            {
+                return _isRotateDayChecked;
+            }
+            set
+            {
+                if (value == _isRotateDayChecked)
+                    return;
+                SetProperty(ref _isRotateDayChecked, value);
+            }
+        }
+
+        /// <summary>
+        /// To specify the selected days
+        /// </summary>
+        private List<ContentSelectGroup> _weekday = new List<ContentSelectGroup>();
+        [ProtoMember(25)]
+        public List<ContentSelectGroup> Weekday
+        {
+            get { return _weekday; }
+            set
+            {                
+                SetProperty(ref _weekday, value);
+            }
+        }
+
+        /// <summary>
+        /// To specify the running time
+        /// </summary>
+        private ObservableCollection<TimeSpanHelper> _lstTimer = new ObservableCollection<TimeSpanHelper>();
+        [ProtoMember(26)]
+        public ObservableCollection<TimeSpanHelper> LstTimer
+        {
+            get
+            {
+                return _lstTimer;
+            }
+            set
+            {
+                if (value == _lstTimer)
+                    return;
+                SetProperty(ref _lstTimer, value);
+            }
+        }
+
+        /// <summary>
+        /// To specify the random destinations count 
+        /// </summary>
+        private int _randomDestinationCount = 2;
+        [ProtoMember(27)]
+        public int RandomDestinationCount
+        {
+            get
+            {
+                return _randomDestinationCount;
+            }
+            set
+            {
+                if (value == _randomDestinationCount)
+                    return;
+                SetProperty(ref _randomDestinationCount, value);
+            }
+        }
+
+
+      
+
+        /// <summary>
+        /// To specify the delay between each post
+        /// </summary>
         private RangeUtilities _delayBetween = new RangeUtilities(10,30);
         [ProtoMember(30)]
         public RangeUtilities DelayBetween
@@ -361,7 +395,9 @@ namespace DominatorHouseCore.Models.Publisher
             }
         }
 
-
+        /// <summary>
+        /// To specify the post range for campaign
+        /// </summary>
         private RangeUtilities _postRange = new RangeUtilities(2,4);
         [ProtoMember(31)]
         public RangeUtilities PostRange
@@ -378,7 +414,9 @@ namespace DominatorHouseCore.Models.Publisher
             }
         }
 
-
+        /// <summary>
+        /// To specify the delay in minutes for multiple posts
+        /// </summary>
         private RangeUtilities _delayBetweenPost = new RangeUtilities(10,30);
         [ProtoMember(32)]
         public RangeUtilities DelayBetweenPost
@@ -395,10 +433,12 @@ namespace DominatorHouseCore.Models.Publisher
             }
         }
 
-
-        private DateTime _campaignStartDate = DateTime.Now;
+        /// <summary>
+        /// To specify to start date of the campaign
+        /// </summary>
+        private DateTime? _campaignStartDate;
         [ProtoMember(33)]
-        public DateTime CampaignStartDate
+        public DateTime? CampaignStartDate
         {
             get
             {
@@ -413,9 +453,12 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-        private DateTime _campaignEndDate = DateTime.Now.AddYears(2);
+        /// <summary>
+        /// To specify the campaign end date
+        /// </summary>
+        private DateTime? _campaignEndDate;
         [ProtoMember(34)]
-        public DateTime CampaignEndDate
+        public DateTime? CampaignEndDate
         {
             get
             {
@@ -464,7 +507,9 @@ namespace DominatorHouseCore.Models.Publisher
             this.EndTime = endTime;
 
         }
-
+        /// <summary>
+        /// To specify the start time
+        /// </summary>
         private TimeSpan _startTime;
         [ProtoMember(1)]
         public TimeSpan StartTime
@@ -481,6 +526,9 @@ namespace DominatorHouseCore.Models.Publisher
             }
         }
 
+        /// <summary>
+        /// To specify to end time
+        /// </summary>
         private TimeSpan _endTime;
         [ProtoMember(2)]
         public TimeSpan EndTime

@@ -6,7 +6,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
     [ProtoContract]
    public class GeneralModel : BindableBase
     {
-        private int _triggerNotificationCount=50;
+        private int _triggerNotificationCount;
       
         [ProtoMember(1)]
         public int TriggerNotificationCount
@@ -54,7 +54,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _maxPostCountToStore, value);
             }
         }
-        private int _checkRSSFeedsminutes;
+        private int _checkRSSFeedsminutes=30;
 
         [ProtoMember(4)]
         public int CheckRssFeedsminutes
@@ -70,7 +70,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _checkRSSFeedsminutes, value);
             }
         }
-        private int _checkMonitorFoldersminutes;
+        private int _checkMonitorFoldersminutes=30;
 
         [ProtoMember(5)]
         public int CheckMonitorFoldersminutes

@@ -112,16 +112,23 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public static string GetBetween(string strSource, string strStart, string strEnd)
         {
-            int Start, End;
-            if (strSource.Contains(strStart) && strSource.Contains(strEnd))
+            try
             {
-                Start = strSource.IndexOf(strStart, 0) + strStart.Length;
-                End = strSource.IndexOf(strEnd, Start);
-                return strSource.Substring(Start, End - Start);
+                if (strSource.Contains(strStart) && strSource.Contains(strEnd))
+                {
+                    var start = strSource.IndexOf(strStart, 0, StringComparison.Ordinal) + strStart.Length;
+                    var end = strSource.IndexOf(strEnd, start, StringComparison.Ordinal);
+
+                    if (end < 0 || start < 0)
+                        return string.Empty;
+
+                    return strSource.Substring(start, end - start);
+                }
+                return string.Empty;
             }
-            else
+            catch (Exception ex)
             {
-                return "";
+                return string.Empty;
             }
         }
 
@@ -152,30 +159,6 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static void testContent()
-        {
-            try
-            {
-                var abc = Application.Current.MainWindow.Resources.MergedDictionaries;
-                var abcd = Application.Current.Resources.MergedDictionaries;
-                var ab = abcd[3];
-                var a = ab.Keys;
-                ResourceDictionary resource = new ResourceDictionary();
-                resource = ab;
-                var abcde = ab["LangKeyGrowFollowers"];
-                var Path = new Uri("/DominatorUIUtility;component/Resources/Languages/English.xaml", UriKind.RelativeOrAbsolute);
-                var tet = abcd.Where(x => x.Contains(Path.ToString()));
-                var abcdedf = abcd.Where(x => x.Source.OriginalString.Contains("English"));
-                resource = abcd.Where(x => x.Source.OriginalString.Contains("English")).FirstOrDefault();
-                resource = abcd.FirstOrDefault(x =>
-                        x.Source.OriginalString == "/DominatorUIUtility;component/Resources/Languages/English.xaml");
-
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
 
         public static void ExportReports(string fileName, string csvHeader, List<string> csvData)
         {
@@ -217,29 +200,55 @@ namespace DominatorHouseCore.Utility
             return urlFormData;
         }
 
+        /// <summary>
+        /// Remove the url from given text
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static string RemoveUrls(string text) =>
             Regex.Replace(text, @"\b(?:https?://|www\.)\S+\b", string.Empty).Trim();
 
+        /// <summary>
+        /// Replace the url with their shorten url
+        /// </summary>
+        /// <param name="text">text</param>
+        /// <returns></returns>
         public static string ReplaceWithShortenUrl(string text)
         {
+            // pattern
             var linkParser = new Regex(@"\b(?:https?://|www\.)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            // call to replace evaluator
             return linkParser.Replace(text, ReplaceMatchEvaluator);
         }
 
+        /// <summary>
+        /// Apply the shorten url for all matches
+        /// </summary>
+        /// <param name="match"><see cref="Match"/> match objects</param>
+        /// <returns></returns>
         public static string ReplaceMatchEvaluator(Match match) => Shorten(match.Value);
 
+        /// <summary>
+        /// Get a shorten url for give url
+        /// </summary>
+        /// <param name="longUrl"></param>
+        /// <returns></returns>
         public static string Shorten(string longUrl)
         {
             if (string.IsNullOrEmpty(longUrl))
                 return longUrl;
 
+            // get the Bitly login and apikey value
             var login = ConstantVariable.BitlyLogin;
             var apikey = ConstantVariable.BitlyApiKey;
 
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(apikey))
                 return longUrl;
 
+            // base url
             var url = $"http://api.bit.ly/shorten?format=json&version=2.0.1&longUrl={HttpUtility.UrlEncode(longUrl)}&login={login}&apiKey={apikey}";
+
+            // make a get requests
             var request = (HttpWebRequest)WebRequest.Create(url);
             try
             {
@@ -248,8 +257,10 @@ namespace DominatorHouseCore.Utility
                 {
                     if (responseStream != null)
                     {
+                        // Hitting the bitly url and fetching the shorten url for given long url
                         var reader = new StreamReader(responseStream, Encoding.UTF8);
                         dynamic jsonResponse = JsonConvert.DeserializeObject(reader.ReadToEnd());
+                        // Fetch the short url from api
                         string shortUrl = jsonResponse["results"][longUrl]["shortUrl"];
                         return shortUrl;
                     }
@@ -286,6 +297,28 @@ namespace DominatorHouseCore.Utility
         {
             var match = Regex.Matches(decodedResponse, pattern, RegexOptions.Singleline);
             return match.Count > 0 ? match[0].Groups[1].ToString() : string.Empty;
+        }
+
+        public static bool DownloadNotFound()
+        {
+            var webclient = new WebClient();
+            webclient.DownloadFile("https://cdn.browshot.com/static/images/not-found.png", $"{ConstantVariable.GetNotFoundImage()}");
+            return true;
+        }
+
+        public static bool DownloadSocinatorIcon()
+        {
+            var webclient = new WebClient();
+            webclient.DownloadFile("https://socinator.com/wp-content/uploads/2018/07/fav_64.png", $"{ConstantVariable.GetSocinatorIcon()}");
+            return true;
+        }
+        public static string ReplaceUniCode(string messeges)
+        {
+            Regex _regex = new Regex(@"\\u(?<Value>[a-zA-Z0-9]{4})", RegexOptions.Compiled);
+            messeges = _regex.Replace(messeges,
+                m => ((char)int.Parse(m.Groups["Value"].Value, System.Globalization.NumberStyles.HexNumber)).ToString()
+            );
+            return messeges;
         }
     }
 }

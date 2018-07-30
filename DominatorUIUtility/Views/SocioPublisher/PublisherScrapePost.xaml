@@ -12,8 +12,8 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:FeatureVisibilityConverter x:Key="FeatureVisibilityConverter" />
     </UserControl.Resources>
-    <StackPanel Orientation="Vertical"  Name="MainGrid" Visibility="{Binding Source={x:Static enums:SocialNetworks.Facebook},Converter={StaticResource FeatureVisibilityConverter}}">
-        <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical"  Name="MainGrid" >
+        <StackPanel Orientation="Vertical" Visibility="{Binding Source={x:Static enums:SocialNetworks.Facebook},Converter={StaticResource FeatureVisibilityConverter}}">
             <CheckBox Margin="2" Content="{DynamicResource LangKeyScrapePostsFromFacebook}" IsChecked="{Binding ScrapePostModel.IsScrapeFacebookPost}"/>
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding ScrapePostModel.IsScrapeFacebookPost,Converter={StaticResource BooleanToVisibilityConverter}}"
                          mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPostsSourceLikeOwnwallPageGroupFriendUrl}" Margin="2" TextWrapping="Wrap" 

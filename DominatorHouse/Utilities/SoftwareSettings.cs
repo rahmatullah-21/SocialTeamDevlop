@@ -36,6 +36,9 @@ namespace DominatorHouse.Utilities
         private void OtherInitializers()
         {
             var settings = SoftwareSettingsFileManager.GetSoftwareSettings();
+
+            if (settings == null)
+                SoftwareSettingsFileManager.SaveSoftwareSettings(new SoftwareSettingsModel());
             AddDHToStartup(settings);
 
         }
@@ -62,6 +65,15 @@ namespace DominatorHouse.Utilities
         private void CheckConfigurationFiles()
         {
             CheckOrAddSoftwareSettingsFile();
+            CheckSocinatorIcon();
+        }
+
+        private void CheckSocinatorIcon()
+        {
+            if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
+            {
+                DominatorHouseCore.Utility.Utilities.DownloadSocinatorIcon();
+            }
         }
 
         private void CheckOrAddSoftwareSettingsFile()
@@ -83,19 +95,33 @@ namespace DominatorHouse.Utilities
             {
                 if ((DateTimeUtilities.GetEpochTime() - account.LastUpdateTime) > AccountSynchronizationHours * 3600)
                 {
-                    var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().AccountUpdateFactory;
-                    UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                    try
+                    {
+                        var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                       .GetNetworkCoreFactory().AccountUpdateFactory;
+                        UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
                 }
                 else
                 {
                     var dateTime = DateTimeUtilities.EpochToDateTimeUtc(account.LastUpdateTime + (AccountSynchronizationHours * 3600));
                     JobManager.AddJob(() =>
                     {
-                        var accountFactory = SocinatorInitialize
-                            .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                            .GetNetworkCoreFactory().AccountUpdateFactory;
-                        UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                        try
+                        {
+                            var accountFactory = SocinatorInitialize
+                                              .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                              .GetNetworkCoreFactory().AccountUpdateFactory;
+                            UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
                     }, s => s.ToRunOnceAt(dateTime).AndEvery(AccountSynchronizationHours).Hours());
                 }
             });

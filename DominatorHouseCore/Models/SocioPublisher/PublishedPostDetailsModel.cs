@@ -1,4 +1,5 @@
 ﻿using System;
+using DominatorHouseCore.Enums;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher
@@ -44,7 +45,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public string AccountId { get; set; }
 
         [ProtoMember(13)]
-        public string ErrorDetails { get; set; } 
+        public string ErrorDetails { get; set; }
+
+        [ProtoMember(14)]
+        public SocialNetworks SocialNetworks { get; set; }
 
     }
 }

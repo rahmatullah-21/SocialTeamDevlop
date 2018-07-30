@@ -5,36 +5,161 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              mc:Ignorable="d" 
-             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
+             xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+             xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions">
+    <UserControl.Resources>
+        <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
+        <DataTemplate x:Key="MacroTemplate">
+            <Grid>
+                <TextBlock Text="{Binding Path=Key}"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <StackPanel x:Name="MainGrid" Margin="10">
         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-            <GroupBox >
-                <GroupBox.Header>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Foreground="White" Text="{DynamicResource LangKeyFolderPath}"/>
-                        <Button Grid.Column="1" Background="Transparent" ToolTip="{DynamicResource LangKeyBrowse}"
-                                HorizontalAlignment="Right" Command="{Binding BrowseFolderCommand}">
-                            <Button.Content>
-                                <Canvas  HorizontalAlignment="Right" Width="15"  Height="15" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0">
-                                    <Path Width="15.7781" Height="15.7781"  Stretch="Fill"
-                                  Fill="Gainsboro"
-                                  Data="F1 M 16.6668,20L 13,28.5336L 13,16L 23,16L 23,15C 23,13.8954 23.8954,13 25,13L 32,13C 33.1046,13 35,14.8954 35,16L 35,20L 16.6668,20 Z M 35,32L 28,32L 13,32L 17.5833,21L 39.5833,21L 35,32 Z " />
+            <StackPanel>
 
-                                </Canvas>
-                            </Button.Content>
-                        </Button>
-                    </Grid>
-                </GroupBox.Header>
-                <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400" Text="{Binding PublisherMonitorFolderModel.FolderPath}"/>
+                <GroupBox >
+                    <GroupBox.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Foreground="White" Text="{DynamicResource LangKeyFolderPath}" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                                <Button  Margin="1" Background="Transparent" ToolTip="{DynamicResource LangKeyBrowse}"
+                                HorizontalAlignment="Right" Command="{Binding BrowseFolderCommand}">
+                                    <Button.Content>
+                                        <Canvas  HorizontalAlignment="Right" Width="15"  Height="15" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0">
+                                            <Path Width="15.7781" Height="15.7781"  Stretch="Fill"
+                                              Fill="Gainsboro"
+                                              Data="F1 M 16.6668,20L 13,28.5336L 13,16L 23,16L 23,15C 23,13.8954 23.8954,13 25,13L 32,13C 33.1046,13 35,14.8954 35,16L 35,20L 16.6668,20 Z M 35,32L 28,32L 13,32L 17.5833,21L 39.5833,21L 35,32 Z " />
+
+                                        </Canvas>
+                                    </Button.Content>
+                                </Button>
+                                <Button Background="Transparent" 
+                                    HorizontalAlignment="Center"  Name="BtnClear" Foreground="White"
+                                    Command="{Binding ClearCommand}" Margin="1"
+                                    CommandParameter="{Binding ElementName=BtnClear}">
+                                    <Button.Content>
+                                        <Canvas  HorizontalAlignment="Right" Width="15"  Height="15" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0">
+                                            <Path Width="15.7781" Height="15.7781"  Stretch="Fill"
+                                              Fill="Gainsboro"
+                                              Data="F1 M 58.5833,45.9167L 58.5833,57L 19,57L 19,45.9167L 28.8998,45.9167C 31.0306,47.2793 33.6795,48.4476 36.6434,49.2418C 40.3467,50.2341 44.7079,50.4746 47.6249,50.0692L 47.6249,45.9167L 58.5833,45.9167 Z M 56.2083,48.2917L 53.4374,48.2917L 53.4374,53.0417L 56.2082,53.0417L 56.2083,48.2917 Z M 45.7433,48.2824C 43.1578,48.6418 39.9938,48.0327 36.7113,47.1532C 31.1866,45.6728 26.8965,42.7258 25.5163,39.7952L 32.2902,33.0213L 45.7433,38.0663L 45.7433,48.2824 Z M 39.2905,28.1719C 39.6351,28.1719 39.9737,28.1941 40.3047,28.2368L 46.0048,17.0498L 49.0712,18.6122L 43.5443,29.4594C 45.1454,30.5622 46.1735,32.2733 46.1735,34.1946C 46.1735,35.0197 45.9839,35.806 45.6407,36.5221L 33.4151,31.7762C 34.4796,29.6541 36.4722,28.1719 39.2905,28.1719 Z " />
+                                        </Canvas>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+
+                        </Grid>
+                    </GroupBox.Header>
+                    <StackPanel>
+
+
+                        <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400" Text="{Binding PublisherMonitorFolderModel.FolderPath}"/>
+
+                        <StackPanel Margin="2">
+                            <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource LangKeyPostDescription}" VerticalAlignment="Center" FontSize="12" />
+                            <customControl:SocinatorTextBox   
+                    MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
+                    SuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
+                    Watermark="{DynamicResource LangKeyWhatsOnYourMind}"
+                    Text="{Binding PublisherMonitorFolderModel.FolderTemplate, Mode=TwoWay}" TextHeight="60" TextWidth="300" Margin="2" TextWrapping="Wrap"
+                    DisplayMember="Key">
+                                <customControl:SocinatorTextBox.LoadingContent>
+                                    <TextBlock Text="Loading Macros..." Margin="5" FontSize="14" />
+                                </customControl:SocinatorTextBox.LoadingContent>
+                            </customControl:SocinatorTextBox>
+                            <customControl:PostContent  PublisherPostSettings="{Binding PublisherMonitorFolderModel.PostDetailsModel.PublisherPostSettings,Mode=TwoWay}" 
+                                                customControl:MediaViewerAssist.MediaList="{Binding PublisherMonitorFolderModel.PostDetailsModel.MediaViewer.MediaList,Mode=TwoWay}" 
+                                                customControl:MediaViewerAssist.CurrentMediaUrl="{Binding PublisherMonitorFolderModel.PostDetailsModel.MediaViewer.MediaUrl,Mode=TwoWay}"
+                                                customControl:MediaViewerAssist.MediaHeight="75"
+                                                customControl:MediaViewerAssist.MediaWidth="75"
+                                                customControl:MediaViewerAssist.TotalMediaCount="{Binding PublisherMonitorFolderModel.PostDetailsModel.MediaViewer.TotalItem}"
+                                                customControl:MediaViewerAssist.CurrentMediaPointer="{Binding PublisherMonitorFolderModel.PostDetailsModel.MediaViewer.CurrentItem}"
+                                                customControl:MediaViewerAssist.DeleteMenu="Visible"
+                                                PublisherInstagramTitle="{Binding PublisherMonitorFolderModel.PostDetailsModel.PublisherInstagramTitle, Mode=TwoWay}"
+                                                FdSellLocation="{Binding PublisherMonitorFolderModel.PostDetailsModel.FdSellLocation, Mode=TwoWay}"
+                                                FdSellPrice="{Binding PublisherMonitorFolderModel.PostDetailsModel.FdSellPrice, Mode=TwoWay}"
+                                                FdSellProductTitle="{Binding PublisherMonitorFolderModel.PostDetailsModel.FdSellProductTitle, Mode=TwoWay}"
+                                                IsFdSellPost="{Binding PublisherMonitorFolderModel.PostDetailsModel.IsFdSellPost, Mode=TwoWay}"
+                                                PdSourceUrl="{Binding PublisherMonitorFolderModel.PostDetailsModel.PdSourceUrl, Mode=TwoWay}"
+                                                IsImportOptionsVisibility ="Collapsed" IsPostTitleOptionVisibility="Visible"
+                                                PostTitleHeight="80" IsImportPostTitleOptionVisibility="Visible" IsClearPostTitleOptionVisibility="Visible" 
+                                                IsRemoveTitleOnceUsed="{Binding PublisherMonitorFolderModel.PostDetailsModel.IsRemoveTitleOnceUsed, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                IsRandomlyPickTitleFromList="{Binding PublisherMonitorFolderModel.PostDetailsModel.IsRandomlyPickTitleFromList, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                x:Name="PostContentControl"/>
+
+
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+            </StackPanel>
+            <GroupBox Header="{DynamicResource LangKeyFolderPathDetails}" Width="400" HorizontalAlignment="Left" Margin="10,0">
+                <GroupBox.Style>
+                    <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding LstFolderPath.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </GroupBox.Style>
+                <ItemsControl ItemsSource="{Binding LstFolderPath}" MaxHeight="390" Name="FolderPathItems">
+                    <ItemsControl.Template>
+                        <ControlTemplate>
+                            <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding FolderPath}"  Margin="4" TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal" Margin="4" Grid.Column="1" VerticalAlignment="Center">
+                                    <Button Name="BtnEdit" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
+                                        VerticalAlignment="Top"
+                                        Command="{Binding ElementName=FolderPathItems,Path=DataContext.EditCommand}"
+                                        CommandParameter="{Binding ElementName=BtnEdit}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Rectangle Width="15" Height="15" Fill="White">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Name="BtnDelete" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
+                                        VerticalAlignment="Top" Margin="10,0" 
+                                        Command="{Binding  ElementName=FolderPathItems,Path=DataContext.DeleteCommand}"
+                                        CommandParameter="{Binding ElementName=BtnDelete}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Rectangle Width="12" Height="15" Fill="White">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </GroupBox>
-            <GroupBox Header="{DynamicResource LangKeyFolderTemplates}" Margin="10,0">
+            <!--<GroupBox Header="{DynamicResource LangKeyFolderTemplates}" Margin="10,0">
                 <TextBox Height="50" AcceptsReturn="True" TextWrapping="Wrap" Width="400"
                          Text="{Binding PublisherMonitorFolderModel.FolderTemplate}" FontWeight="SemiBold"/>
-            </GroupBox>
+            </GroupBox>-->
 
         </StackPanel>
 
@@ -43,63 +168,6 @@
                 Command="{Binding SaveCommand}" Content="{Binding PublisherMonitorFolderModel.ButtonContent}"
                 CommandParameter="{Binding ElementName=BtnSave}" />
 
-        <GroupBox Header="{DynamicResource LangKeyFolderPathDetails}" Width="830" HorizontalAlignment="Left">
-            <GroupBox.Style>
-                <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
-                    <Setter Property="Visibility" Value="Visible"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding LstFolderPath.Count}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </GroupBox.Style>
-            <ItemsControl ItemsSource="{Binding LstFolderPath}" MaxHeight="200" Name="FolderPathItems">
-                <ItemsControl.Template>
-                    <ControlTemplate>
-                        <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}">
-                            <ItemsPresenter />
-                        </ScrollViewer>
-                    </ControlTemplate>
-                </ItemsControl.Template>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="100"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding FolderPath}"  Margin="4" TextWrapping="Wrap"/>
-                            <StackPanel Orientation="Horizontal" Margin="4" Grid.Column="1" VerticalAlignment="Center">
-                                <Button Name="BtnEdit" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
-                                        VerticalAlignment="Top"
-                                        Command="{Binding ElementName=FolderPathItems,Path=DataContext.EditCommand}"
-                                        CommandParameter="{Binding ElementName=BtnEdit}">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Rectangle Width="15" Height="15" Fill="White">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </StackPanel>
-                                </Button>
-                                <Button Name="BtnDelete" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
-                                        VerticalAlignment="Top" Margin="10,0" 
-                                        Command="{Binding  ElementName=FolderPathItems,Path=DataContext.DeleteCommand}"
-                                        CommandParameter="{Binding ElementName=BtnDelete}">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Rectangle Width="12" Height="15" Fill="White">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </GroupBox>
+
     </StackPanel>
 </UserControl>

@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces.SocioPublisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
@@ -249,6 +250,23 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        private List<PublisherDestinationDetailsModel> _destinationDetailsModels = new List<PublisherDestinationDetailsModel>();
+        [ProtoMember(13)]
+        public List<PublisherDestinationDetailsModel> DestinationDetailsModels
+        {
+            get
+            {
+                return _destinationDetailsModels;
+            }
+            set
+            {
+                if (_destinationDetailsModels == value)
+                    return;
+                _destinationDetailsModels = value;
+                OnPropertyChanged(nameof(DestinationDetailsModels));
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -273,7 +291,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SelectedAccountIds = new List<string>(),
                 CustomDestinations = new List<KeyValuePair<string, PublisherCustomDestinationModel>>(),
                 AccountsWithNetwork = new List<KeyValuePair<SocialNetworks, string>>(),
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                DestinationDetailsModels = new List<PublisherDestinationDetailsModel>()
             };
 
 
@@ -316,34 +335,36 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 publisherCreateDestinationModel.AccountsWithNetwork.ForEach(async x =>
                 {
-                    var accountsDetailsSelector = SocinatorInitialize
-                        .GetSocialLibrary(x.Key)
-                        .GetNetworkCoreFactory().AccountDetailsSelectors;
-
-                    if (accountsDetailsSelector.IsGroupsAvailables)
+                    if (FeatureFlags.IsNetworkAvailable(x.Key))
                     {
-                        try
+                        var accountsDetailsSelector = SocinatorInitialize
+                            .GetSocialLibrary(x.Key)
+                            .GetNetworkCoreFactory().AccountDetailsSelectors;
+
+                        if (accountsDetailsSelector.IsGroupsAvailables)
                         {
-                            var groups = await accountsDetailsSelector.GetGroupUrls(x.Value, publisherCreateDestinationModel.CreatedDate);
-                            var alreadyPresentedGroups =
-                                publisherCreateDestinationModel.AccountGroupPair.Select(y => y.Value).ToList();
-                            foreach (var group in groups)
+                            try
                             {
-                                if (!alreadyPresentedGroups.Contains(group))
+                                var groups = await accountsDetailsSelector.GetGroupUrls(x.Value, publisherCreateDestinationModel.CreatedDate);
+                                var alreadyPresentedGroups =
+                                    publisherCreateDestinationModel.AccountGroupPair.Select(y => y.Value).ToList();
+                                foreach (var group in groups)
                                 {
-                                    publisherCreateDestinationModel.AccountGroupPair.Add(new KeyValuePair<string, string>(x.Value, group));
+                                    if (!alreadyPresentedGroups.Contains(group))
+                                    {
+                                        publisherCreateDestinationModel.AccountGroupPair.Add(new KeyValuePair<string, string>(x.Value, group));
+                                    }
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
+                            catch (Exception ex)
+                            {
 
-                           ex.DebugLog();
+                                ex.DebugLog();
+                            }
                         }
+                        PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId,
+                            publisherCreateDestinationModel.AccountGroupPair.Count);
                     }
-
-                    PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId,
-                        publisherCreateDestinationModel.AccountGroupPair.Count);
                 });
             }
         }
@@ -366,5 +387,40 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
             UpdateDestination(updateCreateDestinationModel);
         }        
+        
+
+
+    }
+
+
+
+    [ProtoContract]
+    public class PublisherDestinationDetailsModel : IPublisherDestinationDetailsModel
+    {
+
+        [ProtoMember(1)]
+        public string DestinationUrl { get; set; } =string.Empty;
+
+        [ProtoMember(2)]
+        public string DestinationType { get; set; } = string.Empty;
+
+        [ProtoMember(3)]
+        public string AccountId { get; set; } = string.Empty;
+
+        [ProtoMember(4)]
+        public SocialNetworks SocialNetworks { get; set; }
+
+        [ProtoIgnore]
+        public PublisherPostlistModel PublisherPostlistModel { get; set; } = new PublisherPostlistModel();
+
+        [ProtoMember(5)]
+        public bool IsCustomDestintions { get; set; }
+
+        [ProtoMember(6)]
+        public string DestinationGuid { get; set; } = string.Empty;
+
+        [ProtoMember(7)]
+        public string AccountName { get; set; } = string.Empty;
+
     }
 }

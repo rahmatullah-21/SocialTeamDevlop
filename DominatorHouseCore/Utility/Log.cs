@@ -117,7 +117,7 @@ namespace DominatorHouseCore.Utility
         public static string DetailsUpdated { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeySynchronization".FromResourceDictionary() + " {2} " + "LangKeySuccessful".FromResourceDictionary() + "\t" + CodeConstants.DetailsUpdated;
 
         public static string UploadedAccount { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeySuccessfullyAdded".FromResourceDictionary() + " " + "LangKeyAccountTo".FromResourceDictionary() + " {2}.\t" + CodeConstants.UploadedAccount;
-      
+
         public static string SelectedAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccountSelection".FromResourceDictionary() + "\t " + "LangKeySuccessfullyAdded".FromResourceDictionary() + " {2} " + "LangKeyAccountTo".FromResourceDictionary() + " {3}.\t" + CodeConstants.SelectedAccount;
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace DominatorHouseCore.Utility
         /// 1 = Account's Username   
         /// 2 = delay in seconds 
         /// </summary>
-        public static string DelayBetweenMultiPost { get; set; } = "{0}\t {1}\t"+ "LangKeyPublish".FromResourceDictionary() + "\t" + "Next post will start publishing in {2} minutes" + "\t" + CodeConstants.DelayBetweenMultiPost;
+        public static string DelayBetweenMultiPost { get; set; } = "{0}\t {1}\t" + "LangKeyPublish".FromResourceDictionary() + "\t" + "Next post will start publishing in {2} minutes" + "\t" + CodeConstants.DelayBetweenMultiPost;
 
 
         /// <summary>
@@ -394,10 +394,22 @@ namespace DominatorHouseCore.Utility
         /// 1 = Account's Username   
         /// 2 = CampaignName       
         /// </summary>
-       
+
         public static string PublishingProcessCompleted { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPublishingProcessCompleted".FromResourceDictionary() + " -[{2}]\t" + CodeConstants.PublishingProcessCompleted;
         public static string ProxyVerificationStarted { get; set; } = "{0}\t {1}\t " + "LangKeyProxyVerification".FromResourceDictionary() + "\t" + "LangKeyProxyVerificationStarted".FromResourceDictionary() + "\t" + CodeConstants.ProxyVerificationStarted;
         public static string ProxyVerificationCompleted { get; set; } = "{0}\t {1}\t " + "LangKeyProxyVerification".FromResourceDictionary() + "\t" + "LangKeyProxyVerificationCompleted".FromResourceDictionary() + "\t" + CodeConstants.ProxyVerificationCompleted;
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username   
+        /// 2 = Varification type[Phone/Email]      
+        /// </summary>
+        public static string SentVerificationCode { get; set; } = "{0}\t {1}\t " + "LangKeyVerification".FromResourceDictionary() + "\t" + "LangKeyVerificationCodeHasBeenSentToRregistered".FromResourceDictionary() + " {2}. " + "LangKeyKindlyCheckAndEnterInTheVerificationCodeField".FromResourceDictionary() + "\t" + CodeConstants.SentVerificationCode;
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username   
+        /// 2 = Varification type[Phone/Email]      
+        /// </summary>
+        public static string FailedToSendVerificationCodeFaild { get; set; } = "{0}\t {1}\t " + "LangKeyVerification".FromResourceDictionary() + "\t" + "LangKeyfailedToSendVerificationCodeToRregistered".FromResourceDictionary() + " {2}. "  + "LangKeyPleaseTryAgain".FromResourceDictionary() + "\t" + CodeConstants.FailedToSendVerificationCodeFaild;
 
     }
 }

@@ -19,7 +19,7 @@ namespace DominatorHouseCore.Interfaces
         List<DailyStatisticsViewModel> GetDailyGrowthForAccount(string accountId, GrowthChartPeriod period);
 
     }
-    public interface IAccountUpdateFactoryAsync: IAccountUpdateFactory
+    public interface IAccountUpdateFactoryAsync : IAccountUpdateFactory
     {
         Task<bool> CheckStatusAsync(DominatorAccountModel accountModel, CancellationToken token);
 
@@ -29,6 +29,21 @@ namespace DominatorHouseCore.Interfaces
     {
         Task<bool> VerifyAccountAsync(DominatorAccountModel accountModel, VerificationType verificationType, CancellationToken token);
         Task<bool> SendVerificationCode(DominatorAccountModel accountModel, VerificationType verificationType, CancellationToken token);
-       
+
     }
+
+    public abstract class ProfileFactory
+    {
+        public virtual void EditProfile(DominatorAccountModel accountModel) { }
+        public virtual void RemovePhoneVerification(DominatorAccountModel accountModel) { }
+    }
+    public abstract class ChatFactory
+    {
+        public virtual void UpdateFriendList(LiveChatModel liveChatModel) { }
+        public virtual void UpdateCurrentChat(LiveChatModel liveChatModel) { }
+
+        public virtual bool SendMessageToUser(LiveChatModel liveChatModel, string message, ChatMessageType messageType) =>
+            true;
+    }
+
 }

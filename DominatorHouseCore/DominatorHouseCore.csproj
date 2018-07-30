@@ -78,6 +78,10 @@
     <Reference Include="ControlzEx">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="CsvHelper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.7.1.0\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -91,12 +95,13 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>..\..\..\..\Documents\Source\Repos\DominatorHouse Social\packages\HtmlAgilityPack.1.8.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\packages\HtmlAgilityPack.1.8.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.0.362, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MahApps.Metro.1.6.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -137,6 +142,9 @@
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.108.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -151,6 +159,14 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="ToastNotifications, Version=2.3.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>..\packages\ToastNotifications.2.3.1\lib\net40\ToastNotifications.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ToastNotifications.Messages, Version=2.3.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>..\packages\ToastNotifications.Messages.2.3.1\lib\net40\ToastNotifications.Messages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WPFFolderBrowser, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFFolderBrowser.1.0.2\lib\WPFFolderBrowser.dll</HintPath>
@@ -290,6 +306,7 @@
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedQuestion.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\QdTables\Campaigns\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\RdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedPost.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedSubreddit.cs" />
     <Compile Include="DatabaseHandler\RdTables\Accounts\InteractedUsers.cs" />
@@ -334,6 +351,7 @@
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\YdTables\Accounts\OwnChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\UnfollowedUsers.cs" />
@@ -373,6 +391,9 @@
     <Compile Include="Enums\PdQuery\PDUsersQueries.cs" />
     <Compile Include="Enums\QdQuery\BroadcastMessageQuery.cs" />
     <Compile Include="Enums\QdQuery\FollowerQuery.cs" />
+    <Compile Include="Enums\RdQuery\CommunityQuery.cs" />
+    <Compile Include="Enums\RdQuery\PostQuery.cs" />
+    <Compile Include="Enums\RdQuery\UserQuery.cs" />
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
@@ -457,6 +478,7 @@
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
     <Compile Include="Models\Config\CaptchaServicesModel.cs" />
     <Compile Include="Models\Config\URLShortnerServicesModel.cs" />
+    <Compile Include="Models\EditProfileModel.cs" />
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
@@ -467,6 +489,7 @@
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TwitterModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
     <Compile Include="Models\SocioPublisher\DetailedFileInfo.cs" />
+    <Compile Include="Interfaces\SocioPublisher\IPublisherDestinationDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\MonitorFolderModel.cs" />
     <Compile Include="Models\SocioPublisher\PostDeletionModel.cs" />
     <Compile Include="Models\SocioPublisher\PublishedPostDetailsModel.cs" />
@@ -505,6 +528,7 @@
     <Compile Include="Utility\PublisherHelper.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="Utility\SpinTexHelper.cs" />
+    <Compile Include="Utility\ToasterNotification.cs" />
     <Compile Include="ViewModel\AdvancedSettings\FacebookViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GooglePlusViewModel.cs" />
@@ -563,6 +587,7 @@
     <Compile Include="Models\SocioPublisher\PublisherManagePostsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherMediaViewerModel.cs" />
     <Compile Include="Utility\MediaUtilites.cs" />
+    <Compile Include="ViewModel\EditProfileViewModel.cs" />
     <Compile Include="ViewModel\RevisionHistoryViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />
@@ -664,9 +689,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\RdQuery\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">
       <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>
@@ -674,6 +697,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="Shell32">
       <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -684,6 +725,18 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>True</Private>
     </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.108.0\build\net40\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.108.0\build\net40\System.Data.SQLite.Core.targets')" />

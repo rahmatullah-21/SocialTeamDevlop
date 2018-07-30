@@ -307,7 +307,7 @@ namespace DominatorUIUtility.CustomControl
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Sucess",
                         "Sucessfully Exported to " + filename);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Fail",
                         "Export fail !!");
@@ -461,6 +461,7 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception ex)
             {
+                ex.DebugLog();
             }
 
         }

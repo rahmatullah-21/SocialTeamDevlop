@@ -85,5 +85,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         [Column(Order = 12)]
         public int InteractionTimeStamp { get; set; }
 
+        [Column(Order = 13)]
+        public string CommentId { get; set; }
     }
 }

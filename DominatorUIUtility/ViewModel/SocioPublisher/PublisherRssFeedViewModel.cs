@@ -5,8 +5,10 @@ using System.Windows;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -16,7 +18,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public PublisherRssFeedViewModel()
         {
             #region Command Initilization
-
+            ClearCommand = new BaseCommand<object>(ClearCanExecute, ClearExecute);
             SaveCommand = new BaseCommand<object>(SaveCanExecute, SaveExecute);
             EditCommand = new BaseCommand<object>(EditCanExecute, EditExecute);
             DeleteCommand = new BaseCommand<object>(DeleteCanExecute, DeleteExecute);
@@ -32,6 +34,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         }
         #region Command
+        public ICommand ClearCommand { get; set; }
 
         public ICommand SaveCommand { get; set; }
         public ICommand EditCommand { get; set; }
@@ -98,8 +101,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 var itemToEdit = ((FrameworkElement)sender).DataContext as PublisherRssFeedModel;
-                itemToEdit.ButtonContent = "Update Feed Url";
+                itemToEdit.ButtonContent = "LangKeyUpdateFeedUrl".FromResourceDictionary();
                 PublisherRssFeedModel = itemToEdit;
+                PublisherRssFeed.GetPublisherRssFeed(tabItemsControl).PostContentControl.SetMedia();
             }
             catch (Exception ex)
             {
@@ -111,31 +115,67 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void SaveExecute(object sender)
         {
 
+            if (!string.IsNullOrEmpty(PublisherRssFeedModel.FeedUrl))
+            {
+                try
+                {
+                    if (PublisherRssFeedModel.ButtonContent == "LangKeySaveFeedUrl".FromResourceDictionary())
+                    {
+                        if (LstFeedUrl.All(x => string.Compare(x.FeedUrl, PublisherRssFeedModel.FeedUrl, StringComparison.CurrentCultureIgnoreCase) != 0))
+                        {
+                            PublisherRssFeedModel.PostDetailsModel.PostDetailsId = Utilities.GetGuid();
+                            PublisherRssFeedModel.PostDetailsModel.CreatedDateTime = DateTime.Now;
+                            LstFeedUrl.Add(new PublisherRssFeedModel
+                            {
+                                FeedUrl = PublisherRssFeedModel.FeedUrl.Trim(),
+                                FeedTemplate = PublisherRssFeedModel.FeedTemplate,
+                                PostDetailsModel = PublisherRssFeedModel.PostDetailsModel
+                            });
+                        }
+                    }
+                    else
+                    {
+                        var itemToUpdate = LstFeedUrl.FirstOrDefault(x => x.FeedUrl == PublisherRssFeedModel.FeedUrl);
+                        if (itemToUpdate == null)
+                        {
+                            LstFeedUrl.Add(new PublisherRssFeedModel()
+                            {
+                                FeedUrl = PublisherRssFeedModel.FeedUrl.Trim(),
+                                FeedTemplate = PublisherRssFeedModel.FeedTemplate,
+                                PostDetailsModel = PublisherRssFeedModel.PostDetailsModel
+                            });
+                        }
+                        else
+                            itemToUpdate = PublisherRssFeedModel;
+                    }
+
+                    PublisherRssFeedModel = new PublisherRssFeedModel();
+                    PublisherRssFeed.GetPublisherRssFeed(tabItemsControl).PostContentControl.SetMedia();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+            else
+            {
+                GlobusLogHelper.log.Info("LangKeyPleaseEnterFeedUrl".FromResourceDictionary);
+            }
+        }
+
+        private bool ClearCanExecute(object sender) => true;
+        private void ClearExecute(object sender)
+        {
             try
             {
-                if (PublisherRssFeedModel.ButtonContent == "Save to List")
-                {
-                    if (!string.IsNullOrEmpty(PublisherRssFeedModel.FeedUrl) && !LstFeedUrl.Any(x => string.Compare(x.FeedUrl, PublisherRssFeedModel.FeedUrl, StringComparison.CurrentCultureIgnoreCase) == 0))
-                    {
-                        LstFeedUrl.Add(new PublisherRssFeedModel()
-                        {
-                            FeedUrl = PublisherRssFeedModel.FeedUrl,
-                            FeedTemplate = PublisherRssFeedModel.FeedTemplate
-                        });
-
-                    }
-                }
-                else
-                {
-                    var itemToUpdate = LstFeedUrl.FirstOrDefault(x => x.FeedUrl == PublisherRssFeedModel.FeedUrl);
-                    itemToUpdate = PublisherRssFeedModel;
-                }
                 PublisherRssFeedModel = new PublisherRssFeedModel();
+                PublisherRssFeed.GetPublisherRssFeed(tabItemsControl).PostContentControl.SetMedia();
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+
         }
 
         #endregion

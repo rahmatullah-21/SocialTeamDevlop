@@ -17,7 +17,7 @@
             <StackPanel Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource LangKeyReaddPostToPostList}" Margin="5"
                           IsChecked="{Binding IsReaddCount}"/>
-                <control:NumericUpDown Minimum="0" Value="{Binding ReaddCount}"/>
+                <control:NumericUpDown Minimum="1" Value="{Binding ReaddCount}"/>
                 <TextBlock Text="{DynamicResource LangKeyTimes}" Name="TextBlockTimes" VerticalAlignment="Center" Margin="5"/>
             </StackPanel>
 

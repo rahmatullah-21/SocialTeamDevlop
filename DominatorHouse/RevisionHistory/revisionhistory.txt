@@ -1,0 +1,70 @@
+Version[1.0.0.6],[29th-July-18]
+
+Fixed:
+Issues with Enabling Auto Follow - Unfollow.
+Issues with no more data found in several modules.
+
+New Feature:
+Added option to send direct messages on Reddit
+
+
+Version[1.0.0.5],[25th-July-18]
+
+Fixed:
+Issues with importing CSV, Excel and Text Files
+
+New Feature:
+Added option to create posts with multiple titles in monitor folder
+
+Version[1.0.0.4],[24th-July-18]
+
+New Features:-
+
+Reddit:- Comment on someone's post, Added Account Growth Tab to show daily, weekly, monthly, lifetime growth
+Facebook:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+Twitter:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+Instagram:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+Pinterest:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+gPlus:-  Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+Reddit:-  Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+LinkedIn:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+Youtube:-  Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+Quora:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+Tumblr:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+
+
+Fixed:
+Facebook:- Minor bug fixed and improvements
+Twitter:- Minor bug fixed and improvements
+Instagram:- Minor bug fixed and improvements
+Pinterest:- Minor bug fixed and improvements
+gPlus:-  Minor bug fixed and improvements
+Reddit:- Fixed issues with importing multiple reddit text posts.
+LinkedIn:- Minor bug fixed and improvements
+Youtube:- Minor bug fixed and improvements
+Quora:- Minor bug fixed and improvements
+Tumblr:- Minor bug fixed and improvements
+
+----------------------------------------------------------
+Version[1.0.0.3],[21st-July-18]
+
+New Features:-
+
+Reddit:- Follow users who commented on a specific posts, Unsubscribe communities
+
+Fixed:
+Facebook:- Minor bug fixed and improvements
+Twitter:- Minor bug fixed and improvements
+Instagram:- Minor bug fixed and improvements
+Pinterest:- Minor bug fixed and improvements
+gPlus:-  Minor bug fixed and improvements
+Reddit:- Minor bug fixed and improvements
+LinkedIn:- Minor bug fixed and improvements
+Youtube:- Minor bug fixed and improvements
+Quora:- Minor bug fixed and improvements
+Tumblr:- Minor bug fixed and improvements
+
+------------------------------------------------------------
+Version[1.0.0.2],[18th-July-18]
+New Features:
+Reddit:- Subscribe Communities by keywords or custom URL

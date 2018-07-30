@@ -6,7 +6,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
     [ProtoContract]
     public class ScrapePostModel : BindableBase
     {
-
+        /// <summary>
+        /// To specify facebook scrape post is checked
+        /// </summary>
         private bool _isScrapeFacebookPost;
         [ProtoMember(1)]
         public bool IsScrapeFacebookPost
@@ -23,6 +25,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsScrapeFacebookPost));
             }
         }
+        /// <summary>
+        /// To specify scraping details of facebook
+        /// </summary>
         private string _addFdPostSource = string.Empty;
         [ProtoMember(2)]
         public string AddFdPostSource
@@ -39,6 +44,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(AddFdPostSource));
             }
         }
+
+        /// <summary>
+        /// To specify pinterest scrape post is checked
+        /// </summary>
         private bool _isScrapePinterestPost;
         [ProtoMember(3)]
         public bool IsScrapePinterestPost
@@ -55,6 +64,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsScrapePinterestPost));
             }
         }
+        /// <summary>
+        /// To specify scraping details of pinterest
+        /// </summary>
         private string _addPdPostSource = string.Empty;
         [ProtoMember(4)]
         public string AddPdPostSource
@@ -71,6 +83,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(AddPdPostSource));
             }
         }
+
+        /// <summary>
+        /// To specify twitter scrape post is checked
+        /// </summary>
         private bool _isScrapeTwitterPost;
         [ProtoMember(5)]
         public bool IsScrapeTwitterPost
@@ -87,6 +103,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(IsScrapeTwitterPost));
             }
         }
+
+        /// <summary>
+        /// To specify scraping details of Twitter
+        /// </summary>
         private string _addTdPostSource = string.Empty;
         [ProtoMember(6)]
         public string AddTdPostSource

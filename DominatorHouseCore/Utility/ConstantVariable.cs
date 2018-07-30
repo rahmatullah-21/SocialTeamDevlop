@@ -1,10 +1,6 @@
 ﻿using System;
-
 using System.Collections.Generic;
-using System.Windows.Documents;
 using DominatorHouseCore.Enums;
-using System.Reflection;
-using DominatorHouseCore.Diagnostics;
 using System.IO;
 using DominatorHouseCore.Models.SocioPublisher;
 
@@ -35,15 +31,39 @@ namespace DominatorHouseCore.Utility
 
         public static string BitlyLogin { get; set; } = string.Empty;
 
+        public static string Revision { get; set; }
+
         public static string GetPlatformBaseDirectory()
         {
             string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}";
 
-            if(!Directory.Exists(basePath))
-            DirectoryUtilities.CreateDirectory(basePath);
+            if (!Directory.Exists(basePath))
+                DirectoryUtilities.CreateDirectory(basePath);
 
             return basePath;
         }
+
+        public static string GetPlatformTodayBackupDirectory()
+        {
+            string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}Backup";
+
+            if (!Directory.Exists(basePath))
+                DirectoryUtilities.CreateDirectory(basePath);
+
+            return basePath;
+        }
+
+
+        public static string GetPlatformLogDirectory()
+        {
+            string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}\\logs";
+
+            if (!Directory.Exists(basePath))
+                DirectoryUtilities.CreateDirectory(basePath);
+
+            return basePath;
+        }
+
 
         public static string GetConfigurationDir()
         {
@@ -145,6 +165,8 @@ namespace DominatorHouseCore.Utility
         public static string GetDownloadedMediaFolderPath =>
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+        public static string GetNotFoundImage() => GetOtherDir() + @"\NotFoundImage.png";
+        public static string GetSocinatorIcon() => GetOtherDir() + @"SocinatorIcon.png";
         public static string GetOtherEmailNotificationFile() => GetOtherDir() + @"\EmailNotification.bin";
         public static string GetOtherEmbeddedBrowserSettingsFile() => GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
         public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";
@@ -186,13 +208,17 @@ namespace DominatorHouseCore.Utility
 
         public static string GetPublishedSuccessDetails => GetOtherDir() + "\\PublishedSuccessDetails.bin";
 
-        public static  string GetDeletePublisherPostModel => GetOtherDir() + "\\PublisherDeletionPosts.bin";
+        public static string GetDeletePublisherPostModel => GetOtherDir() + "\\PublisherDeletionPosts.bin";
 
         public static string Yes { get; set; } = "Yes";
 
         public static string No { get; set; } = "No";
 
         public static string NoError { get; set; } = "No Error!";
+
+        public static DateTime GetCurrentDateTime() => DateTime.Now;
+
+        public static string DeletedDateText() => $"Post has been deleted on {GetCurrentDateTime()}!";
 
         public static string NotPublished { get; set; } = "Not Published Yet";
 
@@ -227,7 +253,7 @@ namespace DominatorHouseCore.Utility
         public static string FindExemptions { get; set; } =
             "https://socinator.com/amember/softsale/api/check-license?key={0}";
 
-        public static string ExemptionInnerException { get; set; } 
+        public static string ExemptionInnerException { get; set; }
             = "https://socinator.com/amember/api/invoices/{0}?_key={1}";
 
         public static string LogExemptions { get; set; }
@@ -238,5 +264,16 @@ namespace DominatorHouseCore.Utility
 
 
         public static string MarketingSoftware { get; set; } = "Marketing Software";
+        public static string ContactSupportLink { get; set; } = "http://help.socinator.com/support/home";
+
+        public static bool IsToasterNotificationNeed { get; set; } = true;
+
+
+        public static string PageOrBoard { get; set; } = "PageOrBoard";
+
+        public static string Group { get; set; } = "Group";
+
+        public static string OwnWall { get; set; } = "OwnWall";
+
     }
 }

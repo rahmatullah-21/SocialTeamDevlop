@@ -13,9 +13,9 @@ namespace DominatorHouseCore.Models
     public class LiveChatModel:BindableBase
     {
        
-        private List<SenderDetails> _lstSender=new List<SenderDetails>();
+        private ObservableCollection<SenderDetails> _lstSender=new ObservableCollection<SenderDetails>();
         [ProtoMember(1)]
-        public List<SenderDetails> LstSender
+        public ObservableCollection<SenderDetails> LstSender
         {
             get
             {
@@ -29,6 +29,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
+
         private Dictionary<string , ObservableCollection<ChatDetails>> _accountChatDetails=new Dictionary<string, ObservableCollection<ChatDetails>>();
         [ProtoMember(2)]
         public Dictionary<string , ObservableCollection<ChatDetails>> AccountChatDetails
@@ -41,6 +42,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _accountChatDetails, value);
             }
         }
+
 
 
         private ObservableCollection<ChatDetails> _lstChat= new ObservableCollection<ChatDetails>();
@@ -76,10 +78,60 @@ namespace DominatorHouseCore.Models
             }
         }
 
+
         [ProtoMember(4)]
         public string SenderDetailsCursorId { get; set; }
 
-        public DominatorAccountModel dominatorAccountModel { get; set; }
+        public DominatorAccountModel DominatorAccountModel { get; set; }
+
+
+        private ObservableCollection<string> _accountNames = new ObservableCollection<string>();
+        [ProtoIgnore]
+        public ObservableCollection<string> AccountNames
+        {
+            get
+            {
+                return _accountNames;
+            }
+            set
+            {
+                SetProperty(ref _accountNames, value);
+            }
+        }
+
+
+        private string _selectedAccount =string.Empty;
+
+        public string SelectedAccount
+        {
+            get
+            {
+                return _selectedAccount;
+            }
+            set
+            {
+                if(_selectedAccount == value)
+                    return;
+                SetProperty(ref _selectedAccount, value);
+            }
+        }
+
+
+        private string _textMessage =string.Empty;
+
+        public string TextMessage
+        {
+            get
+            {
+                return _textMessage;
+            }
+            set
+            {
+                if (_textMessage == value)
+                    return;
+                SetProperty(ref _textMessage, value);
+            }
+        }
 
     }
 
@@ -165,6 +217,11 @@ namespace DominatorHouseCore.Models
 
         public string NextMaxId { get; set; }
         public string NextMinId { get; set; }
+
+
+        [ProtoMember(7)]
+        public string AccountId { get; set; } = string.Empty;
+
     }
 
     [ProtoContract]

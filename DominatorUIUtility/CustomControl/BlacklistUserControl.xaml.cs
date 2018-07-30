@@ -42,7 +42,7 @@ namespace DominatorUIUtility.CustomControl
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
             dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser);
             dbOperations = new DbOperations(dbContext);
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 dbOperations.Get<BlackListUser>()?.ForEach(user =>
                 {
@@ -88,12 +88,17 @@ namespace DominatorUIUtility.CustomControl
             }
             else
             {
+                DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
+                dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
+                var whiteListdbOperations = new DbOperations(dbContext);
+                var whiteListUser = whiteListdbOperations.Get<WhiteListUser>();
                 Txtusername.Text.Split('\n').ForEach(user =>
                 {
                     var userName = user.Trim();
                     if (!string.IsNullOrEmpty(userName))
                     {
-                        if (!BlacklistUserModel.LstBlackListUsers.Any(x => x.BlacklistUser == userName))
+                        if (!BlacklistUserModel.LstBlackListUsers.Any(x => string.Compare(x.BlacklistUser, userName, StringComparison.InvariantCultureIgnoreCase) == 0)
+                                 && !whiteListUser.Any(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) == 0))
                         {
                             BlacklistUserModel.LstBlackListUsers.Add(
                                 new BlacklistUserModel()
@@ -108,7 +113,8 @@ namespace DominatorUIUtility.CustomControl
                             });
                         }
                         else
-                            GlobusLogHelper.log.Info($"{userName} already added to Blacklist");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, userName, UserType.BlackListedUser, $"{userName} already added to Blacklist/Whitelist");
+
                     }
                 });
                 Txtusername.Clear();
@@ -188,7 +194,7 @@ namespace DominatorUIUtility.CustomControl
         private void Refresh_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             BlacklistUserModel.LstBlackListUsers.Clear();
-            Task.Factory.StartNew(() =>
+            ThreadFactory.Instance.Start(() =>
             {
                 dbOperations.Get<BlackListUser>()?.ForEach(user =>
                 {

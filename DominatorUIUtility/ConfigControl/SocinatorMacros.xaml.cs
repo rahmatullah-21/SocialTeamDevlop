@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.FileManagers;
@@ -157,7 +147,7 @@ namespace DominatorUIUtility.ConfigControl
 
             MacrosCollection.Remove(socinatorIntellisenseModel);
 
-            GenericFileManager.Delete<SocinatorIntellisenseModel>(x=> socinatorIntellisenseModel != null && x.Key == socinatorIntellisenseModel.Key, ConstantVariable.GetMacroDetails);
+            GenericFileManager.Delete<SocinatorIntellisenseModel>(x => socinatorIntellisenseModel != null && x.Key == socinatorIntellisenseModel.Key, ConstantVariable.GetMacroDetails);
         }
 
 
@@ -169,16 +159,18 @@ namespace DominatorUIUtility.ConfigControl
 
             loadedMacroslist?.ForEach(macros =>
             {
-                var inputMacro = macros.Replace(",", ":");
-                var splitMacros = Regex.Split(inputMacro, ":");
+                //var inputMacro = macros.Replace(",", ":");
+                // var splitMacros = Regex.Split(inputMacro, ":");
+
+                var splitMacros = Regex.Split(macros, "\t");
 
                 if (splitMacros.Length == 2)
                 {
                     var isPresent = MacrosCollection.Any(x => x.Key == splitMacros[0]);
-                    if(isPresent)                   
-                        GlobusLogHelper.log.Info($"Macro key : {splitMacros[0]} already present!");                    
-                    else                   
-                        MacrosCollection.Add(new SocinatorIntellisenseModel{Key = splitMacros[0] ,Value= splitMacros[1] });                    
+                    if (isPresent)
+                        GlobusLogHelper.log.Info($"Macro key : {splitMacros[0]} already present!");
+                    else
+                        MacrosCollection.Add(new SocinatorIntellisenseModel { Key = splitMacros[0], Value = splitMacros[1] });
                 }
             });
 

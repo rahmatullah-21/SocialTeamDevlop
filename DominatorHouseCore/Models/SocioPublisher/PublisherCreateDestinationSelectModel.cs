@@ -251,14 +251,28 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
+        private bool _isOwnWallAvailable=true;
+        [ProtoMember(15)]
+        public bool IsOwnWallAvailable
+        {
+            get
+            {
+                return _isOwnWallAvailable;
+            }
+            set
+            {
+                if (_isOwnWallAvailable == value)
+                    return;
+                _isOwnWallAvailable = value;
+                OnPropertyChanged(nameof(IsOwnWallAvailable));
+            }
+        }
+
         public void UpdateGroupText() => 
             GroupSelectorText = IsGroupsAvailable ? SelectedGroups + "/" + TotalGroups : "NA";
 
         public void UpdatePagesOrBoardsText() => 
             PagesOrBoardsSelectorText = IsPagesOrBoardsAvailable ? SelectedPagesOrBoards + "/" + TotalPagesOrBoards : "NA";
         
-
-
-
     }
 }

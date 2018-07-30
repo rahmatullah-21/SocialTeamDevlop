@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
@@ -28,9 +24,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             CreateNewPost = new BaseCommand<object>(CanExecuteCreateNewPost, ExecuteCreateNewPost);
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             DeletePostCommand = new BaseCommand<object>(DeletePostCanExecute, DeletePostExecute);
+
         }
 
-       
         #region Command
 
         public ICommand CreateNewPost { get; set; }
@@ -75,7 +71,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-     
+
         #endregion
 
         #region Create New Post
@@ -84,8 +80,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void ExecuteCreateNewPost(object sender)
         {
-            PostDetailsModel postDetailsModel = new PostDetailsModel();
+            PostDetailsModel postDetailsModel = new PostDetailsModel
+            {
+                CreatedDateTime = DateTime.Now,
+                PostDetailsId = Utilities.GetGuid()
+            };
+
             LstPostDetailsModel.Add(postDetailsModel);
+
             PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
         }
@@ -106,7 +108,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PostDetailsModel postDetailsModel = new PostDetailsModel();
                 try
                 {
-                    var allData = x.Split(',');
+                    var allData = x.Split('\t');
                     postDetailsModel.PostDescription = allData[0];
 
                     #region Medialist
@@ -122,20 +124,28 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     #endregion
 
                     postDetailsModel.PublisherInstagramTitle = allData[2];
-                    postDetailsModel.PublisherInstagramTitle = allData[3];
+
+                    if(allData.Length >3)
+                    postDetailsModel.PdSourceUrl = allData[3];
 
                     #region FdSell
 
-                    var Fdsell = Regex.Split(allData[4], separator);
-                    if (Fdsell[0] == "IsEnable")
+
+                        if (allData.Length > 4 && SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
                     {
-                        postDetailsModel.IsFdSellPost = true;
-                        postDetailsModel.FdSellProductTitle = Fdsell[1];
-                        postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
-                        postDetailsModel.FdSellLocation = Fdsell[3];
+                        var Fdsell = Regex.Split(allData[4], separator);
+                        if (Fdsell[0] == "IsEnable")
+                        {
+                            postDetailsModel.IsFdSellPost = true;
+                            postDetailsModel.FdSellProductTitle = Fdsell[1];
+                            postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
+                            postDetailsModel.FdSellLocation = Fdsell[3];
+                        }
                     }
                     #endregion
 
+                    postDetailsModel.CreatedDateTime = DateTime.Now;
+                    postDetailsModel.PostDetailsId = Utilities.GetGuid();
                     LstPostDetailsModel.Add(postDetailsModel);
                 }
                 catch (Exception ex)
@@ -154,8 +164,29 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void DeletePostExecute(object sender)
         {
-            var postToDelete =sender as PostDetailsModel;
-            LstPostDetailsModel.Remove(postToDelete);
+            try
+            {
+                var content = sender as string;
+                if (content == "DeleteAll")
+                    LstPostDetailsModel.Clear();
+                else
+                {
+                    try
+                    {
+                        var postToDelete = sender as PostDetailsModel;
+                        LstPostDetailsModel.Remove(postToDelete);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
         #endregion
     }

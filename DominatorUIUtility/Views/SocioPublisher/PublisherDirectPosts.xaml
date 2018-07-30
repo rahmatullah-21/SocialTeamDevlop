@@ -47,7 +47,12 @@
                                                 IsFdSellPost="{Binding PostDetailsModel.IsFdSellPost, Mode=TwoWay}"
                                                 PdSourceUrl="{Binding PostDetailsModel.PdSourceUrl, Mode=TwoWay}"
                                                 x:Name="PostContentControl"/>
+
+
             </StackPanel>
+            
+           
+           
         </StackPanel>
 
         <StackPanel Margin="0,10,0,0">
@@ -106,11 +111,37 @@
                                                MediaWidth="75" 
                                                MediaHeight="75"
                                                DeleteMenuVisibility="Visible"                                            
-                                               IsPostDataPresent="False" 
+                                               IsPostDataPresent="False" DeleteImage="ImageMediaViewer_OnDeleteImage"
                                                MediaList="{Binding PostDetailsModel.MediaList,Mode=TwoWay}" />
                 </StackPanel>
 
             </StackPanel>
+
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+
+            <Button Foreground="White" Margin="2" HorizontalAlignment="Left" Cursor="Hand" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Background="{DynamicResource AccentBaseColorBrush}"   Height="30" Width="160" VerticalAlignment="Center"  Command="{Binding SaveCurrentPostCommand}" CommandParameter="SaveToDraft">
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
+                    <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Left">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_pin}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <Label HorizontalAlignment="Left" Content="{DynamicResource LangKeySavePostToDraft}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Foreground="White" Margin="2" HorizontalAlignment="Left" Cursor="Hand"  Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Background="{DynamicResource AccentBaseColorBrush}"   Height="30" Width="175" VerticalAlignment="Center"  Command="{Binding SaveCurrentPostCommand}" CommandParameter="SaveToPending">
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
+                    <Rectangle Width="18" Height="15" Fill="White"  HorizontalAlignment="Left">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_network_port}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <Label HorizontalAlignment="Left" Content="{DynamicResource LangKeySavePostToPending}"  Foreground="White" Margin="0,-3,0,0" FontSize="11" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                </StackPanel>
+            </Button>
 
         </StackPanel>
 
