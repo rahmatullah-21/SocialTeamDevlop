@@ -95,6 +95,7 @@ namespace DominatorHouseCore.Utility
                 var monitorFolderFiles = campaignDetails
                     .Where(x => x.PostSource == PostSource.MonitorFolderPost).ToList();
 
+                var isNoUniqueTitleToasterNotified = false;
 
                 var usedMonitorFolderTitle = monitorFolderFiles.Where(x => x.PublisherInstagramTitle != null).Select(x => x.PublisherInstagramTitle).ToList();
 
@@ -158,7 +159,11 @@ namespace DominatorHouseCore.Utility
                             }
                             else
                             {
-                                ToasterNotification.ShowInfomation($"No More unique titles are present in {campaignName}!");
+                                if (!isNoUniqueTitleToasterNotified)
+                                {
+                                    isNoUniqueTitleToasterNotified = true;
+                                    ToasterNotification.ShowInfomation($"No More unique titles are present in {campaignName}!");
+                                }                             
                                 postTitle = string.Empty;
                             }
                         }

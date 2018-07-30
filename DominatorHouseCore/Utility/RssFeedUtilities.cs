@@ -30,6 +30,8 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public async Task RssFeedFetchMethod(string feedUrl, string feedTemplate, PostDetailsModel postDetailsModel, string campaignId, CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
         {
+
+          
             try
             {
                 // Get all Campaign Details
@@ -49,6 +51,8 @@ namespace DominatorHouseCore.Utility
                 // Calculate Expire date of the post
                 if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate)
                     expireDate = postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate;
+
+              
 
                 // Scrape the posts from Http Response
                 #region Http Response
@@ -138,8 +142,9 @@ namespace DominatorHouseCore.Utility
                 }
                 else
                 {
-                    // Inform the maximum post has reached via Toaster notification
-                    ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {campaignName} already have {maximumPostLimitToStore}+ posts in postlist!");
+                        // Inform the maximum post has reached via Toaster notification
+                        ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {campaignName} already have {maximumPostLimitToStore}+ posts in postlist!");
+                                       
                 } 
                 #endregion
             }

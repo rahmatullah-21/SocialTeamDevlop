@@ -11,17 +11,19 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
     [Serializable]
     [ProtoContract]
-    public class GeneralPostSettings: BindableBase, IGeneralPostSettings
+    public class GeneralPostSettings : BindableBase, IGeneralPostSettings
     {
         private bool _isExpireDate;
         [ProtoMember(1)]
-        public bool IsExpireDate {
+        public bool IsExpireDate
+        {
             get
             {
                 return _isExpireDate;
             }
             set
             {
+
                 if (_isExpireDate == value)
                     return;
                 _isExpireDate = value;
@@ -29,7 +31,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             }
         }
 
-        private DateTime _expireDate=DateTime.Now;
+        private DateTime _expireDate = DateTime.Today;
         [ProtoMember(2)]
         public DateTime ExpireDate
         {
