@@ -1,22 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using MahApps.Metro.Controls.Dialogs;
+using ProtoBuf;
+using System.Windows.Input;
+using DominatorHouseCore.Command;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for JobConfigControl.xaml
     /// </summary>
-    public partial class JobConfigControl : UserControl
+    public partial class JobConfigControl : UserControl, INotifyPropertyChanged
     {
         public JobConfigControl()
         {
             InitializeComponent();
             MainGrid.DataContext = this;
+            InitilizeFavoriteTime();
+            SelectFavoriteTime = new BaseCommand<object>((sender) => true, SelectFavoriteTimeExecute);
         }
 
         public JobConfiguration JobConfiguration
@@ -94,6 +108,145 @@ namespace DominatorUIUtility.CustomControl
         private void ChkAdvance_OnChecked(object sender, RoutedEventArgs e)
         {
             Speed.SelectedIndex = -1;
+        }
+
+        private void BtnCreateFavorite_OnClick(object sender, RoutedEventArgs e)
+        {
+            string favoriteTimeName = "Favorite Time";
+            while (true)
+            {
+                try
+                {
+                    
+                    favoriteTimeName = Dialog.GetInputDialog("Favorite Time", "Enter Favorite time", favoriteTimeName, "Save", "Cancel");
+                    if (!string.IsNullOrEmpty(favoriteTimeName))
+                    {
+                        if (!LstFavoriteTime.Any(x => x.FavoriteTimeName == favoriteTimeName))
+                        {
+                            FavoriteTime favoriteTime = new FavoriteTime
+                            {
+                                FavoriteTimeName = favoriteTimeName,
+                                LstFavoriteTimes = JobConfiguration.RunningTime
+                            };
+                            GenericFileManager.AddModule<FavoriteTime>(favoriteTime, ConstantVariable.GetFavoriteTimeFile());
+                            LstFavoriteTime.Add(favoriteTime);
+                            break;
+                        }
+                        else
+                        {
+                            var result = Dialog.ShowCustomDialog("Warning", $"Favorite Time with name {favoriteTimeName} already exist.\nDo you want to override ?", "Yes", "No");
+                            if (result == MessageDialogResult.Affirmative)
+                            {
+                                var oldLstFavoriteTime = LstFavoriteTime.FirstOrDefault(x => x.FavoriteTimeName == favoriteTimeName);
+                                oldLstFavoriteTime.LstFavoriteTimes = JobConfiguration.RunningTime;
+                                GenericFileManager.UpdateModuleDetails<FavoriteTime>(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
+                                break;
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+
+
+        }
+
+        private void SelectFavoriteTimeExecute(object sender)
+        {
+            try
+            {
+                var selectedFavoriteTime = sender as FavoriteTime;
+              
+                JobConfiguration.RunningTime =new List<RunningTimes>(selectedFavoriteTime.LstFavoriteTimes);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        void InitilizeFavoriteTime()
+        {
+            var lstFavoriteTimes = GenericFileManager.GetModuleDetails<FavoriteTime>(ConstantVariable.GetFavoriteTimeFile());
+            Parallel.ForEach(lstFavoriteTimes, x =>
+            {
+                LstFavoriteTime.Add(x);
+            });
+
+        }
+
+
+        private ObservableCollection<FavoriteTime> _lstFavoriteTime = new ObservableCollection<FavoriteTime>();
+
+        public ObservableCollection<FavoriteTime> LstFavoriteTime
+        {
+            get
+            {
+                return _lstFavoriteTime;
+            }
+            set
+            {
+                _lstFavoriteTime = value;
+                OnPropertyChanged(nameof(LstFavoriteTime));
+            }
+        }
+        public ICommand SelectFavoriteTime { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+    [ProtoContract]
+    public class FavoriteTime : INotifyPropertyChanged
+    {
+        [ProtoMember(1)]
+        private string favoriteTimeName = String.Empty;
+        public string FavoriteTimeName
+        {
+            get
+            {
+                return favoriteTimeName;
+            }
+
+            set
+            {
+                if (value == favoriteTimeName) return;
+                favoriteTimeName = value;
+                OnPropertyChanged(nameof(FavoriteTimeName));
+            }
+        }
+        [ProtoMember(2)]
+        public List<RunningTimes> _lstFavoriteTimes = new List<RunningTimes>();
+        public List<RunningTimes> LstFavoriteTimes
+        {
+            get
+            {
+                return _lstFavoriteTimes;
+            }
+
+            set
+            {
+                if (value == _lstFavoriteTimes) return;
+                _lstFavoriteTimes = value;
+                OnPropertyChanged(nameof(LstFavoriteTimes));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

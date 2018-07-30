@@ -31,7 +31,7 @@
                 </Border.Style>
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Center">
-                      
+
                         <Rectangle Height="33" Width="53" >
                             <Rectangle.Style>
                                 <Style TargetType="Rectangle">
@@ -190,7 +190,7 @@
 
                 <StackPanel>
                     <Label Margin="0,5,0,0" FontWeight="Bold" Content="{DynamicResource LangKeyDayOfTheWeekWhenToOperate}"/>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" >
                         <StackPanel>
                             <ListBox ItemsSource="{Binding JobConfiguration.RunningTime}">
                                 <ListBox.ItemsPanel>
@@ -201,12 +201,25 @@
 
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <local:DayTimerControl RunningTimes="{Binding Path=.}"></local:DayTimerControl>
+                                        <local:DayTimerControl RunningTimes="{Binding Path=.}"/>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
                         </StackPanel>
-
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <controls:DropDownButton Content="Select Favorite time" Background="{DynamicResource AccentBaseColorBrush}" 
+                                                 Height="30" Margin="5,0" Foreground="White" ItemsSource="{Binding LstFavoriteTime,Mode=OneWay}">
+                            <controls:DropDownButton.ItemContainerStyle>
+                                <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                    <Setter Property="Header" Value="{Binding FavoriteTimeName}"/>
+                                    <Setter Property="Command" Value="{Binding DataContext.SelectFavoriteTime, RelativeSource={RelativeSource FindAncestor, AncestorType=StackPanel}}"/>
+                                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                                </Style>
+                            </controls:DropDownButton.ItemContainerStyle>
+                        </controls:DropDownButton>
+                        <Button Content="Create Favorite" Background="{DynamicResource AccentBaseColorBrush}" 
+                                Height="30" Foreground="White" Name="BtnCreateFavorite" Click="BtnCreateFavorite_OnClick"/>
                     </StackPanel>
                 </StackPanel>
 

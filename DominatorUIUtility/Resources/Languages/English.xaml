@@ -3038,5 +3038,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyRemoveTitleOnceUsed">Remove title once used.</system:String>
     <system:String x:Key="LangKeyWriteAMessage">Write a message...</system:String>
     <system:String x:Key="LangKeyRefreshChat">Refresh Chat</system:String>
+    <system:String x:Key="LangKeyStartWarning">These accounts are already having configuration settings for activity:</system:String>
+    <system:String x:Key="LangKeyEndWarning">Saving this settings will override previous settings and remove this account from the campaign.</system:String>
     <!--End Added on 19-07-2018-->
 </ResourceDictionary>

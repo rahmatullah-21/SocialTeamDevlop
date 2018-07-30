@@ -178,7 +178,7 @@ namespace DominatorHouseCore.Utility
         public static string SaveAction { get; set; } = "Save";
 
         public static string UpdateAction { get; set; } = "Update";
-
+        public static string GetFavoriteTimeFile() => GetOtherDir() + @"\FavoriteTime.bin";
         #region Publisher
 
         public static string FineStatusSync = "Already up to date";

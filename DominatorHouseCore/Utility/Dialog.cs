@@ -29,7 +29,7 @@ namespace DominatorHouseCore.Utility
                 Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
             };
 
-            
+
 
             try
             {
@@ -47,7 +47,7 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public Window GetCustomDialog(BaseMetroDialog dialog,string title)
+        public Window GetCustomDialog(BaseMetroDialog dialog, string title)
         {
             var dialogWindow = new MetroWindow
             {
@@ -62,7 +62,7 @@ namespace DominatorHouseCore.Utility
                 WindowTransitionsEnabled = false,
                 Background = dialog.Background,
                 BorderThickness = new Thickness(0),
-                GlowBrush = Brushes.Black, 
+                GlowBrush = Brushes.Black,
                 Title = title,
                 Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
             };
@@ -192,10 +192,35 @@ namespace DominatorHouseCore.Utility
 
         public static void CloseDialog(object sender)
         {
-            Window parentWindow = Window.GetWindow((DependencyObject)sender);
-            if (parentWindow != null)
+            try
             {
-                parentWindow.Close();
+                Window parentWindow = Window.GetWindow((DependencyObject)sender);
+                if (parentWindow != null)
+                {
+                    parentWindow.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        public static string GetInputDialog(string title, string message, string defaultText, string firstButtonContent, string secondButtonContent)
+        {
+            try
+            {
+                var settings = new MetroDialogSettings()
+                {
+                    DefaultText = defaultText,
+                    AffirmativeButtonText = firstButtonContent,
+                    NegativeButtonText = secondButtonContent
+                };
+              return  DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow, title, message, settings);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return String.Empty;
             }
         }
     }
