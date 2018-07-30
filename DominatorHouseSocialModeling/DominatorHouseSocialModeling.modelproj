@@ -39,6 +39,13 @@
       <SubType>Content</SubType>
       <DependentUpon>Publisher\PublisherJobProcess.usecasediagram</DependentUpon>
     </Content>
+    <Content Include="Publisher\PublishInitialize.usecasediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Publisher\PublishInitialize.usecasediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Publisher\PublishInitialize.usecasediagram</DependentUpon>
+    </Content>
     <Content Include="Publisher\PublishScheduler.usecasediagram">
       <SubType>Content</SubType>
     </Content>

@@ -51,6 +51,20 @@ namespace DominatorHouseCore.Utility
                             }
                         }
                         break;
+
+                  
+                }
+
+                if (Sender == "DatePicker")
+                {
+                    if (!string.IsNullOrEmpty(value?.ToString()))
+                    {
+                        var dateTime = (DateTime)value;
+                        if (dateTime < DateTime.Today)
+                        {
+                            return new ValidationResult(false, "Invalid date!");
+                        }
+                    }
                 }
             }
             catch (Exception)
