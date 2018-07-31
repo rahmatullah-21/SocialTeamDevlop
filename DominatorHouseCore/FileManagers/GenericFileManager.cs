@@ -188,7 +188,7 @@ namespace DominatorHouseCore.FileManagers
 
         }
 
-        public static T GetModel<T>(string filePath) where T :class, new()
+        public static T GetModel<T>(string filePath) where T : class, new()
         {
             try
             {
@@ -203,7 +203,7 @@ namespace DominatorHouseCore.FileManagers
                 ex.DebugLog();
                 return new T();
             }
-            
+
         }
         public static bool UpdateModuleDetails<T>(List<T> detailsList, string file) where T : class
         {
@@ -278,6 +278,24 @@ namespace DominatorHouseCore.FileManagers
                 ex.DebugLog();
             }
             return !File.Exists(filepath);
+        }
+
+        public static bool Overrride<T>(T instance, string filePath) where T : class
+        {
+            try
+            {
+                using (var stream = File.Create(filePath))
+                {
+                    Serializer.Serialize(stream, instance);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+
         }
 
     }

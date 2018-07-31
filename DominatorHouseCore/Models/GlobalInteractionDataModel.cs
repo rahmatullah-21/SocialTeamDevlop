@@ -14,7 +14,5 @@ namespace DominatorHouseCore.Models
         [ProtoMember(2)]
         public SortedList<string, DateTime> InteractedData { get; set; } = new SortedList<string, DateTime>();
 
-
-
     }
 }

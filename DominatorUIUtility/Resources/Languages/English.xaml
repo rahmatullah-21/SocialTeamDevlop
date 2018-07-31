@@ -3040,5 +3040,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyRefreshChat">Refresh Chat</system:String>
     <system:String x:Key="LangKeyStartWarning">These accounts are already having configuration settings for activity:</system:String>
     <system:String x:Key="LangKeyEndWarning">Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="LangKeyQuora">Quora</system:String>
+    <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllQuoraAccountsConfiguredInQuora">Enable Follow Different Users Across All Quora Accounts Configured In Quora</system:String>
+    <system:String x:Key="LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator">Enable Exporting HTML of different connections across all LinkedIn accounts configured in Socinator</system:String>
+
     <!--End Added on 19-07-2018-->
 </ResourceDictionary>

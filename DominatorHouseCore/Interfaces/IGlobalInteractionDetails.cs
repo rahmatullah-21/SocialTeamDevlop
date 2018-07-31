@@ -11,6 +11,6 @@ namespace DominatorHouseCore.Interfaces
 
         void ReadInteractedData();
 
-        Dictionary<string, GlobalInteractionDataModel> CampaignInteractedCollections { get; set; }
+        Dictionary<string, GlobalInteractionDataModel> GlobalInteractedCollections { get; set; }
     }
 }

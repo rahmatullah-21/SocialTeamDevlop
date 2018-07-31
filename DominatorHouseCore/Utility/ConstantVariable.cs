@@ -179,6 +179,8 @@ namespace DominatorHouseCore.Utility
 
         public static string UpdateAction { get; set; } = "Update";
         public static string GetFavoriteTimeFile() => GetOtherDir() + @"\FavoriteTime.bin";
+        public static string GetOtherQuoraSettingsFile() => GetOtherDir() + @"\Quora.bin";
+        public static string GetOtherLinkedInSettingsFile() => GetOtherDir() + @"\LinkedIn.bin";
         #region Publisher
 
         public static string FineStatusSync = "Already up to date";

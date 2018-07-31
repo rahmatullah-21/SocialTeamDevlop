@@ -488,6 +488,7 @@
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\RedditModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TumblrModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TwitterModel.cs" />
+    <Compile Include="Models\QuoraModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
     <Compile Include="Models\SocioPublisher\DetailedFileInfo.cs" />
     <Compile Include="Interfaces\SocioPublisher\IPublisherDestinationDetailsModel.cs" />
@@ -500,6 +501,7 @@
     <Compile Include="Process\PublisherPostFetcher.cs" />
     <Compile Include="Settings\SoftwareSettings.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
+    <Compile Include="Utility\GlobalInteractedUtility.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
@@ -589,6 +591,7 @@
     <Compile Include="Models\SocioPublisher\PublisherMediaViewerModel.cs" />
     <Compile Include="Utility\MediaUtilites.cs" />
     <Compile Include="ViewModel\EditProfileViewModel.cs" />
+    <Compile Include="ViewModel\GlobalInteractionViewModel.cs" />
     <Compile Include="ViewModel\RevisionHistoryViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />
