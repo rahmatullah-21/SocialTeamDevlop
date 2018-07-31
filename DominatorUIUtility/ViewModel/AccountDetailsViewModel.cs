@@ -78,6 +78,10 @@ namespace DominatorUIUtility.ViewModel
             OldDominatorAccountModel = new DominatorAccountModel();
             OldDominatorAccountModel.AccountBaseModel = new DominatorAccountBaseModel
             {
+                AccountGroup = new ContentSelectGroup
+                {
+                    Content = DominatorAccountModel.AccountBaseModel.AccountGroup.Content,
+                },
                 UserName = DominatorAccountModel.AccountBaseModel.UserName,
                 Password = DominatorAccountModel.AccountBaseModel.Password,
                 AccountId = DominatorAccountModel.AccountId,
@@ -118,7 +122,7 @@ namespace DominatorUIUtility.ViewModel
         private void SaveExecute(object sender)
         {
 
-           
+
             DominatorAccountModel.CookieHelperList.ToList().ForEach(cookie =>
             {
                 if (string.IsNullOrEmpty(cookie.Name) || string.IsNullOrEmpty(cookie.Value))
@@ -126,7 +130,7 @@ namespace DominatorUIUtility.ViewModel
             });
 
             EditAccount();
-           
+
             #region Checking status
 
 
@@ -162,13 +166,13 @@ namespace DominatorUIUtility.ViewModel
                         DominatorAccountModel.DisplayColumnValue3 = 0;
                         DominatorAccountModel.DisplayColumnValue4 = 0;
 
-                          new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
-                          .AddOrUpdateDisplayColumn1(DominatorAccountModel.DisplayColumnValue1)
-                          .AddOrUpdateDisplayColumn2(DominatorAccountModel.DisplayColumnValue2)
-                          .AddOrUpdateDisplayColumn3(DominatorAccountModel.DisplayColumnValue3)
-                          .AddOrUpdateDisplayColumn4(DominatorAccountModel.DisplayColumnValue4)
-                          .AddOrUpdateProxy(DominatorAccountModel.AccountBaseModel.AccountProxy)
-                          .SaveToBinFile();
+                        new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                        .AddOrUpdateDisplayColumn1(DominatorAccountModel.DisplayColumnValue1)
+                        .AddOrUpdateDisplayColumn2(DominatorAccountModel.DisplayColumnValue2)
+                        .AddOrUpdateDisplayColumn3(DominatorAccountModel.DisplayColumnValue3)
+                        .AddOrUpdateDisplayColumn4(DominatorAccountModel.DisplayColumnValue4)
+                        .AddOrUpdateProxy(DominatorAccountModel.AccountBaseModel.AccountProxy)
+                        .SaveToBinFile();
                     }
                 }
                 catch (Exception ex)
@@ -177,6 +181,10 @@ namespace DominatorUIUtility.ViewModel
                 }
                 OldDominatorAccountModel.AccountBaseModel = new DominatorAccountBaseModel
                 {
+                    AccountGroup = new ContentSelectGroup
+                    {
+                        Content = DominatorAccountModel.AccountBaseModel.AccountGroup.Content,
+                    },
                     UserName = DominatorAccountModel.AccountBaseModel.UserName,
                     Password = DominatorAccountModel.AccountBaseModel.Password,
                     AccountId = DominatorAccountModel.AccountId,
@@ -189,13 +197,13 @@ namespace DominatorUIUtility.ViewModel
                 };
                 OldDominatorAccountModel.UserAgentWeb = DominatorAccountModel.UserAgentWeb;
                 OldDominatorAccountModel.CookieHelperList = DominatorAccountModel.CookieHelperList;
-              
+
             });
 
 
             #endregion
 
-          
+
             //   AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
 
         }
@@ -228,7 +236,10 @@ namespace DominatorUIUtility.ViewModel
                 {
                     OldDominatorAccountModel.Cookies = new CookieCollection();
                 }
-
+                OldDominatorAccountModel.AccountBaseModel.AccountGroup = new ContentSelectGroup
+                {
+                    Content = newAccountBaseModel.AccountGroup.Content,
+                };
                 OldDominatorAccountModel.AccountBaseModel.UserName = newAccountBaseModel.UserName;
                 OldDominatorAccountModel.AccountBaseModel.Password = newAccountBaseModel.Password;
                 OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp = newAccountBaseModel.AccountProxy.ProxyIp;
@@ -331,6 +342,7 @@ namespace DominatorUIUtility.ViewModel
             var lstAccount = controlToselect.DominatorAccountViewModel.LstDominatorAccountModel;
             var indexOfAccount = lstAccount.IndexOf(lstAccount.FirstOrDefault(x => x.AccountId == DominatorAccountModel.AccountId));
 
+            lstAccount[indexOfAccount].AccountBaseModel.AccountGroup = OldDominatorAccountModel.AccountBaseModel.AccountGroup;
             lstAccount[indexOfAccount].AccountBaseModel.UserName = OldDominatorAccountModel.UserName;
             lstAccount[indexOfAccount].AccountBaseModel.Password = OldDominatorAccountModel.AccountBaseModel.Password;
             lstAccount[indexOfAccount].UserAgentWeb = OldDominatorAccountModel.UserAgentWeb;
@@ -379,59 +391,77 @@ namespace DominatorUIUtility.ViewModel
         private bool VerifyAccountCanExecute(object arg) => true;
         private void VerifyAccountExecute(object sender)
         {
-            var networkCoreFactory = SocinatorInitialize
-                .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
-                .GetNetworkCoreFactory();
-
-            if (!string.IsNullOrEmpty(DominatorAccountModel.VarificationCode))
+            try
             {
+                var networkCoreFactory = SocinatorInitialize
+                        .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory();
+
+                if (!string.IsNullOrEmpty(DominatorAccountModel.VarificationCode))
+                {
+                    var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
+                    var verificationType = IsEmailVerification ? VerificationType.Email : VerificationType.Phone;
+                    Task.Factory.StartNew(() =>
+                    {
+                        if (accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, verificationType,
+                            DominatorAccountModel.Token).Result)
+                            Application.Current.Dispatcher.Invoke(
+                                () => VerificationSectionVisibility = Visibility.Collapsed
+                            );
+
+                        else
+                            Application.Current.Dispatcher.Invoke(
+                                () => VerificationSectionVisibility = Visibility.Visible
+                            );
+                    });
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        private bool SendVerificationCodeCanExecute(object arg) => true;
+        private void SendVerificationCodeExecute(object sender)
+        {
+            var button = (Button)sender;
+            try
+            {
+                button.Visibility = Visibility.Collapsed;
+                var networkCoreFactory = SocinatorInitialize
+                    .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                    .GetNetworkCoreFactory();
+
                 var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
                 var verificationType = IsEmailVerification ? VerificationType.Email : VerificationType.Phone;
                 Task.Factory.StartNew(() =>
                 {
-                    if (accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, verificationType,
-                        DominatorAccountModel.Token).Result)
+                    if (accountVerificationFactory
+                        .SendVerificationCode(DominatorAccountModel, verificationType, DominatorAccountModel.Token).Result)
                         Application.Current.Dispatcher.Invoke(
-                            () => VerificationSectionVisibility = Visibility.Collapsed
-                        );
-
+                            () =>
+                            {
+                                CodeSectionVisibility = Visibility.Visible;
+                                // GlobusLogHelper.log.Info(Log.SentVerificationCode, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
+                            });
                     else
                         Application.Current.Dispatcher.Invoke(
-                            () => VerificationSectionVisibility = Visibility.Visible
-                        );
+                            () =>
+                            {
+                                button.Visibility = Visibility.Visible;
+                                CodeSectionVisibility = Visibility.Collapsed;
+                                // GlobusLogHelper.log.Info(Log.FailedToSendVerificationCodeFaild, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
+
+                            });
+
                 });
-
             }
-        }
-        private bool SendVerificationCodeCanExecute(object arg) => true;
-        private void SendVerificationCodeExecute(object obj)
-        {
-            var networkCoreFactory = SocinatorInitialize
-                .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
-                .GetNetworkCoreFactory();
-
-            var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
-            var verificationType = IsEmailVerification ? VerificationType.Email : VerificationType.Phone;
-            Task.Factory.StartNew(() =>
+            catch (Exception ex)
             {
-                if (accountVerificationFactory
-                    .SendVerificationCode(DominatorAccountModel, verificationType, DominatorAccountModel.Token).Result)
-                    Application.Current.Dispatcher.Invoke(
-                        () =>
-                        {
-                            CodeSectionVisibility = Visibility.Visible;
-                            // GlobusLogHelper.log.Info(Log.SentVerificationCode, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
-                        });
-                else
-                    Application.Current.Dispatcher.Invoke(
-                        () =>
-                        {
-                            CodeSectionVisibility = Visibility.Collapsed;
-                            // GlobusLogHelper.log.Info(Log.FailedToSendVerificationCodeFaild, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
-
-                        });
-
-            });
+                button.Visibility = Visibility.Visible;
+                ex.DebugLog();
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ using MahApps.Metro.Controls.Dialogs;
 using ProtoBuf;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
+using Newtonsoft.Json;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -117,7 +118,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 try
                 {
-                    
+
                     favoriteTimeName = Dialog.GetInputDialog("Favorite Time", "Enter Favorite time", favoriteTimeName, "Save", "Cancel");
                     if (!string.IsNullOrEmpty(favoriteTimeName))
                     {
@@ -164,8 +165,8 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var selectedFavoriteTime = sender as FavoriteTime;
-              
-                JobConfiguration.RunningTime =new List<RunningTimes>(selectedFavoriteTime.LstFavoriteTimes);
+
+                JobConfiguration.RunningTime = selectedFavoriteTime.LstFavoriteTimes.DeepCloneObject();
             }
             catch (Exception ex)
             {
@@ -174,14 +175,30 @@ namespace DominatorUIUtility.CustomControl
         }
         void InitilizeFavoriteTime()
         {
-            var lstFavoriteTimes = GenericFileManager.GetModuleDetails<FavoriteTime>(ConstantVariable.GetFavoriteTimeFile());
-            Parallel.ForEach(lstFavoriteTimes, x =>
+            try
             {
-                LstFavoriteTime.Add(x);
-            });
+                var lstFavoriteTimes = GenericFileManager.GetModuleDetails<FavoriteTime>(ConstantVariable.GetFavoriteTimeFile());
+
+                App.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    LstFavoriteTime.Clear();
+                    lstFavoriteTimes.ForEach(x =>
+                    {
+                        LstFavoriteTime.Add(x);
+                    });
+
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
 
         }
-
+        private void JobConfigControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitilizeFavoriteTime();
+        }
 
         private ObservableCollection<FavoriteTime> _lstFavoriteTime = new ObservableCollection<FavoriteTime>();
 
@@ -205,6 +222,7 @@ namespace DominatorUIUtility.CustomControl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
     [ProtoContract]
     public class FavoriteTime : INotifyPropertyChanged

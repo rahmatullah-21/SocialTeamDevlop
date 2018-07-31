@@ -2,8 +2,10 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CsvHelper;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Enums;
@@ -48,25 +50,68 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (!string.IsNullOrEmpty(exportPath))
                 {
-                    var header =
-                        "Post Description,MediaList,ShareUrl,ExpiredTime,Published,Running Status";
+                    //var header =
+                    //    "Post Description,MediaList,ShareUrl,ExpiredTime,Published,Running Status";
 
-                    var filename = $"{exportPath}\\{PublisherPostlist.Select(x=>x.CampaignId).FirstOrDefault()}.csv";
+                    var filename = $"{exportPath}\\{PublisherPostlist.Select(x => x.CampaignId).FirstOrDefault()}.csv";
 
-                    FileUtilities.AddHeaderToCsv(filename, header);
-
-                    selectedPost.ForEach(post =>
+                  //  FileUtilities.AddHeaderToCsv(filename, header);
+                    try
                     {
-                        var mediaUrls = string.Empty;
-                        post.MediaList.ForEach(x => { mediaUrls += x +ConstantVariable.Separator; });
-                       var csvData = post.PostDescription + "," + mediaUrls + "," + post.ShareUrl + "," +
-                                      post.ExpiredTime + ","
-                                      + post.ExpiredTime + "," + post.PostRunningStatus ;
-                        using (var streamWriter = new StreamWriter(filename, true))
+                        TextWriter writer = new StreamWriter(filename);
+
+                        var csv = new CsvWriter(writer);
+
+                        #region Write Csv Header
+
+                        csv.WriteField("Post Description");
+                        csv.WriteField("MediaList");
+                        csv.WriteField("ShareUrl");
+                        csv.WriteField("ExpiredTime");
+                        csv.WriteField("Published");
+                        csv.WriteField("Running Status"); 
+
+                        #endregion
+
+                        csv.NextRecord();
+                        
+                        selectedPost.ForEach(post =>
                         {
-                            streamWriter.WriteLine(csvData);
-                        }
-                    });
+                            var mediaUrls = string.Empty;
+                            post.MediaList.ForEach(x => { mediaUrls += x + ConstantVariable.Separator; });
+
+                            #region Write Csv Record
+
+                            csv.WriteField(Utilities.ReplaceUniCode(post.PostDescription));
+                            csv.WriteField(mediaUrls.Substring(0, mediaUrls.LastIndexOf(ConstantVariable.Separator)));
+                            csv.WriteField(post.ShareUrl);
+                            csv.WriteField(post.ExpiredTime);
+                            csv.WriteField(post.PostQueuedStatus);
+                            csv.WriteField(post.PostRunningStatus); 
+
+                            #endregion
+                            csv.NextRecord();
+                        });
+                        writer.Close();
+                        csv.Flush();
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                    
+                    //selectedPost.ForEach(post =>
+                    //{
+                    //    var mediaUrls = string.Empty;
+                    //    post.MediaList.ForEach(x => { mediaUrls += x +ConstantVariable.Separator; });
+                    //   var csvData = post.PostDescription + "," + mediaUrls + "," + post.ShareUrl + "," +
+                    //                  post.ExpiredTime + ","
+                    //                  + post.ExpiredTime + "," + post.PostRunningStatus ;
+                    //    using (var streamWriter = new StreamWriter(filename, true))
+                    //    {
+                    //        streamWriter.WriteLine(csvData);
+                    //    }
+                    //});
                 }
                 else
                 {
@@ -138,7 +183,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         currentData?.LstPublishedPostDetailsModels.ForEach(post =>
                         {
                             var csvData = post.AccountName + "," + post.CampaignName + "," + post.Destination + "," + post.DestinationUrl + "," +
-                                          post.Description.Replace("\r\n","<n>") + ","
+                                          post.Description.Replace("\r\n", "<n>") + ","
                                           + post.IsPublished + "," + post.Successful + "," + post.PublishedDate.ToString(CultureInfo.InvariantCulture) + "," +
                                           post.Link;
                             using (var streamWriter = new StreamWriter(filename, true))
@@ -163,22 +208,22 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #endregion
 
-      
+
 
 
     }
 
-    public class PublishedPostDetailsViewModel:BindableBase
+    public class PublishedPostDetailsViewModel : BindableBase
     {
         public PublishedPostDetailsViewModel()
         {
-            ViewInBrowserCommand= new BaseCommand<object>(ViewInBrowserCanExecute, ViewInBrowserExecute);
+            ViewInBrowserCommand = new BaseCommand<object>(ViewInBrowserCanExecute, ViewInBrowserExecute);
         }
 
 
         #region Command
 
-        public ICommand ViewInBrowserCommand { get; set; } 
+        public ICommand ViewInBrowserCommand { get; set; }
 
         #endregion
 
@@ -207,9 +252,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void ViewInBrowserExecute(object sender)
         {
-            var currentPost = (PublishedPostDetailsModel) sender;
-          var dominatorAccountModel =  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social).DominatorAccountViewModel
-                .LstDominatorAccountModel.FirstOrDefault(x => x.AccountId == currentPost.AccountId);
+            var currentPost = (PublishedPostDetailsModel)sender;
+            var dominatorAccountModel = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social).DominatorAccountViewModel
+                  .LstDominatorAccountModel.FirstOrDefault(x => x.AccountId == currentPost.AccountId);
             BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link);
             browserWindow.Show();
         }
