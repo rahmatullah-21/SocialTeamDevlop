@@ -568,15 +568,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 var lstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
                     ConstantVariable.GetPublisherCampaignFile());
 
-                //  PublisherCreateCampaignModel.PostDetailsModel = new PostDetailsModel();
+                //PublisherCreateCampaignModel.PostDetailsModel = new PostDetailsModel();
                 PublisherCreateCampaignModel.UpdatedDate = DateTime.Now;
-                // PublisherCreateCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
+                //PublisherCreateCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
 
                 #region Update the Campaigns
 
                 if (lstCampaign.Any(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId))
                 {
                     var campaignIndex = lstCampaign.IndexOf(lstCampaign.FirstOrDefault(x => x.CampaignName == SelectedItem));
+
+                    if (campaignIndex < 0)
+                        return;
 
                     lstCampaign[campaignIndex] = PublisherCreateCampaignModel;
 

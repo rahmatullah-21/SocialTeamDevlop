@@ -88,5 +88,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
                 ex.DebugLog();
             }
         }
+
+
+      
     }
 }

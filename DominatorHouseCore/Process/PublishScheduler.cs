@@ -875,9 +875,21 @@ namespace DominatorHouseCore.Process
                     var pendingPostList = PostlistFileManager.GetAll(campaignId)
                         .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
 
+                    // Get the expire post counts
+                    var expiredPostCount =
+                        pendingPostList.Count(x => x.ExpiredTime != null && x.ExpiredTime <= DateTime.Now);
+
+                    //Filtering Expire Posts
+                    pendingPostList = pendingPostList.Where(x => x.ExpiredTime != null && x.ExpiredTime >= DateTime.Today).ToList();
+
                     // Checking, If no more post available
                     if (!pendingPostList.Any())
                     {
+                        if (expiredPostCount > 0)
+                        {
+                            ToasterNotification.ShowInfomation(
+                                $"{campaignName} has {expiredPostCount} expired post!");
+                        }
                         GlobusLogHelper.log.Info($"No more unique post are available for campaign {campaignName}!");
                         return null;
                     }
@@ -1177,6 +1189,9 @@ namespace DominatorHouseCore.Process
         {
             try
             {
+                // Call to stop already scheduled Jobs
+                StopScheduledPublisher(campaignId);
+
                 // Get the cancellation token from campaigns
                 var cancellationToken = CampaignsCancellationTokens.FirstOrDefault(x => x.Key == campaignId);
 
@@ -1191,9 +1206,6 @@ namespace DominatorHouseCore.Process
                     PublisherActionList.TryRemove(campaignId, out deletedList);
                     DecreasePublishingCount(campaignId);
                 }
-
-                // Call to stop already scheduled Jobs
-                StopScheduledPublisher(campaignId);
             }
             catch (Exception ex)
             {

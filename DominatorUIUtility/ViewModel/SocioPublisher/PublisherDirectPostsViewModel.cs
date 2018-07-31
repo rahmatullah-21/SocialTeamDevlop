@@ -169,6 +169,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
                     publisherDirectPosts.PostContentControl.SetMedia();
                     publisherDirectPosts.ImageMediaViewer.Initialize();
+
+                  var createCampaign =  PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
+                    createCampaign.PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.PostDetailsModel =
+                        new PostDetailsModel();
+                    tabItemsControl.PostDetailsModel = new PostDetailsModel();
                 }
                 #endregion
 
@@ -219,6 +224,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
 
                     isLoggerNeeded = true;
+
+
+                    var createCampaign = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
+                    createCampaign.PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.PostDetailsModel =
+                        new PostDetailsModel();
 
                     // Clearing current direct posts
                     PostDetailsModel = new PostDetailsModel();
