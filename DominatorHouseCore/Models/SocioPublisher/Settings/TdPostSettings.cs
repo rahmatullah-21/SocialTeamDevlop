@@ -25,7 +25,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {             
                 if (_isDeletePostAfterHours == value)
                     return;
-                _isDeletePostAfterHours = value;
+
                 SetProperty(ref _isDeletePostAfterHours, value);
             }
         }
@@ -41,7 +41,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {              
                 if (_deletePostAfterHours == value)
                     return;
-                _deletePostAfterHours = value;
+              
                 SetProperty(ref _deletePostAfterHours, value);
             }
         }
@@ -57,7 +57,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {              
                 if (_isMentionUser == value)
                     return;
-                _isMentionUser = value;
+             
                 SetProperty(ref _isMentionUser, value);
             }
         }
@@ -73,7 +73,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {           
                 if (_mentionUserList == value)
                     return;
-                _mentionUserList = value;
+                
                 SetProperty(ref _mentionUserList, value);
             }
         }

@@ -196,6 +196,7 @@ namespace DominatorHouseCore.Utility
                             FdSellPrice = postDetailsModel.FdSellPrice,
                             FdSellProductTitle = postDetailsModel.FdSellProductTitle,
                             IsFdSellPost = postDetailsModel.IsFdSellPost,
+                            PublisherPostSettings = postDetailsModel.PublisherPostSettings
                         };
                         // Get the file info
                         var fileDetails = GetDetailedFileInfo(file);

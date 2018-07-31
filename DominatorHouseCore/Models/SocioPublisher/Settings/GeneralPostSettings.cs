@@ -26,12 +26,12 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
 
                 if (_isExpireDate == value)
                     return;
-                _isExpireDate = value;
+                
                 SetProperty(ref _isExpireDate, value);
             }
         }
 
-        private DateTime _expireDate = DateTime.Today;
+        private DateTime _expireDate = DateTime.Now.AddYears(2);
         [ProtoMember(2)]
         public DateTime ExpireDate
         {
@@ -41,9 +41,6 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             }
             set
             {
-                if (_expireDate == value)
-                    return;
-                _expireDate = value;
                 SetProperty(ref _expireDate, value);
             }
         }
@@ -60,7 +57,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {
                 if (_isReaddCount == value)
                     return;
-                _isReaddCount = value;
+               
                 SetProperty(ref _isReaddCount, value);
             }
         }
@@ -77,7 +74,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {
                 if (_readdCount == value)
                     return;
-                _readdCount = value;
+               
                 SetProperty(ref _readdCount, value);
             }
         }
