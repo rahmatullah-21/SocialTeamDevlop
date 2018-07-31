@@ -25,9 +25,9 @@
             <StackPanel Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource LangKeyExpireDate}" Margin="5"
                           IsChecked="{Binding IsExpireDate}"/>
-                <DatePicker Name="DatePicker" Margin="5"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}" >
+                <DatePicker Name="DatePicker" Margin="5" IsEnabled="{Binding IsExpireDate}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" >
                     <DatePicker.SelectedDate>
-                        <Binding Path="ExpireDate" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="ExpireDate" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                             <Binding.ValidationRules>
                                 <utility:ValidationHelper Sender="DatePicker" ValidatesOnTargetUpdated="True"/>
                             </Binding.ValidationRules>
@@ -39,8 +39,8 @@
             <StackPanel Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource LangKeyReaddPostToPostList}" Margin="5"
                           IsChecked="{Binding IsReaddCount}"/>
-                <control:NumericUpDown Minimum="1" Value="{Binding ReaddCount}"/>
-                <TextBlock Text="{DynamicResource LangKeyTimes}" Name="TextBlockTimes" VerticalAlignment="Center" Margin="5"/>
+                <control:NumericUpDown Minimum="1" Value="{Binding ReaddCount}" IsEnabled="{Binding IsReaddCount}"/>
+                <TextBlock Text="{DynamicResource LangKeyTimes}"  Name="TextBlockTimes" VerticalAlignment="Center" Margin="5"/>
             </StackPanel>
 
           

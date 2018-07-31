@@ -171,6 +171,7 @@ namespace DominatorHouseCore.Process
                 // Delete all fetcher
                 GenericFileManager.Delete<PublisherPostFetchModel>(x => x.CampaignId == campaignId, ConstantVariable
                     .GetPublisherPostFetchFile);
+                
             }
             catch (Exception ex)
             {
@@ -236,20 +237,6 @@ namespace DominatorHouseCore.Process
                 {
                     GlobusLogHelper.log.Info(
                         $"{publisherPostFetchModel.CampaignName} expired on {publisherPostFetchModel.ExpireDate}");
-                    return;
-                }
-
-                // Get all post lists and count 
-                var alreadyPresentedCount = PostlistFileManager.GetAll(publisherPostFetchModel.CampaignId).Count;
-
-                // Check already max posts has reached or not
-
-                if (alreadyPresentedCount >= publisherPostFetchModel.MaximumPostLimitToStore)
-                {
-
-                    ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {publisherPostFetchModel.CampaignName} already have {publisherPostFetchModel.MaximumPostLimitToStore}+ posts in postlist!");
-                    //GlobusLogHelper.log.Info(
-                    //    $"{publisherPostFetchModel.CampaignName} have more than {publisherPostFetchModel.MaximumPostLimitToStore} posts in their postlist. Can't fetch new posts!");
                     return;
                 }
 

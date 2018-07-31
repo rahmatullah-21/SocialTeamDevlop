@@ -23,7 +23,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {
                 if(_groupPostType == value)
                     return;
-                _groupPostType = value;
+              
                 SetProperty(ref _groupPostType, value);
             }
         }
@@ -40,7 +40,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {             
                 if (_isJobPost == value)
                     return;
-                _isJobPost = value;
+              
                 SetProperty(ref _isJobPost, value);
             }
         }
@@ -57,7 +57,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {              
                 if (_isGeneralPost == value)
                     return;
-                _isGeneralPost = value;
+              
                 SetProperty(ref _isGeneralPost, value);
             }
         }
@@ -74,7 +74,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {           
                 if (_isAnnouncementPost == value)
                     return;
-                _isAnnouncementPost = value;
+               
                 SetProperty(ref _isAnnouncementPost, value);
             }
         }
