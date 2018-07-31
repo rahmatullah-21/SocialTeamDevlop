@@ -80,6 +80,7 @@ namespace DominatorHouseCore.Process
             {
                 DataBaseConnectionCampaign = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignDatabase;
                 SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignInteractionDetails.InitializeInteraction();
+                SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().GlobalInteractionDetails.InitializeInteraction();
             }
 
             DataBaseConnectionAccount = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().AccountDatabase;
