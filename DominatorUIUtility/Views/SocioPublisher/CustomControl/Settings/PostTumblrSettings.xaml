@@ -9,7 +9,7 @@
     <Grid x:Name="MainGrid">
         <StackPanel Orientation="Vertical">
             <CheckBox Margin="2" Content="{DynamicResource LangKeyTagUsers}" IsChecked="{Binding IsTagUser}" />
-            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding TagUserList}" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddTagUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" IsEnabled="{Binding IsTagUser}" Text="{Binding TagUserList}" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddTagUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
         </StackPanel>
     </Grid>
 </UserControl>

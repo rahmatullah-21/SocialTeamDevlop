@@ -14,18 +14,18 @@
 
             <StackPanel Orientation="Horizontal">
                 <CheckBox Name="CheckBoxDeletePost" Margin="2" IsChecked="{Binding IsDeletePostAfterHours}" Content="{DynamicResource LangKeyDeleteThePostAfter}" />
-                <TextBox Width="40" Height="25" Margin="2" Text="{Binding DeletePostAfterHours}"/>
+                <TextBox Width="40" Height="25" Margin="2" Text="{Binding DeletePostAfterHours}" IsEnabled="{Binding IsDeletePostAfterHours}"/>
                 <TextBlock Text="{DynamicResource LangKeyHours}" VerticalAlignment="Center" Margin="5"/>
             </StackPanel>
          
             <StackPanel Orientation="Vertical">
                 <CheckBox Name="CheckBoxGeoLocation" Margin="2" IsChecked="{Binding IsGeoLocation}" Content="{DynamicResource LangKeyPostUsingGeoLocation}" />
-                <TextBox VerticalAlignment="Center" Text="{Binding GeoLocationList}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                <TextBox VerticalAlignment="Center" Text="{Binding GeoLocationList}" IsEnabled="{Binding IsGeoLocation}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
             </StackPanel>
             
             <StackPanel Orientation="Vertical">
                 <CheckBox Margin="2" IsChecked="{Binding IsTagUser}" Content="{DynamicResource LangKeyTagUsers}" />
-                <TextBox VerticalAlignment="Center" Text="{Binding TagUserList}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddTagUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                <TextBox VerticalAlignment="Center" Text="{Binding TagUserList}" IsEnabled="{Binding IsTagUser}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddTagUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
             </StackPanel>
             
         </StackPanel>

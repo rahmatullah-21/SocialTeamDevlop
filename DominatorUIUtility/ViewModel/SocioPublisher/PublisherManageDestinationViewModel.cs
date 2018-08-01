@@ -139,9 +139,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         = PublisherDefaultPage.Instance();
                     break;
                 case "CreateDestination":
+
+                    var createDestiantion = PublisherCreateDestination.Instance;
+                    createDestiantion.PublisherCreateDestinationsViewModel.ClearCurrentDestination();
                     // To go for creating new destinations
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
-                        = PublisherCreateDestination.Instance;
+                        = createDestiantion;
+
+
                     break;
             }
         }

@@ -26,7 +26,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 if (_isNsfw == value)
                     return;
 
-                _isNsfw = value;
+              
                 SetProperty(ref _isNsfw, value);
             }
         }
@@ -43,7 +43,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 if (_isOriginalContent == value)
                     return;
 
-                _isOriginalContent = value;
+              
                 SetProperty(ref _isOriginalContent, value);
             }
         }
@@ -60,7 +60,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 if (_isSpoiler == value)
                     return;
 
-                _isSpoiler = value;
+              
                 SetProperty(ref _isSpoiler, value);
             }
         }
@@ -77,7 +77,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 if (_isDisableSendingReplies == value)
                     return;
 
-                _isDisableSendingReplies = value;
+               
                 SetProperty(ref _isDisableSendingReplies, value);
             }
         }

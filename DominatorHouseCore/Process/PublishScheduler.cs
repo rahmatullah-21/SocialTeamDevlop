@@ -879,9 +879,8 @@ namespace DominatorHouseCore.Process
                     var expiredPostCount =
                         pendingPostList.Count(x => x.ExpiredTime != null && x.ExpiredTime <= DateTime.Now);
 
-                    //Filtering Expire Posts
-                    pendingPostList = pendingPostList.Where(x => x.ExpiredTime != null && x.ExpiredTime >= DateTime.Today).ToList();
 
+                    
                     // Checking, If no more post available
                     if (!pendingPostList.Any())
                     {
