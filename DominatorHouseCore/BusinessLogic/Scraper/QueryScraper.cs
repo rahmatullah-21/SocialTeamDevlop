@@ -37,7 +37,30 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         {
             try
             {
-                ScrapeWithoutQueriesActionTable[module]?.Invoke();
+                try
+                {
+                    _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    ScrapeWithoutQueriesActionTable[module]?.Invoke();
+                }
+                catch (OperationCanceledException)
+                {
+                    throw new OperationCanceledException(@"Cancellation Requested !");
+                }
+                catch (AggregateException ae)
+                {
+                    foreach (var e in ae.InnerExceptions)
+                    {
+                        if (e is TaskCanceledException || e is OperationCanceledException)
+                            throw new OperationCanceledException(@"Cancellation Requested !");
+                        else
+                            e.DebugLog(e.StackTrace + e.Message);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
             catch (KeyNotFoundException ex)
             {
@@ -62,14 +85,32 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 {
                     try
                     {
-                      //  ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.SelectedQueryEnumId}"]?.Invoke(query);
+                        //  ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.SelectedQueryEnumId}"]?.Invoke(query);
+                        _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                        
                         ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
                     }
                     catch (KeyNotFoundException ex)
                     {
                         ex.ErrorLog($"Unable to find key for query type - {query.QueryType}. {ex.Message}");
+                    }
+                    catch (OperationCanceledException)
+                    {
+                      throw new OperationCanceledException(@"Cancellation Requested !");
+                    }
+                    catch (AggregateException ae)
+                    {
+                        foreach (var e in ae.InnerExceptions)
+                        {
+                            if (e is TaskCanceledException || e is OperationCanceledException)
+                                throw new OperationCanceledException(@"Cancellation Requested !");
+                            else
+                                e.DebugLog(e.StackTrace + e.Message);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
                     }
 
                     usedQueries++;
