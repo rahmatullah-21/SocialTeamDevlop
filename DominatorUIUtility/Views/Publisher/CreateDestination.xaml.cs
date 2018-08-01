@@ -20,14 +20,5 @@ namespace DominatorUIUtility.Views.Publisher
             => ManageDestinationIndex.Instance.SelectedControl = new ManageDestination();
     }
 
-    public class CreateDestinationViewModel
-    {
-        
-    }
-
-
-    public class Account
-    {
-        
-    }
+   
 }

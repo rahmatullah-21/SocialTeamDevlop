@@ -958,7 +958,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ClearCurrentDestination();
         }
 
-        private void ClearCurrentDestination()
+        public void ClearCurrentDestination()
         {
             try
             {

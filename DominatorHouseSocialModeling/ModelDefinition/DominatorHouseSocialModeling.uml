@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm11="http://schemas.microsoft.com/dsltools/UseCaseModel"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm11="http://schemas.microsoft.com/dsltools/UseCaseModel" xmlns:dm12="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner"
   dslVersion="1.0.0.0"
   Id="684edace-4e6a-4e55-aaa6-c524a34915f1"
   name="DominatorHouseSocialModeling" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -3226,6 +3226,2751 @@ This process will start parallely (If user saved with default settings).
         name="Delay to publish next post"
         isAbstract="false"
         isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <interaction
+        Id="c545c40f-101b-44d2-b508-68d1ed2d1dcd"
+        name="CreateDestinations"
+        collapseFragmentsFlag="false"
+        isActiveClass="false"
+        isAbstract="false"
+        isLeaf="false"
+        isReentrant="false">
+        <ownedCommentsInternal>
+          <comment
+            Id="619a2b68-e746-4dc8-905c-d70e67fde56d">
+            <body>CD - Custom Destinations</body>
+            <annotatedElements>
+              <interactionOperandMoniker
+                Id="061fbd20-d5d6-4216-a144-70016588806c"
+                LastKnownName="InteractionOperand1"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </annotatedElements>
+          </comment>
+        </ownedCommentsInternal>
+        <fragments>
+          <behaviorExecutionSpecification
+            Id="d01e3fcf-6340-456f-a68c-0847f314e977"
+            name="BehaviorExecutionSpecification8">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="22668e46-53aa-4b18-b59b-db10f02e7d19"
+                LastKnownName="ExecutionOccurrenceSpecification16"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="f24d28ab-43e3-46a8-a4aa-c584714caea5"
+                LastKnownName="ExecutionOccurrenceSpecification15"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="a54cd568-ed22-413f-a9c5-5a5ad6564670"
+                LastKnownName="MessageOccurrenceSpecification23"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="d6e09f8c-39da-41db-adc9-4cc3b7b647ea"
+                LastKnownName="MessageOccurrenceSpecification24"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="743bb467-fa0a-4555-898e-5646d01382b4"
+                LastKnownName="MessageOccurrenceSpecification27"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="f24d28ab-43e3-46a8-a4aa-c584714caea5"
+            name="ExecutionOccurrenceSpecification15">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="7e56b170-82a8-40e0-b68a-095cad7e25f0"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="a54cd568-ed22-413f-a9c5-5a5ad6564670"
+            name="MessageOccurrenceSpecification23">
+            <covered>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <lostFoundTarget
+            Id="47e15340-daba-4fd3-91fd-081664505a85"
+            name="LostFoundTarget1" />
+          <behaviorExecutionSpecification
+            Id="8e0a45c2-b0bc-4d0d-81a7-0d0a623f2233"
+            name="BehaviorExecutionSpecification9">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="5199ba95-27a8-4b3b-af33-8a6b5d94935d"
+                LastKnownName="ExecutionOccurrenceSpecification18"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="715c1015-1dd4-441c-b070-5b0e2abb51b1"
+                LastKnownName="ExecutionOccurrenceSpecification17"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="6324cc31-9a64-4166-be38-72c31f884d5f"
+                LastKnownName="MessageOccurrenceSpecification25"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="d94659b0-62fa-4171-8166-86042cc83aba"
+                LastKnownName="MessageOccurrenceSpecification28"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="832a4c91-7640-413f-ac89-6eddef422d34"
+                LastKnownName="MessageOccurrenceSpecification31"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="0601865c-7657-44ab-80f5-b15066907039"
+                LastKnownName="MessageOccurrenceSpecification26"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="715c1015-1dd4-441c-b070-5b0e2abb51b1"
+            name="ExecutionOccurrenceSpecification17">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="979a3ed5-0860-45e7-8271-c2042f7a213c"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="6324cc31-9a64-4166-be38-72c31f884d5f"
+            name="MessageOccurrenceSpecification25">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="d6e09f8c-39da-41db-adc9-4cc3b7b647ea"
+            name="MessageOccurrenceSpecification24">
+            <covered>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="24b1dfbf-8da8-48f3-8509-1f9be5903cd6"
+            name="BehaviorExecutionSpecification10">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="15bc4c75-4806-44f9-bac2-f4b5dfd14854"
+                LastKnownName="ExecutionOccurrenceSpecification20"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="9f45e30c-c122-44cf-8e43-b93a976555e0"
+                LastKnownName="ExecutionOccurrenceSpecification19"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="551e6b57-da69-42dc-94b3-21a51712aa3e"
+                LastKnownName="MessageOccurrenceSpecification29"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="39ba9ff0-af26-4a54-95cd-4774813f942c"
+                LastKnownName="MessageOccurrenceSpecification30"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="9f45e30c-c122-44cf-8e43-b93a976555e0"
+            name="ExecutionOccurrenceSpecification19">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="2b8db5ed-c715-400f-b1b2-90378fc3f22e"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="551e6b57-da69-42dc-94b3-21a51712aa3e"
+            name="MessageOccurrenceSpecification29">
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="d94659b0-62fa-4171-8166-86042cc83aba"
+            name="MessageOccurrenceSpecification28">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="832a4c91-7640-413f-ac89-6eddef422d34"
+            name="MessageOccurrenceSpecification31">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="39ba9ff0-af26-4a54-95cd-4774813f942c"
+            name="MessageOccurrenceSpecification30">
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="15bc4c75-4806-44f9-bac2-f4b5dfd14854"
+            name="ExecutionOccurrenceSpecification20">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="9ec94c64-0396-4c9f-93c9-83503c56ece7"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="0601865c-7657-44ab-80f5-b15066907039"
+            name="MessageOccurrenceSpecification26">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="743bb467-fa0a-4555-898e-5646d01382b4"
+            name="MessageOccurrenceSpecification27">
+            <covered>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="5199ba95-27a8-4b3b-af33-8a6b5d94935d"
+            name="ExecutionOccurrenceSpecification18">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="5bcfe9e1-b5f1-4025-bbcd-42898bd62eae"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="22668e46-53aa-4b18-b59b-db10f02e7d19"
+            name="ExecutionOccurrenceSpecification16">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="ead3fe23-5378-4db5-b3ab-13cfa43d9c66"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <combinedFragment
+            Id="787f0509-d3f0-4d14-84a9-767013c323ca"
+            name="CombinedFragment1"
+            interactionOperator="Opt">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <operands>
+              <interactionOperand
+                Id="061fbd20-d5d6-4216-a144-70016588806c"
+                name="InteractionOperand1">
+                <coveredLifelines>
+                  <lifelineMoniker
+                    Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                    LastKnownName="Create Destination"
+                    LastKnownLocation="DominatorHouseSocialModeling.uml" />
+                  <lifelineMoniker
+                    Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                    LastKnownName="SocioPublisher"
+                    LastKnownLocation="DominatorHouseSocialModeling.uml" />
+                  <lifelineMoniker
+                    Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                    LastKnownName="Destination Manager"
+                    LastKnownLocation="DominatorHouseSocialModeling.uml" />
+                </coveredLifelines>
+                <guard>
+                  <interactionConstraint
+                    Id="3179faf9-0834-49bd-89e8-142c28965e7b" />
+                </guard>
+                <operandOccurrenceSpecifications>
+                  <operandOccurrenceSpecificationMoniker
+                    Id="35eb4448-c199-4984-a949-f9780ee33c55"
+                    LastKnownName="OperandOccurrenceSpecification13"
+                    LastKnownLocation="DominatorHouseSocialModeling.uml" />
+                  <operandOccurrenceSpecificationMoniker
+                    Id="d3cd07d9-70b1-4d00-811e-64b1b106954b"
+                    LastKnownName="OperandOccurrenceSpecification14"
+                    LastKnownLocation="DominatorHouseSocialModeling.uml" />
+                  <operandOccurrenceSpecificationMoniker
+                    Id="29270092-6647-497c-90bc-9e6fec18ef34"
+                    LastKnownName="OperandOccurrenceSpecification15"
+                    LastKnownLocation="DominatorHouseSocialModeling.uml" />
+                  <operandOccurrenceSpecificationMoniker
+                    Id="010cacf0-54cd-4200-962c-3c5eddd5c1ec"
+                    LastKnownName="OperandOccurrenceSpecification16"
+                    LastKnownLocation="DominatorHouseSocialModeling.uml" />
+                  <operandOccurrenceSpecificationMoniker
+                    Id="cf9456aa-5c60-4417-b292-24c2317b107e"
+                    LastKnownName="OperandOccurrenceSpecification17"
+                    LastKnownLocation="DominatorHouseSocialModeling.uml" />
+                  <operandOccurrenceSpecificationMoniker
+                    Id="1dd70c9b-bdd6-4861-b14a-e2fef04613dd"
+                    LastKnownName="OperandOccurrenceSpecification18"
+                    LastKnownLocation="DominatorHouseSocialModeling.uml" />
+                </operandOccurrenceSpecifications>
+              </interactionOperand>
+            </operands>
+          </combinedFragment>
+          <operandOccurrenceSpecification
+            Id="cf9456aa-5c60-4417-b292-24c2317b107e"
+            name="OperandOccurrenceSpecification17">
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification
+            Id="29270092-6647-497c-90bc-9e6fec18ef34"
+            name="OperandOccurrenceSpecification15">
+            <covered>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification
+            Id="35eb4448-c199-4984-a949-f9780ee33c55"
+            name="OperandOccurrenceSpecification13">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="7d1c1906-fbef-4c8a-98e8-ed829cf8c3a1"
+            name="BehaviorExecutionSpecification3">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="5d6983fb-bfa9-4028-ad70-2440a9f87ed2"
+                LastKnownName="ExecutionOccurrenceSpecification6"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="86ac49be-66f6-4fb2-802d-c954987fc980"
+                LastKnownName="ExecutionOccurrenceSpecification5"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="846715e1-5845-4349-a4cb-a26b9807411a"
+                LastKnownName="MessageOccurrenceSpecification8"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="335be17f-4023-4253-967d-0ef8cf851dbd"
+                LastKnownName="MessageOccurrenceSpecification9"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="34a3fb3c-7200-439c-b54f-5642f07c17a5"
+                LastKnownName="ExecutionOccurrenceSpecification9"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="c966f9a1-346e-4b57-939b-271b3b92934e"
+                LastKnownName="ExecutionOccurrenceSpecification10"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="2226b9b1-8c86-4693-8f25-c3f4cf48ad8f"
+                LastKnownName="MessageOccurrenceSpecification12"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="86ac49be-66f6-4fb2-802d-c954987fc980"
+            name="ExecutionOccurrenceSpecification5">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="867dbcc8-671d-4944-8284-f055cf1030bf"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="9cc37fbf-a6dd-491e-968c-0fe306825162"
+            name="MessageOccurrenceSpecification7">
+            <covered>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="846715e1-5845-4349-a4cb-a26b9807411a"
+            name="MessageOccurrenceSpecification8">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="a3449d9c-a49c-43ad-b4a4-0923ae0e997d"
+            name="BehaviorExecutionSpecification4">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="c41c5754-f075-484f-96d6-7905ca1250f6"
+                LastKnownName="ExecutionOccurrenceSpecification8"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="932c7b88-ca80-429f-8b90-e1ec1177c2ac"
+                LastKnownName="ExecutionOccurrenceSpecification7"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="442db8cf-faf0-478c-9641-5b586cd19794"
+                LastKnownName="MessageOccurrenceSpecification10"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="47310ddf-04a5-47fd-ad46-d5927355be02"
+                LastKnownName="MessageOccurrenceSpecification13"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="d5721766-9930-466c-8257-1d5032939d93"
+                LastKnownName="MessageOccurrenceSpecification16"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="d765ece7-191a-42fc-9ef5-935674fc2a38"
+                LastKnownName="MessageOccurrenceSpecification11"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="932c7b88-ca80-429f-8b90-e1ec1177c2ac"
+            name="ExecutionOccurrenceSpecification7">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="964bbd97-4464-4be5-96ac-960b71b04df6"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="442db8cf-faf0-478c-9641-5b586cd19794"
+            name="MessageOccurrenceSpecification10">
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="335be17f-4023-4253-967d-0ef8cf851dbd"
+            name="MessageOccurrenceSpecification9">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="a70c90d0-c715-46b8-8d1a-bffbbe17edee"
+            name="BehaviorExecutionSpecification5">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="c966f9a1-346e-4b57-939b-271b3b92934e"
+                LastKnownName="ExecutionOccurrenceSpecification10"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="34a3fb3c-7200-439c-b54f-5642f07c17a5"
+                LastKnownName="ExecutionOccurrenceSpecification9"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="c69c8073-1886-4266-81af-5fd73ccb7655"
+                LastKnownName="MessageOccurrenceSpecification14"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="4d63475d-3456-4fde-9288-49422234a939"
+                LastKnownName="MessageOccurrenceSpecification17"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="23472437-45d4-45cf-bb6d-7ff1400fe5ae"
+                LastKnownName="ExecutionOccurrenceSpecification11"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="6eb3b9c5-b18e-4c79-ad0c-3bf1f1f50b91"
+                LastKnownName="ExecutionOccurrenceSpecification12"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="5fb67dca-56db-4231-ab0a-4e4f3bc71470"
+                LastKnownName="MessageOccurrenceSpecification15"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="34a3fb3c-7200-439c-b54f-5642f07c17a5"
+            name="ExecutionOccurrenceSpecification9">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="e25b21d1-d03f-4815-9520-f4b0f886e88b"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="47310ddf-04a5-47fd-ad46-d5927355be02"
+            name="MessageOccurrenceSpecification13">
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="c69c8073-1886-4266-81af-5fd73ccb7655"
+            name="MessageOccurrenceSpecification14">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="4d63475d-3456-4fde-9288-49422234a939"
+            name="MessageOccurrenceSpecification17">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="fa21c3bf-6821-48b2-99f2-a77dc0ad03ce"
+            name="BehaviorExecutionSpecification6">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="6eb3b9c5-b18e-4c79-ad0c-3bf1f1f50b91"
+                LastKnownName="ExecutionOccurrenceSpecification12"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="23472437-45d4-45cf-bb6d-7ff1400fe5ae"
+                LastKnownName="ExecutionOccurrenceSpecification11"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="1d1cd0d2-f203-45a1-93e6-56cc71af90b5"
+                LastKnownName="MessageOccurrenceSpecification18"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="23472437-45d4-45cf-bb6d-7ff1400fe5ae"
+            name="ExecutionOccurrenceSpecification11">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="ee061da1-137d-404b-bf03-0c764c991fe4"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="1d1cd0d2-f203-45a1-93e6-56cc71af90b5"
+            name="MessageOccurrenceSpecification18">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="6eb3b9c5-b18e-4c79-ad0c-3bf1f1f50b91"
+            name="ExecutionOccurrenceSpecification12">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="be1560ab-f509-4a57-8b4c-69eef2636280"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="d5721766-9930-466c-8257-1d5032939d93"
+            name="MessageOccurrenceSpecification16">
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="5fb67dca-56db-4231-ab0a-4e4f3bc71470"
+            name="MessageOccurrenceSpecification15">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="c966f9a1-346e-4b57-939b-271b3b92934e"
+            name="ExecutionOccurrenceSpecification10">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="eaf26c52-e074-4dd4-9115-2fbbdef92ead"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="d765ece7-191a-42fc-9ef5-935674fc2a38"
+            name="MessageOccurrenceSpecification11">
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="2226b9b1-8c86-4693-8f25-c3f4cf48ad8f"
+            name="MessageOccurrenceSpecification12">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="c41c5754-f075-484f-96d6-7905ca1250f6"
+            name="ExecutionOccurrenceSpecification8">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="1230c062-6ada-4518-92d9-55d5e1fa3a00"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="5d6983fb-bfa9-4028-ad70-2440a9f87ed2"
+            name="ExecutionOccurrenceSpecification6">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="1ac3aedb-6dc0-4990-9a30-546f77a0438a"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <operandOccurrenceSpecification
+            Id="010cacf0-54cd-4200-962c-3c5eddd5c1ec"
+            name="OperandOccurrenceSpecification16">
+            <covered>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification
+            Id="1dd70c9b-bdd6-4861-b14a-e2fef04613dd"
+            name="OperandOccurrenceSpecification18">
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification
+            Id="d3cd07d9-70b1-4d00-811e-64b1b106954b"
+            name="OperandOccurrenceSpecification14">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="532574b0-3d81-42e4-a727-8fb2830982c6"
+            name="BehaviorExecutionSpecification22">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="54c6f266-8dd0-44d3-9f39-d45a941ddc3d"
+                LastKnownName="ExecutionOccurrenceSpecification44"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="a7f9d7f2-1054-4aac-aa73-234de8f53662"
+                LastKnownName="ExecutionOccurrenceSpecification43"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="90fbc153-962a-44bf-8a18-998332435629"
+                LastKnownName="MessageOccurrenceSpecification67"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="98f03c4c-ac54-4bb4-ba1e-32167e3323d1"
+                LastKnownName="MessageOccurrenceSpecification70"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="c9461e82-64cf-4b90-bb4a-034901f05748"
+                LastKnownName="MessageOccurrenceSpecification73"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="77c762eb-7f84-4f39-b49a-0c19bd66ef22"
+                LastKnownName="MessageOccurrenceSpecification68"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="a7f9d7f2-1054-4aac-aa73-234de8f53662"
+            name="ExecutionOccurrenceSpecification43">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="b9e4f97f-2ef9-4c11-9256-086ce4841e88"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="8d8ef046-843a-4f29-beb2-23c009b20278"
+            name="MessageOccurrenceSpecification66">
+            <covered>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="90fbc153-962a-44bf-8a18-998332435629"
+            name="MessageOccurrenceSpecification67">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="594492b4-8bfa-41e0-8af2-2075c68ebaa4"
+            name="BehaviorExecutionSpecification23">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="d03eb22b-8aad-40a2-94d4-2cb0d82c7319"
+                LastKnownName="ExecutionOccurrenceSpecification46"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="479d5681-e8c2-47ec-9517-6de977d63b29"
+                LastKnownName="ExecutionOccurrenceSpecification45"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="6869b43b-b52f-40e6-9589-ec6f1efec798"
+                LastKnownName="MessageOccurrenceSpecification71"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="3d60f5bc-ce60-4645-961f-7940b196fc0b"
+                LastKnownName="MessageOccurrenceSpecification72"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="479d5681-e8c2-47ec-9517-6de977d63b29"
+            name="ExecutionOccurrenceSpecification45">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="ec62444a-e7d7-4cc0-9438-4db640e572f7"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="98f03c4c-ac54-4bb4-ba1e-32167e3323d1"
+            name="MessageOccurrenceSpecification70">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="6869b43b-b52f-40e6-9589-ec6f1efec798"
+            name="MessageOccurrenceSpecification71">
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="3d60f5bc-ce60-4645-961f-7940b196fc0b"
+            name="MessageOccurrenceSpecification72">
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="c9461e82-64cf-4b90-bb4a-034901f05748"
+            name="MessageOccurrenceSpecification73">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="d03eb22b-8aad-40a2-94d4-2cb0d82c7319"
+            name="ExecutionOccurrenceSpecification46">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="56430c64-0c1b-4546-b412-ff2784b79d64"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="77c762eb-7f84-4f39-b49a-0c19bd66ef22"
+            name="MessageOccurrenceSpecification68">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="9bc87c2d-e9f7-42c2-ae94-42f8f182bc14"
+            name="MessageOccurrenceSpecification69">
+            <covered>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="54c6f266-8dd0-44d3-9f39-d45a941ddc3d"
+            name="ExecutionOccurrenceSpecification44">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="8fcf5a76-c54e-4da8-a02f-a9f1da83b32f"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <interactionUse
+            Id="446156e4-fdc6-4b14-ab5b-731271dbdee2"
+            name="Save Destination">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker
+                Id="24fec87d-f623-499d-a831-20cc2c47f7c7"
+                LastKnownName="InteractionUseOccurrenceSpecification14"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <interactionUseOccurrenceSpecificationMoniker
+                Id="77e6a35f-28e2-42ce-9107-0a0c46885ce7"
+                LastKnownName="InteractionUseOccurrenceSpecification15"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <interactionUseOccurrenceSpecificationMoniker
+                Id="b4dc8e7c-59af-4fd9-82a9-6d65cc56b666"
+                LastKnownName="InteractionUseOccurrenceSpecification16"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification
+            Id="24fec87d-f623-499d-a831-20cc2c47f7c7"
+            name="InteractionUseOccurrenceSpecification14">
+            <covered>
+              <lifelineMoniker
+                Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+                LastKnownName="SocioPublisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification
+            Id="77e6a35f-28e2-42ce-9107-0a0c46885ce7"
+            name="InteractionUseOccurrenceSpecification15">
+            <covered>
+              <lifelineMoniker
+                Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+                LastKnownName="Create Destination"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification
+            Id="b4dc8e7c-59af-4fd9-82a9-6d65cc56b666"
+            name="InteractionUseOccurrenceSpecification16">
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="5e27e2f6-c590-4602-a7f0-3b2f9c764c15"
+            name="MessageOccurrenceSpecification74">
+            <covered>
+              <lifelineMoniker
+                Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+                LastKnownName="Destination Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <lostFoundTarget
+            Id="6987224e-bab2-4d2c-ad99-5ed82f76c31f"
+            name="LostFoundTarget2" />
+        </fragments>
+        <lifelines>
+          <lifeline
+            Id="73c8f538-bc7e-4068-a36c-56eccffaf41e"
+            name="SocioPublisher"
+            isActor="true"
+            lifelineDisplayName="SocioPublisher">
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="f24d28ab-43e3-46a8-a4aa-c584714caea5"
+                LastKnownName="ExecutionOccurrenceSpecification15"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="22668e46-53aa-4b18-b59b-db10f02e7d19"
+                LastKnownName="ExecutionOccurrenceSpecification16"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <operandOccurrenceSpecificationMoniker
+                Id="29270092-6647-497c-90bc-9e6fec18ef34"
+                LastKnownName="OperandOccurrenceSpecification15"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="9cc37fbf-a6dd-491e-968c-0fe306825162"
+                LastKnownName="MessageOccurrenceSpecification7"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <operandOccurrenceSpecificationMoniker
+                Id="010cacf0-54cd-4200-962c-3c5eddd5c1ec"
+                LastKnownName="OperandOccurrenceSpecification16"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="8d8ef046-843a-4f29-beb2-23c009b20278"
+                LastKnownName="MessageOccurrenceSpecification66"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="9bc87c2d-e9f7-42c2-ae94-42f8f182bc14"
+                LastKnownName="MessageOccurrenceSpecification69"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <interactionUseOccurrenceSpecificationMoniker
+                Id="24fec87d-f623-499d-a831-20cc2c47f7c7"
+                LastKnownName="InteractionUseOccurrenceSpecification14"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="53284ff0-5cdb-47b3-94e7-d814d1610ba4"
+            name="Create Destination"
+            isActor="false"
+            lifelineDisplayName="Create Destination">
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="715c1015-1dd4-441c-b070-5b0e2abb51b1"
+                LastKnownName="ExecutionOccurrenceSpecification17"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="5199ba95-27a8-4b3b-af33-8a6b5d94935d"
+                LastKnownName="ExecutionOccurrenceSpecification18"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <operandOccurrenceSpecificationMoniker
+                Id="35eb4448-c199-4984-a949-f9780ee33c55"
+                LastKnownName="OperandOccurrenceSpecification13"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="86ac49be-66f6-4fb2-802d-c954987fc980"
+                LastKnownName="ExecutionOccurrenceSpecification5"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="5d6983fb-bfa9-4028-ad70-2440a9f87ed2"
+                LastKnownName="ExecutionOccurrenceSpecification6"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <operandOccurrenceSpecificationMoniker
+                Id="d3cd07d9-70b1-4d00-811e-64b1b106954b"
+                LastKnownName="OperandOccurrenceSpecification14"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="a7f9d7f2-1054-4aac-aa73-234de8f53662"
+                LastKnownName="ExecutionOccurrenceSpecification43"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="54c6f266-8dd0-44d3-9f39-d45a941ddc3d"
+                LastKnownName="ExecutionOccurrenceSpecification44"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <interactionUseOccurrenceSpecificationMoniker
+                Id="77e6a35f-28e2-42ce-9107-0a0c46885ce7"
+                LastKnownName="InteractionUseOccurrenceSpecification15"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="07e3d874-191c-43cc-890c-6c9a9327ea24"
+            name="Destination Manager"
+            isActor="false"
+            lifelineDisplayName="Destination Manager">
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="9f45e30c-c122-44cf-8e43-b93a976555e0"
+                LastKnownName="ExecutionOccurrenceSpecification19"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="15bc4c75-4806-44f9-bac2-f4b5dfd14854"
+                LastKnownName="ExecutionOccurrenceSpecification20"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <operandOccurrenceSpecificationMoniker
+                Id="cf9456aa-5c60-4417-b292-24c2317b107e"
+                LastKnownName="OperandOccurrenceSpecification17"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="932c7b88-ca80-429f-8b90-e1ec1177c2ac"
+                LastKnownName="ExecutionOccurrenceSpecification7"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="c41c5754-f075-484f-96d6-7905ca1250f6"
+                LastKnownName="ExecutionOccurrenceSpecification8"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <operandOccurrenceSpecificationMoniker
+                Id="1dd70c9b-bdd6-4861-b14a-e2fef04613dd"
+                LastKnownName="OperandOccurrenceSpecification18"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="479d5681-e8c2-47ec-9517-6de977d63b29"
+                LastKnownName="ExecutionOccurrenceSpecification45"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="d03eb22b-8aad-40a2-94d4-2cb0d82c7319"
+                LastKnownName="ExecutionOccurrenceSpecification46"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <interactionUseOccurrenceSpecificationMoniker
+                Id="b4dc8e7c-59af-4fd9-82a9-6d65cc56b666"
+                LastKnownName="InteractionUseOccurrenceSpecification16"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="5e27e2f6-c590-4602-a7f0-3b2f9c764c15"
+                LastKnownName="MessageOccurrenceSpecification74"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+        </lifelines>
+        <messages>
+          <message
+            Id="98a81111-c716-4372-bd5d-3dd838f029cc"
+            name="EndUser"
+            messageKind="Found"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <lostFoundTargetMoniker
+                Id="47e15340-daba-4fd3-91fd-081664505a85"
+                LastKnownName="LostFoundTarget1"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="a54cd568-ed22-413f-a9c5-5a5ad6564670"
+                LastKnownName="MessageOccurrenceSpecification23"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="394dec12-ec9e-4571-b466-e1214b9e74d8"
+            name="Get all destinations"
+            messageKind="Complete"
+            messageSort="CreateMessage"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="d6e09f8c-39da-41db-adc9-4cc3b7b647ea"
+                LastKnownName="MessageOccurrenceSpecification24"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="6324cc31-9a64-4166-be38-72c31f884d5f"
+                LastKnownName="MessageOccurrenceSpecification25"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="179ee6c1-cf8d-450e-8f24-82cd13825329"
+            name="Generate Destination default settings"
+            messageKind="Complete"
+            messageSort="SynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="d94659b0-62fa-4171-8166-86042cc83aba"
+                LastKnownName="MessageOccurrenceSpecification28"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="551e6b57-da69-42dc-94b3-21a51712aa3e"
+                LastKnownName="MessageOccurrenceSpecification29"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="decfc9f7-24f7-42c5-be26-2164aee1b83d"
+            name="return default settings"
+            messageKind="Complete"
+            messageSort="Reply"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="39ba9ff0-af26-4a54-95cd-4774813f942c"
+                LastKnownName="MessageOccurrenceSpecification30"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="832a4c91-7640-413f-ac89-6eddef422d34"
+                LastKnownName="MessageOccurrenceSpecification31"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="ee2ab794-7d29-468f-bc95-801b471a8301"
+            name="Return as Destination with networks"
+            messageKind="Complete"
+            messageSort="Reply"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="0601865c-7657-44ab-80f5-b15066907039"
+                LastKnownName="MessageOccurrenceSpecification26"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="743bb467-fa0a-4555-898e-5646d01382b4"
+                LastKnownName="MessageOccurrenceSpecification27"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="1950dc1a-276d-496b-b0ab-228b516bd5d0"
+            name="Select Groups/Pages/Custom destination Details"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="9cc37fbf-a6dd-491e-968c-0fe306825162"
+                LastKnownName="MessageOccurrenceSpecification7"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="846715e1-5845-4349-a4cb-a26b9807411a"
+                LastKnownName="MessageOccurrenceSpecification8"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="0bc0496f-372e-4f79-9d0d-98c7d4532b4c"
+            name="Fetch all groups/pages/CD of an account"
+            messageKind="Complete"
+            messageSort="SynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="335be17f-4023-4253-967d-0ef8cf851dbd"
+                LastKnownName="MessageOccurrenceSpecification9"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="442db8cf-faf0-478c-9641-5b586cd19794"
+                LastKnownName="MessageOccurrenceSpecification10"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="4518db40-6727-4805-b69a-730465283b49"
+            name="Call back for select groups/pages/CD"
+            messageKind="Complete"
+            messageSort="SynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="47310ddf-04a5-47fd-ad46-d5927355be02"
+                LastKnownName="MessageOccurrenceSpecification13"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="c69c8073-1886-4266-81af-5fd73ccb7655"
+                LastKnownName="MessageOccurrenceSpecification14"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="85f93df3-f32e-46c2-a8a1-c8cbf7496a93"
+            name="Update the selected group/pages/CD details"
+            messageKind="Complete"
+            messageSort="SynchCall"
+            createSelfMessage="true">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="4d63475d-3456-4fde-9288-49422234a939"
+                LastKnownName="MessageOccurrenceSpecification17"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="1d1cd0d2-f203-45a1-93e6-56cc71af90b5"
+                LastKnownName="MessageOccurrenceSpecification18"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="558707f7-4d3e-464a-a3d8-166e125a14a7"
+            name="Dispose notification"
+            messageKind="Complete"
+            messageSort="Reply"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="5fb67dca-56db-4231-ab0a-4e4f3bc71470"
+                LastKnownName="MessageOccurrenceSpecification15"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="d5721766-9930-466c-8257-1d5032939d93"
+                LastKnownName="MessageOccurrenceSpecification16"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="fb895450-fb4f-485b-92b6-76880048adb0"
+            name="Update Stats ( selected count / total count )"
+            messageKind="Complete"
+            messageSort="Reply"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="d765ece7-191a-42fc-9ef5-935674fc2a38"
+                LastKnownName="MessageOccurrenceSpecification11"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="2226b9b1-8c86-4693-8f25-c3f4cf48ad8f"
+                LastKnownName="MessageOccurrenceSpecification12"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="d893fdb5-c5e5-45ef-8960-9cba0045f5c7"
+            name="Select own profile"
+            messageKind="Complete"
+            messageSort="CreateMessage"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="8d8ef046-843a-4f29-beb2-23c009b20278"
+                LastKnownName="MessageOccurrenceSpecification66"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="90fbc153-962a-44bf-8a18-998332435629"
+                LastKnownName="MessageOccurrenceSpecification67"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="6c9befe8-839a-4d68-8cb2-3f41e3e4e2b5"
+            name="update the own profile as a destination"
+            messageKind="Complete"
+            messageSort="CreateMessage"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="98f03c4c-ac54-4bb4-ba1e-32167e3323d1"
+                LastKnownName="MessageOccurrenceSpecification70"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="6869b43b-b52f-40e6-9589-ec6f1efec798"
+                LastKnownName="MessageOccurrenceSpecification71"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="c2b3271a-1ba7-4ccc-bb0c-e422b31767e6"
+            name="Reflect to user interface"
+            messageKind="Complete"
+            messageSort="Reply"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="3d60f5bc-ce60-4645-961f-7940b196fc0b"
+                LastKnownName="MessageOccurrenceSpecification72"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="c9461e82-64cf-4b90-bb4a-034901f05748"
+                LastKnownName="MessageOccurrenceSpecification73"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="6838ad2d-1359-4f6b-85b2-25400d95c238"
+            name="selected own profile"
+            messageKind="Complete"
+            messageSort="Reply"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="77c762eb-7f84-4f39-b49a-0c19bd66ef22"
+                LastKnownName="MessageOccurrenceSpecification68"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="9bc87c2d-e9f7-42c2-ae94-42f8f182bc14"
+                LastKnownName="MessageOccurrenceSpecification69"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="a9a27cc1-34cf-4ae9-a51a-d9ca2e607493"
+            name="Update bin files"
+            messageKind="Lost"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="5e27e2f6-c590-4602-a7f0-3b2f9c764c15"
+                LastKnownName="MessageOccurrenceSpecification74"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <lostFoundTargetMoniker
+                Id="6987224e-bab2-4d2c-ad99-5ed82f76c31f"
+                LastKnownName="LostFoundTarget2"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+        </messages>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="867dbcc8-671d-4944-8284-f055cf1030bf"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="1ac3aedb-6dc0-4990-9a30-546f77a0438a"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="964bbd97-4464-4be5-96ac-960b71b04df6"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="1230c062-6ada-4518-92d9-55d5e1fa3a00"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="e25b21d1-d03f-4815-9520-f4b0f886e88b"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="eaf26c52-e074-4dd4-9115-2fbbdef92ead"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="ee061da1-137d-404b-bf03-0c764c991fe4"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="be1560ab-f509-4a57-8b4c-69eef2636280"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="7e56b170-82a8-40e0-b68a-095cad7e25f0"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="ead3fe23-5378-4db5-b3ab-13cfa43d9c66"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="979a3ed5-0860-45e7-8271-c2042f7a213c"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="5bcfe9e1-b5f1-4025-bbcd-42898bd62eae"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="2b8db5ed-c715-400f-b1b2-90378fc3f22e"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="9ec94c64-0396-4c9f-93c9-83503c56ece7"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="b9e4f97f-2ef9-4c11-9256-086ce4841e88"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="8fcf5a76-c54e-4da8-a02f-a9f1da83b32f"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="ec62444a-e7d7-4cc0-9438-4db640e572f7"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="56430c64-0c1b-4546-b412-ff2784b79d64"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <interaction
+        Id="df7d1350-a419-48db-8cf3-07f14002af12"
+        name="ManagePosts"
+        collapseFragmentsFlag="false"
+        isActiveClass="false"
+        isAbstract="false"
+        isLeaf="false"
+        isReentrant="false">
+        <ownedCommentsInternal>
+          <comment
+            Id="4428917a-0569-4472-8124-f3e087160510">
+            <body>End user can query for all following queued status
+1. Draft
+2. Pending
+3. Published</body>
+          </comment>
+          <comment
+            Id="a52deeeb-a0cf-4a17-9e8d-4a3f174d0fba">
+            <body>All calls are asynchronous in posts manager</body>
+          </comment>
+        </ownedCommentsInternal>
+        <fragments>
+          <behaviorExecutionSpecification
+            Id="82a09c0a-29ad-4704-abe3-74e9e09efff6"
+            name="BehaviorExecutionSpecification1">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="806217da-93ad-4e9c-b006-34641e1426a0"
+                LastKnownName="Socio Publisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="3b8b4abc-b85a-472d-a589-468aa8664c82"
+                LastKnownName="ExecutionOccurrenceSpecification2"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="ecdf338c-9d0a-4c73-9aa5-7c58dc6cf5b1"
+                LastKnownName="ExecutionOccurrenceSpecification1"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="074c12b1-eae1-48b6-aded-5790e9cad999"
+                LastKnownName="MessageOccurrenceSpecification1"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="a72cca26-3bbe-4147-b8fc-0f24171f1325"
+                LastKnownName="MessageOccurrenceSpecification2"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="50effb67-3afb-408b-b7b6-339a3a8e9b5c"
+                LastKnownName="MessageOccurrenceSpecification5"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="ecdf338c-9d0a-4c73-9aa5-7c58dc6cf5b1"
+            name="ExecutionOccurrenceSpecification1">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="3e36e425-c4df-4065-a749-749df7eaf099"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="806217da-93ad-4e9c-b006-34641e1426a0"
+                LastKnownName="Socio Publisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <lostFoundTarget
+            Id="dec25869-d5aa-45b9-93b0-157ddf8fc1c8"
+            name="LostFoundTarget1" />
+          <messageOccurrenceSpecification
+            Id="074c12b1-eae1-48b6-aded-5790e9cad999"
+            name="MessageOccurrenceSpecification1">
+            <covered>
+              <lifelineMoniker
+                Id="806217da-93ad-4e9c-b006-34641e1426a0"
+                LastKnownName="Socio Publisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="905348a5-ed21-485c-a583-d88e9586ed1c"
+            name="BehaviorExecutionSpecification2">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="2fcba233-98f1-440f-958d-bf638a4751b7"
+                LastKnownName="ExecutionOccurrenceSpecification4"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="da76f416-7b1b-4c9e-b26a-8f908021a359"
+                LastKnownName="ExecutionOccurrenceSpecification3"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="a6207c09-9534-4aa8-b546-fab461313c66"
+                LastKnownName="MessageOccurrenceSpecification3"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="6f571e9d-721a-40e9-be02-b3f659b82ae5"
+                LastKnownName="MessageOccurrenceSpecification6"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="6c750551-f2b0-4642-9ce4-fb212bc60ef0"
+                LastKnownName="ExecutionOccurrenceSpecification7"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="df29ab80-3688-4ce9-aa6b-82061b631626"
+                LastKnownName="ExecutionOccurrenceSpecification8"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="cc2c55ce-0c94-4dc7-9726-feeb8c5683fe"
+                LastKnownName="MessageOccurrenceSpecification12"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="2e2f0337-d27d-4fa5-92e9-10967afe6911"
+                LastKnownName="MessageOccurrenceSpecification15"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="73f96089-dc5e-46a2-9eac-5a90fe6950da"
+                LastKnownName="MessageOccurrenceSpecification4"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="da76f416-7b1b-4c9e-b26a-8f908021a359"
+            name="ExecutionOccurrenceSpecification3">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="6acec1db-772a-4a06-9558-9eac72f48c07"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="a72cca26-3bbe-4147-b8fc-0f24171f1325"
+            name="MessageOccurrenceSpecification2">
+            <covered>
+              <lifelineMoniker
+                Id="806217da-93ad-4e9c-b006-34641e1426a0"
+                LastKnownName="Socio Publisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="a6207c09-9534-4aa8-b546-fab461313c66"
+            name="MessageOccurrenceSpecification3">
+            <covered>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="2211eee3-775f-41e6-941a-ecd55142dc66"
+            name="BehaviorExecutionSpecification3">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="fb1ce4db-1053-4bac-9c51-8d22242b30e9"
+                LastKnownName="ExecutionOccurrenceSpecification6"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="5e1f95b8-0989-4b44-85bd-d950898672c0"
+                LastKnownName="ExecutionOccurrenceSpecification5"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="b61ed980-97ef-4a7e-a426-ca2a93a59d08"
+                LastKnownName="MessageOccurrenceSpecification7"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="fbc0bd95-5c59-4d02-a71c-71fc379a86b5"
+                LastKnownName="MessageOccurrenceSpecification8"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="50948dbb-7301-4207-857b-9bf663d2af5c"
+                LastKnownName="MessageOccurrenceSpecification11"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="5e1f95b8-0989-4b44-85bd-d950898672c0"
+            name="ExecutionOccurrenceSpecification5">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="a7669fc1-bb79-4933-88d7-e9759bd1191f"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="6f571e9d-721a-40e9-be02-b3f659b82ae5"
+            name="MessageOccurrenceSpecification6">
+            <covered>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="b61ed980-97ef-4a7e-a426-ca2a93a59d08"
+            name="MessageOccurrenceSpecification7">
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="256648fa-afa4-418a-b18b-be34730741ce"
+            name="BehaviorExecutionSpecification4">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="df29ab80-3688-4ce9-aa6b-82061b631626"
+                LastKnownName="ExecutionOccurrenceSpecification8"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="6c750551-f2b0-4642-9ce4-fb212bc60ef0"
+                LastKnownName="ExecutionOccurrenceSpecification7"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="3f0daab9-aac0-4c7d-a2b9-f3b39f38ab27"
+                LastKnownName="MessageOccurrenceSpecification9"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="60b67cec-6e80-44a4-b0e5-0f23364c57fa"
+                LastKnownName="MessageOccurrenceSpecification10"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="6c750551-f2b0-4642-9ce4-fb212bc60ef0"
+            name="ExecutionOccurrenceSpecification7">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="c14b172a-bb28-45f7-8c16-148ab47a891d"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="3f0daab9-aac0-4c7d-a2b9-f3b39f38ab27"
+            name="MessageOccurrenceSpecification9">
+            <covered>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="fbc0bd95-5c59-4d02-a71c-71fc379a86b5"
+            name="MessageOccurrenceSpecification8">
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="50948dbb-7301-4207-857b-9bf663d2af5c"
+            name="MessageOccurrenceSpecification11">
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="60b67cec-6e80-44a4-b0e5-0f23364c57fa"
+            name="MessageOccurrenceSpecification10">
+            <covered>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="df29ab80-3688-4ce9-aa6b-82061b631626"
+            name="ExecutionOccurrenceSpecification8">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="93d429e3-9483-42f9-861a-2125bc7d7647"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="fb1ce4db-1053-4bac-9c51-8d22242b30e9"
+            name="ExecutionOccurrenceSpecification6">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="98550ea0-f4ca-4625-a206-106d19d7419c"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="58996158-6779-4b84-a1a6-619e5ee280cc"
+            name="BehaviorExecutionSpecification5">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="c10c9232-f2fb-439f-bb22-262dee4acb90"
+                LastKnownName="ExecutionOccurrenceSpecification10"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="8b0d3ba3-4634-4946-ad54-c6e31d90c4bb"
+                LastKnownName="ExecutionOccurrenceSpecification9"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="adf77071-10c5-4cb6-8b5d-9433726b14f5"
+                LastKnownName="MessageOccurrenceSpecification13"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="8c007e28-676b-4605-8dfd-cf2680b05b10"
+                LastKnownName="MessageOccurrenceSpecification14"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="8b0d3ba3-4634-4946-ad54-c6e31d90c4bb"
+            name="ExecutionOccurrenceSpecification9">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="b39e23b4-3813-45c1-a752-55a8a17ec525"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="cc2c55ce-0c94-4dc7-9726-feeb8c5683fe"
+            name="MessageOccurrenceSpecification12">
+            <covered>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="adf77071-10c5-4cb6-8b5d-9433726b14f5"
+            name="MessageOccurrenceSpecification13">
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <lostFoundTarget
+            Id="b3b60d97-0084-416a-bbe0-fe6fe5b32f1c"
+            name="LostFoundTarget2" />
+          <messageOccurrenceSpecification
+            Id="8c007e28-676b-4605-8dfd-cf2680b05b10"
+            name="MessageOccurrenceSpecification14">
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="c10c9232-f2fb-439f-bb22-262dee4acb90"
+            name="ExecutionOccurrenceSpecification10">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="ac98a57f-d68e-4640-9f52-1b318b0a8d2c"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="3f38aa3c-c1cd-4a42-8615-184ea249c5f8"
+            name="BehaviorExecutionSpecification6">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="da515108-30aa-462f-9edf-1888317a97d8"
+                LastKnownName="ExecutionOccurrenceSpecification12"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="d40e59db-6c00-4186-9e5e-e6afd772f093"
+                LastKnownName="ExecutionOccurrenceSpecification11"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="44793990-2339-4e9b-9e9e-62b27cb70272"
+                LastKnownName="MessageOccurrenceSpecification16"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="e6b95088-61cc-4470-9e49-11b4ec1ab5a5"
+                LastKnownName="MessageOccurrenceSpecification17"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="d40e59db-6c00-4186-9e5e-e6afd772f093"
+            name="ExecutionOccurrenceSpecification11">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="2a0ec6d3-fcc5-4eba-97c8-6b57e6f38c2f"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="2e2f0337-d27d-4fa5-92e9-10967afe6911"
+            name="MessageOccurrenceSpecification15">
+            <covered>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="44793990-2339-4e9b-9e9e-62b27cb70272"
+            name="MessageOccurrenceSpecification16">
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <lostFoundTarget
+            Id="313ccafe-8508-42c1-818d-a674792d5a9c"
+            name="LostFoundTarget3" />
+          <messageOccurrenceSpecification
+            Id="e6b95088-61cc-4470-9e49-11b4ec1ab5a5"
+            name="MessageOccurrenceSpecification17">
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="50effb67-3afb-408b-b7b6-339a3a8e9b5c"
+            name="MessageOccurrenceSpecification5">
+            <covered>
+              <lifelineMoniker
+                Id="806217da-93ad-4e9c-b006-34641e1426a0"
+                LastKnownName="Socio Publisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="73f96089-dc5e-46a2-9eac-5a90fe6950da"
+            name="MessageOccurrenceSpecification4">
+            <covered>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="2fcba233-98f1-440f-958d-bf638a4751b7"
+            name="ExecutionOccurrenceSpecification4">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="e1007b9f-00d9-46f9-859f-c9f4d9d29877"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="da515108-30aa-462f-9edf-1888317a97d8"
+            name="ExecutionOccurrenceSpecification12">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="9e70a799-2d18-4cfb-a461-957102f23e3e"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="3b8b4abc-b85a-472d-a589-468aa8664c82"
+            name="ExecutionOccurrenceSpecification2">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="9f600755-6a42-4c6f-82c5-97126d03247c"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="806217da-93ad-4e9c-b006-34641e1426a0"
+                LastKnownName="Socio Publisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <interactionUse
+            Id="d0c75bb2-164d-47b8-8351-664c5f38ba65"
+            name="Keep Fetching and added to user interface">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="806217da-93ad-4e9c-b006-34641e1426a0"
+                LastKnownName="Socio Publisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker
+                Id="355c3aef-00ea-4f24-8865-88df844c61ea"
+                LastKnownName="InteractionUseOccurrenceSpecification1"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <interactionUseOccurrenceSpecificationMoniker
+                Id="17b5fffe-7ecc-483e-b231-221ed3e0bc0e"
+                LastKnownName="InteractionUseOccurrenceSpecification2"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <interactionUseOccurrenceSpecificationMoniker
+                Id="6a53eb3e-6ab4-4e55-b7b9-c45d9be02d5a"
+                LastKnownName="InteractionUseOccurrenceSpecification3"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification
+            Id="17b5fffe-7ecc-483e-b231-221ed3e0bc0e"
+            name="InteractionUseOccurrenceSpecification2">
+            <covered>
+              <lifelineMoniker
+                Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+                LastKnownName="Manage Posts"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification
+            Id="355c3aef-00ea-4f24-8865-88df844c61ea"
+            name="InteractionUseOccurrenceSpecification1">
+            <covered>
+              <lifelineMoniker
+                Id="806217da-93ad-4e9c-b006-34641e1426a0"
+                LastKnownName="Socio Publisher"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification
+            Id="6a53eb3e-6ab4-4e55-b7b9-c45d9be02d5a"
+            name="InteractionUseOccurrenceSpecification3">
+            <covered>
+              <lifelineMoniker
+                Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+                LastKnownName="Posts Manager"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+        </fragments>
+        <lifelines>
+          <lifeline
+            Id="806217da-93ad-4e9c-b006-34641e1426a0"
+            name="Socio Publisher"
+            isActor="true"
+            lifelineDisplayName="Socio Publisher">
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="ecdf338c-9d0a-4c73-9aa5-7c58dc6cf5b1"
+                LastKnownName="ExecutionOccurrenceSpecification1"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="3b8b4abc-b85a-472d-a589-468aa8664c82"
+                LastKnownName="ExecutionOccurrenceSpecification2"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <interactionUseOccurrenceSpecificationMoniker
+                Id="355c3aef-00ea-4f24-8865-88df844c61ea"
+                LastKnownName="InteractionUseOccurrenceSpecification1"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="2c2684ba-305e-41eb-a4dc-e07470375835"
+            name="Manage Posts"
+            isActor="false"
+            lifelineDisplayName="Manage Posts">
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="da76f416-7b1b-4c9e-b26a-8f908021a359"
+                LastKnownName="ExecutionOccurrenceSpecification3"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="2fcba233-98f1-440f-958d-bf638a4751b7"
+                LastKnownName="ExecutionOccurrenceSpecification4"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <interactionUseOccurrenceSpecificationMoniker
+                Id="17b5fffe-7ecc-483e-b231-221ed3e0bc0e"
+                LastKnownName="InteractionUseOccurrenceSpecification2"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="e61ebec5-2479-4a23-aeb2-7f5930a9c1af"
+            name="Posts Manager"
+            isActor="false"
+            lifelineDisplayName="Posts Manager">
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="5e1f95b8-0989-4b44-85bd-d950898672c0"
+                LastKnownName="ExecutionOccurrenceSpecification5"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="fb1ce4db-1053-4bac-9c51-8d22242b30e9"
+                LastKnownName="ExecutionOccurrenceSpecification6"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="8b0d3ba3-4634-4946-ad54-c6e31d90c4bb"
+                LastKnownName="ExecutionOccurrenceSpecification9"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="c10c9232-f2fb-439f-bb22-262dee4acb90"
+                LastKnownName="ExecutionOccurrenceSpecification10"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="d40e59db-6c00-4186-9e5e-e6afd772f093"
+                LastKnownName="ExecutionOccurrenceSpecification11"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="da515108-30aa-462f-9edf-1888317a97d8"
+                LastKnownName="ExecutionOccurrenceSpecification12"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+              <interactionUseOccurrenceSpecificationMoniker
+                Id="6a53eb3e-6ab4-4e55-b7b9-c45d9be02d5a"
+                LastKnownName="InteractionUseOccurrenceSpecification3"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+        </lifelines>
+        <messages>
+          <message
+            Id="997364aa-274c-4ab7-80d0-1dfe7c5b790a"
+            name="End User"
+            messageKind="Found"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <lostFoundTargetMoniker
+                Id="dec25869-d5aa-45b9-93b0-157ddf8fc1c8"
+                LastKnownName="LostFoundTarget1"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="074c12b1-eae1-48b6-aded-5790e9cad999"
+                LastKnownName="MessageOccurrenceSpecification1"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="53e596df-f0b7-4f98-a573-8d5fe0789a75"
+            name="Get the posts of campaign X"
+            messageKind="Complete"
+            messageSort="CreateMessage"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="a72cca26-3bbe-4147-b8fc-0f24171f1325"
+                LastKnownName="MessageOccurrenceSpecification2"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="a6207c09-9534-4aa8-b546-fab461313c66"
+                LastKnownName="MessageOccurrenceSpecification3"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="bd3de1fe-3555-4d3b-b56f-e2b3daafa9ed"
+            name="Get all posts of specified PostQueuedStatus"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="6f571e9d-721a-40e9-be02-b3f659b82ae5"
+                LastKnownName="MessageOccurrenceSpecification6"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="b61ed980-97ef-4a7e-a426-ca2a93a59d08"
+                LastKnownName="MessageOccurrenceSpecification7"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="1fca8420-c93f-4594-8fbb-abf97e3ca1fa"
+            name="Add to User Interface"
+            messageKind="Complete"
+            messageSort="CreateMessage"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="fbc0bd95-5c59-4d02-a71c-71fc379a86b5"
+                LastKnownName="MessageOccurrenceSpecification8"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="3f0daab9-aac0-4c7d-a2b9-f3b39f38ab27"
+                LastKnownName="MessageOccurrenceSpecification9"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="68301174-03c6-4ee3-83c3-401acaa479e9"
+            name="Added Confirmation"
+            messageKind="Complete"
+            messageSort="Reply"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="60b67cec-6e80-44a4-b0e5-0f23364c57fa"
+                LastKnownName="MessageOccurrenceSpecification10"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="50948dbb-7301-4207-857b-9bf663d2af5c"
+                LastKnownName="MessageOccurrenceSpecification11"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="0fd039c8-bfc2-4f0b-b1fc-41d9bd617bb7"
+            name="Send to Publish Now"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="cc2c55ce-0c94-4dc7-9726-feeb8c5683fe"
+                LastKnownName="MessageOccurrenceSpecification12"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="adf77071-10c5-4cb6-8b5d-9433726b14f5"
+                LastKnownName="MessageOccurrenceSpecification13"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="162023ee-c865-41d1-a6f3-2d643b82f386"
+            name="Call to Publisher Job Process"
+            messageKind="Lost"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="8c007e28-676b-4605-8dfd-cf2680b05b10"
+                LastKnownName="MessageOccurrenceSpecification14"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <lostFoundTargetMoniker
+                Id="b3b60d97-0084-416a-bbe0-fe6fe5b32f1c"
+                LastKnownName="LostFoundTarget2"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="0ca0c4db-74b0-472e-ac72-f0913ebe1f6d"
+            name="Readd Or Delete Or Edit Posts"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="2e2f0337-d27d-4fa5-92e9-10967afe6911"
+                LastKnownName="MessageOccurrenceSpecification15"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="44793990-2339-4e9b-9e9e-62b27cb70272"
+                LastKnownName="MessageOccurrenceSpecification16"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="5195924e-796b-4ec1-a954-7646a3776a3b"
+            name="Update Bin files"
+            messageKind="Lost"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="e6b95088-61cc-4470-9e49-11b4ec1ab5a5"
+                LastKnownName="MessageOccurrenceSpecification17"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <lostFoundTargetMoniker
+                Id="313ccafe-8508-42c1-818d-a674792d5a9c"
+                LastKnownName="LostFoundTarget3"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="c88e391f-dec3-4728-a2c7-a2d464a18b66"
+            name="&lt;&lt;return&gt;&gt;"
+            messageKind="Complete"
+            messageSort="Reply"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="73f96089-dc5e-46a2-9eac-5a90fe6950da"
+                LastKnownName="MessageOccurrenceSpecification4"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="50effb67-3afb-408b-b7b6-339a3a8e9b5c"
+                LastKnownName="MessageOccurrenceSpecification5"
+                LastKnownLocation="DominatorHouseSocialModeling.uml" />
+            </receiveEvent>
+          </message>
+        </messages>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="3e36e425-c4df-4065-a749-749df7eaf099"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="9f600755-6a42-4c6f-82c5-97126d03247c"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="6acec1db-772a-4a06-9558-9eac72f48c07"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="e1007b9f-00d9-46f9-859f-c9f4d9d29877"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="a7669fc1-bb79-4933-88d7-e9759bd1191f"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="98550ea0-f4ca-4625-a206-106d19d7419c"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="c14b172a-bb28-45f7-8c16-148ab47a891d"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="93d429e3-9483-42f9-861a-2125bc7d7647"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="b39e23b4-3813-45c1-a752-55a8a17ec525"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="ac98a57f-d68e-4640-9f52-1b318b0a8d2c"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="2a0ec6d3-fcc5-4eba-97c8-6b57e6f38c2f"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="9e70a799-2d18-4cfb-a461-957102f23e3e"
+        name="ExecutionEvent" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType
