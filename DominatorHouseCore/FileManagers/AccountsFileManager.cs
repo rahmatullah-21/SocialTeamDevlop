@@ -77,10 +77,12 @@ namespace DominatorHouseCore.FileManagers
         {
             lstAccountModel.Clear();
             ApplyFunc(a =>
+           
             {
                 lstAccountModel.Add((T)(object)a);
                 return false;
             });
+            int i = 0;
         }
 
         public static List<DominatorAccountModel> GetAll()  => BinFileHelper.GetAccountDetails();
