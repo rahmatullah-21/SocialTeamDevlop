@@ -345,6 +345,8 @@ namespace DominatorUIUtility.CustomControl
 
         protected void CreateCampaign()
         {
+            Application.Current.Dispatcher.Invoke(() => {
+            
             if (!ValidateCampaign())
                 return;
 
@@ -407,6 +409,7 @@ namespace DominatorUIUtility.CustomControl
 
                 TabSwitcher.GoToCampaign();
             }
+            });
         }
 
         private void UpdateJobconfiguration()
@@ -800,7 +803,8 @@ namespace DominatorUIUtility.CustomControl
 
         protected void UpdateCampaign()
         {
-
+            Application.Current.Dispatcher.Invoke(() => {
+            
             if (!ValidateCampaign())
                 return;
 
@@ -920,7 +924,7 @@ namespace DominatorUIUtility.CustomControl
 
             SetDataContext();
             TabSwitcher.GoToCampaign();
-
+            });
         }
 
         string GetWarningLangRsrc()

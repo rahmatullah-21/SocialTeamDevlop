@@ -97,8 +97,8 @@ namespace DominatorHouseCore.LogHelper
         {
             try
             {
-                if (lstLoggerModels.Count > 1000)
-                    lstLoggerModels.RemoveAt(lstLoggerModels.Count - 1);
+                //if (lstLoggerModels.Count > 1000)
+                //    lstLoggerModels.RemoveAt(lstLoggerModels.Count - 1);
 
 
                 var messages = message.Split('\t');
@@ -114,8 +114,17 @@ namespace DominatorHouseCore.LogHelper
                     LogType = logLevel.ToString().Trim()
 
                 };
-
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));
+                if(!Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke( () => lstLoggerModels.Add(log));
+                }
+                else
+                {
+                    lstLoggerModels.Add(log);
+                }
+                
+                
+                //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));
 
                 //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));
                 ////Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
@@ -131,9 +140,16 @@ namespace DominatorHouseCore.LogHelper
                         Message = message,
                         LogType = logLevel.ToString()
                     };
-
+                    if (!Application.Current.Dispatcher.CheckAccess())
+                    {
+                        Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Add(log));
+                    }
+                    else
+                    {
+                        lstLoggerModels.Add(log);
+                    }
                     //Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));
+                    //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));
                 }
                 ex.DebugLog();
             }

@@ -22,6 +22,9 @@ using DominatorHouseCore.Converters;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.DatabaseHandler.Utility;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Immutable;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -87,32 +90,181 @@ namespace DominatorUIUtility.CustomControl
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        //private void ToggleActivatePause_Campaign(object sender, RoutedEventArgs e)
+        //{
+        //    //var ActivatePauseAction = new Func<object, RoutedEventArgs>(ActivatePause);
+        //    ThreadStart starter = delegate { ActivatePause(sender, e); };
+            
+           
+        //    Action starting = ()  => ActivatePause(sender,e);
+        //    ThreadFactory.Instance.Start(() =>
+        //    {
+                
+        //    });
+        //}
+
+        //private void ActivatePause(object sender, RoutedEventArgs e)
+        //{
+        //    var objCampaignDetailsBeforeSave = objCampaignDetails.ObjCampaignDetails;
+        //    objCampaignDetails.ObjCampaignDetails =
+        //        new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
+        //    var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+
+        //    var selectedCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
+        //    if (selectedCampaign == null)
+        //        return;
+
+        //    var module = (ActivityType)Enum.Parse(typeof(ActivityType), selectedCampaign.SubModule);
+
+        //    // Update module configuration inside Account details and save it back
+        //    foreach (var account in lstAccountDetails)
+        //    {
+        //        var moduleConfiguration = account.ActivityManager.LstModuleConfiguration
+        //            .FirstOrDefault(y => y.ActivityType == module);
+        //        if (moduleConfiguration?.TemplateId == selectedCampaign.TemplateId)
+        //            moduleConfiguration.IsEnabled = (bool)(sender as ToggleSwitch).IsChecked;
+        //        var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+        //            .AddOrUpdateModuleSettings(module, moduleConfiguration)
+        //            .SaveToBinFile();
+
+        //    }
+
+        //    // AccountsFileManager.SaveAll(lstAccountDetails);
+
+        //    //AccountsFileManager.UpdateAccounts(lstAccountDetails);
+
+        //    // Run/Stop job process in campaigns
+        //    try
+        //    {
+        //        bool isToggleActivate = (sender as ToggleSwitch).IsChecked ?? false;
+        //        foreach (var campaign in objCampaignDetails.ObjCampaignDetails)
+        //        {
+        //            if (campaign.CampaignId != selectedCampaign.CampaignId)
+        //                continue;
+
+        //            bool isCampaignAlreadyActive = campaign.Status == "Active";
+        //            if (isCampaignAlreadyActive == isToggleActivate)
+        //                continue;
+
+        //            if (isToggleActivate)
+        //            {
+        //                campaign.Status = "Active";
+        //                GlobusLogHelper.log.Info(Log.ActivatedCampaign, SocinatorInitialize.ActiveSocialNetwork, campaign.CampaignName);
+
+        //                foreach (var accountModel in lstAccountDetails.Where(x => selectedCampaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
+        //                {
+        //                    DominatorScheduler.ScheduleNextActivity(accountModel, module);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                campaign.Status = "Paused";
+        //                GlobusLogHelper.log.Info(Log.CampaignPaused, SocinatorInitialize.ActiveSocialNetwork, campaign.CampaignName);
+        //                foreach (var accountModel in lstAccountDetails.Where(x => campaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
+        //                {
+        //                    DominatorScheduler.StopActivity(accountModel, campaign.SubModule, campaign.TemplateId, true);
+        //                }
+        //            }
+        //        }
+
+        //        // CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());
+
+        //        CampaignsFileManager.UpdateCampaigns(objCampaignDetails.ObjCampaignDetails.ToList());
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //    }
+        //    objCampaignDetails.ObjCampaignDetails = objCampaignDetailsBeforeSave;
+        //}
+
+        /// <summary>
+        /// Raises when campaign status changed:
+        /// - Active/Paused
+        /// - Switch to Campaigns tab
+        /// - Create/Update Campaign
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ToggleActivatePause_Campaign(object sender, RoutedEventArgs e)
+        {
+            var selectedCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
+            var isChecked = ((ToggleSwitch)sender).IsChecked;
+            var isToggleSwitchSelected = isChecked != null && (bool)isChecked;
+
+            ThreadFactory.Instance.Start(() =>
+            {
+                ActivePauseCampaign(selectedCampaign, isToggleSwitchSelected);
+            });
+        }
+
+
+        ImmutableQueue<Action> updatingAccountsBinFiles = ImmutableQueue<Action>.Empty;
+
+        bool allUpdatingBinfilesQueued;
+
+        private void ActivePauseCampaign(CampaignDetails selectedCampaign, bool isToggleSwitchSelected)
         {
             var objCampaignDetailsBeforeSave = objCampaignDetails.ObjCampaignDetails;
             objCampaignDetails.ObjCampaignDetails =
                 new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
             var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
 
-            var selectedCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
             if (selectedCampaign == null)
                 return;
 
             var module = (ActivityType)Enum.Parse(typeof(ActivityType), selectedCampaign.SubModule);
 
             // Update module configuration inside Account details and save it back
-            foreach (var account in lstAccountDetails)
-            {
-                var moduleConfiguration = account.ActivityManager.LstModuleConfiguration
-                    .FirstOrDefault(y => y.ActivityType == module);
-                if (moduleConfiguration?.TemplateId == selectedCampaign.TemplateId)
-                    moduleConfiguration.IsEnabled = (bool)(sender as ToggleSwitch).IsChecked;
-                var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                    .AddOrUpdateModuleSettings(module, moduleConfiguration)
-                    .SaveToBinFile();
+            //foreach (var account in lstAccountDetails)
+            //{
+            //    var moduleConfiguration = account.ActivityManager.LstModuleConfiguration
+            //        .FirstOrDefault(y => y.ActivityType == module);
+            //    if (moduleConfiguration?.TemplateId == selectedCampaign.TemplateId)
+            //        moduleConfiguration.IsEnabled = isToggleSwitchSelected;
+            //    var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+            //        .AddOrUpdateModuleSettings(module, moduleConfiguration)
+            //        .SaveToBinFile();
 
+            //}
+
+            try
+            {
+                new Thread(() =>
+                {
+                    while (!allUpdatingBinfilesQueued)
+                    {
+                        Thread.Sleep(50);
+                        while (!updatingAccountsBinFiles.IsEmpty)
+                        {
+                            Action act;
+                            updatingAccountsBinFiles = updatingAccountsBinFiles.Dequeue(out act);
+                            act();
+                        }
+                    }
+                })
+                { IsBackground = true }.Start();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
 
+
+            lstAccountDetails.ForEach(account =>
+            {
+
+
+                updatingAccountsBinFiles= updatingAccountsBinFiles.Enqueue(() =>
+                {
+                    UpdateAccountCampaignsStatus(selectedCampaign, isToggleSwitchSelected, account, module);
+                });
+
+            });
+
+
+            allUpdatingBinfilesQueued = true;
             // AccountsFileManager.SaveAll(lstAccountDetails);
 
             //AccountsFileManager.UpdateAccounts(lstAccountDetails);
@@ -120,15 +272,15 @@ namespace DominatorUIUtility.CustomControl
             // Run/Stop job process in campaigns
             try
             {
-                bool isToggleActivate = (sender as ToggleSwitch).IsChecked ?? false;
-                foreach (var campaign in objCampaignDetails.ObjCampaignDetails)
+                bool isToggleActivate = isToggleSwitchSelected;
+                objCampaignDetails.ObjCampaignDetails.ForEach(campaign =>
                 {
                     if (campaign.CampaignId != selectedCampaign.CampaignId)
-                        continue;
+                        return;
 
                     bool isCampaignAlreadyActive = campaign.Status == "Active";
                     if (isCampaignAlreadyActive == isToggleActivate)
-                        continue;
+                        return;
 
                     if (isToggleActivate)
                     {
@@ -149,7 +301,36 @@ namespace DominatorUIUtility.CustomControl
                             DominatorScheduler.StopActivity(accountModel, campaign.SubModule, campaign.TemplateId, true);
                         }
                     }
-                }
+                });
+                //foreach (var campaign in objCampaignDetails.ObjCampaignDetails)
+                //{
+                //    if (campaign.CampaignId != selectedCampaign.CampaignId)
+                //        continue;
+
+                //    bool isCampaignAlreadyActive = campaign.Status == "Active";
+                //    if (isCampaignAlreadyActive == isToggleActivate)
+                //        continue;
+
+                //    if (isToggleActivate)
+                //    {
+                //        campaign.Status = "Active";
+                //        GlobusLogHelper.log.Info(Log.ActivatedCampaign, SocinatorInitialize.ActiveSocialNetwork, campaign.CampaignName);
+
+                //        foreach (var accountModel in lstAccountDetails.Where(x => selectedCampaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
+                //        {
+                //            DominatorScheduler.ScheduleNextActivity(accountModel, module);
+                //        }
+                //    }
+                //    else
+                //    {
+                //        campaign.Status = "Paused";
+                //        GlobusLogHelper.log.Info(Log.CampaignPaused, SocinatorInitialize.ActiveSocialNetwork, campaign.CampaignName);
+                //        foreach (var accountModel in lstAccountDetails.Where(x => campaign.SelectedAccountList.Contains(x.AccountBaseModel.UserName)))
+                //        {
+                //            DominatorScheduler.StopActivity(accountModel, campaign.SubModule, campaign.TemplateId, true);
+                //        }
+                //    }
+                //}
 
                 // CampaignsFileManager.Save(objCampaignDetails.ObjCampaignDetails.ToList());
 
@@ -163,6 +344,18 @@ namespace DominatorUIUtility.CustomControl
             objCampaignDetails.ObjCampaignDetails = objCampaignDetailsBeforeSave;
         }
 
+        private static void UpdateAccountCampaignsStatus(CampaignDetails selectedCampaign, bool isToggleSwitchSelected, DominatorAccountModel account, ActivityType module)
+        {
+            var moduleConfiguration = account.ActivityManager.LstModuleConfiguration
+                .FirstOrDefault(y => y.ActivityType == module);
+
+            if (moduleConfiguration?.TemplateId == selectedCampaign.TemplateId)
+                moduleConfiguration.IsEnabled = isToggleSwitchSelected;
+
+            var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                .AddOrUpdateModuleSettings(module, moduleConfiguration)
+                .SaveToBinFile();
+        }
 
         private void EditCampaign_OnClick(object sender, RoutedEventArgs e)
         {
