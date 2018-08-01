@@ -1,14 +1,30 @@
 ﻿using System;
+using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
     [Serializable]
     [ProtoContract]
-    public class PublisherPostSettings 
+    public class PublisherPostSettings :BindableBase
     {
+        private GeneralPostSettings _generalPostSettings = new GeneralPostSettings();
+
         [ProtoMember(1)]
-        public GeneralPostSettings GeneralPostSettings { get; set; }=new GeneralPostSettings();
+        public GeneralPostSettings GeneralPostSettings
+        {
+            get
+            {
+                return _generalPostSettings;
+            }
+            set
+            {               
+                if (_generalPostSettings == value)
+                    return;
+
+                SetProperty(ref _generalPostSettings, value);
+            }
+        }
 
         [ProtoMember(2)]
         public FdPostSettings FdPostSettings { get; set; }=new FdPostSettings();

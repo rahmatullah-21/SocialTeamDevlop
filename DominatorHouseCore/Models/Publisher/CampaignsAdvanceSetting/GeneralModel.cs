@@ -166,7 +166,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _chooseBetween, value);
             }
         }
-        private bool _isWhenPublishingSendOnePostChecked;
+        private bool _isWhenPublishingSendOnePostChecked = true;
 
         [ProtoMember(11)]
         public bool IsWhenPublishingSendOnePostChecked
@@ -214,7 +214,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isInsertPostsAtRandomChecked, value);
             }
         }
-        private bool _isRunSingleAccountPerCampaign;
+        private bool _isRunSingleAccountPerCampaign = true;
 
         [ProtoMember(14)]
         public bool IsRunSingleAccountPerCampaign

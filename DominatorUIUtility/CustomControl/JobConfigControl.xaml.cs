@@ -4,12 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -17,7 +15,7 @@ using MahApps.Metro.Controls.Dialogs;
 using ProtoBuf;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
-using Newtonsoft.Json;
+using DominatorHouseCore.Patterns;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -127,10 +125,11 @@ namespace DominatorUIUtility.CustomControl
                             FavoriteTime favoriteTime = new FavoriteTime
                             {
                                 FavoriteTimeName = favoriteTimeName,
-                                LstFavoriteTimes = JobConfiguration.RunningTime
+                                LstFavoriteTimes = JobConfiguration.RunningTime.DeepCloneObject()
                             };
                             GenericFileManager.AddModule<FavoriteTime>(favoriteTime, ConstantVariable.GetFavoriteTimeFile());
                             LstFavoriteTime.Add(favoriteTime);
+                           
                             break;
                         }
                         else
@@ -224,6 +223,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
     }
+
     [ProtoContract]
     public class FavoriteTime : INotifyPropertyChanged
     {
