@@ -37,6 +37,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Properties
 
+        
+
         private ObservableCollection<PostDetailsModel> _lstPostDetailsModel;
 
         public ObservableCollection<PostDetailsModel> LstPostDetailsModel

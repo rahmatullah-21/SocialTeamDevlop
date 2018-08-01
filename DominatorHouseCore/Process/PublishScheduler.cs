@@ -362,7 +362,7 @@ namespace DominatorHouseCore.Process
 
                 #region Random Destinations
 
-                if (!advancedSettings.IsWhenPublishingSendOnePostChecked && campaignStatusModel.IsTakeRandomDestination)
+                if (!advancedSettings.IsWhenPublishingSendOnePostChecked  && campaignStatusModel.IsTakeRandomDestination)
                 {
                     // Check whether total destination is zero 
                     if (campaignStatusModel.TotalRandomDestination == 0)

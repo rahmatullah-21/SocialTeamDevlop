@@ -7,23 +7,33 @@
         xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
         mc:Ignorable="d" Name="MultiplePost"
           Height="600" Width="950" Loaded="PublisherMultiplePost_OnLoaded"
-        xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions">
+        xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+
+ 
     <UserControl.Resources>
         <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <DataTemplate x:Key="MacroTemplate">
             <Grid>
                 <TextBlock Text="{Binding Path=Key}"/>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="0.8*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+           <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="*"/>
+               <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                 <Button Name="BtnDeleteAll" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}" 
                         Cursor="Hand" HorizontalAlignment="Center"  Height="30" VerticalAlignment="Center"
                         Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 

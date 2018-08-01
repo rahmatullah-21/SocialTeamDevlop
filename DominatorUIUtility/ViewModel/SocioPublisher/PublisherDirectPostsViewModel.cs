@@ -170,7 +170,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     publisherDirectPosts.PostContentControl.SetMedia();
                     publisherDirectPosts.ImageMediaViewer.Initialize();
 
-                  var createCampaign =  PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
+                    var createCampaign = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
                     createCampaign.PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.PostDetailsModel =
                         new PostDetailsModel();
                     tabItemsControl.PostDetailsModel = new PostDetailsModel();
@@ -355,17 +355,44 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// <param name="sender"></param>
         private void ImportFromCsvExecute(object sender)
         {
-            // select the file path
-            var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
+            try
+            {
+                // Get the object of multiple post UI
+                var publisherMultiplePost = new PublisherMultiplePost(UpdatePostLists);
 
+                // Get the core dialog object
+                var dialog = new Dialog();
+
+                // Pass the object with Title
+                var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
+
+                //DisplayAttribute the dialog
+                window.Show();
+
+                publisherMultiplePost.UpdatePostDetails.Invoke(publisherMultiplePost);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private static void UpdatePostLists(PublisherMultiplePost publisherMultiplePost)
+        {
             // Split with separator
             var separator = ConstantVariable.Separator;
 
             // Get all post details from campaign View model
-            ObservableCollection<PostDetailsModel> postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                .PublisherCreateCampaignModel.LstPostDetailsModels;
+            ObservableCollection<PostDetailsModel> postDetails =
+                PublisherCreateCampaigns.
+                    GetSingeltonPublisherCreateCampaigns().
+                    PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels;
 
             var mediaUtilites = new MediaUtilites();
+
+            // select the file path
+            var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
 
             // Iterate selected file name
             listPostDetailsModel.ForEach(x =>
@@ -429,28 +456,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             });
 
-            // If all post read, open and show in UI for Updation
-            if (postDetails?.Count != 0)
-            {
-                try
-                {
-                    // Get the object of multiple post UI
-                    var publisherMultiplePost = new PublisherMultiplePost(postDetails);
-
-                    // Get the core dialog object
-                    var dialog = new Dialog();
-
-                    // Pass the object with Title
-                    var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
-
-                    //DisplayAttribute the dialog
-                    window.ShowDialog();
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }
         }
 
         #endregion
