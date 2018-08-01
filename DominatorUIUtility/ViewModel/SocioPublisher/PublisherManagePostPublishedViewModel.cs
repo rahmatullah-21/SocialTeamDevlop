@@ -2,10 +2,14 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Windows.Controls;
 using System.Windows.Input;
+using CsvHelper;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
@@ -52,49 +56,49 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var filename = $"{exportPath}\\{PublisherPostlist.Select(x => x.CampaignId).FirstOrDefault()}.csv";
 
                   //  FileUtilities.AddHeaderToCsv(filename, header);
-                    //try
-                    //{
-                    //    TextWriter writer = new StreamWriter(filename);
+                    try
+                    {
+                        TextWriter writer = new StreamWriter(filename);
 
-                    //    var csv = new CsvWriter(writer);
+                        var csv = new CsvWriter(writer);
 
-                    //    #region Write Csv Header
+                        #region Write Csv Header
 
-                    //    csv.WriteField("Post Description");
-                    //    csv.WriteField("MediaList");
-                    //    csv.WriteField("ShareUrl");
-                    //    csv.WriteField("ExpiredTime");
-                    //    csv.WriteField("Published");
-                    //    csv.WriteField("Running Status"); 
+                        csv.WriteField("Post Description");
+                        csv.WriteField("MediaList");
+                        csv.WriteField("ShareUrl");
+                        csv.WriteField("ExpiredTime");
+                        csv.WriteField("Published");
+                        csv.WriteField("Running Status"); 
 
-                    //    #endregion
+                        #endregion
 
-                    //    csv.NextRecord();
+                        csv.NextRecord();
                         
-                    //    selectedPost.ForEach(post =>
-                    //    {
-                    //        var mediaUrls = string.Empty;
-                    //        post.MediaList.ForEach(x => { mediaUrls += x + ConstantVariable.Separator; });
+                        selectedPost.ForEach(post =>
+                        {
+                            var mediaUrls = string.Empty;
+                            post.MediaList.ForEach(x => { mediaUrls += x + ConstantVariable.Separator; });
 
-                    //        #region Write Csv Record
+                            #region Write Csv Record
 
-                    //        csv.WriteField(Utilities.ReplaceUniCode(post.PostDescription));
-                    //        csv.WriteField(mediaUrls.Substring(0, mediaUrls.LastIndexOf(ConstantVariable.Separator)));
-                    //        csv.WriteField(post.ShareUrl);
-                    //        csv.WriteField(post.ExpiredTime);
-                    //        csv.WriteField(post.PostQueuedStatus);
-                    //        csv.WriteField(post.PostRunningStatus); 
+                            csv.WriteField(Utilities.ReplaceUniCode(post.PostDescription));
+                            csv.WriteField(mediaUrls.Substring(0, mediaUrls.LastIndexOf(ConstantVariable.Separator)));
+                            csv.WriteField(post.ShareUrl);
+                            csv.WriteField(post.ExpiredTime);
+                            csv.WriteField(post.PostQueuedStatus);
+                            csv.WriteField(post.PostRunningStatus); 
 
-                    //        #endregion
-                    //        csv.NextRecord();
-                    //    });
-                    //    writer.Close();
-                    //    csv.Flush();
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    ex.DebugLog();
-                    //}
+                            #endregion
+                            csv.NextRecord();
+                        });
+                        writer.Close();
+                        csv.Flush();
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
                     
                     //selectedPost.ForEach(post =>
                     //{
