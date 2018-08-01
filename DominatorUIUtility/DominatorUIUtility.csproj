@@ -98,6 +98,9 @@
     <Reference Include="ControlzEx">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="CsvHelper">
+      <HintPath>..\packages\CsvHelper.7.1.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -201,8 +204,14 @@
     <Compile Include="ConfigControl\Instagram.xaml.cs">
       <DependentUpon>Instagram.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ConfigControl\LinkedIn.xaml.cs">
+      <DependentUpon>LinkedIn.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConfigControl\Pinterest.xaml.cs">
       <DependentUpon>Pinterest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigControl\Quora.xaml.cs">
+      <DependentUpon>Quora.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConfigControl\SocinatorMacros.xaml.cs">
       <DependentUpon>SocinatorMacros.xaml</DependentUpon>
@@ -533,9 +542,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ConfigControl\LinkedIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ConfigControl\Pinterest.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\Quora.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ConfigControl\SocinatorMacros.xaml">
       <SubType>Designer</SubType>

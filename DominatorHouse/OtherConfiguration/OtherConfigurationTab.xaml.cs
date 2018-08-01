@@ -46,6 +46,16 @@ namespace Socinator.Social.OtherConfiguration
                     Title=FindResource("LangKeyThirdPartyServices").ToString(),
                     Content = new Lazy<UserControl>(ThirdPartyServices.GetSingeltonThirdPartyServices)
                 },
+                new TabItemTemplates
+                {
+                    Title=FindResource("LangKeyQuora").ToString(),
+                    Content = new Lazy<UserControl>(Quora.GetSingeltonObjectQuora)
+                },
+                new TabItemTemplates
+                {
+                    Title=FindResource("LangKeyLinkedIn").ToString(),
+                    Content = new Lazy<UserControl>(LinkedIn.GetSingeltonObjectLinkedIn)
+                },
                 //new TabItemTemplates
                 //{
                 //    Title=FindResource("langFacebook").ToString(),

@@ -47,7 +47,7 @@ namespace DominatorUIUtility.ViewModel
             DropDownCommand = new BaseCommand<object>(DropDownCanExecute, DropDownExecute);
             AssignRandomProxyCommand = new BaseCommand<object>(AssignRandomProxyCanExecute, AssignRandomProxyExecute);
             BindingOperations.EnableCollectionSynchronization(LstProxyManagerModel, _lock);
-           
+
 
         }
 
@@ -139,10 +139,10 @@ namespace DominatorUIUtility.ViewModel
                 if (_filter == value)
                     return;
                 SetProperty(ref _filter, value);
-               if (string.IsNullOrEmpty(_filter))
-                    ProxyManagerCollection.Filter = null;
-                else
-                    ProxyManagerCollection.Filter += FilterByNameOrIp;
+                //if (string.IsNullOrEmpty(_filter))
+                //     ProxyManagerCollection.Filter = null;
+                // else
+                ProxyManagerCollection.Filter += FilterByNameOrIp;
             }
         }
         private bool _isAllProxySelected;
@@ -300,7 +300,7 @@ namespace DominatorUIUtility.ViewModel
                 {
                     try
                     {
-                       // var proxy = givenProxy.Replace(",", ":");
+                        // var proxy = givenProxy.Replace(",", ":");
                         var proxy = givenProxy;
 
                         var selectedProxy = Regex.Split(proxy, "\t");
@@ -631,7 +631,7 @@ namespace DominatorUIUtility.ViewModel
             }
             catch (Exception ex)
             {
-                ProxyManagerCollection.Filter = null;
+                ProxyManagerCollection.Filter = (filter) => true;
                 ex.DebugLog();
             }
         }
@@ -1462,7 +1462,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 var oldAccount = AccountsFileManager.GetAccount(objDominatorAccountBaseModel.UserName, objDominatorAccountBaseModel.AccountNetwork).AccountBaseModel;
 
-                isProxyUpdated = IsProxyUpdated(objDominatorAccountBaseModel, oldproxies, oldAccount,strategy).Result;
+                isProxyUpdated = IsProxyUpdated(objDominatorAccountBaseModel, oldproxies, oldAccount, strategy).Result;
             }
             catch (Exception ex)
             {

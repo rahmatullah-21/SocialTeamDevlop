@@ -20,7 +20,7 @@
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
         <Grid>
-            <CheckBox Content="{DynamicResource LangKeyFilter}" x:Name="ChkFilter"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
+            <CheckBox Content="{DynamicResource LangKeyFilter}" x:Name="ChkFilter" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
             <Button HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Background="{DynamicResource AccentColorBrush3}" Margin="10" x:Name="ExportReport" x:FieldModifier="public">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
@@ -35,7 +35,8 @@
             </Button>
         </Grid>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center"  Visibility="{Binding IsChecked, ElementName=ChkFilter,Converter={StaticResource BooleanToVisibilityConverter}}">
+        <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
+            <!--Visibility="{Binding IsChecked, ElementName=ChkFilter,Converter={StaticResource BooleanToVisibilityConverter}}">-->
             <ComboBox VerticalAlignment="Center" x:Name="CmbAccounts" x:FieldModifier="public" Width="130" Margin="10 0 0 5" ItemsSource="{Binding ReportModel.AccountList}" Visibility="{Binding ReportModel.AccountList,Converter={StaticResource ListCountVisiblityConverter}}" controls:TextBoxHelper.Watermark="{DynamicResource LangKeySelectAccountS}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>

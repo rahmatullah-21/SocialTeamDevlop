@@ -46,5 +46,6 @@ namespace DominatorHouseCore.Interfaces
         IAccountVerificationFactory AccountVerificationFactory { get; set; }
         ProfileFactory ProfileFactory { get; set; }
         ChatFactory ChatFactory { get; set; }
+        IGlobalInteractionDetails GlobalInteractionDetails { get; set; }
     }
 }

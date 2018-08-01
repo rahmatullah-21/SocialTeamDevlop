@@ -220,6 +220,12 @@
                 </StackPanel>
 
                 <StackPanel  Orientation="Horizontal" >
+                    <TextBlock Text="{DynamicResource LangKeyGroupName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBox Text="{Binding DominatorAccountModel.AccountBaseModel.AccountGroup.Content}"  controls:TextBoxHelper.Watermark="Enter Group Name" Width="230"
+                             FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"
+                             KeyDown="OnKeyDown"/>
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyAccountName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                     <TextBox Name="TxtAccountName" Text="{Binding DominatorAccountModel.AccountBaseModel.UserFullName}"  controls:TextBoxHelper.Watermark="Enter Account Name" Width="230"
                      FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"
@@ -362,7 +368,7 @@
                         </RadioButton.Style>
                     </RadioButton>
                     <Button Name="BtnSendVerificationCode" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5"
-                        Command="{Binding SendVerificationCodeCommand}" Width="200" HorizontalAlignment="Left">
+                        Command="{Binding SendVerificationCodeCommand}" Width="200" HorizontalAlignment="Left" CommandParameter="{Binding ElementName=BtnSendVerificationCode}">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                                 <Setter Property="Visibility" Value="Collapsed" />

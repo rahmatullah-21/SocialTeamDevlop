@@ -95,6 +95,11 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.CampaignInteractionDetails = campaignInteractionDetails;
             return this;
         }
+        public NetworkCoreLibraryBuilder AddGlobalInteractedDetailsFactory(IGlobalInteractionDetails globalInteractionDetails)
+        {
+            NetworkCoreFactory.GlobalInteractionDetails = globalInteractionDetails;
+            return this;
+        }
         public NetworkCoreLibraryBuilder AddAccountVerificationFactory(IAccountVerificationFactory accountVerification)
         {
             NetworkCoreFactory.AccountVerificationFactory = accountVerification;

@@ -320,5 +320,9 @@ namespace DominatorHouseCore.Utility
             );
             return messeges;
         }
+        public static T DeepCloneObject<T>(this T instance)
+        {
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(instance));
+        }
     }
 }

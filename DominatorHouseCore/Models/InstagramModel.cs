@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Utility;
+﻿using ControlzEx.Standard;
+using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.Models

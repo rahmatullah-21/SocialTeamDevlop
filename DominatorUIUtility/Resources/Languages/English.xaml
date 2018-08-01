@@ -3038,5 +3038,18 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyRemoveTitleOnceUsed">Remove title once used.</system:String>
     <system:String x:Key="LangKeyWriteAMessage">Write a message...</system:String>
     <system:String x:Key="LangKeyRefreshChat">Refresh Chat</system:String>
+    <system:String x:Key="LangKeyStartWarning">These accounts are already having configuration settings for activity:</system:String>
+    <system:String x:Key="LangKeyEndWarning">Saving this settings will override previous settings and remove this account from the campaign.</system:String>
+    <system:String x:Key="LangKeyQuora">Quora</system:String>
+    <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllQuoraAccountsConfiguredInQuora">Enable Follow Different Users Across All Quora Accounts Configured In Quora</system:String>
+    <system:String x:Key="LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator">Enable Exporting HTML of different connections across all LinkedIn accounts configured in Socinator</system:String>
+
     <!--End Added on 19-07-2018-->
+    <system:String x:Key="LangKeyOnlyContactInfo">Only contact info</system:String>
+    <system:String x:Key="LangKeyNumberOfConnectionsToExportPerDay">Number Of Connections To Export Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfConnectionsToExportPerHour">Number Of Connections To Export Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfConnectionsToExportPerJob">Number Of Connections To Export Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfConnectionsToExportPerWeek">Number Of Connections To Export Per Week</system:String>
+    <system:String x:Key="LangKeyMaxConnectionsToExportPerDay">Max Connections To Export Per Day</system:String>
+
 </ResourceDictionary>

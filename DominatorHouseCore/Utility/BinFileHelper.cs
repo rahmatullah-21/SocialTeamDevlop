@@ -75,6 +75,10 @@ namespace DominatorHouseCore.Utility
                     typeof(CampaignInteractionViewModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetConfigurationDir)
                 },
+                {
+                    typeof(GlobalInteractionViewModel),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetConfigurationDir)
+                },
                 {typeof(object), Tuple.Create(new object(), (Func<string>) ConstantVariable.GetIndexAccountFile)}
             };
 
@@ -651,7 +655,32 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        #endregion 
+        #endregion
+
+        #region GlobalInteractedData
+
+        public static List<GlobalInteractionViewModel> GetGlobalInteractedDetails(SocialNetworks network)
+        {
+            return WithFile<GlobalInteractionViewModel, List<GlobalInteractionViewModel>>(file =>
+                ProtoBuffBase.DeserializeList<GlobalInteractionViewModel>(file + $"\\{network}InteractedData.bin"));
+        }
+
+        public static void UpdateGlobalInteractedDetails(List<GlobalInteractionViewModel> globalInteractedDatas,
+            SocialNetworks network)
+        {
+            try
+            {
+                WithFile<GlobalInteractionViewModel, bool>(file =>
+                    ProtoBuffBase.SerializeList(globalInteractedDatas, file + $"\\{network}InteractedData.bin"));
+                GlobusLogHelper.log.Debug("Global interacted data's succesfully saved");
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog("Error, While update the datas to global interacted bin file");
+            }
+        } 
+
+        #endregion
 
     }
 

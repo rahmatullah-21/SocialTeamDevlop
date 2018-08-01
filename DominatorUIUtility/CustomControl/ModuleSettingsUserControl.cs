@@ -927,8 +927,8 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                return Application.Current.FindResource("DHStartWarning") + $" {_activityType} " +
-                                       Application.Current.FindResource("DHEndWarning");
+                return Application.Current.FindResource("LangKeyStartWarning") + $" {_activityType }. " +
+                                       Application.Current.FindResource("LangKeyEndWarning");
             }
             catch (Exception ex)
             {

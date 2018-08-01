@@ -421,6 +421,7 @@
     <Compile Include="Interfaces\ICompany.cs" />
     <Compile Include="Interfaces\IDestinationSelectors.cs" />
     <Compile Include="Interfaces\IDatabaseConnection.cs" />
+    <Compile Include="Interfaces\IGlobalInteractionDetails.cs" />
     <Compile Include="Interfaces\IJob.cs" />
     <Compile Include="Interfaces\IModuleConfiguration.cs" />
     <Compile Include="Interfaces\INetworkCollectionFactory.cs" />
@@ -478,6 +479,7 @@
     <Compile Include="Models\Config\CaptchaServicesModel.cs" />
     <Compile Include="Models\Config\URLShortnerServicesModel.cs" />
     <Compile Include="Models\EditProfileModel.cs" />
+    <Compile Include="Models\GlobalInteractionDataModel.cs" />
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
@@ -486,6 +488,7 @@
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\RedditModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TumblrModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TwitterModel.cs" />
+    <Compile Include="Models\QuoraModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
     <Compile Include="Models\SocioPublisher\DetailedFileInfo.cs" />
     <Compile Include="Interfaces\SocioPublisher\IPublisherDestinationDetailsModel.cs" />
@@ -498,6 +501,7 @@
     <Compile Include="Process\PublisherPostFetcher.cs" />
     <Compile Include="Settings\SoftwareSettings.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
+    <Compile Include="Utility\GlobalInteractedUtility.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
@@ -587,6 +591,7 @@
     <Compile Include="Models\SocioPublisher\PublisherMediaViewerModel.cs" />
     <Compile Include="Utility\MediaUtilites.cs" />
     <Compile Include="ViewModel\EditProfileViewModel.cs" />
+    <Compile Include="ViewModel\GlobalInteractionViewModel.cs" />
     <Compile Include="ViewModel\RevisionHistoryViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />
