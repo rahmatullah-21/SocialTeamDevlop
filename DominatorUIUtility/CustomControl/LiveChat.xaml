@@ -75,9 +75,10 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock x:Name="Sender" Text="{Binding SenderName}"  FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
                                     <TextBlock x:Name="LastMessegeDate" Text="{Binding LastMessegedate,Converter={StaticResource EpochToDateTimeConverter}}"
-                                               Margin="10,0" Grid.Column="1" TextWrapping="Wrap"/>
+                                               Margin="10,0" Grid.Column="1" TextTrimming="WordEllipsis" HorizontalAlignment="Right"/>
                                 </Grid>
                                 <TextBlock x:Name="LastMessege"  Text="{Binding LastMesseges}" Margin="0,5,0,0" TextTrimming="CharacterEllipsis"/>
+                                <Separator Margin="0,10,0,0"/>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
@@ -139,7 +140,7 @@
                                                     HorizontalAlignment="{Binding Type, 
                                                     Converter={StaticResource MessegeTypeToHorizontalAlignmentConverter}}"
                                                     Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Time}"  Margin="0 0 15 0"/>
+                                            <TextBlock Text="{Binding Time,Converter={StaticResource EpochToDateTimeConverter}}"  Margin="0 0 15 0"/>
                                         </StackPanel>
                                     </Grid>
                                 </Grid>

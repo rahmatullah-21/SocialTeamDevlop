@@ -36,10 +36,10 @@ namespace DominatorHouseCore.Interfaces
     }
     public abstract class ChatFactory
     {
-        public virtual void UpdateFriendList(LiveChatModel liveChatModel) { }
-        public virtual void UpdateCurrentChat(LiveChatModel liveChatModel) { }
+        public virtual void UpdateFriendList(LiveChatModel liveChatModel,CancellationToken cancellation) { }
+        public virtual void UpdateCurrentChat(LiveChatModel liveChatModel, CancellationToken cancellation) { }
 
-        public virtual bool SendMessageToUser(LiveChatModel liveChatModel, string message, ChatMessageType messageType) =>
+        public virtual async Task<bool> SendMessageToUser(LiveChatModel liveChatModel, string message, ChatMessageType messageType, CancellationToken cancellation) =>
             true;
     }
 

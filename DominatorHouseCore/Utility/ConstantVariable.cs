@@ -156,12 +156,12 @@ namespace DominatorHouseCore.Utility
 
         public static string GetChatDir()
         {
-            string dir = $"{GetPlatformBaseDirectory()}\\Chat";
+            string dir = $"{GetPlatformBaseDirectory()}\\LiveChat";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
         internal static string GetLiveChatFile() => GetChatDir() + @"\LiveChat.bin";
-
+        public static string GetLiveChatFile(SocialNetworks network) => GetChatDir() + $"\\{network}.bin";
         public static string GetDownloadedMediaFolderPath =>
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 

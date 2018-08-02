@@ -76,7 +76,7 @@
                             <GridViewColumn Header="{DynamicResource LangKeyStatus}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <controls:ToggleSwitch OnLabel="{DynamicResource LangKeyActive}" OffLabel="{DynamicResource langPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                                        <controls:ToggleSwitch OnLabel="{DynamicResource LangKeyActive}" OffLabel="{DynamicResource LangKeyPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
                                                    Click="ToggleActivatePause_Campaign" FontSize="12" Foreground="{DynamicResource AccentBaseColorBrush}"
                                                    SwitchForeground="{DynamicResource AccentBaseColorBrush}">
 

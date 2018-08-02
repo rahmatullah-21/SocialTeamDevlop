@@ -181,6 +181,7 @@
     <Compile Include="Behaviours\ErrorModelControl.xaml.cs">
       <DependentUpon>ErrorModelControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviours\FixedWidthGridViewColumn.cs" />
     <Compile Include="Behaviours\HeaderHelper.cs" />
     <Compile Include="Behaviours\Lang.cs" />
     <Compile Include="Behaviours\NetworkAvailablity.cs" />

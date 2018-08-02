@@ -5,6 +5,7 @@ using System.Windows.Input;
 using DominatorHouseCore.Command;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -12,7 +13,7 @@ using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.ViewModel
 {
-    public class LiveChatViewModel : BindableBase
+    public class LiveChatViewModel : BindableBase, IDisposable
     {
         public SocialNetworks SocialNetworks { get; set; }
         public LiveChatViewModel()
@@ -37,7 +38,7 @@ namespace DominatorHouseCore.ViewModel
         #endregion
 
         #region Properties
-
+        public CancellationTokenSource CancellationSource = new CancellationTokenSource();
         private LiveChatModel _liveChatModel = new LiveChatModel();
 
         public LiveChatModel LiveChatModel
@@ -75,28 +76,37 @@ namespace DominatorHouseCore.ViewModel
 
         private void UserSelectionChangedExecute(object sender)
         {
-            UpdateFriendList();
+            try
+            {
+                UpdateFriendList();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void FriendSelectionChangedExecute(object sender)
         {
             if (LiveChatModel.SenderDetails != null)
             {
-                try
+                ThreadFactory.Instance.Start(() =>
                 {
-                    ThreadFactory.Instance.Start(() =>
+
+                    try
                     {
+                        CancelPriviousTask();
                         Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
 
                         SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
-                            .UpdateCurrentChat(LiveChatModel);
+                                .UpdateCurrentChat(LiveChatModel, CancellationSource.Token);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                });
 
-                    });
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
             }
         }
 
@@ -122,31 +132,35 @@ namespace DominatorHouseCore.ViewModel
 
         public void UpdateFriendList()
         {
-            LiveChatModel.DominatorAccountModel =
-                LstAccountModel.FirstOrDefault(x =>
-                    x.UserName == LiveChatModel.SelectedAccount);
-            try
-            {
-                ThreadFactory.Instance.Start(() =>
-                {
-                    Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Clear());
-                    SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
-                          .UpdateFriendList(LiveChatModel);
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
+            ThreadFactory.Instance.Start(() =>
+              {
+                  try
+                  {
+                      CancelPriviousTask();
+                      LiveChatModel.DominatorAccountModel = LstAccountModel.FirstOrDefault(x => x.UserName == LiveChatModel.SelectedAccount);
+
+                      Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Clear());
+                      SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
+                                .UpdateFriendList(LiveChatModel, CancellationSource.Token);
+                  }
+                  catch (Exception ex)
+                  {
+                      ex.DebugLog();
+                  }
+              });
+
         }
-        private void SendMesage(string message, ChatMessageType chatMessageType)
+        private async void SendMesage(string message, ChatMessageType chatMessageType)
         {
             try
             {
+                CancelPriviousTask();
+
                 if (!string.IsNullOrEmpty(message))
                 {
-                    bool isSent = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
-                        .SendMessageToUser(LiveChatModel, message, chatMessageType);
+                    LiveChatModel.DominatorAccountModel.CancellationSource.Token.ThrowIfCancellationRequested();
+                    bool isSent = await SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
+                        .SendMessageToUser(LiveChatModel, message, chatMessageType, CancellationSource.Token);
 
                     if (isSent)
                     {
@@ -165,5 +179,19 @@ namespace DominatorHouseCore.ViewModel
         }
 
         #endregion
+        private void CancelPriviousTask()
+        {
+            CancellationSource.Cancel();
+            CancellationSource.Dispose();
+            CancellationSource = new CancellationTokenSource();
+        }
+        public void Dispose()
+        {
+            if (CancellationSource != null)
+            {
+                CancellationSource.Dispose();
+                CancellationSource = null;
+            }
+        }
     }
 }

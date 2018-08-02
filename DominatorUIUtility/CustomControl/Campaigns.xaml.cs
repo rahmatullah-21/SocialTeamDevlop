@@ -211,7 +211,7 @@ namespace DominatorUIUtility.CustomControl
             bool allUpdatingBinfilesQueued = false;
             ImmutableQueue<Action> updatingAccountsBinFiles = ImmutableQueue<Action>.Empty;
 
-            var objCampaignDetailsBeforeSave = objCampaignDetails.ObjCampaignDetails;
+           // var objCampaignDetailsBeforeSave = objCampaignDetails.ObjCampaignDetails;
             objCampaignDetails.ObjCampaignDetails =
                 new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
            // var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
@@ -283,19 +283,18 @@ namespace DominatorUIUtility.CustomControl
 
                     if (isToggleActivate)
                     {
-                        objCampaignDetailsBeforeSave.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Active";
+                        objCampaignDetails.ObjCampaignDetails.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Active";
                         //campaign.Status = "Active";
                         GlobusLogHelper.log.Info(Log.ActivatedCampaign, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName);
                     }
                     else
                     {
-                        objCampaignDetailsBeforeSave.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Paused";
+                        objCampaignDetails.ObjCampaignDetails.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Paused";
                         //campaign.Status = "Paused";
                         GlobusLogHelper.log.Info(Log.CampaignPaused, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName);
                     }
                 //});
                 
-
                 CampaignsFileManager.UpdateCampaigns(objCampaignDetails.ObjCampaignDetails.ToList());
             }
 
@@ -303,7 +302,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-            //objCampaignDetails.ObjCampaignDetails = objCampaignDetailsBeforeSave;
+          
         }
 
         private static void UpdateAccountCampaignsStatus(CampaignDetails selectedCampaign, bool isToggleSwitchSelected, DominatorAccountModel account, ActivityType module)
