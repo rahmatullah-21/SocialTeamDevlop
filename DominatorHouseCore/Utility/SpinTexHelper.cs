@@ -50,7 +50,9 @@ namespace DominatorHouseCore.Utility
                 // Iterate until getting 30 unique texts
                 while (spinnedList.Count < 30)
                 {
-                    if(repeatedCount > 5)
+
+                    if (repeatedCount > 5)
+
                         break;
 
                     var spinnedText = SpinText(new Random(), content);
@@ -60,7 +62,6 @@ namespace DominatorHouseCore.Utility
                         repeatedCount++;
                         continue;
                     }
-                       
                     spinnedList.Add(spinnedText);
                 }
                 // return 30 unique spin text

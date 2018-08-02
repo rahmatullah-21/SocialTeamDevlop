@@ -22,10 +22,10 @@
                              VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsUseSimplifiedMethodForFacebook}"/>
                 <RadioButton Content="{DynamicResource LangKeySkipSimplifiedShareWhenNormalSharingFails}" 
                              VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsSkipSimplifiedShare}"/>
-                <CheckBox Content="{DynamicResource LangKeyUncheckIncludeOriginalPostFromFacebookPageShare}"
-                          VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsUncheckIncludeOriginalPost}"/>
-                <CheckBox Content="{DynamicResource LangKeyRemoveThe}" 
-                          VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsRemoveViaoption}"/>
+                <!--<CheckBox Content="{DynamicResource LangKeyUncheckIncludeOriginalPostFromFacebookPageShare}"
+                          VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsUncheckIncludeOriginalPost}"/>-->
+                <!--<CheckBox Content="{DynamicResource LangKeyRemoveThe}" 
+                          VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsRemoveViaoption}"/>-->
                 <CheckBox Content="{DynamicResource LangKeyRemoveTheLinkFromThePostAfterFacebookGooglePlusLinkedinPinterestDisplaysThePreview}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsHidePostInFacebook}"/>
                 <CheckBox Content="{DynamicResource LangKeyDisableCommentsForNewPost}"
