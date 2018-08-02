@@ -162,10 +162,6 @@ namespace DominatorHouse.Utilities
                 {
                     var status = accountUpdateCollection.TryAdd(account.AccountBaseModel.AccountId, -1, cancellationTokenSource.Token);
 
-                    if (!status)
-                    {
-
-                    }
                 }
                 catch (OperationCanceledException)
                 {
@@ -247,7 +243,7 @@ namespace DominatorHouse.Utilities
 
             }, account.Token);
 
-            updateAccount.Start();
+            updateAccount.Start();          
         }
 
 
