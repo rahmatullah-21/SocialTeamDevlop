@@ -32,14 +32,15 @@
                     <GridViewColumn Header="{DynamicResource LangKeyDestination}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Destination}" TextTrimming="CharacterEllipsis"/>
+                                <TextBox Text="{Binding Destination}" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"  Width="250"/>
+                                <!--<TextBlock Text="{Binding Destination}" TextTrimming="CharacterEllipsis"/>-->
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{DynamicResource LangKeyDescription}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Description}" TextTrimming="CharacterEllipsis"/>
+                                <TextBox Text="{Binding Description}" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"  Width="250"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
