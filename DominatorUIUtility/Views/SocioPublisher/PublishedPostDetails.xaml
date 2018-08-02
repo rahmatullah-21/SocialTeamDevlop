@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              mc:Ignorable="d" 
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
     <UserControl.Resources>
         <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
     </UserControl.Resources>
@@ -33,13 +34,13 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource LangKeyDescription}">
-                        <GridViewColumn.CellTemplate>
+                    <behaviours:FixedWidthGridViewColumn Header="{DynamicResource LangKeyDescription}" FixedWidth="300">
+                        <behaviours:FixedWidthGridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Description}" TextTrimming="CharacterEllipsis"/>
                             </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                        </behaviours:FixedWidthGridViewColumn.CellTemplate>
+                    </behaviours:FixedWidthGridViewColumn>
                     <GridViewColumn Header="{DynamicResource LangKeyPublished}" DisplayMemberBinding="{Binding IsPublished}"/>
                     <GridViewColumn Header="{DynamicResource LangKeySuccessful}" DisplayMemberBinding="{Binding Successful}"/>
                     <GridViewColumn Header="{DynamicResource LangKeyPublishedDate}" DisplayMemberBinding="{Binding PublishedDate}"/>
