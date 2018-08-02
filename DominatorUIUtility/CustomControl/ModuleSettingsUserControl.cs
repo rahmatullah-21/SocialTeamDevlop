@@ -347,7 +347,6 @@ namespace DominatorUIUtility.CustomControl
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-
                 if (!ValidateCampaign())
                     return;
 
@@ -361,31 +360,33 @@ namespace DominatorUIUtility.CustomControl
                 if (IsNeedToSaveTemplate())
                 {
                     //     UpdateJobconfiguration();
-                    TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork, CampaignName);
+                    TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork,
+                        CampaignName);
                     SaveTemplateToAccounts(TemplateId);
                     SaveTemplateToCampaigns();
 
                     #region Commented
-                    var accountDetails = AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
-                    //var accountDetails = AccountCustomControl.GetAccountCustomControl(SocialNetwork).DominatorAccountViewModel.LstDominatorAccountModel
-                    //.Where(x => x.AccountBaseModel.UserName == _footerControl.list_SelectedAccounts.SelectedItem);
+
+                    var accountDetails =
+                        AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
+
                     allScheduleQueued = false;
 
                     try
                     {
                         new Thread(() =>
-                        {
-                            while (!allScheduleQueued)
                             {
-                                Thread.Sleep(50);
-                                while (!schedulePending.IsEmpty)
+                                while (!allScheduleQueued)
                                 {
-                                    Action startSchedule;
-                                    schedulePending = schedulePending.Dequeue(out startSchedule);
-                                    startSchedule();
+                                    Thread.Sleep(50);
+                                    while (!schedulePending.IsEmpty)
+                                    {
+                                        Action startSchedule;
+                                        schedulePending = schedulePending.Dequeue(out startSchedule);
+                                        startSchedule();
+                                    }
                                 }
-                            }
-                        })
+                            })
                         { IsBackground = true }.Start();
                     }
                     catch (Exception ex)
@@ -405,6 +406,7 @@ namespace DominatorUIUtility.CustomControl
                     }
 
                     allScheduleQueued = true;
+
                     #endregion
 
                     SetDataContext();
@@ -805,130 +807,127 @@ namespace DominatorUIUtility.CustomControl
 
         protected void UpdateCampaign()
         {
-            Application.Current.Dispatcher.Invoke(() =>
+
+            if (!ValidateCampaign())
+                return;
+
+            if (!ValidateExtraProperty())
+                return;
+
+            var currentCampaign = CampaignsFileManager.Get().FirstOrDefault(camp => camp.TemplateId == TemplateId);
+
+            try
             {
-
-                if (!ValidateCampaign())
-                    return;
-
-                if (!ValidateExtraProperty())
-                    return;
-
-                var currentCampaign = CampaignsFileManager.Get().FirstOrDefault(camp => camp.TemplateId == TemplateId);
-
-                try
+                var newlyAddedAccounts = _footerControl.list_SelectedAccounts.Except(currentCampaign?.SelectedAccountList).ToList();
+                var existingAccounts = _footerControl.list_SelectedAccounts.Except(newlyAddedAccounts).ToList();
+                var removedAccounts = currentCampaign?.SelectedAccountList.Except(existingAccounts).ToList();
+                if (newlyAddedAccounts.Count != 0)
                 {
-                    var newlyAddedAccounts = _footerControl.list_SelectedAccounts.Except(currentCampaign?.SelectedAccountList).ToList();
-                    var existingAccounts = _footerControl.list_SelectedAccounts.Except(newlyAddedAccounts).ToList();
-                    var removedAccounts = currentCampaign?.SelectedAccountList.Except(existingAccounts).ToList();
-                    if (newlyAddedAccounts.Count != 0)
+                    if (!UpdateNewlyAddedAccounts(newlyAddedAccounts)) return;
+                }
+
+                var accountToRemoveModuleConfiguration = AccountsFileManager.GetAllAccounts(removedAccounts, SocialNetwork);
+
+                #region Remove TemplateId from removed account from campaign selected account list
+
+                accountToRemoveModuleConfiguration.ForEach(account =>
+                {
+
+                    try
                     {
-                        if (!UpdateNewlyAddedAccounts(newlyAddedAccounts)) return;
+                        var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
+                            module.ActivityType == _activityType);
+                        account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
+                        var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                            .RemoveModuleSettings(_activityType)
+                            .SaveToBinFile();
+                        DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings?.TemplateId, true);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
                     }
 
-                    var accountToRemoveModuleConfiguration = AccountsFileManager.GetAllAccounts(removedAccounts, SocialNetwork);
 
-                    #region Remove TemplateId from removed account from campaign selected account list
+                });
 
-                    accountToRemoveModuleConfiguration.ForEach(account =>
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+
+
+            // Update Template Details
+            TemplatesFileManager.ApplyFunc(template =>
+            {
+                if (template.Id != TemplateId)
+                    return false;
+
+                TModel model = JsonConvert.DeserializeObject<TModel>(template.ActivitySettings);
+                var firstRunningTime = ((dynamic)model).JobConfiguration.RunningTime;
+                var secondRunningTime = Model.JobConfiguration.RunningTime;
+
+                var result = DominatorScheduler.CompareRunningTime(firstRunningTime, secondRunningTime);
+                if (!result)
+                {
+                    try
                     {
+                        var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
 
-                        try
+                        foreach (var accountModel in lstAccountDetails.Where(x =>
+                            _footerControl.list_SelectedAccounts.Contains(x.AccountBaseModel.UserName)))
                         {
-                            var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
+                            var moduleSettings = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
                                 module.ActivityType == _activityType);
-                            account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-                            var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                                .RemoveModuleSettings(_activityType)
-                                .SaveToBinFile();
-                            DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings?.TemplateId, true);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
+                            moduleSettings.LstRunningTimes = secondRunningTime;
+                            DominatorScheduler.StopActivity(accountModel, _activityType.ToString(), TemplateId, true);
                         }
 
-
-                    });
-
-                    #endregion
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-
-
-
-                // Update Template Details
-                TemplatesFileManager.ApplyFunc(template =>
-                {
-                    if (template.Id != TemplateId)
-                        return false;
-
-                    TModel model = JsonConvert.DeserializeObject<TModel>(template.ActivitySettings);
-                    var firstRunningTime = ((dynamic)model).JobConfiguration.RunningTime;
-                    var secondRunningTime = Model.JobConfiguration.RunningTime;
-
-                    var result = DominatorScheduler.CompareRunningTime(firstRunningTime, secondRunningTime);
-                    if (!result)
+                    }
+                    catch (Exception ex)
                     {
-                        try
-                        {
-                            var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
-
-                            foreach (var accountModel in lstAccountDetails.Where(x =>
-                                _footerControl.list_SelectedAccounts.Contains(x.AccountBaseModel.UserName)))
-                            {
-                                var moduleSettings = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
-                                    module.ActivityType == _activityType);
-                                moduleSettings.LstRunningTimes = secondRunningTime;
-                                DominatorScheduler.StopActivity(accountModel, _activityType.ToString(), TemplateId, true);
-                            }
-
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
+                        ex.DebugLog();
+                    }
 
                     // Update the template configuration 
                     template.ActivitySettings = JsonConvert.SerializeObject((TModel)Model);
-                    }
+                }
 
-                    return true;
-                });
-
-
-                // Update Campaign Details
-                CampaignsFileManager.ApplyAction(campaign =>
-                {
-
-                    if (campaign.TemplateId == TemplateId)
-                    {
-                        campaign.CampaignName = CampaignName;
-                        campaign.MainModule = _moduleName;
-                        campaign.SubModule = _activityType.ToString();
-                        campaign.SocialNetworks = SocialNetwork;
-                        campaign.SelectedAccountList = _footerControl.list_SelectedAccounts;
-                        campaign.TemplateId = TemplateId;
-                        campaign.CreationDate = DateTimeUtilities.GetEpochTime();
-                        campaign.Status = "Active";
-                        campaign.LastEditedDate = DateTimeUtilities.GetEpochTime();
-                    }
-                });
-
-
-                // Update Account Detail
-                var accountDetails = AccountsFileManager.GetAll(SocialNetwork);
-                if (UpdateSelectedAccountDetails(accountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
-                    ToasterNotification.ShowSuccess($"{CampaignName} Updated Successfully");
-                // DialogCoordinator.Instance.ShowModalMessageExternal(this, "Update", "Update Successfull", MessageDialogStyle.Affirmative);
-
-                SetDataContext();
-                TabSwitcher.GoToCampaign();
+                return true;
             });
+
+
+            // Update Campaign Details
+            CampaignsFileManager.ApplyAction(campaign =>
+            {
+
+                if (campaign.TemplateId == TemplateId)
+                {
+                    campaign.CampaignName = CampaignName;
+                    campaign.MainModule = _moduleName;
+                    campaign.SubModule = _activityType.ToString();
+                    campaign.SocialNetworks = SocialNetwork;
+                    campaign.SelectedAccountList = _footerControl.list_SelectedAccounts;
+                    campaign.TemplateId = TemplateId;
+                    campaign.CreationDate = DateTimeUtilities.GetEpochTime();
+                    campaign.Status = "Active";
+                    campaign.LastEditedDate = DateTimeUtilities.GetEpochTime();
+                }
+            });
+
+
+            // Update Account Detail
+            var accountDetails = AccountsFileManager.GetAll(SocialNetwork);
+            if (UpdateSelectedAccountDetails(accountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Update", "Update Successfull", MessageDialogStyle.Affirmative);
+
+            SetDataContext();
+            TabSwitcher.GoToCampaign();
+
         }
 
         string GetWarningLangRsrc()
@@ -1533,8 +1532,7 @@ namespace DominatorUIUtility.CustomControl
                 // update the running time
                 UpdateRunningTime(Model.JobConfiguration, accountModel);
                 DominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
-                ToasterNotification.ShowSuccess($"Successfully Saved !!!");
-                //DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!");
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!");
 
                 #endregion
             }
@@ -1572,8 +1570,8 @@ namespace DominatorUIUtility.CustomControl
                 var socinatorAccountBuilder = new SocinatorAccountBuilder(accountModel.AccountBaseModel.AccountId)
                     .AddOrUpdateModuleSettings(_activityType, moduleConfiguration)
                     .SaveToBinFile();
-                ToasterNotification.ShowSuccess($"Successfully Saved !!!");
-                //DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!");
+
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!");
                 #endregion
 
             }

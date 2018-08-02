@@ -57,9 +57,16 @@ namespace DominatorHouse.Utilities
 
         private void ActivityManagerInitializer()
         {
-            var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
-                .DominatorAccountViewModel;
-            RunningActivityManager.Initialize(dominatorAccountViewModel.LstDominatorAccountModel);
+            try
+            {
+                var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
+                       .DominatorAccountViewModel;
+                RunningActivityManager.Initialize(dominatorAccountViewModel.LstDominatorAccountModel);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void CheckConfigurationFiles()
@@ -87,44 +94,70 @@ namespace DominatorHouse.Utilities
 
         private void ScheduleUpdation()
         {
-            var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
-                .DominatorAccountViewModel;
-            var softwareSetting = SoftwareSettingsFileManager.GetSoftwareSettings();
-            var AccountSynchronizationHours = softwareSetting.AccountSynchronizationHours;
-            dominatorAccountViewModel.LstDominatorAccountModel.ForEach(account =>
+            try
             {
-                if ((DateTimeUtilities.GetEpochTime() - account.LastUpdateTime) > AccountSynchronizationHours * 3600)
+                var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
+                        .DominatorAccountViewModel;
+                var softwareSetting = SoftwareSettingsFileManager.GetSoftwareSettings();
+                var AccountSynchronizationHours = softwareSetting.AccountSynchronizationHours;
+                dominatorAccountViewModel.LstDominatorAccountModel.ForEach(account =>
                 {
                     try
                     {
-                        var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                                       .GetNetworkCoreFactory().AccountUpdateFactory;
-                        UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                        if ((DateTimeUtilities.GetEpochTime() - account.LastUpdateTime) > AccountSynchronizationHours * 3600)
+                        {
+                            try
+                            {
+                                var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                               .GetNetworkCoreFactory().AccountUpdateFactory;
+                                UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                            }
+                            catch(ArgumentException ex)
+                            {
+                                ex.DebugLog();
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.DebugLog();
+                            }
+                        }
+                        else
+                        {
+                            var dateTime = DateTimeUtilities.EpochToDateTimeUtc(account.LastUpdateTime + (AccountSynchronizationHours * 3600));
+                            JobManager.AddJob(() =>
+                            {
+                                try
+                                {
+                                    var accountFactory = SocinatorInitialize
+                                                      .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                                      .GetNetworkCoreFactory().AccountUpdateFactory;
+                                    UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                                }
+                                catch (ArgumentException ex)
+                                {
+                                    ex.DebugLog();
+                                }
+                                catch (Exception ex)
+                                {
+                                    ex.DebugLog();
+                                }
+                            }, s => s.ToRunOnceAt(dateTime).AndEvery(AccountSynchronizationHours).Hours());
+                        }
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ex.DebugLog();
                     }
                     catch (Exception ex)
                     {
                         ex.DebugLog();
                     }
-                }
-                else
-                {
-                    var dateTime = DateTimeUtilities.EpochToDateTimeUtc(account.LastUpdateTime + (AccountSynchronizationHours * 3600));
-                    JobManager.AddJob(() =>
-                    {
-                        try
-                        {
-                            var accountFactory = SocinatorInitialize
-                                              .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                                              .GetNetworkCoreFactory().AccountUpdateFactory;
-                            UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    }, s => s.ToRunOnceAt(dateTime).AndEvery(AccountSynchronizationHours).Hours());
-                }
-            });
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void UpdateAccountAsync(DominatorAccountViewModel dominatorAccountViewModel, SoftwareSettingsModel softwareSetting,
