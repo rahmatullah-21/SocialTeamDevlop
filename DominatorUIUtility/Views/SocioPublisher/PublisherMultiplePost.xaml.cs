@@ -31,6 +31,12 @@ namespace DominatorUIUtility.Views.SocioPublisher
             PublisherMultiplePostViewModel.LstPostDetailsModel = postDetails;
         }
 
+        public Action<PublisherMultiplePost> UpdatePostDetails { get; set; }
+        public PublisherMultiplePost(Action<PublisherMultiplePost> updatePostDetails) : this()
+        {
+            UpdatePostDetails = updatePostDetails;
+        }
+
 
         public ObservableCollection<PostDetailsModel> GetFinalPostDetails()
         {

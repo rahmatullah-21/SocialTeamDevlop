@@ -18,7 +18,10 @@
             </ListView.CommandBindings>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="Height" Value="35"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="Height" Value="40"></Setter>
+
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>
@@ -30,14 +33,15 @@
                     <GridViewColumn Header="{DynamicResource LangKeyDestination}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Destination}" TextTrimming="CharacterEllipsis"/>
+                                <TextBox Text="{Binding Destination}" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"  Width="250"/>
+                                <!--<TextBlock Text="{Binding Destination}" TextTrimming="CharacterEllipsis"/>-->
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <behaviours:FixedWidthGridViewColumn Header="{DynamicResource LangKeyDescription}" FixedWidth="300">
                         <behaviours:FixedWidthGridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Description}" TextTrimming="CharacterEllipsis"/>
+                                <TextBox Text="{Binding Description}" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"  Width="250"/>
                             </DataTemplate>
                         </behaviours:FixedWidthGridViewColumn.CellTemplate>
                     </behaviours:FixedWidthGridViewColumn>

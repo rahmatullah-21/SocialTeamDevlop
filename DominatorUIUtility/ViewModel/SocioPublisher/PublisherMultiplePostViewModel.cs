@@ -40,7 +40,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         #endregion
 
         #region Properties
+
         private static object lockObject = new object();
+
         private ObservableCollection<PostDetailsModel> _lstPostDetailsModel;
 
         public ObservableCollection<PostDetailsModel> LstPostDetailsModel

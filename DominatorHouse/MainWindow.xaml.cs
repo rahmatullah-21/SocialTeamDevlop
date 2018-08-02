@@ -1,5 +1,6 @@
 ﻿#region Namespaces
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -364,11 +365,13 @@ namespace Socinator
             }
         }
 
+
+        
+
         public void LogText(string message, LogLevel logLevel)
-        {
+        {         
             //  GlobusLogHelper.LogTextToList(!error ? InfoLogger : ErrorLogger, message);
             GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -1025,39 +1028,7 @@ namespace Socinator
         }
 
         #endregion
-
-
-        //private void InitialTabablzControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (CmbAvailableNetworks.SelectedItem == null)
-        //        {
-        //            try
-        //            {
-        //                var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
-        //                if (selectedTab?.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) == 0)
-        //                {
-        //                    LoggerCollection.Filter += FilterByInfo;
-        //                }
-        //                else
-        //                    LoggerCollection.Filter += FilterByError;
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                ex.DebugLog();
-        //            }
-        //        }
-        //        else
-        //            LoggerCollection.Filter += FilterByNetwork;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        LoggerCollection.Filter += FilterByNetwork;
-        //        ex.DebugLog();
-        //    }
-        //}
-
+     
         public string LastTab { get; set; } = "Info";
 
         private void InitialTabablzControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1102,7 +1073,6 @@ namespace Socinator
         private void CopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
-
         }
 
         private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)

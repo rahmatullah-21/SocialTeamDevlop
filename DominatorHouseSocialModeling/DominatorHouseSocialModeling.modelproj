@@ -25,6 +25,20 @@
     <EmbeddedResource Include="Images\SociNator.ico">
       <SubType>Content</SubType>
     </EmbeddedResource>
+    <Content Include="Publisher\CreateDestinations.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Publisher\CreateDestinations.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Publisher\CreateDestinations.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="Publisher\ManagePosts.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Publisher\ManagePosts.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Publisher\ManagePosts.sequencediagram</DependentUpon>
+    </Content>
     <Content Include="Publisher\PostFetcher.activitydiagram">
       <SubType>Content</SubType>
     </Content>

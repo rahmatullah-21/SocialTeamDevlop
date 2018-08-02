@@ -31,39 +31,6 @@ namespace DominatorHouseCore.Utility
             return content;
         }
 
-        ///// <summary>
-        ///// Get the spin text collections from text 
-        ///// </summary>
-        ///// <param name="content"></param>
-        ///// <returns></returns>
-        //public static List<string> GetSpinMessageCollection(string content)
-        //{
-        //    try
-        //    {
-        //        // if given content length is lesser than 150 character
-        //        if (content.Length <= 150)
-        //            return GetSpinnedTexts(content);
-
-        //        var spinnedList = new List<string>();
-
-        //        // Iterate until getting 30 unique texts
-        //        while (spinnedList.Count < 30)
-        //        {
-        //            var spinnedText = SpinText(new Random(), content);
-        //            if (spinnedList.Contains(spinnedText))
-        //                continue;
-        //            spinnedList.Add(spinnedText);
-        //        }
-        //        // return 30 unique spin text
-        //        return spinnedList;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //    }
-        //    return new List<string>();
-        //}
-
         /// <summary>
         /// Get the spin text collections from text 
         /// </summary>
@@ -83,7 +50,9 @@ namespace DominatorHouseCore.Utility
                 // Iterate until getting 30 unique texts
                 while (spinnedList.Count < 30)
                 {
+
                     if (repeatedCount > 5)
+
                         break;
 
                     var spinnedText = SpinText(new Random(), content);
@@ -93,7 +62,6 @@ namespace DominatorHouseCore.Utility
                         repeatedCount++;
                         continue;
                     }
-
                     spinnedList.Add(spinnedText);
                 }
                 // return 30 unique spin text

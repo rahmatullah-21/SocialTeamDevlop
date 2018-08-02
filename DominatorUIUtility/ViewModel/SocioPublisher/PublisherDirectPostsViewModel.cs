@@ -377,42 +377,51 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void ImportFromCsvExecute(object sender)
         {
 
+
             // select the file path
             var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
 
+            try
+            {
+                // Get the object of multiple post UI
+                var publisherMultiplePost = new PublisherMultiplePost(UpdatePostLists);
+
+
+                // Get the core dialog object
+                var dialog = new Dialog();
+
+                // Pass the object with Title
+                var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
+
+                //DisplayAttribute the dialog
+                window.Show();
+
+                publisherMultiplePost.UpdatePostDetails.Invoke(publisherMultiplePost);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void UpdatePostLists(PublisherMultiplePost publisherMultiplePost)
+        {
             // Split with separator
             var separator = ConstantVariable.Separator;
 
             // Get all post details from campaign View model
+
             //ObservableCollection<PostDetailsModel> postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
             //    .PublisherCreateCampaignModel.LstPostDetailsModels;
             LstPostDetailsModels = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
               .PublisherCreateCampaignModel.LstPostDetailsModels;
-            ThreadFactory.Instance.Start(() =>
-            {
-                try
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        // Get the object of multiple post UI
-                        var publisherMultiplePost = new PublisherMultiplePost(LstPostDetailsModels);
 
-                        // Get the core dialog object
-                        var dialog = new Dialog();
-
-                        // Pass the object with Title
-                        var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
-
-                        //DisplayAttribute the dialog
-                        window.ShowDialog();
-                    });
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            });
             var mediaUtilites = new MediaUtilites();
+
+            // select the file path
+            var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
+
+
             ThreadFactory.Instance.Start(() =>
             {
 
@@ -463,7 +472,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         }
 
                         #endregion
-
                         // Created date
                         postDetailsModel.CreatedDateTime = DateTime.Now;
 
@@ -505,6 +513,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             //        ex.DebugLog();
             //    }
             //}
+
         }
 
         #endregion
