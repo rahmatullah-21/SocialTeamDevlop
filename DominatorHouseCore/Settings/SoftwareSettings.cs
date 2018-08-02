@@ -14,11 +14,14 @@ namespace DominatorHouseCore.Settings
         {
             CheckConfigurationFiles();
             Settings = SoftwareSettingsFileManager.GetSoftwareSettings();
-
-            var shortnerServices =
+            if (File.Exists(ConstantVariable.GetURLShortnerServicesFile()))
+            {
+                var shortnerServices =
                 GenericFileManager.GetModel<UrlShortnerServicesModel>(ConstantVariable.GetURLShortnerServicesFile());
-            ConstantVariable.BitlyLogin= shortnerServices.Login;
-            ConstantVariable.BitlyApiKey = shortnerServices.ApiKey;
+                ConstantVariable.BitlyLogin = shortnerServices.Login;
+                ConstantVariable.BitlyApiKey = shortnerServices.ApiKey;
+            }
+            
         }
     
         private void CheckConfigurationFiles()

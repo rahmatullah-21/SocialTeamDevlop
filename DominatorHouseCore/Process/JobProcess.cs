@@ -78,9 +78,16 @@ namespace DominatorHouseCore.Process
 
             if (CampaignId != null)
             {
-                DataBaseConnectionCampaign = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignDatabase;
-                SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignInteractionDetails.InitializeInteraction();
-                SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().GlobalInteractionDetails.InitializeInteraction();
+                try
+                {
+                    DataBaseConnectionCampaign = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignDatabase;
+                    SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignInteractionDetails.InitializeInteraction();
+                    SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().GlobalInteractionDetails.InitializeInteraction();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
 
             DataBaseConnectionAccount = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().AccountDatabase;

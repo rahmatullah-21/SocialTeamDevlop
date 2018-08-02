@@ -1027,6 +1027,39 @@ namespace Socinator
         #endregion
 
 
+        //private void InitialTabablzControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (CmbAvailableNetworks.SelectedItem == null)
+        //        {
+        //            try
+        //            {
+        //                var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
+        //                if (selectedTab?.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) == 0)
+        //                {
+        //                    LoggerCollection.Filter += FilterByInfo;
+        //                }
+        //                else
+        //                    LoggerCollection.Filter += FilterByError;
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                ex.DebugLog();
+        //            }
+        //        }
+        //        else
+        //            LoggerCollection.Filter += FilterByNetwork;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LoggerCollection.Filter += FilterByNetwork;
+        //        ex.DebugLog();
+        //    }
+        //}
+
+        public string LastTab { get; set; } = "Info";
+
         private void InitialTabablzControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -1036,12 +1069,20 @@ namespace Socinator
                     try
                     {
                         var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
+
+                        if (selectedTab == LastTab)
+                            return;
+
                         if (selectedTab?.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) == 0)
                         {
+                            LastTab = "Info";
                             LoggerCollection.Filter += FilterByInfo;
                         }
                         else
+                        {
+                            LastTab = "Error";
                             LoggerCollection.Filter += FilterByError;
+                        }
                     }
                     catch (Exception ex)
                     {

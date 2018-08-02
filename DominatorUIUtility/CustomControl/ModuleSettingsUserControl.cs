@@ -923,7 +923,9 @@ namespace DominatorUIUtility.CustomControl
             // Update Account Detail
             var accountDetails = AccountsFileManager.GetAll(SocialNetwork);
             if (UpdateSelectedAccountDetails(accountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Update", "Update Successfull", MessageDialogStyle.Affirmative);
+                ToasterNotification.ShowSuccess($"Campaign:- {CampaignName } updated successfully");
+            // DialogCoordinator.Instance.ShowModalMessageExternal(this, "Update", "Update Successfull", MessageDialogStyle.Affirmative);
+
 
             SetDataContext();
             TabSwitcher.GoToCampaign();
