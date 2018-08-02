@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -92,7 +93,165 @@ namespace DominatorHouse.Utilities
             }
         }
 
+
+
         private void ScheduleUpdation()
+        {
+            var socinatorSettings = SoftwareSettingsFileManager.GetSoftwareSettings();
+
+            var accountUpdateCollection = new BlockingCollection<string>
+                (socinatorSettings.SimultaneousAccountUpdateCount);
+
+            var cancellationtokenSource = new CancellationTokenSource();
+
+            var accountSynchronizationHours = socinatorSettings.AccountSynchronizationHours;
+
+            ThreadFactory.Instance.Start(() =>
+            {
+                AccountUpdateProducer(accountUpdateCollection, cancellationtokenSource, accountSynchronizationHours);
+            });
+
+            ThreadFactory.Instance.Start(() =>
+            {
+                AccountUpdateConsumer(accountUpdateCollection, cancellationtokenSource);
+            });
+
+        }
+
+        private void AccountUpdateProducer(BlockingCollection<string> accountUpdateCollection, CancellationTokenSource cancellationTokenSource, int accountSynchronizationHours)
+        {
+            var dominatorAccountViewModel = AccountCustomControl
+                .GetAccountCustomControl(_strategies)
+                .DominatorAccountViewModel;
+
+            var accounts = dominatorAccountViewModel.LstDominatorAccountModel;
+
+            var currentUpdateAccounts = accounts.Where(x =>
+                DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
+
+            #region Schedule jobs for account update
+
+            var scheduleUpdateAccount = accounts.Except(currentUpdateAccounts);
+
+            foreach (var account in scheduleUpdateAccount)
+            {
+                var dateTime = (account.LastUpdateTime + accountSynchronizationHours * 3600).EpochToDateTimeUtc();
+
+                JobManager.AddJob(() =>
+                {
+                    try
+                    {
+                        accountUpdateCollection.TryAdd(account.AccountBaseModel.AccountId, -1, cancellationTokenSource.Token);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ex.DebugLog();
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                }, s => s.ToRunOnceAt(dateTime).AndEvery(accountSynchronizationHours).Hours());
+            }
+
+            #endregion
+
+            foreach (var account in currentUpdateAccounts)
+            {
+                try
+                {
+                    var status = accountUpdateCollection.TryAdd(account.AccountBaseModel.AccountId, -1, cancellationTokenSource.Token);
+
+                    if (!status)
+                    {
+
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    accountUpdateCollection.CompleteAdding();
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+
+            accountUpdateCollection.CompleteAdding();
+        }
+
+        private void AccountUpdateConsumer(BlockingCollection<string> accountUpdateCollection, CancellationTokenSource cancellationTokenSource)
+        {
+            while (!accountUpdateCollection.IsCompleted)
+            {
+                try
+                {
+                    string accountId;
+                    if (accountUpdateCollection.TryTake(out accountId, -1, cancellationTokenSource.Token))
+                    {
+                        UpdateAccount(accountId, cancellationTokenSource);
+                    }
+                }
+                catch (OperationCanceledException ex)
+                {
+                    ex.DebugLog("Operation Cancelled!");
+                    break;
+                }
+            }
+        }
+
+        public void UpdateAccount(string accountId, CancellationTokenSource cancellationTokenSource)
+        {
+            var account = AccountsFileManager.GetAccountById(accountId);
+
+            if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
+                return;
+            
+            var accountFactory = SocinatorInitialize
+                .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                .GetNetworkCoreFactory().AccountUpdateFactory;
+
+            var asyncAccount = accountFactory as IAccountUpdateFactoryAsync;
+
+            if (asyncAccount == null)
+                return;
+
+            var updateAccount = new Task(async () =>
+            {
+                try
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
+
+                    if (!checkResult)
+                        return;
+
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    await asyncAccount.UpdateDetailsAsync(account, cancellationTokenSource.Token);
+
+                    new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                        .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
+                        .SaveToBinFile();
+                }
+                catch (OperationCanceledException ex)
+                {
+                    ex.DebugLog("Cancellation Requested!");
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+
+            }, account.Token);
+
+            updateAccount.Start();
+        }
+
+
+        private void ScheduleUpdationOld()
         {
             try
             {
@@ -104,45 +263,45 @@ namespace DominatorHouse.Utilities
                 {
                     try
                     {
-                        if ((DateTimeUtilities.GetEpochTime() - account.LastUpdateTime) > AccountSynchronizationHours * 3600)
+                        //if ((DateTimeUtilities.GetEpochTime() - account.LastUpdateTime) > AccountSynchronizationHours * 3600)
+                        //{
+                        try
                         {
-                            try
-                            {
-                                var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                                               .GetNetworkCoreFactory().AccountUpdateFactory;
-                                UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
-                            }
-                            catch(ArgumentException ex)
-                            {
-                                ex.DebugLog();
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.DebugLog();
-                            }
+                            var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                           .GetNetworkCoreFactory().AccountUpdateFactory;
+                            UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
                         }
-                        else
+                        catch (ArgumentException ex)
                         {
-                            var dateTime = DateTimeUtilities.EpochToDateTimeUtc(account.LastUpdateTime + (AccountSynchronizationHours * 3600));
-                            JobManager.AddJob(() =>
-                            {
-                                try
-                                {
-                                    var accountFactory = SocinatorInitialize
-                                                      .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                                                      .GetNetworkCoreFactory().AccountUpdateFactory;
-                                    UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
-                                }
-                                catch (ArgumentException ex)
-                                {
-                                    ex.DebugLog();
-                                }
-                                catch (Exception ex)
-                                {
-                                    ex.DebugLog();
-                                }
-                            }, s => s.ToRunOnceAt(dateTime).AndEvery(AccountSynchronizationHours).Hours());
+                            ex.DebugLog();
                         }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                        //}
+                        //else
+                        //{
+                        //    var dateTime = DateTimeUtilities.EpochToDateTimeUtc(account.LastUpdateTime + (AccountSynchronizationHours * 3600));
+                        //    JobManager.AddJob(() =>
+                        //    {
+                        //        try
+                        //        {
+                        //            var accountFactory = SocinatorInitialize
+                        //                              .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                        //                              .GetNetworkCoreFactory().AccountUpdateFactory;
+                        //            UpdateAccountAsync(dominatorAccountViewModel, softwareSetting, account, accountFactory);
+                        //        }
+                        //        catch (ArgumentException ex)
+                        //        {
+                        //            ex.DebugLog();
+                        //        }
+                        //        catch (Exception ex)
+                        //        {
+                        //            ex.DebugLog();
+                        //        }
+                        //    }, s => s.ToRunOnceAt(dateTime).AndEvery(AccountSynchronizationHours).Hours());
+                        //}
                     }
                     catch (ArgumentException ex)
                     {

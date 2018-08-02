@@ -12,7 +12,7 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.Publisher.AdvancedSettings;
 
-namespace DominatorUIUtility.CustomControl.Publisher
+namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for OtherConfiguration.xaml
