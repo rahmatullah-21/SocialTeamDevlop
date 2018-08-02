@@ -15,19 +15,48 @@
                 <CommandBinding Command="ApplicationCommands.Copy"
                                 CanExecute="CopyCanExecute" Executed="CopyExecuted" />
             </ListView.CommandBindings>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Height" Value="35"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{DynamicResource LangKeySrNo}"  DisplayMemberBinding="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
                                                   Converter={StaticResource IndexToRowNoConverter}}"/>
                     <GridViewColumn Header="{DynamicResource LangKeyAccounts}" DisplayMemberBinding="{Binding AccountName}"/>
-                    <GridViewColumn Header="{DynamicResource LangKeyDestination}" DisplayMemberBinding="{Binding Destination}"/>
-                    <GridViewColumn Header="{DynamicResource LangKeyDescription}" DisplayMemberBinding="{Binding Description}"/>
+                    <GridViewColumn Header="{DynamicResource LangKeyDestination}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Destination}" TextTrimming="CharacterEllipsis"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource LangKeyDescription}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Description}" TextTrimming="CharacterEllipsis"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="{DynamicResource LangKeyPublished}" DisplayMemberBinding="{Binding IsPublished}"/>
                     <GridViewColumn Header="{DynamicResource LangKeySuccessful}" DisplayMemberBinding="{Binding Successful}"/>
                     <GridViewColumn Header="{DynamicResource LangKeyPublishedDate}" DisplayMemberBinding="{Binding PublishedDate}"/>
-                    <GridViewColumn Header="{DynamicResource LangKeyLink}" DisplayMemberBinding="{Binding Link}"/>
-                    <GridViewColumn Header="{DynamicResource LangKeyDestinationURL}" DisplayMemberBinding="{Binding DestinationUrl}"/>
+                    <GridViewColumn Header="{DynamicResource LangKeyLink}" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Link}" TextTrimming="CharacterEllipsis"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource LangKeyDestinationURL}" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DestinationUrl}" TextTrimming="CharacterEllipsis"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="{DynamicResource LangKeyErrorDetails}" DisplayMemberBinding="{Binding ErrorDetails}"/>
                     <GridViewColumn  Header="{DynamicResource LangKeyActions}">
                         <GridViewColumn.CellTemplate>
