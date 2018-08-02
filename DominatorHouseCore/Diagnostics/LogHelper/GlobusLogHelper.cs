@@ -2,12 +2,15 @@
 using NLog.Config;
 using NLog.Targets;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.LogHelper
 {
@@ -15,6 +18,9 @@ namespace DominatorHouseCore.LogHelper
     {
         static GlobusLogHelper()
         {
+
+
+
 #if DEBUG
             // Setup the logging view for Sentinel - http://sentinel.codeplex.com
             var sentinalTarget = new NLogViewerTarget()
@@ -92,13 +98,44 @@ namespace DominatorHouseCore.LogHelper
             }));
         }
 
+        public static ConcurrentDictionary<LogLevel, object> LoggerListsDeletionlock { get; set; } = new ConcurrentDictionary<LogLevel, object>();
 
         public static void LogTextToList(ObservableCollection<LoggerModel> lstLoggerModels, string message, LogLevel logLevel)
         {
             try
             {
-                //if (lstLoggerModels.Count > 1000)
-                //    lstLoggerModels.RemoveAt(lstLoggerModels.Count - 1);
+                var updatelock = LoggerListsDeletionlock.GetOrAdd(LogLevel.Info, _lock => new object());
+
+                lock (updatelock)
+                {
+                    if (lstLoggerModels.Count > 1000)
+                    {
+                        try
+                        {
+                            var removeItems = lstLoggerModels.OrderBy(x => x.DateTime).Take(300);
+                            foreach (var item in removeItems)
+                            {
+                                try
+                                {
+                                    if (!Application.Current.Dispatcher.CheckAccess())
+                                    {
+                                        Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Remove(item));
+                                    }
+                                    else                                   
+                                        lstLoggerModels.Remove(item);                                   
+                                }
+                                catch (Exception ex)
+                                {
+                                    ex.DebugLog();
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    }
+                }
 
 
                 var messages = message.Split('\t');
@@ -112,22 +149,16 @@ namespace DominatorHouseCore.LogHelper
                     Message = messages[3].Trim(),
                     MessageCode = messages[4].Trim(),
                     LogType = logLevel.ToString().Trim()
-
                 };
-                if(!Application.Current.Dispatcher.CheckAccess())
+
+                if (!Application.Current.Dispatcher.CheckAccess())
                 {
-                    Application.Current.Dispatcher.Invoke( () => lstLoggerModels.Add(log));
+                    Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
                 }
                 else
                 {
-                    lstLoggerModels.Add(log);
+                    lstLoggerModels.Insert(0, log);
                 }
-                
-                
-                //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));
-
-                //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));
-                ////Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
             }
             catch (Exception ex)
             {
@@ -142,11 +173,11 @@ namespace DominatorHouseCore.LogHelper
                     };
                     if (!Application.Current.Dispatcher.CheckAccess())
                     {
-                        Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Add(log));
+                        Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
                     }
                     else
                     {
-                        lstLoggerModels.Add(log);
+                        lstLoggerModels.Insert(0, log);
                     }
                     //Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
                     //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => lstLoggerModels.Insert(0, log)));

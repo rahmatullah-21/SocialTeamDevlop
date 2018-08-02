@@ -1,5 +1,6 @@
 ﻿#region Namespaces
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -364,11 +365,13 @@ namespace Socinator
             }
         }
 
+
+        
+
         public void LogText(string message, LogLevel logLevel)
-        {
+        {         
             //  GlobusLogHelper.LogTextToList(!error ? InfoLogger : ErrorLogger, message);
             GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -1026,6 +1029,7 @@ namespace Socinator
 
         #endregion
 
+        public string LastTab { get; set; } = "Info";
 
         private void InitialTabablzControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1036,12 +1040,20 @@ namespace Socinator
                     try
                     {
                         var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
+
+                        if (selectedTab == LastTab)
+                            return;
+
                         if (selectedTab?.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) == 0)
                         {
+                            LastTab = "Info";
                             LoggerCollection.Filter += FilterByInfo;
                         }
                         else
+                        {
+                            LastTab = "Error";
                             LoggerCollection.Filter += FilterByError;
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -1061,7 +1073,6 @@ namespace Socinator
         private void CopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
-
         }
 
         private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)
