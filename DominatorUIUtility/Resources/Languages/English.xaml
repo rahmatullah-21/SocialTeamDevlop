@@ -3052,4 +3052,17 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfConnectionsToExportPerWeek">Number Of Connections To Export Per Week</system:String>
     <system:String x:Key="LangKeyMaxConnectionsToExportPerDay">Max Connections To Export Per Day</system:String>
 
+    <system:String x:Key="LangKeyPagePostLikers">Page Post Likers</system:String>
+    <system:String x:Key="LangKeyCustomProfileUrl">Custom Profile Url</system:String>
+
+    <system:String x:Key="LangKeyFilenameFormat">Custom Html Filename Format</system:String>
+    <system:String x:Key="LangKeyWaterMarkTextFilenameFormat">Input Filename As Eg: {FirstName}_{MiddleName}_{LastName}_{PhoneNumber}_{EmailAddress}_{ProfileURL}</system:String>
+    <system:String x:Key="LangKeyDownloadPdf">Download Pdf</system:String>
+
+    <system:String x:Key="LangKeyNumberOfBlockFollowersPerDay">Number Of Block Followers Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfBlockFollowersPerHour">Number Of Block Followers Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfBlockFollowersPerJob">Number Of Block Followers Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfBlockFollowersPerWeek">Number Of Block Followers Per Week</system:String>
+    <system:String x:Key="LangKeyMaxBlockFollowersPerDay">Max Block Followers Per Day</system:String>
+
 </ResourceDictionary>
