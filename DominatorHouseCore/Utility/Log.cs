@@ -163,7 +163,7 @@ namespace DominatorHouseCore.Utility
         /// </summary>
         public static string OtherConfigurationStarted { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyOtherConfigurationFor".FromResourceDictionary() + " {2} " + "LangKeyIsStarted".FromResourceDictionary() + "\t" + CodeConstants.OtherConfigurationStarted;
 
-        public static string OtherCongigurationCompleted { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyOtherConfigurationFor".FromResourceDictionary() + " {2} " + "LangKeyIsCompleted".FromResourceDictionary() + "\t" + CodeConstants.OtherCongigurationCompleted;
+        public static string OtherConfigurationCompleted { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyOtherConfigurationFor".FromResourceDictionary() + " {2} " + "LangKeyIsCompleted".FromResourceDictionary() + "\t" + CodeConstants.OtherCongigurationCompleted;
 
         public static string FilterApplied { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyAppliedFilterTo".FromResourceDictionary() + " {2} " + "LangKeySearchResults".FromResourceDictionary() + " {3}\t" + CodeConstants.FilterApplied;
 

@@ -101,7 +101,7 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isCampaignChecked;
-  
+
         public bool IsCampaignChecked
         {
             get
@@ -128,6 +128,36 @@ namespace DominatorHouseCore.Models
                 if (_isAllCampaignChecked == value)
                     return;
                 SetProperty(ref _isAllCampaignChecked, value);
+            }
+        }
+        private ObservableCollection<string> _activityType=new ObservableCollection<string>();
+
+        public ObservableCollection<string> ActivityType
+        {
+            get
+            {
+                return _activityType;
+            }
+            set
+            {
+                if (_activityType == value)
+                    return;
+                SetProperty(ref _activityType, value);
+            }
+        }
+        private string _selectedActivity=string.Empty;
+
+        public string SelectedActivity
+        {
+            get
+            {
+                return _selectedActivity;
+            }
+            set
+            {
+                if (_selectedActivity == value)
+                    return;
+                SetProperty(ref _selectedActivity, value);
             }
         }
     }

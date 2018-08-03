@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.ViewModel
@@ -132,6 +133,24 @@ namespace DominatorHouseCore.ViewModel
 
         public void UpdateFriendList()
         {
+            try
+            {
+                CancelPriviousTask();
+                var senders = GenericFileManager.GetModuleDetails<SenderDetails>(
+                    FileDirPath.GetFriendDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork)).Where(x => x.AccountId == LiveChatModel.DominatorAccountModel.AccountId);
+                if (senders != null)
+                {
+                    senders.ForEach(sender =>
+                           {
+                               Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Add(sender));
+                               Thread.Sleep(50);
+                           });
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
             ThreadFactory.Instance.Start(() =>
               {
                   try
@@ -158,7 +177,6 @@ namespace DominatorHouseCore.ViewModel
 
                 if (!string.IsNullOrEmpty(message))
                 {
-                    LiveChatModel.DominatorAccountModel.CancellationSource.Token.ThrowIfCancellationRequested();
                     bool isSent = await SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
                         .SendMessageToUser(LiveChatModel, message, chatMessageType, CancellationSource.Token);
 

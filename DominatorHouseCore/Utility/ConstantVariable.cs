@@ -278,4 +278,16 @@ namespace DominatorHouseCore.Utility
         public static string OwnWall { get; set; } = "OwnWall";
 
     }
+
+    public static class FileDirPath
+    {
+        public static string GetChatDir(SocialNetworks network)
+        {
+            string dir = $"{ConstantVariable.GetPlatformBaseDirectory()}\\LiveChat\\{network}";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir;
+        }
+        public static string GetChatDetailFile(SocialNetworks network) => GetChatDir(network) + $"\\Chat.bin";
+        public static string GetFriendDetailFile(SocialNetworks network) => GetChatDir(network) + $"\\Friend.bin";
+    }
 }

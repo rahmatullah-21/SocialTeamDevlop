@@ -376,15 +376,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// <param name="sender"></param>
         private void ImportFromCsvExecute(object sender)
         {
-
-
             // select the file path
             var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
 
+            if (listPostDetailsModel.Count == 0)
+                return;
             try
             {
+                // Get all post details from campaign View model
+                LstPostDetailsModels = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels;
+
                 // Get the object of multiple post UI
-                var publisherMultiplePost = new PublisherMultiplePost(UpdatePostLists);
+                var publisherMultiplePost = new PublisherMultiplePost(LstPostDetailsModels);
 
 
                 // Get the core dialog object
@@ -396,30 +400,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 //DisplayAttribute the dialog
                 window.Show();
 
-                publisherMultiplePost.UpdatePostDetails.Invoke(publisherMultiplePost);
+                //publisherMultiplePost.UpdatePostDetails.Invoke(publisherMultiplePost);
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-        }
 
-        private void UpdatePostLists(PublisherMultiplePost publisherMultiplePost)
-        {
             // Split with separator
             var separator = ConstantVariable.Separator;
-
-            // Get all post details from campaign View model
-
-            //ObservableCollection<PostDetailsModel> postDetails = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-            //    .PublisherCreateCampaignModel.LstPostDetailsModels;
-            LstPostDetailsModels = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-              .PublisherCreateCampaignModel.LstPostDetailsModels;
 
             var mediaUtilites = new MediaUtilites();
 
             // select the file path
-            var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
+            // var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
 
 
             ThreadFactory.Instance.Start(() =>

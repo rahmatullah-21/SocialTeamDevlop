@@ -325,6 +325,7 @@
     </Compile>
     <Compile Include="ViewModel\AccountDetailsViewModel.cs" />
     <Compile Include="ViewModel\AccountManagerViewModel.cs" />
+    <Compile Include="ViewModel\CampaignViewModel.cs" />
     <Compile Include="ViewModel\Config\URLShortnerServicesViewModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
