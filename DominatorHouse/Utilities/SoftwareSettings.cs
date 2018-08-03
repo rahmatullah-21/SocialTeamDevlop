@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using System.Windows;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic.Scheduler;
@@ -29,7 +30,8 @@ namespace DominatorHouse.Utilities
         {
             _strategies = strategies;
             CheckConfigurationFiles();
-            ScheduleUpdation();
+            ScheduleAccountUpdation();
+            // ScheduleUpdation();
             ActivityManagerInitializer();
             OtherInitializers();
         }
@@ -93,6 +95,66 @@ namespace DominatorHouse.Utilities
             }
         }
 
+        private void ScheduleAccountUpdation()
+        {
+            var socinatorSettings = SoftwareSettingsFileManager.GetSoftwareSettings();
+
+            var accountSynchronizationHours = socinatorSettings.AccountSynchronizationHours;
+
+            var block = new ActionBlock<AccountDetailsUpdation>(
+                async job => await job.UpdateAccountAsync(),
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = socinatorSettings.SimultaneousAccountUpdateCount });
+
+            AccountUpdateProducer(block, accountSynchronizationHours);
+        }
+
+        private void AccountUpdateProducer(ITargetBlock<AccountDetailsUpdation> accountActionBuffer, int accountSynchronizationHours)
+        {
+            var dominatorAccountViewModel = AccountCustomControl
+                .GetAccountCustomControl(_strategies)
+                .DominatorAccountViewModel;
+
+            var accounts = dominatorAccountViewModel.LstDominatorAccountModel;
+
+            var currentUpdateAccounts = accounts.Where(x =>
+                DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
+
+            #region Schedule jobs for account update
+
+            var scheduleUpdateAccount = accounts.Except(currentUpdateAccounts);
+
+            foreach (var account in scheduleUpdateAccount)
+            {
+                var dateTime = (account.LastUpdateTime + accountSynchronizationHours * 3600).EpochToDateTimeUtc();
+
+                JobManager.AddJob(async () =>
+                {
+                    try
+                    {
+                        await accountActionBuffer.SendAsync(new AccountDetailsUpdation(account.AccountBaseModel.AccountId));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ex.DebugLog();
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                }, s => s.ToRunOnceAt(dateTime).AndEvery(accountSynchronizationHours).Hours());
+            }
+
+            #endregion
+
+            currentUpdateAccounts.ForEach(async account =>
+            {
+                await accountActionBuffer.SendAsync(new AccountDetailsUpdation(account.AccountBaseModel.AccountId));
+            });
+
+        }
+
+
+        #region Producer Consumer Solution
 
 
         private void ScheduleUpdation()
@@ -115,11 +177,11 @@ namespace DominatorHouse.Utilities
             {
                 AccountUpdateConsumer(accountUpdateCollection, cancellationtokenSource);
             });
-
         }
 
         private void AccountUpdateProducer(BlockingCollection<string> accountUpdateCollection, CancellationTokenSource cancellationTokenSource, int accountSynchronizationHours)
         {
+
             var dominatorAccountViewModel = AccountCustomControl
                 .GetAccountCustomControl(_strategies)
                 .DominatorAccountViewModel;
@@ -161,7 +223,6 @@ namespace DominatorHouse.Utilities
                 try
                 {
                     var status = accountUpdateCollection.TryAdd(account.AccountBaseModel.AccountId, -1, cancellationTokenSource.Token);
-
                 }
                 catch (OperationCanceledException)
                 {
@@ -175,6 +236,7 @@ namespace DominatorHouse.Utilities
             }
 
             accountUpdateCollection.CompleteAdding();
+
         }
 
         private void AccountUpdateConsumer(BlockingCollection<string> accountUpdateCollection, CancellationTokenSource cancellationTokenSource)
@@ -184,10 +246,13 @@ namespace DominatorHouse.Utilities
                 try
                 {
                     string accountId;
+
                     if (accountUpdateCollection.TryTake(out accountId, -1, cancellationTokenSource.Token))
                     {
                         UpdateAccount(accountId, cancellationTokenSource);
                     }
+
+                    Thread.SpinWait(500000);
                 }
                 catch (OperationCanceledException ex)
                 {
@@ -203,7 +268,7 @@ namespace DominatorHouse.Utilities
 
             if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
                 return;
-            
+
             var accountFactory = SocinatorInitialize
                 .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
                 .GetNetworkCoreFactory().AccountUpdateFactory;
@@ -240,11 +305,16 @@ namespace DominatorHouse.Utilities
                 {
                     ex.DebugLog();
                 }
-
             }, account.Token);
 
             updateAccount.Start();          
         }
+
+
+
+        #endregion
+
+        #region Old Update Methods
 
 
         private void ScheduleUpdationOld()
@@ -342,5 +412,80 @@ namespace DominatorHouse.Utilities
                 ex.DebugLog();
             }
         }
+
+        #endregion
+
+    }
+
+
+    public class AccountDetailsUpdation
+    {
+        public string AccountId { get; set; }
+
+        public AccountDetailsUpdation(string accountId)
+        {
+            AccountId = accountId;
+        }
+
+        public static ConcurrentDictionary<string, CancellationTokenSource> AccountUpdatesCancellationToken { get; set; }
+            = new ConcurrentDictionary<string, CancellationTokenSource>();
+
+        public async Task UpdateAccountAsync()
+        {
+
+            var cancellationTokenSource = AccountUpdatesCancellationToken.GetOrAdd(AccountId, token => new CancellationTokenSource());
+
+            var account = AccountsFileManager.GetAccountById(AccountId);
+
+            if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
+                return;
+
+            var accountFactory = SocinatorInitialize
+                .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                .GetNetworkCoreFactory().AccountUpdateFactory;
+
+            var asyncAccount = accountFactory as IAccountUpdateFactoryAsync;
+
+            if (asyncAccount == null)
+                return;
+
+            try
+            {
+                cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
+
+                if (!checkResult)
+                    return;
+
+                cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                await asyncAccount.UpdateDetailsAsync(account, cancellationTokenSource.Token);
+
+                new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                    .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
+                    .SaveToBinFile();
+
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog("Cancellation Requested!");
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        public static void StopUpdate(string accountId)
+        {
+            CancellationTokenSource cancellationToken;
+
+            var status = AccountUpdatesCancellationToken.TryGetValue(accountId, out cancellationToken);
+
+            if(status)
+                cancellationToken.Cancel();
+        }
+
     }
 }

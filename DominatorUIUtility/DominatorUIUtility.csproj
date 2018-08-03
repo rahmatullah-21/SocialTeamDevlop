@@ -444,8 +444,12 @@
       <DependentUpon>PostTwitterSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\SocinatorTextBox.cs" />
-    <Compile Include="Views\SocioPublisher\JobConfiguration.xaml.cs" />
-    <Compile Include="Views\SocioPublisher\OtherConfiguration.xaml.cs" />
+    <Compile Include="Views\SocioPublisher\JobConfiguration.xaml.cs">
+      <DependentUpon>JobConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\OtherConfiguration.xaml.cs">
+      <DependentUpon>OtherConfiguration.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublishedPostDetails.xaml.cs">
       <DependentUpon>PublishedPostDetails.xaml</DependentUpon>
     </Compile>
