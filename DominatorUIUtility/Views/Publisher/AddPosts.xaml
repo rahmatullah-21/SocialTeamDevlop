@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" x:Name="addPost" 
-             xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl.Publisher"
-             >
+           
+             xmlns:socioPublisher="clr-namespace:DominatorUIUtility.Views.SocioPublisher">
  
     <Grid x:Name="MainGrid" Height="400">
         <ScrollViewer Margin="5" VerticalScrollBarVisibility="Auto" >
@@ -141,10 +141,10 @@
                         <Button Content="{DynamicResource LangKeyImportPostFromCsv}" Click="btnImportPostFromCsv_Click" x:Name="btnImportPostFromCsv"  Margin="10,5" Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"/>
                     </StackPanel>
                     <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
-                        <customControl:JobConfiguration JobConfigurations="{Binding JobConfigurations}"/>
+                        <socioPublisher:JobConfiguration JobConfigurations="{Binding JobConfigurations}"/>
                     </Expander>
                     <Expander Header="{DynamicResource LangKeyOtherConfigurations}" Margin="5">
-                        <customControl:OtherConfiguration OtherConfigurations="{Binding OtherConfiguration}"/>
+                        <socioPublisher:OtherConfiguration OtherConfigurations="{Binding OtherConfiguration}"/>
                     </Expander>
 
                 </StackPanel>

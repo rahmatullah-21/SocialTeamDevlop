@@ -308,12 +308,6 @@
     <Compile Include="CustomControl\ProxyManager.xaml.cs">
       <DependentUpon>ProxyManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControl\Publisher\JobConfiguration.xaml.cs">
-      <DependentUpon>JobConfiguration.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControl\Publisher\OtherConfiguration.xaml.cs">
-      <DependentUpon>OtherConfiguration.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CustomControl\Reports.xaml.cs">
       <DependentUpon>Reports.xaml</DependentUpon>
     </Compile>
@@ -451,6 +445,12 @@
       <DependentUpon>PostTwitterSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\SocinatorTextBox.cs" />
+    <Compile Include="Views\SocioPublisher\JobConfiguration.xaml.cs">
+      <DependentUpon>JobConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\OtherConfiguration.xaml.cs">
+      <DependentUpon>OtherConfiguration.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublishedPostDetails.xaml.cs">
       <DependentUpon>PublishedPostDetails.xaml</DependentUpon>
     </Compile>
@@ -704,14 +704,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomControl\Publisher\JobConfiguration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\Publisher\OtherConfiguration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="CustomControl\Reports.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -930,6 +922,14 @@
     <Page Include="Views\SocioPublisher\CustomControl\Settings\PostTwitterSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SocioPublisher\JobConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SocioPublisher\OtherConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SocioPublisher\PublishedPostDetails.xaml">
       <SubType>Designer</SubType>
