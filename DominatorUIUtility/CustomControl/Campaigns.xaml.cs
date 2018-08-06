@@ -25,14 +25,32 @@ using DominatorHouseCore.DatabaseHandler.Utility;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Immutable;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using DominatorHouseCore.Annotations;
+using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for Campaigns.xaml
     /// </summary>
-    public partial class Campaigns : UserControl
+    public partial class Campaigns : UserControl, INotifyPropertyChanged
     {
+        private CampaignViewModel _campaignViewModel = new CampaignViewModel();
+
+        public CampaignViewModel CampaignViewModel
+        {
+            get
+            {
+                return _campaignViewModel;
+            }
+            set
+            {
+                _campaignViewModel = value;
+                OnPropertyChanged(nameof(CampaignViewModel));
+            }
+        }
 
         private readonly CampaignDetails objCampaignDetails;
         private bool IsUnCheckedFromCampaignDetails { get; set; }
@@ -43,9 +61,18 @@ namespace DominatorUIUtility.CustomControl
 
         public Campaigns(SocialNetworks socialNetworks)
         {
+         
             InitializeComponent();
-            this.SocialNetworks = socialNetworks;
-            objCampaignDetails = new CampaignDetails();
+            CampaignViewModel.SocialNetworks = socialNetworks;
+            CampaignViewModel.SetActivityTypes();
+            CampaignViewModel.LstCampaignDetails = new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(socialNetworks));
+            Campaign.DataContext = CampaignViewModel;
+
+            CampaignViewModel.CampaignCollection = CollectionViewSource.GetDefaultView(CampaignViewModel.LstCampaignDetails);
+
+
+            //this.SocialNetworks = socialNetworks;
+            //objCampaignDetails = new CampaignDetails();
         }
 
         private void SetComboBoxItemSource(SocialNetworks networks)
@@ -94,12 +121,12 @@ namespace DominatorUIUtility.CustomControl
         //{
         //    //var ActivatePauseAction = new Func<object, RoutedEventArgs>(ActivatePause);
         //    ThreadStart starter = delegate { ActivatePause(sender, e); };
-            
-           
+
+
         //    Action starting = ()  => ActivatePause(sender,e);
         //    ThreadFactory.Instance.Start(() =>
         //    {
-                
+
         //    });
         //}
 
@@ -200,9 +227,9 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        
 
-        
+
+
 
         private void ActivePauseCampaign(CampaignDetails selectedCampaign, bool isToggleSwitchSelected)
         {
@@ -211,10 +238,10 @@ namespace DominatorUIUtility.CustomControl
             bool allUpdatingBinfilesQueued = false;
             ImmutableQueue<Action> updatingAccountsBinFiles = ImmutableQueue<Action>.Empty;
 
-            var objCampaignDetailsBeforeSave = objCampaignDetails.ObjCampaignDetails;
+            // var objCampaignDetailsBeforeSave = objCampaignDetails.ObjCampaignDetails;
             objCampaignDetails.ObjCampaignDetails =
                 new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
-           // var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+            // var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
             var lstAccountDetails = AccountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
             if (selectedCampaign == null)
                 return;
@@ -241,21 +268,21 @@ namespace DominatorUIUtility.CustomControl
 
 
             allUpdatingBinfilesQueued = true;
-           // GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName, "", "all files queued");
+            // GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName, "", "all files queued");
 
             try
             {
                 new Thread(() =>
                 {
-                        while (!updatingAccountsBinFiles.IsEmpty)
-                        {  
-                            Action act;
-                            updatingAccountsBinFiles = updatingAccountsBinFiles.Dequeue(out act);
-                            //GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName, "", "Start action");
-                            act();
-                            //updatedBinFiles++;
-                        }
-                    
+                    while (!updatingAccountsBinFiles.IsEmpty)
+                    {
+                        Action act;
+                        updatingAccountsBinFiles = updatingAccountsBinFiles.Dequeue(out act);
+                        //GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName, "", "Start action");
+                        act();
+                        //updatedBinFiles++;
+                    }
+
                 })
                 { IsBackground = true }.Start();
             }
@@ -281,20 +308,19 @@ namespace DominatorUIUtility.CustomControl
                 //    if (isCampaignAlreadyActive == isToggleActivate)
                 //        return;
 
-                    if (isToggleActivate)
-                    {
-                        objCampaignDetailsBeforeSave.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Active";
-                        //campaign.Status = "Active";
-                        GlobusLogHelper.log.Info(Log.ActivatedCampaign, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName);
-                    }
-                    else
-                    {
-                        objCampaignDetailsBeforeSave.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Paused";
-                        //campaign.Status = "Paused";
-                        GlobusLogHelper.log.Info(Log.CampaignPaused, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName);
-                    }
+                if (isToggleActivate)
+                {
+                    objCampaignDetails.ObjCampaignDetails.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Active";
+                    //campaign.Status = "Active";
+                    GlobusLogHelper.log.Info(Log.ActivatedCampaign, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName);
+                }
+                else
+                {
+                    objCampaignDetails.ObjCampaignDetails.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Paused";
+                    //campaign.Status = "Paused";
+                    GlobusLogHelper.log.Info(Log.CampaignPaused, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName);
+                }
                 //});
-                
 
                 CampaignsFileManager.UpdateCampaigns(objCampaignDetails.ObjCampaignDetails.ToList());
             }
@@ -303,7 +329,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-            //objCampaignDetails.ObjCampaignDetails = objCampaignDetailsBeforeSave;
+
         }
 
         private static void UpdateAccountCampaignsStatus(CampaignDetails selectedCampaign, bool isToggleSwitchSelected, DominatorAccountModel account, ActivityType module)
@@ -320,11 +346,11 @@ namespace DominatorUIUtility.CustomControl
                 .SaveToBinFile();
             if (isToggleSwitchSelected)
             {
-                    DominatorScheduler.ScheduleNextActivity(account, module);
+                DominatorScheduler.ScheduleNextActivity(account, module);
             }
             else
             {
-                    DominatorScheduler.StopActivity(account, selectedCampaign.SubModule, selectedCampaign.TemplateId, true);
+                DominatorScheduler.StopActivity(account, selectedCampaign.SubModule, selectedCampaign.TemplateId, true);
             }
             //GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName, "", "updated account status");
         }
@@ -590,7 +616,7 @@ namespace DominatorUIUtility.CustomControl
                     //  GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, camp.CampaignName, camp.SubModule, "  Campaign deleted permanently from campaigns.","");
                 });
             });
-            GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ "+campaign.Count+" ] Campaigns");
+            GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ " + campaign.Count + " ] Campaigns");
 
             if (objCampaignDetails.ObjCampaignDetails.Count == 0 || !objCampaignDetails.ObjCampaignDetails.All(x => x.IsCampaignChecked))
                 objCampaignDetails.IsAllCampaignChecked = false;
@@ -656,6 +682,12 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

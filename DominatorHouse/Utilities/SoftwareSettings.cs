@@ -227,7 +227,7 @@ namespace DominatorHouse.Utilities
             {
                 try
                 {
-                    accountUpdateCollection.TryAdd(account.AccountBaseModel.AccountId, -1, cancellationTokenSource.Token);
+                    var status = accountUpdateCollection.TryAdd(account.AccountBaseModel.AccountId, -1, cancellationTokenSource.Token);
                 }
                 catch (OperationCanceledException)
                 {
@@ -312,7 +312,7 @@ namespace DominatorHouse.Utilities
                 }
             }, account.Token);
 
-            updateAccount.Start();
+            updateAccount.Start();          
         }
 
 

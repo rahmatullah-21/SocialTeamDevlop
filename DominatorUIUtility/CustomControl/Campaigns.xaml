@@ -3,9 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl" x:Name="Campaign" Loaded="Campaign_Loaded"
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl" x:Name="Campaign" 
              mc:Ignorable="d"  xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours"
+             xmlns:viewModel="clr-namespace:DominatorUIUtility.ViewModel" 
+             xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+
+    <interactivity:Interaction.Triggers>
+        <interactivity:EventTrigger EventName="Loaded">
+            <interactivity:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </interactivity:EventTrigger>
+    </interactivity:Interaction.Triggers>
     <UserControl.Resources>
         <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
     </UserControl.Resources>
@@ -18,7 +27,7 @@
             </Grid.RowDefinitions>
             <Grid  Background="{DynamicResource AccentBaseColorBrush}" Height="40" >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                    <Button Height="30" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Click="DeleteMultipleCampaign_Click"
+                    <Button Height="30" x:Name="DeleteMultipleCampaign" HorizontalAlignment="Left" Command="{Binding DeleteCommand}"
                         VerticalContentAlignment="Center" Background="Transparent" ToolTip="{DynamicResource LangKeyDeleteSelected}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal" >
@@ -34,40 +43,41 @@
                     <Label Foreground="White" FontSize="12" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                        Height="25"  Content="{DynamicResource LangKeySelectCampaignCategory}" />
                     <ComboBox x:Name="CmbCampaignType" SelectedIndex="0"
-                          Height="26" 
-                          MinWidth="240"
+                          Height="26" ItemsSource="{Binding CampaignModel.ActivityType}"
+                          MinWidth="240" SelectedItem="{Binding CampaignModel.SelectedActivity}"
                           Margin="3"  Background="Transparent"  Foreground="White"                 
                           BorderBrush="White"
                           ToolTip="{DynamicResource LangKeySelectTheCampaignToFilterForView}" 
-                          SelectionChanged="CmbCampaignType_SelectionChanged"/>
+                          behaviours:SelectionChangedBehaviour.Command="{Binding CampaignTypeSelectionChange}"/>
 
                 </StackPanel>
             </Grid>
-            <ListView Grid.Row="1" SizeChanged="list_SizeChanged" x:Name="list" ItemsSource="{Binding CampaignCollection}" 
+            <ListView Grid.Row="1" SizeChanged="list_SizeChanged" x:Name="list" ItemsSource="{Binding CampaignCollection,IsAsync=True}" 
                       ItemContainerStyle="{StaticResource ListViewItems}" Foreground="{DynamicResource AccentBaseColorBrush}"
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" >
                 <ListView.Resources>
                     <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                     </Style>
+
+                    <viewModel:BindingData x:Key="proxy" Data="{Binding}" />
+                    
                 </ListView.Resources>
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
                             <GridViewColumn Width="100">
-                                <CheckBox x:Name="AllCampaign" IsChecked="{Binding IsAllCampaignChecked}" Content=" #"
-                                          Checked="AllCampaignChecked_Checked"
-                                          Unchecked="AllCampaignChecked_Unchecked"/>
+                                <CheckBox x:Name="AllCampaign" IsChecked="{Binding IsAllCampaignChecked}" Content=" #"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <CheckBox IsChecked="{Binding IsCampaignChecked}" 
                                                   x:Name="ChkSingleCampaign"
-                                                  Checked="ChkSingleCampaign_OnChecked"
-                                                  Unchecked="ChkSingleCampaign_OnUnchecked"
                                                   Margin="5,0,0,0"  Content="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
                                                   Converter={StaticResource IndexToRowNoConverter}}" 
-                                                  Foreground="{DynamicResource AccentBaseColorBrush}"/>
+                                                  Foreground="{DynamicResource AccentBaseColorBrush}"
+                                                  Command="{Binding DataContext.SelectionCommand,
+                                                  RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="SelectManually"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -76,10 +86,16 @@
                             <GridViewColumn Header="{DynamicResource LangKeyStatus}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <controls:ToggleSwitch OnLabel="{DynamicResource LangKeyActive}" OffLabel="{DynamicResource langPaused}" Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
-                                                   Click="ToggleActivatePause_Campaign" FontSize="12" Foreground="{DynamicResource AccentBaseColorBrush}"
-                                                   SwitchForeground="{DynamicResource AccentBaseColorBrush}">
-
+                                        <controls:ToggleSwitch OnLabel="{DynamicResource LangKeyActive}" OffLabel="{DynamicResource LangKeyPaused}" 
+                                                               Tag="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                                                               FontSize="12" Foreground="{DynamicResource AccentBaseColorBrush}" Name="campaignStatus"
+                                                               SwitchForeground="{DynamicResource AccentBaseColorBrush}">
+                                            <interactivity:Interaction.Triggers>
+                                                <interactivity:EventTrigger EventName="Click">
+                                                    <interactivity:InvokeCommandAction Command="{Binding DataContext.StatusChangeCommand,
+                                                        RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding ElementName=campaignStatus}"/>
+                                                </interactivity:EventTrigger>
+                                            </interactivity:Interaction.Triggers>
                                             <controls:ToggleSwitch.Style>
                                                 <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
                                                     <Style.Triggers>
@@ -89,7 +105,9 @@
                                                         <Trigger Property="Tag" Value="Paused">
                                                             <Setter Property="IsChecked" Value="False" />
                                                         </Trigger>
+                                                        
                                                     </Style.Triggers>
+                                                   
                                                 </Style>
                                             </controls:ToggleSwitch.Style>
                                         </controls:ToggleSwitch>
@@ -100,7 +118,10 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" Margin="4" >
-                                            <Button Name="BtnCampaignSetting" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25"  VerticalAlignment="Top" Margin="10,0,0,0"  Click="BtnCampaignSetting_OnClick">
+                                            <Button Name="BtnCampaignSetting" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
+                                                    VerticalAlignment="Top" Margin="10,0,0,0"  Command="{Binding DataContext.SettingCommand,
+                                                    RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                    CommandParameter="{Binding ElementName=BtnCampaignSetting}" >
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                     <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
                                                         <Rectangle.OpacityMask>
@@ -110,7 +131,9 @@
                                                 </StackPanel>
                                                 <Button.ContextMenu>
                                                     <ContextMenu >
-                                                        <MenuItem Header="{DynamicResource LangKeyEdit}" Height="30"  VerticalContentAlignment="Center" Name="EditCampaign" Click="EditCampaign_OnClick">
+                                                        <MenuItem Header="{DynamicResource LangKeyEdit}" Height="30"  VerticalContentAlignment="Center" Name="EditCampaign"
+                                                                  Command="{Binding Data.EditCommand, Source={StaticResource proxy}}"
+                                                                  CommandParameter="{Binding}">
                                                             <MenuItem.Icon>
                                                                 <Rectangle Width="20" Height="20" Fill="Black">
                                                                     <Rectangle.OpacityMask>
@@ -119,13 +142,19 @@
                                                                 </Rectangle>
                                                             </MenuItem.Icon>
                                                         </MenuItem>
-                                                        <MenuItem Header="{DynamicResource LangKeyDuplicateCampaign}" Height="30" x:Name="DuplicateCampaign"  VerticalContentAlignment="Center"  Click="DuplicateCampaign_OnClick">
+                                                        <MenuItem Header="{DynamicResource LangKeyDuplicateCampaign}" Height="30" x:Name="DuplicateCampaign"  
+                                                                  VerticalContentAlignment="Center" 
+                                                                  Command="{Binding Data.DuplicateCommand, Source={StaticResource proxy}}"
+                                                                  CommandParameter="{Binding}">
                                                             <MenuItem.Icon>
                                                                 <Image Source="/DominatorUIUtility;component/Images/duplicatecampaign.png" />
                                                             </MenuItem.Icon>
                                                         </MenuItem>
                                                         <Separator />
-                                                        <MenuItem Header="{DynamicResource LangKeyDelete}" Height="30" x:Name="DeleteSingleCampaign" VerticalContentAlignment="Center" Click="DeleteSingleCampaign_OnClick">
+                                                        <MenuItem Header="{DynamicResource LangKeyDelete}" Height="30" x:Name="DeleteSingleCampaign" 
+                                                                  VerticalContentAlignment="Center" 
+                                                                  Command="{Binding Data.DeleteCommand, Source={StaticResource proxy}}"
+                                                                  CommandParameter="{Binding}">
                                                             <MenuItem.Icon>
                                                                 <Rectangle Width="15" Height="20" Fill="Black">
                                                                     <Rectangle.OpacityMask>
@@ -136,7 +165,10 @@
                                                             </MenuItem.Icon>
                                                         </MenuItem>
                                                         <Separator />
-                                                        <MenuItem Header="{DynamicResource LangKeyReport}" VerticalContentAlignment="Center" Height="30" x:Name="CampaignReports" Click="CampaignReports_OnClick">
+                                                        <MenuItem Header="{DynamicResource LangKeyReport}" VerticalContentAlignment="Center"
+                                                                  Height="30" x:Name="CampaignReports"
+                                                                  Command="{Binding Data.ReportCommand, Source={StaticResource proxy}}"
+                                                                  CommandParameter="{Binding}">
                                                             <MenuItem.Icon>
                                                                 <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
                                                             </MenuItem.Icon>

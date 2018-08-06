@@ -103,7 +103,7 @@
 
         <Grid Grid.Row="1">
             <ListView ScrollViewer.VerticalScrollBarVisibility="Auto" Width="950" BorderThickness="0" BorderBrush="Transparent" 
-                      ItemsSource="{Binding PostListsCollectionView}" Margin="2" HorizontalAlignment="Center">
+                      ItemsSource="{Binding PostListsCollectionView,IsAsync=True}" Margin="2" HorizontalAlignment="Center">
                 <ListView.Resources>
                     <ContextMenu x:Key="ItemContextMenu">
                         <MenuItem  Name="DeletePost"  Command="{Binding Path=DataContext.DeletePostCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}" 

@@ -4,10 +4,13 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -30,6 +33,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);
             SaveCurrentPostCommand = new BaseCommand<object>(CanExecuteSaveSinglePost, CanSaveSinglePost);
+            LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
+            BindingOperations.EnableCollectionSynchronization(LstPostDetailsModels, _lock);
         }
 
         public PublisherDirectPostsViewModel(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl) : this()
@@ -41,6 +46,22 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         #endregion
 
         #region Properties
+        private static object _lock = new object();
+        private ObservableCollection<PostDetailsModel> _lstPostDetailsModels;
+
+        public ObservableCollection<PostDetailsModel> LstPostDetailsModels
+        {
+            get
+            {
+                return _lstPostDetailsModels;
+            }
+            set
+            {
+                if (_lstPostDetailsModels == value)
+                    return;
+                SetProperty(ref _lstPostDetailsModels, value);
+            }
+        }
 
         /// <summary>
         /// Post source details
@@ -355,10 +376,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// <param name="sender"></param>
         private void ImportFromCsvExecute(object sender)
         {
+            // select the file path
+            var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
+
+            if (listPostDetailsModel.Count == 0)
+                return;
             try
             {
+                // Get all post details from campaign View model
+                LstPostDetailsModels = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels;
+
                 // Get the object of multiple post UI
-                var publisherMultiplePost = new PublisherMultiplePost(UpdatePostLists);
+                var publisherMultiplePost = new PublisherMultiplePost(LstPostDetailsModels);
+
 
                 // Get the core dialog object
                 var dialog = new Dialog();
@@ -369,92 +400,113 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 //DisplayAttribute the dialog
                 window.Show();
 
-                publisherMultiplePost.UpdatePostDetails.Invoke(publisherMultiplePost);
+                //publisherMultiplePost.UpdatePostDetails.Invoke(publisherMultiplePost);
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-        }
 
-        private static void UpdatePostLists(PublisherMultiplePost publisherMultiplePost)
-        {
             // Split with separator
             var separator = ConstantVariable.Separator;
-
-            // Get all post details from campaign View model
-            ObservableCollection<PostDetailsModel> postDetails =
-                PublisherCreateCampaigns.
-                    GetSingeltonPublisherCreateCampaigns().
-                    PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels;
 
             var mediaUtilites = new MediaUtilites();
 
             // select the file path
-            var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
+            // var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
 
-            // Iterate selected file name
-            listPostDetailsModel.ForEach(x =>
+
+            ThreadFactory.Instance.Start(() =>
             {
-                PostDetailsModel postDetailsModel = new PostDetailsModel();
-                try
+
+                // Iterate selected file name
+                listPostDetailsModel.ForEach(x =>
                 {
-                    // Split the file details
-                    var allData = x.Split('\t');
-
-                    postDetailsModel.PostDescription = allData[0];
-
-                    // Media list
-                    #region Medialist
-
-                    var mediaUrl = Regex.Split(allData[1], separator).ToList();
-                    mediaUrl.ForEach(media =>
+                    PostDetailsModel postDetailsModel = new PostDetailsModel();
+                    try
                     {
-                        if (File.Exists(media))
-                            postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(media));
+                        // Split the file details
+                        var allData = x.Split('\t');
 
-                    });
+                        postDetailsModel.PostDescription = allData[0];
 
-                    #endregion
+                        // Media list
 
-                    // Title
-                    postDetailsModel.PublisherInstagramTitle = allData[2];
+                        #region Medialist
 
-                    // Source url
-                    postDetailsModel.PdSourceUrl = allData[3];
+                        var mediaUrl = Regex.Split(allData[1], separator).ToList();
+                        mediaUrl.ForEach(media =>
+                        {
+                            if (File.Exists(media))
+                                postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(media));
 
-                    // Facebook Sell post details
-                    #region FdSell
+                        });
 
-                    var Fdsell = Regex.Split(allData[4], separator);
-                    if (string.Compare(Fdsell[0], "Yes", StringComparison.CurrentCultureIgnoreCase) == 0 ||
-                         string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
-                       string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
+                        #endregion
+
+                        // Title
+                        postDetailsModel.PublisherInstagramTitle = allData[2];
+
+                        // Source url
+                        postDetailsModel.PdSourceUrl = allData[3];
+
+                        // Facebook Sell post details
+
+                        #region FdSell
+
+                        var Fdsell = Regex.Split(allData[4], separator);
+                        if (string.Compare(Fdsell[0], "Yes", StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                            string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                            string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
+                        {
+                            postDetailsModel.IsFdSellPost = true;
+                            postDetailsModel.FdSellProductTitle = Fdsell[1];
+                            postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
+                            postDetailsModel.FdSellLocation = Fdsell[3];
+                        }
+
+                        #endregion
+                        // Created date
+                        postDetailsModel.CreatedDateTime = DateTime.Now;
+
+                        // Post id
+                        postDetailsModel.PostDetailsId = Utilities.GetGuid();
+
+                        // Add to Collections
+                        //postDetails.Add(postDetailsModel);
+                        Application.Current.Dispatcher.InvokeAsync(() => LstPostDetailsModels.Add(postDetailsModel));
+                        Thread.Sleep(50);
+                    }
+                    catch (Exception ex)
                     {
-                        postDetailsModel.IsFdSellPost = true;
-                        postDetailsModel.FdSellProductTitle = Fdsell[1];
-                        postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
-                        postDetailsModel.FdSellLocation = Fdsell[3];
+                        ex.DebugLog();
                     }
 
-                    #endregion
-
-                    // Created date
-                    postDetailsModel.CreatedDateTime = DateTime.Now;
-
-                    // Post id
-                    postDetailsModel.PostDetailsId = Utilities.GetGuid();
-
-                    // Add to Collections
-                    postDetails.Add(postDetailsModel);
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-
+                });
             });
+
+            // If all post read, open and show in UI for Updation
+            //if (postDetails?.Count != 0)
+            //{
+            //    try
+            //    {
+            //        // Get the object of multiple post UI
+            //        var publisherMultiplePost = new PublisherMultiplePost(postDetails);
+
+            //        // Get the core dialog object
+            //        var dialog = new Dialog();
+
+            //        // Pass the object with Title
+            //        var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
+
+            //        //DisplayAttribute the dialog
+            //        window.ShowDialog();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        ex.DebugLog();
+            //    }
+            //}
 
         }
 

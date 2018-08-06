@@ -4,6 +4,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
@@ -25,6 +28,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             DeletePostCommand = new BaseCommand<object>(DeletePostCanExecute, DeletePostExecute);
 
+            BindingOperations.EnableCollectionSynchronization(LstPostDetailsModel, lockObject);
         }
 
         #region Command
@@ -37,7 +41,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Properties
 
-        
+        private static object lockObject = new object();
 
         private ObservableCollection<PostDetailsModel> _lstPostDetailsModel;
 
@@ -104,59 +108,62 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
             var separator = ConstantVariable.Separator;
-
-            listPostDetailsModel.ForEach(x =>
+            ThreadFactory.Instance.Start(() =>
             {
-                PostDetailsModel postDetailsModel = new PostDetailsModel();
-                try
+                listPostDetailsModel.ForEach(x =>
                 {
-                    var allData = x.Split('\t');
-                    postDetailsModel.PostDescription = allData[0];
-
-                    #region Medialist
-
-                    var mediaUrl = Regex.Split(allData[1], separator).ToList();
-                    mediaUrl.ForEach(media =>
+                    PostDetailsModel postDetailsModel = new PostDetailsModel();
+                    try
                     {
-                        if (File.Exists(media))
-                            postDetailsModel.MediaViewer.MediaList.Add(media);
+                        var allData = x.Split('\t');
+                        postDetailsModel.PostDescription = allData[0];
 
-                    });
+                        #region Medialist
 
-                    #endregion
+                        var mediaUrl = Regex.Split(allData[1], separator).ToList();
+                        mediaUrl.ForEach(media =>
+                        {
+                            if (File.Exists(media))
+                                postDetailsModel.MediaViewer.MediaList.Add(media);
 
-                    postDetailsModel.PublisherInstagramTitle = allData[2];
+                        });
 
-                    if(allData.Length >3)
-                    postDetailsModel.PdSourceUrl = allData[3];
+                        #endregion
 
-                    #region FdSell
+                        postDetailsModel.PublisherInstagramTitle = allData[2];
+
+                        if (allData.Length > 3)
+                            postDetailsModel.PdSourceUrl = allData[3];
+
+                        #region FdSell
 
 
                         if (allData.Length > 4 && SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
-                    {
-                        var Fdsell = Regex.Split(allData[4], separator);
-                        if (Fdsell[0] == "IsEnable")
                         {
-                            postDetailsModel.IsFdSellPost = true;
-                            postDetailsModel.FdSellProductTitle = Fdsell[1];
-                            postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
-                            postDetailsModel.FdSellLocation = Fdsell[3];
+                            var Fdsell = Regex.Split(allData[4], separator);
+                            if (Fdsell[0] == "IsEnable")
+                            {
+                                postDetailsModel.IsFdSellPost = true;
+                                postDetailsModel.FdSellProductTitle = Fdsell[1];
+                                postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
+                                postDetailsModel.FdSellLocation = Fdsell[3];
+                            }
                         }
+
+                        #endregion
+
+                        postDetailsModel.CreatedDateTime = DateTime.Now;
+                        postDetailsModel.PostDetailsId = Utilities.GetGuid();
+                        Application.Current.Dispatcher.Invoke(() => LstPostDetailsModel.Add(postDetailsModel));
+                        Thread.Sleep(50);
                     }
-                    #endregion
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
 
-                    postDetailsModel.CreatedDateTime = DateTime.Now;
-                    postDetailsModel.PostDetailsId = Utilities.GetGuid();
-                    LstPostDetailsModel.Add(postDetailsModel);
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-
+                });
             });
-
         }
         #endregion
 
