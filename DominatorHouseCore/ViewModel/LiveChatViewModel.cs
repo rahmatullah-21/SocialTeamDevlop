@@ -138,14 +138,13 @@ namespace DominatorHouseCore.ViewModel
                 CancelPriviousTask();
                 var senders = GenericFileManager.GetModuleDetails<SenderDetails>(
                     FileDirPath.GetFriendDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork)).Where(x => x.AccountId == LiveChatModel.DominatorAccountModel.AccountId);
-                if (senders != null)
-                {
-                    senders.ForEach(sender =>
+                Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Clear());
+                senders?.ForEach(sender =>
                            {
                                Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Add(sender));
-                               Thread.Sleep(50);
+                               
                            });
-                }
+              
             }
             catch (Exception ex)
             {
@@ -158,7 +157,7 @@ namespace DominatorHouseCore.ViewModel
                       CancelPriviousTask();
                       LiveChatModel.DominatorAccountModel = LstAccountModel.FirstOrDefault(x => x.UserName == LiveChatModel.SelectedAccount);
 
-                      Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Clear());
+                    
                       SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
                                 .UpdateFriendList(LiveChatModel, CancellationSource.Token);
                   }

@@ -20,19 +20,55 @@ namespace DominatorHouseCore.Models
         }
 
         [ProtoMember(10)]
-        public string CampaignId { get; }
+        public string CampaignId { get; set; }
 
 
         [ProtoMember(1)]
-        public string CampaignName { get; set; }
+        public string CampaignName
+        {
+            get
+            {
+                return _campaignName;
+            }
+            set
+            {
+                if (_campaignName != null && _campaignName == value)
+                    return;
+                SetProperty(ref _campaignName, value);
+            }
+        }
 
 
         [ProtoMember(2)]
-        public string MainModule { get; set; }
+        public string MainModule
+        {
+            get
+            {
+                return _mainModule;
+            }
+            set
+            {
+                if (_mainModule != null && _mainModule == value)
+                    return;
+                SetProperty(ref _mainModule, value);
+            }
+        }
 
 
         [ProtoMember(3)]
-        public string SubModule { get; set; }
+        public string SubModule
+        {
+            get
+            {
+                return _subModule;
+            }
+            set
+            {
+                if (_subModule != null && _subModule == value)
+                    return;
+                SetProperty(ref _subModule, value);
+            }
+        }
 
 
         [ProtoMember(4)]
@@ -56,19 +92,67 @@ namespace DominatorHouseCore.Models
 
 
         [ProtoMember(6)]
-        public string TemplateId { get; set; }
+        public string TemplateId
+        {
+            get
+            {
+                return _templateId;
+            }
+            set
+            {
+                if (_templateId != null && _templateId == value)
+                    return;
+                SetProperty(ref _templateId, value);
+            }
+        }
 
 
         [ProtoMember(7)]
-        public int CreationDate { get; set; }
+        public int CreationDate
+        {
+            get
+            {
+                return _creationDate;
+            }
+            set
+            {
+                if (_creationDate == value)
+                    return;
+                SetProperty(ref _creationDate, value);
+            }
+        }
 
 
         [ProtoMember(8)]
-        public string Status { get; set; }
+        public string Status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                if (_status == value)
+                    return;
+                SetProperty(ref _status, value);
+            }
+        }
 
 
         [ProtoMember(9)]
-        public int LastEditedDate { get; set; }
+        public int LastEditedDate
+        {
+            get
+            {
+                return _lastEditedDate;
+            }
+            set
+            {
+                if (_lastEditedDate == value)
+                    return;
+                SetProperty(ref _lastEditedDate, value);
+            }
+        }
 
         private ICollectionView _campaignCollection;
         public ICollectionView CampaignCollection
@@ -130,7 +214,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isAllCampaignChecked, value);
             }
         }
-        private ObservableCollection<string> _activityType=new ObservableCollection<string>();
+        private ObservableCollection<string> _activityType = new ObservableCollection<string>();
 
         public ObservableCollection<string> ActivityType
         {
@@ -145,7 +229,14 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _activityType, value);
             }
         }
-        private string _selectedActivity=string.Empty;
+        private string _selectedActivity = string.Empty;
+        private string _campaignName;
+        private string _mainModule;
+        private string _subModule;
+        private string _templateId;
+        private int _creationDate;
+        private string _status;
+        private int _lastEditedDate;
 
         public string SelectedActivity
         {

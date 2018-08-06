@@ -50,6 +50,7 @@ namespace DominatorUIUtility.CustomControl
             
             if (LiveChatViewModel.LiveChatModel.AccountNames.Count > 0)
             {
+                LiveChatViewModel.LiveChatModel.DominatorAccountModel = accountModel[0];
                 LiveChatViewModel.LiveChatModel.SelectedAccount = LiveChatViewModel.LiveChatModel.AccountNames.First();
                 LiveChatViewModel.UpdateFriendList();
             }

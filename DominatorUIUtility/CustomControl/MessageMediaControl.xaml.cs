@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 
@@ -15,6 +16,7 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class MessageMediaControl : UserControl
     {
+        public bool Isupdated { get; set; } = false;
         public MessageMediaControl()
         {
             InitializeComponent();
@@ -89,7 +91,8 @@ namespace DominatorUIUtility.CustomControl
                 });
                 Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
                 Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
-                Window.GetWindow(this).Close();
+                Isupdated = true;
+                Dialog.CloseDialog(this);
             }
             else
             {
