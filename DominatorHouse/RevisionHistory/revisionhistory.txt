@@ -1,4 +1,4 @@
-Version[1.0.0.7],[4th-August-18]
+Version[1.0.0.7],[6th-August-18]
 Improved software performance
 Fixed Issues:
 General:-   Issued fixed with add to blacklist after unfriend.
