@@ -18,6 +18,20 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
             MainGrid.DataContext = this;
         }
+        private ManageMessagesModel currentItem;
+        public MessagesControl(ManageMessagesModel currentItem):this()
+        {
+            this.currentItem = currentItem;
+            Messages = new ManageMessagesModel
+            {
+                MessagesText = currentItem.MessagesText,
+                LstQueries =new ObservableCollection<QueryContent>(currentItem.LstQueries),
+                MessageId = currentItem.MessageId,
+                SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery)
+            };
+
+        }
+
         private static readonly RoutedEvent AddMessagesToListEvent =
      EventManager.RegisterRoutedEvent("AddMessagesToListChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
          typeof(MessagesControl));
@@ -57,6 +71,7 @@ namespace DominatorUIUtility.CustomControl
         // Using a DependencyProperty as the backing store for LstManageCommentModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LstManageMessagesModelProperty =
             DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>), typeof(MessagesControl), new PropertyMetadata(new ObservableCollection<ManageMessagesModel>()));
+       
 
         private void BtnAddMessagesToList_OnClick(object sender, RoutedEventArgs e)
         {
@@ -87,6 +102,7 @@ namespace DominatorUIUtility.CustomControl
                 });
                 Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
                 Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
+                currentItem = Messages;
                 Dialog.CloseDialog(this);
             }
             else

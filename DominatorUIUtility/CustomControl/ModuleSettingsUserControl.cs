@@ -500,6 +500,9 @@ namespace DominatorUIUtility.CustomControl
             DataBaseHandler.DbCampaignInitialCounters[SocialNetwork](dbOperations);
 
             CampaignsFileManager.Add(campaignDetails);
+
+            //Updating Campaign UI
+            Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.Add(campaignDetails);
         }
 
 
@@ -830,26 +833,31 @@ namespace DominatorUIUtility.CustomControl
 
                 #region Remove TemplateId from removed account from campaign selected account list
 
-                accountToRemoveModuleConfiguration.ForEach(account =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-
-                    try
+                    accountToRemoveModuleConfiguration.ForEach(account =>
                     {
-                        var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
-                            module.ActivityType == _activityType);
-                        account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-                        var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                            .RemoveModuleSettings(_activityType)
-                            .SaveToBinFile();
-                        DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings?.TemplateId, true);
 
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
+                        try
+                        {
+                            var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
+                                module.ActivityType == _activityType);
+                            account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
+                            var socinatorAccountBuilder =
+                                new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                                    .RemoveModuleSettings(_activityType)
+                                    .SaveToBinFile();
+                            DominatorScheduler.StopActivity(account, _activityType.ToString(),
+                                moduleSettings?.TemplateId, true);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
 
 
+                    });
                 });
 
                 #endregion
@@ -907,6 +915,7 @@ namespace DominatorUIUtility.CustomControl
 
                 if (campaign.TemplateId == TemplateId)
                 {
+
                     campaign.CampaignName = CampaignName;
                     campaign.MainModule = _moduleName;
                     campaign.SubModule = _activityType.ToString();
@@ -916,6 +925,22 @@ namespace DominatorUIUtility.CustomControl
                     campaign.CreationDate = DateTimeUtilities.GetEpochTime();
                     campaign.Status = "Active";
                     campaign.LastEditedDate = DateTimeUtilities.GetEpochTime();
+
+                    #region Updating Campaign UI
+
+                    var LstCampaignDetails = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails;
+
+                    var oldCampaignindex = LstCampaignDetails.IndexOf(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
+
+                    LstCampaignDetails[oldCampaignindex].CampaignName = CampaignName;
+                    LstCampaignDetails[oldCampaignindex].SelectedAccountList = _footerControl.list_SelectedAccounts;
+                    LstCampaignDetails[oldCampaignindex].TemplateId = TemplateId;
+                    LstCampaignDetails[oldCampaignindex].CreationDate = campaign.CreationDate;
+                    LstCampaignDetails[oldCampaignindex].Status = "Active";
+                    LstCampaignDetails[oldCampaignindex].LastEditedDate = campaign.LastEditedDate;
+
+                    #endregion
+
                 }
             });
 

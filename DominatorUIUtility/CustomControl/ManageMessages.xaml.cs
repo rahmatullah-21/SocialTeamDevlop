@@ -51,9 +51,9 @@ namespace DominatorUIUtility.CustomControl
         private void EditMessage_OnClick(object sender, RoutedEventArgs e)
         {
             var currentItem = ((FrameworkElement)sender).DataContext as ManageMessagesModel;
-            var editMessage = new MessagesControl();
+            var editMessage = new MessagesControl(currentItem);
             editMessage.btnAddMessagesToList.Content = "Update Message";
-            editMessage.Messages = currentItem;
+            //editMessage.Messages = currentItem;
 
             editMessage.Messages.LstQueries.ToList().ForEach(x =>
             {

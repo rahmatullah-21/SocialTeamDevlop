@@ -69,12 +69,18 @@ namespace DominatorUIUtility.CustomControl
             Campaign.DataContext = CampaignViewModel;
 
             CampaignViewModel.CampaignCollection = CollectionViewSource.GetDefaultView(CampaignViewModel.LstCampaignDetails);
-
+            instance = this;
 
             //this.SocialNetworks = socialNetworks;
             //objCampaignDetails = new CampaignDetails();
         }
 
+        private static Campaigns instance=null;
+
+        public static Campaigns GetCampaignsInstance(SocialNetworks socialNetworks)
+        {
+            return instance ?? (instance = new Campaigns(socialNetworks));
+        }
         private void SetComboBoxItemSource(SocialNetworks networks)
         {
             List<string> lstCampaignType = new List<string>();
