@@ -18,6 +18,7 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
             MainGrid.DataContext = this;
         }
+
         private static readonly RoutedEvent AddMessagesToListEvent =
      EventManager.RegisterRoutedEvent("AddMessagesToListChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
          typeof(MessagesControl));
@@ -58,6 +59,7 @@ namespace DominatorUIUtility.CustomControl
         public static readonly DependencyProperty LstManageMessagesModelProperty =
             DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>), typeof(MessagesControl), new PropertyMetadata(new ObservableCollection<ManageMessagesModel>()));
 
+
         private void BtnAddMessagesToList_OnClick(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(Messages.MessagesText))
@@ -66,7 +68,7 @@ namespace DominatorUIUtility.CustomControl
                     "Please type some message !!");
                 return;
             }
-            
+
             AddCheckedQueryToList();
             if (Messages.SelectedQuery.Count == 0)
             {
@@ -87,6 +89,8 @@ namespace DominatorUIUtility.CustomControl
                 });
                 Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
                 Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
+                Isupdated = true;
+
                 Dialog.CloseDialog(this);
             }
             else
@@ -123,5 +127,7 @@ namespace DominatorUIUtility.CustomControl
         {
             CheckUncheckAll(sender, false);
         }
+
+        public bool Isupdated { get; set; } = false;
     }
 }

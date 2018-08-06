@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using DominatorHouseCore.BusinessLogic.ActivitiesWorkflow;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
@@ -28,7 +29,7 @@ namespace DominatorHouseCore.Process
         public JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
         {
             // Get the current account details 
-            DominatorAccountModel = AccountsFileManager.GetAccount(account,network);
+            DominatorAccountModel = AccountsFileManager.GetAccount(account, network);
 
             SocialNetworks = network;
 
@@ -92,15 +93,15 @@ namespace DominatorHouseCore.Process
 
             DataBaseConnectionAccount = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().AccountDatabase;
 
-          //  DataBaseConnectionAccount = objDatabaseHandler.GetDataBaseConnection(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);            
+            //  DataBaseConnectionAccount = objDatabaseHandler.GetDataBaseConnection(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);            
         }
 
         protected void ScheduleNextJob(DateTime dateTime)
-        {              
+        {
             //Stop();
             if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
             {
-                DominatorScheduler.ScheduleActivityForNextJob(DominatorAccountModel,DominatorAccountModel.AccountBaseModel.AccountNetwork,ActivityType);
+                DominatorScheduler.ScheduleActivityForNextJob(DominatorAccountModel, DominatorAccountModel.AccountBaseModel.AccountNetwork, ActivityType);
             }
             else
             {
@@ -108,7 +109,7 @@ namespace DominatorHouseCore.Process
                 {
                     foreach (var jobProcess in RunningJobProcesses.Values)
                     {
-                        if (jobProcess.Id.Contains(AccountId+ "-------"))
+                        if (jobProcess.Id.Contains(AccountId + "-------"))
                         {
                             return;
                         }
@@ -190,7 +191,7 @@ namespace DominatorHouseCore.Process
             //                }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
             //        }
             //    }
-               
+
             //}
             //else
             //{
@@ -217,7 +218,7 @@ namespace DominatorHouseCore.Process
         /// <param name="scrapeResult"></param>
         public virtual void StartOtherConfiguration(ScrapeResultNew scrapeResult)
         {
-           // GlobusLogHelper.log.Info(Log.OtherConfigurationStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+            // GlobusLogHelper.log.Info(Log.OtherConfigurationStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
         }
 
         /// <summary>
@@ -230,16 +231,16 @@ namespace DominatorHouseCore.Process
         {
             var jobProcessResult = PostScrapeProcess(scrapedResult);
 
-          
+
             jobProcessResult.IsProcessCompleted = CheckJobProcessLimitsReached();
 
             if (jobProcessResult.IsProcessCompleted)
             {
                 StartOtherConfiguration(scrapedResult);
-              
-                GlobusLogHelper.log.Info(Log.ProcessCompleted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName,ActivityType);
 
-               
+                GlobusLogHelper.log.Info(Log.ProcessCompleted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+
+
             }
 
             return jobProcessResult;
@@ -276,7 +277,7 @@ namespace DominatorHouseCore.Process
         public void RunScrapper()
         {
             try
-             {
+            {
                 var scraperFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().QueryScraperFactory;
 
                 var scraper = scraperFactory.Create(this);
@@ -286,7 +287,7 @@ namespace DominatorHouseCore.Process
                 else
                     scraper.ScrapeWithQueries();
             }
-            catch(NullReferenceException ex)
+            catch (NullReferenceException ex)
             {
                 ex.DebugLog("Cancellation requested before initialization!");
             }
@@ -420,7 +421,7 @@ namespace DominatorHouseCore.Process
 
                 var task = ThreadFactory.Instance.Start(() =>
                 {
-                   
+
                     GlobusLogHelper.log.Info(Log.ProcessStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
                     // Login and run scraper/poster from derived concrete classes
@@ -452,11 +453,16 @@ namespace DominatorHouseCore.Process
                 if (JobCancellationTokenSource == null ||
                     !RunningJobProcesses.ContainsKey(Id))
                     return;
+
+
                 //DominatorAccountModel.NotifyCancelled();
                 JobCancellationTokenSource.Cancel();
-             
-                GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
+                Task.Factory.StartNew(() =>
+                {
+                    GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+                });
                 RunningJobProcesses.Remove(Id);
                 //JobCancellationTokenSource = null;
             }
@@ -524,7 +530,7 @@ namespace DominatorHouseCore.Process
                 }
 
                 if (DominatorAccountModel.IsUserLoggedIn)
-                {                    
+                {
                     GlobusLogHelper.log.Info(Log.SuccessfulLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
                     return true;
                 }

@@ -42,7 +42,6 @@ namespace DominatorUIUtility.ViewModel
             StatusChangeCommand = new BaseCommand<object>((sender) => true, StatusChangeExecute);
             ReportCommand = new BaseCommand<object>((sender) => true, ReportExecute);
             CampaignTypeSelectionChange = new BaseCommand<object>((sender) => true, CampaignTypeSelectionChanged);
-            LoadedCommand = new BaseCommand<object>((sender) => true, LoadedCommandExecute);
             SelectionCommand = new BaseCommand<object>((sender) => true, SelectionExecute);
             BindingOperations.EnableCollectionSynchronization(LstCampaignDetails, _lock);
         }
@@ -66,7 +65,6 @@ namespace DominatorUIUtility.ViewModel
         public ICommand StatusChangeCommand { get; set; }
         public ICommand ReportCommand { get; set; }
         public ICommand CampaignTypeSelectionChange { get; set; }
-        public ICommand LoadedCommand { get; set; }
         public ICommand SelectionCommand { get; set; }
         #endregion
 
@@ -153,12 +151,19 @@ namespace DominatorUIUtility.ViewModel
         private bool _isUncheckedFromList;
         public void SelectAllCampaign(bool isAllSelected)
         {
-            if (_isUncheckedFromList)
-                return;
-            LstCampaignDetails.Select(x =>
+            try
             {
-                x.IsCampaignChecked = isAllSelected; return x;
-            }).ToList();
+                if (_isUncheckedFromList)
+                    return;
+                LstCampaignDetails.Select(x =>
+                {
+                    x.IsCampaignChecked = isAllSelected; return x;
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         #endregion
@@ -175,7 +180,8 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                // var selectedItem = sender as string;
+                SelectAllCampaign(false);
+                IsAllCampaignChecked = false;
                 if (!CampaignModel.SelectedActivity.Equals("All"))
                     CampaignCollection.Filter = FilterByCampaignType;
                 else
@@ -191,22 +197,27 @@ namespace DominatorUIUtility.ViewModel
 
         private bool FilterByCampaignType(object sender)
         {
-            var filter = sender as CampaignDetails;
-            return filter.SubModule.Contains(CampaignModel.SelectedActivity);
+            try
+            {
+                var filter = sender as CampaignDetails;
+                return filter.SubModule.Contains(CampaignModel.SelectedActivity);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return true;
+            }
 
         }
 
         private void ReportExecute(object sender)
         {
-
             try
             {
                 ReportModel reportModel = new ReportModel();
                 Reports reportControl = new Reports(reportModel);
 
                 Dialog objDialog = new Dialog();
-
-                // CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
                 CampaignDetails campName = sender as CampaignDetails;
 
                 reportControl.ReportModel.ModuleType = campName.SubModule;
@@ -337,7 +348,6 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                // CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
                 CampaignDetails campName = sender as CampaignDetails;
                 CampaignsFileManager.GetCampaignById(campName.CampaignId).
                     CampaignName = campName.CampaignName.
@@ -355,7 +365,6 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                // CampaignDetails campName = ((FrameworkElement)sender).DataContext as CampaignDetails;
                 CampaignDetails campName = sender as CampaignDetails;
 
                 SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
@@ -363,7 +372,7 @@ namespace DominatorUIUtility.ViewModel
             }
             catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
         }
 
@@ -373,7 +382,6 @@ namespace DominatorUIUtility.ViewModel
             {
                 try
                 {
-                    //CampaignDetails campaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
                     CampaignDetails campaign = sender as CampaignDetails;
                     var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(
                         Application.Current.MainWindow, "Confirmation",
@@ -402,44 +410,51 @@ namespace DominatorUIUtility.ViewModel
             }
             else
             {
-                List<CampaignDetails> campaign = new List<CampaignDetails>();
-                LstCampaignDetails.ToList().ForEach(item =>
+                try
                 {
-                    if (item.IsCampaignChecked)
-                        campaign.Add(item);
-                });
-
-                if (campaign.Count == 0)
-                {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "Warning", "To delete Campaign please select atleast one Campaign !");
-                    return;
-                }
-
-                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    "Confirmation", "If you delete it will delete from Campaign permanently\nAre you sure You want to delete selected Campaign ?",
-                    MessageDialogStyle.AffirmativeAndNegative,
-                    Dialog.SetMetroDialogButton("Delete Anyway", "Cancel"));
-                if (dialogResult != MessageDialogResult.Affirmative)
-                    return;
-                var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
-                Application.Current.Dispatcher.InvokeAsync(() =>
-                {
-                    campaign.ForEach(camp =>
+                    List<CampaignDetails> campaign = new List<CampaignDetails>();
+                    LstCampaignDetails.ToList().ForEach(item =>
                     {
-                        var selectedAccount = camp.SelectedAccountList;
-                        CampaignsFileManager.Delete(camp);
+                        if (item.IsCampaignChecked)
+                            campaign.Add(item);
+                    });
 
-                        UpdateAccount(allAccounts, camp, selectedAccount);
-                        LstCampaignDetails.Remove(
-                            LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
+                    if (campaign.Count == 0)
+                    {
+                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                            "Warning", "To delete Campaign please select atleast one Campaign !");
+                        return;
+                    }
+
+                    var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                        "Confirmation", "If you delete it will delete from Campaign permanently\nAre you sure You want to delete selected Campaign ?",
+                        MessageDialogStyle.AffirmativeAndNegative,
+                        Dialog.SetMetroDialogButton("Delete Anyway", "Cancel"));
+                    if (dialogResult != MessageDialogResult.Affirmative)
+                        return;
+                    var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+                    Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        campaign.ForEach(camp =>
+                        {
+                            var selectedAccount = camp.SelectedAccountList;
+                            CampaignsFileManager.Delete(camp);
+
+                            UpdateAccount(allAccounts, camp, selectedAccount);
+                            LstCampaignDetails.Remove(
+                                LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
                         //  GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, camp.CampaignName, camp.SubModule, "  Campaign deleted permanently from campaigns.","");
                     });
-                });
-                GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ " + campaign.Count + " ] Campaigns");
+                    });
+                    GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ " + campaign.Count + " ] Campaigns");
 
-                if (LstCampaignDetails.Count == 0 || !LstCampaignDetails.All(x => x.IsCampaignChecked))
-                    IsAllCampaignChecked = false;
+                    if (LstCampaignDetails.Count == 0 || !LstCampaignDetails.All(x => x.IsCampaignChecked))
+                        IsAllCampaignChecked = false;
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
         }
 
@@ -456,25 +471,26 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private void LoadedCommandExecute(object sender)
-        {
-            LstCampaignDetails = new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocialNetworks));
-            CampaignCollection = CollectionViewSource.GetDefaultView(LstCampaignDetails);
-            SetActivityTypes();
-        }
         private void SelectionExecute(object sender)
         {
-            // To check whether all destinations are selected, then make the tick mark on column header
-            if (LstCampaignDetails.All(x => x.IsCampaignChecked))
-                IsAllCampaignChecked = true;
-            else
+            try
             {
-                if (IsAllCampaignChecked)
-                    _isUncheckedFromList = true;
-                // If not so, dont tick the column header 
-                IsAllCampaignChecked = false;
-            }
+                // To check whether all destinations are selected, then make the tick mark on column header
+                if (LstCampaignDetails.All(x => x.IsCampaignChecked))
+                    IsAllCampaignChecked = true;
+                else
+                {
+                    if (IsAllCampaignChecked)
+                        _isUncheckedFromList = true;
+                    // If not so, dont tick the column header 
+                    IsAllCampaignChecked = false;
+                }
 
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
 
         }
         private void ActivePauseCampaign(CampaignDetails selectedCampaign, bool isToggleSwitchSelected)
@@ -483,9 +499,6 @@ namespace DominatorUIUtility.ViewModel
             {
                 ImmutableQueue<Action> updatingAccountsBinFiles = ImmutableQueue<Action>.Empty;
 
-                LstCampaignDetails =
-                    new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
-                // var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
                 var lstAccountDetails = AccountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
                 if (selectedCampaign == null)
                     return;
@@ -613,8 +626,7 @@ namespace DominatorUIUtility.ViewModel
                     }
 
                 });
-
-                //AccountsFileManager.UpdateAccounts(allAccounts);
+                
             }
             catch (Exception ex)
             {
