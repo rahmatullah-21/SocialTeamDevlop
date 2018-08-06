@@ -1,6 +1,23 @@
-Version[1.0.0.7],[31st-July-18]
-Fixed:
+Version[1.0.0.7],[4th-August-18]
+Improved software performance
+Fixed Issues:
+General:-   Issued fixed with add to blacklist after unfriend.
+			Issued fixed with functionality of Saved post to publish now
+			Issue fixed with clearing message text
 
+Publisher:- Not able to post content with multiple lines on Reddit.
+            Issue fixed with account verification
+            Issue fixed with posting expired posts
+			Issue fixed with psoting single image for Tumblr
+
+LinkedIn:-  Export HTML Feature
+
+Instagram:- Issue fixed with showing saved Favorite time 
+            Issue fixed with filtering Select Campaign Category
+            Issue fixed with updating data in dashboard for Sociopublisher
+
+Tumblr:-    Issue fixed with exporting report for Tumblr
+            Issue fixed with allowing multiple messages in queries for Tumblr
 
 
 Version[1.0.0.6],[30th-July-18]
