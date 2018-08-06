@@ -95,6 +95,8 @@ namespace DominatorHouse.Utilities
             }
         }
 
+        #region Account Update
+
         private void ScheduleAccountUpdation()
         {
             var socinatorSettings = SoftwareSettingsFileManager.GetSoftwareSettings();
@@ -153,8 +155,11 @@ namespace DominatorHouse.Utilities
 
         }
 
+        #endregion
 
-        #region Producer Consumer Solution
+
+        // This solution not used 
+        #region Producer Consumer Solution for Account Update
 
 
         private void ScheduleUpdation()
