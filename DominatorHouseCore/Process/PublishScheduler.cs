@@ -876,11 +876,13 @@ namespace DominatorHouseCore.Process
                         .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
 
                     // Get the expire post counts
-                    var expiredPostCount =
-                        pendingPostList.Count(x => x.ExpiredTime != null && x.ExpiredTime <= DateTime.Now);
+                    var expiredPosts =
+                        pendingPostList.Where(x => x.PublisherPostSettings.GeneralPostSettings.ExpireDate < DateTime.Today).ToList();
 
+                    var expiredPostCount = expiredPosts.Count;
 
-                    
+                    pendingPostList = pendingPostList.Except(expiredPosts).ToList();
+
                     // Checking, If no more post available
                     if (!pendingPostList.Any())
                     {

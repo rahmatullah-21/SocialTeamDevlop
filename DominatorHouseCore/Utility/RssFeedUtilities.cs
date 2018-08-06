@@ -52,8 +52,6 @@ namespace DominatorHouseCore.Utility
                 if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsExpireDate)
                     expireDate = postDetailsModel.PublisherPostSettings.GeneralPostSettings.ExpireDate;
 
-              
-
                 // Scrape the posts from Http Response
                 #region Http Response
                 var postlists = (from node in postItems
