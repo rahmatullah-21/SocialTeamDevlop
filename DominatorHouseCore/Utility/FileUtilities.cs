@@ -96,7 +96,7 @@ namespace DominatorHouseCore.Utility
                     {
                         if (extension.Contains(".xls") || extension.Contains(".xlsx"))
                         {
-                            var value = await Task.Factory.StartNew(()=> GetExcelFileContent(fileName));
+                            var value = await Task.Factory.StartNew(() => GetExcelFileContent(fileName));
                             fileData.AddRange(value);
                         }
                         else if (extension.Contains(".csv"))
@@ -241,7 +241,7 @@ namespace DominatorHouseCore.Utility
         }
 
         public static List<string> GetExcelFileContent(string fileName)
-        {            
+        {
             Excel.Application excel = new Excel.Application();
             Excel.Workbook workBook = excel.Workbooks.Open(fileName, 0, true, 5, "", "", true,
                 Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
@@ -329,7 +329,8 @@ namespace DominatorHouseCore.Utility
                 var line = String.Empty;
                 while ((line = file.ReadLine()) != null)
                 {
-                    csvSplitList.Add(line.Replace(":", "\t"));
+                    csvSplitList.Add(ImageExtracter.CheckUrlValid(line) ? line : line.Replace(":", "\t"));
+
                 }
                 return csvSplitList;
             }

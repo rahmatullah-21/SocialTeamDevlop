@@ -833,8 +833,6 @@ namespace DominatorUIUtility.CustomControl
 
                 #region Remove TemplateId from removed account from campaign selected account list
 
-                Application.Current.Dispatcher.Invoke(() =>
-                {
                     accountToRemoveModuleConfiguration.ForEach(account =>
                     {
 
@@ -858,7 +856,7 @@ namespace DominatorUIUtility.CustomControl
 
 
                     });
-                });
+               
 
                 #endregion
             }
@@ -1095,6 +1093,7 @@ namespace DominatorUIUtility.CustomControl
                 {
                     AddTemplateToAccount(TemplateId, account, Model.JobConfiguration.RunningTime);
                 });
+                isProcessSuccessful = true;
 
                 #endregion
             }
