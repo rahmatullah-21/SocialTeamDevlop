@@ -84,7 +84,7 @@
                                     <DataTemplate>
                                         <controls:ToggleSwitch OnLabel="{DynamicResource LangKeyActive}" OffLabel="{DynamicResource LangKeyPaused}" 
                                                                FontSize="12" Foreground="{DynamicResource AccentBaseColorBrush}" Name="campaignStatus"
-                                                               SwitchForeground="{DynamicResource AccentBaseColorBrush}"
+                                                               SwitchForeground="{DynamicResource AccentBaseColorBrush}" Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}"
                                                                IsChecked="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}},
                                             Converter={StaticResource StringToBooleanConverter},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
                                             <interactivity:Interaction.Triggers>
@@ -93,32 +93,7 @@
                                                         RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding ElementName=campaignStatus}"/>
                                                 </interactivity:EventTrigger>
                                             </interactivity:Interaction.Triggers>
-                                            <controls:ToggleSwitch.Style>
-                                                <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsChecked" Value="True">
-                                                            <Setter Property="OnLabel" Value="Active" />
-                                                        </Trigger>
-                                                        <Trigger Property="IsChecked" Value="False">
-                                                            <Setter Property="OffLabel" Value="Paused" />
-                                                        </Trigger>
-                                                        <!--<DataTrigger Binding="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}" Value="Active">
-                                                            <Setter Property="IsChecked" Value="True" />
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}" Value="Paused">
-                                                            <Setter Property="IsChecked" Value="False" />
-                                                        </DataTrigger>-->
-                                                        <!--<Trigger Property="Tag" Value="Active">
-                                                            <Setter Property="IsChecked" Value="True" />
-                                                        </Trigger>
-                                                        <Trigger Property="Tag" Value="Paused">
-                                                            <Setter Property="IsChecked" Value="False" />
-                                                        </Trigger>-->
-
-                                                    </Style.Triggers>
-
-                                                </Style>
-                                            </controls:ToggleSwitch.Style>
+                                          
                                         </controls:ToggleSwitch>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
