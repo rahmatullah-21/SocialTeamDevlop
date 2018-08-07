@@ -16,7 +16,7 @@
                 <CheckBox Name="CheckBoxFdOverrideSource" Margin="2" 
                           Content="{DynamicResource LangKeyReplacePostDescriptionsWithFollowingText}" IsChecked="{Binding IsReplaceDescriptionSelected}"/>
                 <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Name="TextBoxPinterestSource"
-                         mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPostDescription}" 
+                         mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPostDescription}" IsEnabled="{Binding IsReplaceDescriptionSelected}"
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" Text="{Binding PostReplaceDescription}"/>
             </StackPanel>
         </StackPanel>

@@ -337,7 +337,7 @@ namespace DominatorHouseCore.Process
                         if (!accountsWithNetworks.ContainsKey(x.AccountId))
                             accountsWithNetworks.Add(x.AccountId, x.SocialNetworks);
 
-                        if (campaignStatusModel.IsTakeRandomDestination && postsAccountDestinationLimits > 0)
+                        if (!advancedSettings.IsWhenPublishingSendOnePostChecked && campaignStatusModel.IsTakeRandomDestination && postsAccountDestinationLimits > 0)
                         {
                             var currentAccountQueue = accountsWithDestinations.GetOrAdd(x.AccountId,
                                 queue => new Queue<PublisherDestinationDetailsModel>());
@@ -362,7 +362,7 @@ namespace DominatorHouseCore.Process
 
                 #region Random Destinations
 
-                if (campaignStatusModel.IsTakeRandomDestination)
+                if (!advancedSettings.IsWhenPublishingSendOnePostChecked  && campaignStatusModel.IsTakeRandomDestination)
                 {
                     // Check whether total destination is zero 
                     if (campaignStatusModel.TotalRandomDestination == 0)
@@ -875,9 +875,22 @@ namespace DominatorHouseCore.Process
                     var pendingPostList = PostlistFileManager.GetAll(campaignId)
                         .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
 
+                    // Get the expire post counts
+                    var expiredPosts =
+                        pendingPostList.Where(x => x.PublisherPostSettings.GeneralPostSettings.ExpireDate < DateTime.Today).ToList();
+
+                    var expiredPostCount = expiredPosts.Count;
+
+                    pendingPostList = pendingPostList.Except(expiredPosts).ToList();
+
                     // Checking, If no more post available
                     if (!pendingPostList.Any())
                     {
+                        if (expiredPostCount > 0)
+                        {
+                            ToasterNotification.ShowInfomation(
+                                $"{campaignName} has {expiredPostCount} expired post!");
+                        }
                         GlobusLogHelper.log.Info($"No more unique post are available for campaign {campaignName}!");
                         return null;
                     }
@@ -1177,6 +1190,9 @@ namespace DominatorHouseCore.Process
         {
             try
             {
+                // Call to stop already scheduled Jobs
+                StopScheduledPublisher(campaignId);
+
                 // Get the cancellation token from campaigns
                 var cancellationToken = CampaignsCancellationTokens.FirstOrDefault(x => x.Key == campaignId);
 
@@ -1191,9 +1207,6 @@ namespace DominatorHouseCore.Process
                     PublisherActionList.TryRemove(campaignId, out deletedList);
                     DecreasePublishingCount(campaignId);
                 }
-
-                // Call to stop already scheduled Jobs
-                StopScheduledPublisher(campaignId);
             }
             catch (Exception ex)
             {

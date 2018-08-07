@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore;
 using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.CustomControl
@@ -17,8 +18,8 @@ namespace DominatorUIUtility.CustomControl
         public ManageComment()
         {
             InitializeComponent();
-            MainGrid.DataContext = this;          
-           
+            MainGrid.DataContext = this;
+
         }
 
 
@@ -32,7 +33,7 @@ namespace DominatorUIUtility.CustomControl
         public static readonly DependencyProperty LstManageCommentModelProperty =
             DependencyProperty.Register("LstManageCommentModel", typeof(ObservableCollection<ManageCommentModel>), typeof(ManageComment), new PropertyMetadata(OnAvailableItemsChanged));
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {        
+        {
             var newValue = e.NewValue;
         }
 
@@ -44,7 +45,7 @@ namespace DominatorUIUtility.CustomControl
                 ((Button)sender).ContextMenu.DataContext = ((Button)sender).DataContext;
                 ((Button)sender).ContextMenu.IsOpen = true;
             }
-            catch (Exception )
+            catch (Exception)
             {
 
             }
@@ -52,20 +53,41 @@ namespace DominatorUIUtility.CustomControl
 
         private void EditComment_Click(object sender, RoutedEventArgs e)
         {
-            var currentItem= ((FrameworkElement)sender).DataContext as ManageCommentModel;
-            var EditComment = new CommentControl();
-            EditComment.btnAddCommentToList.Content = "Update Comment";
-            EditComment.Comments = currentItem;
-          
-            EditComment.Comments.LstQueries.ToList().ForEach(x =>
+            try
             {
-                if (EditComment.Comments.SelectedQuery.Contains(x))
-                    x.IsContentSelected = true;
-            });
-            EditComment.MainGrid.Margin =new Thickness(20);
-            Dialog dialog = new Dialog();
-           Window window= dialog.GetMetroWindow(EditComment, "Edit comment");
-            window.Show();
+                var currentItem = ((FrameworkElement)sender).DataContext as ManageCommentModel;
+                var editComment = new CommentControl();
+                editComment.btnAddCommentToList.Content = "Update Comment";
+                editComment.Comments = new ManageCommentModel
+                {
+                    CommentText = currentItem.CommentText,
+                    LstQueries = new ObservableCollection<QueryContent>(currentItem.LstQueries),
+                    CommentId = currentItem.CommentId,
+                    SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery)
+                };
+
+                editComment.Comments.LstQueries.ToList().ForEach(x =>
+                {
+                    if (editComment.Comments.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType))
+                        x.IsContentSelected = true;
+                });
+                editComment.MainGrid.Margin = new Thickness(20);
+                Dialog dialog = new Dialog();
+                Window window = dialog.GetMetroWindow(editComment, "Edit comment");
+                window.Show();
+                window.Closed += (s, evnt) =>
+                {
+                    if (editComment.Isupdated)
+                    {
+                        var indexToUpdate = LstManageCommentModel.IndexOf(currentItem);
+                        LstManageCommentModel[indexToUpdate] = editComment.Comments;
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void DeleteSingleComment_Click(object sender, RoutedEventArgs e)

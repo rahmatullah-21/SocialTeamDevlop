@@ -571,7 +571,7 @@ namespace EmbeddedBrowser
 
                 Thread.Sleep(2000);
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('js-password-field')[0].value= '" +
-                                           DominatorAccountModel.AccountBaseModel.Password + "'");
+                                           DominatorAccountModel.AccountBaseModel.Password.Replace("'","\\'") + "'");
                 Thread.Sleep(2000);
                 this.Browser.ExecuteScriptAsync(
                     "document.getElementsByClassName('submit EdgeButton EdgeButton--primary EdgeButtom--medium')[0].click()");

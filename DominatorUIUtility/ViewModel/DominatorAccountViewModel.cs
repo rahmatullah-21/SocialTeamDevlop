@@ -1784,8 +1784,10 @@ namespace DominatorUIUtility.ViewModel
 
         bool _allSelectedAccountsQueued;
 
-        public List<string> _updateAccountList = new List<string>();
-        public object AccountUpdateLock = new object();
+        public List<string> _updateAccountList { get; set; } = new List<string>();
+
+        public object AccountUpdateLock { get; set; } = new object();
+
         private void UpdateAccountDetailsExecute(object sender)
         {
             var selectedAccount = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList();
@@ -1870,11 +1872,16 @@ namespace DominatorUIUtility.ViewModel
                         try
                         {
                             _updateAccountList.Add(account.UserName);
+
                             account.Token.ThrowIfCancellationRequested();
-                            var checkResult = asyncAccount.CheckStatusAsync(account, account.Token).Result;
+
+                            var checkResult = await asyncAccount.CheckStatusAsync(account, account.Token);
+
                             if (checkResult)
                             {
+
                                 account.Token.ThrowIfCancellationRequested();
+
                                 await asyncAccount.UpdateDetailsAsync(account, account.Token);
 
                                 new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
@@ -1882,6 +1889,7 @@ namespace DominatorUIUtility.ViewModel
                                     .SaveToBinFile();
 
                                 _updateAccountList.Remove(account.UserName);
+
                                 try
                                 {
                                     lock (AccountUpdateLock)

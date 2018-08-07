@@ -28,8 +28,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             set
             {               
                 if (_postTitle == value)
-                    return;
-                _postTitle = value;
+                    return;               
                 SetProperty(ref _postTitle, value);
             }
         }
@@ -45,8 +44,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {
               
                 if (_isPostAsStoryPost == value)
-                    return;
-                _isPostAsStoryPost = value;
+                    return;             
                 SetProperty(ref _isPostAsStoryPost, value);
             }
         }
@@ -62,7 +60,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {              
                 if (_isDeletePostAfterHours == value)
                     return;
-                _isDeletePostAfterHours = value;
+                
                 SetProperty(ref _isDeletePostAfterHours, value);
             }
         }
@@ -78,7 +76,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {              
                 if (_deletePostAfterHours == value)
                     return;
-                _deletePostAfterHours = value;
+             
                 SetProperty(ref _deletePostAfterHours, value);
             }
         }
@@ -94,7 +92,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {
                 if (_isGeoLocation == value)
                     return;
-                _isGeoLocation = value;
+              
                 SetProperty(ref _isGeoLocation, value);
             }
         }
@@ -108,10 +106,10 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             }
             set
             {
-                _geoLocationList = value;
+               
                 if (_geoLocationList == value)
                     return;
-                _geoLocationList = value;
+              
                 SetProperty(ref _geoLocationList, value);
             }
         }
@@ -127,7 +125,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {             
                 if (_isTagUser == value)
                     return;
-                _isTagUser = value;
+             
                 SetProperty(ref _isTagUser, value);
             }
         }
@@ -143,7 +141,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {
                 if (_tagUserList == value)
                     return;
-                _tagUserList = value;
+              
                 SetProperty(ref _tagUserList, value);
             }
         }

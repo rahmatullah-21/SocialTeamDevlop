@@ -5,20 +5,42 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              xmlns:control="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
              mc:Ignorable="d">
+    
+    
     <Grid Name="MainGrid">
+        <Grid.Resources>
+            <ControlTemplate x:Key="ErrorTemplate">
+                <StackPanel Orientation="Horizontal">
+                    <AdornedElementPlaceholder x:Name="ErrorHolder" >
+                        <Border BorderBrush="red" BorderThickness="1" />
+                    </AdornedElementPlaceholder>
+                    <TextBlock  VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0" Text="{Binding ElementName=ErrorHolder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" Foreground="Red"/>
+                </StackPanel>
+            </ControlTemplate>
+        </Grid.Resources>
+
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource LangKeyExpireDate}" Margin="5"
                           IsChecked="{Binding IsExpireDate}"/>
-                <DatePicker Name="DatePicker" Margin="5" SelectedDate="{Binding ExpireDate}"/>
+                <DatePicker Name="DatePicker" Margin="5" IsEnabled="{Binding IsExpireDate}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" >
+                    <DatePicker.SelectedDate>
+                        <Binding Path="ExpireDate" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                            <Binding.ValidationRules>
+                                <utility:ValidationHelper Sender="DatePicker" ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
+                </DatePicker>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource LangKeyReaddPostToPostList}" Margin="5"
                           IsChecked="{Binding IsReaddCount}"/>
-                <control:NumericUpDown Minimum="1" Value="{Binding ReaddCount}"/>
-                <TextBlock Text="{DynamicResource LangKeyTimes}" Name="TextBlockTimes" VerticalAlignment="Center" Margin="5"/>
+                <control:NumericUpDown Minimum="1" Value="{Binding ReaddCount}" IsEnabled="{Binding IsReaddCount}"/>
+                <TextBlock Text="{DynamicResource LangKeyTimes}"  Name="TextBlockTimes" VerticalAlignment="Center" Margin="5"/>
             </StackPanel>
 
           

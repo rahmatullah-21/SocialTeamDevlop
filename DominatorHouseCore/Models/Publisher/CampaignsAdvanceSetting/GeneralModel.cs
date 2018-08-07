@@ -6,6 +6,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
     [ProtoContract]
    public class GeneralModel : BindableBase
     {
+
+        public void InitializeGeneralModel()
+        {
+            IsWhenPublishingSendOnePostChecked = true;
+            IsRunSingleAccountPerCampaign = true;
+        }
+
         private int _triggerNotificationCount;
       
         [ProtoMember(1)]

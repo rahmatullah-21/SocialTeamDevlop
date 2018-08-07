@@ -13,7 +13,7 @@ namespace DominatorHouseCore.Utility
     public class ValidationHelper : ValidationRule
     {
         public string Sender { get; set; }
-        static string ProxyAddress = string.Empty;
+        private static string ProxyAddress = string.Empty;
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             try
@@ -51,6 +51,20 @@ namespace DominatorHouseCore.Utility
                             }
                         }
                         break;
+
+                  
+                }
+
+                if (Sender == "DatePicker")
+                {
+                    if (!string.IsNullOrEmpty(value?.ToString()))
+                    {
+                        var dateTime = (DateTime)value;
+                        if (dateTime < DateTime.Today)
+                        {                          
+                            return new ValidationResult(false, "Invalid date!");
+                        }
+                    }
                 }
             }
             catch (Exception)

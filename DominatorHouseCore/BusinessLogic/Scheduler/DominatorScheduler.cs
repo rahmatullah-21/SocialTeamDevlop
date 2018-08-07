@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
@@ -60,6 +61,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 JobProcess.Stop(account.AccountId, templateId);
 
+                // GlobusLogHelper.log.Info(Log.ProcessStopped, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName, module, $"{module}-{templateId}" + " stopped");
+
                 var id = JobProcess.AsId(account.AccountId, templateId);
                 JobManager.RemoveJob(id);
                 var scheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
@@ -80,9 +83,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                             ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
                         return;
                     }
-                    GlobusLogHelper.log.Info(Log.ProcessStopped, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName, module, $"{module}-{templateId}" + " stopped");
 
-                   // GlobusLogHelper.log.Info($"{module}-{templateId}" + " stopped");
+
+                    // GlobusLogHelper.log.Info($"{module}-{templateId}" + " stopped");
                 }
                 catch (Exception ex)
                 {
@@ -489,8 +492,15 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         break;
                     }
                 }
+
                 UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext, stopTime);
-                GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy, dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName, activityType, timeToRunNext);
+
+                Task.Factory.StartNew(() =>
+                {
+                    GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy,
+                        dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName,
+                        activityType, timeToRunNext);
+                });
             }
             catch (InvalidOperationException)
             {

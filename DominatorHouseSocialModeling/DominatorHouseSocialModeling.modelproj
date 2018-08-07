@@ -25,6 +25,20 @@
     <EmbeddedResource Include="Images\SociNator.ico">
       <SubType>Content</SubType>
     </EmbeddedResource>
+    <Content Include="Publisher\CreateDestinations.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Publisher\CreateDestinations.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Publisher\CreateDestinations.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="Publisher\ManagePosts.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Publisher\ManagePosts.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Publisher\ManagePosts.sequencediagram</DependentUpon>
+    </Content>
     <Content Include="Publisher\PostFetcher.activitydiagram">
       <SubType>Content</SubType>
     </Content>
@@ -38,6 +52,13 @@
     <Content Include="Publisher\PublisherJobProcess.usecasediagram.layout">
       <SubType>Content</SubType>
       <DependentUpon>Publisher\PublisherJobProcess.usecasediagram</DependentUpon>
+    </Content>
+    <Content Include="Publisher\PublishInitialize.usecasediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Publisher\PublishInitialize.usecasediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Publisher\PublishInitialize.usecasediagram</DependentUpon>
     </Content>
     <Content Include="Publisher\PublishScheduler.usecasediagram">
       <SubType>Content</SubType>

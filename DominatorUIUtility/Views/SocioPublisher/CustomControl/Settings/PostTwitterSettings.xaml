@@ -11,12 +11,12 @@
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <CheckBox Name="CheckBoxDeletePost" Margin="2" Content="{DynamicResource LangKeyDeleteThePostAfter}" IsChecked="{Binding IsDeletePostAfterHours}"/>
-                <mah:NumericUpDown Width="40" Height="25" Minimum="0" Value="{Binding DeletePostAfterHours}" Margin="2"/>
+                <mah:NumericUpDown Width="40" Height="25" Minimum="0" IsEnabled="{Binding IsDeletePostAfterHours}" Value="{Binding DeletePostAfterHours}" Margin="2"/>
                 <TextBlock Text="{DynamicResource LangKeyHours}"  VerticalAlignment="Center" Margin="5"/>
             </StackPanel>
             <StackPanel Orientation="Vertical">
                 <CheckBox Margin="2" Content="{DynamicResource LangKeyMentionUsers}" IsChecked="{Binding IsMentionUser}" />
-                <TextBox VerticalAlignment="Center" Text="{Binding MentionUserList}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddMentionUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                <TextBox VerticalAlignment="Center" Text="{Binding MentionUserList}" IsEnabled="{Binding IsMentionUser}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddMentionUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
             </StackPanel>
         </StackPanel>
     </Grid>

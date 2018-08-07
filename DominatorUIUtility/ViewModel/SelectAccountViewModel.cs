@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 
@@ -111,5 +107,4 @@ namespace DominatorUIUtility.ViewModel
         public ObservableCollection<SelectAccountViewModel> LstSelectAccount { get; set; } = new ObservableCollection<SelectAccountViewModel>();
 
     }
-
 }

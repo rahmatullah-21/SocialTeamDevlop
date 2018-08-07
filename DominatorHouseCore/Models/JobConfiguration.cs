@@ -23,6 +23,7 @@ namespace DominatorHouseCore.Models
         private List<RunningTimes> _runningTime;
         private string _selectedItem = string.Empty;
         private bool _isAdvanceSetting;
+        private List<string> _speeds = new List<string>();
 
         public JobConfiguration()
         {
@@ -46,6 +47,8 @@ namespace DominatorHouseCore.Models
 
             // Increase each day with 10 until it reaches 100 max <activity> per day
             IncreaseActivitiesEachDay = new IncreaseActivityRange(0, 0, false);
+
+            SelectedItem = null;
 
         }
 
@@ -207,7 +210,16 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        public List<string> Speeds { get; set; } = new List<string>();
+        public List<string> Speeds
+        {
+            get { return _speeds; }
+            set
+            {
+                if (_speeds == value)
+                    return;
+                SetProperty(ref _speeds, value);
+            }
+        }
 
         #endregion
     }

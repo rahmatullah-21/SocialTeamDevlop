@@ -11,7 +11,7 @@
     </UserControl.Resources>
     <StackPanel Margin="10"  x:Name="MainGrid">
         <TextBlock FontWeight="Bold" Margin="0,10,0,5" FontSize="16" Text="{DynamicResource LangKeyMessagesList}" VerticalAlignment="Center"/>
-        <ListView x:Name="MsgList" ItemsSource="{Binding LstManageMessagesModel}" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
+        <ListView x:Name="MsgList" ItemsSource="{Binding LstManageMessagesModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
                       ItemContainerStyle="{StaticResource ListViewItems}" Margin="5">
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
@@ -23,12 +23,12 @@
                     <GridView.Columns>
                         <GridViewColumn  Header="{DynamicResource LangKeySNo}" DisplayMemberBinding="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},Converter={StaticResource IndexToRowNoConverter}}"/>
-                        <GridViewColumn Header="{DynamicResource LangKeyMessages}" DisplayMemberBinding="{Binding MessagesText}" />
+                        <GridViewColumn Header="{DynamicResource LangKeyMessages}" DisplayMemberBinding="{Binding MessagesText,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
                         <GridViewColumn Header="{DynamicResource LangKeyQuery}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <ListBox Name="chkSelectAccount" HorizontalAlignment="Center"
-                                         ItemsSource="{Binding SelectedQuery}" >
+                                         ItemsSource="{Binding SelectedQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock>

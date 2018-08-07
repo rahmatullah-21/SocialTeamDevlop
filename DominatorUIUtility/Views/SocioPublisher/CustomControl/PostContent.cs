@@ -13,9 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DominatorHouseCore;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces.SocioPublisher;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
+using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings;
@@ -391,6 +396,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public void PostSettingsChangeClick(object sender, RoutedEventArgs args)
         {
+            var postSettingsDeepClone = PublisherPostSettings.DeepClone();
+
             // PublisherPostSettings PublisherPostSettings = new PublisherPostSettings();
             var objAdvancedSettings = new PostAdvancedSettings(PublisherPostSettings);
             var customDialog = new CustomDialog
@@ -398,8 +405,65 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Content = objAdvancedSettings
             };
+
             var objDialog = new Dialog();
-            var dialogWindow = objDialog.GetCustomDialog(customDialog, "Post Settings");
+
+            var dialogWindow = objDialog.GetMetroWindowWithOutClose(customDialog, "Post Settings");
+
+            objAdvancedSettings.ButtonSave.Click += (senders, events) =>
+            {
+                try
+                {
+                    if (!Validation.GetHasError(objAdvancedSettings.PostGeneralSettings.DatePicker))
+                        dialogWindow.Close();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            };
+
+            objAdvancedSettings.ButtonCancel.Click += (senders, events) =>
+            {
+                objAdvancedSettings.PostGeneralSettings.PublisherPostSettings = postSettingsDeepClone;
+
+                var availableNetworks = SocinatorInitialize.AvailableNetworks;
+
+                foreach (var network in availableNetworks)
+                {
+                    switch (network)
+                    {
+                        case SocialNetworks.Facebook:
+                            objAdvancedSettings.PostFacebookSettings.PublisherPostSettings = postSettingsDeepClone;
+                            break;
+                        case SocialNetworks.Instagram:
+                            objAdvancedSettings.PostInstagramSettings.PublisherPostSettings = postSettingsDeepClone;
+                            break;
+                        case SocialNetworks.Twitter:
+                            objAdvancedSettings.PostTwitterSettings.PublisherPostSettings = postSettingsDeepClone;
+                            break;
+                        case SocialNetworks.LinkedIn:
+                            objAdvancedSettings.PostLinkedInSettings.PublisherPostSettings = postSettingsDeepClone;
+                            break;
+                        case SocialNetworks.Tumblr:
+                            objAdvancedSettings.PostTumblrSettings.PublisherPostSettings = postSettingsDeepClone;
+                            break;
+                        case SocialNetworks.Reddit:
+                            objAdvancedSettings.PostRedditSettings.PublisherPostSettings = postSettingsDeepClone;
+                            break;
+                        case SocialNetworks.Pinterest:
+                        case SocialNetworks.Quora:
+                        case SocialNetworks.Gplus:
+                        case SocialNetworks.Youtube:
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                PublisherPostSettings = postSettingsDeepClone;
+                dialogWindow.Close();
+            };
+
             dialogWindow.ShowDialog();
 
             PostSettingEvent();

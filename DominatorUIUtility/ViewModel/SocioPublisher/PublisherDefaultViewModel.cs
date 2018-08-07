@@ -131,7 +131,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void PublishNowSelectedCampaignExecute(object sender)
         {
+            // Get all selected campaigns
             var selectedCampaigns = GetSelectedCampaigns();
+            // Call to publish now options
             selectedCampaigns.ForEach(x => PublishScheduler.SchedulePublishNowByCampaign(x.CampaignId));
         }
 
@@ -139,11 +141,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void PauseSelectedCampaignExecute(object sender)
         {
+            // Get all selected campaigns
             var selectedCampaigns = GetSelectedCampaigns();
             selectedCampaigns.ForEach(x =>
             {
+                // Stop publishing posts
                 PublishScheduler.StopPublishingPosts(x.CampaignId);
+                // Update the campaign status to paused
                 PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Paused);
+                // Call to set the default settings
                 InitializeDefaultCampaignStatus();
                 GlobusLogHelper.log.Info(Log.PublisherCampaignPaused, x.CampaignName);
             });
@@ -157,13 +163,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void ActiveSelectedCampaignExecute(object sender)
         {
+            // Get the selected campaigns
             var selectedCampaigns = GetSelectedCampaigns();
             selectedCampaigns.ForEach(x =>
             {
+                // Call to schedule todays campaign
                 PublishScheduler.ScheduleTodaysPublisherByCampaign(x.CampaignId);
+                // Make the status to active
                 PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
+                // Set the default settings
                 InitializeDefaultCampaignStatus();
             });
+            // Validate whether campaign is active is possible
             if (selectedCampaigns.Count > 0)
                 GlobusLogHelper.log.Info("Campaign's status changed to active!");
         }
@@ -174,15 +185,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             if (sender is PublisherCampaignStatusModel)
             {
+                // Get the campaign status object
                 var campaignDetails = sender as PublisherCampaignStatusModel;
+                // Copy to clipboard
                 Clipboard.SetText(campaignDetails.CampaignId);
             }
             else
             {
+                // Get all selected campaign Id
                 var selectedCampaigns = GetSelectedCampaigns().Select(x => x.CampaignId).ToList();
+
 
                 if (selectedCampaigns.Count != 0)
                 {
+                    // Get the export path
                     var exportPath = FileUtilities.GetExportPath();
 
                     if (!string.IsNullOrEmpty(exportPath))
@@ -193,6 +209,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         FileUtilities.AddHeaderToCsv(filename, header);
 
+                        // Iterate and export the campaign id to csv file
                         selectedCampaigns.ForEach(campaignId =>
                         {
                             var csvData = campaignId;
@@ -219,18 +236,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void NavigationExecute(object sender)
         {
+            // switch to edit campaign
             if (sender is PublisherCampaignStatusModel)
             {
                 try
                 {
+                    // Get the campaign details object
                     var createCampign = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
 
+                    // collect the binding model
                     var currentCampaign = GenericFileManager
                         .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile())
                         .FirstOrDefault(campaign =>
                             campaign.CampaignId == (sender as PublisherCampaignStatusModel).CampaignId);
+                    
+                    // Clear already saved model
+                    createCampign.PublisherCreateCampaignViewModel.ClearCurrentCampaigns();
 
+                    // Assign the selected campaign's name to combo box
                     createCampign.PublisherCreateCampaignViewModel.SelectedItem = currentCampaign?.CampaignName;
+
+                    // Navigate to campaign UI
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = createCampign;
                 }
                 catch (Exception ex)
@@ -246,17 +272,22 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     switch (moduleName)
                     {
+                        // Navigate to manage destination
                         case "ManageDestinations":
                             PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
                                 PublisherManageDestinations.Instance();
                             break;
+                         // Navigate to manage posts
                         case "ManagePosts":
                             PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
                                 new PublisherManagePosts();
                             break;
+                        // Navigate to create campaign
                         case "CreateCampaigns":
+                            var createCampign = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
+                            createCampign.PublisherCreateCampaignViewModel.ClearCurrentCampaigns();
                             PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
-                                PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
+                                createCampign;
                             break;
                     }
                 }
@@ -292,15 +323,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var moduleName = sender.ToString();
             switch (moduleName)
             {
+                // Deselect all campaigns
                 case "MenuSelectNone":
                 case "SelectNone":
                     IsAllCampaignSelected = false;
                     break;
 
+                // Select all campaign
                 case "SelectAll":
                 case "MenuSelectAll":
                     IsAllCampaignSelected = true;
                     break;
+
+                // Enable the select all option while in selecting all campaign
                 case "SelectManually":
 
                     if (ListPublisherCampaignStatusModels.All(x => x.IsSelected))
@@ -321,39 +356,56 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
+                // get the source campaign for cloning 
                 var isSingleDuplicate = sender is PublisherCampaignStatusModel;
 
                 if (isSingleDuplicate)
                 {
+                    // selected campaign
                     var campaignStatus = (PublisherCampaignStatusModel)sender;
 
+                    // Get the deep clone
                     var clonedCampaignStatus = GetCampaginDeepClone(campaignStatus);
 
+                    // Generate new campaignId and campaign Name
                     clonedCampaignStatus.GenerateCloneCampaign(campaignStatus.CampaignName);
+
                     SaveClonedCampaign(clonedCampaignStatus, campaignStatus.CampaignId);
 
                     if (campaignStatus.IsSelected)
                         clonedCampaignStatus.IsSelected = true;
 
                     GlobusLogHelper.log.Info(campaignStatus.CampaignName + " Successfully duplicated.");
+
+                    // Update in default page
                     PublisherInitialize.GetInstance.AddCampaignDetails(clonedCampaignStatus);
 
+                    // Collect all postlists
                     var allSavedPosts = PostlistFileManager.GetAll(campaignStatus.CampaignId);
 
                     var clonedPostlist = new List<PublisherPostlistModel>();
                     allSavedPosts.ForEach(x =>
                     {
+                        // Generate the post id
                         x.GenerateClonePostId();
+
                         x.CampaignId = clonedCampaignStatus.CampaignId;
+
+                        // Move all published posts to pending posts while cloning
                         x.PostQueuedStatus = x.PostQueuedStatus == PostQueuedStatus.Published ? PostQueuedStatus.Pending : x.PostQueuedStatus;
                         x.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
+
+                        // Add to clone options
                         clonedPostlist.Add(x);
                     });
 
+                    // Update the new post lists
                     PostlistFileManager.UpdatePostlists(clonedCampaignStatus.CampaignId, clonedPostlist);
+
 
                     PublisherInitialize.GetInstance.UpdatePostStatus(clonedCampaignStatus.CampaignId);
                   
+                    // Save advanced setting of all network
                     #region Saving Advance setting
 
                     var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social);
@@ -429,13 +481,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     #endregion
 
+                    // get post fetcher model
                     var publisherPostFetchModel =
                         GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                             .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
 
+                    // Save all manage destinations
                     PublisherManageDestinationModel.AddCampaignToDestinationList(publisherPostFetchModel?.SelectedDestinations, clonedCampaignStatus.CampaignId);
 
-
+                    // Enable the post fetcher options
                     var allFetchDetails = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaignStatus.CampaignId);
 
@@ -448,12 +502,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         currentCampaignsFetchDetails.Add(x);
                     });
 
+                    // Add to bin file for post fetcher
                     GenericFileManager.AddRangeModule(currentCampaignsFetchDetails, ConstantVariable.GetPublisherPostFetchFile);
 
                     var publisherPostFetcher = new PublisherPostFetcher();
                     publisherPostFetcher.FetchPostsForCampaign(clonedCampaignStatus.CampaignId);
 
-
+                    // Schedule the today job process if campaign is active
                     if (clonedCampaignStatus.Status == PublisherCampaignStatus.Active)
                         PublishScheduler.ScheduleTodaysPublisherByCampaign(clonedCampaignStatus.CampaignId);
 
@@ -462,9 +517,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     GetSelectedCampaigns().ForEach(campaign =>
                     {
+                        // Get the deep clone
                         var clonedCampaignStatus = GetCampaginDeepClone(campaign);
+
+                        // Generate new campaignId and campaign Name
                         clonedCampaignStatus.GenerateCloneCampaign(campaign.CampaignName);
+
                         SaveClonedCampaign(clonedCampaignStatus, campaign.CampaignId);
+
+                        // Update in default page
                         PublisherInitialize.GetInstance.AddCampaignDetails(clonedCampaignStatus);
 
                         if (campaign.IsSelected)
@@ -475,28 +536,35 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         var clonedPostlist = new List<PublisherPostlistModel>();
                         allSavedPosts.ForEach(x =>
                         {
+                            // Generate the post id
                             x.GenerateClonePostId();
                             x.CampaignId = clonedCampaignStatus.CampaignId;
+                            // Move all published posts to pending posts while cloning
                             x.PostQueuedStatus = x.PostQueuedStatus == PostQueuedStatus.Published ? PostQueuedStatus.Pending : x.PostQueuedStatus;
                             x.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
+                            // Add to clone options
                             clonedPostlist.Add(x);
                         });
-
+                        // Update the new post lists
                         PostlistFileManager.UpdatePostlists(clonedCampaignStatus.CampaignId, clonedPostlist);
+
                         PublisherInitialize.GetInstance.UpdatePostStatus(clonedCampaignStatus.CampaignId);
 
                         var publisherPostFetchModel =
                             GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                                 .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
 
+                        // Save all manage destinations
                         PublisherManageDestinationModel.AddCampaignToDestinationList(
                             publisherPostFetchModel?.SelectedDestinations, clonedCampaignStatus.CampaignId);
 
+                        // get post fetcher model
                         var allFetchDetails = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                             .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaign.CampaignId);
 
                         var currentCampaignsFetchDetails = new List<PublisherPostFetchModel>();
-
+                      
+                        // Enable the post fetcher options
                         allFetchDetails.ForEach(x =>
                         {
                             x.CampaignId = clonedCampaignStatus.CampaignId;
@@ -504,11 +572,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             currentCampaignsFetchDetails.Add(x);
                         });
 
+                        // Add to bin file for post fetcher
                         GenericFileManager.AddRangeModule(currentCampaignsFetchDetails, ConstantVariable.GetPublisherPostFetchFile);
 
                         var publisherPostFetcher = new PublisherPostFetcher();
+
+                        // Start fetching the post for the campaign
                         publisherPostFetcher.FetchPostsForCampaign(clonedCampaignStatus.CampaignId);
 
+                        // Schedule the today job process if campaign is active
                         if (clonedCampaignStatus.Status == PublisherCampaignStatus.Active)
                             PublishScheduler.ScheduleTodaysPublisherByCampaign(clonedCampaignStatus.CampaignId);
                     });
@@ -524,6 +596,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
+                // Get the saved campaign detail
                 var duplicatedCampaign = GenericFileManager
                        .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile())
                        .FirstOrDefault(campaign => campaign.CampaignId == campaignId);
@@ -536,8 +609,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 duplicatedCampaign.CreatedDate = clonedCampaignStatus.CreatedDate;
                 duplicatedCampaign.UpdatedDate = clonedCampaignStatus.UpdatedTime;
                 duplicatedCampaign.JobConfigurations.CampaignStartDate = clonedCampaignStatus.StartDate;
+
+                // Add to bin file
                 GenericFileManager.AddModule(duplicatedCampaign, ConstantVariable.GetPublisherCampaignFile());
 
+                // Add the campaign name to campaign list 
                 PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                     .CampaignList.Add(duplicatedCampaign.CampaignName);
             }
@@ -550,6 +626,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void SelectAllCampaign()
         {
+            // select all campaign
             ListPublisherCampaignStatusModels.Select(x =>
             {
                 x.IsSelected = true; return x;
@@ -558,6 +635,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void SelectNoneCampaign()
         {
+            // deselect all campaign
             ListPublisherCampaignStatusModels.Select(x =>
             {
                 x.IsSelected = false; return x;
@@ -571,6 +649,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var isIndividualDelete = sender is PublisherCampaignStatusModel;
 
+            // Single delete campaign
             if (isIndividualDelete)
             {
                 var campaign = (PublisherCampaignStatusModel)sender;
@@ -580,21 +659,28 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
+                // Delete the campaign from bin file
                 GenericFileManager.Delete<PublisherCreateCampaignModel>(y => campaign.CampaignId == y.CampaignId,
                     ConstantVariable.GetPublisherCampaignFile());
 
+                // remove from campaign Ui
                 PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel.CampaignList.Remove(campaign.CampaignName);
                 ListPublisherCampaignStatusModels.Remove(campaign);
 
 
+                // Delete the post fetcher
                 GenericFileManager.Delete<PublisherPostFetchModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetPublisherPostFetchFile);
 
+                // Stop publishing the post
                 PublishScheduler.StopPublishingPosts(campaign.CampaignId);
 
+                // Disconnect the relationship from remove destinations
                 PublisherManageDestinationModel.RemoveDestinationFromCampaign(campaign.CampaignId);
 
+                // Stop publishing delete model
                 GenericFileManager.Delete<PostDeletionModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetDeletePublisherPostModel);
 
+                // stop fetching posts for a campaign
                 PublisherPostFetcher.StopFetchingPostsByCampaignId(campaign.CampaignId);
 
                 GlobusLogHelper.log.Info($"{campaign.CampaignName} deleted Successfully!");
@@ -602,6 +688,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             else
             {
+                // Get all selected campaign
                 var publisherCampaignStatusModels = GetSelectedCampaigns();
 
                 if (publisherCampaignStatusModels.Count == 0)
@@ -621,11 +708,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 publisherCampaignStatusModels.ForEach(x =>
                 {
+                    // remove from campaign Ui
                     ListPublisherCampaignStatusModels.Remove(x);
                     PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel.CampaignList.Remove(x.CampaignName);
+
+                    // Stop publishing the post
                     PublishScheduler.StopPublishingPosts(x.CampaignId);
+
+                    // Disconnect the relationship from remove destinations
                     PublisherManageDestinationModel.RemoveDestinationFromCampaign(x.CampaignId);
+
+                    // Stop publishing delete model
                     GenericFileManager.Delete<PostDeletionModel>(y => x.CampaignId == y.CampaignId, ConstantVariable.GetDeletePublisherPostModel);
+
+                    // stop fetching posts for a campaign
                     PublisherPostFetcher.StopFetchingPostsByCampaignId(x.CampaignId);
                 });
 
@@ -637,6 +733,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        /// <summary>
+        /// Get all selected campaign
+        /// </summary>
+        /// <returns></returns>
         private List<PublisherCampaignStatusModel> GetSelectedCampaigns()
             => ListPublisherCampaignStatusModels.Where(x => x.IsSelected).ToList();
 
@@ -647,6 +747,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PublisherCampaignStatusModelView = CollectionViewSource.GetDefaultView(ListPublisherCampaignStatusModels);
         }
 
+        // Get the deep clone
         public PublisherCampaignStatusModel GetCampaginDeepClone(PublisherCampaignStatusModel publisherCampaignStatusModel)
             => publisherCampaignStatusModel.DeepClone();
     }

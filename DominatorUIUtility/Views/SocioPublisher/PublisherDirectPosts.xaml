@@ -45,7 +45,7 @@
                                                 FdSellPrice="{Binding PostDetailsModel.FdSellPrice, Mode=TwoWay}"
                                                 FdSellProductTitle="{Binding PostDetailsModel.FdSellProductTitle, Mode=TwoWay}"
                                                 IsFdSellPost="{Binding PostDetailsModel.IsFdSellPost, Mode=TwoWay}"
-                                                PdSourceUrl="{Binding PostDetailsModel.PdSourceUrl, Mode=TwoWay}"
+                                                PdSourceUrl="{Binding PostDetailsModel.PdSourceUrl, Mode=TwoWay}" 
                                                 x:Name="PostContentControl"/>
 
 

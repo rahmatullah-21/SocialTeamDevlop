@@ -85,6 +85,7 @@ namespace DominatorUIUtility.CustomControl
                 });
                 Comments.SelectedQuery.Remove(Comments.SelectedQuery.FirstOrDefault(x=>x.Content.QueryValue=="All"));
                 Comments.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
+                Isupdated = true;
                 Dialog.CloseDialog(this);
             }
             else
@@ -122,6 +123,6 @@ namespace DominatorUIUtility.CustomControl
                     Comments.SelectedQuery.Add(query);
             });
         }
-      
+        public bool Isupdated { get; set; } = false;
     }
 }

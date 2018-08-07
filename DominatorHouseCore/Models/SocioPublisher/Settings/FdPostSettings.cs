@@ -28,7 +28,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {
                 if (_sellPostSelected == value)
                     return;
-                _sellPostSelected = value;
+               
                 SetProperty(ref _sellPostSelected, value);
             }
         }
@@ -45,7 +45,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                
                 if (_productName == value)
                     return;
-                _productName = value;
+              
                 SetProperty(ref _productName, value);
             }
         }
@@ -59,7 +59,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             }
             set
             {               
-                _productPrice = value;
+                
                 SetProperty(ref _productPrice, value);
             }
         }
@@ -75,7 +75,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {             
                 if (_productAvailableLocation == value)
                     return;
-                _productAvailableLocation = value;
+               
                 SetProperty(ref _productAvailableLocation, value);
             }
         }
@@ -91,7 +91,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {              
                 if (_sellPostTurnOffComment == value)
                     return;
-                _sellPostTurnOffComment = value;
+              
                 SetProperty(ref _sellPostTurnOffComment, value);
             }
         }
@@ -107,7 +107,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {              
                 if (_isReplaceDescriptionSelected == value)
                     return;
-                _isReplaceDescriptionSelected = value;
+              
                 SetProperty(ref _isReplaceDescriptionSelected, value);
             }
         }
@@ -122,8 +122,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             set
             {
                 if (_postReplaceDescription == value)
-                    return;
-                _postReplaceDescription = value;
+                    return;             
                 SetProperty(ref _postReplaceDescription, value);
             }
         }

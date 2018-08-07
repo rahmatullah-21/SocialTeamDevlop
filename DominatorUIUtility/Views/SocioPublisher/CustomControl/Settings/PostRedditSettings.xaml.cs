@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
@@ -6,16 +9,40 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
     /// <summary>
     /// Interaction logic for PostRedditSettings.xaml
     /// </summary>
-    public partial class PostRedditSettings : UserControl
+    public partial class PostRedditSettings : UserControl,INotifyPropertyChanged
     {
         public PostRedditSettings()
         {
             InitializeComponent();
         }
 
+        private PublisherPostSettings _publisherPostSettings;
+
+        public PublisherPostSettings PublisherPostSettings
+        {
+            get
+            {
+                return _publisherPostSettings;
+            }
+            set
+            {
+                _publisherPostSettings = value;
+                OnPropertyChanged(nameof(PublisherPostSettings));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public PostRedditSettings(PublisherPostSettings publisherPostSettings):this()
         {
-            MainGrid.DataContext = publisherPostSettings.RedditPostSetting;
+            PublisherPostSettings = publisherPostSettings;
+            MainGrid.DataContext = PublisherPostSettings.RedditPostSetting;
         }
     }
 }

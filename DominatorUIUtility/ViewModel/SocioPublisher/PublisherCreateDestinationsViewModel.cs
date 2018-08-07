@@ -164,6 +164,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var module = sender.ToString();
             switch (module)
             {
+                // Send back to manage destinations
                 case "Back":
                     ClearCurrentDestination();
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
@@ -180,12 +181,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void GetSingleAccountGroupsExecute(object sender)
         {
+            // get the selected accounts destinations model
             var publisherCreateDestinationSelectModel = (PublisherCreateDestinationSelectModel)sender;
 
+            // get already selected group pairs
             var valuePairs = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList();
 
             var alreadySelectedGroups = valuePairs.Select(x => x.Value).ToList();
 
+            // Get the initial selector details and also passing the action for getting the group details
             var accountDetailsSelector = new AccountDetailsSelector(UpdateSingleAccountGroupsDetails, publisherCreateDestinationSelectModel)
             {
                 AccountDetailsSelectorViewModel =
@@ -199,28 +203,35 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var dialog = new Dialog();
 
+            // display the dialog window
             var window = dialog.GetMetroWindow(accountDetailsSelector, "Select Groups");
 
             accountDetailsSelector.btnSave.Click += (senderDetails, events) =>
             {
+                // Remove already saved group pairs 
                 valuePairs.ForEach(x =>
                 {
                     PublisherCreateDestinationModel.AccountGroupPair.Remove(x);
                     PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.Group);
                 });
 
+                // get currectly selected groups from UI objects
                 var keyValuePairs = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItems().ToList();
 
+                // get the full destination details
                 var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(ConstantVariable.Group).ToList();
 
+                // Append with destination details of the accounts
                 PublisherCreateDestinationModel.DestinationDetailsModels.AddRange(destinationDetails);
 
+                // Add to account's group pair
                 PublisherCreateDestinationModel.AccountGroupPair.AddRange(keyValuePairs);
 
                 alreadySelectedGroups = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).Select(x => x.Value).ToList();
 
                 var createDestinationSelectModel = PublisherCreateDestinationModel.ListSelectDestination.FirstOrDefault(x => x.AccountId == publisherCreateDestinationSelectModel.AccountId);
 
+                // Get the group selector details
                 if (createDestinationSelectModel != null)
                     createDestinationSelectModel.GroupSelectorText = $"{alreadySelectedGroups.Count}/{createDestinationSelectModel.TotalGroups}";
 
@@ -231,14 +242,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             window.Show();
 
+            // Trigger the action
             accountDetailsSelector.UpdateUiSingleData();
 
         }
 
         private async Task UpdateSingleAccountGroupsDetails(AccountDetailsSelector accountDetailsSelector, PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel)
         {
+            // Get the account group pair
             var valuePairs = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList(); ;
 
+            // Get already selected groups
             var alreadySelectedGroups = valuePairs.Select(x => x.Value).ToList();
 
             if (GroupsAvailableInNetworks.Contains(publisherCreateDestinationSelectModel.SocialNetworks.ToString()))
@@ -944,7 +958,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ClearCurrentDestination();
         }
 
-        private void ClearCurrentDestination()
+        public void ClearCurrentDestination()
         {
             try
             {

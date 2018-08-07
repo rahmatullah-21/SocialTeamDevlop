@@ -19,10 +19,12 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
 using DominatorUIUtility.Views.Publisher.AdvancedSettings;
 using Newtonsoft.Json;
+using JobConfiguration = DominatorUIUtility.Views.SocioPublisher.JobConfiguration;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -50,7 +52,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
 
-            JobConfiguration = CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
 
             JobConfigurationControl = JobConfiguration;
         }
@@ -84,7 +86,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// <summary>
         /// Current Job Configuarion control which holds UI 
         /// </summary>
-        public CustomControl.Publisher.JobConfiguration JobConfiguration { get; set; }
+        public JobConfiguration JobConfiguration { get; set; }
 
         private UserControl _jobConfigurationControl;
 
@@ -218,7 +220,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SaveExecute(object sender)
         {
-            // Validations
+            
             #region Validations
 
             // Verify whether timer setted or not
@@ -263,7 +265,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 // Gettings general settings of current campaign
-                var generalSettingsModel = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel;
+                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                    .FirstOrDefault(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId) ?? new GeneralModel();
 
                 #region Saving post
 
@@ -312,7 +316,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                             if (postCount >= maxPostCount)
                                 break;
-
+                            
                             // Get deep clone of the post 
                             var postData = post.DeepClone();
 
@@ -379,19 +383,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
                     #endregion
                 }
-                else
-                {
-                    // Inform the maximum post has reached via Toaster notification
-                    ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {PublisherCreateCampaignModel.CampaignName} already have {generalSettingsModel.MaxPostCountToStore}+ posts in postlist!");
-                }
+               
 
                 #endregion
 
                 #region Fetch Post Details
 
-                // Delete predefined fetching items 
-                GenericFileManager.Delete<PublisherPostFetchModel>(y => PublisherCreateCampaignModel.CampaignId == y.CampaignId, ConstantVariable.GetPublisherPostFetchFile);
-
+                PublisherPostFetcher.StopFetchingPostsByCampaignId(PublisherCreateCampaignModel.CampaignId);
+              
                 // Assign New objects to hold post fetcher
                 var currentCampaignsFetchDetails = new List<PublisherPostFetchModel>();
 
@@ -568,15 +567,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 var lstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
                     ConstantVariable.GetPublisherCampaignFile());
 
-                //  PublisherCreateCampaignModel.PostDetailsModel = new PostDetailsModel();
+                //PublisherCreateCampaignModel.PostDetailsModel = new PostDetailsModel();
                 PublisherCreateCampaignModel.UpdatedDate = DateTime.Now;
-                // PublisherCreateCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
+                //PublisherCreateCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
 
                 #region Update the Campaigns
 
                 if (lstCampaign.Any(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId))
                 {
                     var campaignIndex = lstCampaign.IndexOf(lstCampaign.FirstOrDefault(x => x.CampaignName == SelectedItem));
+
+                    if (campaignIndex < 0)
+                        return;
 
                     lstCampaign[campaignIndex] = PublisherCreateCampaignModel;
 
@@ -778,7 +780,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var publisherScrapePost = PublisherScrapePost.GetPublisherScrapePost(tabItemsControl);
 
             // get the job configurations
-            JobConfiguration = CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
 
             JobConfigurationControl = JobConfiguration;
 

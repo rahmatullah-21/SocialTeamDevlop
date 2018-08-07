@@ -8,6 +8,7 @@
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:socioPublisher="clr-namespace:DominatorHouseCore.Enums.SocioPublisher;assembly=DominatorHouseCore"
+             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours"
              x:Name="PublishedPostList"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -176,7 +177,7 @@
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                    <Setter Property="Height" Value="40"></Setter>
+                    <Setter Property="Height" Value="35"/>
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
@@ -206,20 +207,15 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-
-                    <GridViewColumn  Width="250">
-                        <GridViewColumn.Header>
-                            <TextBlock Text="{DynamicResource LangKeyDescription}"/>
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
+                    <behaviours:FixedWidthGridViewColumn Header="{DynamicResource LangKeyDescription}" FixedWidth="300">
+                        <behaviours:FixedWidthGridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <TextBlock  VerticalAlignment="Center" Margin="6,2,6,2" Text="{Binding PostDescription}"/>
+                                    <TextBlock  VerticalAlignment="Center" Margin="6,2,6,2" Text="{Binding PostDescription}" TextTrimming="CharacterEllipsis"/>
                                 </Border>
                             </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
+                        </behaviours:FixedWidthGridViewColumn.CellTemplate>
+                    </behaviours:FixedWidthGridViewColumn>
                     <GridViewColumn Width="180">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyImage}"/>

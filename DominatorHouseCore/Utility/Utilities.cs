@@ -314,11 +314,16 @@ namespace DominatorHouseCore.Utility
         }
         public static string ReplaceUniCode(string messeges)
         {
+            messeges= HttpUtility.HtmlDecode(messeges);
             Regex _regex = new Regex(@"\\u(?<Value>[a-zA-Z0-9]{4})", RegexOptions.Compiled);
             messeges = _regex.Replace(messeges,
                 m => ((char)int.Parse(m.Groups["Value"].Value, System.Globalization.NumberStyles.HexNumber)).ToString()
             );
             return messeges;
+        }
+        public static T DeepCloneObject<T>(this T instance)
+        {
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(instance));
         }
     }
 }

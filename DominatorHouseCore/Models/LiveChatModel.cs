@@ -82,7 +82,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(4)]
         public string SenderDetailsCursorId { get; set; }
 
-        public DominatorAccountModel DominatorAccountModel { get; set; }
+        public DominatorAccountModel DominatorAccountModel { get; set; }=new DominatorAccountModel();
 
 
         private ObservableCollection<string> _accountNames = new ObservableCollection<string>();
@@ -290,7 +290,7 @@ namespace DominatorHouseCore.Models
         }
 
         [ProtoMember(5)]
-        public string itemId { get; set; }
+        public string MessegesId { get; set; }
 
         [ProtoMember(6)]
         public string SenderId { get; set; }

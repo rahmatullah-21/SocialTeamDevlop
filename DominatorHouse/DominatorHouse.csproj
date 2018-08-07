@@ -21,15 +21,15 @@
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://169.50.161.212/soctest/</InstallUrl>
-    <UpdateUrl>http://169.50.161.212/soctest/</UpdateUrl>
+    <InstallUrl>http://169.50.161.212/socinator/</InstallUrl>
+    <UpdateUrl>http://169.50.161.212/socinator/</UpdateUrl>
     <SupportUrl>https://socinator.com/contact-us/</SupportUrl>
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
@@ -179,6 +179,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Management" />
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.9.0\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />

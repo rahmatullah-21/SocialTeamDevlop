@@ -30,6 +30,8 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public async Task RssFeedFetchMethod(string feedUrl, string feedTemplate, PostDetailsModel postDetailsModel, string campaignId, CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
         {
+
+          
             try
             {
                 // Get all Campaign Details
@@ -89,6 +91,7 @@ namespace DominatorHouseCore.Utility
                                      FdSellPrice = postDetailsModel.FdSellPrice,
                                      FdSellProductTitle = postDetailsModel.FdSellProductTitle,
                                      IsFdSellPost = postDetailsModel.IsFdSellPost,
+                                     PublisherPostSettings = postDetailsModel.PublisherPostSettings
                                  }).ToList();
 
                 #endregion
@@ -138,8 +141,9 @@ namespace DominatorHouseCore.Utility
                 }
                 else
                 {
-                    // Inform the maximum post has reached via Toaster notification
-                    ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {campaignName} already have {maximumPostLimitToStore}+ posts in postlist!");
+                        // Inform the maximum post has reached via Toaster notification
+                        ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {campaignName} already have {maximumPostLimitToStore}+ posts in postlist!");
+                                       
                 } 
                 #endregion
             }

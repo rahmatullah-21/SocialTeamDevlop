@@ -1,21 +1,52 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
     /// <summary>
     /// Interaction logic for PostGeneralSettings.xaml
     /// </summary>
-    public partial class PostGeneralSettings : UserControl
+    public partial class PostGeneralSettings : UserControl,INotifyPropertyChanged
     {
-        public PostGeneralSettings()
+        private PublisherPostSettings _publisherPostSettings;
+
+        private PostGeneralSettings()
         {
             InitializeComponent();
         }
 
-        public PostGeneralSettings(PublisherPostSettings PublisherPostSettings):this()
+
+        public PublisherPostSettings PublisherPostSettings
         {
-            MainGrid.DataContext = PublisherPostSettings.GeneralPostSettings;
+            get
+            {
+                return _publisherPostSettings;
+            }
+            set
+            {
+                _publisherPostSettings = value;
+                OnPropertyChanged(nameof(PublisherPostSettings));
+            }
+        }
+
+        public PostGeneralSettings(PublisherPostSettings publisherPostSettings) : this()
+        {
+            PublisherPostSettings = publisherPostSettings;
+            MainGrid.DataContext = PublisherPostSettings.GeneralPostSettings;        
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

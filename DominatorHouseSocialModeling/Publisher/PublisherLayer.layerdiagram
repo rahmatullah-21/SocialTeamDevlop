@@ -3,20 +3,20 @@
   <layers>
     <layer Id="f46b69ce-bde6-4323-b33c-c8857a07db62" name="Publisher">
       <childLayers>
-        <layer Id="9c9717a7-8c45-43f6-818d-c8415ba00ca3" name="Manage Posts">
+        <layer Id="9c9717a7-8c45-43f6-818d-c8415ba00ca3" name="Layer 2 : Manage Posts">
           <childLayers>
             <layer Id="2eb34860-1df6-48ac-8117-037b4149b6b7" name="Published Post lists" />
             <layer Id="40eee76d-d767-4a1b-93c5-8e8c701235ee" name="Pending Post lists" />
             <layer Id="549061fb-ae8f-4f80-bb82-e9257b0a56eb" name="Draft post lists" />
           </childLayers>
         </layer>
-        <layer Id="cb04bd5d-8a09-476d-b18e-cb1898fa5f76" name="Manage Destinations">
+        <layer Id="cb04bd5d-8a09-476d-b18e-cb1898fa5f76" name="Layer 3 : Manage Destinations">
           <childLayers>
             <layer Id="d0b0f6f4-02ae-4dfd-a1b3-84e7eebba80c" name="Edit Destinations" />
             <layer Id="b6e5e2ae-e42e-414b-a117-e72c617155c4" name="Create Destinations" />
           </childLayers>
         </layer>
-        <layer Id="7357702f-e513-4eef-b687-7db08603e982" name="Campaign Details">
+        <layer Id="7357702f-e513-4eef-b687-7db08603e982" name="Layer 4 : Campaign Details">
           <childLayers>
             <layer Id="18c5dd4e-3ce7-482c-b6fa-eca395a57669" name="Select Destinations" />
             <layer Id="591ee429-f656-464a-842f-89bc9f608a77" name="Job Configurations" />
@@ -63,7 +63,7 @@
             </layer>
           </childLayers>
         </layer>
-        <layer Id="0529eb38-1d2b-4757-80c3-5ca38c0cc236" name="Home Page">
+        <layer Id="0529eb38-1d2b-4757-80c3-5ca38c0cc236" name="Layer 1 : Saved Campaign">
           <childLayers>
             <layer Id="c1c5b940-373b-4898-80a9-e7a7dc48fc05" name="Display Campaign Details" />
             <layer Id="738cdf22-62e5-4ee4-abef-ad09426001e1" name="Scheduling Campaign" />
