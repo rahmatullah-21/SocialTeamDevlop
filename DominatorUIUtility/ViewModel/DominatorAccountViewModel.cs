@@ -197,6 +197,7 @@ namespace DominatorUIUtility.ViewModel
         public string GrowthChartPeriod { get; set; }
         public string GrowthChartProperty { get; set; }
         public string GrowthChartType { get; set; }
+        public List<GrowthProperty> GrowthProperties { get; set; }
         public List<string> GrowthChartProperties { get; set; }
         public List<string> GrowthChartPeriods { get; set; }
         public List<string> GrowthChartTypes { get; set; }

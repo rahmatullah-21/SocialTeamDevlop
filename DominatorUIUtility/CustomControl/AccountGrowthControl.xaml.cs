@@ -33,7 +33,7 @@ namespace DominatorUIUtility.CustomControl
     {
         private DominatorAccountViewModel _dominatorAccountViewModel;
         private readonly BackgroundWorker worker = new BackgroundWorker();
-
+        private List<GrowthProperty> GrowthProperties = new List<GrowthProperty>();
         private static SocialNetworks socialNetworks;
 
         #region Property
@@ -72,18 +72,18 @@ namespace DominatorUIUtility.CustomControl
 
         private void InitializeChart()
         {
-            DominatorAccountViewModel.GrowthChartProperties = new List<string>() { "Followers", "Followings", "Tweets" };
+            DominatorAccountViewModel.GrowthProperties = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.GrowthProperties;
             DominatorAccountViewModel.GrowthChartPeriods = GetChartPeriodEnumStringList();
             DominatorAccountViewModel.GrowthChartTypes = new List<string>() { "Gain", "Total", "Both" };
             DominatorAccountViewModel.GrowthChartAccountNumber = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountId;
             DominatorAccountViewModel.GrowthChartPeriod = "Past 30 days";
-            DominatorAccountViewModel.GrowthChartProperty = "Followers";
+            DominatorAccountViewModel.GrowthChartProperty = string.Join(",", DominatorAccountViewModel.GrowthProperties.Select(x => x.PropertyName));
             DominatorAccountViewModel.GrowthChartType = "Total";
             DominatorAccountViewModel.SeriesCollection = new SeriesCollection
             {
                 new LineSeries
                 {
-                    Title = "Followers",
+                    Title = DominatorAccountViewModel.GrowthProperties[0].PropertyName.ToString(),
                     Values = new ChartValues<double> {0,1,3,4,5, 6,7,8,11,10,20,19,19,19,19,19,19,19,20,20,21,21,24,24,24,24,24,28,29,29 }
                 }
 
@@ -226,26 +226,8 @@ namespace DominatorUIUtility.CustomControl
             {
 
                 DominatorAccountViewModel.GrowthList = new List<DominatorHouseCore.ViewModel.DailyStatisticsViewModel>();
-
-                // DominatorAccountViewModel.GrowthList = accountUpdateFactory.GetDailyGrowthForAccount(DominatorAccountViewModel.GrowthChartAccountNumber, GetValueFromDescription<GrowthChartPeriod>(DominatorAccountViewModel.GrowthChartPeriod));
-                //DominatorAccountViewModel.GrowthList = accountUpdateFactory.GetDailyGrowthForAccount(DominatorAccountViewModel.GrowthChartAccountNumber, GrowthChartPeriod.Past30Days);
-
                 GetGrowthForAccount();
-                if (DominatorAccountViewModel.GrowthChartType == "Total" || DominatorAccountViewModel.GrowthChartType == "Both")
-                {
-                    DominatorAccountViewModel.SeriesCollection.FirstOrDefault().Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, DominatorAccountViewModel.GrowthChartProperty, "Total");
-
-
-
-                }
-                if (DominatorAccountViewModel.GrowthChartType == "Gain" || DominatorAccountViewModel.GrowthChartType == "Both")
-                {
-
-
-                    DominatorAccountViewModel.SeriesCollection.FirstOrDefault().Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, DominatorAccountViewModel.GrowthChartProperty, "Gain");
-
-
-                }
+                UpdateChart(1);
 
                 DominatorAccountViewModel.Labels = GetChartLabels();
                 DominatorAccountViewModel.YFormatter = value => value.ToString();
@@ -285,29 +267,22 @@ namespace DominatorUIUtility.CustomControl
         private ChartValues<int> getGrowthValueList(List<DailyStatisticsViewModel> growthList, string growthChartProperty, string type)
         {
             var list = new ChartValues<int>();
-            if (growthChartProperty == "Followers")
+            var properties = DominatorAccountViewModel.LstDominatorAccountModel.Where(x => x.AccountId == DominatorAccountViewModel.GrowthChartAccountNumber).FirstOrDefault().AccountBaseModel.GrowthProperties;
+            for (int i = 1; i <= properties.Count(); i++)
             {
+                if (growthChartProperty == properties[i - 1].PropertyName)
+                {
+                    foreach (var g in growthList)
+                    {
+                        var propertyName = "GrowthColumnValue" + i;
+                        System.Reflection.PropertyInfo prop = typeof(DailyStatisticsViewModel).GetProperty(propertyName);
+                        object value = prop.GetValue(g);
 
-                foreach (var g in growthList)
-                {
-                    list.Add(g.GrowthColumnValue1);
+                        list.Add(Convert.ToInt32(value));
+                    }
                 }
             }
-            if (growthChartProperty == "Followings")
-            {
-                foreach (var g in growthList)
-                {
-                    list.Add(g.GrowthColumnValue2);
-                }
-            }
-            if (growthChartProperty == "Tweets")
-            {
-                foreach (var g in growthList)
-                {
-                    list.Add(g.GrowthColumnValue3);
-                }
-            }
-
+          
 
             if (type == "Gain")
             {
@@ -324,6 +299,7 @@ namespace DominatorUIUtility.CustomControl
 
             return list;
         }
+
 
         List<GridViewColumn> _addedColumns = new List<GridViewColumn>();
 
@@ -383,6 +359,7 @@ namespace DominatorUIUtility.CustomControl
 
 
             var listCollection = (ListCollectionView)DominatorAccountViewModel.AccountCollectionView;
+            DominatorAccountViewModel.GrowthProperties = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.GrowthProperties;
             if (period == GrowthPeriod.NoPeriod)
             {
                 DominatorAccountViewModel.LstDominatorAccountModel.Select(x =>
@@ -408,6 +385,14 @@ namespace DominatorUIUtility.CustomControl
                     x.IsAccountManagerAccountSelected = false;
                   
                     var AccoutGrowth = accountUpdateFactory.GetDailyGrowth(x.AccountId, x.AccountBaseModel.ProfileId, period);
+                    //for (int i = 1; i <= x.AccountBaseModel.GrowthProperties.Count(); i++)
+                    //{
+                    //    var propertyName = "GrowthColumnValue" + i;
+                    //    System.Reflection.PropertyInfo prop = typeof(DailyStatisticsViewModel).GetProperty(propertyName);
+                    //    object value = prop.GetValue(AccoutGrowth);
+                    //    x.AccountBaseModel.GrowthProperties[i - 1].PropertyValue = Convert.ToInt32(value);
+                    //}
+
                     x.DisplayColumnValue6 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue1 : 0;
                     x.DisplayColumnValue7 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue2 : 0;
                     x.DisplayColumnValue8 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue3 : 0;
@@ -720,19 +705,10 @@ namespace DominatorUIUtility.CustomControl
             if (DominatorAccountViewModel.GrowthChartProperty == null)
                 DominatorAccountViewModel.GrowthChartProperty = "";
             List<string> chartProperties = DominatorAccountViewModel.GrowthChartProperty.Split(',').ToList();
-            if (cb.Name == "cb1")
-            {
-                if (!chartProperties.Contains("Followers"))
-                    chartProperties.Add("Followers");
-            }
-            else if (cb.Name == "cb2")
-            {
-                chartProperties.Add("Followings");
-            }
-            else
-            {
-                chartProperties.Add("Tweets");
-            }
+
+            if (!chartProperties.Contains(cb.Content.ToString()))
+                chartProperties.Add(cb.Content.ToString());
+
             DominatorAccountViewModel.GrowthChartProperty = string.Join(",", chartProperties.ToArray());
             if (DominatorAccountViewModel.SeriesCollection != null)
                 UpdateChart(1);
@@ -741,26 +717,14 @@ namespace DominatorUIUtility.CustomControl
         {
             CheckBox cb = sender as CheckBox;
             List<string> chartProperties = DominatorAccountViewModel.GrowthChartProperty.Split(',').ToList();
-            if (cb.Name == "cb1")
-            {
-                var index = chartProperties.IndexOf("Followers");
-                chartProperties.RemoveAt(index);
-            }
-            else if (cb.Name == "cb2")
-            {
-                var index = chartProperties.IndexOf("Followings");
-                chartProperties.RemoveAt(index);
-            }
-            else
-            {
-                var index = chartProperties.IndexOf("Tweets");
-                chartProperties.RemoveAt(index);
-            }
+
+            var index = chartProperties.IndexOf(cb.Content.ToString());
+            chartProperties.RemoveAt(index);
+
             DominatorAccountViewModel.GrowthChartProperty = string.Join(",", chartProperties.ToArray());
             if (DominatorAccountViewModel.SeriesCollection != null)
                 UpdateChart(1);
         }
-
         private void CmbboxGrowthPeriod_OnDropDownClosed(object sender, EventArgs e)
         {
             try
