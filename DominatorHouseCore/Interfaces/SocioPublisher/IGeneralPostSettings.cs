@@ -6,7 +6,7 @@ namespace DominatorHouseCore.Interfaces.SocioPublisher
     {
         bool IsExpireDate { get; set; }
 
-        DateTime ExpireDate { get; set; }
+        DateTime? ExpireDate { get; set; }
         bool IsReaddCount { get; set; }
         int ReaddCount { get; set; }
     }

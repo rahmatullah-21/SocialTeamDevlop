@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DominatorHouseCore.Interfaces.SocioPublisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
@@ -31,9 +27,9 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             }
         }
 
-        private DateTime _expireDate = DateTime.Now.AddYears(2);
+        private DateTime? _expireDate;
         [ProtoMember(2)]
-        public DateTime ExpireDate
+        public DateTime? ExpireDate
         {
             get
             {

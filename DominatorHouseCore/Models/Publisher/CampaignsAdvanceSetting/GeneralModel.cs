@@ -6,6 +6,13 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
     [ProtoContract]
    public class GeneralModel : BindableBase
     {
+
+        public void InitializeGeneralModel()
+        {
+            IsWhenPublishingSendOnePostChecked = true;
+            IsRunSingleAccountPerCampaign = true;
+        }
+
         private int _triggerNotificationCount;
       
         [ProtoMember(1)]
@@ -166,7 +173,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _chooseBetween, value);
             }
         }
-        private bool _isWhenPublishingSendOnePostChecked = true;
+        private bool _isWhenPublishingSendOnePostChecked;
 
         [ProtoMember(11)]
         public bool IsWhenPublishingSendOnePostChecked
@@ -214,7 +221,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isInsertPostsAtRandomChecked, value);
             }
         }
-        private bool _isRunSingleAccountPerCampaign = true;
+        private bool _isRunSingleAccountPerCampaign;
 
         [ProtoMember(14)]
         public bool IsRunSingleAccountPerCampaign
