@@ -27,7 +27,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             {SocialNetworks.Tumblr,(operation)=>{operation.Count<TumblrTables.Account.InteractedUser>(); }}
         };
 
-        public static Dictionary<SocialNetworks, Action<DbOperations>> DbCampaignInitialCounters = new Dictionary<SocialNetworks, Action<DbOperations>>
+        public static Dictionary<SocialNetworks, Action<DbOperations>> DbCampaignInitialCounters { get; set; } = new Dictionary<SocialNetworks, Action<DbOperations>>
         {
             {SocialNetworks.Gplus,operation=>{ operation.Count<GplusTables.Campaigns.InteractedUsersReport>();}},
             {SocialNetworks.Twitter,operation=>{operation.Count<TdTables.Campaign.InteractedUsers>();}},

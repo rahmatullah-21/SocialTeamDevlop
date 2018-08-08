@@ -457,9 +457,6 @@
     <Compile Include="Views\SocioPublisher\PublisherAddCustomDestination.xaml.cs">
       <DependentUpon>PublisherAddCustomDestination.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SocioPublisher\PublisherCreateNewPost.xaml.cs">
-      <DependentUpon>PublisherCreateNewPost.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel\SocioPublisher\PublisherCustomDestinationViewModel.cs" />
     <Compile Include="Views\SocioPublisher\PublisherDirectPosts.xaml.cs">
       <DependentUpon>PublisherDirectPosts.xaml</DependentUpon>
@@ -501,9 +498,6 @@
     </Compile>
     <Compile Include="Views\SocioPublisher\PublisherManagePosts.xaml.cs">
       <DependentUpon>PublisherManagePosts.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SocioPublisher\PublisherMediaViewer.xaml.cs">
-      <DependentUpon>PublisherMediaViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\PublisherMonitorFolder.xaml.cs">
       <DependentUpon>PublisherMonitorFolder.xaml</DependentUpon>
@@ -947,10 +941,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SocioPublisher\PublisherCreateNewPost.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\SocioPublisher\PublisherDefaultPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -980,10 +970,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherManagePosts.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SocioPublisher\PublisherMediaViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

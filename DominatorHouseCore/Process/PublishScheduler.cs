@@ -877,7 +877,7 @@ namespace DominatorHouseCore.Process
 
                     // Get the expire post counts
                     var expiredPosts =
-                        pendingPostList.Where(x => x.PublisherPostSettings.GeneralPostSettings.ExpireDate < DateTime.Today).ToList();
+                        pendingPostList.Where(x => x.PublisherPostSettings.GeneralPostSettings.IsExpireDate && x.PublisherPostSettings.GeneralPostSettings.ExpireDate < DateTime.Today).ToList();
 
                     var expiredPostCount = expiredPosts.Count;
 
