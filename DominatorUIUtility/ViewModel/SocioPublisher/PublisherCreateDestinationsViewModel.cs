@@ -257,16 +257,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (GroupsAvailableInNetworks.Contains(publisherCreateDestinationSelectModel.SocialNetworks.ToString()))
             {
+                // Get the factory for account selector for a network
                 var accountsDetailsSelector = SocinatorInitialize
                     .GetSocialLibrary(publisherCreateDestinationSelectModel.SocialNetworks)
                     .GetNetworkCoreFactory().AccountDetailsSelectors;
 
+                // fetch the groups details for particular accounts
                 var groups = await accountsDetailsSelector.GetGroupsDetails(publisherCreateDestinationSelectModel.AccountId, publisherCreateDestinationSelectModel.AccountName, alreadySelectedGroups);
 
                 groups.ForEach(group =>
                 {
                     group.Network = publisherCreateDestinationSelectModel.SocialNetworks;
 
+                    // Add the group details to Ui's view model 
                     if (!Application.Current.Dispatcher.CheckAccess())
                     {
                         Application.Current.Dispatcher.Invoke(() =>
@@ -277,6 +280,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 });
             }
 
+            // Update the status of details selector
             UpdateStatus(accountDetailsSelector);
         }
 
@@ -290,16 +294,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             var publisherCreateDestinationSelectModel = (PublisherCreateDestinationSelectModel)sender;
 
+            // get the page or board pair from collection with the account Id
             var valuePairs = PublisherCreateDestinationModel.AccountPagesBoardsPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList();
 
+            // get the factory pattern for the network of an account
             var accountsDetailsSelector = SocinatorInitialize
                 .GetSocialLibrary(publisherCreateDestinationSelectModel.SocialNetworks)
                 .GetNetworkCoreFactory().AccountDetailsSelectors;
 
+            // Fetch the page details only
             var alreadySelectedPages = valuePairs.Select(x => x.Value).ToList();
 
+            // Pass the fetching activity functions as action to UI
             var accountDetailsSelector = new AccountDetailsSelector(UpdateSingleAccountPagesDetails, publisherCreateDestinationSelectModel)
             {
+                // Find whether page or board, its vary based on each network
                 AccountDetailsSelectorViewModel =
                 {
                     Title = $"Select {accountsDetailsSelector.DisplayAsPageOrBoards}",
@@ -313,24 +322,32 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var window = dialog.GetMetroWindow(accountDetailsSelector, $"Select {accountsDetailsSelector.DisplayAsPageOrBoards}");
 
+            // Defining the save buttons click events
             accountDetailsSelector.btnSave.Click += (senderDetails, events) =>
             {
+                // Remove all the saved accounts page or boards pair
                 valuePairs.ForEach(x =>
                 {
                     PublisherCreateDestinationModel.AccountPagesBoardsPair.Remove(x);
                     PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.PageOrBoard);
                 });
 
+                // Get the selected pairs
                 var keyValuePairs = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItems().ToList();
 
+                // Add to key value pair
                 PublisherCreateDestinationModel.AccountPagesBoardsPair.AddRange(keyValuePairs);
 
+                // Get the destination full details of a page or board
                 var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(ConstantVariable.PageOrBoard).ToList();
 
+                // Update with destination details
                 PublisherCreateDestinationModel.DestinationDetailsModels.AddRange(destinationDetails);
 
+                // Get the already selected page details 
                 alreadySelectedPages = PublisherCreateDestinationModel.AccountPagesBoardsPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).Select(x => x.Value).ToList();
 
+                //
                 var createDestinationSelectModel = PublisherCreateDestinationModel.ListSelectDestination.FirstOrDefault(x => x.AccountId == publisherCreateDestinationSelectModel.AccountId);
 
                 if (createDestinationSelectModel != null)

@@ -705,9 +705,15 @@ namespace DominatorHouseCore.Models.SocioPublisher
             PostId = Utilities.GetGuid();
         }
 
+        /// <summary>
+        /// Update the posts navigation details based on media list
+        /// </summary>
         public void InitializePostData()
         {
+            // Check whether media list contains items or not
             IsPostListPresent = MediaList.Count > 0;
+
+           // Update the process
             if (IsPostListPresent)
             {
                 ImagePointer = 0;
