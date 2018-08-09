@@ -1,3 +1,12 @@
+Version[1.0.0.8],[8th-August-18]
+Fixed Issues:
+Publisher:-  Wrong error:- No more unique posts available
+
+
+New Feature:- 
+Reddit:- Added 3 new features, Upvote,Downvote and RemoveVote on Comments
+
+
 Version[1.0.0.7],[6th-August-18]
 Improved software performance
 Fixed Issues:
