@@ -337,7 +337,7 @@ namespace DominatorHouseCore.Process
                         if (!accountsWithNetworks.ContainsKey(x.AccountId))
                             accountsWithNetworks.Add(x.AccountId, x.SocialNetworks);
 
-                        if (campaignStatusModel.IsTakeRandomDestination && postsAccountDestinationLimits > 0)
+                        if (!advancedSettings.IsWhenPublishingSendOnePostChecked && campaignStatusModel.IsTakeRandomDestination && postsAccountDestinationLimits > 0)
                         {
                             var currentAccountQueue = accountsWithDestinations.GetOrAdd(x.AccountId,
                                 queue => new Queue<PublisherDestinationDetailsModel>());
@@ -362,7 +362,7 @@ namespace DominatorHouseCore.Process
 
                 #region Random Destinations
 
-                if (campaignStatusModel.IsTakeRandomDestination)
+                if (!advancedSettings.IsWhenPublishingSendOnePostChecked  && campaignStatusModel.IsTakeRandomDestination)
                 {
                     // Check whether total destination is zero 
                     if (campaignStatusModel.TotalRandomDestination == 0)
@@ -876,11 +876,13 @@ namespace DominatorHouseCore.Process
                         .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
 
                     // Get the expire post counts
-                    var expiredPostCount =
-                        pendingPostList.Count(x => x.ExpiredTime != null && x.ExpiredTime <= DateTime.Now);
+                    var expiredPosts =
+                        pendingPostList.Where(x => x.PublisherPostSettings.GeneralPostSettings.IsExpireDate && x.PublisherPostSettings.GeneralPostSettings.ExpireDate < DateTime.Today).ToList();
 
+                    var expiredPostCount = expiredPosts.Count;
 
-                    
+                    pendingPostList = pendingPostList.Except(expiredPosts).ToList();
+
                     // Checking, If no more post available
                     if (!pendingPostList.Any())
                     {

@@ -156,12 +156,12 @@ namespace DominatorHouseCore.Utility
 
         public static string GetChatDir()
         {
-            string dir = $"{GetPlatformBaseDirectory()}\\Chat";
+            string dir = $"{GetPlatformBaseDirectory()}\\LiveChat";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
         internal static string GetLiveChatFile() => GetChatDir() + @"\LiveChat.bin";
-
+        public static string GetLiveChatFile(SocialNetworks network) => GetChatDir() + $"\\{network}.bin";
         public static string GetDownloadedMediaFolderPath =>
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
@@ -277,5 +277,17 @@ namespace DominatorHouseCore.Utility
 
         public static string OwnWall { get; set; } = "OwnWall";
 
+    }
+
+    public static class FileDirPath
+    {
+        public static string GetChatDir(SocialNetworks network)
+        {
+            string dir = $"{ConstantVariable.GetPlatformBaseDirectory()}\\LiveChat\\{network}";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir;
+        }
+        public static string GetChatDetailFile(SocialNetworks network) => GetChatDir(network) + $"\\Chat.bin";
+        public static string GetFriendDetailFile(SocialNetworks network) => GetChatDir(network) + $"\\Friend.bin";
     }
 }

@@ -49,20 +49,42 @@ namespace DominatorUIUtility.CustomControl
 
         private void EditMessage_OnClick(object sender, RoutedEventArgs e)
         {
-            var currentItem = ((FrameworkElement)sender).DataContext as ManageMessagesModel;
-            var editMessage = new MessageMediaControl();
-            editMessage.btnAddMessagesToList.Content = "Update Message";
-            editMessage.Messages = currentItem;
-
-            editMessage.Messages.LstQueries.ToList().ForEach(x =>
+            try
             {
-                if (editMessage.Messages.SelectedQuery.Contains(x))
-                    x.IsContentSelected = true;
-            });
-            editMessage.MainGrid.Margin = new Thickness(20);
-            Dialog dialog = new Dialog();
-            Window window = dialog.GetMetroWindow(editMessage, "Edit Message");
-            window.Show();
+                var currentItem = ((FrameworkElement)sender).DataContext as ManageMessagesModel;
+                var editMessage = new MessageMediaControl();
+                editMessage.btnAddMessagesToList.Content = "Update Message";
+                editMessage.Messages = new ManageMessagesModel
+                {
+                    MessagesText = currentItem.MessagesText,
+                    LstQueries = new ObservableCollection<QueryContent>(currentItem.LstQueries),
+                    MessageId = currentItem.MessageId,
+                    SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery)
+                };
+
+
+                editMessage.Messages.LstQueries.ToList().ForEach(x =>
+                {
+                    if (editMessage.Messages.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType))
+                        x.IsContentSelected = true;
+                });
+                editMessage.MainGrid.Margin = new Thickness(20);
+                Dialog dialog = new Dialog();
+                Window window = dialog.GetMetroWindow(editMessage, "Edit Message");
+                window.Show();
+                window.Closed += (s, evnt) =>
+                {
+                    if (editMessage.Isupdated)
+                    {
+                        var indexToUpdate = LstManageMessagesModel.IndexOf(currentItem);
+                        LstManageMessagesModel[indexToUpdate] = editMessage.Messages;
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void DeleteSingleMessage_OnClick(object sender, RoutedEventArgs e)

@@ -6,8 +6,10 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using CsvHelper;
+using DominatorHouseCore.LogHelper;
 using Microsoft.Win32;
 using WPFFolderBrowser;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -56,22 +58,67 @@ namespace DominatorHouseCore.Utility
 
                         //fileData.AddRange(GetFileContent(fileName));
 
-
                     }
-
-
-
-
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.StackTrace);
                 }
             }
-
             return fileData;
         }
 
+
+        /// <summary>
+        /// FileBrowseAndReader() is used to browse and read the file data from OpenFileDialog
+        /// </summary>
+        /// <returns>Returns unique list of item from all files</returns>
+        public static async Task<List<string>> FileBrowseAndReaderAsync()
+        {
+            var fileData = new List<string>();
+
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Multiselect = true,
+                Filter = "Text documents (.txt)|*.txt|CSV files (*.csv)|*.csv|All files (*.*)|*.*"
+            };
+
+            var openFileDialogResult = openFileDialog.ShowDialog();
+
+            if (openFileDialogResult != true) return new List<string>();
+
+            foreach (var fileName in openFileDialog.FileNames)
+            {
+                try
+                {
+                    var extension = Path.GetExtension(fileName);
+                    if (!string.IsNullOrEmpty(extension))
+                    {
+                        if (extension.Contains(".xls") || extension.Contains(".xlsx"))
+                        {
+                            var value = await Task.Factory.StartNew(() => GetExcelFileContent(fileName));
+                            fileData.AddRange(value);
+                        }
+                        else if (extension.Contains(".csv"))
+                            fileData.AddRange(GetCsvFileContent(fileName));
+                        else if (extension.Contains(".txt"))
+                            fileData.AddRange(GetTextFileContent(fileName));
+                        else continue;
+
+                        //if (!extension.Contains(".txt") && !extension.Contains(".csv"))
+                        //        continue;
+
+                        //fileData.AddRange(GetFileContent(fileName));
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                }
+            }
+            return fileData;
+        }
 
 
         /// <summary>
@@ -214,8 +261,10 @@ namespace DominatorHouseCore.Utility
                     }
                     var data = rowContent.Trim();
                     if (!string.IsNullOrEmpty(data))
-                        content.Add(rowContent.Substring(0, rowContent.Length - 1));
-
+                    {
+                        var substring = rowContent.Substring(0, rowContent.Length - 1);
+                        content.Add(substring);
+                    }
                 }
             }
             catch (Exception ex)
@@ -280,7 +329,8 @@ namespace DominatorHouseCore.Utility
                 var line = String.Empty;
                 while ((line = file.ReadLine()) != null)
                 {
-                    csvSplitList.Add(line.Replace(":","\t"));
+                    csvSplitList.Add(ImageExtracter.CheckUrlValid(line) ? line : line.Replace(":", "\t"));
+
                 }
                 return csvSplitList;
             }

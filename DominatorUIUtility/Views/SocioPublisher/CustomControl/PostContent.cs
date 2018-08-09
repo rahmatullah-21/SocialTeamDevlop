@@ -437,19 +437,19 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                             objAdvancedSettings.PostFacebookSettings.PublisherPostSettings = postSettingsDeepClone;
                             break;
                         case SocialNetworks.Instagram:
-                            objAdvancedSettings.PostInstagramSettings.PublisherPostSettings = postSettingsDeepClone;                         
+                            objAdvancedSettings.PostInstagramSettings.PublisherPostSettings = postSettingsDeepClone;
                             break;
                         case SocialNetworks.Twitter:
-                            objAdvancedSettings.PostTwitterSettings.PublisherPostSettings = postSettingsDeepClone;                        
+                            objAdvancedSettings.PostTwitterSettings.PublisherPostSettings = postSettingsDeepClone;
                             break;
                         case SocialNetworks.LinkedIn:
-                            objAdvancedSettings.PostLinkedInSettings.PublisherPostSettings = postSettingsDeepClone;                            
+                            objAdvancedSettings.PostLinkedInSettings.PublisherPostSettings = postSettingsDeepClone;
                             break;
                         case SocialNetworks.Tumblr:
-                            objAdvancedSettings.PostTumblrSettings.PublisherPostSettings = postSettingsDeepClone;                           
+                            objAdvancedSettings.PostTumblrSettings.PublisherPostSettings = postSettingsDeepClone;
                             break;
                         case SocialNetworks.Reddit:
-                            objAdvancedSettings.PostRedditSettings.PublisherPostSettings = postSettingsDeepClone;                          
+                            objAdvancedSettings.PostRedditSettings.PublisherPostSettings = postSettingsDeepClone;
                             break;
                         case SocialNetworks.Pinterest:
                         case SocialNetworks.Quora:
@@ -460,7 +460,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                             break;
                     }
                 }
-
+                PublisherPostSettings = postSettingsDeepClone;
                 dialogWindow.Close();
             };
 

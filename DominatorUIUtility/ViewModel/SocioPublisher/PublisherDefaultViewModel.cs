@@ -43,29 +43,58 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         #region Command
 
-
+        /// <summary>
+        /// Copy Campaign Id is used to get the campaign Id 
+        /// </summary>
         public ICommand CopyCampaignId { get; set; }
 
+        /// <summary>
+        /// To Navigate the user control to manage destination, Manage posts, Create campaign, and Edit Campaign
+        /// </summary>
         public ICommand NavigationCommand { get; set; }
 
+        /// <summary>
+        /// To Enable the button's context menu on left click also
+        /// </summary>
         public ICommand OpenContextMenuCommand { get; set; }
 
+        /// <summary>
+        /// To Select the campaign's details
+        /// </summary>
         public ICommand SelectionCommand { get; set; }
 
+        /// <summary>
+        /// To make the clone of the campaigns
+        /// </summary>
         public ICommand CampaignCloneCommand { get; set; }
 
+        /// <summary>
+        /// To Delete the campaign from publisher
+        /// </summary>
         public ICommand DeleteCampaignCommand { get; set; }
 
+        /// <summary>
+        /// To make the campaign to active state
+        /// </summary>
         public ICommand ActiveSelectedCampaignCommand { get; set; }
 
+        /// <summary>
+        /// To make the campaign to pause state
+        /// </summary>
         public ICommand PauseSelectedCampaignCommand { get; set; }
 
+        /// <summary>
+        /// To publish the campaign's functions now without any time specific
+        /// </summary>
         public ICommand PublishNowSelectedCampaignCommand { get; set; }
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// To holds the default pages details
+        /// </summary>
         public ObservableCollection<PublisherCampaignStatusModel> ListPublisherCampaignStatusModels
         {
             get
@@ -81,6 +110,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private ICollectionView _publisherCampaignStatusModelView;
 
+        /// <summary>
+        /// To specify the collection view for binding
+        /// </summary>
         public ICollectionView PublisherCampaignStatusModelView
         {
             get
@@ -98,6 +130,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private bool _isAllCampaignSelected;
         private ObservableCollection<PublisherCampaignStatusModel> _listPublisherCampaignStatusModels = new ObservableCollection<PublisherCampaignStatusModel>();
 
+        /// <summary>
+        /// To specify all campaign is selected or not
+        /// </summary>
         public bool IsAllCampaignSelected
         {
             get
@@ -115,6 +150,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
         private bool _isUncheckedFromList { get; set; }
+
+        /// <summary>
+        /// To change the selection status of the campaign
+        /// </summary>
+        /// <param name="isAllSelected"></param>
         public void SelectAll(bool isAllSelected)
         {
             if (_isUncheckedFromList)
@@ -683,6 +723,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // stop fetching posts for a campaign
                 PublisherPostFetcher.StopFetchingPostsByCampaignId(campaign.CampaignId);
 
+                // Delete the post list bin file for the campaign
+                GenericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{campaign.CampaignId}.bin");
+
                 GlobusLogHelper.log.Info($"{campaign.CampaignName} deleted Successfully!");
 
             }
@@ -723,8 +766,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     // stop fetching posts for a campaign
                     PublisherPostFetcher.StopFetchingPostsByCampaignId(x.CampaignId);
-                });
 
+                    // Delete the post list bin file for the campaign
+                    GenericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{x.CampaignId}.bin");
+                });
 
                 GenericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherPostFetchFile);

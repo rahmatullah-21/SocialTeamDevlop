@@ -40,17 +40,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
             MainGrid.DataContext = PublisherPostSettings.GeneralPostSettings;        
         }
 
-     
-
-        private void DatePicker_OnSelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (PublisherPostSettings.GeneralPostSettings.ExpireDate < DateTime.Today)
-            {
-                Dialog.ShowDialog("Warning", "Expire date should be greater than today!");
-                PublisherPostSettings.GeneralPostSettings.ExpireDate = DateTime.Now;
-            }
-                        
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

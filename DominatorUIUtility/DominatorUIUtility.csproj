@@ -181,6 +181,7 @@
     <Compile Include="Behaviours\ErrorModelControl.xaml.cs">
       <DependentUpon>ErrorModelControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviours\FixedWidthGridViewColumn.cs" />
     <Compile Include="Behaviours\HeaderHelper.cs" />
     <Compile Include="Behaviours\Lang.cs" />
     <Compile Include="Behaviours\NetworkAvailablity.cs" />
@@ -307,12 +308,6 @@
     <Compile Include="CustomControl\ProxyManager.xaml.cs">
       <DependentUpon>ProxyManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControl\Publisher\JobConfiguration.xaml.cs">
-      <DependentUpon>JobConfiguration.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControl\Publisher\OtherConfiguration.xaml.cs">
-      <DependentUpon>OtherConfiguration.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CustomControl\Reports.xaml.cs">
       <DependentUpon>Reports.xaml</DependentUpon>
     </Compile>
@@ -324,6 +319,7 @@
     </Compile>
     <Compile Include="ViewModel\AccountDetailsViewModel.cs" />
     <Compile Include="ViewModel\AccountManagerViewModel.cs" />
+    <Compile Include="ViewModel\CampaignViewModel.cs" />
     <Compile Include="ViewModel\Config\URLShortnerServicesViewModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
@@ -449,14 +445,17 @@
       <DependentUpon>PostTwitterSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\CustomControl\SocinatorTextBox.cs" />
+    <Compile Include="Views\SocioPublisher\JobConfiguration.xaml.cs">
+      <DependentUpon>JobConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocioPublisher\OtherConfiguration.xaml.cs">
+      <DependentUpon>OtherConfiguration.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocioPublisher\PublishedPostDetails.xaml.cs">
       <DependentUpon>PublishedPostDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\PublisherAddCustomDestination.xaml.cs">
       <DependentUpon>PublisherAddCustomDestination.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SocioPublisher\PublisherCreateNewPost.xaml.cs">
-      <DependentUpon>PublisherCreateNewPost.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\SocioPublisher\PublisherCustomDestinationViewModel.cs" />
     <Compile Include="Views\SocioPublisher\PublisherDirectPosts.xaml.cs">
@@ -499,9 +498,6 @@
     </Compile>
     <Compile Include="Views\SocioPublisher\PublisherManagePosts.xaml.cs">
       <DependentUpon>PublisherManagePosts.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SocioPublisher\PublisherMediaViewer.xaml.cs">
-      <DependentUpon>PublisherMediaViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioPublisher\PublisherMonitorFolder.xaml.cs">
       <DependentUpon>PublisherMonitorFolder.xaml</DependentUpon>
@@ -699,14 +695,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\ProxyManager.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\Publisher\JobConfiguration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\Publisher\OtherConfiguration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -929,6 +917,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SocioPublisher\JobConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SocioPublisher\OtherConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\SocioPublisher\PublishedPostDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -942,10 +938,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherCreateDestination.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SocioPublisher\PublisherCreateNewPost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -978,10 +970,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioPublisher\PublisherManagePosts.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SocioPublisher\PublisherMediaViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

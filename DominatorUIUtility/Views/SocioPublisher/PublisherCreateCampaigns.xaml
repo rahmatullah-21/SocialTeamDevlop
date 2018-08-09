@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:publisher="clr-namespace:DominatorUIUtility.CustomControl.Publisher"
+             
              x:Name="CreateCampaign"
              mc:Ignorable="d"   xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
     <Grid>
@@ -201,7 +201,7 @@
                                 <!--<publisher:JobConfiguration JobConfigurations="{Binding PublisherCreateCampaignModel.JobConfigurations,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>-->
                             </Expander>
                             <Expander Header="{DynamicResource LangKeyOtherConfigurations}" Margin="15,5,5,5">
-                                <publisher:OtherConfiguration OtherConfigurations="{Binding PublisherCreateCampaignModel.OtherConfiguration}"/>
+                                <local:OtherConfiguration OtherConfigurations="{Binding PublisherCreateCampaignModel.OtherConfiguration}"/>
                             </Expander>
                         </StackPanel>
                     </ScrollViewer>

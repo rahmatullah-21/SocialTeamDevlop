@@ -13,11 +13,12 @@ namespace DominatorHouseCore.Converters
         {
             try
             {
-                return DateTimeUtilities.EpochToDateTimeUtc(int.Parse(value.ToString()));
+                return DateTimeUtilities.EpochToDateTimeLocal(int.Parse(value.ToString()));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return null;
+                ex.DebugLog();
+                return value;
             }
         
         }

@@ -209,13 +209,13 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube")]
         Unsubscribe = 69,
 
-        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
         BroadcastMessages = 70,
 
-        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
         SendMessageToFollower = 71,
 
-        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
         AutoReplyToNewMessage = 72,
 
         [Description("LinkedIn")]
@@ -254,7 +254,7 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Reddit")]
         Reply = 84,
 
-        [Description("Reddit")]
+        [Description("Reddit,Twitter")]
         Delete = 85,
 
         [Description("Facebook")]
@@ -288,5 +288,11 @@ namespace DominatorHouseCore.Enums
 
         [Description("Facebook")]
         PostCommentor = 96,
+        [Description("Reddit")]
+        RemoveVoteComment = 97,
+        [Description("Reddit")]
+        UpvoteComment = 98,
+        [Description("Reddit")]
+        DownvoteComment = 99,
     }
 }

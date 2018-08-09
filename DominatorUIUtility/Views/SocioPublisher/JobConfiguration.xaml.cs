@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using MahApps.Metro.Controls;
 using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Utility;
+using MahApps.Metro.Controls;
 
-namespace DominatorUIUtility.CustomControl.Publisher
+namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for JobConfiguration.xaml

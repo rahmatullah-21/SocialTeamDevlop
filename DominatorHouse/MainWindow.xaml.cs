@@ -10,7 +10,6 @@ using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,7 +19,6 @@ using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
-using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Converters;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -29,18 +27,15 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
 using EmbeddedBrowser;
-// using EmbeddedBrowser;
+//using EmbeddedBrowser;
 using FluentScheduler;
-using Languages;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
@@ -182,7 +177,7 @@ namespace Socinator
             controller.SetIndeterminate();
             _licenseKey = license;
             var networks = await UtilityManager.LogIndividualNetworksExceptions(_licenseKey);
-         
+
             if (networks == null)
             {
                 await controller.CloseAsync();
@@ -364,11 +359,13 @@ namespace Socinator
             }
         }
 
+
+
+
         public void LogText(string message, LogLevel logLevel)
         {
             //  GlobusLogHelper.LogTextToList(!error ? InfoLogger : ErrorLogger, message);
             GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -556,7 +553,7 @@ namespace Socinator
                 // var activityLogWindow = dialog.GetMetroWindow(sender, "Activity Log");
 
                 var activityLogWindow = dialog.GetMetroWindow(Logger, "Activity Log");
-                
+
                 IsClickedFromMainWindow = false;
                 activityLogWindow.Closing += (senders, events) =>
                 {
@@ -1026,6 +1023,7 @@ namespace Socinator
 
         #endregion
 
+        public string LastTab { get; set; } = "Info";
 
         private void InitialTabablzControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1036,12 +1034,20 @@ namespace Socinator
                     try
                     {
                         var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
+
+                        if (selectedTab == LastTab)
+                            return;
+
                         if (selectedTab?.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) == 0)
                         {
+                            LastTab = "Info";
                             LoggerCollection.Filter += FilterByInfo;
                         }
                         else
+                        {
+                            LastTab = "Error";
                             LoggerCollection.Filter += FilterByError;
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -1061,7 +1067,6 @@ namespace Socinator
         private void CopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
-
         }
 
         private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)

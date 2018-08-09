@@ -24,6 +24,7 @@ using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
 using DominatorUIUtility.Views.Publisher.AdvancedSettings;
 using Newtonsoft.Json;
+using JobConfiguration = DominatorUIUtility.Views.SocioPublisher.JobConfiguration;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -51,7 +52,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
 
-            JobConfiguration = CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
 
             JobConfigurationControl = JobConfiguration;
         }
@@ -85,7 +86,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// <summary>
         /// Current Job Configuarion control which holds UI 
         /// </summary>
-        public CustomControl.Publisher.JobConfiguration JobConfiguration { get; set; }
+        public JobConfiguration JobConfiguration { get; set; }
 
         private UserControl _jobConfigurationControl;
 
@@ -779,7 +780,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var publisherScrapePost = PublisherScrapePost.GetPublisherScrapePost(tabItemsControl);
 
             // get the job configurations
-            JobConfiguration = CustomControl.Publisher.JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
 
             JobConfigurationControl = JobConfiguration;
 
