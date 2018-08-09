@@ -123,5 +123,39 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(AddTdPostSource));
             }
         }
+
+
+        private int _scrapeCount = 1;
+        [ProtoMember(7)]
+        public int ScrapeCount
+        {
+            get
+            {
+                return _scrapeCount;
+            }
+            set
+            {
+                if (_scrapeCount == value)
+                    return;
+                SetProperty(ref _scrapeCount, value);
+            }
+        }
+
+
+        private int _startScrapeOnXminute = 30;
+        [ProtoMember(8)]
+        public int StartScrapeOnXminute
+        {
+            get
+            {
+                return _startScrapeOnXminute;
+            }
+            set
+            {
+                if (_startScrapeOnXminute == value)
+                    return;
+                SetProperty(ref _startScrapeOnXminute, value);
+            }
+        }
     }
 }

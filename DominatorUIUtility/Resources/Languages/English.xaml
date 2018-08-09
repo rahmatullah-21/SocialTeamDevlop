@@ -3071,5 +3071,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPostUniqueCommentFromEachAccount">Post unique comment on a specific post from each account</system:String>
     <system:String x:Key="LangKeyCommentOnceFromEachAccount">Use specific comment only once from a account.</system:String>
     <system:String x:Key="LangKeyUniqueComment">Unique Comment.</system:String>
+    <system:String x:Key="LangKeyRecentPostOnEveryOperation">recent post(s) on every operation.</system:String>
+    <system:String x:Key="LangKeyCheckForNewPostEvery">Check for new post every</system:String>
 
 </ResourceDictionary>
