@@ -3056,7 +3056,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyCustomProfileUrl">Custom Profile Url</system:String>
 
     <system:String x:Key="LangKeyFilenameFormat">Custom Html Filename Format</system:String>
-    <system:String x:Key="LangKeyWaterMarkTextFilenameFormat">Input Filename As Eg: {FirstName}_{MiddleName}_{LastName}_{PhoneNumber}_{EmailAddress}_{ProfileURL}</system:String>
+    <system:String x:Key="LangKeyWaterMarkTextFilenameFormat">Input Filename As Eg: {FirstName}_{MiddleName}_{LastName}_{PhoneNumber}_{EmailAddress}_{ProfileUrl}</system:String>
     <system:String x:Key="LangKeyDownloadPdf">Download Pdf</system:String>
 
     <system:String x:Key="LangKeyNumberOfBlockFollowersPerDay">Number Of Block Followers Per Day</system:String>
