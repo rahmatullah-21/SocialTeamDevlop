@@ -99,6 +99,7 @@
                 <CheckBox Content="{DynamicResource LangKeyStopRandomisingDestinationsOrderForPosts}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GeneralModel.IsStopRandomisingDestinationsOrder}"/>
+               
                 <!--<CheckBox Content="{DynamicResource LangKeyAutoTagFriendsInPosts}"
                           VerticalAlignment="Center" Margin="5"
                           IsChecked="{Binding GeneralModel.IsAutoTagFriends}"/>

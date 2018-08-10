@@ -211,6 +211,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             ? PostQueuedStatus.Pending
                             : PostQueuedStatus.Draft;
 
+                        if (post.IsMultipleImagePost)
+                        {
+                            post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
+                            post.IsUniquePost = PostDetailsModel.IsUniquePost;
+                        }
                         // Add to Post Collections 
                         postCollectionDetails.Add(post);
                     });
@@ -221,6 +226,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         post.PostQueuedStatus = saveLocation == "SaveToPending"
                             ? PostQueuedStatus.Pending
                             : PostQueuedStatus.Draft;
+
+                        if (post.IsMultipleImagePost)
+                        {
+                            post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;                         
+                            post.IsUniquePost = PostDetailsModel.IsUniquePost;
+                        }
+                          
 
                         // Add to Post Collections 
                         postCollectionDetails.Add(post);

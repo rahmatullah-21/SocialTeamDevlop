@@ -59,7 +59,18 @@
                                             Value="{Binding SharePostModel.PostBetween.EndValue}"/>
                     <TextBlock Text="{DynamicResource LangKeyLikes}" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
+                
+                <StackPanel Orientation="Horizontal" Margin="2">
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyScrape}" Margin="0,0,10,0"/>
+                    <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"   Minimum="1" Value="{Binding SharePostModel.ScrapeCount}"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyRecentPostOnEveryOperation}" Margin="0,0,10,0"/>
+                </StackPanel>
 
+                <StackPanel Orientation="Horizontal" Margin="2">
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyCheckForNewPostEvery}" Margin="0,0,10,0"/>
+                    <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"  Minimum="1" Value="{Binding SharePostModel.StartScrapeOnXminute}"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMinutes}" Margin="0,0,10,0"/>
+                </StackPanel>
             </StackPanel>
 
         </StackPanel>

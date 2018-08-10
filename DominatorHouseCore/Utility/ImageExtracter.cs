@@ -41,49 +41,77 @@ namespace DominatorHouseCore.Utility
             }
             else
             {
-
-                // Create a request to getting response of given url
-                var webClient = new WebClient();
-                var pageResult = webClient.DownloadString(new Uri(url));
-
-                var htmlDocument = new HtmlDocument
+                var scrapeUrl = new Uri(url);
+                var host = scrapeUrl.Host;
+                
+                if (host.Contains("google"))
                 {
-                    OptionAutoCloseOnEnd = true,
-                    OptionCheckSyntax = false,
-                    OptionFixNestedTags = true
-                };
 
-                htmlDocument.LoadHtml(pageResult);
+                    var objwebclient = new WebClient();
 
-                // Select the nodes
-                var htmlNodeCollection = htmlDocument.DocumentNode.SelectNodes("//img[@src]");
+                    objwebclient.Headers.Add("Host", "www.google.co.in");
+                    objwebclient.Headers.Add("User-Agent", " Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");
+                    objwebclient.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+                    objwebclient.Headers.Add("Accept-Language", "en-US,en;q=0.8");
+                    objwebclient.Headers.Add("Upgrade-Insecure-Requests", "1");
+                    var googlePageResult = objwebclient.DownloadString(scrapeUrl);
 
-                // Fetching Src values from response
-                if (htmlNodeCollection != null)
-                    imageUrl.AddRange(RemoveInvalidUrls(htmlNodeCollection.Select(node => node.Attributes["src"].Value)));
-
-
-                // Check if background images are needed from the website 
-                if (!isBackgroundImageNeed)
-                    return imageUrl;
-
-                using (var enumerator = htmlDocument.DocumentNode.Descendants().Where(d =>
-                {
-                    // get the style image 
-                    if (d.Attributes.Contains("style"))
-                        return d.Attributes["style"].Value.Contains("background:url");
-                    return false;
-                }).ToList().GetEnumerator())
-                {
-                    while (enumerator.MoveNext())
+                    var images = Regex.Split(googlePageResult, "data-src").Skip(1).ToArray();
+                    if (images.Length == 0)
+                        images = Regex.Split(googlePageResult, "src").Skip(1).ToArray();
+                    images.ForEach(x =>
                     {
-                        // Getting the background images
-                        var input = enumerator.Current?.Attributes["style"].Value;
-                        var regex = new Regex(".*?background:url\\('?(?<bgpath>.*)'?\\).*?", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
-                        if (input != null && regex.IsMatch(input))
-                            imageUrl.Add(regex.Match(input).Groups["bgpath"].Value);
+                        var image = Utilities.GetBetween(x, "ou\":\"", "\",");
+                        imageUrl.Add(image);
+                    });
+
+                }
+                else
+                {
+                    // Create a request to getting response of given url
+                    var webClient = new WebClient();
+                    var pageResult = webClient.DownloadString(scrapeUrl);
+
+                    var htmlDocument = new HtmlDocument
+                    {
+                        OptionAutoCloseOnEnd = true,
+                        OptionCheckSyntax = false,
+                        OptionFixNestedTags = true
+                    };
+
+                    htmlDocument.LoadHtml(pageResult);
+
+                    // Select the nodes
+                    var htmlNodeCollection = htmlDocument.DocumentNode.SelectNodes("//img[@src]");
+
+                    // Fetching Src values from response
+                    if (htmlNodeCollection != null)
+                        imageUrl.AddRange(RemoveInvalidUrls(htmlNodeCollection.Select(node => node.Attributes["src"].Value)));
+
+
+                    // Check if background images are needed from the website 
+                    if (!isBackgroundImageNeed)
+                        return imageUrl;
+
+                    using (var enumerator = htmlDocument.DocumentNode.Descendants().Where(d =>
+                    {
+                        // get the style image 
+                        if (d.Attributes.Contains("style"))
+                            return d.Attributes["style"].Value.Contains("background:url");
+                        return false;
+                    }).ToList().GetEnumerator())
+                    {
+                        while (enumerator.MoveNext())
+                        {
+                            // Getting the background images
+                            var input = enumerator.Current?.Attributes["style"].Value;
+                            var regex = new Regex(".*?background:url\\('?(?<bgpath>.*)'?\\).*?", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+                            if (input != null && regex.IsMatch(input))
+                                imageUrl.Add(regex.Match(input).Groups["bgpath"].Value);
+                        }
                     }
                 }
+
             }
 
             return imageUrl;

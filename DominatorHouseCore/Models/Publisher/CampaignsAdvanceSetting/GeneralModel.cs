@@ -4,7 +4,7 @@ using ProtoBuf;
 namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
 {
     [ProtoContract]
-   public class GeneralModel : BindableBase
+    public class GeneralModel : BindableBase
     {
 
         public void InitializeGeneralModel()
@@ -14,7 +14,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         }
 
         private int _triggerNotificationCount;
-      
+
         [ProtoMember(1)]
         public int TriggerNotificationCount
         {
@@ -45,7 +45,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _destinationTimeout, value);
             }
         }
-        private int _maxPostCountToStore=300;
+        private int _maxPostCountToStore = 300;
 
         [ProtoMember(3)]
         public int MaxPostCountToStore
@@ -61,7 +61,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _maxPostCountToStore, value);
             }
         }
-        private int _checkRSSFeedsminutes=30;
+        private int _checkRSSFeedsminutes = 30;
 
         [ProtoMember(4)]
         public int CheckRssFeedsminutes
@@ -77,7 +77,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _checkRSSFeedsminutes, value);
             }
         }
-        private int _checkMonitorFoldersminutes=30;
+        private int _checkMonitorFoldersminutes = 30;
 
         [ProtoMember(5)]
         public int CheckMonitorFoldersminutes
@@ -157,7 +157,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isChooseBetweenChecked, value);
             }
         }
-        private RangeUtilities _chooseBetween=new RangeUtilities();
+        private RangeUtilities _chooseBetween = new RangeUtilities();
 
         [ProtoMember(10)]
         public RangeUtilities ChooseBetween
@@ -285,7 +285,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isWaitToStartAction, value);
             }
         }
-        private int _jobProcessRunningCount=1;
+        private int _jobProcessRunningCount = 1;
 
         [ProtoMember(18)]
         public int JobProcessRunningCount
@@ -381,7 +381,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _usersForEachPost, value);
             }
         }
-        private int _percentageOfTaggingPost ;
+        private int _percentageOfTaggingPost;
 
         [ProtoMember(24)]
         public int PercentageOfTaggingPost
@@ -399,6 +399,8 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         }
         [ProtoMember(25)]
         public string CampaignId { get; set; }
+      
+
         public GeneralModel Clone()
         {
 
