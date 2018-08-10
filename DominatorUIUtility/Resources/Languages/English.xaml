@@ -3074,4 +3074,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyRecentPostOnEveryOperation">recent post(s) on every operation.</system:String>
     <system:String x:Key="LangKeyCheckForNewPostEvery">Check for new post every</system:String>
 
+    <system:String x:Key="LangKeyPerformActionOnUniqueCommentFromAllAccountsInThisCampaign">Perform action on unique comment from all accounts in this campaign.</system:String>
+    <system:String x:Key="LangKeyPerformActionOnCommentsOfUniqueUserFromAllAccountsInThisCampaign">Perform action on comments of unique user from all accounts in this campaign.</system:String>
+    <system:String x:Key="LangKeyPerformActionOnCommentsOfUniqueUserFromEachAccountsInThisCampaign">Perform action on comments of unique user from each accounts in this campaign.</system:String>
+    <system:String x:Key="LangKeySecondsWhenPerformingActionOnASpecificComment">seconds when performing action on a specific comment.</system:String>
+
 </ResourceDictionary>
