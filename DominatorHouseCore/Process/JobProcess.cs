@@ -458,11 +458,9 @@ namespace DominatorHouseCore.Process
                 //DominatorAccountModel.NotifyCancelled();
                 JobCancellationTokenSource.Cancel();
 
-                Task.Factory.StartNew(() =>
-                {
-                    GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
-                });
+                GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                    DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+
                 RunningJobProcesses.Remove(Id);
                 //JobCancellationTokenSource = null;
             }

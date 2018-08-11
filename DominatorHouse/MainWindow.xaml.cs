@@ -364,8 +364,12 @@ namespace Socinator
 
         public void LogText(string message, LogLevel logLevel)
         {
-            //  GlobusLogHelper.LogTextToList(!error ? InfoLogger : ErrorLogger, message);
-            GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
+
+            ThreadFactory.Instance.Start(() =>
+            {
+                GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
+            });
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

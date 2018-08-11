@@ -14,11 +14,17 @@ namespace DominatorUIUtility.Behaviours
 
     public class AdvanceSetting
     {
+        public AdvanceSetting()
+        {
+            GeneralModel = new GeneralModel();
+            GeneralModel.InitializeGeneralModel();
+        }
+        
         public string CampaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
             .PublisherCreateCampaignModel.CampaignId;
         public FacebookModel FacebookModel { get; set; } = Facebook.GetSingeltonFacebookObject().FacebookViewModel.FacebookModel.Clone();
 
-        public GeneralModel GeneralModel { get; set; } = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel.Clone();
+        public GeneralModel GeneralModel { get; set; } 
 
         public GooglePlusModel GooglePlusModel { get; set; } = GooglePlus.GetSingeltonGooglePlusObject().GooglePlusViewModel.GooglePlusModel.Clone();
 

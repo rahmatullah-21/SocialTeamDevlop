@@ -494,13 +494,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 }
 
                 UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext, stopTime);
+                GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy,
+                                     dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName,
+                                     activityType, timeToRunNext);
 
-                Task.Factory.StartNew(() =>
-                {
-                    GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy,
-                        dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName,
-                        activityType, timeToRunNext);
-                });
             }
             catch (InvalidOperationException)
             {

@@ -255,9 +255,8 @@ namespace DominatorUIUtility.ViewModel
             {
                 Dialog dialog = new Dialog();
                 Window window = dialog.GetMetroWindow(objAddProxyControl, Application.Current.FindResource("LangKeyAddProxy").ToString());
-                window.Show();
-                window.Closing += (sr, ev) => IsAddProxyEnabled = true;
-                IsAddProxyEnabled = false;
+                window.ShowDialog();
+               
             }
             catch (Exception ex)
             {
