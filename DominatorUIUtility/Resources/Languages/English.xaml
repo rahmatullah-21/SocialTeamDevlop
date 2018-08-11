@@ -1837,7 +1837,7 @@
     <system:String x:Key="LangKeyReplyToConnectedPeopleReplyToThePeopleWhoAreConnectedInMessanger">Reply To Connected People (Reply To The People Who Are Connected In Messanger)</system:String>
     <system:String x:Key="LangKeyReplyToMessageRequestsThatContainsSpecificWords">Reply To Message Requests That Contains Specific Words</system:String>
     <system:String x:Key="LangKeyReplyToMessagesThatContainsSpecificWord">Reply To Messages That Contains Specific Words</system:String>
-    <system:String x:Key="LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount">Reply To New Pending Messages (Reply Only Message Sent By Users That Don't Follow Your Account)</system:String>
+    <system:String x:Key="LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount">Reply only to new pending request (Replies to the first message request from the people you are not following)</system:String>
     <system:String x:Key="LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatFollowYourAccount">Reply To New Pending Messages (Reply Only Message Sent By Users That Follow Your Account)</system:String>
     <system:String x:Key="LangKeyReplyToNewPendingMessagesReplyToMessageRequests">Reply To New Pending Messages (Reply To Message Requests)</system:String>
     <system:String x:Key="LangKeyReport">Report</system:String>
