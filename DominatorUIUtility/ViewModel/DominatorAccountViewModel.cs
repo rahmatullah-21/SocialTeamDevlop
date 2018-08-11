@@ -194,6 +194,7 @@ namespace DominatorUIUtility.ViewModel
         public Func<int, string> YFormatter { get; set; }
         public SeriesCollection SeriesCollection { get; set; }
         public string GrowthChartAccountNumber { get; set; }
+        public SocialNetworks GrowthChartAccountNetwork { get; set; }
         public string GrowthChartPeriod { get; set; }
         public string GrowthChartProperty { get; set; }
         public string GrowthChartType { get; set; }
