@@ -46,13 +46,38 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             try
             {
                 var indexToUpdate = LstPostListModel.FindIndex(posts => posts.PostId == PostlistModel.PostId);
+
+
+                var postDetails = LstPostListModel[indexToUpdate];
+
+                var readdCount = PostlistModel.PublisherPostSettings.GeneralPostSettings.ReaddCount -
+                                 postDetails.PublisherPostSettings.GeneralPostSettings.ReaddCount;
+
                 PostlistModel.InitializePostData();
+
+                if (PostlistModel.PublisherPostSettings.GeneralPostSettings.IsReaddCount && readdCount > 0)
+                {
+                    for (int readdInitial = 0; readdInitial < readdCount; readdInitial++)
+                    {
+                        var deepClonePost = PostlistModel.DeepClone();
+                        deepClonePost.GenerateClonePostId();
+                        deepClonePost.PublisherPostSettings.GeneralPostSettings.ReaddCount = 1;
+                        deepClonePost.PublisherPostSettings.GeneralPostSettings.IsReaddCount = false;
+                        LstPostListModel.Add(deepClonePost);
+                    }
+                }
+
+                PostlistModel.PublisherPostSettings.GeneralPostSettings.ReaddCount = 1;
+                PostlistModel.PublisherPostSettings.GeneralPostSettings.IsReaddCount = false;
+
                 LstPostListModel[indexToUpdate] = PostlistModel;
-                PostlistFileManager.UpdatePostlists(PostlistModel.CampaignId, LstPostListModel);              
+
+
+                PostlistFileManager.UpdatePostlists(PostlistModel.CampaignId, LstPostListModel);
             }
             catch (Exception ex)
             {
-               ex.DebugLog();
+                ex.DebugLog();
             }
             Dialog.CloseDialog(sender);
         }

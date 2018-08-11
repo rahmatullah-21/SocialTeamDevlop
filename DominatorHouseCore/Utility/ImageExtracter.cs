@@ -43,7 +43,7 @@ namespace DominatorHouseCore.Utility
             {
                 var scrapeUrl = new Uri(url);
                 var host = scrapeUrl.Host;
-                
+
                 if (host.Contains("google"))
                 {
 
@@ -56,12 +56,15 @@ namespace DominatorHouseCore.Utility
                     objwebclient.Headers.Add("Upgrade-Insecure-Requests", "1");
                     var googlePageResult = objwebclient.DownloadString(scrapeUrl);
 
-                    var images = Regex.Split(googlePageResult, "data-src").Skip(1).ToArray();
+                    var images = Regex.Split(googlePageResult, "ou\":\"").Skip(1).ToArray();
                     if (images.Length == 0)
                         images = Regex.Split(googlePageResult, "src").Skip(1).ToArray();
+
+                    imageUrl = new List<string>();
                     images.ForEach(x =>
                     {
-                        var image = Utilities.GetBetween(x, "ou\":\"", "\",");
+                        var image = Utilities.GetBetween(x, "", "\"");
+                        image = Regex.Unescape(image);
                         imageUrl.Add(image);
                     });
 
@@ -116,7 +119,6 @@ namespace DominatorHouseCore.Utility
 
             return imageUrl;
         }
-
         /// <summary>
         /// To Check whether give url is proper image or not
         /// </summary>
