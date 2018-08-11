@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorUIUtility.ViewModel.SocioPublisher;

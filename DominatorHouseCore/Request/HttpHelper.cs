@@ -28,9 +28,9 @@ namespace DominatorHouseCore.Request
         /// </summary>
         protected virtual IRequestParameters RequestParameters { get; set; } = new RequestParameters();
 
-        protected HttpWebRequest Request;
+        public HttpWebRequest Request;
 
-        protected HttpWebResponse Response;
+        public HttpWebResponse Response;
 
         /// <summary>
         /// Validate the server certificates

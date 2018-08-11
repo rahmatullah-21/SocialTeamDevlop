@@ -3064,5 +3064,12 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfBlockFollowersPerJob">Number Of Block Followers Per Job</system:String>
     <system:String x:Key="LangKeyNumberOfBlockFollowersPerWeek">Number Of Block Followers Per Week</system:String>
     <system:String x:Key="LangKeyMaxBlockFollowersPerDay">Max Block Followers Per Day</system:String>
+    <system:String x:Key="LangKeyUpvoteComments">Upvote Comments</system:String>
+    <system:String x:Key="LangKeyDownvoteComments">Downvote Comments</system:String>
+    <system:String x:Key="LangKeyRemoveVoteFromComments">Remove Vote From Comments</system:String>
+
+    <system:String x:Key="LangKeyPostUniqueCommentFromEachAccount">Post unique comment on a specific post from each account</system:String>
+    <system:String x:Key="LangKeyCommentOnceFromEachAccount">Use specific comment only once from a account.</system:String>
+    <system:String x:Key="LangKeyUniqueComment">Unique Comment.</system:String>
 
 </ResourceDictionary>

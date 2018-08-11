@@ -288,5 +288,11 @@ namespace DominatorHouseCore.Enums
 
         [Description("Facebook")]
         PostCommentor = 96,
+        [Description("Reddit")]
+        RemoveVoteComment = 97,
+        [Description("Reddit")]
+        UpvoteComment = 98,
+        [Description("Reddit")]
+        DownvoteComment = 99,
     }
 }

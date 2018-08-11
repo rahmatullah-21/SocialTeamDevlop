@@ -61,21 +61,17 @@ namespace DominatorUIUtility.CustomControl
 
         public Campaigns(SocialNetworks socialNetworks)
         {
-         
+
             InitializeComponent();
             CampaignViewModel.SocialNetworks = socialNetworks;
             CampaignViewModel.SetActivityTypes();
             CampaignViewModel.LstCampaignDetails = new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(socialNetworks));
             Campaign.DataContext = CampaignViewModel;
-
             CampaignViewModel.CampaignCollection = CollectionViewSource.GetDefaultView(CampaignViewModel.LstCampaignDetails);
             instance = this;
-
-            //this.SocialNetworks = socialNetworks;
-            //objCampaignDetails = new CampaignDetails();
         }
 
-        private static Campaigns instance=null;
+        private static Campaigns instance = null;
 
         public static Campaigns GetCampaignsInstance(SocialNetworks socialNetworks)
         {

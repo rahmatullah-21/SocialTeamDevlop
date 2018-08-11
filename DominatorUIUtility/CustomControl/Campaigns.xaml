@@ -12,6 +12,7 @@
 
     <UserControl.Resources>
         <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
+        <converters:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
     </UserControl.Resources>
 
     <Border  BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2" Margin="0 5 0 0 ">
@@ -83,34 +84,16 @@
                                     <DataTemplate>
                                         <controls:ToggleSwitch OnLabel="{DynamicResource LangKeyActive}" OffLabel="{DynamicResource LangKeyPaused}" 
                                                                FontSize="12" Foreground="{DynamicResource AccentBaseColorBrush}" Name="campaignStatus"
-                                                               SwitchForeground="{DynamicResource AccentBaseColorBrush}">
+                                                               SwitchForeground="{DynamicResource AccentBaseColorBrush}" Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}"
+                                                               IsChecked="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}},
+                                            Converter={StaticResource StringToBooleanConverter},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
                                             <interactivity:Interaction.Triggers>
                                                 <interactivity:EventTrigger EventName="Click">
                                                     <interactivity:InvokeCommandAction Command="{Binding DataContext.StatusChangeCommand,
                                                         RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding ElementName=campaignStatus}"/>
                                                 </interactivity:EventTrigger>
                                             </interactivity:Interaction.Triggers>
-                                            <controls:ToggleSwitch.Style>
-                                                <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
-                                                    <Setter Property="IsChecked" Value="False" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" Value="Active">
-                                                            <Setter Property="IsChecked" Value="True" />
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" Value="Paused">
-                                                            <Setter Property="IsChecked" Value="False" />
-                                                        </DataTrigger>
-                                                        <!--<Trigger Property="Tag" Value="Active">
-                                                            <Setter Property="IsChecked" Value="True" />
-                                                        </Trigger>
-                                                        <Trigger Property="Tag" Value="Paused">
-                                                            <Setter Property="IsChecked" Value="False" />
-                                                        </Trigger>-->
-
-                                                    </Style.Triggers>
-
-                                                </Style>
-                                            </controls:ToggleSwitch.Style>
+                                          
                                         </controls:ToggleSwitch>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

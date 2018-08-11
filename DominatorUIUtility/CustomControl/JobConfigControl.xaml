@@ -159,7 +159,7 @@
 
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
                     <Label    VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerHourDisplayName}"  />
-                    <controls:NumericUpDown Maximum="{Binding ElementName=MaxActionsPerDay,Path=Value}" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.StartValue}" Name="OperationCountStartValue" />
+                    <controls:NumericUpDown Minimum="0" Maximum="{Binding ElementName=MaxActionsPerDay,Path=Value}" Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.StartValue}" Name="OperationCountStartValue" />
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center"   Content="{DynamicResource LangKeyTo}" />
                     <controls:NumericUpDown Margin="5,5,5,0" Value="{Binding JobConfiguration.ActivitiesPerHour.EndValue}" Minimum="{Binding Value, ElementName=OperationCountStartValue}"/>
                     <Label  VerticalAlignment="Center" Content="{DynamicResource LangKeyUsers}"  />

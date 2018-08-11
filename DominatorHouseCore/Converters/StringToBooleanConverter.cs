@@ -9,12 +9,21 @@ namespace DominatorHouseCore.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value!=null && value.ToString().Equals("Active") ? true : false;
+            return value != null && value.ToString().Equals("Active") ? true : false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value;
+            try
+            {
+                var valu = (bool)value;
+                return valu ? "Active" : "Paused";
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return value;
+            }
         }
     }
 }
