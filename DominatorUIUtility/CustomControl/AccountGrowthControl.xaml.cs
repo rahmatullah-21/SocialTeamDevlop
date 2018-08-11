@@ -72,10 +72,12 @@ namespace DominatorUIUtility.CustomControl
 
         private void InitializeChart()
         {
+         
             DominatorAccountViewModel.GrowthProperties = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.GrowthProperties;
             DominatorAccountViewModel.GrowthChartPeriods = GetChartPeriodEnumStringList();
             DominatorAccountViewModel.GrowthChartTypes = new List<string>() { "Gain", "Total", "Both" };
             DominatorAccountViewModel.GrowthChartAccountNumber = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountId;
+            DominatorAccountViewModel.GrowthChartAccountNetwork = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.AccountNetwork;
             DominatorAccountViewModel.GrowthChartPeriod = "Past 30 days";
             DominatorAccountViewModel.GrowthChartProperty = string.Join(",", DominatorAccountViewModel.GrowthProperties.Select(x => x.PropertyName));
             DominatorAccountViewModel.GrowthChartType = "Total";
@@ -237,7 +239,7 @@ namespace DominatorUIUtility.CustomControl
         private void GetGrowthForAccount()
         {
             var accountUpdateFactory = SocinatorInitialize
-                 .GetSocialLibrary(SocialNetworks.Twitter)
+                 .GetSocialLibrary(DominatorAccountViewModel.GrowthChartAccountNetwork)
                  .GetNetworkCoreFactory().AccountUpdateFactory;
             DominatorAccountViewModel.GrowthList = accountUpdateFactory.GetDailyGrowthForAccount(DominatorAccountViewModel.GrowthChartAccountNumber, GetValueFromDescription<GrowthChartPeriod>(DominatorAccountViewModel.GrowthChartPeriod));
         }
@@ -772,7 +774,9 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-
+                ComboBox cb = sender as ComboBox;
+                var currentItem = cb.DataContext as DominatorAccountViewModel;
+                DominatorAccountViewModel.GrowthChartAccountNetwork = (currentItem.AccountCollectionView.CurrentItem as DominatorAccountModel).AccountBaseModel.AccountNetwork;
                 GetGrowthForAccount();
                 UpdateChart(1);
 
