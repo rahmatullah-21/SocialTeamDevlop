@@ -443,8 +443,8 @@ namespace DominatorUIUtility.ViewModel
                             UpdateAccount(allAccounts, camp, selectedAccount);
                             LstCampaignDetails.Remove(
                                 LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
-                        //  GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, camp.CampaignName, camp.SubModule, "  Campaign deleted permanently from campaigns.","");
-                    });
+                            //  GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, camp.CampaignName, camp.SubModule, "  Campaign deleted permanently from campaigns.","");
+                        });
                     });
                     GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ " + campaign.Count + " ] Campaigns");
 
@@ -456,6 +456,8 @@ namespace DominatorUIUtility.ViewModel
                     ex.DebugLog();
                 }
             }
+            if (LstCampaignDetails.Count == 0 && IsAllCampaignChecked)
+                IsAllCampaignChecked = false;
         }
 
         private void SettingExecute(object sender)
@@ -626,7 +628,7 @@ namespace DominatorUIUtility.ViewModel
                     }
 
                 });
-                
+
             }
             catch (Exception ex)
             {

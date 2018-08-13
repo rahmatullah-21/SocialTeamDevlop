@@ -196,7 +196,7 @@
         <ListView Grid.Row="1"
                   x:Name="PostListview"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"                  
-                  ItemsSource="{Binding PostCollectionView}"
+                  ItemsSource="{Binding PostCollectionView,IsAsync=True}"
                   VerticalAlignment="Stretch" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" >
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}" 
