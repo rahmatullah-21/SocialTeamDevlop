@@ -294,5 +294,7 @@ namespace DominatorHouseCore.Enums
         UpvoteComment = 98,
         [Description("Reddit")]
         DownvoteComment = 99,
+        [Description("Youtube")]
+        Dislike = 100,
     }
 }

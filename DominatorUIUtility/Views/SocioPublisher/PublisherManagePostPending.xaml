@@ -195,7 +195,10 @@
 
         <ListView Grid.Row="1"
                   x:Name="PostListview"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto"                  
+                  ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  ScrollViewer.IsDeferredScrollingEnabled="True"               
                   ItemsSource="{Binding PostCollectionView,IsAsync=True}"
                   VerticalAlignment="Stretch" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" >
             <ListView.Resources>
@@ -257,7 +260,10 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                    <customControl:MediaViewer Width="180" TotalMediaCount="{Binding TotalMediaCount}" CurrentMediaPointer="{Binding MediaCurrentPointer}" CurrentMediaUrl="{Binding CurrentMediaUrl,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  MediaList="{Binding MediaList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsEnableNextPointer="{Binding NextImageEnable}" IsEnablePreviousPointer="{Binding PreviousImageEnable}" IsPostDataPresent="{Binding IsPostListPresent}"></customControl:MediaViewer>
+                                    <customControl:MediaViewer Width="180" TotalMediaCount="{Binding TotalMediaCount}" CurrentMediaPointer="{Binding MediaCurrentPointer}"
+                                                               CurrentMediaUrl="{Binding CurrentMediaUrl,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,IsAsync=True}"
+                                                               MediaList="{Binding MediaList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsEnableNextPointer="{Binding NextImageEnable}" IsEnablePreviousPointer="{Binding PreviousImageEnable}" 
+                                                               IsPostDataPresent="{Binding IsPostListPresent}"/>
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
