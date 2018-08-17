@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorHouse", "DominatorHouse\DominatorHouse.csproj", "{C7B598E7-4B31-4A92-9B53-022A25E50002}"
 EndProject
@@ -18,6 +18,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwtDominatorCore", "..\twtdominator-library\TwtDominatorCore\TwtDominatorCore.csproj", "{E41BF7D2-231F-4D58-AD45-95F7146E1979}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwtDominatorUI", "..\twtdominator-library\TwtDominatorUI\TwtDominatorUI.csproj", "{B91D5616-EAFD-4BF8-AAF5-051675592714}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuoraDominatorCore", "..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj", "{21B1D90E-F201-4EF0-B4E9-A99315945F1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuoraDominatorUI", "..\quoradominator-library\QuoraDominatorUI\QuoraDominatorUI.csproj", "{164CDDCD-DB12-4998-B822-3ADC9C8A7072}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,12 +129,36 @@ Global
 		{B91D5616-EAFD-4BF8-AAF5-051675592714}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B91D5616-EAFD-4BF8-AAF5-051675592714}.Release|x86.ActiveCfg = Release|Any CPU
 		{B91D5616-EAFD-4BF8-AAF5-051675592714}.Release|x86.Build.0 = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|x86.Build.0 = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|x86.ActiveCfg = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|x86.Build.0 = Release|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Debug|x86.Build.0 = Debug|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Release|Any CPU.Build.0 = Release|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Release|x86.ActiveCfg = Release|Any CPU
+		{164CDDCD-DB12-4998-B822-3ADC9C8A7072}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 	EndGlobalSection
 EndGlobal

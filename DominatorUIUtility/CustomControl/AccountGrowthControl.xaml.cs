@@ -22,6 +22,7 @@ using DominatorUIUtility.ViewModel;
 using LiveCharts.Wpf;
 using LiveCharts;
 using System.Reflection;
+using DominatorHouseCore;
 using DominatorHouseCore.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
@@ -52,12 +53,12 @@ namespace DominatorUIUtility.CustomControl
         }
 
         #endregion
-        
 
-       
-            private AccountGrowthControl(DominatorAccountViewModel.AccessorStrategies strategyPack)
+
+
+        private AccountGrowthControl(DominatorAccountViewModel.AccessorStrategies strategyPack)
         {
-            
+
             _dominatorAccountViewModel = new DominatorAccountViewModel(strategyPack);
             InitializeComponent();
             DominatorAccountViewModel.AccountCollectionView =
@@ -72,16 +73,18 @@ namespace DominatorUIUtility.CustomControl
 
         private void InitializeChart()
         {
-         
-            DominatorAccountViewModel.GrowthProperties = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.GrowthProperties;
-            DominatorAccountViewModel.GrowthChartPeriods = GetChartPeriodEnumStringList();
-            DominatorAccountViewModel.GrowthChartTypes = new List<string>() { "Gain", "Total", "Both" };
-            DominatorAccountViewModel.GrowthChartAccountNumber = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountId;
-            DominatorAccountViewModel.GrowthChartAccountNetwork = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.AccountNetwork;
-            DominatorAccountViewModel.GrowthChartPeriod = "Past 30 days";
-            DominatorAccountViewModel.GrowthChartProperty = string.Join(",", DominatorAccountViewModel.GrowthProperties.Select(x => x.PropertyName));
-            DominatorAccountViewModel.GrowthChartType = "Total";
-            DominatorAccountViewModel.SeriesCollection = new SeriesCollection
+
+            try
+            {
+                DominatorAccountViewModel.GrowthProperties = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.GrowthProperties;
+                DominatorAccountViewModel.GrowthChartPeriods = GetChartPeriodEnumStringList();
+                DominatorAccountViewModel.GrowthChartTypes = new List<string>() { "Gain", "Total", "Both" };
+                DominatorAccountViewModel.GrowthChartAccountNumber = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountId;
+                DominatorAccountViewModel.GrowthChartAccountNetwork = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.AccountNetwork;
+                DominatorAccountViewModel.GrowthChartPeriod = "Past 30 days";
+                DominatorAccountViewModel.GrowthChartProperty = string.Join(",", DominatorAccountViewModel.GrowthProperties.Select(x => x.PropertyName));
+                DominatorAccountViewModel.GrowthChartType = "Total";
+                DominatorAccountViewModel.SeriesCollection = new SeriesCollection
             {
                 new LineSeries
                 {
@@ -90,6 +93,11 @@ namespace DominatorUIUtility.CustomControl
                 }
 
             };
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
 
         }
         public List<string> GetChartPeriodEnumStringList()
@@ -123,100 +131,142 @@ namespace DominatorUIUtility.CustomControl
         }
         private void UpdateChart(int eventType = 0)
         {
-            var count = 0;
-            var selectedGrowthChartType = DominatorAccountViewModel.GrowthChartType;
-            List<string> chartProperties = DominatorAccountViewModel.GrowthChartProperty.Split(',').ToList();
-            if (DominatorAccountViewModel.SeriesCollection.Count > 1)
+            try
             {
-                var iterations = DominatorAccountViewModel.SeriesCollection.Count;
-                for (var i = 0; i < iterations; i++)
+                var count = 0;
+                var selectedGrowthChartType = DominatorAccountViewModel.GrowthChartType;
+                List<string> chartProperties = DominatorAccountViewModel.GrowthChartProperty.Split(',').ToList();
+                if (DominatorAccountViewModel.SeriesCollection?.Count > 1)
                 {
-                    if (DominatorAccountViewModel.SeriesCollection.Count > 1)
-                        DominatorAccountViewModel.SeriesCollection.RemoveAt(1);
+                    try
+                    {
+                        var iterations = DominatorAccountViewModel.SeriesCollection.Count;
+                        for (var i = 0; i < iterations; i++)
+                        {
+                            if (DominatorAccountViewModel.SeriesCollection.Count > 1)
+                                DominatorAccountViewModel.SeriesCollection.RemoveAt(1);
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                }
+                if (selectedGrowthChartType == "Total")
+                {
+                    foreach (var property in chartProperties)
+                    {
+                        try
+                        {
+                            var series = new LineSeries
+                            {
+                                Title = property + " Total",
+                                Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, property, "Total")
+                            };
+                            if (count == 0)
+                            {
+                                DominatorAccountViewModel.SeriesCollection[0] = series;
+                            }
+                            else
+                            {
+                                DominatorAccountViewModel.SeriesCollection.Add(series);
+                            }
+                            count++;
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    }
+
+
+
+
+                }
+                else if (selectedGrowthChartType == "Gain")
+                {
+
+                    foreach (var property in chartProperties)
+                    {
+                        try
+                        {
+                            var series = new LineSeries
+                            {
+                                Title = property + " Gain",
+                                Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, property, "Gain")
+                            };
+
+                            if (count == 0)
+                            {
+                                DominatorAccountViewModel.SeriesCollection[0] = series;
+                            }
+                            else
+                            {
+                                DominatorAccountViewModel.SeriesCollection.Add(series);
+                            }
+                            count++;
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    }
+
                 }
 
+                else
+                {
+                    foreach (var property in chartProperties)
+                    {
+                        try
+                        {
+                            var series = new LineSeries
+                            {
+                                Title = property + " Total",
+                                Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, property, "Total")
+                            };
+                            if (count == 0)
+                            {
+                                DominatorAccountViewModel.SeriesCollection[0] = series;
+                            }
+                            else
+                            {
+                                DominatorAccountViewModel.SeriesCollection.Add(series);
+                            }
+                            count++;
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    }
+                    foreach (var property in chartProperties)
+                    {
+                        try
+                        {
+                            var series = new LineSeries
+                            {
+                                Title = property + " Gain",
+                                Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, property, "Gain")
+                            };
+
+
+                            DominatorAccountViewModel.SeriesCollection.Add(series);
+
+                            count++;
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    }
+
+                }
             }
-            if (selectedGrowthChartType == "Total")
+            catch (Exception ex)
             {
-                foreach (var property in chartProperties)
-                {
-                    var series = new LineSeries
-                    {
-                        Title = property + " Total",
-                        Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, property, "Total")
-                    };
-                    if (count == 0)
-                    {
-                        DominatorAccountViewModel.SeriesCollection[0] = series;
-                    }
-                    else
-                    {
-                        DominatorAccountViewModel.SeriesCollection.Add(series);
-                    }
-                    count++;
-                }
-
-
-
-
-            }
-            else if (selectedGrowthChartType == "Gain")
-            {
-
-                foreach (var property in chartProperties)
-                {
-                    var series = new LineSeries
-                    {
-                        Title = property + " Gain",
-                        Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, property, "Gain")
-                    };
-
-                    if (count == 0)
-                    {
-                        DominatorAccountViewModel.SeriesCollection[0] = series;
-                    }
-                    else
-                    {
-                        DominatorAccountViewModel.SeriesCollection.Add(series);
-                    }
-                    count++;
-                }
-
-            }
-
-            else
-            {
-                foreach (var property in chartProperties)
-                {
-                    var series = new LineSeries
-                    {
-                        Title = property + " Total",
-                        Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, property, "Total")
-                    };
-                    if (count == 0)
-                    {
-                        DominatorAccountViewModel.SeriesCollection[0] = series;
-                    }
-                    else
-                    {
-                        DominatorAccountViewModel.SeriesCollection.Add(series);
-                    }
-                    count++;
-                }
-                foreach (var property in chartProperties)
-                {
-                    var series = new LineSeries
-                    {
-                        Title = property + " Gain",
-                        Values = getGrowthValueList(DominatorAccountViewModel.GrowthList, property, "Gain")
-                    };
-
-
-                    DominatorAccountViewModel.SeriesCollection.Add(series);
-
-                    count++;
-                }
-              
+                ex.DebugLog();
             }
 
 
@@ -243,7 +293,13 @@ namespace DominatorUIUtility.CustomControl
                  .GetNetworkCoreFactory().AccountUpdateFactory;
             DominatorAccountViewModel.GrowthList = accountUpdateFactory.GetDailyGrowthForAccount(DominatorAccountViewModel.GrowthChartAccountNumber, GetValueFromDescription<GrowthChartPeriod>(DominatorAccountViewModel.GrowthChartPeriod));
         }
-
+        //private void GetGrowthForAccount()
+        //{
+        //    var accountUpdateFactory = SocinatorInitialize
+        //        .GetSocialLibrary(DominatorAccountViewModel.GrowthChartAccountNetwork)
+        //        .GetNetworkCoreFactory().AccountUpdateFactory;
+        //    DominatorAccountViewModel.GrowthList = accountUpdateFactory.GetDailyGrowthForAccount(DominatorAccountViewModel.GrowthChartAccountNumber, GetValueFromDescription<GrowthChartPeriod>(DominatorAccountViewModel.GrowthChartPeriod));
+        //}
         private string[] GetChartLabels()
         {
 
@@ -284,7 +340,7 @@ namespace DominatorUIUtility.CustomControl
                     }
                 }
             }
-          
+
 
             if (type == "Gain")
             {
@@ -329,11 +385,11 @@ namespace DominatorUIUtility.CustomControl
         }
 
         private static AccountGrowthControl _accountGrowthInstance = null;
-        
+
         public static AccountGrowthControl GetAccountGrowthControl(SocialNetworks socialNetwork, DominatorAccountViewModel.AccessorStrategies strategies)
         {
             socialNetworks = socialNetwork;
-            if (_accountGrowthInstance == null) 
+            if (_accountGrowthInstance == null)
             {
                 _accountGrowthInstance = new AccountGrowthControl(strategies);
             }
@@ -357,7 +413,7 @@ namespace DominatorUIUtility.CustomControl
         public void GetRespectiveAccounts(SocialNetworks socialNetworks, GrowthPeriod period = GrowthPeriod.NoPeriod)
         {
 
-            
+
 
 
             var listCollection = (ListCollectionView)DominatorAccountViewModel.AccountCollectionView;
@@ -385,7 +441,7 @@ namespace DominatorUIUtility.CustomControl
                        .GetSocialLibrary(x.AccountBaseModel.AccountNetwork)
                        .GetNetworkCoreFactory().AccountUpdateFactory;
                     x.IsAccountManagerAccountSelected = false;
-                  
+
                     var AccoutGrowth = accountUpdateFactory.GetDailyGrowth(x.AccountId, x.AccountBaseModel.ProfileId, period);
                     //for (int i = 1; i <= x.AccountBaseModel.GrowthProperties.Count(); i++)
                     //{
@@ -416,7 +472,7 @@ namespace DominatorUIUtility.CustomControl
                     listCollection.Filter = null;
 
                 });
-           
+
 
             var spec = (socialNetworks == SocialNetworks.Social) ?
                DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
@@ -776,7 +832,10 @@ namespace DominatorUIUtility.CustomControl
             {
                 ComboBox cb = sender as ComboBox;
                 var currentItem = cb.DataContext as DominatorAccountViewModel;
-                DominatorAccountViewModel.GrowthChartAccountNetwork = (currentItem.AccountCollectionView.CurrentItem as DominatorAccountModel).AccountBaseModel.AccountNetwork;
+                DominatorAccountViewModel.GrowthChartAccountNetwork = (cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.AccountNetwork;
+                DominatorAccountViewModel.GrowthChartProperty = string.Join(",", (cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.GrowthProperties.Select(x => x.PropertyName));
+                DominatorAccountViewModel.GrowthProperties =(cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.GrowthProperties;
+                //(currentItem.AccountCollectionView.CurrentItem as DominatorAccountModel).AccountBaseModel.AccountNetwork;
                 GetGrowthForAccount();
                 UpdateChart(1);
 

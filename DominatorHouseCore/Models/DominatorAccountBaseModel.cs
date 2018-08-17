@@ -29,8 +29,21 @@ namespace DominatorHouseCore.Models
                 SetGrowthProperties(_accountNetwork);
             }
         }
+
         [ProtoIgnore]
-        public List<GrowthProperty> GrowthProperties { get; set; }
+        public List<GrowthProperty> GrowthProperties
+        {
+            get
+            {
+                return _growthProperties;
+            }
+            set
+            {
+                if (_growthProperties == value)
+                    return;
+                SetProperty(ref _growthProperties, value);
+            }
+        }
 
         private void SetGrowthProperties(SocialNetworks accountNetwork)
         {
@@ -48,6 +61,12 @@ namespace DominatorHouseCore.Models
                 this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Friends", PropertyValue = 0 });
                 this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
                 this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Shares", PropertyValue = 0 });
+            }
+            else if (accountNetwork == SocialNetworks.Quora)
+            {
+                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
+                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Following", PropertyValue = 0 });
+                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Post", PropertyValue = 0 });
             }
         }
         private ContentSelectGroup _accountGroup = new ContentSelectGroup();
@@ -219,6 +238,8 @@ namespace DominatorHouseCore.Models
             }
         }
         private string _profileId;
+        private List<GrowthProperty> _growthProperties;
+
         /// <summary>
         /// To define network profile username
         /// </summary>

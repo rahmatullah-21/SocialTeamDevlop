@@ -193,12 +193,55 @@ namespace DominatorUIUtility.ViewModel
         public string[] Labels { get; set; }
         public Func<int, string> YFormatter { get; set; }
         public SeriesCollection SeriesCollection { get; set; }
-        public string GrowthChartAccountNumber { get; set; }
-        public SocialNetworks GrowthChartAccountNetwork { get; set; }
+
+        public string GrowthChartAccountNumber
+        {
+            get
+            {
+                return _growthChartAccountNumber;
+            }
+            set
+            {
+                if (_growthChartAccountNumber == value)
+                    return;
+                SetProperty(ref _growthChartAccountNumber, value);
+            }
+        }
+
+
+        public SocialNetworks GrowthChartAccountNetwork
+        {
+            get
+            {
+                return _growthChartAccountNetwork;
+            }
+            set
+            {
+                if(_growthChartAccountNetwork == value)
+                    return;
+                SetProperty(ref _growthChartAccountNetwork, value);
+            }
+        }
+
         public string GrowthChartPeriod { get; set; }
         public string GrowthChartProperty { get; set; }
         public string GrowthChartType { get; set; }
-        public List<GrowthProperty> GrowthProperties { get; set; }
+
+        public List<GrowthProperty> GrowthProperties
+        {
+            get
+            {
+                return _growthProperties;
+            }
+            set
+            {
+                if (_growthProperties == value)
+                    return;
+                SetProperty(ref _growthProperties, value);
+            }
+        }
+
+
         public List<string> GrowthChartProperties { get; set; }
         public List<string> GrowthChartPeriods { get; set; }
         public List<string> GrowthChartTypes { get; set; }
@@ -1784,6 +1827,9 @@ namespace DominatorUIUtility.ViewModel
         ImmutableQueue<Action> _checkPendingList = ImmutableQueue<Action>.Empty;
 
         bool _allSelectedAccountsQueued;
+        private List<GrowthProperty> _growthProperties;
+        private string _growthChartAccountNumber;
+        private SocialNetworks _growthChartAccountNetwork;
 
         public List<string> _updateAccountList { get; set; } = new List<string>();
 

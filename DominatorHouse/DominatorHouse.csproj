@@ -391,6 +391,22 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj">
+      <Project>{21b1d90e-f201-4ef0-b4e9-a99315945f1d}</Project>
+      <Name>QuoraDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorUI\QuoraDominatorUI.csproj">
+      <Project>{164cddcd-db12-4998-b822-3adc9c8a7072}</Project>
+      <Name>QuoraDominatorUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorCore\TwtDominatorCore.csproj">
+      <Project>{e41bf7d2-231f-4d58-ad45-95f7146e1979}</Project>
+      <Name>TwtDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\twtdominator-library\TwtDominatorUI\TwtDominatorUI.csproj">
+      <Project>{b91d5616-eafd-4bf8-aaf5-051675592714}</Project>
+      <Name>TwtDominatorUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
       <Name>DominatorHouseCore</Name>
