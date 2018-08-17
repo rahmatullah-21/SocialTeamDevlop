@@ -326,7 +326,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                                 // check whether user need to use File name as post description
                                 if (!post.IsUseFileNameAsDescription)
                                 {
-                                    postData.PostDescription = string.Empty;
+                                   // postData.PostDescription = string.Empty;
+                                    postData.PostDescription ="image "+ (PublisherCreateCampaignModel.PostCollection.IndexOf(post)+1);
                                 }
                                 // check whether user need to use unique post
                                 if (post.IsUniquePost)

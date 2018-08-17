@@ -337,7 +337,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 // check whether Image url is empty or not
                 if (string.IsNullOrEmpty(PostDetailsModel.ImagesUrl))
+                {
+                    mediaViewer.MediaList.Clear();
+                    PostDetailsModel.MediaList.Clear();
+                    MediaList.Clear();
+                    PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                        .PublisherCreateCampaignModel.LstMultipleImagePostCollection.Clear();
+                   // Re intialize post lists
+                   mediaViewer?.Initialize();
                     return;
+                }
 
                 // Start scraping the image url from ImageExtracter.ExtractImageUrls
                 PostDetailsModel.MediaList = new ObservableCollection<string>(ImageExtracter.ExtractImageUrls(PostDetailsModel.ImagesUrl));

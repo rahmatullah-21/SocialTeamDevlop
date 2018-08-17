@@ -511,27 +511,31 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// <param name="requiredPostList">Post queued Status</param>
         public void ReadPostList(string campaignId, CancellationTokenSource tokenSource, PostQueuedStatus requiredPostList = PostQueuedStatus.Draft)
         {
+            // Call to clear already binding posts
+            ClearPostlists();
+            Thread.Sleep(1000);
+            // Assign Cancellation Token
+            TokenSource = tokenSource;
+
             // Validate the campaign Id is null or empty
             if (!string.IsNullOrEmpty(campaignId))
                 CampaignId = campaignId;
 
-            // Assign Cancellation Token
-            TokenSource = tokenSource;
 
             PostCount = 0;
 
             // Get all posts with specified post queued status
             var postItems = PostlistFileManager.GetAll(campaignId).Where(x => x.PostQueuedStatus == requiredPostList).ToList();
 
-            // Call to clear already binding posts
-            ClearPostlists();
+            //// Call to clear already binding posts
+            //ClearPostlists();
 
             if (postItems.Count == 0)
             {
                 IsProgressRingActive = false;
                 return;
             }
-
+            IsProgressRingActive = true;
             PostCount = postItems.Count;
 
             Thread.Sleep(50);
@@ -542,57 +546,54 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // Here whenever action is enqueue to queue, the following process will fetch and invoke the action
             try
             {
+
+
                 var addPostList = new Task(() =>
                 {
-                    while (!allPostsQueued)
+                    pendingActions = ImmutableQueue<Action>.Empty;
+                    // Add the posts to queue, so that process will run in different work
+                    foreach (var post in postItems)
+                    {
+                        pendingActions = pendingActions.Enqueue(() => AddPostItems(post));
+                    }
+                    while (!pendingActions.IsEmpty)
                     {
                         try
                         {
-                            Thread.Sleep(50);
-                            while (!pendingActions.IsEmpty)
-                            {
-                                try
-                                {
-                                    // Check whether process cancelled or not
-                                    TokenSource.Token.ThrowIfCancellationRequested();
-                                    Action perform;
-
-                                    // Dequeue and invoke the action
-                                    pendingActions = pendingActions.Dequeue(out perform);
-                                    perform();
-                                }
-                                catch (OperationCanceledException ex)
-                                {
-                                    ex.DebugLog();
-                                    // throw new OperationCanceledException();
-                                }
-                                catch (AggregateException ae)
-                                {
-                                    foreach (var e in ae.InnerExceptions)
-                                    {
-                                        if (e is TaskCanceledException || e is OperationCanceledException)
-                                            e.DebugLog("Cancellation requested before task completion!");
-                                        else
-                                            e.DebugLog(e.StackTrace + e.Message);
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    ex.DebugLog();
-                                }
-                            }
-                            allPostsQueued = true;
+                            // Check whether process cancelled or not
+                            TokenSource.Token.ThrowIfCancellationRequested();
+                            Action perform;
+                            Thread.Sleep(1000);
+                            // Dequeue and invoke the action
+                            pendingActions = pendingActions.Dequeue(out perform);
+                            TokenSource.Token.ThrowIfCancellationRequested();
+                            perform();
                         }
                         catch (OperationCanceledException ex)
                         {
-                            ex.DebugLog("Cancellation Requested!");
+                            ex.DebugLog();
+                            ClearPostlists();
+                            break;
+                            // throw new OperationCanceledException();
+                        }
+                        catch (AggregateException ae)
+                        {
+                            foreach (var e in ae.InnerExceptions)
+                            {
+                                if (e is TaskCanceledException || e is OperationCanceledException)
+                                    e.DebugLog("Cancellation requested before task completion!");
+                                else
+                                    e.DebugLog(e.StackTrace + e.Message);
+                            }
                         }
                         catch (Exception ex)
                         {
                             ex.DebugLog();
                         }
                     }
-                }, tokenSource.Token);
+                    allPostsQueued = true;
+
+                }, TokenSource.Token);
                 addPostList.Start();
             }
             catch (OperationCanceledException ex)
@@ -605,11 +606,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             #endregion
 
-            // Add the posts to queue, so that process will run in different work
-            foreach (var post in postItems)
-            {
-                pendingActions = pendingActions.Enqueue(() => AddPostItems(post));
-            }
+
 
         }
 
@@ -663,6 +660,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         // Check whether posts are already present or not
                         if (PublisherPostlist.All(x => x.PostId != postItems.PostId))
                         {
+                            TokenSource.Token.ThrowIfCancellationRequested();
+
                             // If post id is not present, then add into the post
                             PublisherPostlist.Add(postItems);
                             //PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
@@ -677,6 +676,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     // Update post items status
                     postItems.InitializePostData();
+
+                    TokenSource.Token.ThrowIfCancellationRequested();
 
                     // Add and updating binding soruce
                     PublisherPostlist.Add(postItems);
