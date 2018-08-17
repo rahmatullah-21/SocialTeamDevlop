@@ -1,3 +1,18 @@
+Version[1.0.0.9],[11th-August-18]
+Improved software performance
+
+Fixed:
+Facebook:- Minor bug fixed and improvements
+Twitter:- Minor bug fixed and improvements
+Instagram:- Minor bug fixed and improvements
+Pinterest:- Minor bug fixed and improvements
+gPlus:-  Minor bug fixed and improvements
+Reddit:- Minor bug fixed and improvements
+LinkedIn:- Minor bug fixed and improvements
+Youtube:- Minor bug fixed and improvements
+Quora:- Minor bug fixed and improvements
+Tumblr:- Minor bug fixed and improvements
+
 Version[1.0.0.8],[8th-August-18]
 Fixed Issues:
 Publisher:-  Wrong error:- No more unique posts available
