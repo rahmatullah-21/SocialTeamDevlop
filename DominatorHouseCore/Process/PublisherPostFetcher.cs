@@ -166,13 +166,13 @@ namespace DominatorHouseCore.Process
                 getFetchDetails.ForEach(fetchModel =>
                 {
                     // Call stop fetching 
-                    StopFetchingPosts(campaignId, fetchModel.PostSource);                     
+                    StopFetchingPosts(campaignId, fetchModel.PostSource);
                 });
 
                 // Delete all fetcher
                 GenericFileManager.Delete<PublisherPostFetchModel>(x => x.CampaignId == campaignId, ConstantVariable
                     .GetPublisherPostFetchFile);
-                
+
             }
             catch (Exception ex)
             {
@@ -233,9 +233,9 @@ namespace DominatorHouseCore.Process
                 if (publisherPostFetchModel.PostSource == PostSource.NormalPost)
                     return;
 
-                var generaldata = GenericFileManager.GetModuleDetails<GeneralModel>
-                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
-                    .FirstOrDefault(x => x.CampaignId == publisherPostFetchModel.CampaignId) ?? new GeneralModel();
+                //var generaldata = GenericFileManager.GetModuleDetails<GeneralModel>
+                //    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                //    .FirstOrDefault(x => x.CampaignId == publisherPostFetchModel.CampaignId) ?? new GeneralModel();
 
 
                 // Check whether campaign expired or not
@@ -251,7 +251,7 @@ namespace DominatorHouseCore.Process
                 // Collect neccessary details for fetching and assign to dynamic type variable
                 switch (publisherPostFetchModel.PostSource)
                 {
-                    case PostSource.SharePost:                   
+                    case PostSource.SharePost:
                         postFetchDetails =
                             JsonConvert.DeserializeObject<SharePostModel>(publisherPostFetchModel.PostDetailsWithFilters);
                         break;
@@ -283,6 +283,10 @@ namespace DominatorHouseCore.Process
                     case PostSource.RssFeedPost:
                         // Get the proper name for monitor job process
                         var jobName = $"{publisherPostFetchModel.CampaignId}-{PostSource.RssFeedPost.ToString()}";
+
+                        var currentCampaignstatus = PublisherInitialize.GetInstance.GetSavedCampaigns().FirstOrDefault(x => x.CampaignId == publisherPostFetchModel.CampaignId);
+                        if (currentCampaignstatus?.Status != PublisherCampaignStatus.Active)
+                            return;
                         // Register to sorted set
                         JobFetcherId.Add(jobName);
                         // Add the Job for Rss feed 
@@ -359,9 +363,9 @@ namespace DominatorHouseCore.Process
                                                 networkPostScraper.ScrapePosts(networkWithAccount.Value,
                                                     publisherPostFetchModel.CampaignId, postFetchDetails,
                                                     cancellationTokenSource, publisherPostFetchModel.ScrapeCount);
-                                            },s => s.WithName(scrapeJobName).ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
+                                            }, s => s.WithName(scrapeJobName).ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
                                         }
-                                            
+
                                     }
                                     catch (OperationCanceledException ex)
                                     {
