@@ -10,6 +10,7 @@
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
              xmlns:dhenums="clr-namespace:DominatorHouseCore.Enums.DHEnum;assembly=DominatorHouseCore"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              Name="AccountModule"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -26,6 +27,9 @@
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="300"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -44,14 +48,147 @@
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="White" Margin="5,0,0,0"
-                               Content="{DynamicResource LangKeyAccountGrowth}" />
+                               Content="Account Growth Charts" />
             </StackPanel>
 
 
             <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
                 <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
                     <StackPanel Orientation="Horizontal"    Margin="0,5,0,10">
-                        <Label   VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeyFilterGrowth}" HorizontalAlignment="Right" Height="25"/>
+                        <Label   VerticalAlignment="Top"  Foreground="White" Content="Select Account" HorizontalAlignment="Right" Height="25"/>
+
+                        <ComboBox  Name="cmbGrowthAcount"  Width="200"  ItemsSource="{Binding AccountCollectionView}"   VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
+                                      SelectedIndex="0"   DropDownClosed="CmbboxGrowthChartAccount_OnDropDownClosed"   DisplayMemberPath="AccountBaseModel.UserName" 
+            SelectedValuePath="AccountId"  SelectedValue="{Binding GrowthChartAccountNumber}" >
+
+
+
+                        </ComboBox>
+
+
+                        <Label   VerticalAlignment="Top"  Foreground="White" Content="Select Period"  HorizontalAlignment="Right" Height="25"/>
+
+                        <ComboBox  Name="cmbGrowthChartPeriod" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"      ItemsSource="{Binding GrowthChartPeriods}"                                   
+                                      SelectedIndex="0" SelectedValue="{Binding GrowthChartPeriod}"  DropDownClosed="CmbboxGrowthChartPeriod_OnDropDownClosed">
+
+
+                        </ComboBox>
+                        <Label   VerticalAlignment="Top"  Foreground="White" Content="Select Type"  HorizontalAlignment="Right" Height="25"/>
+
+                        <ComboBox  Name="cmbGrowthChartType" Width="100"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"      ItemsSource="{Binding GrowthChartTypes}"                                   
+                                      SelectedValue="{Binding GrowthChartType}"  DropDownClosed="CmbboxGrowthChartType_OnDropDownClosed">
+
+
+                        </ComboBox>
+
+
+
+
+                    </StackPanel>
+
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+
+
+
+
+            <Grid Grid.Column="0" >
+                <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Left" >
+                    <StackPanel Orientation="Horizontal"    Margin="0,0,0,0">
+                        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin = "5">
+                            <ItemsControl x:Name="list" ItemsSource="{Binding GrowthProperties}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <HierarchicalDataTemplate>
+                                        <Border Padding="5,0,0,2">
+                                            <ListBox Name="mylistBox" 
+                             
+                            >
+                                                <CheckBox Name="CheckBoxZone" Content="{Binding PropertyName}"
+     Tag="{Binding PropertyValue}"  Checked="HandleGrowthTypeCheck"  
+            Unchecked = "HandleGrowthTypeUnCheck"  
+     Margin="0,5,0,0" IsChecked="True"/>
+                                            </ListBox>
+                                        </Border>
+                                    </HierarchicalDataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+
+
+
+                    </StackPanel>
+
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+
+
+
+
+            <Grid Grid.Column="1" >
+                <!--<StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
+                    <StackPanel Orientation="Horizontal"    Margin="0,5,0,10">
+                        <Label   VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource langFilterGrowth}" HorizontalAlignment="Right" Height="25"/>
+
+                       
+                    </StackPanel>
+
+                </StackPanel>-->
+                <lvc:CartesianChart Name="chart" Series="{Binding SeriesCollection}" LegendLocation="Right"  >
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Growth" LabelFormatter="{Binding YFormatter}" MaxValue="{Binding YMaxValue}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Month" Labels="{Binding Labels}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </Grid>
+
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.35*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+
+            <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
+                <Label  
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" 
+                               FontSize="16"
+                               FontWeight="SemiBold" VerticalContentAlignment="Center"
+                               Foreground="White" Margin="5,0,0,0"
+                               Content="{DynamicResource langAccountGrowth}" />
+            </StackPanel>
+
+
+            <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
+                <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
+                    <StackPanel Orientation="Horizontal"    Margin="0,5,0,10">
+                        <Label   VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource langFilterGrowth}" HorizontalAlignment="Right" Height="25"/>
+
                         <ComboBox  Name="cmbGrowthPeriod" ItemsSource="{Binding Source={StaticResource dataFromEnum}}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
                                       SelectedIndex="0"  DropDownClosed="CmbboxGrowthPeriod_OnDropDownClosed">
                             <!--SelectedItem="{Binding SelectedOption, Mode=TwoWay}"-->
@@ -68,9 +205,8 @@
             </Grid>
 
         </Grid>
-
         <!--Data grid view-->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="4">
             <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" 
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
                 <!--<ListView.ItemContainerStyle>

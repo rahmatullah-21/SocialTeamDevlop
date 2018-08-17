@@ -94,8 +94,8 @@
       <HintPath>..\packages\FluentScheduler.5.3.0\lib\net40\FluentScheduler.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HtmlAgilityPack">
-      <HintPath>..\packages\HtmlAgilityPack.1.8.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.8.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.8.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.0.362, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -371,6 +371,7 @@
     <Compile Include="Enums\AccountStatus.cs" />
     <Compile Include="Enums\ActivitySpeed.cs" />
     <Compile Include="Enums\DatabaseType.cs" />
+    <Compile Include="Enums\DHEnum\GrowthChartPeriod.cs" />
     <Compile Include="Enums\DHEnum\GrowthPeriod.cs" />
     <Compile Include="Enums\DHEnum\UserType.cs" />
     <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
@@ -589,6 +590,7 @@
     <Compile Include="Models\SocioPublisher\PublisherHomeModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherManageDestinationModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherManagePostsModel.cs" />
+    <Compile Include="ViewModel\GrowthProperty.cs" />
     <Compile Include="Models\SocioPublisher\PublisherMediaViewerModel.cs" />
     <Compile Include="Utility\MediaUtilites.cs" />
     <Compile Include="ViewModel\EditProfileViewModel.cs" />
