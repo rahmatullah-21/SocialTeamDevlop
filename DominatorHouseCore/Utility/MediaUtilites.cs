@@ -17,8 +17,15 @@ namespace DominatorHouseCore.Utility
             if (ConstantVariable.SupportedVideoFormat.Contains(extension))
             {
                 var newFilePath = $"{filePath}{ConstantVariable.VideoToImageConvertFileName}";
-                var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-                ffMpeg.GetVideoThumbnail(filePath, newFilePath, 2);
+                try
+                {
+                    var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                    ffMpeg.GetVideoThumbnail(filePath, newFilePath, 2);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
                 return newFilePath;
             }
             return filePath;

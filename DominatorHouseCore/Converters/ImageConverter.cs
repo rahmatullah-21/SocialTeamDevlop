@@ -1,6 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using DominatorHouseCore.Utility;
@@ -31,7 +34,7 @@ namespace DominatorHouseCore.Converters
 
                 #endregion
 
-                if (File.Exists(value?.ToString()) || ImageExtracter.IsValidUrl(value?.ToString()))                
+                if (File.Exists(value?.ToString()) || ImageExtracter.IsValidUrl(value?.ToString()))
                     return string.IsNullOrEmpty(value?.ToString()) ? new BitmapImage() : new BitmapImage(new Uri(value.ToString()));
 
                 if (!File.Exists(ConstantVariable.GetNotFoundImage()))
@@ -39,9 +42,11 @@ namespace DominatorHouseCore.Converters
                     Utilities.DownloadNotFound();
                 }
                 return new BitmapImage(new Uri(ConstantVariable.GetNotFoundImage()));
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ex.DebugLog();
                 return new BitmapImage();
             }
 
@@ -52,5 +57,7 @@ namespace DominatorHouseCore.Converters
         {
             throw new NotSupportedException();
         }
+
     }
+ 
 }

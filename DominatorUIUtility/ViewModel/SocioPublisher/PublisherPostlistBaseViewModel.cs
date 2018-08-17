@@ -581,6 +581,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                                     ex.DebugLog();
                                 }
                             }
+                            allPostsQueued = true;
                         }
                         catch (OperationCanceledException ex)
                         {
@@ -601,16 +602,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             catch (Exception ex)
             {
                 ex.DebugLog();
-            } 
+            }
             #endregion
-
-            Thread.Sleep(50);
 
             // Add the posts to queue, so that process will run in different work
             foreach (var post in postItems)
             {
                 pendingActions = pendingActions.Enqueue(() => AddPostItems(post));
             }
+
         }
 
         /// <summary>
@@ -624,14 +624,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     PublisherPostlist.Clear();
                     // Update the collection view
-                    PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
+                    //   PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
                 });
             }
             else
             {
                 // Clear and Update the collection view
                 PublisherPostlist.Clear();
-                PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
+                //  PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
             }
         }
 
@@ -665,7 +665,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         {
                             // If post id is not present, then add into the post
                             PublisherPostlist.Add(postItems);
-                            PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
+                            //PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
                         }
 
                         if (PublisherPostlist.Count == PostCount)
@@ -680,7 +680,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     // Add and updating binding soruce
                     PublisherPostlist.Add(postItems);
-                    PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
+                    // PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
 
                     if (PublisherPostlist.Count == PostCount)
                         IsProgressRingActive = false;

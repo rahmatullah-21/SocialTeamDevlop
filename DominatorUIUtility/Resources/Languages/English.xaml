@@ -3078,5 +3078,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPerformActionOnCommentsOfUniqueUserFromAllAccountsInThisCampaign">Perform action on comments of unique user from all accounts in this campaign.</system:String>
     <system:String x:Key="LangKeyPerformActionOnCommentsOfUniqueUserFromEachAccountsInThisCampaign">Perform action on comments of unique user from each accounts in this campaign.</system:String>
     <system:String x:Key="LangKeySecondsWhenPerformingActionOnASpecificComment">seconds when performing action on a specific comment.</system:String>
-
+    <system:String x:Key="LangKeySelectBoardsFilter">Select Boards Filter</system:String>
+    <system:String x:Key="LangKeySelectBoards">Select Boards</system:String>
 </ResourceDictionary>
