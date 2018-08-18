@@ -7,7 +7,7 @@
              mc:Ignorable="d"  xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours"
-             xmlns:viewModel="clr-namespace:DominatorUIUtility.ViewModel" 
+             xmlns:viewModel="clr-namespace:DominatorUIUtility.ViewModel" Loaded="Campaigns_OnLoaded"
              xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
 
     <UserControl.Resources>
