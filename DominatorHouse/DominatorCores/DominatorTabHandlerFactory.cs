@@ -8,6 +8,7 @@ using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views;
@@ -45,14 +46,14 @@ namespace Socinator.DominatorCores
 
         public void UpdateAccountCustomControl(SocialNetworks networks)
         {
-          //  NetworkTabs[0].Content = new Lazy<UserControl>(() => new AccountTab(_strategies));
+            //  NetworkTabs[0].Content = new Lazy<UserControl>(() => new AccountTab(_strategies));
             NetworkTabs[0].Content = new Lazy<UserControl>(() => AccountManager.GetSingletonAccountManager("AccountManager", null, SocialNetworks.Social));
         }
-       
+
         private void InitializeAllTabs()
         {
 
-            NetworkTabs= new List<TabItemTemplates>
+            NetworkTabs = new List<TabItemTemplates>
             {
                 new TabItemTemplates
                 {
@@ -62,9 +63,10 @@ namespace Socinator.DominatorCores
                 },
                 new TabItemTemplates
                 {
-                    Title = "Account Growth",
-                    Content = new Lazy<UserControl>(() => new AccountGrowthTab(_strategies))
+                    Title="LangKeyAccountGrowth".FromResourceDictionary(),
+                    Content = new Lazy<UserControl>(() =>  AccountGrowthControl.GetAccountGrowthControl(SocialNetworks.Social,_strategies))
                 },
+
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),

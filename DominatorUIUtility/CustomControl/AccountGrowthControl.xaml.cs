@@ -293,13 +293,7 @@ namespace DominatorUIUtility.CustomControl
                  .GetNetworkCoreFactory().AccountUpdateFactory;
             DominatorAccountViewModel.GrowthList = accountUpdateFactory.GetDailyGrowthForAccount(DominatorAccountViewModel.GrowthChartAccountNumber, GetValueFromDescription<GrowthChartPeriod>(DominatorAccountViewModel.GrowthChartPeriod));
         }
-        //private void GetGrowthForAccount()
-        //{
-        //    var accountUpdateFactory = SocinatorInitialize
-        //        .GetSocialLibrary(DominatorAccountViewModel.GrowthChartAccountNetwork)
-        //        .GetNetworkCoreFactory().AccountUpdateFactory;
-        //    DominatorAccountViewModel.GrowthList = accountUpdateFactory.GetDailyGrowthForAccount(DominatorAccountViewModel.GrowthChartAccountNumber, GetValueFromDescription<GrowthChartPeriod>(DominatorAccountViewModel.GrowthChartPeriod));
-        //}
+
         private string[] GetChartLabels()
         {
 
@@ -414,8 +408,6 @@ namespace DominatorUIUtility.CustomControl
         {
 
 
-
-
             var listCollection = (ListCollectionView)DominatorAccountViewModel.AccountCollectionView;
             DominatorAccountViewModel.GrowthProperties = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.GrowthProperties;
             if (period == GrowthPeriod.NoPeriod)
@@ -481,7 +473,7 @@ namespace DominatorUIUtility.CustomControl
                      .AccountCountFactory.GetColumnSpecificationProvider();
 
 
-
+            DominatorAccountViewModel.GrowthChartAccountNumber = (listCollection.GetItemAt(0) as DominatorAccountModel).AccountId;
             DominatorAccountViewModel.SocialNetwork = socialNetworks;
 
         }
@@ -841,7 +833,7 @@ namespace DominatorUIUtility.CustomControl
                 var currentItem = cb.DataContext as DominatorAccountViewModel;
                 DominatorAccountViewModel.GrowthChartAccountNetwork = (cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.AccountNetwork;
                 DominatorAccountViewModel.GrowthChartProperty = string.Join(",", (cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.GrowthProperties.Select(x => x.PropertyName));
-                DominatorAccountViewModel.GrowthProperties =(cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.GrowthProperties;
+                DominatorAccountViewModel.GrowthProperties = (cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.GrowthProperties;
                 //(currentItem.AccountCollectionView.CurrentItem as DominatorAccountModel).AccountBaseModel.AccountNetwork;
                 GetGrowthForAccount();
                 UpdateChart(1);

@@ -59,7 +59,7 @@ namespace EmbeddedBrowser
 
 
         public string TargetUrl { get; set; } = string.Empty;
-        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl)
+        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl, bool customUse = false)
             : this()
         {
 
@@ -73,7 +73,14 @@ namespace EmbeddedBrowser
             });
 
             Browser.RequestHandler = new RequestHandlerCustom(this);
-            var url = GetNetworksHomeUrl();
+
+            var url = String.Empty;
+
+            if (customUse)
+                url = targetUrl;
+            else
+                url = GetNetworksHomeUrl();
+
             Browser.Address = url;
             Browser.IsBrowserInitializedChanged += LoadSettings;
 
@@ -503,8 +510,8 @@ namespace EmbeddedBrowser
                     };
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
                 }
-                
-               Thread.Sleep(TimeSpan.FromSeconds(1));
+
+                Thread.Sleep(TimeSpan.FromSeconds(1));
                 k = new KeyEvent();
                 k.FocusOnEditableField = false;
                 k.WindowsKeyCode = 9;
@@ -571,7 +578,7 @@ namespace EmbeddedBrowser
 
                 Thread.Sleep(2000);
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('js-password-field')[0].value= '" +
-                                           DominatorAccountModel.AccountBaseModel.Password.Replace("'","\\'") + "'");
+                                           DominatorAccountModel.AccountBaseModel.Password.Replace("'", "\\'") + "'");
                 Thread.Sleep(2000);
                 this.Browser.ExecuteScriptAsync(
                     "document.getElementsByClassName('submit EdgeButton EdgeButton--primary EdgeButtom--medium')[0].click()");

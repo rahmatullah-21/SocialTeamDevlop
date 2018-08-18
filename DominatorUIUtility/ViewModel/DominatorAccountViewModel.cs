@@ -192,7 +192,20 @@ namespace DominatorUIUtility.ViewModel
 
         public string[] Labels { get; set; }
         public Func<int, string> YFormatter { get; set; }
-        public SeriesCollection SeriesCollection { get; set; }
+
+        public SeriesCollection SeriesCollection
+        {
+            get
+            {
+                return _seriesCollection;
+            }
+            set
+            {
+                if(_seriesCollection == value)
+                    return;
+                SetProperty(ref _seriesCollection,value);
+            }
+        }
 
         public string GrowthChartAccountNumber
         {
@@ -1830,6 +1843,7 @@ namespace DominatorUIUtility.ViewModel
         private List<GrowthProperty> _growthProperties;
         private string _growthChartAccountNumber;
         private SocialNetworks _growthChartAccountNetwork;
+        private SeriesCollection _seriesCollection;
 
         public List<string> _updateAccountList { get; set; } = new List<string>();
 
