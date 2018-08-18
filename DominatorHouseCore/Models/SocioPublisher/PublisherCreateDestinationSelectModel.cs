@@ -17,7 +17,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-                if(_isAccountSelected==value)
+                if (_isAccountSelected == value)
                     return;
                 _isAccountSelected = value;
                 OnPropertyChanged(nameof(IsAccountSelected));
@@ -105,7 +105,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _customDestinationSelectorText="0";
+        private string _customDestinationSelectorText = "0";
         [ProtoMember(14)]
         public string CustomDestinationSelectorText
         {
@@ -133,7 +133,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-                if(_totalGroups == value)
+                if (_totalGroups == value)
                     return;
                 _totalGroups = value;
                 // UpdateGroupText();
@@ -174,7 +174,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_totalPagesOrBoards == value)
                     return;
-                _totalPagesOrBoards = value;           
+                _totalPagesOrBoards = value;
                 OnPropertyChanged(nameof(TotalPagesOrBoards));
             }
         }
@@ -192,7 +192,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_selectedPagesOrBoards == value)
                     return;
-                _selectedPagesOrBoards = value;           
+                _selectedPagesOrBoards = value;
                 OnPropertyChanged(nameof(SelectedPagesOrBoards));
 
             }
@@ -209,7 +209,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-                if(_publishonOwnWall == value)
+                if (_publishonOwnWall == value)
                     return;
                 _publishonOwnWall = value;
                 OnPropertyChanged(nameof(PublishonOwnWall));
@@ -251,7 +251,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private bool _isOwnWallAvailable=true;
+        private bool _isOwnWallAvailable = true;
         [ProtoMember(15)]
         public bool IsOwnWallAvailable
         {
@@ -268,11 +268,76 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        public void UpdateGroupText() => 
+        public void UpdateGroupText() =>
             GroupSelectorText = IsGroupsAvailable ? SelectedGroups + "/" + TotalGroups : "NA";
 
-        public void UpdatePagesOrBoardsText() => 
+        public void UpdatePagesOrBoardsText() =>
             PagesOrBoardsSelectorText = IsPagesOrBoardsAvailable ? SelectedPagesOrBoards + "/" + TotalPagesOrBoards : "NA";
-        
+
+
+        public void UpdateFriendsText() =>
+            PagesOrBoardsSelectorText = IsFriendsAvailable ? SelectedFriends + "/" + TotalFriends : "NA";
+
+
+
+        [ProtoMember(16)]
+        public bool IsFriendsAvailable { get; set; }
+
+
+        private string _friendsSelectorText = "NA";
+        [ProtoMember(17)]
+        public string FriendsSelectorText
+        {
+            get
+            {
+                return _friendsSelectorText;
+            }
+            set
+            {
+                if (_friendsSelectorText == value)
+                    return;
+                _friendsSelectorText = value;
+                OnPropertyChanged(nameof(FriendsSelectorText));
+            }
+        }
+
+
+
+        private int _totalFriends;
+        [ProtoMember(18)]
+
+        public int TotalFriends
+        {
+            get
+            {
+                return _totalFriends;
+            }
+            set
+            {
+                if (_totalFriends == value)
+                    return;
+                _totalFriends = value;
+                OnPropertyChanged(nameof(TotalFriends));
+            }
+        }
+
+        private int _selectedFriends;
+        [ProtoMember(19)]
+
+        public int SelectedFriends
+        {
+            get
+            {
+                return _selectedFriends;
+            }
+            set
+            {
+                if (_selectedFriends == value)
+                    return;
+                _selectedFriends = value;
+                OnPropertyChanged(nameof(SelectedFriends));
+
+            }
+        }
     }
 }

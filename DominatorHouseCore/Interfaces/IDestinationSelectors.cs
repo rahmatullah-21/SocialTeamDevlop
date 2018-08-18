@@ -18,12 +18,15 @@ namespace DominatorHouseCore.Interfaces
         Task<List<AccountDetailsSelectorModel>> GetGroupsDetails(string accountId, string accountName,
             List<string> alreadySelectedList);
 
+        Task<List<AccountDetailsSelectorModel>> GetFriendsDetails(string accountId, string accountName,
+           List<string> alreadySelectedList);
+
         Task<List<AccountDetailsSelectorModel>> GetPagesDetails(string accountId, string accountName,
             List<string> alreadySelectedList);
 
         Task<List<string>> GetGroupsUrls(string accountId, string accountName);
 
-        Task<List<string>> GetGroupUrls(string accountId,  DateTime addedAfter);
+        Task<List<string>> GetGroupUrls(string accountId, DateTime addedAfter);
 
         Task<List<string>> GetPageOrBoardUrls(string accountId, string accountName);
 
