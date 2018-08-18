@@ -1,4 +1,9 @@
 Version[1.0.0.10],[18th-August-18]
+New Features:-
+Added chart view for Account Growth (Beta)
+Reddit:-
+	Added communities scraper
+	Added comments scraper
 
 Fixed:
 SocioPublisher:- 

@@ -76,11 +76,12 @@ namespace DominatorUIUtility.CustomControl
 
             try
             {
-                DominatorAccountViewModel.GrowthProperties = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.GrowthProperties;
+                DominatorAccountViewModel.GrowthChartAccountNetwork = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.AccountNetwork;
+                DominatorAccountViewModel.GrowthProperties = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.GetGrowthProperties(DominatorAccountViewModel.GrowthChartAccountNetwork);
                 DominatorAccountViewModel.GrowthChartPeriods = GetChartPeriodEnumStringList();
                 DominatorAccountViewModel.GrowthChartTypes = new List<string>() { "Gain", "Total", "Both" };
                 DominatorAccountViewModel.GrowthChartAccountNumber = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountId;
-                DominatorAccountViewModel.GrowthChartAccountNetwork = DominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.AccountNetwork;
+                
                 DominatorAccountViewModel.GrowthChartPeriod = "Past 30 days";
                 DominatorAccountViewModel.GrowthChartProperty = string.Join(",", DominatorAccountViewModel.GrowthProperties.Select(x => x.PropertyName));
                 DominatorAccountViewModel.GrowthChartType = "Total";
@@ -320,6 +321,8 @@ namespace DominatorUIUtility.CustomControl
         {
             var list = new ChartValues<int>();
             var properties = DominatorAccountViewModel.LstDominatorAccountModel.Where(x => x.AccountId == DominatorAccountViewModel.GrowthChartAccountNumber).FirstOrDefault().AccountBaseModel.GrowthProperties;
+            properties = DominatorAccountViewModel.LstDominatorAccountModel.Where(x => x.AccountId == DominatorAccountViewModel.GrowthChartAccountNumber).FirstOrDefault().AccountBaseModel.
+                GetGrowthProperties(DominatorAccountViewModel.LstDominatorAccountModel.Where(x => x.AccountId == DominatorAccountViewModel.GrowthChartAccountNumber).FirstOrDefault().AccountBaseModel.AccountNetwork);
             for (int i = 1; i <= properties.Count(); i++)
             {
                 if (growthChartProperty == properties[i - 1].PropertyName)
@@ -884,8 +887,9 @@ namespace DominatorUIUtility.CustomControl
                 ComboBox cb = sender as ComboBox;
                 var currentItem = cb.DataContext as DominatorAccountViewModel;
                 DominatorAccountViewModel.GrowthChartAccountNetwork = (cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.AccountNetwork;
-                DominatorAccountViewModel.GrowthChartProperty = string.Join(",", (cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.GrowthProperties.Select(x => x.PropertyName));
-                DominatorAccountViewModel.GrowthProperties = (cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.GrowthProperties;
+                var property = (cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.GetGrowthProperties(DominatorAccountViewModel.GrowthChartAccountNetwork);
+                DominatorAccountViewModel.GrowthChartProperty = string.Join(",", (property.Select(x => x.PropertyName)));
+                DominatorAccountViewModel.GrowthProperties = property;
                 //(currentItem.AccountCollectionView.CurrentItem as DominatorAccountModel).AccountBaseModel.AccountNetwork;
                 GetGrowthForAccount();
                 UpdateChart(1);
