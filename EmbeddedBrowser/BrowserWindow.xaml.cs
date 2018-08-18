@@ -59,8 +59,27 @@ namespace EmbeddedBrowser
 
 
         public string TargetUrl { get; set; } = string.Empty;
-        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl, bool customUse = false)
-            : this()
+        //public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl)
+        //    : this()
+        //{
+
+        //    DominatorAccountModel = dominatorAccountModel;
+        //    TargetUrl = targetUrl;
+        //    InitializeComponent();
+
+        //    Browser.RequestContext = new RequestContext(new RequestContextSettings
+        //    {
+        //        CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
+        //    });
+
+        //    Browser.RequestHandler = new RequestHandlerCustom(this);
+        //    var url = GetNetworksHomeUrl();
+        //    Browser.Address = url;
+        //    Browser.IsBrowserInitializedChanged += LoadSettings;
+
+        //}
+        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl, bool CustomUse)
+             : this()
         {
 
             DominatorAccountModel = dominatorAccountModel;
@@ -74,10 +93,11 @@ namespace EmbeddedBrowser
 
             Browser.RequestHandler = new RequestHandlerCustom(this);
 
-            var url = String.Empty;
+            var url = string.Empty;
 
-            if (customUse)
+            if (CustomUse)
                 url = targetUrl;
+
             else
                 url = GetNetworksHomeUrl();
 
@@ -510,8 +530,8 @@ namespace EmbeddedBrowser
                     };
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
                 }
-
-                Thread.Sleep(TimeSpan.FromSeconds(1));
+                
+               Thread.Sleep(TimeSpan.FromSeconds(1));
                 k = new KeyEvent();
                 k.FocusOnEditableField = false;
                 k.WindowsKeyCode = 9;
@@ -578,7 +598,7 @@ namespace EmbeddedBrowser
 
                 Thread.Sleep(2000);
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('js-password-field')[0].value= '" +
-                                           DominatorAccountModel.AccountBaseModel.Password.Replace("'", "\\'") + "'");
+                                           DominatorAccountModel.AccountBaseModel.Password.Replace("'","\\'") + "'");
                 Thread.Sleep(2000);
                 this.Browser.ExecuteScriptAsync(
                     "document.getElementsByClassName('submit EdgeButton EdgeButton--primary EdgeButtom--medium')[0].click()");

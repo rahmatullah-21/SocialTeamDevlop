@@ -58,8 +58,8 @@ namespace DominatorHouseCore.Models
             else if (accountNetwork == SocialNetworks.Facebook)
             {
                 this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Friends", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Shares", PropertyValue = 0 });
+                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "JoinedGroups", PropertyValue = 0 });
+                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "OwnPages", PropertyValue = 0 });
             }
             else if (accountNetwork == SocialNetworks.Quora)
             {
@@ -94,9 +94,10 @@ namespace DominatorHouseCore.Models
             }
             else if (accountNetwork == SocialNetworks.Tumblr)
             {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Connections", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Groups", PropertyValue = 0 });
+                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
+                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
                 this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Posts", PropertyValue = 0 });
+                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Channels", PropertyValue = 0 });
             }
             else if (accountNetwork == SocialNetworks.Pinterest)
             {
