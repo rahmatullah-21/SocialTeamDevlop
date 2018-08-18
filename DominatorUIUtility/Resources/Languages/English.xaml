@@ -3080,4 +3080,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySecondsWhenPerformingActionOnASpecificComment">seconds when performing action on a specific comment.</system:String>
     <system:String x:Key="LangKeySelectBoardsFilter">Select Boards Filter</system:String>
     <system:String x:Key="LangKeySelectBoards">Select Boards</system:String>
+    <system:String x:Key="LangKeyAnswerOnQuestion">Answer On Question</system:String>
 </ResourceDictionary>
