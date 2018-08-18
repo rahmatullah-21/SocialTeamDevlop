@@ -65,7 +65,7 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
             CampaignViewModel.SocialNetworks = socialNetworks;
             CampaignViewModel.SetActivityTypes();
-            CampaignViewModel.LstCampaignDetails = new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(socialNetworks));
+            CampaignViewModel.LstCampaignDetails = new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
             Campaign.DataContext = CampaignViewModel;
             CampaignViewModel.CampaignCollection = CollectionViewSource.GetDefaultView(CampaignViewModel.LstCampaignDetails);
             instance = this;
@@ -690,6 +690,12 @@ namespace DominatorUIUtility.CustomControl
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Campaigns_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            CampaignViewModel.LstCampaignDetails = new ObservableCollection<CampaignDetails>(CampaignsFileManager.GetCampaignByNetwork(SocinatorInitialize.ActiveSocialNetwork));
+            CampaignViewModel.CampaignCollection = CollectionViewSource.GetDefaultView(CampaignViewModel.LstCampaignDetails);
         }
     }
 }
