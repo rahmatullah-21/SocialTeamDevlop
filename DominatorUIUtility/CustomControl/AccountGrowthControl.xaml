@@ -24,89 +24,89 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
+    <Grid>
+        <TabControl>
+            <TabItem Header="{DynamicResource LangKeyAccountGrowth}">
+                <Grid Name="MainGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-    <Grid Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="300"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.35*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.35*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
 
-            <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
-                <Label  
+                        <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
+                            <Label  
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center" 
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="White" Margin="5,0,0,0"
                                Content="Account Growth Charts" />
-            </StackPanel>
+                        </StackPanel>
 
 
-            <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
-                <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
-                    <StackPanel Orientation="Horizontal"    Margin="0,5,0,10">
-                        <Label   VerticalAlignment="Top"  Foreground="White" Content="Select Account" HorizontalAlignment="Right" Height="25"/>
+                        <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
+                                <StackPanel Orientation="Horizontal"    Margin="0,5,0,10">
+                                    <Label   VerticalAlignment="Top"  Foreground="White" Content="Select Account" HorizontalAlignment="Right" Height="25"/>
 
-                        <ComboBox  Name="cmbGrowthAcount"  Width="200"  ItemsSource="{Binding AccountCollectionView}"   VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
-                                   SelectedIndex="0"   DropDownClosed="CmbboxGrowthChartAccount_OnDropDownClosed"   DisplayMemberPath="AccountBaseModel.UserName" 
+                                    <ComboBox  Name="cmbGrowthAcount"  Width="200"  ItemsSource="{Binding AccountCollectionView}"   VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
+                                   SelectedIndex="0" SelectionChanged="cmbGrowthAcount_SelectionChanged"   DisplayMemberPath="AccountBaseModel.UserName" 
                                    SelectedValuePath="AccountId"  SelectedValue="{Binding GrowthChartAccountNumber}" />
 
 
-                        <Label   VerticalAlignment="Top"  Foreground="White" Content="Select Period"  HorizontalAlignment="Right" Height="25"/>
+                                    <Label   VerticalAlignment="Top"  Foreground="White" Content="Select Period"  HorizontalAlignment="Right" Height="25"/>
 
-                        <ComboBox  Name="cmbGrowthChartPeriod" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"      ItemsSource="{Binding GrowthChartPeriods}"                                   
-                                      SelectedIndex="0" SelectedValue="{Binding GrowthChartPeriod}"  DropDownClosed="CmbboxGrowthChartPeriod_OnDropDownClosed"/>
-                        <Label   VerticalAlignment="Top"  Foreground="White" Content="Select Type"  HorizontalAlignment="Right" Height="25"/>
+                                    <ComboBox  Name="cmbGrowthChartPeriod" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"      ItemsSource="{Binding GrowthChartPeriods}"                                   
+                                      SelectedIndex="0" SelectedValue="{Binding GrowthChartPeriod}"  SelectionChanged="cmbGrowthChartPeriod_SelectionChanged"/>
+                                    <Label   VerticalAlignment="Top"  Foreground="White" Content="Select Type"  HorizontalAlignment="Right" Height="25"/>
 
-                        <ComboBox  Name="cmbGrowthChartType" Width="100"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"      ItemsSource="{Binding GrowthChartTypes}"                                   
-                                      SelectedValue="{Binding GrowthChartType}"  DropDownClosed="CmbboxGrowthChartType_OnDropDownClosed"/>
-
-
-
-
-                    </StackPanel>
-
-                </StackPanel>
-            </Grid>
-
-        </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+                                    <ComboBox  Name="cmbGrowthChartType" Width="100"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"      ItemsSource="{Binding GrowthChartTypes}"                                   
+                                      SelectedValue="{Binding GrowthChartType}" SelectionChanged="cmbGrowthChartType_SelectionChanged"/>
 
 
 
 
+                                </StackPanel>
 
-            <Grid Grid.Column="0" >
-                <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Left" >
-                    <StackPanel Orientation="Horizontal"    Margin="0,0,0,0">
-                        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin = "5">
-                            <ItemsControl x:Name="list" ItemsSource="{Binding GrowthProperties}" Focusable="False">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                    <CheckBox Name="CheckBoxZone" Content="{Binding PropertyName}"
+                            </StackPanel>
+                        </Grid>
+
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+
+
+
+
+                        <Grid Grid.Column="0" >
+                            <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Left" >
+                                <StackPanel Orientation="Horizontal"    Margin="0,0,0,0">
+                                    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin = "5">
+                                        <ItemsControl x:Name="list" ItemsSource="{Binding GrowthProperties}" Focusable="False">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox Name="CheckBoxZone" Content="{Binding PropertyName}"
                                               Tag="{Binding PropertyValue}"  Checked="HandleGrowthTypeCheck"  
                                               Unchecked = "HandleGrowthTypeUnCheck"  Margin="0,5,5,0" IsChecked="True"/>
-                                    </DataTemplate>
-                                    <!--<HierarchicalDataTemplate>
+                                                </DataTemplate>
+                                                <!--<HierarchicalDataTemplate>
                                         <Border Padding="5,0,0,2">
                                             <ListBox Name="mylistBox"  >
                                                 <CheckBox Name="CheckBoxZone" Content="{Binding PropertyName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
@@ -115,28 +115,28 @@
                                             </ListBox>
                                         </Border>
                                     </HierarchicalDataTemplate>-->
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
 
-                    </StackPanel>
+                                </StackPanel>
 
-                </StackPanel>
-            </Grid>
+                            </StackPanel>
+                        </Grid>
 
-        </Grid>
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
 
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
 
 
-            <Grid Grid.Column="1" >
-                <!--<StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
+
+
+                        <Grid Grid.Column="1" >
+                            <!--<StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
                     <StackPanel Orientation="Horizontal"    Margin="0,5,0,10">
                         <Label   VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource langFilterGrowth}" HorizontalAlignment="Right" Height="25"/>
 
@@ -144,559 +144,575 @@
                     </StackPanel>
 
                 </StackPanel>-->
-                <lvc:CartesianChart Name="chart" Series="{Binding SeriesCollection}" LegendLocation="Right"  >
-                    <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="Growth" LabelFormatter="{Binding YFormatter}" MaxValue="{Binding YMaxValue}"></lvc:Axis>
-                    </lvc:CartesianChart.AxisY>
-                    <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Month" Labels="{Binding Labels}"></lvc:Axis>
-                    </lvc:CartesianChart.AxisX>
-                </lvc:CartesianChart>
-            </Grid>
+                            <lvc:CartesianChart Name="chart" Series="{Binding SeriesCollection}" LegendLocation="Right"  >
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="Growth" LabelFormatter="{Binding YFormatter}" MaxValue="{Binding YMaxValue}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Month" Labels="{Binding Labels}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                            </lvc:CartesianChart>
+                        </Grid>
 
-        </Grid>
-        <Grid Grid.Row="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.35*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+                    </Grid>
 
 
-            <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
-                <Label  
+                </Grid>
+            </TabItem>
+            <TabItem Header="{DynamicResource LangKeyAccountGrowth}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.35*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+
+                        <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
+                            <Label  
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center" 
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="White" Margin="5,0,0,0"
-                               Content="{DynamicResource langAccountGrowth}" />
-            </StackPanel>
+                               Content="{DynamicResource LangKeyAccountGrowth}" />
+                        </StackPanel>
 
 
-            <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
-                <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
-                    <StackPanel Orientation="Horizontal"    Margin="0,5,0,10">
-                        <Label   VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource langFilterGrowth}" HorizontalAlignment="Right" Height="25"/>
+                        <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
+                                <StackPanel Orientation="Horizontal"    Margin="0,5,0,10">
+                                    <Label   VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeyFilterBy}" HorizontalAlignment="Right" Height="25"/>
 
-                        <ComboBox  Name="cmbGrowthPeriod" ItemsSource="{Binding Source={StaticResource dataFromEnum}}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
-                                      SelectedIndex="0"  DropDownClosed="CmbboxGrowthPeriod_OnDropDownClosed">
-                            <!--SelectedItem="{Binding SelectedOption, Mode=TwoWay}"-->
-                            <!--<ComboBox.ItemTemplate>
+                                    <ComboBox  Name="cmbGrowthPeriod" ItemsSource="{Binding Source={StaticResource dataFromEnum}}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
+                                      SelectedIndex="0" SelectionChanged="cmbGrowthPeriod_SelectionChanged" DropDownClosed="CmbboxGrowthPeriod_OnDropDownClosed">
+                                        <!--SelectedItem="{Binding SelectedOption, Mode=TwoWay}"-->
+                                        <!--<ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"></TextBlock>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>-->
 
-                        </ComboBox>
-                    </StackPanel>
+                                    </ComboBox>
+                                </StackPanel>
 
-                </StackPanel>
-            </Grid>
+                            </StackPanel>
+                        </Grid>
 
-        </Grid>
-        <!--Data grid view-->
-        <Grid Grid.Row="4">
-            <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" 
+                    </Grid>
+                    <!--Data grid view-->
+                    <Grid Grid.Row="1">
+                        <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" 
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
-                <!--<ListView.ItemContainerStyle>
-                    --><!--<Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
+                            <!--<ListView.ItemContainerStyle>
+                    -->
+                            <!--<Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
                         <EventSetter Event="ContextMenu.ContextMenuOpening" Handler="Row_ContextMenuOpening"/>
-                        --><!--<Setter Property="Foreground" Value="White"/>--><!--
+                        -->
+                            <!--<Setter Property="Foreground" Value="White"/>-->
+                            <!--
                         <Setter Property="Height" Value="30"/>
 
-                    </Style>--><!--
+                    </Style>-->
+                            <!--
                 </ListView.ItemContainerStyle>-->
 
-                <ListView.View>
-                    <GridView >
-                        <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
+                            <ListView.View>
+                                <GridView >
+                                    <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
 
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <ContentControl>
-                                            <ContentControl.Style>
-                                                <Style TargetType="{x:Type ContentControl}">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                    <Style.Triggers>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <ContentControl>
+                                                        <ContentControl.Style>
+                                                            <Style TargetType="{x:Type ContentControl}">
+                                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                                <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="#003569" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
+                                                                        <Setter Property="Content" >
+                                                                            <Setter.Value>
+                                                                                <Rectangle Fill="#003569" Width="20" Height="20">
+                                                                                    <Rectangle.Resources>
+                                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                    </Rectangle.Resources>
+                                                                                    <Rectangle.OpacityMask>
+                                                                                        <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
+                                                                                    </Rectangle.OpacityMask>
+                                                                                </Rectangle>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
 
-                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="Red" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
+                                                                        <Setter Property="Content" >
+                                                                            <Setter.Value>
+                                                                                <Rectangle Fill="Red" Width="20" Height="20">
+                                                                                    <Rectangle.Resources>
+                                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                    </Rectangle.Resources>
+                                                                                    <Rectangle.OpacityMask>
+                                                                                        <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
+                                                                                    </Rectangle.OpacityMask>
+                                                                                </Rectangle>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
 
-                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="#3897F0" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
+                                                                        <Setter Property="Content" >
+                                                                            <Setter.Value>
+                                                                                <Rectangle Fill="#3897F0" Width="20" Height="20">
+                                                                                    <Rectangle.Resources>
+                                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                    </Rectangle.Resources>
+                                                                                    <Rectangle.OpacityMask>
+                                                                                        <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
+                                                                                    </Rectangle.OpacityMask>
+                                                                                </Rectangle>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
 
-                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="Red" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
+                                                                        <Setter Property="Content" >
+                                                                            <Setter.Value>
+                                                                                <Rectangle Fill="Red" Width="20" Height="20">
+                                                                                    <Rectangle.Resources>
+                                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                    </Rectangle.Resources>
+                                                                                    <Rectangle.OpacityMask>
+                                                                                        <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
+                                                                                    </Rectangle.OpacityMask>
+                                                                                </Rectangle>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
 
-                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="Red" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
+                                                                        <Setter Property="Content" >
+                                                                            <Setter.Value>
+                                                                                <Rectangle Fill="Red" Width="20" Height="20">
+                                                                                    <Rectangle.Resources>
+                                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                    </Rectangle.Resources>
+                                                                                    <Rectangle.OpacityMask>
+                                                                                        <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
+                                                                                    </Rectangle.OpacityMask>
+                                                                                </Rectangle>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
 
 
 
-                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="OrangeRed" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
+                                                                        <Setter Property="Content" >
+                                                                            <Setter.Value>
+                                                                                <Rectangle Fill="OrangeRed" Width="20" Height="20">
+                                                                                    <Rectangle.Resources>
+                                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                    </Rectangle.Resources>
+                                                                                    <Rectangle.OpacityMask>
+                                                                                        <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
+                                                                                    </Rectangle.OpacityMask>
+                                                                                </Rectangle>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
 
-                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="DodgerBlue" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
+                                                                        <Setter Property="Content" >
+                                                                            <Setter.Value>
+                                                                                <Rectangle Fill="DodgerBlue" Width="20" Height="20">
+                                                                                    <Rectangle.Resources>
+                                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                    </Rectangle.Resources>
+                                                                                    <Rectangle.OpacityMask>
+                                                                                        <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
+                                                                                    </Rectangle.OpacityMask>
+                                                                                </Rectangle>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                                                        <Setter Property="Content" >
+                                                                            <Setter.Value>
+                                                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                                    <Rectangle.Resources>
+                                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                    </Rectangle.Resources>
+                                                                                    <Rectangle.OpacityMask>
+                                                                                        <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
+                                                                                    </Rectangle.OpacityMask>
+                                                                                </Rectangle>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
 
-                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                                                        <Setter Property="Content" >
+                                                                            <Setter.Value>
+                                                                                <Rectangle Fill="#FF0000" Width="20" Height="20">
+                                                                                    <Rectangle.Resources>
+                                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                    </Rectangle.Resources>
+                                                                                    <Rectangle.OpacityMask>
+                                                                                        <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
+                                                                                    </Rectangle.OpacityMask>
+                                                                                </Rectangle>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
 
-                                                        <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
-                                                            <Setter Property="Content" >
-                                                                <Setter.Value>
-                                                                    <Rectangle Fill="DimGray" Width="16" Height="20">
-                                                                        <Rectangle.Resources>
-                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                        </Rectangle.Resources>
-                                                                        <Rectangle.OpacityMask>
-                                                                            <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
-                                                                        </Rectangle.OpacityMask>
-                                                                    </Rectangle>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </ContentControl.Style>
-                                        </ContentControl>
-                                        <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
+                                                                    <DataTrigger Binding="{Binding Path=AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
+                                                                        <Setter Property="Content" >
+                                                                            <Setter.Value>
+                                                                                <Rectangle Fill="DimGray" Width="16" Height="20">
+                                                                                    <Rectangle.Resources>
+                                                                                        <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                    </Rectangle.Resources>
+                                                                                    <Rectangle.OpacityMask>
+                                                                                        <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
+                                                                                    </Rectangle.OpacityMask>
+                                                                                </Rectangle>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </ContentControl.Style>
+                                                    </ContentControl>
+                                                    <CheckBox IsChecked="{Binding IsAccountManagerAccountSelected}" Margin="10,0"
                                                   Content="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
                                                   Converter={StaticResource IndexToRowNoConverter}}" Foreground="{DynamicResource AccentBaseColorBrush}"/>
-                                    </StackPanel>
+                                                </StackPanel>
 
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                        <GridViewColumn  Header="{DynamicResource LangKeyUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
+                                    <GridViewColumn  Header="{DynamicResource LangKeyUsername}" DisplayMemberBinding="{Binding AccountBaseModel.UserName}"/>
 
 
-                        <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn1}" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+                                    <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn1}" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                Content="{Binding DisplayColumnValue1}"/>
-                                            <!--<Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+                                                        <!--<Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                Content="{Binding AccountBaseModel.AccountGroup.Content}"/>-->
-                                            <ContentControl>
-                                                <ContentControl.Style>
-                                                    <Style TargetType="{x:Type ContentControl}">
-                                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Path=DisplayColumnValue6, Converter={StaticResource objNegationConvertor}}" Value="true">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#28A745" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_up_arrow}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Path=DisplayColumnValue6, Converter={StaticResource objNegationConvertor}}" Value="false">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#DC3545" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
+                                                        <ContentControl>
+                                                            <ContentControl.Style>
+                                                                <Style TargetType="{x:Type ContentControl}">
+                                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue6, Converter={StaticResource objNegationConvertor}}" Value="true">
+                                                                            <Setter Property="Content" >
+                                                                                <Setter.Value>
+                                                                                    <Rectangle Fill="#28A745" Width="20" Height="20">
+                                                                                        <Rectangle.Resources>
+                                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                        </Rectangle.Resources>
+                                                                                        <Rectangle.OpacityMask>
+                                                                                            <VisualBrush Visual="{StaticResource appbar_up_arrow}" Stretch="Fill" />
+                                                                                        </Rectangle.OpacityMask>
+                                                                                    </Rectangle>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue6, Converter={StaticResource objNegationConvertor}}" Value="false">
+                                                                            <Setter Property="Content" >
+                                                                                <Setter.Value>
+                                                                                    <Rectangle Fill="#DC3545" Width="20" Height="20">
+                                                                                        <Rectangle.Resources>
+                                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                        </Rectangle.Resources>
+                                                                                        <Rectangle.OpacityMask>
+                                                                                            <VisualBrush Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
+                                                                                        </Rectangle.OpacityMask>
+                                                                                    </Rectangle>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
 
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ContentControl.Style>
-                                            </ContentControl>
-                                            <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </ContentControl.Style>
+                                                        </ContentControl>
+                                                        <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                Content="{Binding Path=DisplayColumnValue6, Converter={StaticResource objPositiveValueConvertor}}"/>
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn2}" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn2}" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                Content="{Binding DisplayColumnValue2}"/>
-                                            <!--<Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+                                                        <!--<Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                Content="2"/>-->
-                                            <ContentControl>
-                                                <ContentControl.Style>
-                                                    <Style TargetType="{x:Type ContentControl}">
-                                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                        <Style.Triggers>
+                                                        <ContentControl>
+                                                            <ContentControl.Style>
+                                                                <Style TargetType="{x:Type ContentControl}">
+                                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                                    <Style.Triggers>
 
 
 
 
 
-                                                            <DataTrigger Binding="{Binding Path=DisplayColumnValue7, Converter={StaticResource objNegationConvertor}}" Value="true">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#28A745" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_up_arrow}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Path=DisplayColumnValue7, Converter={StaticResource objNegationConvertor}}" Value="false" >
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#DC3545" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue7, Converter={StaticResource objNegationConvertor}}" Value="true">
+                                                                            <Setter Property="Content" >
+                                                                                <Setter.Value>
+                                                                                    <Rectangle Fill="#28A745" Width="20" Height="20">
+                                                                                        <Rectangle.Resources>
+                                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                        </Rectangle.Resources>
+                                                                                        <Rectangle.OpacityMask>
+                                                                                            <VisualBrush Visual="{StaticResource appbar_up_arrow}" Stretch="Fill" />
+                                                                                        </Rectangle.OpacityMask>
+                                                                                    </Rectangle>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue7, Converter={StaticResource objNegationConvertor}}" Value="false" >
+                                                                            <Setter Property="Content" >
+                                                                                <Setter.Value>
+                                                                                    <Rectangle Fill="#DC3545" Width="20" Height="20">
+                                                                                        <Rectangle.Resources>
+                                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                        </Rectangle.Resources>
+                                                                                        <Rectangle.OpacityMask>
+                                                                                            <VisualBrush Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
+                                                                                        </Rectangle.OpacityMask>
+                                                                                    </Rectangle>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
 
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ContentControl.Style>
-                                            </ContentControl>
-                                            <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </ContentControl.Style>
+                                                        </ContentControl>
+                                                        <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                Content="{Binding Path=DisplayColumnValue7, Converter={StaticResource objPositiveValueConvertor}}"/>
 
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn3}" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn3}" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                Content="{Binding DisplayColumnValue3}"/>
-                                            <ContentControl>
-                                                <ContentControl.Style>
+                                                        <ContentControl>
+                                                            <ContentControl.Style>
 
-                                                    <Style TargetType="{x:Type ContentControl}">
-                                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                        <Style.Triggers>
-
-
+                                                                <Style TargetType="{x:Type ContentControl}">
+                                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                                    <Style.Triggers>
 
 
 
-                                                            <DataTrigger Binding="{Binding Path=DisplayColumnValue8, Converter={StaticResource objNegationConvertor}}" Value="true" >
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#28A745" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_up_arrow}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Path=DisplayColumnValue8, Converter={StaticResource objNegationConvertor}}" Value="false" >
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#DC3545" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
 
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ContentControl.Style>
-                                            </ContentControl>
-                                            <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+
+                                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue8, Converter={StaticResource objNegationConvertor}}" Value="true" >
+                                                                            <Setter Property="Content" >
+                                                                                <Setter.Value>
+                                                                                    <Rectangle Fill="#28A745" Width="20" Height="20">
+                                                                                        <Rectangle.Resources>
+                                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                        </Rectangle.Resources>
+                                                                                        <Rectangle.OpacityMask>
+                                                                                            <VisualBrush Visual="{StaticResource appbar_up_arrow}" Stretch="Fill" />
+                                                                                        </Rectangle.OpacityMask>
+                                                                                    </Rectangle>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue8, Converter={StaticResource objNegationConvertor}}" Value="false" >
+                                                                            <Setter Property="Content" >
+                                                                                <Setter.Value>
+                                                                                    <Rectangle Fill="#DC3545" Width="20" Height="20">
+                                                                                        <Rectangle.Resources>
+                                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                        </Rectangle.Resources>
+                                                                                        <Rectangle.OpacityMask>
+                                                                                            <VisualBrush Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
+                                                                                        </Rectangle.OpacityMask>
+                                                                                    </Rectangle>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </ContentControl.Style>
+                                                        </ContentControl>
+                                                        <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                Content="{Binding Path=DisplayColumnValue8, Converter={StaticResource objPositiveValueConvertor}}"/>
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn4}" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn4}" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                Content="{Binding DisplayColumnValue3}"/>
-                                            <ContentControl>
-                                                <ContentControl.Style>
+                                                        <ContentControl>
+                                                            <ContentControl.Style>
 
-                                                    <Style TargetType="{x:Type ContentControl}">
-                                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                        <Style.Triggers>
-
-
+                                                                <Style TargetType="{x:Type ContentControl}">
+                                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                                    <Style.Triggers>
 
 
 
-                                                            <DataTrigger Binding="{Binding Path=DisplayColumnValue9, Converter={StaticResource objNegationConvertor}}" Value="true" >
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#28A745" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_up_arrow}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Path=DisplayColumnValue9, Converter={StaticResource objNegationConvertor}}" Value="false" >
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#DC3545" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
 
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ContentControl.Style>
-                                            </ContentControl>
-                                            <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+
+                                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue9, Converter={StaticResource objNegationConvertor}}" Value="true" >
+                                                                            <Setter Property="Content" >
+                                                                                <Setter.Value>
+                                                                                    <Rectangle Fill="#28A745" Width="20" Height="20">
+                                                                                        <Rectangle.Resources>
+                                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                        </Rectangle.Resources>
+                                                                                        <Rectangle.OpacityMask>
+                                                                                            <VisualBrush Visual="{StaticResource appbar_up_arrow}" Stretch="Fill" />
+                                                                                        </Rectangle.OpacityMask>
+                                                                                    </Rectangle>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue9, Converter={StaticResource objNegationConvertor}}" Value="false" >
+                                                                            <Setter Property="Content" >
+                                                                                <Setter.Value>
+                                                                                    <Rectangle Fill="#DC3545" Width="20" Height="20">
+                                                                                        <Rectangle.Resources>
+                                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                        </Rectangle.Resources>
+                                                                                        <Rectangle.OpacityMask>
+                                                                                            <VisualBrush Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
+                                                                                        </Rectangle.OpacityMask>
+                                                                                    </Rectangle>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </ContentControl.Style>
+                                                        </ContentControl>
+                                                        <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                Content="{Binding Path=DisplayColumnValue9, Converter={StaticResource objPositiveValueConvertor}}"/>
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn5}" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource LangKeyGrowthColumn5}" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                Content="{Binding DisplayColumnValue3}"/>
-                                            <ContentControl>
-                                                <ContentControl.Style>
+                                                        <ContentControl>
+                                                            <ContentControl.Style>
 
-                                                    <Style TargetType="{x:Type ContentControl}">
-                                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                        <Style.Triggers>
-
-
+                                                                <Style TargetType="{x:Type ContentControl}">
+                                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                                    <Style.Triggers>
 
 
 
-                                                            <DataTrigger Binding="{Binding Path=DisplayColumnValue10, Converter={StaticResource objNegationConvertor}}" Value="true" >
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#28A745" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_up_arrow}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Path=DisplayColumnValue10, Converter={StaticResource objNegationConvertor}}" Value="false" >
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#DC3545" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
 
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ContentControl.Style>
-                                            </ContentControl>
-                                            <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
+
+                                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue10, Converter={StaticResource objNegationConvertor}}" Value="true" >
+                                                                            <Setter Property="Content" >
+                                                                                <Setter.Value>
+                                                                                    <Rectangle Fill="#28A745" Width="20" Height="20">
+                                                                                        <Rectangle.Resources>
+                                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                        </Rectangle.Resources>
+                                                                                        <Rectangle.OpacityMask>
+                                                                                            <VisualBrush Visual="{StaticResource appbar_up_arrow}" Stretch="Fill" />
+                                                                                        </Rectangle.OpacityMask>
+                                                                                    </Rectangle>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Path=DisplayColumnValue10, Converter={StaticResource objNegationConvertor}}" Value="false" >
+                                                                            <Setter Property="Content" >
+                                                                                <Setter.Value>
+                                                                                    <Rectangle Fill="#DC3545" Width="20" Height="20">
+                                                                                        <Rectangle.Resources>
+                                                                                            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+                                                                                        </Rectangle.Resources>
+                                                                                        <Rectangle.OpacityMask>
+                                                                                            <VisualBrush Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
+                                                                                        </Rectangle.OpacityMask>
+                                                                                    </Rectangle>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </ContentControl.Style>
+                                                        </ContentControl>
+                                                        <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
                Content="{Binding Path=DisplayColumnValue10, Converter={StaticResource objPositiveValueConvertor}}"/>
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
 
-                    </GridView>
-
-
-
-
-                </ListView.View>
+                                </GridView>
 
 
 
-            </ListView>
-            <!--Help section-->
-            <Controls:FlyoutsControl>
-                <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
+
+                            </ListView.View>
+
+
+
+                        </ListView>
+                        <!--Help section-->
+                        <Controls:FlyoutsControl>
+                            <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
                                  Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
-                    <local:HelpControl ModuleDescription="Text for account"
+                                <local:HelpControl ModuleDescription="Text for account"
                                                  VideoTutorial="{Binding VideoTutorialLink}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
                                                  ContactSupportLink="{Binding ContactSupportLink}" />
-                </Controls:Flyout>
-            </Controls:FlyoutsControl>
-        </Grid>
-
+                            </Controls:Flyout>
+                        </Controls:FlyoutsControl>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </UserControl>

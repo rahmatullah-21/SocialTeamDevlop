@@ -773,15 +773,22 @@ namespace DominatorUIUtility.CustomControl
         }
         private void HandleGrowthTypeUnCheck(object sender, RoutedEventArgs e)
         {
-            CheckBox cb = sender as CheckBox;
-            List<string> chartProperties = DominatorAccountViewModel.GrowthChartProperty.Split(',').ToList();
+            try
+            {
+                CheckBox cb = sender as CheckBox;
+                List<string> chartProperties = DominatorAccountViewModel.GrowthChartProperty.Split(',').ToList();
 
-            var index = chartProperties.IndexOf(cb.Content.ToString());
-            chartProperties.RemoveAt(index);
+                var index = chartProperties.IndexOf(cb.Content.ToString());
+                chartProperties.RemoveAt(index);
 
-            DominatorAccountViewModel.GrowthChartProperty = string.Join(",", chartProperties.ToArray());
-            if (DominatorAccountViewModel.SeriesCollection != null)
-                UpdateChart(1);
+                DominatorAccountViewModel.GrowthChartProperty = string.Join(",", chartProperties.ToArray());
+                if (DominatorAccountViewModel.SeriesCollection != null)
+                    UpdateChart(1);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
         private void CmbboxGrowthPeriod_OnDropDownClosed(object sender, EventArgs e)
         {
@@ -865,7 +872,65 @@ namespace DominatorUIUtility.CustomControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void cmbGrowthChartPeriod_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                GetGrowthForAccount();
+                UpdateChart(1);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void cmbGrowthAcount_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                ComboBox cb = sender as ComboBox;
+                var currentItem = cb.DataContext as DominatorAccountViewModel;
+                DominatorAccountViewModel.GrowthChartAccountNetwork = (cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.AccountNetwork;
+                DominatorAccountViewModel.GrowthChartProperty = string.Join(",", (cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.GrowthProperties.Select(x => x.PropertyName));
+                DominatorAccountViewModel.GrowthProperties = (cmbGrowthAcount.SelectedItem as DominatorAccountModel).AccountBaseModel.GrowthProperties;
+                //(currentItem.AccountCollectionView.CurrentItem as DominatorAccountModel).AccountBaseModel.AccountNetwork;
+                GetGrowthForAccount();
+                UpdateChart(1);
 
 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void cmbGrowthChartType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                UpdateChart(0);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void cmbGrowthPeriod_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var selectedGrowthPeriod = (GrowthPeriod)cmbGrowthPeriod.SelectedIndex;
+
+                _accountGrowthInstance.GetRespectiveAccounts(socialNetworks, selectedGrowthPeriod);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }
