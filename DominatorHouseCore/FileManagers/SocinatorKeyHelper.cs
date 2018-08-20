@@ -25,13 +25,13 @@ namespace DominatorHouseCore.FileManagers
             }
         }
 
-        public static LicenseManager GetKey()
+        public static FatalErrorHandler GetKey()
         {
             try
             {
                 using (var stream = File.OpenRead(ConstantVariable.GetConfigurationKey()))
                 {
-                    return Serializer.Deserialize<LicenseManager>(stream);
+                    return Serializer.Deserialize<FatalErrorHandler>(stream);
                 }
             }
             catch (Exception ex)

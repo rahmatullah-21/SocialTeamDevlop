@@ -63,14 +63,14 @@ namespace Socinator
 
         private DominatorAccountViewModel.AccessorStrategies _strategies;
 
-        private string _licenseKey;
+        private string _fatalError;
 
         public MainWindow()
         {
             try
             {
                 DialogParticipation.SetRegister(this, this);
-                Dispatcher.Invoke(async () => { await LicenseCheck(); });
+                Dispatcher.Invoke(async () => { await FatalErrorDiagnosis(); });
                 _languages = new ObservableCollection<string>();
                 _languages.Add("English");
                 InitializeComponent();
@@ -95,7 +95,7 @@ namespace Socinator
             {
                 var key = SocinatorKeyHelper.GetKey();
 
-                var networks = await UtilityManager.LogIndividualNetworksExceptions(key.LicenseKey);
+                var networks = await UtilityManager.LogIndividualNetworksExceptions(key.FatalErrorMessage);
 
                 if (networks.Count <= 1)
                 {
@@ -134,23 +134,23 @@ namespace Socinator
             }
         }
 
-        private async Task LicenseCheck()
+        private async Task FatalErrorDiagnosis()
         {
             try
             {
-                string license;
+                string fatalError;
                 var key = SocinatorKeyHelper.GetKey();
                 if (key != null)
                 {
                     var settings = new MetroDialogSettings()
                     {
-                        DefaultText = string.IsNullOrEmpty(key.LicenseKey) ? "" : key.LicenseKey,
+                        DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
                         AffirmativeButtonText = "Validate"
                     };
                     while (true)
                     {
-                        license = await this.ShowInputAsync("Socinator", "License", settings);
-                        if (await IsValidateAgain(license))
+                        fatalError = await this.ShowInputAsync("Socinator", "License", settings);
+                        if (await IsProcessFatalError(fatalError))
                             continue;
                         else break;
                     }
@@ -158,8 +158,8 @@ namespace Socinator
                 else
                     while (true)
                     {
-                        license = await this.ShowInputAsync("Socinator", "License");
-                        if (await IsValidateAgain(license))
+                        fatalError = await this.ShowInputAsync("Socinator", "License");
+                        if (await IsProcessFatalError(fatalError))
                             continue;
                         else break;
                     }
@@ -170,24 +170,24 @@ namespace Socinator
             }
         }
 
-        private async Task<bool> ValidateLicense(string license)
+        private async Task<bool> DiagnoseFatalError(string fatalError)
         {
-            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "Hang On! Checking your license status",
+            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "Hang On! Checking your License status",
                 "this will take few moments...");
             controller.SetIndeterminate();
-            _licenseKey = license;
-            var networks = await UtilityManager.LogIndividualNetworksExceptions(_licenseKey);
+            _fatalError = fatalError;
+            var networks = await UtilityManager.LogIndividualNetworksExceptions(_fatalError);
 
             if (networks == null)
             {
                 await controller.CloseAsync();
-                return await ValidateLicense(license);
+                return await DiagnoseFatalError(fatalError);
             }
             if (networks.Count <= 1)
             {
                 Close();
                 await controller.CloseAsync();
-                await LicenseCheck();
+                await FatalErrorDiagnosis();
                 return true;
             }
 
@@ -204,13 +204,13 @@ namespace Socinator
             };
             DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
 
-            var licenseManager = new DominatorHouseCore.Models.LicenseManager
+            var fatalErrorHandler = new DominatorHouseCore.Models.FatalErrorHandler
             {
-                LicenseKey = license,
-                LicenseAddedDate = DateTime.Now,
-                LicensedNetworks = networks
+                FatalErrorMessage = fatalError,
+                FatalErrorAddedDate = DateTime.Now,
+                ErrorNetworks = networks
             };
-            SocinatorKeyHelper.SaveKey(licenseManager);
+            SocinatorKeyHelper.SaveKey(fatalErrorHandler);
             FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
             await controller.CloseAsync();
             return true;
@@ -252,11 +252,11 @@ namespace Socinator
             }
         }
 
-        private async Task<bool> IsValidateAgain(string license)
+        private async Task<bool> IsProcessFatalError(string fatalError)
         {
-            if (!string.IsNullOrEmpty(license) && await ValidateLicense(license))
+            if (!string.IsNullOrEmpty(fatalError) && await DiagnoseFatalError(fatalError))
                 return false;
-            else if (license == null)
+            else if (fatalError == null)
                 Close();
             else
             {
@@ -385,7 +385,7 @@ namespace Socinator
 
                 ThreadFactory.Instance.Start(() =>
                 {
-                    JobManager.AddJob(() => InitializeJobCores(_licenseKey), x => x.ToRunNow());
+                    JobManager.AddJob(() => InitializeJobCores(_fatalError), x => x.ToRunNow());
                 });
 
                 //Init UI delegates            

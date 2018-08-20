@@ -553,7 +553,7 @@
     <Compile Include="Models\JobActivityManager.cs" />
     <Compile Include="Models\JobConfiguration.cs" />
     <Compile Include="Models\JsonElements.cs" />
-    <Compile Include="Models\LicenseManager.cs" />
+    <Compile Include="Models\FatalErrorHandler.cs" />
     <Compile Include="Models\LiveChatModel.cs" />
     <Compile Include="Models\ManageCommentModel.cs" />
     <Compile Include="Models\ManageDestinationModel.cs" />

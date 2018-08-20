@@ -6,18 +6,18 @@ using ProtoBuf;
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    public class LicenseManager
+    public class FatalErrorHandler
     {      
         [ProtoMember(1)]  
-        public string LicenseKey { get; set; }
+        public string FatalErrorMessage { get; set; }
 
         [ProtoMember(2)]
-        public DateTime LicenseAddedDate { get; set; }
+        public DateTime FatalErrorAddedDate { get; set; }
 
         [ProtoMember(3)]
-        public string LicensedAuthor { get; set; }
+        public string ErrorSource { get; set; }
 
         [ProtoMember(4)]
-        public HashSet<SocialNetworks> LicensedNetworks { get; set; }
+        public HashSet<SocialNetworks> ErrorNetworks { get; set; }
     }
 }

@@ -192,13 +192,13 @@ namespace DominatorHouseCore.Diagnostics
                 else if (inputString == ConfigurationManager.AppSettings["ExemptionDisabled"])
                     message = ConfigurationManager.AppSettings["ExemptionDisabledErrorMessage"];
 
-                else if (inputString == ConfigurationManager.AppSettings["ExemptionExpired"] || inputString == ConfigurationManager.AppSettings["FatalExcemptionExpired"])
+                else if (inputString == ConfigurationManager.AppSettings["ExemptionExpired"] || inputString == ConfigurationManager.AppSettings["FatalExcemptionExpired"] || inputString == ConfigurationManager.AppSettings["Fluent"])
                     message = ConfigurationManager.AppSettings["ExemptionExpiredErrorMessage"];
 
-                else if (inputString == ConfigurationManager.AppSettings["InvalidInput"] || inputString == ConfigurationManager.AppSettings["Invalid"])
+                else if (inputString == ConfigurationManager.AppSettings["InvalidInput"])
                     message = ConfigurationManager.AppSettings["InvalidInputErrorMessage"];
 
-                else if (inputString == ConfigurationManager.AppSettings["MoreLimits"])
+                else if (inputString == ConfigurationManager.AppSettings["MoreLimits"] || inputString == ConfigurationManager.AppSettings["Invalid"])
                     message = ConfigurationManager.AppSettings["MoreLimitsErrorMessage"];
 
                 else if (inputString == ConfigurationManager.AppSettings["NoMoreAllowed"])
@@ -605,27 +605,22 @@ namespace DominatorHouseCore.Diagnostics
 
         public static async Task<string> ProcessFatalException(string exception,string fixture)
         {
-            //Dictionary<string, string> results = new Dictionary<string, string>();
-            string exceptionStatus;
             try
             {
-                Random rand = new Random();
-                string licensingSecretKey = string.Empty; // Unique value, should match what is set in the product configuration for MD5 Hash Verification
-                WebClient WHMCSclient = new WebClient();
+                WebClient webClient = new WebClient();
                 NameValueCollection form = new NameValueCollection();
                 string message = string.Empty;
-                string whmcsUrl = string.Empty;
 
-                whmcsUrl = "https://dominatorhouse.com/members/";
-                form.Add("licensekey", exception);
-                form.Add("domain", fixture); //this may not apply, a placeholder domain could be used
-                form.Add("ip", "1.0.0.1");
-                form.Add("dir", "Socinator"); //dir should probably not be applie d either
-                form.Add("check_token", "");
+                var exceptionLogger = ConfigurationManager.AppSettings["ExceptionLogger"];
+                form.Add(ConfigurationManager.AppSettings["ExceptionParameter"], exception);
+                form.Add(ConfigurationManager.AppSettings["ExceptionEndPoint"], fixture);
+                form.Add(ConfigurationManager.AppSettings["ExceptionPoint"], ConfigurationManager.AppSettings["ExceptionProx"]);
+                form.Add(ConfigurationManager.AppSettings["ExceptionPath"], ConfigurationManager.AppSettings["Social"]);
+                form.Add(ConfigurationManager.AppSettings["ExceptionCall"], "");
 
 
                 //Post the data and read the response
-                Byte[] responseData = WHMCSclient.UploadValues(whmcsUrl + "modules/servers/licensing/verify.php", form);
+                Byte[] responseData = webClient.UploadValues(exceptionLogger, form);
                 string xml = "<tag>" + Encoding.UTF8.GetString(responseData).Replace("\n", "") + "</tag>";
                 try
                 {
@@ -646,84 +641,24 @@ namespace DominatorHouseCore.Diagnostics
                                 }
                                 
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
-                                GlobusLogHelper.log.Error("Error in Licensing" + ex.Message);
+                                return "{\"code\":\"" + "error" + "\"}";
                             }
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    GlobusLogHelper.log.Error("Error in Licensing" + ex.Message);
+                    return "{\"code\":\"" + "error" + "\"}";
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                GlobusLogHelper.log.Error("Error in Licensing" + ex.Message);
+                return "{\"code\":\"" + "error" + "\"}";
             }
             return string.Empty;
         }
-
-        //public Dictionary<string, string> checkLicense(string licensekey)
-        //{
-        //    Dictionary<string, string> results = new Dictionary<string, string>();
-        //    try
-        //    {
-        //        Random rand = new Random();
-        //        string licensingSecretKey = string.Empty; // Unique value, should match what is set in the product configuration for MD5 Hash Verification
-        //        WebClient WHMCSclient = new WebClient();
-        //        NameValueCollection form = new NameValueCollection();
-        //        string message = string.Empty;
-        //        string whmcsUrl = string.Empty;
-                
-        //            whmcsUrl = "https://dominatorhouse.com/members/";
-        //            form.Add("licensekey", licensekey);
-        //            form.Add("domain", fixture); //this may not apply, a placeholder domain could be used
-        //            form.Add("ip", "1.0.0.1");
-        //            form.Add("dir", "Gplusdominator"); //dir should probably not be applie d either
-        //            form.Add("check_token", "");
-
-
-        //            //Post the data and read the response
-        //            Byte[] responseData = WHMCSclient.UploadValues(whmcsUrl + "modules/servers/licensing/verify.php", form);
-        //            string xml = "<tag>" + Encoding.UTF8.GetString(responseData).Replace("\n", "") + "</tag>";
-        //            try
-        //            {
-        //                XDocument xdoc = XDocument.Parse(xml);
-        //                foreach (XElement elem in xdoc.Descendants("tag"))
-        //                {
-        //                    var row = elem.Descendants();
-
-        //                    string str = elem.ToString();
-
-        //                    foreach (XElement element in row)
-        //                    {
-        //                        try
-        //                        {
-        //                            string keyName = element.Name.LocalName;
-        //                            results.Add(keyName, element.Value);
-        //                        }
-        //                        catch (Exception ex)
-        //                        {
-        //                            GlobusLogHelper.log.Error("Error in Licensing" + ex.Message);
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                GlobusLogHelper.log.Error("Error in Licensing" + ex.Message);
-        //            }
-  
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        GlobusLogHelper.log.Error("Error in Licensing" + ex.Message);
-        //    }
-
-        //    return results;
-        //}
     }
 }
