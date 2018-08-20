@@ -59,8 +59,27 @@ namespace EmbeddedBrowser
 
 
         public string TargetUrl { get; set; } = string.Empty;
-        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl)
-            : this()
+        //public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl)
+        //    : this()
+        //{
+
+        //    DominatorAccountModel = dominatorAccountModel;
+        //    TargetUrl = targetUrl;
+        //    InitializeComponent();
+
+        //    Browser.RequestContext = new RequestContext(new RequestContextSettings
+        //    {
+        //        CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
+        //    });
+
+        //    Browser.RequestHandler = new RequestHandlerCustom(this);
+        //    var url = GetNetworksHomeUrl();
+        //    Browser.Address = url;
+        //    Browser.IsBrowserInitializedChanged += LoadSettings;
+
+        //}
+        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl, bool CustomUse)
+             : this()
         {
 
             DominatorAccountModel = dominatorAccountModel;
@@ -73,7 +92,15 @@ namespace EmbeddedBrowser
             });
 
             Browser.RequestHandler = new RequestHandlerCustom(this);
-            var url = GetNetworksHomeUrl();
+
+            var url = string.Empty;
+
+            if (CustomUse)
+                url = targetUrl;
+
+            else
+                url = GetNetworksHomeUrl();
+
             Browser.Address = url;
             Browser.IsBrowserInitializedChanged += LoadSettings;
 

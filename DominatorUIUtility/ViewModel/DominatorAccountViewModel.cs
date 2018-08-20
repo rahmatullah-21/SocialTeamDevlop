@@ -31,8 +31,10 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
+using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
+using LiveCharts;
 using MahApps.Metro.Controls.Dialogs;
 using ProtoBuf;
 
@@ -188,7 +190,78 @@ namespace DominatorUIUtility.ViewModel
         }
 
 
+        public string[] Labels { get; set; }
+        public Func<int, string> YFormatter { get; set; }
 
+        public SeriesCollection SeriesCollection
+        {
+            get
+            {
+                return _seriesCollection;
+            }
+            set
+            {
+                if(_seriesCollection == value)
+                    return;
+                SetProperty(ref _seriesCollection,value);
+            }
+        }
+
+        public string GrowthChartAccountNumber
+        {
+            get
+            {
+                return _growthChartAccountNumber;
+            }
+            set
+            {
+                if (_growthChartAccountNumber == value)
+                    return;
+                SetProperty(ref _growthChartAccountNumber, value);
+            }
+        }
+
+
+        public SocialNetworks GrowthChartAccountNetwork
+        {
+            get
+            {
+                return _growthChartAccountNetwork;
+            }
+            set
+            {
+                if(_growthChartAccountNetwork == value)
+                    return;
+                SetProperty(ref _growthChartAccountNetwork, value);
+            }
+        }
+
+        public string GrowthChartPeriod { get; set; }
+        public string GrowthChartProperty { get; set; }
+        public string GrowthChartType { get; set; }
+
+        public List<GrowthProperty> GrowthProperties
+        {
+            get
+            {
+                return _growthProperties;
+            }
+            set
+            {
+                if (_growthProperties == value)
+                    return;
+                SetProperty(ref _growthProperties, value);
+            }
+        }
+
+
+        public List<string> GrowthChartProperties { get; set; }
+        public List<string> GrowthChartPeriods { get; set; }
+        public List<string> GrowthChartTypes { get; set; }
+
+        public int? YMaxValue { get; set; }
+
+        public List<DailyStatisticsViewModel> GrowthList { get; set; }
 
         #endregion
 
@@ -1767,6 +1840,10 @@ namespace DominatorUIUtility.ViewModel
         ImmutableQueue<Action> _checkPendingList = ImmutableQueue<Action>.Empty;
 
         bool _allSelectedAccountsQueued;
+        private List<GrowthProperty> _growthProperties;
+        private string _growthChartAccountNumber;
+        private SocialNetworks _growthChartAccountNetwork;
+        private SeriesCollection _seriesCollection;
 
         public List<string> _updateAccountList { get; set; } = new List<string>();
 

@@ -34,15 +34,15 @@
                     <Image Source="{Binding Messages.MediaPath}"  Height="Auto" MaxHeight="60" Margin="5" VerticalAlignment="Center">
                         <Image.ContextMenu>
                             <ContextMenu>
-                                <StackPanel Orientation="Horizontal" MouseLeftButtonDown="DeleteMedia_Click">
-                                    <Rectangle Width="15" Height="18" Fill="Black">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill"/>
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <TextBlock Foreground="Black"  Text="{DynamicResource LangKeyDelete}" Margin="5,0"/>
-                                </StackPanel>
-
+                                <MenuItem Header="{DynamicResource LangKeyDelete}" Click="DeleteMedia_Click">
+                                    <MenuItem.Icon>
+                                        <Rectangle  Width="15" Height="18" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </ContextMenu>
                         </Image.ContextMenu>
                     </Image>

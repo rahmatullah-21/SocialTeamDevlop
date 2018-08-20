@@ -458,11 +458,9 @@ namespace DominatorHouseCore.Process
                 //DominatorAccountModel.NotifyCancelled();
                 JobCancellationTokenSource.Cancel();
 
-                Task.Factory.StartNew(() =>
-                {
-                    GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
-                });
+                GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                    DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+
                 RunningJobProcesses.Remove(Id);
                 //JobCancellationTokenSource = null;
             }
@@ -560,7 +558,11 @@ namespace DominatorHouseCore.Process
         public void DelayBeforeNextActivity()
         {
             if (IsStopped()) return;
-
+            if (NoOfActionPerformedCurrentJob >= MaxNoOfActionPerJob || NoOfActionPerformedCurrentWeek >= MaxNoOfActionPerWeek ||
+                NoOfActionPerformedCurrentDay >= MaxNoOfActionPerDay || NoOfActionPerformedCurrentHour >= MaxNoOfActionPerHour)
+            {
+                return;
+            }
             var seconds = JobConfiguration.DelayBetweenActivity.GetRandom();
 
             GlobusLogHelper.log.Info(Log.DelayBetweenActivity, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, seconds);

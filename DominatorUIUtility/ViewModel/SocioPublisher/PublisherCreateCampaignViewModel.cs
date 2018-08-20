@@ -324,12 +324,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             if (postData.IsMultipleImagePost)
                             {
                                 // check whether user need to use File name as post description
-                                if (!directpostViewModel.PostDetailsModel.IsUseFileNameAsDescription)
+                                if (!post.IsUseFileNameAsDescription)
                                 {
-                                    postData.PostDescription = string.Empty;
+                                   // postData.PostDescription = string.Empty;
+                                    postData.PostDescription ="image "+ (PublisherCreateCampaignModel.PostCollection.IndexOf(post)+1);
                                 }
                                 // check whether user need to use unique post
-                                if (directpostViewModel.PostDetailsModel.IsUniquePost)
+                                if (post.IsUniquePost)
                                 {
                                     if (mediaUrl.Contains(postData.MediaList[0]))
                                         continue;
@@ -477,7 +478,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         PostDetailsWithFilters = JsonConvert.SerializeObject(PublisherCreateCampaignModel.ScrapePostModel),
                         MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
                         SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
-                        NotifyCount = generalSettingsModel.TriggerNotificationCount
+                        NotifyCount = generalSettingsModel.TriggerNotificationCount,
+                        ScrapeCount = PublisherCreateCampaignModel.ScrapePostModel.ScrapeCount,
+                        DelayForNext = PublisherCreateCampaignModel.ScrapePostModel.StartScrapeOnXminute
                     };
                     currentCampaignsFetchDetails.Add(scrapeFetchModel);
                 }
@@ -498,7 +501,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         PostDetailsWithFilters = JsonConvert.SerializeObject(PublisherCreateCampaignModel.SharePostModel),
                         MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
                         SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
-                        NotifyCount = generalSettingsModel.TriggerNotificationCount
+                        NotifyCount = generalSettingsModel.TriggerNotificationCount,
+                        ScrapeCount = PublisherCreateCampaignModel.SharePostModel.ScrapeCount,
+                        DelayForNext = PublisherCreateCampaignModel.SharePostModel.StartScrapeOnXminute
                     };
                     currentCampaignsFetchDetails.Add(shareFetchModel);
                 }

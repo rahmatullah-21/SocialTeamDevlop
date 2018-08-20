@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
@@ -30,8 +31,6 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public async Task RssFeedFetchMethod(string feedUrl, string feedTemplate, PostDetailsModel postDetailsModel, string campaignId, CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
         {
-
-          
             try
             {
                 // Get all Campaign Details
@@ -40,11 +39,27 @@ namespace DominatorHouseCore.Utility
                 // Get Rss Campaign Details
                 var postdetails = campaignDetails.Where(x => x.PostSource == PostSource.RssFeedPost).Select(x => x.ShareUrl).ToList();
 
-                // Requesting Rss feed urls
-                var httpHelper = new HttpHelper();
-                var htmlResponse = await httpHelper.GetRequestAsync(feedUrl, cancellationTokenSource.Token);
+                //// Requesting Rss feed urls
+                //var httpHelper = new HttpHelper();
+                //var htmlResponse = await httpHelper.GetRequestAsync(feedUrl, cancellationTokenSource.Token);
+
+                var client = new WebClient
+                {
+                    Headers =
+                    {
+                        ["User-Agent"] =
+                        "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+                    }
+                };
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+                var pageSource =await client.DownloadDataTaskAsync(feedUrl);
+
+                var htmlResponse = Encoding.UTF8.GetString(pageSource);
+
                 var htmlDoc = new HtmlDocument();
-                htmlDoc.LoadHtml(htmlResponse.Response);
+                htmlDoc.LoadHtml(htmlResponse);
                 var postItems = htmlDoc.DocumentNode.Descendants("item");
 
                 DateTime? expireDate = null;
@@ -120,7 +135,7 @@ namespace DominatorHouseCore.Utility
                     }
 
                     postlists.AddRange(duplicatedPostlist);
-                } 
+                }
                 #endregion
 
                 // Check whether cancellation token arised or not
@@ -141,10 +156,10 @@ namespace DominatorHouseCore.Utility
                 }
                 else
                 {
-                        // Inform the maximum post has reached via Toaster notification
-                        ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {campaignName} already have {maximumPostLimitToStore}+ posts in postlist!");
-                                       
-                } 
+                    // Inform the maximum post has reached via Toaster notification
+                    ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {campaignName} already have {maximumPostLimitToStore}+ posts in postlist!");
+
+                }
                 #endregion
             }
             catch (OperationCanceledException ex)

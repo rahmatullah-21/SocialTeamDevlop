@@ -10,6 +10,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
@@ -27,7 +28,7 @@ namespace DominatorHouseCore.Process
         /// <summary>
         /// Campaign Id which are running under RSS or Monitor Folder
         /// </summary>
-        public static SortedSet<string> RssMonitorFetcherId { get; set; } = new SortedSet<string>();
+        public static SortedSet<string> JobFetcherId { get; set; } = new SortedSet<string>();
 
         /// <summary>
         /// To Start fetching the post from Scrape Post, Share Post(only for Facebook), Rss and Monitor folder
@@ -165,13 +166,13 @@ namespace DominatorHouseCore.Process
                 getFetchDetails.ForEach(fetchModel =>
                 {
                     // Call stop fetching 
-                    StopFetchingPosts(campaignId, fetchModel.PostSource);                     
+                    StopFetchingPosts(campaignId, fetchModel.PostSource);
                 });
 
                 // Delete all fetcher
                 GenericFileManager.Delete<PublisherPostFetchModel>(x => x.CampaignId == campaignId, ConstantVariable
                     .GetPublisherPostFetchFile);
-                
+
             }
             catch (Exception ex)
             {
@@ -196,13 +197,13 @@ namespace DominatorHouseCore.Process
                     return;
 
                 // Gather all Rss and monitor folder fetcher Id
-                var relatedPostFectcher = RssMonitorFetcherId.Where(x => x.Contains(campaignId));
+                var relatedPostFectcher = JobFetcherId.Where(x => x.Contains(campaignId));
 
                 // Remove all post fetcher details
                 relatedPostFectcher.ForEach(JobManager.RemoveJob);
 
                 // Remove Post fetcher Id from Sorted set
-                RssMonitorFetcherId.RemoveWhere(x => x.Contains(campaignId));
+                JobFetcherId.RemoveWhere(x => x.Contains(campaignId));
 
                 // Get the cancellation of fetcher
                 var cancellationToken = FetchingCampaignsCancellationToken[fetcherCampaignId];
@@ -232,6 +233,11 @@ namespace DominatorHouseCore.Process
                 if (publisherPostFetchModel.PostSource == PostSource.NormalPost)
                     return;
 
+                //var generaldata = GenericFileManager.GetModuleDetails<GeneralModel>
+                //    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                //    .FirstOrDefault(x => x.CampaignId == publisherPostFetchModel.CampaignId) ?? new GeneralModel();
+
+
                 // Check whether campaign expired or not
                 if (publisherPostFetchModel.ExpireDate != null && publisherPostFetchModel.ExpireDate < DateTime.Now)
                 {
@@ -245,7 +251,7 @@ namespace DominatorHouseCore.Process
                 // Collect neccessary details for fetching and assign to dynamic type variable
                 switch (publisherPostFetchModel.PostSource)
                 {
-                    case PostSource.SharePost:                   
+                    case PostSource.SharePost:
                         postFetchDetails =
                             JsonConvert.DeserializeObject<SharePostModel>(publisherPostFetchModel.PostDetailsWithFilters);
                         break;
@@ -277,8 +283,12 @@ namespace DominatorHouseCore.Process
                     case PostSource.RssFeedPost:
                         // Get the proper name for monitor job process
                         var jobName = $"{publisherPostFetchModel.CampaignId}-{PostSource.RssFeedPost.ToString()}";
+
+                        var currentCampaignstatus = PublisherInitialize.GetInstance.GetSavedCampaigns().FirstOrDefault(x => x.CampaignId == publisherPostFetchModel.CampaignId);
+                        if (currentCampaignstatus?.Status != PublisherCampaignStatus.Active)
+                            return;
                         // Register to sorted set
-                        RssMonitorFetcherId.Add(jobName);
+                        JobFetcherId.Add(jobName);
                         // Add the Job for Rss feed 
                         JobManager.AddJob(() =>
                         {
@@ -291,7 +301,7 @@ namespace DominatorHouseCore.Process
                         var monitorJobName = $"{publisherPostFetchModel.CampaignId}-{PostSource.MonitorFolderPost.ToString()}";
 
                         // Register to sorted set
-                        RssMonitorFetcherId.Add(monitorJobName);
+                        JobFetcherId.Add(monitorJobName);
 
                         // Add the Job for Monitor Folder
                         JobManager.AddJob(() =>
@@ -324,11 +334,38 @@ namespace DominatorHouseCore.Process
                                         {
                                             // Call Share post from facebook
                                             if (networkWithAccount.Key == SocialNetworks.Facebook)
-                                                networkPostScraper.ScrapeFdPagePostUrl(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource);
+                                            {
+                                                var scrapeJobName = $"{publisherPostFetchModel.CampaignId}-{PostSource.SharePost.ToString()}";
+
+                                                // Register to sorted set
+                                                JobFetcherId.Add(scrapeJobName);
+
+                                                // Add the Job for scrape 
+                                                JobManager.AddJob(() =>
+                                                {
+                                                    networkPostScraper.ScrapeFdPagePostUrl(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource, publisherPostFetchModel.ScrapeCount);
+
+                                                }, s => s.WithName(scrapeJobName).ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
+                                            }
                                         }
                                         // Scarpe the posts from Facebook, Twitter, Pinterest
                                         else if (publisherPostFetchModel.PostSource == PostSource.ScrapedPost)
-                                            networkPostScraper.ScrapePosts(networkWithAccount.Value, publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource);
+                                        {
+                                            // Get the proper name for scrape job process
+                                            var scrapeJobName = $"{publisherPostFetchModel.CampaignId}-{PostSource.ScrapedPost.ToString()}";
+
+                                            // Register to sorted set
+                                            JobFetcherId.Add(scrapeJobName);
+
+                                            // Add the Job for scrape 
+                                            JobManager.AddJob(() =>
+                                            {
+                                                networkPostScraper.ScrapePosts(networkWithAccount.Value,
+                                                    publisherPostFetchModel.CampaignId, postFetchDetails,
+                                                    cancellationTokenSource, publisherPostFetchModel.ScrapeCount);
+                                            }, s => s.WithName(scrapeJobName).ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
+                                        }
+
                                     }
                                     catch (OperationCanceledException ex)
                                     {

@@ -78,7 +78,7 @@
                                                Margin="10,0" Grid.Column="1" TextTrimming="WordEllipsis" HorizontalAlignment="Right"/>
                                 </Grid>
                                 <TextBlock x:Name="LastMessege"  Text="{Binding LastMesseges}" Margin="0,5,0,0" TextTrimming="CharacterEllipsis"/>
-                                <Separator Margin="0,10,0,0"/>
+                                <Separator Margin="0,20,0,0"/>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
@@ -191,14 +191,14 @@
                         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 8 0" >
 
                             <!-- Emoji button -->
-                            <Button Background="Transparent" Command="{Binding EmojiCommand}">
-                                <Button.Content>
+                            <Button Background="Transparent" Command="{Binding EmojiCommand}" Content="😄" FontWeight="Bold" FontSize="30">
+                                <!--<Button.Content>
                                     <Rectangle Fill="Orange" HorizontalAlignment="Center" Height="30" Width="30">
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Visual="{StaticResource appbar_social_drupal}" Stretch="Fill"/>
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                </Button.Content>
+                                </Button.Content>-->
                             </Button>
 
                             <!-- Send button -->

@@ -62,7 +62,7 @@
 
                             <Border>
 
-                                <Image x:Name="PART_Image" Margin="1" Width="{TemplateBinding MediaWidth}" Height="{TemplateBinding MediaHeight}"  Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
+                                <Image x:Name="PART_Image" Margin="1" Width="50" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center"  Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
                                     <Image.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem Header="{DynamicResource LangKeyDelete}" Name="PART_MenuItemImageDelete" Visibility="{TemplateBinding DeleteMenuVisibility}">

@@ -299,7 +299,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var currentPost = (PublishedPostDetailsModel)sender;
             var dominatorAccountModel = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social).DominatorAccountViewModel
                   .LstDominatorAccountModel.FirstOrDefault(x => x.AccountId == currentPost.AccountId);
-            BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link);
+            BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link,false);
             browserWindow.Show();
         }
 

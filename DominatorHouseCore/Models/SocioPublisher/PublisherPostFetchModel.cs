@@ -65,5 +65,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public int NotifyCount { get; set; }
 
 
+        [ProtoMember(10)]
+        public int ScrapeCount { get; set; }
+
+     
+
     }
 }
