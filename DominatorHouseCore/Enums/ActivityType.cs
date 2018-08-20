@@ -296,5 +296,7 @@ namespace DominatorHouseCore.Enums
         DownvoteComment = 99,
         [Description("Youtube")]
         Dislike = 100,
+        [Description("Quora")]
+        AnswerOnQuestions=101
     }
 }
