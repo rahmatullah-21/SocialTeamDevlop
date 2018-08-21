@@ -3087,5 +3087,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFriendsSelect">Select Friends</system:String>
     <system:String x:Key="LangKeySelectFriendsAll">Select Friends(All)</system:String>
     <system:String x:Key="LangKeyInviter">Fb Inviter</system:String>
-
+    <system:String x:Key="LangKeyWatchVideoBetween">Watch Video Between</system:String>
+    <system:String x:Key="LangKeyPercentage">Percentage</system:String>
 </ResourceDictionary>
