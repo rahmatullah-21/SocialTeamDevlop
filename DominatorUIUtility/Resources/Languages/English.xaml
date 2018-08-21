@@ -3082,11 +3082,13 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySelectBoards">Select Boards</system:String>
 
     <system:String x:Key="LangKeyAnswerOnQuestion">Answer On Question</system:String>
-
+    <system:String x:Key="LangKeyManageAnswer">Manage Answer</system:String>
 
     <system:String x:Key="LangKeyFriendsSelect">Select Friends</system:String>
     <system:String x:Key="LangKeySelectFriendsAll">Select Friends(All)</system:String>
     <system:String x:Key="LangKeyInviter">Fb Inviter</system:String>
     <system:String x:Key="LangKeyWatchVideoBetween">Watch Video Between</system:String>
     <system:String x:Key="LangKeyPercentage">Percentage</system:String>
+    <system:String x:Key="LangKeyMigrationFromOldDominator">Migration From Old Dominator</system:String>
+    <system:String x:Key="LangKeyCampaignData">Campaign Data</system:String>
 </ResourceDictionary>
