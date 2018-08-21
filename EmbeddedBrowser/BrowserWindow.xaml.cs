@@ -385,19 +385,47 @@ namespace EmbeddedBrowser
 
             }
 
-            if ((html.Contains(DominatorAccountModel.UserName) || !html.Contains("Sign in now to see your channels")) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
+            if (!IsGoogleAccountLoginFailed())
             {
-                SaveCookie();
-            }
-            var result = GetLoggedInPageSource();
+                if ((html.Contains(DominatorAccountModel.UserName) || !html.Contains("Sign in now to see your channels")) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
+                {
+                    SaveCookie();
+                }
+                var result = GetLoggedInPageSource();
 
-            if (!string.IsNullOrEmpty(result) && result.Contains("Switch accounts"))
-            {
-                LoadPostPage(true);
+                if (!string.IsNullOrEmpty(result) && result.Contains("Switch accounts"))
+                {
+                    LoadPostPage(true);
+                } 
             }
         }
 
+        private bool IsGoogleAccountLoginFailed()
+        {
+            try
+            {
+                if (!_dominatorAccountModel.IsUserLoggedIn)
+                {
+                    string PageText = Browser.GetTextAsync().Result;
 
+                    if (PageText.Contains("Couldn't find your Google Account")
+                        || PageText.Contains("Enter a valid email or phone number")
+                        || PageText.Contains("Wrong password. Try again or click Forgot password to reset it")
+                        || PageText.Contains("Your password was changed"))
+                    {
+                        DominatorAccountModel.IsUserLoggedIn = false;
+                        DominatorAccountModel.AccountBaseModel.Status = AccountStatus.InvalidCredentials;
+
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
         private void LinkedInBrowserLogin(string html)
         {
             if (!string.IsNullOrEmpty(html) && html.Contains("LinkedIn: Log In or Sign Up") && html.Contains("Be great at what you do") && html.Contains("By clicking Join now, you agree to the LinkedIn"))

@@ -300,6 +300,12 @@
     <Compile Include="CustomControl\MessagesControl.xaml.cs">
       <DependentUpon>MessagesControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\Migration.xaml.cs">
+      <DependentUpon>Migration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\MigrationProgress.xaml.cs">
+      <DependentUpon>MigrationProgress.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\ModuleSettingsUserControl.cs" />
     <Compile Include="CustomControl\MultiMessage.xaml.cs">
       <DependentUpon>MultiMessage.xaml</DependentUpon>
@@ -683,6 +689,14 @@
     <Page Include="CustomControl\MessagesControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\Migration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\MigrationProgress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\MultiMessage.xaml">
       <Generator>MSBuild:Compile</Generator>
