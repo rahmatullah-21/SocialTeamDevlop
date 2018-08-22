@@ -1,3 +1,11 @@
+Version[1.0.0.11],[18th-August-18]
+New Features:-
+Quora:-
+	Answer Questions:- Answer questions on quora
+Twitter:-
+	Welcome Tweet:- Send welcome to tweet to new followers as mention.
+
+
 Version[1.0.0.10],[18th-August-18]
 New Features:-
 Added chart view for Account Growth (Beta)

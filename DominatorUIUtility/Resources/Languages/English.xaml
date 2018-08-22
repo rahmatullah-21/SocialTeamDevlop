@@ -3091,4 +3091,14 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPercentage">Percentage</system:String>
     <system:String x:Key="LangKeyMigrationFromOldDominator">Migration From Old Dominator</system:String>
     <system:String x:Key="LangKeyCampaignData">Campaign Data</system:String>
+
+    <system:String x:Key="LangKeyInviteProfileUrlOpt">For Custom Profile Url Only</system:String>
+    <system:String x:Key="LangKeyCustomPostUrl">Add Custom Post Url(S)</system:String>
+    <system:String x:Key="LangKeyWriteANote">Write a note to include in your invitation</system:String>
+    <system:String x:Key="LangKeyAddNote">Add A Note</system:String>
+    <system:String x:Key="LangKeyInviteWithNoteTooltip">Check to invite with a note!</system:String>
+    <system:String x:Key="LangKeySendInvitationInMessanger">Also send each invitation in messenger</system:String>
+    <system:String x:Key="LnagKeySendInMessageTooltip">Check to invite in messenger!</system:String>
+    <system:String x:Key="LangKeyInvitePagePostLikers">People Who Liked Your Own Page(s) Post</system:String>
+    <system:String x:Key="LangKeyTweetsLikedBySpecificUser">Tweets Liked By Specific User</system:String>
 </ResourceDictionary>
