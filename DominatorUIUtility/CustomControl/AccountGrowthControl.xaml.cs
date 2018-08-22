@@ -219,7 +219,9 @@ namespace DominatorUIUtility.CustomControl
               
             }
 
-
+            // DominatorAccountViewModel.Labels = GetChartLabels();
+            DominatorAccountViewModel.YFormatter = value => value.ToString();
+            chart.AxisX[0].Labels = GetChartLabels();
 
         }
         private void PlotChart()
@@ -251,7 +253,16 @@ namespace DominatorUIUtility.CustomControl
             {
 
                 string[] datesArray = DominatorAccountViewModel.GrowthList.Select(x => x.Date.ToString("MM/dd/yyyy")).ToArray();
+                chart.AxisX[0].Title = "Days";
+                return datesArray;
 
+            }
+
+            if (DominatorAccountViewModel.GrowthChartPeriod == "Past 3 Months" || DominatorAccountViewModel.GrowthChartPeriod == "Past 6 Months")
+            {
+
+                string[] datesArray = DominatorAccountViewModel.GrowthList.Select(x => x.Date.ToString("MMMM")).ToArray();
+                chart.AxisX[0].Title = "Months";
                 return datesArray;
 
             }
@@ -259,8 +270,26 @@ namespace DominatorUIUtility.CustomControl
             {
 
                 string[] datesArray = DominatorAccountViewModel.GrowthList.Select(x => x.Date.ToString("MM/dd/yyyy")).ToArray();
-
+                chart.AxisX[0].Title = "Days";
                 return datesArray;
+
+            }
+            if (DominatorAccountViewModel.GrowthChartPeriod == "All time")
+            {
+
+                if (DominatorAccountViewModel.GrowthList.LastOrDefault().Date <= DominatorAccountViewModel.GrowthList.FirstOrDefault().Date.AddDays(-30))
+                {
+                    string[] datesArray = DominatorAccountViewModel.GrowthList.Select(x => x.Date.ToString("MMMM")).ToArray();
+                    chart.AxisX[0].Title = "Months";
+                    return datesArray;
+
+                }
+                else
+                {
+                    string[] datesArray = DominatorAccountViewModel.GrowthList.Select(x => x.Date.ToString("MM/dd/yyyy")).ToArray();
+                    chart.AxisX[0].Title = "Days";
+                    return datesArray;
+                }
 
             }
 
