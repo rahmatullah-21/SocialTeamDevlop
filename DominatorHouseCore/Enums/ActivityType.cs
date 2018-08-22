@@ -16,7 +16,7 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus")]
         Unlike = 4,
 
-        [Description("Facebook,Twitter,Instagram,Gplus,Pinterest,Reddit,LinkedIn")]
+        [Description("Facebook,Twitter,Instagram,Gplus,Pinterest,Reddit,LinkedIn,Tumblr")]
         Comment = 5,
 
         [Description("Twitter,Instagram,Reddit")]
@@ -209,7 +209,7 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube")]
         Unsubscribe = 69,
 
-        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr")]
         BroadcastMessages = 70,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
