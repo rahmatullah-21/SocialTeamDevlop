@@ -24,8 +24,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         /// Contains QueryType For Interaction
         /// </summary>
         [Column(Order = 3)]
-        public string QueryType
-        { get; set; }
+        public string QueryType { get; set; }
 
         /// <summary>
         /// Contains QueryValue For Interaction
@@ -87,5 +86,12 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
 
         [Column(Order = 13)]
         public string CommentId { get; set; }
+
+        [Column(Order = 14)]
+        public string InteractedUserName { get; set; }
+
+        [Column(Order = 15)]
+        public string Status { get; set; }
+
     }
 }
