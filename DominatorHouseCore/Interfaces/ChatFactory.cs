@@ -6,6 +6,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using Microsoft.Office.Interop.Excel;
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -22,7 +23,8 @@ namespace DominatorHouseCore.Interfaces
             var oldData = GenericFileManager.GetModuleDetails<ChatDetails>(
                 FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
             bool isPresent = false;
-            oldData?.ForEach(chat =>
+            bool requireUpdate = false;
+            foreach (var chat in oldData)
             {
                 cancellation.ThrowIfCancellationRequested();
                 try
@@ -48,18 +50,20 @@ namespace DominatorHouseCore.Interfaces
                             chat.Type = chatDetails.Type;
                             chat.Time = chatDetails.Time;
                             chat.MessegesId = chatDetails.MessegesId;
+                            requireUpdate = true;
                         }
+                        break;
                     }
-                   
+
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
                 }
 
-            });
-            GenericFileManager.UpdateModuleDetails<ChatDetails>(oldData,
-                FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
+
+            }
+
             try
             {
                 if (!isPresent)
@@ -67,6 +71,11 @@ namespace DominatorHouseCore.Interfaces
                     liveChatModel.LstChat.Add(chatDetails);
                     GenericFileManager.AddModule<ChatDetails>(chatDetails,
                         FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
+                }
+                else if(requireUpdate)
+                {
+                    GenericFileManager.UpdateModuleDetails<ChatDetails>(oldData,
+                        FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
             }
             catch (Exception ex)
@@ -81,7 +90,8 @@ namespace DominatorHouseCore.Interfaces
             var oldData = GenericFileManager.GetModuleDetails<SenderDetails>(
                 FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
             bool isPresent = false;
-            oldData?.ForEach(friends =>
+            bool requireUpdate = false;
+            foreach (var friends in oldData)
             {
                 try
                 {
@@ -93,7 +103,7 @@ namespace DominatorHouseCore.Interfaces
                         {
                             #region Update UI
 
-                            var oldFriendDetail = liveChatModel.LstSender.IndexOf(friends);
+                            var oldFriendDetail = liveChatModel.LstSender.IndexOf(liveChatModel.LstSender.FirstOrDefault(x=>x.ThreadId==friends.ThreadId));
 
                             liveChatModel.LstSender[oldFriendDetail].SenderImage = friendDetail.SenderImage;
                             liveChatModel.LstSender[oldFriendDetail].SenderId = friendDetail.SenderId;
@@ -112,8 +122,9 @@ namespace DominatorHouseCore.Interfaces
                             friends.ThreadId = friendDetail.ThreadId;
                             friends.LastMessegedate = friendDetail.LastMessegedate;
                             friends.AccountId = friendDetail.AccountId;
-
+                            requireUpdate = true;
                         }
+                        break;
                     }
 
                 }
@@ -122,15 +133,18 @@ namespace DominatorHouseCore.Interfaces
                     ex.DebugLog();
                 }
 
-            });
-            GenericFileManager.UpdateModuleDetails<SenderDetails>(oldData,
-                FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
+            }
             try
             {
                 if (!isPresent)
                 {
                     liveChatModel.LstSender.Add(friendDetail);
                     GenericFileManager.AddModule<SenderDetails>(friendDetail,
+                        FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
+                }
+                else if(requireUpdate)
+                {
+                    GenericFileManager.UpdateModuleDetails<SenderDetails>(oldData,
                         FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
             }
