@@ -3089,16 +3089,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyInviter">Fb Inviter</system:String>
     <system:String x:Key="LangKeyWatchVideoBetween">Watch Video Between</system:String>
     <system:String x:Key="LangKeyPercentage">Percentage</system:String>
-
-
-    <system:String x:Key="LangKeyWelcomeTweet">Welcome Tweet</system:String>
-    <system:String x:Key="LangKeyWelcomeTweetFormat">{username} Tweet Text</system:String>
-    <system:String x:Key="LangKeyInviteForGroups">Invite for Groups</system:String>
-    <system:String x:Key="LangKeyInviteForPages">Invite for Pages</system:String>
-    <system:String x:Key="LangKeyMessageShouldHaveBeenSentBefore">Message Should Have Been received Before</system:String>
-
-
     <system:String x:Key="LangKeyMigrationFromOldDominator">Migration From Old Dominator</system:String>
     <system:String x:Key="LangKeyCampaignData">Campaign Data</system:String>
-
 </ResourceDictionary>

@@ -220,7 +220,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SaveExecute(object sender)
         {
-            
+
             #region Validations
 
             // Verify whether timer setted or not
@@ -316,7 +316,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                             if (postCount >= maxPostCount)
                                 break;
-                            
+
                             // Get deep clone of the post 
                             var postData = post.DeepClone();
 
@@ -326,8 +326,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                                 // check whether user need to use File name as post description
                                 if (!post.IsUseFileNameAsDescription)
                                 {
-                                   // postData.PostDescription = string.Empty;
-                                    postData.PostDescription ="image "+ (PublisherCreateCampaignModel.PostCollection.IndexOf(post)+1);
+                                    // postData.PostDescription = string.Empty;
+                                    postData.PostDescription = "image " + (PublisherCreateCampaignModel.PostCollection.IndexOf(post) + 1);
                                 }
                                 // check whether user need to use unique post
                                 if (post.IsUniquePost)
@@ -384,14 +384,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
                     #endregion
                 }
-               
+
 
                 #endregion
 
                 #region Fetch Post Details
 
                 PublisherPostFetcher.StopFetchingPostsByCampaignId(PublisherCreateCampaignModel.CampaignId);
-              
+
                 // Assign New objects to hold post fetcher
                 var currentCampaignsFetchDetails = new List<PublisherPostFetchModel>();
 
@@ -529,6 +529,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (PublisherCreateCampaignModel.JobConfigurations.IsCampaignHasEndDateChecked)
                     endTime = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate;
 
+
                 // Current Campaign Status Details for display in default pages
                 var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                 {
@@ -551,6 +552,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     TotalRandomDestination = PublisherCreateCampaignModel.JobConfigurations.RandomDestinationCount,
                     MinRandomDestinationPerAccount = PublisherCreateCampaignModel.JobConfigurations.PostBetween.EndValue,
                 };
+
+                PublisherCreateCampaignModel.PostCollection.ForEach(post =>
+                {
+                    if (post.PostQueuedStatus == PostQueuedStatus.Pending)
+                        publisherCampaignStatusModel.PendingCount = post.MediaViewer.MediaList.Count;
+                    else if (post.PostQueuedStatus == PostQueuedStatus.Draft)
+                        publisherCampaignStatusModel.DraftCount = post.MediaViewer.MediaList.Count;
+
+                });
 
                 // Get the object of Publisher Instance
                 var publishIntialize = PublisherInitialize.GetInstance;

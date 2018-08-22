@@ -48,11 +48,11 @@ namespace Socinator.Social.OtherConfiguration
                     Content = new Lazy<UserControl>(ThirdPartyServices.GetSingeltonThirdPartyServices)
                 }
                 ,
-                new TabItemTemplates
-                {
-                    Title = "LangKeyMigrationFromOldDominator".FromResourceDictionary(),
-                    Content=new Lazy<UserControl>(()=>new MigrationFromOldDominator())
-                },
+                //new TabItemTemplates
+                //{
+                //    Title = "LangKeyMigrationFromOldDominator".FromResourceDictionary(),
+                //    Content=new Lazy<UserControl>(()=>new MigrationFromOldDominator())
+                //},
                 new TabItemTemplates
                 {
                     Title=FindResource("LangKeyQuora").ToString(),

@@ -140,34 +140,34 @@ namespace DominatorHouseCore.Models
             }
             else if (accountNetwork == SocialNetworks.Gplus)
             {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Communities", PropertyValue = 0 });
+                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
+                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
+                GrowthProperties.Add(new GrowthProperty { PropertyName = "Communities", PropertyValue = 0 });
             }
             else if (accountNetwork == SocialNetworks.Instagram)
             {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Uploads", PropertyValue = 0 });
+                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
+                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
+                GrowthProperties.Add(new GrowthProperty { PropertyName = "Uploads", PropertyValue = 0 });
             }
             else if (accountNetwork == SocialNetworks.LinkedIn)
             {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Connections", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Groups", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Posts", PropertyValue = 0 });
+                GrowthProperties.Add(new GrowthProperty { PropertyName = "Connections", PropertyValue = 0 });
+                GrowthProperties.Add(new GrowthProperty { PropertyName = "Groups", PropertyValue = 0 });
+                GrowthProperties.Add(new GrowthProperty { PropertyName = "Posts", PropertyValue = 0 });
             }
             else if (accountNetwork == SocialNetworks.Tumblr)
             {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Posts", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Channels", PropertyValue = 0 });
+               GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
+               GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
+               GrowthProperties.Add(new GrowthProperty { PropertyName = "Posts", PropertyValue = 0 });
+               GrowthProperties.Add(new GrowthProperty { PropertyName = "Channels", PropertyValue = 0 });
             }
             else if (accountNetwork == SocialNetworks.Pinterest)
             {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Post", PropertyValue = 0 });
+                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
+                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
+                GrowthProperties.Add(new GrowthProperty { PropertyName = "Post", PropertyValue = 0 });
             }
             return GrowthProperties;
         }
