@@ -66,7 +66,8 @@ namespace DominatorUIUtility.CustomControl
 
         private void Migrating(object sender, DoWorkEventArgs e)
         {
-            
+            var functions = new DominatorMigration.GramDominator.Functions();
+            functions.GetListOfAccounts();
         }
     }
 }

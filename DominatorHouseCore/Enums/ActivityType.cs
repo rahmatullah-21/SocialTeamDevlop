@@ -297,6 +297,8 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube")]
         Dislike = 100,
         [Description("Quora")]
-        AnswerOnQuestions=101
+        AnswerOnQuestions = 101,
+        [Description("Twitter")]
+        WelcomeTweet = 102
     }
 }
