@@ -160,7 +160,7 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Attach button -->
-                        <Button  VerticalAlignment="Center" Background="Transparent" Command="{Binding AttachFileCommand}">
+                        <!--<Button  VerticalAlignment="Center" Background="Transparent" Command="{Binding AttachFileCommand}">
                             <Button.Content>
                                 <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="35" Width="15">
                                     <Rectangle.OpacityMask>
@@ -172,13 +172,13 @@
                                 <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                                     <Setter Property="Visibility" Value="Visible"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Quora }">
+                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Quora}">
                                             <Setter Property="Visibility" Value="Collapsed"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                        </Button>
+                        </Button>-->
 
                         <!-- Message box -->
                         <TextBox Grid.Column="1" x:Name="TxtMessege"
@@ -191,7 +191,7 @@
                         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 8 0" >
 
                             <!-- Emoji button -->
-                            <Button Background="Transparent" Command="{Binding EmojiCommand}" Content="😄" FontWeight="Bold" FontSize="30" Name="BtnEmoji"/>
+                            <!--<Button Background="Transparent" Command="{Binding EmojiCommand}" Content="😄" FontWeight="Bold" FontSize="30" Name="BtnEmoji"/>
                             <Popup IsOpen="{Binding IsPopupOpen}" Name="LstEmoji"  MaxHeight="300"   AllowsTransparency="True" 
                                    PopupAnimation="Fade"  Focusable="False" PlacementTarget="{Binding ElementName=BtnEmoji}" 
                                    Placement="Top">
@@ -216,7 +216,7 @@
 
 
                                 </Border>
-                            </Popup>
+                            </Popup>-->
                             <!-- Send button -->
                             <Button Padding="8"  Background="Transparent" x:Name="BtnSend" Command="{Binding SendMessageCommand}">
                                 <Button.Content>

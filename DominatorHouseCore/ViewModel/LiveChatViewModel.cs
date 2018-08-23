@@ -123,13 +123,30 @@ namespace DominatorHouseCore.ViewModel
         {
             if (LiveChatModel.SenderDetails != null)
             {
+                try
+                {
+                    CancelPriviousTask();
+                    var senders = GenericFileManager.GetModuleDetails<ChatDetails>(
+                        FileDirPath.GetChatDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork)).Where(x => x.SenderId == LiveChatModel.SenderDetails.SenderId);
+                    Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
+                    senders?.ForEach(chat =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Add(chat));
+
+                    });
+
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
                 ThreadFactory.Instance.Start(() =>
                 {
 
                     try
                     {
                         CancelPriviousTask();
-                        Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
+                        //Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
 
                         SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
                             .UpdateCurrentChat(LiveChatModel, CancellationSource.Token);

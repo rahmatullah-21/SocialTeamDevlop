@@ -70,7 +70,7 @@ namespace DominatorHouseCore.Interfaces
                 {
                     liveChatModel.LstChat.Add(chatDetails);
                     GenericFileManager.AddModule<ChatDetails>(chatDetails,
-                        FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
+                        FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
                 else if(requireUpdate)
                 {
