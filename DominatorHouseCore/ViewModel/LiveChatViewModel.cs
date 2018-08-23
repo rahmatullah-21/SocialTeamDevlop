@@ -29,7 +29,7 @@ namespace DominatorHouseCore.ViewModel
             InitilizeEmoji();
         }
 
-      
+
         #region Command
 
         public ICommand SendMessageCommand { get; set; }
@@ -53,7 +53,7 @@ namespace DominatorHouseCore.ViewModel
             }
         }
         private ObservableCollection<Emoji> _lstEmojiSmileysAndPeople = new ObservableCollection<Emoji>();
-        public  ObservableCollection<Emoji> LstEmojiSmileysAndPeople
+        public ObservableCollection<Emoji> LstEmojiSmileysAndPeople
         {
             get
             {
@@ -167,8 +167,10 @@ namespace DominatorHouseCore.ViewModel
 
         private void AttachFileExecute(object sender)
         {
-            var file = FileUtilities.GetExportPath();
-            SendMesage(file, ChatMessageType.Media);
+            string filters = "Image Files | *.jpg; *.jpeg; *.png; *.gif";
+            var picPath = FileUtilities.GetImageOrVideo(false, filters);
+            if (picPath != null)
+                SendMesage(picPath, ChatMessageType.Media);
         }
         private void EmojiExecute(object sender)
         {
@@ -245,7 +247,7 @@ namespace DominatorHouseCore.ViewModel
         }
         private void InitilizeEmoji()
         {
-         
+
             LstEmojiSmileysAndPeople = new ObservableCollection<Emoji>()
             {
                          new  Emoji("Grinning Face", "😀"),
@@ -487,8 +489,8 @@ namespace DominatorHouseCore.ViewModel
 
             };
 
-     
-    }
+
+        }
 
 
 
