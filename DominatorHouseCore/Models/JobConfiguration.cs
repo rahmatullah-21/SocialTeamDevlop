@@ -86,6 +86,8 @@ namespace DominatorHouseCore.Models
             {
                 if (_activitiesPerJob.StartValue > ActivitiesPerDay.StartValue)
                     ActivitiesPerDay.StartValue = _activitiesPerJob.StartValue;
+                if (_activitiesPerJob.EndValue > ActivitiesPerDay.StartValue)
+                    ActivitiesPerDay.StartValue = _activitiesPerJob.EndValue;
                 if (_activitiesPerJob.StartValue > ActivitiesPerWeek.StartValue)
                     ActivitiesPerWeek.StartValue = _activitiesPerJob.StartValue;
                 return _activitiesPerJob;
@@ -103,6 +105,15 @@ namespace DominatorHouseCore.Models
         {
             get
             {
+                if (_activitiesPerHour.EndValue > _activitiesPerDay.EndValue)
+                    _activitiesPerHour.EndValue = _activitiesPerDay.EndValue;
+                if (_activitiesPerHour.EndValue > _activitiesPerDay.StartValue)
+                    _activitiesPerHour.EndValue = _activitiesPerDay.StartValue;
+                if (_activitiesPerHour.StartValue > _activitiesPerDay.StartValue)
+                {
+                    _activitiesPerHour.StartValue = _activitiesPerDay.StartValue;
+                    _activitiesPerHour.EndValue = _activitiesPerDay.StartValue;
+                }
                 return _activitiesPerHour;
             }
             set
@@ -120,6 +131,11 @@ namespace DominatorHouseCore.Models
             {
                 if (_activitiesPerDay.StartValue > ActivitiesPerWeek.StartValue)
                     ActivitiesPerWeek.StartValue = _activitiesPerDay.StartValue;
+                if (_activitiesPerDay.EndValue > ActivitiesPerWeek.StartValue)
+                    ActivitiesPerWeek.StartValue = _activitiesPerDay.EndValue;
+                if (_activitiesPerHour.EndValue > _activitiesPerDay.StartValue && _activitiesPerDay.StartValue < _activitiesPerJob.EndValue)
+                    _activitiesPerHour.EndValue = _activitiesPerDay.StartValue;
+
                 return _activitiesPerDay;
             }
             set
@@ -133,7 +149,10 @@ namespace DominatorHouseCore.Models
         [ProtoMember(6)]
         public RangeUtilities ActivitiesPerWeek
         {
-            get { return _activitiesPerWeek; }
+            get
+            {
+                return _activitiesPerWeek;
+            }
             set
             {
                 if (_activitiesPerWeek == value)
@@ -145,7 +164,10 @@ namespace DominatorHouseCore.Models
         [ProtoMember(7)]
         public IncreaseActivityRange IncreaseActivitiesEachDay
         {
-            get { return _increaseActivitiesEachDay; }
+            get
+            {
+                return _increaseActivitiesEachDay;
+            }
             set
             {
                 if (_increaseActivitiesEachDay == value)
@@ -189,7 +211,10 @@ namespace DominatorHouseCore.Models
         [ProtoMember(14)]
         public bool IsAdvanceSetting
         {
-            get { return _isAdvanceSetting; }
+            get
+            {
+                return _isAdvanceSetting;
+            }
             set
             {
                 if (_isAdvanceSetting == value)
@@ -201,7 +226,10 @@ namespace DominatorHouseCore.Models
         [ProtoMember(15)]
         public string SelectedItem
         {
-            get { return _selectedItem; }
+            get
+            {
+                return _selectedItem;
+            }
             set
             {
                 if (_selectedItem == value)
@@ -212,7 +240,10 @@ namespace DominatorHouseCore.Models
 
         public List<string> Speeds
         {
-            get { return _speeds; }
+            get
+            {
+                return _speeds;
+            }
             set
             {
                 if (_speeds == value)
