@@ -331,15 +331,17 @@ namespace DominatorHouseCore.Request
 
         protected virtual async Task<IResponseParameter> GetFinalResponseAsync(CancellationToken cancellationToken)
         {
-            if (cancellationToken == default(CancellationToken))
-            {
-                return await DoGetFinalResponseAsync();
-            }
+            
+                if (cancellationToken == default(CancellationToken))
+                {
+                    return await DoGetFinalResponseAsync();
+                }
 
-            using (cancellationToken.Register(() => Request.Abort()))
-            {
-                return await DoGetFinalResponseAsync(() => cancellationToken.IsCancellationRequested);
-            }
+                using (cancellationToken.Register(() => Request.Abort()))
+                {
+                    return await DoGetFinalResponseAsync(() => cancellationToken.IsCancellationRequested);
+                }
+
         }
 
         private async Task<IResponseParameter> DoGetFinalResponseAsync(Func<bool> wasCancelled = null)
@@ -455,8 +457,15 @@ namespace DominatorHouseCore.Request
         /// <returns></returns>
         public virtual Task<IResponseParameter> GetRequestAsync(string url, CancellationToken cancellationToken)
         {
-            Request = (HttpWebRequest)WebRequest.Create(url);
-            SetRequestParametersToWebRequest(ref Request, RequestParameters);
+            try
+            {
+                Request = (HttpWebRequest)WebRequest.Create(url);
+                SetRequestParametersToWebRequest(ref Request, RequestParameters);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
             return GetFinalResponseAsync(cancellationToken);
         }
 

@@ -8,7 +8,7 @@
     <system:String x:Key="LangKeyNumOfLinkedinGroups"># Linkedin Groups</system:String>
     <system:String x:Key="LangKeyNumOfCampaign">#Campaign</system:String>
     <system:String x:Key="LangKeyNumOfComments">#Comments</system:String>
-    <system:String x:Key="LangKeyNumOfDeleted">#DeletedDateText</system:String>
+    <system:String x:Key="LangKeyNumOfDeleted">#Deleted</system:String>
     <system:String x:Key="LangKeyNumOfFinished">#Finished</system:String>
     <system:String x:Key="LangKeyNumOfFollower">#Follower</system:String>
     <system:String x:Key="LangKeyNumOfFollowers">#Followers</system:String>
@@ -244,7 +244,7 @@
     <system:String x:Key="LangKeyBlacklists">Blacklists</system:String>
     <system:String x:Key="LangKeyBlacklistusers">Blacklistusers</system:String>
     <system:String x:Key="LangKeyBlockFollower">Block Follower</system:String>
-    <system:String x:Key="LangKeyBlockTheUserAfterHisCommentIsDeleted">Block The User After His Comment Is DeletedDateText</system:String>
+    <system:String x:Key="LangKeyBlockTheUserAfterHisCommentIsDeleted">Block The User After His Comment Is deleted</system:String>
     <system:String x:Key="LangKeyBlocked">Blocked</system:String>
     <system:String x:Key="LangKeyBlogsCount">Blogs Count</system:String>
     <system:String x:Key="LangKeyBoardDescription">Board Description</system:String>
@@ -549,7 +549,7 @@
     <system:String x:Key="LangKeyDeleteTweets">Delete Tweets</system:String>
     <system:String x:Key="LangKeyDeleteType">Delete Type</system:String>
     <system:String x:Key="LangKeyDeleteUpTo">Delete Up To</system:String>
-    <system:String x:Key="LangKeyDeletedDate">DeletedDateText Date</system:String>
+    <system:String x:Key="LangKeyDeletedDate">Deleted Date</system:String>
     <system:String x:Key="LangKeyDescription">Description</system:String>
     <system:String x:Key="LangKeyDescriptionUsedForFacebookToReplaceExtractedDescriptionFromLink">Description (Used For Facebook To Replace Extracted Description From Link )</system:String>
     <system:String x:Key="LangKeyDescriptionShouldContainsWordsOrPhrasesLike">Description Should Contains Words Or Phrases Like</system:String>
@@ -2747,7 +2747,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySynchronization">Synchronization</system:String>
     <system:String x:Key="LangKeySuccessfullyAdded">Successfully Added</system:String>
     <system:String x:Key="LangKeyAccountTo">Account(s) To</system:String>
-    <system:String x:Key="LangKeyDeleted">DeletedDateText</system:String>
+    <system:String x:Key="LangKeyDeleted">Deleted</system:String>
     <system:String x:Key="LangKeyAccountsFrom">Accounts From</system:String>
     <system:String x:Key="LangKeyDetailsUpdatedSuccessfully">Details Updated Successfully</system:String>
     <system:String x:Key="LangKeyNextOperationTo">Next Operation To</system:String>
@@ -2782,7 +2782,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySuccessfullyCompleteProcessTo">Successfully Complete Process To</system:String>
     <system:String x:Key="LangKeyStartedProcessTo">Started Process To</system:String>
     <system:String x:Key="LangKeyStoppedProcessTo">Stopped Process To</system:String>
-    <system:String x:Key="LangKeySuccessfullyDeleted">Successfully DeletedDateText</system:String>
+    <system:String x:Key="LangKeySuccessfullyDeleted">Successfully Deleted</system:String>
     <system:String x:Key="LangKeySuccessfullyExported">Successfully Exported</system:String>
     <system:String x:Key="LangKeyHavingIssuesToAdd">Having Issues To Add!</system:String>
     <system:String x:Key="LangKeyAlreadyAdded">Already Added!</system:String>
@@ -3102,4 +3102,14 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyInvitePagePostLikers">People Who Liked Your Own Page(s) Post</system:String>
     <system:String x:Key="LangKeyTweetsLikedBySpecificUser">Tweets Liked By Specific User</system:String>
     <system:String x:Key="LangKeyWelcomeTweet">Welcome Tweet</system:String>
+    <system:String x:Key="LangKeyFilterByGender">Filter By Gender</system:String>
+    <system:String x:Key="LangKeyManagePostCaption">Manage Post Caption</system:String>
+    <system:String x:Key="LangKeyAccountDetailsSelector">Account Details Selector</system:String>
+    <system:String x:Key="LangKeySelectAccountDetails">Select Account Details</system:String>
+    <system:String x:Key="LangKeyRepostCount">Repost Count</system:String>
+    <system:String x:Key="LangKeySpecificUserTweets">Specific User Tweets</system:String>
+    <system:String x:Key="LangKeyLikedTweets">Liked Tweets</system:String>
+    <system:String x:Key="LangKeyWelcomeTweetFormat">{username} Tweet Text</system:String>
+    <system:String x:Key="LangKeyManagePostCaption">Manage Post Caption</system:String>
+
 </ResourceDictionary>
