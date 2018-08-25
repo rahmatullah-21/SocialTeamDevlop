@@ -51,5 +51,11 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
 
         [Column(Order = 14)]
         public string CommentId { get; set; }
+
+        [Column(Order = 15)]
+        public string Permalink { get; set; }
+
+        [Column(Order = 16)]
+        public string Status { get; set; }
     }
 }

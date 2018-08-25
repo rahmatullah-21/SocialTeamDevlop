@@ -418,6 +418,12 @@ namespace EmbeddedBrowser
 
                         return true;
                     }
+                    else if (PageText.Contains("Type the text you hear or see"))
+                    {
+                        DominatorAccountModel.IsUserLoggedIn = false;
+                        DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
+                        return true;
+                    }
                 }
             }
             catch (Exception ex)
