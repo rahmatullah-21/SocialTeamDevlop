@@ -117,7 +117,9 @@ namespace DominatorHouseCore.Diagnostics
                             TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
                             MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,                          
                             IsRandomRunningTime = campaigns.JobConfigurations.IsRandomizePublishingTimerChecked,
-                            MaximumTime = campaigns.JobConfigurations.MaxPost
+                            MaximumTime = campaigns.JobConfigurations.MaxPost,
+                            PendingCount = campaigns.PostCollection.Count(x=>x.PostQueuedStatus==PostQueuedStatus.Pending),
+                            DraftCount = campaigns.PostCollection.Count(x=>x.PostQueuedStatus==PostQueuedStatus.Draft),
                         };
 
                         // Add to lists

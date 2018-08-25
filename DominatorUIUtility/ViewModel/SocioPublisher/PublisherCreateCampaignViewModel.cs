@@ -553,20 +553,61 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     MinRandomDestinationPerAccount = PublisherCreateCampaignModel.JobConfigurations.PostBetween.EndValue,
                 };
 
-                PublisherCreateCampaignModel.PostCollection.ForEach(post =>
+                var CampaignStatusModel = PublisherInitialize.GetInstance.GetSavedCampaigns().FirstOrDefault(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId);
+                if (CampaignStatusModel != null)
                 {
-                    if (post.PostQueuedStatus == PostQueuedStatus.Pending)
-                        publisherCampaignStatusModel.PendingCount = post.MediaViewer.MediaList.Count;
-                    else if (post.PostQueuedStatus == PostQueuedStatus.Draft)
-                        publisherCampaignStatusModel.DraftCount = post.MediaViewer.MediaList.Count;
+                    publisherCampaignStatusModel.PendingCount = CampaignStatusModel.PendingCount + PublisherCreateCampaignModel.PostCollection
+                        .Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending);
+                    publisherCampaignStatusModel.DraftCount = CampaignStatusModel.DraftCount + PublisherCreateCampaignModel.PostCollection
+                        .Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft);
 
-                });
+                    // Finding current items
+                    var currentItem = PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId);
 
-                // Get the object of Publisher Instance
-                var publishIntialize = PublisherInitialize.GetInstance;
+                    // Get the index of the current campaign
+                    var index = PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels.IndexOf(currentItem);
 
-                // Add current campaigns to default pate
-                publishIntialize.AddCampaignDetails(publisherCampaignStatusModel);
+                    // Substutite with proper index
+                    PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels[index] = publisherCampaignStatusModel;
+
+                    var LstPublishedPostDetailsModels = PostlistFileManager.GetAll(publisherCampaignStatusModel.CampaignId);
+                    PublisherCreateCampaignModel.PostCollection.ForEach(post =>
+                    {
+
+                        var postlistModel = new PublisherPostlistModel
+                        {
+                            CampaignId = PublisherCreateCampaignModel.CampaignId,
+                            CreatedTime = DateTime.Now,
+                            PostSource = PostSource.NormalPost,
+                            PostQueuedStatus = post.PostQueuedStatus,
+                            PostRunningStatus = PostRunningStatus.Active,
+                            PostDescription = post.PostDescription,
+                            MediaList = post.MediaViewer.MediaList,
+                            FdSellLocation = post.FdSellLocation,
+                            PostId = post.PostDetailsId,
+                            PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
+                        };
+                        LstPublishedPostDetailsModels.Add(postlistModel);
+                    });
+                    
+                    // Update the post details to bin file
+                    PostlistFileManager.UpdatePostlists(PublisherCreateCampaignModel.CampaignId, LstPublishedPostDetailsModels);
+
+
+
+
+                }
+                else
+                {
+                    // Get the object of Publisher Instance
+                    var publishIntialize = PublisherInitialize.GetInstance;
+
+                    // Add current campaigns to default pate
+                    publishIntialize.AddCampaignDetails(publisherCampaignStatusModel);
+                }
+
+
+
 
                 #region Update Destination
 

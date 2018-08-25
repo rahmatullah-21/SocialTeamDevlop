@@ -23,24 +23,25 @@ namespace DominatorHouseCore.Utility
             var imageUrl = new List<string>();
 
             // check whether url contains comma (",") then split with comma and check whether its proper image or not 
-            if (url.Contains(",") || IsImageUrl(url))
-            {
-                if (!url.Contains(","))
-                {
-                    // Add a image
-                    imageUrl.Add(url);
-                }
-                else
-                {
-                    // split all images url  with comma
-                    var imageUrls = Regex.Split(url, ",").ToList();
+            //if (url.Contains(",") || IsImageUrl(url))
+            //{
+            //    imageUrl.Add(url);
+            //    if (!url.Contains(","))
+            //    {
+            //        // Add a image
+            //        imageUrl.Add(url);
+            //    }
+            //    else
+            //    {
+            //        // split all images url  with comma
+            //        var imageUrls = Regex.Split(url, ",").ToList();
 
-                    // Add to list
-                    imageUrl.AddRange(imageUrls);
-                }
-            }
-            else
-            {
+            //        // Add to list
+            //        imageUrl.AddRange(imageUrls);
+            //    }
+            //}
+            //else
+            //{
                 var scrapeUrl = new Uri(url);
                 var host = scrapeUrl.Host;
 
@@ -115,7 +116,7 @@ namespace DominatorHouseCore.Utility
                     }
                 }
 
-            }
+            //}
 
             return imageUrl;
         }
