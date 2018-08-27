@@ -3102,7 +3102,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyInvitePagePostLikers">People Who Liked Your Own Page(s) Post</system:String>
     <system:String x:Key="LangKeyTweetsLikedBySpecificUser">Tweets Liked By Specific User</system:String>
     <system:String x:Key="LangKeyWelcomeTweet">Welcome Tweet</system:String>
-
     <system:String x:Key="LangKeySelectNetwork">Select Network</system:String>
     <system:String x:Key="LangKeySearchByUser">Search By User</system:String>
     <system:String x:Key="LangKeyWriteUserNameOrName">Write Username/Name...</system:String>
@@ -3114,5 +3113,4 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySpecificUserTweets">Specific User Tweets</system:String>
     <system:String x:Key="LangKeyLikedTweets">Liked Tweets</system:String>
     <system:String x:Key="LangKeyWelcomeTweetFormat">{username} Tweet Text</system:String>
- 
 </ResourceDictionary>
