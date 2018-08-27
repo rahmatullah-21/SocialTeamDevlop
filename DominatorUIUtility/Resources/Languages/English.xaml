@@ -3110,6 +3110,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySpecificUserTweets">Specific User Tweets</system:String>
     <system:String x:Key="LangKeyLikedTweets">Liked Tweets</system:String>
     <system:String x:Key="LangKeyWelcomeTweetFormat">{username} Tweet Text</system:String>
-    <system:String x:Key="LangKeyManagePostCaption">Manage Post Caption</system:String>
 
 </ResourceDictionary>
