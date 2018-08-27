@@ -3,7 +3,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <system:String x:Key="LangKey1">1</system:String>
+    <system:String x:Key="LangKey1">+ 1</system:String>
     <system:String x:Key="LangKeyNumOfConnections"># Connections</system:String>
     <system:String x:Key="LangKeyNumOfLinkedinGroups"># Linkedin Groups</system:String>
     <system:String x:Key="LangKeyNumOfCampaign">#Campaign</system:String>
@@ -3113,5 +3113,12 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySpecificUserTweets">Specific User Tweets</system:String>
     <system:String x:Key="LangKeyLikedTweets">Liked Tweets</system:String>
     <system:String x:Key="LangKeyWelcomeTweetFormat">{username} Tweet Text</system:String>
+    <system:String x:Key="LangKeyVisiting">Scrape after visting</system:String>
+    <system:String x:Key="LangKeyWithoutVisiting">Scrape without visting</system:String>
+    <system:String x:Key="LangKeyVisitOnly">Visit only</system:String>
+    <system:String x:Key="LangKeyBoardsbyKeywords">Boards by Keywords</system:String>
+    <system:String x:Key="LangKeyCommentUniquePostFromEachAccount">Comment unique post from each account</system:String>
+    <system:String x:Key="LangKeyCustomCommunityMembers">Custom Community Members</system:String>
+    <system:String x:Key="LangKeyJoinedCommunityMembers">Joined Communities Members</system:String>
 
 </ResourceDictionary>
