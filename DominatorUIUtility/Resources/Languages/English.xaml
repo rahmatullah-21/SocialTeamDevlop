@@ -3102,11 +3102,10 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyInvitePagePostLikers">People Who Liked Your Own Page(s) Post</system:String>
     <system:String x:Key="LangKeyTweetsLikedBySpecificUser">Tweets Liked By Specific User</system:String>
     <system:String x:Key="LangKeyWelcomeTweet">Welcome Tweet</system:String>
-<<<<<<< HEAD
+
     <system:String x:Key="LangKeySelectNetwork">Select Network</system:String>
     <system:String x:Key="LangKeySearchByUser">Search By User</system:String>
     <system:String x:Key="LangKeyWriteUserNameOrName">Write Username/Name...</system:String>
-=======
     <system:String x:Key="LangKeyFilterByGender">Filter By Gender</system:String>
     <system:String x:Key="LangKeyManagePostCaption">Manage Post Caption</system:String>
     <system:String x:Key="LangKeyAccountDetailsSelector">Account Details Selector</system:String>
@@ -3115,7 +3114,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySpecificUserTweets">Specific User Tweets</system:String>
     <system:String x:Key="LangKeyLikedTweets">Liked Tweets</system:String>
     <system:String x:Key="LangKeyWelcomeTweetFormat">{username} Tweet Text</system:String>
-    <system:String x:Key="LangKeyManagePostCaption">Manage Post Caption</system:String>
->>>>>>> a0340a7646c697fb1ff750d9368c242c8e5896d1
-
+ 
 </ResourceDictionary>
