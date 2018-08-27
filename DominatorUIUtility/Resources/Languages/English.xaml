@@ -3113,8 +3113,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySpecificUserTweets">Specific User Tweets</system:String>
     <system:String x:Key="LangKeyLikedTweets">Liked Tweets</system:String>
     <system:String x:Key="LangKeyWelcomeTweetFormat">{username} Tweet Text</system:String>
-<<<<<<< HEAD
-=======
+
     <system:String x:Key="LangKeyVisiting">Scrape after visting</system:String>
     <system:String x:Key="LangKeyWithoutVisiting">Scrape without visting</system:String>
     <system:String x:Key="LangKeyVisitOnly">Visit only</system:String>
@@ -3123,5 +3122,4 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyCustomCommunityMembers">Custom Community Members</system:String>
     <system:String x:Key="LangKeyJoinedCommunityMembers">Joined Communities Members</system:String>
 
->>>>>>> 6ed45ea8448a2bf8c94f523a2c6912ffcca2cb9e
 </ResourceDictionary>

@@ -14,7 +14,7 @@
     <Grid Name="MainGrid">
         <StackPanel>
 
-            <CheckBox Content="Advance setting" IsChecked="{Binding JobConfiguration.IsAdvanceSetting}" Margin="5" Name="ChkAdvance" Checked="ChkAdvance_OnChecked"/>
+            <CheckBox Content="{DynamicResource LangKeyAdvancedSettings}" IsChecked="{Binding JobConfiguration.IsAdvanceSetting}" Margin="5" Name="ChkAdvance"/>
             <Border BorderThickness="2" BorderBrush="Black">
                 <Border.Style>
                     <Style TargetType="Border">
@@ -116,7 +116,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
                         <Label Content="Select speed" FontWeight="SemiBold" FontSize="15"/>
                         <ComboBox ItemsSource="{Binding JobConfiguration.Speeds}" Width="150" SelectedItem="{Binding JobConfiguration.SelectedItem}" 
-                                  SelectionChanged="Selector_OnSelectionChanged" Name="Speed"/>
+                                  SelectionChanged="Selector_OnSelectionChanged" Name="Speed" />
                     </StackPanel>
                 </StackPanel>
             </Border>

@@ -48,7 +48,7 @@ namespace DominatorHouseCore.Models
             // Increase each day with 10 until it reaches 100 max <activity> per day
             IncreaseActivitiesEachDay = new IncreaseActivityRange(0, 0, false);
 
-            SelectedItem = null;
+            SelectedItem =  "Slow";
 
         }
 

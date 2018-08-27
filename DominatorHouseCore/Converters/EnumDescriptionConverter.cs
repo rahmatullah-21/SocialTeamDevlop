@@ -2,6 +2,7 @@
 using DominatorHouseCore.Utility;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
@@ -15,18 +16,29 @@ namespace DominatorHouseCore.Converters
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value == null) return DependencyProperty.UnsetValue;
-            
-            try
-            {
-                var v = (UserQueryParameters)Enum.Parse(typeof(UserQueryParameters), value.ToString());
-                var desc = GetDescription(v);
-                return desc.FromResourceDictionary();
-            }
-            catch(Exception)
-            {
-                return value;
-            }
+
+            if (value == null || !(value is Enum))
+                return null;
+
+            var enumValue = value as Enum;
+
+            var discription = GetDescription(enumValue).FromResourceDictionary();
+
+
+            return discription;
+
+            //if (value == null) return DependencyProperty.UnsetValue;
+
+            //try
+            //{
+            //    var v = (UserQueryParameters)Enum.Parse(typeof(UserQueryParameters), value.ToString());
+            //    var desc = GetDescription(v);
+            //    return desc.FromResourceDictionary();
+            //}
+            //catch(Exception)
+            //{
+            //    return value;
+            //}
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -40,7 +52,6 @@ namespace DominatorHouseCore.Converters
                 return value;
             }
         }
-
         public static string GetDescription(Enum en)
         {
             Type type = en.GetType();

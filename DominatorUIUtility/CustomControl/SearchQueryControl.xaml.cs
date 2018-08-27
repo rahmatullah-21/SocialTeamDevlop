@@ -83,6 +83,23 @@ namespace DominatorUIUtility.CustomControl
             }).ToList();
         }
 
+
+        public List<Enum> LstQueryType
+        {
+            get { return (List<Enum>)GetValue(LstQueryTypeProperty); }
+            set { SetValue(LstQueryTypeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for LstQueryType.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LstQueryTypeProperty =
+            DependencyProperty.Register("LstQueryType", typeof(List<Enum>),
+                typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+
+                {
+                    BindsTwoWayByDefault = true
+                });
+
+
         public IEnumerable<string> ListQueryType
         {
             get { return (IEnumerable<string>)GetValue(ListQueryTypeProperty); }
@@ -348,6 +365,7 @@ namespace DominatorUIUtility.CustomControl
                     CurrentQuery.QueryValue = TxtInputQuery.Text.ToString();
                 }
                 CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
+                // CurrentQuery.QueryType = LstQueryType[SelectedIndex].ToString();
 
                 TxtInputQuery.Text = string.Empty;
                 SelectedIndex = 0;
