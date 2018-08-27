@@ -9,7 +9,8 @@
              Loaded="PublisherCreateDestination_OnLoaded"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore">
+             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
+             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
     <UserControl.Resources>
         <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
         <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
@@ -176,21 +177,37 @@
                     <TextBlock Text="{DynamicResource LangKeySettings}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
                     <CheckBox Content="{DynamicResource LangKeyAutoSelectNewGroupsForTheChosenAccounts}" Margin="5" IsChecked="{Binding PublisherCreateDestinationModel.IsAddedNewGroups}"/>
                     <CheckBox Content="{DynamicResource LangKeyUncheckGroupsThatRequireAdminValidationForPosts}" Margin="5" IsChecked="{Binding PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Column="0">
+                            <TextBlock Text="{DynamicResource LangKeySelectDestinations}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                            <Button Cursor="Hand" Margin="2"                               
+                                    x:Name="ButtonAddFreshAccount" 
+                                    FontSize="12"                         
+                                    Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding AddFreshAccounts}"  CommandParameter="{Binding ElementName=ButtonAddFreshAccount}"                              
+                                    Background="Transparent">
+                                <TextBlock Text="{DynamicResource LangKeyClickToAddFreshAccounts}" >
+                                    <TextBlock.TextDecorations>
+                                        <TextDecoration Location="Underline" PenOffset="1"/>
+                                    </TextBlock.TextDecorations>
+                                </TextBlock>
+                            </Button>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource LangKeySelectDestinations}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
-                        <Button Cursor="Hand" Margin="2"                               
-                                x:Name="ButtonAddFreshAccount" 
-                                FontSize="12"                         
-                                Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding AddFreshAccounts}"  CommandParameter="{Binding ElementName=ButtonAddFreshAccount}"                              
-                                Background="Transparent">
-                            <TextBlock Text="{DynamicResource LangKeyClickToAddFreshAccounts}" >
-                                <TextBlock.TextDecorations>
-                                    <TextDecoration Location="Underline" PenOffset="1"/>
-                                </TextBlock.TextDecorations>
-                            </TextBlock>
-                        </Button>
-                    </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" Margin="5,5">
+                            <Label Content="{DynamicResource LangKeySearchByUser}" />
+                            <TextBox Width="180" Height="25" Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                     mah:TextBoxHelper.Watermark="{DynamicResource LangKeyWriteUserNameOrName}"/>
+                            <Label Content="{DynamicResource LangKeySelectNetwork}" />
+                            <ComboBox ItemsSource="{Binding AvailableNetworks,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
+                                      Margin="5,0" Width="100" SelectedIndex="0"
+                                      behaviours:SelectionChangedBehaviour.Command="{Binding NetworkSelectionChangedCommand}"/>
+                        </StackPanel>
+                    </Grid>
+                   
 
                 </StackPanel>
             </Grid>
