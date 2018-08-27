@@ -52,6 +52,36 @@ namespace DominatorUIUtility.CustomControl
                 OnPropertyChanged(nameof(SelectedIndex));
             }
         }
+        private bool _isAllQuerySelected;
+
+        public bool IsAllQuerySelected
+        {
+            get
+            {
+                return _isAllQuerySelected;
+            }
+            set
+            {
+                if (_isAllQuerySelected == value)
+                    return;
+                _isAllQuerySelected = value;
+                OnPropertyChanged(nameof(IsAllQuerySelected));
+                SelectAll(_isAllQuerySelected);
+                IsCheckFromList = false;
+            }
+        }
+
+        public bool IsCheckFromList { get; set; }
+        private void SelectAll(bool _isAllQuerySelected)
+        {
+            if (IsCheckFromList)
+                return;
+            ListQueryInfo.Select(x =>
+            {
+                x.IsQuerySelected = _isAllQuerySelected;
+                return x;
+            }).ToList();
+        }
 
         public IEnumerable<string> ListQueryType
         {
@@ -350,6 +380,45 @@ namespace DominatorUIUtility.CustomControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void DeleteMultiple(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (IsAllQuerySelected)
+                {
+                    QueryCollection.Clear();
+                    ListQueryInfo.Clear();
+                    IsAllQuerySelected = false;
+                    return;
+                }
+                foreach (var queryInfo in ListQueryInfo.ToList())
+                {
+                    if (queryInfo.IsQuerySelected)
+                    {
+                        QueryCollection.Remove(queryInfo.QueryValue);
+                        ListQueryInfo.Remove(queryInfo);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+
+        private void OnQuerySelect(object sender, RoutedEventArgs e)
+        {
+            if (ListQueryInfo.All(x => x.IsQuerySelected))
+                IsAllQuerySelected = true;
+            else
+            {
+                if (IsAllQuerySelected)
+                    IsCheckFromList = true;
+                IsAllQuerySelected = false;
+
+            }
+        }
     }
 
 

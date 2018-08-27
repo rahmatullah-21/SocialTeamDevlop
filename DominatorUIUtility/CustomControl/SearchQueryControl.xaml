@@ -10,7 +10,7 @@
 
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <!--<converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>-->
+        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
     </UserControl.Resources>
 
     <Grid Name="MainGrid">
@@ -81,43 +81,57 @@
                     <GroupBox  FontWeight="Bold" BorderThickness="1" Header="{DynamicResource LangKeyQueriesList}" Foreground="white">
 
                         <DataGrid x:Name="SearchQueries" Width="auto" Background="White" AutoGenerateColumns="False"  CanUserAddRows="false"
-                                  ItemsSource="{Binding ListQueryInfo}" CanUserDeleteRows="False"  MaxHeight="150" MinHeight="150" MinWidth="400" MaxWidth="800"  >
-                           
+                                  ItemsSource="{Binding ListQueryInfo}" CanUserDeleteRows="False"  MaxHeight="150" MinHeight="150" MinWidth="400" MaxWidth="800" 
+                                  AlternationCount="{Binding ListQueryInfo.Count}">
+
                             <DataGrid.Columns>
-                                <DataGridTextColumn Width="*" FontSize="12" Binding ="{Binding QueryTypeDisplayName}">
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                <CheckBox IsChecked="{Binding DataContext.IsAllQuerySelected,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                <Rectangle Fill="Black" Height="20" Width="15" ToolTip="{DynamicResource LangKeyDeleteSelected}"  MouseLeftButtonDown='DeleteMultiple'>
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill"/>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsQuerySelected,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="9,0"
+                                                      Content="{Binding AlternationIndex,RelativeSource={RelativeSource AncestorType=DataGridRow},
+                                                      Converter={StaticResource IndexToRowNoConverter}}" Click="OnQuerySelect"/>
+
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Width="*" FontSize="12" Binding ="{Binding QueryTypeDisplayName}" IsReadOnly="True">
                                     <DataGridTextColumn.Header>
                                         <TextBlock Text="{DynamicResource LangKeyType}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn  Width="*"  FontSize="12"  Binding="{Binding QueryValue}" >
-                                      <DataGridTextColumn.Header>
+                                <DataGridTextColumn  Width="*"  FontSize="12"  Binding="{Binding QueryValue}" IsReadOnly="True">
+                                    <DataGridTextColumn.Header>
                                         <TextBlock Text="{DynamicResource LangKeyQuery}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn  Width="*"  FontSize="12"   Binding="{Binding IsCustomFilterSelected}">
+                                <DataGridTextColumn  Width="*"  FontSize="12"   Binding="{Binding IsCustomFilterSelected}" IsReadOnly="True">
                                     <DataGridTextColumn.Header>
                                         <TextBlock Text="{DynamicResource LangKeyCustomFilters}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTemplateColumn Width="*" >                                   
+                                <DataGridTemplateColumn Width="*" IsReadOnly="True">
                                     <DataGridTemplateColumn.Header>
-                                        <TextBlock Text="{DynamicResource LangKeyAction}"></TextBlock>
+                                        <TextBlock Text="{DynamicResource LangKeyAction}"/>
                                     </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>                                        
-                                        <DataTemplate>                                            
-                                            <Rectangle Width="15" Height="20" Fill="Black" Name="DeleteSingle" MouseDown="DeleteSingle_MouseDown" >                                             
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Rectangle Width="15" Height="20" Fill="Black" Name="DeleteSingle" MouseLeftButtonDown="DeleteSingle_MouseDown" >
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                 </Rectangle.OpacityMask>
-                                                <Rectangle.ContextMenu>
-                                                    <ContextMenu x:Name="btn_Delete_Context">
-                                                        <MenuItem Header="{DynamicResource LangKeyDelete}"  Name="menu_DeleteSingle" >
-                                                            <MenuItem.Icon>
-                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                                            </MenuItem.Icon>
-                                                        </MenuItem>
-                                                    </ContextMenu>
-                                                </Rectangle.ContextMenu>
                                             </Rectangle>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
