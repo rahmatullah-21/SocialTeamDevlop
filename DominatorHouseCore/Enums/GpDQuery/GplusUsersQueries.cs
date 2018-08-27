@@ -17,6 +17,10 @@ namespace DominatorHouseCore.Enums.GpDQuery
         [Description("LangKeyFromCircleOfFollowers")]
         FromCircleOfFollowers = 6,
         [Description("LangKeyFromCircleOfFollowings")]
-        FromCircleOfFollowings = 7
+        FromCircleOfFollowings = 7,
+        [Description("LangKeyCustomCommunityMembers")]
+        CustomCommunityMembers = 8,
+        [Description("LangKeyJoinedCommunityMembers")]
+        JoinedCommunityMembers = 9
     }
 }

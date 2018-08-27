@@ -21,6 +21,8 @@ namespace DominatorHouseCore.Enums.PdQuery
         [Description("LangKeyUsersWhoTriedPins")]
         UsersWhoTriedPins = 8,
         [Description("LangKeyCustomBoard")]
-        CustomBoard = 9
+        CustomBoard = 9,
+        [Description("LangKeyBoardsbyKeywords")]
+        BoardsbyKeywords = 10
     }
 }
