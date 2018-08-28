@@ -560,7 +560,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         .Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending);
                     publisherCampaignStatusModel.DraftCount = CampaignStatusModel.DraftCount + PublisherCreateCampaignModel.PostCollection
                         .Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft);
-
+                    publisherCampaignStatusModel.PublishedCount = CampaignStatusModel.PublishedCount + PublisherCreateCampaignModel.PostCollection
+                                                                  .Count(x => x.PostQueuedStatus == PostQueuedStatus.Published);
                     // Finding current items
                     var currentItem = PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId);
 

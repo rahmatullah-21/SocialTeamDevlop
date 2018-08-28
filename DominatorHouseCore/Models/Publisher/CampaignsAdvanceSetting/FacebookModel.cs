@@ -495,6 +495,38 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _hashtagsFromList2, value);
             }
         }
+        private bool _isAutoTagFriends;
+
+        [ProtoMember(32)]
+        public bool IsAutoTagFriends
+        {
+            get
+            {
+                return _isAutoTagFriends;
+            }
+            set
+            {
+                if (_isAutoTagFriends == value)
+                    return;
+                SetProperty(ref _isAutoTagFriends, value);
+            }
+        }
+        private RangeUtilities _usersForEachPost = new RangeUtilities();
+
+        [ProtoMember(33)]
+        public RangeUtilities UsersForEachPost
+        {
+            get
+            {
+                return _usersForEachPost;
+            }
+            set
+            {
+                if (_usersForEachPost == value)
+                    return;
+                SetProperty(ref _usersForEachPost, value);
+            }
+        }
 
         public FacebookModel Clone()
         {
