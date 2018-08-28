@@ -1,3 +1,53 @@
+Version[1.0.0.12],[27th-August-18]
+
+New Features:-
+Instagram:-
+	InstaPoster => Reposting posts with Original post caption, username and URL
+	Added an option to mention counts, how many posts needs to be reposted per user
+	Repositng unique posts from each account
+LinkedIn:-
+	Scraper => Added feature to  scrape after visiting  and  scrape without visiting for scraping profile details.
+	SalesNavigator Scraper => Added feature to  scrape after visiting  and  scrape without visiting for scraping profile details.
+Twitter:-
+	Poster => Reposter => QueryType => specific users tweets
+	Scraper => Scrape tweet => QueryType => specific user tweets
+	Engage => Unlike => Liked Tweets and 2.Custom Tweet list
+	Poster => Retweet => QueryType => Specific user tweets
+	Engage => Like => Query Type =>  Specific user tweets
+	Engage => Comment => Query Type => Specific user tweets
+Pinterest:-
+	Grow follower => Added feature to follow "Boards By Keyword"
+
+Fixed:-
+	Social:-
+		Social  =>  Other Configgurations =>  Issue fixed with enable Advanced User Mode
+		Issue fixed with updating pending posts of the campaign, when updated with a new url in "Create A Multiple Image Post
+	Instagram:-
+		InstaLiker/InstaCommenter => Issue fixed with commenting multiple comments as a single comment
+		InstaLiker/InstaCommenter => Issue fixed with adding multiple post ids separated by comma "," and showing no more data.
+		InstaScraper => Issue fixed with downloading album posts
+	Facebook:-
+		Account Activitiy => Auto reply to messages => Fixed issue with reply to new pending messages having specific words
+		Account Activity => Post Liker => Fixed issue with saving custom post lists.
+		Engage => Post Comment => Fixed issue with custom post urls while saving in module and account activity as well.
+		Account Activity =>  Comment Scraper =>  Fixed issue with exporting the reports
+	LinkedIn:-
+		Scraper => User Scraper => Fixed issue with search URl
+	Twitter:-
+		Social => Twitter => Poster => Welcome Tweet => User Filter => Issue fixed with user has between _(dash) to _(dash) followings issue.
+		Accounts Manager => Add Account=> Issue fixed with giving invalid message while adding account
+		Accounts Activity => Welcome Tweet => Issue fixed with getting error message while clicking on save button even after adding message
+	Pinterest:-
+		Account => Add valid Account then Select the valid account then Check Account Status then delete the selected accounts and you will see application get crashed.
+	YouTube:-
+		Watch Video =>  View  Increaser => Fixed issue with continutiy of  the video in embedded browser.
+		Watch Video =>  View  Increaser => Fixed issue with other configuration in the module.
+		Watch Video =>  Fixed issue with start => pause actions in campaign.
+		Engage => Like =>  Video Filter => Fixed issue with video filters
+		Engage =>  Like => Report =>  Fixed issue with proper data are shown in .CSV file
+		Engage => Comment => Fixed issue with comment while saving into the comment list
+	 
+
 Version[1.0.0.11],[23rd-August-18]
 
 ****NOW SOCINATOR SUPPORTS DOMINATORHOUSE LICENSES****
