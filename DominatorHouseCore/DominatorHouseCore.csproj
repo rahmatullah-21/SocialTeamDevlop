@@ -201,6 +201,7 @@
     <Compile Include="Converters\PublisherSyncStringToBooleanConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\SQliteMigration.cs" />
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackListUser.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackWhiteListUser.cs" />
