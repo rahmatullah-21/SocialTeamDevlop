@@ -56,6 +56,7 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
         public string Permalink { get; set; }
 
         [Column(Order = 16)]
+        [SqlDefaultValue(DefaultValue = "Success")]
         public string Status { get; set; }
     }
 }
