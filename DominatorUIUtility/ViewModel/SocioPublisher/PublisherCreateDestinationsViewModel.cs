@@ -342,10 +342,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private async Task UpdateSingleAccountGroupsDetails(AccountDetailsSelector accountDetailsSelector, PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel)
         {
             // Get the account group pair
-            var valuePairs = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList(); ;
+            // var valuePairs = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList(); ;
 
             // Get already selected groups
-            var alreadySelectedGroups = valuePairs.Select(x => x.Value).ToList();
+            // var alreadySelectedGroups = valuePairs.Select(x => x.Value).ToList();
+
+            var alreadySelectedGroups = accountDetailsSelector.AccountDetailsSelectorViewModel.AlreadySelectedList;
 
             if (GroupsAvailableInNetworks.Contains(publisherCreateDestinationSelectModel.SocialNetworks.ToString()))
             {
@@ -360,7 +362,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 groups.ForEach(group =>
                 {
                     group.Network = publisherCreateDestinationSelectModel.SocialNetworks;
-
+                    group.IsSelected = alreadySelectedGroups.Contains(group.DetailUrl);
                     // Add the group details to Ui's view model 
                     if (!Application.Current.Dispatcher.CheckAccess())
                     {
@@ -457,10 +459,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private async Task UpdateSingleAccountPagesDetails(AccountDetailsSelector accountDetailsSelector, PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel)
         {
-            var valuePairs = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList(); ;
+            //var valuePairs = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList(); ;
 
-            var alreadySelectedPages = valuePairs.Select(x => x.Value).ToList();
+            //var alreadySelectedPages = valuePairs.Select(x => x.Value).ToList();
 
+            var alreadySelectedPages = accountDetailsSelector.AccountDetailsSelectorViewModel.AlreadySelectedList;
             if (BoardsOrPagesAvailableInNetworks.Contains(publisherCreateDestinationSelectModel.SocialNetworks.ToString()))
             {
                 var accountsDetailsSelector = SocinatorInitialize
@@ -472,7 +475,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 pagesOrBoards.ForEach(page =>
                 {
                     page.Network = publisherCreateDestinationSelectModel.SocialNetworks;
-
+                    page.IsSelected = alreadySelectedPages.Contains(page.DetailUrl);
                     if (!Application.Current.Dispatcher.CheckAccess())
                     {
                         Application.Current.Dispatcher.Invoke(() =>
@@ -663,6 +666,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     groups.ForEach(group =>
                     {
                         group.Network = x.SocialNetworks;
+                        group.IsSelected = alreadySelectedGroups.Contains(group.DetailUrl);
                         if (!Application.Current.Dispatcher.CheckAccess())
                         {
                             Application.Current.Dispatcher.Invoke(() =>
@@ -760,6 +764,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         pages.ForEach(group =>
                         {
                             group.Network = x.SocialNetworks;
+                            group.IsSelected = alreadySelectedPages.Contains(group.DetailUrl);
                             if (!Application.Current.Dispatcher.CheckAccess())
                             {
                                 Application.Current.Dispatcher.Invoke(() =>

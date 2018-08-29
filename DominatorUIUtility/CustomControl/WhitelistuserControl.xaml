@@ -77,8 +77,12 @@
                          Background="White" VerticalAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox x:Name="ChkWhitlistuser" Content="{Binding WhitelistUser}" IsChecked="{Binding IsWhiteListUserChecked}"
-                                      Checked="ChkWhitlistuser_OnChecked"  Unchecked="ChkWhitlistuser_OnUnchecked"/>
+                            <CheckBox x:Name="ChkWhitlistuser"  IsChecked="{Binding IsWhiteListUserChecked}"
+                                      Checked="ChkWhitlistuser_OnChecked"  Unchecked="ChkWhitlistuser_OnUnchecked">
+                                <CheckBox.Content>
+                                    <TextBlock Text="{Binding WhitelistUser}"/>
+                                </CheckBox.Content>
+                            </CheckBox>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

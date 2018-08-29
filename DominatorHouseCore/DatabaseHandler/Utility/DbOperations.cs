@@ -83,7 +83,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 // return the matched counts of the given expression
                 return expression == null ? _context.Set<T>().Count() : _context.Set<T>().Where(expression).Count();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return 0;
             }
