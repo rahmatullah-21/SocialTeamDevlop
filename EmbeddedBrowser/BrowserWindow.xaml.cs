@@ -1147,9 +1147,11 @@ namespace EmbeddedBrowser
 
                         if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
                         {
-                            if (!objResponseParameter.Response.ToLower()
-                                     .Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()) && !string.IsNullOrEmpty(objResponseParameter.Response) && objResponseParameter.Response != "<html><head></head><body></body></html>")
+                            string GooglePlusAcc = Utilities.GetBetween(objResponseParameter.Response, "\"oPEP7c\":\"", "\"");
+                            if (string.IsNullOrEmpty(GooglePlusAcc) || objResponseParameter.Response.Contains(">Join Google+<") && objResponseParameter.Response.Contains(">Sign in<"))
                                 return;
+
+                            DominatorAccountModel.AccountBaseModel.ProfileId = GooglePlusAcc;
                         }
 
 
