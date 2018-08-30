@@ -16,7 +16,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
 {
     public class DbOperations
     {
-        private DbContext _context;
+        public DbContext _context;
 
         public DbOperations(DbContext context)
         {
