@@ -592,6 +592,7 @@
     <Compile Include="Utility\MediaUtilites.cs" />
     <Compile Include="ViewModel\EditProfileViewModel.cs" />
     <Compile Include="ViewModel\GlobalInteractionViewModel.cs" />
+    <Compile Include="ViewModel\MediaGeneratorViewModel.cs" />
     <Compile Include="ViewModel\RevisionHistoryViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />

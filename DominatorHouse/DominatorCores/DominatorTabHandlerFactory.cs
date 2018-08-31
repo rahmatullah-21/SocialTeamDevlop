@@ -101,6 +101,11 @@ namespace Socinator.DominatorCores
                 {
                     Title = Application.Current.FindResource("LangKeyOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("LangKeyOtherConfigurations")?.ToString(),
                       Content=new Lazy<UserControl>(()=>new OtherConfigurationTab())
+                },
+                new TabItemTemplates
+                {
+                    Title = "LangKeyOtherTools".FromResourceDictionary(),
+                    Content=new Lazy<UserControl>(()=>new OtherTools())
                 }
             };
         }

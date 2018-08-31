@@ -3128,4 +3128,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySuggestedFriend">Suggested Friends</system:String>
     <system:String x:Key="LangKeyUniqueMentionPerPostFromEachAccount">Unique mention per post from each account</system:String>
     <system:String x:Key="LangKeyMediaGenerator">Media generator</system:String>
+    <system:String x:Key="LangKeyOtherTools">Other Tools</system:String>
 </ResourceDictionary>

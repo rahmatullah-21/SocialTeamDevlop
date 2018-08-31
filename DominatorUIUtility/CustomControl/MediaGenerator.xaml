@@ -7,37 +7,43 @@
              mc:Ignorable="d" >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Load Media File(s)" VerticalAlignment="Center" Margin="5"/>
-            <TextBox Width="250" Margin="5">
-                <TextBox.Template>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="{DynamicResource AccentBaseColorBrush}">
+            <Button  Margin="5" VerticalAlignment="Center" Background="Transparent" ToolTip="{DynamicResource LangKeyBrowse}"
+                                HorizontalAlignment="Center" Command="{Binding BrowseCommand}">
+                <Button.Template>
                     <ControlTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox/>
-                            <Button  Margin="1" Background="Transparent" ToolTip="{DynamicResource LangKeyBrowse}"
-                                HorizontalAlignment="Right" Command="{Binding BrowseFolderCommand}">
-                                <Button.Content>
-                                    <Canvas  HorizontalAlignment="Right" Width="15"  Height="15" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0">
-                                        <Path Width="15.7781" Height="15.7781"  Stretch="Fill"
-                                              Fill="Gainsboro"
+                            <TextBlock Text="Load Media File(s)" VerticalAlignment="Center" Foreground="White"/>
+                            <Canvas  HorizontalAlignment="Right" Width="15"  Height="15" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" Grid.Column="1">
+                                <Path Width="15.7781" Height="15.7781"  Stretch="Fill"
+                                              Fill="White"
                                               Data="F1 M 16.6668,20L 13,28.5336L 13,16L 23,16L 23,15C 23,13.8954 23.8954,13 25,13L 32,13C 33.1046,13 35,14.8954 35,16L 35,20L 16.6668,20 Z M 35,32L 28,32L 13,32L 17.5833,21L 39.5833,21L 35,32 Z " />
 
-                                    </Canvas>
-                                </Button.Content>
-                            </Button>
-                          
+                            </Canvas>
                         </Grid>
                     </ControlTemplate>
-                </TextBox.Template>
-            </TextBox>
+                </Button.Template>
+            </Button>
         </StackPanel>
-        <ItemsControl ItemsSource="{Binding LstFile}"/>
+        <Border BorderBrush="Gainsboro" BorderThickness="2" Grid.Row="1"  HorizontalAlignment="Center" Margin="5" >
+            <Border.Style >
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding LstFile.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <ItemsControl ItemsSource="{Binding LstFile}" Name="Filelist" HorizontalAlignment="Center" Margin="10,5"/>
+        </Border>
     </Grid>
 </UserControl>

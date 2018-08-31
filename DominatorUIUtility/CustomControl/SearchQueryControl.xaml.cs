@@ -34,6 +34,11 @@ namespace DominatorUIUtility.CustomControl
             SelectedIndex = 0;
             ListQueryType = new List<string>();
             ListQueryInfo = new ObservableCollection<QueryInfo>();
+            LstNonQueryType.Add("LangKeyOwnFollowers".FromResourceDictionary());
+            LstNonQueryType.Add("LangKeyOwnFollowings".FromResourceDictionary());
+            LstNonQueryType.Add("LangKeyNewsfeed".FromResourceDictionary());
+            LstNonQueryType.Add("LangKeyJoinedCommunityMembers".FromResourceDictionary());
+            LstNonQueryType.Add("LangKeyMyConnectionsPostS".FromResourceDictionary());
         }
 
         #region Variables
@@ -329,12 +334,17 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
+                if (LstNonQueryType.Contains(CurrentQuery.QueryType))
+                {
+                    TxtInputQuery.Text = "NA";
+                    TxtInputQuery.IsEnabled = false;
+                }
+                else
+                {
+                    TxtInputQuery.IsEnabled = true;
+                    TxtInputQuery.Clear();
+                }
 
-
-                //var selectedvalue = (ComboBox)(FrameworkElement)sender;
-
-                //if (selectedvalue != null)
-                //    CurrentQuery.QueryType = selectedvalue.SelectedItem.ToString();
             }
             catch (Exception ex)
             {
@@ -375,6 +385,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
+            TxtInputQuery.IsEnabled = true;
         }
 
         public bool IsExpanded
@@ -437,6 +448,8 @@ namespace DominatorUIUtility.CustomControl
 
             }
         }
+
+        public HashSet<string> LstNonQueryType { get; set; } = new HashSet<string>();
     }
 
 
