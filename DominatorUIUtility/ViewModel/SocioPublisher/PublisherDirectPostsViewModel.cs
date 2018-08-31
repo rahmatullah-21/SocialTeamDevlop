@@ -455,7 +455,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         #region Medialist
 
-                        var mediaUrl = Regex.Split(allData[1], separator).ToList();
+                        var mediaDetails = allData.Length > 1 ? allData[1] : string.Empty;
+
+                        var mediaUrl = Regex.Split(mediaDetails, separator).ToList();
                         mediaUrl.ForEach(media =>
                         {
                             if (File.Exists(media))
@@ -466,16 +468,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         #endregion
 
                         // Title
-                        postDetailsModel.PublisherInstagramTitle = allData[2];
+                        postDetailsModel.PublisherInstagramTitle = allData.Length > 2 ? allData[2] : string.Empty;
 
                         // Source url
-                        postDetailsModel.PdSourceUrl = allData[3];
+                        postDetailsModel.PdSourceUrl = allData.Length > 3 ? allData[3] : string.Empty;
 
                         // Facebook Sell post details
 
                         #region FdSell
 
-                        var Fdsell = Regex.Split(allData[4], separator);
+                        var FdSellDetails = allData.Length > 4 ? allData[4] : string.Empty;
+
+                        var Fdsell = Regex.Split(FdSellDetails, separator);
+
                         if (string.Compare(Fdsell[0], "Yes", StringComparison.CurrentCultureIgnoreCase) == 0 ||
                             string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
                             string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
