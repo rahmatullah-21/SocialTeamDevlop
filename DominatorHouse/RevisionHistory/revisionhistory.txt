@@ -1,27 +1,41 @@
-Version[1.0.0.12],[27th-August-18]
+Version[1.0.0.12],[30th-August-18]
 
 New Features:-
+Sociopublisher:-
+	Added the search option in create destination
 Instagram:-
 	InstaPoster => Reposting posts with Original post caption, username and URL
 	Added an option to mention counts, how many posts needs to be reposted per user
-	Repositng unique posts from each account
+	Reposting unique posts from each account
 LinkedIn:-
 	Scraper => Added feature to  scrape after visiting  and  scrape without visiting for scraping profile details.
 	SalesNavigator Scraper => Added feature to  scrape after visiting  and  scrape without visiting for scraping profile details.
+	Linkedin socinator => Scraper => User scraper => Add feature to scrape Only 1st degree connection.
+	Grow Connection => Connection request => Added feature to send request via Email Id.
 Twitter:-
 	Poster => Reposter => QueryType => specific users tweets
 	Scraper => Scrape tweet => QueryType => specific user tweets
 	Engage => Unlike => Liked Tweets and 2.Custom Tweet list
-	Poster => Retweet => QueryType => Specific user tweets
-	Engage => Like => Query Type =>  Specific user tweets
-	Engage => Comment => Query Type => Specific user tweets
+	Poster => Retweet => QueryType => Specific users tweets
+	Engage => Like => Query Type =>  Specific users tweets
+	Engage => Comment => Query Type => Specific users tweets
+	Engage =>Comment => Spintax support added
+	Messenger => Broadcast Message => Message Text => Spintax support Added
+	Messenger => Auto Reply => Message Text => Spintax support Added
+	Messenger => Message to new followers=>Message Text => Spintax support Added
 Pinterest:-
 	Grow follower => Added feature to follow "Boards By Keyword"
+Facebook:-
+	Grow Friends => Send friend request => Added query for suggested friends.
+Gplus:-
+	Grow follower => Added option to follow community members by custom URL and communities already joined.
+
 
 Fixed:-
 	Social:-
 		Social  =>  Other Configgurations =>  Issue fixed with enable Advanced User Mode
 		Issue fixed with updating pending posts of the campaign, when updated with a new url in "Create A Multiple Image Post
+		Added in checkbox in all Social networks to select all queries from list at a once and remove them.
 	Instagram:-
 		InstaLiker/InstaCommenter => Issue fixed with commenting multiple comments as a single comment
 		InstaLiker/InstaCommenter => Issue fixed with adding multiple post ids separated by comma "," and showing no more data.
@@ -31,14 +45,19 @@ Fixed:-
 		Account Activity => Post Liker => Fixed issue with saving custom post lists.
 		Engage => Post Comment => Fixed issue with custom post urls while saving in module and account activity as well.
 		Account Activity =>  Comment Scraper =>  Fixed issue with exporting the reports
+		Account Manager => Fixed issue with account's login issue.
+		Grow friends => Fixed issue with withdraw sent request.
 	LinkedIn:-
 		Scraper => User Scraper => Fixed issue with search URl
 	Twitter:-
 		Social => Twitter => Poster => Welcome Tweet => User Filter => Issue fixed with user has between _(dash) to _(dash) followings issue.
 		Accounts Manager => Add Account=> Issue fixed with giving invalid message while adding account
 		Accounts Activity => Welcome Tweet => Issue fixed with getting error message while clicking on save button even after adding message
+		Enagage => Unlike => Issue Fixed with Liked tweets not working
+		Accounts Activity => Comment => Issue Fixed with spintax
 	Pinterest:-
 		Account => Add valid Account then Select the valid account then Check Account Status then delete the selected accounts and you will see application get crashed.
+		Create Board => Schedule => Fixed Issue with scheduling the jobs to the upcoming days with proper message in the logger.
 	YouTube:-
 		Watch Video =>  View  Increaser => Fixed issue with continutiy of  the video in embedded browser.
 		Watch Video =>  View  Increaser => Fixed issue with other configuration in the module.
@@ -46,6 +65,10 @@ Fixed:-
 		Engage => Like =>  Video Filter => Fixed issue with video filters
 		Engage =>  Like => Report =>  Fixed issue with proper data are shown in .CSV file
 		Engage => Comment => Fixed issue with comment while saving into the comment list
+		Account Manager => Fixed issue with account login status.
+		Watch Video => View Increaser =>Fixed issue with export report for view increaser.
+	Gplus:-
+		Account => Application crashing while deleting accounts which failed login.
 	 
 
 Version[1.0.0.11],[23rd-August-18]

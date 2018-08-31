@@ -14,5 +14,11 @@ namespace DominatorHouseCore.Enums.PdQuery
         CustomPin = 4,
         [Description("LangKeySocinatorPublisherCampaign")]
         SocinatorPublisherCampaign = 5,
+        [Description("LangKeyOwnFollowers")]
+        OwnFollowers = 6,
+        [Description("LangKeyOwnFollowings")]
+        OwnFollowings = 7,
+        [Description("LangKeyNewsfeed")]
+        Newsfeed = 8,
     }
 }

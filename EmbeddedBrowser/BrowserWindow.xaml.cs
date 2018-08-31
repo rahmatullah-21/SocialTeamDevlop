@@ -472,13 +472,10 @@ namespace EmbeddedBrowser
                 if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
                 {
                     KeyEvent k = new KeyEvent();
-                    k.FocusOnEditableField = false;
-                    k.WindowsKeyCode = 9;
-                    k.IsSystemKey = false;
-                    k.Type = KeyEventType.KeyDown;
+
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
 
-                    var userName = " " + DominatorAccountModel.AccountBaseModel.UserName;
+                    var userName = DominatorAccountModel.AccountBaseModel.UserName;
                     Browser.ExecuteScriptAsync("document.getElementsByName(\"id\")[0].click()");
                     Thread.Sleep(TimeSpan.FromSeconds(1));
                     userName.ToList<char>().ForEach((x) =>
@@ -490,6 +487,7 @@ namespace EmbeddedBrowser
                             IsSystemKey = false,
                             Type = KeyEventType.Char
                         };
+                        Thread.Sleep(50);
                         Browser.GetBrowser().GetHost().SendKeyEvent(k);
                     });
 
@@ -499,7 +497,6 @@ namespace EmbeddedBrowser
                     k.IsSystemKey = false;
                     k.Type = KeyEventType.KeyDown;
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
-
 
                     var password = " " + DominatorAccountModel.AccountBaseModel.Password;
                     Browser.ExecuteScriptAsync("document.getElementsByName(\"password\")[0].click()");
@@ -511,7 +508,6 @@ namespace EmbeddedBrowser
                         k.IsSystemKey = false;
                         k.Type = KeyEventType.Char;
                         Browser.GetBrowser().GetHost().SendKeyEvent(k);
-
                     });
 
                     k = new KeyEvent();

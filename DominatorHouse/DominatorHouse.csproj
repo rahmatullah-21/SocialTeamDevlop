@@ -34,7 +34,7 @@
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <ApplicationRevision>35</ApplicationRevision>
+    <ApplicationRevision>37</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -219,6 +219,9 @@
     <Compile Include="OtherConfiguration\MigrationFromOldDominator.xaml.cs">
       <DependentUpon>MigrationFromOldDominator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OtherConfiguration\OtherTools.xaml.cs">
+      <DependentUpon>OtherTools.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OtherConfiguration\OtherConfigurationTab.xaml.cs">
       <DependentUpon>OtherConfigurationTab.xaml</DependentUpon>
     </Compile>
@@ -264,6 +267,10 @@
     <Page Include="OtherConfiguration\MigrationFromOldDominator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OtherConfiguration\OtherTools.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="OtherConfiguration\OtherConfigurationTab.xaml">
       <Generator>MSBuild:Compile</Generator>

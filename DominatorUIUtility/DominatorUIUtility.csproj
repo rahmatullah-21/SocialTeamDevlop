@@ -294,6 +294,9 @@
     <Compile Include="CustomControl\ManageMessages.xaml.cs">
       <DependentUpon>ManageMessages.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\MediaGenerator.xaml.cs">
+      <DependentUpon>MediaGenerator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\MessageMediaControl.xaml.cs">
       <DependentUpon>MessageMediaControl.xaml</DependentUpon>
     </Compile>
@@ -681,6 +684,10 @@
     <Page Include="CustomControl\ManageMessages.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\MediaGenerator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\MessageMediaControl.xaml">
       <SubType>Designer</SubType>

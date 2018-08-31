@@ -3126,4 +3126,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFiltersNotApplicableForQueryTypeEmail">User filters are not applicable for Email(QueryType)</system:String>
     <system:String x:Key="LangKeyPersonalNoteNotApplicableForQueryTypeEmail">Personal note is not applicable for Email(QueryType)</system:String>
     <system:String x:Key="LangKeySuggestedFriend">Suggested Friends</system:String>
+    <system:String x:Key="LangKeyUniqueMentionPerPostFromEachAccount">Unique mention per post from each account</system:String>
+    <system:String x:Key="LangKeyMediaGenerator">Media generator</system:String>
 </ResourceDictionary>
