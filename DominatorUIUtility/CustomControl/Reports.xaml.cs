@@ -3,6 +3,13 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.LogHelper;
+using System.Text.RegularExpressions;
+using DominatorHouseCore.Enums;
+using MahApps.Metro.Controls.Dialogs;
+using DominatorHouseCore;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -13,17 +20,22 @@ namespace DominatorUIUtility.CustomControl
     {
         public Reports()
         {
-            InitializeComponent();          
+            InitializeComponent();
             MainGrid.DataContext = this;
         }
 
-        public Reports(ReportModel ReportModel)
+        public Reports(ReportModel ReportModel) : this()
         {
-            InitializeComponent();
             this.ReportModel = ReportModel;
             MainGrid.DataContext = this;
         }
-
+        public CampaignDetails Campaign { get; set; }
+        public Reports(ReportModel ReportModel, CampaignDetails campaign) : this()
+        {
+            this.ReportModel = ReportModel;
+            Campaign = campaign;
+            MainGrid.DataContext = this;
+        }
         public ReportModel ReportModel
         {
             get { return (ReportModel)GetValue(ReportModelProperty); }
@@ -36,12 +48,40 @@ namespace DominatorUIUtility.CustomControl
             {
                 BindsTwoWayByDefault = true
             });
-       
+
 
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var newValue = e.NewValue;
         }
 
+        private void ExportReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var exportPath = FileUtilities.GetExportPath();
+
+                if (string.IsNullOrEmpty(exportPath))
+                    return;
+
+                var filename = Regex.Replace(
+                    input: $"{ Campaign.CampaignName }-Reports[{DateTimeUtilities.GetEpochTime()}]",
+                    pattern: "[\\/:*?<>|\"]",
+                    replacement: "-");
+
+                filename = $"{exportPath}\\{filename}.csv";
+                var activityType = (ActivityType)Enum.Parse(typeof(ActivityType), Campaign.SubModule);
+
+                SocinatorInitialize.GetSocialLibrary(Campaign.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(activityType, filename, ReportType.Campaign);
+                Dialog.ShowDialog("Sucess", "Sucessfully Exported to " + filename);
+                GlobusLogHelper.log.Info(Log.CustomMessage, Campaign.SocialNetworks, activityType, Campaign.CampaignName, "Sucessfully Exported to " + filename);
+            }
+            catch (Exception ex)
+            {
+                Dialog.ShowDialog("Fail", "Export failed !!");
+                ex.DebugLog();
+
+            }
+        }
     }
 }

@@ -179,7 +179,7 @@ namespace DominatorHouseCore.Utility
                 Console.WriteLine(ex.StackTrace);
             }
 
-            GlobusLogHelper.log.Info("Data has been exported successfully");
+            //GlobusLogHelper.log.Info("Data has been exported successfully");
         }
 
 

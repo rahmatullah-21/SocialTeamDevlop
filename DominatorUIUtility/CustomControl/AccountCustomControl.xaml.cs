@@ -317,7 +317,7 @@ namespace DominatorUIUtility.CustomControl
                     convasImage = GetConvasImage(image);
 
                     var editInstaProfileMenu = new MenuItem { Header = "Edit Insta Profile", Icon = convasImage };
-                    editInstaProfileMenu.Click += EditInstaProfile;
+                    editInstaProfileMenu.Click += EditNetworkProfile;
                     editInstaProfileMenu.DataContext = dominatorAccountModel;
                     menuOptions.Add(editInstaProfileMenu);
 
@@ -334,6 +334,20 @@ namespace DominatorUIUtility.CustomControl
 
                     //#endregion
 
+                    break;
+                case "Twitter":
+
+                    #region Edit Twitter Profile Menu
+
+                    image = Application.Current.FindResource("appbar_page_edit");
+                    convasImage = GetConvasImage(image);
+
+                    var editTwtProfileMenu = new MenuItem { Header = "Edit Twitter Profile", Icon = convasImage };
+                    editTwtProfileMenu.Click += EditNetworkProfile;
+                    editTwtProfileMenu.DataContext = dominatorAccountModel;
+                    menuOptions.Add(editTwtProfileMenu);
+
+                    #endregion
                     break;
             }
 
@@ -436,7 +450,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        public void EditInstaProfile(object sender, RoutedEventArgs e)
+        public void EditNetworkProfile(object sender, RoutedEventArgs e)
         {
             try
             {

@@ -21,7 +21,8 @@
         </Grid.RowDefinitions>
         <Grid>
             <CheckBox Content="{DynamicResource LangKeyFilter}" x:Name="ChkFilter" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
-            <Button HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Background="{DynamicResource AccentColorBrush3}" Margin="10" x:Name="ExportReport" x:FieldModifier="public">
+            <Button HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Background="{DynamicResource AccentColorBrush3}" Margin="10" x:Name="ExportReport"
+                    x:FieldModifier="public" Click="ExportReport_Click">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
