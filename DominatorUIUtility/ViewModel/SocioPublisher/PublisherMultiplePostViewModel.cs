@@ -108,52 +108,69 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
             var separator = ConstantVariable.Separator;
+
             ThreadFactory.Instance.Start(() =>
             {
+
+                // Iterate selected file name
                 listPostDetailsModel.ForEach(x =>
                 {
                     PostDetailsModel postDetailsModel = new PostDetailsModel();
                     try
                     {
+                        // Split the file details
                         var allData = x.Split('\t');
+
                         postDetailsModel.PostDescription = allData[0];
+
+                        // Media list
 
                         #region Medialist
 
-                        var mediaUrl = Regex.Split(allData[1], separator).ToList();
+                        var mediaDetails = allData.Length > 1 ? allData[1] : string.Empty;
+
+                        var mediaUrl = Regex.Split(mediaDetails, separator).ToList();
                         mediaUrl.ForEach(media =>
                         {
                             if (File.Exists(media))
                                 postDetailsModel.MediaViewer.MediaList.Add(media);
-
                         });
 
                         #endregion
 
-                        postDetailsModel.PublisherInstagramTitle = allData[2];
+                        // Title
+                        postDetailsModel.PublisherInstagramTitle = allData.Length > 2 ? allData[2] : string.Empty;
 
-                        if (allData.Length > 3)
-                            postDetailsModel.PdSourceUrl = allData[3];
+                        // Source url
+                        postDetailsModel.PdSourceUrl = allData.Length > 3 ? allData[3] : string.Empty;
+
+                        // Facebook Sell post details
 
                         #region FdSell
 
+                        var FdSellDetails = allData.Length > 4 ? allData[4] : string.Empty;
 
-                        if (allData.Length > 4 && SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
+                        var Fdsell = Regex.Split(FdSellDetails, separator);
+
+                        if (string.Compare(Fdsell[0], "Yes", StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                            string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                            string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
                         {
-                            var Fdsell = Regex.Split(allData[4], separator);
-                            if (Fdsell[0] == "IsEnable")
-                            {
-                                postDetailsModel.IsFdSellPost = true;
-                                postDetailsModel.FdSellProductTitle = Fdsell[1];
-                                postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
-                                postDetailsModel.FdSellLocation = Fdsell[3];
-                            }
+                            postDetailsModel.IsFdSellPost = true;
+                            postDetailsModel.FdSellProductTitle = Fdsell[1];
+                            postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
+                            postDetailsModel.FdSellLocation = Fdsell[3];
                         }
 
                         #endregion
-
+                        // Created date
                         postDetailsModel.CreatedDateTime = DateTime.Now;
+
+                        // Post id
                         postDetailsModel.PostDetailsId = Utilities.GetGuid();
+
+                        // Add to Collections
+                        //postDetails.Add(postDetailsModel);
                         Application.Current.Dispatcher.Invoke(() => LstPostDetailsModel.Add(postDetailsModel));
                         Thread.Sleep(50);
                     }

@@ -46,8 +46,8 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="30*"/>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="3*"  MaxHeight="600"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
@@ -70,13 +70,13 @@
         </TabControl>
 
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="{DynamicResource AccentBaseColorBrush}"  ResizeBehavior="BasedOnAlignment"
-                      ResizeDirection="Rows"/>
+                      ResizeDirection="Rows" />
 
         <Grid Name="Logger" Grid.Row="2" Margin="5">
-      
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  VerticalAlignment="Top" 
                        Margin="0,0,15,0">
-               
+
                 <Label Content="{DynamicResource LangKeyFilterByNetwork}" FontWeight="SemiBold"/>
                 <ComboBox ItemsSource="{Binding AvailableNetworks}" Width="200" SelectedIndex="-1" Name="CmbAvailableNetworks"
                           controls:TextBoxHelper.ClearTextButton="True"
@@ -112,11 +112,38 @@
                             <ListView.View>
                                 <GridView>
                                     <GridView.Columns>
-                                        <GridViewColumn Header="{DynamicResource LangKeyDatetime}" DisplayMemberBinding="{Binding DateTime}" Width="130" />
+                                        <GridViewColumn  Width="50" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Rectangle Height="15" Width="15" >
+                                                        <Rectangle.Style>
+                                                            <Style TargetType="Rectangle">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding LogType}" Value="Info">
+                                                                        <Setter Property="OpacityMask">
+                                                                            <Setter.Value>
+                                                                                <VisualBrush Visual="{StaticResource appbar_information_circle}" Stretch="Fill" />
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="Fill">
+                                                                            <Setter.Value>
+                                                                                <SolidColorBrush Color="LimeGreen"/>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="ToolTip" Value="{DynamicResource LangKeyInformations}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Rectangle.Style>
+                                                    </Rectangle>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="{DynamicResource LangKeyDatetime}" DisplayMemberBinding="{Binding DateTime}" Width="150" />
                                         <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}" Width="130"/>
                                         <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
                                         <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}" Width="130"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" Width="700"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" Width="680"/>
                                     </GridView.Columns>
                                 </GridView>
                             </ListView.View>
@@ -132,11 +159,51 @@
                             <ListView.View>
                                 <GridView>
                                     <GridView.Columns>
-                                        <GridViewColumn Header="{DynamicResource LangKeyDatetime}" DisplayMemberBinding="{Binding DateTime}"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}"/>
+                                        <GridViewColumn  Width="50" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Rectangle Height="15" Width="15" >
+                                                        <Rectangle.Style>
+                                                            <Style TargetType="Rectangle">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding LogType}" Value="Error">
+                                                                        <Setter Property="OpacityMask">
+                                                                            <Setter.Value>
+                                                                                <VisualBrush Visual="{StaticResource appbar_stop}" Stretch="Fill" />
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="Fill">
+                                                                            <Setter.Value>
+                                                                                <SolidColorBrush Color="Red"/>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="ToolTip" Value="{DynamicResource LangKeyError}"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding LogType}" Value="Warn">
+                                                                        <Setter Property="OpacityMask">
+                                                                            <Setter.Value>
+                                                                                <VisualBrush Visual="{StaticResource appbar_shield_alert}" Stretch="Fill"/>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="Fill">
+                                                                            <Setter.Value>
+                                                                                <SolidColorBrush Color="#ffd700"/>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="ToolTip" Value="{DynamicResource LangKeyWarning}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Rectangle.Style>
+                                                    </Rectangle>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="{DynamicResource LangKeyDatetime}" DisplayMemberBinding="{Binding DateTime}" Width="150"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}" Width="130"/>
                                         <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" Width="700"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}" Width="130"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" Width="680"/>
                                     </GridView.Columns>
                                 </GridView>
                             </ListView.View>
@@ -146,7 +213,7 @@
 
                 </dragable:TabablzControl>
             </dockable:Layout>
-     
+
         </Grid>
 
         <Grid Grid.Row="3" VerticalAlignment="Bottom">

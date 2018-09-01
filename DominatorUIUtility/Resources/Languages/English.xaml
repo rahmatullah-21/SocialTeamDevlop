@@ -3134,4 +3134,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFiltersForAcceptIncommingRequest">Filters for Accept Incomming Request</system:String>
     <system:String x:Key="LangKeyFiltersForCancelIncommingRequest">Filters for Cancel Incomming Request</system:String>
     <system:String x:Key="LangKeySendMessageWithLinkAsPreview">Send message with Link as Preview</system:String>
+    <system:String x:Key="LangKeyError">Error</system:String>
 </ResourceDictionary>

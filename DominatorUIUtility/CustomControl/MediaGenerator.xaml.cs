@@ -1,4 +1,6 @@
-﻿using DominatorHouseCore.Annotations;
+﻿using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -63,6 +65,27 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
+        private void CopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+           e.CanExecute= true;
+        }
 
+        private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            try
+            {
+                ListView lb = (ListView)(sender);
+                var filePath = (lb?.SelectedItem as string);
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    Clipboard.SetText(filePath);
+                    ToasterNotification.ShowSuccess("File Path copied");
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
     }
 }

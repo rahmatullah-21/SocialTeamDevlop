@@ -43,7 +43,11 @@
                     </Style.Triggers>
                 </Style>
             </Border.Style>
-            <ItemsControl ItemsSource="{Binding LstFile}" Name="Filelist" HorizontalAlignment="Center" Margin="10,5"/>
+            <ListView ItemsSource="{Binding LstFile}" Name="Filelist" HorizontalAlignment="Center" Margin="10,5">
+                <ListView.CommandBindings>
+                    <CommandBinding Command="ApplicationCommands.Copy"  CanExecute="CopyCanExecute" Executed="CopyExecuted" />
+                </ListView.CommandBindings>
+            </ListView>
         </Border>
     </Grid>
 </UserControl>

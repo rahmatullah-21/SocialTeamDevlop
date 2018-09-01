@@ -45,11 +45,11 @@ namespace DominatorHouseCore.Utility
                     var extension = Path.GetExtension(fileName);
                     if (!string.IsNullOrEmpty(extension))
                     {
-                        if (extension.Contains(".xls") || extension.Contains(".xlsx"))
+                        if (extension.Equals(".xls",StringComparison.CurrentCultureIgnoreCase) || extension.Equals(".xlsx", StringComparison.CurrentCultureIgnoreCase))
                             fileData.AddRange(GetExcelFileContent(fileName));
-                        else if (extension.Contains(".csv"))
+                        else if (extension.Equals(".csv", StringComparison.CurrentCultureIgnoreCase))
                             fileData.AddRange(GetCsvFileContent(fileName));
-                        else if (extension.Contains(".txt"))
+                        else if (extension.Equals(".txt", StringComparison.CurrentCultureIgnoreCase))
                             fileData.AddRange(GetTextFileContent(fileName));
                         else continue;
 
