@@ -3129,9 +3129,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyUniqueMentionPerPostFromEachAccount">Unique mention per post from each account</system:String>
     <system:String x:Key="LangKeyMediaGenerator">Media generator</system:String>
     <system:String x:Key="LangKeyOtherTools">Other Tools</system:String>
-    <system:String x:Key="LangKeyNoOfMutualFriend">Total Number Mutual Friends Shoul be greater than</system:String>
-    <system:String x:Key="LangKeyNoOfSpecific">Friend of a specific friend</system:String>
-    <system:String x:Key="LangKeyAcceptFilter">Filters for Accept Incomming Request</system:String>
-    <system:String x:Key="LangKeyCancelFilter">Filters for Cancel Incomming Request</system:String>
-    <system:String x:Key="LangKeyLinkPreview">Send message with Link as Preview</system:String>
+    <system:String x:Key="LangKeyTotalNumberMutualFriendsShouldBeGreaterThan">Total Number Mutual Friends Should be greater than</system:String>
+    <system:String x:Key="LangKeyFriendOfASpecificFriend">Friend of a specific friend</system:String>
+    <system:String x:Key="LangKeyFiltersForAcceptIncommingRequest">Filters for Accept Incomming Request</system:String>
+    <system:String x:Key="LangKeyFiltersForCancelIncommingRequest">Filters for Cancel Incomming Request</system:String>
+    <system:String x:Key="LangKeySendMessageWithLinkAsPreview">Send message with Link as Preview</system:String>
 </ResourceDictionary>

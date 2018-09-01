@@ -299,6 +299,8 @@ namespace DominatorHouseCore.Enums
         [Description("Quora")]
         AnswerOnQuestions = 101,
         [Description("Twitter")]
-        WelcomeTweet = 102
+        WelcomeTweet = 102,
+        [Description("LinkedIn")]
+        SalesNavigatorCompanyScraper = 103,
     }
 }

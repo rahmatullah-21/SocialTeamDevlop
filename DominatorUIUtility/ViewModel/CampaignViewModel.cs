@@ -221,7 +221,7 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 var filter = sender as CampaignDetails;
-                return filter.SubModule.Contains(CampaignModel.SelectedActivity);
+                return filter.SubModule.IndexOf(CampaignModel.SelectedActivity)>=0;
             }
             catch (Exception ex)
             {
