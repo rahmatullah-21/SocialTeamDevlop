@@ -59,7 +59,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 }
                 catch (Exception ex)
                 {
-                    ex.DebugLog();
+                    ex.DebugLog(
+                        $"{this.GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
                 }
             }
             catch (KeyNotFoundException ex)
@@ -110,7 +111,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     }
                     catch (Exception ex)
                     {
-                        ex.DebugLog();
+                        ex.DebugLog(
+                            $"{this.GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
                     }
 
                     usedQueries++;
@@ -119,9 +121,9 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 if (totalQueries == usedQueries)
                     GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks, _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException oce)
             {
-                Console.WriteLine(@"Cancellation Requested !");
+                oce.DebugLog(@"Cancellation Requested !");
             }
             catch (AggregateException ae)
             {
