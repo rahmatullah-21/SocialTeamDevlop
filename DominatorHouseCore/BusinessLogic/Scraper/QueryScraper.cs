@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using DominatorHouseCore.LogHelper;
+﻿using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
-{   
+{
     public interface IScraperActionTables
     {
         // key will be for query type and action will be respective call back
-        Dictionary<string, Action<QueryInfo>> ScrapeWithQueriesActionTable { get; set; }
+        Dictionary<string, Action<QueryInfo>> ScrapeWithQueriesActionTable { get; }
 
         // key will be for module and action will be respective call back
-        Dictionary<string, Action> ScrapeWithoutQueriesActionTable { get; set; }
+        Dictionary<string, Action> ScrapeWithoutQueriesActionTable { get; }
     }
 
-    public abstract class QueryScraper  : IScraperActionTables
+    public abstract class QueryScraper : IScraperActionTables
     {
         protected QueryScraper(JobProcess jobProcess, Dictionary<string, Action<QueryInfo>> scrapeWithQueriesActionTable, Dictionary<string, Action> scrapeWithoutQueriesActionTable)
         {
@@ -29,9 +29,9 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
         private readonly JobProcess _jobProcess;
 
-        public Dictionary<string, Action<QueryInfo>> ScrapeWithQueriesActionTable { get; set; }
+        public Dictionary<string, Action<QueryInfo>> ScrapeWithQueriesActionTable { get; }
 
-        public Dictionary<string, Action> ScrapeWithoutQueriesActionTable { get; set; }
+        public Dictionary<string, Action> ScrapeWithoutQueriesActionTable { get; }
 
         public void ScrapeWithoutQueries(string module)
         {
@@ -96,7 +96,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     }
                     catch (OperationCanceledException)
                     {
-                      throw new OperationCanceledException(@"Cancellation Requested !");
+                        throw new OperationCanceledException(@"Cancellation Requested !");
                     }
                     catch (AggregateException ae)
                     {
@@ -116,8 +116,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     usedQueries++;
                 }
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                if(totalQueries == usedQueries)
-                GlobusLogHelper.log.Info(Log.NoMoreDataToPerform,_jobProcess.SocialNetworks,_jobProcess.DominatorAccountModel.AccountBaseModel.UserName,_jobProcess.ActivityType);
+                if (totalQueries == usedQueries)
+                    GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks, _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
             }
             catch (OperationCanceledException)
             {

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
-using DominatorHouseCore.DatabaseHandler.DHTables;
+﻿using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.DatabaseHandler.Utility
 {
@@ -140,10 +139,10 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             try
             {
                 // Make with thread factory, If the expression is null then return the whole records otherwise only matched expression
-                lstData = await ThreadFactory.Instance.Start(() => 
-                expression == null 
-                ? _context.Set<T>().ToList() 
-                : _context.Set<T>().Where(expression).ToList(),TaskCreationOptions.LongRunning);
+                lstData = await ThreadFactory.Instance.Start(() =>
+                expression == null
+                ? _context.Set<T>().ToList()
+                : _context.Set<T>().Where(expression).ToList(), TaskCreationOptions.LongRunning);
             }
             catch (Exception)
             {
@@ -262,6 +261,20 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             catch (Exception ex)
             {
                 ex.DebugLog();
+            }
+        }
+
+
+        public bool Any<T>(Expression<Func<T, bool>> expression) where T : class
+        {
+            try
+            {
+                return _context.Set<T>().Any(expression);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                throw;
             }
         }
 
