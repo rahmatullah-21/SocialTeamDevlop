@@ -3135,4 +3135,12 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFiltersForCancelIncommingRequest">Filters for Cancel Incomming Request</system:String>
     <system:String x:Key="LangKeySendMessageWithLinkAsPreview">Send message with Link as Preview</system:String>
     <system:String x:Key="LangKeyError">Error</system:String>
+    <system:String x:Key="LangKeyWhoAcceptedRequest">Who Accepted Request</system:String>
+    <system:String x:Key="LangKeyWhoDidNotAcceptRequest">Who did not accept request</system:String>
+
+    <system:String x:Key="LangKeyCommentLiker">Comment Liker</system:String>
+    <system:String x:Key="LangKeyCommentUrl">Comment Url</system:String>
+    <system:String x:Key="LangKeyScrapTheProfileWhichContainLikersBetween">Scrap the profile which contains Likers Between</system:String>
+    <system:String x:Key="LangKeyCommentFilter">Comment Filter</system:String>
+    <system:String x:Key="LangKeySalesnavigatorCompanyscraper">Salesnavigator Companyscraper</system:String>
 </ResourceDictionary>
