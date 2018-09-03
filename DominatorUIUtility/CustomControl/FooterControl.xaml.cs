@@ -1,9 +1,11 @@
 ﻿using DominatorHouseCore;
+using DominatorHouseCore.Command;
 using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace DominatorUIUtility.CustomControl
@@ -18,10 +20,9 @@ namespace DominatorUIUtility.CustomControl
         {
             InitializeComponent();
             mainGrid.DataContext = this;
-            list_SelectedAccounts=new List<string>();
-        }
+            list_SelectedAccounts = new List<string>();
 
-        
+        }
         public List<string> list_SelectedAccounts
         {
             get
@@ -39,9 +40,9 @@ namespace DominatorUIUtility.CustomControl
                 BindsTwoWayByDefault = true
             });
 
-      
 
-        public string NoOfAccountsSelected 
+
+        public string NoOfAccountsSelected
         {
             get
             {
@@ -152,10 +153,10 @@ namespace DominatorUIUtility.CustomControl
         /// <summary>
         ///  Update campaign event registeration
         /// </summary>
-        
+
         static readonly RoutedEvent UpdateCampaignChangedRoutedEvent = EventManager.RegisterRoutedEvent("UpdateCampaignChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(FooterControl));
 
-      
+
 
         public event RoutedEventHandler UpdateCampaignChanged
         {
@@ -200,6 +201,31 @@ namespace DominatorUIUtility.CustomControl
 
             }
         }
+
+
+        public ICommand CreateCampaignCommand
+        {
+            get { return (ICommand)GetValue(CreateCampaignCommandProperty); }
+            set { SetValue(CreateCampaignCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CreateCampaignCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CreateCampaignCommandProperty =
+            DependencyProperty.Register("CreateCampaignCommand", typeof(ICommand), typeof(FooterControl));
+
+
+
+        public ICommand SelectAccountCommand
+        {
+            get { return (ICommand)GetValue(SelectAccountCommandProperty); }
+            set { SetValue(SelectAccountCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectAccountCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectAccountCommandProperty =
+            DependencyProperty.Register("SelectAccountCommand", typeof(ICommand), typeof(FooterControl));
+
+
     }
 
 }

@@ -31,7 +31,8 @@
                         </Rectangle>
                     </StackPanel>
                 </Button>
-                <Button Name="BtnSaveBlacklistsText"  Foreground="White"  Visibility="{Binding SaveVisiblity}" Background="{DynamicResource AccentBaseColorBrush}" HorizontalAlignment="Right"  Height="25" Width="35" VerticalAlignment="Center"  Click="BtnSaveBlacklistsText_OnClick" >
+                <Button Name="BtnSaveBlacklistsText"  Foreground="White"  Visibility="{Binding SaveVisiblity}" Background="{DynamicResource AccentBaseColorBrush}" HorizontalAlignment="Right" 
+                        Height="25" Width="35" VerticalAlignment="Center"  Command="{Binding SaveCommand}" CommandParameter="{Binding CommandParameter}" >
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" ToolTip="{DynamicResource LangKeySave}">
                         <Rectangle Width="13" Height="15" Fill="White"  HorizontalAlignment="Center">
                             <Rectangle.OpacityMask>

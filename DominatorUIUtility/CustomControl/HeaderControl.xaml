@@ -30,7 +30,7 @@
             <Button Width="130" Height="28"
                     Margin="7,0,10,0"
                     BorderBrush="Black" BorderThickness="0" Style="{StaticResource ButtonStyle}" Background="#ef1d1d" Name="btnCancelEdit" 
-                    Visibility="{Binding IsCancelEditVisible}" Click="BtnCancelEdit_OnClick">
+                    Visibility="{Binding IsCancelEditVisible}" Command="{Binding CancelEditCommand}">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Width="15" Height="15" Fill="White">
@@ -42,13 +42,17 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
-            <Rectangle Width="25" Height="25" Fill="White" 
-                       x:Name="Info"
-                       MouseDown="Info_OnMouseDown" Margin="10,0" ToolTip="{DynamicResource LangKeyInfo}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
-                </Rectangle.OpacityMask>
-            </Rectangle>
+
+            <Button Background="Transparent" Command="{Binding InfoCommand}">
+                <Button.Content>
+                    <Rectangle Width="25" Height="25" Fill="White" 
+                       x:Name="Info" Margin="10,0" ToolTip="{DynamicResource LangKeyInfo}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button.Content>
+            </Button>
 
         </StackPanel>
     </Grid>

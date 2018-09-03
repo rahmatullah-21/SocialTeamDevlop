@@ -30,7 +30,7 @@ namespace DominatorUIUtility.CustomControl
             CurrentQuery = new QueryInfo();
             MainGrid.DataContext = this;
             IsExpanded = true;
-            AddQueryCommand = new BaseCommand<object>(CanExecute, Execute);
+            // AddQueryCommand = new BaseCommand<object>(CanExecute, Execute);
             SelectedIndex = 0;
             ListQueryType = new List<string>();
             ListQueryInfo = new ObservableCollection<QueryInfo>();
@@ -39,7 +39,10 @@ namespace DominatorUIUtility.CustomControl
             LstNonQueryType.Add("LangKeyNewsfeed".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyJoinedCommunityMembers".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyMyConnectionsPostS".FromResourceDictionary());
+            DeleteQueryCommand = new BaseCommand<object>((sender)=>true, DeleteQueryExecute);
+            DeleteMulipleCommand = new BaseCommand<object>((sender)=>true, DeleteMulipleExecute);
         }
+
 
         #region Variables
 
@@ -274,8 +277,18 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-
         #endregion
+        
+        public object CommandParameter
+        {
+            get { return (object)GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(SearchQueryControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged));
+
 
         #region Delete the query from query list
 
@@ -354,39 +367,39 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
+        //public bool CanExecute(object parameter)
+        //{
+        //    return true;
+        //}
 
-        public void Execute(object parameter)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(TxtInputQuery.Text.Trim()) && QueryCollection.Count == 0)
-                    return;
-                if (TxtInputQuery.Text.Contains(","))
-                {
-                    CurrentQuery.QueryValue = String.Empty;
-                    QueryCollection.AddRange(TxtInputQuery.Text.Split(',').Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct());
-                }
-                else
-                {
-                    CurrentQuery.QueryValue = TxtInputQuery.Text.ToString();
-                }
-                CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
-                // CurrentQuery.QueryType = LstQueryType[SelectedIndex].ToString();
+        //public void Execute(object parameter)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(TxtInputQuery.Text.Trim()) && QueryCollection.Count == 0)
+        //            return;
+        //        if (TxtInputQuery.Text.Contains(","))
+        //        {
+        //            CurrentQuery.QueryValue = String.Empty;
+        //            QueryCollection.AddRange(TxtInputQuery.Text.Split(',').Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct());
+        //        }
+        //        else
+        //        {
+        //            CurrentQuery.QueryValue = TxtInputQuery.Text.ToString();
+        //        }
+        //        CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
+        //        // CurrentQuery.QueryType = LstQueryType[SelectedIndex].ToString();
 
-                TxtInputQuery.Text = string.Empty;
-                SelectedIndex = 0;
-                AddQueryEventHandler();
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-            TxtInputQuery.IsEnabled = true;
-        }
+        //        TxtInputQuery.Text = string.Empty;
+        //        SelectedIndex = 0;
+        //        AddQueryEventHandler();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //    }
+        //    TxtInputQuery.IsEnabled = true;
+        //}
 
         public bool IsExpanded
         {
@@ -450,6 +463,125 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public HashSet<string> LstNonQueryType { get; set; } = new HashSet<string>();
+
+        private bool _isEnable = true;
+
+        public bool IsEnable
+        {
+            get
+            {
+                return _isEnable;
+            }
+            set
+            {
+                _isEnable = value;
+                OnPropertyChanged(nameof(IsEnable));
+            }
+        }
+
+
+
+        public ICommand CustomFilterCommand
+        {
+            get { return (ICommand)GetValue(CustomFilterCommandProperty); }
+            set { SetValue(CustomFilterCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CustomFilterCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CustomFilterCommandProperty =
+            DependencyProperty.Register("CustomFilterCommand", typeof(ICommand), typeof(SearchQueryControl));
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
+                if (LstNonQueryType.Contains(CurrentQuery.QueryType))
+                {
+                    CurrentQuery.QueryValue = "NA";
+                    IsEnabled = false;
+                }
+                else
+                {
+                    IsEnabled = true;
+                    CurrentQuery.QueryValue =string.Empty;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
+        public ICommand DeleteQueryCommand
+        {
+            get { return (ICommand)GetValue(DeleteQueryCommandProperty); }
+            set { SetValue(DeleteQueryCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DeleteQueryCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DeleteQueryCommandProperty =
+            DependencyProperty.Register("DeleteQueryCommand", typeof(ICommand), typeof(SearchQueryControl));
+
+        private void DeleteQueryExecute(object sender)
+        {
+            try
+            {
+                var QueryToDelete =sender as QueryInfo;
+                DeleteQueryEventHandler();
+                if (ListQueryInfo.Any(x => QueryToDelete != null && x.Id == QueryToDelete.Id))
+                {
+                    QueryCollection.Remove(QueryToDelete.QueryValue);
+                    ListQueryInfo.Remove(QueryToDelete);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+
+
+        public ICommand DeleteMulipleCommand
+        {
+            get { return (ICommand)GetValue(DeleteMulipleCommandProperty); }
+            set { SetValue(DeleteMulipleCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DeleteMulipleCommandProperty =
+            DependencyProperty.Register("DeleteMulipleCommand", typeof(ICommand), typeof(SearchQueryControl));
+
+
+        private void DeleteMulipleExecute(object obj)
+        {
+            try
+            {
+                if (IsAllQuerySelected)
+                {
+                    QueryCollection.Clear();
+                    ListQueryInfo.Clear();
+                    IsAllQuerySelected = false;
+                    return;
+                }
+                foreach (var queryInfo in ListQueryInfo.ToList())
+                {
+                    if (queryInfo.IsQuerySelected)
+                    {
+                        QueryCollection.Remove(queryInfo.QueryValue);
+                        ListQueryInfo.Remove(queryInfo);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
     }
 
 

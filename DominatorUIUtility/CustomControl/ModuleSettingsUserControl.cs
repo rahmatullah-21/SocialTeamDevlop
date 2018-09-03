@@ -31,6 +31,8 @@ using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.LogHelper;
 using FluentScheduler;
+using DominatorHouseCore.Command;
+using System.Windows.Input;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -47,15 +49,39 @@ namespace DominatorUIUtility.CustomControl
 
         #region Constructor
 
-        protected ModuleSettingsUserControl() { }
+        protected ModuleSettingsUserControl()
+        {
+            CreateCampaignCommand = new BaseCommand<object>((sender) => true, CreateOrUpdateCampaign);
+            SelectAccountCommand = new BaseCommand<object>((sender) => true, (sender) => SelectAccount());
+            CancelEditCommand = new BaseCommand<object>((sender) => true, (sender) =>
+            {
+                SetDataContext();
+                TabSwitcher.GoToCampaign();
+            });
+            InfoCommand = new BaseCommand<object>((sender) => true, (sender) => { IsOpen = true; });
 
+        }
+
+        private void CreateOrUpdateCampaign(object sender)
+        {
+            var control = sender as FooterControl;
+            if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
+                CreateCampaign();
+            else
+                UpdateCampaign();
+        }
+
+        public ICommand CreateCampaignCommand { get; set; }
+        public ICommand SelectAccountCommand { get; set; }
+        public ICommand CancelEditCommand { get; set; }
+        public ICommand InfoCommand { get; set; }
         #endregion
 
         #region Properties
 
         HeaderControl _headerControl;
         FooterControl _footerControl;
-        SearchQueryControl _queryControl;
+        public SearchQueryControl _queryControl;
         Grid _mainGrid;
         AccountGrowthModeHeader _accountGrowthModeHeader;
         ActivityType _activityType;
@@ -168,6 +194,21 @@ namespace DominatorUIUtility.CustomControl
         public string KnowledgeBaseLink { get; set; } = "!Pass ConstantHelpDetails.KnowledgeBaseLink";
 
         public string ContactSupportLink { get; set; } = "!Pass ConstantHelpDetails.ContactLink";
+        private bool _isOpen;
+
+        public bool IsOpen
+        {
+            get
+            {
+                return _isOpen;
+            }
+            set
+            {
+                _isOpen = value;
+                OnPropertyChanged(nameof(IsOpen));
+            }
+        }
+
 
         #endregion
 
@@ -833,30 +874,30 @@ namespace DominatorUIUtility.CustomControl
 
                 #region Remove TemplateId from removed account from campaign selected account list
 
-                    accountToRemoveModuleConfiguration.ForEach(account =>
+                accountToRemoveModuleConfiguration.ForEach(account =>
+                {
+
+                    try
                     {
+                        var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
+                            module.ActivityType == _activityType);
+                        account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
+                        var socinatorAccountBuilder =
+                            new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                                .RemoveModuleSettings(_activityType)
+                                .SaveToBinFile();
+                        DominatorScheduler.StopActivity(account, _activityType.ToString(),
+                            moduleSettings?.TemplateId, true);
 
-                        try
-                        {
-                            var moduleSettings = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(module =>
-                                module.ActivityType == _activityType);
-                            account.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-                            var socinatorAccountBuilder =
-                                new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                                    .RemoveModuleSettings(_activityType)
-                                    .SaveToBinFile();
-                            DominatorScheduler.StopActivity(account, _activityType.ToString(),
-                                moduleSettings?.TemplateId, true);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
 
 
-                    });
-               
+                });
+
 
                 #endregion
             }
@@ -1682,5 +1723,127 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
+        protected void SelectAccount()
+        {
+            try
+            {
+
+                var objSelectAccountControl = new SelectAccountControl(_footerControl.list_SelectedAccounts,
+                    filterForActiveSocialNetwork: true);
+
+                var objDialog = new Dialog();
+
+                var window = objDialog.GetMetroWindow(objSelectAccountControl, "Select Account");
+
+                objSelectAccountControl.btnSave.Click += (senders, Events) =>
+                {
+                    var selectedAccount = objSelectAccountControl.GetSelectedAccount();
+                    if (selectedAccount.Count > 0)
+                    {
+                        _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
+                        this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+                        GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _footerControl.list_SelectedAccounts.Count, CampaignName);
+                    }
+                    else
+                    {
+                        this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                        _footerControl.list_SelectedAccounts = selectedAccount.ToList();
+                    }
+                    window.Close();
+                };
+
+                objSelectAccountControl.btnCancel.Click += (senders, events) => window.Close();
+                window.ShowDialog();
+
+            }
+            catch (Exception Ex)
+            {
+                Ex.DebugLog();
+            }
+        }
+
+        public void AddQuery(Type queryParameterType)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue.Trim()) && _queryControl.QueryCollection.Count == 0)
+                    return;
+
+                if (_queryControl.CurrentQuery.QueryValue.Contains(","))
+                {
+                    _queryControl.QueryCollection.Clear();
+                    _queryControl.QueryCollection.AddRange(_queryControl.CurrentQuery.QueryValue.Split(',').Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct());
+                    _queryControl.CurrentQuery.QueryValue = String.Empty;
+                }
+
+                List<int> queryValuIndex = new List<int>();
+                if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue) && _queryControl.QueryCollection.Count != 0)
+                {
+                    _queryControl.QueryCollection.ForEach(query =>
+                    {
+                        var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
+
+                        if (currentQuery == null) return;
+
+                        currentQuery.QueryValue = query;
+                        currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
+                        //  currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName(queryParameterType);
+
+                        currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                        if (IsQueryExistWithoutDialog(currentQuery, Model.SavedQueries))
+                        {
+                            queryValuIndex.Add(_queryControl.QueryCollection.IndexOf(query));
+                            return;
+                        }
+
+                        Model.SavedQueries.Add(currentQuery);
+
+                    });
+                    if (queryValuIndex.Count > 0)
+                    {
+                        if (queryValuIndex.Count <= 10)
+                        {
+                            GlobusLogHelper.log.Info(Log.AlreadyExistQuery, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _activityType, "{ " + string.Join(" },{ ", queryValuIndex.ToArray()) + " }");
+                        }
+                        else
+                        {
+                            GlobusLogHelper.log.Info(Log.AlreadyExistQueryCount, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _activityType, queryValuIndex.Count);
+
+                        }
+                    }
+                }
+                else
+                {
+                    _queryControl.CurrentQuery.QueryTypeDisplayName = _queryControl.CurrentQuery.QueryType;
+
+                    // _queryControl.CurrentQuery.QueryTypeDisplayName = _queryControl.CurrentQuery.QueryTypeAsDisplayName(queryParameterType);
+
+                    var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
+
+                    if (currentQuery == null) return;
+
+                    currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                    if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
+
+                    Model.SavedQueries.Add(currentQuery);
+
+                    _queryControl.CurrentQuery.QueryValue = string.Empty;
+
+                }
+                _queryControl.IsEnabled = true;
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        public void CustomFilter()
+        {
+            UserFilterAction.UserFilterControl(_queryControl);
+
+        }
     }
 }

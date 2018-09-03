@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Utility;
+using System.Windows.Input;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -167,5 +168,28 @@ namespace DominatorUIUtility.CustomControl
             {
                 BindsTwoWayByDefault = true
             });
+
+
+
+        public ICommand SaveCommand
+        {
+            get { return (ICommand)GetValue(SaveCommandProperty); }
+            set { SetValue(SaveCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SaveCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SaveCommandProperty =
+            DependencyProperty.Register("SaveCommand", typeof(ICommand), typeof(InputBoxControl));
+        public object CommandParameter
+        {
+            get { return (object)GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged));
+
+
     }
 }
