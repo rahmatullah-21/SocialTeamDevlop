@@ -75,7 +75,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstBlackListUsers}" 
+                <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstBlackListUsers,IsAsync=True}" 
                          Background="White" VerticalAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>

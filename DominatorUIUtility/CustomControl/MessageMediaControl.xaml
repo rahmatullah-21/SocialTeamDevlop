@@ -83,7 +83,8 @@
             </Grid>
 
         </Grid>
-        <Button Content="{DynamicResource LangKeyAddMessageToList}" Width="200" Name="btnAddMessagesToList" Click="BtnAddMessagesToList_OnClick"
+        <Button Content="{DynamicResource LangKeyAddMessageToList}" Width="200" Name="btnAddMessagesToList" 
+                Command="{Binding AddMessagesCommand}" CommandParameter="{Binding CommandParameter}"
                     Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,30,0,0" x:FieldModifier="public"/>
 
     </StackPanel>

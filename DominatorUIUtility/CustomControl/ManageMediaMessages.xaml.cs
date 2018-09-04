@@ -6,6 +6,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
+using System.Windows.Input;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -18,6 +20,7 @@ namespace DominatorUIUtility.CustomControl
         {
             InitializeComponent();
             MainGrid.DataContext = this;
+
         }
         public ObservableCollection<ManageMessagesModel> LstManageMessagesModel
         {
@@ -92,5 +95,7 @@ namespace DominatorUIUtility.CustomControl
             var currentItem = ((FrameworkElement)sender).DataContext as ManageMessagesModel;
             LstManageMessagesModel.Remove(currentItem);
         }
+
+     
     }
 }
