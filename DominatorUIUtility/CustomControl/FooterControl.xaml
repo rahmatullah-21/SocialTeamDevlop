@@ -20,7 +20,8 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button Name="btnSelectAccount" HorizontalAlignment="Left"  Style="{StaticResource ButtonStyle}" Background="#3897F0" Click="btnSelectAccount_Click" >
+            <Button Name="btnSelectAccount" HorizontalAlignment="Left"  Style="{StaticResource ButtonStyle}" Background="#3897F0" 
+                    Command="{Binding SelectAccountCommand}" >
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Width="15" Height="15" Fill="White">
@@ -58,7 +59,7 @@
             <Grid Grid.Row="1">
                 <Button Name="btnCampaignManager"
                         Grid.Column="0" Style="{StaticResource ButtonStyle}" Background="#ef1d1d" 
-                        Width="160"   Click="btnCampaignManager_Click">
+                        Width="160"  Command="{Binding CreateCampaignCommand}" CommandParameter="{Binding}">
                     <StackPanel Orientation="Horizontal">
                         <AccessText Margin="25,0,0,0"
                                     Text="{Binding CampaignManager}" />

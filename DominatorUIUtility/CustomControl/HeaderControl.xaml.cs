@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using DominatorUIUtility.Behaviours;
+using System.Windows.Input;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -140,7 +141,31 @@ namespace DominatorUIUtility.CustomControl
             HeaderHelper.ExpandCollapseAllExpander(sender, IsExpanded);
             
         }
-       
+
+
+        public ICommand CancelEditCommand
+        {
+            get { return (ICommand)GetValue(CancelEditCommandProperty); }
+            set { SetValue(CancelEditCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CancelEditCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CancelEditCommandProperty =
+            DependencyProperty.Register("CancelEditCommand", typeof(ICommand), typeof(HeaderControl));
+
+
+
+        public ICommand InfoCommand
+        {
+            get { return (ICommand)GetValue(InfoCommandProperty); }
+            set { SetValue(InfoCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for InfoCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty InfoCommandProperty =
+            DependencyProperty.Register("InfoCommand", typeof(ICommand), typeof(HeaderControl));
+
+
     }
     
 }
