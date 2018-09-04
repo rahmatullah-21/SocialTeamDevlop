@@ -373,7 +373,8 @@ namespace DominatorUIUtility.CustomControl
 
             _footerControl.list_SelectedAccounts = new List<string>();
 
-            _mainGrid.DataContext = Model as TModel;
+           // _mainGrid.DataContext = Model as TModel;
+            _mainGrid.DataContext = ObjViewModel;
 
             _headerControl.DataContext = _footerControl.DataContext = this;
 
