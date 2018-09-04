@@ -83,6 +83,7 @@ namespace DominatorHouseCore.Diagnostics
         public static INetworkCollectionFactory ActiveNetwork { get; private set; }
 
         public static SocialNetworks ActiveSocialNetwork => GetActiveSocialNetwork();
+        public static SocialNetworks AccountModeActiveSocialNetwork ;
 
         private static SocialNetworks GetActiveSocialNetwork()
         {
