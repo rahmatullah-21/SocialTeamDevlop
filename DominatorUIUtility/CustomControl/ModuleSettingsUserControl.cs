@@ -59,6 +59,11 @@ namespace DominatorUIUtility.CustomControl
                 TabSwitcher.GoToCampaign();
             });
             InfoCommand = new BaseCommand<object>((sender) => true, (sender) => { IsOpen = true; });
+            SaveConfigurationsCommand = new BaseCommand<object>((sender) => true, (sender) => SaveConfigurations());
+            LoadedCommand = new BaseCommand<object>((sender) => true, (sender) => SetSelectedAccounts());
+            SelectionChangedCommand = new BaseCommand<object>((sender) => true, (sender) => SetAccountModeDataContext());
+            StatusChangedCommand = new BaseCommand<object>((sender) => true, (sender) => AccountModeStatusChange());
+
 
         }
 
@@ -75,6 +80,10 @@ namespace DominatorUIUtility.CustomControl
         public ICommand SelectAccountCommand { get; set; }
         public ICommand CancelEditCommand { get; set; }
         public ICommand InfoCommand { get; set; }
+        public ICommand SaveConfigurationsCommand { get; set; }
+        public ICommand LoadedCommand { get; set; }
+        public ICommand SelectionChangedCommand { get; set; }
+        public ICommand StatusChangedCommand { get; set; }
         #endregion
 
         #region Properties
@@ -373,7 +382,7 @@ namespace DominatorUIUtility.CustomControl
 
             _footerControl.list_SelectedAccounts = new List<string>();
 
-           // _mainGrid.DataContext = Model as TModel;
+            // _mainGrid.DataContext = Model as TModel;
             _mainGrid.DataContext = ObjViewModel;
 
             _headerControl.DataContext = _footerControl.DataContext = this;
@@ -1497,7 +1506,7 @@ namespace DominatorUIUtility.CustomControl
                 else
                     SetModuleValues(false, null);
 
-                _mainGrid.DataContext = Model as TModel;
+                _mainGrid.DataContext = ObjViewModel;
                 _accountGrowthModeHeader.DataContext = this;
                 SetSelectedAccounts(accountDetails.AccountBaseModel.AccountNetwork);
             }
@@ -1562,6 +1571,7 @@ namespace DominatorUIUtility.CustomControl
 
             _accountGrowthModeHeader.SelectedItem = SocinatorInitialize.GetSocialLibrary(networks)
                 .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount;
+
         }
 
         #endregion
@@ -1728,7 +1738,6 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-
                 var objSelectAccountControl = new SelectAccountControl(_footerControl.list_SelectedAccounts,
                     filterForActiveSocialNetwork: true);
 
@@ -1843,8 +1852,80 @@ namespace DominatorUIUtility.CustomControl
         }
         public void CustomFilter()
         {
-            UserFilterAction.UserFilterControl(_queryControl);
+            try
+            {
+                UserFilterAction.UserFilterControl(_queryControl);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
 
+        }
+        public void SetSelectedAccounts()
+        {
+            try
+            {
+                var networks = SocinatorInitialize.AccountModeActiveSocialNetwork;
+                var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
+
+                _accountGrowthModeHeader.AccountItemSource = accounts;
+
+                _accountGrowthModeHeader.SelectedItem = SocinatorInitialize.GetSocialLibrary(networks)
+                    .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+        }
+
+        public void SetAccountModeDataContext()
+        {
+            try
+            {
+                var network = SocinatorInitialize.AccountModeActiveSocialNetwork;
+                SocialNetwork = network;
+
+                var accountDetails = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, network);
+
+                SocinatorInitialize.GetSocialLibrary(network)
+                     .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount = _accountGrowthModeHeader.SelectedItem;
+
+                var moduleConfiguration = accountDetails.ActivityManager.LstModuleConfiguration
+                    .FirstOrDefault(y => y.ActivityType == _activityType);
+
+                if (moduleConfiguration != null)
+                {
+                    var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
+                    SetModuleValues(moduleConfiguration.IsEnabled, templateDetails);
+                }
+                else
+                    SetModuleValues(false, null);
+
+                _mainGrid.DataContext = ObjViewModel;
+                _accountGrowthModeHeader.DataContext = this;
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        public void AccountModeStatusChange()
+        {
+            try
+            {
+                var network = SocinatorInitialize.AccountModeActiveSocialNetwork;
+                if (!ChangeAccountsModuleStatus(Model.IsAccountGrowthActive, _accountGrowthModeHeader.SelectedItem, network))
+                    Model.IsAccountGrowthActive = false;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
     }
 }

@@ -108,7 +108,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 {
                     SelectedUserControl = accountToolsView.GetStartupToolsView();
                 }
-
+                SocinatorInitialize.AccountModeActiveSocialNetwork = networks;
                 // If passed network is social then initialize the account details
                 if (networks == SocialNetworks.Social)
                     ThreadFactory.Instance.Start(InitializeAccounts);

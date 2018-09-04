@@ -116,7 +116,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var model = ((FrameworkElement)((FrameworkElement)sender).DataContext).DataContext;
+                var model = ((dynamic)((FrameworkElement)((FrameworkElement)sender).DataContext).DataContext).Model;
 
                 if (JobConfiguration.SelectedItem == "Slow")
                 {
