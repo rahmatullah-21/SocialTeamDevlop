@@ -18,6 +18,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -350,8 +351,29 @@ namespace DominatorUIUtility.CustomControl
                     #endregion
                     break;
             }
+            #region Edit Twitter Profile Menu
 
+            image = Application.Current.FindResource("appbar_page_duplicate");
+            convasImage = GetConvasImage(image);
+
+            var copyAccountId = new MenuItem { Header = "Copy Account Id", Icon = convasImage };
+            copyAccountId.Click += CopyAccountId;
+            copyAccountId.DataContext = dominatorAccountModel;
+            menuOptions.Add(copyAccountId);
+
+            #endregion
             return menuOptions;
+        }
+
+        private void CopyAccountId(object sender, RoutedEventArgs e)
+        {
+            var dataContext = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+            if(!string.IsNullOrEmpty(dataContext.AccountId))
+            {
+                Clipboard.SetText(dataContext.AccountId);
+                ToasterNotification.ShowSuccess("AccountId copied");
+            }
+            
         }
 
         private static Rectangle GetConvasImage(object image)

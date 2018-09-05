@@ -44,6 +44,7 @@ namespace DominatorUIUtility.ViewModel
             ReportCommand = new BaseCommand<object>((sender) => true, ReportExecute);
             CampaignTypeSelectionChange = new BaseCommand<object>((sender) => true, CampaignTypeSelectionChanged);
             SelectionCommand = new BaseCommand<object>((sender) => true, SelectionExecute);
+            CopyCampaignIdCommand = new BaseCommand<object>((sender) => true, CopyCampaignIdExecute);
             BindingOperations.EnableCollectionSynchronization(LstCampaignDetails, _lock);
         }
 
@@ -87,6 +88,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand ReportCommand { get; set; }
         public ICommand CampaignTypeSelectionChange { get; set; }
         public ICommand SelectionCommand { get; set; }
+        public ICommand CopyCampaignIdCommand { get; set; }
         #endregion
 
         #region Properties
@@ -494,6 +496,24 @@ namespace DominatorUIUtility.ViewModel
                 }
             }
 
+        }
+
+        private void CopyCampaignIdExecute(object sender)
+        {
+            try
+            {
+                CampaignDetails campName = sender as CampaignDetails;
+
+                if (!string.IsNullOrEmpty(campName.CampaignId))
+                {
+                    Clipboard.SetText(campName.CampaignId);
+                    ToasterNotification.ShowSuccess("CampaignId copied");
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void SettingExecute(object sender)
