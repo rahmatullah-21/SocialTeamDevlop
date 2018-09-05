@@ -119,97 +119,6 @@ namespace DominatorHouseCore.Process
             }
 
         }
-        //protected void ScheduleNextJob(DateTime dateTime)
-        //{
-        //    Stop();
-
-        //    var today = DateTimeUtilities.GetDayOfWeek();
-
-        //    var timeScheduleModel = JobConfiguration.RunningTime.First(x => x.DayOfWeek == today);
-
-        //    if (!timeScheduleModel.IsEnabled)
-        //        return;
-
-        //    // get the hour and minute of current time
-        //    var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime); //GetTimeSpanForGivenTime
-
-        //    if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
-        //    {
-        //        var moduleConfiguration = DominatorAccountModel.ActivityManager.LstModuleConfiguration
-        //            .FirstOrDefault(x => x.ActivityType == ActivityType);
-
-        //        if (moduleConfiguration != null)
-        //        {
-        //            var templateId = moduleConfiguration.TemplateId;
-        //            JobManager.AddJob(
-        //                () =>
-        //                {
-        //                    var account = AccountsFileManager.GetAccount(DominatorAccountModel.AccountBaseModel.UserName, DominatorAccountModel.AccountBaseModel.AccountNetwork);
-
-        //                    moduleConfiguration = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType);
-        //                    var isEnabled = moduleConfiguration.IsEnabled;
-        //                    if (isEnabled)
-        //                        DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());
-        //                }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
-        //        }
-        //    }
-        //}
-
-        protected void ScheduleNextJob()
-        {
-            //if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
-            //{
-            //    Stop();
-            //    var dateTime = DateTime.Now.AddHours(1);
-            //    var today = DateTimeUtilities.GetDayOfWeek();
-
-            //    var timeScheduleModel = JobConfiguration.RunningTime.First(x => x.DayOfWeek == today);
-
-            //    if (!timeScheduleModel.IsEnabled)
-            //        return;
-
-            //    // get the hour and minute of current time
-            //    var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime); //GetTimeSpanForGivenTime
-
-            //    if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
-            //    {
-            //        var moduleConfiguration = DominatorAccountModel.ActivityManager.LstModuleConfiguration
-            //            .FirstOrDefault(x => x.ActivityType == ActivityType);
-
-            //        if (moduleConfiguration != null)
-            //        {
-            //            var templateId = moduleConfiguration.TemplateId;
-            //            JobManager.AddJob(
-            //                () =>
-            //                {
-            //                    var account = AccountsFileManager.GetAccount(DominatorAccountModel.AccountBaseModel.UserName, DominatorAccountModel.AccountBaseModel.AccountNetwork);
-
-            //                    moduleConfiguration = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType);
-            //                    var isEnabled = moduleConfiguration.IsEnabled;
-            //                    if (isEnabled)
-            //                        DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());
-            //                }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
-            //        }
-            //    }
-
-            //}
-            //else
-            //{
-            //    if (RunningJobProcesses != null)
-            //    {
-            //        foreach (var jobProcess in RunningJobProcesses.Values)
-            //        {
-            //            if (jobProcess.Id.Contains(AccountId))
-            //            {
-            //                return;
-            //            }
-            //        }
-            //    }
-            //    RunningActivityManager.StartNextRound(DominatorAccountModel);
-            //}
-        }
-
-
         /// <summary>
         ///     Will be called when JobProcess complete.
         ///     Starts actions that was selected by user from Other Configuration section.
@@ -221,6 +130,12 @@ namespace DominatorHouseCore.Process
             // GlobusLogHelper.log.Info(Log.OtherConfigurationStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
         }
 
+        public virtual void StartAfterAction(ScrapeResultNew scrapeResult)
+        {
+            // GlobusLogHelper.log.Info(Log.OtherConfigurationStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+        }
+
+
         /// <summary>
         ///     Calls after scrapping result from social network (e.g. Instagram feed).
         ///     If process completed (time or activities limits reached) then starts other configuration stuff
@@ -230,8 +145,17 @@ namespace DominatorHouseCore.Process
         public virtual JobProcessResult FinalProcess(ScrapeResultNew scrapedResult)
         {
             var jobProcessResult = PostScrapeProcess(scrapedResult);
-
-
+            if (jobProcessResult.IsProcessSuceessfull)
+            {
+                HandleSuccessfulActivity(scrapedResult.DataInteractionStatus.InteractedData, jobProcessResult);
+                AddInteractedDataToDb(scrapedResult);
+                StartAfterAction(scrapedResult);
+            }
+            else
+            {
+                HandleFailedActivity(scrapedResult.DataInteractionStatus.InteractedData, jobProcessResult);
+            }
+            DelayBeforeNextActivity();
             jobProcessResult.IsProcessCompleted = CheckJobProcessLimitsReached();
 
             if (jobProcessResult.IsProcessCompleted)
@@ -239,8 +163,6 @@ namespace DominatorHouseCore.Process
                 StartOtherConfiguration(scrapedResult);
 
                 GlobusLogHelper.log.Info(Log.ProcessCompleted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
-
-
             }
 
             return jobProcessResult;
@@ -583,6 +505,47 @@ namespace DominatorHouseCore.Process
 #endif
 
             Thread.Sleep(minutes * 60 * 1000);
+        }
+        public void IncrementActionPerformedCount()
+        {
+            NoOfActionPerformedCurrentJob++;
+            NoOfActionPerformedCurrentHour++;
+            NoOfActionPerformedCurrentDay++;
+        }
+
+        public void HandleSuccessfulActivity(string interactedData, JobProcessResult jobProcessResult)
+        {
+            GlobusLogHelper.log.Info(Log.ActivitySuccessful,
+                DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                DominatorAccountModel.AccountBaseModel.UserName, ActivityType, interactedData);
+            IncrementActionPerformedCount();
+        }
+
+        public void AddInteractedDataToDb(ScrapeResultNew scrapeResult)
+        {
+            var moduleConfiguration =DominatorAccountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x =>
+                    x.ActivityType == ActivityType);
+            if (moduleConfiguration.IsTemplateMadeByCampaignMode)
+            {
+                AddDataToCampaignDb(scrapeResult);
+            }
+
+            AddDataToAccountDb(scrapeResult);
+        }
+        public void HandleFailedActivity(string interactedData, JobProcessResult jobProcessResult)
+        {
+            GlobusLogHelper.log.Info(Log.ActivityFailed, DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                DominatorAccountModel.AccountBaseModel.UserName, ActivityType, interactedData);
+        }
+
+        public virtual void AddDataToAccountDb(ScrapeResultNew scrapeResult)
+        {
+
+        }
+
+        public virtual void AddDataToCampaignDb(ScrapeResultNew scrapeResult)
+        {
+
         }
 
         #endregion

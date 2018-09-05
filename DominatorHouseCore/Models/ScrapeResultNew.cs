@@ -20,5 +20,14 @@ namespace DominatorHouseCore.Models
         public IPage ResultPage { get; set; }
 
         public IComments ResultComment { get; set; }
+
+        public DataInteractionStatus DataInteractionStatus { get; set; } = new DataInteractionStatus();
+
+    }
+
+    public class DataInteractionStatus
+    {
+        public string InteractedData { get; set; }
+        public string Error { get; set; }
     }
 }
