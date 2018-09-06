@@ -499,11 +499,11 @@ namespace DominatorUIUtility.CustomControl
                 if (LstNonQueryType.Contains(CurrentQuery.QueryType))
                 {
                     CurrentQuery.QueryValue = "NA";
-                    IsEnabled = false;
+                    IsEnable = false;
                 }
                 else
                 {
-                    IsEnabled = true;
+                    IsEnable = true;
                     CurrentQuery.QueryValue =string.Empty;
                 }
 
