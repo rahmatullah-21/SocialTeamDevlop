@@ -89,7 +89,7 @@ namespace DominatorUIUtility.CustomControl
         #region Properties
 
         HeaderControl _headerControl;
-        FooterControl _footerControl;
+        public FooterControl _footerControl;
         public SearchQueryControl _queryControl;
         Grid _mainGrid;
         AccountGrowthModeHeader _accountGrowthModeHeader;
@@ -1734,7 +1734,7 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
-        protected void SelectAccount()
+        public virtual void SelectAccount()
         {
             try
             {
