@@ -3145,4 +3145,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySalesnavigatorCompanyscraper">Salesnavigator Companyscraper</system:String>
     <system:String x:Key="LangKeyEventUrl">Event Url</system:String>
     <system:String x:Key="LangKeyMutualFriend">Mutual Friend</system:String>
+    <system:String x:Key="LangKeyScrapThePagesWhichContainLikersBetween">Scrap the pages which contains Likers Between</system:String>
 </ResourceDictionary>
