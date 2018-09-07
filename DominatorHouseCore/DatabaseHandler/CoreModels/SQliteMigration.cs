@@ -70,6 +70,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             }
             catch (Exception ex)
             {
+                base.InitializeDatabase(context);
                 ex.DebugLog();
             }
         }

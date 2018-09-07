@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Utility;
 using System.Windows.Input;
+using DominatorHouseCore;
+using System;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -18,6 +20,7 @@ namespace DominatorUIUtility.CustomControl
             SaveVisiblity = Visibility.Visible;
             ImportVisiblity = Visibility.Visible;
             RefreshVisiblity = Visibility.Visible;
+            InputCollection = new List<string>();
             Height = 80;
         }
 
@@ -77,16 +80,27 @@ namespace DominatorUIUtility.CustomControl
         }
         private void BtnImportBlacklistsText_OnClick(object sender, RoutedEventArgs e)
         {
-            var list = FileUtilities.FileBrowseAndReader();
-            if (list.Count == 0)
-                return;
-
-            InputCollection.AddRange(list);
-
-            InputCollection.ForEach(x =>
+            try
             {
-                InputText = string.IsNullOrEmpty(InputText) ? x : InputText + "\r\n" + x;
-            });
+                var list = FileUtilities.FileBrowseAndReader();
+                if (list.Count == 0)
+                    return;
+                foreach (var text in list)
+                {
+                    if (!InputCollection.Contains(text))
+                        InputCollection.Add(text);
+
+                }
+                InputText = string.Empty;
+                InputCollection.ForEach(x =>
+                {
+                    InputText = string.IsNullOrEmpty(InputText) ? x : InputText + "\r\n" + x;
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void BtnSaveBlacklistsText_OnClick(object sender, RoutedEventArgs e)
